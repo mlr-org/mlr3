@@ -1,0 +1,89 @@
+---
+title: "Introduction to parallelization"
+author: "Michel Lang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to parallelization}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(mlr3)
+knitr::opts_knit$set(
+  datatable.print.keys = FALSE,
+  datatable.print.class = TRUE
+)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+future::plan("sequential")
+```
+
+This introduction shows how to parallelize `mlr3` using the package [`future`](https://cran.r-project.org/package=future).
+
+
+# Parallel Resampling
+
+The most outer loop in resampling runs independent repetitions of applying a learner on a subset of a task, predict on a different subset and score the performance by comparing true and predicted labels.
+This loop is what is called embarrassingly parallel.
+
+In the following, we will consider the spam task and a simple classification tree (`"classif.rpart"`) to illustrate parallelization.
+
+```{r}
+library("mlr3")
+library("bench")
+
+task = mlr.tasks$get("spam")
+learner = mlr.learners$get("classif.rpart")
+resampling = mlr.resamplings$get("subsampling")
+measures = mlr.measures$get("mmce")
+
+bench::system_time(
+  resample(task, learner, resampling, measure)
+)
+```
+We now use the `future` package to parallelize the resampling by selecting a backend via the function `plan` and then repeat the resampling.
+We use the "multiprocess" backend here which uses threads on linux/mac and a socket cluster on windows:
+```{r, dependson = -1}
+library("future")
+plan("multiprocess")
+
+bench::system_time(
+  resample(task, learner, resampling, measure)
+)
+```
+
+On most multicore systems you should see a decrease in the reported real CPU time.
+
+We can do the same for benchmarking:
+```{r}
+tasks = lapply(c("iris", "spam", "pima"), mlr.tasks$get)
+learners = list(mlr.learners$get("classif.rpart"))
+resamplings = list(mlr.resamplings$get("subsampling"))
+measures = list(mlr.measures$get("mmce"))
+
+plan("multiprocess")
+bench::system_time(
+  benchmark(tasks, learners, resamplings, measures)
+)
+```
+
+# Running learner in a fail-safe way
+
+With future as backend, it is also possible to run learners in an isolated R session.
+If the learner crashed, e.g. with a SEGFAULT, it does not tear down the master session.
+
+```{r}
+library("future.callr")
+plan("callr")
+task = mlr.tasks$get("spam")
+learner = mlr.learners$get("classif.crashtest")
+
+# FIXME: TBC
+# options(future.wait.timeout = 5)
+# train(task, learner)
+```
+

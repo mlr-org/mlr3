@@ -1,0 +1,125 @@
+---
+title: "Introduction to Resampling"
+author: "Michel Lang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to Resampling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(mlr3)
+knitr::opts_knit$set(
+  datatable.print.keys = FALSE,
+  datatable.print.class = TRUE
+)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This introduction is about resampling.
+
+## Objects
+
+Again, we consider the iris task and a simple classification tree here.
+```{r}
+task = mlr.tasks$get("iris")
+learner = mlr.learners$get("classif.rpart")
+```
+
+Additionally, we need to define **how** we want to resample. `mlr3` comes with the following resampling strategies implemented:
+```{r}
+mlr.resamplings$ids
+```
+The experiment conducted in the introduction on train/predict/score is equivalent to a simple "holdout", so let's consider this one first.
+```{r}
+resampling = mlr.resamplings$get("holdout")
+print(resampling)
+```
+The printer reveals important information:
+
+1. We got a "ResamplingSubsampling" object with 1 repetition which is equivalent to performing a holdout.
+2. The default ratio for splitting into training and test set is $0.67$
+
+To change the ratio to $0.8$, we simply overwrite the slot:
+```{r}
+resampling$ratio = 0.8
+```
+
+## Resampling
+
+Now, we can pass all created objects to the `resample()` function to get a "ResampleResult":
+
+```{r}
+rr = resample(task, learner, resampling, "mmce")
+print(rr)
+```
+
+Before we go into more detail, lets change the resampling to a 3-fold cross-validation to better illustrate what operations are possible with a resampling result.
+```{r}
+resampling = mlr.resamplings$get("cv")
+resampling$folds = 3
+rr = resample(task, learner, resampling, "mmce")
+print(rr)
+```
+
+We can do different things with resampling results, e.g.:
+
+* Extract the performance per fold and average it:
+    ```{r}
+    rr$performance
+    rr$performance[, mean(mmce)]
+    ```
+* Extract and inspect the now instantiated resampling:
+    ```{r}
+    rr$resampling
+    rr$resampling$iters
+    rr$resampling$test.set(1)
+    rr$resampling$test.set(2)
+    rr$resampling$test.set(3)
+    ```
+* Retrieve the experiment of a specific iteration and inspect it:
+    ```{r}
+    rr$experiment(iteration = 1)$model
+    ```
+
+# Manual Instantiation
+
+If you want to compare multiple learners, you should use the same resampling per task to reduce the variance of the performance estimation.
+Until now, we have just passed a resampling strategy to `resample()`, without specifying the actual splits into training and test.
+Here, we manually instantiate the resampling:
+
+```{r}
+resampling = mlr.resamplings$get("cv", folds = 3)
+resampling$instantiate(task)
+resampling$iters
+resampling$train.set(1)
+```
+If we now pass this instantiated object to resample, the pre-calculated training and test splits will be used for both learners:
+```{r}
+learner1 = mlr.learners$get("classif.rpart")
+learner2 = mlr.learners$get("classif.dummy")
+rr1 = resample(task, learner1, resampling, "mmce")
+rr1$experiment(1)$train.set
+rr2 = resample(task, learner2, resampling, "mmce")
+rr2$experiment(1)$train.set
+```
+
+## Custom Resampling
+
+Sometimes it is necessary to perform resampling with custom splits, e.g. to reproduce a study.
+For this purpose, splits can be manually set for `ResamplingCustom`:
+```{r}
+resampling = ResamplingCustom$new()
+resampling$instantiate(task,
+  list(c(1:10, 51:60, 101:110)),
+  list(c(11:20, 61:70, 111:120))
+)
+resampling$iters
+resampling$train.set(1)
+resampling$test.set(1)
+```

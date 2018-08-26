@@ -1,0 +1,10 @@
+context("train")
+
+test_that("Simple training", {
+  task = mlr.tasks$get("iris")
+  learner = mlr.learners$get("classif.dummy")
+  subset = 1:100
+  tr = train(task, learner, subset)
+  expect_r6(tr, "Experiment")
+  expect_integer(tr$train.set, len = 100L, unique = TRUE, any.missing = FALSE)
+})

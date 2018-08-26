@@ -1,0 +1,85 @@
+Package: mlr3
+Title: Machine Learning in R - Next Generation
+Version: 0.1.0-9000
+Authors@R: c(
+    person("Bernd", "Bischl", NULL, "bernd_bischl@gmx.de", role = "aut"),
+    person("Michel", "Lang", NULL, "michellang@gmail.com",
+        role = c("cre", "aut"), comment = c(ORCID = "0000-0001-9754-0393")),
+    person("Jakob", "Richter", NULL, "jakob1richter@gmail.com", role = "aut")
+    )
+Description: Machine Learning in R. Next Generation.
+License: GPL-2
+NeedsCompilation: no
+Depends: R (>= 3.1.0)
+Imports:
+    backports,
+    bit,
+    checkmate,
+    data.table,
+    future (>= 1.8.0),
+    future.apply,
+    phng,
+    R6,
+    rappdirs,
+    stringi,
+    withr,
+    yaml
+LazyData: true
+RoxygenNote: 6.1.0
+Suggests:
+    bench,
+    datasets,
+    future.callr,
+    kernlab,
+    knitr,
+    rmarkdown,
+    testthat
+Collate:
+    'Backend.R'
+    'Cache.R'
+    'Dictionary.R'
+    'Experiment.R'
+    'capabilities.R'
+    'Learner.R'
+    'LearnerClassif.R'
+    'LearnerRegr.R'
+    'Measure.R'
+    'Resampling.R'
+    'Task.R'
+    'TaskSupervised.R'
+    'TaskClassif.R'
+    'TaskRegr.R'
+    'Worker.R'
+    'benchmark.R'
+    'config.R'
+    'helper.R'
+    'helper.condition.R'
+    'helper.insert.R'
+    'helper.seq.R'
+    'helper.stri.R'
+    'helper.vapply.R'
+    'mlr.learners.R'
+    'mlr.learners.classif.dummy.R'
+    'mlr.learners.classif.rpart.R'
+    'mlr.learners.crashtest.R'
+    'mlr.learners.regr.dummy.R'
+    'mlr.learners.regr.rpart.R'
+    'mlr.measures.mmce.R'
+    'mlr.measures.mse.R'
+    'mlr.resamplings.bootstrap.R'
+    'mlr.resamplings.custom.R'
+    'mlr.resamplings.cv.R'
+    'mlr.resamplings.subsampling.R'
+    'mlr.resamplings.holdout.R'
+    'mlr.resamplings.repeated.cv.R'
+    'mlr.tasks.R'
+    'predict.R'
+    'resample.R'
+    'score.R'
+    'split.R'
+    'subset.R'
+    'train.R'
+    'zzz.R'
+VignetteBuilder: knitr
+ByteCompile: false
+Remotes: mlr-org/phng
