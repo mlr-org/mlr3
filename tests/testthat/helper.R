@@ -81,14 +81,14 @@ expect_task = function(task) {
 
   types = task$col_types
   expect_data_table(types, ncol = 2, nrow = task$ncol)
-  expect_set_equal(types$id, c(task$target_names, task$features))
+  expect_set_equal(types$id, c(task$target_names, task$feature_names))
   expect_subset(types$type, capabilities$task_col_types, fmatch = TRUE)
 
   expect_character(task$blocking, any.missing = FALSE)
-  expect_names(task$blocking, subset.of = c(task$features, task$target_names))
+  expect_names(task$blocking, subset.of = c(task$feature_names, task$target_names))
 
   expect_character(task$order, any.missing = FALSE)
-  expect_names(task$order, subset.of = c(task$features, task$target_names))
+  expect_names(task$order, subset.of = c(task$feature_names, task$target_names))
 }
 
 expect_task_supervised = function(task) {
@@ -97,9 +97,9 @@ expect_task_supervised = function(task) {
 
   expect_class(task$formula, "formula")
   tf = terms(task$formula)
-  expect_set_equal(labels(tf), task$features) # rhs
+  expect_set_equal(labels(tf), task$feature_names) # rhs
   expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target_names) # lhs
-  expect_subset(task$features, colnames(task$head()))
+  expect_subset(task$feature_names, colnames(task$head()))
 }
 
 expect_task_classif = function(task) {

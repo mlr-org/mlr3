@@ -7,7 +7,7 @@ TaskSupervised = R6Class("TaskSupervised",
 
     initialize = function(id, data, target) {
       super$initialize(id = id, data = data)
-      assert_choice(target, self$features)
+      assert_choice(target, self$feature_names)
       self$cols[id == target, "role" := "target"]
 
       ii = is.na(self$data(col = target)[[1L]])
@@ -28,7 +28,7 @@ TaskSupervised = R6Class("TaskSupervised",
 
     # [formula]. target ~ x1 + ... + xp
     formula = function() {
-      reformulate(self$features, response = self$target_names)
+      reformulate(self$feature_names, response = self$target_names)
     }
   )
 )

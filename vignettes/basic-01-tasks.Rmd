@@ -45,7 +45,7 @@ task$ncol
 task$target_names
 task$nclasses
 task$classes
-task$features
+task$feature_names
 task$head()
 ```
 
@@ -102,7 +102,7 @@ task = TaskRegr$new(id = "cars", data = data, target = "mpg")
 task$row_ids()
 
 # there is a new "feature" called "rn"
-task$features
+task$feature_names
 ```
 
 In `mlr3`, columns (and rows) can have specific roles w.r.t. the learning task.
@@ -123,13 +123,13 @@ E.g., we can use the row names in plots or to associate outliers with the row na
 This being said, we need to change the role of this column to hide it from our learning algorithms.
 We change its role to `"ignore"`:
 ```{r}
-task$features
+task$feature_names
 task$cols[id == "rn", role := "ignore"]
 task$cols
 
 # "rn" not listed as feature any more
 task$ncol
-task$features
+task$feature_names
 
 # also eliminated from "data" and "head"
 task$data(rows = 1:2)

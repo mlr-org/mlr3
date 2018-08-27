@@ -51,7 +51,7 @@ Task = R6Class("Task",
     print = function(...) {
       catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
       catf(stri_list("Target: ", self$target_names))
-      catf(stri_list("Features: ", self$features))
+      catf(stri_list("Features: ", self$feature_names))
       catf(stri_list("Order by: ", self$order))
       catf(stri_list("Blocking: ", self$blocking))
       catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
@@ -118,7 +118,7 @@ Task = R6Class("Task",
     head = function(n = 6L) {
       assert_count(n)
       ids = head(self$rows[role == "training", "id", with = FALSE][[1L]], n)
-      self$data(rows = ids, cols = c(self$features, self$target_names))
+      self$data(rows = ids, cols = c(self$feature_names, self$target_names))
     },
 
     row_ids = function(subset = NULL, as.vector = TRUE) {
@@ -170,7 +170,7 @@ Task = R6Class("Task",
     },
 
     formula = function() {
-      reformulate(self$features)
+      reformulate(self$feature_names)
     },
 
     nrow = function() {

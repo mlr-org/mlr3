@@ -21,6 +21,6 @@ mlr_learners$add(LearnerRegr$new(
   },
 
   predict = function(model, task, row_ids, ...) {
-    predict(model, newdata = task$data(row_ids, cols = task$features), ...)
+    predict(model, newdata = task$data(row_ids, cols = task$feature_names), ...)
   }
 ))
