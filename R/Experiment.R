@@ -22,15 +22,15 @@ Experiment = R6Class("Experiment",
     },
 
     train = function(subset = NULL) {
-      train_experiment(self, subset)
+      experiment_train(self, subset)
     },
 
     predict = function(subset = NULL, newdata = NULL) {
-      predict_experiment(self, subset = subset, newdata = newdata)
+      experiment_predict(self, subset = subset, newdata = newdata)
     },
 
     score = function(measures = NULL) {
-      score_experiment(self, measures)
+      experiment_score(self, measures)
     }
   ),
 
@@ -127,6 +127,57 @@ experiment_print = function(e) {
   catf(fmt(data$performance, "Performance", stri_paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
   catf(stri_list("\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
 }
+
+
+experiment_train = function(e, subset) {
+  train_set = e$data$task$row_ids(subset)
+  e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(train_set))
+  e$data$iteration = 1L
+
+  future = future::futureCall(
+    train_worker,
+    c(e$data[c("task", "learner")], list(train_set = train_set)),
+    globals = FALSE)
+  value = future::value(future)
+  e$data = insert(e$data, value)
+  e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
+  return(e)
+}
+
+experiment_predict = function(e, subset = NULL, newdata = NULL) {
+  if (!is.null(subset) && !is.null(newdata))
+    stopf("Arguments 'subset' and 'newdata' are mutually exclusive")
+
+  if (is.null(newdata)) {
+    test_set = e$data$task$row_ids(subset)
+    e$data$resampling$instantiate(e$data$task, test_sets = list(test_set))
+  } else {
+    backend = BackendDataTable$new(data = newdata, primary_key = e$data$task$backend[[1L]]$primary_key)
+    e$data$task = e$data$task$clone()$add_backend(backend)
+    test_set = task$rows[role == "validation", "id"][[1L]]
+    e$data$resampling$setTest(test_set)
+  }
+
+  future = future::futureCall(
+    predict_worker,
+    c(e$data[c("task", "learner", "model")], list(test_set = test_set))
+  )
+  e$data = insert(e$data, future::value(future))
+  e$data = insert(e$data, list(performance = NULL))
+  return(e)
+}
+
+experiment_score = function(e, measures = NULL) {
+  measures = as_measures(measures, task = e$data$task)
+
+  test_set = e$test_set
+  pars = c(e$data[c("task", "predicted")], list(test_set = test_set, measures = measures))
+  future = future::futureCall(score_worker, pars)
+  e$data = insert(e$data, future::value(future))
+
+  return(e)
+}
+
 
 combine_experiments = function(x) {
   nn = names(x[[1L]])
