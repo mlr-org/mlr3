@@ -24,12 +24,12 @@ Learner = R6Class("Learner",
       self$name = assert_string(name)
       self$id = stri_paste(task_type, ".", name)
       self$par_set = assert_class(par_set, "ParamSet")
-      private$pv = assert_list(par_vals, names = "unique")
       self$packages = assert_character(packages, any.missing = FALSE, unique = TRUE)
       self$properties = assert_character(properties, any.missing = FALSE, unique = TRUE)
       self$train = assert_function(train, args = c("task", "row_ids"), ordered = TRUE)
       self$predict = assert_function(predict, args = c("model", "task", "row_ids"), ordered = TRUE)
-      private$pt = assert_choice(predict_type, capabilities$predict_types[[self$task_type]], fmatch = TRUE)
+      private$.par_vals = assert_list(par_vals, names = "unique")
+      private$.predict_type = assert_choice(predict_type, capabilities$predict_types[[self$task_type]], fmatch = TRUE)
 
       # set environments for functions
       environment(self$train) = environment(self$predict) = environment(self$initialize)
@@ -44,22 +44,22 @@ Learner = R6Class("Learner",
   active = list(
     par_vals = function(rhs) {
       if (missing(rhs))
-        return(private$pv)
+        return(private$.par_vals)
       assert_list(rhs, names = "unique")
       assert_subset(names(rhs), self$par_set$ids)
-      private$pv[names(rhs)] = rhs
+      private$.par_vals[names(rhs)] = rhs
     },
 
     predict_type = function(rhs) {
       if (missing(rhs))
-        return(private$pt)
+        return(private$.predict_type)
       assert_choice(rhs, capabilities$predict_types[[self$task_type]], fmatch = TRUE)
-      private$pt = rhs
+      private$.predict_type = rhs
     }
   ),
   private = list(
-    pv = NULL,
-    pt = NULL
+    .par_vals = NULL,
+    .predict_type = NULL
   )
 )
 

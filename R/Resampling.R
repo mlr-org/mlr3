@@ -32,15 +32,6 @@ Resampling = R6Class("Resampling",
   )
 )
 
-#' @include Dictionary.R
-DictionaryResamplings = R6Class("DictionaryResamplings", inherit = Dictionary,
-  public = list(
-    initialize = function() {
-      super$initialize("Resampling")
-    }
-  )
-)
-
 #' @title Registered Resampling Methods
 #' @docType class
 #' @format \code{\link{R6Class}} object
@@ -49,11 +40,13 @@ DictionaryResamplings = R6Class("DictionaryResamplings", inherit = Dictionary,
 #' \code{Resamplings} is a \code{\link{Dictionary}} used to manage resampling methods.
 #'
 #' @export
-mlr_resamplings = DictionaryResamplings$new()
+mlr_resamplings = Dictionary$new("Resampling")
+
 
 assert_resampling = function(resampling) {
   assert_r6(resampling, "Resampling")
 }
+
 
 assert_resampling_index = function(r, i) {
   if (!r$is_instantiated)

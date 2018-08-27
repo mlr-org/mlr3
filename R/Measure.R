@@ -5,7 +5,7 @@
 #' A \code{\link[R6]{R6Class}} to construct performance measures.
 #' This is the abstract base class, do not use directly!
 #'
-#' Predefined measures are stored in \code{\link{mlr.measures}}.
+#' Predefined measures are stored in \code{\link{mlr_measures}}.
 #'
 #' @field id [\code{character(1)}]: Identifier of the measure.
 #' @field description [\code{character(1)}]: Description of the measure.
@@ -31,32 +31,13 @@ Measure = R6Class("Measure",
   )
 )
 
-#' @include Dictionary.R
-DictionaryMeasures = R6Class("DictionaryMeasures", inherit = Dictionary,
-  public = list(
-    initialize = function() {
-      super$initialize("Measure")
-    }
-  )
-)
-
-#' @title Registered Measures
-#' @docType class
-#' @format \code{\link{R6Class}} object
-#'
-#' @description
-#' \code{mlr.measures} is a \code{\link{Dictionary}} used to manage performance measures.
-#'
-#' @export
-mlr.measures = DictionaryMeasures$new()
-
 as_measures = function(x, task) {
   if (is.null(x))
-    return(list(mlr.measures$get(task$default_measure)))
+    return(list(mlr_measures$get(task$default_measure)))
   if (inherits(x, "Measure"))
     return(list(x))
   if (is.character(x))
-    return(mlr.measures$mget(x))
+    return(mlr_measures$mget(x))
   assert_measures(x)
 }
 

@@ -7,7 +7,6 @@ mlr_learners$add(LearnerClassif$new(
       ParamCategorical$new("method", values = c("mode", "sample"), default = "mode")
     )
   ),
-  par_vals = list(),
   properties = c("missings", "feat.factor", "feat.numeric"),
 
   train = function(task, row_ids, ...) {

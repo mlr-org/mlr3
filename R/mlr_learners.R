@@ -11,4 +11,3 @@
 #' mlr_learners$ids
 #' mlr_learners$get("classif.dummy")
 mlr_learners = Dictionary$new("Learner")
-class(mlr_learners) = c("DictionaryLearners", class(mlr_learners))

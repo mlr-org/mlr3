@@ -77,7 +77,7 @@ head(e$predictions)
 
 We augment the experiment again, now the performance measure:
 ```{r}
-measure = mlr.measures$get("mmce")
+measure = mlr_measures$get("mmce")
 e = score(e, measures = measure)
 print(e)
 e$performance$mmce

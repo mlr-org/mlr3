@@ -1,5 +1,5 @@
 #' @include Measure.R
-mlr.measures$add(Measure$new(
+mlr_measures$add(Measure$new(
   id = "mmce",
   description = "Mean misclassification error",
   task_types = c("classif"),

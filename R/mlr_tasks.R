@@ -25,7 +25,6 @@
 #' mlr_tasks$add(task)
 #' mlr_tasks$remove("iris.binary")
 mlr_tasks = Dictionary$new("Task")
-class(mlr_tasks) = c("DictionaryTasks", class(mlr_tasks))
 
 
 mlr_tasks$add(LazyValue("iris", function() {

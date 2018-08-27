@@ -7,7 +7,6 @@ mlr_learners$add(LearnerRegr$new(
       ParamCategorical$new("method", values = c("mean", "median"), default = "mean")
     )
   ),
-  par_vals = list(),
   properties = c("missings", "feat.factor", "feat.numeric"),
   train = function(task, row_ids, method = "mean", ...) {
     tn = unlist(task$data(row_ids, task$target_names))

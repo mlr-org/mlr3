@@ -8,7 +8,6 @@ mlr_learners$add(LearnerClassif$new(
       ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train")
     )
   ),
-  par_vals = list(crash.on = "train"),
   properties = capabilities$learner_props$classif,
 
   train = function(task, row_ids, crash.on, ...) {

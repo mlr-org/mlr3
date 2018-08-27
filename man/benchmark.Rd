@@ -29,6 +29,6 @@ Runs a benchmark on the full grid of learners and tasks.
 tasks = lapply(c("iris", "sonar"), mlr_tasks$get)
 learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
 resamplings = lapply("cv", mlr_resamplings$get)
-measures = lapply("mmce", mlr.measures$get)
+measures = lapply("mmce", mlr_measures$get)
 benchmark(tasks, learners, resamplings, measures)
 }
