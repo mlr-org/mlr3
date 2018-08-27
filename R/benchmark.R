@@ -1,24 +1,25 @@
 #' @title Benchmark Multiple Learners on Multiple Tasks
 #'
 #' @description
-#' Runs a benchmark on the full grid of learners and tasks.
+#' Runs a benchmark (possibly in parallel).
 #'
-#' @param tasks [\code{list} of \code{\link{Task}}]\cr
-#'   List of objects of type \code{\link{Task}}.
-#' @param learners [\code{list} of \code{\link{Learner}}]\cr
-#'   List of objects of type \code{\link{Learner}}.
-#' @param resamplings [\code{list} of \code{\link{Resampling}}]\cr
-#'   List of objects of type \code{\link{Resampling}}.
-#' @param measures [\code{list} of \code{\link{Measure}}]\cr
-#'   List of objects of type \code{\link{Measure}}.
-#' @return \code{\link{BenchmarkResult}}.
+#' @param tasks (`list` of [Task])\cr
+#'   List of objects of type [Task].
+#' @param learners (`list` of [Learner])\cr
+#'   List of objects of type [Learner].
+#' @param resamplings (`list` of [Resampling])\cr
+#'   List of objects of type [Resampling].
+#' @param measures (`list` of [Measure])\cr
+#'   List of objects of type [Measure].
+#' @return [BenchmarkResult].
 #' @export
 #' @examples
 #' tasks = lapply(c("iris", "sonar"), mlr_tasks$get)
 #' learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
 #' resamplings = lapply("cv", mlr_resamplings$get)
 #' measures = lapply("mmce", mlr_measures$get)
-#' benchmark(tasks, learners, resamplings, measures)
+#' bmr = benchmark(tasks, learners, resamplings, measures)
+#' bmr$performance
 benchmark = function(tasks, learners, resamplings, measures) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)
@@ -66,6 +67,9 @@ benchmark = function(tasks, learners, resamplings, measures) {
   BenchmarkResult$new(res)
 }
 
+#' @title Container for Results of benchmark
+#'
+#' @export
 BenchmarkResult = R6Class("BenchmarkResult",
   cloneable = FALSE,
   public = list(

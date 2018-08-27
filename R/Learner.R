@@ -1,11 +1,10 @@
 #' @title Class for Learners
-#' @format \code{\link{R6Class}} object
+#' @format [R6Class()] object
 #'
 #' @description
-#' A \code{\link[R6]{R6Class}} to construct learners.
+#' A [R6::R6Class()] to construct learners.
 #'
-#' @return [\code{\link{Learner}}].
-#' @include capabilities.R
+#' @return [[Learner()]].
 #' @family Learner
 #' @export
 Learner = R6Class("Learner",
@@ -63,35 +62,12 @@ Learner = R6Class("Learner",
   )
 )
 
-#' @include Dictionary.R
-DictionaryLearners = R6Class("DictionaryLearners", inherit = Dictionary,
-  public = list(
-    initialize = function() {
-      super$initialize("Learner")
-    }
-  )
-)
-
-#' @title Registered Learners
-#' @docType class
-#' @format \code{\link{R6Class}} object
-#'
-#' @description
-#' \code{mlr_learners} is a \code{\link{Dictionary}} used to manage learners.
-#'
-#' @export
-#' @examples
-#' mlr_learners$ids
-#' mlr_learners$contains("classif.dummy")
-#' mlr_learners$get("classif.dummy")
-mlr_learners = DictionaryLearners$new()
-
 assert_learner = function(learner, task = NULL) {
   assert_r6(learner, "Learner")
   if (!is.null(task)) {
     if (!identical(task$task_type, learner$task_type)) {
       stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",
-        learner$id, learner$task_type, task$id, task_type)
+        learner$id, learner$task_type, task$id, task$task_type)
     }
   }
   invisible(learner)

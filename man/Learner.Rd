@@ -4,15 +4,15 @@
 \name{Learner}
 \alias{Learner}
 \title{Class for Learners}
-\format{\code{\link{R6Class}} object}
+\format{\code{\link[=R6Class]{R6Class()}} object}
 \usage{
 Learner
 }
 \value{
-[\code{\link{Learner}}].
+[\code{\link[=Learner]{Learner()}}].
 }
 \description{
-A \code{\link[R6]{R6Class}} to construct learners.
+A \code{\link[R6:R6Class]{R6::R6Class()}} to construct learners.
 }
 \seealso{
 Other Learner: \code{\link{LearnerClassif}},

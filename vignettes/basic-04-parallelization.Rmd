@@ -22,6 +22,12 @@ knitr::opts_chunk$set(
 future::plan("sequential")
 ```
 
+```{r fixup, echo = FALSE}
+# Temporary fix for r-lib#152
+unloadNamespace("mlr3")
+devtools::load_all()
+```
+
 This introduction shows how to parallelize `mlr3` using the package [`future`](https://cran.r-project.org/package=future).
 
 

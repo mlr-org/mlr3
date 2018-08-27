@@ -7,9 +7,9 @@
 #' \code{row_ids} is used to declare direct usage of \dQuote{row_ids} corresponding to \code{task$rows}.
 #' \code{row_index} allows indexing with integer values, and \code{row_roles} declares to use rows with matching roles (as in \code{task$rows}).
 #'
-#' @param x [\code{atomic vector}]\cr
+#' @param x (`[atomic vector][base::atomic()]`)\cr
 #'   Row declaration, depending on the function.
-#' @return [\code{atomic vector}] with added attribute \dQuote{subset_type}.
+#' @return (`[atomic vector][base::atomic()]`) with added attribute \dQuote{subset_type}.
 #' @export
 #' @examples
 #' task = mlr_tasks$get("iris")
@@ -28,9 +28,6 @@
 #' # Same, but more explicitly:
 #' train(task, lrn, subset = row_roles("training"))$train_set
 #'
-#' # Train on the ignored rows:
-#' train(task, lrn, subset = row_roles("ignore"))$train_set
-#'
 #' # Train on rows with role == "training", indexed by number and ordered as in task$rows
 #' train(task, lrn, subset = row_index(1:80))$train_set
 #'
@@ -38,7 +35,7 @@
 #' train(task, lrn, subset = row_ids(c(1, 2, 52, 53, 101, 103)))$train_set
 #'
 #' # Note that you can also use ids with different roles here:
-#' train(task, lrn, subset = row_ids(1:150))$train_set
+#' train(task, lrn, subset = row_ids(1:2))$train_set
 row_ids = function(x) {
   assert_atomic_vector(x, any.missing = FALSE)
   attr(x, "subset_type") = "ids"

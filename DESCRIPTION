@@ -17,6 +17,7 @@ Imports:
     checkmate,
     clisymbols,
     crayon,
+    evaluate,
     data.table,
     future (>= 1.8.0),
     future.apply,
@@ -28,10 +29,12 @@ Imports:
     yaml
 LazyData: true
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
 Suggests:
     bench,
     datasets,
+    devtools,
     future.callr,
     kernlab,
     knitr,
@@ -41,12 +44,12 @@ Collate:
     'Backend.R'
     'Dictionary.R'
     'Experiment.R'
-    'capabilities.R'
     'Learner.R'
     'LearnerClassif.R'
     'LearnerRegr.R'
     'Measure.R'
     'Resampling.R'
+    'capabilities.R'
     'Task.R'
     'TaskSupervised.R'
     'TaskClassif.R'

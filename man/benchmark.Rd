@@ -7,28 +7,29 @@
 benchmark(tasks, learners, resamplings, measures)
 }
 \arguments{
-\item{tasks}{[\code{list} of \code{\link{Task}}]\cr
-List of objects of type \code{\link{Task}}.}
+\item{tasks}{(\code{list} of \link{Task})\cr
+List of objects of type \link{Task}.}
 
-\item{learners}{[\code{list} of \code{\link{Learner}}]\cr
-List of objects of type \code{\link{Learner}}.}
+\item{learners}{(\code{list} of \link{Learner})\cr
+List of objects of type \link{Learner}.}
 
-\item{resamplings}{[\code{list} of \code{\link{Resampling}}]\cr
-List of objects of type \code{\link{Resampling}}.}
+\item{resamplings}{(\code{list} of \link{Resampling})\cr
+List of objects of type \link{Resampling}.}
 
-\item{measures}{[\code{list} of \code{\link{Measure}}]\cr
-List of objects of type \code{\link{Measure}}.}
+\item{measures}{(\code{list} of \link{Measure})\cr
+List of objects of type \link{Measure}.}
 }
 \value{
-\code{\link{BenchmarkResult}}.
+\link{BenchmarkResult}.
 }
 \description{
-Runs a benchmark on the full grid of learners and tasks.
+Runs a benchmark (possibly in parallel).
 }
 \examples{
 tasks = lapply(c("iris", "sonar"), mlr_tasks$get)
 learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
 resamplings = lapply("cv", mlr_resamplings$get)
 measures = lapply("mmce", mlr_measures$get)
-benchmark(tasks, learners, resamplings, measures)
+bmr = benchmark(tasks, learners, resamplings, measures)
+bmr$performance
 }

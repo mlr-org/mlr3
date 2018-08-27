@@ -1,21 +1,21 @@
 #' @title Base Class for Dictionaries
-#' @format \code{\link{R6Class}} object
+#' @format [R6Class()] object
 #'
 #' @description
-#' A \code{\link[R6]{R6Class}} for a simple dictionary (hash map) storing R6 objects with slot \dQuote{id}.
+#' A [R6::R6Class()] for a simple dictionary (hash map).
+#' This is used to store objects like [mlr_tasks], [mlr_learners],
+#' [mlr_resamplings] or [mlr_measures].
 #'
-#' @field ids Returns the keys of registered items.
-#' @field length Returns the number of registered items.
-#' @field items Environment where all objects are stored.
+#' @field ids Returns the ids of registered learners.
+#' @field env Environment where all [Learner()] objects are stored.
 #' @section Methods:
 #' \describe{
-#'  \item{\code{add(id, value)}}{...}
-#'  \item{\code{get(id)}}{...}
-#'  \item{\code{mget(ids)}}{...}
-#'  \item{\code{remove(id)}}{...}
+#'  \item{`add(obj, id, overwrite)`}{Add an object to the dictionary.}
+#'  \item{`contains(ids)`}{Returns a logical vector signaling if objects with the respective id are stored inside the Dictionary.}
+#'  \item{...}{...}
 #' }
 #'
-#' @return [\code{Dictionary}].
+#' @return [`Dictionary`].
 Dictionary = R6Class("Dictionary",
   cloneable = FALSE,
 

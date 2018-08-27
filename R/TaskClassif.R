@@ -1,19 +1,19 @@
 #' @title Classification Tasks
-#' @format \code{\link{R6Class}} object
+#' @format [R6Class()] object
 #'
 #' @description
-#' A \code{\link[R6]{R6Class}} to construct classification tasks.
+#' A [R6::R6Class()] to construct classification tasks.
 #'
 #' @template fields-task
 #' @template fields-supervisedtask
-#' @field positive [\code{character(1)}]\cr
-#'  Only for binary classification: Level of the positive class (\code{NA} otherwise).
-#' @field classes [\code{character()}]\cr
+#' @field positive (`character(1)`)\cr
+#'  Only for binary classification: Level of the positive class (`NA` otherwise).
+#' @field classes [`character()`]\cr
 #'  Levels of class labels.
-#' @field nclasses [\code{integer(1)}]\cr
+#' @field nclasses (`integer(1)`)\cr
 #'  Number of levels of class labels.
 #'
-#' @return [\code{\link{TaskClassif}}].
+#' @return [TaskClassif()].
 #' @include TaskSupervised.R
 #' @export
 #' @family Tasks

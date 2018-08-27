@@ -13,24 +13,24 @@ write_mlr3_config(conf = file.path(rappdirs::user_config_dir("mlr3"),
   "config.yml"))
 }
 \arguments{
-\item{conf}{[\code{character(1)}]\cr
+\item{conf}{(\code{character(1)})\cr
 Location of the configuration file to load or write.}
 }
 \description{
 The following options are currently supported to be set via \code{\link[base]{options}}.
 \describe{
-  \item{\code{mlr3.verbose}}{
-    Verbosity. Set to \code{FALSE} to suppress some output.
-  }
-  \item{\code{mlr3.debug}}{
-    Debug mode. Set to \code{TRUE} to enable additional output and some (slower) checks.
-  }
-  \item{\code{mlr3.keep.train.output}}{
-    Store the output of the models in the log file. Default: \code{FALSE}.
-  }
-  \item{\code{mlr3.continue.on.learner.error}}{
-    Keep running if a learner encounters a problem. The resulting model will be a model fitted by a dummy learner.
-  }
+\item{\code{mlr3.verbose}}{
+Verbosity. Set to \code{FALSE} to suppress some output.
+}
+\item{\code{mlr3.debug}}{
+Debug mode. Set to \code{TRUE} to enable additional output and some (slower) checks.
+}
+\item{\code{mlr3.keep.train.output}}{
+Store the output of the models in the log file. Default: \code{FALSE}.
+}
+\item{\code{mlr3.continue.on.learner.error}}{
+Keep running if a learner encounters a problem. The resulting model will be a model fitted by a dummy learner.
+}
 }
 
 These options may be set in a configuration file which is automatically parsed on package load.

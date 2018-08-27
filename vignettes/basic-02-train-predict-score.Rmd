@@ -20,6 +20,11 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+```{r fixup, echo = FALSE}
+# Temporary fix for r-lib#152
+unloadNamespace("mlr3")
+devtools::load_all()
+```
 
 In this introduction we simply fit a classification tree on the iris and determine the mean misclassification error.
 

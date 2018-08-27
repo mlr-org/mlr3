@@ -14,11 +14,11 @@ row_index(x)
 row_roles(x)
 }
 \arguments{
-\item{x}{[\code{atomic vector}]\cr
+\item{x}{(\code{[atomic vector][base::atomic()]})\cr
 Row declaration, depending on the function.}
 }
 \value{
-[\code{atomic vector}] with added attribute \dQuote{subset_type}.
+(\code{[atomic vector][base::atomic()]}) with added attribute \dQuote{subset_type}.
 }
 \description{
 These functions can be used to switch between different ways of declaring subsets of task observations.
@@ -42,9 +42,6 @@ train(task, lrn)$train_set
 # Same, but more explicitly:
 train(task, lrn, subset = row_roles("training"))$train_set
 
-# Train on the ignored rows:
-train(task, lrn, subset = row_roles("ignore"))$train_set
-
 # Train on rows with role == "training", indexed by number and ordered as in task$rows
 train(task, lrn, subset = row_index(1:80))$train_set
 
@@ -52,5 +49,5 @@ train(task, lrn, subset = row_index(1:80))$train_set
 train(task, lrn, subset = row_ids(c(1, 2, 52, 53, 101, 103)))$train_set
 
 # Note that you can also use ids with different roles here:
-train(task, lrn, subset = row_ids(1:150))$train_set
+train(task, lrn, subset = row_ids(1:2))$train_set
 }

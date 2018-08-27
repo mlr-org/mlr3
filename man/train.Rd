@@ -7,19 +7,19 @@
 train(task, learner, subset = NULL)
 }
 \arguments{
-\item{task}{[\code{\link{Task}}]\cr
-Object of type \code{\link{Task}}.}
+\item{task}{(\code{\link[=Task]{Task()}})\cr
+Object of type \code{\link[=Task]{Task()}}.}
 
-\item{learner}{[\code{\link{Learner}}]\cr
-Object of type \code{\link{Learner}}.}
+\item{learner}{(\code{\link[=Learner]{Learner()}})\cr
+Object of type \code{\link[=Learner]{Learner()}}.}
 
-\item{subset}{[\code{integer} | \code{logical}]\cr
-Subset of \code{task} to train the data on as row indices.
-See \code{\link{subsetting-types}}.}
+\item{subset}{(\code{integer} | \code{logical})\cr
+Subset of \code{task} to train the data on.
+See \link{subsetting-types}.}
 }
 \value{
-\code{\link{TrainResult}}.
+\link{Experiment}.
 }
 \description{
-Fits a model on (a subset of) the task data.
+Fits a model on a subset of the task data.
 }

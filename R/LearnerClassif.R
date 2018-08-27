@@ -1,10 +1,10 @@
 #' @title Class for Classif Learners
-#' @format \code{\link{R6Class}} object
+#' @format [R6Class()] object
 #'
 #' @description
-#' A \code{\link[R6]{R6Class}} to construct learners.
+#' A [R6::R6Class()] to construct learners.
 #'
-#' @return [\code{\link{Learner}}].
+#' @return [Learner()].
 #' @family Learner
 #' @include Learner.R
 #' @export

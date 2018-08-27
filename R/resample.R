@@ -3,15 +3,15 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task [\code{\link{Task}}]\cr
-#'   Object of type \code{\link{Task}}.
-#' @param learner [\code{\link{Learner}}]\cr
-#'   Object of type \code{\link{Learner}}.
-#' @param resampling [\code{\link{Resampling}}]\cr
-#'   Object of type \code{\link{Resampling}}.
-#' @param measures [\code{list} of \code{\link{Measure}}]\cr
-#'   List of objects of type \code{\link{Measure}}.
-#' @return \code{\link{ResampleResult}}.
+#' @param task ([Task])\cr
+#'   Object of type [Task].
+#' @param learner ([Learner])\cr
+#'   Object of type [Learner].
+#' @param resampling ([Resampling])\cr
+#'   Object of type [Resampling].
+#' @param measures ([`list` of [Measure])\cr
+#'   List of objects of type [Measure].
+#' @return [ResampleResult].
 #' @export
 resample = function(task, learner, resampling, measures) {
   assert_task(task)
@@ -29,7 +29,7 @@ resample = function(task, learner, resampling, measures) {
   res = future.apply::future_lapply(seq_len(n), function(i, task, learner, instance, measures) {
     train_set = instance$train_set(i)
     test_set = instance$test_set(i)
-    mlr3:::experiment_worker(task = task, learner = learner,  train_set = train_set, test_set = test_set, measures = measures)
+    experiment_worker(task = task, learner = learner,  train_set = train_set, test_set = test_set, measures = measures)
   }, future.globals = FALSE, future.packages = "mlr3", task = task, learner = learner, instance = instance, measures = measures)
 
 
@@ -38,6 +38,15 @@ resample = function(task, learner, resampling, measures) {
   ResampleResult$new(res)
 }
 
+
+#' @title ResampleResult
+#' @format [R6Class()] object
+#'
+#' @description
+#' A [R6::R6Class()] containing data of a [resample()].
+#'
+#' @field aggr (`named numeric`): Aggregated performance measures.
+#' @field data [`data.table`]: Data stored in a tabular format.
 ResampleResult = R6Class("ResampleResult",
   cloneable = FALSE,
   public = list(

@@ -4,29 +4,29 @@
 \name{Measure}
 \alias{Measure}
 \title{Base Class for Measures}
-\format{\code{\link{R6Class}} object}
+\format{\code{\link[=R6Class]{R6Class()}} object}
 \usage{
 Measure
 }
 \value{
-[\code{Measure}].
+\code{\link{Measure}}.
 }
 \description{
-A \code{\link[R6]{R6Class}} to construct performance measures.
+A \code{\link[R6:R6Class]{R6::R6Class()}} to construct performance measures.
 This is the abstract base class, do not use directly!
 
-Predefined measures are stored in \code{\link{mlr_measures}}.
+Predefined measures are stored in \code{\link[=mlr_measures]{mlr_measures()}}.
 }
 \section{Fields}{
 
 \describe{
-\item{\code{id}}{[\code{character(1)}]: Identifier of the measure.}
+\item{\code{id}}{(\code{character(1)}): Identifier of the measure.}
 
-\item{\code{description}}{[\code{character(1)}]: Description of the measure.}
+\item{\code{description}}{(\code{character(1)}): Description of the measure.}
 
-\item{\code{task_types}}{[\code{character}]: Set of compatible task_types.}
+\item{\code{task.types}}{(\code{character(1)}): Set of compatible task types.}
 
-\item{\code{fun}}{[\code{function(truth, predicted)}]: function to compute the measure.}
+\item{\code{fun}}{(\code{function(truth, predicted)}): function to compute the measure.}
 }}
 
 \keyword{datasets}

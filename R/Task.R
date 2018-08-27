@@ -1,11 +1,14 @@
 #' @title Basic Tasks
-#' @format \code{\link{R6Class}} object
+#' @format [R6Class()] object
 #'
 #' @description
 #' This is the abstract base class for task objects.
-#' Use \code{\link{TaskClassif}} or \code{\link{TaskRegr}} to construct tasks instead of this class.
+#' Use [TaskClassif] or [TaskRegr] to construct tasks instead of this class.
 #'
-#' @return [\code{\link{Task}}].
+#' @template fields-task
+#' @template fields-supervisedtask
+#'
+#' @return [Task].
 #' @export
 #' @family Tasks
 #' @include capabilities.R

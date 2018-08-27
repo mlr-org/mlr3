@@ -7,20 +7,20 @@
 resample(task, learner, resampling, measures)
 }
 \arguments{
-\item{task}{[\code{\link{Task}}]\cr
-Object of type \code{\link{Task}}.}
+\item{task}{(\link{Task})\cr
+Object of type \link{Task}.}
 
-\item{learner}{[\code{\link{Learner}}]\cr
-Object of type \code{\link{Learner}}.}
+\item{learner}{(\link{Learner})\cr
+Object of type \link{Learner}.}
 
-\item{resampling}{[\code{\link{Resampling}}]\cr
-Object of type \code{\link{Resampling}}.}
+\item{resampling}{(\link{Resampling})\cr
+Object of type \link{Resampling}.}
 
-\item{measures}{[\code{list} of \code{\link{Measure}}]\cr
-List of objects of type \code{\link{Measure}}.}
+\item{measures}{([\code{list} of \link{Measure})\cr
+List of objects of type \link{Measure}.}
 }
 \value{
-\code{\link{ResampleResult}}.
+\link{ResampleResult}.
 }
 \description{
 Runs a resampling (possibly in parallel).

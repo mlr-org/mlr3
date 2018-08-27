@@ -10,7 +10,6 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(mlr3)
 knitr::opts_knit$set(
   datatable.print.keys = FALSE,
   datatable.print.class = TRUE
@@ -20,6 +19,13 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
+```{r fixup, echo = FALSE}
+# Temporary fix for r-lib#152
+unloadNamespace("mlr3")
+devtools::load_all()
+```
+
 
 This introduction is about resampling.
 

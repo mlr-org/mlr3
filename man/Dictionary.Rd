@@ -4,33 +4,32 @@
 \name{Dictionary}
 \alias{Dictionary}
 \title{Base Class for Dictionaries}
-\format{\code{\link{R6Class}} object}
+\format{\code{\link[=R6Class]{R6Class()}} object}
 \usage{
 Dictionary
 }
 \value{
-[\code{Dictionary}].
+\code{\link{Dictionary}}.
 }
 \description{
-A \code{\link[R6]{R6Class}} for a simple dictionary (hash map) storing R6 objects with slot \dQuote{id}.
+A \code{\link[R6:R6Class]{R6::R6Class()}} for a simple dictionary (hash map).
+This is used to store objects like \link{mlr_tasks}, \link{mlr_learners},
+\link{mlr_resamplings} or \link{mlr_measures}.
 }
 \section{Fields}{
 
 \describe{
-\item{\code{ids}}{Returns the keys of registered items.}
+\item{\code{ids}}{Returns the ids of registered learners.}
 
-\item{\code{length}}{Returns the number of registered items.}
-
-\item{\code{items}}{Environment where all objects are stored.}
+\item{\code{env}}{Environment where all \code{\link[=Learner]{Learner()}} objects are stored.}
 }}
 
 \section{Methods}{
 
 \describe{
- \item{\code{add(id, value)}}{...}
- \item{\code{get(id)}}{...}
- \item{\code{mget(ids)}}{...}
- \item{\code{remove(id)}}{...}
+\item{\code{add(obj, id, overwrite)}}{Add an object to the dictionary.}
+\item{\code{contains(ids)}}{Returns a logical vector signaling if objects with the respective id are stored inside the Dictionary.}
+\item{...}{...}
 }
 }
 

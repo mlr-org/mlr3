@@ -1,4 +1,4 @@
-#' @title Base Class for Resampling Measures
+#' @title Base Class for Resampling Objects
 #' @format \code{\link{R6Class}} object
 #'
 #' @description
@@ -7,10 +7,7 @@
 #'
 #' Predefined resampling measures are stored in \code{\link{mlr_resamplings}}.
 #'
-#' @field id [\code{character(1)}]: Identifier of the measure.
-#' @field task_types [\code{character}]: Set of compatible task_types.
-#' @field fun [\code{function(truth, predicted)}]: function to compute the measure.
-#' @return [\code{Measure}].
+#' @return [Resampling].
 #' @export
 Resampling = R6Class("Resampling",
   active = list(

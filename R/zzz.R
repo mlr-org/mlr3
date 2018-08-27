@@ -4,6 +4,7 @@
 #' @import phng
 #' @importFrom R6 R6Class
 #' @importFrom stats setNames predict
+#' @importFrom utils data head tail
 NULL
 
 # environment which holds constants and allows for reflections

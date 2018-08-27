@@ -1,3 +1,5 @@
+.ignore
+.editorconfig
 .gitignore
 ^\.travis\.yml$
 ^.*\.Rproj$

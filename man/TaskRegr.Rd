@@ -4,61 +4,61 @@
 \name{TaskRegr}
 \alias{TaskRegr}
 \title{Regression Tasks}
-\format{\code{\link{R6Class}} object}
+\format{\code{\link[=R6Class]{R6Class()}} object}
 \usage{
 TaskRegr
 }
 \value{
-[\code{\link{TaskRegr}}].
+\code{\link[=TaskRegr]{TaskRegr()}}.
 }
 \description{
-A \code{\link[R6]{R6Class}} to construct regression tasks.
+A \code{\link[R6:R6Class]{R6::R6Class()}} to construct regression tasks.
 }
 \section{Fields}{
 
 \describe{
-\item{\code{id}}{[\code{character(1)}]\cr
+\item{\code{id}}{(\code{character(1)})\cr
 Identifier of the task.}
 
-\item{\code{backend}}{[\code{Backend}]\cr
+\item{\code{backend}}{(\code{Backend})\cr
 Internal abstraction for data access. Leave this alone unless you know exactly what you are doing.}
 
-\item{\code{get}}{[\code{function(rows = NULL, cols = NULL)}]\cr
-Get (a subset of) the task data. Rows must be specified by row_ids (defaulting to integers if not specified otherwise), columns must be addressed by name.}
+\item{\code{get}}{(\code{function(rows = NULL, cols = NULL)})\cr
+Get (a subset of) the task data. Rows must be specified by row ids (defaulting to integers if not specified otherwise), columns must be addressed by name.}
 
-\item{\code{head}}{[\code{function(n = 6L)}]\cr
+\item{\code{head}}{(\code{function(n = 6L)})\cr
 Fetches the first \code{n} rows of the data and returns a \code{data.table}.}
 
-\item{\code{features}}{[\code{character}]\cr
+\item{\code{features}}{\link{character}\cr
 Names of the features.}
 
-\item{\code{formula}}{[\code{character}]\cr
+\item{\code{formula}}{\link{character}\cr
 Formula describing the learning task.}
 
-\item{\code{subset}}{[\code{function(rows = NULL, cols = NULL)}]\cr
+\item{\code{subset}}{(\code{function(rows = NULL, cols = NULL)})\cr
 Subset this task to contain only the specified rows and columns.}
 
-\item{\code{nrow}}{[\code{integer(1)}]\cr
+\item{\code{nrow}}{(\code{integer(1)})\cr
 Number of rows in the current view of the task.}
 
-\item{\code{ncol}}{[\code{integer(1)}]\cr
+\item{\code{ncol}}{(\code{integer(1)})\cr
 Number of columns in the current view of the task.}
 
-\item{\code{col_types}}{[\code{named character}]\cr
+\item{\code{col.types}}{(\code{named character})\cr
 Column class information.}
 
-\item{\code{missing.values}}{[\code{named integer}]\cr
+\item{\code{missing.values}}{(\code{named integer})\cr
 Number of missing values per column.}
 
-\item{\code{target}}{[\code{character(1)}]\cr
+\item{\code{target}}{(\code{character(1)})\cr
 Name of the target column.}
 
-\item{\code{truth}}{[\code{function(rows = NULL}]\cr
+\item{\code{truth}}{(\code{function(rows = NULL})\cr
 Returns \code{data.table} with the true outcome for specified rows.}
 }}
 
 \examples{
-task = TaskRegr$new(data = iris, target = "Sepal.Length")
+task = TaskRegr$new("iris", data = iris, target = "Sepal.Length")
 task$formula
 }
 \seealso{

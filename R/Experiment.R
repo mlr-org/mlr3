@@ -1,5 +1,10 @@
+#' @title Experiment
+#'
+#' @description
+#' Container object for machine learning experiments.
+#' Holds all important information as computed by the steps [train()], [predict()] and [score()].
+#'
 #' @export
-#' @keywords internal
 Experiment = R6Class("Experiment",
   public = list(
     data = NULL,
@@ -154,7 +159,7 @@ experiment_predict = function(e, subset = NULL, newdata = NULL) {
   } else {
     backend = BackendDataTable$new(data = newdata, primary_key = e$data$task$backend[[1L]]$primary_key)
     e$data$task = e$data$task$clone()$add_backend(backend)
-    test_set = task$rows[role == "validation", "id"][[1L]]
+    test_set = e$data$task$rows[role == "validation", "id"][[1L]]
     e$data$resampling$setTest(test_set)
   }
 
@@ -180,8 +185,8 @@ experiment_score = function(e, measures = NULL) {
 
 
 combine_experiments = function(x) {
+  name = atomic = NULL
   nn = names(x[[1L]])
-  # FIXME: NSE
   encapsulate = capabilities$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
   rbindlist(lapply(x, function(exp) {
     exp[encapsulate] = lapply(exp[encapsulate], list)

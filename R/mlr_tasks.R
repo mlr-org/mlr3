@@ -11,9 +11,6 @@
 #' # List task ids:
 #' mlr_tasks$ids
 #'
-#' # Get a briew summary:
-#' as.data.frame(mlr_tasks)
-#'
 #' # Retrieve a specific task:
 #' mlr_tasks$get("iris")
 #'

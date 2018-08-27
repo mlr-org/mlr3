@@ -1,22 +1,22 @@
 #' @title Configuration
 #' @name mlr3-config
 #'
-#' @param conf [\code{character(1)}]\cr
+#' @param conf (`character(1)`)\cr
 #'   Location of the configuration file to load or write.
 #'
 #' @description
 #' The following options are currently supported to be set via \code{\link[base]{options}}.
 #' \describe{
-#'   \item{\code{mlr3.verbose}}{
+#'   \item{`mlr3.verbose`}{
 #'     Verbosity. Set to \code{FALSE} to suppress some output.
 #'   }
-#'   \item{\code{mlr3.debug}}{
+#'   \item{`mlr3.debug`}{
 #'     Debug mode. Set to \code{TRUE} to enable additional output and some (slower) checks.
 #'   }
-#'   \item{\code{mlr3.keep.train.output}}{
+#'   \item{`mlr3.keep.train.output`}{
 #'     Store the output of the models in the log file. Default: \code{FALSE}.
 #'   }
-#'   \item{\code{mlr3.continue.on.learner.error}}{
+#'   \item{`mlr3.continue.on.learner.error`}{
 #'     Keep running if a learner encounters a problem. The resulting model will be a model fitted by a dummy learner.
 #'   }
 #' }
@@ -32,6 +32,7 @@
 #'
 #' # Current settings:
 #' print(read_mlr3_config())
+NULL
 
 
 #' @rdname mlr3-config
