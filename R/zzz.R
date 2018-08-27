@@ -23,7 +23,7 @@ mlr3$default.opts = list(
   backports::import(pkgname, "hasName", force = TRUE)
 
   # set default + config options if not already set in this session
-  opts = insert(mlr3$default.opts, readMlrngConfig())
+  opts = insert(mlr3$default.opts, read_mlr3_config())
   opts = opts[match(names(opts), names(.Options), nomatch = 0L) == 0L]
   if (length(opts))
     options(opts)

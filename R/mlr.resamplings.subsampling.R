@@ -15,22 +15,22 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
         train = replicate(repeats,
           bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
           simplify = FALSE)
-        list(train = train, row.ids = ids)
+        list(train = train, row_ids = ids)
       }
 
-      assertTask(task)
-      private$instance = ss(task$row.ids(), assertNumber(self$ratio, lower = 0), asInt(self$repeats, lower = 1L))
+      assert_task(task)
+      private$instance = ss(task$row_ids(), assert_number(self$ratio, lower = 0), asInt(self$repeats, lower = 1L))
       self
     },
 
-    train.set = function(i) {
-      i = assertResamplingIndex(self, i)
-      private$instance$row.ids[bit::as.which(private$instance$train[[i]])]
+    train_set = function(i) {
+      i = assert_resampling_index(self, i)
+      private$instance$row_ids[bit::as.which(private$instance$train[[i]])]
     },
 
-    test.set = function(i) {
-      i = assertResamplingIndex(self, i)
-      private$instance$row.ids[bit::as.which(!private$instance$train[[i]])]
+    test_set = function(i) {
+      i = assert_resampling_index(self, i)
+      private$instance$row_ids[bit::as.which(!private$instance$train[[i]])]
     }
   ),
   active = list(
@@ -40,6 +40,6 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   )
 )
 
-mlr.resamplings$add(
+mlr_resamplings$add(
   ResamplingSubsampling$new()
 )

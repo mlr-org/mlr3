@@ -9,7 +9,7 @@
 #'
 #' @field id [\code{character(1)}]: Identifier of the measure.
 #' @field description [\code{character(1)}]: Description of the measure.
-#' @field task.types [\code{character}]: Set of compatible task types.
+#' @field task_types [\code{character}]: Set of compatible task_types.
 #' @field fun [\code{function(truth, predicted)}]: function to compute the measure.
 #' @return [\code{Measure}].
 #' @export
@@ -17,13 +17,13 @@ Measure = R6Class("Measure",
   public = list(
     id = NULL,
     description = NULL,
-    task.types = character(0L),
+    task_types = character(0L),
     fun = NULL,
     packages = NULL,
-    initialize = function(id, description, task.types, fun, packages = character(0L)) {
-      self$id = assertString(id, min.chars = 1L)
-      self$description = assertString(description, min.chars = 1L)
-      self$task.types = assertCharacter(task.types, min.len = 1L, any.missing = FALSE)
+    initialize = function(id, description, task_types, fun, packages = character(0L)) {
+      self$id = assert_string(id, min.chars = 1L)
+      self$description = assert_string(description, min.chars = 1L)
+      self$task_types = assertCharacter(task_types, min.len = 1L, any.missing = FALSE)
       self$fun = assertFunction(fun)
       self$packages = assertCharacter(packages, any.missing = FALSE)
       environment(self$fun) = environment(self$initialize)
@@ -50,16 +50,16 @@ DictionaryMeasures = R6Class("DictionaryMeasures", inherit = Dictionary,
 #' @export
 mlr.measures = DictionaryMeasures$new()
 
-asMeasures = function(x, task) {
+as_measures = function(x, task) {
   if (is.null(x))
-    return(list(mlr.measures$get(task$default.measure)))
+    return(list(mlr.measures$get(task$default_measure)))
   if (inherits(x, "Measure"))
     return(list(x))
   if (is.character(x))
     return(mlr.measures$mget(x))
-  assertMeasures(x)
+  assert_measures(x)
 }
 
-assertMeasures = function(measures) {
-  assertList(measures, type = "Measure")
+assert_measures = function(measures) {
+  assert_list(measures, type = "Measure")
 }

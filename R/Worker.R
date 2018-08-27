@@ -1,15 +1,15 @@
-runExperiment = function(task, learner, train.set, test.set, measures) {
+runExperiment = function(task, learner, train_set, test_set, measures) {
   pkgs = c("mlr3", learner$packages, measures$packages)
-  requireNamespaces(pkgs, sprintf("The following packages are required for measure %s: %%s", learner$id))
+  require_namespaces(pkgs, sprintf("The following packages are required for measure %s: %%s", learner$id))
 
   result = vector("list", 7L)
-  names(result) = c("model", "train.time", "train.log", "predicted", "test.time", "test.log", "performance")
+  names(result) = c("model", "train_time", "train_log", "predicted", "test_time", "test_log", "performance")
 
-  tmp = trainWorker(task = task, learner = learner, train.set = train.set)
+  tmp = train_worker(task = task, learner = learner, train_set = train_set)
   result = insert(result, tmp)
-  tmp = predictWorker(task = task, learner = learner, model = result$model, test.set = test.set)
+  tmp = predict_worker(task = task, learner = learner, model = result$model, test_set = test_set)
   result = insert(result, tmp)
-  tmp = scoreWorker(task = task, test.set = test.set, predicted = result$predicted, measures = measures)
+  tmp = score_worker(task = task, test_set = test_set, predicted = result$predicted, measures = measures)
   result = insert(result, tmp)
 
   return(result)

@@ -5,32 +5,32 @@ Experiment = R6Class("Experiment",
     data = NULL,
 
     initialize = function(task, learner, ...) {
-      self$data = vector("list", nrow(capabilities$experiment.slots))
-      names(self$data) = capabilities$experiment.slots$name
+      self$data = vector("list", nrow(capabilities$experiment_slots))
+      names(self$data) = capabilities$experiment_slots$name
 
-      self$data$task = assertTask(task)
-      self$data$learner = assertLearner(learner)
+      self$data$task = assert_task(task)
+      self$data$learner = assert_learner(learner)
       if (...length()) {
         dots = list(...)
-        assertNames(names(dots), subset.of = names(self$data))
+        assert_names(names(dots), subset.of = names(self$data))
         self$data = insert(self$data, dots)
       }
     },
 
     print = function(...) {
-      printExperiment(self)
+      experiment_print(self)
     },
 
     train = function(subset = NULL) {
-      trainExperiment(self, subset)
+      train_experiment(self, subset)
     },
 
     predict = function(subset = NULL, newdata = NULL) {
-      predictExperiment(self, subset = subset, newdata = newdata)
+      predict_experiment(self, subset = subset, newdata = newdata)
     },
 
     score = function(measures = NULL) {
-      scoreExperiment(self, measures)
+      score_experiment(self, measures)
     }
   ),
 
@@ -43,38 +43,38 @@ Experiment = R6Class("Experiment",
     },
 
     logs = function() {
-      list(train = self$data$train.log, test = self$data$test.log)
+      list(train = self$data$train_log, test = self$data$test_log)
     },
 
-    train.set = function() {
+    train_set = function() {
       resampling = self$data$resampling
       iteration = self$data$iteration
       if (is.null(resampling) || is.null(iteration))
-        stop("No train.set available")
-      resampling$train.set(iteration)
+        stop("No train_set available")
+      resampling$train_set(iteration)
     },
 
-    test.set = function() {
+    test_set = function() {
       resampling = self$data$resampling
       iteration = self$data$iteration
       if (is.null(resampling) || is.null(iteration))
-        stop("No test.set available")
-      resampling$test.set(iteration)
+        stop("No test_set available")
+      resampling$test_set(iteration)
     },
 
-    validation.set = function() {
+    validation_set = function() {
       role = NULL
-      row.ids = task$rows[role == "validation", "id"][[1L]]
+      row_ids = task$rows[role == "validation", "id"][[1L]]
     },
 
     predictions = function() {
       predicted = self$data$predicted
       if (is.null(predicted))
         stop("No predictions available")
-      row.ids = self$data$resampling$test.set(1L)
+      row_ids = self$data$resampling$test_set(1L)
       data.table(
-        id = row.ids,
-        truth = self$data$task$truth(row.ids)[[1L]], predicted = self$data$predicted,
+        id = row_ids,
+        truth = self$data$task$truth(row_ids)[[1L]], predicted = self$data$predicted,
         key = "id"
       )
     },
@@ -83,18 +83,18 @@ Experiment = R6Class("Experiment",
       self$data$performance
     },
 
-    has.errors = function() {
-      train.log = self$data$train.log
-      test.log = self$data$test.log
+    has_errors = function() {
+      train_log = self$data$train_log
+      test_log = self$data$test_log
       type = NULL
 
-      (!is.null(train.log) && train.log[type == "error", .N] > 0L) ||
-      (!is.null(test.log) && test.log[type == "error", .N] > 0L)
+      (!is.null(train_log) && train_log[type == "error", .N] > 0L) ||
+      (!is.null(test_log) && test_log[type == "error", .N] > 0L)
     },
 
     state = function() {
       d = self$data
-      states = capabilities$experiment.states
+      states = capabilities$experiment_states
       if (!is.null(d$performance))
         return(ordered("scored", levels = states))
       if (!is.null(d$predicted))
@@ -106,7 +106,7 @@ Experiment = R6Class("Experiment",
   )
 )
 
-printExperiment = function(e) {
+experiment_print = function(e) {
   data = e$data
   tick = crayon::green(clisymbols::symbol$tick)
   cross = crayon::red(clisymbols::symbol$cross)
@@ -128,16 +128,16 @@ printExperiment = function(e) {
   catf(stri_list("\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
 }
 
-combineExperiments = function(x) {
+combine_experiments = function(x) {
   nn = names(x[[1L]])
   # FIXME: NSE
-  encapsulate = capabilities$experiment.slots[name %in% nn & atomic == FALSE, "name"][[1L]]
+  encapsulate = capabilities$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
   rbindlist(lapply(x, function(exp) {
     exp[encapsulate] = lapply(exp[encapsulate], list)
     exp
   }))
 }
 
-assertExperiment = function(experiment) {
-  assertR6(experiment, "Experiment")
+assert_experiment = function(experiment) {
+  assert_r6(experiment, "Experiment")
 }

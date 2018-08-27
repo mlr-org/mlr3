@@ -17,19 +17,19 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
         }, simplify = FALSE)
       }
 
-      assertTask(task)
-      row.ids = task$row.ids()
-      private$instance = bootstrap(task$row.ids(), assertNumber(self$ratio, lower = 0), asInt(self$repeats))
+      assert_task(task)
+      row_ids = task$row_ids()
+      private$instance = bootstrap(task$row_ids(), assert_number(self$ratio, lower = 0), asInt(self$repeats))
       self
     },
 
-    train.set = function(i) {
-      i = assertResamplingIndex(self, i)
+    train_set = function(i) {
+      i = assert_resampling_index(self, i)
       private$instance[[i]]$train
     },
 
-    test.set = function(i) {
-      i = assertResamplingIndex(self, i)
+    test_set = function(i) {
+      i = assert_resampling_index(self, i)
       private$instance[[i]]$test
     }
   ),
@@ -41,6 +41,6 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   )
 )
 
-mlr.resamplings$add(
+mlr_resamplings$add(
   ResamplingBootstrap$new()
 )

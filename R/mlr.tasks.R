@@ -9,29 +9,29 @@
 #' @export
 #' @examples
 #' # List task ids:
-#' mlr.tasks$ids
+#' mlr_tasks$ids
 #'
 #' # Get a briew summary:
-#' as.data.frame(mlr.tasks)
+#' as.data.frame(mlr_tasks)
 #'
 #' # Retrieve a specific task:
-#' mlr.tasks$get("iris")
+#' mlr_tasks$get("iris")
 #'
 #' # Add a new task, based on a subset of iris:
 #' data = iris
 #' data$Species = ifelse(data$Species == "setosa", "1", "0")
 #' task = TaskClassif$new("iris.binary", data = data, target = "Species")
 #' task$nclasses
-#' mlr.tasks$add(task)
-#' mlr.tasks$remove("iris.binary")
-mlr.tasks = Dictionary$new("Task")
-class(mlr.tasks) = c("DictionaryTasks", class(mlr.tasks))
+#' mlr_tasks$add(task)
+#' mlr_tasks$remove("iris.binary")
+mlr_tasks = Dictionary$new("Task")
+class(mlr_tasks) = c("DictionaryTasks", class(mlr_tasks))
 
 
 #' @export
 as.data.table.DictionaryTasks = function(x, ...) {
   rbindlist(eapply(x$items, function(obj) {
-      list(task.type = obj$task.type, nrow = obj$nrow, ncol = obj$ncol)
+      list(task_type = obj$task_type, nrow = obj$nrow, ncol = obj$ncol)
   }))
 }
 
@@ -41,34 +41,34 @@ as.data.frame.DictionaryTasks = function(x, ...) {
   setDF(as.data.table(x))[]
 }
 
-mlr.tasks$add(lazyValue("iris", function() {
-  TaskClassif$new("iris", data = loadData("iris", "datasets"), target = "Species")
+mlr_tasks$add(LazyValue("iris", function() {
+  TaskClassif$new("iris", data = load_dataset("iris", "datasets"), target = "Species")
 }))
 
 
-mlr.tasks$add(lazyValue("sonar", function() {
-  TaskClassif$new("Sonar", data = loadData("Sonar", "mlbench"), target = "Class")
+mlr_tasks$add(LazyValue("sonar", function() {
+  TaskClassif$new("Sonar", data = load_dataset("Sonar", "mlbench"), target = "Class")
 }))
 
 
-mlr.tasks$add(lazyValue("bh", function() {
-  TaskRegr$new("BostonHousing2", data = loadData("BostonHousing2", "mlbench"), target = "medv")
+mlr_tasks$add(LazyValue("bh", function() {
+  TaskRegr$new("BostonHousing2", data = load_dataset("BostonHousing2", "mlbench"), target = "medv")
 }))
 
-mlr.tasks$add(lazyValue("pima", function() {
-  TaskClassif$new("PimaIndiansDiabetes2", data = loadData("PimaIndiansDiabetes2", "mlbench"),
+mlr_tasks$add(LazyValue("pima", function() {
+  TaskClassif$new("PimaIndiansDiabetes2", data = load_dataset("PimaIndiansDiabetes2", "mlbench"),
     target = "diabetes", positive = "pos")
 }))
 
-mlr.tasks$add(lazyValue("zoo", function() {
-  TaskClassif$new("Zoo", data = loadData("Zoo", "mlbench", TRUE), target = "type")
+mlr_tasks$add(LazyValue("zoo", function() {
+  TaskClassif$new("Zoo", data = load_dataset("Zoo", "mlbench", TRUE), target = "type")
 }))
 
-mlr.tasks$add(lazyValue("spam", function() {
-  TaskClassif$new("spam", data = loadData("spam", "kernlab", TRUE), target = "type", positive = "spam")
+mlr_tasks$add(LazyValue("spam", function() {
+  TaskClassif$new("spam", data = load_dataset("spam", "kernlab", TRUE), target = "type", positive = "spam")
 }))
 
-loadData = function(id, package, keep.rownames = FALSE) {
+load_dataset = function(id, package, keep.rownames = FALSE) {
   if (!nzchar(find.package(package, quiet = TRUE)))
     stopf("Please install package '%s' for data set '%s'", package, id)
   ee = new.env(parent = emptyenv())

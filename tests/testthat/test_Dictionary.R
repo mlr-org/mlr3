@@ -32,13 +32,13 @@ test_that("Dictionary", {
 
 
 test_that("Dictionary: lazy values", {
-  # we can just test mlr.tasks here
-  expect_class(mlr.tasks$items$iris, "LazyValue")
-  expect_function(mlr.tasks$items$iris$getter)
+  # we can just test mlr_tasks here
+  expect_class(mlr_tasks$items$iris, "LazyValue")
+  expect_function(mlr_tasks$items$iris$getter)
 
-  t1 = mlr.tasks$get("iris")
+  t1 = mlr_tasks$get("iris")
   expect_task(t1)
-  t2 = mlr.tasks$get("iris")
+  t2 = mlr_tasks$get("iris")
   expect_task(t2)
   expect_different_address(t1, t2)
 })

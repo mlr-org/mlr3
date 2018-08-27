@@ -9,24 +9,24 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
       # -> join ids using blocks
       cv = function(ids, folds) {
         data.table(
-          row.id = ids,
+          row_id = ids,
           fold = shuffle(seq_along0(ids) %% folds + 1L),
           key = "fold"
         )
       }
-      assertTask(task)
-      private$instance = cv(task$row.ids(), asInt(self$folds, lower = 1L))
+      assert_task(task)
+      private$instance = cv(task$row_ids(), asInt(self$folds, lower = 1L))
       self
     },
 
-    train.set = function(i) {
-      i = assertResamplingIndex(self, i)
-      private$instance[!.(i), "row.id", on = "fold"][[1L]]
+    train_set = function(i) {
+      i = assert_resampling_index(self, i)
+      private$instance[!.(i), "row_id", on = "fold"][[1L]]
     },
 
-    test.set = function(i) {
-      i = assertResamplingIndex(self, i)
-      private$instance[.(i), "row.id", on = "fold"][[1L]]
+    test_set = function(i) {
+      i = assert_resampling_index(self, i)
+      private$instance[.(i), "row_id", on = "fold"][[1L]]
     }
   ),
 
@@ -37,6 +37,6 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   )
 )
 
-mlr.resamplings$add(
+mlr_resamplings$add(
   ResamplingCV$new()
 )

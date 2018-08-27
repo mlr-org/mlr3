@@ -5,10 +5,10 @@
 #' A \code{\link[R6]{R6Class}} to construct resampling measures.
 #' This is the abstract base class, do not use directly!
 #'
-#' Predefined resampling measures are stored in \code{\link{mlr.resamplings}}.
+#' Predefined resampling measures are stored in \code{\link{mlr_resamplings}}.
 #'
 #' @field id [\code{character(1)}]: Identifier of the measure.
-#' @field task.types [\code{character}]: Set of compatible task types.
+#' @field task_types [\code{character}]: Set of compatible task_types.
 #' @field fun [\code{function(truth, predicted)}]: function to compute the measure.
 #' @return [\code{Measure}].
 #' @export
@@ -49,13 +49,13 @@ DictionaryResamplings = R6Class("DictionaryResamplings", inherit = Dictionary,
 #' \code{Resamplings} is a \code{\link{Dictionary}} used to manage resampling methods.
 #'
 #' @export
-mlr.resamplings = DictionaryResamplings$new()
+mlr_resamplings = DictionaryResamplings$new()
 
-assertResampling = function(resampling) {
-  assertR6(resampling, "Resampling")
+assert_resampling = function(resampling) {
+  assert_r6(resampling, "Resampling")
 }
 
-assertResamplingIndex = function(r, i) {
+assert_resampling_index = function(r, i) {
   if (!r$is_instantiated)
     stopf("Resampling %s has not been instantiated yet", r$id)
   asInt(i, lower = 1L, upper = r$iters)

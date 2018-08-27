@@ -23,20 +23,20 @@
 #'
 #' These options may be set in a configuration file which is automatically parsed on package load.
 #' To get the location according to your operating system, see the example.
-#' \code{readMlrngConfig()} reads a configuration file and returns its settings in a named list,
-#' \code{writeMlrngConfig()} writes a configuration file with all currently set options.
+#' \code{read_mlr3_config()} reads a configuration file and returns its settings in a named list,
+#' \code{write_mlr3_config()} writes a configuration file with all currently set options.
 #' @examples
 #' # Location of the config file for your system:
 #' conf = file.path(rappdirs::user_config_dir("mlr3"), "config.yml")
 #' print(conf)
 #'
 #' # Current settings:
-#' print(readMlrngConfig())
+#' print(read_mlr3_config())
 
 
 #' @rdname mlr3-config
 #' @export
-readMlrngConfig = function(conf = file.path(rappdirs::user_config_dir("mlr3"), "config.yml")) {
+read_mlr3_config = function(conf = file.path(rappdirs::user_config_dir("mlr3"), "config.yml")) {
   # keep it very simple and dep free here
   if (!file.exists(conf))
     return(list())
@@ -56,7 +56,7 @@ readMlrngConfig = function(conf = file.path(rappdirs::user_config_dir("mlr3"), "
 
 #' @rdname mlr3-config
 #' @export
-writeMlrngConfig = function(conf = file.path(rappdirs::user_config_dir("mlr3"), "config.yml")) {
+write_mlr3_config = function(conf = file.path(rappdirs::user_config_dir("mlr3"), "config.yml")) {
   assertPathForOutput(conf, overwrite = TRUE)
   if (!dir.exists(dirname(conf)))
     dir.create(dirname(conf), recursive = TRUE)
@@ -64,4 +64,4 @@ writeMlrngConfig = function(conf = file.path(rappdirs::user_config_dir("mlr3"), 
   opts = opts[stri_startswith_fixed(names(opts), "mlr3.")]
   names(opts) = stri_sub(names(opts), from = 7L)
   yaml::write_yaml(opts, file = conf)
-}
+write_mlr3_config

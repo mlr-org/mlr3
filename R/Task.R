@@ -15,7 +15,7 @@
 Task = R6Class("Task",
   # Base Class for Tasks
   public = list(
-    task.type = NA_character_,
+    task_type = NA_character_,
     id = NULL,
     backend = NULL,
     rows = NULL,
@@ -24,7 +24,7 @@ Task = R6Class("Task",
     blocking = character(0L),
 
     initialize = function(id, data) {
-      self$id = assertString(id, min.chars = 1L)
+      self$id = assert_string(id, min.chars = 1L)
       if (inherits(data, "Backend")) {
         self$backend = list(data)
       } else {
@@ -33,7 +33,7 @@ Task = R6Class("Task",
       }
 
       cn = self$backend[[1L]]$colnames
-      types = assertSubset(vcapply(self$backend[[1L]]$head(1L), class), capabilities$task.col.types, fmatch = TRUE)
+      types = assertSubset(vcapply(self$backend[[1L]]$head(1L), class), capabilities$task_col_types, fmatch = TRUE)
 
       self$rows = data.table(
         id = self$backend[[1L]]$rownames,
@@ -49,7 +49,7 @@ Task = R6Class("Task",
     },
 
     print = function(...) {
-      catf("Task '%s' of type %s (%i x %i)", self$id, self$task.type, self$nrow, self$ncol)
+      catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
       catf(stri_list("Target: ", self$target))
       catf(stri_list("Features: ", self$features))
       catf(stri_list("Order by: ", self$order))
@@ -57,75 +57,75 @@ Task = R6Class("Task",
       catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
     },
 
-    data = function(rows = NULL, cols = NULL, filter.rows = TRUE, filter.cols = TRUE) {
+    data = function(rows = NULL, cols = NULL, filter_rows = TRUE, filter_cols = TRUE) {
       if (is.null(rows)) {
-        selected.rows = if (filter.rows)
+        selected_rows = if (filter_rows)
           self$rows[role == "training", "id"][[1L]]
         else
           self$rows$id
       } else {
-        selected.rows = if (filter.rows)
+        selected_rows = if (filter_rows)
           self$rows[id %in% rows & role == "training", "id"][[1L]]
         else
           self$rows[id %in% rows, "id"][[1L]]
 
-        if (length(selected.rows) != length(rows))
-          stopf("Invalid row ids provided")
+        if (length(selected_rows) != length(rows))
+          stopf("Invalid row_ids provided")
       }
 
       if (is.null(cols)) {
-        selected.cols = if (filter.cols)
+        selected_cols = if (filter_cols)
           self$cols[role %in% c("feature", "target"), "id"][[1L]]
         else
           self$cols$id
       } else {
-        selected.cols = if (filter.cols)
+        selected_cols = if (filter_cols)
           self$cols[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
         else
           self$cols[id %in% cols, "id"][[1L]]
 
-        if (length(selected.cols) != length(cols))
+        if (length(selected_cols) != length(cols))
           stopf("Invalid col ids provided")
       }
 
-      extra.cols = character(0L)
+      extra_cols = character(0L)
       if (length(self$order)) {
-        extra.cols = setdiff(self$order, selected.cols)
-        selected.cols = union(selected.cols, extra.cols)
+        extra_cols = setdiff(self$order, selected_cols)
+        selected_cols = union(selected_cols, extra_cols)
       }
 
       data = rbindlist(
-        lapply(self$backend, function(b) b$data(rows = selected.rows, cols = selected.cols)),
+        lapply(self$backend, function(b) b$data(rows = selected_rows, cols = selected_cols)),
         fill = TRUE)
 
-      if (nrow(data) != length(selected.rows)) {
-        stopf("Backend did not return the rows correctly: %i requested, %i received", length(selected.rows), nrow(data))
+      if (nrow(data) != length(selected_rows)) {
+        stopf("Backend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
       }
 
-      if (ncol(data) != length(selected.cols)) {
-        stopf("Backend did not return the cols correctly: %i requested, %i received", length(selected.cols), ncol(data))
+      if (ncol(data) != length(selected_cols)) {
+        stopf("Backend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
       }
 
       if (length(self$order)) {
         setorderv(data, self$order)
       }
 
-      if (length(extra.cols))
-        data[, (extra.cols) := NULL]
+      if (length(extra_cols))
+        data[, (extra_cols) := NULL]
       return(data)
     },
 
     head = function(n = 6L) {
-      assertCount(n)
+      assert_count(n)
       ids = head(self$rows[role == "training", "id", with = FALSE][[1L]], n)
       self$data(rows = ids, cols = c(self$features, self$target))
     },
 
-    row.ids = function(subset = NULL, as.vector = TRUE) {
+    row_ids = function(subset = NULL, as.vector = TRUE) {
       if (is.null(subset)) {
         result = self$rows[role == "training", "id"]
       } else {
-        type = attr(subset, "subset.type")
+        type = attr(subset, "subset_type")
         if (is.null(type)) {
           result = self$rows[role == "training"][as.integer(subset), "id"]
         } else {
@@ -133,16 +133,16 @@ Task = R6Class("Task",
             "ids" = self$rows[.(subset), nomatch = 0L],
             "numbers" = self$rows[role == "training"][subset, "id"],
             "roles" = self$rows[role %in% subset, "id"],
-            stopf("Unknown subset.type"))
+            stopf("Unknown subset_type"))
         }
       }
-      attr(result, "subset.type") = "ids"
+      attr(result, "subset_type") = "ids"
       if (as.vector) result[[1L]] else result
     },
 
     add_backend = function(backend, row.role = "validation") {
       b = self$backend[[1L]]
-      assertNames(backend$colnames, subset.of = b$colnames, must.include = b$primary_key)
+      assert_names(backend$colnames, subset.of = b$colnames, must.include = b$primary_key)
 
       rn = backend$rownames
       for (b in self$backend) {
@@ -181,7 +181,7 @@ Task = R6Class("Task",
       self$cols[role %in% c("feature", "target"), .N]
     },
 
-    col.types = function() {
+    col_types = function() {
       self$cols[role %in% c("feature", "target"), c("id", "type")]
     }
   ),
@@ -193,6 +193,6 @@ Task = R6Class("Task",
   )
 )
 
-assertTask = function(task) {
-  assertR6(task, "Task")
+assert_task = function(task) {
+  assert_r6(task, "Task")
 }

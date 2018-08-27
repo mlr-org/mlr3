@@ -27,17 +27,17 @@ This introduction is about resampling.
 
 Again, we consider the iris task and a simple classification tree here.
 ```{r}
-task = mlr.tasks$get("iris")
-learner = mlr.learners$get("classif.rpart")
+task = mlr_tasks$get("iris")
+learner = mlr_learners$get("classif.rpart")
 ```
 
 Additionally, we need to define **how** we want to resample. `mlr3` comes with the following resampling strategies implemented:
 ```{r}
-mlr.resamplings$ids
+mlr_resamplings$ids
 ```
 The experiment conducted in the introduction on train/predict/score is equivalent to a simple "holdout", so let's consider this one first.
 ```{r}
-resampling = mlr.resamplings$get("holdout")
+resampling = mlr_resamplings$get("holdout")
 print(resampling)
 ```
 The printer reveals important information:
@@ -61,7 +61,7 @@ print(rr)
 
 Before we go into more detail, lets change the resampling to a 3-fold cross-validation to better illustrate what operations are possible with a resampling result.
 ```{r}
-resampling = mlr.resamplings$get("cv")
+resampling = mlr_resamplings$get("cv")
 resampling$folds = 3
 rr = resample(task, learner, resampling, "mmce")
 print(rr)
@@ -94,15 +94,15 @@ Until now, we have just passed a resampling strategy to `resample()`, without sp
 Here, we manually instantiate the resampling:
 
 ```{r}
-resampling = mlr.resamplings$get("cv", folds = 3)
+resampling = mlr_resamplings$get("cv", folds = 3)
 resampling$instantiate(task)
 resampling$iters
 resampling$train.set(1)
 ```
 If we now pass this instantiated object to resample, the pre-calculated training and test splits will be used for both learners:
 ```{r}
-learner1 = mlr.learners$get("classif.rpart")
-learner2 = mlr.learners$get("classif.dummy")
+learner1 = mlr_learners$get("classif.rpart")
+learner2 = mlr_learners$get("classif.dummy")
 rr1 = resample(task, learner1, resampling, "mmce")
 rr1$experiment(1)$train.set
 rr2 = resample(task, learner2, resampling, "mmce")

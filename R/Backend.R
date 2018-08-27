@@ -10,11 +10,11 @@ BackendDataTable = R6Class("Backend",
         data = as.data.table(data)
         if (is.character(rn))
           rn = make.unique(rn)
-        data[["..row.id"]] = rn
-        self$primary_key = "..row.id"
+        data[["..row_id"]] = rn
+        self$primary_key = "..row_id"
       } else {
-        assertString(primary_key)
-        assertNames(colnames(data), must.include = primary_key)
+        assert_string(primary_key)
+        assert_names(colnames(data), must.include = primary_key)
         assertAtomicVector(data[[primary_key]], any.missing = FALSE, unique = TRUE)
         self$primary_key = primary_key
         data = as.data.table(data)
@@ -24,7 +24,7 @@ BackendDataTable = R6Class("Backend",
 
     data = function(rows, cols) {
       assertAtomicVector(rows)
-      assertNames(cols, type = "unique", subset.of = names(private$dt))
+      assert_names(cols, type = "unique", subset.of = names(private$dt))
 
       data = private$dt[list(rows), cols, with = FALSE, nomatch = 0L, on = self$primary_key]
       return(data)
