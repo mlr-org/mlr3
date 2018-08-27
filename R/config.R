@@ -64,4 +64,4 @@ write_mlr3_config = function(conf = file.path(rappdirs::user_config_dir("mlr3"),
   opts = opts[stri_startswith_fixed(names(opts), "mlr3.")]
   names(opts) = stri_sub(names(opts), from = 7L)
   yaml::write_yaml(opts, file = conf)
-write_mlr3_config
+}

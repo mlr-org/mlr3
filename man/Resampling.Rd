@@ -15,14 +15,14 @@ Resampling
 A \code{\link[R6]{R6Class}} to construct resampling measures.
 This is the abstract base class, do not use directly!
 
-Predefined resampling measures are stored in \code{\link{mlr.resamplings}}.
+Predefined resampling measures are stored in \code{\link{mlr_resamplings}}.
 }
 \section{Fields}{
 
 \describe{
 \item{\code{id}}{[\code{character(1)}]: Identifier of the measure.}
 
-\item{\code{task.types}}{[\code{character}]: Set of compatible task types.}
+\item{\code{task_types}}{[\code{character}]: Set of compatible task_types.}
 
 \item{\code{fun}}{[\code{function(truth, predicted)}]: function to compute the measure.}
 }}

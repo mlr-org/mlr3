@@ -24,7 +24,7 @@ Identifier of the task.}
 Internal abstraction for data access. Leave this alone unless you know exactly what you are doing.}
 
 \item{\code{get}}{[\code{function(rows = NULL, cols = NULL)}]\cr
-Get (a subset of) the task data. Rows must be specified by row ids (defaulting to integers if not specified otherwise), columns must be addressed by name.}
+Get (a subset of) the task data. Rows must be specified by row_ids (defaulting to integers if not specified otherwise), columns must be addressed by name.}
 
 \item{\code{head}}{[\code{function(n = 6L)}]\cr
 Fetches the first \code{n} rows of the data and returns a \code{data.table}.}
@@ -44,7 +44,7 @@ Number of rows in the current view of the task.}
 \item{\code{ncol}}{[\code{integer(1)}]\cr
 Number of columns in the current view of the task.}
 
-\item{\code{col.types}}{[\code{named character}]\cr
+\item{\code{col_types}}{[\code{named character}]\cr
 Column class information.}
 
 \item{\code{missing.values}}{[\code{named integer}]\cr

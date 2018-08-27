@@ -82,7 +82,7 @@ expect_task = function(task) {
   types = task_col_types
   expect_data_table(types, ncol = 2, nrow = task$ncol)
   expect_set_equal(types$id, c(task$target, task$features))
-  expect_subset_types$type, capabilities$task_col_types, fmatch = TRUE)
+  expect_subset(types$type, capabilities$task_col_types, fmatch = TRUE)
 
   expect_character(task$blocking, any.missing = FALSE)
   expect_names(task$blocking, subset.of = c(task$features, task$target))
