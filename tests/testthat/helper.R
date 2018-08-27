@@ -79,7 +79,7 @@ expect_task = function(task) {
   expect_atomic_vector(task$rows$id, any.missing = FALSE, unique = TRUE)
   expect_subset(task$rows$role, capabilities$task_row_roles, fmatch = TRUE)
 
-  types = task_col_types
+  types = task$col_types
   expect_data_table(types, ncol = 2, nrow = task$ncol)
   expect_set_equal(types$id, c(task$target, task$features))
   expect_subset(types$type, capabilities$task_col_types, fmatch = TRUE)
