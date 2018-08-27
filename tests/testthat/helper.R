@@ -110,14 +110,14 @@ expect_task_classif = function(task) {
   y = y[[1]]
   expect_true(is.character(y) || is.factor(y))
 
-  expect_int(task$nclasses, lower = 2L)
-  expect_equal(task$nclasses, length(unique(y)))
-  expect_character(task$classes, any.missing = FALSE)
-  expect_subset(task$classes, as.character(y))
-  if (task$nclasses > 2L)
+  expect_int(task$classes_n, lower = 2L)
+  expect_equal(task$classes_n, length(unique(y)))
+  expect_character(task$class_names, any.missing = FALSE)
+  expect_subset(task$class_names, as.character(y))
+  if (task$classes_n > 2L)
     expect_identical(task$positive, NA_character_)
   else
-    expect_choice(task$positive, task$classes)
+    expect_choice(task$positive, task$class_names)
 }
 
 expect_task_regr = function(task) {

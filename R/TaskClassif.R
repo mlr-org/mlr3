@@ -31,13 +31,13 @@ TaskClassif = R6Class("TaskClassif",
     initialize = function(id, data, target, positive = NULL) {
       super$initialize(id = id, data = data, target = target)
       if (!is.null(positive)) {
-        self$positive = assert_choice(positive, self$classes)
+        self$positive = assert_choice(positive, self$class_names)
       }
     }
   ),
 
   active = list(
-    classes = function() as.character(unique(self$data(cols = self$target_names)[[1L]])),
-    nclasses = function() uniqueN(self$data(cols = self$target_names)[[1L]])
+    class_names = function() as.character(unique(self$data(cols = self$target_names)[[1L]])),
+    classes_n = function() uniqueN(self$data(cols = self$target_names)[[1L]])
   )
 )
