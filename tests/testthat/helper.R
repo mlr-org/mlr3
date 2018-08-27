@@ -59,7 +59,7 @@ expect_backend = function(backends) {
 }
 
 expect_task = function(task) {
-  expect_r6(task, "Task", cloneable = TRUE, public = c("task_type", "id", "backend", "rows", "cols", "order", "head", "row_ids", "features", "target", "formula", "nrow", "ncol", "col_types"))
+  expect_r6(task, "Task", cloneable = TRUE, public = c("task_type", "id", "backend", "rows", "cols", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "col_types"))
   expect_string(task$id, min.chars = 1L)
   expect_count(task$nrow)
   expect_count(task$ncol)
@@ -81,25 +81,25 @@ expect_task = function(task) {
 
   types = task$col_types
   expect_data_table(types, ncol = 2, nrow = task$ncol)
-  expect_set_equal(types$id, c(task$target, task$features))
+  expect_set_equal(types$id, c(task$target_names, task$feature_names))
   expect_subset(types$type, capabilities$task_col_types, fmatch = TRUE)
 
   expect_character(task$blocking, any.missing = FALSE)
-  expect_names(task$blocking, subset.of = c(task$features, task$target))
+  expect_names(task$blocking, subset.of = c(task$feature_names, task$target_names))
 
   expect_character(task$order, any.missing = FALSE)
-  expect_names(task$order, subset.of = c(task$features, task$target))
+  expect_names(task$order, subset.of = c(task$feature_names, task$target_names))
 }
 
 expect_task_supervised = function(task) {
   expect_r6(task, "TaskSupervised", cloneable = TRUE)
-  expect_choice(task$target, task$cols$id)
+  expect_choice(task$target_names, task$cols$id)
 
   expect_class(task$formula, "formula")
   tf = terms(task$formula)
-  expect_set_equal(labels(tf), task$features) # rhs
-  expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target) # lhs
-  expect_subset(task$features, colnames(task$head()))
+  expect_set_equal(labels(tf), task$feature_names) # rhs
+  expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target_names) # lhs
+  expect_subset(task$feature_names, colnames(task$head()))
 }
 
 expect_task_classif = function(task) {
@@ -110,14 +110,14 @@ expect_task_classif = function(task) {
   y = y[[1]]
   expect_true(is.character(y) || is.factor(y))
 
-  expect_int(task$nclasses, lower = 2L)
-  expect_equal(task$nclasses, length(unique(y)))
-  expect_character(task$classes, any.missing = FALSE)
-  expect_subset(task$classes, as.character(y))
-  if (task$nclasses > 2L)
+  expect_int(task$classes_n, lower = 2L)
+  expect_equal(task$classes_n, length(unique(y)))
+  expect_character(task$class_names, any.missing = FALSE)
+  expect_subset(task$class_names, as.character(y))
+  if (task$classes_n > 2L)
     expect_identical(task$positive, NA_character_)
   else
-    expect_choice(task$positive, task$classes)
+    expect_choice(task$positive, task$class_names)
 }
 
 expect_task_regr = function(task) {

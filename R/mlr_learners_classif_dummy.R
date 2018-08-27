@@ -12,7 +12,7 @@ mlr_learners$add(LearnerClassif$new(
 
   train = function(task, row_ids, ...) {
     data = task$data(row_ids)
-    tn = task$target
+    tn = task$target_names
     mod = data[, .N, by = tn]
     class(mod) = c("dummy.model", class(mod))
     mod
@@ -20,8 +20,8 @@ mlr_learners$add(LearnerClassif$new(
 
   predict = function(model, task, row_ids, method = "mode", ...) {
     if (method == "mode")
-      rep.int(as.character(sample(model[N == max(N)][[task$target]], 1L)), length(row_ids))
+      rep.int(as.character(sample(model[N == max(N)][[task$target_names]], 1L)), length(row_ids))
     else
-      as.character(sample(model[[task$target]], length(row_ids), replace = TRUE, prob = model[["N"]]))
+      as.character(sample(model[[task$target_names]], length(row_ids), replace = TRUE, prob = model[["N"]]))
   }
 ))

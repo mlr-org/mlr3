@@ -22,7 +22,7 @@ mlr_learners$add(LearnerClassif$new(
 
   predict = function(model, task, row_ids, ...) {
     pt = self$predict_type
-    newdata = task$data(row_ids, cols = task$features)
+    newdata = task$data(row_ids, cols = task$feature_names)
     if (pt == "response")
       as.character(predict(model, newdata = newdata, type = "class", ...))
     else

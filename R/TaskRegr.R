@@ -29,7 +29,7 @@ TaskRegr = R6Class("TaskRegr",
 
   active = list(
     summary = function() {
-      summary(self$data(cols = self$target)[[1L]])
+      summary(self$data(cols = self$target_names)[[1L]])
     }
   )
 )

@@ -21,7 +21,7 @@
 #' data = iris
 #' data$Species = ifelse(data$Species == "setosa", "1", "0")
 #' task = TaskClassif$new("iris.binary", data = data, target = "Species")
-#' task$nclasses
+#' task$classes_n
 #' mlr_tasks$add(task)
 #' mlr_tasks$remove("iris.binary")
 mlr_tasks = Dictionary$new("Task")

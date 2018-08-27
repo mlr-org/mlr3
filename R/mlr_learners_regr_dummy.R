@@ -10,7 +10,7 @@ mlr_learners$add(LearnerRegr$new(
   par_vals = list(),
   properties = c("missings", "feat.factor", "feat.numeric"),
   train = function(task, row_ids, method = "mean", ...) {
-    tn = unlist(task$data(row_ids, task$target))
+    tn = unlist(task$data(row_ids, task$target_names))
     mod = switch(method,
       "mean" = mean(tn),
       "median" = median(tn),
