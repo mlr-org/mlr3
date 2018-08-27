@@ -3,8 +3,8 @@ context("Task")
 test_that("Task Construction with multiple backends", {
   task = TaskClassif$new(id = "foo", iris, target = "Species")
   newdata = iris[1:10, ]
-  newdata$..row.id = 151:160
-  b = BackendDataTable$new(data = newdata, primary = "..row.id")
+  newdata$..row_id = 151:160
+  b = BackendDataTable$new(data = newdata, primary = "..row_id")
   task$add_backend(b)
 
   expect_equal(task$nrow, 150)
@@ -12,8 +12,8 @@ test_that("Task Construction with multiple backends", {
 
   task = TaskClassif$new(id = "foo", iris, target = "Species")
   newdata = iris[1:10, ]
-  newdata$..row.id = 151:160
-  b = BackendDataTable$new(data = newdata, primary = "..row.id")
+  newdata$..row_id = 151:160
+  b = BackendDataTable$new(data = newdata, primary = "..row_id")
   task$add_backend(b, row.role = "training")
 
   expect_equal(task$nrow, 160)

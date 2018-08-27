@@ -24,14 +24,14 @@ knitr::opts_chunk$set(
 ## Predefined tasks
 
 `mlr` ships with some predefined, well-known toy tasks.
-They are stored in the dictionary (key-value store) `mlr.tasks`.
+They are stored in the dictionary (key-value store) `mlr_tasks`.
 
 ```{r}
 # list keys
-mlr.tasks$ids
+mlr_tasks$ids
 
 # retrieve iris task
-task = mlr.tasks$get("iris")
+task = mlr_tasks$get("iris")
 ```
 
 Several task properties and characteristics can be queried using the task methods.
@@ -53,8 +53,8 @@ In `mlr3`, each row has a unique identifier (row name) which can be either `inte
 These can be used to select specific rows.
 To filter columns, you can just specify the column names.
 ```{r}
-# iris uses integer row ids
-task$row.ids()
+# iris uses integer row_ids
+task$row_ids()
 task$data(rows = c(1, 51, 101))
 task$data(rows = c(1, 51, 101), cols = "Species")
 ```
@@ -62,7 +62,7 @@ task$data(rows = c(1, 51, 101), cols = "Species")
 
 ## Task Creation
 
-To create a task from a `data.frame`, you must determine the task type to select the respective constructor:
+To create a task from a `data.frame`, you must determine the task_type to select the respective constructor:
 
 * Classification Task: Target column is labels (stored as `character`/`factor`) with only few distinct values.
   <br>$\Rightarrow$ `TaskClassif`.
@@ -80,9 +80,9 @@ task = TaskRegr$new(id = "cars", data = mtcars[, 1:3], target = "mpg")
 print(task)
 ```
 
-The row names of `mtcars` are automatically used as row ids.
+The row names of `mtcars` are automatically used as row_ids.
 ```{r}
-task$row.ids()
+task$row_ids()
 task$data(rows = c("Merc 280", "Volvo 142E"))
 ```
 
@@ -98,8 +98,8 @@ library("data.table")
 data = as.data.table(mtcars[, 1:3], keep.rownames = TRUE)
 task = TaskRegr$new(id = "cars", data = data, target = "mpg")
 
-# we now have integer row ids
-task$row.ids()
+# we now have integer row_ids
+task$row_ids()
 
 # there is a new "feature" called "rn"
 task$features
@@ -110,7 +110,7 @@ We have seen three different roles so far:
 
 1. The target column (here `"mpg"`), also called dependent variable.
 2. Features, also called independent variables.
-3. The row id. This column is there for technical reasons but is typically useless for learning.
+3. The row_id. This column is there for technical reasons but is typically useless for learning.
 
 The different roles are listed in the table `cols`:
 ```{r}
@@ -136,10 +136,10 @@ task$data(rows = 1:2)
 task$head(2)
 
 # retrieve columns regardless of their roles
-task$data(rows = 1:2, filter.cols = FALSE)
+task$data(rows = 1:2, filter_cols = FALSE)
 ```
 
-## Row Roles
+## row_roles
 
 Just like columns, you can also assign different roles to rows.
 Rows can have three different roles:

@@ -17,13 +17,13 @@
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
-    task.type = "regr",
-    default.measure = "mse",
-    default.prediction = NA_real_,
+    task_type = "regr",
+    default_measure = "mse",
+    default_prediction = NA_real_,
 
     initialize = function(id, data, target) {
       super$initialize(id = id, data = data, target = target)
-      assertNumeric(self$truth()[[1L]], finite = TRUE, any.missing = FALSE, .var.name = "target column")
+      assert_numeric(self$truth()[[1L]], finite = TRUE, any.missing = FALSE, .var.name = "target column")
     }
   ),
 

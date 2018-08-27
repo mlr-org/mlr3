@@ -3,11 +3,11 @@ TaskSupervised = R6Class("TaskSupervised",
   # Base Class for Supervised Tasks
   inherit = Task,
   public = list(
-    default.prediction = NULL,
+    default_prediction = NULL,
 
     initialize = function(id, data, target) {
       super$initialize(id = id, data = data)
-      assertChoice(target, self$features)
+      assert_choice(target, self$features)
       self$cols[id == target, "role" := "target"]
 
       ii = is.na(self$data(col = target)[[1L]])

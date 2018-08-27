@@ -1,4 +1,4 @@
-requireNamespaces = function(pkgs, msg = "The following packages are missing: %s") {
+require_namespaces = function(pkgs, msg = "The following packages are missing: %s") {
   ok = vlapply(unique(pkgs), requireNamespace, quietly = TRUE)
   if (!all(ok))
     stopf(msg, stri_flatten(pkgs[!ok], ","))
@@ -49,15 +49,4 @@ shuffle = function(x) {
   if (length(x) <= 1L)
     return(x)
   sample(x)
-}
-
-setValues = function(x, ...) {
-  if (...length()) {
-    dots = list(...)
-    nn = names(dots)
-    for (i in seq_along(dots)) {
-      x[[nn[i]]] = dots[[i]]
-    }
-  }
-  x
 }

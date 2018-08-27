@@ -3,21 +3,21 @@
 #' @format \code{\link{R6Class}} object
 #'
 #' @description
-#' \code{mlr.learners} is a \code{\link{Dictionary}} used to manage learners.
+#' \code{mlr_learners} is a \code{\link{Dictionary}} used to manage learners.
 #'
 #' @include Dictionary.R
 #' @export
 #' @examples
-#' mlr.learners$ids
-#' mlr.learners$get("classif.dummy")
-mlr.learners = Dictionary$new("Learner")
-class(mlr.learners) = c("DictionaryLearners", class(mlr.learners))
+#' mlr_learners$ids
+#' mlr_learners$get("classif.dummy")
+mlr_learners = Dictionary$new("Learner")
+class(mlr_learners) = c("DictionaryLearners", class(mlr_learners))
 
 
 #' @export
 as.data.table.DictionaryLearners = function(x, ...) {
   rbindlist(eapply(x$items, function(obj) {
-    list(task.type = obj$task.type, name = obj$name, properties = list(obj$properties), packages = list(obj$packages))
+    list(task_type = obj$task_type, name = obj$name, properties = list(obj$properties), packages = list(obj$packages))
   }))
 }
 

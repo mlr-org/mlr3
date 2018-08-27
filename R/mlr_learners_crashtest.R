@@ -1,24 +1,24 @@
-#' @include mlr.learners.R
+#' @include mlr_learners.R
 #' @include LearnerClassif.R
 #' @include capabilities.R
-mlr.learners$add(LearnerClassif$new(
+mlr_learners$add(LearnerClassif$new(
   name = "crashtest",
-  par.set = ParamSetFlat$new(
+  par_set = ParamSetFlat$new(
     params = list(
       ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train")
     )
   ),
-  par.vals = list(crash.on = "train"),
-  properties = capabilities$learner.props$classif,
+  par_vals = list(crash.on = "train"),
+  properties = capabilities$learner_props$classif,
 
-  train = function(task, row.ids, crash.on, ...) {
+  train = function(task, row_ids, crash.on, ...) {
     if (crash.on == "train") {
       get("attach")( structure(list(), class = "UserDefinedDatabase")  )
     }
     structure(NA, class = "crashtest.model")
   },
 
-  predict = function(model, task, row.ids, crash.on, ...) {
+  predict = function(model, task, row_ids, crash.on, ...) {
     get("attach")( structure(list(), class = "UserDefinedDatabase")  )
   }
 ))

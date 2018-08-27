@@ -1,16 +1,16 @@
-#' @include mlr.learners.R
+#' @include mlr_learners.R
 #' @include LearnerRegr.R
-mlr.learners$add(LearnerRegr$new(
+mlr_learners$add(LearnerRegr$new(
   name = "dummy",
-  par.set = ParamSetFlat$new(
+  par_set = ParamSetFlat$new(
     params = list(
       ParamCategorical$new("method", values = c("mean", "median"), default = "mean")
     )
   ),
-  par.vals = list(),
+  par_vals = list(),
   properties = c("missings", "feat.factor", "feat.numeric"),
-  train = function(task, row.ids, method = "mean", ...) {
-    tn = unlist(task$data(row.ids, task$target))
+  train = function(task, row_ids, method = "mean", ...) {
+    tn = unlist(task$data(row_ids, task$target))
     mod = switch(method,
       "mean" = mean(tn),
       "median" = median(tn),
@@ -19,8 +19,8 @@ mlr.learners$add(LearnerRegr$new(
     mod
   },
 
-  predict = function(model, task, row.ids, ...) {
-    rep(as.numeric(model$model), length(row.ids))
+  predict = function(model, task, row_ids, ...) {
+    rep(as.numeric(model$model), length(row_ids))
   }
 ))
 

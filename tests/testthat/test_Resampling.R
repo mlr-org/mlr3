@@ -1,10 +1,10 @@
 context("Resampling")
 
 test_that("Resampling basic", {
-  ids = mlr.resamplings$ids
-  task = mlr.tasks$get("iris")
+  ids = mlr_resamplings$ids
+  task = mlr_tasks$get("iris")
   for (key in ids) {
-    r = mlr.resamplings$get(key)
+    r = mlr_resamplings$get(key)
     expect_resampling(r) # construction works
     expect_false(r$is_instantiated)
     if (key == "custom") {

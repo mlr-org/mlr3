@@ -14,20 +14,20 @@
 #' @return \code{\link{BenchmarkResult}}.
 #' @export
 #' @examples
-#' tasks = lapply(c("iris", "sonar"), mlr.tasks$get)
-#' learners = lapply(c("classif.dummy", "classif.rpart"), mlr.learners$get)
-#' resamplings = lapply("cv", mlr.resamplings$get)
+#' tasks = lapply(c("iris", "sonar"), mlr_tasks$get)
+#' learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
+#' resamplings = lapply("cv", mlr_resamplings$get)
 #' measures = lapply("mmce", mlr.measures$get)
 #' benchmark(tasks, learners, resamplings, measures)
 benchmark = function(tasks, learners, resamplings, measures) {
-  assertList(tasks, "Task", min.len = 1L)
-  assertList(learners, "Learner", min.len = 1L)
-  assertList(resamplings, "Resampling", min.len = 1L)
-  assertList(measures, "Measure", min.len = 1L)
-  names(tasks) = assertNames(ids(tasks), "unique")
-  names(learners) = assertNames(ids(learners), "unique")
-  names(resamplings) = assertNames(ids(resamplings), "unique")
-  names(measures) = assertNames(ids(measures), "unique")
+  assert_list(tasks, "Task", min.len = 1L)
+  assert_list(learners, "Learner", min.len = 1L)
+  assert_list(resamplings, "Resampling", min.len = 1L)
+  assert_list(measures, "Measure", min.len = 1L)
+  names(tasks) = assert_names(ids(tasks), "unique")
+  names(learners) = assert_names(ids(learners), "unique")
+  names(resamplings) = assert_names(ids(resamplings), "unique")
+  names(measures) = assert_names(ids(measures), "unique")
 
 
   # Instantiate resampling for each task
@@ -54,13 +54,13 @@ benchmark = function(tasks, learners, resamplings, measures) {
   tmp = future.apply::future_mapply(runExperiment,
     task = res$task,
     learner = res$learner,
-    train.set = .mapply(function(instance, iter, ...) instances[[instance]]$train.set(iter), grid, list()),
-    test.set = .mapply(function(instance, iter, ...) instances[[instance]]$test.set(iter), grid, list()),
+    train_set = .mapply(function(instance, iter, ...) instances[[instance]]$train_set(iter), grid, list()),
+    test_set = .mapply(function(instance, iter, ...) instances[[instance]]$test_set(iter), grid, list()),
     MoreArgs = list(measures = measures),
     SIMPLIFY = FALSE,
     USE.NAMES = FALSE,
     future.globals = FALSE, future.packages = "mlr3")
-  tmp = combineExperiments(tmp)
+  tmp = combine_experiments(tmp)
   res[, names(tmp) := tmp]
 
   BenchmarkResult$new(res)
@@ -72,19 +72,19 @@ BenchmarkResult = R6Class("BenchmarkResult",
     data = NULL,
 
     initialize = function(data) {
-      assertDataTable(data)
-      slots = capabilities$experiment.slots$name
-      assertNames(names(data), permutation.of = slots)
+      assert_data_table(data)
+      slots = capabilities$experiment_slots$name
+      assert_names(names(data), permutation.of = slots)
       self$data = setcolorder(data, slots)
     },
 
     experiment = function(i) {
-      assertInt(i, lower = 1L, upper = nrow(self$data))
+      assert_int(i, lower = 1L, upper = nrow(self$data))
       .mapply(Experiment$new, self$data[i], MoreArgs = list())[[1L]]
     },
 
     experiments = function(i) {
-      assertInteger(i, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
+      assert_integer(i, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
       .mapply(Experiment$new, self$data[i], MoreArgs = list())
     }
 

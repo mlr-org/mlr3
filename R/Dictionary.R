@@ -25,26 +25,36 @@ Dictionary = R6Class("Dictionary",
 
     # construct, set container type (string)
     initialize = function(contains) {
-      self$contains = assertCharacter(contains, min.len = 1L, any.missing = FALSE, min.chars = 1L)
+      self$contains = assert_character(contains, min.len = 1L, any.missing = FALSE, min.chars = 1L)
       self$items = new.env(parent = emptyenv())
     },
 
     add = function(value) {
       if (!inherits(value, "LazyValue"))
-        assertClass(value, class = self$contains)
+        assert_class(value, class = self$contains)
       assign(x = value$id, value = value, envir = self$items)
     },
 
     get = function(id, ...) {
-      assertString(id)
+      set_values = function(x, ...) {
+        if (...length()) {
+          dots = list(...)
+          nn = names(dots)
+          for (i in seq_along(dots)) {
+            x[[nn[i]]] = dots[[i]]
+          }
+        }
+        x
+      }
+      assert_string(id)
       if (!hasName(self$items, id))
         stopf("%s with id '%s' not found!", self$contains, id)
       x = private$retrieve(get(id, envir = self$items, inherits = FALSE))
-      setValues(x, ...)
+      set_values(x, ...)
     },
 
     mget = function(ids) {
-      assertCharacter(ids, any.missing = FALSE)
+      assert_character(ids, any.missing = FALSE)
       missing = !hasName(self$items, ids)
       if (any(missing))
         stopf("%s with id '%s' not found!", self$contains, ids[wf(missing)])
@@ -52,7 +62,7 @@ Dictionary = R6Class("Dictionary",
     },
 
     remove = function(id) {
-      assertString(id)
+      assert_string(id)
       if (!hasName(self$items, id))
         stopf("%s with id '%s' not found!", self$contains, id)
       rm(list = id, envir = self$items)
@@ -72,8 +82,9 @@ Dictionary = R6Class("Dictionary",
   )
 )
 
-lazyValue = function(id, getter) {
-  obj = list(id = assertString(id), getter = assertFunction(getter))
+
+LazyValue = function(id, getter) {
+  obj = list(id = assert_string(id), getter = assert_function(getter))
   class(obj) = "LazyValue"
   obj
 }

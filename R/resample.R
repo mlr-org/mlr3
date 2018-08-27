@@ -14,10 +14,10 @@
 #' @return \code{\link{ResampleResult}}.
 #' @export
 resample = function(task, learner, resampling, measures) {
-  assertTask(task)
-  assertLearner(learner, task = task)
-  assertResampling(resampling)
-  measures = asMeasures(measures, task = task)
+  assert_task(task)
+  assert_learner(learner, task = task)
+  assert_resampling(resampling)
+  measures = as_measures(measures, task = task)
 
   if (resampling$is_instantiated) {
     instance = resampling$clone() # FIXME: clone
@@ -27,13 +27,13 @@ resample = function(task, learner, resampling, measures) {
   n = instance$iters
 
   res = future.apply::future_lapply(seq_len(n), function(i, task, learner, instance, measures) {
-    train.set = instance$train.set(i)
-    test.set = instance$test.set(i)
-    mlr3:::runExperiment(task = task, learner = learner,  train.set = train.set, test.set = test.set, measures = measures)
+    train_set = instance$train_set(i)
+    test_set = instance$test_set(i)
+    mlr3:::runExperiment(task = task, learner = learner,  train_set = train_set, test_set = test_set, measures = measures)
   }, future.globals = FALSE, future.packages = "mlr3", task = task, learner = learner, instance = instance, measures = measures)
 
 
-  res = combineExperiments(res)
+  res = combine_experiments(res)
   res[, c("task", "learner", "resampling", "iteration") := list(list(task), list(learner), list(instance), seq_len(n))]
   ResampleResult$new(res)
 }
@@ -44,9 +44,9 @@ ResampleResult = R6Class("ResampleResult",
     data = NULL,
 
     initialize = function(data) {
-      assertDataTable(data)
-      slots = capabilities$experiment.slots$name
-      assertNames(names(data), permutation.of = slots)
+      assert_data_table(data)
+      slots = capabilities$experiment_slots$name
+      assert_names(names(data), permutation.of = slots)
       self$data = setcolorder(data, slots)[]
     },
 

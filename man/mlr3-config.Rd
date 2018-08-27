@@ -2,14 +2,14 @@
 % Please edit documentation in R/config.R
 \name{mlr3-config}
 \alias{mlr3-config}
-\alias{readMlrngConfig}
-\alias{writeMlrngConfig}
+\alias{read_mlr3_config}
+\alias{write_mlr3_config}
 \title{Configuration}
 \usage{
-readMlrngConfig(conf = file.path(rappdirs::user_config_dir("mlr3"),
+read_mlr3_config(conf = file.path(rappdirs::user_config_dir("mlr3"),
   "config.yml"))
 
-writeMlrngConfig(conf = file.path(rappdirs::user_config_dir("mlr3"),
+write_mlr3_config(conf = file.path(rappdirs::user_config_dir("mlr3"),
   "config.yml"))
 }
 \arguments{
@@ -35,8 +35,8 @@ The following options are currently supported to be set via \code{\link[base]{op
 
 These options may be set in a configuration file which is automatically parsed on package load.
 To get the location according to your operating system, see the example.
-\code{readMlrngConfig()} reads a configuration file and returns its settings in a named list,
-\code{writeMlrngConfig()} writes a configuration file with all currently set options.
+\code{read_mlr3_config()} reads a configuration file and returns its settings in a named list,
+\code{write_mlr3_config()} writes a configuration file with all currently set options.
 }
 \examples{
 # Location of the config file for your system:
@@ -44,5 +44,5 @@ conf = file.path(rappdirs::user_config_dir("mlr3"), "config.yml")
 print(conf)
 
 # Current settings:
-print(readMlrngConfig())
+print(read_mlr3_config())
 }

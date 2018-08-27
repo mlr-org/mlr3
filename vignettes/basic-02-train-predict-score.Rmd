@@ -29,11 +29,11 @@ First, we need to generate retrieve the following `mlr3` objects from the task d
 
 1. The classification task
     ```{r}
-    task = mlr.tasks$get("iris")
+    task = mlr_tasks$get("iris")
     ```
 2. A learner for the classification tree
     ```{r}
-    learner = mlr.learners$get("classif.rpart")
+    learner = mlr_learners$get("classif.rpart")
     ```
 
 ## Splitting into train and test

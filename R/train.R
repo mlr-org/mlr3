@@ -14,40 +14,40 @@
 #' @export
 train = function(task, learner, subset = NULL) {
   e = Experiment$new(task = task, learner = learner)
-  trainExperiment(e, subset = subset)
+  train_experiment(e, subset = subset)
 }
 
-trainExperiment = function(e, subset) {
-  train.set = e$data$task$row.ids(subset)
-  e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train.sets = list(train.set))
+train_experiment = function(e, subset) {
+  train_set = e$data$task$row_ids(subset)
+  e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(train_set))
   e$data$iteration = 1L
 
   future = future::futureCall(
-    trainWorker,
-    c(e$data[c("task", "learner")], list(train.set = train.set)),
+    train_worker,
+    c(e$data[c("task", "learner")], list(train_set = train_set)),
     globals = FALSE)
   value = future::value(future)
   e$data = insert(e$data, value)
-  e$data = insert(e$data, list(test.time = NULL, test.log = NULL, predicted = NULL, performance = NULL))
+  e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
   return(e)
 }
 
-trainWorker = function(task, learner, train.set) {
+train_worker = function(task, learner, train_set) {
   pkgs = c("mlr3", learner$packages)
-  requireNamespaces(pkgs, sprintf("The following packages are required for learner %s: %%s", learner$id))
+  require_namespaces(pkgs, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
-  pars = c(list(task = task, row.ids = train.set), learner$par.vals)
+  pars = c(list(task = task, row_ids = train_set), learner$par_vals)
   fun = learner$train
   now = proc.time()[[3L]]
   res = ecall(fun, pars)
   if (is.null(res$result)) {
-    dummy = mlr.learners$get(sprintf("%s.dummy", learner$task.type))
+    dummy = mlr_learners$get(sprintf("%s.dummy", learner$task_type))
     res$result = do.call(dummy$train, pars)
   }
 
   return(list(
     model = res$result,
-    train.time = round(proc.time()[[3L]] - now, 8L),
-    train.log = res$log
+    train_time = round(proc.time()[[3L]] - now, 8L),
+    train_log = res$log
   ))
 }

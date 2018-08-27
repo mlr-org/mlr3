@@ -1,8 +1,8 @@
 #' @include Resampling.R
-#' @include mlr.resamplings.subsampling.R
+#' @include mlr_resamplings_subsampling.R
 local({
   rr = ResamplingSubsampling$new()
   rr$id = "holdout"
   rr$repeats = 1L
-  mlr.resamplings$add(rr)
+  mlr_resamplings$add(rr)
 })

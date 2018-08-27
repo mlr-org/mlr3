@@ -36,9 +36,9 @@ In the following, we will consider the spam task and a simple classification tre
 library("mlr3")
 library("bench")
 
-task = mlr.tasks$get("spam")
-learner = mlr.learners$get("classif.rpart")
-resampling = mlr.resamplings$get("subsampling")
+task = mlr_tasks$get("spam")
+learner = mlr_learners$get("classif.rpart")
+resampling = mlr_resamplings$get("subsampling")
 measures = mlr.measures$get("mmce")
 
 bench::system_time(
@@ -60,9 +60,9 @@ On most multicore systems you should see a decrease in the reported real CPU tim
 
 We can do the same for benchmarking:
 ```{r}
-tasks = lapply(c("iris", "spam", "pima"), mlr.tasks$get)
-learners = list(mlr.learners$get("classif.rpart"))
-resamplings = list(mlr.resamplings$get("subsampling"))
+tasks = lapply(c("iris", "spam", "pima"), mlr_tasks$get)
+learners = list(mlr_learners$get("classif.rpart"))
+resamplings = list(mlr_resamplings$get("subsampling"))
 measures = list(mlr.measures$get("mmce"))
 
 plan("multiprocess")
@@ -79,8 +79,8 @@ If the learner crashed, e.g. with a SEGFAULT, it does not tear down the master s
 ```{r}
 library("future.callr")
 plan("callr")
-task = mlr.tasks$get("spam")
-learner = mlr.learners$get("classif.crashtest")
+task = mlr_tasks$get("spam")
+learner = mlr_learners$get("classif.crashtest")
 
 # FIXME: TBC
 # options(future.wait.timeout = 5)

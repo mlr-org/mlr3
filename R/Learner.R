@@ -12,54 +12,48 @@ Learner = R6Class("Learner",
   public = list(
     id = NULL,
     name = NULL,
-    task.type = NULL,
+    task_type = NULL,
     packages = NULL,
-    par.set = NULL,
+    par_set = NULL,
     properties = NULL,
     train = NULL,
     predict = NULL,
-    model.extractors = list(),
 
-    initialize = function(task.type, name, par.set, par.vals, packages, properties, train, predict, model.extractors, predict.type) {
-      self$task.type = assertString(task.type)
-      self$name = assertString(name)
-      self$id = stri_paste(task.type, ".", name)
-      self$par.set = assertClass(par.set, "ParamSet")
-      private$pv = assertList(par.vals, names = "unique")
-      self$packages = assertCharacter(packages, any.missing = FALSE, unique = TRUE)
-      self$properties = assertCharacter(properties, any.missing = FALSE, unique = TRUE)
-      self$train = assertFunction(train, args = c("task", "row.ids"), ordered = TRUE)
-      self$predict = assertFunction(predict, args = c("model", "task", "row.ids"), ordered = TRUE)
-      self$model.extractors = lapply(model.extractors,
-        function(m) assertFunction(m, args = c("model", "task", "row.ids"), ordered = TRUE, null.ok = TRUE))
-      private$pt = assertChoice(predict.type, capabilities$predict.types[[self$task.type]], fmatch = TRUE)
+    initialize = function(task_type, name, par_set, par_vals, packages, properties, train, predict, predict_type) {
+      self$task_type = assert_string(task_type)
+      self$name = assert_string(name)
+      self$id = stri_paste(task_type, ".", name)
+      self$par_set = assert_class(par_set, "ParamSet")
+      private$pv = assert_list(par_vals, names = "unique")
+      self$packages = assert_character(packages, any.missing = FALSE, unique = TRUE)
+      self$properties = assert_character(properties, any.missing = FALSE, unique = TRUE)
+      self$train = assert_function(train, args = c("task", "row_ids"), ordered = TRUE)
+      self$predict = assert_function(predict, args = c("model", "task", "row_ids"), ordered = TRUE)
+      private$pt = assert_choice(predict_type, capabilities$predict_types[[self$task_type]], fmatch = TRUE)
 
       # set environments for functions
-      if (length(self$model.extractors) > 0)
-        for (i in seq_along(self$model.extractors))
-          environment(self$model.extractors[[i]]) = environment(self$initialize)
       environment(self$train) = environment(self$predict) = environment(self$initialize)
     },
 
     print = function(...) {
-     catf("Learner '%s' for %s", self$id, self$task.type)
-     catf("Predict type: %s", self$predict.type)
+     catf("Learner '%s' for %s", self$id, self$task_type)
+     catf("predict_type: %s", self$predict_type)
      catf(stri_list("Properties: ", self$properties))
     }
   ),
   active = list(
-    par.vals = function(rhs) {
+    par_vals = function(rhs) {
       if (missing(rhs))
         return(private$pv)
-      assertList(rhs, names = "unique")
-      assertSubset(names(rhs), self$par.set$ids)
+      assert_list(rhs, names = "unique")
+      assert_subset(names(rhs), self$par_set$ids)
       private$pv[names(rhs)] = rhs
     },
 
-    predict.type = function(rhs) {
+    predict_type = function(rhs) {
       if (missing(rhs))
         return(private$pt)
-      assertChoice(rhs, capabilities$predict.types[[self$task.type]], fmatch = TRUE)
+      assert_choice(rhs, capabilities$predict_types[[self$task_type]], fmatch = TRUE)
       private$pt = rhs
     }
   ),
@@ -83,21 +77,21 @@ DictionaryLearners = R6Class("DictionaryLearners", inherit = Dictionary,
 #' @format \code{\link{R6Class}} object
 #'
 #' @description
-#' \code{mlr.learners} is a \code{\link{Dictionary}} used to manage learners.
+#' \code{mlr_learners} is a \code{\link{Dictionary}} used to manage learners.
 #'
 #' @export
 #' @examples
-#' mlr.learners$ids
-#' mlr.learners$contains("classif.dummy")
-#' mlr.learners$get("classif.dummy")
-mlr.learners = DictionaryLearners$new()
+#' mlr_learners$ids
+#' mlr_learners$contains("classif.dummy")
+#' mlr_learners$get("classif.dummy")
+mlr_learners = DictionaryLearners$new()
 
-assertLearner = function(learner, task = NULL) {
-  assertR6(learner, "Learner")
+assert_learner = function(learner, task = NULL) {
+  assert_r6(learner, "Learner")
   if (!is.null(task)) {
-    if (!identical(task$task.type, learner$task.type)) {
+    if (!identical(task$task_type, learner$task_type)) {
       stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",
-        learner$id, learner$task.type, task$id, task$type)
+        learner$id, learner$task_type, task$id, task_type)
     }
   }
   invisible(learner)

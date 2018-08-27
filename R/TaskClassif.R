@@ -23,15 +23,15 @@
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
-    task.type = "classif",
-    default.measure = "mmce",
-    default.prediction = NA_character_,
+    task_type = "classif",
+    default_measure = "mmce",
+    default_prediction = NA_character_,
     positive = NA_character_,
 
     initialize = function(id, data, target, positive = NULL) {
       super$initialize(id = id, data = data, target = target)
       if (!is.null(positive)) {
-        self$positive = assertChoice(positive, self$classes)
+        self$positive = assert_choice(positive, self$classes)
       }
     }
   ),
