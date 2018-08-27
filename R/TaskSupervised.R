@@ -22,7 +22,7 @@ TaskSupervised = R6Class("TaskSupervised",
   ),
 
   active = list(
-    target = function() {
+    target_names = function() {
       self$cols[role == "target", "id"][[1L]]
     },
 

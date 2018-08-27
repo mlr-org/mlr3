@@ -59,7 +59,7 @@ expect_backend = function(backends) {
 }
 
 expect_task = function(task) {
-  expect_r6(task, "Task", cloneable = TRUE, public = c("task_type", "id", "backend", "rows", "cols", "order", "head", "row_ids", "features", "target", "formula", "nrow", "ncol", "col_types"))
+  expect_r6(task, "Task", cloneable = TRUE, public = c("task_type", "id", "backend", "rows", "cols", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "col_types"))
   expect_string(task$id, min.chars = 1L)
   expect_count(task$nrow)
   expect_count(task$ncol)
