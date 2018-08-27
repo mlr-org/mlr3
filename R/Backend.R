@@ -3,7 +3,7 @@ BackendDataTable = R6Class("Backend",
     primary_key = NULL,
 
     initialize = function(data, primary_key = NULL) {
-      assertDataFrame(data, min.rows = 1L, min.cols = 1L)
+      assert_data_frame(data, min.rows = 1L, min.cols = 1L)
 
       if (is.null(primary_key)) {
         rn = attr(data, "row.names")
@@ -15,7 +15,7 @@ BackendDataTable = R6Class("Backend",
       } else {
         assert_string(primary_key)
         assert_names(colnames(data), must.include = primary_key)
-        assertAtomicVector(data[[primary_key]], any.missing = FALSE, unique = TRUE)
+        assert_atomic_vector(data[[primary_key]], any.missing = FALSE, unique = TRUE)
         self$primary_key = primary_key
         data = as.data.table(data)
       }
@@ -23,7 +23,7 @@ BackendDataTable = R6Class("Backend",
     },
 
     data = function(rows, cols) {
-      assertAtomicVector(rows)
+      assert_atomic_vector(rows)
       assert_names(cols, type = "unique", subset.of = names(private$dt))
 
       data = private$dt[list(rows), cols, with = FALSE, nomatch = 0L, on = self$primary_key]

@@ -40,7 +40,7 @@
 #' # Note that you can also use ids with different roles here:
 #' train(task, lrn, subset = row_ids(1:150))$train_set
 row_ids = function(x) {
-  assertAtomicVector(x, any.missing = FALSE)
+  assert_atomic_vector(x, any.missing = FALSE)
   attr(x, "subset_type") = "ids"
   x
 }
@@ -56,7 +56,7 @@ row_index = function(x) {
 #' @rdname subsetting-types
 #' @export
 row_roles = function(x) {
-  assertCharacter(x, min.len = 1L, any.missing = FALSE)
+  assert_character(x, min.len = 1L, any.missing = FALSE)
   attr(x, "subset_type") = "roles"
   x
 }

@@ -25,6 +25,7 @@ Imports:
     withr,
     yaml
 LazyData: true
+Encoding: UTF-8
 RoxygenNote: 6.1.0
 Suggests:
     bench,

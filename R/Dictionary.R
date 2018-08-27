@@ -25,13 +25,13 @@ Dictionary = R6Class("Dictionary",
 
     # construct, set container type (string)
     initialize = function(contains) {
-      self$contains = assertCharacter(contains, min.len = 1L, any.missing = FALSE, min.chars = 1L)
+      self$contains = assert_character(contains, min.len = 1L, any.missing = FALSE, min.chars = 1L)
       self$items = new.env(parent = emptyenv())
     },
 
     add = function(value) {
       if (!inherits(value, "LazyValue"))
-        assertClass(value, class = self$contains)
+        assert_class(value, class = self$contains)
       assign(x = value$id, value = value, envir = self$items)
     },
 
@@ -54,7 +54,7 @@ Dictionary = R6Class("Dictionary",
     },
 
     mget = function(ids) {
-      assertCharacter(ids, any.missing = FALSE)
+      assert_character(ids, any.missing = FALSE)
       missing = !hasName(self$items, ids)
       if (any(missing))
         stopf("%s with id '%s' not found!", self$contains, ids[wf(missing)])
@@ -84,7 +84,7 @@ Dictionary = R6Class("Dictionary",
 
 
 LazyValue = function(id, getter) {
-  obj = list(id = assert_string(id), getter = assertFunction(getter))
+  obj = list(id = assert_string(id), getter = assert_function(getter))
   class(obj) = "LazyValue"
   obj
 }

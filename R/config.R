@@ -57,7 +57,7 @@ read_mlr3_config = function(conf = file.path(rappdirs::user_config_dir("mlr3"), 
 #' @rdname mlr3-config
 #' @export
 write_mlr3_config = function(conf = file.path(rappdirs::user_config_dir("mlr3"), "config.yml")) {
-  assertPathForOutput(conf, overwrite = TRUE)
+  assert_path_for_output(conf, overwrite = TRUE)
   if (!dir.exists(dirname(conf)))
     dir.create(dirname(conf), recursive = TRUE)
   opts = options()

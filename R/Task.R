@@ -28,12 +28,12 @@ Task = R6Class("Task",
       if (inherits(data, "Backend")) {
         self$backend = list(data)
       } else {
-        assertDataFrame(data)
+        assert_data_frame(data)
         self$backend = list(BackendDataTable$new(data = data))
       }
 
       cn = self$backend[[1L]]$colnames
-      types = assertSubset(vcapply(self$backend[[1L]]$head(1L), class), capabilities$task_col_types, fmatch = TRUE)
+      types = assert_subset(vcapply(self$backend[[1L]]$head(1L), class), capabilities$task_col_types, fmatch = TRUE)
 
       self$rows = data.table(
         id = self$backend[[1L]]$rownames,

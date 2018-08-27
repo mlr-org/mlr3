@@ -23,12 +23,12 @@ Learner = R6Class("Learner",
       self$task_type = assert_string(task_type)
       self$name = assert_string(name)
       self$id = stri_paste(task_type, ".", name)
-      self$par_set = assertClass(par_set, "ParamSet")
+      self$par_set = assert_class(par_set, "ParamSet")
       private$pv = assert_list(par_vals, names = "unique")
-      self$packages = assertCharacter(packages, any.missing = FALSE, unique = TRUE)
-      self$properties = assertCharacter(properties, any.missing = FALSE, unique = TRUE)
-      self$train = assertFunction(train, args = c("task", "row_ids"), ordered = TRUE)
-      self$predict = assertFunction(predict, args = c("model", "task", "row_ids"), ordered = TRUE)
+      self$packages = assert_character(packages, any.missing = FALSE, unique = TRUE)
+      self$properties = assert_character(properties, any.missing = FALSE, unique = TRUE)
+      self$train = assert_function(train, args = c("task", "row_ids"), ordered = TRUE)
+      self$predict = assert_function(predict, args = c("model", "task", "row_ids"), ordered = TRUE)
       private$pt = assert_choice(predict_type, capabilities$predict_types[[self$task_type]], fmatch = TRUE)
 
       # set environments for functions
@@ -46,7 +46,7 @@ Learner = R6Class("Learner",
       if (missing(rhs))
         return(private$pv)
       assert_list(rhs, names = "unique")
-      assertSubset(names(rhs), self$par_set$ids)
+      assert_subset(names(rhs), self$par_set$ids)
       private$pv[names(rhs)] = rhs
     },
 
