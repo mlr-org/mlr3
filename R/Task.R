@@ -42,7 +42,7 @@ Task = R6Class("Task",
 
       self$cols = data.table(
         id = cn,
-        role = ifelse(cn == self$backend[[1L]]$primary.key, "primary.key", "feature"),
+        role = ifelse(cn == self$backend[[1L]]$primary_key, "primary_key", "feature"),
         type = types[chmatch(cn, names(types), 0L)],
         key = "id"
       )
@@ -142,13 +142,13 @@ Task = R6Class("Task",
 
     add_backend = function(backend, row.role = "validation") {
       b = self$backend[[1L]]
-      assertNames(backend$colnames, subset.of = b$colnames, must.include = b$primary.key)
+      assertNames(backend$colnames, subset.of = b$colnames, must.include = b$primary_key)
 
       rn = backend$rownames
       for (b in self$backend) {
-        clashes = b$data(rn, b$primary.key)
+        clashes = b$data(rn, b$primary_key)
         if (nrow(clashes))
-          stopf("Cannot add new backend: name clashes with primary.key id: %s", stri_peek(clashes[[1L]]))
+          stopf("Cannot add new backend: name clashes with primary_key id: %s", stri_peek(clashes[[1L]]))
       }
 
       self$backend[[length(self$backend) + 1L]] = backend

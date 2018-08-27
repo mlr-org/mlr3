@@ -10,7 +10,7 @@ capabilities$task.col.types = c(
 )
 
 capabilities$task.col.roles = c(
-  "primary.key", "feature", "target", "ignore"
+  "primary_key", "feature", "target", "ignore"
 )
 
 capabilities$task.row.roles = c(

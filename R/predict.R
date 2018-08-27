@@ -13,7 +13,7 @@ predictExperiment = function(e, subset = NULL, newdata = NULL) {
     test.set = e$data$task$row.ids(subset)
     e$data$resampling$instantiate(e$data$task, test.sets = list(test.set))
   } else {
-    backend = BackendDataTable$new(data = newdata, primary.key = e$data$task$backend[[1L]]$primary.key)
+    backend = BackendDataTable$new(data = newdata, primary_key = e$data$task$backend[[1L]]$primary_key)
     e$data$task = e$data$task$clone()$add_backend(backend)
     test.set = task$rows[role == "validation", "id"][[1L]]
     e$data$resampling$setTest(test.set)
