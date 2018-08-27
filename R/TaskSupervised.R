@@ -17,7 +17,7 @@ TaskSupervised = R6Class("TaskSupervised",
     truth = function(rows = NULL) {
       if (is.null(rows))
         rows = self$rows[role == "training", "id"][[1L]]
-      self$data(rows, cols = self$target)
+      self$data(rows, cols = self$target_names)
     }
   ),
 
@@ -28,7 +28,7 @@ TaskSupervised = R6Class("TaskSupervised",
 
     # [formula]. target ~ x1 + ... + xp
     formula = function() {
-      reformulate(self$features, response = self$target)
+      reformulate(self$features, response = self$target_names)
     }
   )
 )

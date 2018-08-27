@@ -37,7 +37,7 @@ TaskClassif = R6Class("TaskClassif",
   ),
 
   active = list(
-    classes = function() as.character(unique(self$data(cols = self$target)[[1L]])),
-    nclasses = function() uniqueN(self$data(cols = self$target)[[1L]])
+    classes = function() as.character(unique(self$data(cols = self$target_names)[[1L]])),
+    nclasses = function() uniqueN(self$data(cols = self$target_names)[[1L]])
   )
 )
