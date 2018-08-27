@@ -51,7 +51,7 @@ benchmark = function(tasks, learners, resamplings, measures) {
     iteration = grid$iter
   )
 
-  tmp = future.apply::future_mapply(runExperiment,
+  tmp = future.apply::future_mapply(experiment_worker,
     task = res$task,
     learner = res$learner,
     train_set = .mapply(function(instance, iter, ...) instances[[instance]]$train_set(iter), grid, list()),

@@ -15,6 +15,8 @@ Imports:
     backports,
     bit,
     checkmate,
+    clisymbols,
+    crayon,
     data.table,
     future (>= 1.8.0),
     future.apply,
@@ -37,7 +39,6 @@ Suggests:
     testthat
 Collate:
     'Backend.R'
-    'Cache.R'
     'Dictionary.R'
     'Experiment.R'
     'capabilities.R'
@@ -50,7 +51,6 @@ Collate:
     'TaskSupervised.R'
     'TaskClassif.R'
     'TaskRegr.R'
-    'Worker.R'
     'benchmark.R'
     'config.R'
     'helper.R'
@@ -80,6 +80,7 @@ Collate:
     'split.R'
     'subset.R'
     'train.R'
+    'worker.R'
     'zzz.R'
 VignetteBuilder: knitr
 ByteCompile: false

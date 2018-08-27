@@ -38,7 +38,8 @@ library("bench")
 
 task = mlr_tasks$get("spam")
 learner = mlr_learners$get("classif.rpart")
-resampling = mlr_resamplings$get("subsampling")
+# resampling = mlr_resamplings$get("subsampling")
+resampling = mlr3:::ResamplingSubsampling$new()
 measures = mlr.measures$get("mmce")
 
 bench::system_time(
@@ -62,7 +63,7 @@ We can do the same for benchmarking:
 ```{r}
 tasks = lapply(c("iris", "spam", "pima"), mlr_tasks$get)
 learners = list(mlr_learners$get("classif.rpart"))
-resamplings = list(mlr_resamplings$get("subsampling"))
+resamplings = list(mlr3:::ResamplingSubsampling$new())
 measures = list(mlr.measures$get("mmce"))
 
 plan("multiprocess")
