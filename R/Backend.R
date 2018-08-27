@@ -61,8 +61,3 @@ BackendDataTable = R6Class("Backend",
     }
   )
 )
-
-#' @export
-as.data.table.Backend = function(x) {
-  x$data(x$rownames, x$colnames)
-}

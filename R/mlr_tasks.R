@@ -28,19 +28,6 @@ mlr_tasks = Dictionary$new("Task")
 class(mlr_tasks) = c("DictionaryTasks", class(mlr_tasks))
 
 
-#' @export
-as.data.table.DictionaryTasks = function(x, ...) {
-  rbindlist(eapply(x$items, function(obj) {
-      list(task_type = obj$task_type, nrow = obj$nrow, ncol = obj$ncol)
-  }))
-}
-
-
-#' @export
-as.data.frame.DictionaryTasks = function(x, ...) {
-  setDF(as.data.table(x))[]
-}
-
 mlr_tasks$add(LazyValue("iris", function() {
   TaskClassif$new("iris", data = load_dataset("iris", "datasets"), target = "Species")
 }))
