@@ -69,7 +69,7 @@ Experiment = R6Class("Experiment",
 
     validation_set = function() {
       role = NULL
-      row_ids = task$rows[role == "validation", "id"][[1L]]
+      row_ids = task$row_info[role == "validation", "id"][[1L]]
     },
 
     predictions = function() {
@@ -159,7 +159,7 @@ experiment_predict = function(e, subset = NULL, newdata = NULL) {
   } else {
     backend = BackendDataTable$new(data = newdata, primary_key = e$data$task$backend[[1L]]$primary_key)
     e$data$task = e$data$task$clone()$add_backend(backend)
-    test_set = e$data$task$rows[role == "validation", "id"][[1L]]
+    test_set = e$data$task$row_info[role == "validation", "id"][[1L]]
     e$data$resampling$setTest(test_set)
   }
 

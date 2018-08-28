@@ -16,7 +16,7 @@ test_that("Basic ops on iris task", {
 
 test_that("$class_names and $classes_n only consider active rows", {
   task = mlr_tasks$get("iris")
-  task$rows[1:100, role := "ignore"]
+  task$row_info[1:100, role := "ignore"]
 
   expect_identical(task$class_names, "virginica")
   expect_identical(task$classes_n, 1L)

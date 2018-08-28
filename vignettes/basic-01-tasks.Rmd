@@ -120,7 +120,7 @@ We have seen three different roles so far:
 
 The different roles are listed in the table `cols`:
 ```{r}
-task$cols
+task$col_info
 ```
 
 In the following we do not want to learn on neither the primary key (which is already handled by `mlr3`) nor the new column `rn` with the row names.
@@ -130,8 +130,8 @@ This being said, we need to change the role of this column to hide it from our l
 We change its role to `"ignore"`:
 ```{r}
 task$feature_names
-task$cols[id == "rn", role := "ignore"]
-task$cols
+task$col_info[id == "rn", role := "ignore"]
+task$col_info
 
 # "rn" not listed as feature any more
 task$ncol
@@ -167,10 +167,10 @@ There are several reasons to hold some observations back or treat them different
 Instead of creating a task with only a subset of observations and then manually apply the fitted model on an hold-back `data.frame`, you can just call the function `validate()` later on.
 Marking observations as validation works analogously to changing column roles:
 ```{r}
-head(task$rows)
+head(task$row_info)
 
 task$nrow
-task$rows[id %in% 29:32, role := "validation"]
+task$row_info[id %in% 29:32, role := "validation"]
 task$nrow
 ```
 

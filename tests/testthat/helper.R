@@ -59,7 +59,7 @@ expect_backend = function(backends) {
 }
 
 expect_task = function(task) {
-  expect_r6(task, "Task", cloneable = TRUE, public = c("task_type", "id", "backend", "rows", "cols", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "col_types"))
+  expect_r6(task, "Task", cloneable = TRUE, public = c("task_type", "id", "backend", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "col_types"))
   expect_string(task$id, min.chars = 1L)
   expect_count(task$nrow)
   expect_count(task$ncol)
@@ -67,17 +67,17 @@ expect_task = function(task) {
   expect_data_table(task$head(1), nrow = 1L)
 
   cols = c("id", "role", "type")
-  expect_data_table(task$cols, key = "id", ncol = length(cols))
-  expect_names(names(task$cols), permutation.of = cols)
-  expect_character(task$cols$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$cols$role, capabilities$task_col_roles, fmatch = TRUE)
-  expect_subset(task$cols$type, capabilities$task_col_types, fmatch = TRUE)
+  expect_data_table(task$col_info, key = "id", ncol = length(cols))
+  expect_names(names(task$col_info), permutation.of = cols)
+  expect_character(task$col_info$id, any.missing = FALSE, unique = TRUE)
+  expect_subset(task$col_info$role, capabilities$task_col_roles, fmatch = TRUE)
+  expect_subset(task$col_info$type, capabilities$task_col_types, fmatch = TRUE)
 
   cols = c("id", "role")
-  expect_data_table(task$rows, key = "id", ncol = length(cols))
-  expect_names(names(task$rows), permutation.of = cols)
-  expect_atomic_vector(task$rows$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$rows$role, capabilities$task_row_roles, fmatch = TRUE)
+  expect_data_table(task$row_info, key = "id", ncol = length(cols))
+  expect_names(names(task$row_info), permutation.of = cols)
+  expect_atomic_vector(task$row_info$id, any.missing = FALSE, unique = TRUE)
+  expect_subset(task$row_info$role, capabilities$task_row_roles, fmatch = TRUE)
 
   types = task$col_types
   expect_data_table(types, ncol = 2, nrow = task$ncol)
@@ -93,7 +93,7 @@ expect_task = function(task) {
 
 expect_task_supervised = function(task) {
   expect_r6(task, "TaskSupervised", cloneable = TRUE)
-  expect_choice(task$target_names, task$cols$id)
+  expect_choice(task$target_names, task$col_info$id)
 
   expect_class(task$formula, "formula")
   tf = terms(task$formula)

@@ -4,8 +4,8 @@
 #'
 #' @description
 #' These functions can be used to switch between different ways of declaring subsets of task observations.
-#' \code{row_ids} is used to declare direct usage of \dQuote{row_ids} corresponding to \code{task$rows}.
-#' \code{row_index} allows indexing with integer values, and \code{row_roles} declares to use rows with matching roles (as in \code{task$rows}).
+#' \code{row_ids} is used to declare direct usage of \dQuote{row_ids} corresponding to \code{task$row_info}.
+#' \code{row_index} allows indexing with integer values, and \code{row_roles} declares to use rows with matching roles (as in \code{task$row_info}).
 #'
 #' @param x (`[atomic vector][base::atomic()]`)\cr
 #'   Row declaration, depending on the function.
@@ -16,10 +16,10 @@
 #' lrn = mlr_learners$get("classif.rpart")
 #'
 #' # List row_ids:
-#' task$rows
+#' task$row_info
 #'
 #' # Mark each third observation so that it is not used per default for training:
-#' task$rows[seq_len(task$nrow) %% 3 == 0, role := "ignore"]
+#' task$row_info[seq_len(task$nrow) %% 3 == 0, role := "ignore"]
 #' task$nrow
 #'
 #' # Use all with role == "training":
@@ -28,7 +28,7 @@
 #' # Same, but more explicitly:
 #' train(task, lrn, subset = row_roles("training"))$train_set
 #'
-#' # Train on rows with role == "training", indexed by number and ordered as in task$rows
+#' # Train on rows with role == "training", indexed by number and ordered as in task$row_info
 #' train(task, lrn, subset = row_index(1:80))$train_set
 #'
 #' # Use specific row_ids:
