@@ -20,13 +20,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r fixup, echo = FALSE}
-# Temporary fix for r-lib#152
-unloadNamespace("mlr3")
-devtools::load_all()
-```
-
-
 This introduction is about resampling.
 
 ## Objects

@@ -50,7 +50,3 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     }
   )
 )
-
-mlr_resamplings$add(
-  ResamplingRepeatedCV$new()
-)

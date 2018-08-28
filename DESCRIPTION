@@ -1,7 +1,7 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
 Version: 0.1.0-9000
-Authors@R: 
+Authors@R:
     c(person(given = "Bernd",
              family = "Bischl",
              role = "aut",
@@ -17,7 +17,7 @@ Authors@R:
              email = "jakob1richter@gmail.com"))
 Description: Machine Learning in R. Next Generation.
 License: GPL-2
-Depends: 
+Depends:
     R (>= 3.1.0)
 Imports:
     backports,
@@ -42,11 +42,13 @@ Suggests:
     future.callr,
     kernlab,
     knitr,
+    mlbench,
     rmarkdown,
+    rpart,
     testthat
-VignetteBuilder: 
+VignetteBuilder:
     knitr
-Remotes: 
+Remotes:
     mlr-org/paradox
 ByteCompile: false
 Encoding: UTF-8
@@ -85,6 +87,7 @@ Collate:
     'mlr_measures.R'
     'mlr_measures_mmce.R'
     'mlr_measures_mse.R'
+    'mlr_resamplings.R'
     'mlr_resamplings_bootstrap.R'
     'mlr_resamplings_custom.R'
     'mlr_resamplings_cv.R'

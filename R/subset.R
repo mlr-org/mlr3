@@ -28,14 +28,11 @@
 #' # Same, but more explicitly:
 #' train(task, lrn, subset = row_roles("training"))$train_set
 #'
-#' # Train on rows with role == "training", indexed by number and ordered as in task$row_info
+#' # Train on rows with role == "training", indexed by position and ordered as in task$row_info
 #' train(task, lrn, subset = row_index(1:80))$train_set
 #'
 #' # Use specific row_ids:
 #' train(task, lrn, subset = row_ids(c(1, 2, 52, 53, 101, 103)))$train_set
-#'
-#' # Note that you can also use ids with different roles here:
-#' train(task, lrn, subset = row_ids(1:2))$train_set
 row_ids = function(x) {
   assert_atomic_vector(x, any.missing = FALSE)
   attr(x, "subset_type") = "ids"

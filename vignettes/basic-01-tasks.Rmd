@@ -21,12 +21,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r fixup, echo = FALSE}
-# Temporary fix for r-lib#152
-unloadNamespace("mlr3")
-devtools::load_all()
-```
-
 ## Predefined tasks
 
 `mlr` ships with some predefined, well-known toy tasks.

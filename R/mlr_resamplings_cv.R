@@ -37,6 +37,3 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   )
 )
 
-mlr_resamplings$add(
-  ResamplingCV$new()
-)
