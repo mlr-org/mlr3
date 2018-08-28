@@ -54,7 +54,7 @@ Task = R6Class("Task",
     print = function(...) {
       catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
       catf(stri_list("Target: ", self$target_names))
-      catf(stri_list("Features: ", self$feature_names))
+      catf(stri_list("Features: ", stri_peek(self$feature_names)))
       catf(stri_list("Order by: ", self$order))
       catf(stri_list("Blocking: ", self$blocking))
       catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
