@@ -28,4 +28,12 @@ mlr3$default.opts = list(
   opts = opts[match(names(opts), names(.Options), nomatch = 0L) == 0L]
   if (length(opts))
     options(opts)
+
+  mlr_learners$add(LearnerClassifCrashtest$new())
+
+  mlr_learners$add(LearnerClassifDummy$new())
+  mlr_learners$add(LearnerRegrDummy$new())
+
+  mlr_learners$add(LearnerClassifRpart$new())
+  mlr_learners$add(LearnerRegrRpart$new())
 } #nocov end

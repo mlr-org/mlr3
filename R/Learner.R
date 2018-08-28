@@ -9,37 +9,19 @@
 #' @export
 Learner = R6Class("Learner",
   public = list(
-    id = NULL,
+    id = NA_character_,
     name = NULL,
     task_type = NULL,
     packages = NULL,
     par_set = NULL,
     properties = NULL,
-    train = NULL,
-    predict = NULL,
-
-    initialize = function(task_type, name, par_set, par_vals, packages, properties, train, predict, predict_type) {
-      self$task_type = assert_string(task_type)
-      self$name = assert_string(name)
-      self$id = stri_paste(task_type, ".", name)
-      self$par_set = assert_class(par_set, "ParamSet")
-      self$packages = assert_character(packages, any.missing = FALSE, unique = TRUE)
-      self$properties = assert_character(properties, any.missing = FALSE, unique = TRUE)
-      self$train = assert_function(train, args = c("task", "row_ids"), ordered = TRUE)
-      self$predict = assert_function(predict, args = c("model", "task", "row_ids"), ordered = TRUE)
-      private$.par_vals = assert_list(par_vals, names = "unique")
-      private$.predict_type = assert_choice(predict_type, capabilities$predict_types[[self$task_type]], fmatch = TRUE)
-
-      # set environments for functions
-      environment(self$train) = environment(self$predict) = environment(self$initialize)
-    },
 
     print = function(...) {
      catf("Learner '%s' for %s", self$id, self$task_type)
-     catf("predict_type: %s", self$predict_type)
      catf(stri_list("Properties: ", self$properties))
     }
   ),
+
   active = list(
     par_vals = function(rhs) {
       if (missing(rhs))
