@@ -1,7 +1,7 @@
 #' @import checkmate
 #' @import data.table
 #' @import stringi
-#' @import phng
+#' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom stats setNames predict
 #' @importFrom utils data head tail

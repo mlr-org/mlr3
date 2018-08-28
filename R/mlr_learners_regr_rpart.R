@@ -3,7 +3,7 @@
 mlr_learners$add(LearnerRegr$new(
   name = "rpart",
   package = "rpart",
-  par_set = ParamSetFlat$new(params = list(
+  par_set = ParamSet$new(params = list(
     ParamInt$new(id = "minsplit", default = 20L, lower = 1L),
     ParamReal$new(id = "cp", default = 0.01, lower = 0, upper = 1),
     ParamInt$new(id = "maxcompete", default = 4L, lower = 0L),

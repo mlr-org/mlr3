@@ -2,7 +2,7 @@
 #' @include LearnerRegr.R
 mlr_learners$add(LearnerRegr$new(
   name = "dummy",
-  par_set = ParamSetFlat$new(
+  par_set = ParamSet$new(
     params = list(
       ParamCategorical$new("method", values = c("mean", "median"), default = "mean")
     )

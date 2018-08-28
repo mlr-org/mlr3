@@ -21,7 +21,7 @@ Imports:
     data.table,
     future (>= 1.8.0),
     future.apply,
-    phng,
+    paradox,
     R6,
     rappdirs,
     stringi,
@@ -88,4 +88,4 @@ Collate:
     'zzz.R'
 VignetteBuilder: knitr
 ByteCompile: false
-Remotes: mlr-org/phng
+Remotes: mlr-org/paradox
