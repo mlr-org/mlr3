@@ -52,15 +52,26 @@ benchmark = function(tasks, learners, resamplings, measures) {
     iteration = grid$iter
   )
 
-  tmp = future.apply::future_mapply(experiment_worker,
+  # tmp = future.apply::future_mapply(experiment_worker,
+  #   task = res$task,
+  #   learner = res$learner,
+  #   train_set = .mapply(function(instance, iter, ...) instances[[instance]]$train_set(iter), grid, list()),
+  #   test_set = .mapply(function(instance, iter, ...) instances[[instance]]$test_set(iter), grid, list()),
+  #   MoreArgs = list(measures = measures),
+  #   SIMPLIFY = FALSE,
+  #   USE.NAMES = FALSE,
+  #   future.globals = FALSE, future.packages = "mlr3")
+
+  tmp = mapply(experiment_worker,
     task = res$task,
     learner = res$learner,
     train_set = .mapply(function(instance, iter, ...) instances[[instance]]$train_set(iter), grid, list()),
     test_set = .mapply(function(instance, iter, ...) instances[[instance]]$test_set(iter), grid, list()),
     MoreArgs = list(measures = measures),
     SIMPLIFY = FALSE,
-    USE.NAMES = FALSE,
-    future.globals = FALSE, future.packages = "mlr3")
+    USE.NAMES = FALSE
+  )
+
   tmp = combine_experiments(tmp)
   res[, names(tmp) := tmp]
 

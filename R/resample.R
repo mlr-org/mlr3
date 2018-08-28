@@ -26,15 +26,21 @@ resample = function(task, learner, resampling, measures) {
   }
   n = instance$iters
 
-  res = future.apply::future_lapply(seq_len(n), function(i, task, learner, instance, measures) {
+  # res = future.apply::future_lapply(seq_len(n), function(i, task, learner, instance, measures) {
+  #   train_set = instance$train_set(i)
+  #   test_set = instance$test_set(i)
+  #   experiment_worker(task = task, learner = learner,  train_set = train_set, test_set = test_set, measures = measures)
+  # }, future.globals = FALSE, future.packages = "mlr3", task = task, learner = learner, instance = instance, measures = measures)
+
+  res = lapply(seq_len(n), function(i) {
     train_set = instance$train_set(i)
     test_set = instance$test_set(i)
     experiment_worker(task = task, learner = learner,  train_set = train_set, test_set = test_set, measures = measures)
-  }, future.globals = FALSE, future.packages = "mlr3", task = task, learner = learner, instance = instance, measures = measures)
-
+  })
 
   res = combine_experiments(res)
   res[, c("task", "learner", "resampling", "iteration") := list(list(task), list(learner), list(instance), seq_len(n))]
+
   ResampleResult$new(res)
 }
 

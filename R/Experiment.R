@@ -139,11 +139,12 @@ experiment_train = function(e, subset) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(train_set))
   e$data$iteration = 1L
 
-  future = future::futureCall(
-    train_worker,
-    c(e$data[c("task", "learner")], list(train_set = train_set)),
-    globals = FALSE)
-  value = future::value(future)
+  # future = future::futureCall(
+  #   train_worker,
+  #   c(e$data[c("task", "learner")], list(train_set = train_set)),
+  #   globals = FALSE)
+  # value = future::value(future)
+  value = train_worker(task = e$data$task, learner = e$data$learner, train_set = train_set)
   e$data = insert(e$data, value)
   e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
   return(e)
@@ -163,11 +164,13 @@ experiment_predict = function(e, subset = NULL, newdata = NULL) {
     e$data$resampling$setTest(test_set)
   }
 
-  future = future::futureCall(
-    predict_worker,
-    c(e$data[c("task", "learner", "model")], list(test_set = test_set))
-  )
-  e$data = insert(e$data, future::value(future))
+  # future = future::futureCall(
+  #   predict_worker,
+  #   c(e$data[c("task", "learner", "model")], list(test_set = test_set))
+  # )
+  # value = future::value(future)
+  value = predict_worker(task = e$data$task, learner = e$data$learner, model = e$data$model, test_set = test_set)
+  e$data = insert(e$data, value)
   e$data = insert(e$data, list(performance = NULL))
   return(e)
 }
@@ -176,9 +179,11 @@ experiment_score = function(e, measures = NULL) {
   measures = as_measures(measures, task = e$data$task)
 
   test_set = e$test_set
-  pars = c(e$data[c("task", "predicted")], list(test_set = test_set, measures = measures))
-  future = future::futureCall(score_worker, pars)
-  e$data = insert(e$data, future::value(future))
+  # pars = c(e$data[c("task", "predicted")], list(test_set = test_set, measures = measures))
+  # future = future::futureCall(score_worker, pars)
+  # value = future::value(future)
+  value = score_worker(task = e$data$task, test_set = test_set, predicted = e$data$predicted, measures = measures)
+  e$data = insert(e$data, value)
 
   return(e)
 }
