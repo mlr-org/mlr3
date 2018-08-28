@@ -29,6 +29,7 @@ Imports:
     evaluate,
     future (>= 1.8.0),
     future.apply,
+    paradox,
     R6,
     rappdirs,
     stringi,
@@ -45,6 +46,8 @@ Suggests:
     testthat
 VignetteBuilder: 
     knitr
+Remotes: 
+    mlr-org/paradox
 ByteCompile: false
 Encoding: UTF-8
 LazyData: true

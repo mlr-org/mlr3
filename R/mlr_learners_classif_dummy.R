@@ -2,7 +2,7 @@
 #' @include LearnerClassif.R
 mlr_learners$add(LearnerClassif$new(
   name = "dummy",
-  par_set = ParamSetFlat$new(
+  par_set = ParamSet$new(
     params = list(
       ParamCategorical$new("method", values = c("mode", "sample"), default = "mode")
     )

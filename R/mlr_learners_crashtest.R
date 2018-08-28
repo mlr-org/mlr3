@@ -3,7 +3,7 @@
 #' @include capabilities.R
 mlr_learners$add(LearnerClassif$new(
   name = "crashtest",
-  par_set = ParamSetFlat$new(
+  par_set = ParamSet$new(
     params = list(
       ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train")
     )
