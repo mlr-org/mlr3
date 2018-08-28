@@ -1,3 +1,5 @@
+^tic\.R$
+^appveyor\.yml$
 .ignore
 .editorconfig
 .gitignore
