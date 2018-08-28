@@ -1,4 +1,4 @@
-add_package_checks()
+add_package_checks(check_args = "--as-cran")
 
 if (Sys.getenv("id_rsa") != "") {
   # pkgdown documentation can be built optionally. Other example criteria:
