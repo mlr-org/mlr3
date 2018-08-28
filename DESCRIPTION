@@ -1,24 +1,32 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
 Version: 0.1.0-9000
-Authors@R: c(
-    person("Bernd", "Bischl", NULL, "bernd_bischl@gmx.de", role = "aut"),
-    person("Michel", "Lang", NULL, "michellang@gmail.com",
-        role = c("cre", "aut"), comment = c(ORCID = "0000-0001-9754-0393")),
-    person("Jakob", "Richter", NULL, "jakob1richter@gmail.com", role = "aut")
-    )
+Authors@R: 
+    c(person(given = "Bernd",
+             family = "Bischl",
+             role = "aut",
+             email = "bernd_bischl@gmx.de"),
+      person(given = "Michel",
+             family = "Lang",
+             role = c("cre", "aut"),
+             email = "michellang@gmail.com",
+             comment = c(ORCID = "0000-0001-9754-0393")),
+      person(given = "Jakob",
+             family = "Richter",
+             role = "aut",
+             email = "jakob1richter@gmail.com"))
 Description: Machine Learning in R. Next Generation.
 License: GPL-2
-NeedsCompilation: no
-Depends: R (>= 3.1.0)
+Depends: 
+    R (>= 3.1.0)
 Imports:
     backports,
     bit,
     checkmate,
     clisymbols,
     crayon,
-    evaluate,
     data.table,
+    evaluate,
     future (>= 1.8.0),
     future.apply,
     paradox,
@@ -27,10 +35,6 @@ Imports:
     stringi,
     withr,
     yaml
-LazyData: true
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.0
 Suggests:
     bench,
     datasets,
@@ -40,6 +44,16 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
+VignetteBuilder: 
+    knitr
+Remotes: 
+    mlr-org/paradox
+ByteCompile: false
+Encoding: UTF-8
+LazyData: true
+NeedsCompilation: no
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.0
 Collate:
     'Backend.R'
     'Dictionary.R'
@@ -86,6 +100,3 @@ Collate:
     'train.R'
     'worker.R'
     'zzz.R'
-VignetteBuilder: knitr
-ByteCompile: false
-Remotes: mlr-org/paradox
