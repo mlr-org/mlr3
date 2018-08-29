@@ -19,12 +19,14 @@ Measure = R6Class("Measure",
     description = NULL,
     task_types = character(0L),
     fun = NULL,
+    aggregator = NULL,
     packages = NULL,
-    initialize = function(id, description, task_types, fun, packages = character(0L)) {
+    initialize = function(id, description, task_types, fun, aggregator, packages = character(0L)) {
       self$id = assert_string(id, min.chars = 1L)
       self$description = assert_string(description, min.chars = 1L)
       self$task_types = assert_character(task_types, min.len = 1L, any.missing = FALSE)
       self$fun = assert_function(fun)
+      self$aggregator = assert_function(aggregator)
       self$packages = assert_character(packages, any.missing = FALSE)
       environment(self$fun) = environment(self$initialize)
     }

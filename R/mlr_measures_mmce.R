@@ -5,5 +5,6 @@ mlr_measures$add(Measure$new(
   task_types = c("classif"),
   fun = function(truth, predicted) {
     mean(truth != predicted)
-  }
+  },
+  aggregator = mean
 ))
