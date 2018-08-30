@@ -1,37 +1,42 @@
 # do.call with evaluate
 # this might get superseded by futures with output logging
+# ecall = function(fun, pars) {
+#   result = NULL
+#   log = evaluate::evaluate(
+#     "result <- do.call(fun, pars)",
+#     new_device = FALSE,
+#     include_timing = FALSE
+#   )
+
+#   if (length(log) == 1L) {
+#     log = data.table(msg = character(0L), type = character(0L))
+#   } else {
+#     log = log[-1L] # remove $src
+#     msg = vcapply(log, function(x) if (is.character(x)) x else x$message)
+#     type = vcapply(log, function(x) {
+#       if (is.character(x))
+#         return("output")
+#       if (inherits(x, "message") || inherits(x, "text"))
+#         return("message")
+#       if (inherits(x, "warning"))
+#         return("warning")
+#       if (inherits(x, "error"))
+#         return("error")
+#       stop("Unknown type while parsing log")
+#     })
+#     log = data.table(msg = msg, type = type)
+#   }
+#   log$type = factor(log$type, levels = c("output", "message", "warning", "error"))
+
+#   list(
+#     result = result,
+#     log = log
+#   )
+# }
 ecall = function(fun, pars) {
-  result = NULL
-  log = evaluate::evaluate(
-    "result <- do.call(fun, pars)",
-    new_device = FALSE,
-    include_timing = FALSE
-  )
-
-  if (length(log) == 1L) {
-    log = data.table(msg = character(0L), type = character(0L))
-  } else {
-    log = log[-1L] # remove $src
-    msg = vcapply(log, function(x) if (is.character(x)) x else x$message)
-    type = vcapply(log, function(x) {
-      if (is.character(x))
-        return("output")
-      if (inherits(x, "message") || inherits(x, "text"))
-        return("message")
-      if (inherits(x, "warning"))
-        return("warning")
-      if (inherits(x, "error"))
-        return("error")
-      stop("Unknown type while parsing log")
-    })
-    log = data.table(msg = msg, type = type)
-  }
-  log$type = factor(log$type, levels = c("output", "message", "warning", "error"))
-
-  list(
-    result = result,
-    log = log
-  )
+  result = do.call(fun, pars)
+  log = data.table(msg = character(0L), type = character(0L))
+  list(result = result, log = log)
 }
 
 
@@ -79,7 +84,8 @@ predict_worker = function(task, learner, model, test_set) {
 }
 
 score_worker = function(task, test_set, predicted, measures) {
-  pkgs = c("mlr3", measures$packages)
+  measures = task$measures
+  pkgs = c("mlr3", unlist(lapply(measures, "[[", "packages")))
   require_namespaces(pkgs, "The following packages are required for the measures: %s")
 
   truth = task$truth(test_set)[[1L]]
@@ -93,10 +99,7 @@ score_worker = function(task, test_set, predicted, measures) {
   return(list(performance = performance))
 }
 
-experiment_worker = function(task, learner, train_set, test_set, measures) {
-  pkgs = c("mlr3", learner$packages, measures$packages)
-  require_namespaces(pkgs, sprintf("The following packages are required for measure %s: %%s", learner$id))
-
+experiment_worker = function(task, learner, train_set, test_set) {
   result = vector("list", 7L)
   names(result) = c("model", "train_time", "train_log", "predicted", "test_time", "test_log", "performance")
 
@@ -104,7 +107,7 @@ experiment_worker = function(task, learner, train_set, test_set, measures) {
   result = insert(result, tmp)
   tmp = predict_worker(task = task, learner = learner, model = result$model, test_set = test_set)
   result = insert(result, tmp)
-  tmp = score_worker(task = task, test_set = test_set, predicted = result$predicted, measures = measures)
+  tmp = score_worker(task = task, test_set = test_set, predicted = result$predicted)
   result = insert(result, tmp)
 
   return(result)

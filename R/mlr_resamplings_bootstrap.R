@@ -40,7 +40,3 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
     }
   )
 )
-
-mlr_resamplings$add(
-  ResamplingBootstrap$new()
-)

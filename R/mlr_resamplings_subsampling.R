@@ -39,7 +39,3 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
     }
   )
 )
-
-mlr_resamplings$add(
-  ResamplingSubsampling$new()
-)

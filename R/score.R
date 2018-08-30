@@ -7,9 +7,10 @@
 #'   Experiment with fitted model and predictions.
 #' @param measures [Measure]\cr
 #'   Measure or list of measures.
+#'   FIXME: Currently ignored.
 #' @return \code{\link{Experiment}}.
 #' @export
 score = function(experiment, measures = NULL) {
   assert_experiment(experiment)
-  experiment_score(experiment$clone(), measures)
+  experiment_score(experiment$clone())
 }

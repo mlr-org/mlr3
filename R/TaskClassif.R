@@ -24,8 +24,7 @@ TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
     task_type = "classif",
-    default_measure = "mmce",
-    default_prediction = NA_character_,
+    measures = list(),
     positive = NA_character_,
 
     initialize = function(id, data, target, positive = NULL) {
@@ -33,6 +32,7 @@ TaskClassif = R6Class("TaskClassif",
       if (!is.null(positive)) {
         self$positive = assert_choice(positive, self$class_names)
       }
+      self$measures = mlr_measures$mget("mmce")
     }
   ),
 

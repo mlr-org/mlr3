@@ -30,7 +30,3 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     }
   )
 )
-
-mlr_resamplings$add(
-  ResamplingHoldout$new()
-)

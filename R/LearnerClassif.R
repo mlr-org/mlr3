@@ -8,11 +8,11 @@
 #' @family Learner
 #' @include Learner.R
 #' @export
-LearnerClassif = R6Class("LearnerClassif",
-  inherit = Learner,
+LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
-    initialize = function(name, par_set = ParamSet$new(), par_vals = list(), packages = character(0L), properties = character(0L), train, predict) {
-      super$initialize("classif", name, par_set, par_vals, packages, properties, train, predict, predict_type = "response")
-    }
+    task_type = "classif"
+  ),
+  private = list(
+    .predict_type = "response"
   )
 )

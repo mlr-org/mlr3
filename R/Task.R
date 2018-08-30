@@ -21,8 +21,9 @@ Task = R6Class("Task",
     task_type = NA_character_,
     id = NULL,
     backend = NULL,
-    rows = NULL,
-    cols = NULL,
+    row_info = NULL,
+    col_info = NULL,
+    measures = list(),
     order = character(0L),
     blocking = character(0L),
 
@@ -38,12 +39,12 @@ Task = R6Class("Task",
       cn = self$backend[[1L]]$colnames
       types = assert_subset(vcapply(self$backend[[1L]]$head(1L), class), capabilities$task_col_types, fmatch = TRUE)
 
-      self$rows = data.table(
+      self$row_info = data.table(
         id = self$backend[[1L]]$rownames,
         role = "training",
         key = "id")
 
-      self$cols = data.table(
+      self$col_info = data.table(
         id = cn,
         role = ifelse(cn == self$backend[[1L]]$primary_key, "primary_key", "feature"),
         type = types[chmatch(cn, names(types), 0L)],
@@ -54,7 +55,7 @@ Task = R6Class("Task",
     print = function(...) {
       catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
       catf(stri_list("Target: ", self$target_names))
-      catf(stri_list("Features: ", self$feature_names))
+      catf(stri_list("Features: ", stri_peek(self$feature_names)))
       catf(stri_list("Order by: ", self$order))
       catf(stri_list("Blocking: ", self$blocking))
       catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
@@ -63,14 +64,14 @@ Task = R6Class("Task",
     data = function(rows = NULL, cols = NULL, filter_rows = TRUE, filter_cols = TRUE) {
       if (is.null(rows)) {
         selected_rows = if (filter_rows)
-          self$rows[role == "training", "id"][[1L]]
+          self$row_info[role == "training", "id"][[1L]]
         else
-          self$rows$id
+          self$row_info$id
       } else {
         selected_rows = if (filter_rows)
-          self$rows[id %in% rows & role == "training", "id"][[1L]]
+          self$row_info[id %in% rows & role == "training", "id"][[1L]]
         else
-          self$rows[id %in% rows, "id"][[1L]]
+          self$row_info[id %in% rows, "id"][[1L]]
 
         if (length(selected_rows) != length(rows))
           stopf("Invalid row_ids provided")
@@ -78,14 +79,14 @@ Task = R6Class("Task",
 
       if (is.null(cols)) {
         selected_cols = if (filter_cols)
-          self$cols[role %in% c("feature", "target"), "id"][[1L]]
+          self$col_info[role %in% c("feature", "target"), "id"][[1L]]
         else
-          self$cols$id
+          self$col_info$id
       } else {
         selected_cols = if (filter_cols)
-          self$cols[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
+          self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
         else
-          self$cols[id %in% cols, "id"][[1L]]
+          self$col_info[id %in% cols, "id"][[1L]]
 
         if (length(selected_cols) != length(cols))
           stopf("Invalid col ids provided")
@@ -120,22 +121,22 @@ Task = R6Class("Task",
 
     head = function(n = 6L) {
       assert_count(n)
-      ids = head(self$rows[role == "training", "id", with = FALSE][[1L]], n)
+      ids = head(self$row_info[role == "training", "id", with = FALSE][[1L]], n)
       self$data(rows = ids, cols = c(self$feature_names, self$target_names))
     },
 
     row_ids = function(subset = NULL, as.vector = TRUE) {
       if (is.null(subset)) {
-        result = self$rows[role == "training", "id"]
+        result = self$row_info[role == "training", "id"]
       } else {
         type = attr(subset, "subset_type")
         if (is.null(type)) {
-          result = self$rows[role == "training"][as.integer(subset), "id"]
+          result = self$row_info[role == "training"][as.integer(subset), "id"]
         } else {
           result = switch(type,
-            "ids" = self$rows[.(subset), nomatch = 0L],
-            "numbers" = self$rows[role == "training"][subset, "id"],
-            "roles" = self$rows[role %in% subset, "id"],
+            "ids" = self$row_info[.(subset), nomatch = 0L],
+            "numbers" = self$row_info[role == "training"][subset, "id"],
+            "roles" = self$row_info[role %in% subset, "id"],
             stopf("Unknown subset_type"))
         }
       }
@@ -155,8 +156,8 @@ Task = R6Class("Task",
       }
 
       self$backend[[length(self$backend) + 1L]] = backend
-      self$rows = rbind(self$rows, data.table(id = rn, role = row.role))
-      setkeyv(self$rows, "id")
+      self$row_info = rbind(self$row_info, data.table(id = rn, role = row.role))
+      setkeyv(self$row_info, "id")
 
       invisible(self)
     }
@@ -165,7 +166,7 @@ Task = R6Class("Task",
 
   active = list(
     feature_names = function() {
-      self$cols[role == "feature", "id"][[1L]]
+      self$col_info[role == "feature", "id"][[1L]]
     },
 
     target_names = function() {
@@ -177,21 +178,21 @@ Task = R6Class("Task",
     },
 
     nrow = function() {
-      self$rows[role == "training", .N]
+      self$row_info[role == "training", .N]
     },
 
     ncol = function() {
-      self$cols[role %in% c("feature", "target"), .N]
+      self$col_info[role %in% c("feature", "target"), .N]
     },
 
     col_types = function() {
-      self$cols[role %in% c("feature", "target"), c("id", "type")]
+      self$col_info[role %in% c("feature", "target"), c("id", "type")]
     }
   ),
 
   private = list(
     deep_clone = function(name, value) {
-      if (name %in% c("rows", "cols")) copy(value) else value
+      if (name %in% c("row_info", "col_info")) copy(value) else value
     }
   )
 )

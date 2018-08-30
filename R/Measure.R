@@ -15,23 +15,16 @@
 #' @export
 Measure = R6Class("Measure",
   public = list(
-    id = NULL,
-    description = NULL,
+    id = NA_character_,
+    description = NA_character_,
     task_types = character(0L),
-    fun = NULL,
-    aggregator = NULL,
-    packages = NULL,
-    initialize = function(id, description, task_types, fun, aggregator, packages = character(0L)) {
-      self$id = assert_string(id, min.chars = 1L)
-      self$description = assert_string(description, min.chars = 1L)
-      self$task_types = assert_character(task_types, min.len = 1L, any.missing = FALSE)
-      self$fun = assert_function(fun)
-      self$aggregator = assert_function(aggregator)
-      self$packages = assert_character(packages, any.missing = FALSE)
-      environment(self$fun) = environment(self$initialize)
-    }
+    packages = character(0L)
   )
 )
+
+assert_measures = function(measures) {
+  assert_list(measures, types = "Measure")
+}
 
 as_measures = function(x, task) {
   if (is.null(x))
@@ -41,8 +34,4 @@ as_measures = function(x, task) {
   if (is.character(x))
     return(mlr_measures$mget(x))
   assert_measures(x)
-}
-
-assert_measures = function(measures) {
-  assert_list(measures, types = "Measure")
 }

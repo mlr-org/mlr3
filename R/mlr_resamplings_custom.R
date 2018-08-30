@@ -41,7 +41,3 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
     }
   )
 )
-
-mlr_resamplings$add(
-  ResamplingCustom$new()
-)

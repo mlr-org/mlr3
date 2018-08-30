@@ -34,8 +34,8 @@ Experiment = R6Class("Experiment",
       experiment_predict(self, subset = subset, newdata = newdata)
     },
 
-    score = function(measures = NULL) {
-      experiment_score(self, measures)
+    score = function() {
+      experiment_score(self)
     }
   ),
 
@@ -69,7 +69,7 @@ Experiment = R6Class("Experiment",
 
     validation_set = function() {
       role = NULL
-      row_ids = task$rows[role == "validation", "id"][[1L]]
+      row_ids = task$row_info[role == "validation", "id"][[1L]]
     },
 
     predictions = function() {
@@ -139,11 +139,12 @@ experiment_train = function(e, subset) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(train_set))
   e$data$iteration = 1L
 
-  future = future::futureCall(
-    train_worker,
-    c(e$data[c("task", "learner")], list(train_set = train_set)),
-    globals = FALSE)
-  value = future::value(future)
+  # future = future::futureCall(
+  #   train_worker,
+  #   c(e$data[c("task", "learner")], list(train_set = train_set)),
+  #   globals = FALSE)
+  # value = future::value(future)
+  value = train_worker(task = e$data$task, learner = e$data$learner, train_set = train_set)
   e$data = insert(e$data, value)
   e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
   return(e)
@@ -159,26 +160,28 @@ experiment_predict = function(e, subset = NULL, newdata = NULL) {
   } else {
     backend = BackendDataTable$new(data = newdata, primary_key = e$data$task$backend[[1L]]$primary_key)
     e$data$task = e$data$task$clone()$add_backend(backend)
-    test_set = e$data$task$rows[role == "validation", "id"][[1L]]
+    test_set = e$data$task$row_info[role == "validation", "id"][[1L]]
     e$data$resampling$setTest(test_set)
   }
 
-  future = future::futureCall(
-    predict_worker,
-    c(e$data[c("task", "learner", "model")], list(test_set = test_set))
-  )
-  e$data = insert(e$data, future::value(future))
+  # future = future::futureCall(
+  #   predict_worker,
+  #   c(e$data[c("task", "learner", "model")], list(test_set = test_set))
+  # )
+  # value = future::value(future)
+  value = predict_worker(task = e$data$task, learner = e$data$learner, model = e$data$model, test_set = test_set)
+  e$data = insert(e$data, value)
   e$data = insert(e$data, list(performance = NULL))
   return(e)
 }
 
-experiment_score = function(e, measures = NULL) {
-  measures = as_measures(measures, task = e$data$task)
-
+experiment_score = function(e) {
   test_set = e$test_set
-  pars = c(e$data[c("task", "predicted")], list(test_set = test_set, measures = measures))
-  future = future::futureCall(score_worker, pars)
-  e$data = insert(e$data, future::value(future))
+  # pars = c(e$data[c("task", "predicted")], list(test_set = test_set, measures = measures))
+  # future = future::futureCall(score_worker, pars)
+  # value = future::value(future)
+  value = score_worker(task = e$data$task, test_set = test_set, predicted = e$data$predicted)
+  e$data = insert(e$data, value)
 
   return(e)
 }
