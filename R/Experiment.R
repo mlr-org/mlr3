@@ -34,8 +34,8 @@ Experiment = R6Class("Experiment",
       experiment_predict(self, subset = subset, newdata = newdata)
     },
 
-    score = function(measures = NULL) {
-      experiment_score(self, measures)
+    score = function() {
+      experiment_score(self)
     }
   ),
 
@@ -175,14 +175,12 @@ experiment_predict = function(e, subset = NULL, newdata = NULL) {
   return(e)
 }
 
-experiment_score = function(e, measures = NULL) {
-  measures = as_measures(measures, task = e$data$task)
-
+experiment_score = function(e) {
   test_set = e$test_set
   # pars = c(e$data[c("task", "predicted")], list(test_set = test_set, measures = measures))
   # future = future::futureCall(score_worker, pars)
   # value = future::value(future)
-  value = score_worker(task = e$data$task, test_set = test_set, predicted = e$data$predicted, measures = measures)
+  value = score_worker(task = e$data$task, test_set = test_set, predicted = e$data$predicted)
   e$data = insert(e$data, value)
 
   return(e)

@@ -84,7 +84,8 @@ predict_worker = function(task, learner, model, test_set) {
 }
 
 score_worker = function(task, test_set, predicted, measures) {
-  pkgs = c("mlr3", measures$packages)
+  measures = task$measures
+  pkgs = c("mlr3", unlist(lapply(measures, "[[", "packages")))
   require_namespaces(pkgs, "The following packages are required for the measures: %s")
 
   truth = task$truth(test_set)[[1L]]
@@ -98,10 +99,7 @@ score_worker = function(task, test_set, predicted, measures) {
   return(list(performance = performance))
 }
 
-experiment_worker = function(task, learner, train_set, test_set, measures) {
-  pkgs = c("mlr3", learner$packages, measures$packages)
-  require_namespaces(pkgs, sprintf("The following packages are required for measure %s: %%s", learner$id))
-
+experiment_worker = function(task, learner, train_set, test_set) {
   result = vector("list", 7L)
   names(result) = c("model", "train_time", "train_log", "predicted", "test_time", "test_log", "performance")
 
@@ -109,7 +107,7 @@ experiment_worker = function(task, learner, train_set, test_set, measures) {
   result = insert(result, tmp)
   tmp = predict_worker(task = task, learner = learner, model = result$model, test_set = test_set)
   result = insert(result, tmp)
-  tmp = score_worker(task = task, test_set = test_set, predicted = result$predicted, measures = measures)
+  tmp = score_worker(task = task, test_set = test_set, predicted = result$predicted)
   result = insert(result, tmp)
 
   return(result)

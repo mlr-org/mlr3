@@ -9,26 +9,22 @@
 #'   List of objects of type [Learner].
 #' @param resamplings (`list` of [Resampling])\cr
 #'   List of objects of type [Resampling].
-#' @param measures (`list` of [Measure])\cr
-#'   List of objects of type [Measure].
 #' @return [BenchmarkResult].
 #' @export
 #' @examples
-#' tasks = lapply(c("iris", "sonar"), mlr_tasks$get)
+#' tasks = mlr_tasks$mget(c("iris", "sonar"))
+#' tasks$sonar$measures = mlr_measures$mget("acc")
 #' learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
 #' resamplings = lapply("cv", mlr_resamplings$get)
-#' measures = lapply("mmce", mlr_measures$get)
-#' bmr = benchmark(tasks, learners, resamplings, measures)
+#' bmr = benchmark(tasks, learners, resamplings)
 #' bmr$performance
-benchmark = function(tasks, learners, resamplings, measures) {
+benchmark = function(tasks, learners, resamplings) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)
   assert_list(resamplings, "Resampling", min.len = 1L)
-  assert_list(measures, "Measure", min.len = 1L)
   names(tasks) = assert_names(ids(tasks), "unique")
   names(learners) = assert_names(ids(learners), "unique")
   names(resamplings) = assert_names(ids(resamplings), "unique")
-  names(measures) = assert_names(ids(measures), "unique")
 
 
   # Instantiate resampling for each task
@@ -67,7 +63,7 @@ benchmark = function(tasks, learners, resamplings, measures) {
     learner = res$learner,
     train_set = .mapply(function(instance, iter, ...) instances[[instance]]$train_set(iter), grid, list()),
     test_set = .mapply(function(instance, iter, ...) instances[[instance]]$test_set(iter), grid, list()),
-    MoreArgs = list(measures = measures),
+    MoreArgs = list(),
     SIMPLIFY = FALSE,
     USE.NAMES = FALSE
   )
@@ -101,6 +97,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     experiments = function(i) {
       assert_integer(i, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
       .mapply(Experiment$new, self$data[i], MoreArgs = list())
+    },
+
+    performances = function() {
+      tmp = self$data[, list(task = ids(task), learner = ids(learner), performance = performance)]
+      cbind(tmp[, !"performance"], rbindlist(tmp$performance, fill = TRUE))
     }
 
   ),

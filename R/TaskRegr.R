@@ -20,6 +20,7 @@ TaskRegr = R6Class("TaskRegr",
     task_type = "regr",
     default_measure = "mse",
     default_prediction = NA_real_,
+    measures = "mse",
 
     initialize = function(id, data, target) {
       super$initialize(id = id, data = data, target = target)

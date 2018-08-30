@@ -23,6 +23,7 @@ Task = R6Class("Task",
     backend = NULL,
     row_info = NULL,
     col_info = NULL,
+    measures = list(),
     order = character(0L),
     blocking = character(0L),
 
