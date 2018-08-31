@@ -36,7 +36,7 @@ expect_backend = function(backends) {
   expect_list(backends, min.len = 1L, types = "Backend")
 
   for (b in backends) {
-    expect_r6(b, cloneable = TRUE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
+    expect_r6(b, cloneable = FALSE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
     n = expect_count(b$nrow)
     p = expect_count(b$ncol)
     cn = expect_atomic_vector(b$colnames, any.missing = FALSE, len = p, unique = TRUE)

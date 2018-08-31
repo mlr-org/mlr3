@@ -4,7 +4,7 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, measures)
+resample(task, learner, resampling)
 }
 \arguments{
 \item{task}{(\link{Task})\cr
@@ -15,9 +15,6 @@ Object of type \link{Learner}.}
 
 \item{resampling}{(\link{Resampling})\cr
 Object of type \link{Resampling}.}
-
-\item{measures}{([\code{list} of \link{Measure})\cr
-List of objects of type \link{Measure}.}
 }
 \value{
 \link{ResampleResult}.

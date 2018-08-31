@@ -11,7 +11,8 @@ score(experiment, measures = NULL)
 Experiment with fitted model and predictions.}
 
 \item{measures}{\link{Measure}\cr
-Measure or list of measures.}
+Measure or list of measures.
+FIXME: Currently ignored.}
 }
 \value{
 \code{\link{Experiment}}.

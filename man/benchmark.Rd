@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(tasks, learners, resamplings, measures)
+benchmark(tasks, learners, resamplings)
 }
 \arguments{
 \item{tasks}{(\code{list} of \link{Task})\cr
@@ -15,9 +15,6 @@ List of objects of type \link{Learner}.}
 
 \item{resamplings}{(\code{list} of \link{Resampling})\cr
 List of objects of type \link{Resampling}.}
-
-\item{measures}{(\code{list} of \link{Measure})\cr
-List of objects of type \link{Measure}.}
 }
 \value{
 \link{BenchmarkResult}.
@@ -26,10 +23,10 @@ List of objects of type \link{Measure}.}
 Runs a benchmark (possibly in parallel).
 }
 \examples{
-tasks = lapply(c("iris", "sonar"), mlr_tasks$get)
+tasks = mlr_tasks$mget(c("iris", "sonar"))
+tasks$sonar$measures = mlr_measures$mget("acc")
 learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
 resamplings = lapply("cv", mlr_resamplings$get)
-measures = lapply("mmce", mlr_measures$get)
-bmr = benchmark(tasks, learners, resamplings, measures)
+bmr = benchmark(tasks, learners, resamplings)
 bmr$performance
 }
