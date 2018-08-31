@@ -9,9 +9,6 @@
 #' @include Learner.R
 #' @export
 LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
-  public = list(
-    task_type = "regr"
-  ),
   private = list(
     .predict_type = "response"
   )

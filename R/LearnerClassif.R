@@ -10,7 +10,7 @@
 #' @export
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
-    task_type = "classif"
+    task_type = "TaskClassif"
   ),
   private = list(
     .predict_type = "response"

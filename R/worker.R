@@ -48,10 +48,10 @@ train_worker = function(task, learner, train_set) {
   fun = learner$train
   now = proc.time()[[3L]]
   res = ecall(fun, pars)
-  if (is.null(res$result)) {
-    dummy = mlr_learners$get(sprintf("%s.dummy", learner$task_type))
-    res$result = do.call(dummy$train, pars)
-  }
+  # if (is.null(res$result)) {
+  #   dummy = mlr_learners$get(sprintf("%s.dummy", learner$task_type))
+  #   res$result = do.call(dummy$train, pars)
+  # }
 
   return(list(
     model = res$result,
@@ -64,9 +64,9 @@ predict_worker = function(task, learner, model, test_set) {
   pkgs = c("mlr3", learner$packages)
   require_namespaces(pkgs, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
-  if (inherits(model, "dummy.model")) {
-    learner = mlr_learners$get(sprintf("%s.dummy", learner$task_type))
-  }
+  # if (inherits(model, "dummy.model")) {
+  #   learner = mlr_learners$get(sprintf("%s.dummy", learner$task_type))
+  # }
   pars = c(list(task = task, model = model, row_ids = test_set), learner$par_vals)
   fun = learner$predict
   now = proc.time()[[3L]]

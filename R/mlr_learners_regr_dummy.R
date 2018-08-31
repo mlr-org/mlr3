@@ -3,7 +3,7 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
   public = list(
     id = "regr.dummy",
     name = "dummy",
-    task_type = "regr",
+    task_type = "TaskRegr",
     packages = character(0L),
     par_set = ParamSet$new(
       params = list(

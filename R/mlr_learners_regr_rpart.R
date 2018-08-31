@@ -3,7 +3,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(
     id = "regr.rpart",
     name = "rpart",
-    task_type = "regr",
+    task_type = "TaskRegr",
     packages = "rpart",
     par_set = ParamSet$new(
       params = list(

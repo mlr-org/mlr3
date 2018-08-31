@@ -59,7 +59,7 @@ expect_backend = function(backends) {
 }
 
 expect_task = function(task) {
-  expect_r6(task, "Task", cloneable = TRUE, public = c("task_type", "id", "backend", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "col_types"))
+  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "col_types"))
   expect_string(task$id, min.chars = 1L)
   expect_count(task$nrow)
   expect_count(task$ncol)
@@ -133,16 +133,16 @@ expect_learner = function(lrn, task = NULL) {
   expect_output(print(lrn))
 
   expect_choice(lrn$task_type, capabilities$task_types, fmatch = TRUE)
-  expect_true(stri_startswith_fixed(lrn$id, lrn$task_type))
   expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L)
   expect_class(lrn$par_set, "ParamSet")
-  expect_subset(lrn$properties, capabilities$learner_props[[task$task_type]])
+  # FIXME
+  # expect_subset(lrn$properties, capabilities$learner_props[[task$task_type]])
   expect_function(lrn$train, args = c("task", "row_ids"), ordered = TRUE)
   expect_function(lrn$predict, args = c("model", "task", "row_ids"), ordered = TRUE)
 
   if (!is.null(task)) {
     assert_r6(task, "Task")
-    expect_identical(lrn$task_type, task$task_type)
+    expect_identical(lrn$task_type, class(task)[1L])
   }
 }
 

@@ -3,7 +3,7 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
   public = list(
     id = "classif.dummy",
     name = "dummy",
-    task_type = "classif",
+    task_type = "TaskClassif",
     packages = character(0L),
     par_set = ParamSet$new(
       params = list(

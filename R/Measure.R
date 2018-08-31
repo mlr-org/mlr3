@@ -17,7 +17,7 @@ Measure = R6Class("Measure",
   public = list(
     id = NA_character_,
     description = NA_character_,
-    task_types = character(0L),
+    task_types = NA_character_,
     packages = character(0L)
   )
 )

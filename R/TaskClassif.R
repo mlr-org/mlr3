@@ -23,7 +23,6 @@
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
-    task_type = "classif",
     measures = list(),
     positive = NA_character_,
 

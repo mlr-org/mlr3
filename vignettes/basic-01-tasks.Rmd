@@ -62,7 +62,7 @@ task$data(rows = c(1, 51, 101), cols = "Species")
 
 ## Task Creation
 
-To create a task from a `data.frame`, you must determine the task_type to select the respective constructor:
+To create a task from a `data.frame`, you must determine the task type to select the respective constructor:
 
 * Classification Task: Target column is labels (stored as `character`/`factor`) with only few distinct values.
   <br>$\Rightarrow$ `TaskClassif`.

@@ -1,8 +1,7 @@
 capabilities = new.env(parent = emptyenv())
 
 capabilities$task_types = c(
-  # FIXME: do not use abbreviations?
-  "regr", "classif", "forecasting", "survival"
+  "TaskSupervised", "TaskRegr", "TaskClassif"
 )
 
 capabilities$task_col_types = c(

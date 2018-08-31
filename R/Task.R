@@ -1,4 +1,41 @@
-#' @title Basic Tasks
+#' Abstract Tasks
+#'
+#' Abstract base types for tasks. Not intended to be used directly.
+#'
+#' @section Usage:
+#' ```
+#' task = Task$new(id, backend)
+#' task$data(rows, cols)
+#' task$head(n = 6)
+#' print(task)
+#' ```
+#' See [BackendDataTable] for an exemplary implementation of this interface.
+#'
+#' @section Arguments:
+#' * `rows` (`integer()` or `character()`):
+#'   Vector of row indices to subset rows using the primary key in the data backend.
+#' * `cols` (`character()`):
+#'   Vector of column names to select specific columns.
+#' * `n` (`integer(1)`): Number of rows to return.
+#'
+#' @section Details:
+#' `$data()` returns a slice of the data as [data.table][data.table::data.table()]:
+#'   rows are matched by the `primary_key` column, columns are selected by name.
+#'
+#' `$head()` (`data.table`) returns a [data.table][data.table::data.table()] of the first `n` data rows.
+#'
+#' `$rownames` (`character(1)`) returns all rownames of `data` as integer or character vector.
+#'
+#' `$colnames` (`character(1)`) returns all colnames of `data` as character vector.
+#'
+#' `$nrow` (`integer(1)`) returns the number of total rows.
+#'
+#' `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
+#' @name Backend
+#' @family Backend
+NULL
+
+#' @title Abstract Tasks
 #' @format [R6Class()] object
 #'
 #' @description
@@ -18,7 +55,6 @@
 Task = R6Class("Task",
   # Base Class for Tasks
   public = list(
-    task_type = NA_character_,
     id = NULL,
     backend = NULL,
     row_info = NULL,
@@ -53,7 +89,7 @@ Task = R6Class("Task",
     },
 
     print = function(...) {
-      catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
+      catf("Task '%s' of type %s (%i x %i)", self$id, class(self)[1L], self$nrow, self$ncol)
       catf(stri_list("Target: ", self$target_names))
       catf(stri_list("Features: ", stri_peek(self$feature_names)))
       catf(stri_list("Order by: ", self$order))

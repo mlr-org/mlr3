@@ -17,7 +17,6 @@
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
-    task_type = "regr",
     default_measure = "mse",
     default_prediction = NA_real_,
     measures = "mse",

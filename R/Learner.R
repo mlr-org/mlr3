@@ -11,7 +11,7 @@ Learner = R6Class("Learner",
   public = list(
     id = NA_character_,
     name = NULL,
-    task_type = NULL,
+    task_type = NA_character_,
     packages = NULL,
     par_set = NULL,
     properties = NULL,
@@ -47,9 +47,9 @@ Learner = R6Class("Learner",
 assert_learner = function(learner, task = NULL) {
   assert_r6(learner, "Learner")
   if (!is.null(task)) {
-    if (!identical(task$task_type, learner$task_type)) {
+    if (!identical(class(task)[1L], learner$task_type)) {
       stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",
-        learner$id, learner$task_type, task$id, task$task_type)
+        learner$id, learner$task_type, task$id, class(task_type)[1L])
     }
   }
   invisible(learner)

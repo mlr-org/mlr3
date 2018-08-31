@@ -1,6 +1,8 @@
 #' Backend Interface
 #'
 #' All objects of type Backend provide the following interface:
+#'
+#' @section Usage:
 #' ```
 #' b$data(rows, cols)
 #' b$head(n = 6)
