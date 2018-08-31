@@ -18,37 +18,42 @@
 #' data = iris
 #' data$Species = ifelse(data$Species == "setosa", "1", "0")
 #' task = TaskClassif$new("iris.binary", data = data, target = "Species")
-#' task$classes_n
+#' task$class_n
 #' mlr_tasks$add(task)
 #' mlr_tasks$remove("iris.binary")
 mlr_tasks = Dictionary$new("Task")
 
 
 mlr_tasks$add(LazyValue("iris", function() {
-  TaskClassif$new("iris", data = load_dataset("iris", "datasets"), target = "Species")
+  b = BackendDataTable$new(data = load_dataset("iris", "datasets"))
+  TaskClassif$new("iris", b, target = "Species")
 }))
 
 
 mlr_tasks$add(LazyValue("sonar", function() {
-  TaskClassif$new("Sonar", data = load_dataset("Sonar", "mlbench"), target = "Class")
+  b = BackendDataTable$new(data = load_dataset("Sonar", "mlbench"))
+  TaskClassif$new("Sonar", b, target = "Class")
 }))
 
 
 mlr_tasks$add(LazyValue("bh", function() {
-  TaskRegr$new("BostonHousing2", data = load_dataset("BostonHousing2", "mlbench"), target = "medv")
+  b = BackendDataTable$new(data = load_dataset("BostonHousing2", "mlbench"))
+  TaskRegr$new("BostonHousing2", b, target = "medv")
 }))
 
 mlr_tasks$add(LazyValue("pima", function() {
-  TaskClassif$new("PimaIndiansDiabetes2", data = load_dataset("PimaIndiansDiabetes2", "mlbench"),
-    target = "diabetes", positive = "pos")
+  b = BackendDataTable$new(data = load_dataset("PimaIndiansDiabetes2", "mlbench"))
+  TaskClassif$new("PimaIndiansDiabetes2",b , target = "diabetes", positive = "pos")
 }))
 
 mlr_tasks$add(LazyValue("zoo", function() {
-  TaskClassif$new("Zoo", data = load_dataset("Zoo", "mlbench", TRUE), target = "type")
+  b = BackendDataTable$new(data = load_dataset("Zoo", "mlbench", TRUE))
+  TaskClassif$new("Zoo", b, target = "type")
 }))
 
 mlr_tasks$add(LazyValue("spam", function() {
-  TaskClassif$new("spam", data = load_dataset("spam", "kernlab", TRUE), target = "type", positive = "spam")
+  b = BackendDataTable$new(data = load_dataset("spam", "kernlab"))
+  TaskClassif$new("spam", b, target = "type", positive = "spam")
 }))
 
 load_dataset = function(id, package, keep.rownames = FALSE) {

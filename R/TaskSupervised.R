@@ -1,12 +1,16 @@
 #' @include Task.R
+#' @examples
+#' b = BackendDataTable$new(iris)
+#' task = TaskSupervised$new("iris", backend = b, target = "Species")
+#' task$target_names
+#' task$formula
 TaskSupervised = R6Class("TaskSupervised",
   # Base Class for Supervised Tasks
   inherit = Task,
   public = list(
-    default_prediction = NULL,
+    initialize = function(id, backend, target) {
+      super$initialize(id = id, backend = backend)
 
-    initialize = function(id, data, target) {
-      super$initialize(id = id, data = data)
       assert_choice(target, self$feature_names)
       self$col_info[id == target, "role" := "target"]
 
@@ -14,21 +18,10 @@ TaskSupervised = R6Class("TaskSupervised",
       self$row_info[ii, role := "validation"]
     },
 
-    truth = function(rows = NULL) {
-      if (is.null(rows))
-        rows = self$row_info[role == "training", "id"][[1L]]
-      self$data(rows, cols = self$target_names)
-    }
-  ),
-
-  active = list(
-    target_names = function() {
-      self$col_info[role == "target", "id"][[1L]]
-    },
-
-    # [formula]. target ~ x1 + ... + xp
-    formula = function() {
-      reformulate(self$feature_names, response = self$target_names)
+    truth = function(row_ids = NULL) {
+      if (is.null(row_ids))
+        row_ids = self$row_info[role == "training", "id"][[1L]]
+      self$data(row_ids, cols = self$target_names)
     }
   )
 )

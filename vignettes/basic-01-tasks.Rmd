@@ -43,7 +43,7 @@ print(task)
 task$nrow
 task$ncol
 task$target_names
-task$classes_n
+task$class_n
 task$class_names
 task$feature_names
 task$head()

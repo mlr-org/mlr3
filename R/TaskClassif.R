@@ -18,25 +18,24 @@
 #' @export
 #' @family Tasks
 #' @examples
-#' task = TaskClassif$new("iris", data = iris, target = "Species")
-#' task$formula
+#' b = BackendDataTable$new(iris)
+#' task = TaskClassif$new("iris", backend = b, target = "Species")
+#' task$class_names
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
-    measures = list(),
     positive = NA_character_,
 
-    initialize = function(id, data, target, positive = NULL) {
-      super$initialize(id = id, data = data, target = target)
-      if (!is.null(positive)) {
+    initialize = function(id, backend, target, positive = NULL) {
+      super$initialize(id = id, backend = backend, target = target)
+      if (!is.null(positive))
         self$positive = assert_choice(positive, self$class_names)
-      }
       self$measures = mlr_measures$mget("mmce")
     }
   ),
 
   active = list(
-    class_names = function() as.character(unique(self$data(cols = self$target_names)[[1L]])),
-    classes_n = function() uniqueN(self$data(cols = self$target_names)[[1L]])
+    class_names = function() as.character(unique(self$truth()[[1L]])),
+    class_n = function() uniqueN(self$truth()[[1L]])
   )
 )

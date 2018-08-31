@@ -17,19 +17,10 @@
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
-    default_measure = "mse",
-    default_prediction = NA_real_,
-    measures = "mse",
-
-    initialize = function(id, data, target) {
-      super$initialize(id = id, data = data, target = target)
+    initialize = function(id, backend, target) {
+      super$initialize(id = id, backend = backend, target = target)
       assert_numeric(self$truth()[[1L]], finite = TRUE, any.missing = FALSE, .var.name = "target column")
-    }
-  ),
-
-  active = list(
-    summary = function() {
-      summary(self$data(cols = self$target_names)[[1L]])
+      self$measures = mlr_measures$mget("mse")
     }
   )
 )

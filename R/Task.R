@@ -13,7 +13,9 @@
 #' @family Tasks
 #' @include capabilities.R
 #' @examples
-#' task = Task$new("iris", data = iris)
+#' b = BackendDataTable$new(iris)
+#' task = Task$new("iris", backend = b)
+#' task$head()
 #' task$formula
 Task = R6Class("Task",
   # Base Class for Tasks
@@ -25,26 +27,21 @@ Task = R6Class("Task",
     measures = list(),
     order = character(0L),
 
-    initialize = function(id, data) {
+    initialize = function(id, backend) {
       self$id = assert_string(id, min.chars = 1L)
-      if (inherits(data, "Backend")) {
-        self$backend = list(data)
-      } else {
-        assert_data_frame(data)
-        self$backend = list(BackendDataTable$new(data = data))
-      }
+      self$backend = assert_r6(backend, "Backend")
 
-      cn = self$backend[[1L]]$colnames
-      types = assert_subset(vcapply(self$backend[[1L]]$head(1L), class), capabilities$task_col_types, fmatch = TRUE)
+      cn = backend$colnames
+      types = assert_subset(vcapply(backend$head(1L), class), capabilities$task_col_types, fmatch = TRUE)
 
       self$row_info = data.table(
-        id = self$backend[[1L]]$rownames,
+        id = backend$rownames,
         role = "training",
         key = "id")
 
       self$col_info = data.table(
         id = cn,
-        role = ifelse(cn == self$backend[[1L]]$primary_key, "primary_key", "feature"),
+        role = ifelse(cn == backend$primary_key, "primary_key", "feature"),
         type = types[chmatch(cn, names(types), 0L)],
         key = "id"
       )
@@ -95,9 +92,7 @@ Task = R6Class("Task",
         selected_cols = union(selected_cols, extra_cols)
       }
 
-      data = rbindlist(
-        lapply(self$backend, function(b) b$data(rows = selected_rows, cols = selected_cols)),
-        fill = TRUE)
+      data = self$backend$data(rows = selected_rows, cols = selected_cols)
 
       if (nrow(data) != length(selected_rows)) {
         stopf("Backend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
@@ -139,26 +134,7 @@ Task = R6Class("Task",
       }
       attr(result, "subset_type") = "ids"
       if (as.vector) result[[1L]] else result
-    },
-
-    add_backend = function(backend, row.role = "validation") {
-      b = self$backend[[1L]]
-      assert_names(backend$colnames, subset.of = b$colnames, must.include = b$primary_key)
-
-      rn = backend$rownames
-      for (b in self$backend) {
-        clashes = b$data(rn, b$primary_key)
-        if (nrow(clashes))
-          stopf("Cannot add new backend: name clashes with primary_key id: %s", stri_peek(clashes[[1L]]))
-      }
-
-      self$backend[[length(self$backend) + 1L]] = backend
-      self$row_info = rbind(self$row_info, data.table(id = rn, role = row.role))
-      setkeyv(self$row_info, "id")
-
-      invisible(self)
     }
-
   ),
 
   active = list(
@@ -167,11 +143,14 @@ Task = R6Class("Task",
     },
 
     target_names = function() {
-      character(0L)
+      self$col_info[role == "target", "id"][[1L]]
     },
 
     formula = function() {
-      reformulate(self$feature_names)
+      tn = self$target_names
+      if (length(tn) == 0L)
+        tn = NULL
+      reformulate(self$feature_names, response = tn)
     },
 
     nrow = function() {
