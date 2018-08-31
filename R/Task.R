@@ -18,7 +18,7 @@
 #' task$head()
 #' task$formula
 Task = R6Class("Task",
-  # Base Class for Tasks
+  cloneable = TRUE,
   public = list(
     id = NULL,
     backend = NULL,
@@ -36,7 +36,7 @@ Task = R6Class("Task",
 
       self$row_info = data.table(
         id = backend$rownames,
-        role = "training",
+        role = "use",
         key = "id")
 
       self$col_info = data.table(
@@ -55,35 +55,20 @@ Task = R6Class("Task",
       catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
     },
 
-    data = function(rows = NULL, cols = NULL, filter_rows = TRUE, filter_cols = TRUE) {
+    data = function(rows = NULL, cols = NULL) {
       if (is.null(rows)) {
-        selected_rows = if (filter_rows)
-          self$row_info[role == "training", "id"][[1L]]
-        else
-          self$row_info$id
+        selected_rows = self$row_info[role == "use", "id"][[1L]]
       } else {
-        selected_rows = if (filter_rows)
-          self$row_info[id %in% rows & role == "training", "id"][[1L]]
-        else
-          self$row_info[id %in% rows, "id"][[1L]]
-
-        if (length(selected_rows) != length(rows))
-          stopf("Invalid row_ids provided")
+        selected_rows = self$row_info[id %in% rows & role == "use", "id"][[1L]]
+        # FIXME: check for valid row ids?
       }
 
-      if (is.null(cols)) {
-        selected_cols = if (filter_cols)
-          self$col_info[role %in% c("feature", "target"), "id"][[1L]]
-        else
-          self$col_info$id
+       if (is.null(cols)) {
+        selected_cols = self$col_info[role %in% c("feature", "target"), "id"][[1L]]
       } else {
-        selected_cols = if (filter_cols)
-          self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
-        else
-          self$col_info[id %in% cols, "id"][[1L]]
-
+        selected_cols = self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
         if (length(selected_cols) != length(cols))
-          stopf("Invalid col ids provided")
+          stopf("Invalid column ids provided")
       }
 
       extra_cols = character(0L)
@@ -113,21 +98,21 @@ Task = R6Class("Task",
 
     head = function(n = 6L) {
       assert_count(n)
-      ids = head(self$row_info[role == "training", "id", with = FALSE][[1L]], n)
+      ids = head(self$row_info[role == "use", "id", with = FALSE][[1L]], n)
       self$data(rows = ids, cols = c(self$feature_names, self$target_names))
     },
 
     row_ids = function(subset = NULL, as.vector = TRUE) {
       if (is.null(subset)) {
-        result = self$row_info[role == "training", "id"]
+        result = self$row_info[role == "use", "id"]
       } else {
         type = attr(subset, "subset_type")
         if (is.null(type)) {
-          result = self$row_info[role == "training"][as.integer(subset), "id"]
+          result = self$row_info[role == "use"][as.integer(subset), "id"]
         } else {
           result = switch(type,
             "ids" = self$row_info[.(subset), nomatch = 0L],
-            "numbers" = self$row_info[role == "training"][subset, "id"],
+            "numbers" = self$row_info[role == "use"][subset, "id"],
             "roles" = self$row_info[role %in% subset, "id"],
             stopf("Unknown subset_type"))
         }
@@ -146,15 +131,8 @@ Task = R6Class("Task",
       self$col_info[role == "target", "id"][[1L]]
     },
 
-    formula = function() {
-      tn = self$target_names
-      if (length(tn) == 0L)
-        tn = NULL
-      reformulate(self$feature_names, response = tn)
-    },
-
     nrow = function() {
-      self$row_info[role == "training", .N]
+      self$row_info[role == "use", .N]
     },
 
     ncol = function() {
@@ -163,11 +141,19 @@ Task = R6Class("Task",
 
     col_types = function() {
       self$col_info[role %in% c("feature", "target"), c("id", "type")]
+    },
+
+    formula = function() {
+      tn = self$target_names
+      if (length(tn) == 0L)
+        tn = NULL
+      reformulate(self$feature_names, response = tn)
     }
   ),
 
   private = list(
     deep_clone = function(name, value) {
+      # NB: Backends are never copied!
       if (name %in% c("row_info", "col_info")) copy(value) else value
     }
   )

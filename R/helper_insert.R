@@ -13,6 +13,10 @@ insert.environment = function(x, y) {
   x
 }
 
+insert.data.table = function(x, y) {
+  x[, names(y) := y][]
+}
+
 remove = function(x, nn) {
   UseMethod("remove")
 }

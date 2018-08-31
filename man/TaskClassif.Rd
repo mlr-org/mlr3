@@ -67,8 +67,9 @@ Number of levels of class labels.}
 }}
 
 \examples{
-task = TaskClassif$new("iris", data = iris, target = "Species")
-task$formula
+b = BackendDataTable$new(iris)
+task = TaskClassif$new("iris", backend = b, target = "Species")
+task$class_names
 }
 \seealso{
 Other Tasks: \code{\link{TaskRegr}}, \code{\link{Task}}

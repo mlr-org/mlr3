@@ -58,7 +58,7 @@ resampling$ratio = 0.8
 Now, we can pass all created objects to the `resample()` function to get a "ResampleResult":
 
 ```{r}
-rr = resample(task, learner, resampling, "mmce")
+rr = resample(task, learner, resampling)
 print(rr)
 ```
 

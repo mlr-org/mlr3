@@ -4,7 +4,10 @@
 \alias{Backend}
 \title{Backend Interface}
 \description{
-All objects of type Backend provide the following interface:\preformatted{b$data(rows, cols)
+All objects of type Backend provide the following interface:
+}
+\section{Usage}{
+\preformatted{b$data(rows, cols)
 b$head(n = 6)
 b$rownames
 b$colnames
@@ -13,8 +16,9 @@ b$ncol
 print(b)
 }
 
-See \link{BackendDataTable} for an implementation of this interface.
+See \link{BackendDataTable} for an exemplary implementation of this interface.
 }
+
 \section{Arguments}{
 
 \itemize{

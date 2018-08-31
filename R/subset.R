@@ -22,13 +22,13 @@
 #' task$row_info[seq_len(task$nrow) %% 3 == 0, role := "ignore"]
 #' task$nrow
 #'
-#' # Use all with role == "training":
+#' # Use all with role == "use":
 #' train(task, lrn)$train_set
 #'
 #' # Same, but more explicitly:
-#' train(task, lrn, subset = row_roles("training"))$train_set
+#' train(task, lrn, subset = row_roles("use"))$train_set
 #'
-#' # Train on rows with role == "training", indexed by position and ordered as in task$row_info
+#' # Train on rows with role == "use", indexed by position and ordered as in task$row_info
 #' train(task, lrn, subset = row_index(1:80))$train_set
 #'
 #' # Use specific row_ids:

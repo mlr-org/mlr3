@@ -3,7 +3,7 @@
 \docType{data}
 \name{Task}
 \alias{Task}
-\title{Basic Tasks}
+\title{Abstract Tasks}
 \format{\code{\link[=R6Class]{R6Class()}} object}
 \usage{
 Task
@@ -59,7 +59,9 @@ Returns \code{data.table} with the true outcome for specified rows.}
 }}
 
 \examples{
-task = Task$new("iris", data = iris)
+b = BackendDataTable$new(iris)
+task = Task$new("iris", backend = b)
+task$head()
 task$formula
 }
 \seealso{

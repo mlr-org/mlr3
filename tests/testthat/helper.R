@@ -175,8 +175,8 @@ expect_experiment = function(e) {
   state = e$state
   expect_factor(state, ordered = TRUE)
   expect_subset(as.character(state), capabilities$experiment_states, fmatch = TRUE)
-  expect_list(e$data, len = nrow(capabilities$experiment_slots))
-  expect_names(names(e$data), permutation.of = capabilities$experiment_slots$name)
+  expect_list(e$data, len = nrow(reflections$experiment_slots))
+  expect_names(names(e$data), permutation.of = reflections$experiment_slots$name)
 
   expect_class(e$data$task, "Task")
   expect_class(e$data$learner, "Learner")

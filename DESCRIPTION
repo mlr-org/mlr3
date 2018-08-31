@@ -97,6 +97,7 @@ Collate:
     'mlr_resamplings_repeated.cv.R'
     'mlr_tasks.R'
     'predict.R'
+    'reflections.R'
     'resample.R'
     'score.R'
     'split.R'

@@ -84,7 +84,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     initialize = function(data) {
       assert_data_table(data)
-      slots = capabilities$experiment_slots$name
+      slots = reflections$experiment_slots$name
       assert_names(names(data), permutation.of = slots)
       self$data = setcolorder(data, slots)
     },

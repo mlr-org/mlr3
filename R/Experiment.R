@@ -10,8 +10,8 @@ Experiment = R6Class("Experiment",
     data = NULL,
 
     initialize = function(task, learner, ...) {
-      self$data = vector("list", nrow(capabilities$experiment_slots))
-      names(self$data) = capabilities$experiment_slots$name
+      self$data = vector("list", nrow(reflections$experiment_slots))
+      names(self$data) = reflections$experiment_slots$name
 
       self$data$task = assert_task(task)
       self$data$learner = assert_learner(learner)
@@ -190,7 +190,7 @@ experiment_score = function(e) {
 combine_experiments = function(x) {
   name = atomic = NULL
   nn = names(x[[1L]])
-  encapsulate = capabilities$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
+  encapsulate = reflections$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
   rbindlist(lapply(x, function(exp) {
     exp[encapsulate] = lapply(exp[encapsulate], list)
     exp

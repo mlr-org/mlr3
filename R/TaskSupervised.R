@@ -20,7 +20,7 @@ TaskSupervised = R6Class("TaskSupervised",
 
     truth = function(row_ids = NULL) {
       if (is.null(row_ids))
-        row_ids = self$row_info[role == "training", "id"][[1L]]
+        row_ids = self$row_info[role == "use", "id"][[1L]]
       self$data(row_ids, cols = self$target_names)
     }
   )

@@ -1,9 +1,16 @@
 context("Task")
 
+test_that("Task duplicates rows", {
+  task = mlr_tasks$get("iris")
+  data = task$data(c(1L, 1L))
+  expect_data_table(data, nrow = 2L, any.missing = FALSE)
+})
+
 test_that("Rows return ordered", {
-  data = as.data.frame(load_dataset("nhtemp", "datasets", TRUE))
+  x = load_dataset("nhtemp", "datasets", TRUE)
+  data = as.data.frame(x)
   data$x = as.numeric(data$x)
-  data$t = as.integer(time(ee$nhtemp))
+  data$t = as.integer(time(x))
   data = data[rev(seq_row(data)), ]
   rownames(data) = NULL
   b = BackendDataTable$new(data)
