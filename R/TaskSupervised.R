@@ -1,3 +1,4 @@
+#' @title Abstract Supervised Tasks
 #' @include Task.R
 #' @examples
 #' b = BackendDataTable$new(iris)
