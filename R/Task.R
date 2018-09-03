@@ -1,22 +1,108 @@
-#' @title Abstract Tasks
-#' @format [R6Class()] object
+#' @title Abstract learning task
 #'
 #' @description
-#' This is the abstract base class for task objects.
-#' Use [TaskClassif] or [TaskRegr] to construct tasks instead of this class.
+#' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
 #'
-#' @template fields-task
-#' @template fields-supervisedtask
+#' @section Usage:
+#' ```
+#' t = Task$new(id, backend)
 #'
-#' @return [Task].
+#' t$id
+#' t$backend
+#' t$row_info
+#' t$col_info
+#' t$measures
+#' t$data(rows = NULL, cols = NULL)
+#' t$head(n = 6)
+#' t$row_ids(subset = NULL)
+#' t$features_names
+#' t$target_names
+#' t$nrow
+#' t$ncol
+#' t$col_types
+#' t$formula
+#' ```
+#'
+#' @section Arguments:
+#' * `id` (`string`):
+#'   Name of the task.
+#' * `backend` ([Backend]):
+#'   [Backend] which stores the data.
+#' * `rows` (`vector`):
+#'   Vector of row ids used to subset rows from the [Backend] using its primary key.
+#'   Can be `character()` or `integer`, depending on the [Backend].
+#' * `cols` (`character()`):
+#'   Character vector of used to select columns from the [Backend].
+#' * `n` (`integer(1)`):
+#'   Number of rows to retrieve from the [Backend].
+#' * `subset` (`vector`):
+#'   Subset of row ids to subset rows from the [Backend] using its primary key.
+#'
+#' @section Details:
+#' `$new()` initializes a new object of class [Task].
+#'
+#' `$id` (`character(1)`) stores the name of the task.
+#'
+#' `$backend()` ([Backend]) stores the [Backend] of the task.
+#'
+#' `$row_info` (`data.table`) with columns `id` and `role`.
+#' Stores row ids of [Backend] in column `id`. Each row (observation)
+#' can have a specific mutually exclusive role in the learning task:
+#' - `"use"`: Use in training.
+#' - `"validation"`: Do not use in training, this are (possibly unlabeled) observations
+#'   which are held back unless explicitly addressed.
+#' - `"ignore"`: Do not these observations at all.
+#'
+#' `$col_info` (`data.table`) with columns `id`, `role` and `type`.
+#' Stores column names of [Backend] in column `id`. Each column (feature)
+#' can have a specific mutually exclusive role in the learning task:
+#' - `"feature"`: Regular feature.
+#' - `"target"`: Column with target labels.
+#' - `"ignore"`: Do not these features at all.
+#' - `"primary_key"`: Name of the primary id column used in [Backend].
+#' Column `type` stores the storage type of the variable, e.g. `integer`, `numeric` or `character`.
+#'
+#' `measures` is a list of [Measure] (performance measures) to use in this task.
+#'
+#' `data()` is used to retrieve data from the backend as `data.table`.
+#' Rows are subsetted to only contain observations with `role == "use"`.
+#' Columns are filtered to only contain features with `role %in% c("target", "feature")`.
+#' If invalid `rows` or `cols` are specified, an exception is raised.
+#'
+#' `head()` can be used to peek into the first `n` observations with `role == "use"`.
+#'
+#' `row_ids()` returns a (subset of) row ids used in the task, i.e. subsetted to observations with `role == "use"`.
+#'
+#' `feature_names` returns a `character` vector of all feature names with `role == "feature"`.
+#'
+#' `target_names` returns a `character` vector of all feature names with `role == "target"`.
+#'
+#' `nrow` provides the total number of rows with `role == "use"`.
+#'
+#' `ncol` provides the total number of cols with `role %in% c("target", "feature")`.
+#'
+#' `col_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" columns of the task and `type` is the storage type.
+#'
+#' `formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
+#'
+#' @name Task
 #' @export
 #' @family Tasks
-#' @include capabilities.R
+#' @keywords internal
 #' @examples
 #' b = BackendDataTable$new(iris)
-#' task = Task$new("iris", backend = b)
+#' task = Task$new("iris", b)
+#' task$nrow
+#' task$ncol
 #' task$head()
 #' task$formula
+#'
+#' # Ignore "Petal.Length"
+#' task$col_info[id == "Petal.Length", role := "ignore"]
+#' task$formula
+NULL
+
+#' @include capabilities.R
 Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
@@ -59,8 +145,9 @@ Task = R6Class("Task",
       if (is.null(rows)) {
         selected_rows = self$row_info[role == "use", "id"][[1L]]
       } else {
-        selected_rows = self$row_info[id %in% rows & role == "use", "id"][[1L]]
-        # FIXME: check for valid row ids?
+        if (self$row_info[list(rows), .N] != length(rows))
+          stopf("Invalid row ids provided")
+        selected_rows = rows
       }
 
        if (is.null(cols)) {
@@ -102,23 +189,12 @@ Task = R6Class("Task",
       self$data(rows = ids, cols = c(self$feature_names, self$target_names))
     },
 
-    row_ids = function(subset = NULL, as.vector = TRUE) {
+    row_ids = function(subset = NULL) {
       if (is.null(subset)) {
-        result = self$row_info[role == "use", "id"]
+        self$row_info[role == "use", "id"][[1L]]
       } else {
-        type = attr(subset, "subset_type")
-        if (is.null(type)) {
-          result = self$row_info[role == "use"][as.integer(subset), "id"]
-        } else {
-          result = switch(type,
-            "ids" = self$row_info[.(subset), nomatch = 0L],
-            "numbers" = self$row_info[role == "use"][subset, "id"],
-            "roles" = self$row_info[role %in% subset, "id"],
-            stopf("Unknown subset_type"))
-        }
+        self$row_info[list(subset)][role == "use", "id"][[1L]]
       }
-      attr(result, "subset_type") = "ids"
-      if (as.vector) result[[1L]] else result
     }
   ),
 
@@ -147,7 +223,9 @@ Task = R6Class("Task",
       tn = self$target_names
       if (length(tn) == 0L)
         tn = NULL
-      reformulate(self$feature_names, response = tn)
+      f = reformulate(self$feature_names, response = tn)
+      environment(f) = NULL
+      f
     }
   ),
 

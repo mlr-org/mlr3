@@ -4,6 +4,7 @@ test_that("Simple training", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.rpart")
   e = Experiment$new(task = task, learner = learner)
+  e$train()
 
   # FIXME: temporarily disabled
   # e$train(1:10) # this should fail because we just train on a single class

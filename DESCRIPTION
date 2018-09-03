@@ -58,6 +58,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
 Collate:
     'Backend.R'
+    'BackendDataTable.R'
     'Dictionary.R'
     'Experiment.R'
     'Learner.R'
@@ -101,7 +102,6 @@ Collate:
     'resample.R'
     'score.R'
     'split.R'
-    'subset.R'
     'train.R'
     'worker.R'
     'zzz.R'

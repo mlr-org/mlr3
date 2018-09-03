@@ -14,8 +14,7 @@ Object of type \code{\link[=Task]{Task()}}.}
 Object of type \code{\link[=Learner]{Learner()}}.}
 
 \item{subset}{(\code{integer} | \code{logical})\cr
-Subset of \code{task} to train the data on.
-See \link{subsetting-types}.}
+Subset of \code{task} to train the data on.}
 }
 \value{
 \link{Experiment}.

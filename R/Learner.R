@@ -49,7 +49,7 @@ assert_learner = function(learner, task = NULL) {
   if (!is.null(task)) {
     if (!identical(class(task)[1L], learner$task_type)) {
       stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",
-        learner$id, learner$task_type, task$id, class(task_type)[1L])
+        learner$id, learner$task_type, task$id, class(task)[1L])
     }
   }
   invisible(learner)

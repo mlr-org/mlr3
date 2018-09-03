@@ -27,11 +27,11 @@ Experiment = R6Class("Experiment",
     },
 
     train = function(subset = NULL) {
-      experiment_train(self, subset)
+      experiment_train(self, self$data$task$row_ids(subset))
     },
 
     predict = function(subset = NULL, newdata = NULL) {
-      experiment_predict(self, subset = subset, newdata = newdata)
+      experiment_predict(self, row_ids = self$data$task$row_ids(subset), newdata = newdata)
     },
 
     score = function() {
@@ -69,7 +69,7 @@ Experiment = R6Class("Experiment",
 
     validation_set = function() {
       role = NULL
-      row_ids = task$row_info[role == "validation", "id"][[1L]]
+      task$row_info[role == "validation", "id"][[1L]]
     },
 
     predictions = function() {
@@ -134,53 +134,36 @@ experiment_print = function(e) {
 }
 
 
-experiment_train = function(e, subset) {
-  train_set = e$data$task$row_ids(subset)
-  e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(train_set))
+experiment_train = function(e, row_ids) {
+  e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
   e$data$iteration = 1L
 
-  # future = future::futureCall(
-  #   train_worker,
-  #   c(e$data[c("task", "learner")], list(train_set = train_set)),
-  #   globals = FALSE)
-  # value = future::value(future)
-  value = train_worker(task = e$data$task, learner = e$data$learner, train_set = train_set)
+  value = train_worker(task = e$data$task, learner = e$data$learner, train_set = row_ids)
   e$data = insert(e$data, value)
   e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
   return(e)
 }
 
-experiment_predict = function(e, subset = NULL, newdata = NULL) {
-  if (!is.null(subset) && !is.null(newdata))
-    stopf("Arguments 'subset' and 'newdata' are mutually exclusive")
+experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
+  if (!is.null(row_ids) && !is.null(newdata))
+    stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
 
   if (is.null(newdata)) {
-    test_set = e$data$task$row_ids(subset)
-    e$data$resampling$instantiate(e$data$task, test_sets = list(test_set))
+    e$data$resampling$instantiate(e$data$task, test_sets = list(row_ids))
   } else {
     backend = BackendDataTable$new(data = newdata, primary_key = e$data$task$backend[[1L]]$primary_key)
     e$data$task = e$data$task$clone()$add_backend(backend)
-    test_set = e$data$task$row_info[role == "validation", "id"][[1L]]
-    e$data$resampling$setTest(test_set)
+    row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
   }
 
-  # future = future::futureCall(
-  #   predict_worker,
-  #   c(e$data[c("task", "learner", "model")], list(test_set = test_set))
-  # )
-  # value = future::value(future)
-  value = predict_worker(task = e$data$task, learner = e$data$learner, model = e$data$model, test_set = test_set)
+  value = predict_worker(task = e$data$task, learner = e$data$learner, model = e$data$model, test_set = row_ids)
   e$data = insert(e$data, value)
   e$data = insert(e$data, list(performance = NULL))
   return(e)
 }
 
 experiment_score = function(e) {
-  test_set = e$test_set
-  # pars = c(e$data[c("task", "predicted")], list(test_set = test_set, measures = measures))
-  # future = future::futureCall(score_worker, pars)
-  # value = future::value(future)
-  value = score_worker(task = e$data$task, test_set = test_set, predicted = e$data$predicted)
+  value = score_worker(task = e$data$task, test_set = e$test_set, predicted = e$data$predicted)
   e$data = insert(e$data, value)
 
   return(e)

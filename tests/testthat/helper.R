@@ -93,6 +93,7 @@ expect_task_supervised = function(task) {
   expect_choice(task$target_names, task$col_info$id)
 
   expect_class(task$formula, "formula")
+  expect_null(environment(task$formula))
   tf = terms(task$formula)
   expect_set_equal(labels(tf), task$feature_names) # rhs
   expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target_names) # lhs

@@ -68,7 +68,7 @@ Before we go into more detail, lets change the resampling to a 3-fold cross-vali
 # resampling = mlr_resamplings$get("cv")
 resampling = mlr3:::ResamplingCV$new()
 resampling$folds = 3
-rr = resample(task, learner, resampling, "mmce")
+rr = resample(task, learner, resampling)
 print(rr)
 ```
 
@@ -110,10 +110,10 @@ If we now pass this instantiated object to resample, the pre-calculated training
 ```{r}
 learner1 = mlr_learners$get("classif.rpart")
 learner2 = mlr_learners$get("classif.dummy")
-rr1 = resample(task, learner1, resampling, "mmce")
-rr1$experiment(1)$train_set
-rr2 = resample(task, learner2, resampling, "mmce")
-rr2$experiment(1)$train_set
+rr1 = resample(task, learner1, resampling)
+rr2 = resample(task, learner2, resampling)
+
+setequal(rr1$experiment(1)$train_set, rr2$experiment(1)$train_set)
 ```
 
 ## Custom Resampling

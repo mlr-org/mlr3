@@ -90,6 +90,5 @@ The experiment is now "complete" which means we can access all of its methods.
 
 Instead of calling the functions `train()`, `predict()` and `score()`, it is also possible to directly work with Experiments:
 ```{r}
-Experiment$new(task = task, learner = learner)$train(train.set)$predict(test.set)$score("mmce")
+Experiment$new(task = task, learner = learner)$train(train.set)$predict(test.set)$score()
 ```
-
