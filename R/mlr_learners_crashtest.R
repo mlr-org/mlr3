@@ -2,15 +2,17 @@
 #' @include capabilities.R
 LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerClassif,
   public = list(
-    id = "classif.crashtest",
-    name = "crashtest",
-    packages = character(0L),
-    par_set = ParamSet$new(
-      params = list(
-        ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train")
+    initialize = function() {
+      super$initialize(
+        id = "classif.crashtest",
+        par_set = ParamSet$new(
+          params = list(
+            ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train")
+          )
+        ),
+      properties = capabilities$learner_props$classif,
       )
-    ),
-    properties = capabilities$learner_props$classif,
+    },
 
     train = function(task, row_ids, crash.on, ...) {
       if (crash.on == "train") {

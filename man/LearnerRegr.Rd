@@ -15,8 +15,7 @@ LearnerRegr
 A \code{\link[R6:R6Class]{R6::R6Class()}} to construct learners.
 }
 \seealso{
-Other Learner: \code{\link{LearnerClassif}},
-  \code{\link{Learner}}
+Other Learner: \code{\link{LearnerClassif}}
 }
 \concept{Learner}
 \keyword{datasets}

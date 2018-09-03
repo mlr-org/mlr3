@@ -1,20 +1,51 @@
-#' @title Class for Learners
-#' @format [R6Class()] object
+#' Abstract learner class
 #'
-#' @description
-#' A [R6::R6Class()] to construct learners.
+#' Abstraction for learners.
 #'
-#' @return [[Learner()]].
-#' @family Learner
+#' @section Usage:
+#' ```
+#' l = Learner$new()
+#' l$id
+#' l$
+#' ```
+#'
+#' @section Arguments:
+#' * `data` (`data.frame` or `data.table`).
+#' * `primary_key` (`character(1)`): Name of the column in `data` which represents a unique
+#'     row identifier (as integer or character). If `NULL`, a new column with integer indices is
+#'     automatically created.
+#'
+#' @section Details:
+#' `$new()` creates a new object of class [Backend].
+#'
+#' @name BackendDataTable
+#' @family Backend
+#' @examples
+#' b = BackendDataTable$new(data = iris)
+#' b$head()
+#' b$data(rows = 100:101, cols = "Species")
+#'
+#' b$nrow
+#' head(b$rownames)
+#'
+#' b$ncol
+#' b$colnames
+NULL
+
 #' @export
 Learner = R6Class("Learner",
   public = list(
-    id = NA_character_,
-    name = NULL,
-    task_type = NA_character_,
+    id = NULL,
     packages = NULL,
     par_set = NULL,
     properties = NULL,
+
+    initialize = function(id, packages = character(0L), par_set = ParamSet$new(), properties = character(0L)) {
+      self$id = assert_string(id, min.chars = 1L)
+      self$packages = assert_character(packages, any.missing = FALSE, min.chars = 1L)
+      self$par_set = assert_r6(par_set, "ParamSet")
+      self$properties = assert_character(properties, any.missing = FALSE, min.chars = 1L)
+    },
 
     print = function(...) {
      catf("Learner '%s' for %s", self$id, self$task_type)

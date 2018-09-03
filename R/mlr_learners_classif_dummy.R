@@ -1,16 +1,17 @@
 #' @include LearnerClassif.R
 LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
   public = list(
-    id = "classif.dummy",
-    name = "dummy",
-    task_type = "TaskClassif",
-    packages = character(0L),
-    par_set = ParamSet$new(
-      params = list(
-        ParamCategorical$new("method", values = c("mode", "sample"), default = "mode")
+    initialize = function() {
+      super$initialize(
+        id = "classif.dummy",
+        par_set = ParamSet$new(
+          params = list(
+            ParamCategorical$new("method", values = c("mode", "sample"), default = "mode")
+          )
+        ),
+        properties = c("missings", "feat.factor", "feat.numeric"),
       )
-    ),
-    properties = c("missings", "feat.factor", "feat.numeric"),
+    },
 
     train = function(task, row_ids, ...) {
       data = task$data(row_ids)

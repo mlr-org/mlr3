@@ -1,16 +1,18 @@
 #' @include LearnerRegr.R
 LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
   public = list(
-    id = "regr.dummy",
-    name = "dummy",
-    task_type = "TaskRegr",
-    packages = character(0L),
-    par_set = ParamSet$new(
-      params = list(
-        ParamCategorical$new("method", values = c("mean", "median"), default = "mean")
+    initialize = function() {
+      super$initialize(
+        id = "regr.dummy",
+        par_set = ParamSet$new(
+          params = list(
+            ParamCategorical$new("method", values = c("mean", "median"), default = "mean")
+          )
+        ),
+        properties = c("missings", "feat.factor", "feat.numeric"),
       )
-    ),
-    properties = c("missings", "feat.factor", "feat.numeric"),
+    },
+
     train = function(task, row_ids, method = "mean", ...) {
       tn = unlist(task$data(row_ids, task$target_names))
       mod = switch(method,
@@ -26,4 +28,3 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
     }
   )
 )
-

@@ -82,11 +82,11 @@ Abstract base class for Task
 - `col_info` [`data.table`]:
   Table of column infomation: [id] | [role] | [type].
   Valid col roles: "primary_key", "target", "feature", "ignore".
-	Possibly more in the future (candidates: order, blocking, weights, observation_name for plotting).
+  Possibly more in the future (candidates: order, blocking, weights, observation_name for plotting).
 - `measures` [`list`]
   Performance measures for this task. Can be "overruled" by user provided measures later.
 - `active_rows` [`character`]: Multiset of row ids, can only contain "use" row ids.
-	ALL DATA OPERATIONS ONLY REFER TO ACTIVE ROWS
+  ALL DATA OPERATIONS ONLY REFER TO ACTIVE ROWS
 
 ##### Methods
 - `data(rows = NULL, cols = NULL): char x char -> data.table`:
@@ -101,7 +101,7 @@ Abstract base class for Task
 - `target_names -> character`:
   Names of the target columns (see col_info)
 - `formula -> formula`:
-	target_names[1] ~ feature_names[1] + ... + feature_names[p]
+  target_names[1] ~ feature_names[1] + ... + feature_names[p]
   Apparently in R we cannot combine multiple targets with "+" on LHS
 - `nrow -> integer(1)`:
   Number of observations
@@ -117,6 +117,7 @@ Abstract base class for Task
   operation ion the reference. The convention is to clone the task first - e.g. in a complex
   function which would rewrite meta-view-info
 - BENUTZEN WIR CHAR ODER FACT (bei cols, target und features und allgemein?)
+- We might want to differentiate between binary and non-binary classification tasks
 
 ## TaskSupervised :: TaskAbstract
 ## TaskUnSupervised :: TaskAbstract
@@ -155,14 +156,14 @@ Abstract base class for Task
 - `packages` [`character()`]
 - `par_set` [`ParamSet`]
 - `properties` [`character()`]
-	Defines what the learner can do. See capabilities.R
+  Defines what the learner can do. See capabilities.R
 - `model`
-	Model from underlying R package. Has to be set for model ops like predict to work. We do this in Experiment
+  Model from underlying R package. Has to be set for model ops like predict to work. We do this in Experiment
 
 ##### Methods
 - `trainInternal` [`function(task)`] --> model
 - `predictInternal` [`function(task)`]  --> data.table.
-	Cols = response | prob or response | se. 1st col is mandatory, 2nd is optional depending on predict_type
+  Cols = response | prob or response | se. 1st col is mandatory, 2nd is optional depending on predict_type
 
 
 ##### Bindings
@@ -175,7 +176,7 @@ Abstract base class for Task
 ##### Comments
 - ParamSet could be loaded lazily. Objects are kind of large and you typically don't work with dozens of learners. Suggestion ML: Store params as JSON in `inst/parsets`?
 - We probably want to enricht the idea here later. Candidates:
-	plot, getOOBPredictions, trainContinue, getFeatureImportance, getSelectedFeature
+  plot, getOOBPredictions, trainContinue, getFeatureImportance, getSelectedFeature
   If we add stuff here, should add a capability.
 - trainInternal and predictInternal are never called by the user / client code. Consider making them private!
 - Do we still describe defaults in par.set
@@ -202,7 +203,7 @@ Tranforms an experiment into a scalar performance number (and defines an aggrega
 ##### Methods
 - `calculate` [`function(experiment)`] --> `numeric(n)`
 - `aggregate` [`function(ResampleResult)`] --> `numeric(1)`
-	 Default: function(rr) mean(r$performances)
+   Default: function(rr) mean(r$performances)
 
 
 ##### Comments
@@ -236,7 +237,7 @@ Execution control and container object for train-predict-score experiments.
  8:    test_log data.table  FALSE
  9:   test_time    numeric   TRUE
 10:   predictions data.table FALSE
-11: 	scores named-numeric  FALSE
+11:   scores named-numeric  FALSE
 ```
 
 Split into train and test are stored in a "Resample" object for experiments.
@@ -449,7 +450,7 @@ ACHTUNG NOCH PARALLELISIERUNG VON LEARNER beachten, wie xgboost
 Creates a fitness function object from experiment data, and allows automatic logging of results.
 
 ##### Members
-	exp_store WIR BRAUCHEN EINE KLASSE HIER?
+  exp_store WIR BRAUCHEN EINE KLASSE HIER?
   task, learner, resampling, par_set, measures
 
 ##### Initialize
@@ -457,7 +458,7 @@ Creates a fitness function object from experiment data, and allows automatic log
   (We allow multiple measures, for multicrit later)
 
 ##### Methods
--	eval(x) --> -> numeric(length(measures))
+-  eval(x) --> -> numeric(length(measures))
   Basically calls resample, returns performance scores, and logs results
 
 ## TunerTermination
@@ -498,7 +499,7 @@ tuneCMAES {
   tune(task, learner, resampling, par_set) {
     lower, upper <- par_set
     fn = Fitness(task, learner, resampling, par_set) {)
-	  cmaes(fitn, lower, upper)
+    cmaes(fitn, lower, upper)
     fitnessfunction "self logging"
   }
 }
