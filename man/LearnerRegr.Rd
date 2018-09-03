@@ -4,7 +4,7 @@
 \name{LearnerRegr}
 \alias{LearnerRegr}
 \title{Class for Regr Learners}
-\format{\code{\link[=R6Class]{R6Class()}} object}
+\format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 LearnerRegr
 }

@@ -1,9 +1,14 @@
-#' @title Registered Resampling Methods
-#' @docType class
-#' @format \code{\link{R6Class}} object
+#' Dictionary of registered resampling strategies
 #'
-#' @description
-#' \code{Resamplings} is a \code{\link{Dictionary}} used to manage resampling methods.
+#' @section Usage:
+#' See [Dictionary].
 #'
+#' @name mlr_resamplings
+#' @family Dictionary
+#' @examples
+#' mlr_resamplings$ids
+#' mlr_resamplings$get("cv")
+NULL
+
 #' @export
 mlr_resamplings = Dictionary$new("Resampling")

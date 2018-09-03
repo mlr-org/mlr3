@@ -1,26 +1,27 @@
-#' @title Dictionary of defined Tasks
-#' @docType class
-#' @format \code{\link{R6Class}} object
-#' @include Dictionary.R
+#' Dictionary of example learning tasks
 #'
-#' @description
-#' \code{Tasks} is a \code{\link{Dictionary}} used to manage tasks.
+#' @section Usage:
+#' See [Dictionary].
 #'
-#' @export
+#' @name mlr_tasks
+#' @family Dictionary
 #' @examples
-#' # List task ids:
 #' mlr_tasks$ids
-#'
-#' # Retrieve a specific task:
 #' mlr_tasks$get("iris")
+#' head(mlr_tasks$get("iris")$data())
 #'
 #' # Add a new task, based on a subset of iris:
 #' data = iris
 #' data$Species = ifelse(data$Species == "setosa", "1", "0")
-#' task = TaskClassif$new("iris.binary", data = data, target = "Species")
-#' task$class_n
+#' b = BackendDataTable$new(data)
+#' task = TaskClassif$new("iris.binary", b, target = "Species")
 #' mlr_tasks$add(task)
+#' mlr_tasks$ids
+#' mlr_tasks$get("iris.binary")
 #' mlr_tasks$remove("iris.binary")
+NULL
+
+#' @export
 mlr_tasks = Dictionary$new("Task")
 
 

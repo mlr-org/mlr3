@@ -1,5 +1,4 @@
 #' @title Classification Tasks
-#' @format [R6Class()] object
 #'
 #' @description
 #' A [R6::R6Class()] to construct classification tasks.

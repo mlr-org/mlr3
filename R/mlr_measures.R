@@ -1,10 +1,14 @@
-#' @title Registered Measures
-#' @docType class
-#' @format \code{\link{R6Class}} object
+#' Dictionary of registered performance measures
 #'
-#' @description
-#' \code{mlr_measures} is a \code{\link{Dictionary}} used to manage performance measures.
+#' @section Usage:
+#' See [Dictionary].
 #'
-#' @include Dictionary.R
+#' @family Dictionary
+#' @name mlr_measures
+#' @examples
+#' mlr_measures$ids
+#' mlr_measures$get("mmce")
+NULL
+
 #' @export
 mlr_measures = Dictionary$new("Measure")

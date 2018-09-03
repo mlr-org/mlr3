@@ -58,7 +58,7 @@ NULL
 #' @section Details:
 #' `$new()` creates a new object of class [Backend].
 #'
-#' @export
+#' @name BackendDataTable
 #' @family Backend
 #' @examples
 #' b = BackendDataTable$new(data = iris)
@@ -70,6 +70,9 @@ NULL
 #'
 #' b$ncol
 #' b$colnames
+NULL
+
+#' @export
 BackendDataTable = R6Class("Backend",
   cloneable = FALSE,
   public = list(

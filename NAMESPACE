@@ -3,6 +3,7 @@
 S3method(predict,Experiment)
 export(BackendDataTable)
 export(BenchmarkResult)
+export(Dictionary)
 export(Experiment)
 export(Learner)
 export(LearnerClassif)

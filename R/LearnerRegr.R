@@ -1,5 +1,4 @@
 #' @title Class for Regr Learners
-#' @format [R6Class()] object
 #'
 #' @description
 #' A [R6::R6Class()] to construct learners.

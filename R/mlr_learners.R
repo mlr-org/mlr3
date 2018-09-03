@@ -1,12 +1,14 @@
-#' @title Registered Learners
-#' @docType class
-#' @format [R6Class()] object
+#' Dictionary of registered learners
 #'
-#' @description
-#' `mlr_learners` is a [Dictionary()] used to manage learners.
+#' @section Usage:
+#' See [Dictionary].
 #'
-#' @export
+#' @family Dictionary
+#' @name mlr_learners
 #' @examples
 #' mlr_learners$ids
 #' mlr_learners$get("classif.dummy")
+NULL
+
+#' @export
 mlr_learners = Dictionary$new("Learner")
