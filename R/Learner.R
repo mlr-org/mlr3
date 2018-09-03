@@ -1,35 +1,54 @@
-#' Abstract learner class
+method_not_implemented = function(...) {
+  stop("Internal error. This method is not implemented, but should have been overloaded during construction")
+}
+
+
+#' @title Abstract learner class
 #'
+#' @description
 #' Abstraction for learners.
 #'
 #' @section Usage:
 #' ```
 #' l = Learner$new()
 #' l$id
-#' l$
+#' l$packages
+#' l$par_set
+#' l$par_vals
+#' l$properties
+#' l$predict_type
+#' l$train(task)
+#' l$predict(task, model)
 #' ```
 #'
 #' @section Arguments:
-#' * `data` (`data.frame` or `data.table`).
-#' * `primary_key` (`character(1)`): Name of the column in `data` which represents a unique
-#'     row identifier (as integer or character). If `NULL`, a new column with integer indices is
-#'     automatically created.
+#' * `task` ([Task]):
+#'   Task to train/predict on.
+#' * `model` (any):
+#'   Fitted model as returned by `train`.
 #'
-#' @section Details:
-#' `$new()` creates a new object of class [Backend].
+#' @section MyDetails:
+#' `$new()` creates a new object of class [Learner].
 #'
-#' @name BackendDataTable
-#' @family Backend
-#' @examples
-#' b = BackendDataTable$new(data = iris)
-#' b$head()
-#' b$data(rows = 100:101, cols = "Species")
+#' `$id` (`character(1)`) stores the identifier of the object.
 #'
-#' b$nrow
-#' head(b$rownames)
+#' `$packages` (`character(1)`) stores the names of required packages.
 #'
-#' b$ncol
-#' b$colnames
+#' `$par_set()` ([paradox::ParamSet]) describes the available hyperparameter and possible settings.
+#'
+#' `$par_vals()` (`named list`) stores the list set hyperparameter values.
+#'
+#' `$properties` (`character()`) is a set of tags which describe the properties of the learner.
+#'
+#' `$predict_type` (`character(1)`) stores the predict type of the learner, e.g. "response" or "probability" for classification learners of class [LearnerClassif].
+#'
+#' `$train()` takes a task and returns a model fitted on all observations.
+#'
+#' `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
+#'
+#' @name Learner
+#' @keywords internal
+#' @family Learner
 NULL
 
 #' @export
@@ -40,13 +59,16 @@ Learner = R6Class("Learner",
     par_set = NULL,
     properties = NULL,
 
-    initialize = function(id, packages = character(0L), par_set = ParamSet$new(), properties = character(0L)) {
+    initialize = function(id, packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
       self$id = assert_string(id, min.chars = 1L)
       self$packages = assert_character(packages, any.missing = FALSE, min.chars = 1L)
       self$par_set = assert_r6(par_set, "ParamSet")
-      self$properties = assert_character(properties, any.missing = FALSE, min.chars = 1L)
+      self$properties = assert_character(properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+      private$.par_vals = assert_par_vals(par_vals, par_set)
     },
 
+    train = method_not_implemented,
+    test = method_not_implemented,
     print = function(...) {
      catf("Learner '%s' for %s", self$id, self$task_type)
      catf(stri_list("Properties: ", self$properties))
@@ -57,9 +79,7 @@ Learner = R6Class("Learner",
     par_vals = function(rhs) {
       if (missing(rhs))
         return(private$.par_vals)
-      assert_list(rhs, names = "unique")
-      assert_subset(names(rhs), self$par_set$ids)
-      private$.par_vals[names(rhs)] = rhs
+      private$.par_vals = assert_par_vals(par_vals, self$par_set)
     },
 
     predict_type = function(rhs) {
@@ -84,4 +104,10 @@ assert_learner = function(learner, task = NULL) {
     }
   }
   invisible(learner)
+}
+
+assert_par_vals = function(par_vals, par_set) {
+  assert_list(par_vals, names = "unique", any.missing = FALSE)
+  assert_subset(names(par_vals), par_set$ids)
+  par_vals
 }

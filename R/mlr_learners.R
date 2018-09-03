@@ -1,4 +1,4 @@
-#' Dictionary of registered learners
+#' @title Dictionary of registered learners
 #'
 #' @section Usage:
 #' See [Dictionary].

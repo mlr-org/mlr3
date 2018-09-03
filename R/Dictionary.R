@@ -1,5 +1,6 @@
-#' Key-value storage
+#' @title Key-value storage
 #'
+#' @description
 #' A simple key-value store for \pkg{R6} objects with support of lazy-loading objects.
 #'
 #' @section Usage:

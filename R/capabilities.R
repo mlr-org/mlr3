@@ -17,10 +17,10 @@ capabilities$task_col_roles = c(
 )
 
 capabilities$learner_props = list(
-  any = c(sprintf("feat.%s", capabilities$task_col_types), "missings", "weights", "parallel")
+  Task = c(sprintf("feat.%s", capabilities$task_col_types), "missings", "weights", "parallel")
 )
-capabilities$learner_props$classif = c(capabilities$learner_props$any, "twoclass", "multiclass", "prob")
-capabilities$learner_props$regr = c(capabilities$learner_props$any, "se")
+capabilities$learner_props$TaskClassif = c(capabilities$learner_props$Task, "twoclass", "multiclass", "prob")
+capabilities$learner_props$TaskRegr = c(capabilities$learner_props$Task, "se")
 
 capabilities$predict_types = list(
   classif = c("response", "prob"),

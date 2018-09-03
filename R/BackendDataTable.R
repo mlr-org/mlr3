@@ -1,5 +1,6 @@
-#' Backend for data.table
+#' @title Backend for data.table
 #'
+#' @description
 #' Abstraction for [data.table::data.table()] as an in-memory data base.
 #' Returns an object of class [Backend].
 #'

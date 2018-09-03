@@ -134,7 +134,7 @@ expect_learner = function(lrn, task = NULL) {
   expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L)
   expect_class(lrn$par_set, "ParamSet")
   # FIXME
-  # expect_subset(lrn$properties, capabilities$learner_props[[task$task_type]])
+  expect_subset(lrn$properties, capabilities$learner_props[[class(task)[1L]]])
   expect_function(lrn$train, args = c("task", "row_ids"), ordered = TRUE)
   expect_function(lrn$predict, args = c("model", "task", "row_ids"), ordered = TRUE)
 

@@ -1,17 +1,27 @@
-#' @title Class for Regr Learners
+#' @title Class for regression learners
 #'
 #' @description
-#' A [R6::R6Class()] to construct learners.
+#' Class for regression learners. Inherits from [Learner].
+#' Predict type is set to "response" by default.
 #'
-#' @return [Learner()].
+#' Instantiated learners can be retrieved from [mlr_learners].
+#'
+#' @section Usage:
+#' ```
+#' l = LearnerRegr$new()
+#' ```
+#'
+#' @name LearnerRegr
 #' @family Learner
-#' @include Learner.R
+NULL
+
 #' @export
 LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
   public = list(
     task_type = "TaskRegr",
-    initialize = function(id, packages = character(0L), par_set = ParamSet$new(), properties = character(0L)) {
-      super$initialize(id = id, packages = packages, par_set = par_set, properties = properties)
+    initialize = function(id, packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
+      super$initialize(id = id, packages = packages, par_set = par_set, par_vals = par_vals, properties = properties)
+      assert_subset(self$properties, capabilities$learner_props$TaskRegr)
     }
   ),
   private = list(

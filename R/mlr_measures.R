@@ -1,4 +1,4 @@
-#' Dictionary of registered performance measures
+#' @title Dictionary of registered performance measures
 #'
 #' @section Usage:
 #' See [Dictionary].

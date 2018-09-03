@@ -10,7 +10,7 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
             ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train")
           )
         ),
-      properties = capabilities$learner_props$classif,
+      properties = capabilities$learner_props$TaskClassif,
       )
     },
 

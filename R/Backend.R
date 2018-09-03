@@ -1,5 +1,6 @@
-#' Backend Interface
+#' @title Backend Interface
 #'
+#' @description
 #' All objects of type Backend provide the following interface:
 #'
 #' @section Usage:
