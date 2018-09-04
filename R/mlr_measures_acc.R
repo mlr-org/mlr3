@@ -11,8 +11,8 @@ MeasureACC = R6Class("MeasureACC", inherit = Measure,
     },
 
     calculate = function(e) {
-      e$truth() == e$predictions
-      mean(truth == predicted)
+      p = e$predictions
+      mean(p$truth == p$predicted)
     }
   )
 )

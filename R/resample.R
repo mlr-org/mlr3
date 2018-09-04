@@ -11,15 +11,20 @@
 #'   Object of type [Resampling].
 #' @return [ResampleResult].
 #' @export
+#' @examples
+#' task = mlr_tasks$get("iris")
+#' learner = mlr_learners$get("classif.rpart")
+#' resampling = mlr_resamplings$get("cv")
+#' resample(task, learner, resampling)
 resample = function(task, learner, resampling) {
   assert_task(task)
   assert_learner(learner, task = task)
   assert_resampling(resampling)
 
   if (resampling$is_instantiated) {
-    instance = resampling$clone() # FIXME: clone
+    instance = resampling$clone()
   } else {
-    instance = resampling$instantiate(task) # FIXME: clone
+    instance = resampling$instantiate(task)
   }
   n = instance$iters
 
@@ -29,14 +34,10 @@ resample = function(task, learner, resampling) {
   #   experiment_worker(task = task, learner = learner,  train_set = train_set, test_set = test_set, measures = measures)
   # }, future.globals = FALSE, future.packages = "mlr3", task = task, learner = learner, instance = instance, measures = measures)
 
-  res = lapply(seq_len(n), function(i) {
-    train_set = instance$train_set(i)
-    test_set = instance$test_set(i)
-    experiment_worker(task = task, learner = learner,  train_set = train_set, test_set = test_set)
-  })
 
+  res = lapply(seq_len(n), experiment_worker, task = task, learner = learner, resampling = resampling)
   res = combine_experiments(res)
-  res[, c("task", "resampling", "iteration") := list(list(task), list(instance), seq_len(n))]
+  res[, c("task", "resampling") := list(list(task), list(instance))]
 
   ResampleResult$new(res)
 }

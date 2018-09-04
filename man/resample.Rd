@@ -22,3 +22,9 @@ Object of type \link{Resampling}.}
 \description{
 Runs a resampling (possibly in parallel).
 }
+\examples{
+task = mlr_tasks$get("iris")
+learner = mlr_learners$get("classif.rpart")
+resampling = mlr_resamplings$get("cv")
+resample(task, learner, resampling)
+}

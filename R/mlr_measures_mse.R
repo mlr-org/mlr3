@@ -10,8 +10,9 @@ MeasureMSE = R6Class("MeasureMSE", inherit = Measure,
       )
     },
 
-    calculate = function(truth, predicted) {
-      mean( (truth - predicted)^2 )
+    calculate = function(e) {
+      p = e$predictions
+      mean( (e$truth - e$predicted)^2 )
     }
   )
 )

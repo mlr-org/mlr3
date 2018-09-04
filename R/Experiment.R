@@ -76,7 +76,7 @@ Experiment = R6Class("Experiment",
       predicted = self$data$predicted
       if (is.null(predicted))
         stopf("No predictions available")
-      row_ids = self$data$resampling$test_set(1L)
+      row_ids = self$data$resampling$test_set(self$data$iteration)
       data.table(
         id = row_ids,
         truth = self$data$task$truth(row_ids)[[1L]], predicted = self$data$predicted,
@@ -138,7 +138,7 @@ experiment_train = function(e, row_ids) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
   e$data$iteration = 1L
 
-  value = train_worker(task = e$data$task, learner = e$data$learner, train_set = row_ids)
+  value = train_worker(e)
   e$data = insert(e$data, value)
   e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
   return(e)
@@ -156,14 +156,14 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
     row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
   }
 
-  value = predict_worker(task = e$data$task, learner = e$data$learner, test_set = row_ids)
+  value = predict_worker(e)
   e$data = insert(e$data, value)
   e$data = insert(e$data, list(performance = NULL))
   return(e)
 }
 
 experiment_score = function(e) {
-  value = score_worker(task = e$data$task, test_set = e$test_set, predicted = e$data$predicted)
+  value = score_worker(e)
   e$data = insert(e$data, value)
 
   return(e)

@@ -10,8 +10,9 @@ MeasureMMCE = R6Class("MeasureMMCE", inherit = Measure,
       )
     },
 
-    calculate = function(truth, predicted) {
-      mean(truth != predicted)
+    calculate = function(e) {
+      p = e$predictions
+      mean(p$truth != p$predicted)
     }
   )
 )

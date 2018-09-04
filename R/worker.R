@@ -5,11 +5,13 @@ ecall = function(fun, pars) {
 }
 
 
-train_worker = function(task, learner, train_set) {
+# takes (partial) experiment, returns named list of slots to update on the master
+train_worker = function(e) {
+  learner = e$data$learner
   pkgs = c("mlr3", learner$packages)
   require_namespaces(pkgs, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
-  task = task$clone(deep = TRUE)$filter(train_set)
+  task = e$data$task$clone(deep = TRUE)$filter(e$train_set)
   pars = c(list(task = task), learner$par_vals)
 
   train_time = proc.time()[[3L]]
@@ -25,11 +27,12 @@ train_worker = function(task, learner, train_set) {
   ))
 }
 
-predict_worker = function(task, learner, test_set) {
+predict_worker = function(e) {
+  learner = e$data$learner
   pkgs = c("mlr3", learner$packages)
   require_namespaces(pkgs, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
-  task = task$clone(deep = TRUE)$filter(test_set)
+  task = e$data$task$clone(deep = TRUE)$filter(e$test_set)
   pars = c(list(task = task), learner$par_vals)
   test_time = proc.time()[[3L]]
   res = ecall(learner$predict, pars)
@@ -43,32 +46,29 @@ predict_worker = function(task, learner, test_set) {
   ))
 }
 
-score_worker = function(task, test_set, predicted) {
+score_worker = function(e) {
+  task = e$data$task
   measures = task$measures
   pkgs = c("mlr3", unlist(lapply(measures, "[[", "packages")))
   require_namespaces(pkgs, "The following packages are required for the measures: %s")
 
-  truth = task$truth(test_set)[[1L]]
-  if (length(truth) != length(predicted))
-    stopf("Truth (length %i) and predicted (length %i) must have the same length", length(truth), length(predicted))
-  if (length(predicted) == 0L)
-    stopf("Cannot estimate performance on zero-length predictions")
-
-  performance = lapply(measures, function(m) m$calculate(truth, predicted))
+  performance = lapply(measures, function(m) m$calculate(e))
   names(performance) = ids(measures)
   return(list(performance = performance))
 }
 
-experiment_worker = function(task, learner, train_set, test_set) {
-  result = vector("list", 7L)
-  names(result) = c("learner", "train_time", "train_log", "predicted", "test_time", "test_log", "performance")
+experiment_worker = function(iteration, task, learner, resampling) {
+  e = Experiment$new(task, learner)
+  e$data = insert(e$data, list(resampling = resampling, iteration = iteration))
 
-  tmp = train_worker(task = task, learner = learner, train_set = train_set)
-  result = insert(result, tmp)
-  tmp = predict_worker(task = task, learner = learner, test_set = test_set)
-  result = insert(result, tmp)
-  tmp = score_worker(task = task, test_set = test_set, predicted = result$predicted)
-  result = insert(result, tmp)
+  tmp = train_worker(e)
+  e$data = insert(e$data, tmp)
 
-  return(result)
+  tmp = predict_worker(e)
+  e$data = insert(e$data, tmp)
+
+  tmp = score_worker(e)
+  e$data = insert(e$data, tmp)
+
+  remove(e$data, c("task", "resampling"))
 }
