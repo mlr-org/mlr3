@@ -19,14 +19,13 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       )
     },
 
-    train = function(task, row_ids, ...) {
-      data = task$data(row_ids)
-      rpart::rpart(task$formula, data, ...)
+    train = function(task, ...) {
+      rpart::rpart(task$formula, task$data(), ...)
     },
 
-    predict = function(model, task, row_ids, ...) {
-      newdata = task$data(row_ids, cols = task$feature_names)
-      predict(model, newdata = newdata, ...)
+    predict = function(task, ...) {
+      newdata = task$data(cols = task$feature_names)
+      predict(self$model, newdata = newdata, ...)
     }
   )
 )

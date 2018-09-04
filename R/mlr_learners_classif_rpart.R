@@ -19,18 +19,13 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       )
     },
 
-    train = function(task, row_ids, ...) {
-      data = task$data(row_ids)
-      rpart::rpart(task$formula, data, ...)
+    train = function(task, ...) {
+      rpart::rpart(task$formula, task$data(), ...)
     },
 
-    predict = function(model, task, row_ids, ...) {
-      # pt = self$predict_type
-      newdata = task$data(row_ids, cols = task$feature_names)
-      # if (pt == "response")
-        as.character(predict(model, newdata = newdata, type = "class", ...))
-      # else
-      #   predict(model, newdata = newdata, type = "prob", ...)
+    predict = function(task, ...) {
+      newdata = task$data(cols = task$feature_names)
+      as.character(predict(self$model, newdata = newdata, type = "class", ...))
     }
   )
 )

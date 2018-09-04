@@ -133,10 +133,9 @@ expect_learner = function(lrn, task = NULL) {
   expect_choice(lrn$task_type, capabilities$task_types, fmatch = TRUE)
   expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L)
   expect_class(lrn$par_set, "ParamSet")
-  # FIXME
   expect_subset(lrn$properties, capabilities$learner_props[[class(task)[1L]]])
-  expect_function(lrn$train, args = c("task", "row_ids"), ordered = TRUE)
-  expect_function(lrn$predict, args = c("model", "task", "row_ids"), ordered = TRUE)
+  expect_function(lrn$train, args = c("task", "..."), ordered = TRUE)
+  expect_function(lrn$predict, args = c("task", "..."), ordered = TRUE)
 
   if (!is.null(task)) {
     assert_r6(task, "Task")

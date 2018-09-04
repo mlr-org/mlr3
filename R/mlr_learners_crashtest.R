@@ -14,15 +14,17 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
       )
     },
 
-    train = function(task, row_ids, crash.on, ...) {
+    train = function(task, crash.on, ...) {
       if (crash.on == "train") {
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
       }
       structure(NA, class = "crashtest.model")
     },
 
-    predict = function(model, task, row_ids, crash.on, ...) {
-      get("attach")( structure(list(), class = "UserDefinedDatabase")  )
+    predict = function(task, crash.on, ...) {
+      if (crash.on == "predict") {
+        get("attach")( structure(list(), class = "UserDefinedDatabase")  )
+      }
     }
   )
 )

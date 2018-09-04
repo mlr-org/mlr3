@@ -13,8 +13,8 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
       )
     },
 
-    train = function(task, row_ids, method = "mean", ...) {
-      tn = unlist(task$data(row_ids, task$target_names))
+    train = function(task, method = "mean", ...) {
+      tn = unlist(task$data(task$target_names))
       mod = switch(method,
         "mean" = mean(tn),
         "median" = median(tn),
@@ -23,8 +23,9 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
       mod
     },
 
-    predict = function(model, task, row_ids, ...) {
-      rep(as.numeric(model$model), length(row_ids))
+    predict = function(task, ...) {
+      n = task$nrow
+      rep(as.numeric(self$model), n)
     }
   )
 )

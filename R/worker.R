@@ -9,7 +9,8 @@ train_worker = function(task, learner, train_set) {
   pkgs = c("mlr3", learner$packages)
   require_namespaces(pkgs, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
-  pars = c(list(task = task, row_ids = train_set), learner$par_vals)
+  task = task$clone(deep = TRUE)$filter(train_set)
+  pars = c(list(task = task), learner$par_vals)
 
   train_time = proc.time()[[3L]]
   res = ecall(learner$train, pars)
@@ -28,17 +29,15 @@ predict_worker = function(task, learner, model, test_set) {
   pkgs = c("mlr3", learner$packages)
   require_namespaces(pkgs, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
-  pars = c(list(task = task, model = model, row_ids = test_set), learner$par_vals)
-  fun = learner$predict
-  now = proc.time()[[3L]]
-  res = ecall(fun, pars)
-  if (is.null(res$result)) {
-    res$result = rep.int(task$default_prediction, length(test_set))
-  }
+  task = task$clone(deep = TRUE)$filter(test_set)
+  pars = c(list(task = task), learner$par_vals)
+  test_time = proc.time()[[3L]]
+  res = ecall(learner$predict, pars)
+  test_time = round(proc.time()[[3L]] - test_time, 8L)
 
   return(list(
     predicted = res$result,
-    test_time = round(proc.time()[[3L]] - now, 8L),
+    test_time = test_time,
     test_log = res$log,
     performance = NULL
   ))

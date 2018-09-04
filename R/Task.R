@@ -195,6 +195,16 @@ Task = R6Class("Task",
       } else {
         self$row_info[list(subset)][role == "use", "id"][[1L]]
       }
+    },
+
+    filter = function(row_ids) {
+      self$row_info[!list(row_ids), role := "ignore"]
+      self
+    },
+
+    select = function(cols) {
+      self$col_info[!list(cols), role := "ignore"]
+      self
     }
   ),
 

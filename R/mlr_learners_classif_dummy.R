@@ -13,19 +13,21 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
       )
     },
 
-    train = function(task, row_ids, ...) {
-      data = task$data(row_ids)
+    train = function(task, ...) {
+      data = task$data()
       tn = task$target_names
       mod = data[, .N, by = tn]
       class(mod) = c("dummy.model", class(mod))
       mod
     },
 
-    predict = function(model, task, row_ids, method = "mode", ...) {
+    predict = function(task, method = "mode", ...) {
+      n = task$nrow
+      model = self$model
       if (method == "mode")
-        rep.int(as.character(sample(model[N == max(N)][[task$target_names]], 1L)), length(row_ids))
+        rep.int(as.character(sample(model[N == max(N)][[task$target_names]], 1L)), n)
       else
-        as.character(sample(model[[task$target_names]], length(row_ids), replace = TRUE, prob = model[["N"]]))
+        as.character(sample(model[[task$target_names]], n, replace = TRUE, prob = model[["N"]]))
     }
   )
 )
