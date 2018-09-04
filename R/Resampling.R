@@ -9,22 +9,44 @@
 #' ```
 #' r = Resampling$new(id)
 #' r$id
+#' r$iters
+#' r$par_set
+#' r$par_vals
+#' r$instantiate(task)
 #' r$is_instantiated
+#' r$train_set(i)
+#' r$test_set(i)
 #' r$checksum
 #' ```
 #'
 #' @section Arguments:
-#' * `id` ([Task]):
-#'   Task to train/predict on.
-#' * `model` (any):
-#'   Fitted model as returned by `train`.
+#' * `id` (`character(1)`):
+#'   identifier for this object.
+#'
+#' * `i` (`integer(1)`):
+#'   Get the `i`-th training/test set.
 #'
 #' @section Details:
-#' `$new()` creates a new object of class [Learner].
+#' `$new()` creates a new object of class [Resampling].
 #'
 #' `$id` (`character(1)`) stores the identifier of the object.
 #'
-#' FIXME: Not finished
+#' `iters` (`integer(1)`) calculates the resulting number of iterations, given the current `par_vals`.
+#'
+#' `par_set` (`[paradox::ParamSet()]`) describes available parameters.
+#'
+#' `par_vals` (`named list`) stores the currently set parameter values.
+#' You can set parameters by assigning a named list of new parameters to this slot.
+#'
+#' `instantiate` materializes fixed training and test splits for a given task.
+#'
+#' `is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
+#'
+#' `train_set()` returns the training set for the `i`-th iteration.
+#'
+#' `test_set()` returns the test set for the `i`-th iteration.
+#'
+#' `checksum` returns a unique string hash for the instantiation.
 #'
 #' @name Resampling
 #' @keywords internal
@@ -44,6 +66,8 @@ Resampling = R6Class("Resampling",
       private$.par_vals = assert_par_vals(par_vals, par_set)
     },
 
+    train_set = method_not_implemented,
+    test_set = method_not_implemented,
     instantiate = method_not_implemented
   ),
 

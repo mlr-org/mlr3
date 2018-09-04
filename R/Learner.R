@@ -20,6 +20,8 @@
 #' ```
 #'
 #' @section Arguments:
+#' * `id` (`character(1)`):
+#'   identifier for this object.
 #' * `task` ([Task]):
 #'   Task to train/predict on.
 #' * `model` (any):

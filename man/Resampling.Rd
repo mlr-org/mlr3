@@ -11,7 +11,13 @@ Predefined resamplings are stored in \link{mlr_resamplings}.
 \section{Usage}{
 \preformatted{r = Resampling$new(id)
 r$id
+r$iters
+r$par_set
+r$par_vals
+r$instantiate(task)
 r$is_instantiated
+r$train_set(i)
+r$test_set(i)
 r$checksum
 }
 }
@@ -19,20 +25,35 @@ r$checksum
 \section{Arguments}{
 
 \itemize{
-\item \code{id} (\link{Task}):
-Task to train/predict on.
-\item \code{model} (any):
-Fitted model as returned by \code{train}.
+\item \code{id} (\code{character(1)}):
+identifier for this object.
+\item \code{i} (\code{integer(1)}):
+Get the \code{i}-th training/test set.
 }
 }
 
 \section{Details}{
 
-\code{$new()} creates a new object of class \link{Learner}.
+\code{$new()} creates a new object of class \link{Resampling}.
 
 \code{$id} (\code{character(1)}) stores the identifier of the object.
 
-FIXME: Not finished
+\code{iters} (\code{integer(1)}) calculates the resulting number of iterations, given the current \code{par_vals}.
+
+\code{par_set} (\code{[paradox::ParamSet()]}) describes available parameters.
+
+\code{par_vals} (\code{named list}) stores the currently set parameter values.
+You can set parameters by assigning a named list of new parameters to this slot.
+
+\code{instantiate} materializes fixed training and test splits for a given task.
+
+\code{is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
+
+\code{train_set()} returns the training set for the \code{i}-th iteration.
+
+\code{test_set()} returns the test set for the \code{i}-th iteration.
+
+\code{checksum} returns a unique string hash for the instantiation.
 }
 
 \concept{Resampling}

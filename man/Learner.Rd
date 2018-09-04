@@ -25,6 +25,8 @@ l$model
 \section{Arguments}{
 
 \itemize{
+\item \code{id} (\code{character(1)}):
+identifier for this object.
 \item \code{task} (\link{Task}):
 Task to train/predict on.
 \item \code{model} (any):
