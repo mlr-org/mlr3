@@ -1,37 +1,40 @@
-#' @title Base Class for Measures
-#' @format [R6Class()] object
+#' @title Abstract measure class
 #'
 #' @description
-#' A [R6::R6Class()] to construct performance measures.
-#' This is the abstract base class, do not use directly!
+#' Abstraction for performance measures.
 #'
-#' Predefined measures are stored in [mlr_measures()].
+#' @section Usage:
+#' ```
+#' m = Measure$new()
+#' m$id
+#' m$packages
+#' m$task_types
+#' ```
 #'
-#' @field id (`character(1)`): Identifier of the measure.
-#' @field description (`character(1)`): Description of the measure.
-#' @field task.types (`character(1)`): Set of compatible task types.
-#' @field fun (`function(truth, predicted)`): function to compute the measure.
-#' @return [`Measure`].
+#' @section Details:
+#' `$new()` creates a new object of class [Measure].
+#' Predefined learners are stored in [mlr_measures].
+#'
+#' `$id` (`character(1)`) stores the identifier of the object.
+#'
+#' `$packages` (`character(1)`) stores the names of required packages.
+#'
+#' `$task_types` (`character`) stores the class names of tasks this measure can operate on.
+#'
+#' @name Measure
+#' @keywords internal
+#' @family Measure
+NULL
+
 #' @export
 Measure = R6Class("Measure",
   public = list(
     id = NA_character_,
-    description = NA_character_,
     task_types = NA_character_,
     packages = character(0L)
   )
 )
 
-assert_measures = function(measures) {
-  assert_list(measures, types = "Measure")
-}
-
-as_measures = function(x, task) {
-  if (is.null(x))
-    return(list(mlr_measures$get(task$default_measure)))
-  if (inherits(x, "Measure"))
-    return(list(x))
-  if (is.character(x))
-    return(mlr_measures$mget(x))
-  assert_measures(x)
+assert_measure = function(measure) {
+  assert_r6(measure, "Measure")
 }

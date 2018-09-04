@@ -1,16 +1,13 @@
-method_not_implemented = function(...) {
-  stop("Internal error. This method is not implemented, but should have been overloaded during construction")
-}
-
-
 #' @title Abstract learner class
 #'
 #' @description
 #' Abstraction for learners.
 #'
+#' Predefined learners are stored in [mlr_learners].
+#'
 #' @section Usage:
 #' ```
-#' l = Learner$new()
+#' l = Learner$new(id, packages = character(0), par_set = ParamSet$new(), par_vals = list(), properties = character(0))
 #' l$id
 #' l$packages
 #' l$par_set
@@ -27,7 +24,7 @@ method_not_implemented = function(...) {
 #' * `model` (any):
 #'   Fitted model as returned by `train`.
 #'
-#' @section MyDetails:
+#' @section Details:
 #' `$new()` creates a new object of class [Learner].
 #'
 #' `$id` (`character(1)`) stores the identifier of the object.
@@ -40,7 +37,8 @@ method_not_implemented = function(...) {
 #'
 #' `$properties` (`character()`) is a set of tags which describe the properties of the learner.
 #'
-#' `$predict_type` (`character(1)`) stores the predict type of the learner, e.g. "response" or "probability" for classification learners of class [LearnerClassif].
+#' `$predict_type` (`character(1)`) stores the predict type of the learner,
+#'  e.g. "response" or "probability" for classification learners of class [LearnerClassif].
 #'
 #' `$train()` takes a task and returns a model fitted on all observations.
 #'
@@ -51,6 +49,7 @@ method_not_implemented = function(...) {
 #' @family Learner
 NULL
 
+#' @include helper_R6.R
 #' @export
 Learner = R6Class("Learner",
   public = list(

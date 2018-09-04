@@ -115,7 +115,7 @@ Task = R6Class("Task",
 
     initialize = function(id, backend) {
       self$id = assert_string(id, min.chars = 1L)
-      self$backend = assert_r6(backend, "Backend")
+      self$backend = assert_backend(backend)
 
       cn = backend$colnames
       types = assert_subset(vcapply(backend$head(1L), class), capabilities$task_col_types, fmatch = TRUE)

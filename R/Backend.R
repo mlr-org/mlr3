@@ -38,3 +38,7 @@
 #' @name Backend
 #' @family Backend
 NULL
+
+assert_backend = function(b) {
+  assert_r6(b, "Backend")
+}

@@ -1,13 +1,36 @@
-#' @title Base Class for Resampling Objects
-#' @format \code{\link{R6Class}} object
+#' @title Abstract resampling class
 #'
 #' @description
-#' A \code{\link[R6]{R6Class}} to construct resampling measures.
-#' This is the abstract base class, do not use directly!
+#' Abstraction for resampling strategies.
 #'
-#' Predefined resampling measures are stored in \code{\link{mlr_resamplings}}.
+#' Predefined resamplings are stored in [mlr_resamplings].
 #'
-#' @return [Resampling].
+#' @section Usage:
+#' ```
+#' r = Resampling$new(id)
+#' r$id
+#' r$is_instantiated
+#' r$checksum
+#' ```
+#'
+#' @section Arguments:
+#' * `id` ([Task]):
+#'   Task to train/predict on.
+#' * `model` (any):
+#'   Fitted model as returned by `train`.
+#'
+#' @section Details:
+#' `$new()` creates a new object of class [Learner].
+#'
+#' `$id` (`character(1)`) stores the identifier of the object.
+#'
+#' FIXME: Not finished
+#'
+#' @name Resampling
+#' @keywords internal
+#' @family Resampling
+NULL
+
 #' @export
 Resampling = R6Class("Resampling",
   active = list(

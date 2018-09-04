@@ -60,6 +60,7 @@ Collate:
     'BackendDataTable.R'
     'Dictionary.R'
     'Experiment.R'
+    'helper_R6.R'
     'Learner.R'
     'LearnerClassif.R'
     'LearnerRegr.R'

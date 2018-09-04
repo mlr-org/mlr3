@@ -5,9 +5,11 @@
 \title{Abstract learner class}
 \description{
 Abstraction for learners.
+
+Predefined learners are stored in \link{mlr_learners}.
 }
 \section{Usage}{
-\preformatted{l = Learner$new()
+\preformatted{l = Learner$new(id, packages = character(0), par_set = ParamSet$new(), par_vals = list(), properties = character(0))
 l$id
 l$packages
 l$par_set
@@ -29,7 +31,7 @@ Fitted model as returned by \code{train}.
 }
 }
 
-\section{MyDetails}{
+\section{Details}{
 
 \code{$new()} creates a new object of class \link{Learner}.
 
@@ -43,7 +45,8 @@ Fitted model as returned by \code{train}.
 
 \code{$properties} (\code{character()}) is a set of tags which describe the properties of the learner.
 
-\code{$predict_type} (\code{character(1)}) stores the predict type of the learner, e.g. "response" or "probability" for classification learners of class \link{LearnerClassif}.
+\code{$predict_type} (\code{character(1)}) stores the predict type of the learner,
+e.g. "response" or "probability" for classification learners of class \link{LearnerClassif}.
 
 \code{$train()} takes a task and returns a model fitted on all observations.
 
