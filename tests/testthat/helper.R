@@ -186,7 +186,7 @@ expect_experiment = function(e) {
     expect_int(e$data$iteration, lower = 1L)
     expect_data_table(e$data$train_log, ncol = 2, any.missing = FALSE)
     expect_number(e$data$train_time)
-    expect_false(is.null(e$data$model))
+    expect_false(is.null(e$data$learner$model))
   }
 
   if (state >= "predicted") {

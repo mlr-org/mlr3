@@ -41,7 +41,7 @@ Experiment = R6Class("Experiment",
 
   active = list(
     model = function() {
-      model = self$data$model
+      model = self$data$learner$model
       if (is.null(model))
         stop("No model available")
       model
@@ -104,7 +104,7 @@ Experiment = R6Class("Experiment",
         return(ordered("scored", levels = states))
       if (!is.null(d$predicted))
         return(ordered("predicted", levels = states))
-      if (!is.null(d$model))
+      if (!is.null(d$learner$model))
         return(ordered("trained", levels = states))
       return(ordered("defined", levels = states))
     }
@@ -127,7 +127,7 @@ experiment_print = function(e) {
   catf("Experiment [%s]:", if (e$state == "scored") "complete" else "incomplete")
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
-  catf(fmt(data$model, "Model", sprintf("[%s]", class(data$model)[[1L]])))
+  catf(fmt(data$learner$model, "Model", sprintf("[%s]", class(data$learner$model)[[1L]])))
   catf(fmt(data$predicted, "Predictions", sprintf("[%s]", class(data$predicted)[[1L]])))
   catf(fmt(data$performance, "Performance", stri_paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
   catf(stri_list("\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
@@ -156,7 +156,7 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
     row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
   }
 
-  value = predict_worker(task = e$data$task, learner = e$data$learner, model = e$data$model, test_set = row_ids)
+  value = predict_worker(task = e$data$task, learner = e$data$learner, model = e$data$learner$model, test_set = row_ids)
   e$data = insert(e$data, value)
   e$data = insert(e$data, list(performance = NULL))
   return(e)

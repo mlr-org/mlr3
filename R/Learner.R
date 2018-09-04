@@ -16,6 +16,7 @@
 #' l$predict_type
 #' l$train(task)
 #' l$predict(task, model)
+#' l$model
 #' ```
 #'
 #' @section Arguments:
@@ -44,6 +45,8 @@
 #'
 #' `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
 #'
+#' `$model` stores the fitted model. If the learner has not been trained, this is `NULL`.
+#'
 #' @name Learner
 #' @keywords internal
 #' @family Learner
@@ -57,6 +60,7 @@ Learner = R6Class("Learner",
     packages = NULL,
     par_set = NULL,
     properties = NULL,
+    model = NULL,
 
     initialize = function(id, packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
       self$id = assert_string(id, min.chars = 1L)
