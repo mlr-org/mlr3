@@ -26,7 +26,6 @@ Imports:
     clisymbols,
     crayon,
     data.table,
-    evaluate,
     future (>= 1.8.0),
     future.apply,
     paradox,
