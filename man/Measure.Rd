@@ -9,13 +9,23 @@ Abstraction for performance measures.
 Predefined measures are stored in \link{mlr_measures}.
 }
 \section{Usage}{
-\preformatted{m = Measure$new()
+\preformatted{m = Measure$new(id)
 m$id
 m$packages
 m$task_types
-m$calculate(experiment) # TODO
+m$calculate(experiment)
 m$range
 m$minimize
+}
+}
+
+\section{Arguments}{
+
+\itemize{
+\item \code{id} (\code{character(1)}):
+identifier for this object.
+\item \code{experiment} (\link{Experiment}):
+Experiment to work on.
 }
 }
 

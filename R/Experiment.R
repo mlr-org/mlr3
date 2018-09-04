@@ -2,7 +2,6 @@
 #'
 #' @description
 #' Container object for machine learning experiments.
-#' Holds all important information as computed by the steps [train()], [predict()] and [score()].
 #'
 #' @export
 Experiment = R6Class("Experiment",

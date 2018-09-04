@@ -10,6 +10,5 @@ Experiment
 }
 \description{
 Container object for machine learning experiments.
-Holds all important information as computed by the steps \code{\link[=train]{train()}}, \code{\link[=predict]{predict()}} and \code{\link[=score]{score()}}.
 }
 \keyword{datasets}
