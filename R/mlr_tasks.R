@@ -7,7 +7,7 @@
 #' @family Dictionary
 #' @family Task
 #' @examples
-#' mlr_tasks$ids
+#' mlr_tasks$ids()
 #' mlr_tasks$get("iris")
 #' head(mlr_tasks$get("iris")$data())
 #'
@@ -17,7 +17,7 @@
 #' b = BackendDataTable$new(data)
 #' task = TaskClassif$new("iris.binary", b, target = "Species")
 #' mlr_tasks$add(task)
-#' mlr_tasks$ids
+#' mlr_tasks$ids()
 #' mlr_tasks$get("iris.binary")
 #' mlr_tasks$remove("iris.binary")
 NULL

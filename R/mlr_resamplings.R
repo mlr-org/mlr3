@@ -7,7 +7,7 @@
 #' @family Dictionary
 #' @family Resampling
 #' @examples
-#' mlr_resamplings$ids
+#' mlr_resamplings$ids()
 #' mlr_resamplings$get("cv")
 NULL
 

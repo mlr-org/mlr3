@@ -7,7 +7,7 @@
 #' @family Learner
 #' @name mlr_learners
 #' @examples
-#' mlr_learners$ids
+#' mlr_learners$ids()
 #' mlr_learners$get("classif.dummy")
 NULL
 

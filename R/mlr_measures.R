@@ -7,7 +7,7 @@
 #' @family Measure
 #' @name mlr_measures
 #' @examples
-#' mlr_measures$ids
+#' mlr_measures$ids()
 #' mlr_measures$get("mmce")
 NULL
 

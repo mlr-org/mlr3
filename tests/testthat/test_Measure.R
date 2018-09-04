@@ -1,7 +1,7 @@
 context("Measure")
 
 test_that("Measure construction", {
-  ids = mlr_measures$ids
+  ids = mlr_measures$ids()
 
   for (key in ids) {
     m = mlr_measures$get(key)
@@ -10,7 +10,7 @@ test_that("Measure construction", {
 })
 
 test_that("Classification measures", {
-  ids = mlr_measures$ids
+  ids = mlr_measures$ids()
   e = Experiment$new(
     task = mlr_tasks$get("iris"),
     learner = mlr_learners$get("classif.dummy")
@@ -27,7 +27,7 @@ test_that("Classification measures", {
 })
 
 test_that("Regression measures", {
-  ids = mlr_measures$ids
+  ids = mlr_measures$ids()
   e = Experiment$new(
     task = mlr_tasks$get("bh"),
     learner = mlr_learners$get("regr.dummy")

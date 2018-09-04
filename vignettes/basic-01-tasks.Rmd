@@ -28,7 +28,7 @@ They are stored in the dictionary (key-value store) `mlr_tasks`.
 
 ```{r}
 # list keys
-mlr_tasks$ids
+mlr_tasks$ids()
 
 # retrieve iris task
 task = mlr_tasks$get("iris")

@@ -11,7 +11,7 @@
 #' d$get(id)
 #' d$mget(ids)
 #' d$remove(ids)
-#' d$ids
+#' d$ids()
 #' ```
 #'
 #' @section Arguments:
@@ -31,7 +31,7 @@
 #'
 #' `$remove()` removes item with id `id` from the Dictionary.
 #'
-#' `$ids` returns a vector of type `character` with all ids.
+#' `$ids()` returns a vector of type `character` with all ids.
 #'
 #' @name Dictionary
 #' @family Dictionary
@@ -51,6 +51,8 @@ Dictionary = R6Class("Dictionary",
       self$contains = assert_character(contains, min.len = 1L, any.missing = FALSE, min.chars = 1L)
       self$items = new.env(parent = emptyenv())
     },
+
+    ids = function() ls(self$items, all.names = TRUE),
 
     add = function(value, id = value$id) {
       assert_id(id)
@@ -81,10 +83,6 @@ Dictionary = R6Class("Dictionary",
       rm(list = id, envir = self$items)
       invisible(self)
     }
-  ),
-
-  active = list(
-    ids = function() ls(self$items, all.names = TRUE)
   ),
 
   private = list(

@@ -32,7 +32,7 @@ learner = mlr_learners$get("classif.rpart")
 
 Additionally, we need to define **how** we want to resample. `mlr3` comes with the following resampling strategies implemented:
 ```{r}
-mlr_resamplings$ids
+mlr_resamplings$ids()
 ```
 The experiment conducted in the introduction on train/predict/score is equivalent to a simple "holdout", so let's consider this one first.
 ```{r}
