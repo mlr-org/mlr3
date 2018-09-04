@@ -156,7 +156,7 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
     row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
   }
 
-  value = predict_worker(task = e$data$task, learner = e$data$learner, model = e$data$learner$model, test_set = row_ids)
+  value = predict_worker(task = e$data$task, learner = e$data$learner, test_set = row_ids)
   e$data = insert(e$data, value)
   e$data = insert(e$data, list(performance = NULL))
   return(e)

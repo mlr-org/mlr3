@@ -25,7 +25,7 @@ train_worker = function(task, learner, train_set) {
   ))
 }
 
-predict_worker = function(task, learner, model, test_set) {
+predict_worker = function(task, learner, test_set) {
   pkgs = c("mlr3", learner$packages)
   require_namespaces(pkgs, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
@@ -65,7 +65,7 @@ experiment_worker = function(task, learner, train_set, test_set) {
 
   tmp = train_worker(task = task, learner = learner, train_set = train_set)
   result = insert(result, tmp)
-  tmp = predict_worker(task = task, learner = learner, model = result$model, test_set = test_set)
+  tmp = predict_worker(task = task, learner = learner, test_set = test_set)
   result = insert(result, tmp)
   tmp = score_worker(task = task, test_set = test_set, predicted = result$predicted)
   result = insert(result, tmp)
