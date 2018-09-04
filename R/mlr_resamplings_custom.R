@@ -18,7 +18,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
         # TODO: more assertions
         train = private$instance$train
         if (is.null(train))
-          stop("Cannot set test_set without training set")
+          stopf("Cannot set test_set without training set")
         assert_list(test_sets, types = "atomicvector", len = length(train), any.missing = FALSE)
         private$instance$test = test_sets
         private$hash = NA_character_

@@ -18,7 +18,7 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
       mod = switch(method,
         "mean" = mean(tn),
         "median" = median(tn),
-        stop("Illegal value for 'method'"))
+        stopf("Illegal value for 'method'"))
       class(mod) = c("dummy.model", class(mod))
       mod
     },

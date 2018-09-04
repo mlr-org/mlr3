@@ -52,7 +52,7 @@ score_worker = function(task, test_set, predicted) {
   if (length(truth) != length(predicted))
     stopf("Truth (length %i) and predicted (length %i) must have the same length", length(truth), length(predicted))
   if (length(predicted) == 0L)
-    stop("Cannot estimate performance on zero-length predictions")
+    stopf("Cannot estimate performance on zero-length predictions")
 
   performance = lapply(measures, function(m) m$calculate(truth, predicted))
   names(performance) = ids(measures)

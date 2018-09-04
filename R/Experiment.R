@@ -43,7 +43,7 @@ Experiment = R6Class("Experiment",
     model = function() {
       model = self$data$learner$model
       if (is.null(model))
-        stop("No model available")
+        stopf("No model available")
       model
     },
 
@@ -55,7 +55,7 @@ Experiment = R6Class("Experiment",
       resampling = self$data$resampling
       iteration = self$data$iteration
       if (is.null(resampling) || is.null(iteration))
-        stop("No train_set available")
+        stopf("No train_set available")
       resampling$train_set(iteration)
     },
 
@@ -63,7 +63,7 @@ Experiment = R6Class("Experiment",
       resampling = self$data$resampling
       iteration = self$data$iteration
       if (is.null(resampling) || is.null(iteration))
-        stop("No test_set available")
+        stopf("No test_set available")
       resampling$test_set(iteration)
     },
 
@@ -75,7 +75,7 @@ Experiment = R6Class("Experiment",
     predictions = function() {
       predicted = self$data$predicted
       if (is.null(predicted))
-        stop("No predictions available")
+        stopf("No predictions available")
       row_ids = self$data$resampling$test_set(1L)
       data.table(
         id = row_ids,
