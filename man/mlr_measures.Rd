@@ -12,7 +12,7 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_measures$ids
+mlr_measures$ids()
 mlr_measures$get("mmce")
 }
 \seealso{

@@ -12,7 +12,7 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_learners$ids
+mlr_learners$ids()
 mlr_learners$get("classif.dummy")
 }
 \seealso{

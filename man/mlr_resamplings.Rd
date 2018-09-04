@@ -12,7 +12,7 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_resamplings$ids
+mlr_resamplings$ids()
 mlr_resamplings$get("cv")
 }
 \seealso{

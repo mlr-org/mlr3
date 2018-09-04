@@ -44,5 +44,4 @@ mlr3$default.opts = list(
 
   mlr_measures$add(MeasureMMCE$new())
   mlr_measures$add(MeasureMSE$new())
-  mlr_measures$add(MeasureACC$new())
 } #nocov end

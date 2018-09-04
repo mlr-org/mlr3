@@ -87,7 +87,6 @@ Collate:
     'mlr_learners_regr_dummy.R'
     'mlr_learners_regr_rpart.R'
     'mlr_measures.R'
-    'mlr_measures_acc.R'
     'mlr_measures_mmce.R'
     'mlr_measures_mse.R'
     'mlr_resamplings.R'
