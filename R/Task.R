@@ -114,7 +114,7 @@ Task = R6Class("Task",
     order = character(0L),
 
     initialize = function(id, backend) {
-      self$id = assert_string(id, min.chars = 1L)
+      self$id = assert_id(id)
       self$backend = assert_backend(backend)
 
       cn = backend$colnames

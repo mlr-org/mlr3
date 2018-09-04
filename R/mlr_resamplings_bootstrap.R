@@ -1,9 +1,17 @@
 #' @include Resampling.R
 ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   public = list(
-    id = "bootstrap",
-    ratio = 1,
-    repeats = 30L,
+    initialize = function(id = "bootstrap") {
+      super$initialize(
+        id = id,
+        par_set = ParamSet$new(params = list(
+            ParamInt$new("repeats", lower = 1L),
+            ParamReal$new("ratio", lower = 0, upper = 1))
+        ),
+        par_vals = list(ratio = 1, repeats = 30L)
+      )
+    },
+
     instantiate = function(task, ...) {
       # inner function so we can easily implement blocking here
       # -> replace ids with unique values of blocking variable
@@ -19,7 +27,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
       assert_task(task)
       row_ids = task$row_ids()
-      private$instance = bootstrap(task$row_ids(), assert_number(self$ratio, lower = 0), asInt(self$repeats))
+      private$instance = bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
       self
     },
 
@@ -36,7 +44,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
   active = list(
     iters = function() {
-      self$repeats
+      self$par_vals$repeats
     }
   )
 )

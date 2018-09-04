@@ -31,12 +31,34 @@
 #' @family Resampling
 NULL
 
+#' @include helper_R6.R
 #' @export
 Resampling = R6Class("Resampling",
+  public = list(
+    id = NULL,
+    par_set = NULL,
+
+    initialize = function(id, par_set = ParamSet$new(), par_vals = list()) {
+      self$id = assert_id(id)
+      self$par_set = assert_par_set(par_set)
+      private$.par_vals = assert_par_vals(par_vals, par_set)
+    },
+
+    instantiate = method_not_implemented
+  ),
+
   active = list(
+    par_vals = function(rhs) {
+      if (missing(rhs))
+        return(private$.par_vals)
+      self$par_set$check(rhs)
+      private$.par_vals = rhs
+    },
+
     is_instantiated = function() {
       !is.null(private$instance)
     },
+
     checksum = function() {
       if (is.null(private$instance))
         return(NA_character_)
@@ -48,7 +70,8 @@ Resampling = R6Class("Resampling",
 
   private = list(
     instance = NULL,
-    hash = NA_character_
+    hash = NA_character_,
+    .par_vals = NULL
   )
 )
 

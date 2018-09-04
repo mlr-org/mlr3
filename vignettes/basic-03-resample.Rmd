@@ -36,21 +36,14 @@ mlr_resamplings$ids
 ```
 The experiment conducted in the introduction on train/predict/score is equivalent to a simple "holdout", so let's consider this one first.
 ```{r}
-# FIXME: bugged in R6 currently -> https://github.com/r-lib/R6/issues/152
-# resampling = mlr_resamplings$get("holdout")
-resampling = mlr3:::ResamplingSubsampling$new()
-resampling$id = "holdout"
-resampling$repeats = 1L
+resampling = mlr_resamplings$get("holdout")
 print(resampling)
+print(resampling$par_set)
+print(resampling$par_vals)
 ```
-The printer reveals important information:
-
-1. We got a "ResamplingSubsampling" object with 1 repetition which is equivalent to performing a holdout.
-2. The default ratio for splitting into training and test_set is $0.67$
-
 To change the ratio to $0.8$, we simply overwrite the slot:
 ```{r}
-resampling$ratio = 0.8
+resampling$par_vals = list(ratio = 0.8)
 ```
 
 ## Resampling
@@ -64,10 +57,8 @@ print(rr)
 
 Before we go into more detail, lets change the resampling to a 3-fold cross-validation to better illustrate what operations are possible with a resampling result.
 ```{r}
-# FIXME: bugged in R6 currently -> https://github.com/r-lib/R6/issues/152
-# resampling = mlr_resamplings$get("cv")
-resampling = mlr3:::ResamplingCV$new()
-resampling$folds = 3
+resampling = mlr_resamplings$get("cv")
+resampling$par_vals = list(folds = 3)
 rr = resample(task, learner, resampling)
 print(rr)
 ```
@@ -99,9 +90,8 @@ Until now, we have just passed a resampling strategy to `resample()`, without sp
 Here, we manually instantiate the resampling:
 
 ```{r}
-# resampling = mlr_resamplings$get("cv", folds = 3)
-resampling = mlr3:::ResamplingCV$new()
-resampling$folds = 3
+resampling = mlr_resamplings$get("cv")
+resampling$par_vals = list(folds = 3)
 resampling$instantiate(task)
 resampling$iters
 resampling$train_set(1)
@@ -121,7 +111,7 @@ setequal(rr1$experiment(1)$train_set, rr2$experiment(1)$train_set)
 Sometimes it is necessary to perform resampling with custom splits, e.g. to reproduce a study.
 For this purpose, splits can be manually set for `ResamplingCustom`:
 ```{r}
-resampling = mlr3:::ResamplingCustom$new()
+resampling = mlr_resamplings$get("custom")
 resampling$instantiate(task,
   list(c(1:10, 51:60, 101:110)),
   list(c(11:20, 61:70, 111:120))

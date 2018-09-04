@@ -145,13 +145,17 @@ expect_learner = function(lrn, task = NULL) {
 
 expect_resampling = function(r, task = NULL) {
   expect_r6(r, "Resampling")
-  expect_string(r$id)
+  expect_string(r$id, min.chars = 1L)
 
   instance = private(r)$instance
   if (is.null(instance)) {
+    expect_false(r$is_instantiated)
     expect_error(r$train_set(1L), "instantiated")
     expect_error(r$test_set(1L), "instantiated")
+    if (r$id != "custom")
+      expect_count(r$iters, positive = TRUE)
   } else {
+    expect_true(r$is_instantiated)
     if (!is.null(task))
       ids = task$row_ids()
     expect_count(r$iters, positive = TRUE)
@@ -168,6 +172,8 @@ expect_resampling = function(r, task = NULL) {
       }
     }
   }
+  expect_list(r$par_vals, names = "unique")
+  expect_true(qtestr(r$par_vals, "V1"))
 }
 
 expect_experiment = function(e) {

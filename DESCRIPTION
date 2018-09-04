@@ -74,6 +74,7 @@ Collate:
     'benchmark.R'
     'config.R'
     'helper.R'
+    'helper_asserts.R'
     'helper_condition.R'
     'helper_insert.R'
     'helper_seq.R'

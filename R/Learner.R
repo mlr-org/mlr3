@@ -63,8 +63,8 @@ Learner = R6Class("Learner",
     model = NULL,
 
     initialize = function(id, packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
-      self$id = assert_string(id, min.chars = 1L)
-      self$packages = assert_character(packages, any.missing = FALSE, min.chars = 1L)
+      self$id = assert_id(id)
+      self$packages = assert_packages(packages)
       self$par_set = assert_r6(par_set, "ParamSet")
       self$properties = assert_character(properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
       private$.par_vals = assert_par_vals(par_vals, par_set)
@@ -107,10 +107,4 @@ assert_learner = function(learner, task = NULL) {
     }
   }
   invisible(learner)
-}
-
-assert_par_vals = function(par_vals, par_set) {
-  assert_list(par_vals, names = "unique", any.missing = FALSE)
-  assert_subset(names(par_vals), par_set$ids)
-  par_vals
 }

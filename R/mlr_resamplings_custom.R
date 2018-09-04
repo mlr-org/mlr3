@@ -1,7 +1,9 @@
 #' @include Resampling.R
 ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   public = list(
-    id = "custom",
+    initialize = function(id = "custom") {
+      super$initialize(id = id)
+    },
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
 

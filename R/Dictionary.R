@@ -53,14 +53,14 @@ Dictionary = R6Class("Dictionary",
     },
 
     add = function(value, id = value$id) {
-      assert_string(id)
+      assert_id(id)
       if (!inherits(value, "LazyValue"))
         assert_class(value, class = self$contains)
       assign(x = id, value = value, envir = self$items)
     },
 
     get = function(id, ...) {
-      assert_string(id)
+      assert_id(id)
       if (!hasName(self$items, id))
         stopf("%s with id '%s' not found!", self$contains, id)
       private$retrieve(get(id, envir = self$items, inherits = FALSE))
@@ -75,7 +75,7 @@ Dictionary = R6Class("Dictionary",
     },
 
     remove = function(id) {
-      assert_string(id)
+      assert_id(id)
       if (!hasName(self$items, id))
         stopf("%s with id '%s' not found!", self$contains, id)
       rm(list = id, envir = self$items)
@@ -96,7 +96,7 @@ Dictionary = R6Class("Dictionary",
 
 
 LazyValue = function(id, getter) {
-  obj = list(id = assert_string(id), getter = assert_function(getter))
+  obj = list(id = assert_id(id), getter = assert_function(getter))
   class(obj) = "LazyValue"
   obj
 }

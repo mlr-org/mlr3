@@ -2,9 +2,14 @@
 #' @include mlr_resamplings_subsampling.R
 ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
   public = list(
-    id = "holdout",
-    ratio = 0.67,
-    iters = 1L,
+    initialize = function(id = "holdout") {
+      super$initialize(
+        id = id,
+        par_set = ParamSet$new(params = list(ParamReal$new("ratio", lower = 0, upper = 1))),
+        par_vals = list(ratio = 2/3)
+      )
+    },
+
     instantiate = function(task, ...) {
       # inner function so we can easily implement blocking here
       # -> replace ids with unique values of blocking variable
@@ -15,7 +20,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       }
 
       assert_task(task)
-      private$instance = holdout(task$row_ids(), assert_number(self$ratio, lower = 0))
+      private$instance = holdout(task$row_ids(), assert_number(self$par_vals$ratio, lower = 0))
       self
     },
 
@@ -27,6 +32,8 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     test_set = function(i) {
       i = assert_resampling_index(self, i)
       private$instance$test
-    }
+    },
+
+    iters = 1L
   )
 )
