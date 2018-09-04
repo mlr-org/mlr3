@@ -7,14 +7,20 @@
 #'
 #' @section Usage:
 #' ```
-#' m = Measure$new()
+#' m = Measure$new(id)
 #' m$id
 #' m$packages
 #' m$task_types
-#' m$calculate(experiment) # TODO
+#' m$calculate(experiment)
 #' m$range
 #' m$minimize
 #' ```
+#'
+#' @section Arguments:
+#' * `id` (`character(1)`):
+#'   identifier for this object.
+#' * `experiment` ([Experiment]):
+#'   Experiment to work on.
 #'
 #' @section Details:
 #' `$new()` creates a new object of class [Measure].
@@ -40,7 +46,7 @@ NULL
 
 #' @include helper_R6.R
 #' @export
-Measure = R6Class("Measure",
+Measure = R6Class("Measure", cloneable = FALSE,
   public = list(
     id = NULL,
     task_types = NULL,

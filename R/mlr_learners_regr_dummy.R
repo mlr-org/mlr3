@@ -14,7 +14,7 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
     },
 
     train = function(task, method = "mean", ...) {
-      tn = unlist(task$data(task$target_names))
+      tn = unlist(task$data(cols = task$target_names))
       mod = switch(method,
         "mean" = mean(tn),
         "median" = median(tn),

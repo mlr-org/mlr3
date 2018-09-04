@@ -1,5 +1,6 @@
 #' @include Measure.R
-MeasureMMCE = R6Class("MeasureMMCE", inherit = Measure,
+MeasureMMCE = R6Class("MeasureMMCE",
+  inherit = Measure,
   public = list(
     initialize = function(id = "mmce") {
       super$initialize(
@@ -10,8 +11,8 @@ MeasureMMCE = R6Class("MeasureMMCE", inherit = Measure,
       )
     },
 
-    calculate = function(e) {
-      p = e$predictions
+    calculate = function(experiment) {
+      p = experiment$predictions
       mean(p$truth != p$predicted)
     }
   )

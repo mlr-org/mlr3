@@ -176,6 +176,17 @@ expect_resampling = function(r, task = NULL) {
   expect_true(qtestr(r$par_vals, "V1"))
 }
 
+expect_measure = function(m) {
+  expect_r6(m, "Measure")
+  expect_string(m$id, min.chars = 1L)
+  expect_subset(m$task_types, capabilities$task_types, empty.ok = FALSE)
+  expect_numeric(m$range, len = 2, any.missing = FALSE)
+  expect_lt(m$range[1], m$range[2])
+  expect_flag(m$minimize)
+  expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
+  expect_function(m$calculate, args = "experiment")
+}
+
 expect_experiment = function(e) {
   expect_r6(e, "Experiment")
   state = e$state
