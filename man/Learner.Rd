@@ -60,7 +60,7 @@ e.g. "response" or "probability" for classification learners of class \link{Lear
 
 \seealso{
 Other Learner: \code{\link{LearnerClassif}},
-  \code{\link{LearnerRegr}}
+  \code{\link{LearnerRegr}}, \code{\link{mlr_learners}}
 }
 \concept{Learner}
 \keyword{internal}

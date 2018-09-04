@@ -1,9 +1,16 @@
 #' @include Measure.R
 MeasureMSE = R6Class("MeasureMSE", inherit = Measure,
   public = list(
-    id = "mse",
-    task_types = "TaskRegr",
-    fun = function(truth, predicted) {
+    initialize = function(id = "mse") {
+      super$initialize(
+        id = id,
+        task_types = "TaskRegr",
+        range = c(0, Inf),
+        minimize = TRUE
+      )
+    },
+
+    calculate = function(truth, predicted) {
       mean( (truth - predicted)^2 )
     }
   )

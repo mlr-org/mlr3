@@ -19,5 +19,9 @@ mlr_learners$get("classif.dummy")
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_measures}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
+
+Other Learner: \code{\link{LearnerClassif}},
+  \code{\link{LearnerRegr}}, \code{\link{Learner}}
 }
 \concept{Dictionary}
+\concept{Learner}

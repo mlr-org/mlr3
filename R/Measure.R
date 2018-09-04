@@ -3,17 +3,21 @@
 #' @description
 #' Abstraction for performance measures.
 #'
+#' Predefined measures are stored in [mlr_measures].
+#'
 #' @section Usage:
 #' ```
 #' m = Measure$new()
 #' m$id
 #' m$packages
 #' m$task_types
+#' m$calculate(experiment) # TODO
+#' m$range
+#' m$minimize
 #' ```
 #'
 #' @section Details:
 #' `$new()` creates a new object of class [Measure].
-#' Predefined learners are stored in [mlr_measures].
 #'
 #' `$id` (`character(1)`) stores the identifier of the object.
 #'
@@ -21,17 +25,39 @@
 #'
 #' `$task_types` (`character`) stores the class names of tasks this measure can operate on.
 #'
+#' `$range` (`numeric(2)`) stores the numeric range of feasible measure values.
+#'
+#' `$minimize` (`logical(1)`) indicates if the good values are reached via minimization.
+#'
+#' `$calculate` (`funcion`) does the actual work.
+#'
 #' @name Measure
 #' @keywords internal
 #' @family Measure
+#' @examples
+#' mlr_measures$get("mmce")
 NULL
 
+#' @include helper_R6.R
 #' @export
 Measure = R6Class("Measure",
   public = list(
-    id = NA_character_,
-    task_types = NA_character_,
-    packages = character(0L)
+    id = NULL,
+    task_types = NULL,
+    range = NULL,
+    minimize = NULL,
+    packages = NULL,
+
+
+    initialize = function(id, task_types, range, minimize, packages = character(0L)) {
+      self$id = assert_id(id)
+      self$task_types = assert_subset(task_types, capabilities$task_types, empty.ok = FALSE)
+      self$range = assert_range(range)
+      self$minimize = assert_flag(minimize)
+      self$packages = assert_packages(packages)
+    },
+
+    calculate = method_not_implemented
   )
 )
 

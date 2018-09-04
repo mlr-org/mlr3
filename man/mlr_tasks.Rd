@@ -32,3 +32,4 @@ Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_resamplings}}
 }
 \concept{Dictionary}
+\concept{Task}

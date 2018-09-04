@@ -16,6 +16,6 @@ Instantiated learners can be retrieved from \link{mlr_learners}.
 
 \seealso{
 Other Learner: \code{\link{LearnerClassif}},
-  \code{\link{Learner}}
+  \code{\link{Learner}}, \code{\link{mlr_learners}}
 }
 \concept{Learner}

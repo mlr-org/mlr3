@@ -56,5 +56,8 @@ You can set parameters by assigning a named list of new parameters to this slot.
 \code{checksum} returns a unique string hash for the instantiation.
 }
 
+\seealso{
+Other Resampling: \code{\link{mlr_resamplings}}
+}
 \concept{Resampling}
 \keyword{internal}

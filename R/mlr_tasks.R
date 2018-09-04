@@ -5,6 +5,7 @@
 #'
 #' @name mlr_tasks
 #' @family Dictionary
+#' @family Task
 #' @examples
 #' mlr_tasks$ids
 #' mlr_tasks$get("iris")
@@ -21,6 +22,7 @@
 #' mlr_tasks$remove("iris.binary")
 NULL
 
+#' @include Dictionary.R
 #' @export
 mlr_tasks = Dictionary$new("Task")
 

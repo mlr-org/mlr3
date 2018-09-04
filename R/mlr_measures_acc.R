@@ -1,9 +1,17 @@
 #' @include Measure.R
 MeasureACC = R6Class("MeasureACC", inherit = Measure,
   public = list(
-    id = "acc",
-    task_types = "TaskClassif",
-    fun = function(truth, predicted) {
+    initialize = function(id = "acc") {
+      super$initialize(
+        id = id,
+        task_types = "TaskClassif",
+        range = 0:1,
+        minimize = FALSE
+      )
+    },
+
+    calculate = function(e) {
+      e$truth() == e$predictions
       mean(truth == predicted)
     }
   )

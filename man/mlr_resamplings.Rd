@@ -19,5 +19,8 @@ mlr_resamplings$get("cv")
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_learners}}, \code{\link{mlr_measures}},
   \code{\link{mlr_tasks}}
+
+Other Resampling: \code{\link{Resampling}}
 }
 \concept{Dictionary}
+\concept{Resampling}

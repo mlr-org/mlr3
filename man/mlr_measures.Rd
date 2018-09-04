@@ -19,5 +19,8 @@ mlr_measures$get("mmce")
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_learners}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
+
+Other Measure: \code{\link{Measure}}
 }
 \concept{Dictionary}
+\concept{Measure}

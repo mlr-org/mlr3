@@ -5,26 +5,42 @@
 \title{Abstract measure class}
 \description{
 Abstraction for performance measures.
+
+Predefined measures are stored in \link{mlr_measures}.
 }
 \section{Usage}{
 \preformatted{m = Measure$new()
 m$id
 m$packages
 m$task_types
+m$calculate(experiment) # TODO
+m$range
+m$minimize
 }
 }
 
 \section{Details}{
 
 \code{$new()} creates a new object of class \link{Measure}.
-Predefined learners are stored in \link{mlr_measures}.
 
 \code{$id} (\code{character(1)}) stores the identifier of the object.
 
 \code{$packages} (\code{character(1)}) stores the names of required packages.
 
 \code{$task_types} (\code{character}) stores the class names of tasks this measure can operate on.
+
+\code{$range} (\code{numeric(2)}) stores the numeric range of feasible measure values.
+
+\code{$minimize} (\code{logical(1)}) indicates if the good values are reached via minimization.
+
+\code{$calculate} (\code{funcion}) does the actual work.
 }
 
+\examples{
+mlr_measures$get("mmce")
+}
+\seealso{
+Other Measure: \code{\link{mlr_measures}}
+}
 \concept{Measure}
 \keyword{internal}

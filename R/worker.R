@@ -43,7 +43,7 @@ predict_worker = function(task, learner, model, test_set) {
   ))
 }
 
-score_worker = function(task, test_set, predicted, measures) {
+score_worker = function(task, test_set, predicted) {
   measures = task$measures
   pkgs = c("mlr3", unlist(lapply(measures, "[[", "packages")))
   require_namespaces(pkgs, "The following packages are required for the measures: %s")
@@ -54,7 +54,7 @@ score_worker = function(task, test_set, predicted, measures) {
   if (length(predicted) == 0L)
     stop("Cannot estimate performance on zero-length predictions")
 
-  performance = lapply(measures, function(m) m$fun(truth, predicted))
+  performance = lapply(measures, function(m) m$calculate(truth, predicted))
   names(performance) = ids(measures)
   return(list(performance = performance))
 }
