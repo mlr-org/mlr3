@@ -8,6 +8,8 @@ A simple Hashmap/Dictionary/Register/you name it with lazy loading of objects.
 - `contains` [`string`]: Class of stored objects (used for assertions, but can be dropped?)
 
 ##### Methods
+- `ids`:
+  Get all keys. This is sadly *not* an active binding because of a bug.
 - `add(value)`:
   Stores object `value` in `items` using key `value$id`.
 - `get(key)`:
@@ -18,8 +20,6 @@ A simple Hashmap/Dictionary/Register/you name it with lazy loading of objects.
   Removes objects with keys `keys` from `items` (can be used in `unloadPackage` hook).
 
 ##### Bindings
-- `ids`:
-  Get all keys
 
 
 ## Backend

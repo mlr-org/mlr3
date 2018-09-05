@@ -29,32 +29,26 @@ expect_different_address = function(x, y) {
   testthat::expect_false(identical(data.table::address(x), data.table::address(y)))
 }
 
-expect_backend = function(backends) {
-  if (inherits(backends, "Backend"))
-    backends = list(backends)
-  expect_list(backends, min.len = 1L, types = "Backend")
+expect_backend = function(b) {
+  expect_r6(b, cloneable = FALSE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
+  n = expect_count(b$nrow)
+  p = expect_count(b$ncol)
+  cn = expect_atomic_vector(b$colnames, any.missing = FALSE, len = p, unique = TRUE)
+  rn = expect_atomic_vector(b$rownames, any.missing = FALSE, len = n, unique = TRUE)
 
-  for (b in backends) {
-    expect_r6(b, cloneable = FALSE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
-    n = expect_count(b$nrow)
-    p = expect_count(b$ncol)
-    cn = expect_atomic_vector(b$colnames, any.missing = FALSE, len = p, unique = TRUE)
-    rn = expect_atomic_vector(b$rownames, any.missing = FALSE, len = n, unique = TRUE)
+  x = b$data(rows = rn, cols = cn[1L])
+  expect_data_table(x, ncol = 1L, nrow = n)
+  x = x[[cn[1L]]]
+  expect_atomic_vector(x, len = n)
 
-    x = b$data(rows = rn, cols = cn[1L])
-    expect_data_table(x, ncol = 1L, nrow = n)
-    x = x[[cn[1L]]]
-    expect_atomic_vector(x, len = n)
+  # rows are duplicated
+  x = b$data(rows = rep(rn[1L], 2L), cols = b$colnames)
+  expect_data_table(x, nrow = 2L, ncol = p)
 
-    # rows are duplicated
-    x = b$data(rows = rep(rn[1L], 2L), cols = b$colnames)
-    expect_data_table(x, nrow = 2L, ncol = p)
+  # duplicated cols raise exception
+  expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L)), "uniquely")
 
-    # duplicated cols raise exception
-    expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L)), "uniquely")
-
-    expect_data_table(b$head(3), nrow = 3, ncol = p)
-  }
+  expect_data_table(b$head(3), nrow = 3, ncol = p)
 }
 
 expect_task = function(task) {

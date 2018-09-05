@@ -26,7 +26,6 @@ NULL
 #' @export
 mlr_tasks = Dictionary$new("Task")
 
-
 mlr_tasks$add(LazyValue("iris", function() {
   b = BackendDataTable$new(data = load_dataset("iris", "datasets"))
   TaskClassif$new("iris", b, target = "Species")
@@ -46,11 +45,11 @@ mlr_tasks$add(LazyValue("bh", function() {
 
 mlr_tasks$add(LazyValue("pima", function() {
   b = BackendDataTable$new(data = load_dataset("PimaIndiansDiabetes2", "mlbench"))
-  TaskClassif$new("PimaIndiansDiabetes2",b , target = "diabetes", positive = "pos")
+  TaskClassif$new("PimaIndiansDiabetes2", b, target = "diabetes", positive = "pos")
 }))
 
 mlr_tasks$add(LazyValue("zoo", function() {
-  b = BackendDataTable$new(data = load_dataset("Zoo", "mlbench", TRUE))
+  b = BackendDataTable$new(data = load_dataset("Zoo", "mlbench", keep.rownames = TRUE))
   TaskClassif$new("Zoo", b, target = "type")
 }))
 
