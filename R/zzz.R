@@ -12,9 +12,7 @@ mlr3 = new.env(parent = emptyenv())
 
 mlr3$default.opts = list(
   mlr3.verbose = TRUE,
-  mlr3.debug = FALSE,
-  mlr3.keep.train.output = FALSE,
-  mlr3.continue.on.learner.error = FALSE
+  mlr3.debug = FALSE
 )
 
 .onLoad = function(libname, pkgname) { #nocov start
@@ -22,12 +20,6 @@ mlr3$default.opts = list(
 
   backports::import(pkgname)
   backports::import(pkgname, "hasName", force = TRUE)
-
-  # set default + config options if not already set in this session
-  opts = insert(mlr3$default.opts, read_mlr3_config())
-  opts = opts[match(names(opts), names(.Options), nomatch = 0L) == 0L]
-  if (length(opts))
-    options(opts)
 
   mlr_learners$add(LearnerClassifCrashtest$new())
   mlr_learners$add(LearnerClassifDummy$new())

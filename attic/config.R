@@ -66,3 +66,18 @@ write_mlr3_config = function(conf = file.path(rappdirs::user_config_dir("mlr3"),
   names(opts) = stri_sub(names(opts), from = 7L)
   yaml::write_yaml(opts, file = conf)
 }
+
+
+
+### zzz.r
+
+mlr3$default.opts = list(
+  mlr3.verbose = TRUE,
+  mlr3.debug = FALSE
+)
+
+# set default + config options if not already set in this session
+opts = insert(mlr3$default.opts, read_mlr3_config())
+opts = opts[match(names(opts), names(.Options), nomatch = 0L) == 0L]
+if (length(opts))
+  options(opts)

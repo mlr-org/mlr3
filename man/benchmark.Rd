@@ -24,7 +24,6 @@ Runs a benchmark (possibly in parallel).
 }
 \examples{
 tasks = mlr_tasks$mget(c("iris", "sonar"))
-tasks$sonar$measures = mlr_measures$mget("acc")
 learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
 resamplings = lapply("cv", mlr_resamplings$get)
 bmr = benchmark(tasks, learners, resamplings)
