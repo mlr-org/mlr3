@@ -29,8 +29,7 @@ Imports:
     future (>= 1.8.0),
     future.apply,
     paradox,
-    R6,
-    stringi
+    R6
 Suggests:
     bench,
     datasets,

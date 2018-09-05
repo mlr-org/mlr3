@@ -1,6 +1,5 @@
 library(checkmate)
 library(testthat)
-library(stringi)
 
 future::plan("multiprocess")
 

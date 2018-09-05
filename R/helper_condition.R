@@ -1,6 +1,6 @@
 # formating cat()
 catf = function (..., con = "") {
-  cat(stri_flatten(sprintf(...), "\n"), "\n", sep = "", file = con)
+  cat(paste0(sprintf(...), collapse = "\n"), "\n", sep = "", file = con)
 }
 
 # formating message()

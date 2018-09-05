@@ -128,7 +128,7 @@ experiment_print = function(e) {
   catf(fmt(data$learner, "Learner", data$learner$id))
   catf(fmt(data$learner$model, "Model", sprintf("[%s]", class(data$learner$model)[[1L]])))
   catf(fmt(data$predicted, "Predictions", sprintf("[%s]", class(data$predicted)[[1L]])))
-  catf(fmt(data$performance, "Performance", stri_paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
+  catf(fmt(data$performance, "Performance", paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
   catf(stri_list("\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
 }
 
