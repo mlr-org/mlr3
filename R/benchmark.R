@@ -40,35 +40,34 @@ benchmark = function(tasks, learners, resamplings) {
   grid = grid[tmp, on = "instance", allow.cartesian = TRUE]
 
   # prepare result data.table
+  #
+  # we randomize the order here to increase ACET
+  # this should be controllable by the user though:
+  # https://github.com/HenrikBengtsson/future.apply/issues/25
+  ii = sample.int(nrow(grid))
   res = data.table(
     task = tasks[grid$task],
     learner = learners[grid$learner],
     resampling = instances[grid$instance],
     iteration = grid$iter
-  )
+  )[ii]
 
-  # tmp = future.apply::future_mapply(experiment_worker,
-  #   task = res$task,
-  #   learner = res$learner,
-  #   train_set = .mapply(function(instance, iter, ...) instances[[instance]]$train_set(iter), grid, list()),
-  #   test_set = .mapply(function(instance, iter, ...) instances[[instance]]$test_set(iter), grid, list()),
-  #   MoreArgs = list(measures = measures),
-  #   SIMPLIFY = FALSE,
-  #   USE.NAMES = FALSE,
-  #   future.globals = FALSE, future.packages = "mlr3")
 
-  tmp = mapply(experiment_worker,
+
+  tmp = future_mapply(experiment_worker,
     task = res$task,
     learner = res$learner,
     resampling = res$resampling,
     iteration = res$iteration,
-    MoreArgs = list(),
     SIMPLIFY = FALSE,
-    USE.NAMES = FALSE
+    USE.NAMES = FALSE,
+    future.globals = FALSE,
+    future.packages = "mlr3"
   )
 
   tmp = combine_experiments(tmp)
   res[, names(tmp) := tmp]
+  # res = res[order(ii)]
 
   BenchmarkResult$new(res)
 }

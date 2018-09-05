@@ -4,6 +4,8 @@
 #' @importFrom R6 R6Class
 #' @importFrom stats setNames predict
 #' @importFrom utils data head tail
+#' @importFrom future futureCall value
+#' @importFrom future.apply future_lapply future_mapply
 NULL
 
 # environment which holds constants and allows for reflections

@@ -5,7 +5,6 @@ ecall = function(fun, pars) {
 }
 
 
-# takes (partial) experiment, returns named list of slots to update on the master
 train_worker = function(e) {
   learner = e$data$learner
   pkgs = c("mlr3", learner$packages)

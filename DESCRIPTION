@@ -26,12 +26,11 @@ Imports:
     clisymbols,
     crayon,
     data.table,
-    future (>= 1.8.0),
+    future (>= 1.9.0),
     future.apply,
     paradox,
     R6
 Suggests:
-    bench,
     datasets,
     devtools,
     future.callr,

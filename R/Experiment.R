@@ -4,6 +4,11 @@
 #' Container object for machine learning experiments.
 #'
 #' @export
+#' @examples
+#' e = Experiment$new(
+#'   task = mlr_tasks$get("iris"),
+#'   learner = mlr_learners$get("classif.rpart")
+#' )
 Experiment = R6Class("Experiment",
   public = list(
     data = NULL,
@@ -137,8 +142,8 @@ experiment_train = function(e, row_ids) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
   e$data$iteration = 1L
 
-  value = train_worker(e)
-  e$data = insert(e$data, value)
+  value = futureCall(train_worker, list(e = e), globals = FALSE)
+  e$data = insert(e$data, value(value))
   e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
   return(e)
 }
@@ -155,16 +160,15 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
     row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
   }
 
-  value = predict_worker(e)
-  e$data = insert(e$data, value)
+  value = futureCall(predict_worker, list(e = e), globals = FALSE)
+  e$data = insert(e$data, value(value))
   e$data = insert(e$data, list(performance = NULL))
   return(e)
 }
 
 experiment_score = function(e) {
-  value = score_worker(e)
-  e$data = insert(e$data, value)
-
+  value = futureCall(score_worker, list(e = e))
+  e$data = insert(e$data, value(value))
   return(e)
 }
 

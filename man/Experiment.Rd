@@ -11,4 +11,10 @@ Experiment
 \description{
 Container object for machine learning experiments.
 }
+\examples{
+e = Experiment$new(
+  task = mlr_tasks$get("iris"),
+  learner = mlr_learners$get("classif.rpart")
+)
+}
 \keyword{datasets}
