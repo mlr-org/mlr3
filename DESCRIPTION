@@ -22,7 +22,7 @@ Depends:
 Imports:
     backports,
     bit,
-    checkmate,
+    checkmate (>= 1.8.9),
     clisymbols,
     crayon,
     data.table,
@@ -43,7 +43,8 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
-    mlr-org/paradox
+    mlr-org/paradox,
+    mllg/checkmate
 ByteCompile: false
 Encoding: UTF-8
 LazyData: true

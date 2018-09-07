@@ -108,5 +108,5 @@ assert_resampling = function(resampling) {
 assert_resampling_index = function(r, i) {
   if (!r$is_instantiated)
     stopf("Resampling %s has not been instantiated yet", r$id)
-  asInt(i, lower = 1L, upper = r$iters)
+  assert_int(i, lower = 1L, upper = r$iters, coerce = TRUE)
 }

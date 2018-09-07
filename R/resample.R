@@ -65,12 +65,12 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     experiment = function(iteration) {
-      iteration = asInt(iteration, lower = 1L, upper = nrow(self$data))
+      iteration = assert_int(iteration, lower = 1L, upper = nrow(self$data))
       .mapply(Experiment$new, self$data[iteration], MoreArgs = list())[[1L]]
     },
 
     experiments = function(iterations) {
-      iterations = asInteger(iterations, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
+      iterations = assert_integerish(iterations, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
       .mapply(Experiment$new, self$data[iterations], MoreArgs = list())
     }
 
