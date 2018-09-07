@@ -62,24 +62,17 @@ Dictionary = R6Class("Dictionary",
     },
 
     get = function(id, ...) {
-      assert_id(id)
-      if (!hasName(self$items, id))
-        stopf("%s with id '%s' not found!", self$contains, id)
+      assert_keys_exist(assert_id(id), self)
       private$retrieve(get(id, envir = self$items, inherits = FALSE))
     },
 
     mget = function(ids) {
-      assert_character(ids, any.missing = FALSE)
-      missing = !hasName(self$items, ids)
-      if (any(missing))
-        stopf("%s with id '%s' not found!", self$contains, ids[wf(missing)])
+      assert_keys_exist(assert_character(ids, any.missing = FALSE), self)
       lapply(mget(ids, envir = self$items, inherits = FALSE), private$retrieve)
     },
 
     remove = function(id) {
-      assert_id(id)
-      if (!hasName(self$items, id))
-        stopf("%s with id '%s' not found!", self$contains, id)
+      assert_keys_exist(assert_id(id), self)
       rm(list = id, envir = self$items)
       invisible(self)
     }
@@ -92,6 +85,14 @@ Dictionary = R6Class("Dictionary",
   )
 )
 
+assert_keys_exist = function(x, dict) {
+  ii = wf(x %nin% dict$ids())
+  if (length(ii) > 0L) {
+    suggested = stri_suggest(x[ii], dict$ids())
+    suggested = if (length(suggested) == 0L) "" else sprintf(" Did you mean: %s?", paste0(suggested, collapse = " / "))
+    stopf("%s with id '%s' not found!%s", dict$contains, x[ii], suggested)
+  }
+}
 
 LazyValue = function(id, getter) {
   obj = list(id = assert_id(id), getter = assert_function(getter))

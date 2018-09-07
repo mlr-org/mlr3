@@ -9,3 +9,12 @@ stri_peek = function(str, sep = " ", collapse = ", ", n = 10L) {
     x = paste(paste(x, collapse = collapse), "[...]")
   x
 }
+
+stri_suggest = function(str, candidates = character(0L), n = 3L) {
+  n = min(n, length(candidates))
+  if (n == 0L)
+    return(character(0L))
+
+  ii = order(adist(str, candidates, ignore.case = TRUE)[1L, ])
+  candidates[head(ii, n)]
+}

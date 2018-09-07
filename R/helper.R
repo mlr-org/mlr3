@@ -1,3 +1,7 @@
+"%nin%" = function(x, y) {
+  !match(x, y, nomatch = 0L)
+}
+
 require_namespaces = function(pkgs, msg = "The following packages are missing: %s") {
   ok = vlapply(unique(pkgs), requireNamespace, quietly = TRUE)
   if (!all(ok))

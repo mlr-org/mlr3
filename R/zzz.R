@@ -2,25 +2,30 @@
 #' @import data.table
 #' @import paradox
 #' @importFrom R6 R6Class
-#' @importFrom stats setNames predict
-#' @importFrom utils data head tail
 #' @importFrom future futureCall value
 #' @importFrom future.apply future_lapply future_mapply
+#' @importFrom utils data head tail adist
 NULL
 
 # environment which holds constants and allows for reflections
 mlr3 = new.env(parent = emptyenv())
-
-mlr3$default.opts = list(
-  mlr3.verbose = TRUE,
-  mlr3.debug = FALSE
-)
 
 .onLoad = function(libname, pkgname) { #nocov start
   utils::globalVariables(c("role"), package = "mlr3")
 
   backports::import(pkgname)
   backports::import(pkgname, "hasName", force = TRUE)
+
+
+  opts = list(
+    mlr3.verbose = TRUE,
+    mlr3.debug = FALSE
+  )
+  # Set options, but do not overwrite user settings
+  opts = opts[match(names(opts), names(.Options), nomatch = 0L) == 0L]
+  if (length(opts))
+    options(opts)
+
 
   mlr_learners$add(LearnerClassifCrashtest$new())
   mlr_learners$add(LearnerClassifDummy$new())
