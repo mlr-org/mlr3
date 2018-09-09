@@ -10,7 +10,6 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(mlr3)
 knitr::opts_knit$set(
   datatable.print.keys = FALSE,
   datatable.print.class = TRUE
