@@ -68,5 +68,5 @@ Measure = R6Class("Measure", cloneable = FALSE,
 )
 
 assert_measure = function(measure) {
-  assert_r6(measure, "Measure")
+  assert_class(measure, "Measure")
 }

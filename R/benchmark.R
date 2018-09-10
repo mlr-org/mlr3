@@ -52,13 +52,12 @@ benchmark = function(tasks, learners, resamplings) {
     iteration = grid$iter
   )[ii]
 
-
-
   tmp = future_mapply(experiment_worker,
     task = res$task,
     learner = res$learner,
     resampling = res$resampling,
     iteration = res$iteration,
+    MoreArgs = list(ctrl = mlr_control()),
     SIMPLIFY = FALSE,
     USE.NAMES = FALSE,
     future.globals = FALSE,

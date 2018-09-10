@@ -60,15 +60,15 @@ Learner = R6Class("Learner",
   public = list(
     id = NULL,
     packages = NULL,
-    par_set = NULL,
     properties = NULL,
+    par_set = NULL,
     model = NULL,
 
     initialize = function(id, packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
       self$id = assert_id(id)
       self$packages = assert_packages(packages)
-      self$par_set = assert_r6(par_set, "ParamSet")
-      self$properties = assert_character(properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+      self$properties = assert_properties(properties)
+      self$par_set = assert_par_set(par_set)
       private$.par_vals = assert_par_vals(par_vals, par_set)
     },
 
@@ -101,7 +101,7 @@ Learner = R6Class("Learner",
 )
 
 assert_learner = function(learner, task = NULL) {
-  assert_r6(learner, "Learner")
+  assert_class(learner, "Learner")
   if (!is.null(task)) {
     if (!identical(class(task)[1L], learner$task_type)) {
       stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",

@@ -6,9 +6,12 @@ assert_packages = function(packages) {
   assert_character(packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
 }
 
+assert_properties = function(properties) {
+  assert_character(properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+}
 
 assert_par_set = function(par_set) {
-  assert_r6(par_set, "ParamSet")
+  assert_class(par_set, "ParamSet")
 }
 
 assert_par_vals = function(par_vals, par_set) {

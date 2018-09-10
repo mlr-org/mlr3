@@ -40,5 +40,5 @@
 NULL
 
 assert_backend = function(b) {
-  assert_r6(b, "Backend")
+  assert_class(b, "Backend")
 }

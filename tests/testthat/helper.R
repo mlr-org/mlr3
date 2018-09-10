@@ -131,7 +131,7 @@ expect_learner = function(lrn, task = NULL) {
   expect_function(lrn$predict, args = c("task", "..."), ordered = TRUE)
 
   if (!is.null(task)) {
-    assert_r6(task, "Task")
+    assert_class(task, "Task")
     expect_identical(lrn$task_type, class(task)[1L])
   }
 }

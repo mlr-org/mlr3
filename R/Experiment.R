@@ -9,6 +9,13 @@
 #'   task = mlr_tasks$get("iris"),
 #'   learner = mlr_learners$get("classif.rpart")
 #' )
+#' print(e)
+#' e$train()
+#' print(e)
+#' e$predict()
+#' print(e)
+#' e$score()
+#' print(e)
 Experiment = R6Class("Experiment",
   public = list(
     data = NULL,
@@ -32,14 +39,17 @@ Experiment = R6Class("Experiment",
 
     train = function(subset = NULL) {
       experiment_train(self, self$data$task$row_ids(subset))
+      invisible(self)
     },
 
     predict = function(subset = NULL, newdata = NULL) {
       experiment_predict(self, row_ids = self$data$task$row_ids(subset), newdata = newdata)
+      invisible(self)
     },
 
     score = function() {
       experiment_score(self)
+      invisible(self)
     }
   ),
 
@@ -142,7 +152,7 @@ experiment_train = function(e, row_ids) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
   e$data$iteration = 1L
 
-  value = futureCall(train_worker, list(e = e), globals = FALSE)
+  value = futureCall(train_worker, list(e = e, ctrl = mlr_control()), globals = FALSE)
   e$data = insert(e$data, value(value))
   e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
   return(e)
@@ -160,14 +170,14 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
     row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
   }
 
-  value = futureCall(predict_worker, list(e = e), globals = FALSE)
+  value = futureCall(predict_worker, list(e = e, ctrl = mlr_control()), globals = FALSE)
   e$data = insert(e$data, value(value))
   e$data = insert(e$data, list(performance = NULL))
   return(e)
 }
 
 experiment_score = function(e) {
-  value = futureCall(score_worker, list(e = e))
+  value = futureCall(score_worker, list(e = e, ctrl = mlr_control()))
   e$data = insert(e$data, value(value))
   return(e)
 }
@@ -184,5 +194,5 @@ combine_experiments = function(x) {
 }
 
 assert_experiment = function(experiment) {
-  assert_r6(experiment, "Experiment")
+  assert_class(experiment, "Experiment")
 }

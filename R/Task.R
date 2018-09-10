@@ -248,5 +248,5 @@ Task = R6Class("Task",
 )
 
 assert_task = function(task) {
-  assert_r6(task, "Task")
+  assert_class(task, "Task")
 }

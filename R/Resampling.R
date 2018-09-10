@@ -101,7 +101,7 @@ Resampling = R6Class("Resampling",
 
 
 assert_resampling = function(resampling) {
-  assert_r6(resampling, "Resampling")
+  assert_class(resampling, "Resampling")
 }
 
 

@@ -16,16 +16,10 @@ mlr3 = new.env(parent = emptyenv())
   backports::import(pkgname)
   backports::import(pkgname, "hasName", force = TRUE)
 
-
-  opts = list(
-    mlr3.verbose = TRUE,
-    mlr3.debug = FALSE
-  )
-  # Set options, but do not overwrite user settings
-  opts = opts[match(names(opts), names(.Options), nomatch = 0L) == 0L]
+  # Set default options without overwriting already set options
+  opts = default_opts[match(names(default_opts), names(.Options), nomatch = 0L) == 0L]
   if (length(opts))
     options(opts)
-
 
   mlr_learners$add(LearnerClassifCrashtest$new())
   mlr_learners$add(LearnerClassifDummy$new())
