@@ -34,6 +34,17 @@ expect_different_address = function(x, y) {
   testthat::expect_false(identical(data.table::address(x), data.table::address(y)))
 }
 
+expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
+  expect_r6(d, "Dictionary")
+  expect_environment(d$items)
+  expect_string(d$contains)
+  expect_character(d$ids(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
+  if (!is.na(contains)) {
+    objs = d$mget(d$ids())
+    expect_list(objs, types = contains, names = "unique")
+  }
+}
+
 expect_backend = function(b) {
   expect_r6(b, cloneable = FALSE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
   n = expect_count(b$nrow)

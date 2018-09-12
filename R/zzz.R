@@ -8,17 +8,7 @@ NULL
 # environment which holds constants and allows for reflections
 mlr3 = new.env(parent = emptyenv())
 
-.onLoad = function(libname, pkgname) { #nocov start
-  utils::globalVariables(c("role"), package = "mlr3")
-
-  backports::import(pkgname)
-  backports::import(pkgname, "hasName", force = TRUE)
-
-  # Set default options without overwriting already set options
-  opts = default_opts[match(names(default_opts), names(.Options), nomatch = 0L) == 0L]
-  if (length(opts))
-    options(opts)
-
+populate_dicts = function() {
   mlr_learners$add(LearnerClassifCrashtest$new())
   mlr_learners$add(LearnerClassifDummy$new())
   mlr_learners$add(LearnerRegrDummy$new())
@@ -34,4 +24,18 @@ mlr3 = new.env(parent = emptyenv())
 
   mlr_measures$add(MeasureMMCE$new())
   mlr_measures$add(MeasureMSE$new())
+}
+
+.onLoad = function(libname, pkgname) { #nocov start
+  utils::globalVariables(c("role"), package = "mlr3")
+
+  backports::import(pkgname)
+  backports::import(pkgname, "hasName", force = TRUE)
+
+  # Set default options without overwriting already set options
+  opts = default_opts[match(names(default_opts), names(.Options), nomatch = 0L) == 0L]
+  if (length(opts))
+    options(opts)
+
+  populate_dicts()
 } #nocov end

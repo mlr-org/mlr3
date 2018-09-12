@@ -38,3 +38,14 @@ test_that("Dictionary: lazy values", {
   expect_task(t2)
   expect_different_address(t1, t2)
 })
+
+test_that("Dictionaries are populated", {
+  for (i in 1:2) {
+    if (i == 2L)
+      populate_dicts()
+    expect_dictionary(mlr_tasks, "Task", min.items = 1L)
+    expect_dictionary(mlr_learners, "Learner", min.items = 1L)
+    expect_dictionary(mlr_resamplings, "Resampling", min.items = 1L)
+    expect_dictionary(mlr_measures, "Measure", min.items = 1L)
+  }
+})
