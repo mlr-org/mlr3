@@ -67,7 +67,7 @@ benchmark = function(tasks, learners, resamplings) {
 
   tmp = combine_experiments(tmp)
   res[, names(tmp) := tmp]
-  res = res[order(ids(task), ids(learner), iteration)]
+  res = res[order(ids(get("task")), ids(get("learner")), get("iteration"))]
 
   BenchmarkResult$new(res)
 }
