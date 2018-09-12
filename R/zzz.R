@@ -2,8 +2,6 @@
 #' @import data.table
 #' @import paradox
 #' @importFrom R6 R6Class
-#' @importFrom future futureCall value
-#' @importFrom future.apply future_lapply future_mapply
 #' @importFrom utils data head tail adist
 NULL
 

@@ -3,10 +3,8 @@ default_opts = list(
   mlr3.debug = FALSE
 )
 
-# creates a snapshot of options required on the slave
-mlr_control = function() {
-  list(
-    verbose = assert_flag(getOption("mlr3.verbose")),
-    debug = assert_flag(getOption("mlr3.debug"))
-  )
+mlr_options = function() {
+  opts = .Options[startsWith(names(.Options), "mlr3.")]
+  names(opts) = substr(names(opts), 6L, 100L)
+  opts
 }

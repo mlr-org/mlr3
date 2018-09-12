@@ -127,14 +127,12 @@ Experiment = R6Class("Experiment",
 
 experiment_print = function(e) {
   data = e$data
-  tick = crayon::green(clisymbols::symbol$tick)
-  cross = crayon::red(clisymbols::symbol$cross)
 
   fmt = function(x, obj, info) {
     if (is.null(x)) {
-      sprintf(" %s %s", cross, obj)
+      sprintf(" - %s: [missing]", obj)
     } else {
-      sprintf(" %s %s: %s", tick, obj, info)
+      sprintf(" + %s: %s", obj, info)
     }
   }
 
@@ -152,8 +150,8 @@ experiment_train = function(e, row_ids) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
   e$data$iteration = 1L
 
-  value = futureCall(train_worker, list(e = e, ctrl = mlr_control()), globals = FALSE)
-  e$data = insert(e$data, value(value))
+  value = future::futureCall(train_worker, list(e = e, ctrl = mlr_options()), globals = FALSE)
+  e$data = insert(e$data, future::value(value))
   e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
   return(e)
 }
@@ -170,15 +168,15 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
     row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
   }
 
-  value = futureCall(predict_worker, list(e = e, ctrl = mlr_control()), globals = FALSE)
-  e$data = insert(e$data, value(value))
+  value = future::futureCall(predict_worker, list(e = e, ctrl = mlr_options()), globals = FALSE)
+  e$data = insert(e$data, future::value(value))
   e$data = insert(e$data, list(performance = NULL))
   return(e)
 }
 
 experiment_score = function(e) {
-  value = futureCall(score_worker, list(e = e, ctrl = mlr_control()))
-  e$data = insert(e$data, value(value))
+  value = future::futureCall(score_worker, list(e = e, ctrl = mlr_options()))
+  e$data = insert(e$data, future::value(value))
   return(e)
 }
 

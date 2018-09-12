@@ -20,18 +20,18 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
         )
       }
       assert_task(task)
-      private$instance = cv(task$row_ids(), self$par_vals$folds)
+      private$.instance = cv(task$row_ids(), self$par_vals$folds)
       self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance[!.(i), "row_id", on = "fold"][[1L]]
+      private$.instance[!.(i), "row_id", on = "fold"][[1L]]
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance[.(i), "row_id", on = "fold"][[1L]]
+      private$.instance[.(i), "row_id", on = "fold"][[1L]]
     }
   ),
 

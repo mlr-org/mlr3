@@ -27,18 +27,18 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
       assert_task(task)
       row_ids = task$row_ids()
-      private$instance = bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      private$.instance = bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
       self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance[[i]]$train
+      private$.instance[[i]]$train
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance[[i]]$test
+      private$.instance[[i]]$test
     }
   ),
 

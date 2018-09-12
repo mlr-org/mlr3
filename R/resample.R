@@ -28,9 +28,9 @@ resample = function(task, learner, resampling) {
   }
   n = instance$iters
 
-  res = future_lapply(seq_len(n), experiment_worker,
+  res = future.apply::future_lapply(seq_len(n), experiment_worker,
     task = task, learner = learner, resampling = resampling,
-    ctrl = mlr_control(),
+    ctrl = mlr_options(),
     future.globals = FALSE, future.packages = "mlr3")
   res = combine_experiments(res)
   res[, c("task", "resampling") := list(list(task), list(instance))]

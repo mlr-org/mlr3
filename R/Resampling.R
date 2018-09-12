@@ -80,21 +80,21 @@ Resampling = R6Class("Resampling",
     },
 
     is_instantiated = function() {
-      !is.null(private$instance)
+      !is.null(private$.instance)
     },
 
     checksum = function() {
-      if (is.null(private$instance))
+      if (is.null(private$.instance))
         return(NA_character_)
-      if (is.na(private$hash))
-        private$hash = digest::digest(private$instance, algo = "murmur32")
-      private$hash
+      if (is.na(private$.hash))
+        private$.hash = digest::digest(private$.instance, algo = "murmur32")
+      private$.hash
     }
   ),
 
   private = list(
-    instance = NULL,
-    hash = NA_character_,
+    .instance = NULL,
+    .hash = NA_character_,
     .par_vals = NULL
   )
 )

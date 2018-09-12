@@ -1,7 +1,8 @@
 #' @title Benchmark Multiple Learners on Multiple Tasks
 #'
 #' @description
-#' Runs a benchmark (possibly in parallel).
+#' Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
+#'
 #'
 #' @param tasks (`list` of [Task])\cr
 #'   List of objects of type [Task].
@@ -31,7 +32,7 @@ benchmark = function(tasks, learners, resamplings) {
   instances = .mapply(function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]), grid, list())
   names(instances) = grid$instance = vcapply(instances, "[[", "checksum")
 
-  # Cross join learner x task combinations
+  # Cross join task x learner combinations
   tmp = CJ(task = names(tasks), learner = names(learners))
   grid = grid[tmp, on = "task", allow.cartesian = TRUE]
 
@@ -52,12 +53,12 @@ benchmark = function(tasks, learners, resamplings) {
     iteration = grid$iter
   )[ii]
 
-  tmp = future_mapply(experiment_worker,
+  tmp = future.apply::future_mapply(experiment_worker,
     task = res$task,
     learner = res$learner,
     resampling = res$resampling,
     iteration = res$iteration,
-    MoreArgs = list(ctrl = mlr_control()),
+    MoreArgs = list(ctrl = mlr_options()),
     SIMPLIFY = FALSE,
     USE.NAMES = FALSE,
     future.globals = FALSE,
@@ -66,7 +67,7 @@ benchmark = function(tasks, learners, resamplings) {
 
   tmp = combine_experiments(tmp)
   res[, names(tmp) := tmp]
-  # res = res[order(ii)]
+  res = res[order(ids(task), ids(learner), iteration)]
 
   BenchmarkResult$new(res)
 }

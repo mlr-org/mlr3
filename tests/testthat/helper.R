@@ -140,7 +140,7 @@ expect_resampling = function(r, task = NULL) {
   expect_r6(r, "Resampling")
   expect_string(r$id, min.chars = 1L)
 
-  instance = private(r)$instance
+  instance = private(r)$.instance
   if (is.null(instance)) {
     expect_false(r$is_instantiated)
     expect_error(r$train_set(1L), "instantiated")
