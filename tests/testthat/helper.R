@@ -9,15 +9,15 @@ options(
 )
 
 `[[.R6` = function(x, i, ...) {
-  if (!backports:::hasName(x, i))
-    stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", i, "'!")
-  get(i, envir = x)
+  if (i %in% names(x))
+    return(get(i, envir = x))
+  stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", i, "'!")
 }
 
 `$.R6` = function(x, name) {
-  if (!backports:::hasName(x, name))
-    stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", name, "'!")
-  get(name, envir = x)
+  if (name %in% names(x))
+    return(get(name, envir = x))
+  stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", name, "'!")
 }
 
 private = function(x) {

@@ -59,6 +59,7 @@ Resampling = R6Class("Resampling",
   public = list(
     id = NULL,
     par_set = NULL,
+    has_duplicates = NA,
 
     initialize = function(id, par_set = ParamSet$new(), par_vals = list()) {
       self$id = assert_id(id)

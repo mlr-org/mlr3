@@ -8,6 +8,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
         par_set = ParamSet$new(params = list(ParamReal$new("ratio", lower = 0, upper = 1))),
         par_vals = list(ratio = 2/3)
       )
+      self$has_duplicates = FALSE
     },
 
     instantiate = function(task, ...) {
@@ -21,6 +22,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 
       assert_task(task)
       private$.instance = holdout(task$row_ids(), assert_number(self$par_vals$ratio, lower = 0))
+      private$.hash = NA_character_
       self
     },
 

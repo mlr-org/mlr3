@@ -38,13 +38,13 @@ Suggests:
     mlbench,
     rmarkdown,
     rpart,
-    testthat
+    testthat,
+    withr
 VignetteBuilder:
     knitr
 Remotes:
     mlr-org/paradox,
     mllg/checkmate
-ByteCompile: false
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no

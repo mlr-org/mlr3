@@ -7,6 +7,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
         par_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L))),
         par_vals = list(folds = 10L)
       )
+      self$has_duplicates = FALSE
     },
     instantiate = function(task, ...) {
       # inner function so we can easily implement blocking here
@@ -21,6 +22,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
       }
       assert_task(task)
       private$.instance = cv(task$row_ids(), self$par_vals$folds)
+      private$.hash = NA_character_
       self
     },
 

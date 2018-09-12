@@ -7,6 +7,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
         par_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamReal$new("ratio", lower = 0, upper = 1))),
         par_vals = list(repeats = 30L, ratio = 2/3)
       )
+      self$has_duplicates = FALSE
     },
     instantiate = function(task, ...) {
       # inner function so we can easily implement blocking here
@@ -24,6 +25,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
 
       assert_task(task)
       private$.instance = ss(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      private$.hash = NA_character_
       self
     },
 

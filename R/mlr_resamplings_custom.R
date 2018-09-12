@@ -6,12 +6,14 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
     },
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
+      assert_task(task)
 
       if (!is.null(train_sets)) {
         # TODO: more assertions
         assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
         private$.instance = list(train = train_sets, test = NULL)
         private$.hash = NA_character_
+        self$has_duplicates = any(viapply(train_sets, anyDuplicated) > 0L)
       }
 
       if (!is.null(test_sets)) {
@@ -22,7 +24,9 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
         assert_list(test_sets, types = "atomicvector", len = length(train), any.missing = FALSE)
         private$.instance$test = test_sets
         private$.hash = NA_character_
+        self$has_duplicates = isTRUE(self$has_duplicates) | any(viapply(test_sets, anyDuplicated) > 0L)
       }
+
       self
     },
 

@@ -10,6 +10,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
         ),
         par_vals = list(ratio = 1, repeats = 30L)
       )
+      self$has_duplicates = TRUE
     },
 
     instantiate = function(task, ...) {
@@ -28,6 +29,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       assert_task(task)
       row_ids = task$row_ids()
       private$.instance = bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      private$.hash = NA_character_
       self
     },
 

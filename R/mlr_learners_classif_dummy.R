@@ -14,8 +14,8 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
     },
 
     train = function(task, ...) {
-      data = task$data()
       tn = task$target_names
+      data = task$data(cols = tn)
       mod = data[, .N, by = tn]
       class(mod) = c("dummy.model", class(mod))
       mod
