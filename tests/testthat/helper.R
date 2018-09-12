@@ -129,14 +129,15 @@ expect_learner = function(lrn, task = NULL) {
   expect_output(print(lrn))
 
   expect_choice(lrn$task_type, capabilities$task_types, fmatch = TRUE)
-  expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L)
+  expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   expect_class(lrn$par_set, "ParamSet")
-  expect_subset(lrn$properties, capabilities$learner_props[[class(task)[1L]]])
-  expect_function(lrn$train, args = c("task", "..."), ordered = TRUE)
-  expect_function(lrn$predict, args = c("task", "..."), ordered = TRUE)
+  expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+  expect_function(lrn$train, args = "task", ordered = TRUE)
+  expect_function(lrn$predict, args = "task", ordered = TRUE)
 
   if (!is.null(task)) {
     assert_class(task, "Task")
+    expect_subset(lrn$properties, capabilities$learner_props[[class(task)[1L]]], fmatch = TRUE)
     expect_identical(lrn$task_type, class(task)[1L])
   }
 }
@@ -177,7 +178,7 @@ expect_resampling = function(r, task = NULL) {
 expect_measure = function(m) {
   expect_r6(m, "Measure")
   expect_string(m$id, min.chars = 1L)
-  expect_subset(m$task_types, capabilities$task_types, empty.ok = FALSE)
+  expect_subset(m$task_types, capabilities$task_types, empty.ok = FALSE, fmatch = TRUE)
   expect_numeric(m$range, len = 2, any.missing = FALSE)
   expect_lt(m$range[1], m$range[2])
   expect_flag(m$minimize)
@@ -213,4 +214,26 @@ expect_experiment = function(e) {
     expect_list(e$data$performance, names = "unique")
     qassertr(e$data$performance, "N1")
   }
+}
+
+expect_resample_result = function(rr) {
+  expect_r6(rr, "ResampleResult")
+  expect_task(rr$task)
+  expect_learner(rr$learner, task = rr$task)
+  expect_resampling(rr$resampling, task = rr$task)
+
+  perf = rr$performance
+  expect_data_table(perf, nrow = rr$resampling$iters, min.cols = 2L)
+  expect_names(names(perf), permutation.of = c("iteration", names(rr$task$measures)))
+  expect_identical(perf$iteration, seq_len(rr$resampling$iters))
+  for (m in names(rr$task$measures))
+    expect_numeric(perf[[m]], any.missing = FALSE)
+
+  data = rr$data
+  expect_data_table(rr$data, nrow = rr$resampling$iters, ncol = nrow(reflections$experiment_slots), any.missing = FALSE)
+  expect_names(names(rr$data), permutation.of = reflections$experiment_slots$name)
+
+  e = rr$experiment(1L)
+  expect_experiment(e)
+  expect_true(e$state == "scored")
 }
