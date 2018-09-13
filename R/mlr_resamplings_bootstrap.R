@@ -19,7 +19,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       # -> join ids using blocks
       bootstrap = function(ids, ratio, repeats) {
         n = length(ids)
-        nr = as.integer(n * ratio)
+        nr = as.integer(round(n * ratio))
         replicate(repeats, {
           ii = sort(sample.int(n, nr, replace = TRUE))
           list(train = ids[ii], test = ids[-unique(ii)])

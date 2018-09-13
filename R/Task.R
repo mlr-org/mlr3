@@ -134,53 +134,11 @@ Task = R6Class("Task",
     },
 
     print = function(...) {
-      catf("Task '%s' of type %s (%i x %i)", self$id, class(self)[1L], self$nrow, self$ncol)
-      catf(stri_list("Target: ", self$target_names))
-      catf(stri_list("Features: ", stri_peek(self$feature_names)))
-      catf(stri_list("Order by: ", self$order))
-      catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
+      task_print(self)
     },
 
     data = function(rows = NULL, cols = NULL) {
-      if (is.null(rows)) {
-        selected_rows = self$row_info[role == "use", "id"][[1L]]
-      } else {
-        if (self$row_info[list(rows), .N] != length(rows))
-          stopf("Invalid row ids provided")
-        selected_rows = rows
-      }
-
-       if (is.null(cols)) {
-        selected_cols = self$col_info[role %in% c("feature", "target"), "id"][[1L]]
-      } else {
-        selected_cols = self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
-        if (length(selected_cols) != length(cols))
-          stopf("Invalid column ids provided")
-      }
-
-      extra_cols = character(0L)
-      if (length(self$order)) {
-        extra_cols = setdiff(self$order, selected_cols)
-        selected_cols = union(selected_cols, extra_cols)
-      }
-
-      data = self$backend$data(rows = selected_rows, cols = selected_cols)
-
-      if (nrow(data) != length(selected_rows)) {
-        stopf("Backend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
-      }
-
-      if (ncol(data) != length(selected_cols)) {
-        stopf("Backend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
-      }
-
-      if (length(self$order)) {
-        setorderv(data, self$order)
-      }
-
-      if (length(extra_cols))
-        data[, (extra_cols) := NULL]
-      return(data)
+      task_data(self, rows, cols)
     },
 
     head = function(n = 6L) {
@@ -198,13 +156,21 @@ Task = R6Class("Task",
     },
 
     filter = function(row_ids) {
-      self$row_info[!list(row_ids), role := "ignore"]
+      self$row_info[!(id %in% row_ids) & role == "use", role := "ignore"]
       self
     },
 
     select = function(cols) {
-      self$col_info[!list(cols), role := "ignore"]
+      self$col_info[!(id %in% cols) & role == "feature", role := "ignore"]
       self
+    },
+
+    rbind = function(data) {
+      stop("Not yet implemented")
+    },
+
+    cbind = function(data) {
+      stop("Not yet implemented")
     }
   ),
 
@@ -247,6 +213,52 @@ Task = R6Class("Task",
   )
 )
 
-assert_task = function(task) {
-  assert_class(task, "Task")
+task_data = function(self, rows = NULL, cols = NULL) {
+  if (is.null(rows)) {
+    selected_rows = self$row_info[role == "use", "id"][[1L]]
+  } else {
+    if (self$row_info[list(rows), .N] != length(rows))
+      stopf("Invalid row ids provided")
+    selected_rows = rows
+  }
+
+  if (is.null(cols)) {
+    selected_cols = self$col_info[role %in% c("feature", "target"), "id"][[1L]]
+  } else {
+    selected_cols = self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
+    if (length(selected_cols) != length(cols))
+      stopf("Invalid column ids provided")
+  }
+
+  extra_cols = character(0L)
+  if (length(self$order)) {
+    extra_cols = setdiff(self$order, selected_cols)
+    selected_cols = union(selected_cols, extra_cols)
+  }
+
+  data = self$backend$data(rows = selected_rows, cols = selected_cols)
+
+  if (nrow(data) != length(selected_rows)) {
+    stopf("Backend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
+  }
+
+  if (ncol(data) != length(selected_cols)) {
+    stopf("Backend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
+  }
+
+  if (length(self$order)) {
+    setorderv(data, self$order)
+  }
+
+  if (length(extra_cols))
+    data[, (extra_cols) := NULL]
+  return(data)
+}
+
+task_print = function(self) {
+  catf("Task '%s' of type %s (%i x %i)", self$id, class(self)[1L], self$nrow, self$ncol)
+  catf(stri_list("Target: ", self$target_names))
+  catf(stri_list("Features: ", stri_peek(self$feature_names)))
+  catf(stri_list("Order by: ", self$order))
+  catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
 }

@@ -98,7 +98,3 @@ if (FALSE) {
   x = data.table(id = c(1:5, 5L), val = letters[1:6], key = "id")
   x[list(3:5), mult = "last"]
 }
-
-assert_backend = function(b) {
-  assert_class(b, "Backend")
-}

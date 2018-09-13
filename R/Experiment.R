@@ -190,7 +190,3 @@ combine_experiments = function(x) {
     exp
   }))
 }
-
-assert_experiment = function(experiment) {
-  assert_class(experiment, "Experiment")
-}

@@ -15,7 +15,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
       # -> join ids using blocks
       ss = function(ids, ratio, repeats) {
         n = length(ids)
-        nr = as.integer(n * ratio)
+        nr = as.integer(round(n * ratio))
 
         train = replicate(repeats,
           bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
