@@ -13,19 +13,21 @@ insert.environment = function(x, y) {
   x
 }
 
+insert.data.table = function(x, y) {
+  x[, names(y) := y][]
+}
+
 remove = function(x, nn) {
   UseMethod("remove")
 }
 
 remove.list = function(x, nn) {
-  nn = nn[hasName(x, nn)]
-  x[nn] = NULL
+  x[intersect(nn, names(x))] = NULL
   x
 }
 
 remove.enviroment = function(x, nn) {
-  nn = nn[hasName(x, nn)]
-  rm(x, list = nn)
+  rm(x, list = intersect(nn, names(x)))
   x
 }
 

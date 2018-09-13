@@ -1,43 +1,57 @@
-#' @title Classification Tasks
-#' @format [R6Class()] object
+#' @title Classification task
 #'
 #' @description
-#' A [R6::R6Class()] to construct classification tasks.
+#' This task specializes [Task] and [TaskSupervised] for classification problems.
+#' The target column is assumed to be a factor.
 #'
-#' @template fields-task
-#' @template fields-supervisedtask
-#' @field positive (`character(1)`)\cr
-#'  Only for binary classification: Level of the positive class (`NA` otherwise).
-#' @field classes [`character()`]\cr
-#'  Levels of class labels.
-#' @field nclasses (`integer(1)`)\cr
-#'  Number of levels of class labels.
+#' @section Usage:
+#' ```
+#' t = TaskClassif$new(id, backend, target, positive = NULL)
 #'
-#' @return [TaskClassif()].
-#' @include TaskSupervised.R
-#' @export
+#' t$class_names
+#' t$class_n
+#' ```
+#'
+#' @section Arguments:
+#' * `positive` (`character(1)`):
+#'   Name of the "positive" class for binary classification problems.
+#'
+#' @section Details:
+#' `class_names` returns all class labels of the rows which `role == "use"`.
+#' `class_n` returns the number of class labels of the rows which `role == "use"`.
+#'
+#' @name TaskClassif
 #' @family Tasks
 #' @examples
-#' task = TaskClassif$new("iris", data = iris, target = "Species")
+#' b = BackendDataTable$new(iris)
+#' task = TaskClassif$new("iris", backend = b, target = "Species")
 #' task$formula
+#' task$class_names
+NULL
+
+
+#' @include TaskSupervised.R
+#' @export
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
-    task_type = "classif",
-    measures = list(),
     positive = NA_character_,
 
-    initialize = function(id, data, target, positive = NULL) {
-      super$initialize(id = id, data = data, target = target)
-      if (!is.null(positive)) {
+    initialize = function(id, backend, target, positive = NULL) {
+      super$initialize(id = id, backend = backend, target = target)
+      assert_string(target) # check for length 1
+
+      # FIXME: pick a type here
+      assert_vector(self$truth()[[1L]], any.missing = FALSE, .var.name = "target column")
+
+      if (!is.null(positive))
         self$positive = assert_choice(positive, self$class_names)
-      }
       self$measures = mlr_measures$mget("mmce")
     }
   ),
 
   active = list(
-    class_names = function() as.character(unique(self$data(cols = self$target_names)[[1L]])),
-    classes_n = function() uniqueN(self$data(cols = self$target_names)[[1L]])
+    class_names = function() as.character(unique(self$truth()[[1L]])),
+    class_n = function() uniqueN(self$truth()[[1L]])
   )
 )

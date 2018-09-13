@@ -11,32 +11,29 @@
 #'   Object of type [Resampling].
 #' @return [ResampleResult].
 #' @export
+#' @examples
+#' task = mlr_tasks$get("iris")
+#' learner = mlr_learners$get("classif.rpart")
+#' resampling = mlr_resamplings$get("cv")
+#' resample(task, learner, resampling)
 resample = function(task, learner, resampling) {
   assert_task(task)
   assert_learner(learner, task = task)
   assert_resampling(resampling)
 
   if (resampling$is_instantiated) {
-    instance = resampling$clone() # FIXME: clone
+    instance = resampling$clone()
   } else {
-    instance = resampling$instantiate(task) # FIXME: clone
+    instance = resampling$instantiate(task)
   }
   n = instance$iters
 
-  # res = future.apply::future_lapply(seq_len(n), function(i, task, learner, instance, measures) {
-  #   train_set = instance$train_set(i)
-  #   test_set = instance$test_set(i)
-  #   experiment_worker(task = task, learner = learner,  train_set = train_set, test_set = test_set, measures = measures)
-  # }, future.globals = FALSE, future.packages = "mlr3", task = task, learner = learner, instance = instance, measures = measures)
-
-  res = lapply(seq_len(n), function(i) {
-    train_set = instance$train_set(i)
-    test_set = instance$test_set(i)
-    experiment_worker(task = task, learner = learner,  train_set = train_set, test_set = test_set)
-  })
-
+  res = future.apply::future_lapply(seq_len(n), experiment_worker,
+    task = task, learner = learner, resampling = resampling,
+    ctrl = mlr_options(),
+    future.globals = FALSE, future.packages = "mlr3")
   res = combine_experiments(res)
-  res[, c("task", "learner", "resampling", "iteration") := list(list(task), list(learner), list(instance), seq_len(n))]
+  res[, c("task", "resampling") := list(list(task), list(instance))]
 
   ResampleResult$new(res)
 }
@@ -57,7 +54,7 @@ ResampleResult = R6Class("ResampleResult",
 
     initialize = function(data) {
       assert_data_table(data)
-      slots = capabilities$experiment_slots$name
+      slots = reflections$experiment_slots$name
       assert_names(names(data), permutation.of = slots)
       self$data = setcolorder(data, slots)[]
     },
@@ -69,12 +66,12 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     experiment = function(iteration) {
-      iteration = asInt(iteration, lower = 1L, upper = nrow(self$data))
+      iteration = assert_int(iteration, lower = 1L, upper = nrow(self$data))
       .mapply(Experiment$new, self$data[iteration], MoreArgs = list())[[1L]]
     },
 
     experiments = function(iterations) {
-      iterations = asInteger(iterations, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
+      iterations = assert_integerish(iterations, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
       .mapply(Experiment$new, self$data[iterations], MoreArgs = list())
     }
 

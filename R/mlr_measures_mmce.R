@@ -1,11 +1,19 @@
 #' @include Measure.R
-MeasureMMCE = R6Class("MeasureMMCE", inherit = Measure,
+MeasureMMCE = R6Class("MeasureMMCE",
+  inherit = Measure,
   public = list(
-    id = "mmce",
-    description = "Mean misclassification error",
-    task_types = "classif",
-    fun = function(truth, predicted) {
-      mean(truth != predicted)
+    initialize = function(id = "mmce") {
+      super$initialize(
+        id = id,
+        task_types = "TaskClassif",
+        range = 0:1,
+        minimize = TRUE
+      )
+    },
+
+    calculate = function(experiment) {
+      p = experiment$predictions
+      mean(p$truth != p$predicted)
     }
   )
 )

@@ -1,9 +1,14 @@
 #' @include Resampling.R
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
-    id = "subsampling",
-    ratio = 0.67,
-    repeats = 30L,
+    initialize = function(id = "subsampling") {
+      super$initialize(
+        id = id,
+        par_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamReal$new("ratio", lower = 0, upper = 1))),
+        par_vals = list(repeats = 30L, ratio = 2/3)
+      )
+      self$has_duplicates = FALSE
+    },
     instantiate = function(task, ...) {
       # inner function so we can easily implement blocking here
       # -> replace ids with unique values of blocking variable
@@ -19,23 +24,24 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
       }
 
       assert_task(task)
-      private$instance = ss(task$row_ids(), assert_number(self$ratio, lower = 0), asInt(self$repeats, lower = 1L))
+      private$.instance = ss(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      private$.hash = NA_character_
       self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance$row_ids[bit::as.which(private$instance$train[[i]])]
+      private$.instance$row_ids[bit::as.which(private$.instance$train[[i]])]
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance$row_ids[bit::as.which(!private$instance$train[[i]])]
+      private$.instance$row_ids[bit::as.which(!private$.instance$train[[i]])]
     }
   ),
   active = list(
     iters = function() {
-      self$repeats
+      self$par_vals$repeats
     }
   )
 )

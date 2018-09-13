@@ -22,21 +22,14 @@ Depends:
 Imports:
     backports,
     bit,
-    checkmate,
-    clisymbols,
-    crayon,
+    checkmate (>= 1.8.9),
     data.table,
-    evaluate,
-    future (>= 1.8.0),
+    digest,
+    future (>= 1.9.0),
     future.apply,
     paradox,
-    R6,
-    rappdirs,
-    stringi,
-    withr,
-    yaml
+    R6
 Suggests:
-    bench,
     datasets,
     devtools,
     future.callr,
@@ -45,12 +38,13 @@ Suggests:
     mlbench,
     rmarkdown,
     rpart,
-    testthat
+    testthat,
+    withr
 VignetteBuilder:
     knitr
 Remotes:
-    mlr-org/paradox
-ByteCompile: false
+    mlr-org/paradox,
+    mllg/checkmate
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
@@ -58,8 +52,10 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
 Collate:
     'Backend.R'
+    'BackendDataTable.R'
     'Dictionary.R'
     'Experiment.R'
+    'helper_R6.R'
     'Learner.R'
     'LearnerClassif.R'
     'LearnerRegr.R'
@@ -71,12 +67,12 @@ Collate:
     'TaskClassif.R'
     'TaskRegr.R'
     'benchmark.R'
-    'config.R'
     'helper.R'
+    'helper_asserts.R'
     'helper_condition.R'
     'helper_insert.R'
     'helper_seq.R'
-    'helper_stri.R'
+    'helper_string.R'
     'helper_vapply.R'
     'mlr_learners.R'
     'mlr_learners_classif_dummy.R'
@@ -85,7 +81,6 @@ Collate:
     'mlr_learners_regr_dummy.R'
     'mlr_learners_regr_rpart.R'
     'mlr_measures.R'
-    'mlr_measures_acc.R'
     'mlr_measures_mmce.R'
     'mlr_measures_mse.R'
     'mlr_resamplings.R'
@@ -94,11 +89,11 @@ Collate:
     'mlr_resamplings_cv.R'
     'mlr_resamplings_subsampling.R'
     'mlr_resamplings_holdout.R'
-    'mlr_resamplings_repeated.cv.R'
+    'mlr_resamplings_repeated_cv.R'
     'mlr_tasks.R'
-    'predict.R'
+    'options.R'
+    'reflections.R'
     'resample.R'
-    'score.R'
     'split.R'
     'subset.R'
     'train.R'

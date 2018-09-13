@@ -10,6 +10,18 @@ Experiment
 }
 \description{
 Container object for machine learning experiments.
-Holds all important information as computed by the steps \code{\link[=train]{train()}}, \code{\link[=predict]{predict()}} and \code{\link[=score]{score()}}.
+}
+\examples{
+e = Experiment$new(
+  task = mlr_tasks$get("iris"),
+  learner = mlr_learners$get("classif.rpart")
+)
+print(e)
+e$train()
+print(e)
+e$predict()
+print(e)
+e$score()
+print(e)
 }
 \keyword{datasets}

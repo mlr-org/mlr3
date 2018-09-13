@@ -1,8 +1,14 @@
 #' @include Resampling.R
 ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
-    id = "cv",
-    folds = 10L,
+    initialize = function(id = "cv") {
+      super$initialize(
+        id = id,
+        par_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L))),
+        par_vals = list(folds = 10L)
+      )
+      self$has_duplicates = FALSE
+    },
     instantiate = function(task, ...) {
       # inner function so we can easily implement blocking here
       # -> replace ids with unique values of blocking variable
@@ -15,24 +21,25 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
         )
       }
       assert_task(task)
-      private$instance = cv(task$row_ids(), asInt(self$folds, lower = 1L))
+      private$.instance = cv(task$row_ids(), self$par_vals$folds)
+      private$.hash = NA_character_
       self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance[!.(i), "row_id", on = "fold"][[1L]]
+      private$.instance[!.(i), "row_id", on = "fold"][[1L]]
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance[.(i), "row_id", on = "fold"][[1L]]
+      private$.instance[.(i), "row_id", on = "fold"][[1L]]
     }
   ),
 
   active = list(
     iters = function() {
-      self$folds
+      self$par_vals$folds
     }
   )
 )

@@ -1,11 +1,19 @@
 #' @include Measure.R
-MeasureMSE = R6Class("MeasureMSE", inherit = Measure,
+MeasureMSE = R6Class("MeasureMSE",
+  inherit = Measure,
   public = list(
-    id = "mse",
-    description = "Mean squared error",
-    task_types = "regr",
-    fun = function(truth, predicted) {
-      mean( (truth - predicted)^2 )
+    initialize = function(id = "mse") {
+      super$initialize(
+        id = id,
+        task_types = "TaskRegr",
+        range = c(0, Inf),
+        minimize = TRUE
+      )
+    },
+
+    calculate = function(experiment) {
+      p = experiment$predictions
+      mean( (p$truth - p$predicted)^2 )
     }
   )
 )

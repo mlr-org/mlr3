@@ -1,63 +1,44 @@
-BackendDataTable = R6Class("Backend",
-  public = list(
-    primary_key = NULL,
+#' @title Backend Interface
+#'
+#' @description
+#' All objects of type Backend provide the following interface:
+#'
+#' @section Usage:
+#' ```
+#' b$data(rows, cols)
+#' b$head(n = 6)
+#' b$rownames
+#' b$colnames
+#' b$nrow
+#' b$ncol
+#' print(b)
+#' ```
+#' See [BackendDataTable] for an exemplary implementation of this interface.
+#'
+#' @section Arguments:
+#' * `rows` (`integer()` or `character()`):
+#'   Vector of row indices to subset rows using the primary key in the data backend.
+#' * `cols` (`character()`):
+#'   Vector of column names to select specific columns.
+#' * `n` (`integer(1)`): Number of rows to return.
+#'
+#' @section Details:
+#' `$data()` returns a slice of the data as [data.table][data.table::data.table()]:
+#'   rows are matched by the `primary_key` column, columns are selected by name.
+#'
+#' `$head()` (`data.table`) returns a [data.table][data.table::data.table()] of the first `n` data rows.
+#'
+#' `$rownames` (`character(1)`) returns all rownames of `data` as integer or character vector.
+#'
+#' `$colnames` (`character(1)`) returns all colnames of `data` as character vector.
+#'
+#' `$nrow` (`integer(1)`) returns the number of total rows.
+#'
+#' `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
+#' @name Backend
+#' @family Backend
+NULL
 
-    initialize = function(data, primary_key = NULL) {
-      assert_data_frame(data, min.rows = 1L, min.cols = 1L)
-
-      if (is.null(primary_key)) {
-        rn = attr(data, "row.names")
-        data = as.data.table(data)
-        if (is.character(rn))
-          rn = make.unique(rn)
-        data[["..row_id"]] = rn
-        self$primary_key = "..row_id"
-      } else {
-        assert_string(primary_key)
-        assert_names(colnames(data), must.include = primary_key)
-        assert_atomic_vector(data[[primary_key]], any.missing = FALSE, unique = TRUE)
-        self$primary_key = primary_key
-        data = as.data.table(data)
-      }
-      private$dt = setkeyv(data, private$primary_key)
-    },
-
-    data = function(rows, cols) {
-      assert_atomic_vector(rows)
-      assert_names(cols, type = "unique", subset.of = names(private$dt))
-
-      data = private$dt[list(rows), cols, with = FALSE, nomatch = 0L, on = self$primary_key]
-      return(data)
-    },
-
-    head = function(n = 6L) {
-      head(private$dt, n)
-    }
-  ),
-
-  active = list(
-    colnames = function() {
-      colnames(private$dt)
-    },
-
-    rownames = function() {
-      private$dt[[self$primary_key]]
-    },
-
-    nrow = function() {
-      nrow(private$dt)
-    },
-
-    ncol = function() {
-      ncol(private$dt)
-    }
-  ),
-
-  private = list(
-    dt = NULL,
-
-    deep_clone = function(name, value) {
-      if (name == "dt") copy(name) else value
-    }
-  )
-)
+assert_backend = function(b) {
+  assert_class(b, "Backend")
+}

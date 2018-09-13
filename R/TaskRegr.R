@@ -1,36 +1,33 @@
-#' @title Regression Tasks
-#' @format [R6Class()] object
+#' @title Regression task
 #'
 #' @description
-#' A [R6::R6Class()] to construct regression tasks.
+#' This task specializes [Task] and [TaskSupervised] for regression problems.
+#' The target column is assumed to be numeric.
 #'
-#' @template fields-task
-#' @template fields-supervisedtask
+#' @section Usage:
+#' ```
+#' t = TaskRegr$new(id, backend, target)
+#' ```
 #'
-#' @return [TaskRegr()].
-#' @include TaskSupervised.R
+#' @name TaskRegr
 #' @family Tasks
-#' @export
 #' @examples
-#' task = TaskRegr$new("iris", data = iris, target = "Sepal.Length")
+#' b = BackendDataTable$new(iris)
+#' task = TaskClassif$new("iris", backend = b, target = "Species")
 #' task$formula
+#' task$class_names
+NULL
+
+#' @include TaskSupervised.R
+#' @export
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
-    task_type = "regr",
-    default_measure = "mse",
-    default_prediction = NA_real_,
-    measures = "mse",
-
-    initialize = function(id, data, target) {
-      super$initialize(id = id, data = data, target = target)
+    initialize = function(id, backend, target) {
+      super$initialize(id = id, backend = backend, target = target)
+      assert_string(target) # check for length 1
       assert_numeric(self$truth()[[1L]], finite = TRUE, any.missing = FALSE, .var.name = "target column")
-    }
-  ),
-
-  active = list(
-    summary = function() {
-      summary(self$data(cols = self$target_names)[[1L]])
+      self$measures = mlr_measures$mget("mse")
     }
   )
 )

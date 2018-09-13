@@ -34,42 +34,39 @@ In the following, we will consider the spam task and a simple classification tre
 
 ```{r}
 library("mlr3")
-library("bench")
 
 task = mlr_tasks$get("spam")
 learner = mlr_learners$get("classif.rpart")
-# resampling = mlr_resamplings$get("subsampling")
-resampling = mlr3:::ResamplingSubsampling$new()
-measures = mlr_measures$get("mmce")
+resampling = mlr_resamplings$get("subsampling")
 
-bench::system_time(
-  resample(task, learner, resampling, measure)
-)
+system.time(
+  resample(task, learner, resampling)
+)[3L]
 ```
 We now use the `future` package to parallelize the resampling by selecting a backend via the function `plan` and then repeat the resampling.
 We use the "multiprocess" backend here which uses threads on linux/mac and a socket cluster on windows:
 ```{r, dependson = -1}
-library("future")
-plan("multiprocess")
-
-bench::system_time(
-  resample(task, learner, resampling, measure)
-)
+future::plan("multiprocess")
+system.time(
+  resample(task, learner, resampling)
+)[3L]
 ```
+On most systems you should see a decrease in the reported real CPU time.
+On some systems (e.g. windows), the overhead for parallelization is quite large.
+Here you should only consider to enable parallelization for experiments which run more than 30s.
 
-On most multicore systems you should see a decrease in the reported real CPU time.
-
-We can do the same for benchmarking:
+We can also enable parallelization for benchmarking:
 ```{r}
-tasks = lapply(c("iris", "spam", "pima"), mlr_tasks$get)
-learners = list(mlr_learners$get("classif.rpart"))
-resamplings = list(mlr3:::ResamplingSubsampling$new())
-measures = list(mlr_measures$get("mmce"))
+tasks = mlr_tasks$mget(c("iris", "spam", "pima"))
+learners = mlr_learners$mget("classif.rpart")
+resamplings = mlr_resamplings$mget("subsampling")
+resamplings$subsampling$par_vals = list(ratio = 0.8, repeats = 16)
 
-plan("multiprocess")
-bench::system_time(
-  benchmark(tasks, learners, resamplings, measures)
-)
+options(future.debug = FALSE)
+future::plan("multiprocess")
+system.time(
+  benchmark(tasks, learners, resamplings)
+)[3L]
 ```
 
 # Running learner in a fail-safe way

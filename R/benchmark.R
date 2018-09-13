@@ -1,7 +1,8 @@
 #' @title Benchmark Multiple Learners on Multiple Tasks
 #'
 #' @description
-#' Runs a benchmark (possibly in parallel).
+#' Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
+#'
 #'
 #' @param tasks (`list` of [Task])\cr
 #'   List of objects of type [Task].
@@ -13,7 +14,6 @@
 #' @export
 #' @examples
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
-#' tasks$sonar$measures = mlr_measures$mget("acc")
 #' learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
 #' resamplings = lapply("cv", mlr_resamplings$get)
 #' bmr = benchmark(tasks, learners, resamplings)
@@ -32,7 +32,7 @@ benchmark = function(tasks, learners, resamplings) {
   instances = .mapply(function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]), grid, list())
   names(instances) = grid$instance = vcapply(instances, "[[", "checksum")
 
-  # Cross join learner x task combinations
+  # Cross join task x learner combinations
   tmp = CJ(task = names(tasks), learner = names(learners))
   grid = grid[tmp, on = "task", allow.cartesian = TRUE]
 
@@ -41,35 +41,33 @@ benchmark = function(tasks, learners, resamplings) {
   grid = grid[tmp, on = "instance", allow.cartesian = TRUE]
 
   # prepare result data.table
+  #
+  # we randomize the order here to increase ACET
+  # this should be controllable by the user though:
+  # https://github.com/HenrikBengtsson/future.apply/issues/25
+  ii = sample.int(nrow(grid))
   res = data.table(
     task = tasks[grid$task],
     learner = learners[grid$learner],
     resampling = instances[grid$instance],
     iteration = grid$iter
-  )
+  )[ii]
 
-  # tmp = future.apply::future_mapply(experiment_worker,
-  #   task = res$task,
-  #   learner = res$learner,
-  #   train_set = .mapply(function(instance, iter, ...) instances[[instance]]$train_set(iter), grid, list()),
-  #   test_set = .mapply(function(instance, iter, ...) instances[[instance]]$test_set(iter), grid, list()),
-  #   MoreArgs = list(measures = measures),
-  #   SIMPLIFY = FALSE,
-  #   USE.NAMES = FALSE,
-  #   future.globals = FALSE, future.packages = "mlr3")
-
-  tmp = mapply(experiment_worker,
+  tmp = future.apply::future_mapply(experiment_worker,
     task = res$task,
     learner = res$learner,
-    train_set = .mapply(function(instance, iter, ...) instances[[instance]]$train_set(iter), grid, list()),
-    test_set = .mapply(function(instance, iter, ...) instances[[instance]]$test_set(iter), grid, list()),
-    MoreArgs = list(),
+    resampling = res$resampling,
+    iteration = res$iteration,
+    MoreArgs = list(ctrl = mlr_options()),
     SIMPLIFY = FALSE,
-    USE.NAMES = FALSE
+    USE.NAMES = FALSE,
+    future.globals = FALSE,
+    future.packages = "mlr3"
   )
 
   tmp = combine_experiments(tmp)
   res[, names(tmp) := tmp]
+  res = res[order(ids(get("task")), ids(get("learner")), get("iteration"))]
 
   BenchmarkResult$new(res)
 }
@@ -84,7 +82,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     initialize = function(data) {
       assert_data_table(data)
-      slots = capabilities$experiment_slots$name
+      slots = reflections$experiment_slots$name
       assert_names(names(data), permutation.of = slots)
       self$data = setcolorder(data, slots)
     },

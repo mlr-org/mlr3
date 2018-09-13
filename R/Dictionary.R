@@ -1,21 +1,44 @@
-#' @title Base Class for Dictionaries
-#' @format [R6Class()] object
+#' @title Key-value storage
 #'
 #' @description
-#' A [R6::R6Class()] for a simple dictionary (hash map).
-#' This is used to store objects like [mlr_tasks], [mlr_learners],
-#' [mlr_resamplings] or [mlr_measures].
+#' A simple key-value store for \pkg{R6} objects with support of lazy-loading objects.
 #'
-#' @field ids Returns the ids of registered learners.
-#' @field env Environment where all [Learner()] objects are stored.
-#' @section Methods:
-#' \describe{
-#'  \item{`add(obj, id, overwrite)`}{Add an object to the dictionary.}
-#'  \item{`contains(ids)`}{Returns a logical vector signaling if objects with the respective id are stored inside the Dictionary.}
-#'  \item{...}{...}
-#' }
+#' @section Usage:
+#' ```
+#' d = Dictionary$new(contains)
 #'
-#' @return [`Dictionary`].
+#' d$add(value)
+#' d$get(id)
+#' d$mget(ids)
+#' d$remove(ids)
+#' d$ids()
+#' ```
+#'
+#' @section Arguments:
+#' * `contains` (`string`):
+#'   Class of objects to store. Used for assertions.
+#' * `id` (`string`):
+#'   Key of the object to work on.
+#' * `ids` (`string`):
+#'   Keys of the objects to work on.
+#'
+#' @section Details:
+#' `$new()` initializes a new object of class [Dictionary].
+#'
+#' `$get()` retrieves a single object with key `id` (or raises an exception).
+#'
+#' `$mget()` retrieves a named list of objects with keys `ids` (or raises an exception).
+#'
+#' `$remove()` removes item with id `id` from the Dictionary.
+#'
+#' `$ids()` returns a vector of type `character` with all ids.
+#'
+#' @name Dictionary
+#' @family Dictionary
+#' @keywords internal
+NULL
+
+#' @export
 Dictionary = R6Class("Dictionary",
   cloneable = FALSE,
 
@@ -29,50 +52,30 @@ Dictionary = R6Class("Dictionary",
       self$items = new.env(parent = emptyenv())
     },
 
-    add = function(value) {
+    ids = function() ls(self$items, all.names = TRUE),
+
+    add = function(value, id = value$id) {
+      assert_id(id)
       if (!inherits(value, "LazyValue"))
         assert_class(value, class = self$contains)
-      assign(x = value$id, value = value, envir = self$items)
+      assign(x = id, value = value, envir = self$items)
     },
 
     get = function(id, ...) {
-      set_values = function(x, ...) {
-        if (...length()) {
-          dots = list(...)
-          nn = names(dots)
-          for (i in seq_along(dots)) {
-            x[[nn[i]]] = dots[[i]]
-          }
-        }
-        x
-      }
-      assert_string(id)
-      if (!hasName(self$items, id))
-        stopf("%s with id '%s' not found!", self$contains, id)
-      x = private$retrieve(get(id, envir = self$items, inherits = FALSE))
-      set_values(x, ...)
+      assert_keys_exist(assert_id(id), self)
+      private$retrieve(get(id, envir = self$items, inherits = FALSE))
     },
 
     mget = function(ids) {
-      assert_character(ids, any.missing = FALSE)
-      missing = !hasName(self$items, ids)
-      if (any(missing))
-        stopf("%s with id '%s' not found!", self$contains, ids[wf(missing)])
+      assert_keys_exist(assert_character(ids, any.missing = FALSE), self)
       lapply(mget(ids, envir = self$items, inherits = FALSE), private$retrieve)
     },
 
     remove = function(id) {
-      assert_string(id)
-      if (!hasName(self$items, id))
-        stopf("%s with id '%s' not found!", self$contains, id)
+      assert_keys_exist(assert_id(id), self)
       rm(list = id, envir = self$items)
       invisible(self)
     }
-  ),
-
-  active = list(
-    ids = function() ls(self$items, all.names = TRUE),
-    length = function() length(self$items)
   ),
 
   private = list(
@@ -82,9 +85,17 @@ Dictionary = R6Class("Dictionary",
   )
 )
 
+assert_keys_exist = function(x, dict) {
+  ii = wf(x %nin% dict$ids())
+  if (length(ii) > 0L) {
+    suggested = stri_suggest(x[ii], dict$ids())
+    suggested = if (length(suggested) == 0L) "" else sprintf(" Did you mean: %s?", paste0(suggested, collapse = " / "))
+    stopf("%s with id '%s' not found!%s", dict$contains, x[ii], suggested)
+  }
+}
 
 LazyValue = function(id, getter) {
-  obj = list(id = assert_string(id), getter = assert_function(getter))
+  obj = list(id = assert_id(id), getter = assert_function(getter))
   class(obj) = "LazyValue"
   obj
 }
