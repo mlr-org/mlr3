@@ -17,24 +17,24 @@ TunerBase = R6Class("TunerBase",
     },
 
     # public methods
-    tune = function(task, learner, resampling, measure, par_set) {
+    tune = function(task, learner, resampling, par_set) {
       stop("Not implemented!")
     },
 
-    fitness_function = function(x, task, learner, resampling, measure, experiments_store, add_info = list(), ...) {
+    fitness_function = function(x, task, learner, resampling, experiments_store, add_info = list(), ...) {
       assert_list(x, names = "named")
-      vec_res = fitness_function_vectorized(list(x), task = task, learner = learner, resampling = resampling, measure = measure, experiments_store = experiments_store, add_info = list(), ...)
+      vec_res = fitness_function_vectorized(list(x), task = task, learner = learner, resampling = resampling, experiments_store = experiments_store, add_info = list(), ...)
       vec_res[[1]]
     },
 
-    fitness_function_vectorized = function(xs, task, learner, resampling, measure, experiments_store, add_info(), ...) {
+    fitness_function_vectorized = function(xs, task, learner, resampling, experiments_store, add_info(), ...) {
       assert_list(xs, types = "list")
       learners = .mapply(function(x) {
         this_learner = learner$clone()
         this_learner$par_vals = x
         return(this_learner)
       }, xs)
-      bench_res = benchmark(tasks = list(task), learners = learners, resamplings = list(resampling), measures = list(measure))
+      bench_res = benchmark(tasks = list(task), learners = learners, resamplings = list(resampling))
       experiments_store = rbind(experiments_store, bench_res$data)
       bench_res$data$perform
     }
@@ -50,13 +50,13 @@ TunerRandomSearch = R6Class("TunerRandomSearch",
     },
 
     # public methods
-    tune = function(task, learner, resampling, measure, par_set) {
+    tune = function(task, learner, resampling, par_set) {
       opt_path = OptPath$new(par_set = par_set, y_names = "y", minimize = TRUE, check_feasible = TRUE)
       for (i in 1:10) {
         x = par_set$sample(1)
         x = par_set$transform(x)
         x = as.list(x)
-        self$fitness_function(x, task, learner, resampling, measure, opt_path)
+        self$fitness_function(x, task, learner, resampling, opt_path)
       }
       return(opt_path)
     }
@@ -70,7 +70,6 @@ if (FALSE) {
   lrn = mlr_learners$get("classif.rpart")
   tsk = mlr_tasks$get("iris")
   rsm = mlr_resamplings$get("cv")
-  msr = mlr_measures$get("mmce")
   par_set = ParamSet$new(params = list(
     ParamInt$new(id = "minsplit", lower = 1L, upper = 10L),
     ParamReal$new(id = "cp", lower = 0, upper = 1)
@@ -78,7 +77,7 @@ if (FALSE) {
   opt_path = OptPath$new(par_set = par_set, y_names = "y", minimize = TRUE, check_feasible = TRUE)
   x = list(minsplit = 10, cp = 0.2)
 
-  rr_res = resample(learner = lrn, task = tsk, resampling = rsm, measures = msr)
+  rr_res = resample(learner = lrn, task = tsk, resampling = rsm)
 
   design_to_learners = function(learner, design) {
     xsl = design_to_list(design)
@@ -93,13 +92,13 @@ if (FALSE) {
     )
   }
   lrns = design_to_learners(lrn, par_set$sample(10))
-  res1 = benchmark(learners = lrns, tasks = list(tsk), resamplings = list(rsm), measures = list(msr))
+  res1 = benchmark(learners = lrns, tasks = list(tsk), resamplings = list(rsm))
   lrns = design_to_learners(lrn, par_set$sample(10))
-  res2 = benchmark(learners = lrns, tasks = list(tsk), resamplings = list(rsm), measures = list(msr))
+  res2 = benchmark(learners = lrns, tasks = list(tsk), resamplings = list(rsm))
   res12 = BenchmarkResult$new(rbind(res1$data, res2$data))
 
 
   tune_rs = TunerRandomSearch$new(terminations = list())
-  op = tune_rs$tune(task = tsk, learner = lrn, resampling = rsm, measure = msr, par_set = par_set)
+  op = tune_rs$tune(task = tsk, learner = lrn, resampling = rsm, par_set = par_set)
   as.data.frame(op)
 }
