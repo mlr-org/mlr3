@@ -17,3 +17,29 @@ test_that("BackendDataTable construction", {
   expect_backend(b)
   expect_character(b$rownames, len = 150, any.missing = FALSE, unique = TRUE, pattern = "^r[0-9]+$")
 })
+
+test_that("BackendRbind", {
+  data = as.data.table(iris)
+  data$id = 1:150
+
+  backend = BackendDataTable$new(data[1:100, ], primary_key = "id")
+  b = backend_rbind(backend,data[101:150, ])
+  expect_backend(b)
+
+  expect_set_equal(b$rownames, 1:150)
+  expect_set_equal(b$colnames, names(data))
+  expect_data_table(b$data(b$rownames, b$colnames), nrow = 150, ncol = 6)
+})
+
+test_that("BackendCbind", {
+  data = as.data.table(iris)
+  data$id = 1:150
+
+  backend = BackendDataTable$new(data[, -"Sepal.Length"], primary_key = "id")
+  b = backend_cbind(backend, data[, c("id", "Sepal.Length")])
+  expect_backend(b)
+
+  expect_set_equal(b$rownames, 1:150)
+  expect_set_equal(b$colnames, names(data))
+  expect_data_table(b$data(b$rownames, b$colnames), nrow = 150, ncol = 6)
+})

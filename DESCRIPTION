@@ -52,7 +52,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
 Collate:
     'Backend.R'
+    'BackendCbind.R'
     'BackendDataTable.R'
+    'BackendRbind.R'
     'Dictionary.R'
     'Experiment.R'
     'helper_R6.R'
