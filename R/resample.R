@@ -78,10 +78,15 @@ ResampleResult = R6Class("ResampleResult",
   ),
 
   active = list(
-    performance = function() {
+    performances = function() {
       perf = rbindlist(lapply(self$data$performance, as.list), fill = TRUE)
       cbind(data.table(iteration = seq_row(self$data)), perf)
     },
+
+    performance = function() {
+      ys = self$performances[[self$measure]]
+      measure$aggregator(y)
+    }
 
     task = function() {
       self$data$task[[1L]]

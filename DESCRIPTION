@@ -95,5 +95,8 @@ Collate:
     'reflections.R'
     'resample.R'
     'split.R'
+    'subset.R'
+    'train.R'
+    'tune_fitness_function.R'
     'worker.R'
     'zzz.R'
