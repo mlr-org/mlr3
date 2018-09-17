@@ -26,7 +26,3 @@ capabilities$predict_types = list(
   classif = c("response", "prob"),
   regr    = c("response", "se")
 )
-
-capabilities$experiment_states = c(
-  c("defined", "trained", "predicted", "scored")
-)

@@ -175,7 +175,7 @@ expect_learner = function(lrn, task = NULL) {
   expect_class(lrn$par_set, "ParamSet")
   expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   expect_function(lrn$train, args = "task", ordered = TRUE)
-  expect_function(lrn$predict, args = "task", ordered = TRUE)
+  expect_function(lrn$predict, args = c("model", "task"), ordered = TRUE)
 
   if (!is.null(task)) {
     assert_class(task, "Task")
@@ -233,7 +233,7 @@ expect_experiment = function(e) {
   expect_r6(e, "Experiment")
   state = e$state
   expect_factor(state, ordered = TRUE)
-  expect_subset(as.character(state), capabilities$experiment_states)
+  expect_subset(as.character(state), levels(reflections$experiment_slots$state))
   expect_list(e$data, len = nrow(reflections$experiment_slots))
   expect_names(names(e$data), permutation.of = reflections$experiment_slots$name)
 
@@ -244,12 +244,12 @@ expect_experiment = function(e) {
     expect_int(e$data$iteration, lower = 1L)
     expect_data_table(e$data$train_log, ncol = 2, any.missing = FALSE)
     expect_number(e$data$train_time)
-    expect_false(is.null(e$data$learner$model))
+    expect_false(is.null(e$data$model))
   }
 
   if (state >= "predicted") {
-    expect_data_table(e$data$test_log, ncol = 2, any.missing = FALSE)
-    expect_number(e$data$test_time)
+    expect_data_table(e$data$predict_log, ncol = 2, any.missing = FALSE)
+    expect_number(e$data$predict_time)
     expect_atomic_vector(e$data$predicted, len = length(e$test_set))
   }
 

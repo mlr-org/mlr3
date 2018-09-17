@@ -18,10 +18,8 @@ train_worker = function(e, ctrl) {
     message(sprintf("Training learner '%s' on task '%s' ...", learner$id, task$id))
   res = ecall(learner$train, pars)
 
-  learner$model = res$result
-
   return(list(
-    learner = learner,
+    model = res$result,
     train_time = res$elapsed,
     train_log = res$log
   ))
@@ -32,7 +30,7 @@ predict_worker = function(e, ctrl) {
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = e$data$task$clone(deep = TRUE)$filter(e$test_set)
-  pars = c(list(task = task), learner$par_vals)
+  pars = c(list(model = e$data$model, task = task), learner$par_vals)
 
   if (ctrl$verbose)
     message(sprintf("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id))
@@ -40,8 +38,8 @@ predict_worker = function(e, ctrl) {
 
   return(list(
     predicted = res$result,
-    test_time = res$elapsed,
-    test_log = res$log
+    predict_time = res$elapsed,
+    predict_log = res$log
   ))
 }
 
@@ -52,9 +50,11 @@ score_worker = function(e, ctrl) {
 
   if (ctrl$verbose)
     message(sprintf("Scoring predictions of learner '%s' on task '%s' ...", e$data$learner$id, e$data$task$id))
-  performance = lapply(measures, function(m) m$calculate(e))
-  names(performance) = ids(measures)
-  return(list(performance = performance))
+  calc_all_measures = function() {
+    setNames(lapply(measures, function(m) m$calculate(e)), ids(measures))
+  }
+  res = ecall(calc_all_measures, list())
+  return(list(performance = res$result, score_time = res$elapsed))
 }
 
 experiment_worker = function(iteration, task, learner, resampling, ctrl) {

@@ -16,7 +16,6 @@
 #' l$predict_type
 #' l$train(task)
 #' l$predict(task, model)
-#' l$model
 #' ```
 #'
 #' @section Arguments:
@@ -46,8 +45,6 @@
 #' `$train()` takes a task and returns a model fitted on all observations.
 #'
 #' `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
-#'
-#' `$model` stores the fitted model. If the learner has not been trained, this is `NULL`.
 #'
 #' @name Learner
 #' @keywords internal

@@ -49,7 +49,7 @@ Performance object returned by \link{resample} to be aggregated.
 \code{$calculate} (\code{function}) does the actual work.
 
 \code{$aggregate} (\code{function}) aggregates multiple performance measures using the \code{aggregate} function.
-Operates on a \link{ResamplingResult} as returned by \link{resample}.
+Operates on a \link{ResampleResult} as returned by \link{resample}.
 }
 
 \examples{

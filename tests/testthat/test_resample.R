@@ -10,7 +10,10 @@ test_that("resample", {
 
   expect_resample_result(rr)
   expect_number(rr$aggregated)
-  expect_different_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
+  expect_same_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
+  expect_same_address(rr$data$task[[1L]], rr$data$task[[2L]])
+  expect_same_address(rr$data$resampling[[1L]], rr$data$resampling[[2L]])
+  expect_different_address(rr$data$model[[1L]], rr$data$model[[2L]])
 })
 
 test_that("resample with multiple measures", {

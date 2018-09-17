@@ -49,7 +49,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     print = function(...) {
-      catf("ResamplingResult of learner '%s' on task '%s' with %i iterations", self$task$id, self$learner$id, nrow(self$data))
+      catf("ResampleResult of learner '%s' on task '%s' with %i iterations", self$task$id, self$learner$id, nrow(self$data))
       # vapply(self$performance[, !"iteration"], function(x) c(mean(x), sd(x)))
       # ... TBC
     },

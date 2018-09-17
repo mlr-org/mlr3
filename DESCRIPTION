@@ -79,6 +79,7 @@ Collate:
     'helper_seq.R'
     'helper_string.R'
     'helper_vapply.R'
+    'ids.R'
     'mlr_learners.R'
     'mlr_learners_classif_dummy.R'
     'mlr_learners_classif_rpart.R'

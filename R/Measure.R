@@ -41,7 +41,7 @@
 #' `$calculate` (`function`) does the actual work.
 #'
 #' `$aggregate` (`function`) aggregates multiple performance measures using the `aggregate` function.
-#'   Operates on a [ResamplingResult] as returned by [resample].
+#'   Operates on a [ResampleResult] as returned by [resample].
 #'
 #' @name Measure
 #' @keywords internal

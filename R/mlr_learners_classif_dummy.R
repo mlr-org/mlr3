@@ -21,9 +21,8 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
       mod
     },
 
-    predict = function(task, method = "mode", ...) {
+    predict = function(model, task, method = "mode", ...) {
       n = task$nrow
-      model = self$model
       if (method == "mode")
         rep.int(as.character(sample(model[N == max(N)][[task$target_names]], 1L)), n)
       else

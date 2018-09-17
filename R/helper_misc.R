@@ -8,10 +8,6 @@ require_namespaces = function(pkgs, msg = "The following packages are missing: %
     stopf(msg, paste0(pkgs[!ok], collapse = ","))
 }
 
-ids = function(x) {
-  vcapply(x, "[[", "id", use.names = FALSE)
-}
-
 shuffle = function(x) {
   # a "safe" sample() for n == length(x)
   if (length(x) <= 1L)
