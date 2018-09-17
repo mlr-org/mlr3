@@ -14,12 +14,14 @@ BackendCbind = R6Class("Backend",
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
 
-      qrows = unique(rows)
-      qcols = union(cols, self$primary_key)
+      tab = private$.b1$data(rows, cols)
 
-      x1 = private$.b1$data(qrows, qcols)
-      x2 = private$.b2$data(qrows, qcols)
-      x2[x1, on = self$primary_key][rows, cols, with = FALSE]
+      if (ncol(tab) < length(cols)) {
+        extra_cols = remove(private$.b2$data(rows, cols), self$primary_key)
+        if (ncol(extra_cols))
+          tab = cbind(tab, extra_cols)
+      }
+      return(tab)
     },
 
     head = function(n = 6L) {
@@ -55,6 +57,9 @@ BackendCbind = R6Class("Backend",
 backend_cbind = function(backend, data) {
   assert_backend(backend)
   assert_data_frame(data)
-  assert_set_equal(backend$rownames, data[[backend$primary_key]])
+  assert_set_equal(data[[backend$primary_key]], backend$rownames)
+  ii = wf(names(data) %in% setdiff(backend$colnames, backend$primary_key))
+  if (length(ii))
+    stopf("Cannot cbind data to backend: duplicated colname '%s'", names(data)[ii])
   BackendCbind$new(backend, BackendDataTable$new(data, primary_key = backend$primary_key))
 }

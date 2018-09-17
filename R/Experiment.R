@@ -21,9 +21,7 @@ Experiment = R6Class("Experiment",
     data = NULL,
 
     initialize = function(task, learner, ...) {
-      self$data = vector("list", nrow(reflections$experiment_slots))
-      names(self$data) = reflections$experiment_slots$name
-
+      self$data = named_list(reflections$experiment_slots$name)
       self$data$task = assert_task(task)
       self$data$learner = assert_learner(learner)
       if (...length()) {

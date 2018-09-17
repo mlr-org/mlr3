@@ -23,7 +23,7 @@ test_that("BackendRbind", {
   data$id = 1:150
 
   backend = BackendDataTable$new(data[1:100, ], primary_key = "id")
-  b = backend_rbind(backend,data[101:150, ])
+  b = backend_rbind(backend, data[101:150, ])
   expect_backend(b)
 
   expect_set_equal(b$rownames, 1:150)

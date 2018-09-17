@@ -90,7 +90,7 @@ Learner = R6Class("Learner",
     predict_type = function(rhs) {
       if (missing(rhs))
         return(private$.predict_type)
-      assert_choice(rhs, capabilities$predict_types[[self$task_type]], fmatch = TRUE)
+      assert_choice(rhs, capabilities$predict_types[[self$task_type]])
       private$.predict_type = rhs
     }
   ),

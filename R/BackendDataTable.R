@@ -61,7 +61,7 @@ BackendDataTable = R6Class("Backend",
     data = function(rows, cols) {
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
-      cols = intersect(cols, self$colnames)
+      cols = intersect(cols, colnames(private$.data))
 
       data = private$.data[list(rows), cols, with = FALSE, nomatch = 0L, on = self$primary_key]
       return(data)

@@ -18,3 +18,14 @@ shuffle = function(x) {
     return(x)
   sample(x)
 }
+
+col_types = function(x) {
+  types = vcapply(x, class)
+  data.table(id = names(types), type = unname(types), key = "id")
+}
+
+named_list = function(nn) {
+  x = vector("list", length(nn))
+  names(x) = nn
+  x
+}

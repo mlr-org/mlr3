@@ -14,7 +14,10 @@ BackendRbind = R6Class("Backend",
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
 
-      rbind(private$.b1$data(rows, cols), private$.b2$data(rows, cols))
+      query_rows = unique(rows)
+      query_cols = union(cols, self$primary_key)
+      data = rbind(private$.b1$data(query_rows, query_cols), private$.b2$data(query_rows, query_cols))
+      data[.(rows), intersect(cols, names(data)), nomatch = 0L, on = self$primary_key, with = FALSE]
     },
 
     head = function(n = 6L) {
@@ -54,6 +57,15 @@ BackendRbind = R6Class("Backend",
 backend_rbind = function(backend, data) {
   assert_backend(backend)
   assert_data_frame(data)
-  assert_set_equal(backend$colnames, names(data))
+  assert_set_equal(names(data), backend$colnames)
+
+  ii = wf(data[[backend$primary_key]] %in% backend$rownames)
+  if (length(ii))
+    stopf("Cannot rbind data to backend: duplicated primary key '%s'", data[[backend$primary_key]][ii])
+
+  tab = merge(col_types(backend$head(1L)), col_types(data), by = "id")[get("type.x") != get("type.y")]
+  if (nrow(tab))
+    stopf("Cannot rbind to backend: Column types do not match for columns: %s", stri_peek(tab$id))
+
   BackendRbind$new(backend, BackendDataTable$new(data, primary_key = backend$primary_key))
 }

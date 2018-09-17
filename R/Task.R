@@ -116,21 +116,9 @@ Task = R6Class("Task",
     initialize = function(id, backend) {
       self$id = assert_id(id)
       self$backend = assert_backend(backend)
-
-      cn = backend$colnames
-      types = assert_subset(vcapply(backend$head(1L), class), capabilities$task_col_types, fmatch = TRUE)
-
-      self$row_info = data.table(
-        id = backend$rownames,
-        role = "use",
-        key = "id")
-
-      self$col_info = data.table(
-        id = cn,
-        role = ifelse(cn == backend$primary_key, "primary_key", "feature"),
-        type = types[chmatch(cn, names(types), 0L)],
-        key = "id"
-      )
+      self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
+      self$col_info = col_types(backend$head(1L))[, "role" := "feature"]
+      self$col_info[id == backend$primary_key, role := "primary_key"]
     },
 
     print = function(...) {
@@ -166,11 +154,19 @@ Task = R6Class("Task",
     },
 
     rbind = function(data) {
-      stop("Not yet implemented")
+      self$backend = backend_rbind(self$backend, data)
+      extra_info = data.table(id = data[[self$backend$primary_key]], role = "use")
+      self$row_info = rbind(self$row_info, extra_info)
+      setkeyv(self$row_info, "id")
+      self
     },
 
     cbind = function(data) {
-      stop("Not yet implemented")
+      self$backend = backend_cbind(self$backend, data)
+      extra_info = col_types(data)[, "role" := "feature"]
+      self$col_info = rbind(self$col_info, extra_info[!(self$backend$primary_key)])
+      setkeyv(self$col_info, "id")
+      self
     }
   ),
 
