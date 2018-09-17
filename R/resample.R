@@ -29,6 +29,10 @@ resample = function(task, learner, resampling) {
   } else {
     instance = resampling$instantiate(task)
   }
+  if (!is.null(learner$model)) {
+    learner = learner$clone()
+    learner$model = NULL
+  }
   n = instance$iters
 
   res = future.apply::future_lapply(seq_len(n), experiment_worker,

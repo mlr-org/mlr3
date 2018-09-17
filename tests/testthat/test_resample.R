@@ -5,10 +5,12 @@ test_that("resample", {
   learner = mlr_learners$get("classif.dummy")
   resampling = mlr_resamplings$get("cv")
   resampling$par_vals = list(folds = 3)
-  rr = resample(task, learner, resampling)
+
+  rr = with_plan("sequential", { resample(task, learner, resampling) })
 
   expect_resample_result(rr)
   expect_number(rr$aggregated)
+  expect_different_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
 })
 
 test_that("resample with multiple measures", {

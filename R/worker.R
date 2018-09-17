@@ -8,7 +8,7 @@ ecall = function(fun, pars) {
 }
 
 train_worker = function(e, ctrl) {
-  learner = e$data$learner
+  learner = e$data$learner$clone()
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = e$data$task$clone(deep = TRUE)$filter(e$train_set)

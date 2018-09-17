@@ -73,7 +73,7 @@ Learner = R6Class("Learner",
     },
 
     train = method_not_implemented,
-    test = method_not_implemented,
+    predict = method_not_implemented,
     print = function(...) {
      catf("Learner '%s' for %s", self$id, self$task_type)
      catf(stri_list("Properties: ", self$properties))

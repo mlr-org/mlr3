@@ -26,6 +26,13 @@ private = function(x) {
   x$.__enclos_env__[["private"]]
 }
 
+with_plan = function(plan, expr) {
+  oplan = future::plan()
+  on.exit(future::plan(oplan), add = TRUE)
+  future::plan(plan)
+  force(expr)
+}
+
 expect_same_address = function(x, y) {
   testthat::expect_identical(data.table::address(x), data.table::address(y))
 }
