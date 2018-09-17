@@ -95,13 +95,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     experiments = function(i) {
       assert_integer(i, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
       .mapply(Experiment$new, self$data[i], MoreArgs = list())
-    },
-
-    performances = function() {
-      tmp = self$data[, list(task = ids(task), learner = ids(learner), performance = performance)]
-      cbind(tmp[, !"performance"], rbindlist(tmp$performance, fill = TRUE))
     }
-
   ),
 
   active = list(

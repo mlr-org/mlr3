@@ -6,6 +6,20 @@ test_that("Task duplicates rows", {
   expect_data_table(data, nrow = 2L, any.missing = FALSE)
 })
 
+test_that("Task rbind", {
+  task = mlr_tasks$get("iris")
+  data = iris[1:10, ]
+  task$rbind(iris[1:10, ])
+  expect_equal(task$nrow, 160)
+})
+
+test_that("Task cbind", {
+  task = mlr_tasks$get("iris")
+  data = data.frame(..row_id = task$row_ids(), foo = 150:1)
+  task$cbind(data)
+  expect_names(task$feature_names, must.include = "foo")
+})
+
 test_that("Rows return ordered", {
   x = load_dataset("nhtemp", "datasets", TRUE)
   data = as.data.frame(x)
@@ -42,3 +56,18 @@ test_that("Rows return ordered", {
 #   expect_true(x[, is.unsorted(Petal.Width)])
 #   expect_true(all(x[, is.unsorted(Petal.Width), by = Petal.Width]$V1 == FALSE))
 # })
+
+
+test_that("cbind/rbind works", {
+  task = mlr_tasks$get("iris")
+
+  task$cbind(data.table(..row_id = 1:150, foo = 150:1))
+  expect_task(task)
+  expect_set_equal(c(task$feature_names, task$target_names), c(names(iris), "foo"))
+  expect_data_table(task$data(), ncol = 6, any.missing = FALSE)
+
+  task$rbind(cbind(data.table(..row_id = 201:210, foo = 99L), iris[1:10, ]))
+  expect_task(task)
+  expect_set_equal(task$row_ids(), c(1:150, 201:210))
+  expect_data_table(task$data(), ncol = 6, nrow = 160, any.missing = FALSE)
+})

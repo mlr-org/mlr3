@@ -27,7 +27,7 @@ populate_dicts = function() {
 }
 
 .onLoad = function(libname, pkgname) { #nocov start
-  utils::globalVariables(c("role"), package = "mlr3")
+  utils::globalVariables(c("id", "role"), package = "mlr3")
 
   backports::import(pkgname)
   backports::import(pkgname, "hasName", force = TRUE)

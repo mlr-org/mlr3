@@ -38,7 +38,3 @@
 #' @name Backend
 #' @family Backend
 NULL
-
-assert_backend = function(b) {
-  assert_class(b, "Backend")
-}

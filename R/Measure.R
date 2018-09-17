@@ -66,7 +66,3 @@ Measure = R6Class("Measure", cloneable = FALSE,
     calculate = method_not_implemented
   )
 )
-
-assert_measure = function(measure) {
-  assert_class(measure, "Measure")
-}

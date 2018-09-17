@@ -57,9 +57,33 @@ expect_backend = function(b) {
   x = x[[cn[1L]]]
   expect_atomic_vector(x, len = n)
 
+
+  # extra cols are ignored
+  x = b$data(rows = rn[1L], cols = c(cn[1L], "_not_existing_"))
+  expect_data_table(x, nrow = 1L, ncol = 1L)
+
+  # zero cols matching
+  x = b$data(rows = rn[1L], cols = "_not_existing_")
+  expect_data_table(x, nrow = 0L, ncol = 0L)
+
+  # extra rows are ignored
+  query_rows = c(rn[1L], if (is.integer(rn)) -1L else "_not_existing_")
+  x = b$data(query_rows, cols = cn[1L])
+  expect_data_table(x, nrow = 1L, ncol = 1L)
+
+  # zero rows matching
+  query_rows = if (is.integer(rn)) -1L else "_not_existing_"
+  x = b$data(rows = query_rows, cols = cn[1L])
+  expect_data_table(x, nrow = 0L, ncol = 1L)
+
   # rows are duplicated
   x = b$data(rows = rep(rn[1L], 2L), cols = b$colnames)
   expect_data_table(x, nrow = 2L, ncol = p)
+
+  # rows are returned in the right order
+  i = sample(rn, min(n, 10L))
+  x = b$data(rows = i, cols = b$primary_key)
+  expect_equal(i, x[[1L]])
 
   # duplicated cols raise exception
   expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L)), "uniquely")
@@ -79,19 +103,19 @@ expect_task = function(task) {
   expect_data_table(task$col_info, key = "id", ncol = length(cols))
   expect_names(names(task$col_info), permutation.of = cols)
   expect_character(task$col_info$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$col_info$role, capabilities$task_col_roles, fmatch = TRUE)
-  expect_subset(task$col_info$type, capabilities$task_col_types, fmatch = TRUE)
+  expect_subset(task$col_info$role, capabilities$task_col_roles)
+  expect_subset(task$col_info$type, capabilities$task_col_types)
 
   cols = c("id", "role")
   expect_data_table(task$row_info, key = "id", ncol = length(cols))
   expect_names(names(task$row_info), permutation.of = cols)
   expect_atomic_vector(task$row_info$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$row_info$role, capabilities$task_row_roles, fmatch = TRUE)
+  expect_subset(task$row_info$role, capabilities$task_row_roles)
 
   types = task$col_types
   expect_data_table(types, ncol = 2, nrow = task$ncol)
   expect_set_equal(types$id, c(task$target_names, task$feature_names))
-  expect_subset(types$type, capabilities$task_col_types, fmatch = TRUE)
+  expect_subset(types$type, capabilities$task_col_types)
 
   expect_character(task$order, any.missing = FALSE)
   expect_names(task$order, subset.of = c(task$feature_names, task$target_names))
@@ -139,7 +163,7 @@ expect_learner = function(lrn, task = NULL) {
   expect_r6(lrn, "Learner", cloneable = TRUE)
   expect_output(print(lrn))
 
-  expect_choice(lrn$task_type, capabilities$task_types, fmatch = TRUE)
+  expect_choice(lrn$task_type, capabilities$task_types)
   expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   expect_class(lrn$par_set, "ParamSet")
   expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
@@ -148,7 +172,7 @@ expect_learner = function(lrn, task = NULL) {
 
   if (!is.null(task)) {
     assert_class(task, "Task")
-    expect_subset(lrn$properties, capabilities$learner_props[[class(task)[1L]]], fmatch = TRUE)
+    expect_subset(lrn$properties, capabilities$learner_props[[class(task)[1L]]])
     expect_identical(lrn$task_type, class(task)[1L])
   }
 }
@@ -177,8 +201,8 @@ expect_resampling = function(r, task = NULL) {
       expect_atomic_vector(test, any.missing = FALSE)
       expect_length(intersect(train, test), 0L)
       if (!is.null(task)) {
-        expect_subset(train, ids, fmatch = TRUE)
-        expect_subset(train, ids, fmatch = TRUE)
+        expect_subset(train, ids)
+        expect_subset(train, ids)
       }
     }
   }
@@ -189,7 +213,7 @@ expect_resampling = function(r, task = NULL) {
 expect_measure = function(m) {
   expect_r6(m, "Measure")
   expect_string(m$id, min.chars = 1L)
-  expect_subset(m$task_types, capabilities$task_types, empty.ok = FALSE, fmatch = TRUE)
+  expect_subset(m$task_types, capabilities$task_types, empty.ok = FALSE)
   expect_numeric(m$range, len = 2, any.missing = FALSE)
   expect_lt(m$range[1], m$range[2])
   expect_flag(m$minimize)
@@ -201,7 +225,7 @@ expect_experiment = function(e) {
   expect_r6(e, "Experiment")
   state = e$state
   expect_factor(state, ordered = TRUE)
-  expect_subset(as.character(state), capabilities$experiment_states, fmatch = TRUE)
+  expect_subset(as.character(state), capabilities$experiment_states)
   expect_list(e$data, len = nrow(reflections$experiment_slots))
   expect_names(names(e$data), permutation.of = reflections$experiment_slots$name)
 
