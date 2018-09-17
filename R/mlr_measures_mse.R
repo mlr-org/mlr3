@@ -5,7 +5,7 @@ MeasureMSE = R6Class("MeasureMSE",
     initialize = function(id = "mse") {
       super$initialize(
         id = id,
-        task_types = "TaskRegr",
+        task_types = "regr",
         range = c(0, Inf),
         minimize = TRUE,
         packages = "measures"

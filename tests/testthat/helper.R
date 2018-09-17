@@ -179,8 +179,8 @@ expect_learner = function(lrn, task = NULL) {
 
   if (!is.null(task)) {
     assert_class(task, "Task")
-    expect_subset(lrn$properties, capabilities$learner_props[[class(task)[1L]]])
-    expect_identical(lrn$task_type, class(task)[1L])
+    expect_subset(lrn$properties, capabilities$learner_props[[task$type]])
+    expect_identical(lrn$task_type, task$type)
   }
 }
 

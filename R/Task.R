@@ -122,6 +122,7 @@ Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
     id = NULL,
+    type = NA_character_,
     backend = NULL,
     row_info = NULL,
     col_info = NULL,

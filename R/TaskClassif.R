@@ -10,6 +10,7 @@
 #'
 #' t$class_names
 #' t$class_n
+#' t$type
 #' ```
 #'
 #' @section Arguments:
@@ -19,6 +20,7 @@
 #' @section Details:
 #' `class_names` returns all class labels of the rows which `role == "use"`.
 #' `class_n` returns the number of class labels of the rows which `role == "use"`.
+#' `type` is `"classif"`
 #'
 #' @name TaskClassif
 #' @family Tasks
@@ -35,6 +37,7 @@ NULL
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
+    type = "classif",
     positive = NA_character_,
 
     initialize = function(id, backend, target, positive = NULL) {

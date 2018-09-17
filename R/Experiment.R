@@ -158,11 +158,7 @@ Experiment = R6Class("Experiment",
       if (is.null(predicted))
         stopf("No predictions available")
       row_ids = self$data$resampling$test_set(self$data$iteration)
-      data.table(
-        id = row_ids,
-        truth = self$data$task$truth(row_ids)[[1L]], predicted = self$data$predicted,
-        key = "id"
-      )
+      cbind(data.table(id = row_ids, truth = self$data$task$truth(row_ids)[[1L]], key = "id"), predicted)
     },
 
     performance = function() {

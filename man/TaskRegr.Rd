@@ -9,14 +9,21 @@ The target column is assumed to be numeric.
 }
 \section{Usage}{
 \preformatted{t = TaskRegr$new(id, backend, target)
+
+t$type
 }
+}
+
+\section{Details}{
+
+\code{type} is \code{"classif"}
 }
 
 \examples{
 b = BackendDataTable$new(iris)
-task = TaskClassif$new("iris", backend = b, target = "Species")
+task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
+task$type
 task$formula
-task$class_names
 }
 \seealso{
 Other Tasks: \code{\link{TaskClassif}},

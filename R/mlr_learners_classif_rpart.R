@@ -10,8 +10,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
             ParamInt$new(id = "minsplit", default = 20L, lower = 1L),
             ParamReal$new(id = "cp", default = 0.01, lower = 0, upper = 1),
             ParamInt$new(id = "maxcompete", default = 4L, lower = 0L),
-            ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L),
-            ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L),
+            ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L), ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L),
             ParamInt$new(id = "xval", default = 10L, lower = 0L)
           )
         ),
@@ -25,7 +24,10 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
 
     predict = function(model, task, ...) {
       newdata = task$data(cols = task$feature_names)
-      as.character(predict(model, newdata = newdata, type = "class", ...))
+      res = list(response = as.character(predict(model, newdata = newdata, type = "class")))
+      if (self$predict_type == "prob")
+        res$prob = predict(model, newdata = newdata, type = "prob")
+      res
     }
   )
 )

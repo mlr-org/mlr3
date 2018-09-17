@@ -5,7 +5,7 @@ MeasureMMCE = R6Class("MeasureMMCE",
     initialize = function(id = "mmce") {
       super$initialize(
         id = id,
-        task_types = "TaskClassif",
+        task_types = "classif",
         range = 0:1,
         minimize = TRUE,
         packages = "measures"

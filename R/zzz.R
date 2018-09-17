@@ -3,7 +3,7 @@
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
-#' @importFrom stats setNames reformulate
+#' @importFrom stats setNames reformulate median mad
 NULL
 
 populate_dicts = function() {
