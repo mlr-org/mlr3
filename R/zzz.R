@@ -3,11 +3,8 @@
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
-#' @importFrom stats setNames
+#' @importFrom stats setNames reformulate
 NULL
-
-# environment which holds constants and allows for reflections
-mlr3 = new.env(parent = emptyenv())
 
 populate_dicts = function() {
   mlr_learners$add(LearnerClassifCrashtest$new())
