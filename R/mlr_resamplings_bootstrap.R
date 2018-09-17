@@ -10,6 +10,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
         ),
         par_vals = list(ratio = 1, repeats = 30L)
       )
+      self$has_duplicates = TRUE
     },
 
     instantiate = function(task, ...) {
@@ -18,7 +19,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       # -> join ids using blocks
       bootstrap = function(ids, ratio, repeats) {
         n = length(ids)
-        nr = as.integer(n * ratio)
+        nr = as.integer(round(n * ratio))
         replicate(repeats, {
           ii = sort(sample.int(n, nr, replace = TRUE))
           list(train = ids[ii], test = ids[-unique(ii)])
@@ -27,18 +28,19 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
       assert_task(task)
       row_ids = task$row_ids()
-      private$instance = bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      private$.instance = bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      private$.hash = NA_character_
       self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance[[i]]$train
+      private$.instance[[i]]$train
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$instance[[i]]$test
+      private$.instance[[i]]$test
     }
   ),
 

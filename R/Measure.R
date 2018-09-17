@@ -14,6 +14,7 @@
 #' m$calculate(experiment)
 #' m$range
 #' m$minimize
+#' m$aggregate(rr)
 #' ```
 #'
 #' @section Arguments:
@@ -21,6 +22,8 @@
 #'   identifier for this object.
 #' * `experiment` ([Experiment]):
 #'   Experiment to work on.
+#' * `rr` ([ResampleResult]):
+#'   Performance object returned by [resample] to be aggregated.
 #'
 #' @section Details:
 #' `$new()` creates a new object of class [Measure].
@@ -35,7 +38,10 @@
 #'
 #' `$minimize` (`logical(1)`) indicates if the good values are reached via minimization.
 #'
-#' `$calculate` (`funcion`) does the actual work.
+#' `$calculate` (`function`) does the actual work.
+#'
+#' `$aggregate` (`function`) aggregates multiple performance measures using the `aggregate` function.
+#'   Operates on a [ResampleResult] as returned by [resample].
 #'
 #' @name Measure
 #' @keywords internal
@@ -53,7 +59,7 @@ Measure = R6Class("Measure", cloneable = FALSE,
     range = NULL,
     minimize = NULL,
     packages = NULL,
-
+    aggregate = function(rr) mean(rr$performance[[self$id]]),
 
     initialize = function(id, task_types, range, minimize, packages = character(0L)) {
       self$id = assert_id(id)
@@ -66,7 +72,3 @@ Measure = R6Class("Measure", cloneable = FALSE,
     calculate = method_not_implemented
   )
 )
-
-assert_measure = function(measure) {
-  assert_r6(measure, "Measure")
-}

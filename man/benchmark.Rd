@@ -20,12 +20,12 @@ List of objects of type \link{Resampling}.}
 \link{BenchmarkResult}.
 }
 \description{
-Runs a benchmark (possibly in parallel).
+Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
 }
 \examples{
 tasks = mlr_tasks$mget(c("iris", "sonar"))
-learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
-resamplings = lapply("cv", mlr_resamplings$get)
+learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
+resamplings = mlr_resamplings$mget("cv")
 bmr = benchmark(tasks, learners, resamplings)
 bmr$performance
 }

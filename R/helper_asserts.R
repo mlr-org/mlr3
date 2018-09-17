@@ -1,3 +1,40 @@
+assert_task = function(task) {
+  assert_class(task, "Task")
+}
+
+assert_backend = function(b) {
+  assert_class(b, "Backend")
+}
+
+assert_experiment = function(experiment) {
+  assert_class(experiment, "Experiment")
+}
+
+assert_learner = function(learner, task = NULL) {
+  assert_class(learner, "Learner")
+  if (!is.null(task)) {
+    if (!identical(class(task)[1L], learner$task_type)) {
+      stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",
+        learner$id, learner$task_type, task$id, class(task)[1L])
+    }
+  }
+  invisible(learner)
+}
+
+assert_measure = function(measure) {
+  assert_class(measure, "Measure")
+}
+
+assert_resampling = function(resampling) {
+  assert_class(resampling, "Resampling")
+}
+
+assert_resampling_index = function(r, i) {
+  if (!r$is_instantiated)
+    stopf("Resampling %s has not been instantiated yet", r$id)
+  assert_int(i, lower = 1L, upper = r$iters, coerce = TRUE)
+}
+
 assert_id = function(id) {
   assert_string(id, min.chars = 1L)
 }
@@ -6,9 +43,12 @@ assert_packages = function(packages) {
   assert_character(packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
 }
 
+assert_properties = function(properties) {
+  assert_character(properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+}
 
 assert_par_set = function(par_set) {
-  assert_r6(par_set, "ParamSet")
+  assert_class(par_set, "ParamSet")
 }
 
 assert_par_vals = function(par_vals, par_set) {

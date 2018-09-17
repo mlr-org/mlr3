@@ -15,6 +15,6 @@ if (FALSE) {
   e$has_errors
   e$predict(100:110)
   e
-  e$data$learner$model
+  e$data$model
   e$predictions
 }

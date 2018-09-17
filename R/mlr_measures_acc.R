@@ -1,20 +1,20 @@
 #' @include Measure.R
-MeasureMMCE = R6Class("MeasureMMCE",
+MeasureACC = R6Class("MeasureACC",
   inherit = Measure,
   public = list(
-    initialize = function(id = "mmce") {
+    initialize = function(id = "acc") {
       super$initialize(
         id = id,
         task_types = "TaskClassif",
         range = 0:1,
-        minimize = TRUE,
+        minimize = FALSE,
         packages = "measures"
       )
     },
 
     calculate = function(experiment) {
       p = experiment$predictions
-      measures::MMCE(p$truth, p$predicted)
+      measures::ACC(p$truth, p$predicted)
     }
   )
 )

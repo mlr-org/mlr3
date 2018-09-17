@@ -157,12 +157,10 @@ Abstract base class for Task
 - `par_set` [`ParamSet`]
 - `properties` [`character()`]
   Defines what the learner can do. See capabilities.R
-- `model`
-  Model from underlying R package. Has to be set for model ops like predict to work. We do this in Experiment
 
 ##### Methods
 - `trainInternal` [`function(task)`] --> model
-- `predictInternal` [`function(task)`]  --> data.table.
+- `predictInternal` [`function(model, task)`]  --> data.table.
   Cols = response | prob or response | se. 1st col is mandatory, 2nd is optional depending on predict_type
 
 

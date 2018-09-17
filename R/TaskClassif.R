@@ -46,7 +46,7 @@ TaskClassif = R6Class("TaskClassif",
 
       if (!is.null(positive))
         self$positive = assert_choice(positive, self$class_names)
-      self$measures = mlr_measures$mget("mmce")
+      self$measures = list(mlr_measures$get("mmce"))
     }
   ),
 

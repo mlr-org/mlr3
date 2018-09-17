@@ -21,6 +21,11 @@
 #' t$ncol
 #' t$col_types
 #' t$formula
+#'
+#' t$filter(rows)
+#' t$select(cols)
+#' t$rbind(data)
+#' t$cbind(data)
 #' ```
 #'
 #' @section Arguments:
@@ -28,6 +33,8 @@
 #'   Name of the task.
 #' * `backend` ([Backend]):
 #'   [Backend] which stores the data.
+#' * `data` ([base::data.frame]):
+#'   New data to rbind/cbind to the task.
 #' * `rows` (`vector`):
 #'   Vector of row ids used to subset rows from the [Backend] using its primary key.
 #'   Can be `character()` or `integer`, depending on the [Backend].
@@ -85,6 +92,14 @@
 #'
 #' `formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
 #'
+#' `filter()` reduces the task, subsetting it to only the rows specified.
+#'
+#' `select()` reduces the task, subsetting it to only the columns specified.
+#'
+#' `rbind()` extends the task with additional rows.
+#'
+#' `cbind()` extends the task with additional columns.
+#'
 #' @name Task
 #' @export
 #' @family Tasks
@@ -116,71 +131,17 @@ Task = R6Class("Task",
     initialize = function(id, backend) {
       self$id = assert_id(id)
       self$backend = assert_backend(backend)
-
-      cn = backend$colnames
-      types = assert_subset(vcapply(backend$head(1L), class), capabilities$task_col_types, fmatch = TRUE)
-
-      self$row_info = data.table(
-        id = backend$rownames,
-        role = "use",
-        key = "id")
-
-      self$col_info = data.table(
-        id = cn,
-        role = ifelse(cn == backend$primary_key, "primary_key", "feature"),
-        type = types[chmatch(cn, names(types), 0L)],
-        key = "id"
-      )
+      self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
+      self$col_info = col_types(backend$head(1L))[, "role" := "feature"]
+      self$col_info[id == backend$primary_key, role := "primary_key"]
     },
 
     print = function(...) {
-      catf("Task '%s' of type %s (%i x %i)", self$id, class(self)[1L], self$nrow, self$ncol)
-      catf(stri_list("Target: ", self$target_names))
-      catf(stri_list("Features: ", stri_peek(self$feature_names)))
-      catf(stri_list("Order by: ", self$order))
-      catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
+      task_print(self)
     },
 
     data = function(rows = NULL, cols = NULL) {
-      if (is.null(rows)) {
-        selected_rows = self$row_info[role == "use", "id"][[1L]]
-      } else {
-        if (self$row_info[list(rows), .N] != length(rows))
-          stopf("Invalid row ids provided")
-        selected_rows = rows
-      }
-
-       if (is.null(cols)) {
-        selected_cols = self$col_info[role %in% c("feature", "target"), "id"][[1L]]
-      } else {
-        selected_cols = self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
-        if (length(selected_cols) != length(cols))
-          stopf("Invalid column ids provided")
-      }
-
-      extra_cols = character(0L)
-      if (length(self$order)) {
-        extra_cols = setdiff(self$order, selected_cols)
-        selected_cols = union(selected_cols, extra_cols)
-      }
-
-      data = self$backend$data(rows = selected_rows, cols = selected_cols)
-
-      if (nrow(data) != length(selected_rows)) {
-        stopf("Backend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
-      }
-
-      if (ncol(data) != length(selected_cols)) {
-        stopf("Backend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
-      }
-
-      if (length(self$order)) {
-        setorderv(data, self$order)
-      }
-
-      if (length(extra_cols))
-        data[, (extra_cols) := NULL]
-      return(data)
+      task_data(self, rows, cols)
     },
 
     head = function(n = 6L) {
@@ -197,14 +158,22 @@ Task = R6Class("Task",
       }
     },
 
-    filter = function(row_ids) {
-      self$row_info[!list(row_ids), role := "ignore"]
+    filter = function(rows) {
+      self$row_info[!(id %in% rows) & role == "use", role := "ignore"]
       self
     },
 
     select = function(cols) {
-      self$col_info[!list(cols), role := "ignore"]
+      self$col_info[!(id %in% cols) & role == "feature", role := "ignore"]
       self
+    },
+
+    rbind = function(data) {
+      task_rbind(self, data)
+    },
+
+    cbind = function(data) {
+      task_cbind(self, data)
     }
   ),
 
@@ -247,6 +216,88 @@ Task = R6Class("Task",
   )
 )
 
-assert_task = function(task) {
-  assert_r6(task, "Task")
+task_data = function(self, rows = NULL, cols = NULL) {
+  if (is.null(rows)) {
+    selected_rows = self$row_info[role == "use", "id"][[1L]]
+  } else {
+    if (self$row_info[list(rows), .N] != length(rows))
+      stopf("Invalid row ids provided")
+    selected_rows = rows
+  }
+
+  if (is.null(cols)) {
+    selected_cols = self$col_info[role %in% c("feature", "target"), "id"][[1L]]
+  } else {
+    selected_cols = self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
+    if (length(selected_cols) != length(cols))
+      stopf("Invalid column ids provided")
+  }
+
+  extra_cols = character(0L)
+  if (length(self$order)) {
+    extra_cols = setdiff(self$order, selected_cols)
+    selected_cols = union(selected_cols, extra_cols)
+  }
+
+  data = self$backend$data(rows = selected_rows, cols = selected_cols)
+
+  if (nrow(data) != length(selected_rows)) {
+    stopf("Backend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
+  }
+
+  if (ncol(data) != length(selected_cols)) {
+    stopf("Backend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
+  }
+
+  if (length(self$order)) {
+    setorderv(data, self$order)
+  }
+
+  if (length(extra_cols))
+    data[, (extra_cols) := NULL]
+  return(data)
+}
+
+task_rbind = function(self, data) {
+  assert_data_frame(data, min.rows = 1L)
+  data = as.data.table(data)
+
+  # try to auto-increment new primary keys
+  if (self$backend$primary_key %nin% names(data)) {
+    rids = self$row_ids()
+    if (is.integer(rids)) {
+      data[[self$backend$primary_key]] = max(rids) + seq_row(data)
+    } else {
+      stopf("Cannot rbind task: Missing column '%s' with row ids", self$backend$primary_key)
+    }
+  }
+
+  self$backend = backend_rbind(self$backend, data)
+  extra_info = data.table(id = data[[self$backend$primary_key]], role = "use")
+  self$row_info = rbind(self$row_info, extra_info)
+  setkeyv(self$row_info, "id")
+  self
+}
+
+task_cbind = function(self, data) {
+  assert_data_frame(data, min.rows = 1L)
+  data = as.data.table(data)
+
+  if (self$backend$primary_key %nin% names(data)) {
+    stopf("Cannot cbind task: Missing column '%s' with row ids", self$backend$primary_key)
+  }
+
+  self$backend = backend_cbind(self$backend, data)
+  extra_info = col_types(data)[, "role" := "feature"]
+  self$col_info = rbind(self$col_info, extra_info[!(self$backend$primary_key)])
+  setkeyv(self$col_info, "id")
+  self
+}
+
+task_print = function(self) {
+  catf("Task '%s' of type %s (%i x %i)", self$id, class(self)[1L], self$nrow, self$ncol)
+  catf(stri_list("Target: ", self$target_names))
+  catf(stri_list("Features: ", stri_peek(self$feature_names)))
+  catf(stri_list("Order by: ", self$order))
+  catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
 }

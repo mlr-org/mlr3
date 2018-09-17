@@ -3,20 +3,89 @@
 #' @description
 #' Container object for machine learning experiments.
 #'
+#' @section Usage:
+#'
+#' ```
+#' e = Experiment$new(task, learner, ...)
+#' e$train(subset)
+#' e$predict(subset, newdata)
+#' e$score()
+#'
+#' e$model
+#' e$predictions
+#' e$performance
+#'
+#' e$train_set
+#' e$test_set
+#' e$validation_set
+#' e$timings
+#' e$state
+#' ```
+#'
+#' @section Arguments:
+#' * `task` ([Task]): Task to conduct experiment on
+#' * `learner` ([Learner]): Learner to conduct experiment with.
+#' * `subset` (`integer` | `character`): Subset of the task's row ids to work on.
+#' * `newdata` (`data.frame`): New data to predict on. Will be added to the task.
+#'
+#'
+#' @section Details:
+#' `new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
+#'
+#' `train()` fits the induces `learner` on the (subset of the) `task` and internally stores the model.
+#'  The model can be accessed via `e$model`.
+#'
+#' `predict()` uses the previously fitted model to predict new observations.
+#'  The predictions are stored internally and can be accessed via `e$predictions`.
+#'
+#' `score()` quantifies stored predictions using the task's [Measure] and stores the resulting performance.
+#'  The performance can be accessed via `e$performance`.
+#'
+#' `train_set` and `test_set` return the row ids of the training set or test set, respectively.
+#' If there is a validation set (see [Task]), `validation_set` returns the corresponding row ids.
+#'
+#' `timings` holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (see [base::proc.time()]).
+#'  Timings are `NA` if the step has not been performed yet.
+#'
+#' `state` returns an factor of length 1 with ordered levels `"defined"`, `"trained"`, `"predicted"` and `"scored"`.
+#'
+#'
+#' @name Experiment
 #' @export
 #' @examples
 #' e = Experiment$new(
 #'   task = mlr_tasks$get("iris"),
 #'   learner = mlr_learners$get("classif.rpart")
 #' )
+#' print(e)
+#' e$state
+#'
+#' e$train(subset = 1:120)
+#' print(e)
+#' e$state
+#' e$model
+#'
+#' e$predict(subset = 121:150)
+#' print(e)
+#' e$state
+#' e$predictions
+#'
+#' e$score()
+#' print(e)
+#' e$state
+#' e$performance
+#'
+#' e$train_set
+#' e$test_set
+#' e$timings
+NULL
+
 Experiment = R6Class("Experiment",
   public = list(
     data = NULL,
 
     initialize = function(task, learner, ...) {
-      self$data = vector("list", nrow(reflections$experiment_slots))
-      names(self$data) = reflections$experiment_slots$name
-
+      self$data = named_list(reflections$experiment_slots$name)
       self$data$task = assert_task(task)
       self$data$learner = assert_learner(learner)
       if (...length()) {
@@ -32,27 +101,35 @@ Experiment = R6Class("Experiment",
 
     train = function(subset = NULL) {
       experiment_train(self, self$data$task$row_ids(subset))
+      invisible(self)
     },
 
     predict = function(subset = NULL, newdata = NULL) {
       experiment_predict(self, row_ids = self$data$task$row_ids(subset), newdata = newdata)
+      invisible(self)
     },
 
     score = function() {
       experiment_score(self)
+      invisible(self)
     }
   ),
 
   active = list(
     model = function() {
-      model = self$data$learner$model
+      model = self$data$model
       if (is.null(model))
         stopf("No model available")
       model
     },
 
+    timings = function() {
+      t = vnapply(self$data[c("train_time", "predict_time", "score_time")], function(x) x %??% NA_real_, use.names = FALSE)
+      setNames(t, c("train", "predict", "score"))
+    },
+
     logs = function() {
-      list(train = self$data$train_log, test = self$data$test_log)
+      list(train = self$data$train_log, test = self$data$predict_log)
     },
 
     train_set = function() {
@@ -73,7 +150,7 @@ Experiment = R6Class("Experiment",
 
     validation_set = function() {
       role = NULL
-      task$row_info[role == "validation", "id"][[1L]]
+      self$data$task$row_info[role == "validation", "id"][[1L]]
     },
 
     predictions = function() {
@@ -89,49 +166,39 @@ Experiment = R6Class("Experiment",
     },
 
     performance = function() {
-      self$data$performance
+      unlist(self$data$performance, use.names = TRUE)
     },
 
     has_errors = function() {
       train_log = self$data$train_log
-      test_log = self$data$test_log
+      predict_log = self$data$predict_log
       type = NULL
 
       (!is.null(train_log) && train_log[type == "error", .N] > 0L) ||
-      (!is.null(test_log) && test_log[type == "error", .N] > 0L)
+      (!is.null(predict_log) && predict_log[type == "error", .N] > 0L)
     },
 
     state = function() {
-      d = self$data
-      states = capabilities$experiment_states
-      if (!is.null(d$performance))
-        return(ordered("scored", levels = states))
-      if (!is.null(d$predicted))
-        return(ordered("predicted", levels = states))
-      if (!is.null(d$learner$model))
-        return(ordered("trained", levels = states))
-      return(ordered("defined", levels = states))
+      experiment_state(self)
     }
   )
 )
 
 experiment_print = function(e) {
   data = e$data
-  tick = crayon::green(clisymbols::symbol$tick)
-  cross = crayon::red(clisymbols::symbol$cross)
 
   fmt = function(x, obj, info) {
     if (is.null(x)) {
-      sprintf(" %s %s", cross, obj)
+      sprintf(" - %s: [missing]", obj)
     } else {
-      sprintf(" %s %s: %s", tick, obj, info)
+      sprintf(" + %s: %s", obj, info)
     }
   }
 
   catf("Experiment [%s]:", if (e$state == "scored") "complete" else "incomplete")
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
-  catf(fmt(data$learner$model, "Model", sprintf("[%s]", class(data$learner$model)[[1L]])))
+  catf(fmt(data$model, "Model", sprintf("[%s]", class(data$model)[[1L]])))
   catf(fmt(data$predicted, "Predictions", sprintf("[%s]", class(data$predicted)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
   catf(stri_list("\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
@@ -142,9 +209,9 @@ experiment_train = function(e, row_ids) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
   e$data$iteration = 1L
 
-  value = futureCall(train_worker, list(e = e), globals = FALSE)
-  e$data = insert(e$data, value(value))
-  e$data = insert(e$data, list(test_time = NULL, test_log = NULL, predicted = NULL, performance = NULL))
+  value = future::futureCall(train_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
+  e$data = insert(e$data, future::value(value))
+  e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "trained", "name"][[1L]]))
   return(e)
 }
 
@@ -155,21 +222,34 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
   if (is.null(newdata)) {
     e$data$resampling$instantiate(e$data$task, test_sets = list(row_ids))
   } else {
-    backend = BackendDataTable$new(data = newdata, primary_key = e$data$task$backend[[1L]]$primary_key)
-    e$data$task = e$data$task$clone()$add_backend(backend)
+    e$task$rbind(data = newdata)
+    # backend = BackendDataTable$new(data = newdata, primary_key = e$data$task$backend[[1L]]$primary_key)
+    # e$data$task = e$data$task$clone()$add_backend(backend)
     row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
   }
 
-  value = futureCall(predict_worker, list(e = e), globals = FALSE)
-  e$data = insert(e$data, value(value))
-  e$data = insert(e$data, list(performance = NULL))
+  value = future::futureCall(predict_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
+  e$data = insert(e$data, future::value(value))
+  e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "predicted", "name"][[1L]]))
   return(e)
 }
 
 experiment_score = function(e) {
-  value = futureCall(score_worker, list(e = e))
-  e$data = insert(e$data, value(value))
+  value = future::futureCall(score_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
+  e$data = insert(e$data, future::value(value))
   return(e)
+}
+
+experiment_state = function(self) {
+  d = self$data
+  states = levels(reflections$experiment_slots$state)
+  if (!is.null(d$performance))
+    return(ordered("scored", levels = states))
+  if (!is.null(d$predicted))
+    return(ordered("predicted", levels = states))
+  if (!is.null(d$model))
+    return(ordered("trained", levels = states))
+  return(ordered("defined", levels = states))
 }
 
 
@@ -181,8 +261,4 @@ combine_experiments = function(x) {
     exp[encapsulate] = lapply(exp[encapsulate], list)
     exp
   }))
-}
-
-assert_experiment = function(experiment) {
-  assert_r6(experiment, "Experiment")
 }
