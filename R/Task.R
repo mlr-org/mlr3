@@ -21,6 +21,11 @@
 #' t$ncol
 #' t$col_types
 #' t$formula
+#'
+#' t$filter(rows)
+#' t$select(cols)
+#' t$rbind(data)
+#' t$cbind(data)
 #' ```
 #'
 #' @section Arguments:
@@ -28,6 +33,8 @@
 #'   Name of the task.
 #' * `backend` ([Backend]):
 #'   [Backend] which stores the data.
+#' * `data` ([base::data.frame]):
+#'   New data to rbind/cbind to the task.
 #' * `rows` (`vector`):
 #'   Vector of row ids used to subset rows from the [Backend] using its primary key.
 #'   Can be `character()` or `integer`, depending on the [Backend].
@@ -84,6 +91,14 @@
 #' `col_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" columns of the task and `type` is the storage type.
 #'
 #' `formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
+#'
+#' `filter()` reduces the task, subsetting it to only the rows specified.
+#'
+#' `select()` reduces the task, subsetting it to only the columns specified.
+#'
+#' `rbind()` extends the task with additional rows.
+#'
+#' `cbind()` extends the task with additional columns.
 #'
 #' @name Task
 #' @export
@@ -143,8 +158,8 @@ Task = R6Class("Task",
       }
     },
 
-    filter = function(row_ids) {
-      self$row_info[!(id %in% row_ids) & role == "use", role := "ignore"]
+    filter = function(rows) {
+      self$row_info[!(id %in% rows) & role == "use", role := "ignore"]
       self
     },
 
@@ -154,19 +169,11 @@ Task = R6Class("Task",
     },
 
     rbind = function(data) {
-      self$backend = backend_rbind(self$backend, data)
-      extra_info = data.table(id = data[[self$backend$primary_key]], role = "use")
-      self$row_info = rbind(self$row_info, extra_info)
-      setkeyv(self$row_info, "id")
-      self
+      task_rbind(self, data)
     },
 
     cbind = function(data) {
-      self$backend = backend_cbind(self$backend, data)
-      extra_info = col_types(data)[, "role" := "feature"]
-      self$col_info = rbind(self$col_info, extra_info[!(self$backend$primary_key)])
-      setkeyv(self$col_info, "id")
-      self
+      task_cbind(self, data)
     }
   ),
 
@@ -249,6 +256,42 @@ task_data = function(self, rows = NULL, cols = NULL) {
   if (length(extra_cols))
     data[, (extra_cols) := NULL]
   return(data)
+}
+
+task_rbind = function(self, data) {
+  assert_data_frame(data, min.rows = 1L)
+  data = as.data.table(data)
+
+  # try to auto-increment new primary keys
+  if (self$backend$primary_key %nin% names(data)) {
+    rids = self$row_ids()
+    if (is.integer(rids)) {
+      data[[self$backend$primary_key]] = max(rids) + seq_row(data)
+    } else {
+      stopf("Cannot rbind task: Missing column '%s' with row ids", self$backend$primary_key)
+    }
+  }
+
+  self$backend = backend_rbind(self$backend, data)
+  extra_info = data.table(id = data[[self$backend$primary_key]], role = "use")
+  self$row_info = rbind(self$row_info, extra_info)
+  setkeyv(self$row_info, "id")
+  self
+}
+
+task_cbind = function(self, data) {
+  assert_data_frame(data, min.rows = 1L)
+  data = as.data.table(data)
+
+  if (self$backend$primary_key %nin% names(data)) {
+    stopf("Cannot cbind task: Missing column '%s' with row ids", self$backend$primary_key)
+  }
+
+  self$backend = backend_cbind(self$backend, data)
+  extra_info = col_types(data)[, "role" := "feature"]
+  self$col_info = rbind(self$col_info, extra_info[!(self$backend$primary_key)])
+  setkeyv(self$col_info, "id")
+  self
 }
 
 task_print = function(self) {

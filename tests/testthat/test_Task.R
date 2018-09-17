@@ -6,6 +6,20 @@ test_that("Task duplicates rows", {
   expect_data_table(data, nrow = 2L, any.missing = FALSE)
 })
 
+test_that("Task rbind", {
+  task = mlr_tasks$get("iris")
+  data = iris[1:10, ]
+  task$rbind(iris[1:10, ])
+  expect_equal(task$nrow, 160)
+})
+
+test_that("Task cbind", {
+  task = mlr_tasks$get("iris")
+  data = data.frame(..row_id = task$row_ids(), foo = 150:1)
+  task$cbind(data)
+  expect_names(task$feature_names, must.include = "foo")
+})
+
 test_that("Rows return ordered", {
   x = load_dataset("nhtemp", "datasets", TRUE)
   data = as.data.frame(x)

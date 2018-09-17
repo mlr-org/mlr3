@@ -23,6 +23,11 @@ t$nrow
 t$ncol
 t$col_types
 t$formula
+
+t$filter(rows)
+t$select(cols)
+t$rbind(data)
+t$cbind(data)
 }
 }
 
@@ -33,6 +38,8 @@ t$formula
 Name of the task.
 \item \code{backend} (\link{Backend}):
 \link{Backend} which stores the data.
+\item \code{data} (\link[base:data.frame]{base::data.frame}):
+New data to rbind/cbind to the task.
 \item \code{rows} (\code{vector}):
 Vector of row ids used to subset rows from the \link{Backend} using its primary key.
 Can be \code{character()} or \code{integer}, depending on the \link{Backend}.
@@ -96,6 +103,14 @@ If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \code{col_types} gives a \code{data.table} with columns \code{id} and \code{type} where \code{id} are the column names of "active" columns of the task and \code{type} is the storage type.
 
 \code{formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
+
+\code{filter()} reduces the task, subsetting it to only the rows specified.
+
+\code{select()} reduces the task, subsetting it to only the columns specified.
+
+\code{rbind()} extends the task with additional rows.
+
+\code{cbind()} extends the task with additional columns.
 }
 
 \examples{
