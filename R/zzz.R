@@ -3,6 +3,7 @@
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
+#' @importFrom stats setNames
 NULL
 
 # environment which holds constants and allows for reflections
@@ -23,6 +24,7 @@ populate_dicts = function() {
   mlr_resamplings$add(ResamplingCustom$new())
 
   mlr_measures$add(MeasureMMCE$new())
+  mlr_measures$add(MeasureACC$new())
   mlr_measures$add(MeasureMSE$new())
 }
 

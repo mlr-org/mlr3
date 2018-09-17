@@ -44,8 +44,7 @@ predict_worker = function(e, ctrl) {
   return(list(
     predicted = res$result,
     test_time = test_time,
-    test_log = res$log,
-    performance = NULL
+    test_log = res$log
   ))
 }
 

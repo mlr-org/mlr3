@@ -16,6 +16,7 @@ m$task_types
 m$calculate(experiment)
 m$range
 m$minimize
+m$aggregate(rr)
 }
 }
 
@@ -26,6 +27,8 @@ m$minimize
 identifier for this object.
 \item \code{experiment} (\link{Experiment}):
 Experiment to work on.
+\item \code{rr} (\link{ResampleResult}):
+Performance object returned by \link{resample} to be aggregated.
 }
 }
 
@@ -43,7 +46,10 @@ Experiment to work on.
 
 \code{$minimize} (\code{logical(1)}) indicates if the good values are reached via minimization.
 
-\code{$calculate} (\code{funcion}) does the actual work.
+\code{$calculate} (\code{function}) does the actual work.
+
+\code{$aggregate} (\code{function}) aggregates multiple performance measures using the \code{aggregate} function.
+Operates on a \link{ResamplingResult} as returned by \link{resample}.
 }
 
 \examples{

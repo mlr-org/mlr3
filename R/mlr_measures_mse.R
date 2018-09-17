@@ -7,13 +7,14 @@ MeasureMSE = R6Class("MeasureMSE",
         id = id,
         task_types = "TaskRegr",
         range = c(0, Inf),
-        minimize = TRUE
+        minimize = TRUE,
+        packages = "measures"
       )
     },
 
     calculate = function(experiment) {
       p = experiment$predictions
-      mean( (p$truth - p$predicted)^2 )
+      measures::MSE(p$truth, p$predicted)
     }
   )
 )

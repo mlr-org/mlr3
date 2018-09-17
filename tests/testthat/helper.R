@@ -219,6 +219,7 @@ expect_measure = function(m) {
   expect_flag(m$minimize)
   expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
   expect_function(m$calculate, args = "experiment")
+  expect_function(m$aggregate, args = "rr")
 }
 
 expect_experiment = function(e) {
@@ -259,7 +260,7 @@ expect_resample_result = function(rr) {
 
   perf = rr$performance
   expect_data_table(perf, nrow = rr$resampling$iters, min.cols = 2L)
-  expect_names(names(perf), permutation.of = c("iteration", names(rr$task$measures)))
+  expect_names(names(perf), permutation.of = c("iteration", ids(rr$task$measures)))
   expect_identical(perf$iteration, seq_len(rr$resampling$iters))
   for (m in names(rr$task$measures))
     expect_numeric(perf[[m]], any.missing = FALSE)
@@ -271,4 +272,10 @@ expect_resample_result = function(rr) {
   e = rr$experiment(1L)
   expect_experiment(e)
   expect_true(e$state == "scored")
+
+  measures = rr$measures
+  aggr = rr$aggregated
+  for (m in measures) {
+    expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
+  }
 }

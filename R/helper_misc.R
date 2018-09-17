@@ -9,7 +9,7 @@ require_namespaces = function(pkgs, msg = "The following packages are missing: %
 }
 
 ids = function(x) {
-  vcapply(x, "[[", "id")
+  vcapply(x, "[[", "id", use.names = FALSE)
 }
 
 shuffle = function(x) {
@@ -25,7 +25,5 @@ col_types = function(x) {
 }
 
 named_list = function(nn) {
-  x = vector("list", length(nn))
-  names(x) = nn
-  x
+  setNames(vector("list", length(nn)), nn)
 }

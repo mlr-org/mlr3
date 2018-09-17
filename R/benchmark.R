@@ -14,8 +14,8 @@
 #' @export
 #' @examples
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
-#' learners = lapply(c("classif.dummy", "classif.rpart"), mlr_learners$get)
-#' resamplings = lapply("cv", mlr_resamplings$get)
+#' learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
+#' resamplings = mlr_resamplings$mget("cv")
 #' bmr = benchmark(tasks, learners, resamplings)
 #' bmr$performance
 benchmark = function(tasks, learners, resamplings) {
@@ -72,36 +72,3 @@ benchmark = function(tasks, learners, resamplings) {
   BenchmarkResult$new(res)
 }
 
-#' @title Container for Results of benchmark
-#'
-#' @export
-BenchmarkResult = R6Class("BenchmarkResult",
-  cloneable = FALSE,
-  public = list(
-    data = NULL,
-
-    initialize = function(data) {
-      assert_data_table(data)
-      slots = reflections$experiment_slots$name
-      assert_names(names(data), permutation.of = slots)
-      self$data = setcolorder(data, slots)
-    },
-
-    experiment = function(i) {
-      assert_int(i, lower = 1L, upper = nrow(self$data))
-      .mapply(Experiment$new, self$data[i], MoreArgs = list())[[1L]]
-    },
-
-    experiments = function(i) {
-      assert_integer(i, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
-      .mapply(Experiment$new, self$data[i], MoreArgs = list())
-    }
-  ),
-
-  active = list(
-    performance = function() {
-      tmp = self$data[, list(task = ids(task), learner = ids(learner), performance = performance)]
-      cbind(tmp[, !"performance"], rbindlist(tmp$performance, fill = TRUE))
-    }
-  )
-)

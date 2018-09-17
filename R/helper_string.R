@@ -15,7 +15,6 @@ stri_suggest = function(str, candidates = character(0L), n = 3L) {
   if (n == 0L)
     return(character(0L))
 
-  d = adist(str, candidates, ignore.case = TRUE, partial = TRUE)[1L, ]
-  names(d) = candidates
+  d = setNames(adist(str, candidates, ignore.case = TRUE, partial = TRUE)[1L, ], candidates)
   head(names(d[d < (nchar(str) / 2)]), n)
 }

@@ -26,5 +26,8 @@ Runs a resampling (possibly in parallel).
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 resampling = mlr_resamplings$get("cv")
-resample(task, learner, resampling)
+rr = resample(task, learner, resampling)
+print(rr)
+rr$aggregated
+rr$performance
 }
