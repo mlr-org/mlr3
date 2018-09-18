@@ -27,6 +27,12 @@ BackendRbind = R6Class("Backend",
       if (nrow(data) != n)
         data = rbind(data, private$.b2$head(n - nrow(data)))
       data
+    },
+
+    distinct = function(cols) {
+      d1 = private$.b1$distinct(cols)
+      d2 = private$.b2$distinct(cols)
+      setNames(lapply(names(d1), function(nn) union(d1[[nn]], d2[[nn]])), names(d1))
     }
   ),
 

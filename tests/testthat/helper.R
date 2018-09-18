@@ -64,7 +64,6 @@ expect_backend = function(b) {
   x = x[[cn[1L]]]
   expect_atomic_vector(x, len = n)
 
-
   # extra cols are ignored
   x = b$data(rows = rn[1L], cols = c(cn[1L], "_not_existing_"))
   expect_data_table(x, nrow = 1L, ncol = 1L)
@@ -96,6 +95,8 @@ expect_backend = function(b) {
   expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L)), "uniquely")
 
   expect_data_table(b$head(3), nrow = 3, ncol = p)
+
+  expect_atomic_vector(distinct(b$data(rows = rn, cols = b$primary_key)[[1L]]), len = n)
 }
 
 expect_task = function(task) {

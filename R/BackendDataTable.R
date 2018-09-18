@@ -69,6 +69,11 @@ BackendDataTable = R6Class("Backend",
 
     head = function(n = 6L) {
       head(private$.data, n)
+    },
+
+    distinct = function(cols) {
+      cols = intersect(cols, colnames(private$.data))
+      lapply(private$.data[, cols, with = FALSE], distinct)
     }
   ),
 

@@ -29,6 +29,7 @@ test_that("BackendRbind", {
   expect_set_equal(b$rownames, 1:150)
   expect_set_equal(b$colnames, names(data))
   expect_data_table(b$data(b$rownames, b$colnames), nrow = 150, ncol = 6)
+  expect_set_equal(b$distinct("Species")$Species, distinct(iris$Species))
 })
 
 test_that("BackendCbind", {
@@ -42,6 +43,7 @@ test_that("BackendCbind", {
   expect_set_equal(b$rownames, 1:150)
   expect_set_equal(b$colnames, names(data))
   expect_data_table(b$data(b$rownames, b$colnames), nrow = 150, ncol = 6)
+  expect_set_equal(b$distinct("Species")$Species, distinct(iris$Species))
 })
 
 test_that("Nested backends", {
@@ -61,4 +63,5 @@ test_that("Nested backends", {
   expect_set_equal(b3$rownames, 1:150)
   expect_set_equal(b3$colnames, names(data))
   expect_data_table(b3$data(b3$rownames, b3$colnames), nrow = 150, ncol = 6)
+  expect_set_equal(b$distinct("Species")$Species, distinct(iris$Species))
 })

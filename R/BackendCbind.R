@@ -27,6 +27,10 @@ BackendCbind = R6Class("Backend",
     head = function(n = 6L) {
       x = private$.b1$head(n)
       cbind(x, private$.b2$data(rows = x[[self$primary_key]], cols = setdiff(private$.b2$colnames, self$primary_key)))
+    },
+
+    distinct = function(cols) {
+      c(private$.b1$distinct(cols), private$.b2$distinct(cols))
     }
   ),
 

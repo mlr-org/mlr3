@@ -23,3 +23,7 @@ col_types = function(x) {
 named_list = function(nn) {
   setNames(vector("list", length(nn)), nn)
 }
+
+distinct = function(x) {
+  if (is.factor(x)) levels(x) else unique(x)
+}
