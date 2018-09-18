@@ -107,12 +107,13 @@ expect_task = function(task) {
   expect_data_table(task$data())
   expect_data_table(task$head(1), nrow = 1L)
 
-  cols = c("id", "role", "type")
+  cols = c("id", "role", "type", "levels")
   expect_data_table(task$col_info, key = "id", ncol = length(cols))
   expect_names(names(task$col_info), permutation.of = cols)
   expect_character(task$col_info$id, any.missing = FALSE, unique = TRUE)
   expect_subset(task$col_info$role, capabilities$task_col_roles)
   expect_subset(task$col_info$type, capabilities$task_col_types)
+  expect_list(task$col_info$levels)
 
   cols = c("id", "role")
   expect_data_table(task$row_info, key = "id", ncol = length(cols))

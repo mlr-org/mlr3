@@ -133,8 +133,13 @@ Task = R6Class("Task",
       self$id = assert_id(id)
       self$backend = assert_backend(backend)
       self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
-      self$col_info = col_types(backend$head(1L))[, "role" := "feature"]
-      self$col_info[id == backend$primary_key, role := "primary_key"]
+      self$col_info = col_types(backend$head(1L))[, c("role", "levels") := list("feature", list())]
+      self$col_info[.(backend$primary_key), role := "primary_key"]
+      discrete = self$col_info[type %in% c("character", "factor"), id]
+      if (length(discrete)) {
+        discrete = backend$distinct(discrete)
+        self$col_info[.(names(discrete)), levels := list(discrete)]
+      }
     },
 
     print = function(...) {
@@ -149,6 +154,11 @@ Task = R6Class("Task",
       assert_count(n)
       ids = head(self$row_info[role == "use", "id", with = FALSE][[1L]], n)
       self$data(rows = ids, cols = c(self$feature_names, self$target_names))
+    },
+
+    levels = function(col) {
+      assert_choice(col, self$col_info$id)
+      self$col_info[.(col), "levels", with = FALSE][[1L]][[1L]]
     },
 
     row_ids = function(subset = NULL) {
@@ -277,7 +287,11 @@ task_rbind = function(self, data) {
   extra_info = data.table(id = data[[self$backend$primary_key]], role = "use")
   self$row_info = rbind(self$row_info, extra_info)
   setkeyv(self$row_info, "id")
-  self
+
+  # update col_info's level information
+  cols = self$col_info[get("type") %in% c("factor", "character"), id]
+  tmp = self$backend$distinct(cols)
+  self$col_info[.(names(tmp)), "levels" := list(tmp)]
 }
 
 task_cbind = function(self, data) {
@@ -289,7 +303,13 @@ task_cbind = function(self, data) {
   }
 
   self$backend = backend_cbind(self$backend, data)
-  extra_info = col_types(data)[, "role" := "feature"]
+  extra_info = col_types(data)[, c("role", "levels") := list("feature", list())]
+
+  cols = extra_info[type %in% c("factor", "character"), id]
+  if (length(cols)) {
+    tmp = lapply(data[, cols, with = FALSE], distinct)
+    extra_info[.(names(tmp)), "levels" := list(tmp)]
+  }
   self$col_info = rbind(self$col_info, extra_info[!(self$backend$primary_key)])
   setkeyv(self$col_info, "id")
   self

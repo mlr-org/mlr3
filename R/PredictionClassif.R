@@ -38,13 +38,11 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   public = list(
     prob = NULL,
     initialize = function(task, response, prob = NULL) {
-      classes = task$class_names
-      # if (is.character(response))
-      #   response = factor(response, levels = classes)
-      if (!is.character(response))
-        response = as.character(response)#, levels = classes)
-      # self$response = assert_factor(response, len = task$nrow, levels = classes, any.missing = FALSE)
-      self$response = response
+      classes = task$levels(task$target_names)
+      if (is.character(response))
+        response = factor(response, levels = classes)
+      self$response = assert_factor(response, len = task$nrow, levels = classes, any.missing = FALSE)
+
       if (!is.null(prob)) {
         assert_matrix(prob, nrow = task$nrow, ncol = length(classes))
         assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
