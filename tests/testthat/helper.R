@@ -179,8 +179,8 @@ expect_learner = function(lrn, task = NULL) {
 
   if (!is.null(task)) {
     assert_class(task, "Task")
-    expect_subset(lrn$properties, capabilities$learner_props[[class(task)[1L]]])
-    expect_identical(lrn$task_type, class(task)[1L])
+    expect_subset(lrn$properties, capabilities$learner_props[[task$type]])
+    expect_identical(lrn$task_type, task$type)
   }
 }
 
@@ -250,7 +250,8 @@ expect_experiment = function(e) {
   if (state >= "predicted") {
     expect_data_table(e$data$predict_log, ncol = 2, any.missing = FALSE)
     expect_number(e$data$predict_time)
-    expect_atomic_vector(e$data$predicted, len = length(e$test_set))
+    expect_class(e$data$prediction, "Prediction")
+    expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
   }
 
   if (state >= "scored") {

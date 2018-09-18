@@ -15,11 +15,13 @@ test_that("Simple train+predict+score of dummy model", {
 
   e$predict(1:10)
   expect_set_equal(e$test_set, 1:10)
-  expect_data_table(e$predictions, nrow = 10L, any.missing = FALSE)
+  expect_data_table(e$prediction, nrow = 10L, any.missing = FALSE)
   expect_equal(task$nrow, 150L)
   expect_equal(e$data$task$nrow, 150L)
 
   e$score()
+
+  expect_experiment(e)
 })
 
 
@@ -39,7 +41,7 @@ test_that("Simple train+predict+score in independent session", {
 
     e$predict(1:10)
     expect_set_equal(e$test_set, 1:10)
-    expect_data_table(e$predictions, nrow = 10L, any.missing = FALSE)
+    expect_data_table(e$prediction, nrow = 10L, any.missing = FALSE)
     expect_equal(task$nrow, 150L)
     expect_equal(e$data$task$nrow, 150L)
 

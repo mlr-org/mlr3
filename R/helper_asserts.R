@@ -13,9 +13,9 @@ assert_experiment = function(experiment) {
 assert_learner = function(learner, task = NULL) {
   assert_class(learner, "Learner")
   if (!is.null(task)) {
-    if (!identical(class(task)[1L], learner$task_type)) {
+    if (!identical(task$type, learner$task_type)) {
       stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",
-        learner$id, learner$task_type, task$id, class(task)[1L])
+        learner$id, learner$task_type, task$id, task$type)
     }
   }
   invisible(learner)

@@ -28,8 +28,9 @@ Subset of row ids to subset rows from the \link{Backend} using its primary key.
 }
 
 \seealso{
-Other Tasks: \code{\link{TaskClassif}},
-  \code{\link{TaskRegr}}, \code{\link{Task}}
+Other Task: \code{\link{TaskClassif}},
+  \code{\link{TaskRegr}}, \code{\link{Task}},
+  \code{\link{mlr_tasks}}
 }
-\concept{Tasks}
+\concept{Task}
 \keyword{internal}

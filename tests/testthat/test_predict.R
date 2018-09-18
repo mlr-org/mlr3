@@ -3,9 +3,11 @@ context("predict")
 test_that("Simple prediction", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.dummy")
-  subset = 1:100
+  subset = 1:120
   e = Experiment$new(task = task, learner = learner)
-  e$train(subset)$predict(subset = 101:150)$score()
+  e$train(subset)
+  e$predict(subset = 101:150)
+  e$score()
 
   expect_r6(e, "Experiment")
   expect_false(e$has_errors)

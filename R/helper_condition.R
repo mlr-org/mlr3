@@ -15,7 +15,7 @@ stopf = function (...) {
 
 info = function(msg, ...) {
   if (isTRUE(getOption("mlr3.verbose")))
-    cat(sprintf(msg, ...), "\n")
+    message(sprintf(msg, ...), "\n")
 }
 
 debug = function(msg, ...) {

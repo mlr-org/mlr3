@@ -13,7 +13,7 @@ e$predict(subset, newdata)
 e$score()
 
 e$model
-e$predictions
+e$prediction
 e$performance
 
 e$train_set
@@ -42,7 +42,7 @@ e$state
 The model can be accessed via \code{e$model}.
 
 \code{predict()} uses the previously fitted model to predict new observations.
-The predictions are stored internally and can be accessed via \code{e$predictions}.
+The predictions are stored internally as an \link{Prediction} object and can be accessed via \code{e$prediction}.
 
 \code{score()} quantifies stored predictions using the task's \link{Measure} and stores the resulting performance.
 The performance can be accessed via \code{e$performance}.
@@ -72,7 +72,7 @@ e$model
 e$predict(subset = 121:150)
 print(e)
 e$state
-e$predictions
+e$prediction
 
 e$score()
 print(e)
