@@ -23,7 +23,7 @@
 #' `type` is `"classif"`
 #'
 #' @name TaskClassif
-#' @family Tasks
+#' @family Task
 #' @examples
 #' b = BackendDataTable$new(iris)
 #' task = TaskClassif$new("iris", backend = b, target = "Species")
@@ -42,19 +42,33 @@ TaskClassif = R6Class("TaskClassif",
 
     initialize = function(id, backend, target, positive = NULL) {
       super$initialize(id = id, backend = backend, target = target)
-      assert_string(target) # check for length 1
 
-      # FIXME: pick a type here
-      assert_vector(self$truth()[[1L]], any.missing = FALSE, .var.name = "target column")
+      assert_string(target)
+      truth = factor(self$truth()[[1L]])
+      if (FALSE) {
+        b = BackendDataTable$new(iris)
+        TaskClassif$new("irs", b, target = "Species")
+      }
+      assert_factor(truth, min.levels = 2L, any.missing = FALSE, empty.levels.ok = FALSE, .var.name = "target column")
 
-      if (!is.null(positive))
-        self$positive = assert_choice(positive, self$class_names)
+      if (is.null(positive)) {
+        if (nlevels(truth) == 2L) {
+          self$positive = levels(truth)[1L]
+          info("Setting positive class to '%s'", self$positive)
+        }
+      } else {
+        if (nlevels(truth) != 2L)
+          stopf("Setting the positive class is only feasible for binary classification")
+        self$positive = positive
+      }
+
       self$measures = list(mlr_measures$get("mmce"))
     }
   ),
 
   active = list(
     class_names = function() as.character(unique(self$truth()[[1L]])),
-    class_n = function() uniqueN(self$truth()[[1L]])
+    class_n = function() uniqueN(self$truth()[[1L]]),
+    all_classes = function() as.character(unique(self$backend$data(self$row_info$id, self$target_names)[[1L]]))
   )
 )

@@ -22,10 +22,11 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
 
     predict = function(model, task, ...) {
       n = task$nrow
-      res = data.table(response = rep(model[1L], n))
-      if (self$predict_type == "se")
-        res$se = model[2L]
-      res
+      PredictionRegr$new(
+        task = task,
+        response = rep(model[1L], n),
+        se = rep(model[2L], n)
+      )
     }
   )
 )

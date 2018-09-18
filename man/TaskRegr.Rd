@@ -26,7 +26,8 @@ task$type
 task$formula
 }
 \seealso{
-Other Tasks: \code{\link{TaskClassif}},
-  \code{\link{TaskSupervised}}, \code{\link{Task}}
+Other Task: \code{\link{TaskClassif}},
+  \code{\link{TaskSupervised}}, \code{\link{Task}},
+  \code{\link{mlr_tasks}}
 }
-\concept{Tasks}
+\concept{Task}

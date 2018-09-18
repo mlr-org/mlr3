@@ -35,9 +35,10 @@ predict_worker = function(e, ctrl) {
   if (ctrl$verbose)
     message(sprintf("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id))
   res = ecall(learner$predict, pars)
+  assert_class(res$result, "Prediction")
 
   return(list(
-    predicted = res$result,
+    prediction = res$result,
     predict_time = res$elapsed,
     predict_log = res$log
   ))

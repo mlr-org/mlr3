@@ -13,8 +13,8 @@ MeasureMMCE = R6Class("MeasureMMCE",
     },
 
     calculate = function(experiment) {
-      p = experiment$predictions
-      measures::MMCE(p$truth, p$predicted)
+      p = experiment$prediction
+      measures::MMCE(p$truth, p$response)
     }
   )
 )

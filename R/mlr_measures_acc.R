@@ -13,8 +13,8 @@ MeasureACC = R6Class("MeasureACC",
     },
 
     calculate = function(experiment) {
-      p = experiment$predictions
-      measures::ACC(p$truth, p$predicted)
+      p = experiment$prediction
+      measures::ACC(p$truth, p$response)
     }
   )
 )

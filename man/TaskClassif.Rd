@@ -38,7 +38,8 @@ task$formula
 task$class_names
 }
 \seealso{
-Other Tasks: \code{\link{TaskRegr}},
-  \code{\link{TaskSupervised}}, \code{\link{Task}}
+Other Task: \code{\link{TaskRegr}},
+  \code{\link{TaskSupervised}}, \code{\link{Task}},
+  \code{\link{mlr_tasks}}
 }
-\concept{Tasks}
+\concept{Task}

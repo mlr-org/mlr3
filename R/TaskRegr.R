@@ -15,7 +15,7 @@
 #' `type` is `"classif"`
 #'
 #' @name TaskRegr
-#' @family Tasks
+#' @family Task
 #' @examples
 #' b = BackendDataTable$new(iris)
 #' task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")

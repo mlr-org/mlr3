@@ -13,8 +13,8 @@ MeasureMSE = R6Class("MeasureMSE",
     },
 
     calculate = function(experiment) {
-      p = experiment$predictions
-      measures::MSE(p$truth, p$predicted)
+      p = experiment$prediction
+      measures::MSE(p$truth, p$response)
     }
   )
 )

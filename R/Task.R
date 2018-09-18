@@ -102,7 +102,7 @@
 #'
 #' @name Task
 #' @export
-#' @family Tasks
+#' @family Task
 #' @keywords internal
 #' @examples
 #' b = BackendDataTable$new(iris)

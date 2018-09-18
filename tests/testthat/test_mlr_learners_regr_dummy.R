@@ -10,7 +10,10 @@ test_that("Simple training/predict", {
   expect_class(e$model, "dummy.model")
   expect_numeric(e$model, len = 2L, any.missing = FALSE)
   e$predict()
-  expect_numeric(e$predictions$predicted, any.missing = FALSE, len = length(e$test_set))
+  e$data$prediction
+  e$prediction
+
+  expect_numeric(e$prediction$response, any.missing = FALSE, len = length(e$test_set))
   e$score()
   expect_number(e$performance)
 })
@@ -22,5 +25,5 @@ test_that("Predict with se", {
   expect_learner(learner, task)
 
   e = Experiment$new(task, learner)$train()$predict()
-  e$predictions
+  e$prediction
 })

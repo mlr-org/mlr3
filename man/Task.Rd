@@ -126,8 +126,9 @@ task$col_info[id == "Petal.Length", role := "ignore"]
 task$formula
 }
 \seealso{
-Other Tasks: \code{\link{TaskClassif}},
-  \code{\link{TaskRegr}}, \code{\link{TaskSupervised}}
+Other Task: \code{\link{TaskClassif}},
+  \code{\link{TaskRegr}}, \code{\link{TaskSupervised}},
+  \code{\link{mlr_tasks}}
 }
-\concept{Tasks}
+\concept{Task}
 \keyword{internal}

@@ -6,7 +6,7 @@ test_that("Simple training/predict", {
   learner$predict_type = "prob"
   e = Experiment$new(task = task, learner = learner)
   e$train()$predict()
-  e$predictions
+  e$prediction
 
   expect_learner(learner, task)
 })

@@ -12,7 +12,7 @@
 #' e$score()
 #'
 #' e$model
-#' e$predictions
+#' e$prediction
 #' e$performance
 #'
 #' e$train_set
@@ -36,7 +36,7 @@
 #'  The model can be accessed via `e$model`.
 #'
 #' `predict()` uses the previously fitted model to predict new observations.
-#'  The predictions are stored internally and can be accessed via `e$predictions`.
+#'  The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction`.
 #'
 #' `score()` quantifies stored predictions using the task's [Measure] and stores the resulting performance.
 #'  The performance can be accessed via `e$performance`.
@@ -68,7 +68,7 @@
 #' e$predict(subset = 121:150)
 #' print(e)
 #' e$state
-#' e$predictions
+#' e$prediction
 #'
 #' e$score()
 #' print(e)
@@ -153,12 +153,12 @@ Experiment = R6Class("Experiment",
       self$data$task$row_info[role == "validation", "id"][[1L]]
     },
 
-    predictions = function() {
-      predicted = self$data$predicted
-      if (is.null(predicted))
+    prediction = function() {
+      prediction = self$data$prediction
+      if (is.null(prediction))
         stopf("No predictions available")
-      row_ids = self$data$resampling$test_set(self$data$iteration)
-      cbind(data.table(id = row_ids, truth = self$data$task$truth(row_ids)[[1L]], key = "id"), predicted)
+      row_ids = self$test_set
+      cbind(data.table(id = row_ids, truth = self$data$task$truth(row_ids)[[1L]], key = "id"), as.data.table(prediction))
     },
 
     performance = function() {
@@ -195,7 +195,7 @@ experiment_print = function(e) {
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
   catf(fmt(data$model, "Model", sprintf("[%s]", class(data$model)[[1L]])))
-  catf(fmt(data$predicted, "Predictions", sprintf("[%s]", class(data$predicted)[[1L]])))
+  catf(fmt(data$prediction, "Predictions", sprintf("[%s]", class(data$prediction)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
   catf(stri_list("\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
 }
@@ -241,7 +241,7 @@ experiment_state = function(self) {
   states = levels(reflections$experiment_slots$state)
   if (!is.null(d$performance))
     return(ordered("scored", levels = states))
-  if (!is.null(d$predicted))
+  if (!is.null(d$prediction))
     return(ordered("predicted", levels = states))
   if (!is.null(d$model))
     return(ordered("trained", levels = states))

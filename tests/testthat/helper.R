@@ -250,7 +250,8 @@ expect_experiment = function(e) {
   if (state >= "predicted") {
     expect_data_table(e$data$predict_log, ncol = 2, any.missing = FALSE)
     expect_number(e$data$predict_time)
-    expect_atomic_vector(e$data$predicted, len = length(e$test_set))
+    expect_class(e$data$prediction, "Prediction")
+    expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
   }
 
   if (state >= "scored") {
