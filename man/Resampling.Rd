@@ -38,22 +38,22 @@ Get the \code{i}-th training/test set.
 
 \code{$id} (\code{character(1)}) stores the identifier of the object.
 
-\code{iters} (\code{integer(1)}) calculates the resulting number of iterations, given the current \code{par_vals}.
+\code{$iters} (\code{integer(1)}) calculates the resulting number of iterations, given the current \code{par_vals}.
 
-\code{par_set} (\code{[paradox::ParamSet()]}) describes available parameters.
+\code{$par_set} (\code{[paradox::ParamSet()]}) describes available parameters.
 
-\code{par_vals} (\code{named list}) stores the currently set parameter values.
+\code{$par_vals} (\code{named list}) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.
 
-\code{instantiate} materializes fixed training and test splits for a given task.
+\code{$instantiate} materializes fixed training and test splits for a given task.
 
-\code{is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
+\code{$is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
 
-\code{train_set()} returns the training set for the \code{i}-th iteration.
+\code{$train_set()} returns the training set for the \code{i}-th iteration.
 
-\code{test_set()} returns the test set for the \code{i}-th iteration.
+\code{$test_set()} returns the test set for the \code{i}-th iteration.
 
-\code{checksum} returns a unique string hash for the instantiation.
+\code{$checksum} returns a unique string hash for the instantiation.
 }
 
 \seealso{

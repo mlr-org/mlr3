@@ -16,7 +16,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       # -> replace ids with unique values of blocking variable
       # -> join ids using blocks
       holdout = function(ids, ratio) {
-        ii = sample(ids, round(ratio * length(ids)))
+        ii = shuffle(ids, round(ratio * length(ids)))
         list(train = ii, test = setdiff(ids, ii))
       }
 

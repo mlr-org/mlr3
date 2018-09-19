@@ -29,9 +29,9 @@ as.data.table(p)
 
 \code{$new()} initializes a new object of class \link{Prediction}.
 
-\code{response} stores the predicted values.
+\code{$response} stores the predicted values.
 
-\code{se} stores the predicted standard errors (if available), or is \code{NULL}.
+\code{$se} stores the predicted standard errors (if available), or is \code{NULL}.
 
 Object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}} with \code{data.table::as.data.table()}.
 }

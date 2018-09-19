@@ -30,9 +30,9 @@ observations in the test set. Columns must be named with class levels.
 
 \code{$new()} initializes a new object of class \link{Prediction}.
 
-\code{response} stores the predicted class labels.
+\code{$response} stores the predicted class labels.
 
-\code{prob} stores the label probabilities (if available), or is \code{NULL}.
+\code{$prob} stores the label probabilities (if available), or is \code{NULL}.
 
 Object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}} with \code{data.table::as.data.table()}.
 }

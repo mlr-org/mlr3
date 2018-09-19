@@ -8,11 +8,8 @@ require_namespaces = function(pkgs, msg = "The following packages are missing: %
     stopf(msg, paste0(pkgs[!ok], collapse = ","))
 }
 
-shuffle = function(x) {
-  # a "safe" sample() for n == length(x)
-  if (length(x) <= 1L)
-    return(x)
-  sample(x)
+shuffle = function(x, n = length(x), ...) {
+  x[sample.int(length(x), n, ...)]
 }
 
 named_list = function(nn) {
@@ -21,8 +18,4 @@ named_list = function(nn) {
 
 distinct = function(x) {
   if (is.factor(x)) levels(x) else unique(x)
-}
-
-symdiff = function(x, y) {
-  unique(c(setdiff(x, y), setdiff(y, x)))
 }

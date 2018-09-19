@@ -36,24 +36,24 @@ e$state
 
 \section{Details}{
 
-\code{new()} initializes a new machine learning experiment which can grow in a stepwise fashion.
+\code{$new()} initializes a new machine learning experiment which can grow in a stepwise fashion.
 
-\code{train()} fits the induces \code{learner} on the (subset of the) \code{task} and internally stores the model.
+\code{$train()} fits the induces \code{learner} on the (subset of the) \code{task} and internally stores the model.
 The model can be accessed via \code{e$model}.
 
-\code{predict()} uses the previously fitted model to predict new observations.
+\code{$predict()} uses the previously fitted model to predict new observations.
 The predictions are stored internally as an \link{Prediction} object and can be accessed via \code{e$prediction}.
 
-\code{score()} quantifies stored predictions using the task's \link{Measure} and stores the resulting performance.
+\code{$score()} quantifies stored predictions using the task's \link{Measure} and stores the resulting performance.
 The performance can be accessed via \code{e$performance}.
 
-\code{train_set} and \code{test_set} return the row ids of the training set or test set, respectively.
+\code{$train_set} and \code{test_set} return the row ids of the training set or test set, respectively.
 If there is a validation set (see \link{Task}), \code{validation_set} returns the corresponding row ids.
 
-\code{timings} holds the elapsed time for the steps \code{train}, \code{predict} and \code{score} in seconds with up to millisecond accuracy (see \code{\link[base:proc.time]{base::proc.time()}}).
+\code{$timings} holds the elapsed time for the steps \code{train}, \code{predict} and \code{score} in seconds with up to millisecond accuracy (see \code{\link[base:proc.time]{base::proc.time()}}).
 Timings are \code{NA} if the step has not been performed yet.
 
-\code{state} returns an factor of length 1 with ordered levels \code{"defined"}, \code{"trained"}, \code{"predicted"} and \code{"scored"}.
+\code{$state} returns an factor of length 1 with ordered levels \code{"defined"}, \code{"trained"}, \code{"predicted"} and \code{"scored"}.
 }
 
 \examples{

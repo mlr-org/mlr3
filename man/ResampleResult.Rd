@@ -28,16 +28,16 @@ Iteration(s) of the experiment(s) to retrieve.
 
 \section{Details}{
 
-\code{task}, \code{learner}, \code{resampling} and \code{measure} allow access to the \link{Task}, \link{Learner}, \link{Resampling} and \link{Measure} used in
+\code{$task}, \code{learner}, \code{resampling} and \code{measure} allow access to the \link{Task}, \link{Learner}, \link{Resampling} and \link{Measure} used in
 the resampling.
 
-\code{experiment()} returns an \link{Experiment} for the \code{iter}-th resampling iteration.
+\code{$experiment()} returns an \link{Experiment} for the \code{iter}-th resampling iteration.
 
-\code{experiments()} returns a list with the slice of \link{Experiment}s for the provided \code{iters}.
+\code{$experiments()} returns a list with the slice of \link{Experiment}s for the provided \code{iters}.
 
-\code{performance} provides a \link[data.table:data.table]{data.table::data.table} with column \code{iteration} (integer) and a numeric column for each
+\code{$performance} provides a \link[data.table:data.table]{data.table::data.table} with column \code{iteration} (integer) and a numeric column for each
 performance measure (columns named using the measure ids).
 
-\code{aggregated} returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
+\code{$aggregated} returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
 }
 
