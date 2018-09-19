@@ -12,8 +12,10 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_learners$ids()
-mlr_learners$get("classif.dummy")
+mlr_learners$ids
+as.data.table(mlr_learners)
+l = mlr_learners$get("classif.dummy")
+print(l)
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},

@@ -12,8 +12,10 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_measures$ids()
-mlr_measures$get("mmce")
+mlr_measures$ids
+as.data.table(mlr_measures)
+m = mlr_measures$get("mmce")
+print(m)
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},

@@ -13,7 +13,7 @@ d$add(value)
 d$get(id)
 d$mget(ids)
 d$remove(ids)
-d$ids()
+d$ids
 }
 }
 
@@ -39,7 +39,7 @@ Keys of the objects to work on.
 
 \code{$remove()} removes item with id \code{id} from the Dictionary.
 
-\code{$ids()} returns a vector of type \code{character} with all ids.
+\code{$ids} returns a vector of type \code{character} with all ids.
 }
 
 \seealso{

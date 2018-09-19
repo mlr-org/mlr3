@@ -7,10 +7,26 @@
 #' @family Dictionary
 #' @family Resampling
 #' @examples
-#' mlr_resamplings$ids()
-#' mlr_resamplings$get("cv")
+#' mlr_resamplings$ids
+#' as.data.table(mlr_resamplings)
+#' r = mlr_resamplings$get("cv")
+#' print(r)
 NULL
 
 #' @include Dictionary.R
+DictionaryResampling = R6Class("DictionaryResampling",
+  inherit = Dictionary,
+  cloneable = FALSE,
+  public = list(initialize = function() super$initialize("Resampling"))
+)
+
 #' @export
-mlr_resamplings = Dictionary$new("Resampling")
+mlr_resamplings = NULL
+
+#' @export
+as.data.table.DictionaryResampling = function(x, ...) {
+  setkeyv(rbindlist(lapply(x$ids, function(id) {
+    r = x$get(id)
+    data.table(id = id, hyperpars = list(r$par_set$ids), default_iters = r$iters)
+  })), "id")[]
+}

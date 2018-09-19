@@ -12,8 +12,10 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_resamplings$ids()
-mlr_resamplings$get("cv")
+mlr_resamplings$ids
+as.data.table(mlr_resamplings)
+r = mlr_resamplings$get("cv")
+print(r)
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},

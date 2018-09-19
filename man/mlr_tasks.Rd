@@ -12,7 +12,8 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_tasks$ids()
+mlr_tasks$ids
+as.data.table(mlr_tasks)
 mlr_tasks$get("iris")
 head(mlr_tasks$get("iris")$data())
 
@@ -22,7 +23,7 @@ data$Species = ifelse(data$Species == "setosa", "1", "0")
 b = BackendDataTable$new(data)
 task = TaskClassif$new("iris.binary", b, target = "Species")
 mlr_tasks$add(task)
-mlr_tasks$ids()
+mlr_tasks$ids
 mlr_tasks$get("iris.binary")
 mlr_tasks$remove("iris.binary")
 }

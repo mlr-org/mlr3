@@ -7,12 +7,22 @@
 NULL
 
 populate_dicts = function() {
+  # FIXME: automate this by creating a simple register
+
+  if (is.null(mlr_tasks))
+     mlr_tasks <<- DictionaryTask$new()
+  for (lv in lazy_tasks) mlr_tasks$add(lv)
+
+  if (is.null(mlr_learners))
+    mlr_learners <<- DictionaryLearner$new()
   mlr_learners$add(LearnerClassifCrashtest$new())
   mlr_learners$add(LearnerClassifDummy$new())
   mlr_learners$add(LearnerRegrDummy$new())
   mlr_learners$add(LearnerClassifRpart$new())
   mlr_learners$add(LearnerRegrRpart$new())
 
+  if (is.null(mlr_resamplings))
+    mlr_resamplings <<- DictionaryResampling$new()
   mlr_resamplings$add(ResamplingBootstrap$new())
   mlr_resamplings$add(ResamplingCV$new())
   mlr_resamplings$add(ResamplingSubsampling$new())
@@ -20,6 +30,8 @@ populate_dicts = function() {
   mlr_resamplings$add(ResamplingRepeatedCV$new())
   mlr_resamplings$add(ResamplingCustom$new())
 
+  if (is.null(mlr_measures))
+    mlr_measures <<- DictionaryMeasure$new()
   mlr_measures$add(MeasureMMCE$new())
   mlr_measures$add(MeasureACC$new())
   mlr_measures$add(MeasureMSE$new())
