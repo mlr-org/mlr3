@@ -9,6 +9,7 @@ All objects of type Backend provide the following interface:
 \section{Usage}{
 \preformatted{b$data(rows, cols)
 b$head(n = 6)
+b$distinct(col)
 b$rownames
 b$colnames
 b$nrow
@@ -25,7 +26,7 @@ See \link{BackendDataTable} for an exemplary implementation of this interface.
 \item \code{rows} (\code{integer()} or \code{character()}):
 Vector of row indices to subset rows using the primary key in the data backend.
 \item \code{cols} (\code{character()}):
-Vector of column names to select specific columns.
+Vector of column names to select.
 \item \code{n} (\code{integer(1)}): Number of rows to return.
 }
 }
@@ -36,6 +37,8 @@ Vector of column names to select specific columns.
 rows are matched by the \code{primary_key} column, columns are selected by name.
 
 \code{$head()} (\code{data.table}) returns a \link[data.table:data.table]{data.table} of the first \code{n} data rows.
+
+\code{$distinct()} (\code{vector}) returns a named list of distinct values for selected \code{cols}.
 
 \code{$rownames} (\code{character(1)}) returns all rownames of \code{data} as integer or character vector.
 

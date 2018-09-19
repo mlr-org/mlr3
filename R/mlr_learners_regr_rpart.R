@@ -23,9 +23,10 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       rpart::rpart(task$formula, task$data(), ...)
     },
 
-    predict = function(task, ...) {
+    predict = function(model, task, ...) {
       newdata = task$data(cols = task$feature_names)
-      predict(self$model, newdata = newdata, ...)
+      response = predict(model, newdata = newdata, ...)
+      PredictionRegr$new(task, response = response)
     }
   )
 )

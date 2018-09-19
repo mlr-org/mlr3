@@ -3,16 +3,21 @@ library(testthat)
 
 future::plan("multiprocess")
 
+options(
+  warnPartialMatchAttr = TRUE,
+  warnPartialMatchDollar = TRUE
+)
+
 `[[.R6` = function(x, i, ...) {
-  if (!backports:::hasName(x, i))
-    stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", i, "'!")
-  get(i, envir = x)
+  if (i %in% names(x))
+    return(get(i, envir = x))
+  stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", i, "'!")
 }
 
 `$.R6` = function(x, name) {
-  if (!backports:::hasName(x, name))
-    stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", name, "'!")
-  get(name, envir = x)
+  if (name %in% names(x))
+    return(get(name, envir = x))
+  stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", name, "'!")
 }
 
 private = function(x) {
@@ -21,12 +26,30 @@ private = function(x) {
   x$.__enclos_env__[["private"]]
 }
 
+with_plan = function(plan, expr) {
+  oplan = future::plan()
+  on.exit(future::plan(oplan), add = TRUE)
+  future::plan(plan)
+  force(expr)
+}
+
 expect_same_address = function(x, y) {
   testthat::expect_identical(data.table::address(x), data.table::address(y))
 }
 
 expect_different_address = function(x, y) {
   testthat::expect_false(identical(data.table::address(x), data.table::address(y)))
+}
+
+expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
+  expect_r6(d, "Dictionary")
+  expect_environment(d$items)
+  expect_string(d$contains)
+  expect_character(d$ids(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
+  if (!is.na(contains)) {
+    objs = d$mget(d$ids())
+    expect_list(objs, types = contains, names = "unique")
+  }
 }
 
 expect_backend = function(b) {
@@ -41,14 +64,39 @@ expect_backend = function(b) {
   x = x[[cn[1L]]]
   expect_atomic_vector(x, len = n)
 
+  # extra cols are ignored
+  x = b$data(rows = rn[1L], cols = c(cn[1L], "_not_existing_"))
+  expect_data_table(x, nrow = 1L, ncol = 1L)
+
+  # zero cols matching
+  x = b$data(rows = rn[1L], cols = "_not_existing_")
+  expect_data_table(x, nrow = 0L, ncol = 0L)
+
+  # extra rows are ignored
+  query_rows = c(rn[1L], if (is.integer(rn)) -1L else "_not_existing_")
+  x = b$data(query_rows, cols = cn[1L])
+  expect_data_table(x, nrow = 1L, ncol = 1L)
+
+  # zero rows matching
+  query_rows = if (is.integer(rn)) -1L else "_not_existing_"
+  x = b$data(rows = query_rows, cols = cn[1L])
+  expect_data_table(x, nrow = 0L, ncol = 1L)
+
   # rows are duplicated
   x = b$data(rows = rep(rn[1L], 2L), cols = b$colnames)
   expect_data_table(x, nrow = 2L, ncol = p)
+
+  # rows are returned in the right order
+  i = sample(rn, min(n, 10L))
+  x = b$data(rows = i, cols = b$primary_key)
+  expect_equal(i, x[[1L]])
 
   # duplicated cols raise exception
   expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L)), "uniquely")
 
   expect_data_table(b$head(3), nrow = 3, ncol = p)
+
+  expect_atomic_vector(distinct(b$data(rows = rn, cols = b$primary_key)[[1L]]), len = n)
 }
 
 expect_task = function(task) {
@@ -63,19 +111,19 @@ expect_task = function(task) {
   expect_data_table(task$col_info, key = "id", ncol = length(cols))
   expect_names(names(task$col_info), permutation.of = cols)
   expect_character(task$col_info$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$col_info$role, capabilities$task_col_roles, fmatch = TRUE)
-  expect_subset(task$col_info$type, capabilities$task_col_types, fmatch = TRUE)
+  expect_subset(task$col_info$role, capabilities$task_col_roles)
+  expect_subset(task$col_info$type, capabilities$task_col_types)
 
   cols = c("id", "role")
   expect_data_table(task$row_info, key = "id", ncol = length(cols))
   expect_names(names(task$row_info), permutation.of = cols)
   expect_atomic_vector(task$row_info$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$row_info$role, capabilities$task_row_roles, fmatch = TRUE)
+  expect_subset(task$row_info$role, capabilities$task_row_roles)
 
   types = task$col_types
   expect_data_table(types, ncol = 2, nrow = task$ncol)
   expect_set_equal(types$id, c(task$target_names, task$feature_names))
-  expect_subset(types$type, capabilities$task_col_types, fmatch = TRUE)
+  expect_subset(types$type, capabilities$task_col_types)
 
   expect_character(task$order, any.missing = FALSE)
   expect_names(task$order, subset.of = c(task$feature_names, task$target_names))
@@ -123,16 +171,17 @@ expect_learner = function(lrn, task = NULL) {
   expect_r6(lrn, "Learner", cloneable = TRUE)
   expect_output(print(lrn))
 
-  expect_choice(lrn$task_type, capabilities$task_types, fmatch = TRUE)
-  expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L)
+  expect_choice(lrn$task_type, capabilities$task_types)
+  expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   expect_class(lrn$par_set, "ParamSet")
-  expect_subset(lrn$properties, capabilities$learner_props[[class(task)[1L]]])
-  expect_function(lrn$train, args = c("task", "..."), ordered = TRUE)
-  expect_function(lrn$predict, args = c("task", "..."), ordered = TRUE)
+  expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+  expect_function(lrn$train, args = "task", ordered = TRUE)
+  expect_function(lrn$predict, args = c("model", "task"), ordered = TRUE)
 
   if (!is.null(task)) {
-    assert_r6(task, "Task")
-    expect_identical(lrn$task_type, class(task)[1L])
+    assert_class(task, "Task")
+    expect_subset(lrn$properties, capabilities$learner_props[[task$type]])
+    expect_identical(lrn$task_type, task$type)
   }
 }
 
@@ -140,7 +189,7 @@ expect_resampling = function(r, task = NULL) {
   expect_r6(r, "Resampling")
   expect_string(r$id, min.chars = 1L)
 
-  instance = private(r)$instance
+  instance = private(r)$.instance
   if (is.null(instance)) {
     expect_false(r$is_instantiated)
     expect_error(r$train_set(1L), "instantiated")
@@ -160,8 +209,8 @@ expect_resampling = function(r, task = NULL) {
       expect_atomic_vector(test, any.missing = FALSE)
       expect_length(intersect(train, test), 0L)
       if (!is.null(task)) {
-        expect_subset(train, ids, fmatch = TRUE)
-        expect_subset(train, ids, fmatch = TRUE)
+        expect_subset(train, ids)
+        expect_subset(train, ids)
       }
     }
   }
@@ -178,13 +227,14 @@ expect_measure = function(m) {
   expect_flag(m$minimize)
   expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
   expect_function(m$calculate, args = "experiment")
+  expect_function(m$aggregate, args = "rr")
 }
 
 expect_experiment = function(e) {
   expect_r6(e, "Experiment")
   state = e$state
   expect_factor(state, ordered = TRUE)
-  expect_subset(as.character(state), capabilities$experiment_states, fmatch = TRUE)
+  expect_subset(as.character(state), levels(reflections$experiment_slots$state))
   expect_list(e$data, len = nrow(reflections$experiment_slots))
   expect_names(names(e$data), permutation.of = reflections$experiment_slots$name)
 
@@ -195,17 +245,46 @@ expect_experiment = function(e) {
     expect_int(e$data$iteration, lower = 1L)
     expect_data_table(e$data$train_log, ncol = 2, any.missing = FALSE)
     expect_number(e$data$train_time)
-    expect_false(is.null(e$data$learner$model))
+    expect_false(is.null(e$data$model))
   }
 
   if (state >= "predicted") {
-    expect_data_table(e$data$test_log, ncol = 2, any.missing = FALSE)
-    expect_number(e$data$test_time)
-    expect_atomic_vector(e$data$predicted, len = length(e$test_set))
+    expect_data_table(e$data$predict_log, ncol = 2, any.missing = FALSE)
+    expect_number(e$data$predict_time)
+    expect_class(e$data$prediction, "Prediction")
+    expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
   }
 
   if (state >= "scored") {
     expect_list(e$data$performance, names = "unique")
     qassertr(e$data$performance, "N1")
+  }
+}
+
+expect_resample_result = function(rr) {
+  expect_r6(rr, "ResampleResult")
+  expect_task(rr$task)
+  expect_learner(rr$learner, task = rr$task)
+  expect_resampling(rr$resampling, task = rr$task)
+
+  perf = rr$performance
+  expect_data_table(perf, nrow = rr$resampling$iters, min.cols = 2L)
+  expect_names(names(perf), permutation.of = c("iteration", ids(rr$task$measures)))
+  expect_identical(perf$iteration, seq_len(rr$resampling$iters))
+  for (m in names(rr$task$measures))
+    expect_numeric(perf[[m]], any.missing = FALSE)
+
+  data = rr$data
+  expect_data_table(rr$data, nrow = rr$resampling$iters, ncol = nrow(reflections$experiment_slots), any.missing = FALSE)
+  expect_names(names(rr$data), permutation.of = reflections$experiment_slots$name)
+
+  e = rr$experiment(1L)
+  expect_experiment(e)
+  expect_true(e$state == "scored")
+
+  measures = rr$measures
+  aggr = rr$aggregated
+  for (m in measures) {
+    expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
   }
 }

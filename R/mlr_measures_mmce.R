@@ -5,15 +5,16 @@ MeasureMMCE = R6Class("MeasureMMCE",
     initialize = function(id = "mmce") {
       super$initialize(
         id = id,
-        task_types = "TaskClassif",
+        task_types = "classif",
         range = 0:1,
-        minimize = TRUE
+        minimize = TRUE,
+        packages = "measures"
       )
     },
 
     calculate = function(experiment) {
-      p = experiment$predictions
-      mean(p$truth != p$predicted)
+      p = experiment$prediction
+      measures::MMCE(p$truth, p$response)
     }
   )
 )

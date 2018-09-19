@@ -6,26 +6,27 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
         id = "regr.dummy",
         par_set = ParamSet$new(
           params = list(
-            ParamCategorical$new("method", values = c("mean", "median"), default = "mean")
+            ParamFlag$new("robust", default = TRUE)
           )
         ),
         properties = c("missings", "feat.factor", "feat.numeric"),
       )
     },
 
-    train = function(task, method = "mean", ...) {
+    train = function(task, robust = TRUE, ...) {
       tn = unlist(task$data(cols = task$target_names))
-      mod = switch(method,
-        "mean" = mean(tn),
-        "median" = median(tn),
-        stopf("Illegal value for 'method'"))
-      class(mod) = c("dummy.model", class(mod))
+      mod = if (isTRUE(robust)) c(mean(tn), sd(tn)) else c(median(tn), madn(tn))
+      class(mod) = "dummy.model"
       mod
     },
 
-    predict = function(task, ...) {
+    predict = function(model, task, ...) {
       n = task$nrow
-      rep(as.numeric(self$model), n)
+      PredictionRegr$new(
+        task = task,
+        response = rep(model[1L], n),
+        se = rep(model[2L], n)
+      )
     }
   )
 )

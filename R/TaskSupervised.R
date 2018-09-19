@@ -19,7 +19,7 @@
 #' `$truth()` returns (a subset of) the columns which are labeled as target as `data.table`.
 #'
 #' @name TaskSupervised
-#' @family Tasks
+#' @family Task
 #' @keywords internal
 NULL
 

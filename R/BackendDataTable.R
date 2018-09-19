@@ -60,7 +60,8 @@ BackendDataTable = R6Class("Backend",
 
     data = function(rows, cols) {
       assert_atomic_vector(rows)
-      assert_names(cols, type = "unique", subset.of = names(private$.data))
+      assert_names(cols, type = "unique")
+      cols = intersect(cols, colnames(private$.data))
 
       data = private$.data[list(rows), cols, with = FALSE, nomatch = 0L, on = self$primary_key]
       return(data)
@@ -68,6 +69,11 @@ BackendDataTable = R6Class("Backend",
 
     head = function(n = 6L) {
       head(private$.data, n)
+    },
+
+    distinct = function(cols) {
+      cols = intersect(cols, colnames(private$.data))
+      lapply(private$.data[, cols, with = FALSE], distinct)
     }
   ),
 

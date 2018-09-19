@@ -23,11 +23,11 @@ Imports:
     backports,
     bit,
     checkmate (>= 1.8.9),
-    clisymbols,
-    crayon,
     data.table,
+    digest,
     future (>= 1.9.0),
     future.apply,
+    measures,
     paradox,
     R6
 Suggests:
@@ -39,12 +39,11 @@ Suggests:
     mlbench,
     rmarkdown,
     rpart,
-    testthat
+    testthat,
+    withr
 VignetteBuilder:
     knitr
 Remotes:
-    mllg/checkmate,
-    mlr-org/paradox
 ByteCompile: false
 Encoding: UTF-8
 LazyData: true
@@ -53,7 +52,10 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
 Collate:
     'Backend.R'
+    'BackendCbind.R'
     'BackendDataTable.R'
+    'BackendRbind.R'
+    'BenchmarkResult.R'
     'Dictionary.R'
     'Experiment.R'
     'helper_R6.R'
@@ -61,6 +63,10 @@ Collate:
     'LearnerClassif.R'
     'LearnerRegr.R'
     'Measure.R'
+    'Prediction.R'
+    'PredictionClassif.R'
+    'PredictionRegr.R'
+    'ResampleResult.R'
     'Resampling.R'
     'capabilities.R'
     'Task.R'
@@ -68,13 +74,14 @@ Collate:
     'TaskClassif.R'
     'TaskRegr.R'
     'benchmark.R'
-    'helper.R'
     'helper_asserts.R'
     'helper_condition.R'
     'helper_insert.R'
+    'helper_misc.R'
     'helper_seq.R'
     'helper_string.R'
     'helper_vapply.R'
+    'ids.R'
     'mlr_learners.R'
     'mlr_learners_classif_dummy.R'
     'mlr_learners_classif_rpart.R'
@@ -82,6 +89,7 @@ Collate:
     'mlr_learners_regr_dummy.R'
     'mlr_learners_regr_rpart.R'
     'mlr_measures.R'
+    'mlr_measures_acc.R'
     'mlr_measures_mmce.R'
     'mlr_measures_mse.R'
     'mlr_resamplings.R'
@@ -92,6 +100,7 @@ Collate:
     'mlr_resamplings_holdout.R'
     'mlr_resamplings_repeated_cv.R'
     'mlr_tasks.R'
+    'options.R'
     'reflections.R'
     'resample.R'
     'split.R'

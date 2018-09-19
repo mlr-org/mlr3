@@ -5,15 +5,16 @@ MeasureMSE = R6Class("MeasureMSE",
     initialize = function(id = "mse") {
       super$initialize(
         id = id,
-        task_types = "TaskRegr",
+        task_types = "regr",
         range = c(0, Inf),
-        minimize = TRUE
+        minimize = TRUE,
+        packages = "measures"
       )
     },
 
     calculate = function(experiment) {
-      p = experiment$predictions
-      mean( (p$truth - p$predicted)^2 )
+      p = experiment$prediction
+      measures::MSE(p$truth, p$response)
     }
   )
 )

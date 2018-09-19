@@ -7,15 +7,20 @@
 #' @section Usage:
 #' ```
 #' t = TaskRegr$new(id, backend, target)
+#'
+#' t$type
 #' ```
 #'
+#' @section Details:
+#' `type` is `"classif"`
+#'
 #' @name TaskRegr
-#' @family Tasks
+#' @family Task
 #' @examples
 #' b = BackendDataTable$new(iris)
-#' task = TaskClassif$new("iris", backend = b, target = "Species")
+#' task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
+#' task$type
 #' task$formula
-#' task$class_names
 NULL
 
 #' @include TaskSupervised.R
@@ -23,11 +28,12 @@ NULL
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
+    type = "regr",
     initialize = function(id, backend, target) {
       super$initialize(id = id, backend = backend, target = target)
       assert_string(target) # check for length 1
       assert_numeric(self$truth()[[1L]], finite = TRUE, any.missing = FALSE, .var.name = "target column")
-      self$measures = mlr_measures$mget("mse")
+      self$measures = list(mlr_measures$get("mse"))
     }
   )
 )

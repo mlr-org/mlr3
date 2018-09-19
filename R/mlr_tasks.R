@@ -34,23 +34,23 @@ mlr_tasks$add(LazyValue("iris", function() {
 
 mlr_tasks$add(LazyValue("sonar", function() {
   b = BackendDataTable$new(data = load_dataset("Sonar", "mlbench"))
-  TaskClassif$new("Sonar", b, target = "Class")
+  TaskClassif$new("sonar", b, target = "Class")
 }))
 
 
 mlr_tasks$add(LazyValue("bh", function() {
   b = BackendDataTable$new(data = load_dataset("BostonHousing2", "mlbench"))
-  TaskRegr$new("BostonHousing2", b, target = "medv")
+  TaskRegr$new("boston_housing", b, target = "medv")
 }))
 
 mlr_tasks$add(LazyValue("pima", function() {
   b = BackendDataTable$new(data = load_dataset("PimaIndiansDiabetes2", "mlbench"))
-  TaskClassif$new("PimaIndiansDiabetes2", b, target = "diabetes", positive = "pos")
+  TaskClassif$new("pima_indians", b, target = "diabetes", positive = "pos")
 }))
 
 mlr_tasks$add(LazyValue("zoo", function() {
   b = BackendDataTable$new(data = load_dataset("Zoo", "mlbench", keep.rownames = TRUE))
-  TaskClassif$new("Zoo", b, target = "type")
+  TaskClassif$new("zoo", b, target = "type")
 }))
 
 mlr_tasks$add(LazyValue("spam", function() {

@@ -30,6 +30,10 @@ mlr_tasks$remove("iris.binary")
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_learners}}, \code{\link{mlr_measures}},
   \code{\link{mlr_resamplings}}
+
+Other Task: \code{\link{TaskClassif}},
+  \code{\link{TaskRegr}}, \code{\link{TaskSupervised}},
+  \code{\link{Task}}
 }
 \concept{Dictionary}
 \concept{Task}

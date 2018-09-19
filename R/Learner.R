@@ -16,7 +16,6 @@
 #' l$predict_type
 #' l$train(task)
 #' l$predict(task, model)
-#' l$model
 #' ```
 #'
 #' @section Arguments:
@@ -47,8 +46,6 @@
 #'
 #' `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
 #'
-#' `$model` stores the fitted model. If the learner has not been trained, this is `NULL`.
-#'
 #' @name Learner
 #' @keywords internal
 #' @family Learner
@@ -60,20 +57,20 @@ Learner = R6Class("Learner",
   public = list(
     id = NULL,
     packages = NULL,
-    par_set = NULL,
     properties = NULL,
+    par_set = NULL,
     model = NULL,
 
     initialize = function(id, packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
       self$id = assert_id(id)
       self$packages = assert_packages(packages)
-      self$par_set = assert_r6(par_set, "ParamSet")
-      self$properties = assert_character(properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+      self$properties = assert_properties(properties)
+      self$par_set = assert_par_set(par_set)
       private$.par_vals = assert_par_vals(par_vals, par_set)
     },
 
     train = method_not_implemented,
-    test = method_not_implemented,
+    predict = method_not_implemented,
     print = function(...) {
      catf("Learner '%s' for %s", self$id, self$task_type)
      catf(stri_list("Properties: ", self$properties))
@@ -90,7 +87,7 @@ Learner = R6Class("Learner",
     predict_type = function(rhs) {
       if (missing(rhs))
         return(private$.predict_type)
-      assert_choice(rhs, capabilities$predict_types[[self$task_type]], fmatch = TRUE)
+      assert_choice(rhs, capabilities$predict_types[[self$task_type]])
       private$.predict_type = rhs
     }
   ),
@@ -99,14 +96,3 @@ Learner = R6Class("Learner",
     .predict_type = NULL
   )
 )
-
-assert_learner = function(learner, task = NULL) {
-  assert_r6(learner, "Learner")
-  if (!is.null(task)) {
-    if (!identical(class(task)[1L], learner$task_type)) {
-      stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",
-        learner$id, learner$task_type, task$id, class(task)[1L])
-    }
-  }
-  invisible(learner)
-}

@@ -8,13 +8,22 @@ require_namespaces = function(pkgs, msg = "The following packages are missing: %
     stopf(msg, paste0(pkgs[!ok], collapse = ","))
 }
 
-ids = function(x) {
-  vcapply(x, "[[", "id")
-}
-
 shuffle = function(x) {
   # a "safe" sample() for n == length(x)
   if (length(x) <= 1L)
     return(x)
   sample(x)
+}
+
+col_types = function(x) {
+  types = vcapply(x, class)
+  data.table(id = names(types), type = unname(types), key = "id")
+}
+
+named_list = function(nn) {
+  setNames(vector("list", length(nn)), nn)
+}
+
+distinct = function(x) {
+  if (is.factor(x)) levels(x) else unique(x)
 }

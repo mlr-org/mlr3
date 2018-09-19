@@ -1,7 +1,7 @@
 capabilities = new.env(parent = emptyenv())
 
 capabilities$task_types = c(
-  "TaskSupervised", "TaskRegr", "TaskClassif"
+  "regr", "classif"
 )
 
 capabilities$task_col_types = c(
@@ -17,16 +17,12 @@ capabilities$task_col_roles = c(
 )
 
 capabilities$learner_props = list(
-  Task = c(sprintf("feat.%s", capabilities$task_col_types), "missings", "weights", "parallel")
+  task = c(sprintf("feat.%s", capabilities$task_col_types), "missings", "weights", "parallel")
 )
-capabilities$learner_props$TaskClassif = c(capabilities$learner_props$Task, "twoclass", "multiclass", "prob")
-capabilities$learner_props$TaskRegr = c(capabilities$learner_props$Task, "se")
+capabilities$learner_props$classif = c(capabilities$learner_props$task, "twoclass", "multiclass", "prob")
+capabilities$learner_props$regr = c(capabilities$learner_props$task, "se")
 
 capabilities$predict_types = list(
   classif = c("response", "prob"),
   regr    = c("response", "se")
-)
-
-capabilities$experiment_states = c(
-  c("defined", "trained", "predicted", "scored")
 )

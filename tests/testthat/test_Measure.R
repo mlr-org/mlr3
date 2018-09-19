@@ -19,7 +19,7 @@ test_that("Classification measures", {
 
   for (key in ids) {
     m = mlr_measures$get(key)
-    if ("TaskClassif" %in% m$task_types) {
+    if ("classif" %in% m$task_types) {
       perf = m$calculate(e)
       expect_number(perf, lower = m$range[1], upper = m$range[2])
     }
@@ -36,7 +36,7 @@ test_that("Regression measures", {
 
   for (key in ids) {
     m = mlr_measures$get(key)
-    if ("TaskRegr" %in% m$task_types) {
+    if ("regr" %in% m$task_types) {
       perf = m$calculate(e)
       expect_number(perf, lower = m$range[1], upper = m$range[2])
     }

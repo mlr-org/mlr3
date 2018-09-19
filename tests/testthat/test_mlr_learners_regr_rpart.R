@@ -1,4 +1,4 @@
-context("mlr_learners.regr.rpart")
+context("mlr_learners_regr_rpart")
 
 test_that("Simple training/predict", {
   task = mlr_tasks$get("bh")
@@ -13,6 +13,6 @@ if (FALSE) {
   e$has_errors
   e$predict(100:110)
   e
-  e$data$learner$model
-  e$predictions
+  e$data$model
+  e$prediction
 }
