@@ -133,13 +133,7 @@ Task = R6Class("Task",
       self$id = assert_id(id)
       self$backend = assert_backend(backend)
       self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
-      self$col_info = col_types(backend$head(1L))[, c("role", "levels") := list("feature", list())]
-      self$col_info[.(backend$primary_key), role := "primary_key"]
-      discrete = self$col_info[type %in% c("character", "factor"), id]
-      if (length(discrete)) {
-        discrete = backend$distinct(discrete)
-        self$col_info[.(names(discrete)), levels := list(discrete)]
-      }
+      self$col_info = col_info(backend, self$backend$primary_key)
     },
 
     print = function(...) {
@@ -158,7 +152,7 @@ Task = R6Class("Task",
 
     levels = function(col) {
       assert_choice(col, self$col_info$id)
-      self$col_info[.(col), "levels", with = FALSE][[1L]][[1L]]
+      self$col_info[list(col), "levels", with = FALSE][[1L]][[1L]]
     },
 
     row_ids = function(subset = NULL) {
@@ -269,50 +263,96 @@ task_data = function(self, rows = NULL, cols = NULL) {
   return(data)
 }
 
-task_rbind = function(self, data) {
-  assert_data_frame(data, min.rows = 1L)
-  data = as.data.table(data)
 
-  # try to auto-increment new primary keys
-  if (self$backend$primary_key %nin% names(data)) {
+# Performs the following steps to virtually rbind data to the task:
+# 1. Check that an rbind is feasible
+# 2. Update row_info
+# 3. Update col_info
+# 4. Overwrite self$backend with new backend
+task_rbind = function(self, data) {
+  # 1. Check that an rbind is feasible
+  assert_data_frame(data, min.rows = 1L, min.cols = 1L)
+  data = as.data.table(data)
+  pk = self$backend$primary_key
+  auto_incremented = FALSE
+
+  ## 1.1 Check for primary key column and auto-increment if possible
+  if (pk %nin% names(data)) {
     rids = self$row_ids()
     if (is.integer(rids)) {
-      data[[self$backend$primary_key]] = max(rids) + seq_row(data)
+      data[[pk]] = max(rids) + seq_row(data)
+      auto_incremented = TRUE
     } else {
-      stopf("Cannot rbind task: Missing column '%s' with row ids", self$backend$primary_key)
+      stopf("Cannot rbind to task: Missing primary key column '%s'", pk)
     }
+  } else {
+    assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
   }
 
-  self$backend = backend_rbind(self$backend, data)
-  extra_info = data.table(id = data[[self$backend$primary_key]], role = "use")
-  self$row_info = rbind(self$row_info, extra_info)
-  setkeyv(self$row_info, "id")
+  ## 1.2 Check for set equality of column names
+  assert_set_equal(self$col_info$id, names(data))
 
-  # update col_info's level information
-  cols = self$col_info[get("type") %in% c("factor", "character"), id]
-  tmp = self$backend$distinct(cols)
-  self$col_info[.(names(tmp)), "levels" := list(tmp)]
+  ## 1.3 Check that there are now duplicated row_ids
+  if (!auto_incremented) {
+    tmp = self$backend$data(data[[pk]], pk)[[1L]]
+    if (length(tmp))
+      stopf("Cannot rbind task: Duplicated row ids: %s", stri_peek(tmp))
+  }
+
+  ## 1.4 Check that types are matching
+  data_col_info = col_info(data, pk)
+  tmp = head(merge(self$col_info, data_col_info, by = "id")[get("type.x") != get("type.y")], 1L)
+  if (nrow(tmp)) {
+    stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", stri_peek(tmp$id), tmp$type.x, tmp$type.y)
+  }
+
+  # 2. Update row_info
+  self$row_info = setkeyv(rbindlist(list(self$row_info, data.table(id = data[[pk]], role = "use"))), "id")
+
+  # 3. Update col_info
+  self$col_info$levels = Map(union, self$col_info$levels, data_col_info$levels)
+
+  # 4. Overwrite self$backend with new backend
+  self$backend = BackendRbind$new(self$backend, BackendDataTable$new(data, primary_key = pk))
 }
 
+# Performs the following steps to virtually cbind data to the task:
+# 1. Check that an cbind is feasible
+# 2. Update col_info
+# 3. Overwrite self$backend with new backend
 task_cbind = function(self, data) {
-  assert_data_frame(data, min.rows = 1L)
+  # 1. Check that an cbind is feasible
+  assert_data_frame(data, min.rows = 1L, min.cols = 2L)
   data = as.data.table(data)
+  pk = self$backend$primary_key
 
-  if (self$backend$primary_key %nin% names(data)) {
-    stopf("Cannot cbind task: Missing column '%s' with row ids", self$backend$primary_key)
+  ## 1.1 Check for primary key column
+  if (pk %nin% names(data)) {
+    stopf("Cannot cbind task: Missing primary key column '%s'", self$backend$primary_key)
   }
 
-  self$backend = backend_cbind(self$backend, data)
-  extra_info = col_types(data)[, c("role", "levels") := list("feature", list())]
-
-  cols = extra_info[type %in% c("factor", "character"), id]
-  if (length(cols)) {
-    tmp = lapply(data[, cols, with = FALSE], distinct)
-    extra_info[.(names(tmp)), "levels" := list(tmp)]
+  if (self$col_info[role == "primary_key", "type"][[1L]] != class(data[[pk]])) {
+    stopf("Cannot cbind task: Primary key column '%s' has wrong type", self$backend$primary_key)
   }
-  self$col_info = rbind(self$col_info, extra_info[!(self$backend$primary_key)])
-  setkeyv(self$col_info, "id")
-  self
+
+  ## 1.2 Check that there are no duplicated column names
+  tmp = setdiff(intersect(self$col_info$id, names(data)), pk)
+  if (length(tmp)) {
+    stopf("Cannot cbind task: Duplicated column names: %s", stri_peek(tmp))
+  }
+
+  ## 1.3 Check for set equality of row ids
+  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
+  if (self$backend$data(data[[pk]], pk)[, .N] != nrow(data)) {
+    stopf("Cannot cbind task: Row ids do not match")
+  }
+
+  # 2. Update col_info
+  data_col_info = col_info(data, pk)
+  self$col_info = setkeyv(rbindlist(list(self$col_info, data_col_info[!list(pk)])), "id")
+
+  # 3. Overwrite self$backend with new backend
+  self$backend = BackendCbind$new(self$backend, BackendDataTable$new(data, primary_key = pk))
 }
 
 task_print = function(self) {
@@ -321,4 +361,22 @@ task_print = function(self) {
   catf(stri_list("Features: ", stri_peek(self$feature_names)))
   catf(stri_list("Order by: ", self$order))
   catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
+}
+
+
+col_info = function(x, primary_key = NULL) {
+  is_backend = inherits(x, "Backend")
+  types = vcapply(if (is_backend) x$head(1L) else x, class)
+  col_info = data.table(id = names(types), type = unname(types), role = "feature", levels = list(), key = "id")
+
+  if (!is.null(primary_key))
+    col_info[list(primary_key), role := "primary_key"]
+
+  discrete = col_info[get("type") %in% c("character", "factor"), "id"][[1L]]
+  if (length(discrete)) {
+    discrete = if (is_backend) x$distinct(discrete) else lapply(x[, discrete, with = FALSE], distinct)
+    col_info[list(names(discrete)), levels := list(discrete)]
+  }
+
+  col_info[]
 }

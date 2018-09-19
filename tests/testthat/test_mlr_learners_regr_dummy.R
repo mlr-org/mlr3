@@ -25,5 +25,5 @@ test_that("Predict with se", {
   expect_learner(learner, task)
 
   e = Experiment$new(task, learner)$train()$predict()
-  e$prediction
+  expect_numeric(e$data$prediction$se, len = task$nrow, any.missing = FALSE, lower = 0)
 })

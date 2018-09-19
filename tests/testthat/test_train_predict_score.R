@@ -8,8 +8,8 @@ test_that("Simple train+predict+score of dummy model", {
 
   e$train(subset)
   expect_set_equal(e$train_set, subset)
-  expect_data_table(e$model, nrow = 2L)
-  expect_data_table(e$data$model, nrow = 2L, any.missing = FALSE)
+  expect_class(e$model, "dummy.model")
+  expect_class(e$data$model, "dummy.model")
   expect_equal(task$nrow, 150L)
   expect_equal(e$data$task$nrow, 150L)
 
@@ -34,8 +34,8 @@ test_that("Simple train+predict+score in independent session", {
 
     e$train(subset)
     expect_set_equal(e$train_set, subset)
-    expect_data_table(e$model, nrow = 2L)
-    expect_data_table(e$data$model, nrow = 2L, any.missing = FALSE)
+    expect_class(e$model, "dummy.model")
+    expect_class(e$data$model, "dummy.model")
     expect_equal(task$nrow, 150L)
     expect_equal(e$data$task$nrow, 150L)
 

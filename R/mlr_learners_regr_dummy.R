@@ -9,7 +9,7 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
             ParamFlag$new("robust", default = TRUE)
           )
         ),
-        properties = c("missings", "feat.factor", "feat.numeric"),
+        properties = c("se", "missings", "feat.factor", "feat.numeric"),
       )
     },
 

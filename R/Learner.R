@@ -88,6 +88,8 @@ Learner = R6Class("Learner",
       if (missing(rhs))
         return(private$.predict_type)
       assert_choice(rhs, capabilities$predict_types[[self$task_type]])
+      if (rhs %nin% self$properties)
+        stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
     }
   ),
