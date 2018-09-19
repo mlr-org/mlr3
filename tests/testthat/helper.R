@@ -1,12 +1,14 @@
 library(checkmate)
 library(testthat)
 
-future::plan("multiprocess")
+# future::plan("multiprocess")
 
-options(
-  warnPartialMatchAttr = TRUE,
-  warnPartialMatchDollar = TRUE
-)
+if (getOption("mlr3.debug", FALSE)) {
+  options(
+    warnPartialMatchAttr = TRUE,
+    warnPartialMatchDollar = TRUE
+  )
+}
 
 `[[.R6` = function(x, i, ...) {
   if (i %in% names(x))
