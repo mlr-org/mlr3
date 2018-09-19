@@ -14,6 +14,7 @@
 #' t$measures
 #' t$data(rows = NULL, cols = NULL)
 #' t$head(n = 6)
+#' t$levels(col)
 #' t$row_ids(subset = NULL)
 #' t$features_names
 #' t$target_names
@@ -36,8 +37,12 @@
 #' * `data` ([base::data.frame]):
 #'   New data to rbind/cbind to the task.
 #' * `rows` (`vector`):
-#'   Vector of row ids used to subset rows from the [Backend] using its primary key.
+#'   Vector of row ids to specify rows to filter from the [Backend] using its primary key.
 #'   Can be `character()` or `integer`, depending on the [Backend].
+#' * `cols` (`character()`):
+#'   Character vector to specify columns to select from the [Backend].
+#' * `col` (`character(1)`):
+#'   Character vector to specify column to operate on from the [Backend].
 #' * `cols` (`character()`):
 #'   Character vector of used to select columns from the [Backend].
 #' * `n` (`integer(1)`):
@@ -61,44 +66,47 @@
 #' - `"ignore"`: Do not these observations at all.
 #'
 #' `$col_info` (`data.table`) with columns `id`, `role` and `type`.
-#' Stores column names of [Backend] in column `id`. Each column (feature)
-#' can have a specific mutually exclusive role in the learning task:
-#' - `"feature"`: Regular feature.
-#' - `"target"`: Column with target labels.
-#' - `"ignore"`: Do not these features at all.
-#' - `"primary_key"`: Name of the primary id column used in [Backend].
-#' Column `type` stores the storage type of the variable, e.g. `integer`, `numeric` or `character`.
+#'   Stores column names of [Backend] in column `id`. Each column (feature)
+#'   can have a specific mutually exclusive role in the learning task:
+#'   - `"feature"`: Regular feature.
+#'   - `"target"`: Column with target labels.
+#'   - `"ignore"`: Do not these features at all.
+#'   - `"primary_key"`: Name of the primary id column used in [Backend].
+#'   Column `type` stores the storage type of the variable, e.g. `integer`, `numeric` or `character`.
 #'
-#' `measures` is a list of [Measure] (performance measures) to use in this task.
+#' `$measures` is a list of [Measure] (performance measures) to use in this task.
 #'
-#' `data()` is used to retrieve data from the backend as `data.table`.
-#' Rows are subsetted to only contain observations with `role == "use"`.
-#' Columns are filtered to only contain features with `role %in% c("target", "feature")`.
-#' If invalid `rows` or `cols` are specified, an exception is raised.
+#' `$data()` is used to retrieve data from the backend as `data.table`.
+#'   Rows are subsetted to only contain observations with `role == "use"`.
+#'   Columns are filtered to only contain features with `role %in% c("target", "feature")`.
+#'   If invalid `rows` or `cols` are specified, an exception is raised.
 #'
-#' `head()` can be used to peek into the first `n` observations with `role == "use"`.
+#' `$head()` can be used to peek into the first `n` observations with `role == "use"`.
 #'
-#' `row_ids()` returns a (subset of) row ids used in the task, i.e. subsetted to observations with `role == "use"`.
+#' `$levels()` queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
+#'   This function ignores the row roles, so that you get all levels found in the [Backend].
 #'
-#' `feature_names` returns a `character` vector of all feature names with `role == "feature"`.
+#' `$row_ids()` returns a (subset of) row ids used in the task, i.e. subsetted to observations with `role == "use"`.
 #'
-#' `target_names` returns a `character` vector of all feature names with `role == "target"`.
+#' `$feature_names` returns a `character` vector of all feature names with `role == "feature"`.
 #'
-#' `nrow` provides the total number of rows with `role == "use"`.
+#' `$target_names` returns a `character` vector of all feature names with `role == "target"`.
 #'
-#' `ncol` provides the total number of cols with `role %in% c("target", "feature")`.
+#' `$nrow` provides the total number of rows with `role == "use"`.
 #'
-#' `col_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" columns of the task and `type` is the storage type.
+#' `$ncol` provides the total number of cols with `role %in% c("target", "feature")`.
 #'
-#' `formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
+#' `$col_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" columns of the task and `type` is the storage type.
 #'
-#' `filter()` reduces the task, subsetting it to only the rows specified.
+#' `$formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
 #'
-#' `select()` reduces the task, subsetting it to only the columns specified.
+#' `$filter()` reduces the task, subsetting it to only the rows specified.
 #'
-#' `rbind()` extends the task with additional rows.
+#' `$select()` reduces the task, subsetting it to only the columns specified.
 #'
-#' `cbind()` extends the task with additional columns.
+#' `$rbind()` extends the task with additional rows.
+#'
+#' `$cbind()` extends the task with additional columns.
 #'
 #' @name Task
 #' @export

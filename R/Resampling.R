@@ -31,22 +31,22 @@
 #'
 #' `$id` (`character(1)`) stores the identifier of the object.
 #'
-#' `iters` (`integer(1)`) calculates the resulting number of iterations, given the current `par_vals`.
+#' `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `par_vals`.
 #'
-#' `par_set` (`[paradox::ParamSet()]`) describes available parameters.
+#' `$par_set` (`[paradox::ParamSet()]`) describes available parameters.
 #'
-#' `par_vals` (`named list`) stores the currently set parameter values.
+#' `$par_vals` (`named list`) stores the currently set parameter values.
 #' You can set parameters by assigning a named list of new parameters to this slot.
 #'
-#' `instantiate` materializes fixed training and test splits for a given task.
+#' `$instantiate` materializes fixed training and test splits for a given task.
 #'
-#' `is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
+#' `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
 #'
-#' `train_set()` returns the training set for the `i`-th iteration.
+#' `$train_set()` returns the training set for the `i`-th iteration.
 #'
-#' `test_set()` returns the test set for the `i`-th iteration.
+#' `$test_set()` returns the test set for the `i`-th iteration.
 #'
-#' `checksum` returns a unique string hash for the instantiation.
+#' `$checksum` returns a unique string hash for the instantiation.
 #'
 #' @name Resampling
 #' @keywords internal

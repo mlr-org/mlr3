@@ -21,17 +21,17 @@
 #'   Iteration(s) of the experiment(s) to retrieve.
 #'
 #' @section Details:
-#' `task`, `learner`, `resampling` and `measure` allow access to the [Task], [Learner], [Resampling] and [Measure] used in
+#' `$task`, `learner`, `resampling` and `measure` allow access to the [Task], [Learner], [Resampling] and [Measure] used in
 #' the resampling.
 #'
-#' `experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
+#' `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
 #'
-#' `experiments()` returns a list with the slice of [Experiment]s for the provided `iters`.
+#' `$experiments()` returns a list with the slice of [Experiment]s for the provided `iters`.
 #'
-#' `performance` provides a [data.table::data.table] with column `iteration` (integer) and a numeric column for each
+#' `$performance` provides a [data.table::data.table] with column `iteration` (integer) and a numeric column for each
 #'   performance measure (columns named using the measure ids).
 #'
-#' `aggregated` returns the aggregated performance measures. The aggregation method is part of the [Measure].
+#' `$aggregated` returns the aggregated performance measures. The aggregation method is part of the [Measure].
 #'
 #' @name ResampleResult
 NULL

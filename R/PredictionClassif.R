@@ -21,9 +21,9 @@
 #' @section Details:
 #' `$new()` initializes a new object of class [Prediction].
 #'
-#' `response` stores the predicted class labels.
+#' `$response` stores the predicted class labels.
 #'
-#' `prob` stores the label probabilities (if available), or is `NULL`.
+#' `$prob` stores the label probabilities (if available), or is `NULL`.
 #'
 #' Object can be transformed to a simple [data.table::data.table()] with `data.table::as.data.table()`.
 #' @name PredictionClassif

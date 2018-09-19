@@ -16,6 +16,7 @@ t$col_info
 t$measures
 t$data(rows = NULL, cols = NULL)
 t$head(n = 6)
+t$levels(col)
 t$row_ids(subset = NULL)
 t$features_names
 t$target_names
@@ -41,8 +42,12 @@ Name of the task.
 \item \code{data} (\link[base:data.frame]{base::data.frame}):
 New data to rbind/cbind to the task.
 \item \code{rows} (\code{vector}):
-Vector of row ids used to subset rows from the \link{Backend} using its primary key.
+Vector of row ids to specify rows to filter from the \link{Backend} using its primary key.
 Can be \code{character()} or \code{integer}, depending on the \link{Backend}.
+\item \code{cols} (\code{character()}):
+Character vector to specify columns to select from the \link{Backend}.
+\item \code{col} (\code{character(1)}):
+Character vector to specify column to operate on from the \link{Backend}.
 \item \code{cols} (\code{character()}):
 Character vector of used to select columns from the \link{Backend}.
 \item \code{n} (\code{integer(1)}):
@@ -81,36 +86,39 @@ can have a specific mutually exclusive role in the learning task:
 Column \code{type} stores the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 }
 
-\code{measures} is a list of \link{Measure} (performance measures) to use in this task.
+\code{$measures} is a list of \link{Measure} (performance measures) to use in this task.
 
-\code{data()} is used to retrieve data from the backend as \code{data.table}.
+\code{$data()} is used to retrieve data from the backend as \code{data.table}.
 Rows are subsetted to only contain observations with \code{role == "use"}.
 Columns are filtered to only contain features with \code{role \%in\% c("target", "feature")}.
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 
-\code{head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
+\code{$head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
 
-\code{row_ids()} returns a (subset of) row ids used in the task, i.e. subsetted to observations with \code{role == "use"}.
+\code{$levels()} queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
+This function ignores the row roles, so that you get all levels found in the \link{Backend}.
 
-\code{feature_names} returns a \code{character} vector of all feature names with \code{role == "feature"}.
+\code{$row_ids()} returns a (subset of) row ids used in the task, i.e. subsetted to observations with \code{role == "use"}.
 
-\code{target_names} returns a \code{character} vector of all feature names with \code{role == "target"}.
+\code{$feature_names} returns a \code{character} vector of all feature names with \code{role == "feature"}.
 
-\code{nrow} provides the total number of rows with \code{role == "use"}.
+\code{$target_names} returns a \code{character} vector of all feature names with \code{role == "target"}.
 
-\code{ncol} provides the total number of cols with \code{role \%in\% c("target", "feature")}.
+\code{$nrow} provides the total number of rows with \code{role == "use"}.
 
-\code{col_types} gives a \code{data.table} with columns \code{id} and \code{type} where \code{id} are the column names of "active" columns of the task and \code{type} is the storage type.
+\code{$ncol} provides the total number of cols with \code{role \%in\% c("target", "feature")}.
 
-\code{formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
+\code{$col_types} gives a \code{data.table} with columns \code{id} and \code{type} where \code{id} are the column names of "active" columns of the task and \code{type} is the storage type.
 
-\code{filter()} reduces the task, subsetting it to only the rows specified.
+\code{$formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
 
-\code{select()} reduces the task, subsetting it to only the columns specified.
+\code{$filter()} reduces the task, subsetting it to only the rows specified.
 
-\code{rbind()} extends the task with additional rows.
+\code{$select()} reduces the task, subsetting it to only the columns specified.
 
-\code{cbind()} extends the task with additional columns.
+\code{$rbind()} extends the task with additional rows.
+
+\code{$cbind()} extends the task with additional columns.
 }
 
 \examples{

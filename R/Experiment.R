@@ -30,24 +30,24 @@
 #'
 #'
 #' @section Details:
-#' `new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
+#' `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
 #'
-#' `train()` fits the induces `learner` on the (subset of the) `task` and internally stores the model.
+#' `$train()` fits the induces `learner` on the (subset of the) `task` and internally stores the model.
 #'  The model can be accessed via `e$model`.
 #'
-#' `predict()` uses the previously fitted model to predict new observations.
+#' `$predict()` uses the previously fitted model to predict new observations.
 #'  The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction`.
 #'
-#' `score()` quantifies stored predictions using the task's [Measure] and stores the resulting performance.
+#' `$score()` quantifies stored predictions using the task's [Measure] and stores the resulting performance.
 #'  The performance can be accessed via `e$performance`.
 #'
-#' `train_set` and `test_set` return the row ids of the training set or test set, respectively.
+#' `$train_set` and `test_set` return the row ids of the training set or test set, respectively.
 #' If there is a validation set (see [Task]), `validation_set` returns the corresponding row ids.
 #'
-#' `timings` holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (see [base::proc.time()]).
+#' `$timings` holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (see [base::proc.time()]).
 #'  Timings are `NA` if the step has not been performed yet.
 #'
-#' `state` returns an factor of length 1 with ordered levels `"defined"`, `"trained"`, `"predicted"` and `"scored"`.
+#' `$state` returns an factor of length 1 with ordered levels `"defined"`, `"trained"`, `"predicted"` and `"scored"`.
 #'
 #'
 #' @name Experiment
