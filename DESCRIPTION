@@ -44,8 +44,9 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
-    mlr-org/paradox,
-    mllg/checkmate
+    mllg/checkmate,
+    mlr-org/paradox
+ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no

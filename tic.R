@@ -1,4 +1,4 @@
-add_package_checks(check_args = "--as-cran")
+add_package_checks(args = "--as-cran")
 
 if (Sys.getenv("id_rsa") != "") {
   # pkgdown documentation can be built optionally. Other example criteria:
@@ -12,4 +12,11 @@ if (Sys.getenv("id_rsa") != "") {
   get_stage("deploy") %>%
     add_step(step_build_pkgdown()) %>%
     add_step(step_push_deploy(path = "docs", branch = "gh-pages"))
+
+  if (!Sys.getenv("$TRAVIS_EVENT_TYPE") == "cron") {
+
+    get_stage("deploy") %>%
+      add_code_step(devtools::document()) %>%
+      add_step(step_push_deploy(commit_paths = "man/"))
+  }
 }
