@@ -44,7 +44,9 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
-ByteCompile: false
+    mllg/checkmate,
+    mlr-org/paradox
+ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
