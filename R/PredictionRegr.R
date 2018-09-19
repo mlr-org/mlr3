@@ -20,9 +20,9 @@
 #' @section Details:
 #' `$new()` initializes a new object of class [Prediction].
 #'
-#' `response` stores the predicted values.
+#' `$response` stores the predicted values.
 #'
-#' `se` stores the predicted standard errors (if available), or is `NULL`.
+#' `$se` stores the predicted standard errors (if available), or is `NULL`.
 #'
 #' Object can be transformed to a simple [data.table::data.table()] with `data.table::as.data.table()`.
 #' @name PredictionRegr

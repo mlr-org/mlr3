@@ -12,7 +12,7 @@
 #' ```
 #'
 #' @section Details:
-#' `type` is `"classif"`
+#' `$type` is `"classif"`
 #'
 #' @name TaskRegr
 #' @family Task

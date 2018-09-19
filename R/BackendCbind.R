@@ -57,13 +57,3 @@ BackendCbind = R6Class("Backend",
     .b2 = NULL
   )
 )
-
-backend_cbind = function(backend, data) {
-  assert_backend(backend)
-  assert_data_frame(data)
-  assert_set_equal(data[[backend$primary_key]], backend$rownames)
-  ii = wf(names(data) %in% setdiff(backend$colnames, backend$primary_key))
-  if (length(ii))
-    stopf("Cannot cbind data to backend: duplicated colname '%s'", names(data)[ii])
-  BackendCbind$new(backend, BackendDataTable$new(data, primary_key = backend$primary_key))
-}

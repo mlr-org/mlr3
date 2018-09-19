@@ -26,9 +26,9 @@ Name of the "positive" class for binary classification problems.
 
 \section{Details}{
 
-\code{class_names} returns all class labels of the rows which \code{role == "use"}.
-\code{class_n} returns the number of class labels of the rows which \code{role == "use"}.
-\code{type} is \code{"classif"}
+\code{$class_names} returns all class labels of the rows which \code{role == "use"}.
+\code{$class_n} returns the number of class labels of the rows which \code{role == "use"}.
+\code{$type} is \code{"classif"}
 }
 
 \examples{

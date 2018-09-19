@@ -21,9 +21,9 @@
 #' @section Details:
 #' `$new()` initializes a new object of class [Prediction].
 #'
-#' `response` stores the predicted class labels.
+#' `$response` stores the predicted class labels.
 #'
-#' `prob` stores the label probabilities (if available), or is `NULL`.
+#' `$prob` stores the label probabilities (if available), or is `NULL`.
 #'
 #' Object can be transformed to a simple [data.table::data.table()] with `data.table::as.data.table()`.
 #' @name PredictionClassif
@@ -38,13 +38,11 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   public = list(
     prob = NULL,
     initialize = function(task, response, prob = NULL) {
-      classes = task$class_names
-      # if (is.character(response))
-      #   response = factor(response, levels = classes)
-      if (!is.character(response))
-        response = as.character(response)#, levels = classes)
-      # self$response = assert_factor(response, len = task$nrow, levels = classes, any.missing = FALSE)
-      self$response = response
+      classes = task$levels(task$target_names)
+      if (is.character(response))
+        response = factor(response, levels = classes)
+      self$response = assert_factor(response, len = task$nrow, levels = classes, any.missing = FALSE)
+
       if (!is.null(prob)) {
         assert_matrix(prob, nrow = task$nrow, ncol = length(classes))
         assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)

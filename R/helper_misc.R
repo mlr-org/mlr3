@@ -15,15 +15,14 @@ shuffle = function(x) {
   sample(x)
 }
 
-col_types = function(x) {
-  types = vcapply(x, class)
-  data.table(id = names(types), type = unname(types), key = "id")
-}
-
 named_list = function(nn) {
   setNames(vector("list", length(nn)), nn)
 }
 
 distinct = function(x) {
   if (is.factor(x)) levels(x) else unique(x)
+}
+
+symdiff = function(x, y) {
+  unique(c(setdiff(x, y), setdiff(y, x)))
 }

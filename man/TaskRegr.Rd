@@ -16,7 +16,7 @@ t$type
 
 \section{Details}{
 
-\code{type} is \code{"classif"}
+\code{$type} is \code{"classif"}
 }
 
 \examples{

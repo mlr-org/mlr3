@@ -18,9 +18,9 @@
 #'   Name of the "positive" class for binary classification problems.
 #'
 #' @section Details:
-#' `class_names` returns all class labels of the rows which `role == "use"`.
-#' `class_n` returns the number of class labels of the rows which `role == "use"`.
-#' `type` is `"classif"`
+#' `$class_names` returns all class labels of the rows which `role == "use"`.
+#' `$class_n` returns the number of class labels of the rows which `role == "use"`.
+#' `$type` is `"classif"`
 #'
 #' @name TaskClassif
 #' @family Task

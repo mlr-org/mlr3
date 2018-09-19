@@ -6,30 +6,41 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
         id = "classif.dummy",
         par_set = ParamSet$new(
           params = list(
-            ParamCategorical$new("method", values = c("mode", "sample"), default = "mode")
+            ParamCategorical$new("method", values = c("mode", "sample", "weighted.sample"), default = "mode")
           )
         ),
-        properties = c("missings", "feat.factor", "feat.numeric"),
+        properties = c("prob", "missings", "feat.factor", "feat.numeric"),
       )
     },
 
     train = function(task, ...) {
       tn = task$target_names
-      data = task$data(cols = tn)
-      mod = data[, .N, by = tn]
-      class(mod) = c("dummy.model", class(mod))
-      mod
+      model = table(task$data(cols = tn))
+      class(model) = "dummy.model"
+      model
     },
 
     predict = function(model, task, method = "mode", ...) {
       n = task$nrow
-      response = if (method == "mode") {
-        rep.int(as.character(sample(model[N == max(N)][[task$target_names]], 1L)), n)
+      response = switch(method,
+        mode = rep.int(sample(names(model[model == max(model)]), 1L), n),
+        sample = sample(names(model), n, replace = TRUE),
+        weighted.sample = sample(names(model), n, replace = TRUE, prob = model)
+      )
+
+      if (self$predict_type == "prob") {
+        prob = switch(method,
+          mode = { tmp = (model == max(model)); tmp / sum(tmp) },
+          sample = rep.int(1 / length(model), length(model)),
+          weighted.sample = model / sum(model)
+        )
+        prob = matrix(prob, nrow = n, ncol = length(model), byrow = TRUE)
+        colnames(prob) = names(model)
       } else {
-        as.character(sample(model[[task$target_names]], n, replace = TRUE, prob = model[["N"]]))
+        prob = NULL
       }
 
-      PredictionClassif$new(task, response = response)
+      PredictionClassif$new(task, response = response, prob = prob)
     }
   )
 )

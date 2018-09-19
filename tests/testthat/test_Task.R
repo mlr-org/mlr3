@@ -41,27 +41,27 @@ test_that("Rows return ordered", {
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 })
 
-# test_that("Rows return ordered with multiple order cols", {
-#   data = iris
-#   task = TaskClassif$new(id = "iris_sorted", data, target = "Species")
+test_that("Rows return ordered with multiple order cols", {
+  task = mlr_tasks$get("iris")
 
-#   x = task$data()
-#   expect_true(is.unsorted(x$Petal.Length))
+  x = task$data()
+  expect_true(is.unsorted(x$Petal.Length))
 
-#   task$order = c("Petal.Length", "Petal.Width")
+  task$order = c("Petal.Length", "Petal.Width")
 
-#   x = task$data()
-#   expect_numeric(x$Petal.Length, sorted = TRUE, any.missing = FALSE)
+  x = task$data()
+  expect_numeric(x$Petal.Length, sorted = TRUE, any.missing = FALSE)
 
-#   expect_true(x[, is.unsorted(Petal.Width)])
-#   expect_true(all(x[, is.unsorted(Petal.Width), by = Petal.Width]$V1 == FALSE))
-# })
+  expect_true(x[, is.unsorted(Petal.Width)])
+  expect_true(all(x[, is.unsorted(Petal.Width), by = Petal.Width]$V1 == FALSE))
+})
 
 
 test_that("cbind/rbind works", {
   task = mlr_tasks$get("iris")
+  data = data.table(..row_id = 1:150, foo = 150:1)
 
-  task$cbind(data.table(..row_id = 1:150, foo = 150:1))
+  task$cbind(data)
   expect_task(task)
   expect_set_equal(c(task$feature_names, task$target_names), c(names(iris), "foo"))
   expect_data_table(task$data(), ncol = 6, any.missing = FALSE)
