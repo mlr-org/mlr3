@@ -53,17 +53,21 @@ benchmark = function(tasks, learners, resamplings) {
     iteration = grid$iter
   )[ii]
 
-  tmp = future.apply::future_mapply(experiment_worker,
-    task = res$task,
-    learner = res$learner,
-    resampling = res$resampling,
-    iteration = res$iteration,
-    MoreArgs = list(ctrl = mlr_options()),
-    SIMPLIFY = FALSE,
-    USE.NAMES = FALSE,
-    future.globals = FALSE,
-    future.packages = "mlr3"
-  )
+  if (use_future()) {
+    debug("Running benchmark() sequentially with %i iterations", nrow(res))
+    tmp = mapply(experiment_worker,
+      task = res$task, learner = res$learner, resampling = res$resampling, iteration = res$iteration,
+      MoreArgs = list(ctrl = mlr_options()), SIMPLIFY = FALSE, USE.NAMES = FALSE
+    )
+
+  } else {
+    debug("Running resample() via future with %i iterations", nrow(res))
+    tmp = future.apply::future_mapply(experiment_worker,
+      task = res$task, learner = res$learner, resampling = res$resampling, iteration = res$iteration,
+      MoreArgs = list(ctrl = mlr_options()), SIMPLIFY = FALSE, USE.NAMES = FALSE,
+      future.globals = FALSE, future.packages = "mlr3"
+    )
+  }
 
   tmp = combine_experiments(tmp)
   res[, names(tmp) := tmp]
@@ -71,4 +75,3 @@ benchmark = function(tasks, learners, resamplings) {
 
   BenchmarkResult$new(res)
 }
-

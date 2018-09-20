@@ -19,6 +19,6 @@ info = function(msg, ...) {
 }
 
 debug = function(msg, ...) {
-  if (isTRUE(getOption("mlr3.debug")))
-    cat(sprintf(msg, ...), "\n")
+  if (is_debug())
+    message("[debug] ", sprintf(msg, ...), "\n")
 }

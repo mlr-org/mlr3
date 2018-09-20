@@ -31,10 +31,17 @@ resample = function(task, learner, resampling) {
   }
   n = instance$iters
 
-  res = future.apply::future_lapply(seq_len(n), experiment_worker,
-    task = task, learner = learner, resampling = resampling,
-    ctrl = mlr_options(),
-    future.globals = FALSE, future.packages = "mlr3")
+  if (use_future()) {
+    debug("Running resample() sequentially with %i iterations", n)
+    res = lapply(seq_len(n), experiment_worker,
+      task = task, learner = learner, resampling = resampling, ctrl = mlr_options())
+  } else {
+    debug("Running resample() via future with %i iterations", n)
+    res = future.apply::future_lapply(seq_len(n), experiment_worker,
+      task = task, learner = learner, resampling = resampling, ctrl = mlr_options(),
+      future.globals = FALSE, future.packages = "mlr3")
+  }
+
   res = combine_experiments(res)
   res[, c("task", "resampling") := list(list(task), list(instance))]
 

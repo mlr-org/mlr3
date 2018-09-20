@@ -205,8 +205,15 @@ experiment_train = function(e, row_ids) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
   e$data$iteration = 1L
 
-  value = future::futureCall(train_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
-  e$data = insert(e$data, future::value(value))
+  if (use_future()) {
+    debug("Running train_worker() via do.call()")
+    value = do.call(train_worker, list(e = e, ctrl = mlr_options()))
+  } else {
+    debug("Running train_worker() via futureCall()")
+    value = future::futureCall(train_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
+    value = future::value(value)
+  }
+  e$data = insert(e$data, value)
   e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "trained", "name"][[1L]]))
   return(e)
 }
@@ -218,21 +225,34 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
   if (is.null(newdata)) {
     e$data$resampling$instantiate(e$data$task, test_sets = list(row_ids))
   } else {
-    e$task$rbind(data = newdata)
-    # backend = BackendDataTable$new(data = newdata, primary_key = e$data$task$backend[[1L]]$primary_key)
-    # e$data$task = e$data$task$clone()$add_backend(backend)
+    e$data$task = e$data$task$clone()$rbind(newdata)
     row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
   }
 
-  value = future::futureCall(predict_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
-  e$data = insert(e$data, future::value(value))
+  if (use_future()) {
+    debug("Running predict_worker() via do.call()")
+    value = do.call(predict_worker, list(e = e, ctrl = mlr_options()))
+  } else {
+    debug("Running predict_worker() via futureCall()")
+    value = future::futureCall(predict_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
+    value = future::value(value)
+  }
+  e$data = insert(e$data, value)
   e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "predicted", "name"][[1L]]))
   return(e)
 }
 
 experiment_score = function(e) {
-  value = future::futureCall(score_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
-  e$data = insert(e$data, future::value(value))
+  if (use_future()) {
+    debug("Running score_worker() via do.call()")
+    value = do.call(score_worker, list(e = e, ctrl = mlr_options()))
+  } else {
+    debug("Running score_worker() via futureCall()")
+    value = future::futureCall(score_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
+    value = future::value(value)
+  }
+
+  e$data = insert(e$data, value)
   return(e)
 }
 

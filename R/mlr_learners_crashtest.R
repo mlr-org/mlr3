@@ -7,22 +7,28 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
         id = "classif.crashtest",
         par_set = ParamSet$new(
           params = list(
-            ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train")
+            ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train"),
+            ParamCategorical$new("crash.mode", values = c("error", "segfault"), default = "error")
           )
         ),
-      properties = capabilities$learner_props$classif,
+        par_vals = list(crash.on = "train", crash.mode = "error"),
+        properties = capabilities$learner_props$classif,
       )
     },
 
-    train = function(task, crash.on, ...) {
+    train = function(task, crash.on, crash.mode, ...) {
       if (crash.on == "train") {
+        if (crash.mode == "error")
+          stop("Error in classif.crashtest during train()")
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
       }
       structure(NA, class = "crashtest.model")
     },
 
-    predict = function(task, crash.on, ...) {
+    predict = function(task, crash.on, crash.mode, ...) {
       if (crash.on == "predict") {
+        if (crash.mode == "error")
+          stop("Error in classif.crashtest during train()")
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
       }
     }
