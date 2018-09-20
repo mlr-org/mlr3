@@ -69,8 +69,16 @@ Resampling = R6Class("Resampling",
 
     train_set = method_not_implemented,
     test_set = method_not_implemented,
-    instantiate = method_not_implemented
+    instantiate = method_not_implemented,
+
+    print = function(...) {
+      pv = self$par_vals
+      catf("<%s> with %i iterations", class(self)[1L], self$iters)
+      catf("Parameters: %s", paste0(paste(names(pv), pv, sep = "=")), collapse = ", ")
+      catf(stri_list("\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
+    }
   ),
+
 
   active = list(
     par_vals = function(rhs) {
@@ -96,6 +104,11 @@ Resampling = R6Class("Resampling",
   private = list(
     .instance = NULL,
     .hash = NA_character_,
-    .par_vals = NULL
+    .par_vals = NULL,
+    .instantiate = function(instance) {
+      private$.instance = instance
+      private$.hash = NA_character_
+      self
+    }
   )
 )

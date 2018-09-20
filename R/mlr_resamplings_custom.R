@@ -7,27 +7,26 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
       assert_task(task)
+      if (is.null(train_sets) && is.null(test_sets))
+        stopf("At least one of 'train_sets' or 'test_sets' must be provided")
+      instance = private$.instance %??% list(train = NULL, test = NULL)
 
       if (!is.null(train_sets)) {
-        # TODO: more assertions
+        # TODO: more assertions?
         assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
-        private$.instance = list(train = train_sets, test = NULL)
-        private$.hash = NA_character_
+        instance$train = train_sets
         self$has_duplicates = any(viapply(train_sets, anyDuplicated) > 0L)
       }
 
       if (!is.null(test_sets)) {
-        # TODO: more assertions
-        train = private$.instance$train
-        if (is.null(train))
-          stopf("Cannot set test_set without training set")
-        assert_list(test_sets, types = "atomicvector", len = length(train), any.missing = FALSE)
-        private$.instance$test = test_sets
-        private$.hash = NA_character_
-        self$has_duplicates = isTRUE(self$has_duplicates) | any(viapply(test_sets, anyDuplicated) > 0L)
+        # TODO: more assertions?
+        assert_list(test_sets, types = "atomicvector", len = length(instance$train), any.missing = FALSE, unique = TRUE)
+        if (is.null(instance$train))
+          stopf("Cannot set test_set without train_set")
+        instance$test = test_sets
       }
 
-      self
+      private$.instantiate(instance)
     },
 
     train_set = function(i) {

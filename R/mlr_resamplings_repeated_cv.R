@@ -27,9 +27,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       }
 
       assert_task(task)
-      private$.instance = rcv(task$row_ids(), self$par_vals$folds, self$par_vals$repeats)
-      private$.hash = NA_character_
-      self
+      private$.instantiate(rcv(task$row_ids(), self$par_vals$folds, self$par_vals$repeats))
     },
 
     train_set = function(i) {

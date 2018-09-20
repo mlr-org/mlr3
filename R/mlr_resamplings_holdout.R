@@ -21,9 +21,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       }
 
       assert_task(task)
-      private$.instance = holdout(task$row_ids(), assert_number(self$par_vals$ratio, lower = 0))
-      private$.hash = NA_character_
-      self
+      private$.instantiate(holdout(task$row_ids(), assert_number(self$par_vals$ratio, lower = 0)))
     },
 
     train_set = function(i) {

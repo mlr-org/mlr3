@@ -9,6 +9,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
       )
       self$has_duplicates = FALSE
     },
+
     instantiate = function(task, ...) {
       # inner function so we can easily implement blocking here
       # -> replace ids with unique values of blocking variable
@@ -21,9 +22,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
         )
       }
       assert_task(task)
-      private$.instance = cv(task$row_ids(), self$par_vals$folds)
-      private$.hash = NA_character_
-      self
+      private$.instantiate(cv(task$row_ids(), self$par_vals$folds))
     },
 
     train_set = function(i) {
