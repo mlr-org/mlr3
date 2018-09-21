@@ -16,6 +16,7 @@ install:
 cache:
   - C:\RLibrary
   - C:\Program Files (x86)\Pandoc\
+  - 'C:\Program Files\MiKTeX 2.9'
 
 before_build: R -q -e "tic::before_install()"
 build_script: R -q -e "tic::install()"
@@ -24,9 +25,12 @@ before_test:
       if (-Not (Test-Path "C:\Program Files (x86)\Pandoc\")) {
         cinst pandoc
       }
+ - ps: >-
+      if (-Not (Test-Path "C:\Program Files\MiKTeX 2.9")) {
+        cinst miktex
+      }
  - ps: $env:Path += ";C:\Program Files (x86)\Pandoc\"
- - pandoc -v
- - ps: cinst miktex
+ - ps: $env:Path += ";C:\Program Files\MiKTeX 2.9"
  - R -q -e "tic::before_script()"
 after_build: R -q -e "tic::after_install()"
 test_script: R -q -e "tic::script()"
