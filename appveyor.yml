@@ -26,6 +26,8 @@ before_test:
       }
  - ps: $env:Path += ";C:\Program Files (x86)\Pandoc\"
  - pandoc -v
+ - ps: cinst miktex
+ - cmd:  refreshenv
  - R -q -e "tic::before_script()"
 after_build: R -q -e "tic::after_install()"
 test_script: R -q -e "tic::script()"
