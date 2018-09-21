@@ -78,9 +78,16 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    hash = function() {
+      if (is.na(private$.hash))
+        private$.hash = digest::digest(list(self$id, self$par_vals), algo = "xxhash64")
+      private$.hash
+    },
+
     par_vals = function(rhs) {
       if (missing(rhs))
         return(private$.par_vals)
+      private$.hash = NA_character_
       private$.par_vals = assert_par_vals(par_vals, self$par_set)
     },
 
@@ -94,6 +101,7 @@ Learner = R6Class("Learner",
     }
   ),
   private = list(
+    .hash = NA_character_,
     .par_vals = NULL,
     .predict_type = NULL
   )

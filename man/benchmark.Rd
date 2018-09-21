@@ -25,7 +25,7 @@ Runs a benchmark of the cross-product of learners, tasks, and resampling strateg
 \examples{
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
-resamplings = mlr_resamplings$mget("cv")
+resamplings = mlr_resamplings$mget(c("holdout", "cv"))
 bmr = benchmark(tasks, learners, resamplings)
 bmr$performance
 }

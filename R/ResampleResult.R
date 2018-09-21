@@ -45,7 +45,8 @@ ResampleResult = R6Class("ResampleResult",
       assert_data_table(data)
       slots = reflections$experiment_slots$name
       assert_names(names(data), permutation.of = slots)
-      self$data = setcolorder(data, slots)[]
+      self$data = setcolorder(data, slots)
+      self$data$hash = digest::digest(c(data$task[[1L]]$hash, data$learner[[1L]]$hash, data$resampling[[1L]]$hash), algo = "xxhash64")
     },
 
     print = function(...) {

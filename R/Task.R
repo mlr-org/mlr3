@@ -11,6 +11,8 @@
 #' t$backend
 #' t$row_info
 #' t$col_info
+#' t$set_row_role(rows, new_role)
+#' t$set_col_role(cols, new_role)
 #' t$measures
 #' t$data(rows = NULL, cols = NULL)
 #' t$head(n = 6)
@@ -37,16 +39,16 @@
 #' * `data` ([base::data.frame]):
 #'   New data to rbind/cbind to the task.
 #' * `rows` (`vector`):
-#'   Vector of row ids to specify rows to filter from the [Backend] using its primary key.
+#'   Vector of row ids specifying rows from the [Backend] using its primary key.
 #'   Can be `character()` or `integer`, depending on the [Backend].
 #' * `cols` (`character()`):
-#'   Character vector to specify columns to select from the [Backend].
+#'   Character vector to specify columns from the [Backend].
 #' * `col` (`character(1)`):
-#'   Character vector to specify column to operate on from the [Backend].
-#' * `cols` (`character()`):
-#'   Character vector of used to select columns from the [Backend].
+#'   Character vector to specify a single column from the [Backend].
 #' * `n` (`integer(1)`):
 #'   Number of rows to retrieve from the [Backend].
+#' * `new_role` (`character(1)`):
+#'   New role to assign for specified rows/columns.
 #' * `subset` (`vector`):
 #'   Subset of row ids to subset rows from the [Backend] using its primary key.
 #'
@@ -64,6 +66,7 @@
 #' - `"validation"`: Do not use in training, this are (possibly unlabeled) observations
 #'   which are held back unless explicitly addressed.
 #' - `"ignore"`: Do not these observations at all.
+#' To alter the role, use `set_row_role()`.
 #'
 #' `$col_info` (`data.table`) with columns `id`, `role` and `type`.
 #'   Stores column names of [Backend] in column `id`. Each column (feature)
@@ -73,6 +76,11 @@
 #'   - `"ignore"`: Do not these features at all.
 #'   - `"primary_key"`: Name of the primary id column used in [Backend].
 #'   Column `type` stores the storage type of the variable, e.g. `integer`, `numeric` or `character`.
+#' To alter the role, use `set_col_role()`.
+#'
+#' `$set_row_role()` overwrites the role for specified rows, referenced by row id.
+#'
+#' `$set_col_role()` overwrites the role for specified columns.
 #'
 #' `$measures` is a list of [Measure] (performance measures) to use in this task.
 #'
@@ -187,10 +195,32 @@ Task = R6Class("Task",
 
     cbind = function(data) {
       task_cbind(self, data)
+    },
+
+    set_row_role = function(rows, new_role) {
+      # TODO: Make this an active binding?
+      assert_choice(new_role, capabilities$task_row_roles)
+      self$row_info[list(rows), "role" := new_role]
+      private$.hash = NA_character_
+      self
+    },
+
+    set_col_role = function(cols, new_role) {
+      # TODO: Make this an active binding?
+      assert_choice(new_role, capabilities$task_col_roles)
+      self$col_info[list(cols), "role" := new_role]
+      private$.hash = NA_character_
+      self
     }
   ),
 
   active = list(
+    hash = function() {
+      if (is.na(private$.hash))
+        private$.hash = digest::digest(list(self$id, self$row_info, self$col_info), algo = "xxhash64")
+      private$.hash
+    },
+
     feature_names = function() {
       self$col_info[role == "feature", "id"][[1L]]
     },
@@ -222,6 +252,7 @@ Task = R6Class("Task",
   ),
 
   private = list(
+    .hash = NA_character_,
     deep_clone = function(name, value) {
       # NB: Backends are never copied!
       if (name %in% c("row_info", "col_info")) copy(value) else value
