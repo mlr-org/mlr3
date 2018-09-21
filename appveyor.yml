@@ -34,9 +34,9 @@ on_finish: R -q -e "tic::after_script()"
 #  - 7z a failure.zip *.Rcheck\*
 #  - appveyor PushArtifact failure.zip
 
-#environment:
-#  GITHUB_PAT:
-#    secure: VXO22OHLkl4YhVIomSMwCZyOTx03Xf2WICaVng9xH7gISlAg8a+qrt1DtFtk8sK5
+environment:
+  global:
+    USE_RTOOLS: true
 
 artifacts:
   - path: '*.Rcheck\**\*.log'
