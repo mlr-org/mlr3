@@ -16,7 +16,7 @@ install:
 cache:
   - C:\RLibrary
   - C:\Program Files (x86)\Pandoc\
-  - 'C:\Program Files\MiKTeX 2.9'
+  - C:\miktex -> appveyor.yml
 
 before_build: R -q -e "tic::before_install()"
 build_script: R -q -e "tic::install()"
@@ -25,12 +25,15 @@ before_test:
       if (-Not (Test-Path "C:\Program Files (x86)\Pandoc\")) {
         cinst pandoc
       }
- - ps: >-
-      if (-Not (Test-Path "C:\Program Files\MiKTeX 2.9")) {
-        cinst miktex
-      }
  - ps: $env:Path += ";C:\Program Files (x86)\Pandoc\"
  - ps: $env:Path += ";C:\Program Files\MiKTeX 2.9"
+ # Install miktex to get pdflatex, if we don't get it from the cache
+ - if not exist c:\miktex\texmfs\install\miktex\bin\pdflatex.exe appveyor DownloadFile http://mirrors.ctan.org/systems/win32/miktex/setup/miktex-portable.exe
+ - if not exist c:\miktex\texmfs\install\miktex\bin\pdflatex.exe 7z x miktex-portable.exe -oC:\miktex >NUL
+ - set "PATH=%PATH%;c:\miktex\texmfs\install\miktex\bin"
+ # autoinstall latex packages (0=no, 1=autoinstall, 2=ask)
+ # this adds this to the registry!
+ - initexmf --set-config-value "[MPM]AutoInstall=1"
  - R -q -e "tic::before_script()"
 after_build: R -q -e "tic::after_install()"
 test_script: R -q -e "tic::script()"
