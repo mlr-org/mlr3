@@ -10,18 +10,34 @@ init:
 install:
   - ps: Bootstrap
   - cmd: R -q -e "writeLines('options(repos = \'https://cloud.r-project.org\')', '~/.Rprofile')"
+  - cmd: R -q -e "writeLines('miktex-portable-2.9.6753.exe', '.Rbuildignore')"
   - cmd: R -q -e "getOption('repos')"
   - cmd: R -q -e "install.packages('remotes'); remotes::install_github('ropenscilabs/tic'); tic::prepare_all_stages()"
 
 cache:
-- C:\RLibrary
+  - C:\RLibrary
+  - C:\Program Files\Pandoc\
+  - C:\miktex -> appveyor.yml
 
 before_build: R -q -e "tic::before_install()"
 build_script: R -q -e "tic::install()"
+before_test:
+ - ps: >-
+      if (-Not (Test-Path "C:\Program Files\Pandoc\")) {
+        cinst pandoc
+      }
+ - ps: $env:Path += ";C:\Program Files\Pandoc\"
+ # Install miktex to get pdflatex, if we don't get it from the cache
+ - if not exist c:\miktex\texmfs\install\miktex\bin\pdflatex.exe appveyor DownloadFile https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x86/miktex-portable-2.9.6753.exe
+ - if not exist c:\miktex\texmfs\install\miktex\bin\pdflatex.exe 7z x miktex-portable-2.9.6753.exe -oC:\miktex >NUL
+ - set "PATH=%PATH%;c:\miktex\texmfs\install\miktex\bin"
+ # autoinstall latex packages (0=no, 1=autoinstall, 2=ask)
+ # this adds this to the registry!
+ - initexmf --set-config-value "[MPM]AutoInstall=1"
+ - R -q -e "tic::before_script()"
 after_build: R -q -e "tic::after_install()"
-before_test: R -q -e "tic::before_script()"
 test_script: R -q -e "tic::script()"
-on_success: R -q -e "try(tic::after_success(), silent = TRUE)"
+# on_success: R -q -e "try(tic::after_success(), silent = TRUE)" covr is run on travis
 on_failure: R -q -e "tic::after_failure()"
 before_deploy: R -q -e "tic::before_deploy()"
 deploy_script: R -q -e "tic::deploy()"
@@ -34,9 +50,9 @@ on_finish: R -q -e "tic::after_script()"
 #  - 7z a failure.zip *.Rcheck\*
 #  - appveyor PushArtifact failure.zip
 
-#environment:
-#  GITHUB_PAT:
-#    secure: VXO22OHLkl4YhVIomSMwCZyOTx03Xf2WICaVng9xH7gISlAg8a+qrt1DtFtk8sK5
+environment:
+  global:
+    USE_RTOOLS: true
 
 artifacts:
   - path: '*.Rcheck\**\*.log'
