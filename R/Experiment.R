@@ -268,7 +268,6 @@ experiment_state = function(self) {
   return(ordered("defined", levels = states))
 }
 
-
 combine_experiments = function(x) {
   name = atomic = NULL
   nn = names(x[[1L]])
@@ -277,4 +276,8 @@ combine_experiments = function(x) {
     exp[encapsulate] = lapply(exp[encapsulate], list)
     exp
   }))
+}
+
+hash_experiment = function(task, learner, resampling) {
+  digest::digest(c(task$hash, learner$hash, resampling$hash), algo = "xxhash64")
 }

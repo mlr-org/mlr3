@@ -35,6 +35,10 @@ assert_resampling_index = function(r, i) {
   assert_int(i, lower = 1L, upper = r$iters, coerce = TRUE)
 }
 
+assert_resample_result = function(rr) {
+  assert_class(rr, "ResampleResult")
+}
+
 assert_id = function(id) {
   assert_string(id, min.chars = 1L)
 }

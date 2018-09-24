@@ -13,6 +13,7 @@ rr$resampling
 rr$measures
 rr$experiment(iter)
 rr$experiments(iters)
+rr$combine(rr)
 rr$performance
 rr$aggregated
 }
@@ -23,6 +24,8 @@ rr$aggregated
 \itemize{
 \item \code{i} (\code{integer}):
 Iteration(s) of the experiment(s) to retrieve.
+\item \code{rr} (\code{ResampleResult}):
+Second \link{ResampleResult}.
 }
 }
 
@@ -34,6 +37,8 @@ the resampling.
 \code{$experiment()} returns an \link{Experiment} for the \code{iter}-th resampling iteration.
 
 \code{$experiments()} returns a list with the slice of \link{Experiment}s for the provided \code{iters}.
+
+\code{$combine()} takes a second \link{ResampleResult} and combines both \link{ResampleResult}s into a \link{BenchmarkResult}.
 
 \code{$performance} provides a \link[data.table:data.table]{data.table::data.table} with column \code{iteration} (integer) and a numeric column for each
 performance measure (columns named using the measure ids).

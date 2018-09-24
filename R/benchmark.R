@@ -22,17 +22,14 @@ benchmark = function(tasks, learners, resamplings) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)
   assert_list(resamplings, "Resampling", min.len = 1L)
-
-  # TODO: this is not required anymore, we have hashing now
   assert_names(ids(tasks), "unique")
   assert_names(ids(learners), "unique")
   assert_names(ids(resamplings), "unique")
 
-
   # Instantiate resampling for each task
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
   instances = .mapply(function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]), grid, list())
-  grid$instance = seq_along(instances)
+  grid$instance = seq_row(grid)
 
   # Cross join task x learner combinations
   tmp = CJ(task = seq_along(tasks), learner = seq_along(learners))
@@ -42,17 +39,8 @@ benchmark = function(tasks, learners, resamplings) {
   tmp = rbindlist(lapply(seq_along(instances), function(i) data.table(instance = i, iter = seq_len(instances[[i]]$iters))))
   grid = grid[tmp, on = "instance", allow.cartesian = TRUE]
 
-  # add hash
-  grid[, hash := digest::digest(c(tasks[[task]]$id, learners[[learner]]$id, instances[[instance]]$id), algo = "xxhash64"), by = list(task, learner, instance)]
-  grid
-
-  ii = sample.int(nrow(grid))
-  res = data.table(
-    task = tasks[grid$task],
-    learner = learners[grid$learner],
-    resampling = instances[grid$instance],
-    iteration = grid$iter
-  )[ii]
+  # compute hashes
+  grid[, "hash" := hash_experiment(tasks[[task]], learners[[learner]], instances[[instance]]), by = c("task", "learner", "instance")]
 
   if (use_future()) {
     debug("Running benchmark() sequentially with %i iterations", nrow(res))
@@ -62,6 +50,10 @@ benchmark = function(tasks, learners, resamplings) {
     )
   } else {
     debug("Running resample() via future with %i iterations", nrow(res))
+
+    # randomize order for parallelization
+    grid = grid[sample.int(nrow(grid))]
+
     tmp = future.apply::future_mapply(experiment_worker,
       task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter,
       MoreArgs = list(ctrl = mlr_options()), SIMPLIFY = FALSE, USE.NAMES = FALSE,
@@ -69,9 +61,8 @@ benchmark = function(tasks, learners, resamplings) {
     )
   }
 
+  res = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], hash = grid$hash)
   tmp = combine_experiments(tmp)
-  res = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
-
   res[, names(tmp) := tmp]
   res = res[order(ids(get("task")), ids(get("learner")), get("iteration"))]
 

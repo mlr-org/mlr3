@@ -12,6 +12,7 @@
 #' rr$measures
 #' rr$experiment(iter)
 #' rr$experiments(iters)
+#' rr$combine(rr)
 #' rr$performance
 #' rr$aggregated
 #' ```
@@ -19,7 +20,8 @@
 #' @section Arguments:
 #' * `i` (`integer`):
 #'   Iteration(s) of the experiment(s) to retrieve.
-#'
+#' * `rr` (`ResampleResult`):
+#'   Second [ResampleResult].
 #' @section Details:
 #' `$task`, `learner`, `resampling` and `measure` allow access to the [Task], [Learner], [Resampling] and [Measure] used in
 #' the resampling.
@@ -27,6 +29,8 @@
 #' `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
 #'
 #' `$experiments()` returns a list with the slice of [Experiment]s for the provided `iters`.
+#'
+#' `$combine()` takes a second [ResampleResult] and combines both [ResampleResult]s into a [BenchmarkResult].
 #'
 #' `$performance` provides a [data.table::data.table] with column `iteration` (integer) and a numeric column for each
 #'   performance measure (columns named using the measure ids).
@@ -44,25 +48,40 @@ ResampleResult = R6Class("ResampleResult",
     initialize = function(data) {
       assert_data_table(data)
       slots = reflections$experiment_slots$name
-      assert_names(names(data), permutation.of = slots)
+      assert_names(names(data), must.include = slots)
       self$data = setcolorder(data, slots)
-      self$data$hash = digest::digest(c(data$task[[1L]]$hash, data$learner[[1L]]$hash, data$resampling[[1L]]$hash), algo = "xxhash64")
+      if (!hasName(data, "hash"))
+        self$data$hash = hash_experiment(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
     },
 
     print = function(...) {
       catf("ResampleResult of learner '%s' on task '%s' with %i iterations", self$task$id, self$learner$id, nrow(self$data))
-      # vapply(self$performance[, !"iteration"], function(x) c(mean(x), sd(x)))
-      # ... TBC
+
+      # FIXME: We want something like skimr w/o the dependencies
+      perf = self$performance[, !"iteration"]
+      tab = rbindlist(lapply(perf, function(x) c(as.list(summary(x)), list(Sd = sd(x)))))
+      tab$Measure = names(perf)
+      setcolorder(tab, "Measure")
+      print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE)
     },
 
     experiment = function(iter) {
       iter = assert_int(iter, lower = 1L, upper = nrow(self$data), coerce = TRUE)
-      .mapply(Experiment$new, self$data[get("iteration") == iter], MoreArgs = list())[[1L]]
+      cols = reflections$experiment_slots$name
+      .mapply(Experiment$new, self$data[get("iteration") == iter, cols, with = FALSE], MoreArgs = list())[[1L]]
     },
 
     experiments = function(iters) {
       iters = assert_integerish(iters, lower = 1L, upper = nrow(self$data), any.missing = FALSE, coerce = TRUE)
-      .mapply(Experiment$new, self$data[get("iteration") %in% iters], MoreArgs = list())
+      cols = reflections$experiment_slots$name
+      .mapply(Experiment$new, self$data[get("iteration") %in% iters, cols, with = FALSE], MoreArgs = list())
+    },
+
+    combine = function(rr) {
+      assert_resample_result(rr)
+      if (self$hash == rr$hash)
+        warningf("ResampleResult$combine(): Identical hashes detected. This is likely to be unintended.")
+      bmr = BenchmarkResult$new(rbind(self$data, rr$data))
     }
 
   ),
@@ -92,6 +111,10 @@ ResampleResult = R6Class("ResampleResult",
     aggregated = function() {
       measures = self$data$task[[1L]]$measures
       setNames(vnapply(measures, function(m) m$aggregate(self)), ids(measures))
+    },
+
+    hash = function() {
+      self$data$hash[1L]
     }
   )
 )

@@ -278,8 +278,8 @@ expect_resample_result = function(rr) {
     expect_numeric(perf[[m]], any.missing = FALSE)
 
   data = rr$data
-  expect_data_table(rr$data, nrow = rr$resampling$iters, ncol = nrow(reflections$experiment_slots), any.missing = FALSE)
-  expect_names(names(rr$data), permutation.of = reflections$experiment_slots$name)
+  expect_data_table(rr$data, nrow = rr$resampling$iters, ncol = nrow(reflections$experiment_slots) + 1L, any.missing = FALSE)
+  expect_names(names(rr$data), permutation.of = c(reflections$experiment_slots$name, "hash"))
 
   e = rr$experiment(1L)
   expect_experiment(e)
@@ -290,4 +290,14 @@ expect_resample_result = function(rr) {
   for (m in measures) {
     expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
   }
+}
+
+expect_benchmark_result = function(bmr) {
+  expect_r6(bmr, "BenchmarkResult", public = c("data", "resamplings", "resampling", "performance"))
+
+  resamplings = bmr$resamplings
+  expect_data_table(resamplings, ncol = 5L)
+  expect_names(names(resamplings), permutation.of = c("task", "learner", "resampling", "hash", "N"))
+  expect_character(resamplings$hash, any.missing = FALSE, unique = TRUE)
+  expect_integer(resamplings$N, any.missing = FALSE, lower = 1L)
 }
