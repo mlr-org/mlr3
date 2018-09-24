@@ -24,6 +24,7 @@
 #' t$ncol
 #' t$col_types
 #' t$formula
+#' t$hash
 #'
 #' t$filter(rows)
 #' t$select(cols)
@@ -115,6 +116,8 @@
 #' `$rbind()` extends the task with additional rows.
 #'
 #' `$cbind()` extends the task with additional columns.
+#'
+#' `$hash` stores a checksum (`character(1)`) calculated on the `id`, `row_info` and `col_info`.
 #'
 #' @name Task
 #' @export

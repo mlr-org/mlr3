@@ -54,7 +54,7 @@ benchmark = function(tasks, learners, resamplings) {
 
   # compute hashes
   task = learner = instance = NULL
-  grid[, "hash" := hash_experiment(tasks[[task]], learners[[learner]], instances[[instance]]), by = c("task", "learner", "instance")]
+  grid[, "hash" := hash_resampling(tasks[[task]], learners[[learner]], instances[[instance]]), by = c("task", "learner", "instance")]
 
   if (use_future()) {
     debug("Running benchmark() sequentially with %i iterations", nrow(res))

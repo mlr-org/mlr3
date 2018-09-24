@@ -7,7 +7,9 @@
 This is the object returned by \link{resample}.
 }
 \section{Usage}{
-\preformatted{rr$task
+\preformatted{rr = ResampleResult$new(data, hash = NULL)
+
+rr$task
 rr$learner
 rr$resampling
 rr$measures
@@ -23,6 +25,12 @@ rr$hash
 \section{Arguments}{
 
 \itemize{
+\item \code{data} (\code{data.table}):
+\code{data.table} with columns matching the data of an \link{Experiment}.
+Each row corresponds to a single experiment.
+\item \code{hash} (\code{NULL} or \code{character(1)}):
+Pre-calculated hash for the combination of \code{task}, \code{learner} and \code{resampling}.
+If \code{NULL}, the checksum will be calculated on-demand.
 \item \code{i} (\code{integer}):
 Iteration(s) of the experiment(s) to retrieve.
 \item \code{rr} (\code{ResampleResult}):

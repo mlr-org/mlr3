@@ -18,6 +18,7 @@ l$properties
 l$predict_type
 l$train(task)
 l$predict(task, model)
+l$hash
 }
 }
 
@@ -53,6 +54,8 @@ e.g. "response" or "probability" for classification learners of class \link{Lear
 \code{$train()} takes a task and returns a model fitted on all observations.
 
 \code{$predict()} takes a task and the model fitted in \code{$train()} to return predicted labels.
+
+\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id} and \code{par_vals}.
 }
 
 \seealso{

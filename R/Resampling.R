@@ -46,7 +46,8 @@
 #'
 #' `$test_set()` returns the test set for the `i`-th iteration.
 #'
-#' `$hash` returns a unique string hash for the instantiation.
+#' `$hash` stores a checksum (`character(1)`) calculated on the `id`, `par_vals` and the instantiation.
+#'   If the object is not instantiated yet, `NA` is returned.
 #'
 #' @name Resampling
 #' @keywords internal

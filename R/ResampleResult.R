@@ -6,6 +6,8 @@
 #' @section Usage:
 #'
 #' ```
+#' rr = ResampleResult$new(data, hash = NULL)
+#'
 #' rr$task
 #' rr$learner
 #' rr$resampling
@@ -19,6 +21,12 @@
 #' ```
 #'
 #' @section Arguments:
+#' * `data` (`data.table`):
+#'   `data.table` with columns matching the data of an [Experiment].
+#'   Each row corresponds to a single experiment.
+#' * `hash` (`NULL` or `character(1)`):
+#'   Pre-calculated hash for the combination of `task`, `learner` and `resampling`.
+#'   If `NULL`, the checksum will be calculated on-demand.
 #' * `i` (`integer`):
 #'   Iteration(s) of the experiment(s) to retrieve.
 #' * `rr` (`ResampleResult`):
@@ -71,14 +79,12 @@ ResampleResult = R6Class("ResampleResult",
 
     experiment = function(iter) {
       iter = assert_int(iter, lower = 1L, upper = nrow(self$data), coerce = TRUE)
-      cols = reflections$experiment_slots$name
-      .mapply(Experiment$new, self$data[get("iteration") == iter, cols, with = FALSE], MoreArgs = list())[[1L]]
+      .mapply(Experiment$new, self$data[get("iteration") == iter], MoreArgs = list())[[1L]]
     },
 
     experiments = function(iters) {
       iters = assert_integerish(iters, lower = 1L, upper = nrow(self$data), any.missing = FALSE, coerce = TRUE)
-      cols = reflections$experiment_slots$name
-      .mapply(Experiment$new, self$data[get("iteration") %in% iters, cols, with = FALSE], MoreArgs = list())
+      .mapply(Experiment$new, self$data[get("iteration") %in% iters], MoreArgs = list())
     },
 
     combine = function(rr) {
@@ -119,7 +125,7 @@ ResampleResult = R6Class("ResampleResult",
     hash = function() {
       if (is.na(private$.hash)) {
         data = self$data
-        private$.hash = hash_experiment(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
+        private$.hash = hash_resampling(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
       }
       private$.hash
     }
@@ -129,3 +135,8 @@ ResampleResult = R6Class("ResampleResult",
     .hash = NA_character_
   )
 )
+
+
+hash_resampling = function(task, learner, resampling) {
+  digest::digest(c(task$hash, learner$hash, resampling$hash), algo = "xxhash64")
+}

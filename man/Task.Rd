@@ -26,6 +26,7 @@ t$nrow
 t$ncol
 t$col_types
 t$formula
+t$hash
 
 t$filter(rows)
 t$select(cols)
@@ -127,6 +128,8 @@ This function ignores the row roles, so that you get all levels found in the \li
 \code{$rbind()} extends the task with additional rows.
 
 \code{$cbind()} extends the task with additional columns.
+
+\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_info} and \code{col_info}.
 }
 
 \examples{

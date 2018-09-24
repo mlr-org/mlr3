@@ -20,6 +20,8 @@
 #' e$validation_set
 #' e$timings
 #' e$state
+#'
+#' e$data
 #' ```
 #'
 #' @section Arguments:
@@ -49,6 +51,21 @@
 #'
 #' `$state` returns an factor of length 1 with ordered levels `"defined"`, `"trained"`, `"predicted"` and `"scored"`.
 #'
+#' `$data` stores the internal representation of an Experiment as a `named list` with the following slots:
+#'   * task: [Task].
+#'   * learner: [Learner].
+#'   * resampling: [Resampling]. Is `NULL` prior to calling `$train()`.
+#'      If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()],
+#'      a `ResamplingCustom` object is stored here.
+#'   * iteration: `integer(1)`. If the experiment is constructed manually, this is always 1.
+#'   * model: Trained model as returned by the [Learner].
+#'   * train_log: [Log] for the training step.
+#'   * train_time: `numeric(1)`. Elapsed time in microseconds.
+#'   * predict_log: [Log] for the predict step.
+#'   * predict_time: `numeric(1)`. Elapsed time in microseconds.
+#'   * prediction: [Prediction].
+#'   * performance: [`named numeric`]. Depending on the [Measure] stored in the [Task].
+#'   * score_time: `numeric(1)`. Elapsed time in microseconds.
 #'
 #' @name Experiment
 #' @export
@@ -278,6 +295,3 @@ combine_experiments = function(x) {
   }))
 }
 
-hash_experiment = function(task, learner, resampling) {
-  digest::digest(c(task$hash, learner$hash, resampling$hash), algo = "xxhash64")
-}

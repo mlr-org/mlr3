@@ -43,10 +43,6 @@ assert_id = function(id) {
   assert_string(id, min.chars = 1L)
 }
 
-# assert_hash = function(id) {
-#   assert_string(id, pattern = "^[0-9a-z]{16}$")
-# }
-
 assert_packages = function(packages) {
   assert_character(packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
 }
