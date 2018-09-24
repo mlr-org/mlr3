@@ -10,7 +10,7 @@ test_that("Basic benchmarking", {
   expect_is(bmr, "BenchmarkResult")
   expect_names(names(bmr$data), permutation.of = c(reflections$experiment_slots$name, "hash"))
 
-  hashes = bmr$resamplings$hash
+  hashes = bmr$hashes$hash
   rr = bmr$resampling(hashes[1])
   expect_resample_result(rr)
   expect_experiment(rr$experiment(1))

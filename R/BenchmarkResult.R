@@ -42,17 +42,18 @@ BenchmarkResult = R6Class("BenchmarkResult",
       self$data = setcolorder(data, slots)
     },
 
-    resampling = function(resample_hash) {
-      assert_string(resample_hash)
-      assert_choice(resample_hash, self$data[, unique(hash)])
-      ResampleResult$new(self$data[get("hash") == resample_hash])
+    resampling = function(hash) {
+      assert_string(hash)
+      assert_choice(hash, self$data[, unique(hash)])
+      tmp = hash
+      ResampleResult$new(self$data[get("hash") == tmp])
     }
   ),
 
   active = list(
-    resamplings = function() {
+    hashes = function() {
       res = self$data[, list(task = task[[1L]]$id, learner = learner[[1L]]$id, resampling = resampling[[1L]]$id, .N), by = "hash"]
-      setcolorder(res, c("task", "learner", "resampling", "hash"))[]
+      setcolorder(res, c("hash", "task", "learner", "resampling"))[]
     },
 
     performance = function() {

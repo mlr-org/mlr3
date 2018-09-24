@@ -43,8 +43,7 @@ test_that("rr$combine()", {
   expect_equal(nrow(bmr$data), nrow(rr1$data) + nrow(rr2$data))
   expect_set_equal(bmr$data$hash, c(rr1$hash, rr2$hash))
 
-  resamplings = bmr$resamplings
-  expect_data_table(resamplings, nrow = 2)
-  expect_set_equal(resamplings$hash, c(rr1$hash, rr2$hash))
-
+  hashes = bmr$hashes
+  expect_data_table(hashes, nrow = 2)
+  expect_set_equal(hashes$hash, c(rr1$hash, rr2$hash))
 })

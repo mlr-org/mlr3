@@ -293,11 +293,11 @@ expect_resample_result = function(rr) {
 }
 
 expect_benchmark_result = function(bmr) {
-  expect_r6(bmr, "BenchmarkResult", public = c("data", "resamplings", "resampling", "performance"))
+  expect_r6(bmr, "BenchmarkResult", public = c("data", "hashes", "resampling", "performance"))
 
-  resamplings = bmr$resamplings
-  expect_data_table(resamplings, ncol = 5L)
-  expect_names(names(resamplings), permutation.of = c("task", "learner", "resampling", "hash", "N"))
-  expect_character(resamplings$hash, any.missing = FALSE, unique = TRUE)
-  expect_integer(resamplings$N, any.missing = FALSE, lower = 1L)
+  hashes = bmr$hashes
+  expect_data_table(hashes, ncol = 5L)
+  expect_names(names(hashes), permutation.of = c("task", "learner", "resampling", "hash", "N"))
+  expect_character(hashes$hash, any.missing = FALSE, unique = TRUE)
+  expect_integer(hashes$N, any.missing = FALSE, lower = 1L)
 }

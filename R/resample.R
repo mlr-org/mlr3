@@ -26,7 +26,7 @@
 #' rr.dummy = resample(task, learner, resampling)
 #'
 #' bmr = rr$combine(rr.dummy)
-#' bmr$resamplings
+#' bmr$hashes
 resample = function(task, learner, resampling) {
   assert_task(task)
   assert_learner(learner, task = task)
