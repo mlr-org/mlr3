@@ -16,6 +16,7 @@ rr$experiments(iters)
 rr$combine(rr)
 rr$performance
 rr$aggregated
+rr$hash
 }
 }
 
@@ -44,5 +45,7 @@ the resampling.
 performance measure (columns named using the measure ids).
 
 \code{$aggregated} returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
+
+\code{$hash} stores a hash for the combination of task, learner and resampling.
 }
 

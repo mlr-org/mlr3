@@ -18,6 +18,19 @@
 #' resamplings = mlr_resamplings$mget(c("holdout", "cv"))
 #' bmr = benchmark(tasks, learners, resamplings)
 #' bmr$performance
+#'
+#' # Overview of of resamplings that were conducted internally
+#' hashes = bmr$hashes
+#' print(hashes)
+#'
+#'
+#' # Extract second resampling
+#' hash = bmr$hashes$hash[2]
+#' rr = bmr$resampling(hash = hash)
+#' print(rr)
+#'
+#' # Extract predictions of first experiment of this resampling
+#' rr$experiment(1)$prediction
 benchmark = function(tasks, learners, resamplings) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)
@@ -40,6 +53,7 @@ benchmark = function(tasks, learners, resamplings) {
   grid = grid[tmp, on = "instance", allow.cartesian = TRUE]
 
   # compute hashes
+  task = learner = instance = NULL
   grid[, "hash" := hash_experiment(tasks[[task]], learners[[learner]], instances[[instance]]), by = c("task", "learner", "instance")]
 
   if (use_future()) {

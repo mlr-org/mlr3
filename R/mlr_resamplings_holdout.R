@@ -12,16 +12,9 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     },
 
     instantiate = function(task, ...) {
-      # inner function so we can easily implement blocking here
-      # -> replace ids with unique values of blocking variable
-      # -> join ids using blocks
-      holdout = function(ids, ratio) {
-        ii = shuffle(ids, round(ratio * length(ids)))
-        list(train = ii, test = setdiff(ids, ii))
-      }
-
       assert_task(task)
-      private$.instantiate(holdout(task$row_ids(), assert_number(self$par_vals$ratio, lower = 0)))
+      instance = resampling_holdout(task$row_ids(), assert_number(self$par_vals$ratio, lower = 0))
+      private$.instantiate(instance)
     },
 
     train_set = function(i) {
@@ -37,3 +30,8 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     iters = 1L
   )
 )
+
+resampling_holdout = function(ids, ratio) {
+  ii = shuffle(ids, round(ratio * length(ids)))
+  list(train = ii, test = setdiff(ids, ii))
+}

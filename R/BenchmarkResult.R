@@ -46,7 +46,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_string(hash)
       assert_choice(hash, self$data[, unique(hash)])
       tmp = hash
-      ResampleResult$new(self$data[get("hash") == tmp])
+      ResampleResult$new(self$data[hash == tmp], hash = hash)
     }
   ),
 

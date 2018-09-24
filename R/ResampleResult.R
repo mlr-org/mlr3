@@ -15,6 +15,7 @@
 #' rr$combine(rr)
 #' rr$performance
 #' rr$aggregated
+#' rr$hash
 #' ```
 #'
 #' @section Arguments:
@@ -22,6 +23,7 @@
 #'   Iteration(s) of the experiment(s) to retrieve.
 #' * `rr` (`ResampleResult`):
 #'   Second [ResampleResult].
+#'
 #' @section Details:
 #' `$task`, `learner`, `resampling` and `measure` allow access to the [Task], [Learner], [Resampling] and [Measure] used in
 #' the resampling.
@@ -37,6 +39,8 @@
 #'
 #' `$aggregated` returns the aggregated performance measures. The aggregation method is part of the [Measure].
 #'
+#' `$hash` stores a hash for the combination of task, learner and resampling.
+#'
 #' @name ResampleResult
 NULL
 
@@ -45,13 +49,13 @@ ResampleResult = R6Class("ResampleResult",
   public = list(
     data = NULL,
 
-    initialize = function(data) {
+    initialize = function(data, hash = NULL) {
       assert_data_table(data)
       slots = reflections$experiment_slots$name
       assert_names(names(data), must.include = slots)
-      self$data = setcolorder(data, slots)
-      if (!hasName(data, "hash"))
-        self$data$hash = hash_experiment(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
+      self$data = data[, slots, with = FALSE]
+      if (!is.null(hash))
+        private$.hash = assert_string(hash)
     },
 
     print = function(...) {
@@ -81,9 +85,8 @@ ResampleResult = R6Class("ResampleResult",
       assert_resample_result(rr)
       if (self$hash == rr$hash)
         warningf("ResampleResult$combine(): Identical hashes detected. This is likely to be unintended.")
-      bmr = BenchmarkResult$new(rbind(self$data, rr$data))
+      BenchmarkResult$new(rbind(cbind(self$data, data.table(hash = self$hash)), cbind(rr$data, data.table(hash = rr$hash))))
     }
-
   ),
 
   active = list(
@@ -114,7 +117,15 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     hash = function() {
-      self$data$hash[1L]
+      if (is.na(private$.hash)) {
+        data = self$data
+        private$.hash = hash_experiment(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
+      }
+      private$.hash
     }
+  ),
+
+  private = list(
+    .hash = NA_character_
   )
 )

@@ -14,20 +14,9 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
     },
 
     instantiate = function(task, ...) {
-      # inner function so we can easily implement blocking here
-      # -> replace ids with unique values of blocking variable
-      # -> join ids using blocks
-      bootstrap = function(ids, ratio, repeats) {
-        n = length(ids)
-        nr = as.integer(round(n * ratio))
-        replicate(repeats, {
-          ii = sort(sample.int(n, nr, replace = TRUE))
-          list(train = ids[ii], test = ids[-unique(ii)])
-        }, simplify = FALSE)
-      }
-
       assert_task(task)
-      private$.instantiate(bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats))
+      instance = resampling_bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      private$.instantiate(instance)
     },
 
     train_set = function(i) {
@@ -47,3 +36,12 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
     }
   )
 )
+
+resampling_bootstrap = function(ids, ratio, repeats) {
+  n = length(ids)
+  nr = as.integer(round(n * ratio))
+  replicate(repeats, {
+    ii = sort(sample.int(n, nr, replace = TRUE))
+    list(train = ids[ii], test = ids[-unique(ii)])
+  }, simplify = FALSE)
+}
