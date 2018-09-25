@@ -57,7 +57,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     performance = function() {
-      tmp = self$data[, list(task = ids(task), learner = ids(learner), performance = performance)]
+      tmp = self$data[, list(task = ids(task), learner = ids(learner), resampling = ids(resampling), hash = hash, performance = performance)]
       cbind(tmp[, !"performance"], rbindlist(tmp$performance, fill = TRUE))
     }
   )

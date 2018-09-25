@@ -49,7 +49,7 @@ resampling$par_vals = list(ratio = 0.8)
 
 ## Resampling
 
-Now, we can pass all created objects to the `resample()` function to get a "ResampleResult":
+Now, we can pass all created objects to the `resample()` function to get an object of class `ResampleResult`:
 
 ```{r}
 rr = resample(task, learner, resampling)
@@ -84,7 +84,7 @@ We can do different things with resampling results, e.g.:
     rr$experiment(iter = 1)$model
     ```
 
-# Manual Instantiation
+## Manual Instantiation
 
 If you want to compare multiple learners, you should use the same resampling per task to reduce the variance of the performance estimation.
 Until now, we have just passed a resampling strategy to `resample()`, without specifying the actual splits into training and test.
@@ -105,6 +105,11 @@ rr1 = resample(task, learner1, resampling)
 rr2 = resample(task, learner2, resampling)
 
 setequal(rr1$experiment(1)$train_set, rr2$experiment(1)$train_set)
+```
+We can also combine the created result objects into a `BenchmarkResult`:
+```{r}
+bmr = rr1$combine(rr2)
+bmr$performance
 ```
 
 ## Custom Resampling

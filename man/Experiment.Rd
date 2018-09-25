@@ -66,12 +66,12 @@ If the experiment is constructed manually (i.e., not via \code{\link[=resample]{
 a \code{ResamplingCustom} object is stored here.
 \item iteration: \code{integer(1)}. If the experiment is constructed manually, this is always 1.
 \item model: Trained model as returned by the \link{Learner}.
-\item train_log: \link{Log} for the training step.
+\item train_log: Log for the training step.
 \item train_time: \code{numeric(1)}. Elapsed time in microseconds.
-\item predict_log: \link{Log} for the predict step.
+\item predict_log: Log for the predict step.
 \item predict_time: \code{numeric(1)}. Elapsed time in microseconds.
 \item prediction: \link{Prediction}.
-\item performance: \code{\link{named numeric}}. Depending on the \link{Measure} stored in the \link{Task}.
+\item performance: \code{named numeric}. Depending on the \link{Measure} stored in the \link{Task}.
 \item score_time: \code{numeric(1)}. Elapsed time in microseconds.
 }
 }

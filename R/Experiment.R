@@ -59,12 +59,12 @@
 #'      a `ResamplingCustom` object is stored here.
 #'   * iteration: `integer(1)`. If the experiment is constructed manually, this is always 1.
 #'   * model: Trained model as returned by the [Learner].
-#'   * train_log: [Log] for the training step.
+#'   * train_log: Log for the training step.
 #'   * train_time: `numeric(1)`. Elapsed time in microseconds.
-#'   * predict_log: [Log] for the predict step.
+#'   * predict_log: Log for the predict step.
 #'   * predict_time: `numeric(1)`. Elapsed time in microseconds.
 #'   * prediction: [Prediction].
-#'   * performance: [`named numeric`]. Depending on the [Measure] stored in the [Task].
+#'   * performance: `named numeric`. Depending on the [Measure] stored in the [Task].
 #'   * score_time: `numeric(1)`. Elapsed time in microseconds.
 #'
 #' @name Experiment

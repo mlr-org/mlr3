@@ -11,7 +11,7 @@ test_that("Basic benchmarking", {
   expect_is(bmr, "BenchmarkResult")
   expect_names(names(bmr$data), permutation.of = c(reflections$experiment_slots$name, "hash"))
   expect_data_table(bmr$performance, nrow = 12L)
-  expect_names(names(bmr$performance), permutation.of = c("task", "learner", ids(tasks[[1L]]$measures), ids(tasks[[2]]$measures)))
+  expect_names(names(bmr$performance), must.include = c("task", "learner", "resampling", ids(tasks[[1L]]$measures), ids(tasks[[2]]$measures)))
 
   perf = bmr$performance
   expect_data_table(perf, nrow = 12L)

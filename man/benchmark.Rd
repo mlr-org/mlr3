@@ -33,7 +33,6 @@ bmr$performance
 hashes = bmr$hashes
 print(hashes)
 
-
 # Extract second resampling
 hash = bmr$hashes$hash[2]
 rr = bmr$resampling(hash = hash)
