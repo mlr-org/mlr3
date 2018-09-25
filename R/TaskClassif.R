@@ -43,12 +43,8 @@ TaskClassif = R6Class("TaskClassif",
     initialize = function(id, backend, target, positive = NULL) {
       super$initialize(id = id, backend = backend, target = target)
 
-      assert_string(target)
+      # FIXME: use col_info$levels here
       truth = factor(self$truth()[[1L]])
-      if (FALSE) {
-        b = BackendDataTable$new(iris)
-        TaskClassif$new("irs", b, target = "Species")
-      }
       assert_factor(truth, min.levels = 2L, any.missing = FALSE, empty.levels.ok = FALSE, .var.name = "target column")
 
       if (is.null(positive)) {

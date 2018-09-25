@@ -152,7 +152,7 @@ Task = R6Class("Task",
       self$id = assert_id(id)
       self$backend = assert_backend(backend)
       self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
-      self$col_info = col_info(backend, self$backend$primary_key)
+      self$col_info = col_info(backend, backend$primary_key)
     },
 
     print = function(...) {
