@@ -30,4 +30,12 @@ rr = resample(task, learner, resampling)
 print(rr)
 rr$aggregated
 rr$performance
+
+# Repeat resampling with dummy learner and combine
+# the ResampleResults into a BenchmarkResult
+learner = mlr_learners$get("classif.dummy")
+rr.dummy = resample(task, learner, resampling)
+
+bmr = rr$combine(rr.dummy)
+bmr$hashes
 }

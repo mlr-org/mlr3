@@ -26,3 +26,24 @@ test_that("resample with multiple measures", {
 
   expect_resample_result(rr)
 })
+
+test_that("rr$combine()", {
+  task = mlr_tasks$get("iris")
+  task$measures = mlr_measures$mget(c("mmce", "acc"))
+  learner = mlr_learners$get("classif.dummy")
+  resampling = mlr_resamplings$get("cv")
+  resampling$par_vals = list(folds = 3)
+  rr1 = resample(task, learner, resampling)
+
+  learner = mlr_learners$get("classif.rpart")
+  rr2 = resample(task, learner, resampling)
+
+  bmr = rr1$combine(rr2)
+  expect_benchmark_result(bmr)
+  expect_equal(nrow(bmr$data), nrow(rr1$data) + nrow(rr2$data))
+  expect_set_equal(bmr$data$hash, c(rr1$hash, rr2$hash))
+
+  hashes = bmr$hashes
+  expect_data_table(hashes, nrow = 2)
+  expect_set_equal(hashes$hash, c(rr1$hash, rr2$hash))
+})

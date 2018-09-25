@@ -11,18 +11,9 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     },
 
     instantiate = function(task, ...) {
-      # inner function so we can easily implement blocking here
-      # -> replace ids with unique values of blocking variable
-      # -> join ids using blocks
-      cv = function(ids, folds) {
-        data.table(
-          row_id = ids,
-          fold = shuffle(seq_along0(ids) %% folds + 1L),
-          key = "fold"
-        )
-      }
       assert_task(task)
-      private$.instantiate(cv(task$row_ids(), self$par_vals$folds))
+      instance = resampling_cv(task$row_ids(), self$par_vals$folds)
+      private$.instantiate(instance)
     },
 
     train_set = function(i) {
@@ -43,3 +34,10 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   )
 )
 
+resampling_cv = function(ids, folds) {
+  data.table(
+    row_id = ids,
+    fold = shuffle(seq_along0(ids) %% folds + 1L),
+    key = "fold"
+  )
+}

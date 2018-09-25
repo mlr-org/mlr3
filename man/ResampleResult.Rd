@@ -7,22 +7,34 @@
 This is the object returned by \link{resample}.
 }
 \section{Usage}{
-\preformatted{rr$task
+\preformatted{rr = ResampleResult$new(data, hash = NULL)
+
+rr$task
 rr$learner
 rr$resampling
 rr$measures
 rr$experiment(iter)
 rr$experiments(iters)
+rr$combine(rr)
 rr$performance
 rr$aggregated
+rr$hash
 }
 }
 
 \section{Arguments}{
 
 \itemize{
+\item \code{data} (\code{data.table}):
+\code{data.table} with columns matching the data of an \link{Experiment}.
+Each row corresponds to a single experiment.
+\item \code{hash} (\code{NULL} or \code{character(1)}):
+Pre-calculated hash for the combination of \code{task}, \code{learner} and \code{resampling}.
+If \code{NULL}, the checksum will be calculated on-demand.
 \item \code{i} (\code{integer}):
 Iteration(s) of the experiment(s) to retrieve.
+\item \code{rr} (\code{ResampleResult}):
+Second \link{ResampleResult}.
 }
 }
 
@@ -35,9 +47,13 @@ the resampling.
 
 \code{$experiments()} returns a list with the slice of \link{Experiment}s for the provided \code{iters}.
 
+\code{$combine()} takes a second \link{ResampleResult} and combines both \link{ResampleResult}s into a \link{BenchmarkResult}.
+
 \code{$performance} provides a \link[data.table:data.table]{data.table::data.table} with column \code{iteration} (integer) and a numeric column for each
 performance measure (columns named using the measure ids).
 
 \code{$aggregated} returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
+
+\code{$hash} stores a hash for the combination of task, learner and resampling.
 }
 

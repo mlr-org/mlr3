@@ -38,22 +38,24 @@ BenchmarkResult = R6Class("BenchmarkResult",
     initialize = function(data) {
       assert_data_table(data)
       slots = reflections$experiment_slots$name
-      assert_names(names(data), permutation.of = slots)
+      assert_names(names(data), permutation.of = c(slots, "hash"))
       self$data = setcolorder(data, slots)
     },
 
-    experiment = function(i) {
-      assert_int(i, lower = 1L, upper = nrow(self$data))
-      .mapply(Experiment$new, self$data[i], MoreArgs = list())[[1L]]
-    },
-
-    experiments = function(i) {
-      assert_integer(i, lower = 1L, upper = nrow(self$data), any.missing = FALSE)
-      .mapply(Experiment$new, self$data[i], MoreArgs = list())
+    resampling = function(hash) {
+      assert_string(hash)
+      assert_choice(hash, self$data[, unique(hash)])
+      tmp = hash
+      ResampleResult$new(self$data[hash == tmp], hash = hash)
     }
   ),
 
   active = list(
+    hashes = function() {
+      res = self$data[, list(task = task[[1L]]$id, learner = learner[[1L]]$id, resampling = resampling[[1L]]$id, .N), by = "hash"]
+      setcolorder(res, c("hash", "task", "learner", "resampling"))[]
+    },
+
     performance = function() {
       tmp = self$data[, list(task = ids(task), learner = ids(learner), performance = performance)]
       cbind(tmp[, !"performance"], rbindlist(tmp$performance, fill = TRUE))

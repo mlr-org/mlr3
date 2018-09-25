@@ -52,17 +52,17 @@ test_that("hashing", {
 
     withr::with_seed(123L, r$instantiate(task))
     expect_identical(private(r)$.hash, NA_character_)
-    chk = r$checksum
+    chk = r$hash
     expect_string(chk, pattern = "^[a-z0-9]+$")
-    expect_identical(r$checksum, chk)
+    expect_identical(r$hash, chk)
     expect_identical(private(r)$.hash, chk)
 
     withr::with_seed(123L, r$instantiate(task))
     expect_identical(private(r)$.hash, NA_character_)
-    expect_identical(r$checksum, chk)
+    expect_identical(r$hash, chk)
 
     withr::with_seed(124L, r$instantiate(task))
-    expect_false(r$checksum == chk)
+    expect_false(r$hash == chk)
   }
 })
 
@@ -72,12 +72,9 @@ test_that("has_duplicates", {
   r = mlr_resamplings$get("custom")
   expect_identical(r$has_duplicates, NA)
 
-  r$instantiate(task, list(1:3), list(4:6))
-  expect_false(r$has_duplicates)
+  r = mlr_resamplings$get("bootstrap")
+  expect_identical(r$has_duplicates, TRUE)
 
-  r$instantiate(task, list(1:3), list(1:3))
-  expect_false(r$has_duplicates)
-
-  r$instantiate(task, list(c(1:3, 3L)), list(4:7))
-  expect_true(r$has_duplicates)
+  r = mlr_resamplings$get("cv")
+  expect_identical(r$has_duplicates, FALSE)
 })

@@ -16,6 +16,7 @@
 #' l$predict_type
 #' l$train(task)
 #' l$predict(task, model)
+#' l$hash
 #' ```
 #'
 #' @section Arguments:
@@ -45,6 +46,8 @@
 #' `$train()` takes a task and returns a model fitted on all observations.
 #'
 #' `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
+#'
+#' `$hash` stores a checksum (`character(1)`) calculated on the `id` and `par_vals`.
 #'
 #' @name Learner
 #' @keywords internal
@@ -78,10 +81,17 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    hash = function() {
+      if (is.na(private$.hash))
+        private$.hash = digest::digest(list(self$id, self$par_vals), algo = "xxhash64")
+      private$.hash
+    },
+
     par_vals = function(rhs) {
       if (missing(rhs))
         return(private$.par_vals)
       private$.par_vals = assert_par_vals(par_vals, self$par_set)
+      private$.hash = NA_character_
     },
 
     predict_type = function(rhs) {
@@ -94,6 +104,7 @@ Learner = R6Class("Learner",
     }
   ),
   private = list(
+    .hash = NA_character_,
     .par_vals = NULL,
     .predict_type = NULL
   )

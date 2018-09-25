@@ -18,7 +18,7 @@ r$instantiate(task)
 r$is_instantiated
 r$train_set(i)
 r$test_set(i)
-r$checksum
+r$hash
 }
 }
 
@@ -53,7 +53,8 @@ You can set parameters by assigning a named list of new parameters to this slot.
 
 \code{$test_set()} returns the test set for the \code{i}-th iteration.
 
-\code{$checksum} returns a unique string hash for the instantiation.
+\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{par_vals} and the instantiation.
+If the object is not instantiated yet, \code{NA} is returned.
 }
 
 \seealso{

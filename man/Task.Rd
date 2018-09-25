@@ -13,6 +13,8 @@ t$id
 t$backend
 t$row_info
 t$col_info
+t$set_row_role(rows, new_role)
+t$set_col_role(cols, new_role)
 t$measures
 t$data(rows = NULL, cols = NULL)
 t$head(n = 6)
@@ -24,6 +26,7 @@ t$nrow
 t$ncol
 t$col_types
 t$formula
+t$hash
 
 t$filter(rows)
 t$select(cols)
@@ -42,16 +45,16 @@ Name of the task.
 \item \code{data} (\link[base:data.frame]{base::data.frame}):
 New data to rbind/cbind to the task.
 \item \code{rows} (\code{vector}):
-Vector of row ids to specify rows to filter from the \link{Backend} using its primary key.
+Vector of row ids specifying rows from the \link{Backend} using its primary key.
 Can be \code{character()} or \code{integer}, depending on the \link{Backend}.
 \item \code{cols} (\code{character()}):
-Character vector to specify columns to select from the \link{Backend}.
+Character vector to specify columns from the \link{Backend}.
 \item \code{col} (\code{character(1)}):
-Character vector to specify column to operate on from the \link{Backend}.
-\item \code{cols} (\code{character()}):
-Character vector of used to select columns from the \link{Backend}.
+Character vector to specify a single column from the \link{Backend}.
 \item \code{n} (\code{integer(1)}):
 Number of rows to retrieve from the \link{Backend}.
+\item \code{new_role} (\code{character(1)}):
+New role to assign for specified rows/columns.
 \item \code{subset} (\code{vector}):
 Subset of row ids to subset rows from the \link{Backend} using its primary key.
 }
@@ -73,6 +76,7 @@ can have a specific mutually exclusive role in the learning task:
 \item \code{"validation"}: Do not use in training, this are (possibly unlabeled) observations
 which are held back unless explicitly addressed.
 \item \code{"ignore"}: Do not these observations at all.
+To alter the role, use \code{set_row_role()}.
 }
 
 \code{$col_info} (\code{data.table}) with columns \code{id}, \code{role} and \code{type}.
@@ -84,7 +88,12 @@ can have a specific mutually exclusive role in the learning task:
 \item \code{"ignore"}: Do not these features at all.
 \item \code{"primary_key"}: Name of the primary id column used in \link{Backend}.
 Column \code{type} stores the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
+To alter the role, use \code{set_col_role()}.
 }
+
+\code{$set_row_role()} overwrites the role for specified rows, referenced by row id.
+
+\code{$set_col_role()} overwrites the role for specified columns.
 
 \code{$measures} is a list of \link{Measure} (performance measures) to use in this task.
 
@@ -119,6 +128,8 @@ This function ignores the row roles, so that you get all levels found in the \li
 \code{$rbind()} extends the task with additional rows.
 
 \code{$cbind()} extends the task with additional columns.
+
+\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_info} and \code{col_info}.
 }
 
 \examples{

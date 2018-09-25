@@ -9,25 +9,11 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       )
       self$has_duplicates = FALSE
     },
+
     instantiate = function(task, ...) {
-      # inner function so we can easily implement blocking here
-      # -> replace ids with unique values of blocking variable
-      # -> join ids using blocks
-      rcv = function(ids, folds, repeats) {
-        n = length(ids)
-        data = rbindlist(lapply(seq_len(repeats), function(i) {
-          data.table(
-            row_id = ids,
-            rep = i,
-            fold = shuffle(seq_len0(n) %% folds + 1L)
-          )
-        }))
-
-        setkeyv(data, c("rep", "fold"))
-      }
-
       assert_task(task)
-      private$.instantiate(rcv(task$row_ids(), self$par_vals$folds, self$par_vals$repeats))
+      instance = resampling_repeated_cv(task$row_ids(), self$par_vals$folds, self$par_vals$repeats)
+      private$.instantiate(instance)
     },
 
     train_set = function(i) {
@@ -48,9 +34,23 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       private$.instance[ii, "row_id"][[1L]]
     }
   ),
+
   active = list(
     iters = function() {
       self$par_vals$repeats * self$par_vals$folds
     }
   )
 )
+
+resampling_repeated_cv = function(ids, folds, repeats) {
+  n = length(ids)
+  data = rbindlist(lapply(seq_len(repeats), function(i) {
+    data.table(
+      row_id = ids,
+      rep = i,
+      fold = shuffle(seq_len0(n) %% folds + 1L)
+    )
+  }))
+
+  setkeyv(data, c("rep", "fold"))
+}

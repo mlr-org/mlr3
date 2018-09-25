@@ -16,7 +16,7 @@
 #' r$is_instantiated
 #' r$train_set(i)
 #' r$test_set(i)
-#' r$checksum
+#' r$hash
 #' ```
 #'
 #' @section Arguments:
@@ -46,7 +46,8 @@
 #'
 #' `$test_set()` returns the test set for the `i`-th iteration.
 #'
-#' `$checksum` returns a unique string hash for the instantiation.
+#' `$hash` stores a checksum (`character(1)`) calculated on the `id`, `par_vals` and the instantiation.
+#'   If the object is not instantiated yet, `NA` is returned.
 #'
 #' @name Resampling
 #' @keywords internal
@@ -81,6 +82,14 @@ Resampling = R6Class("Resampling",
 
 
   active = list(
+    hash = function() {
+      if (is.null(private$.instance))
+        return(NA_character_)
+      if (is.na(private$.hash))
+        private$.hash = digest::digest(list(self$id, private$.par_vals, private$.instance), algo = "xxhash64")
+      private$.hash
+    },
+
     par_vals = function(rhs) {
       if (missing(rhs))
         return(private$.par_vals)
@@ -90,20 +99,12 @@ Resampling = R6Class("Resampling",
 
     is_instantiated = function() {
       !is.null(private$.instance)
-    },
-
-    checksum = function() {
-      if (is.null(private$.instance))
-        return(NA_character_)
-      if (is.na(private$.hash))
-        private$.hash = digest::digest(private$.instance, algo = "murmur32")
-      private$.hash
     }
   ),
 
   private = list(
-    .instance = NULL,
     .hash = NA_character_,
+    .instance = NULL,
     .par_vals = NULL,
     .instantiate = function(instance) {
       private$.instance = instance

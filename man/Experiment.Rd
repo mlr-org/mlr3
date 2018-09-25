@@ -21,6 +21,8 @@ e$test_set
 e$validation_set
 e$timings
 e$state
+
+e$data
 }
 }
 
@@ -54,6 +56,24 @@ If there is a validation set (see \link{Task}), \code{validation_set} returns th
 Timings are \code{NA} if the step has not been performed yet.
 
 \code{$state} returns an factor of length 1 with ordered levels \code{"defined"}, \code{"trained"}, \code{"predicted"} and \code{"scored"}.
+
+\code{$data} stores the internal representation of an Experiment as a \code{named list} with the following slots:
+\itemize{
+\item task: \link{Task}.
+\item learner: \link{Learner}.
+\item resampling: \link{Resampling}. Is \code{NULL} prior to calling \code{$train()}.
+If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}},
+a \code{ResamplingCustom} object is stored here.
+\item iteration: \code{integer(1)}. If the experiment is constructed manually, this is always 1.
+\item model: Trained model as returned by the \link{Learner}.
+\item train_log: \link{Log} for the training step.
+\item train_time: \code{numeric(1)}. Elapsed time in microseconds.
+\item predict_log: \link{Log} for the predict step.
+\item predict_time: \code{numeric(1)}. Elapsed time in microseconds.
+\item prediction: \link{Prediction}.
+\item performance: \code{\link{named numeric}}. Depending on the \link{Measure} stored in the \link{Task}.
+\item score_time: \code{numeric(1)}. Elapsed time in microseconds.
+}
 }
 
 \examples{
