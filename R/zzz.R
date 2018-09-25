@@ -32,6 +32,9 @@ populate_dicts = function() {
 
   if (is.null(mlr_measures))
     mlr_measures <<- DictionaryMeasure$new()
+  mlr_measures$add(MeasureElapsedTime$new("time_train", "train"))
+  mlr_measures$add(MeasureElapsedTime$new("time_predict", "predict"))
+  mlr_measures$add(MeasureElapsedTime$new("time_both", c("train", "predict")))
   mlr_measures$add(MeasureMMCE$new())
   mlr_measures$add(MeasureACC$new())
   mlr_measures$add(MeasureMSE$new())
