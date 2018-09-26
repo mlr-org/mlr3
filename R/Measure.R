@@ -63,7 +63,7 @@ Measure = R6Class("Measure", cloneable = FALSE,
 
     initialize = function(id, task_types, range, minimize, packages = character(0L)) {
       self$id = assert_id(id)
-      self$task_types = assert_subset(task_types, capabilities$task_types, empty.ok = FALSE)
+      self$task_types = assert_subset(task_types, c("all", capabilities$task_types), empty.ok = FALSE)
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize)
       self$packages = assert_packages(packages)
