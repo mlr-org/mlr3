@@ -167,7 +167,7 @@ Experiment = R6Class("Experiment",
 
     validation_set = function() {
       role = NULL
-      self$data$task$row_info[role == "validation", "id"][[1L]]
+      self$data$task$row_info[list("validation"), "id", on = "role", nomatch = 0L][[1L]]
     },
 
     prediction = function() {
@@ -243,7 +243,7 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
     e$data$resampling$instantiate(e$data$task, test_sets = list(row_ids))
   } else {
     e$data$task = e$data$task$clone()$rbind(newdata)
-    row_ids = e$data$task$row_info[role == "validation", "id"][[1L]]
+    row_ids = e$data$task$row_info[list("validation"), "id", on = "role", nomatch = 0L][[1L]]
   }
 
   if (use_future()) {

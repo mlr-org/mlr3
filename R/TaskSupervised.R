@@ -28,10 +28,13 @@ NULL
 TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
     initialize = function(id, backend, targets) {
+      assert_character(targets, any.missing = FALSE, min.len = 1L)
       super$initialize(id = id, backend = backend)
 
-      assert_subset(targets, self$feature_names, empty.ok = FALSE)
-      self$col_info[id %in% targets, "role" := "target"]
+      i = self$col_info[list(targets), which = TRUE]
+      if (anyMissing(i))
+        stopf("Target columns %s not in Backend", stri_peek(targets(is.na(i))))
+      set(self$col_info, i = i, j = "role", "target")
 
       for (target in targets)
         self$row_info[is.na(target), role := "validation"]
@@ -39,7 +42,7 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
 
     truth = function(row_ids = NULL) {
       if (is.null(row_ids))
-        row_ids = self$row_info[role == "use", "id"][[1L]]
+        row_ids = self$row_info[list("use"), "id", on = "role"][[1L]]
       self$data(row_ids, cols = self$target_names)
     }
   )

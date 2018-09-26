@@ -56,13 +56,13 @@ benchmark = function(tasks, learners, resamplings) {
   grid[, "hash" := hash_resampling(tasks[[task]], learners[[learner]], instances[[instance]]), by = c("task", "learner", "instance")]
 
   if (use_future()) {
-    debug("Running benchmark() sequentially with %i iterations", nrow(res))
+    debug("Running benchmark() sequentially with %i iterations", nrow(grid))
     tmp = mapply(experiment_worker,
       task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter,
       MoreArgs = list(ctrl = mlr_options()), SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   } else {
-    debug("Running resample() via future with %i iterations", nrow(res))
+    debug("Running resample() via future with %i iterations", nrow(grid))
 
     # randomize order for parallelization
     grid = grid[sample.int(nrow(grid))]

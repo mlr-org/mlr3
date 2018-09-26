@@ -165,8 +165,9 @@ Task = R6Class("Task",
 
     head = function(n = 6L) {
       assert_count(n)
-      ids = head(self$row_info[role == "use", "id", with = FALSE][[1L]], n)
-      self$data(rows = ids, cols = c(self$feature_names, self$target_names))
+      ids = self$row_info[list("use"), head(id, n), on = "role", nomatch = 0L]
+      cols = self$col_info[list(c("target", "feature")), on = "role", id, nomatch = 0L]
+      self$data(rows = ids, cols = cols)
     },
 
     levels = function(col) {
@@ -176,9 +177,9 @@ Task = R6Class("Task",
 
     row_ids = function(subset = NULL) {
       if (is.null(subset)) {
-        self$row_info[role == "use", "id"][[1L]]
+        self$row_info[list("use"), "id", on = "role", nomatch = 0L][[1L]]
       } else {
-        self$row_info[list(subset)][role == "use", "id"][[1L]]
+        self$row_info[id %in% subset & role == "use", "id"][[1L]]
       }
     },
 
@@ -225,11 +226,11 @@ Task = R6Class("Task",
     },
 
     feature_names = function() {
-      self$col_info[role == "feature", "id"][[1L]]
+      self$col_info["feature", "id", on = "role", nomatch = 0L][[1L]]
     },
 
     target_names = function() {
-      self$col_info[role == "target", "id"][[1L]]
+      self$col_info[list("target"), "id", on = "role", nomatch = 0L][[1L]]
     },
 
     nrow = function() {
@@ -265,7 +266,7 @@ Task = R6Class("Task",
 
 task_data = function(self, rows = NULL, cols = NULL) {
   if (is.null(rows)) {
-    selected_rows = self$row_info[role == "use", "id"][[1L]]
+    selected_rows = self$row_info[list("use"), "id", on = "role", nomatch = 0L][[1L]]
   } else {
     if (self$row_info[list(rows), .N] != length(rows))
       stopf("Invalid row ids provided")
@@ -273,7 +274,7 @@ task_data = function(self, rows = NULL, cols = NULL) {
   }
 
   if (is.null(cols)) {
-    selected_cols = self$col_info[role %in% c("feature", "target"), "id"][[1L]]
+    selected_cols = self$col_info[list(c("feature", "target")), "id", on = "role", nomatch = 0L][[1L]]
   } else {
     selected_cols = self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
     if (length(selected_cols) != length(cols))
