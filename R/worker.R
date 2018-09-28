@@ -8,10 +8,11 @@ ecall = function(fun, pars) {
 }
 
 train_worker = function(e, ctrl) {
-  learner = e$data$learner$clone()
+  data = e$data
+  learner = data$learner$clone()
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
-  task = e$data$task$clone(deep = TRUE)$filter(e$train_set)
+  task = data$task$clone(deep = TRUE)$filter(e$train_set)
   pars = c(list(task = task), learner$par_vals)
 
   if (ctrl$verbose)
@@ -26,11 +27,12 @@ train_worker = function(e, ctrl) {
 }
 
 predict_worker = function(e, ctrl) {
-  learner = e$data$learner
+  data = e$data
+  learner = data$learner
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
-  task = e$data$task$clone(deep = TRUE)$filter(e$test_set)
-  pars = c(list(model = e$data$model, task = task), learner$par_vals)
+  task = data$task$clone(deep = TRUE)$filter(e$test_set)
+  pars = c(list(model = data$model, task = task), learner$par_vals)
 
   if (ctrl$verbose)
     message(sprintf("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id))
@@ -45,12 +47,13 @@ predict_worker = function(e, ctrl) {
 }
 
 score_worker = function(e, ctrl) {
-  task = e$data$task
+  data = e$data
+  task = data$task
   measures = task$measures
   require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
 
   if (ctrl$verbose)
-    message(sprintf("Scoring predictions of learner '%s' on task '%s' ...", e$data$learner$id, e$data$task$id))
+    message(sprintf("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id))
   calc_all_measures = function() {
     setNames(lapply(measures, function(m) m$calculate(e)), ids(measures))
   }
@@ -59,8 +62,7 @@ score_worker = function(e, ctrl) {
 }
 
 experiment_worker = function(iteration, task, learner, resampling, ctrl) {
-  e = Experiment$new(task, learner)
-  e$data = insert(e$data, list(resampling = resampling, iteration = iteration))
+  e = Experiment$new(task, learner, resampling = resampling, iteration = iteration)
 
   if (ctrl$verbose) {
     message(sprintf("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters))
