@@ -12,8 +12,9 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
     instantiate = function(task, ...) {
       assert_task(task)
-      instance = resampling_repeated_cv(task$row_ids(), self$par_vals$folds, self$par_vals$repeats)
-      private$.instantiate(instance)
+      private$.hash = NA_character_
+      self$instance = resampling_repeated_cv(task$row_ids(), self$par_vals$folds, self$par_vals$repeats)
+      self
     },
 
     train_set = function(i) {
@@ -22,7 +23,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = setdiff(seq_len(folds), fold))
-      private$.instance[ii, "row_id"][[1L]]
+      self$instance[ii, "row_id"][[1L]]
     },
 
     test_set = function(i) {
@@ -31,7 +32,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = fold)
-      private$.instance[ii, "row_id"][[1L]]
+      self$instance[ii, "row_id"][[1L]]
     }
   ),
 

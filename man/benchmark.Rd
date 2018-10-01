@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(tasks, learners, resamplings)
+benchmark(tasks, learners, resamplings, measures = NULL)
 }
 \arguments{
 \item{tasks}{(\code{list} of \link{Task})\cr
@@ -15,6 +15,10 @@ List of objects of type \link{Learner}.}
 
 \item{resamplings}{(\code{list} of \link{Resampling})\cr
 List of objects of type \link{Resampling}.}
+
+\item{measures}{(list of \link{Measure})\cr
+List of performance measures used to assess the predictive performance.
+Defaults to the respective measures stored in \code{task}.}
 }
 \value{
 \link{BenchmarkResult}.
@@ -26,16 +30,16 @@ Runs a benchmark of the cross-product of learners, tasks, and resampling strateg
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
 resamplings = mlr_resamplings$mget(c("holdout", "cv"))
-bmr = benchmark(tasks, learners, resamplings)
+measures = mlr_measures$mget(c("acc", "time_train"))
+bmr = benchmark(tasks, learners, resamplings, measures)
 bmr$performance
 
 # Overview of of resamplings that were conducted internally
-hashes = bmr$hashes
-print(hashes)
+rrs = bmr$resample_results
+print(rrs)
 
-# Extract second resampling
-hash = bmr$hashes$hash[2]
-rr = bmr$resampling(hash = hash)
+# Extract first ResampleResult
+rr = bmr$resample_result(hash = rrs$hash[1])
 print(rr)
 
 # Extract predictions of first experiment of this resampling

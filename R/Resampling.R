@@ -14,6 +14,7 @@
 #' r$par_vals
 #' r$instantiate(task)
 #' r$is_instantiated
+#' r$instance
 #' r$train_set(i)
 #' r$test_set(i)
 #' r$hash
@@ -42,6 +43,9 @@
 #'
 #' `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
 #'
+#' `$instance` stores the instantiated realization of the resampling. This is an arbitrary object, do
+#'   not work directly with it. Instead, use `$train_set()` and `$test_set()`.
+#'
 #' `$train_set()` returns the training set for the `i`-th iteration.
 #'
 #' `$test_set()` returns the test set for the `i`-th iteration.
@@ -52,6 +56,29 @@
 #' @name Resampling
 #' @keywords internal
 #' @family Resampling
+#' @examples
+#' r = mlr_resamplings$get("subsampling")
+#'
+#' # Default parametrization
+#' r$par_vals
+#'
+#' # Do only 3 repeats on 10% of the data
+#' r$par_vals = list(ratio = 0.1, repeats = 3)
+#' r$par_vals
+#'
+#'
+#' # Instantiate on iris task
+#' task = mlr_tasks$get("iris")
+#' r$instantiate(task)
+#'
+#' # Extract train/test sets
+#' train_set = r$train_set(1)
+#' print(train_set)
+#' intersect(train_set, r$test_set(1))
+#'
+#' # Another example: 10-fold CV
+#' r = mlr_resamplings$get("cv")$instantiate(task)
+#' r$train_set(1)
 NULL
 
 #' @include helper_R6.R
@@ -60,6 +87,7 @@ Resampling = R6Class("Resampling",
   public = list(
     id = NULL,
     par_set = NULL,
+    instance = NULL,
     has_duplicates = NA,
 
     initialize = function(id, par_set = ParamSet$new(), par_vals = list()) {
@@ -74,8 +102,8 @@ Resampling = R6Class("Resampling",
 
     print = function(...) {
       pv = self$par_vals
-      catf("<%s> with %i iterations", class(self)[1L], self$iters)
-      catf("Parameters: %s", paste0(paste(names(pv), pv, sep = "=")), collapse = ", ")
+      catf("%s<%s> with %i iterations", if (self$is_instantiated) "Instantiated " else "", class(self)[1L], self$iters)
+      catf("Parameters: %s", paste0(paste(names(pv), pv, sep = "="), collapse = ", "))
       catf(stri_list("\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
     }
   ),
@@ -83,10 +111,10 @@ Resampling = R6Class("Resampling",
 
   active = list(
     hash = function() {
-      if (is.null(private$.instance))
+      if (is.null(self$instance))
         return(NA_character_)
       if (is.na(private$.hash))
-        private$.hash = digest::digest(list(self$id, private$.par_vals, private$.instance), algo = "xxhash64")
+        private$.hash = hash(self)
       private$.hash
     },
 
@@ -98,16 +126,15 @@ Resampling = R6Class("Resampling",
     },
 
     is_instantiated = function() {
-      !is.null(private$.instance)
+      !is.null(self$instance)
     }
   ),
 
   private = list(
     .hash = NA_character_,
-    .instance = NULL,
     .par_vals = NULL,
     .instantiate = function(instance) {
-      private$.instance = instance
+      self$instance = instance
       private$.hash = NA_character_
       self
     }

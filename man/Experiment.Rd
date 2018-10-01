@@ -10,7 +10,7 @@ Container object for machine learning experiments.
 \preformatted{e = Experiment$new(task, learner, ...)
 e$train(subset)
 e$predict(subset, newdata)
-e$score()
+e$score(measures = NULL)
 
 e$model
 e$prediction
@@ -33,6 +33,8 @@ e$data
 \item \code{learner} (\link{Learner}): Learner to conduct experiment with.
 \item \code{subset} (\code{integer} | \code{character}): Subset of the task's row ids to work on.
 \item \code{newdata} (\code{data.frame}): New data to predict on. Will be added to the task.
+\item \code{measures} (list of \link{Measure}): Performance measure to use. Defaults to the measures
+set in the \link{Task}.
 }
 }
 
@@ -46,8 +48,8 @@ The model can be accessed via \code{e$model}.
 \code{$predict()} uses the previously fitted model to predict new observations.
 The predictions are stored internally as an \link{Prediction} object and can be accessed via \code{e$prediction}.
 
-\code{$score()} quantifies stored predictions using the task's \link{Measure} and stores the resulting performance.
-The performance can be accessed via \code{e$performance}.
+\code{$score()} quantifies stored predictions using the provided list of \link{Measure} (or the task's \link{Measure} if not provided)
+and stores the resulting performance values. The performance can be accessed via \code{e$performance}.
 
 \code{$train_set} and \code{test_set} return the row ids of the training set or test set, respectively.
 If there is a validation set (see \link{Task}), \code{validation_set} returns the corresponding row ids.
@@ -71,7 +73,8 @@ a \code{ResamplingCustom} object is stored here.
 \item predict_log: Log for the predict step.
 \item predict_time: \code{numeric(1)}. Elapsed time in microseconds.
 \item prediction: \link{Prediction}.
-\item performance: \code{named numeric}. Depending on the \link{Measure} stored in the \link{Task}.
+\item measures: list of \link{Measure}. Used performance measures.
+\item performance: \code{named numeric}. Depending on the column \code{measures}.
 \item score_time: \code{numeric(1)}. Elapsed time in microseconds.
 }
 }

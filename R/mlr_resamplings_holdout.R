@@ -13,18 +13,19 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 
     instantiate = function(task, ...) {
       assert_task(task)
-      instance = resampling_holdout(task$row_ids(), assert_number(self$par_vals$ratio, lower = 0))
-      private$.instantiate(instance)
+      private$.hash = NA_character_
+      self$instance = resampling_holdout(task$row_ids(), assert_number(self$par_vals$ratio, lower = 0))
+      self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance$train
+      self$instance$train
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance$test
+      self$instance$test
     },
 
     iters = 1L

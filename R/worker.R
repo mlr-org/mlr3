@@ -49,7 +49,7 @@ predict_worker = function(e, ctrl) {
 score_worker = function(e, ctrl) {
   data = e$data
   task = data$task
-  measures = task$measures
+  measures = data$measures
   require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
 
   if (ctrl$verbose)
@@ -61,8 +61,8 @@ score_worker = function(e, ctrl) {
   return(list(performance = res$result, score_time = res$elapsed))
 }
 
-experiment_worker = function(iteration, task, learner, resampling, ctrl) {
-  e = Experiment$new(task, learner, resampling = resampling, iteration = iteration)
+experiment_worker = function(iteration, task, learner, resampling, measures, ctrl) {
+  e = Experiment$new(task, learner, resampling = resampling, iteration = iteration, measures = measures)
 
   if (ctrl$verbose) {
     message(sprintf("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters))
@@ -78,5 +78,5 @@ experiment_worker = function(iteration, task, learner, resampling, ctrl) {
   tmp = score_worker(e, ctrl)
   e$data = insert(e$data, tmp)
 
-  remove(e$data, c("task", "learner", "resampling"))
+  remove(e$data, c("task", "learner", "resampling", "measures"))
 }

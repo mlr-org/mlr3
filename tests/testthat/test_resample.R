@@ -6,7 +6,7 @@ test_that("resample", {
   resampling = mlr_resamplings$get("cv")
   resampling$par_vals = list(folds = 3)
 
-  rr = with_plan("sequential", { resample(task, learner, resampling) })
+  rr = resample(task, learner, resampling)
 
   expect_resample_result(rr)
   expect_number(rr$aggregated)
@@ -43,7 +43,7 @@ test_that("rr$combine()", {
   expect_equal(nrow(bmr$data), nrow(rr1$data) + nrow(rr2$data))
   expect_set_equal(bmr$data$hash, c(rr1$hash, rr2$hash))
 
-  hashes = bmr$hashes
-  expect_data_table(hashes, nrow = 2)
-  expect_set_equal(hashes$hash, c(rr1$hash, rr2$hash))
+  rrs = bmr$resample_results
+  expect_data_table(rrs, nrow = 2)
+  expect_set_equal(rrs$hash, c(rr1$hash, rr2$hash))
 })

@@ -61,7 +61,7 @@ ResampleResult = R6Class("ResampleResult",
       assert_data_table(data)
       slots = reflections$experiment_slots$name
       assert_names(names(data), must.include = slots)
-      self$data = data[, slots, with = FALSE]
+      self$data = setkeyv(data[, slots, with = FALSE], "iteration")
       if (!is.null(hash))
         private$.hash = assert_string(hash)
     },
@@ -113,8 +113,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     performance = function() {
-      perf = rbindlist(self$data$performance, fill = TRUE)
-      cbind(data.table(iteration = seq_row(self$data)), perf)
+      rcbind(data.table(iteration = self$data$iteration), rbindlist(self$data$performance, fill = TRUE))[]
     },
 
     aggregated = function() {
@@ -124,8 +123,7 @@ ResampleResult = R6Class("ResampleResult",
 
     hash = function() {
       if (is.na(private$.hash)) {
-        data = self$data
-        private$.hash = hash_resampling(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
+        private$.hash = hash(self$experiment(1L))
       }
       private$.hash
     }
@@ -135,8 +133,3 @@ ResampleResult = R6Class("ResampleResult",
     .hash = NA_character_
   )
 )
-
-
-hash_resampling = function(task, learner, resampling) {
-  digest::digest(c(task$hash, learner$hash, resampling$hash), algo = "xxhash64")
-}

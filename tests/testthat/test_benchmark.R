@@ -16,6 +16,8 @@ test_that("Basic benchmarking", {
   perf = bmr$performance
   expect_data_table(perf, nrow = 12L)
   expect_names(names(perf), must.include = c("mmce", "acc"))
+  expect_numeric(perf$mmce, lower = 0, upper = 1, any.missing = TRUE)
+  expect_numeric(perf$acc, lower = 0, upper = 1, any.missing = TRUE)
   expect_equal(perf[task == "sonar", sum(is.na(mmce))], 0)
   expect_equal(perf[task == "iris", sum(is.na(mmce))], 6)
   expect_equal(perf[task == "sonar", sum(is.na(acc))], 6)
@@ -23,9 +25,9 @@ test_that("Basic benchmarking", {
 })
 
 test_that("ResampleResult getter", {
-  hashes = bmr$hashes$hash
+  hashes = bmr$resample_results$hash
   expect_character(hashes, len = 4L, any.missing = FALSE, unique = TRUE)
-  rr = bmr$resampling(hashes[1])
+  rr = bmr$resample_result(hashes[1])
   expect_resample_result(rr)
   expect_experiment(rr$experiment(1))
 })
