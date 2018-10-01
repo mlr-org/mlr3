@@ -2,6 +2,7 @@
 
 get_stage("script") %>%
   add_code_step(devtools::build(manual = TRUE)) %>%
+  add_code_step(devtools::install(quick = TRUE)) %>%
   add_code_step(rcmdcheck::rcmdcheck(path = "../mlr3_0.1.0-9000.tar.gz", args = "--as-cran",
                                      error_on = "error"))
 
