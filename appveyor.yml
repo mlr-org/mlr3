@@ -12,7 +12,7 @@ install:
   - cmd: R -q -e "writeLines('options(repos = \'https://cloud.r-project.org\')', '~/.Rprofile')"
   - cmd: R -q -e "writeLines('miktex-portable-2.9.6753.exe', '.Rbuildignore')"
   - cmd: R -q -e "getOption('repos')"
-  - cmd: R -q -e "install.packages('remotes'); remotes::install_github('ropenscilabs/tic'); tic::prepare_all_stages()"
+  - cmd: R -q -e 'if (!requireNamespace("devtools")) install.packages("devtools"), if (!requireNamespace("curl")) install.packages("curl"); devtools::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 
 cache:
   - C:\RLibrary
