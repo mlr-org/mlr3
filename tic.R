@@ -1,6 +1,10 @@
-add_package_checks(args = "--as-cran", warnings_are_errors = FALSE,
-                   notes_are_errors = FALSE,
-                   build_args = c("--no-build-vignettes"))
+add_package_checks()
+
+get_stage("script") %>%
+  add_step(step_rcmdcheck(args = "--as-cran", warnings_are_errors = FALSE,
+                          notes_are_errors = FALSE,
+                          build_args = c("--no-build-vignettes")))
+
 
 if (Sys.getenv("id_rsa") != "") {
   # pkgdown documentation can be built optionally. Other example criteria:
@@ -14,11 +18,11 @@ if (Sys.getenv("id_rsa") != "") {
   get_stage("deploy") %>%
     add_step(step_build_pkgdown()) %>%
     add_step(step_push_deploy(path = "docs", branch = "gh-pages"))
+}
 
-  if (!Sys.getenv("$TRAVIS_EVENT_TYPE") == "cron") {
+if (!Sys.getenv("$TRAVIS_EVENT_TYPE") == "cron") {
 
-    get_stage("deploy") %>%
-      add_code_step(devtools::document()) %>%
-      add_step(step_push_deploy(commit_paths = "man/"))
-  }
+  get_stage("deploy") %>%
+    add_code_step(devtools::document()) %>%
+    add_step(step_push_deploy(commit_paths = "man/"))
 }
