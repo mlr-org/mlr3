@@ -1,5 +1,6 @@
 add_package_checks(args = "--as-cran", warnings_are_errors = FALSE,
-                   notes_are_errors = FALSE)
+                   notes_are_errors = FALSE,
+                   build_args = c("--no-build-vignettes"))
 
 if (Sys.getenv("id_rsa") != "") {
   # pkgdown documentation can be built optionally. Other example criteria:
