@@ -25,14 +25,14 @@ Imports:
     checkmate (>= 1.8.9),
     data.table,
     digest,
-    future (>= 1.9.0),
-    future.apply,
     measures,
     paradox,
     R6
 Suggests:
     datasets,
     devtools,
+    future (>= 1.9.0),
+    future.apply,
     future.callr,
     kernlab,
     knitr,

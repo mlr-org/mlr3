@@ -15,5 +15,5 @@ is_debug = function() {
 }
 
 use_future = function() {
-  isTRUE(getOption("mlr3.use.future"))
+  isTRUE(getOption("mlr3.use.future")) && requireNamespace("future") && requireNamespace("future.apply")
 }
