@@ -27,10 +27,11 @@
 #'
 #' bmr = rr$combine(rr.dummy)
 #' bmr$hashes
-resample = function(task, learner, resampling) {
+resample = function(task, learner, resampling, measures = NULL) {
   assert_task(task)
   assert_learner(learner, task = task)
   assert_resampling(resampling)
+  measures = assert_measures(measures %??% task$measures)
 
   if (resampling$is_instantiated) {
     instance = resampling$clone()
@@ -42,11 +43,11 @@ resample = function(task, learner, resampling) {
   if (use_future()) {
     debug("Running resample() sequentially with %i iterations", n)
     res = lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = resampling, ctrl = mlr_options())
+      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = mlr_options())
   } else {
     debug("Running resample() via future with %i iterations", n)
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = resampling, ctrl = mlr_options(),
+      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = mlr_options(),
       future.globals = FALSE, future.packages = "mlr3")
   }
 

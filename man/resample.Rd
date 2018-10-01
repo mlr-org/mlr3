@@ -4,7 +4,7 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling)
+resample(task, learner, resampling, measures = NULL)
 }
 \arguments{
 \item{task}{(\link{Task})\cr

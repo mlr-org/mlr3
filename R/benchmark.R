@@ -30,13 +30,26 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' rr$experiment(1)$prediction
-benchmark = function(tasks, learners, resamplings) {
+benchmark = function(tasks, learners, resamplings, measures = NULL) {
+  get_tasks_measures = function(tasks) {
+    measures = unlist(lapply(tasks, "[[", "measures"), use.names = FALSE)
+    dup = duplicated(vcapply(measures, "[[", "id")) # FIXME: use hash
+    measures[!dup]
+  }
+
   assert_list(tasks, "Task", min.len = 1L)
+  assert_unique_hashes(tasks)
   assert_list(learners, "Learner", min.len = 1L)
+  assert_unique_hashes(learners)
   assert_list(resamplings, "Resampling", min.len = 1L)
-  assert_names(ids(tasks), "unique")
-  assert_names(ids(learners), "unique")
-  assert_names(ids(resamplings), "unique")
+  assert_unique_hashes(resamplings)
+  if (is.null(measures)) {
+    measures = get_tasks_measures(tasks)
+  } else {
+    assert_list(measures, "Measure", min.len = 1L)
+    assert_unique_hashes(measures)
+  }
+
 
   # Instantiate resampling for each task
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
@@ -59,7 +72,7 @@ benchmark = function(tasks, learners, resamplings) {
     debug("Running benchmark() sequentially with %i iterations", nrow(grid))
     tmp = mapply(experiment_worker,
       task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter,
-      MoreArgs = list(ctrl = mlr_options()), SIMPLIFY = FALSE, USE.NAMES = FALSE
+      MoreArgs = list(ctrl = mlr_options(), measures = measures), SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   } else {
     debug("Running resample() via future with %i iterations", nrow(grid))
@@ -69,7 +82,7 @@ benchmark = function(tasks, learners, resamplings) {
 
     tmp = future.apply::future_mapply(experiment_worker,
       task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter,
-      MoreArgs = list(ctrl = mlr_options()), SIMPLIFY = FALSE, USE.NAMES = FALSE,
+      MoreArgs = list(ctrl = mlr_options(), measures = measures), SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.packages = "mlr3"
     )
   }

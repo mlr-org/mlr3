@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(tasks, learners, resamplings)
+benchmark(tasks, learners, resamplings, measures = NULL)
 }
 \arguments{
 \item{tasks}{(\code{list} of \link{Task})\cr

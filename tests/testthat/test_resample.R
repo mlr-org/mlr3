@@ -6,7 +6,7 @@ test_that("resample", {
   resampling = mlr_resamplings$get("cv")
   resampling$par_vals = list(folds = 3)
 
-  rr = with_plan("sequential", { resample(task, learner, resampling) })
+  rr = resample(task, learner, resampling)
 
   expect_resample_result(rr)
   expect_number(rr$aggregated)

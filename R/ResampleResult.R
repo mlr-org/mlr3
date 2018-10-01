@@ -113,8 +113,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     performance = function() {
-      perf = rbindlist(self$data$performance, fill = TRUE)
-      cbind(data.table(iteration = seq_row(self$data)), perf)
+      rcbind(data.table(iteration = self$data$iteration), rbindlist(self$data$performance, fill = TRUE))
     },
 
     aggregated = function() {

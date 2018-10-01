@@ -16,10 +16,12 @@ test_that("Basic benchmarking", {
   perf = bmr$performance
   expect_data_table(perf, nrow = 12L)
   expect_names(names(perf), must.include = c("mmce", "acc"))
-  expect_equal(perf[task == "sonar", sum(is.na(mmce))], 0)
-  expect_equal(perf[task == "iris", sum(is.na(mmce))], 6)
-  expect_equal(perf[task == "sonar", sum(is.na(acc))], 6)
-  expect_equal(perf[task == "iris", sum(is.na(acc))], 0)
+  expect_numeric(perf$mmce, lower = 0, upper = 1, any.missing = FALSE)
+  expect_numeric(perf$acc, lower = 0, upper = 1, any.missing = FALSE)
+  # expect_equal(perf[task == "sonar", sum(is.na(mmce))], 0)
+  # expect_equal(perf[task == "iris", sum(is.na(mmce))], 6)
+  # expect_equal(perf[task == "sonar", sum(is.na(acc))], 6)
+  # expect_equal(perf[task == "iris", sum(is.na(acc))], 0)
 })
 
 test_that("ResampleResult getter", {

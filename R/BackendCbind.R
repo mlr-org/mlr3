@@ -16,17 +16,14 @@ BackendCbind = R6Class("Backend",
 
       tab = private$.b1$data(rows, cols)
 
-      if (ncol(tab) < length(cols)) {
-        extra_cols = remove(private$.b2$data(rows, cols), self$primary_key)
-        if (ncol(extra_cols))
-          tab = cbind(tab, extra_cols)
-      }
+      if (ncol(tab) < length(cols))
+        tab = rcbind(tab, remove(private$.b2$data(rows, cols), self$primary_key))
       return(tab)
     },
 
     head = function(n = 6L) {
       x = private$.b1$head(n)
-      cbind(x, private$.b2$data(rows = x[[self$primary_key]], cols = setdiff(private$.b2$colnames, self$primary_key)))
+      rcbind(x, private$.b2$data(rows = x[[self$primary_key]], cols = setdiff(private$.b2$colnames, self$primary_key)))
     },
 
     distinct = function(cols) {

@@ -25,6 +25,10 @@ assert_measure = function(measure) {
   assert_class(measure, "Measure")
 }
 
+assert_measures = function(measures) {
+  assert_list(measures, "Measure", min.len = 1L)
+}
+
 assert_resampling = function(resampling) {
   assert_class(resampling, "Resampling")
 }
@@ -66,4 +70,12 @@ assert_range = function(range) {
   if (diff(range) <= 0)
     stopf("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
   range
+}
+
+assert_unique_hashes = function(x) {
+  assert_list(x)
+  hashes = vcapply(x, "[[", "hash")
+  if (anyDuplicated(hashes))
+    stopf("Duplicated elements found in '%s'", deparse(substitute(x)))
+  invisible(x)
 }

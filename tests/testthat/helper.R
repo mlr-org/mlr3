@@ -1,8 +1,6 @@
 library(checkmate)
 library(testthat)
 
-# future::plan("multiprocess")
-
 if (getOption("mlr3.debug", FALSE)) {
   options(
     warnPartialMatchAttr = TRUE,
@@ -290,7 +288,7 @@ expect_resample_result = function(rr) {
 
   perf = rr$performance
   expect_data_table(perf, nrow = rr$resampling$iters, min.cols = 2L)
-  expect_names(names(perf), permutation.of = c("iteration", ids(rr$task$measures)))
+  expect_names(names(perf), must.include = c("iteration", ids(rr$task$measures)))
   expect_identical(perf$iteration, seq_len(rr$resampling$iters))
   for (m in names(rr$task$measures))
     expect_numeric(perf[[m]], any.missing = FALSE)

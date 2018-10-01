@@ -126,8 +126,8 @@ Experiment = R6Class("Experiment",
       invisible(self)
     },
 
-    score = function() {
-      experiment_score(self)
+    score = function(measures = NULL) {
+      experiment_score(self, measures)
       invisible(self)
     }
   ),
@@ -175,7 +175,7 @@ Experiment = R6Class("Experiment",
       if (is.null(prediction))
         stopf("No predictions available")
       row_ids = self$test_set
-      cbind(data.table(id = row_ids, truth = self$data$task$truth(row_ids)[[1L]], key = "id"), as.data.table(prediction))
+      rcbind(data.table(id = row_ids, truth = self$data$task$truth(row_ids)[[1L]], key = "id"), as.data.table(prediction))
     },
 
     performance = function() {
@@ -259,7 +259,9 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
   return(e)
 }
 
-experiment_score = function(e) {
+experiment_score = function(e, measures = NULL) {
+  e$data$measures = assert_list(measures %??% e$data$task$measures, "Measure")
+
   if (use_future()) {
     debug("Running score_worker() via do.call()")
     value = do.call(score_worker, list(e = e, ctrl = mlr_options()))
@@ -294,4 +296,3 @@ combine_experiments = function(x) {
     exp
   }))
 }
-

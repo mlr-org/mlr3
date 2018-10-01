@@ -78,6 +78,7 @@ Collate:
     'benchmark.R'
     'helper_asserts.R'
     'helper_condition.R'
+    'helper_data.table.R'
     'helper_insert.R'
     'helper_misc.R'
     'helper_seq.R'
