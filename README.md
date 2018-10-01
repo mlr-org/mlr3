@@ -58,6 +58,8 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * Resampling via `resample()`
 * Benchmarking via `benchmark()`
 
+Some objects are documented [here](https://mlr-org.github.io/mlr3/).
+
 
 ### WiP
 
