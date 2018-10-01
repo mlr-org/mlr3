@@ -76,7 +76,7 @@ We only take the first two features here to keep the output in the following exa
 
 ```{r}
 data("mtcars", package = "datasets")
-b = BackendDataTable$new(data = mtcars[, 1:3])
+b = DataBackendDataTable$new(data = mtcars[, 1:3])
 task = TaskRegr$new(id = "cars", b, target = "mpg")
 print(task)
 ```
@@ -97,7 +97,7 @@ library("data.table")
 # `as.data.table` removes rownames, but  argument `keep.rownames` ensures
 # that they are stored in a separate column before
 data = as.data.table(mtcars[, 1:3], keep.rownames = TRUE)
-b = BackendDataTable$new(data)
+b = DataBackendDataTable$new(data)
 task = TaskRegr$new(id = "cars", b, target = "mpg")
 
 # we now have integer row_ids

@@ -3,7 +3,7 @@ assert_task = function(task) {
 }
 
 assert_backend = function(b) {
-  assert_class(b, "Backend")
+  assert_class(b, "DataBackend")
 }
 
 assert_experiment = function(experiment) {

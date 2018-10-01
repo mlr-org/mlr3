@@ -20,7 +20,7 @@ head(mlr_tasks$get("iris")$data())
 # Add a new task, based on a subset of iris:
 data = iris
 data$Species = ifelse(data$Species == "setosa", "1", "0")
-b = BackendDataTable$new(data)
+b = DataBackendDataTable$new(data)
 task = TaskClassif$new("iris.binary", b, target = "Species")
 mlr_tasks$add(task)
 mlr_tasks$ids

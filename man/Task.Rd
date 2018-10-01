@@ -40,23 +40,23 @@ t$cbind(data)
 \itemize{
 \item \code{id} (\code{string}):
 Name of the task.
-\item \code{backend} (\link{Backend}):
-\link{Backend} which stores the data.
+\item \code{backend} (\link{DataBackend}):
+\link{DataBackend} which stores the data.
 \item \code{data} (\link[base:data.frame]{base::data.frame}):
 New data to rbind/cbind to the task.
 \item \code{rows} (\code{vector}):
-Vector of row ids specifying rows from the \link{Backend} using its primary key.
-Can be \code{character()} or \code{integer}, depending on the \link{Backend}.
+Vector of row ids specifying rows from the \link{DataBackend} using its primary key.
+Can be \code{character()} or \code{integer}, depending on the \link{DataBackend}.
 \item \code{cols} (\code{character()}):
-Character vector to specify columns from the \link{Backend}.
+Character vector to specify columns from the \link{DataBackend}.
 \item \code{col} (\code{character(1)}):
-Character vector to specify a single column from the \link{Backend}.
+Character vector to specify a single column from the \link{DataBackend}.
 \item \code{n} (\code{integer(1)}):
-Number of rows to retrieve from the \link{Backend}.
+Number of rows to retrieve from the \link{DataBackend}.
 \item \code{new_role} (\code{character(1)}):
 New role to assign for specified rows/columns.
 \item \code{subset} (\code{vector}):
-Subset of row ids to subset rows from the \link{Backend} using its primary key.
+Subset of row ids to subset rows from the \link{DataBackend} using its primary key.
 }
 }
 
@@ -66,10 +66,10 @@ Subset of row ids to subset rows from the \link{Backend} using its primary key.
 
 \code{$id} (\code{character(1)}) stores the name of the task.
 
-\code{$backend()} (\link{Backend}) stores the \link{Backend} of the task.
+\code{$backend()} (\link{DataBackend}) stores the \link{DataBackend} of the task.
 
 \code{$row_info} (\code{data.table}) with columns \code{id} and \code{role}.
-Stores row ids of \link{Backend} in column \code{id}. Each row (observation)
+Stores row ids of \link{DataBackend} in column \code{id}. Each row (observation)
 can have a specific mutually exclusive role in the learning task:
 \itemize{
 \item \code{"use"}: Use in training.
@@ -80,13 +80,13 @@ To alter the role, use \code{set_row_role()}.
 }
 
 \code{$col_info} (\code{data.table}) with columns \code{id}, \code{role} and \code{type}.
-Stores column names of \link{Backend} in column \code{id}. Each column (feature)
+Stores column names of \link{DataBackend} in column \code{id}. Each column (feature)
 can have a specific mutually exclusive role in the learning task:
 \itemize{
 \item \code{"feature"}: Regular feature.
 \item \code{"target"}: Column with target labels.
 \item \code{"ignore"}: Do not these features at all.
-\item \code{"primary_key"}: Name of the primary id column used in \link{Backend}.
+\item \code{"primary_key"}: Name of the primary id column used in \link{DataBackend}.
 Column \code{type} stores the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 To alter the role, use \code{set_col_role()}.
 }
@@ -105,7 +105,7 @@ If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \code{$head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
 
 \code{$levels()} queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
-This function ignores the row roles, so that you get all levels found in the \link{Backend}.
+This function ignores the row roles, so that you get all levels found in the \link{DataBackend}.
 
 \code{$row_ids()} returns a (subset of) row ids used in the task, i.e. subsetted to observations with \code{role == "use"}.
 
@@ -133,7 +133,7 @@ This function ignores the row roles, so that you get all levels found in the \li
 }
 
 \examples{
-b = BackendDataTable$new(iris)
+b = DataBackendDataTable$new(iris)
 task = Task$new("iris", b)
 task$nrow
 task$ncol

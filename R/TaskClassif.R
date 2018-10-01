@@ -25,7 +25,7 @@
 #' @name TaskClassif
 #' @family Task
 #' @examples
-#' b = BackendDataTable$new(iris)
+#' b = DataBackendDataTable$new(iris)
 #' task = TaskClassif$new("iris", backend = b, target = "Species")
 #' task$formula
 #' task$class_names

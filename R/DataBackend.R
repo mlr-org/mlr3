@@ -1,7 +1,7 @@
-#' @title Backend Interface
+#' @title DataBackend Interface
 #'
 #' @description
-#' All objects of type Backend provide the following interface:
+#' All objects of type `DataBackend` provide the following interface:
 #'
 #' @section Usage:
 #' ```
@@ -14,7 +14,7 @@
 #' b$ncol
 #' print(b)
 #' ```
-#' See [BackendDataTable] for an exemplary implementation of this interface.
+#' See [DataBackendDataTable] for an exemplary implementation of this interface.
 #'
 #' @section Arguments:
 #' * `rows` (`integer()` or `character()`):
@@ -38,6 +38,6 @@
 #' `$nrow` (`integer(1)`) returns the number of total rows.
 #'
 #' `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
-#' @name Backend
-#' @family Backend
+#' @name DataBackend
+#' @family DataBackend
 NULL

@@ -1,12 +1,12 @@
-#' @title Backend for data.table
+#' @title DataBackend for data.table
 #'
 #' @description
 #' Abstraction for [data.table::data.table()] as an in-memory data base.
-#' Returns an object of class [Backend].
+#' Returns an object of class [DataBackend].
 #'
 #' @section Usage:
 #' ```
-#' b = BackendDataTable$new(data, primary_key = NULL)
+#' b = DataBackendDataTable$new(data, primary_key = NULL)
 #' ```
 #'
 #' @section Arguments:
@@ -16,12 +16,12 @@
 #'     automatically created.
 #'
 #' @section Details:
-#' `$new()` creates a new object of class [Backend].
+#' `$new()` creates a new object of class [DataBackend].
 #'
-#' @name BackendDataTable
-#' @family Backend
+#' @name DataBackendDataTable
+#' @family DataBackend
 #' @examples
-#' b = BackendDataTable$new(data = iris)
+#' b = DataBackendDataTable$new(data = iris)
 #' b$head()
 #' b$data(rows = 100:101, cols = "Species")
 #'
@@ -33,7 +33,7 @@
 NULL
 
 #' @export
-BackendDataTable = R6Class("Backend",
+DataBackendDataTable = R6Class("DataBackend",
   cloneable = FALSE,
   public = list(
     primary_key = NULL,

@@ -1,4 +1,4 @@
-BackendRbind = R6Class("Backend",
+DataBackendRbind = R6Class("DataBackend",
   cloneable = FALSE,
   public = list(
     primary_key = NULL,

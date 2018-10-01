@@ -17,7 +17,7 @@
 #' @name TaskRegr
 #' @family Task
 #' @examples
-#' b = BackendDataTable$new(iris)
+#' b = DataBackendDataTable$new(iris)
 #' task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
 #' task$type
 #' task$formula

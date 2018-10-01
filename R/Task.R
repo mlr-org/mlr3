@@ -35,33 +35,33 @@
 #' @section Arguments:
 #' * `id` (`string`):
 #'   Name of the task.
-#' * `backend` ([Backend]):
-#'   [Backend] which stores the data.
+#' * `backend` ([DataBackend]):
+#'   [DataBackend] which stores the data.
 #' * `data` ([base::data.frame]):
 #'   New data to rbind/cbind to the task.
 #' * `rows` (`vector`):
-#'   Vector of row ids specifying rows from the [Backend] using its primary key.
-#'   Can be `character()` or `integer`, depending on the [Backend].
+#'   Vector of row ids specifying rows from the [DataBackend] using its primary key.
+#'   Can be `character()` or `integer`, depending on the [DataBackend].
 #' * `cols` (`character()`):
-#'   Character vector to specify columns from the [Backend].
+#'   Character vector to specify columns from the [DataBackend].
 #' * `col` (`character(1)`):
-#'   Character vector to specify a single column from the [Backend].
+#'   Character vector to specify a single column from the [DataBackend].
 #' * `n` (`integer(1)`):
-#'   Number of rows to retrieve from the [Backend].
+#'   Number of rows to retrieve from the [DataBackend].
 #' * `new_role` (`character(1)`):
 #'   New role to assign for specified rows/columns.
 #' * `subset` (`vector`):
-#'   Subset of row ids to subset rows from the [Backend] using its primary key.
+#'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
 #' @section Details:
 #' `$new()` initializes a new object of class [Task].
 #'
 #' `$id` (`character(1)`) stores the name of the task.
 #'
-#' `$backend()` ([Backend]) stores the [Backend] of the task.
+#' `$backend()` ([DataBackend]) stores the [DataBackend] of the task.
 #'
 #' `$row_info` (`data.table`) with columns `id` and `role`.
-#' Stores row ids of [Backend] in column `id`. Each row (observation)
+#' Stores row ids of [DataBackend] in column `id`. Each row (observation)
 #' can have a specific mutually exclusive role in the learning task:
 #' - `"use"`: Use in training.
 #' - `"validation"`: Do not use in training, this are (possibly unlabeled) observations
@@ -70,12 +70,12 @@
 #' To alter the role, use `set_row_role()`.
 #'
 #' `$col_info` (`data.table`) with columns `id`, `role` and `type`.
-#'   Stores column names of [Backend] in column `id`. Each column (feature)
+#'   Stores column names of [DataBackend] in column `id`. Each column (feature)
 #'   can have a specific mutually exclusive role in the learning task:
 #'   - `"feature"`: Regular feature.
 #'   - `"target"`: Column with target labels.
 #'   - `"ignore"`: Do not these features at all.
-#'   - `"primary_key"`: Name of the primary id column used in [Backend].
+#'   - `"primary_key"`: Name of the primary id column used in [DataBackend].
 #'   Column `type` stores the storage type of the variable, e.g. `integer`, `numeric` or `character`.
 #' To alter the role, use `set_col_role()`.
 #'
@@ -93,7 +93,7 @@
 #' `$head()` can be used to peek into the first `n` observations with `role == "use"`.
 #'
 #' `$levels()` queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
-#'   This function ignores the row roles, so that you get all levels found in the [Backend].
+#'   This function ignores the row roles, so that you get all levels found in the [DataBackend].
 #'
 #' `$row_ids()` returns a (subset of) row ids used in the task, i.e. subsetted to observations with `role == "use"`.
 #'
@@ -124,7 +124,7 @@
 #' @family Task
 #' @keywords internal
 #' @examples
-#' b = BackendDataTable$new(iris)
+#' b = DataBackendDataTable$new(iris)
 #' task = Task$new("iris", b)
 #' task$nrow
 #' task$ncol
@@ -258,7 +258,7 @@ Task = R6Class("Task",
   private = list(
     .hash = NA_character_,
     deep_clone = function(name, value) {
-      # NB: Backends are never copied!
+      # NB: DataBackends are never copied!
       if (name %in% c("row_info", "col_info")) copy(value) else value
     }
   )
@@ -290,11 +290,11 @@ task_data = function(self, rows = NULL, cols = NULL) {
   data = self$backend$data(rows = selected_rows, cols = selected_cols)
 
   if (nrow(data) != length(selected_rows)) {
-    stopf("Backend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
+    stopf("DataBackend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
   }
 
   if (ncol(data) != length(selected_cols)) {
-    stopf("Backend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
+    stopf("DataBackend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
   }
 
   if (length(self$order)) {
@@ -356,7 +356,7 @@ task_rbind = function(self, data) {
   self$col_info$levels = Map(union, self$col_info$levels, data_col_info$levels)
 
   # 4. Overwrite self$backend with new backend
-  self$backend = BackendRbind$new(self$backend, BackendDataTable$new(data, primary_key = pk))
+  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
 }
 
 # Performs the following steps to virtually cbind data to the task:
@@ -395,7 +395,7 @@ task_cbind = function(self, data) {
   self$col_info = setkeyv(rbindlist(list(self$col_info, data_col_info[!list(pk)])), "id")
 
   # 3. Overwrite self$backend with new backend
-  self$backend = BackendCbind$new(self$backend, BackendDataTable$new(data, primary_key = pk))
+  self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
 }
 
 task_print = function(self) {
@@ -408,7 +408,7 @@ task_print = function(self) {
 
 
 col_info = function(x, primary_key = NULL) {
-  is_backend = inherits(x, "Backend")
+  is_backend = inherits(x, "DataBackend")
   types = vcapply(if (is_backend) x$head(1L) else x, class)
   col_info = data.table(id = names(types), type = unname(types), role = "feature", levels = list(), key = "id")
 
