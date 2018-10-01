@@ -35,7 +35,7 @@ result in non-trivial API changes.
     - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No extra reverse dependencies.
     - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No extra reverse dependencies.
     - [`measures`](https://cran.r-project.org/package=measures): Package which implements performance measures. Developed by members of the `mlr` team. No extra reverse dependencies.
-    - [`paradox`](https://cran.r-project.org/package=measures): Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra reverse dependencies. [TODO: Remove `BBmisc` dependency]
+    - [`paradox`](https://cran.r-project.org/package=paradox): Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra reverse dependencies. [TODO: Remove `BBmisc` dependency]
 
   For parallelization, `mlr3` optionally uses the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
 

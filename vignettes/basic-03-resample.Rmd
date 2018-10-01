@@ -81,7 +81,8 @@ We can do different things with resampling results, e.g.:
     ```
 * Retrieve the experiment of a specific iteration and inspect it:
     ```{r}
-    rr$experiment(iter = 1)$model
+    e = rr$experiment(iter = 1)
+    e$model
     ```
 
 ## Manual Instantiation

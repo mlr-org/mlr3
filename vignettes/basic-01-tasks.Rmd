@@ -143,7 +143,7 @@ task$head(2)
 Just like columns, you can also assign different roles to rows.
 Rows can have three different roles:
 
-1. Role `"training"`:
+1. Role `"use"`:
    Rows that are generally available for model fitting (although they may also be used as test set in resampling).
    This is the default role.
 2. Role `"validation"`:
