@@ -44,14 +44,14 @@ resample = function(task, learner, resampling, measures = NULL) {
   n = instance$iters
 
   if (use_future()) {
-    debug("Running resample() sequentially with %i iterations", n)
-    res = lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = mlr_options())
-  } else {
     debug("Running resample() via future with %i iterations", n)
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
       task = task, learner = learner, resampling = resampling, measures = measures, ctrl = mlr_options(),
       future.globals = FALSE, future.packages = "mlr3")
+  } else {
+    debug("Running resample() sequentially with %i iterations", n)
+    res = lapply(seq_len(n), experiment_worker,
+      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = mlr_options())
   }
 
   res = combine_experiments(res)
