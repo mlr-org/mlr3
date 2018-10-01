@@ -16,7 +16,7 @@ Authors@R:
              role = "aut",
              email = "jakob1richter@gmail.com"))
 Description: Machine Learning in R. Next Generation.
-License: MIT
+License: MIT + file LICENSE
 Depends:
     R (>= 3.1.0)
 Imports:
