@@ -5,25 +5,26 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
       super$initialize(
         id = id,
         par_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamReal$new("ratio", lower = 0, upper = 1))),
-        par_vals = list(repeats = 30L, ratio = 2/3)
+        par_vals = list(repeats = 30L, ratio = 0.67)
       )
       self$has_duplicates = FALSE
     },
 
     instantiate = function(task, ...) {
       assert_task(task)
-      instance = resampling_subsampling(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
-      private$.instantiate(instance)
+      private$.hash = NA_character_
+      self$instance = resampling_subsampling(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance$row_ids[bit::as.which(private$.instance$train[[i]])]
+      self$instance$row_ids[bit::as.which(self$instance$train[[i]])]
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance$row_ids[bit::as.which(!private$.instance$train[[i]])]
+      self$instance$row_ids[bit::as.which(!self$instance$train[[i]])]
     }
   ),
 

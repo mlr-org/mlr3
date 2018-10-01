@@ -9,7 +9,7 @@
 #' e = Experiment$new(task, learner, ...)
 #' e$train(subset)
 #' e$predict(subset, newdata)
-#' e$score()
+#' e$score(measures = NULL)
 #'
 #' e$model
 #' e$prediction
@@ -29,7 +29,8 @@
 #' * `learner` ([Learner]): Learner to conduct experiment with.
 #' * `subset` (`integer` | `character`): Subset of the task's row ids to work on.
 #' * `newdata` (`data.frame`): New data to predict on. Will be added to the task.
-#'
+#' * `measures` (list of [Measure]): Performance measure to use. Defaults to the measures
+#'    set in the [Task].
 #'
 #' @section Details:
 #' `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
@@ -40,8 +41,8 @@
 #' `$predict()` uses the previously fitted model to predict new observations.
 #'  The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction`.
 #'
-#' `$score()` quantifies stored predictions using the task's [Measure] and stores the resulting performance.
-#'  The performance can be accessed via `e$performance`.
+#' `$score()` quantifies stored predictions using the provided list of [Measure] (or the task's [Measure] if not provided)
+#'  and stores the resulting performance values. The performance can be accessed via `e$performance`.
 #'
 #' `$train_set` and `test_set` return the row ids of the training set or test set, respectively.
 #' If there is a validation set (see [Task]), `validation_set` returns the corresponding row ids.
@@ -64,7 +65,8 @@
 #'   * predict_log: Log for the predict step.
 #'   * predict_time: `numeric(1)`. Elapsed time in microseconds.
 #'   * prediction: [Prediction].
-#'   * performance: `named numeric`. Depending on the [Measure] stored in the [Task].
+#'   * measures: list of [Measure]. Used performance measures.
+#'   * performance: `named numeric`. Depending on the column `measures`.
 #'   * score_time: `numeric(1)`. Elapsed time in microseconds.
 #'
 #' @name Experiment

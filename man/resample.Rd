@@ -15,6 +15,10 @@ Object of type \link{Learner}.}
 
 \item{resampling}{(\link{Resampling})\cr
 Object of type \link{Resampling}.}
+
+\item{measures}{(list of \link{Measure})\cr
+List of performance measures used to assess the predictive performance.
+Defaults to the measures stored in \code{task}.}
 }
 \value{
 \link{ResampleResult}.
@@ -37,5 +41,5 @@ learner = mlr_learners$get("classif.dummy")
 rr.dummy = resample(task, learner, resampling)
 
 bmr = rr$combine(rr.dummy)
-bmr$hashes
+bmr$performance[, list(mean.mmce = mean(mmce)), by = "learner"]
 }

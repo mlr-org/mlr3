@@ -25,9 +25,9 @@ test_that("Basic benchmarking", {
 })
 
 test_that("ResampleResult getter", {
-  hashes = bmr$hashes$hash
+  hashes = bmr$resample_results$hash
   expect_character(hashes, len = 4L, any.missing = FALSE, unique = TRUE)
-  rr = bmr$resampling(hashes[1])
+  rr = bmr$resample_result(hashes[1])
   expect_resample_result(rr)
   expect_experiment(rr$experiment(1))
 })

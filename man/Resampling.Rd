@@ -16,6 +16,7 @@ r$par_set
 r$par_vals
 r$instantiate(task)
 r$is_instantiated
+r$instance
 r$train_set(i)
 r$test_set(i)
 r$hash
@@ -49,6 +50,9 @@ You can set parameters by assigning a named list of new parameters to this slot.
 
 \code{$is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
 
+\code{$instance} stores the instantiated realization of the resampling. This is an arbitrary object, do
+not work directly with it. Instead, use \code{$train_set()} and \code{$test_set()}.
+
 \code{$train_set()} returns the training set for the \code{i}-th iteration.
 
 \code{$test_set()} returns the test set for the \code{i}-th iteration.
@@ -57,6 +61,30 @@ You can set parameters by assigning a named list of new parameters to this slot.
 If the object is not instantiated yet, \code{NA} is returned.
 }
 
+\examples{
+r = mlr_resamplings$get("subsampling")
+
+# Default parametrization
+r$par_vals
+
+# Do only 3 repeats on 10\% of the data
+r$par_vals = list(ratio = 0.1, repeats = 3)
+r$par_vals
+
+
+# Instantiate on iris task
+task = mlr_tasks$get("iris")
+r$instantiate(task)
+
+# Extract train/test sets
+train_set = r$train_set(1)
+print(train_set)
+intersect(train_set, r$test_set(1))
+
+# Another example: 10-fold CV
+r = mlr_resamplings$get("cv")$instantiate(task)
+r$train_set(1)
+}
 \seealso{
 Other Resampling: \code{\link{mlr_resamplings}}
 }

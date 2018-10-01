@@ -9,17 +9,18 @@ This is the object returned by \link{benchmark}.
 \section{Usage}{
 \preformatted{rr$experiment(iter)
 rr$experiments(iters)
-bmr$resample_result(i)
 bmr$performance
 bmr$aggregated
+bmr$resample_results
+bmr$resample_result(hash)
 }
 }
 
 \section{Arguments}{
 
 \itemize{
-\item \code{i} (\code{integer}):
-Counter of the \link{ResampleResult} to retrieve.
+\item \code{hash} (\code{character(1)}):
+String which identifies a subgroup to extract as \link{ResampleResult}.
 }
 }
 
@@ -29,9 +30,14 @@ Counter of the \link{ResampleResult} to retrieve.
 
 \code{$experiments()} returns a list with the slice of \link{Experiment}s for the provided \code{iters}.
 
-\code{$performance} provides a \link[data.table:data.table]{data.table::data.table} with column \code{iteration} (integer) and a numeric column for each
+\code{$performance} provides a \code{\link[data.table:data.table]{data.table::data.table()}} with column \code{iteration} (integer) and a numeric column for each
 performance measure (columns named using the measure ids).
 
 \code{$aggregated} returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
+
+\code{$resample_results} returns a \code{\link[data.table:data.table]{data.table::data.table()}} which gives an overview of the subgroups in the benchmark.
+Groups of experiments in the \link{BenchmarkResult} can be extracted as \link{ResampleResult}.
+
+\code{$resample_result()} creates the \link{ResampleResult} identified by the specified \code{hash} value.
 }
 

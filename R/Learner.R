@@ -83,7 +83,7 @@ Learner = R6Class("Learner",
   active = list(
     hash = function() {
       if (is.na(private$.hash))
-        private$.hash = digest::digest(list(self$id, self$par_vals), algo = "xxhash64")
+        private$.hash = hash(self)
       private$.hash
     },
 

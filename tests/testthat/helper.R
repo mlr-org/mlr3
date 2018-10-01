@@ -200,7 +200,7 @@ expect_resampling = function(r, task = NULL) {
   expect_r6(r, "Resampling")
   expect_string(r$id, min.chars = 1L)
 
-  instance = private(r)$.instance
+  instance = r$instance
   if (is.null(instance)) {
     expect_false(r$is_instantiated)
     expect_error(r$train_set(1L), "instantiated")
@@ -306,11 +306,11 @@ expect_resample_result = function(rr) {
 }
 
 expect_benchmark_result = function(bmr) {
-  expect_r6(bmr, "BenchmarkResult", public = c("data", "hashes", "resampling", "performance"))
+  expect_r6(bmr, "BenchmarkResult", public = c("data", "resample_results", "resample_result", "performance"))
 
-  hashes = bmr$hashes
-  expect_data_table(hashes, ncol = 5L)
-  expect_names(names(hashes), permutation.of = c("task", "learner", "resampling", "hash", "N"))
-  expect_character(hashes$hash, any.missing = FALSE, unique = TRUE)
-  expect_integer(hashes$N, any.missing = FALSE, lower = 1L)
+  rrs = bmr$resample_results
+  expect_data_table(rrs, ncol = 5L)
+  expect_names(names(rrs), permutation.of = c("task", "learner", "resampling", "hash", "N"))
+  expect_character(rrs$hash, any.missing = FALSE, unique = TRUE)
+  expect_integer(rrs$N, any.missing = FALSE, lower = 1L)
 }

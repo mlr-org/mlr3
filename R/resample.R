@@ -9,6 +9,9 @@
 #'   Object of type [Learner].
 #' @param resampling ([Resampling])\cr
 #'   Object of type [Resampling].
+#' @param measures (list of [Measure])\cr
+#'   List of performance measures used to assess the predictive performance.
+#'   Defaults to the measures stored in `task`.
 #' @return [ResampleResult].
 #' @export
 #' @examples
@@ -26,7 +29,7 @@
 #' rr.dummy = resample(task, learner, resampling)
 #'
 #' bmr = rr$combine(rr.dummy)
-#' bmr$hashes
+#' bmr$performance[, list(mean.mmce = mean(mmce)), by = "learner"]
 resample = function(task, learner, resampling, measures = NULL) {
   assert_task(task)
   assert_learner(learner, task = task)

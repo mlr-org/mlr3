@@ -12,18 +12,19 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
 
     instantiate = function(task, ...) {
       assert_task(task)
-      instance = resampling_cv(task$row_ids(), self$par_vals$folds)
-      private$.instantiate(instance)
+      private$.hash = NA_character_
+      self$instance = resampling_cv(task$row_ids(), self$par_vals$folds)
+      self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance[!list(i), "row_id", on = "fold"][[1L]]
+      self$instance[!list(i), "row_id", on = "fold"][[1L]]
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance[list(i), "row_id", on = "fold"][[1L]]
+      self$instance[list(i), "row_id", on = "fold"][[1L]]
     }
   ),
 

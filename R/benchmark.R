@@ -10,6 +10,9 @@
 #'   List of objects of type [Learner].
 #' @param resamplings (`list` of [Resampling])\cr
 #'   List of objects of type [Resampling].
+#' @param measures (list of [Measure])\cr
+#'   List of performance measures used to assess the predictive performance.
+#'   Defaults to the respective measures stored in `task`.
 #' @return [BenchmarkResult].
 #' @export
 #' @examples
@@ -21,12 +24,11 @@
 #' bmr$performance
 #'
 #' # Overview of of resamplings that were conducted internally
-#' hashes = bmr$hashes
-#' print(hashes)
+#' rrs = bmr$resample_results
+#' print(rrs)
 #'
-#' # Extract second resampling
-#' hash = bmr$hashes$hash[2]
-#' rr = bmr$resampling(hash = hash)
+#' # Extract first ResampleResult
+#' rr = bmr$resample_result(hash = rrs$hash[1])
 #' print(rr)
 #'
 #' # Extract predictions of first experiment of this resampling
@@ -40,7 +42,6 @@ benchmark = function(tasks, learners, resamplings, measures = NULL) {
     measures = unname(lapply(tasks, "[[", "measures"))
   } else {
     assert_list(measures, "Measure", min.len = 1L)
-    # assert_unique_hashes(measures)
     measures = replicate(length(tasks), measures, simplify = FALSE)
   }
 
@@ -65,7 +66,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL) {
 
   # compute hashes
   task = learner = instance = NULL
-  grid[, "hash" := hash_resampling(tasks[[task]], learners[[learner]], instances[[instance]]), by = c("task", "learner", "instance")]
+  grid[, "hash" := hash.list(list(task = tasks[[task]], learner = learners[[learner]], resampling = instances[[instance]])), by = c("task", "learner", "instance")]
 
   if (use_future()) {
     debug("Running resample() via future with %i iterations", nrow(grid))
@@ -87,9 +88,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL) {
   }
 
   res = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], measures = measures[grid$task], hash = grid$hash)
-  tmp = combine_experiments(tmp)
-  res[, names(tmp) := tmp]
-  res = res[order(ids(get("task")), ids(get("learner")), get("iteration"))]
+  res = rcbind(res, combine_experiments(tmp))
 
   BenchmarkResult$new(res)
 }

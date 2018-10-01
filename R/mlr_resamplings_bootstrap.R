@@ -15,18 +15,19 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
     instantiate = function(task, ...) {
       assert_task(task)
-      instance = resampling_bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
-      private$.instantiate(instance)
+      private$.hash = NA_character_
+      self$instance = resampling_bootstrap(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance[[i]]$train
+      self$instance[[i]]$train
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance[[i]]$test
+      self$instance[[i]]$test
     }
   ),
 

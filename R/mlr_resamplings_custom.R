@@ -8,31 +8,32 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
       assert_task(task)
-      instance = resampling_custom(private$.instance, train_sets, test_sets)
-      private$.instantiate(instance)
+      private$.hash = NA_character_
+      self$instance = resampling_custom(self$instance, train_sets, test_sets)
+      self
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance$train[[i]]
+      self$instance$train[[i]]
     },
 
     test_set = function(i) {
       i = assert_resampling_index(self, i)
-      private$.instance$test[[i]]
+      self$instance$test[[i]]
     }
   ),
 
   active = list(
     iters = function() {
-      length(private$.instance$train)
+      length(self$instance$train)
     },
 
     hash = function() {
-      if (is.null(private$.instance$train) || is.null(private$.instance$test))
+      if (is.null(self$instance$train) || is.null(self$instance$test))
         return(NA_character_)
       if (is.na(private$.hash))
-        private$.hash = digest::digest(list(self$id, private$.par_vals, private$.instance), algo = "xxhash64")
+        private$.hash = hash(self)
       private$.hash
     }
   )
