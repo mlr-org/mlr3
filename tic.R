@@ -20,7 +20,7 @@ if (Sys.getenv("id_rsa") != "") {
     add_step(step_push_deploy(path = "docs", branch = "gh-pages"))
 }
 
-if (!Sys.getenv("$TRAVIS_EVENT_TYPE") == "cron") {
+if (inherits(ci(), "TravisCI") && !Sys.getenv("$TRAVIS_EVENT_TYPE") == "cron") {
 
   get_stage("deploy") %>%
     add_code_step(devtools::document()) %>%
