@@ -52,6 +52,6 @@ resample = function(task, learner, resampling, measures = NULL) {
   }
 
   res = combine_experiments(res)
-  res[, c("task", "learner", "resampling") := list(list(task), list(learner), list(instance))]
+  res[, c("task", "learner", "resampling", "measures") := list(list(task), list(learner), list(instance), list(measures))]
   ResampleResult$new(res)
 }

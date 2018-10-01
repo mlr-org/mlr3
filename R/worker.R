@@ -78,5 +78,5 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   tmp = score_worker(e, ctrl)
   e$data = insert(e$data, tmp)
 
-  remove(e$data, c("task", "learner", "resampling"))
+  remove(e$data, c("task", "learner", "resampling", "measures"))
 }
