@@ -4,7 +4,7 @@
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
 #' @importFrom stats setNames reformulate median mad
-NULL
+"_PACKAGE"
 
 populate_dicts = function() {
   # FIXME: automate this by creating a simple register
