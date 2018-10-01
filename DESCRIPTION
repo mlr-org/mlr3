@@ -112,3 +112,5 @@ Collate:
     'split.R'
     'worker.R'
     'zzz.R'
+URL: https://github.com/mlr-org/mlr3
+BugReports: https://github.com/mlr-org/mlr3/issues
