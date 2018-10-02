@@ -147,6 +147,7 @@ Task = R6Class("Task",
     col_info = NULL,
     measures = list(),
     order = character(0L),
+    properties = character(0L),
 
     initialize = function(id, backend) {
       self$id = assert_id(id)

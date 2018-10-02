@@ -42,7 +42,7 @@
 #' `$predict_types` (`character()`) stores the possible predict types the learner is capable of. For classification,
 #'   feasible values are `"response"` and `"prob"`, for regression `"response"` and `"se"` can be specified.
 #'
-#' `$predict_type` (`character(1)`) stores currently selected predict type.
+#' `$predict_type` (`character(1)`) stores the currently selected predict type.
 #'
 #' `$packages` (`character(1)`) stores the names of required packages.
 #'

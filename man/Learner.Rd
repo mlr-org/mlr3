@@ -50,7 +50,7 @@ Fitted model as returned by \code{train}.
 \code{$predict_types} (\code{character()}) stores the possible predict types the learner is capable of. For classification,
 feasible values are \code{"response"} and \code{"prob"}, for regression \code{"response"} and \code{"se"} can be specified.
 
-\code{$predict_type} (\code{character(1)}) stores currently selected predict type.
+\code{$predict_type} (\code{character(1)}) stores the currently selected predict type.
 
 \code{$packages} (\code{character(1)}) stores the names of required packages.
 

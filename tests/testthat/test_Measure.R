@@ -11,9 +11,11 @@ test_that("Measure construction", {
 
 test_that("Classification measures", {
   ids = mlr_measures$ids
+  lrn = mlr_learners$get("classif.dummy")
+  lrn$predict_type = "prob"
   e = Experiment$new(
-    task = mlr_tasks$get("iris"),
-    learner = mlr_learners$get("classif.dummy")
+    task = mlr_tasks$get("sonar"),
+    learner = lrn
   )
   e$train()$predict()
 

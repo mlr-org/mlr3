@@ -1,3 +1,7 @@
+is_scalar_na = function(x) {
+  is.vector(x) && length(x) == 1L && is.na(x)
+}
+
 "%nin%" = function(x, y) {
   !match(x, y, nomatch = 0L)
 }
