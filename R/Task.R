@@ -22,7 +22,7 @@
 #' t$target_names
 #' t$nrow
 #' t$ncol
-#' t$col_types
+#' t$feature_types
 #' t$formula
 #' t$hash
 #'
@@ -105,7 +105,7 @@
 #'
 #' `$ncol` provides the total number of cols with `role %in% c("target", "feature")`.
 #'
-#' `$col_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" columns of the task and `type` is the storage type.
+#' `$feature_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" features of the task and `type` is the storage type.
 #'
 #' `$formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
 #'
@@ -241,8 +241,8 @@ Task = R6Class("Task",
       self$col_info[role %in% c("feature", "target"), .N]
     },
 
-    col_types = function() {
-      self$col_info[role %in% c("feature", "target"), c("id", "type")]
+    feature_types = function() {
+      self$col_info[list("feature"), c("id", "type"), on = "role"]
     },
 
     formula = function() {

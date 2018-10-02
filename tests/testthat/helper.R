@@ -104,7 +104,7 @@ expect_backend = function(b) {
 }
 
 expect_task = function(task) {
-  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "col_types"))
+  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   expect_string(task$id, min.chars = 1L)
   expect_count(task$nrow)
   expect_count(task$ncol)
@@ -116,7 +116,7 @@ expect_task = function(task) {
   expect_names(names(task$col_info), permutation.of = cols)
   expect_character(task$col_info$id, any.missing = FALSE, unique = TRUE)
   expect_subset(task$col_info$role, capabilities$task_col_roles)
-  expect_subset(task$col_info$type, capabilities$task_col_types)
+  expect_subset(task$col_info$type, capabilities$task_feature_types)
   expect_list(task$col_info$levels)
 
   cols = c("id", "role")
@@ -125,10 +125,10 @@ expect_task = function(task) {
   expect_atomic_vector(task$row_info$id, any.missing = FALSE, unique = TRUE)
   expect_subset(task$row_info$role, capabilities$task_row_roles)
 
-  types = task$col_types
-  expect_data_table(types, ncol = 2, nrow = task$ncol)
-  expect_set_equal(types$id, c(task$target_names, task$feature_names))
-  expect_subset(types$type, capabilities$task_col_types)
+  types = task$feature_types
+  expect_data_table(types, ncol = 2, nrow = length(task$feature_names))
+  expect_set_equal(types$id, task$feature_names)
+  expect_subset(types$type, capabilities$task_feature_types)
 
   expect_character(task$order, any.missing = FALSE)
   expect_names(task$order, subset.of = c(task$feature_names, task$target_names))
@@ -296,7 +296,6 @@ expect_resample_result = function(rr) {
   e = rr$experiment(1L)
   expect_experiment(e)
   expect_true(e$state == "scored")
-
 
   measures = rr$measures
   aggr = rr$aggregated
