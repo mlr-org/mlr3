@@ -1,13 +1,6 @@
-# add_package_checks()
-
 get_stage("script") %>%
   add_step(step_rcmdcheck(args = "--as-cran", warnings_are_errors = FALSE,
                           notes_are_errors = FALSE))
-  # add_code_step(devtools::build(manual = TRUE)) %>%
-  # add_code_step(devtools::install(quick = TRUE)) %>%
-  # add_code_step(rcmdcheck::rcmdcheck(path = "../mlr3_0.1.0-9000.tar.gz", args = "--as-cran",
-  #                                    error_on = "error"))
-
 
 if (Sys.getenv("id_rsa") != "") {
   # pkgdown documentation can be built optionally. Other example criteria:
@@ -23,9 +16,14 @@ if (Sys.getenv("id_rsa") != "") {
     add_step(step_push_deploy(path = "docs", branch = "gh-pages"))
 }
 
-if (inherits(ci(), "TravisCI") && !Sys.getenv("$TRAVIS_EVENT_TYPE") == "cron") {
+# only deploy man files on Travis on non-cron builds
+# only run codecov on Travis
+if (inherits(ci(), "TravisCI") && !Sys.getenv("TRAVIS_EVENT_TYPE") == "cron") {
 
   get_stage("deploy") %>%
     add_code_step(devtools::document()) %>%
     add_step(step_push_deploy(commit_paths = "man/"))
+
+  get_stage("after_deploy") %>%
+    add_code_step(covr::codecov(quiet = FALSE))
 }
