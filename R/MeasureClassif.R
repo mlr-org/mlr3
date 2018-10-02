@@ -1,0 +1,8 @@
+#' @include Measure.R
+MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
+  public = list(
+    initialize = function(id, range, minimize, packages = character(0L)) {
+      super$initialize(id, task_type = "classif", range, minimize, packages)
+    }
+  )
+)

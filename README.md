@@ -10,10 +10,9 @@ A clean, object-oriented rewrite of [mlr](https://github.com/mlr-org/mlr).
 
 [mlr](https://github.com/mlr-org/mlr) was first released to [CRAN](https://cran.r-project.org/package=mlr) in 2013.
 Its core design and architecture date back even further.
-The addition of many features has led to a [feature creep](https://en.wikipedia.org/wiki/Feature_creep) which makes [mlr](https://github.com/mlr-org/mlr) hard to maintain and hard to extend. We also think that while mlr was nicely extensible in some parts
-(learners, measures, etc.), other parts were less easy to extend from the outside.
-Also, many helpful R libraries did not exist at the time mlr was created, and their inclusion will
-result in non-trivial API changes.
+The addition of many features has led to a [feature creep](https://en.wikipedia.org/wiki/Feature_creep) which makes [mlr](https://github.com/mlr-org/mlr) hard to maintain and hard to extend.
+We also think that while mlr was nicely extensible in some parts (learners, measures, etc.), other parts were less easy to extend from the outside.
+Also, many helpful R libraries did not exist at the time [mlr](https://github.com/mlr-org/mlr) was created, and their inclusion would result in non-trivial API changes.
 
 
 
@@ -22,10 +21,9 @@ result in non-trivial API changes.
 * Only the basic building blocks for machine learning are implemented in this package.
 * Focus on computation here. No visualization or other stuff. That can go in extra packages.
 * Overcome the limitations of R's [S3 classes](https://adv-r.hadley.nz/s3.html) with the help of [R6](https://cran.r-project.org/package=R6).
-* Embrace R6, clean OO-design, object state-changes and reference semantics. This might be less
-  "traditional R", but seems to fit mlr nicely.
-* Embrace data.table for fast and convenient data frame computations
-* Combine data.table and R6, for this we will make heavy use of list columns in R data.tables
+* Embrace [R6](https://cran.r-project.org/package=R6), clean OO-design, object state-changes and reference semantics. This might be less "traditional R", but seems to fit `mlr` nicely.
+* Embrace [`data.table`](https://cran.r-project.org/package=data.table) for fast and convenient data frame computations.
+* Combine `data.table` and `R6`, for this we will make heavy use of list columns in data.tables.
 * Once the API is fixed, both advanced techniques and implementations for different learners will be implemented in extra packages to reduce the maintenance burden.
 * Be light on dependencies. `mlr3` only requires the following packages:
     - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No extra reverse dependencies.
@@ -35,9 +33,10 @@ result in non-trivial API changes.
     - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No extra reverse dependencies.
     - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No extra reverse dependencies.
     - [`measures`](https://cran.r-project.org/package=measures): Package which implements performance measures. Developed by members of the `mlr` team. No extra reverse dependencies.
-    - [`paradox`](https://cran.r-project.org/package=measures): Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra reverse dependencies. [TODO: Remove `BBmisc` dependency]
+    - [`paradox`](https://cran.r-project.org/package=paradox): Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra reverse dependencies. [TODO: Remove `BBmisc` dependency]
 
   For parallelization, `mlr3` optionally uses the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
+
 
 
 ## State of the project
@@ -58,6 +57,8 @@ result in non-trivial API changes.
 * Single step experiments via the `Experiment` class
 * Resampling via `resample()`
 * Benchmarking via `benchmark()`
+
+Some objects are documented [here](https://mlr-org.github.io/mlr3/).
 
 
 ### WiP

@@ -15,7 +15,7 @@
 #' # Add a new task, based on a subset of iris:
 #' data = iris
 #' data$Species = ifelse(data$Species == "setosa", "1", "0")
-#' b = BackendDataTable$new(data)
+#' b = DataBackendDataTable$new(data)
 #' task = TaskClassif$new("iris.binary", b, target = "Species")
 #' mlr_tasks$add(task)
 #' mlr_tasks$ids
@@ -31,7 +31,7 @@ DictionaryTask = R6Class("DictionaryTask",
 )
 
 #' @export
-mlr_tasks = NULL#DictionaryTask$new()
+mlr_tasks = NULL
 
 #' @export
 as.data.table.DictionaryTask = function(x, ...) {
@@ -53,32 +53,32 @@ load_dataset = function(id, package, keep.rownames = FALSE) {
 
 lazy_tasks = list(
   LazyValue("iris", function() {
-    b = BackendDataTable$new(data = load_dataset("iris", "datasets"))
+    b = DataBackendDataTable$new(data = load_dataset("iris", "datasets"))
     TaskClassif$new("iris", b, target = "Species")
   }),
 
   LazyValue("sonar", function() {
-    b = BackendDataTable$new(data = load_dataset("Sonar", "mlbench"))
+    b = DataBackendDataTable$new(data = load_dataset("Sonar", "mlbench"))
     TaskClassif$new("sonar", b, target = "Class", positive = "M")
   }),
 
   LazyValue("bh", function() {
-    b = BackendDataTable$new(data = load_dataset("BostonHousing2", "mlbench"))
+    b = DataBackendDataTable$new(data = load_dataset("BostonHousing2", "mlbench"))
     TaskRegr$new("boston_housing", b, target = "medv")
   }),
 
   LazyValue("pima", function() {
-    b = BackendDataTable$new(data = load_dataset("PimaIndiansDiabetes2", "mlbench"))
+    b = DataBackendDataTable$new(data = load_dataset("PimaIndiansDiabetes2", "mlbench"))
     TaskClassif$new("pima_indians", b, target = "diabetes", positive = "pos")
   }),
 
   LazyValue("zoo", function() {
-    b = BackendDataTable$new(data = load_dataset("Zoo", "mlbench", keep.rownames = TRUE))
+    b = DataBackendDataTable$new(data = load_dataset("Zoo", "mlbench", keep.rownames = TRUE))
     TaskClassif$new("zoo", b, target = "type")
   }),
 
   LazyValue("spam", function() {
-    b = BackendDataTable$new(data = load_dataset("spam", "kernlab"))
+    b = DataBackendDataTable$new(data = load_dataset("spam", "kernlab"))
     TaskClassif$new("spam", b, target = "type", positive = "spam")
   })
 )

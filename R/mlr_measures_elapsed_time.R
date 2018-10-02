@@ -7,7 +7,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
     initialize = function(id = NA_character_, parts) {
       super$initialize(
         id = id,
-        task_types = "all",
+        task_type = "any",
         range = c(0, Inf),
         minimize = TRUE
       )

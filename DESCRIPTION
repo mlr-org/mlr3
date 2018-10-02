@@ -16,7 +16,7 @@ Authors@R:
              role = "aut",
              email = "jakob1richter@gmail.com"))
 Description: Machine Learning in R. Next Generation.
-License: GPL-2
+License: MIT + file LICENSE
 Depends:
     R (>= 3.1.0)
 Imports:
@@ -25,14 +25,14 @@ Imports:
     checkmate (>= 1.8.9),
     data.table,
     digest,
-    future (>= 1.9.0),
-    future.apply,
     measures,
     paradox,
     R6
 Suggests:
     datasets,
     devtools,
+    future (>= 1.9.0),
+    future.apply,
     future.callr,
     kernlab,
     knitr,
@@ -53,11 +53,11 @@ NeedsCompilation: no
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
 Collate:
-    'Backend.R'
-    'BackendCbind.R'
-    'BackendDataTable.R'
-    'BackendRbind.R'
     'BenchmarkResult.R'
+    'DataBackend.R'
+    'DataBackendCbind.R'
+    'DataBackendDataTable.R'
+    'DataBackendRbind.R'
     'Dictionary.R'
     'Experiment.R'
     'helper_R6.R'
@@ -65,6 +65,8 @@ Collate:
     'LearnerClassif.R'
     'LearnerRegr.R'
     'Measure.R'
+    'MeasureClassif.R'
+    'MeasureRegr.R'
     'Prediction.R'
     'PredictionClassif.R'
     'PredictionRegr.R'
@@ -112,3 +114,5 @@ Collate:
     'split.R'
     'worker.R'
     'zzz.R'
+URL: https://github.com/mlr-org/mlr3
+BugReports: https://github.com/mlr-org/mlr3/issues

@@ -10,7 +10,7 @@
 #' m = Measure$new(id)
 #' m$id
 #' m$packages
-#' m$task_types
+#' m$task_type
 #' m$calculate(experiment)
 #' m$range
 #' m$minimize
@@ -32,7 +32,7 @@
 #'
 #' `$packages` (`character(1)`) stores the names of required packages.
 #'
-#' `$task_types` (`character`) stores the class names of tasks this measure can operate on.
+#' `$task_type` (`character`) stores the class names of tasks this measure can operate on.
 #'
 #' `$range` (`numeric(2)`) stores the numeric range of feasible measure values.
 #'
@@ -55,18 +55,18 @@ NULL
 Measure = R6Class("Measure", cloneable = FALSE,
   public = list(
     id = NULL,
-    task_types = NULL,
+    task_type = NULL,
     range = NULL,
     minimize = NULL,
     packages = NULL,
     aggregate = function(rr) mean(rr$performance[[self$id]]),
 
-    initialize = function(id, task_types, range, minimize, packages = character(0L)) {
+    initialize = function(id, task_type, range, minimize, packages = character(0L)) {
       self$id = assert_id(id)
-      self$task_types = assert_subset(task_types, c("all", capabilities$task_types), empty.ok = FALSE)
+      self$task_type = assert_choice(task_type, capabilities$task_types)
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize)
-      self$packages = assert_packages(packages)
+      self$packages = assert_set(packages)
     },
 
     calculate = method_not_implemented

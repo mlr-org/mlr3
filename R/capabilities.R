@@ -1,7 +1,7 @@
 capabilities = new.env(parent = emptyenv())
 
 capabilities$task_types = c(
-  "regr", "classif"
+  "any", "regr", "classif"
 )
 
 capabilities$task_col_types = c(

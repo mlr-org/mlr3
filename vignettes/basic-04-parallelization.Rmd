@@ -22,7 +22,17 @@ knitr::opts_chunk$set(
 future::plan("sequential")
 ```
 
-This introduction shows how to parallelize `mlr3` using the package [`future`](https://cran.r-project.org/package=future).
+This introduction shows how to parallelize `mlr3` with the packages [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply).
+
+# Installation
+
+Make sure you have installed `future` and `future.apply` and load the respective namespaces:
+```{r}
+if (!requireNamespace("future.apply")) # future.apply depends on future
+  install.packages("future.apply")
+requireNamespace("future")
+requireNamespace("future.apply")
+```
 
 
 # Parallel Resampling
@@ -30,7 +40,7 @@ This introduction shows how to parallelize `mlr3` using the package [`future`](h
 The most outer loop in resampling runs independent repetitions of applying a learner on a subset of a task, predict on a different subset and score the performance by comparing true and predicted labels.
 This loop is what is called embarrassingly parallel.
 
-In the following, we will consider the spam task and a simple classification tree (`"classif.rpart"`) to illustrate parallelization.
+In the following, we will consider the spam task and a simple classification tree (`"classif.rpart"`) to illustrate the parallelization.
 
 ```{r}
 library("mlr3")
@@ -52,17 +62,16 @@ system.time(
 )[3L]
 ```
 On most systems you should see a decrease in the reported real CPU time.
-On some systems (e.g. windows), the overhead for parallelization is quite large.
-Here you should only consider to enable parallelization for experiments which run more than 30s.
+On some systems (e.g. windows), the overhead for parallelization is quite large though.
+Therefore, you should only enable parallelization for experiments which run more than 10s each.
 
-We can also enable parallelization for benchmarking:
+Benchmarking is also parallelized. The following code sends 64 jobs (4 tasks * 16 resampling repeats) to the future backend:
 ```{r}
 tasks = mlr_tasks$mget(c("iris", "spam", "pima"))
 learners = mlr_learners$mget("classif.rpart")
 resamplings = mlr_resamplings$mget("subsampling")
 resamplings$subsampling$par_vals = list(ratio = 0.8, repeats = 16)
 
-options(future.debug = FALSE)
 future::plan("multiprocess")
 system.time(
   benchmark(tasks, learners, resamplings)
@@ -73,15 +82,18 @@ system.time(
 
 With future as backend, it is also possible to run learners in an isolated R session.
 If the learner crashed, e.g. with a SEGFAULT, it does not tear down the master session.
+Here is a small example where a single model fit is executed in an independent R session.
 
-```{r}
+```{r, eval=FALSE}
 library("future.callr")
 plan("callr")
-task = mlr_tasks$get("spam")
-learner = mlr_learners$get("classif.crashtest")
 
-# FIXME: TBC
-# options(future.wait.timeout = 5)
-# train(task, learner)
+e = Experiment$new(
+  task = mlr_tasks$get("spam"),
+  learner = mlr_learners$get("classif.crashtest")
+)
+
+e$train()
 ```
-
+Of course, this also works for resampling and benchmarking.
+Nested parallelization is not yet implemented in `mlr3`, although `future` already supports it.

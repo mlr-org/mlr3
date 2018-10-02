@@ -18,7 +18,7 @@ t$truth(subset = NULL)
 
 \itemize{
 \item \code{subset} (\code{vector}):
-Subset of row ids to subset rows from the \link{Backend} using its primary key.
+Subset of row ids to subset rows from the \link{DataBackend} using its primary key.
 }
 }
 

@@ -225,12 +225,12 @@ experiment_train = function(e, row_ids) {
   e$data$iteration = 1L
 
   if (use_future()) {
-    debug("Running train_worker() via do.call()")
-    value = do.call(train_worker, list(e = e, ctrl = mlr_options()))
-  } else {
     debug("Running train_worker() via futureCall()")
     value = future::futureCall(train_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
     value = future::value(value)
+  } else {
+    debug("Running train_worker() via do.call()")
+    value = do.call(train_worker, list(e = e, ctrl = mlr_options()))
   }
   e$data = insert(e$data, value)
   e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "trained", "name"][[1L]]))
@@ -249,12 +249,12 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
   }
 
   if (use_future()) {
-    debug("Running predict_worker() via do.call()")
-    value = do.call(predict_worker, list(e = e, ctrl = mlr_options()))
-  } else {
     debug("Running predict_worker() via futureCall()")
     value = future::futureCall(predict_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
     value = future::value(value)
+  } else {
+    debug("Running predict_worker() via do.call()")
+    value = do.call(predict_worker, list(e = e, ctrl = mlr_options()))
   }
   e$data = insert(e$data, value)
   e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "predicted", "name"][[1L]]))
@@ -265,12 +265,12 @@ experiment_score = function(e, measures = NULL) {
   e$data$measures = assert_list(measures %??% e$data$task$measures, "Measure")
 
   if (use_future()) {
-    debug("Running score_worker() via do.call()")
-    value = do.call(score_worker, list(e = e, ctrl = mlr_options()))
-  } else {
     debug("Running score_worker() via futureCall()")
     value = future::futureCall(score_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
     value = future::value(value)
+  } else {
+    debug("Running score_worker() via do.call()")
+    value = do.call(score_worker, list(e = e, ctrl = mlr_options()))
   }
 
   e$data = insert(e$data, value)

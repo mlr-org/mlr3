@@ -1,11 +1,10 @@
-#' @include Measure.R
-MeasureMMCE = R6Class("MeasureMMCE",
-  inherit = Measure,
+#' @include MeasureClassif.R
+MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
+  inherit = MeasureClassif,
   public = list(
     initialize = function(id = "mmce") {
       super$initialize(
         id = id,
-        task_types = "classif",
         range = 0:1,
         minimize = TRUE,
         packages = "measures"
