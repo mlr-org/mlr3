@@ -21,12 +21,12 @@ DictionaryMeasure = R6Class("DictionaryMeasure",
 )
 
 #' @export
-mlr_measures = NULL#DictionaryMeasure$new()
+mlr_measures = NULL
 
 #' @export
 as.data.table.DictionaryMeasure = function(x, ...) {
   setkeyv(rbindlist(lapply(x$ids, function(id) {
     m = x$get(id)
-    data.table(id = id, task_type = list(m$task_type), packages = list(m$packages))
+    data.table(id = id, task_type = m$task_type, packages = list(m$packages))
   })), "id")[]
 }
