@@ -31,7 +31,7 @@ DictionaryTask = R6Class("DictionaryTask",
 )
 
 #' @export
-mlr_tasks = NULL#DictionaryTask$new()
+mlr_tasks = NULL
 
 #' @export
 as.data.table.DictionaryTask = function(x, ...) {

@@ -7,7 +7,7 @@
 "_PACKAGE"
 
 populate_dicts = function() {
-  # FIXME: automate this by creating a simple register
+  # FIXME: automate this by creating a simple register?
 
   if (is.null(mlr_tasks))
      mlr_tasks <<- DictionaryTask$new()
@@ -35,16 +35,15 @@ populate_dicts = function() {
   mlr_measures$add(MeasureElapsedTime$new("time_train", "train"))
   mlr_measures$add(MeasureElapsedTime$new("time_predict", "predict"))
   mlr_measures$add(MeasureElapsedTime$new("time_both", c("train", "predict")))
-  mlr_measures$add(MeasureMMCE$new())
-  mlr_measures$add(MeasureACC$new())
-  mlr_measures$add(MeasureMSE$new())
+  mlr_measures$add(MeasureClassifMMCE$new())
+  mlr_measures$add(MeasureClassifACC$new())
+  mlr_measures$add(MeasureRegrMSE$new())
 }
 
 .onLoad = function(libname, pkgname) { #nocov start
   utils::globalVariables(c("id", "role"), package = "mlr3")
 
   backports::import(pkgname)
-  backports::import(pkgname, "hasName", force = TRUE)
 
   # Set default options without overwriting already set options
   opts = default_opts[match(names(default_opts), names(.Options), nomatch = 0L) == 0L]

@@ -21,7 +21,7 @@ DictionaryLearner = R6Class("DictionaryLearner",
 )
 
 #' @export
-mlr_learners = NULL#DictionaryLearner$new()
+mlr_learners = NULL
 
 #' @export
 as.data.table.DictionaryLearner = function(x, ...) {

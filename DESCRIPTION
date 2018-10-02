@@ -65,6 +65,8 @@ Collate:
     'LearnerClassif.R'
     'LearnerRegr.R'
     'Measure.R'
+    'MeasureClassif.R'
+    'MeasureRegr.R'
     'Prediction.R'
     'PredictionClassif.R'
     'PredictionRegr.R'

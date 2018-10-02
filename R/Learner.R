@@ -66,8 +66,8 @@ Learner = R6Class("Learner",
 
     initialize = function(id, packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
       self$id = assert_id(id)
-      self$packages = assert_packages(packages)
-      self$properties = assert_properties(properties)
+      self$packages = assert_set(packages)
+      self$properties = assert_set(properties)
       self$par_set = assert_par_set(par_set)
       private$.par_vals = assert_par_vals(par_vals, par_set)
     },
