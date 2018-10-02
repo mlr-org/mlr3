@@ -1,11 +1,10 @@
-#' @include Measure.R
-MeasureMSE = R6Class("MeasureMSE",
-  inherit = Measure,
+#' @include MeasureRegr.R
+MeasureRegrMSE = R6Class("MeasureRegrMSE",
+  inherit = MeasureRegr,
   public = list(
     initialize = function(id = "mse") {
       super$initialize(
         id = id,
-        task_types = "regr",
         range = c(0, Inf),
         minimize = TRUE,
         packages = "measures"

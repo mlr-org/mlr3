@@ -27,6 +27,6 @@ mlr_measures = NULL#DictionaryMeasure$new()
 as.data.table.DictionaryMeasure = function(x, ...) {
   setkeyv(rbindlist(lapply(x$ids, function(id) {
     m = x$get(id)
-    data.table(id = id, task_types = list(m$task_types), packages = list(m$packages))
+    data.table(id = id, task_type = list(m$task_type), packages = list(m$packages))
   })), "id")[]
 }

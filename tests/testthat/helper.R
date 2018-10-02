@@ -232,10 +232,10 @@ expect_resampling = function(r, task = NULL) {
 }
 
 expect_measure = function(m) {
-  expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_types"))
+  expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type"))
 
   expect_string(m$id, min.chars = 1L)
-  expect_subset(m$task_types, c("all", capabilities$task_types), empty.ok = FALSE)
+  expect_subset(m$task_type, c("all", capabilities$task_types), empty.ok = FALSE)
   expect_numeric(m$range, len = 2, any.missing = FALSE)
   expect_lt(m$range[1], m$range[2])
   expect_flag(m$minimize)

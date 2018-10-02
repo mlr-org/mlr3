@@ -47,12 +47,8 @@ assert_id = function(id) {
   assert_string(id, min.chars = 1L)
 }
 
-assert_packages = function(packages) {
-  assert_character(packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
-}
-
-assert_properties = function(properties) {
-  assert_character(properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
+assert_set = function(x, empty = TRUE) {
+  assert_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE)
 }
 
 assert_par_set = function(par_set) {
