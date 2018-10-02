@@ -11,11 +11,14 @@ Predefined learners are stored in \link{mlr_learners}.
 \section{Usage}{
 \preformatted{l = Learner$new(id, packages = character(0), par_set = ParamSet$new(), par_vals = list(), properties = character(0))
 l$id
+l$task_type
+l$feature_types
+l$predict_types
+l$predict_type
 l$packages
 l$par_set
 l$par_vals
 l$properties
-l$predict_type
 l$train(task)
 l$predict(task, model)
 l$hash
@@ -40,6 +43,15 @@ Fitted model as returned by \code{train}.
 
 \code{$id} (\code{character(1)}) stores the identifier of the object.
 
+\code{$task_type} (\code{character(1)}) stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
+
+\code{$feature_types} (\code{character()}) stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+
+\code{$predict_types} (\code{character()}) stores the possible predict types the learner is capable of. For classification,
+feasible values are \code{"response"} and \code{"prob"}, for regression \code{"response"} and \code{"se"} can be specified.
+
+\code{$predict_type} (\code{character(1)}) stores currently selected predict type.
+
 \code{$packages} (\code{character(1)}) stores the names of required packages.
 
 \code{$par_set()} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter and possible settings.
@@ -47,9 +59,6 @@ Fitted model as returned by \code{train}.
 \code{$par_vals()} (\code{named list}) stores the list set hyperparameter values.
 
 \code{$properties} (\code{character()}) is a set of tags which describe the properties of the learner.
-
-\code{$predict_type} (\code{character(1)}) stores the predict type of the learner,
-e.g. "response" or "probability" for classification learners of class \link{LearnerClassif}.
 
 \code{$train()} takes a task and returns a model fitted on all observations.
 

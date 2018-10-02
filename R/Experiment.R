@@ -106,7 +106,7 @@ Experiment = R6Class("Experiment",
     initialize = function(task, learner, ...) {
       self$data = named_list(reflections$experiment_slots$name)
       self$data$task = assert_task(task)
-      self$data$learner = assert_learner(learner)
+      self$data$learner = assert_learner(learner, task = task)
       if (...length()) {
         dots = list(...)
         assert_names(names(dots), subset.of = names(self$data))
@@ -216,7 +216,7 @@ experiment_print = function(e) {
   catf(fmt(data$model, "Model", sprintf("[%s]", class(data$model)[[1L]])))
   catf(fmt(data$prediction, "Predictions", sprintf("[%s]", class(data$prediction)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
-  catf(stri_list("\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
+  catf(stri_describe("\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
 }
 
 

@@ -13,7 +13,7 @@ assert_experiment = function(experiment) {
 assert_learner = function(learner, task = NULL) {
   assert_class(learner, "Learner")
   if (!is.null(task)) {
-    if (!identical(task$type, learner$task_type)) {
+    if (!identical(task$task_type, learner$task_type)) {
       stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",
         learner$id, learner$task_type, task$id, task$type)
     }

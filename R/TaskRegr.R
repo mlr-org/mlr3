@@ -8,18 +8,18 @@
 #' ```
 #' t = TaskRegr$new(id, backend, target)
 #'
-#' t$type
+#' t$task_type
 #' ```
 #'
 #' @section Details:
-#' `$type` is `"classif"`
+#' `$task_type` is `"classif"`
 #'
 #' @name TaskRegr
 #' @family Task
 #' @examples
 #' b = DataBackendDataTable$new(iris)
 #' task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
-#' task$type
+#' task$task_type
 #' task$formula
 NULL
 
@@ -28,7 +28,7 @@ NULL
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
-    type = "regr",
+    task_type = "regr",
     initialize = function(id, backend, target) {
       super$initialize(id = id, backend = backend, target = target)
       assert_string(target) # check for length 1

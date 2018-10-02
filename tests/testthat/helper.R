@@ -104,7 +104,7 @@ expect_backend = function(b) {
 }
 
 expect_task = function(task) {
-  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
+  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   expect_string(task$id, min.chars = 1L)
   expect_count(task$nrow)
   expect_count(task$ncol)
@@ -191,8 +191,8 @@ expect_learner = function(lrn, task = NULL) {
 
   if (!is.null(task)) {
     assert_class(task, "Task")
-    expect_subset(lrn$properties, capabilities$learner_props[[task$type]])
-    expect_identical(lrn$task_type, task$type)
+    expect_subset(lrn$properties, capabilities$learner_props[[task$task_type]])
+    expect_identical(lrn$task_type, task$task_type)
   }
 }
 

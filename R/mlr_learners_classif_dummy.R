@@ -4,12 +4,14 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
     initialize = function() {
       super$initialize(
         id = "classif.dummy",
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_types = c("response", "prob"),
         par_set = ParamSet$new(
           params = list(
             ParamCategorical$new("method", values = c("mode", "sample", "weighted.sample"), default = "mode")
           )
         ),
-        properties = c("prob", "missings", "feat.factor", "feat.numeric"),
+        properties = "missings",
       )
     },
 

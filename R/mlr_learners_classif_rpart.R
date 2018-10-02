@@ -5,6 +5,8 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       super$initialize(
         id = "classif.rpart",
         packages = "rpart",
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_types = c("response", "prob"),
         par_set = ParamSet$new(
           params = list(
             ParamInt$new(id = "minsplit", default = 20L, lower = 1L),
@@ -14,7 +16,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
             ParamInt$new(id = "xval", default = 10L, lower = 0L)
           )
         ),
-        properties = c("twoclass", "multiclass", "missings", "feat.numeric", "feat.factor", "feat.ordered", "prob")
+        properties = c("twoclass", "multiclass", "missings")
       )
     },
 

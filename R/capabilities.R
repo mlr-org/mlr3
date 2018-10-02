@@ -17,10 +17,9 @@ capabilities$task_col_roles = c(
 )
 
 capabilities$learner_props = list(
-  task = c(sprintf("feat.%s", capabilities$task_feature_types), "missings", "weights", "parallel")
+  classif = c("missings", "weights", "parallel", "twoclass", "multiclass"),
+  regr    = c("missings", "weights", "parallel")
 )
-capabilities$learner_props$classif = c(capabilities$learner_props$task, "twoclass", "multiclass", "prob")
-capabilities$learner_props$regr = c(capabilities$learner_props$task, "se")
 
 capabilities$predict_types = list(
   classif = c("response", "prob"),

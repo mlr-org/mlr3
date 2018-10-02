@@ -5,6 +5,8 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
     initialize = function() {
       super$initialize(
         id = "classif.crashtest",
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_types = c("response", "prob"),
         par_set = ParamSet$new(
           params = list(
             ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train"),
@@ -12,7 +14,7 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
           )
         ),
         par_vals = list(crash.on = "train", crash.mode = "error"),
-        properties = capabilities$learner_props$classif,
+        properties = "missings"
       )
     },
 

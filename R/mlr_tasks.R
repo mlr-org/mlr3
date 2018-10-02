@@ -37,7 +37,7 @@ mlr_tasks = NULL
 as.data.table.DictionaryTask = function(x, ...) {
   setkeyv(rbindlist(lapply(x$ids, function(id) {
     t = x$get(id)
-    data.table(id = id, type = t$type, nrow = t$nrow, ncol = t$ncol)
+    data.table(id = id, type = t$task_type, nrow = t$nrow, ncol = t$ncol)
   })), "id")[]
 }
 
