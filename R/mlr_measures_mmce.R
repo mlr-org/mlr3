@@ -11,8 +11,8 @@ MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
       )
     },
 
-    calculate = function(experiment) {
-      p = experiment$prediction
+    calculate = function(e) {
+      p = e$prediction
       measures::MMCE(p$truth, p$response)
     }
   )

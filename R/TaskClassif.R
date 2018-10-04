@@ -39,6 +39,7 @@ TaskClassif = R6Class("TaskClassif",
   public = list(
     task_type = "classif",
     positive = NA_character_,
+    negative = NA_character_,
 
     initialize = function(id, backend, target, positive = NULL) {
       super$initialize(id = id, backend = backend, target = target)
@@ -52,6 +53,7 @@ TaskClassif = R6Class("TaskClassif",
           info("Setting positive class to '%s'", self$positive)
         } else {
           self$positive = assert_choice(positive, levels(truth))
+          self$negative = setdiff(levels(truth), positive)
         }
         self$properties = union(self$properties, "twoclass")
       } else {

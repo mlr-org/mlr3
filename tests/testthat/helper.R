@@ -164,10 +164,13 @@ expect_task_classif = function(task) {
   expect_equal(task$class_n, length(unique(y)))
   expect_character(task$class_names, any.missing = FALSE)
   expect_subset(task$class_names, as.character(y))
-  if (task$class_n > 2L)
+  if (task$class_n > 2L) {
     expect_identical(task$positive, NA_character_)
-  else
-    expect_choice(task$positive, task$class_names)
+    expect_identical(task$negative, NA_character_)
+  } else {
+    expect_set_equal(c(task$positive, task$negative), task$class_names)
+    expect_true(task$positive != task$negative)
+  }
   expect_hash(task$hash)
 }
 
@@ -243,7 +246,7 @@ expect_measure = function(m) {
   expect_lt(m$range[1], m$range[2])
   expect_flag(m$minimize)
   expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
-  expect_function(m$calculate, args = "experiment")
+  expect_function(m$calculate, args = "e")
   expect_function(m$aggregate, args = "rr")
 }
 

@@ -13,7 +13,7 @@
 #' m$task_type
 #' m$task_properties
 #' m$learner_properties
-#' m$calculate(experiment)
+#' m$calculate(e)
 #' m$range
 #' m$minimize
 #' m$aggregate(rr)
@@ -22,7 +22,7 @@
 #' @section Arguments:
 #' * `id` (`character(1)`):
 #'   identifier for this object.
-#' * `experiment` ([Experiment]):
+#' * `e` ([Experiment]):
 #'   Experiment to work on.
 #' * `rr` ([ResampleResult]):
 #'   Performance object returned by [resample] to be aggregated.

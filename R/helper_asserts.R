@@ -6,8 +6,8 @@ assert_backend = function(b) {
   assert_class(b, "DataBackend")
 }
 
-assert_experiment = function(experiment) {
-  assert_class(experiment, "Experiment")
+assert_experiment = function(e) {
+  assert_class(e, "Experiment")
 }
 
 assert_learner = function(learner, task = NULL) {

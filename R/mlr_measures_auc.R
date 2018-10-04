@@ -12,10 +12,10 @@ MeasureClassifAUC = R6Class("MeasureClassifAUC",
       )
     },
 
-    calculate = function(experiment) {
-      cl = experiment$data$task$all_classes
-      p = experiment$prediction
-      measures::AUC(p[[paste0("prob.", cl[1L])]], p$truth, cl[2L], cl[1L])
+    calculate = function(e) {
+      p = e$prediction
+      task = e$data$task
+      measures::AUC(p[[paste0("prob.", task$positive)]], p$truth, task$negative, task$positive)
     }
   )
 )

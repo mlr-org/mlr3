@@ -15,7 +15,7 @@ m$packages
 m$task_type
 m$task_properties
 m$learner_properties
-m$calculate(experiment)
+m$calculate(e)
 m$range
 m$minimize
 m$aggregate(rr)
@@ -27,7 +27,7 @@ m$aggregate(rr)
 \itemize{
 \item \code{id} (\code{character(1)}):
 identifier for this object.
-\item \code{experiment} (\link{Experiment}):
+\item \code{e} (\link{Experiment}):
 Experiment to work on.
 \item \code{rr} (\link{ResampleResult}):
 Performance object returned by \link{resample} to be aggregated.
