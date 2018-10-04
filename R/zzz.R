@@ -37,6 +37,7 @@ populate_dicts = function() {
   mlr_measures$add(MeasureElapsedTime$new("time_both", c("train", "predict")))
   mlr_measures$add(MeasureClassifMMCE$new())
   mlr_measures$add(MeasureClassifACC$new())
+  mlr_measures$add(MeasureClassifAUC$new())
   mlr_measures$add(MeasureRegrMSE$new())
 }
 

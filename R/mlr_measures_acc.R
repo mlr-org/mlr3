@@ -11,8 +11,8 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
       )
     },
 
-    calculate = function(experiment) {
-      p = experiment$prediction
+    calculate = function(e) {
+      p = e$prediction
       measures::ACC(p$truth, p$response)
     }
   )

@@ -4,12 +4,14 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
     initialize = function() {
       super$initialize(
         id = "regr.dummy",
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_types = c("response", "se"),
         par_set = ParamSet$new(
           params = list(
             ParamFlag$new("robust", default = TRUE)
           )
         ),
-        properties = c("se", "missings", "feat.factor", "feat.numeric"),
+        properties = "missings",
       )
     },
 

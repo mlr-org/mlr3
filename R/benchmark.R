@@ -44,6 +44,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL) {
     assert_list(measures, "Measure", min.len = 1L)
     measures = replicate(length(tasks), measures, simplify = FALSE)
   }
+  # TODO: call assert measures on grid
 
 
   # Instantiate resampling for each task

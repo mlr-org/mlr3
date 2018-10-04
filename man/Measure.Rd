@@ -13,7 +13,9 @@ Predefined measures are stored in \link{mlr_measures}.
 m$id
 m$packages
 m$task_type
-m$calculate(experiment)
+m$task_properties
+m$learner_properties
+m$calculate(e)
 m$range
 m$minimize
 m$aggregate(rr)
@@ -25,7 +27,7 @@ m$aggregate(rr)
 \itemize{
 \item \code{id} (\code{character(1)}):
 identifier for this object.
-\item \code{experiment} (\link{Experiment}):
+\item \code{e} (\link{Experiment}):
 Experiment to work on.
 \item \code{rr} (\link{ResampleResult}):
 Performance object returned by \link{resample} to be aggregated.
@@ -41,6 +43,10 @@ Performance object returned by \link{resample} to be aggregated.
 \code{$packages} (\code{character(1)}) stores the names of required packages.
 
 \code{$task_type} (\code{character}) stores the class names of tasks this measure can operate on.
+
+\code{$task_properties} (\code{character}) defines a set of required task properties.
+
+\code{$learner_properties} (\code{character}) defines a set of required learner properties.
 
 \code{$range} (\code{numeric(2)}) stores the numeric range of feasible measure values.
 

@@ -24,7 +24,7 @@ t$features_names
 t$target_names
 t$nrow
 t$ncol
-t$col_types
+t$feature_types
 t$formula
 t$hash
 
@@ -117,7 +117,7 @@ This function ignores the row roles, so that you get all levels found in the \li
 
 \code{$ncol} provides the total number of cols with \code{role \%in\% c("target", "feature")}.
 
-\code{$col_types} gives a \code{data.table} with columns \code{id} and \code{type} where \code{id} are the column names of "active" columns of the task and \code{type} is the storage type.
+\code{$feature_types} gives a \code{data.table} with columns \code{id} and \code{type} where \code{id} are the column names of "active" features of the task and \code{type} is the storage type.
 
 \code{$formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
 

@@ -22,7 +22,7 @@
 #' t$target_names
 #' t$nrow
 #' t$ncol
-#' t$col_types
+#' t$feature_types
 #' t$formula
 #' t$hash
 #'
@@ -105,7 +105,7 @@
 #'
 #' `$ncol` provides the total number of cols with `role %in% c("target", "feature")`.
 #'
-#' `$col_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" columns of the task and `type` is the storage type.
+#' `$feature_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" features of the task and `type` is the storage type.
 #'
 #' `$formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
 #'
@@ -141,8 +141,9 @@ Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
     id = NULL,
-    type = NA_character_,
+    task_type = NA_character_,
     backend = NULL,
+    properties = character(0L),
     row_info = NULL,
     col_info = NULL,
     measures = list(),
@@ -241,8 +242,8 @@ Task = R6Class("Task",
       self$col_info[role %in% c("feature", "target"), .N]
     },
 
-    col_types = function() {
-      self$col_info[role %in% c("feature", "target"), c("id", "type")]
+    feature_types = function() {
+      self$col_info[list("feature"), c("id", "type"), on = "role"]
     },
 
     formula = function() {
@@ -339,14 +340,14 @@ task_rbind = function(self, data) {
   if (!auto_incremented) {
     tmp = self$backend$data(data[[pk]], pk)[[1L]]
     if (length(tmp))
-      stopf("Cannot rbind task: Duplicated row ids: %s", stri_peek(tmp))
+      stopf("Cannot rbind task: Duplicated row ids: %s", stri_head(tmp))
   }
 
   ## 1.4 Check that types are matching
   data_col_info = col_info(data, pk)
   tmp = head(merge(self$col_info, data_col_info, by = "id")[get("type.x") != get("type.y")], 1L)
   if (nrow(tmp)) {
-    stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", stri_peek(tmp$id), tmp$type.x, tmp$type.y)
+    stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", tmp$id, tmp$type.x, tmp$type.y)
   }
 
   # 2. Update row_info
@@ -381,7 +382,7 @@ task_cbind = function(self, data) {
   ## 1.2 Check that there are no duplicated column names
   tmp = setdiff(intersect(self$col_info$id, names(data)), pk)
   if (length(tmp)) {
-    stopf("Cannot cbind task: Duplicated column names: %s", stri_peek(tmp))
+    stopf("Cannot cbind task: Duplicated column names: %s", stri_head(tmp))
   }
 
   ## 1.3 Check for set equality of row ids
@@ -399,11 +400,12 @@ task_cbind = function(self, data) {
 }
 
 task_print = function(self) {
-  catf("Task '%s' of type %s (%i x %i)", self$id, class(self)[1L], self$nrow, self$ncol)
-  catf(stri_list("Target: ", self$target_names))
-  catf(stri_list("Features: ", stri_peek(self$feature_names)))
-  catf(stri_list("Order by: ", self$order))
-  catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
+  catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
+  catf(stri_describe("Target: ", self$target_names))
+  catf(stri_describe("Features: ", stri_head(self$feature_names, 10L)))
+  if (length(self$order))
+    catf(stri_describe("Order by: ", self$order))
+  catf(stri_describe("\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
 }
 
 

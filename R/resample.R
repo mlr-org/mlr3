@@ -34,7 +34,9 @@ resample = function(task, learner, resampling, measures = NULL) {
   assert_task(task)
   assert_learner(learner, task = task)
   assert_resampling(resampling)
-  measures = assert_measures(measures %??% task$measures)
+  if (is.null(measures))
+    measures = task$measures
+  assert_measures(measures, task = task, learner = learner)
 
   if (resampling$is_instantiated) {
     instance = resampling$clone()

@@ -103,8 +103,8 @@ Resampling = R6Class("Resampling",
     print = function(...) {
       pv = self$par_vals
       catf("%s<%s> with %i iterations", if (self$is_instantiated) "Instantiated " else "", class(self)[1L], self$iters)
-      catf("Parameters: %s", paste0(paste(names(pv), pv, sep = "="), collapse = ", "))
-      catf(stri_list("\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
+      catf("Parameters: %s", stri_key_val(pv))
+      catf(stri_describe("\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
     }
   ),
 

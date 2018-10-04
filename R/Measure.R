@@ -11,7 +11,9 @@
 #' m$id
 #' m$packages
 #' m$task_type
-#' m$calculate(experiment)
+#' m$task_properties
+#' m$learner_properties
+#' m$calculate(e)
 #' m$range
 #' m$minimize
 #' m$aggregate(rr)
@@ -20,7 +22,7 @@
 #' @section Arguments:
 #' * `id` (`character(1)`):
 #'   identifier for this object.
-#' * `experiment` ([Experiment]):
+#' * `e` ([Experiment]):
 #'   Experiment to work on.
 #' * `rr` ([ResampleResult]):
 #'   Performance object returned by [resample] to be aggregated.
@@ -33,6 +35,10 @@
 #' `$packages` (`character(1)`) stores the names of required packages.
 #'
 #' `$task_type` (`character`) stores the class names of tasks this measure can operate on.
+#'
+#' `$task_properties` (`character`) defines a set of required task properties.
+#'
+#' `$learner_properties` (`character`) defines a set of required learner properties.
 #'
 #' `$range` (`numeric(2)`) stores the numeric range of feasible measure values.
 #'
@@ -56,16 +62,27 @@ Measure = R6Class("Measure", cloneable = FALSE,
   public = list(
     id = NULL,
     task_type = NULL,
+    predict_type = NULL,
+    task_properties = NULL,
+    learner_properties = NULL,
     range = NULL,
     minimize = NULL,
     packages = NULL,
     aggregate = function(rr) mean(rr$performance[[self$id]]),
 
-    initialize = function(id, task_type, range, minimize, packages = character(0L)) {
+    initialize = function(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L)) {
       self$id = assert_id(id)
-      self$task_type = assert_choice(task_type, capabilities$task_types)
+      self$task_type = task_type
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize)
+
+      if (!is_scalar_na(task_type)) {
+        assert_choice(task_type, capabilities$task_types)
+        assert_choice(predict_type, capabilities$predict_types[[task_type]])
+      }
+      self$predict_type = predict_type
+      self$task_properties = assert_subset(task_properties, capabilities$task_properties[[task_type]])
+      self$learner_properties = assert_subset(learner_properties, capabilities$learner_properties[[task_type]])
       self$packages = assert_set(packages)
     },
 

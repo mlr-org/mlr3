@@ -33,7 +33,7 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
 
       i = self$col_info[list(targets), which = TRUE]
       if (anyMissing(i))
-        stopf("Target columns %s not in DataBackend", stri_peek(targets(is.na(i))))
+        stopf("Target columns %s not in DataBackend", stri_head(targets[is.na(i)]))
       set(self$col_info, i = i, j = "role", "target")
 
       for (target in targets)

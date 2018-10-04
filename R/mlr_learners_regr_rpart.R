@@ -4,6 +4,8 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     initialize = function() {
       super$initialize(
         id = "regr.rpart",
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_types = "response",
         packages = "rpart",
         par_set = ParamSet$new(
           params = list(
@@ -15,7 +17,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
             ParamInt$new(id = "xval", default = 10L, lower = 0L)
           )
         ),
-        properties = c("missings", "feat.numeric", "feat.factor", "feat.ordered")
+        properties = "missings"
       )
     },
 
