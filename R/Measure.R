@@ -57,13 +57,12 @@ Measure = R6Class("Measure", cloneable = FALSE,
     id = NULL,
     task_type = NULL,
     predict_type = NULL,
-    properties = NULL,
     range = NULL,
     minimize = NULL,
     packages = NULL,
     aggregate = function(rr) mean(rr$performance[[self$id]]),
 
-    initialize = function(id, task_type, predict_type, range, minimize, packages = character(0L), properties = character(0L)) {
+    initialize = function(id, task_type, predict_type, range, minimize, packages = character(0L)) {
       self$id = assert_id(id)
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, capabilities$task_types)
@@ -71,7 +70,6 @@ Measure = R6Class("Measure", cloneable = FALSE,
       }
       self$task_type = task_type
       self$predict_type = predict_type
-      self$properties = assert_subset(properties, capabilities$task_properties[[task_type]])
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize)
       self$packages = assert_set(packages)
