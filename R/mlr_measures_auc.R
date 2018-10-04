@@ -7,8 +7,8 @@ MeasureClassifAUC = R6Class("MeasureClassifAUC",
         id = id,
         range = 0:1,
         minimize = FALSE,
+        predict_type = "prob",
         packages = "measures",
-        predict_type = "prob"
       )
     },
 

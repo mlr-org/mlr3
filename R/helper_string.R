@@ -3,7 +3,7 @@ stri_describe = function(name, str, n = 100L) {
   strwrap(str, initial = name, exdent = 2L)
 }
 
-stri_head = function(str, n = 3L, sep = " ", collapse = ", ") {
+stri_head = function(str, n = 10L, sep = " ", collapse = ", ") {
   x = paste(head(str, n), sep = sep, collapse = collapse)
   if (length(str) > n)
     x = paste(x, "[...]", sep = sep)

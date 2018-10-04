@@ -235,7 +235,7 @@ expect_resampling = function(r, task = NULL) {
 }
 
 expect_measure = function(m) {
-  expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type"))
+  expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type", "task_properties", "learner_properties"))
 
   expect_string(m$id, min.chars = 1L)
   expect_subset(m$task_type, c(NA_character_, capabilities$task_types), empty.ok = FALSE)

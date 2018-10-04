@@ -27,6 +27,6 @@ capabilities$learner_properties = list(
 )
 
 capabilities$predict_types = list(
-  classif = c(NA_character_, "response", "prob"),
-  regr    = c(NA_character_, "response", "se")
+  classif = c("response", "prob"),
+  regr    = c("response", "se")
 )

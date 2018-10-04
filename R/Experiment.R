@@ -262,7 +262,7 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
 }
 
 experiment_score = function(e, measures = NULL) {
-  e$data$measures = assert_list(measures %??% e$data$task$measures, "Measure")
+  e$data$measures = assert_measures(measures %??% e$data$task$measures, task = e$data$task, learner = e$data$learner)
 
   if (use_future()) {
     debug("Running score_worker() via futureCall()")

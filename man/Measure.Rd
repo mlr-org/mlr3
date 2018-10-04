@@ -13,6 +13,8 @@ Predefined measures are stored in \link{mlr_measures}.
 m$id
 m$packages
 m$task_type
+m$task_properties
+m$learner_properties
 m$calculate(experiment)
 m$range
 m$minimize
@@ -41,6 +43,10 @@ Performance object returned by \link{resample} to be aggregated.
 \code{$packages} (\code{character(1)}) stores the names of required packages.
 
 \code{$task_type} (\code{character}) stores the class names of tasks this measure can operate on.
+
+\code{$task_properties} (\code{character}) defines a set of required task properties.
+
+\code{$learner_properties} (\code{character}) defines a set of required learner properties.
 
 \code{$range} (\code{numeric(2)}) stores the numeric range of feasible measure values.
 
