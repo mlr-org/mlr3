@@ -53,8 +53,8 @@ TaskClassif = R6Class("TaskClassif",
           info("Setting positive class to '%s'", self$positive)
         } else {
           self$positive = assert_choice(positive, levels(truth))
-          self$negative = setdiff(levels(truth), positive)
         }
+        self$negative = setdiff(levels(truth), self$positive)
         self$properties = union(self$properties, "twoclass")
       } else {
         if (!is.null(positive))
