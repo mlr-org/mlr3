@@ -401,11 +401,11 @@ task_cbind = function(self, data) {
 
 task_print = function(self) {
   catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
-  catf(stri_describe("Target: ", self$target_names))
-  catf(stri_describe("Features: ", stri_head(self$feature_names, 10L)))
+  catf(stri_wrap(initial = "Target: ", self$target_names))
+  catf(stri_wrap(initial = "Features: ", self$feature_names))
   if (length(self$order))
-    catf(stri_describe("Order by: ", self$order))
-  catf(stri_describe("\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
+    catf(stri_wrap(initial = "Order by: ", self$order))
+  catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
 }
 
 
