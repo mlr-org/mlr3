@@ -16,17 +16,19 @@ On retrieval of an object, the following applies:
 \section{Usage}{
 \preformatted{d = Dictionary$new()
 
+d$keys(pattern)
 d$add(value)
 d$get(key)
 d$mget(keys)
 d$remove(keys)
-d$keys()
 }
 }
 
 \section{Arguments}{
 
 \itemize{
+\item \code{pattern} (\code{string}):
+Restrict keys to keys  which match the \code{pattern}.
 \item \code{key} (\code{string}):
 Key of single object to work on.
 \item \code{keys} (\code{string}):
@@ -38,13 +40,13 @@ Keys of multiple objects to work on.
 
 \code{$new()} initializes a new object of class \link{Dictionary}.
 
+\code{$keys()} returns a vector of type \code{character} with all keys (or all keys matching \code{pattern}).
+
 \code{$get()} retrieves a single object with key \code{key} (or raises an exception).
 
 \code{$mget()} retrieves a named list of objects with keys \code{keys} (or raises an exception).
 
 \code{$remove()} removes item with key \code{key} from the Dictionary.
-
-\code{$keys()} returns a vector of type \code{character} with all keys.
 }
 
 \seealso{

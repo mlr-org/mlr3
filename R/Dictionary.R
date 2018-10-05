@@ -13,14 +13,16 @@
 #' ```
 #' d = Dictionary$new()
 #'
+#' d$keys(pattern)
 #' d$add(value)
 #' d$get(key)
 #' d$mget(keys)
 #' d$remove(keys)
-#' d$keys()
 #' ```
 #'
 #' @section Arguments:
+#' * `pattern` (`string`):
+#'  Restrict keys to keys  which match the `pattern`.
 #' * `key` (`string`):
 #'   Key of single object to work on.
 #' * `keys` (`string`):
@@ -29,13 +31,13 @@
 #' @section Details:
 #' `$new()` initializes a new object of class [Dictionary].
 #'
+#' `$keys()` returns a vector of type `character` with all keys (or all keys matching `pattern`).
+#'
 #' `$get()` retrieves a single object with key `key` (or raises an exception).
 #'
 #' `$mget()` retrieves a named list of objects with keys `keys` (or raises an exception).
 #'
 #' `$remove()` removes item with key `key` from the Dictionary.
-#'
-#' `$keys()` returns a vector of type `character` with all keys.
 #'
 #' @name Dictionary
 #' @family Dictionary
@@ -53,7 +55,12 @@ Dictionary = R6Class("Dictionary",
       self$items = new.env(parent = emptyenv())
     },
 
-    keys = function() ls(self$items, all.names = TRUE),
+    keys = function(pattern = NULL) {
+      keys = ls(self$items, all.names = TRUE)
+      if (!is.null(pattern))
+        keys = keys[grepl(assert_string(pattern), keys)]
+      keys
+    },
 
     add = function(key, value) {
       assert_id(key)

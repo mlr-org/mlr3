@@ -35,6 +35,10 @@ test_that("Dictionary: lazy values", {
   expect_different_address(t1, t2)
 })
 
+test_that("$keys(pattern) works", {
+  expect_subset(mlr_learners$keys("classif"), mlr_learners$keys(), empty.ok = FALSE)
+})
+
 test_that("Dictionaries are populated", {
   for (i in 1:2) {
     expect_dictionary(mlr_tasks, "Task", min.items = 1L)
