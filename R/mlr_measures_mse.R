@@ -7,7 +7,7 @@ MeasureRegrMSE = R6Class("MeasureRegrMSE",
         id = id,
         range = c(0, Inf),
         minimize = TRUE,
-        packages = "measures"
+        packages = "Metrics"
       )
     },
 

@@ -7,7 +7,7 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
         id = id,
         range = 0:1,
         minimize = FALSE,
-        packages = "measures"
+        packages = "Metrics"
       )
     },
 

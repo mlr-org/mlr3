@@ -7,7 +7,7 @@ MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
         id = id,
         range = 0:1,
         minimize = TRUE,
-        packages = "measures"
+        packages = "Metrics"
       )
     },
 
