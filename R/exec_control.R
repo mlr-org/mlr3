@@ -7,7 +7,7 @@ default_exec_control = list(
 #' @description
 #' This function creates a named list of settings which control the execution of an [Experiment].
 #' It contains all options (without the `"mlr3"` prefix) and additionally:
-#' 
+#'
 #' * `discard.model`: If `TRUE`, the model as returned by the learner is discarded after the experiment is finished.
 #'  Set this to save some memory. Note that you will be unable to further investigate the experiment or #'  predict on new data.
 #'
@@ -17,7 +17,7 @@ default_exec_control = list(
 #' @examples
 #' # get a list of the currently active defaults
 #' exec_control()
-#' 
+#'
 #' # enable debuging
 #' exec_control(debug = TRUE)
 exec_control = function(...) {
@@ -27,7 +27,6 @@ exec_control = function(...) {
 
     ii = wf(names(opts) %nin% names(ec))
     if (length(ii)) {
-      # TODO: write a helper function for this
       suggested = stri_suggest(names(opts)[ii], names(ec))
       suggested = if (length(suggested) == 0L) "" else sprintf(" Did you mean: %s?", paste0(suggested, collapse = " / "))
       stopf("Unknown option '%s'. %s", names(opts)[ii], suggested)

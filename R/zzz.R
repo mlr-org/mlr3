@@ -20,3 +20,7 @@
   if (length(opts))
     options(opts)
 } #nocov end
+
+.onAttach = function(libname, pkgname) { #nocov start
+  packageStartupMessage("The mlr3 package is currently work-in-progress. Do not use in production. The API will change. You have been warned.")
+} #nocov end
