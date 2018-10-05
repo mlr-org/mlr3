@@ -1,9 +1,9 @@
 #' @include LearnerClassif.R
 LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
   public = list(
-    initialize = function() {
+    initialize = function(id = "classif.rpart") {
       super$initialize(
-        id = "classif.rpart",
+        id = id,
         packages = "rpart",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),

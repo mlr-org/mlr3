@@ -1,7 +1,13 @@
 #' @title Key-value storage
 #'
 #' @description
-#' A simple key-value store for \pkg{R6} objects with support of lazy-loading objects.
+#' A simple key-value store for \pkg{R6} objects.
+#' On retrieval of an object, the following applies:
+#'
+#' * Factories (objects of class `R6ClassGenerator`) are initialized.
+#' * R6 objects are cloned.
+#' * Functions called.
+#' * All other objects are returned as-is.
 #'
 #' @section Usage:
 #' ```

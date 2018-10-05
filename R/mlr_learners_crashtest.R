@@ -1,9 +1,9 @@
 #' @include LearnerClassif.R
 LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerClassif,
   public = list(
-    initialize = function() {
+    initialize = function(id = "classif.crashtest") {
       super$initialize(
-        id = "classif.crashtest",
+        id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
         par_set = ParamSet$new(

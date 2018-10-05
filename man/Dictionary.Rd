@@ -4,7 +4,14 @@
 \alias{Dictionary}
 \title{Key-value storage}
 \description{
-A simple key-value store for \pkg{R6} objects with support of lazy-loading objects.
+A simple key-value store for \pkg{R6} objects.
+On retrieval of an object, the following applies:
+\itemize{
+\item Factories (objects of class \code{R6ClassGenerator}) are initialized.
+\item R6 objects are cloned.
+\item Functions called.
+\item All other objects are returned as-is.
+}
 }
 \section{Usage}{
 \preformatted{d = Dictionary$new()
