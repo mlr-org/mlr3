@@ -41,5 +41,10 @@ test_that("Dictionaries are populated", {
     expect_dictionary(mlr_learners, "Learner", min.items = 1L)
     expect_dictionary(mlr_resamplings, "Resampling", min.items = 1L)
     expect_dictionary(mlr_measures, "Measure", min.items = 1L)
+
+    expect_data_table(as.data.table(mlr_tasks), nrow = length(mlr_tasks$keys()))
+    expect_data_table(as.data.table(mlr_learners), nrow = length(mlr_learners$keys()))
+    expect_data_table(as.data.table(mlr_resamplings), nrow = length(mlr_resamplings$keys()))
+    expect_data_table(as.data.table(mlr_measures), nrow = length(mlr_measures$keys()))
   }
 })
