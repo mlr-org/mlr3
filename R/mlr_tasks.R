@@ -17,7 +17,7 @@
 #' data$Species = ifelse(data$Species == "setosa", "1", "0")
 #' b = DataBackendDataTable$new(data)
 #' task = TaskClassif$new("iris.binary", b, target = "Species")
-#' mlr_tasks$add(task)
+#' mlr_tasks$add("iris.binary", task)
 #' mlr_tasks$keys()
 #' mlr_tasks$get("iris.binary")
 #' mlr_tasks$remove("iris.binary")
