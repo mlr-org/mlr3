@@ -7,13 +7,13 @@ MeasureRegrMSE = R6Class("MeasureRegrMSE",
         id = id,
         range = c(0, Inf),
         minimize = TRUE,
-        packages = "measures"
+        packages = "Metrics"
       )
     },
 
     calculate = function(e) {
       p = e$prediction
-      measures::MSE(p$truth, p$response)
+      Metrics::mse(actual = p$truth, predicted = p$response)
     }
   )
 )
