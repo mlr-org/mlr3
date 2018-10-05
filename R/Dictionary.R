@@ -55,6 +55,12 @@ Dictionary = R6Class("Dictionary",
       self$items = new.env(parent = emptyenv())
     },
 
+    print = function(...) {
+      keys = self$keys()
+      catf(stri_wrap(initial = sprintf("<%s> with %i stored values: ", class(self)[1L], length(keys)), keys))
+      catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
+    },
+
     keys = function(pattern = NULL) {
       keys = ls(self$items, all.names = TRUE)
       if (!is.null(pattern))
