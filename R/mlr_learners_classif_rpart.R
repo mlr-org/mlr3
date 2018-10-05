@@ -21,7 +21,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     },
 
     train = function(task, ...) {
-      self$model = rpart::rpart(task$formula, task$data(), ...)
+      rpart::rpart(task$formula, task$data(), ...)
     },
 
     predict = function(model, task, ...) {
