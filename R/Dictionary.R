@@ -1,37 +1,43 @@
 #' @title Key-value storage
 #'
 #' @description
-#' A simple key-value store for \pkg{R6} objects with support of lazy-loading objects.
+#' A simple key-value store for \pkg{R6} objects.
+#' On retrieval of an object, the following applies:
+#'
+#' * Factories (objects of class `R6ClassGenerator`) are initialized.
+#' * R6 objects are cloned.
+#' * Functions called.
+#' * All other objects are returned as-is.
 #'
 #' @section Usage:
 #' ```
-#' d = Dictionary$new(contains)
+#' d = Dictionary$new()
 #'
+#' d$keys(pattern)
 #' d$add(value)
-#' d$get(id)
-#' d$mget(ids)
-#' d$remove(ids)
-#' d$ids
+#' d$get(key)
+#' d$mget(keys)
+#' d$remove(keys)
 #' ```
 #'
 #' @section Arguments:
-#' * `contains` (`string`):
-#'   Class of objects to store. Used for assertions.
-#' * `id` (`string`):
-#'   Key of the object to work on.
-#' * `ids` (`string`):
-#'   Keys of the objects to work on.
+#' * `pattern` (`string`):
+#'  Restrict keys to keys  which match the `pattern`.
+#' * `key` (`string`):
+#'   Key of single object to work on.
+#' * `keys` (`string`):
+#'   Keys of multiple objects to work on.
 #'
 #' @section Details:
 #' `$new()` initializes a new object of class [Dictionary].
 #'
-#' `$get()` retrieves a single object with key `id` (or raises an exception).
+#' `$keys()` returns a vector of type `character` with all keys (or all keys matching `pattern`).
 #'
-#' `$mget()` retrieves a named list of objects with keys `ids` (or raises an exception).
+#' `$get()` retrieves a single object with key `key` (or raises an exception).
 #'
-#' `$remove()` removes item with id `id` from the Dictionary.
+#' `$mget()` retrieves a named list of objects with keys `keys` (or raises an exception).
 #'
-#' `$ids` returns a vector of type `character` with all ids.
+#' `$remove()` removes item with key `key` from the Dictionary.
 #'
 #' @name Dictionary
 #' @family Dictionary
@@ -41,63 +47,67 @@ NULL
 #' @export
 Dictionary = R6Class("Dictionary",
   cloneable = FALSE,
-
   public = list(
     items = NULL,
-    contains = NULL,
 
     # construct, set container type (string)
-    initialize = function(contains) {
-      self$contains = assert_character(contains, min.len = 1L, any.missing = FALSE, min.chars = 1L)
+    initialize = function() {
       self$items = new.env(parent = emptyenv())
     },
 
-    add = function(value, id = value$id) {
-      assert_id(id)
-      if (!inherits(value, "LazyValue"))
-        assert_class(value, class = self$contains)
-      assign(x = id, value = value, envir = self$items)
+    keys = function(pattern = NULL) {
+      keys = ls(self$items, all.names = TRUE)
+      if (!is.null(pattern))
+        keys = keys[grepl(assert_string(pattern), keys)]
+      keys
     },
 
-    get = function(id, ...) {
-      assert_keys_exist(assert_id(id), self)
-      private$retrieve(get(id, envir = self$items, inherits = FALSE))
-    },
-
-    mget = function(ids) {
-      assert_keys_exist(assert_character(ids, any.missing = FALSE), self)
-      lapply(mget(ids, envir = self$items, inherits = FALSE), private$retrieve)
-    },
-
-    remove = function(id) {
-      assert_keys_exist(assert_id(id), self)
-      rm(list = id, envir = self$items)
+    add = function(key, value) {
+      assert_id(key)
+      assign(x = key, value = value, envir = self$items)
       invisible(self)
-    }
-  ),
+    },
 
-  active = list(
-    ids = function() ls(self$items, all.names = TRUE)
-  ),
+    remove = function(key) {
+      assert_keys_exist(assert_id(key), self)
+      rm(list = key, envir = self$items)
+      invisible(self)
+    },
 
-  private = list(
-    retrieve = function(value) {
-      if (inherits(value, "LazyValue")) value$getter() else value$clone()
+    get = function(key) {
+      assert_keys_exist(assert_id(key), self)
+      dictionary_retrieve(self, key)
+    },
+
+    mget = function(keys) {
+      assert_keys_exist(assert_character(keys, any.missing = FALSE), self)
+      setNames(lapply(keys, dictionary_retrieve, self = self), keys)
     }
   )
 )
 
 assert_keys_exist = function(x, dict) {
-  ii = wf(x %nin% dict$ids)
+  keys = ls(dict$items, all.names = TRUE)
+  ii = wf(x %nin% keys)
   if (length(ii) > 0L) {
-    suggested = stri_suggest(x[ii], dict$ids)
+    suggested = stri_suggest(x[ii], keys)
     suggested = if (length(suggested) == 0L) "" else sprintf(" Did you mean: %s?", paste0(suggested, collapse = " / "))
-    stopf("%s with id '%s' not found!%s", dict$contains, x[ii], suggested)
+    stopf("Element %s with key '%s' not found!%s", x[ii], suggested)
   }
+  x
 }
 
-LazyValue = function(id, getter) {
-  obj = list(id = assert_id(id), getter = assert_function(getter))
-  class(obj) = "LazyValue"
-  obj
+dictionary_retrieve = function(self, key) {
+  value = get(key, envir = self$items, inherits = FALSE)
+  if (inherits(value, "R6ClassGenerator")) {
+    instance = value$new()
+    assign(key, instance, envir = self$items)
+    value = instance$clone()
+    return(instance$clone())
+  } else if (inherits(value, "R6")) {
+    value = value$clone()
+  } else if (is.function(value)) {
+    value = value()
+  }
+  return(value)
 }

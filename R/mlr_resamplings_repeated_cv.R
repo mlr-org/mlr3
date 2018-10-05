@@ -43,6 +43,11 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
   )
 )
 
+
+#' @include mlr_resamplings.R
+mlr_resamplings$add("repeated_cv", ResamplingRepeatedCV)
+
+
 resampling_repeated_cv = function(ids, folds, repeats) {
   n = length(ids)
   data = rbindlist(lapply(seq_len(repeats), function(i) {

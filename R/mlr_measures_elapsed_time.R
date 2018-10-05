@@ -20,3 +20,9 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
     }
   )
 )
+
+
+#' @include mlr_measures.R
+mlr_measures$add("time_train", MeasureElapsedTime$new("time_train", "train"))
+mlr_measures$add("time_predict", MeasureElapsedTime$new("time_predict", "predict"))
+mlr_measures$add("time_both", MeasureElapsedTime$new("time_both", c("train", "predict")))

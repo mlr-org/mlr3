@@ -7,7 +7,7 @@
 #' @family Dictionary
 #' @family Task
 #' @examples
-#' mlr_tasks$ids
+#' mlr_tasks$keys()
 #' as.data.table(mlr_tasks)
 #' mlr_tasks$get("iris")
 #' head(mlr_tasks$get("iris")$data())
@@ -17,8 +17,8 @@
 #' data$Species = ifelse(data$Species == "setosa", "1", "0")
 #' b = DataBackendDataTable$new(data)
 #' task = TaskClassif$new("iris.binary", b, target = "Species")
-#' mlr_tasks$add(task)
-#' mlr_tasks$ids
+#' mlr_tasks$add("iris.binary", task)
+#' mlr_tasks$keys()
 #' mlr_tasks$get("iris.binary")
 #' mlr_tasks$remove("iris.binary")
 NULL
@@ -26,16 +26,17 @@ NULL
 #' @include Dictionary.R
 DictionaryTask = R6Class("DictionaryTask",
   inherit = Dictionary,
-  cloneable = FALSE,
-  public = list(initialize = function() super$initialize("Task"))
+  cloneable = FALSE
 )
 
+
 #' @export
-mlr_tasks = NULL
+mlr_tasks = DictionaryTask$new()
+
 
 #' @export
 as.data.table.DictionaryTask = function(x, ...) {
-  setkeyv(rbindlist(lapply(x$ids, function(id) {
+  setkeyv(rbindlist(lapply(x$keys(), function(id) {
     t = x$get(id)
     data.table(id = id, type = t$task_type, nrow = t$nrow, ncol = t$ncol)
   })), "id")[]
@@ -51,34 +52,32 @@ load_dataset = function(id, package, keep.rownames = FALSE) {
   ee[[id]]
 }
 
-lazy_tasks = list(
-  LazyValue("iris", function() {
-    b = DataBackendDataTable$new(data = load_dataset("iris", "datasets"))
-    TaskClassif$new("iris", b, target = "Species")
-  }),
+mlr_tasks$add("iris", function() {
+  b = DataBackendDataTable$new(data = load_dataset("iris", "datasets"))
+  TaskClassif$new("iris", b, target = "Species")
+})
 
-  LazyValue("sonar", function() {
-    b = DataBackendDataTable$new(data = load_dataset("Sonar", "mlbench"))
-    TaskClassif$new("sonar", b, target = "Class", positive = "M")
-  }),
+mlr_tasks$add("sonar",  function() {
+  b = DataBackendDataTable$new(data = load_dataset("Sonar", "mlbench"))
+  TaskClassif$new("sonar", b, target = "Class", positive = "M")
+})
 
-  LazyValue("bh", function() {
-    b = DataBackendDataTable$new(data = load_dataset("BostonHousing2", "mlbench"))
-    TaskRegr$new("boston_housing", b, target = "medv")
-  }),
+mlr_tasks$add("bh",  function() {
+  b = DataBackendDataTable$new(data = load_dataset("BostonHousing2", "mlbench"))
+  TaskRegr$new("boston_housing", b, target = "medv")
+})
 
-  LazyValue("pima", function() {
-    b = DataBackendDataTable$new(data = load_dataset("PimaIndiansDiabetes2", "mlbench"))
-    TaskClassif$new("pima_indians", b, target = "diabetes", positive = "pos")
-  }),
+mlr_tasks$add("pima", function() {
+  b = DataBackendDataTable$new(data = load_dataset("PimaIndiansDiabetes2", "mlbench"))
+  TaskClassif$new("pima_indians", b, target = "diabetes", positive = "pos")
+})
 
-  LazyValue("zoo", function() {
-    b = DataBackendDataTable$new(data = load_dataset("Zoo", "mlbench", keep.rownames = TRUE))
-    TaskClassif$new("zoo", b, target = "type")
-  }),
+mlr_tasks$add("zoo", function() {
+  b = DataBackendDataTable$new(data = load_dataset("Zoo", "mlbench", keep.rownames = TRUE))
+  TaskClassif$new("zoo", b, target = "type")
+})
 
-  LazyValue("spam", function() {
-    b = DataBackendDataTable$new(data = load_dataset("spam", "kernlab"))
-    TaskClassif$new("spam", b, target = "type", positive = "spam")
-  })
-)
+mlr_tasks$add("spam", function() {
+  b = DataBackendDataTable$new(data = load_dataset("spam", "kernlab"))
+  TaskClassif$new("spam", b, target = "type", positive = "spam")
+})

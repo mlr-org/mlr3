@@ -48,11 +48,9 @@ expect_hash = function(x) {
 expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
   expect_r6(d, "Dictionary")
   expect_environment(d$items)
-  expect_string(d$contains)
-  expect_character(d$ids, any.missing = FALSE, min.len = min.items, min.chars = 1L)
+  expect_character(d$keys(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
   if (!is.na(contains)) {
-    objs = d$mget(d$ids)
-    expect_list(objs, types = contains, names = "unique")
+    expect_list(d$mget(d$keys()), types = contains, names = "unique")
   }
 }
 

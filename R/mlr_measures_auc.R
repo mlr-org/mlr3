@@ -20,3 +20,6 @@ MeasureClassifAUC = R6Class("MeasureClassifAUC",
   )
 )
 
+
+#' @include mlr_measures.R
+mlr_measures$add("auc", MeasureClassifAUC)
