@@ -12,7 +12,7 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_learners$ids
+mlr_learners$keys()
 as.data.table(mlr_learners)
 l = mlr_learners$get("classif.dummy")
 print(l)

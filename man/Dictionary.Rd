@@ -7,25 +7,23 @@
 A simple key-value store for \pkg{R6} objects with support of lazy-loading objects.
 }
 \section{Usage}{
-\preformatted{d = Dictionary$new(contains)
+\preformatted{d = Dictionary$new()
 
 d$add(value)
-d$get(id)
-d$mget(ids)
-d$remove(ids)
-d$ids
+d$get(key)
+d$mget(keys)
+d$remove(keys)
+d$keys()
 }
 }
 
 \section{Arguments}{
 
 \itemize{
-\item \code{contains} (\code{string}):
-Class of objects to store. Used for assertions.
-\item \code{id} (\code{string}):
-Key of the object to work on.
-\item \code{ids} (\code{string}):
-Keys of the objects to work on.
+\item \code{key} (\code{string}):
+Key of single object to work on.
+\item \code{keys} (\code{string}):
+Keys of multiple objects to work on.
 }
 }
 
@@ -33,13 +31,13 @@ Keys of the objects to work on.
 
 \code{$new()} initializes a new object of class \link{Dictionary}.
 
-\code{$get()} retrieves a single object with key \code{id} (or raises an exception).
+\code{$get()} retrieves a single object with key \code{key} (or raises an exception).
 
-\code{$mget()} retrieves a named list of objects with keys \code{ids} (or raises an exception).
+\code{$mget()} retrieves a named list of objects with keys \code{keys} (or raises an exception).
 
-\code{$remove()} removes item with id \code{id} from the Dictionary.
+\code{$remove()} removes item with key \code{key} from the Dictionary.
 
-\code{$ids} returns a vector of type \code{character} with all ids.
+\code{$keys()} returns a vector of type \code{character} with all keys.
 }
 
 \seealso{

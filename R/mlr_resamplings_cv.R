@@ -35,6 +35,11 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   )
 )
 
+
+#' @include mlr_resamplings.R
+mlr_resamplings$add("cv", ResamplingCV)
+
+
 resampling_cv = function(ids, folds) {
   data.table(
     row_id = ids,

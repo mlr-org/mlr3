@@ -7,7 +7,7 @@
 #' @family Measure
 #' @name mlr_measures
 #' @examples
-#' mlr_measures$ids
+#' mlr_measures$keys()
 #' as.data.table(mlr_measures)
 #' m = mlr_measures$get("mmce")
 #' print(m)
@@ -16,12 +16,11 @@ NULL
 #' @include Dictionary.R
 DictionaryMeasure = R6Class("DictionaryMeasure",
   inherit = Dictionary,
-  cloneable = FALSE,
-  public = list(initialize = function() super$initialize("Measure"))
+  cloneable = FALSE
 )
 
 #' @export
-mlr_measures = NULL
+mlr_measures = DictionaryMeasure$new()
 
 #' @export
 as.data.table.DictionaryMeasure = function(x, ...) {

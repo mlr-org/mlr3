@@ -1,5 +1,4 @@
 #' @include LearnerClassif.R
-#' @include capabilities.R
 LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerClassif,
   public = list(
     initialize = function() {
@@ -36,3 +35,6 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
     }
   )
 )
+
+#' @include mlr_learners.R
+mlr_learners$add("classif.crashtest", LearnerClassifCrashtest)

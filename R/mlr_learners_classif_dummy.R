@@ -46,3 +46,6 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
     }
   )
 )
+
+#' @include mlr_learners.R
+mlr_learners$add("classif.dummy", LearnerClassifDummy)

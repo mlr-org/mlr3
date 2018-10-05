@@ -32,6 +32,11 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
   )
 )
 
+
+#' @include mlr_resamplings.R
+mlr_resamplings$add("holdout", ResamplingHoldout)
+
+
 resampling_holdout = function(ids, ratio) {
   ii = shuffle(ids, round(ratio * length(ids)))
   list(train = ii, test = setdiff(ids, ii))

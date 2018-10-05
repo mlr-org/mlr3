@@ -32,3 +32,6 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
     }
   )
 )
+
+#' @include mlr_learners.R
+mlr_learners$add("regr.dummy", LearnerRegrDummy)
