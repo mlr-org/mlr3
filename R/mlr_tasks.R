@@ -36,7 +36,7 @@ mlr_tasks = DictionaryTask$new()
 
 #' @export
 as.data.table.DictionaryTask = function(x, ...) {
-  setkeyv(rbindlist(lapply(x$ids, function(id) {
+  setkeyv(rbindlist(lapply(x$keys(), function(id) {
     t = x$get(id)
     data.table(id = id, type = t$task_type, nrow = t$nrow, ncol = t$ncol)
   })), "id")[]
