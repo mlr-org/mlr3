@@ -56,7 +56,6 @@
 #' mlr_measures$get("mmce")
 NULL
 
-#' @include helper_R6.R
 #' @export
 Measure = R6Class("Measure", cloneable = FALSE,
   public = list(
@@ -86,6 +85,6 @@ Measure = R6Class("Measure", cloneable = FALSE,
       self$packages = assert_set(packages)
     },
 
-    calculate = method_not_implemented
+    calculate = function(...) stopf("Method not implemented, should have been overloaded during construction")
   )
 )

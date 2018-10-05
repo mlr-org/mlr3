@@ -63,7 +63,6 @@
 #' @family Learner
 NULL
 
-#' @include helper_R6.R
 #' @export
 Learner = R6Class("Learner",
   public = list(
@@ -87,8 +86,8 @@ Learner = R6Class("Learner",
       private$.par_vals = assert_par_vals(par_vals, par_set)
     },
 
-    train = method_not_implemented,
-    predict = method_not_implemented,
+    train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
+    predict = function(...) stopf("Method not implemented, should have been overloaded during construction"),
     print = function(...) {
       catf("Learner '%s' for %s", self$id, self$task_type)
       catf("Parameters: %s", stri_key_val(self$par_vals))
