@@ -11,7 +11,7 @@ The following options are currently understood by mlr3:
 \itemize{
 \item \code{mlr3.verbose}: Set to \code{FALSE} to suppress output of informational messages.
 \item \code{mlr3.debug}: Set to \code{TRUE} to enable extra output and additional (potentially expensive) assertions.
-\item \code{mlr3.use.future}: Set to \code{FALSE} to disable parallelization via \pkg{future}.
+\item \code{mlr3.use_future}: Set to \code{FALSE} to disable parallelization via \pkg{future}.
 Explicitly disabling this simplifies debugging.
 }
 }

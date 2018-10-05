@@ -34,6 +34,6 @@ test_that("ResampleResult getter", {
 
 
 test_that("discarding model", {
-  bmr = benchmark(tasks[1L], learners[1L], resamplings, ctrl = exec_control(discard.model = TRUE))
+  bmr = benchmark(tasks[1L], learners[1L], resamplings, ctrl = exec_control(store_model = FALSE))
   expect_true(all(viapply(bmr$data$model, is.null)))
 })

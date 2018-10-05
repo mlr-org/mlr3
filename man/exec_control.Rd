@@ -13,8 +13,8 @@ exec_control(...)
 This function creates a named list of settings which control the execution of an \link{Experiment}.
 It contains all options (without the \code{"mlr3"} prefix) and additionally:
 \itemize{
-\item \code{discard.model}: If \code{TRUE}, the model as returned by the learner is discarded after the experiment is finished.
-Set this to save some memory. Note that you will be unable to further investigate the experiment or #'  predict on new data.
+\item \code{store_model}: If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
+Note that you will be unable to further investigate the experiment or predict on new data.
 }
 }
 \examples{

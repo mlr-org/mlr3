@@ -1,5 +1,5 @@
 default_exec_control = list(
-  discard.model = FALSE
+  store_model = TRUE
 )
 
 #' @title Execution control object
@@ -8,8 +8,8 @@ default_exec_control = list(
 #' This function creates a named list of settings which control the execution of an [Experiment].
 #' It contains all options (without the `"mlr3"` prefix) and additionally:
 #'
-#' * `discard.model`: If `TRUE`, the model as returned by the learner is discarded after the experiment is finished.
-#'  Set this to save some memory. Note that you will be unable to further investigate the experiment or #'  predict on new data.
+#' * `store_model`: If `FALSE`, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
+#'  Note that you will be unable to further investigate the experiment or predict on new data.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
 #'
@@ -38,6 +38,6 @@ exec_control = function(...) {
 }
 
 use_future = function(ctrl = NULL) {
-  opt = if (is.null(ctrl)) ctrl$use.future else getOption("mlr3.use.future")
+  opt = if (is.null(ctrl)) ctrl$use_future else getOption("mlr3.use_future")
   isTRUE(opt) && requireNamespace("future", quietly = TRUE) && requireNamespace("future.apply", quietly = TRUE)
 }
