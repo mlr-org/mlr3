@@ -78,5 +78,8 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   tmp = score_worker(e, ctrl)
   e$data = insert(e$data, tmp)
 
+  if (ctrl$discard.model)
+    e$data["model"] = list(NULL)
+
   remove(e$data, c("task", "learner", "resampling", "measures"))
 }

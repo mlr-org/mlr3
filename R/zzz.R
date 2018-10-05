@@ -4,6 +4,10 @@
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
 #' @importFrom stats setNames reformulate median mad
+#'
+#' @section Options:
+#' Available package options are documented in [mlr_options()].
+#'
 "_PACKAGE"
 
 populate_dicts = function() {

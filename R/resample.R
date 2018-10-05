@@ -12,6 +12,9 @@
 #' @param measures (list of [Measure])\cr
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the measures stored in `task`.
+#' @param ctrl (list returned by [exec_control()])\cr
+#'   Object to control various parts of the execution. 
+#'   See [exec_control()].
 #' @return [ResampleResult].
 #' @export
 #' @examples
@@ -30,7 +33,7 @@
 #'
 #' bmr = rr$combine(rr.dummy)
 #' bmr$performance[, list(mean.mmce = mean(mmce)), by = "learner"]
-resample = function(task, learner, resampling, measures = NULL) {
+resample = function(task, learner, resampling, measures = NULL, ctrl = exec_control()) {
   assert_task(task)
   assert_learner(learner, task = task)
   assert_resampling(resampling)
@@ -45,15 +48,15 @@ resample = function(task, learner, resampling, measures = NULL) {
   }
   n = instance$iters
 
-  if (use_future()) {
+  if (use_future(ctrl)) {
     debug("Running resample() via future with %i iterations", n)
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = mlr_options(),
+      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = ctrl,
       future.globals = FALSE, future.packages = "mlr3")
   } else {
     debug("Running resample() sequentially with %i iterations", n)
     res = lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = mlr_options())
+      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = ctrl)
   }
 
   res = combine_experiments(res)
