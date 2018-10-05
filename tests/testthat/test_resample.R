@@ -47,3 +47,13 @@ test_that("rr$combine()", {
   expect_data_table(rrs, nrow = 2)
   expect_set_equal(rrs$hash, c(rr1$hash, rr2$hash))
 })
+
+test_that("discarding model", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.dummy")
+  resampling = mlr_resamplings$get("cv")
+  resampling$par_vals = list(folds = 3)
+
+  rr = resample(task, learner, resampling, ctrl = exec_control(discard.model = TRUE))
+  expect_equal(rr$data$model, vector("list", 3L))
+})

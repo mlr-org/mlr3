@@ -4,7 +4,8 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, measures = NULL)
+resample(task, learner, resampling, measures = NULL,
+  ctrl = exec_control())
 }
 \arguments{
 \item{task}{(\link{Task})\cr
@@ -19,6 +20,10 @@ Object of type \link{Resampling}.}
 \item{measures}{(list of \link{Measure})\cr
 List of performance measures used to assess the predictive performance.
 Defaults to the measures stored in \code{task}.}
+
+\item{ctrl}{(list returned by \code{\link[=exec_control]{exec_control()}})\cr
+Object to control various parts of the execution.
+See \code{\link[=exec_control]{exec_control()}}.}
 }
 \value{
 \link{ResampleResult}.
