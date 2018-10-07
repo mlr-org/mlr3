@@ -29,6 +29,7 @@ automatically created.
 
 \examples{
 b = DataBackendDataTable$new(data = iris)
+print(b)
 b$head()
 b$data(rows = 100:101, cols = "Species")
 

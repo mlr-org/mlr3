@@ -2,9 +2,10 @@
 % Please edit documentation in R/DataBackend.R
 \name{DataBackend}
 \alias{DataBackend}
-\title{DataBackend Interface}
+\title{DataBackend}
 \description{
-All objects of type \code{DataBackend} provide the following interface:
+This is the abstract base class for data backends.
+All objects of type \code{DataBackend} must provide the following interface:
 }
 \section{Usage}{
 \preformatted{b$data(rows, cols)
