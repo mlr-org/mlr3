@@ -1,5 +1,6 @@
 default_exec_control = list(
-  store_model = TRUE
+  store_model = TRUE,
+  store_prediction = TRUE
 )
 
 #' @title Execution control object
@@ -8,8 +9,10 @@ default_exec_control = list(
 #' This function creates a named list of settings which control the execution of an [Experiment].
 #' It contains all options (without the `"mlr3"` prefix) and additionally:
 #'
+#' * `store_predition`: If `FALSE`, the predictions are discarded in order to save some memory after the experiment is completed.
+#'  Note that you will be unable calculate more performance measures.
 #' * `store_model`: If `FALSE`, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
-#'  Note that you will be unable to further investigate the experiment or predict on new data.
+#'  Note that you will be unable to further predict on new data.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
 #'

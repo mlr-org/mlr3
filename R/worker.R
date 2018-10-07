@@ -78,6 +78,9 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   tmp = score_worker(e, ctrl)
   e$data = insert(e$data, tmp)
 
+  if (!ctrl$store_prediction)
+    e$data["prediction"] = list(NULL)
+
   if (!ctrl$store_model)
     e$data["model"] = list(NULL)
 

@@ -13,7 +13,7 @@
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the measures stored in `task`.
 #' @param ctrl (list returned by [exec_control()])\cr
-#'   Object to control various parts of the execution. 
+#'   Object to control various parts of the execution.
 #'   See [exec_control()].
 #' @return [ResampleResult].
 #' @export
