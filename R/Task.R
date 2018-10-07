@@ -227,7 +227,7 @@ Task = R6Class("Task",
     },
 
     feature_names = function() {
-      self$col_info["feature", "id", on = "role", nomatch = 0L][[1L]]
+      self$col_info[list("feature"), "id", on = "role", nomatch = 0L][[1L]]
     },
 
     target_names = function() {

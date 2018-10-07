@@ -38,6 +38,6 @@ exec_control = function(...) {
 }
 
 use_future = function(ctrl = NULL) {
-  opt = if (is.null(ctrl)) ctrl$use_future else getOption("mlr3.use_future")
+  opt = if (is.null(ctrl)) getOption("mlr3.use_future") else ctrl$use_future
   isTRUE(opt) && requireNamespace("future", quietly = TRUE) && requireNamespace("future.apply", quietly = TRUE)
 }
