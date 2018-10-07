@@ -7,11 +7,14 @@ stri_wrap = function(str, initial, n = 100L) {
   strwrap(str, initial = initial, exdent = 2L)
 }
 
-stri_head = function(str, n = 10L, sep = " ", collapse = ", ") {
-  x = paste(head(str, n), sep = sep, collapse = collapse)
+stri_head = function(str, n = 10L, collapse = ", ", quote = "'") {
+  formatted = head(str, n)
+  if (nzchar(quote))
+    formatted = paste0(quote, formatted, quote)
+  formatted = paste(formatted, collapse = collapse)
   if (length(str) > n)
-    x = paste(x, "[...]", sep = sep)
-  x
+    formatted = paste(formatted, "[...]")
+  formatted
 }
 
 stri_suggest = function(str, candidates = character(0L), n = 3L) {

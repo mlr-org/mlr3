@@ -91,7 +91,7 @@ Learner = R6Class("Learner",
     print = function(...) {
       catf("Learner '%s' for %s", self$id, self$task_type)
       catf("Parameters: %s", stri_key_val(self$par_vals))
-      catf("Feature types: %s", stri_head(self$feature_types, 20L))
+      catf("Feature types: %s", stri_head(self$feature_types, 10L, quote = ""))
     }
   ),
 

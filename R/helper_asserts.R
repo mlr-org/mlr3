@@ -32,7 +32,7 @@ assert_measure = function(measure, task = NULL, learner = NULL) {
     miss = setdiff(measure$task_properties, task$properties)
     if (length(miss))
       stopf("Measure '%s' needs task properties: %s",
-        measure$id, stri_head(miss))
+        measure$id, stri_head(miss, n = 100L))
   }
 
   if (!is.null(learner)) {
@@ -43,7 +43,7 @@ assert_measure = function(measure, task = NULL, learner = NULL) {
     miss = setdiff(measure$task_properties, learner$properties)
     if (length(miss))
       stopf("Measure '%s' needs learner '%s' to have the properties: %s",
-        measure$id, learner$id, stri_head(miss))
+        measure$id, learner$id, stri_head(miss, n = 100L))
 
     if (!is_scalar_na(measure$predict_type) && measure$predict_type != learner$predict_type)
       stopf("Measure '%s' needs learner '%s' to have predict_type '%s'",

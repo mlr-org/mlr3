@@ -1,7 +1,8 @@
-#' @title DataBackend Interface
+#' @title DataBackend
 #'
 #' @description
-#' All objects of type `DataBackend` provide the following interface:
+#' This is the abstract base class for data backends.
+#' All objects of type `DataBackend` must provide the following interface:
 #'
 #' @section Usage:
 #' ```
@@ -38,6 +39,17 @@
 #' `$nrow` (`integer(1)`) returns the number of total rows.
 #'
 #' `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
+#'
 #' @name DataBackend
 #' @family DataBackend
 NULL
+
+#' @export
+DataBackend = R6Class("DataBackend", cloneable = FALSE,
+  public = list(
+    print = function() {
+      catf("Backend <%s> (%ix%i)", class(self)[1L], self$nrow, self$ncol)
+      print(b$head(6L))
+    }
+  )
+)
