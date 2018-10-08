@@ -88,6 +88,11 @@ Dictionary = R6Class("Dictionary",
     mget = function(keys) {
       assert_keys_exist(assert_character(keys, any.missing = FALSE), self)
       setNames(lapply(keys, dictionary_retrieve, self = self), keys)
+    },
+
+    has = function(key) {
+      assert_id(key)
+      exists(key, envir = self$items, inherits = FALSE)
     }
   )
 )

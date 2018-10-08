@@ -105,7 +105,7 @@ Learner = R6Class("Learner",
     par_vals = function(rhs) {
       if (missing(rhs))
         return(private$.par_vals)
-      private$.par_vals = assert_par_vals(par_vals, self$par_set)
+      private$.par_vals = assert_par_vals(rhs, self$par_set)
       private$.hash = NA_character_
     },
 

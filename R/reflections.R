@@ -7,3 +7,5 @@ reflections$experiment_slots = data.table(
   state =  c("defined", "defined", "trained",    "trained",   "trained",     "trained",    "trained",    "predicted",   "predicted",    "predicted",  "scored",   "scored",      "scored")
 )
 reflections$experiment_slots$state = ordered(reflections$experiment_slots$state, levels = c("defined", "trained", "predicted", "scored"))
+
+reflections$log_classes = c("output", "message", "warning", "error")

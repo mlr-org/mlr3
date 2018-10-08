@@ -26,7 +26,7 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
       structure(NA, class = "crashtest.model")
     },
 
-    predict = function(task, crash.on, crash.mode, ...) {
+    predict = function(model, task, crash.on, crash.mode, ...) {
       if (crash.on == "predict") {
         if (crash.mode == "error")
           stop("Error in classif.crashtest during train()")

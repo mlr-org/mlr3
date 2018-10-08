@@ -261,13 +261,13 @@ expect_experiment = function(e) {
   if (state >= "trained") {
     expect_class(e$data$resampling, "Resampling")
     expect_int(e$data$iteration, lower = 1L)
-    expect_data_table(e$data$train_log, ncol = 2, any.missing = FALSE)
+    expect_class(e$data$train_log, "Log")
     expect_number(e$data$train_time)
     expect_false(is.null(e$data$model))
   }
 
   if (state >= "predicted") {
-    expect_data_table(e$data$predict_log, ncol = 2, any.missing = FALSE)
+    expect_class(e$data$predict_log, "Log")
     expect_number(e$data$predict_time)
     expect_class(e$data$prediction, "Prediction")
     expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)

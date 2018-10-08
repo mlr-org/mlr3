@@ -1,4 +1,5 @@
 default_exec_control = list(
+  use_evaluate = FALSE,
   store_model = TRUE,
   store_prediction = TRUE
 )
@@ -43,4 +44,9 @@ exec_control = function(...) {
 use_future = function(ctrl = NULL) {
   opt = if (is.null(ctrl)) getOption("mlr3.use_future") else ctrl$use_future
   isTRUE(opt) && requireNamespace("future", quietly = TRUE) && requireNamespace("future.apply", quietly = TRUE)
+}
+
+use_evaluate = function(ctrl = NULL) {
+  opt = if (is.null(ctrl)) getOption("mlr3.use_evaluate") else ctrl$use_evaluate
+  isTRUE(opt) && requireNamespace("evaluate", quietly = TRUE)
 }
