@@ -100,11 +100,8 @@ Dictionary = R6Class("Dictionary",
 assert_keys_exist = function(x, dict) {
   keys = ls(dict$items, all.names = TRUE)
   ii = wf(x %nin% keys)
-  if (length(ii) > 0L) {
-    suggested = stri_suggest(x[ii], keys)
-    suggested = if (length(suggested) == 0L) "" else sprintf(" Did you mean: %s?", paste0(suggested, collapse = " / "))
-    stopf("Element with key '%s' not found!%s", x[ii], suggested)
-  }
+  if (length(ii) > 0L)
+    stopf("Element with key '%s' not found!%s", x[ii], did_you_mean(x[ii], keys))
   x
 }
 

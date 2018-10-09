@@ -30,11 +30,8 @@ exec_control = function(...) {
     opts = assert_list(list(...), names = "unique")
 
     ii = wf(names(opts) %nin% names(ec))
-    if (length(ii)) {
-      suggested = stri_suggest(names(opts)[ii], names(ec))
-      suggested = if (length(suggested) == 0L) "" else sprintf(" Did you mean: %s?", paste0(suggested, collapse = " / "))
-      stopf("Unknown option '%s'. %s", names(opts)[ii], suggested)
-    }
+    if (length(ii))
+      stopf("Unknown option '%s'!%s", names(opts)[ii], did_you_mean(names(opts)[ii], names(ec)))
 
     ec = insert(ec, opts)
   }

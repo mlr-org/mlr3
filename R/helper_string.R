@@ -17,11 +17,10 @@ stri_head = function(str, n = 10L, collapse = ", ", quote = "'") {
   formatted
 }
 
-stri_suggest = function(str, candidates = character(0L), n = 3L) {
-  n = min(n, length(candidates))
-  if (n == 0L)
-    return(character(0L))
+did_you_mean = function(str, candidates) {
+  candidates = unique(candidates)
+  D = setNames(adist(str, candidates, ignore.case = TRUE, partial = TRUE)[1L, ], candidates)
+  suggested = names(head(sort(D[D <= ceiling(0.2 * nchar(str))]), 3L))
 
-  d = setNames(adist(str, candidates, ignore.case = TRUE, partial = TRUE)[1L, ], candidates)
-  head(names(d[d < 0.2 * nchar(str)]), n)
+  if (length(suggested)) sprintf(" Did you mean %s?", paste0("'", suggested, "'", collapse = " / ")) else ""
 }
