@@ -108,6 +108,8 @@ expect_task = function(task) {
   expect_count(task$ncol)
   expect_data_table(task$data())
   expect_data_table(task$head(1), nrow = 1L)
+  expect_environment(task$cache)
+
 
   cols = c("id", "role", "type", "levels")
   expect_data_table(task$col_info, key = "id", ncol = length(cols))

@@ -103,7 +103,7 @@ assert_keys_exist = function(x, dict) {
   if (length(ii) > 0L) {
     suggested = stri_suggest(x[ii], keys)
     suggested = if (length(suggested) == 0L) "" else sprintf(" Did you mean: %s?", paste0(suggested, collapse = " / "))
-    stopf("Element %s with key '%s' not found!%s", x[ii], suggested)
+    stopf("Element with key '%s' not found!%s", x[ii], suggested)
   }
   x
 }
