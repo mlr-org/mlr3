@@ -141,6 +141,7 @@ Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
     id = NULL,
+    cache = NULL,
     task_type = NA_character_,
     backend = NULL,
     properties = character(0L),
@@ -154,6 +155,7 @@ Task = R6Class("Task",
       self$backend = assert_backend(backend)
       self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
       self$col_info = col_info(backend, backend$primary_key)
+      self$cache = new.env(parent = emptyenv())
     },
 
     print = function(...) {
@@ -186,11 +188,13 @@ Task = R6Class("Task",
 
     filter = function(rows) {
       self$row_info[!(id %in% rows) & role == "use", role := "ignore"]
+      cache_clear(self$cache, "nrow")
       self
     },
 
     select = function(cols) {
       self$col_info[!(id %in% cols) & role == "feature", role := "ignore"]
+      cache_clear(self$cache, c("feature_names", "ncol", "formula"))
       self
     },
 
@@ -207,6 +211,7 @@ Task = R6Class("Task",
       assert_choice(new_role, capabilities$task_row_roles)
       self$row_info[list(rows), "role" := new_role]
       private$.hash = NA_character_
+      cache_clear(self$cache, "nrow")
       self
     },
 
@@ -215,6 +220,7 @@ Task = R6Class("Task",
       assert_choice(new_role, capabilities$task_col_roles)
       self$col_info[list(cols), "role" := new_role]
       private$.hash = NA_character_
+      cache_clear(self$cache, c("feature_names", "target_names", "ncol", "formula"))
       self
     }
   ),
@@ -227,19 +233,19 @@ Task = R6Class("Task",
     },
 
     feature_names = function() {
-      self$col_info[list("feature"), "id", on = "role", nomatch = 0L][[1L]]
+      cache_get(self$cache, "feature_names", self$col_info[list("feature"), "id", on = "role", nomatch = 0L][[1L]])
     },
 
     target_names = function() {
-      self$col_info[list("target"), "id", on = "role", nomatch = 0L][[1L]]
+      cache_get(self$cache, "target_names", self$col_info[list("target"), "id", on = "role", nomatch = 0L][[1L]])
     },
 
     nrow = function() {
-      self$row_info[role == "use", .N]
+      cache_get(self$cache, "nrow", self$row_info[role == "use", .N])
     },
 
     ncol = function() {
-      self$col_info[role %in% c("feature", "target"), .N]
+      cache_get(self$cache, "ncol", self$col_info[role %in% c("feature", "target"), .N])
     },
 
     feature_types = function() {
@@ -247,20 +253,28 @@ Task = R6Class("Task",
     },
 
     formula = function() {
-      tn = self$target_names
-      if (length(tn) == 0L)
-        tn = NULL
-      f = reformulate(self$feature_names, response = tn)
-      environment(f) = NULL
-      f
+      self$cache$get("formula", {
+        tn = self$target_names
+        if (length(tn) == 0L)
+          tn = NULL
+        f = reformulate(self$feature_names, response = tn)
+        environment(f) = NULL
+        f
+      })
     }
   ),
 
   private = list(
     .hash = NA_character_,
+
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      if (name %in% c("row_info", "col_info")) copy(value) else value
+      switch(name,
+        row_info = copy(value),
+        col_info = copy(value),
+        cache    = clone_env(value),
+        value
+      )
     }
   )
 )

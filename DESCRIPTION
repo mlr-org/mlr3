@@ -79,6 +79,7 @@ Collate:
     'TaskClassif.R'
     'TaskRegr.R'
     'benchmark.R'
+    'cache.R'
     'exec_control.R'
     'hash.R'
     'helper_asserts.R'
