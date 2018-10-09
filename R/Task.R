@@ -253,7 +253,7 @@ Task = R6Class("Task",
     },
 
     formula = function() {
-      self$cache$get("formula", {
+      cache_get(self$cache, "formula", {
         tn = self$target_names
         if (length(tn) == 0L)
           tn = NULL
