@@ -21,8 +21,19 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
   )
 )
 
+MeasureTimeTrain = R6Class("MeasureTimeTrain", inherit = MeasureElapsedTime,
+  public = list(initialize = function(id = "time_train") super$initialize(id, "train"))
+)
+
+MeasureTimePredict = R6Class("MeasureTimePredict", inherit = MeasureElapsedTime,
+  public = list(initialize = function(id = "time_predict") super$initialize(id, "predict"))
+)
+
+MeasureTimeBoth = R6Class("MeasureTimeBoth", inherit = MeasureElapsedTime,
+  public = list(initialize = function(id = "time_both") super$initialize(id, c("train", "predict")))
+)
 
 #' @include mlr_measures.R
-mlr_measures$add("time_train", MeasureElapsedTime$new("time_train", "train"))
-mlr_measures$add("time_predict", MeasureElapsedTime$new("time_predict", "predict"))
-mlr_measures$add("time_both", MeasureElapsedTime$new("time_both", c("train", "predict")))
+mlr_measures$add("time_train", MeasureTimeTrain)
+mlr_measures$add("time_predict", MeasureTimePredict)
+mlr_measures$add("time_both", MeasureTimeBoth)
