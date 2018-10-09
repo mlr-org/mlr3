@@ -63,7 +63,7 @@ Some objects are documented [here](https://mlr-org.github.io/mlr3/).
 
 ### WiP
 
-* Tuning: [@jakob-r](https://github.com/jakob-r)
+* Tuning: [mlr3tuning](https://github.com/mlr-org/mlr3tuning)
 * Pipelining: [@berndbischl](https://github.com/berndbischl)
 * Recommended learners: [mlr3learners](https://github.com/mlr-org/mlr3learners)
 
