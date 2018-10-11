@@ -1,10 +1,22 @@
 # mlr3
 
+A clean, object-oriented rewrite of [mlr](https://github.com/mlr-org/mlr).
+
 [![Build Status](https://travis-ci.org/mlr-org/mlr3.svg?branch=master)](https://travis-ci.org/mlr-org/mlr3)
-[![Build status](https://ci.appveyor.com/api/projects/status/wsukn4hxui451ubk?svg=true)](https://ci.appveyor.com/project/mlr-org/mlr3)
+[![Build status](https://ci.appveyor.com/api/projects/status/skoekgkgu8l5tc1o/branch/master?svg=true)](https://ci.appveyor.com/project/mlr-org/mlr3/branch/master)
+[![CRAN](https://www.r-pkg.org/badges/version/mlr3)](https://cran.r-project.org/package=mlr3)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 
-A clean, object-oriented rewrite of [mlr](https://github.com/mlr-org/mlr).
+## mlr3-learner status
+
+|                                                                  | Travis                                                                                                                        | Appveyor                                                                                                                                                                           |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Recommended learners:](https://github.com/mlr-org/mlr3learners) | [![Build Status](https://travis-ci.org/mlr-org/mlr3learners.svg?branch=master)](https://travis-ci.org/mlr-org/mlr3learners)   | [![Build status](https://ci.appveyor.com/api/projects/status/a6m7lh5hhxby1rdj/branch/master?svg=true)](https://ci.appveyor.com/project/mlr-org/mlr3learners/branch/master)         |
+| [mlr-learners/ada (dummy)]()                                             | [![Build Status](https://travis-ci.org/mlr-learners/ada.svg?branch=master)](https://travis-ci.org/mlr-learners/ada)           | [![Build status](https://ci.appveyor.com/api/projects/status/a6mxby1rdj/branch/master?svg=true)](https://ci.appveyor.com/project/mlr-learners/mlr-ada/branch/master)         |
+| [mlr-learners/adaboost (dummy)]()                                        | [![Build Status](https://travis-ci.org/mlr-learners/adaboost.svg?branch=master)](https://travis-ci.org/mlr-learners/adaboost) | [![Build status](https://ci.appveyor.com/api/projects/status/hhxby1rdj/branch/master?svg=true)](https://ci.appveyor.com/project/mlr-learners/mlr-adaboost/branch/master)    |
+
+[...]
 
 ## Why a rewrite?
 
