@@ -22,6 +22,7 @@
 #' @family DataBackend
 #' @examples
 #' b = DataBackendDataTable$new(data = iris)
+#' print(b)
 #' b$head()
 #' b$data(rows = 100:101, cols = "Species")
 #'
@@ -32,8 +33,9 @@
 #' b$colnames
 NULL
 
+#' @include DataBackend.R
 #' @export
-DataBackendDataTable = R6Class("DataBackend",
+DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   cloneable = FALSE,
   public = list(
     primary_key = NULL,

@@ -22,7 +22,7 @@
 #' t$target_names
 #' t$nrow
 #' t$ncol
-#' t$col_types
+#' t$feature_types
 #' t$formula
 #' t$hash
 #'
@@ -105,7 +105,7 @@
 #'
 #' `$ncol` provides the total number of cols with `role %in% c("target", "feature")`.
 #'
-#' `$col_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" columns of the task and `type` is the storage type.
+#' `$feature_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active" features of the task and `type` is the storage type.
 #'
 #' `$formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
 #'
@@ -141,8 +141,10 @@ Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
     id = NULL,
-    type = NA_character_,
+    cache = NULL,
+    task_type = NA_character_,
     backend = NULL,
+    properties = character(0L),
     row_info = NULL,
     col_info = NULL,
     measures = list(),
@@ -153,6 +155,7 @@ Task = R6Class("Task",
       self$backend = assert_backend(backend)
       self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
       self$col_info = col_info(backend, backend$primary_key)
+      self$cache = new.env(parent = emptyenv())
     },
 
     print = function(...) {
@@ -185,11 +188,13 @@ Task = R6Class("Task",
 
     filter = function(rows) {
       self$row_info[!(id %in% rows) & role == "use", role := "ignore"]
+      cache_clear(self$cache, "nrow")
       self
     },
 
     select = function(cols) {
       self$col_info[!(id %in% cols) & role == "feature", role := "ignore"]
+      cache_clear(self$cache, c("feature_names", "ncol", "formula"))
       self
     },
 
@@ -206,6 +211,7 @@ Task = R6Class("Task",
       assert_choice(new_role, capabilities$task_row_roles)
       self$row_info[list(rows), "role" := new_role]
       private$.hash = NA_character_
+      cache_clear(self$cache, "nrow")
       self
     },
 
@@ -214,6 +220,7 @@ Task = R6Class("Task",
       assert_choice(new_role, capabilities$task_col_roles)
       self$col_info[list(cols), "role" := new_role]
       private$.hash = NA_character_
+      cache_clear(self$cache, c("feature_names", "target_names", "ncol", "formula"))
       self
     }
   ),
@@ -226,40 +233,48 @@ Task = R6Class("Task",
     },
 
     feature_names = function() {
-      self$col_info["feature", "id", on = "role", nomatch = 0L][[1L]]
+      cache_get(self$cache, "feature_names", self$col_info[list("feature"), "id", on = "role", nomatch = 0L][[1L]])
     },
 
     target_names = function() {
-      self$col_info[list("target"), "id", on = "role", nomatch = 0L][[1L]]
+      cache_get(self$cache, "target_names", self$col_info[list("target"), "id", on = "role", nomatch = 0L][[1L]])
     },
 
     nrow = function() {
-      self$row_info[role == "use", .N]
+      cache_get(self$cache, "nrow", self$row_info[role == "use", .N])
     },
 
     ncol = function() {
-      self$col_info[role %in% c("feature", "target"), .N]
+      cache_get(self$cache, "ncol", self$col_info[role %in% c("feature", "target"), .N])
     },
 
-    col_types = function() {
-      self$col_info[role %in% c("feature", "target"), c("id", "type")]
+    feature_types = function() {
+      self$col_info[list("feature"), c("id", "type"), on = "role"]
     },
 
     formula = function() {
-      tn = self$target_names
-      if (length(tn) == 0L)
-        tn = NULL
-      f = reformulate(self$feature_names, response = tn)
-      environment(f) = NULL
-      f
+      cache_get(self$cache, "formula", {
+        tn = self$target_names
+        if (length(tn) == 0L)
+          tn = NULL
+        f = reformulate(self$feature_names, response = tn)
+        environment(f) = NULL
+        f
+      })
     }
   ),
 
   private = list(
     .hash = NA_character_,
+
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      if (name %in% c("row_info", "col_info")) copy(value) else value
+      switch(name,
+        row_info = copy(value),
+        col_info = copy(value),
+        cache    = clone_env(value),
+        value
+      )
     }
   )
 )
@@ -339,14 +354,14 @@ task_rbind = function(self, data) {
   if (!auto_incremented) {
     tmp = self$backend$data(data[[pk]], pk)[[1L]]
     if (length(tmp))
-      stopf("Cannot rbind task: Duplicated row ids: %s", stri_peek(tmp))
+      stopf("Cannot rbind task: Duplicated row ids: %s", stri_head(tmp))
   }
 
   ## 1.4 Check that types are matching
   data_col_info = col_info(data, pk)
   tmp = head(merge(self$col_info, data_col_info, by = "id")[get("type.x") != get("type.y")], 1L)
   if (nrow(tmp)) {
-    stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", stri_peek(tmp$id), tmp$type.x, tmp$type.y)
+    stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", tmp$id, tmp$type.x, tmp$type.y)
   }
 
   # 2. Update row_info
@@ -381,7 +396,7 @@ task_cbind = function(self, data) {
   ## 1.2 Check that there are no duplicated column names
   tmp = setdiff(intersect(self$col_info$id, names(data)), pk)
   if (length(tmp)) {
-    stopf("Cannot cbind task: Duplicated column names: %s", stri_peek(tmp))
+    stopf("Cannot cbind task: Duplicated column names: %s", stri_head(tmp))
   }
 
   ## 1.3 Check for set equality of row ids
@@ -399,11 +414,12 @@ task_cbind = function(self, data) {
 }
 
 task_print = function(self) {
-  catf("Task '%s' of type %s (%i x %i)", self$id, class(self)[1L], self$nrow, self$ncol)
-  catf(stri_list("Target: ", self$target_names))
-  catf(stri_list("Features: ", stri_peek(self$feature_names)))
-  catf(stri_list("Order by: ", self$order))
-  catf(stri_list("Public: ", setdiff(ls(self), c("initialize", "print"))))
+  catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
+  catf(stri_wrap(initial = "Target: ", self$target_names))
+  catf(stri_wrap(initial = "Features: ", self$feature_names))
+  if (length(self$order))
+    catf(stri_wrap(initial = "Order by: ", self$order))
+  catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
 }
 
 

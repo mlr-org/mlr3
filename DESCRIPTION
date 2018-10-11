@@ -25,12 +25,13 @@ Imports:
     checkmate (>= 1.8.9),
     data.table,
     digest,
-    measures,
+    Metrics,
     paradox,
     R6
 Suggests:
     datasets,
     devtools,
+    evaluate,
     future (>= 1.9.0),
     future.apply,
     future.callr,
@@ -60,10 +61,10 @@ Collate:
     'DataBackendRbind.R'
     'Dictionary.R'
     'Experiment.R'
-    'helper_R6.R'
     'Learner.R'
     'LearnerClassif.R'
     'LearnerRegr.R'
+    'Log.R'
     'Measure.R'
     'MeasureClassif.R'
     'MeasureRegr.R'
@@ -78,6 +79,8 @@ Collate:
     'TaskClassif.R'
     'TaskRegr.R'
     'benchmark.R'
+    'cache.R'
+    'exec_control.R'
     'hash.R'
     'helper_asserts.R'
     'helper_condition.R'
@@ -96,6 +99,7 @@ Collate:
     'mlr_learners_regr_rpart.R'
     'mlr_measures.R'
     'mlr_measures_acc.R'
+    'mlr_measures_auc.R'
     'mlr_measures_elapsed_time.R'
     'mlr_measures_mmce.R'
     'mlr_measures_mse.R'

@@ -18,14 +18,11 @@ NULL
 #' @export
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
-    task_type = "classif",
-    initialize = function(id, packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
-      super$initialize(id = id, packages = packages, par_set = par_set, par_vals = par_vals, properties = properties)
-      assert_subset(self$properties, capabilities$learner_props$classif)
+    initialize = function(id, feature_types = character(0L), predict_types = "response", packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
+      super$initialize(id = id, task_type = "classif", feature_types = feature_types, predict_types = predict_types, packages = packages,
+        par_set = par_set, par_vals = par_vals, properties = properties)
+      assert_subset(self$properties, capabilities$learner_properties$classif)
+      private$.predict_type = predict_types[1L]
     }
-  ),
-
-  private = list(
-    .predict_type = "response"
   )
 )

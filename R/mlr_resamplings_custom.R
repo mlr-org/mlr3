@@ -39,6 +39,11 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   )
 )
 
+
+#' @include mlr_resamplings.R
+mlr_resamplings$add("custom", ResamplingCustom)
+
+
 resampling_custom = function(instance, train_sets = NULL, test_sets = NULL) {
   if (is.null(train_sets) && is.null(test_sets))
     stopf("At least one of 'train_sets' or 'test_sets' must be provided")

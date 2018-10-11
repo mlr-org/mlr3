@@ -7,13 +7,17 @@ MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
         id = id,
         range = 0:1,
         minimize = TRUE,
-        packages = "measures"
+        packages = "Metrics"
       )
     },
 
-    calculate = function(experiment) {
-      p = experiment$prediction
-      measures::MMCE(p$truth, p$response)
+    calculate = function(e) {
+      p = e$prediction
+      Metrics::ce(actual = p$truth, predicted = p$response)
     }
   )
 )
+
+
+#' @include mlr_measures.R
+mlr_measures$add("mmce", MeasureClassifMMCE)

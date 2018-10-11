@@ -1,9 +1,11 @@
 #' @include LearnerRegr.R
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(
-    initialize = function() {
+    initialize = function(id = "regr.rpart") {
       super$initialize(
-        id = "regr.rpart",
+        id = id,
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_types = "response",
         packages = "rpart",
         par_set = ParamSet$new(
           params = list(
@@ -15,7 +17,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
             ParamInt$new(id = "xval", default = 10L, lower = 0L)
           )
         ),
-        properties = c("missings", "feat.numeric", "feat.factor", "feat.ordered")
+        properties = "missings"
       )
     },
 
@@ -30,3 +32,6 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     }
   )
 )
+
+#' @include mlr_learners.R
+mlr_learners$add("regr.rpart", LearnerRegrRpart)

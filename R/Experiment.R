@@ -106,7 +106,7 @@ Experiment = R6Class("Experiment",
     initialize = function(task, learner, ...) {
       self$data = named_list(reflections$experiment_slots$name)
       self$data$task = assert_task(task)
-      self$data$learner = assert_learner(learner)
+      self$data$learner = assert_learner(learner, task = task)
       if (...length()) {
         dots = list(...)
         assert_names(names(dots), subset.of = names(self$data))
@@ -118,18 +118,18 @@ Experiment = R6Class("Experiment",
       experiment_print(self)
     },
 
-    train = function(subset = NULL) {
-      experiment_train(self, self$data$task$row_ids(subset))
+    train = function(subset = NULL, ctrl = exec_control()) {
+      experiment_train(self, self$data$task$row_ids(subset), ctrl = ctrl)
       invisible(self)
     },
 
-    predict = function(subset = NULL, newdata = NULL) {
-      experiment_predict(self, row_ids = self$data$task$row_ids(subset), newdata = newdata)
+    predict = function(subset = NULL, newdata = NULL, ctrl = exec_control()) {
+      experiment_predict(self, row_ids = self$data$task$row_ids(subset), newdata = newdata, ctrl = ctrl)
       invisible(self)
     },
 
-    score = function(measures = NULL) {
-      experiment_score(self, measures)
+    score = function(measures = NULL, ctrl = exec_control()) {
+      experiment_score(self, measures, ctrl = ctrl)
       invisible(self)
     }
   ),
@@ -189,8 +189,8 @@ Experiment = R6Class("Experiment",
       predict_log = self$data$predict_log
       type = NULL
 
-      (!is.null(train_log) && train_log[type == "error", .N] > 0L) ||
-      (!is.null(predict_log) && predict_log[type == "error", .N] > 0L)
+      (is.null(train_log) || !train_log$has_conditions("error")) &&
+      (is.null(predict_log) || predict_log$has_conditions("error"))
     },
 
     state = function() {
@@ -216,28 +216,28 @@ experiment_print = function(e) {
   catf(fmt(data$model, "Model", sprintf("[%s]", class(data$model)[[1L]])))
   catf(fmt(data$prediction, "Predictions", sprintf("[%s]", class(data$prediction)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
-  catf(stri_list("\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
+  catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
 }
 
 
-experiment_train = function(e, row_ids) {
+experiment_train = function(e, row_ids, ctrl = exec_control()) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
   e$data$iteration = 1L
 
-  if (use_future()) {
+  if (use_future(ctrl)) {
     debug("Running train_worker() via futureCall()")
-    value = future::futureCall(train_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
+    value = future::futureCall(train_worker, list(e = e, ctrl = ctrl), globals = FALSE, packages = "mlr3")
     value = future::value(value)
   } else {
-    debug("Running train_worker() via do.call()")
-    value = do.call(train_worker, list(e = e, ctrl = mlr_options()))
+    debug("Running train_worker()")
+    value = train_worker(e, ctrl = ctrl)
   }
   e$data = insert(e$data, value)
   e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "trained", "name"][[1L]]))
   return(e)
 }
 
-experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
+experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = exec_control()) {
   if (!is.null(row_ids) && !is.null(newdata))
     stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
 
@@ -248,29 +248,29 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL) {
     row_ids = e$data$task$row_info[list("validation"), "id", on = "role", nomatch = 0L][[1L]]
   }
 
-  if (use_future()) {
+  if (use_future(ctrl)) {
     debug("Running predict_worker() via futureCall()")
-    value = future::futureCall(predict_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
+    value = future::futureCall(predict_worker, list(e = e, ctrl = ctrl), globals = FALSE, packages = "mlr3")
     value = future::value(value)
   } else {
-    debug("Running predict_worker() via do.call()")
-    value = do.call(predict_worker, list(e = e, ctrl = mlr_options()))
+    debug("Running predict_worker()")
+    value = predict_worker(e, ctrl = ctrl)
   }
   e$data = insert(e$data, value)
   e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "predicted", "name"][[1L]]))
   return(e)
 }
 
-experiment_score = function(e, measures = NULL) {
-  e$data$measures = assert_list(measures %??% e$data$task$measures, "Measure")
+experiment_score = function(e, measures = NULL, ctrl = exec_control()) {
+  e$data$measures = assert_measures(measures %??% e$data$task$measures, task = e$data$task, learner = e$data$learner)
 
-  if (use_future()) {
+  if (use_future(ctrl)) {
     debug("Running score_worker() via futureCall()")
-    value = future::futureCall(score_worker, list(e = e, ctrl = mlr_options()), globals = FALSE, packages = "mlr3")
+    value = future::futureCall(score_worker, list(e = e, ctrl = ctrl), globals = FALSE, packages = "mlr3")
     value = future::value(value)
   } else {
-    debug("Running score_worker() via do.call()")
-    value = do.call(score_worker, list(e = e, ctrl = mlr_options()))
+    debug("Running score_worker()")
+    value = score_worker(e, ctrl = ctrl)
   }
 
   e$data = insert(e$data, value)

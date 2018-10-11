@@ -81,7 +81,6 @@
 #' r$train_set(1)
 NULL
 
-#' @include helper_R6.R
 #' @export
 Resampling = R6Class("Resampling",
   public = list(
@@ -96,15 +95,15 @@ Resampling = R6Class("Resampling",
       private$.par_vals = assert_par_vals(par_vals, par_set)
     },
 
-    train_set = method_not_implemented,
-    test_set = method_not_implemented,
-    instantiate = method_not_implemented,
+    train_set = function(...) stopf("Method not implemented, should have been overloaded during construction"),
+    test_set = function(...) stopf("Method not implemented, should have been overloaded during construction"),
+    instantiate = function(...) stopf("Method not implemented, should have been overloaded during construction"),
 
     print = function(...) {
       pv = self$par_vals
       catf("%s<%s> with %i iterations", if (self$is_instantiated) "Instantiated " else "", class(self)[1L], self$iters)
-      catf("Parameters: %s", paste0(paste(names(pv), pv, sep = "="), collapse = ", "))
-      catf(stri_list("\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
+      catf("Parameters: %s", stri_key_val(pv))
+      catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
     }
   ),
 

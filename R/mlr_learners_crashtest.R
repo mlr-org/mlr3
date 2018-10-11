@@ -1,10 +1,11 @@
 #' @include LearnerClassif.R
-#' @include capabilities.R
 LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerClassif,
   public = list(
-    initialize = function() {
+    initialize = function(id = "classif.crashtest") {
       super$initialize(
-        id = "classif.crashtest",
+        id = id,
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_types = c("response", "prob"),
         par_set = ParamSet$new(
           params = list(
             ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train"),
@@ -12,7 +13,7 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
           )
         ),
         par_vals = list(crash.on = "train", crash.mode = "error"),
-        properties = capabilities$learner_props$classif,
+        properties = "missings"
       )
     },
 
@@ -25,7 +26,7 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
       structure(NA, class = "crashtest.model")
     },
 
-    predict = function(task, crash.on, crash.mode, ...) {
+    predict = function(model, task, crash.on, crash.mode, ...) {
       if (crash.on == "predict") {
         if (crash.mode == "error")
           stop("Error in classif.crashtest during train()")
@@ -34,3 +35,6 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
     }
   )
 )
+
+#' @include mlr_learners.R
+mlr_learners$add("classif.crashtest", LearnerClassifCrashtest)

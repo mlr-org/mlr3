@@ -10,19 +10,19 @@ The target column is assumed to be numeric.
 \section{Usage}{
 \preformatted{t = TaskRegr$new(id, backend, target)
 
-t$type
+t$task_type
 }
 }
 
 \section{Details}{
 
-\code{$type} is \code{"classif"}
+\code{$task_type} is \code{"classif"}
 }
 
 \examples{
 b = DataBackendDataTable$new(iris)
 task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
-task$type
+task$task_type
 task$formula
 }
 \seealso{

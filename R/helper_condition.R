@@ -19,6 +19,6 @@ info = function(msg, ...) {
 }
 
 debug = function(msg, ...) {
-  if (is_debug())
+  if (isTRUE(getOption("mlr3.debug", FALSE)))
     message("[debug] ", sprintf(msg, ...), "\n")
 }

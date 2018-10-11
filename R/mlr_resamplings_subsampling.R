@@ -35,6 +35,11 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   )
 )
 
+
+#' @include mlr_resamplings.R
+mlr_resamplings$add("subsampling", ResamplingSubsampling)
+
+
 resampling_subsampling = function(ids, ratio, repeats) {
   n = length(ids)
   nr = as.integer(round(n * ratio))

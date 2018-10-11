@@ -26,8 +26,8 @@ remove.list = function(x, nn) {
   x
 }
 
-remove.enviroment = function(x, nn) {
-  rm(x, list = intersect(nn, names(x)))
+remove.environment = function(x, nn) {
+  rm(list = intersect(nn, names(x)), envir = x)
   x
 }
 

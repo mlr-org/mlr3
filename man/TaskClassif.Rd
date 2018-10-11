@@ -12,7 +12,7 @@ The target column is assumed to be a factor.
 
 t$class_names
 t$class_n
-t$type
+t$task_type
 }
 }
 
@@ -28,7 +28,7 @@ Name of the "positive" class for binary classification problems.
 
 \code{$class_names} returns all class labels of the rows which \code{role == "use"}.
 \code{$class_n} returns the number of class labels of the rows which \code{role == "use"}.
-\code{$type} is \code{"classif"}
+\code{$task_type} is \code{"classif"}
 }
 
 \examples{

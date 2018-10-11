@@ -7,6 +7,7 @@ A clean, object-oriented rewrite of [mlr](https://github.com/mlr-org/mlr).
 [![CRAN](https://www.r-pkg.org/badges/version/mlr3)](https://cran.r-project.org/package=mlr3)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <a href="https://codecov.io/gh/mlr-org/mlr3"><img src="https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg" alt="Coverage Status"/></a>
+[![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 
 ## mlr3-learner status
 
@@ -44,8 +45,8 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`checkmate`](https://cran.r-project.org/package=checkmate): Efficient storage of logical vectors. Developed by members of the `mlr` team. No extra reverse dependencies.
     - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No extra reverse dependencies.
     - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No extra reverse dependencies.
-    - [`measures`](https://cran.r-project.org/package=measures): Package which implements performance measures. Developed by members of the `mlr` team. No extra reverse dependencies.
-    - [`paradox`](https://cran.r-project.org/package=paradox): Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra reverse dependencies. [TODO: Remove `BBmisc` dependency]
+    - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No extra reverse dependencies.
+    - [`paradox`](https://github.com/mlr-org/paradox) Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra reverse dependencies.
 
   For parallelization, `mlr3` optionally uses the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
 
@@ -75,8 +76,9 @@ Some objects are documented [here](https://mlr-org.github.io/mlr3/).
 
 ### WiP
 
-* Tuning: [@jakob-r](https://github.com/jakob-r)
+* Tuning: [mlr3tuning](https://github.com/mlr-org/mlr3tuning)
 * Pipelining: [@berndbischl](https://github.com/berndbischl)
+* Recommended learners: [mlr3learners](https://github.com/mlr-org/mlr3learners)
 
 
 ### Next steps

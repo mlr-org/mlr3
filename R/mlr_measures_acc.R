@@ -7,13 +7,17 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
         id = id,
         range = 0:1,
         minimize = FALSE,
-        packages = "measures"
+        packages = "Metrics"
       )
     },
 
-    calculate = function(experiment) {
-      p = experiment$prediction
-      measures::ACC(p$truth, p$response)
+    calculate = function(e) {
+      p = e$prediction
+      Metrics::accuracy(actual = p$truth, predicted = p$response)
     }
   )
 )
+
+
+#' @include mlr_measures.R
+mlr_measures$add("acc", MeasureClassifACC)

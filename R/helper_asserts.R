@@ -6,27 +6,56 @@ assert_backend = function(b) {
   assert_class(b, "DataBackend")
 }
 
-assert_experiment = function(experiment) {
-  assert_class(experiment, "Experiment")
+assert_experiment = function(e) {
+  assert_class(e, "Experiment")
 }
 
 assert_learner = function(learner, task = NULL) {
   assert_class(learner, "Learner")
   if (!is.null(task)) {
-    if (!identical(task$type, learner$task_type)) {
-      stopf("Learner '%s' (type: %s) is not compatible with task '%s' (type: %s)",
-        learner$id, learner$task_type, task$id, task$type)
+    if (!identical(task$task_type, learner$task_type)) {
+      stopf("Learner '%s' is not compatible with type of task '%s' (type: %s)",
+        learner$id, task$id, task$task_type)
     }
   }
   invisible(learner)
 }
 
-assert_measure = function(measure) {
+assert_measure = function(measure, task = NULL, learner = NULL) {
   assert_class(measure, "Measure")
+
+  if (!is.null(task)) {
+    if (measure$task_type != task$task_type)
+      stopf("Measure '%s'  is not compatible with type of task '%s' (type: %s)",
+        measure$id, task$id, task$task_type)
+
+    miss = setdiff(measure$task_properties, task$properties)
+    if (length(miss))
+      stopf("Measure '%s' needs task properties: %s",
+        measure$id, stri_head(miss, n = 100L))
+  }
+
+  if (!is.null(learner)) {
+    if (measure$task_type != learner$task_type)
+      stopf("Measure '%s'  is not compatible with type of learner '%s' (type: %s)",
+        measure$id, learner$id, learner$task_type)
+
+    miss = setdiff(measure$task_properties, learner$properties)
+    if (length(miss))
+      stopf("Measure '%s' needs learner '%s' to have the properties: %s",
+        measure$id, learner$id, stri_head(miss, n = 100L))
+
+    if (!is_scalar_na(measure$predict_type) && measure$predict_type != learner$predict_type)
+      stopf("Measure '%s' needs learner '%s' to have predict_type '%s'",
+        measure$id, learner$id, measure$predict_type)
+  }
+
+  measure
 }
 
-assert_measures = function(measures) {
-  assert_list(measures, "Measure", min.len = 1L)
+assert_measures = function(measures, task = NULL, learner = NULL) {
+  assert_list(measures, min.len = 1L)
+  lapply(measures, assert_measure, task = task, learner = learner)
 }
 
 assert_resampling = function(resampling) {

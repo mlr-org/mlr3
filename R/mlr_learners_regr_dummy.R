@@ -1,15 +1,17 @@
 #' @include LearnerRegr.R
 LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
   public = list(
-    initialize = function() {
+    initialize = function(id = "regr.dummy") {
       super$initialize(
-        id = "regr.dummy",
+        id = id,
+        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_types = c("response", "se"),
         par_set = ParamSet$new(
           params = list(
             ParamFlag$new("robust", default = TRUE)
           )
         ),
-        properties = c("se", "missings", "feat.factor", "feat.numeric"),
+        properties = "missings",
       )
     },
 
@@ -30,3 +32,6 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
     }
   )
 )
+
+#' @include mlr_learners.R
+mlr_learners$add("regr.dummy", LearnerRegrDummy)

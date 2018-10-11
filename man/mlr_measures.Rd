@@ -12,7 +12,7 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_measures$ids
+mlr_measures$keys()
 as.data.table(mlr_measures)
 m = mlr_measures$get("mmce")
 print(m)

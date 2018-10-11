@@ -1,7 +1,7 @@
 context("Resampling")
 
 test_that("Resampling construction", {
-  ids = mlr_resamplings$ids
+  ids = mlr_resamplings$keys()
   task = mlr_tasks$get("iris")
   for (key in ids) {
     r = mlr_resamplings$get(key)
@@ -45,7 +45,7 @@ test_that("par_vals", {
 
 test_that("hashing", {
   task = mlr_tasks$get("iris")
-  ids = setdiff(mlr_resamplings$ids, "custom")
+  ids = setdiff(mlr_resamplings$keys(), "custom")
 
   for (id in ids) {
     r = mlr_resamplings$get(id)

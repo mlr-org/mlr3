@@ -48,11 +48,9 @@ expect_hash = function(x) {
 expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
   expect_r6(d, "Dictionary")
   expect_environment(d$items)
-  expect_string(d$contains)
-  expect_character(d$ids, any.missing = FALSE, min.len = min.items, min.chars = 1L)
+  expect_character(d$keys(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
   if (!is.na(contains)) {
-    objs = d$mget(d$ids)
-    expect_list(objs, types = contains, names = "unique")
+    expect_list(d$mget(d$keys()), types = contains, names = "unique")
   }
 }
 
@@ -104,19 +102,21 @@ expect_backend = function(b) {
 }
 
 expect_task = function(task) {
-  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "col_types"))
+  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   expect_string(task$id, min.chars = 1L)
   expect_count(task$nrow)
   expect_count(task$ncol)
   expect_data_table(task$data())
   expect_data_table(task$head(1), nrow = 1L)
+  expect_environment(task$cache)
+
 
   cols = c("id", "role", "type", "levels")
   expect_data_table(task$col_info, key = "id", ncol = length(cols))
   expect_names(names(task$col_info), permutation.of = cols)
   expect_character(task$col_info$id, any.missing = FALSE, unique = TRUE)
   expect_subset(task$col_info$role, capabilities$task_col_roles)
-  expect_subset(task$col_info$type, capabilities$task_col_types)
+  expect_subset(task$col_info$type, capabilities$task_feature_types)
   expect_list(task$col_info$levels)
 
   cols = c("id", "role")
@@ -125,10 +125,13 @@ expect_task = function(task) {
   expect_atomic_vector(task$row_info$id, any.missing = FALSE, unique = TRUE)
   expect_subset(task$row_info$role, capabilities$task_row_roles)
 
-  types = task$col_types
-  expect_data_table(types, ncol = 2, nrow = task$ncol)
-  expect_set_equal(types$id, c(task$target_names, task$feature_names))
-  expect_subset(types$type, capabilities$task_col_types)
+  types = task$feature_types
+  expect_data_table(types, ncol = 2, nrow = length(task$feature_names))
+  expect_set_equal(types$id, task$feature_names)
+  expect_subset(types$type, capabilities$task_feature_types)
+
+  properties = task$properties
+  expect_subset(properties, capabilities$task_properties[[task$task_type]])
 
   expect_character(task$order, any.missing = FALSE)
   expect_names(task$order, subset.of = c(task$feature_names, task$target_names))
@@ -161,10 +164,13 @@ expect_task_classif = function(task) {
   expect_equal(task$class_n, length(unique(y)))
   expect_character(task$class_names, any.missing = FALSE)
   expect_subset(task$class_names, as.character(y))
-  if (task$class_n > 2L)
+  if (task$class_n > 2L) {
     expect_identical(task$positive, NA_character_)
-  else
-    expect_choice(task$positive, task$class_names)
+    expect_identical(task$negative, NA_character_)
+  } else {
+    expect_set_equal(c(task$positive, task$negative), task$class_names)
+    expect_true(task$positive != task$negative)
+  }
   expect_hash(task$hash)
 }
 
@@ -191,8 +197,8 @@ expect_learner = function(lrn, task = NULL) {
 
   if (!is.null(task)) {
     assert_class(task, "Task")
-    expect_subset(lrn$properties, capabilities$learner_props[[task$type]])
-    expect_identical(lrn$task_type, task$type)
+    expect_subset(lrn$properties, capabilities$learner_properties[[task$task_type]])
+    expect_identical(lrn$task_type, task$task_type)
   }
 }
 
@@ -232,15 +238,15 @@ expect_resampling = function(r, task = NULL) {
 }
 
 expect_measure = function(m) {
-  expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type"))
+  expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type", "task_properties", "learner_properties"))
 
   expect_string(m$id, min.chars = 1L)
-  expect_subset(m$task_type, c("any", capabilities$task_types), empty.ok = FALSE)
+  expect_subset(m$task_type, c(NA_character_, capabilities$task_types), empty.ok = FALSE)
   expect_numeric(m$range, len = 2, any.missing = FALSE)
   expect_lt(m$range[1], m$range[2])
   expect_flag(m$minimize)
   expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
-  expect_function(m$calculate, args = "experiment")
+  expect_function(m$calculate, args = "e")
   expect_function(m$aggregate, args = "rr")
 }
 
@@ -257,13 +263,13 @@ expect_experiment = function(e) {
   if (state >= "trained") {
     expect_class(e$data$resampling, "Resampling")
     expect_int(e$data$iteration, lower = 1L)
-    expect_data_table(e$data$train_log, ncol = 2, any.missing = FALSE)
+    expect_class(e$data$train_log, "Log")
     expect_number(e$data$train_time)
     expect_false(is.null(e$data$model))
   }
 
   if (state >= "predicted") {
-    expect_data_table(e$data$predict_log, ncol = 2, any.missing = FALSE)
+    expect_class(e$data$predict_log, "Log")
     expect_number(e$data$predict_time)
     expect_class(e$data$prediction, "Prediction")
     expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
@@ -296,7 +302,6 @@ expect_resample_result = function(rr) {
   e = rr$experiment(1L)
   expect_experiment(e)
   expect_true(e$state == "scored")
-
 
   measures = rr$measures
   aggr = rr$aggregated

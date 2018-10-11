@@ -12,6 +12,6 @@ test_that("Learner exceptions are signaled", {
     expect_error(benchmark(list(task), list(learner), list(r)), "classif.crashtest")
   }
 
-  withr::with_options(list(mlr3.use.future = FALSE), run_expects())
-  withr::with_options(list(mlr3.use.future = TRUE), run_expects())
+  withr::with_options(list(mlr3.use_future = FALSE), run_expects())
+  withr::with_options(list(mlr3.use_future = TRUE), run_expects())
 })

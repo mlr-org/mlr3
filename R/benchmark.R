@@ -33,7 +33,7 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' rr$experiment(1)$prediction
-benchmark = function(tasks, learners, resamplings, measures = NULL) {
+benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = exec_control()) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)
   assert_list(resamplings, "Resampling", min.len = 1L)
@@ -44,7 +44,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL) {
     assert_list(measures, "Measure", min.len = 1L)
     measures = replicate(length(tasks), measures, simplify = FALSE)
   }
-
+  # TODO: call assert measures on grid
 
   # Instantiate resampling for each task
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
@@ -68,7 +68,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL) {
   task = learner = instance = NULL
   grid[, "hash" := hash.list(list(task = tasks[[task]], learner = learners[[learner]], resampling = instances[[instance]])), by = c("task", "learner", "instance")]
 
-  if (use_future()) {
+  if (use_future(ctrl)) {
     debug("Running resample() via future with %i iterations", nrow(grid))
 
     # randomize order for parallelization
@@ -76,14 +76,14 @@ benchmark = function(tasks, learners, resamplings, measures = NULL) {
 
     tmp = future.apply::future_mapply(experiment_worker,
       task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter, measures = measures[grid$task],
-      MoreArgs = list(ctrl = mlr_options()), SIMPLIFY = FALSE, USE.NAMES = FALSE,
+      MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.packages = "mlr3"
       )
   } else {
     debug("Running benchmark() sequentially with %i iterations", nrow(grid))
     tmp = mapply(experiment_worker,
       task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter, measures = measures[grid$task],
-      MoreArgs = list(ctrl = mlr_options()), SIMPLIFY = FALSE, USE.NAMES = FALSE
+      MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   }
 
