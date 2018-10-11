@@ -52,6 +52,7 @@ task$head()
 In `mlr3`, each row has a unique identifier (row name) which can be either `integer` or `character.`
 These can be used to select specific rows.
 To filter columns, you can just specify the column names.
+
 ```{r}
 # iris uses integer row_ids
 task$row_ids()
@@ -82,6 +83,7 @@ print(task)
 ```
 
 The row names of `mtcars` are automatically used as row_ids.
+
 ```{r}
 task$row_ids()
 task$data(rows = c("Merc 280", "Volvo 142E"))
@@ -92,6 +94,7 @@ task$data(rows = c("Merc 280", "Volvo 142E"))
 
 Now, we want the original `row.names` of `mtcars` to be a regular column.
 Thus, we first pre-process the `data.frame` and then re-create the task.
+
 ```{r}
 library("data.table")
 # `as.data.table` removes rownames, but  argument `keep.rownames` ensures
@@ -115,6 +118,7 @@ We have seen three different roles so far:
 3. The row_id. This column is there for technical reasons but is typically useless for learning.
 
 The different roles are listed in the table `cols`:
+
 ```{r}
 task$col_info
 ```
@@ -124,6 +128,7 @@ However, we still might want to carry it around for different reasons.
 E.g., we can use the row names in plots or to associate outliers with the row names.
 This being said, we need to change the role of this column to hide it from our learning algorithms.
 We change its role to `"ignore"`:
+
 ```{r}
 task$feature_names
 task$col_info[id == "rn", role := "ignore"]
@@ -159,6 +164,7 @@ There are several reasons to hold some observations back or treat them different
 
 Instead of creating a task with only a subset of observations and then manually apply the fitted model on an hold-back `data.frame`, you can just call the function `validate()` later on.
 Marking observations as validation works analogously to changing column roles:
+
 ```{r}
 head(task$row_info)
 

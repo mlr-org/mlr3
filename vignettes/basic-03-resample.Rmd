@@ -26,16 +26,19 @@ This introduction is about resampling.
 ## Objects
 
 Again, we consider the iris task and a simple classification tree here.
+
 ```{r}
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 ```
 
 Additionally, we need to define **how** we want to resample. `mlr3` comes with the following resampling strategies implemented:
+
 ```{r}
 mlr_resamplings$keys()
 ```
 The experiment conducted in the introduction on train/predict/score is equivalent to a simple "holdout", so let's consider this one first.
+
 ```{r}
 resampling = mlr_resamplings$get("holdout")
 print(resampling)
@@ -43,6 +46,7 @@ print(resampling$par_set)
 print(resampling$par_vals)
 ```
 To change the ratio to $0.8$, we simply overwrite the slot:
+
 ```{r}
 resampling$par_vals = list(ratio = 0.8)
 ```
@@ -57,6 +61,7 @@ print(rr)
 ```
 
 Before we go into more detail, lets change the resampling to a 3-fold cross-validation to better illustrate what operations are possible with a resampling result.
+
 ```{r}
 resampling = mlr_resamplings$get("cv")
 resampling$par_vals = list(folds = 3)
@@ -67,23 +72,28 @@ print(rr)
 We can do different things with resampling results, e.g.:
 
 * Extract the performance per fold and average it:
-    ```{r}
-    rr$performance
-    rr$performance[, mean(mmce)]
-    ```
+
+```{r}
+rr$performance
+rr$performance[, mean(mmce)]
+```
+
 * Extract and inspect the now instantiated resampling:
-    ```{r}
-    rr$resampling
-    rr$resampling$iters
-    rr$resampling$test_set(1)
-    rr$resampling$test_set(2)
-    rr$resampling$test_set(3)
-    ```
+
+```{r}
+rr$resampling
+rr$resampling$iters
+rr$resampling$test_set(1)
+rr$resampling$test_set(2)
+rr$resampling$test_set(3)
+```
+
 * Retrieve the experiment of a specific iteration and inspect it:
-    ```{r}
-    e = rr$experiment(iter = 1)
-    e$model
-    ```
+
+```{r}
+e = rr$experiment(iter = 1)
+e$model
+```
 
 ## Manual Instantiation
 
@@ -99,6 +109,7 @@ resampling$iters
 resampling$train_set(1)
 ```
 If we now pass this instantiated object to resample, the pre-calculated training and test splits will be used for both learners:
+
 ```{r}
 learner1 = mlr_learners$get("classif.rpart")
 learner2 = mlr_learners$get("classif.dummy")
@@ -108,6 +119,7 @@ rr2 = resample(task, learner2, resampling)
 setequal(rr1$experiment(1)$train_set, rr2$experiment(1)$train_set)
 ```
 We can also combine the created result objects into a `BenchmarkResult`:
+
 ```{r}
 bmr = rr1$combine(rr2)
 bmr$performance
@@ -117,6 +129,7 @@ bmr$performance
 
 Sometimes it is necessary to perform resampling with custom splits, e.g. to reproduce a study.
 For this purpose, splits can be manually set for `ResamplingCustom`:
+
 ```{r}
 resampling = mlr_resamplings$get("custom")
 resampling$instantiate(task,

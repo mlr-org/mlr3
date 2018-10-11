@@ -40,6 +40,7 @@ First, we need to generate retrieve the following `mlr3` objects from the task d
 
 We opt to learn on roughly $\frac{4}{5}$ of the observations and predict on the other $\frac{1}{5}$.
 To do so we create two index vectors:
+
 ```{r}
 train.set = sample(task$nrow, 4/5 * task$nrow)
 test.set = setdiff(seq_len(task$nrow), train.set)
@@ -49,16 +50,19 @@ test.set = setdiff(seq_len(task$nrow), train.set)
 
 The process of fitting a machine learning model, predicting on test data and scoring the predictions by comparing predicted and true labels is called an experiment.
 For this reason, we start by initializing an experiment here, too:
+
 ```{r}
 e = Experiment$new(task = task, learner = learner)
 print(e)
 ```
+
 The printer also shows a summary of the state of the experiment.
 
 
 ## Training
 
 To train the learner on the task, we call the train function of the experiment:
+
 ```{r}
 e$train(subset = train.set)
 print(e)

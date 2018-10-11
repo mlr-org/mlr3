@@ -27,6 +27,7 @@ This introduction shows how to parallelize `mlr3` with the packages [`future`](h
 # Installation
 
 Make sure you have installed `future` and `future.apply`:
+
 ```{r, eval=FALSE}
 if (!requireNamespace("future"))
   install.packages("future")
@@ -52,19 +53,23 @@ system.time(
   resample(task, learner, resampling)
 )[3L]
 ```
+
 We now use the `future` package to parallelize the resampling by selecting a backend via the function `plan` and then repeat the resampling.
 We use the "multiprocess" backend here which uses threads on linux/mac and a socket cluster on windows:
+
 ```{r, eval = FALSE}
 future::plan("multiprocess")
 system.time(
   resample(task, learner, resampling)
 )[3L]
 ```
+
 On most systems you should see a decrease in the reported real CPU time.
 On some systems (e.g. windows), the overhead for parallelization is quite large though.
 Therefore, you should only enable parallelization for experiments which run more than 10s each.
 
 Benchmarking is also parallelized. The following code sends 64 jobs (4 tasks * 16 resampling repeats) to the future backend:
+
 ```{r, eval = FALSE}
 tasks = mlr_tasks$mget(c("iris", "spam", "pima"))
 learners = mlr_learners$mget("classif.rpart")
@@ -94,5 +99,6 @@ e = Experiment$new(
 
 e$train()
 ```
+
 Of course, this also works for resampling and benchmarking.
 Nested parallelization is not yet implemented in `mlr3`, although `future` already supports it.
