@@ -13,6 +13,8 @@ exec_control(...)
 This function creates a named list of settings which control the execution of an \link{Experiment}.
 It contains all options (without the \code{"mlr3"} prefix) and additionally:
 \itemize{
+\item \code{use_evaluate}: if \code{TRUE}, the model will be trained and predictions will be generated via a call to \code{\link[evaluate:evaluate]{evaluate::evaluate()}}
+and all output will be stored as a \link{Log}.
 \item \code{store_predition}: If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
 Note that you will be unable calculate more performance measures.
 \item \code{store_model}: If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.

@@ -187,10 +187,9 @@ Experiment = R6Class("Experiment",
     has_errors = function() {
       train_log = self$data$train_log
       predict_log = self$data$predict_log
-      type = NULL
 
-      (is.null(train_log) || !train_log$has_conditions("error")) &&
-      (is.null(predict_log) || predict_log$has_conditions("error"))
+      (!is.null(train_log) && train_log$has_condition("error")) ||
+      (!is.null(predict_log) && predict_log$has_condition("error"))
     },
 
     state = function() {

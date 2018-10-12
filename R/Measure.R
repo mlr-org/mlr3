@@ -28,7 +28,7 @@
 #'   Performance object returned by [resample] to be aggregated.
 #'
 #' @section Details:
-#' `$new()` creates a new object of class [Measure].
+#' `$new()` creates a new object.
 #'
 #' `$id` (`character(1)`) stores the identifier of the object.
 #'
@@ -50,7 +50,6 @@
 #'   Operates on a [ResampleResult] as returned by [resample].
 #'
 #' @name Measure
-#' @keywords internal
 #' @family Measure
 #' @examples
 #' mlr_measures$get("mmce")

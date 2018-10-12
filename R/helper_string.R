@@ -1,3 +1,7 @@
+plural = function(n) {
+  if (n == 1L) "" else "s"
+}
+
 stri_key_val = function(x) {
   paste0(paste(names(x), x, sep = "="), collapse = ", ")
 }

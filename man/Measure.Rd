@@ -36,7 +36,7 @@ Performance object returned by \link{resample} to be aggregated.
 
 \section{Details}{
 
-\code{$new()} creates a new object of class \link{Measure}.
+\code{$new()} creates a new object.
 
 \code{$id} (\code{character(1)}) stores the identifier of the object.
 
@@ -65,4 +65,3 @@ mlr_measures$get("mmce")
 Other Measure: \code{\link{mlr_measures}}
 }
 \concept{Measure}
-\keyword{internal}

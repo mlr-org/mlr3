@@ -25,9 +25,9 @@ test_that("evaluate / experiment", {
   expect_factor(log$messages$class, levels = reflections$log_classes)
   expect_equal(as.character(log$messages$class), c("message", "warning"))
   expect_true(all(grepl("$train()", log$messages$msg, fixed = TRUE)))
-  expect_true(log$has_conditions("message"))
-  expect_true(log$has_conditions("warning"))
-  expect_false(log$has_conditions("error"))
+  expect_true(log$has_condition("message"))
+  expect_true(log$has_condition("warning"))
+  expect_false(log$has_condition("error"))
 
   expect_message(expect_warning(e$predict(subset = 101:150, ctrl = disabled)))
   log = e$data$predict_log
