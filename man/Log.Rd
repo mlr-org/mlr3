@@ -13,7 +13,7 @@ Object which stores the output of the \code{train} or \code{predict} step of an 
 }
 \section{Usage}{
 \preformatted{l = Log$new(log = NULL)
-l$is_empty()
+l$is_empty
 l$has_condition(cl)
 
 l$format()
