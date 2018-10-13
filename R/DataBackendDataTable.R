@@ -57,7 +57,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
         self$primary_key = primary_key
         data = as.data.table(data)
       }
-      private$.data = setkeyv(data, private$primary_key)
+      private$.data = setkeyv(data, self$primary_key)
     },
 
     data = function(rows, cols) {
