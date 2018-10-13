@@ -149,6 +149,8 @@ Task = R6Class("Task",
     col_info = NULL,
     measures = list(),
     order = character(0L),
+    row_roles = NULL,
+    col_roles = NULL,
 
     initialize = function(id, backend) {
       self$id = assert_id(id)
@@ -156,6 +158,8 @@ Task = R6Class("Task",
       self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
       self$col_info = col_info(backend, backend$primary_key)
       self$cache = new.env(parent = emptyenv())
+      self$row_roles = list(use = backend$rownames, validation = character(0L))
+      self$col_roles = list(feature = setdiff(backend$colnames, backend$primary_key), target = character(0L))
     },
 
     print = function(...) {
@@ -168,8 +172,8 @@ Task = R6Class("Task",
 
     head = function(n = 6L) {
       assert_count(n)
-      ids = self$row_info[list("use"), head(id, n), on = "role", nomatch = 0L]
-      cols = self$col_info[list(c("target", "feature")), on = "role", id, nomatch = 0L]
+      ids = head(self$row_roles$use, n)
+      cols = c(self$col_roles$target, self$col_roles$feature)
       self$data(rows = ids, cols = cols)
     },
 
@@ -179,22 +183,17 @@ Task = R6Class("Task",
     },
 
     row_ids = function(subset = NULL) {
-      if (is.null(subset)) {
-        self$row_info[list("use"), "id", on = "role", nomatch = 0L][[1L]]
-      } else {
-        self$row_info[id %in% subset & role == "use", "id"][[1L]]
-      }
+      if (is.null(subset)) self$row_roles$use else intersect(self$row_roles$use, subset)
     },
 
     filter = function(rows) {
-      self$row_info[!(id %in% rows) & role == "use", role := "ignore"]
-      cache_clear(self$cache, "nrow")
+      self$row_roles$use = intersect(self$row_roles$use, rows)
       self
     },
 
     select = function(cols) {
-      self$col_info[!(id %in% cols) & role == "feature", role := "ignore"]
-      cache_clear(self$cache, c("feature_names", "ncol", "formula"))
+      # self$col_info[!(id %in% cols) & role == "feature", role := "ignore"]
+      self$col_roles$feature = setdiff(self$col_roles$feature, cols)
       self
     },
 
@@ -204,25 +203,25 @@ Task = R6Class("Task",
 
     cbind = function(data) {
       task_cbind(self, data)
-    },
-
-    set_row_role = function(rows, new_role) {
-      # TODO: Make this an active binding?
-      assert_choice(new_role, capabilities$task_row_roles)
-      self$row_info[list(rows), "role" := new_role]
-      private$.hash = NA_character_
-      cache_clear(self$cache, "nrow")
-      self
-    },
-
-    set_col_role = function(cols, new_role) {
-      # TODO: Make this an active binding?
-      assert_choice(new_role, capabilities$task_col_roles)
-      self$col_info[list(cols), "role" := new_role]
-      private$.hash = NA_character_
-      cache_clear(self$cache, c("feature_names", "target_names", "ncol", "formula"))
-      self
     }
+
+    # set_row_role = function(rows, new_role) {
+    #   # TODO: Make this an active binding?
+    #   assert_choice(new_role, capabilities$task_row_roles)
+    #   self$row_info[list(rows), "role" := new_role]
+    #   private$.hash = NA_character_
+    #   cache_clear(self$cache, "nrow")
+    #   self
+    # },
+
+    # set_col_role = function(cols, new_role) {
+    #   # TODO: Make this an active binding?
+    #   assert_choice(new_role, capabilities$task_col_roles)
+    #   self$col_info[list(cols), "role" := new_role]
+    #   private$.hash = NA_character_
+    #   cache_clear(self$cache, c("feature_names", "target_names", "ncol", "formula"))
+    #   self
+    # }
   ),
 
   active = list(
@@ -233,23 +232,23 @@ Task = R6Class("Task",
     },
 
     feature_names = function() {
-      cache_get(self$cache, "feature_names", self$col_info[list("feature"), "id", on = "role", nomatch = 0L][[1L]])
+      self$col_roles$feature
     },
 
     target_names = function() {
-      cache_get(self$cache, "target_names", self$col_info[list("target"), "id", on = "role", nomatch = 0L][[1L]])
+      self$col_roles$target
     },
 
     nrow = function() {
-      cache_get(self$cache, "nrow", self$row_info[role == "use", .N])
+      length(self$row_roles$use)
     },
 
     ncol = function() {
-      cache_get(self$cache, "ncol", self$col_info[role %in% c("feature", "target"), .N])
+      length(self$col_roles$feature) + length(self$col_roles$target)
     },
 
     feature_types = function() {
-      self$col_info[list("feature"), c("id", "type"), on = "role"]
+      self$col_info[self$col_roles$feature, c("id", "type"), on = "id"]
     },
 
     formula = function() {
@@ -281,19 +280,17 @@ Task = R6Class("Task",
 
 task_data = function(self, rows = NULL, cols = NULL) {
   if (is.null(rows)) {
-    selected_rows = self$row_info[list("use"), "id", on = "role", nomatch = 0L][[1L]]
+    selected_rows = self$row_roles$use
   } else {
-    if (self$row_info[list(rows), .N] != length(rows))
-      stopf("Invalid row ids provided")
+    assert_subset(rows, self$row_roles$use)
     selected_rows = rows
   }
 
   if (is.null(cols)) {
-    selected_cols = self$col_info[list(c("feature", "target")), "id", on = "role", nomatch = 0L][[1L]]
+    selected_cols = c(self$col_roles$target, self$col_roles$feature)
   } else {
-    selected_cols = self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
-    if (length(selected_cols) != length(cols))
-      stopf("Invalid column ids provided")
+    assert_subset(cols, c(self$col_roles$target, self$col_roles$feature))
+    selected_cols = cols
   }
 
   extra_cols = character(0L)
@@ -365,7 +362,8 @@ task_rbind = function(self, data) {
   }
 
   # 2. Update row_info
-  self$row_info = setkeyv(rbindlist(list(self$row_info, data.table(id = data[[pk]], role = "use"))), "id")
+  # self$row_info = setkeyv(rbindlist(list(self$row_info, data.table(id = data[[pk]], role = "use"))), "id")
+  self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 3. Update col_info
   self$col_info$levels = Map(union, self$col_info$levels, data_col_info$levels)
@@ -408,6 +406,7 @@ task_cbind = function(self, data) {
   # 2. Update col_info
   data_col_info = col_info(data, pk)
   self$col_info = setkeyv(rbindlist(list(self$col_info, data_col_info[!list(pk)])), "id")
+  self$col_roles$feature = c(self$col_roles$feature, setdiff(names(data), pk))
 
   # 3. Overwrite self$backend with new backend
   self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))

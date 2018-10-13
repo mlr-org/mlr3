@@ -6,12 +6,16 @@ rcbind = function(x, y) {
     return(x)
 
   if (nrow(x) != nrow(y))
-    stopf("Tables have different number of rows (%s: %i, %s: %i)",
-      deparse(substitute(x)), nrow(x), deparse(substitute(y)), nrow(y))
+    stopf("Tables have different number of rows (x: %i, y: %i)",
+      nrow(x), nrow(y))
 
   ii = wf(names(x) %in% names(y))
   if (length(ii))
     stopf("Duplicated names: %s", names(x)[ii])
 
-  x[, names(y) := y]
+  # x[, names(y) := y]
+  ny = names(y)
+  for (yi in seq_along(y)) {
+    set(x, j = ny[yi], value = y[[yi]])
+  }
 }
