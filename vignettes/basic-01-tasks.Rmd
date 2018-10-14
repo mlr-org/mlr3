@@ -166,10 +166,10 @@ Instead of creating a task with only a subset of observations and then manually 
 Marking observations as validation works analogously to changing column roles:
 
 ```{r}
-head(task$row_info)
+str(task$row_roles)
 
 task$nrow
-task$row_info[id %in% 29:32, role := "validation"]
+task$set_row_role(rows = 29:32, new_role = "validation")
 task$nrow
 ```
 

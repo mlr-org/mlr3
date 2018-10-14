@@ -21,28 +21,6 @@ test_that("Task cbind", {
 })
 
 
-
-test_that("Task cache", {
-  b = DataBackendDataTable$new(iris)
-  task = Task$new("iris", b)
-
-  expect_environment(task$cache)
-  expect_list(as.list(task$cache), len = 0L)
-
-  expect_equal(task$nrow, 150L)
-  expect_integer(task$cache$nrow, 150L)
-
-  # ensure that the cached value is used
-  task$cache$nrow = 1L
-  expect_equal(task$nrow, 1L)
-
-  # test that cache gets invalidated
-  tmp = task$set_row_role(1:10, "ignore")
-  expect_list(as.list(task$cache), len = 0L)
-
-  task$formula
-})
-
 test_that("Rows return ordered", {
   x = load_dataset("nhtemp", "datasets", TRUE)
   data = as.data.frame(x)

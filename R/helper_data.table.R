@@ -13,9 +13,5 @@ rcbind = function(x, y) {
   if (length(ii))
     stopf("Duplicated names: %s", names(x)[ii])
 
-  # x[, names(y) := y]
-  ny = names(y)
-  for (yi in seq_along(y)) {
-    set(x, j = ny[yi], value = y[[yi]])
-  }
+  x[, names(y) := y][]
 }

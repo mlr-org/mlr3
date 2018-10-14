@@ -11,7 +11,7 @@ hash.Experiment = function(x) {
 }
 
 hash.Task = function(x) {
-  digest::digest(list(x$id, x$row_info, x$col_info), algo = "xxhash64")
+  digest::digest(list(x$id, x$row_roles, x$col_roles), algo = "xxhash64")
 }
 
 hash.Learner = function(x) {

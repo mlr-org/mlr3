@@ -9,10 +9,10 @@
 #'
 #' t$id
 #' t$backend
-#' t$row_info
+#' t$row_roles
 #' t$col_info
-#' t$set_row_role(rows, new_role)
-#' t$set_col_role(cols, new_role)
+#' t$set_row_role(rows, new_roles, exclusive = TRUE)
+#' t$set_col_role(cols, new_roles, exclusive = TRUE)
 #' t$measures
 #' t$data(rows = NULL, cols = NULL)
 #' t$head(n = 6)
@@ -48,8 +48,10 @@
 #'   Character vector to specify a single column from the [DataBackend].
 #' * `n` (`integer(1)`):
 #'   Number of rows to retrieve from the [DataBackend].
-#' * `new_role` (`character(1)`):
-#'   New role to assign for specified rows/columns.
+#' * `new_roles` (`character(1)`):
+#'   New roles to assign for specified rows/columns.
+#' * `exclusive` (`logical(1)`):
+#'   If `TRUE`, the cols/rows will be removed from all roles except `new_roles`.
 #' * `subset` (`vector`):
 #'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
@@ -60,13 +62,11 @@
 #'
 #' `$backend()` ([DataBackend]) stores the [DataBackend] of the task.
 #'
-#' `$row_info` (`data.table`) with columns `id` and `role`.
-#' Stores row ids of [DataBackend] in column `id`. Each row (observation)
-#' can have a specific mutually exclusive role in the learning task:
+#' `$row_roles` (`list`).
+#' Stores the row ids of [DataBackend] in vectors of row roles:
 #' - `"use"`: Use in training.
 #' - `"validation"`: Do not use in training, this are (possibly unlabeled) observations
 #'   which are held back unless explicitly addressed.
-#' - `"ignore"`: Do not these observations at all.
 #' To alter the role, use `set_row_role()`.
 #'
 #' `$col_info` (`data.table`) with columns `id`, `role` and `type`.
@@ -117,7 +117,7 @@
 #'
 #' `$cbind()` extends the task with additional columns.
 #'
-#' `$hash` stores a checksum (`character(1)`) calculated on the `id`, `row_info` and `col_info`.
+#' `$hash` stores a checksum (`character(1)`) calculated on the `id`, `row_roles` and `col_info`.
 #'
 #' @name Task
 #' @export
@@ -141,11 +141,9 @@ Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
     id = NULL,
-    cache = NULL,
     task_type = NA_character_,
     backend = NULL,
     properties = character(0L),
-    row_info = NULL,
     col_info = NULL,
     measures = list(),
     order = character(0L),
@@ -155,10 +153,9 @@ Task = R6Class("Task",
     initialize = function(id, backend) {
       self$id = assert_id(id)
       self$backend = assert_backend(backend)
-      self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
       self$col_info = col_info(backend, backend$primary_key)
-      self$cache = new.env(parent = emptyenv())
-      self$row_roles = list(use = backend$rownames, validation = character(0L))
+      rn = backend$rownames
+      self$row_roles = list(use = rn, validation = vector(typeof(rn), 0L))
       self$col_roles = list(feature = setdiff(backend$colnames, backend$primary_key), target = character(0L))
     },
 
@@ -203,23 +200,28 @@ Task = R6Class("Task",
 
     cbind = function(data) {
       task_cbind(self, data)
-    }
+    },
 
-    # set_row_role = function(rows, new_role) {
-    #   # TODO: Make this an active binding?
-    #   assert_choice(new_role, capabilities$task_row_roles)
-    #   self$row_info[list(rows), "role" := new_role]
-    #   private$.hash = NA_character_
-    #   cache_clear(self$cache, "nrow")
-    #   self
-    # },
+    set_row_role = function(rows, new_roles, exclusive = TRUE) {
+      assert_subset(new_roles, capabilities$task_row_roles)
+
+      for (role in new_roles)
+        self$row_roles[[role]] = union(self$row_roles[[role]], rows)
+
+      if (exclusive) {
+        for (role in setdiff(names(self$row_roles), new_roles))
+          self$row_roles[[role]] = setdiff(self$row_roles[[role]], rows)
+      }
+
+      private$.hash = NA_character_
+      invisible(self)
+    }
 
     # set_col_role = function(cols, new_role) {
     #   # TODO: Make this an active binding?
     #   assert_choice(new_role, capabilities$task_col_roles)
     #   self$col_info[list(cols), "role" := new_role]
     #   private$.hash = NA_character_
-    #   cache_clear(self$cache, c("feature_names", "target_names", "ncol", "formula"))
     #   self
     # }
   ),
@@ -252,14 +254,12 @@ Task = R6Class("Task",
     },
 
     formula = function() {
-      cache_get(self$cache, "formula", {
-        tn = self$target_names
-        if (length(tn) == 0L)
-          tn = NULL
-        f = reformulate(self$feature_names, response = tn)
-        environment(f) = NULL
-        f
-      })
+      tn = self$target_names
+      if (length(tn) == 0L)
+        tn = NULL
+      f = reformulate(self$feature_names, response = tn)
+      environment(f) = NULL
+      f
     }
   ),
 
@@ -268,12 +268,7 @@ Task = R6Class("Task",
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      switch(name,
-        row_info = copy(value),
-        col_info = copy(value),
-        cache    = clone_env(value),
-        value
-      )
+      value
     }
   )
 )
@@ -321,7 +316,7 @@ task_data = function(self, rows = NULL, cols = NULL) {
 
 # Performs the following steps to virtually rbind data to the task:
 # 1. Check that an rbind is feasible
-# 2. Update row_info
+# 2. Update row_roles
 # 3. Update col_info
 # 4. Overwrite self$backend with new backend
 task_rbind = function(self, data) {
@@ -361,8 +356,7 @@ task_rbind = function(self, data) {
     stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", tmp$id, tmp$type.x, tmp$type.y)
   }
 
-  # 2. Update row_info
-  # self$row_info = setkeyv(rbindlist(list(self$row_info, data.table(id = data[[pk]], role = "use"))), "id")
+  # 2. Update row_roles
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 3. Update col_info

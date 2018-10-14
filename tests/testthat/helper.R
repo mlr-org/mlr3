@@ -102,13 +102,12 @@ expect_backend = function(b) {
 }
 
 expect_task = function(task) {
-  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
+  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   expect_string(task$id, min.chars = 1L)
   expect_count(task$nrow)
   expect_count(task$ncol)
   expect_data_table(task$data())
   expect_data_table(task$head(1), nrow = 1L)
-  expect_environment(task$cache)
 
 
   cols = c("id", "role", "type", "levels")
@@ -119,11 +118,9 @@ expect_task = function(task) {
   expect_subset(task$col_info$type, capabilities$task_feature_types)
   expect_list(task$col_info$levels)
 
-  cols = c("id", "role")
-  expect_data_table(task$row_info, key = "id", ncol = length(cols))
-  expect_names(names(task$row_info), permutation.of = cols)
-  expect_atomic_vector(task$row_info$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$row_info$role, capabilities$task_row_roles)
+  expect_list(task$row_roles, names = "unique", types = c("integer", "character"), any.missing = FALSE)
+  expect_names(names(task$row_roles), permutation.of = capabilities$task_row_roles)
+  lapply(task$row_roles, expect_atomic_vector, any.missing = FALSE, unique = TRUE)
 
   types = task$feature_types
   expect_data_table(types, ncol = 2, nrow = length(task$feature_names))
