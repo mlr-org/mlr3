@@ -114,7 +114,7 @@ Collate:
     'reexports.R'
     'reflections.R'
     'resample.R'
-    'split.R'
+    'split_train_validation.R'
     'worker.R'
     'zzz.R'
 URL: https://github.com/mlr-org/mlr3
