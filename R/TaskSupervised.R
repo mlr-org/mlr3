@@ -36,10 +36,6 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
         stopf("Target columns %s not in DataBackend", stri_head(targets[is.na(i)]))
       self$col_roles$target = targets
       self$col_roles$feature = setdiff(self$col_roles$feature, targets)
-
-      # FIXME:
-      # for (target in targets)
-      #   self$row_info[is.na(target), role := "validation"]
     },
 
     truth = function(row_ids = NULL) {

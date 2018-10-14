@@ -140,8 +140,8 @@ task$ncol
 task$head()
 task$formula
 
-# Ignore "Petal.Length"
-task$col_info[id == "Petal.Length", role := "ignore"]
+# Remove "Petal.Length"
+task$set_col_role("Petal.Length", character(0L))
 task$formula
 }
 \seealso{

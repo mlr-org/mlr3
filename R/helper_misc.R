@@ -16,8 +16,11 @@ shuffle = function(x, n = length(x), ...) {
   x[sample.int(length(x), n, ...)]
 }
 
-named_list = function(nn) {
-  setNames(vector("list", length(nn)), nn)
+named_list = function(nn, init = NULL) {
+  x = vector("list", length(nn))
+  if (!is.null(init))
+    x[] = list(init)
+  setNames(x, nn)
 }
 
 distinct = function(x) {

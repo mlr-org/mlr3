@@ -10,6 +10,7 @@ test_that("Task rbind", {
   task = mlr_tasks$get("iris")
   data = iris[1:10, ]
   task$rbind(iris[1:10, ])
+  expect_task(task)
   expect_equal(task$nrow, 160)
 })
 
@@ -17,6 +18,7 @@ test_that("Task cbind", {
   task = mlr_tasks$get("iris")
   data = data.frame(..row_id = task$row_ids(), foo = 150:1)
   task$cbind(data)
+  expect_task(task)
   expect_names(task$feature_names, must.include = "foo")
 })
 
@@ -34,7 +36,7 @@ test_that("Rows return ordered", {
   x = task$data()
   expect_true(is.unsorted(x$t))
 
-  task$order = "t"
+  task$set_col_role("t", "order", exclusive = FALSE)
   x = task$data()
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 
@@ -48,7 +50,7 @@ test_that("Rows return ordered with multiple order cols", {
   x = task$data()
   expect_true(is.unsorted(x$Petal.Length))
 
-  task$order = c("Petal.Length", "Petal.Width")
+  task$col_roles$order = c("Petal.Length", "Petal.Width")
 
   x = task$data()
   expect_numeric(x$Petal.Length, sorted = TRUE, any.missing = FALSE)
