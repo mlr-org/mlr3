@@ -13,7 +13,7 @@ capabilities$task_row_roles = c(
 )
 
 capabilities$task_col_roles = c(
-  "primary_key", "feature", "target", "order"
+  "feature", "target", "order"
 )
 
 capabilities$task_properties = list(
