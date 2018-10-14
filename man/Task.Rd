@@ -105,7 +105,7 @@ If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \code{$head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
 
 \code{$levels()} queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
-This function ignores the row roles, so that you get all levels found in the \link{DataBackend}.
+This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
 
 \code{$row_ids()} returns a (subset of) row ids used in the task, i.e. subsetted to observations with \code{role == "use"}.
 
