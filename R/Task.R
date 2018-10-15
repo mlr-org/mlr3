@@ -178,7 +178,7 @@ Task = R6Class("Task",
 
     levels = function(col) {
       assert_choice(col, self$col_info$id)
-      self$col_info[list(col), "levels", with = FALSE][[1L]][[1L]]
+      self$col_info[list(col), "levels", with = FALSE, nomatch = 0L][[1L]][[1L]]
     },
 
     row_ids = function(subset = NULL) {
@@ -260,7 +260,7 @@ Task = R6Class("Task",
     },
 
     feature_types = function() {
-      self$col_info[self$col_roles$feature, c("id", "type"), on = "id"]
+      self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"]
     },
 
     formula = function() {
@@ -354,7 +354,7 @@ task_rbind = function(self, data) {
   }
 
   ## 1.2 Check for set equality of column names
-  assert_set_equal(self$col_info$id, names(data))
+  assert_set_equal(names(data), c(self$col_roles$feature, self$col_roles$target, pk))
 
   ## 1.3 Check that there are now duplicated row_ids
   if (!auto_incremented) {
@@ -364,8 +364,9 @@ task_rbind = function(self, data) {
   }
 
   ## 1.4 Check that types are matching
-  data_col_info = col_info(data, pk)
-  tmp = head(merge(self$col_info, data_col_info, by = "id")[get("type.x") != get("type.y")], 1L)
+  data_col_info = col_info(data, primary_key = pk)
+  joined = merge(self$col_info, data_col_info, by = "id")
+  tmp = head(joined[get("type.x") != get("type.y")], 1L)
   if (nrow(tmp)) {
     stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", tmp$id, tmp$type.x, tmp$type.y)
   }
@@ -374,7 +375,7 @@ task_rbind = function(self, data) {
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 3. Update col_info
-  self$col_info$levels = Map(union, self$col_info$levels, data_col_info$levels)
+  self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
 
   # 4. Overwrite self$backend with new backend
   self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
@@ -390,11 +391,12 @@ task_cbind = function(self, data) {
   data = as.data.table(data)
   pk = self$backend$primary_key
 
-  ## 1.1 Check for primary key column
+  ## 1.1 Check primary key column
   if (pk %nin% names(data)) {
     stopf("Cannot cbind task: Missing primary key column '%s'", self$backend$primary_key)
   }
 
+  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
   if (self$col_info[list(pk), "type", on = "id"][[1L]] != class(data[[pk]])) {
     stopf("Cannot cbind task: Primary key column '%s' has wrong type", self$backend$primary_key)
   }
@@ -406,13 +408,12 @@ task_cbind = function(self, data) {
   }
 
   ## 1.3 Check for set equality of row ids
-  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
   if (self$backend$data(data[[pk]], pk)[, .N] != nrow(data)) {
     stopf("Cannot cbind task: Row ids do not match")
   }
 
   # 2. Update col_info
-  data_col_info = col_info(data, pk)
+  data_col_info = col_info(data)
   self$col_info = setkeyv(rbindlist(list(self$col_info, data_col_info[!list(pk)])), "id")
   self$col_roles$feature = c(self$col_roles$feature, setdiff(names(data), pk))
 
@@ -424,22 +425,27 @@ task_print = function(self) {
   catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
   catf(stri_wrap(initial = "Target: ", self$target_names))
   catf(stri_wrap(initial = "Features: ", self$feature_names))
-  if (length(self$order))
-    catf(stri_wrap(initial = "Order by: ", self$order))
+  if (length(self$col_roles$order))
+    catf(stri_wrap(initial = "Order by: ", self$col_roles$order))
   catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
 }
 
 
-col_info = function(x, primary_key = NULL) {
-  is_backend = inherits(x, "DataBackend")
-  types = vcapply(if (is_backend) x$head(1L) else x, class)
-  col_info = data.table(id = names(types), type = unname(types), levels = list(), key = "id")
+col_info = function(x, ...) {
+  UseMethod("col_info")
 
-  discrete = col_info[get("type") %in% c("character", "factor"), "id"][[1L]]
-  if (length(discrete)) {
-    discrete = if (is_backend) x$distinct(discrete) else lapply(x[, discrete, with = FALSE], distinct)
-    col_info[list(names(discrete)), levels := list(discrete)]
-  }
+}
 
-  col_info[]
+col_info.data.table = function(x, primary_key = character(0L), ...) {
+  types = vcapply(x, class)
+  discrete = setdiff(names(types)[types %in% c("character", "factor")], primary_key)
+  levels = insert(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct))
+  data.table(id = names(types), type = unname(types), levels = levels, key = "id")
+}
+
+col_info.DataBackend = function(x, ...) {
+  types = vcapply(x$head(1L), class)
+  discrete = setdiff(names(types)[types %in% c("character", "factor")], x$primary_key)
+  levels = insert(named_list(names(types)), x$distinct(discrete))
+  data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
