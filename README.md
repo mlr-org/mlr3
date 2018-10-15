@@ -41,7 +41,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No extra reverse dependencies.
     - [`backports`](https://cran.r-project.org/package=backports): Ensures backward compatibility with older R releases. Developed by members of the `mlr` team. No extra reverse dependencies.
     - [`bit`](https://cran.r-project.org/package=bit): Efficient storage of logical vectors. No extra reverse dependencies.
-    - [`checkmate`](https://cran.r-project.org/package=checkmate): Efficient storage of logical vectors. Developed by members of the `mlr` team. No extra reverse dependencies.
+    - [`checkmate`](https://cran.r-project.org/package=checkmate): Fast argument checks. Developed by members of the `mlr` team. No extra reverse dependencies.
     - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No extra reverse dependencies.
     - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No extra reverse dependencies.
     - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No extra reverse dependencies.
