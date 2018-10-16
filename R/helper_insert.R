@@ -14,10 +14,12 @@ insert.environment = function(x, y) {
 }
 
 insert.data.table = function(x, y) {
-  if (ncol(x) > 0L)
-    x[, names(y) := y][]
-  else # null data.table, we cannot assign with `:=`
+  if (ncol(x) > 0L) {
+    ..y = y
+    x[, names(..y) := ..y][]
+  } else { # null data.table, we cannot assign with `:=`
     as.data.table(y)
+  }
 }
 
 remove = function(x, nn) {

@@ -45,22 +45,21 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       assert_data_frame(data, min.rows = 1L, min.cols = 1L)
 
       if (is.null(primary_key)) {
-        self$primary_key = "..row_id"
-
         rn = attr(data, "row.names")
-        data = as.data.table(data)
         if (is.character(rn)) {
           rn = make.unique(rn)
         } else { # integer -> no row names
           self$key_is_seq = TRUE
         }
-        private$.data = setkeyv(data[, "..row_id" := rn], "..row_id")[]
+
+        self$primary_key = "..row_id"
+        private$.data = setkeyv(insert(as.data.table(data), list("..row_id" = rn)), "..row_id")[]
       } else {
         assert_string(primary_key)
         assert_names(colnames(data), must.include = primary_key)
         assert_atomic_vector(data[[primary_key]], any.missing = FALSE, unique = TRUE)
         self$primary_key = primary_key
-        private$.data = setkeyv(data, primary_key)[]
+        private$.data = setkeyv(as.data.table(data), primary_key)[]
       }
     },
 
@@ -69,7 +68,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       cols = intersect(cols, colnames(private$.data))
 
       if (self$key_is_seq) {
-        assert_integer(rows)
+        rows = assert_integerish(rows, coerce = TRUE)
         # https://github.com/Rdatatable/data.table/issues/3109
         rows = rows[!is.na(rows) & rows >= 1L & rows <= nrow(private$.data)]
         data = private$.data[rows, cols, with = FALSE]

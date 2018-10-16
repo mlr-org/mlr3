@@ -1,5 +1,6 @@
 #' @include DataBackend.R
 #' @export
+#' @keywords internal
 DataBackendCbind = R6Class("DataBackend", inherit = DataBackend, cloneable = FALSE,
   public = list(
     primary_key = NULL,
