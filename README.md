@@ -8,16 +8,6 @@ A clean, object-oriented rewrite of [mlr](https://github.com/mlr-org/mlr).
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 
-## mlr3-learner status
-
-|                                                                  | Travis                                                                                                                        | Appveyor                                                                                                                                                                           |
-| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Recommended learners:](https://github.com/mlr-org/mlr3learners) | [![Build Status](https://travis-ci.org/mlr-org/mlr3learners.svg?branch=master)](https://travis-ci.org/mlr-org/mlr3learners)   | [![Build status](https://ci.appveyor.com/api/projects/status/a6m7lh5hhxby1rdj/branch/master?svg=true)](https://ci.appveyor.com/project/mlr-org/mlr3learners/branch/master)         |
-| [mlr-learners/ada (dummy)]()                                             | [![Build Status](https://travis-ci.org/mlr-learners/ada.svg?branch=master)](https://travis-ci.org/mlr-learners/ada)           | [![Build status](https://ci.appveyor.com/api/projects/status/a6mxby1rdj/branch/master?svg=true)](https://ci.appveyor.com/project/mlr-learners/mlr-ada/branch/master)         |
-| [mlr-learners/adaboost (dummy)]()                                        | [![Build Status](https://travis-ci.org/mlr-learners/adaboost.svg?branch=master)](https://travis-ci.org/mlr-learners/adaboost) | [![Build status](https://ci.appveyor.com/api/projects/status/hhxby1rdj/branch/master?svg=true)](https://ci.appveyor.com/project/mlr-learners/mlr-adaboost/branch/master)    |
-
-[...]
-
 ## Why a rewrite?
 
 [mlr](https://github.com/mlr-org/mlr) was first released to [CRAN](https://cran.r-project.org/package=mlr) in 2013.
@@ -46,9 +36,9 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No extra reverse dependencies.
     - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No extra reverse dependencies.
     - [`paradox`](https://github.com/mlr-org/paradox) Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra reverse dependencies.
-
-  For parallelization, `mlr3` optionally uses the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
-
+* Additional functionality that comes with extra dependencies:
+    - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
+    - To capture output for logging, [`evaluate`](https://cran.r-project.org/package=future) is used.
 
 
 ## State of the project
