@@ -73,7 +73,6 @@ Learner = R6Class("Learner",
     packages = NULL,
     properties = NULL,
     par_set = NULL,
-    model = NULL,
 
     initialize = function(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
       self$id = assert_id(id)
