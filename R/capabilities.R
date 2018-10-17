@@ -9,11 +9,11 @@ capabilities$task_feature_types = c(
 )
 
 capabilities$task_row_roles = c(
-  "use", "validation", "ignore"
+  "use", "validation"
 )
 
 capabilities$task_col_roles = c(
-  "primary_key", "feature", "target", "ignore"
+  "feature", "target", "order"
 )
 
 capabilities$task_properties = list(

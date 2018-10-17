@@ -11,10 +11,10 @@ This is the abstract base class for task objects like \link{TaskClassif} and \li
 
 t$id
 t$backend
-t$row_info
+t$row_roles
 t$col_info
-t$set_row_role(rows, new_role)
-t$set_col_role(cols, new_role)
+t$set_row_role(rows, new_roles, exclusive = TRUE)
+t$set_col_role(cols, new_roles, exclusive = TRUE)
 t$measures
 t$data(rows = NULL, cols = NULL)
 t$head(n = 6)
@@ -53,8 +53,10 @@ Character vector to specify columns from the \link{DataBackend}.
 Character vector to specify a single column from the \link{DataBackend}.
 \item \code{n} (\code{integer(1)}):
 Number of rows to retrieve from the \link{DataBackend}.
-\item \code{new_role} (\code{character(1)}):
-New role to assign for specified rows/columns.
+\item \code{new_roles} (\code{character(1)}):
+New roles to assign for specified rows/columns.
+\item \code{exclusive} (\code{logical(1)}):
+If \code{TRUE}, the cols/rows will be removed from all roles except \code{new_roles}.
 \item \code{subset} (\code{vector}):
 Subset of row ids to subset rows from the \link{DataBackend} using its primary key.
 }
@@ -68,14 +70,12 @@ Subset of row ids to subset rows from the \link{DataBackend} using its primary k
 
 \code{$backend()} (\link{DataBackend}) stores the \link{DataBackend} of the task.
 
-\code{$row_info} (\code{data.table}) with columns \code{id} and \code{role}.
-Stores row ids of \link{DataBackend} in column \code{id}. Each row (observation)
-can have a specific mutually exclusive role in the learning task:
+\code{$row_roles} (\code{list}).
+Stores the row ids of \link{DataBackend} in vectors of row roles:
 \itemize{
 \item \code{"use"}: Use in training.
 \item \code{"validation"}: Do not use in training, this are (possibly unlabeled) observations
 which are held back unless explicitly addressed.
-\item \code{"ignore"}: Do not these observations at all.
 To alter the role, use \code{set_row_role()}.
 }
 
@@ -105,7 +105,7 @@ If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \code{$head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
 
 \code{$levels()} queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
-This function ignores the row roles, so that you get all levels found in the \link{DataBackend}.
+This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
 
 \code{$row_ids()} returns a (subset of) row ids used in the task, i.e. subsetted to observations with \code{role == "use"}.
 
@@ -129,7 +129,7 @@ This function ignores the row roles, so that you get all levels found in the \li
 
 \code{$cbind()} extends the task with additional columns.
 
-\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_info} and \code{col_info}.
+\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_roles} and \code{col_info}.
 }
 
 \examples{
@@ -140,8 +140,8 @@ task$ncol
 task$head()
 task$formula
 
-# Ignore "Petal.Length"
-task$col_info[id == "Petal.Length", role := "ignore"]
+# Remove "Petal.Length"
+task$set_col_role("Petal.Length", character(0L))
 task$formula
 }
 \seealso{

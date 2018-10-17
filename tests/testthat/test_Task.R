@@ -10,6 +10,7 @@ test_that("Task rbind", {
   task = mlr_tasks$get("iris")
   data = iris[1:10, ]
   task$rbind(iris[1:10, ])
+  expect_task(task)
   expect_equal(task$nrow, 160)
 })
 
@@ -17,31 +18,10 @@ test_that("Task cbind", {
   task = mlr_tasks$get("iris")
   data = data.frame(..row_id = task$row_ids(), foo = 150:1)
   task$cbind(data)
+  expect_task(task)
   expect_names(task$feature_names, must.include = "foo")
 })
 
-
-
-test_that("Task cache", {
-  b = DataBackendDataTable$new(iris)
-  task = Task$new("iris", b)
-
-  expect_environment(task$cache)
-  expect_list(as.list(task$cache), len = 0L)
-
-  expect_equal(task$nrow, 150L)
-  expect_integer(task$cache$nrow, 150L)
-
-  # ensure that the cached value is used
-  task$cache$nrow = 1L
-  expect_equal(task$nrow, 1L)
-
-  # test that cache gets invalidated
-  tmp = task$set_row_role(1:10, "ignore")
-  expect_list(as.list(task$cache), len = 0L)
-
-  task$formula
-})
 
 test_that("Rows return ordered", {
   x = load_dataset("nhtemp", "datasets", TRUE)
@@ -56,7 +36,7 @@ test_that("Rows return ordered", {
   x = task$data()
   expect_true(is.unsorted(x$t))
 
-  task$order = "t"
+  task$set_col_role("t", "order", exclusive = FALSE)
   x = task$data()
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 
@@ -70,7 +50,7 @@ test_that("Rows return ordered with multiple order cols", {
   x = task$data()
   expect_true(is.unsorted(x$Petal.Length))
 
-  task$order = c("Petal.Length", "Petal.Width")
+  task$col_roles$order = c("Petal.Length", "Petal.Width")
 
   x = task$data()
   expect_numeric(x$Petal.Length, sorted = TRUE, any.missing = FALSE)

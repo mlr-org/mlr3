@@ -168,8 +168,7 @@ Experiment = R6Class("Experiment",
     },
 
     validation_set = function() {
-      role = NULL
-      self$data$task$row_info[list("validation"), "id", on = "role", nomatch = 0L][[1L]]
+      self$data$task$row_roles$validation
     },
 
     prediction = function() {
@@ -177,7 +176,7 @@ Experiment = R6Class("Experiment",
       if (is.null(prediction))
         stopf("No predictions available")
       row_ids = self$test_set
-      rcbind(data.table(id = row_ids, truth = self$data$task$truth(row_ids)[[1L]], key = "id"), as.data.table(prediction))[]
+      rcbind(x = data.table(id = row_ids, truth = self$data$task$truth(row_ids)[[1L]], key = "id"), y = as.data.table(prediction))[]
     },
 
     performance = function() {
@@ -244,7 +243,7 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = exec_con
     e$data$resampling$instantiate(e$data$task, test_sets = list(row_ids))
   } else {
     e$data$task = e$data$task$clone()$rbind(newdata)
-    row_ids = e$data$task$row_info[list("validation"), "id", on = "role", nomatch = 0L][[1L]]
+    row_ids = e$validation_set
   }
 
   if (use_future(ctrl)) {

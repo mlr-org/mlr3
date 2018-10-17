@@ -92,7 +92,7 @@ task$data(rows = c("Merc 280", "Volvo 142E"))
 
 ## Column Roles
 
-Now, we want the original `row.names` of `mtcars` to be a regular column.
+Now, we want the original `rownames()` of `mtcars` to be a regular column.
 Thus, we first pre-process the `data.frame` and then re-create the task.
 
 ```{r}
@@ -110,32 +110,31 @@ task$row_ids()
 task$feature_names
 ```
 
-In `mlr3`, columns (and rows) can have specific roles w.r.t. the learning task.
-We have seen three different roles so far:
+In `mlr3`, columns (and rows) can be assigned roles.
+We have seen three different roles for columns so far:
 
 1. The target column (here `"mpg"`), also called dependent variable.
 2. Features, also called independent variables.
-3. The row_id. This column is there for technical reasons but is typically useless for learning.
+3. The `row_id`. This column is there for technical reasons, and is typically useless for learning.
 
-The different roles are listed in the table `cols`:
+The different roles are stored as as a list of column names:
 
 ```{r}
-task$col_info
+task$col_roles
 ```
+As the output shows, the column is `"mpg"` is the target column and are three features: `"rn"` (rownames), `"cyl"`, and `"disp"`.
+More roles are documented in the help for tasks.
 
-In the following we do not want to learn on neither the primary key (which is already handled by `mlr3`) nor the new column `rn` with the row names.
-However, we still might want to carry it around for different reasons.
+In the following we do not want to learn on neither the primary key (which is taken care of `mlr3`) nor the new column `rn` with the row names.
+However, we still might want to carry `rn` around for different reasons.
 E.g., we can use the row names in plots or to associate outliers with the row names.
-This being said, we need to change the role of this column to hide it from our learning algorithms.
-We change its role to `"ignore"`:
+This being said, we need to change the role of the rownames column `rn` and remove it from the set of features.
 
 ```{r}
 task$feature_names
-task$col_info[id == "rn", role := "ignore"]
-task$col_info
+task$set_col_role("rn", new_roles = character(0L))
 
 # "rn" not listed as feature any more
-task$ncol
 task$feature_names
 
 # also eliminated from "data" and "head"
@@ -146,7 +145,7 @@ task$head(2)
 ## row_roles
 
 Just like columns, you can also assign different roles to rows.
-Rows can have three different roles:
+Rows can have two different roles:
 
 1. Role `"use"`:
    Rows that are generally available for model fitting (although they may also be used as test set in resampling).
@@ -154,22 +153,21 @@ Rows can have three different roles:
 2. Role `"validation"`:
    Rows that are held back (see below).
    Rows which have missing values in the target column upon task creation are automatically moved to the validation set.
-3. Role `"ignore"`: Rows that are simply ignored
 
 There are several reasons to hold some observations back or treat them differently:
 
 1. It is often good practice to validate the final model on an external validation set to uncover possible overfitting
-2. Some observations may be unlabeled, e.g. in data mining cups or Kaggle competitions.
+2. Some observations may be unlabeled, e.g. in data mining cups or [Kaggle](https://www.kaggle.com/) competitions.
    These observations cannot be used for training a model, but you can still predict labels.
 
 Instead of creating a task with only a subset of observations and then manually apply the fitted model on an hold-back `data.frame`, you can just call the function `validate()` later on.
 Marking observations as validation works analogously to changing column roles:
 
 ```{r}
-head(task$row_info)
+str(task$row_roles)
 
 task$nrow
-task$row_info[id %in% 29:32, role := "validation"]
+task$set_row_role(rows = 29:32, new_role = "validation")
 task$nrow
 ```
 

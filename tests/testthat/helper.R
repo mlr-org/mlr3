@@ -9,13 +9,13 @@ if (getOption("mlr3.debug", FALSE)) {
 }
 
 `[[.R6` = function(x, i, ...) {
-  if (i %in% names(x))
+  if (exists(i, envir = x, inherits = FALSE))
     return(get(i, envir = x))
   stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", i, "'!")
 }
 
 `$.R6` = function(x, name) {
-  if (name %in% names(x))
+  if (exists(name, envir = x, inherits = FALSE))
     return(get(name, envir = x))
   stop("R6 class ", paste0(class(x), collapse = "/") ," does not have slot '", name, "'!")
 }
@@ -102,28 +102,29 @@ expect_backend = function(b) {
 }
 
 expect_task = function(task) {
-  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_info", "col_info", "order", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
+  expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   expect_string(task$id, min.chars = 1L)
   expect_count(task$nrow)
   expect_count(task$ncol)
   expect_data_table(task$data())
   expect_data_table(task$head(1), nrow = 1L)
-  expect_environment(task$cache)
 
 
-  cols = c("id", "role", "type", "levels")
+  cols = c("id", "type", "levels")
   expect_data_table(task$col_info, key = "id", ncol = length(cols))
   expect_names(names(task$col_info), permutation.of = cols)
   expect_character(task$col_info$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$col_info$role, capabilities$task_col_roles)
   expect_subset(task$col_info$type, capabilities$task_feature_types)
   expect_list(task$col_info$levels)
 
-  cols = c("id", "role")
-  expect_data_table(task$row_info, key = "id", ncol = length(cols))
-  expect_names(names(task$row_info), permutation.of = cols)
-  expect_atomic_vector(task$row_info$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$row_info$role, capabilities$task_row_roles)
+  expect_list(task$col_roles, names = "unique", any.missing = FALSE)
+  expect_names(names(task$col_roles), permutation.of = capabilities$task_col_roles)
+  lapply(task$col_roles, expect_character, any.missing = FALSE, unique = TRUE, min.chars = 1L)
+  expect_subset(unlist(task$col_roles), task$col_info$id)
+
+  expect_list(task$row_roles, names = "unique", types = c("integer", "character"), any.missing = FALSE)
+  expect_names(names(task$row_roles), permutation.of = capabilities$task_row_roles)
+  lapply(task$row_roles, expect_atomic_vector, any.missing = FALSE, unique = TRUE)
 
   types = task$feature_types
   expect_data_table(types, ncol = 2, nrow = length(task$feature_names))
@@ -132,9 +133,6 @@ expect_task = function(task) {
 
   properties = task$properties
   expect_subset(properties, capabilities$task_properties[[task$task_type]])
-
-  expect_character(task$order, any.missing = FALSE)
-  expect_names(task$order, subset.of = c(task$feature_names, task$target_names))
 
   expect_hash(task$hash)
 }

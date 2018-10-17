@@ -39,33 +39,43 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   cloneable = FALSE,
   public = list(
     primary_key = NULL,
+    key_is_seq = FALSE,
 
     initialize = function(data, primary_key = NULL) {
       assert_data_frame(data, min.rows = 1L, min.cols = 1L)
 
       if (is.null(primary_key)) {
         rn = attr(data, "row.names")
-        data = as.data.table(data)
-        if (is.character(rn))
+        if (is.character(rn)) {
           rn = make.unique(rn)
-        data[["..row_id"]] = rn
+        } else { # integer -> no row names
+          self$key_is_seq = TRUE
+        }
+
         self$primary_key = "..row_id"
+        private$.data = setkeyv(insert(as.data.table(data), list("..row_id" = rn)), "..row_id")[]
       } else {
         assert_string(primary_key)
         assert_names(colnames(data), must.include = primary_key)
         assert_atomic_vector(data[[primary_key]], any.missing = FALSE, unique = TRUE)
         self$primary_key = primary_key
-        data = as.data.table(data)
+        private$.data = setkeyv(as.data.table(data), primary_key)[]
       }
-      private$.data = setkeyv(data, self$primary_key)
     },
 
     data = function(rows, cols) {
-      assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
       cols = intersect(cols, colnames(private$.data))
 
-      data = private$.data[list(rows), cols, with = FALSE, nomatch = 0L, on = self$primary_key]
+      if (self$key_is_seq) {
+        rows = assert_integerish(rows, coerce = TRUE)
+        # https://github.com/Rdatatable/data.table/issues/3109
+        rows = rows[!is.na(rows) & rows >= 1L & rows <= nrow(private$.data)]
+        data = private$.data[rows, cols, with = FALSE]
+      } else {
+        assert_atomic_vector(rows)
+        data = private$.data[list(rows), cols, with = FALSE, nomatch = 0L, on = self$primary_key]
+      }
       return(data)
     },
 

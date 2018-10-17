@@ -9,10 +9,10 @@
 #'
 #' t$id
 #' t$backend
-#' t$row_info
+#' t$row_roles
 #' t$col_info
-#' t$set_row_role(rows, new_role)
-#' t$set_col_role(cols, new_role)
+#' t$set_row_role(rows, new_roles, exclusive = TRUE)
+#' t$set_col_role(cols, new_roles, exclusive = TRUE)
 #' t$measures
 #' t$data(rows = NULL, cols = NULL)
 #' t$head(n = 6)
@@ -48,8 +48,10 @@
 #'   Character vector to specify a single column from the [DataBackend].
 #' * `n` (`integer(1)`):
 #'   Number of rows to retrieve from the [DataBackend].
-#' * `new_role` (`character(1)`):
-#'   New role to assign for specified rows/columns.
+#' * `new_roles` (`character(1)`):
+#'   New roles to assign for specified rows/columns.
+#' * `exclusive` (`logical(1)`):
+#'   If `TRUE`, the cols/rows will be removed from all roles except `new_roles`.
 #' * `subset` (`vector`):
 #'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
@@ -60,13 +62,11 @@
 #'
 #' `$backend()` ([DataBackend]) stores the [DataBackend] of the task.
 #'
-#' `$row_info` (`data.table`) with columns `id` and `role`.
-#' Stores row ids of [DataBackend] in column `id`. Each row (observation)
-#' can have a specific mutually exclusive role in the learning task:
+#' `$row_roles` (`list`).
+#' Stores the row ids of [DataBackend] in vectors of row roles:
 #' - `"use"`: Use in training.
 #' - `"validation"`: Do not use in training, this are (possibly unlabeled) observations
 #'   which are held back unless explicitly addressed.
-#' - `"ignore"`: Do not these observations at all.
 #' To alter the role, use `set_row_role()`.
 #'
 #' `$col_info` (`data.table`) with columns `id`, `role` and `type`.
@@ -93,7 +93,7 @@
 #' `$head()` can be used to peek into the first `n` observations with `role == "use"`.
 #'
 #' `$levels()` queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
-#'   This function ignores the row roles, so that you get all levels found in the [DataBackend].
+#'   This function ignores the row roles, so you get all levels found in the [DataBackend].
 #'
 #' `$row_ids()` returns a (subset of) row ids used in the task, i.e. subsetted to observations with `role == "use"`.
 #'
@@ -117,7 +117,7 @@
 #'
 #' `$cbind()` extends the task with additional columns.
 #'
-#' `$hash` stores a checksum (`character(1)`) calculated on the `id`, `row_info` and `col_info`.
+#' `$hash` stores a checksum (`character(1)`) calculated on the `id`, `row_roles` and `col_info`.
 #'
 #' @name Task
 #' @export
@@ -131,8 +131,8 @@
 #' task$head()
 #' task$formula
 #'
-#' # Ignore "Petal.Length"
-#' task$col_info[id == "Petal.Length", role := "ignore"]
+#' # Remove "Petal.Length"
+#' task$set_col_role("Petal.Length", character(0L))
 #' task$formula
 NULL
 
@@ -141,21 +141,24 @@ Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
     id = NULL,
-    cache = NULL,
     task_type = NA_character_,
     backend = NULL,
     properties = character(0L),
-    row_info = NULL,
+    row_roles = NULL,
+    col_roles = NULL,
     col_info = NULL,
     measures = list(),
-    order = character(0L),
 
     initialize = function(id, backend) {
       self$id = assert_id(id)
       self$backend = assert_backend(backend)
-      self$row_info = data.table(id = backend$rownames, role = "use", key = "id")
-      self$col_info = col_info(backend, backend$primary_key)
-      self$cache = new.env(parent = emptyenv())
+
+      rn = backend$rownames
+      self$row_roles = list(use = rn, validation = vector(typeof(rn), 0L))
+      self$col_roles = named_list(capabilities$task_col_roles, character(0L))
+      self$col_roles$feature = feature = setdiff(backend$colnames, backend$primary_key)
+
+      self$col_info = col_info(backend)
     },
 
     print = function(...) {
@@ -168,33 +171,27 @@ Task = R6Class("Task",
 
     head = function(n = 6L) {
       assert_count(n)
-      ids = self$row_info[list("use"), head(id, n), on = "role", nomatch = 0L]
-      cols = self$col_info[list(c("target", "feature")), on = "role", id, nomatch = 0L]
+      ids = head(self$row_roles$use, n)
+      cols = c(self$col_roles$target, self$col_roles$feature)
       self$data(rows = ids, cols = cols)
     },
 
     levels = function(col) {
       assert_choice(col, self$col_info$id)
-      self$col_info[list(col), "levels", with = FALSE][[1L]][[1L]]
+      self$col_info[list(col), "levels", with = FALSE, nomatch = 0L][[1L]][[1L]]
     },
 
     row_ids = function(subset = NULL) {
-      if (is.null(subset)) {
-        self$row_info[list("use"), "id", on = "role", nomatch = 0L][[1L]]
-      } else {
-        self$row_info[id %in% subset & role == "use", "id"][[1L]]
-      }
+      if (is.null(subset)) self$row_roles$use else intersect(self$row_roles$use, subset)
     },
 
     filter = function(rows) {
-      self$row_info[!(id %in% rows) & role == "use", role := "ignore"]
-      cache_clear(self$cache, "nrow")
+      self$row_roles$use = intersect(self$row_roles$use, rows)
       self
     },
 
     select = function(cols) {
-      self$col_info[!(id %in% cols) & role == "feature", role := "ignore"]
-      cache_clear(self$cache, c("feature_names", "ncol", "formula"))
+      self$col_roles$feature = setdiff(self$col_roles$feature, cols)
       self
     },
 
@@ -206,22 +203,36 @@ Task = R6Class("Task",
       task_cbind(self, data)
     },
 
-    set_row_role = function(rows, new_role) {
-      # TODO: Make this an active binding?
-      assert_choice(new_role, capabilities$task_row_roles)
-      self$row_info[list(rows), "role" := new_role]
+    set_row_role = function(rows, new_roles, exclusive = TRUE) {
+      assert_subset(new_roles, capabilities$task_row_roles)
+      assert_flag(exclusive)
+
+      for (role in new_roles)
+        self$row_roles[[role]] = union(self$row_roles[[role]], rows)
+
+      if (exclusive) {
+        for (role in setdiff(names(self$row_roles), new_roles))
+          self$row_roles[[role]] = setdiff(self$row_roles[[role]], rows)
+      }
+
       private$.hash = NA_character_
-      cache_clear(self$cache, "nrow")
-      self
+      invisible(self)
     },
 
-    set_col_role = function(cols, new_role) {
-      # TODO: Make this an active binding?
-      assert_choice(new_role, capabilities$task_col_roles)
-      self$col_info[list(cols), "role" := new_role]
+    set_col_role = function(cols, new_roles, exclusive = TRUE) {
+      assert_subset(new_roles, capabilities$task_col_roles)
+      assert_flag(exclusive)
+
+      for (role in new_roles)
+        self$col_roles[[role]] = union(self$col_roles[[role]], cols)
+
+      if (exclusive) {
+        for (role in setdiff(names(self$col_roles), new_roles))
+          self$col_roles[[role]] = setdiff(self$col_roles[[role]], cols)
+      }
+
       private$.hash = NA_character_
-      cache_clear(self$cache, c("feature_names", "target_names", "ncol", "formula"))
-      self
+      invisible(self)
     }
   ),
 
@@ -233,34 +244,32 @@ Task = R6Class("Task",
     },
 
     feature_names = function() {
-      cache_get(self$cache, "feature_names", self$col_info[list("feature"), "id", on = "role", nomatch = 0L][[1L]])
+      self$col_roles$feature
     },
 
     target_names = function() {
-      cache_get(self$cache, "target_names", self$col_info[list("target"), "id", on = "role", nomatch = 0L][[1L]])
+      self$col_roles$target
     },
 
     nrow = function() {
-      cache_get(self$cache, "nrow", self$row_info[role == "use", .N])
+      length(self$row_roles$use)
     },
 
     ncol = function() {
-      cache_get(self$cache, "ncol", self$col_info[role %in% c("feature", "target"), .N])
+      length(self$col_roles$feature) + length(self$col_roles$target)
     },
 
     feature_types = function() {
-      self$col_info[list("feature"), c("id", "type"), on = "role"]
+      self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"]
     },
 
     formula = function() {
-      cache_get(self$cache, "formula", {
-        tn = self$target_names
-        if (length(tn) == 0L)
-          tn = NULL
-        f = reformulate(self$feature_names, response = tn)
-        environment(f) = NULL
-        f
-      })
+      tn = self$target_names
+      if (length(tn) == 0L)
+        tn = NULL
+      f = reformulate(self$feature_names, response = tn)
+      environment(f) = NULL
+      f
     }
   ),
 
@@ -269,36 +278,31 @@ Task = R6Class("Task",
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      switch(name,
-        row_info = copy(value),
-        col_info = copy(value),
-        cache    = clone_env(value),
-        value
-      )
+      value
     }
   )
 )
 
 task_data = function(self, rows = NULL, cols = NULL) {
+  order = self$col_roles$order
+
   if (is.null(rows)) {
-    selected_rows = self$row_info[list("use"), "id", on = "role", nomatch = 0L][[1L]]
+    selected_rows = self$row_roles$use
   } else {
-    if (self$row_info[list(rows), .N] != length(rows))
-      stopf("Invalid row ids provided")
+    assert_subset(rows, self$row_roles$use)
     selected_rows = rows
   }
 
   if (is.null(cols)) {
-    selected_cols = self$col_info[list(c("feature", "target")), "id", on = "role", nomatch = 0L][[1L]]
+    selected_cols = c(self$col_roles$target, self$col_roles$feature)
   } else {
-    selected_cols = self$col_info[id %in% cols & role %in% c("feature", "target"), "id"][[1L]]
-    if (length(selected_cols) != length(cols))
-      stopf("Invalid column ids provided")
+    assert_subset(cols, c(self$col_roles$target, self$col_roles$feature))
+    selected_cols = cols
   }
 
   extra_cols = character(0L)
-  if (length(self$order)) {
-    extra_cols = setdiff(self$order, selected_cols)
+  if (length(order)) {
+    extra_cols = setdiff(order, selected_cols)
     selected_cols = union(selected_cols, extra_cols)
   }
 
@@ -312,19 +316,21 @@ task_data = function(self, rows = NULL, cols = NULL) {
     stopf("DataBackend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
   }
 
-  if (length(self$order)) {
-    setorderv(data, self$order)
+  if (length(order)) {
+    setorderv(data, order)
   }
 
-  if (length(extra_cols))
+  if (length(extra_cols)) {
     data[, (extra_cols) := NULL]
-  return(data)
+  }
+
+  return(data[])
 }
 
 
 # Performs the following steps to virtually rbind data to the task:
 # 1. Check that an rbind is feasible
-# 2. Update row_info
+# 2. Update row_roles
 # 3. Update col_info
 # 4. Overwrite self$backend with new backend
 task_rbind = function(self, data) {
@@ -348,7 +354,7 @@ task_rbind = function(self, data) {
   }
 
   ## 1.2 Check for set equality of column names
-  assert_set_equal(self$col_info$id, names(data))
+  assert_set_equal(names(data), c(self$col_roles$feature, self$col_roles$target, pk))
 
   ## 1.3 Check that there are now duplicated row_ids
   if (!auto_incremented) {
@@ -358,17 +364,18 @@ task_rbind = function(self, data) {
   }
 
   ## 1.4 Check that types are matching
-  data_col_info = col_info(data, pk)
-  tmp = head(merge(self$col_info, data_col_info, by = "id")[get("type.x") != get("type.y")], 1L)
+  data_col_info = col_info(data, primary_key = pk)
+  joined = merge(self$col_info, data_col_info, by = "id")
+  tmp = head(joined[get("type.x") != get("type.y")], 1L)
   if (nrow(tmp)) {
     stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", tmp$id, tmp$type.x, tmp$type.y)
   }
 
-  # 2. Update row_info
-  self$row_info = setkeyv(rbindlist(list(self$row_info, data.table(id = data[[pk]], role = "use"))), "id")
+  # 2. Update row_roles
+  self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 3. Update col_info
-  self$col_info$levels = Map(union, self$col_info$levels, data_col_info$levels)
+  self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
 
   # 4. Overwrite self$backend with new backend
   self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
@@ -384,12 +391,13 @@ task_cbind = function(self, data) {
   data = as.data.table(data)
   pk = self$backend$primary_key
 
-  ## 1.1 Check for primary key column
+  ## 1.1 Check primary key column
   if (pk %nin% names(data)) {
     stopf("Cannot cbind task: Missing primary key column '%s'", self$backend$primary_key)
   }
 
-  if (self$col_info[role == "primary_key", "type"][[1L]] != class(data[[pk]])) {
+  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
+  if (self$col_info[list(pk), "type", on = "id"][[1L]] != class(data[[pk]])) {
     stopf("Cannot cbind task: Primary key column '%s' has wrong type", self$backend$primary_key)
   }
 
@@ -400,14 +408,14 @@ task_cbind = function(self, data) {
   }
 
   ## 1.3 Check for set equality of row ids
-  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
   if (self$backend$data(data[[pk]], pk)[, .N] != nrow(data)) {
     stopf("Cannot cbind task: Row ids do not match")
   }
 
   # 2. Update col_info
-  data_col_info = col_info(data, pk)
+  data_col_info = col_info(data)
   self$col_info = setkeyv(rbindlist(list(self$col_info, data_col_info[!list(pk)])), "id")
+  self$col_roles$feature = c(self$col_roles$feature, setdiff(names(data), pk))
 
   # 3. Overwrite self$backend with new backend
   self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
@@ -417,25 +425,27 @@ task_print = function(self) {
   catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
   catf(stri_wrap(initial = "Target: ", self$target_names))
   catf(stri_wrap(initial = "Features: ", self$feature_names))
-  if (length(self$order))
-    catf(stri_wrap(initial = "Order by: ", self$order))
+  if (length(self$col_roles$order))
+    catf(stri_wrap(initial = "Order by: ", self$col_roles$order))
   catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
 }
 
 
-col_info = function(x, primary_key = NULL) {
-  is_backend = inherits(x, "DataBackend")
-  types = vcapply(if (is_backend) x$head(1L) else x, class)
-  col_info = data.table(id = names(types), type = unname(types), role = "feature", levels = list(), key = "id")
+col_info = function(x, ...) {
+  UseMethod("col_info")
 
-  if (!is.null(primary_key))
-    col_info[list(primary_key), role := "primary_key"]
+}
 
-  discrete = col_info[get("type") %in% c("character", "factor"), "id"][[1L]]
-  if (length(discrete)) {
-    discrete = if (is_backend) x$distinct(discrete) else lapply(x[, discrete, with = FALSE], distinct)
-    col_info[list(names(discrete)), levels := list(discrete)]
-  }
+col_info.data.table = function(x, primary_key = character(0L), ...) {
+  types = vcapply(x, class)
+  discrete = setdiff(names(types)[types %in% c("character", "factor")], primary_key)
+  levels = insert(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct))
+  data.table(id = names(types), type = unname(types), levels = levels, key = "id")
+}
 
-  col_info[]
+col_info.DataBackend = function(x, ...) {
+  types = vcapply(x$head(1L), class)
+  discrete = setdiff(names(types)[types %in% c("character", "factor")], x$primary_key)
+  levels = insert(named_list(names(types)), x$distinct(discrete))
+  data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
