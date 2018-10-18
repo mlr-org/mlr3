@@ -1,0 +1,9 @@
+pandoc: '2.2'
+pkgdown: 1.1.0
+pkgdown_sha: ~
+articles:
+  basic-01-tasks: basic-01-tasks.html
+  basic-02-train-predict-score: basic-02-train-predict-score.html
+  basic-03-resample: basic-03-resample.html
+  basic-04-parallelization: basic-04-parallelization.html
+
