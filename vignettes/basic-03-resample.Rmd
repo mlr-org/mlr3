@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+set.seed(123)
 ```
 
 This introduction is about resampling.
