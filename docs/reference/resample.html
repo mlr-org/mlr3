@@ -177,18 +177,18 @@ See <code><a href='exec_control.html'>exec_control()</a></code>.</p></td>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'>get</span>(<span class='st'>"classif.rpart"</span>)
 <span class='no'>resampling</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'>get</span>(<span class='st'>"cv"</span>)
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 10/10)' ...</span></div><div class='input'><span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.rpart' with 10 iterations
-#&gt;  Measure Min.    1st Qu.     Median Mean    3rd Qu. Max.       Sd
-#&gt;     mmce    0 0.01666667 0.06666667 0.06 0.06666667  0.2 0.058373</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt; mmce 
+#&gt;  Measure Min.    1st Qu.     Median Mean    3rd Qu.      Max.         Sd
+#&gt;     mmce    0 0.01666667 0.06666667 0.06 0.06666667 0.1333333 0.04919099</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt; mmce 
 #&gt; 0.06 </div><div class='input'><span class='no'>rr</span>$<span class='no'>performance</span></div><div class='output co'>#&gt;     iteration       mmce
 #&gt;  1:         1 0.06666667
-#&gt;  2:         2 0.06666667
-#&gt;  3:         3 0.20000000
-#&gt;  4:         4 0.06666667
+#&gt;  2:         2 0.13333333
+#&gt;  3:         3 0.00000000
+#&gt;  4:         4 0.13333333
 #&gt;  5:         5 0.06666667
 #&gt;  6:         6 0.00000000
 #&gt;  7:         7 0.06666667
 #&gt;  8:         8 0.00000000
-#&gt;  9:         9 0.00000000
+#&gt;  9:         9 0.06666667
 #&gt; 10:        10 0.06666667</div><div class='input'>
 <span class='co'># Repeat resampling with dummy learner and combine</span>
 <span class='co'># the ResampleResults into a BenchmarkResult</span>
@@ -196,7 +196,7 @@ See <code><a href='exec_control.html'>exec_control()</a></code>.</p></td>
 <span class='no'>rr.dummy</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 10/10)' ...</span></div><div class='input'>
 <span class='no'>bmr</span> <span class='kw'>=</span> <span class='no'>rr</span>$<span class='fu'>combine</span>(<span class='no'>rr.dummy</span>)
 <span class='no'>bmr</span>$<span class='no'>performance</span>[, <span class='fu'>list</span>(<span class='kw'>mean.mmce</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>mmce</span>)), <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"learner"</span>]</div><div class='output co'>#&gt;          learner mean.mmce
-#&gt; 1: classif.dummy 0.7866667
+#&gt; 1: classif.dummy 0.7733333
 #&gt; 2: classif.rpart 0.0600000</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
