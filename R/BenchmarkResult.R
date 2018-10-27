@@ -6,8 +6,10 @@
 #' @section Usage:
 #'
 #' ```
-#' rr$experiment(iter)
-#' rr$experiments(iters)
+#' bmr$tasks
+#' bmr$learners
+#' bmr$resamplings
+#' bmr$measures
 #' bmr$performance
 #' bmr$aggregated
 #' bmr$resample_results
@@ -19,17 +21,17 @@
 #'   String which identifies a subgroup to extract as [ResampleResult].
 #'
 #' @section Details:
-#' `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
-#'
-#' `$experiments()` returns a list with the slice of [Experiment]s for the provided `iters`.
+#' `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects.
 #'
 #' `$performance` provides a [data.table::data.table()] with column `iteration` (integer) and a numeric column for each
 #'   performance measure (columns named using the measure ids).
 #'
-#' `$aggregated` returns the aggregated performance measures. The aggregation method is part of the [Measure].
+#' `$aggregated` returns aggregated performance measures as a [data.table::data.table()].
+#'   The table is build similar to the one returned by `$performance`, but experiments are aggregated by their resample result group
+#'   (combination of [Task], [Learner] and [Resampling]). The actual aggregation function is defined by the respective [Measure].
 #'
-#' `$resample_results` returns a [data.table::data.table()] which gives an overview of the subgroups in the benchmark.
-#'   Groups of experiments in the [BenchmarkResult] can be extracted as [ResampleResult].
+#' `$resample_results` returns a [data.table::data.table()] which gives an overview of the resample result groups in the benchmark.
+#'   These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
 #'
 #' `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
 #'
@@ -58,15 +60,35 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   active = list(
+    tasks = function() {
+      unique(self$data[, list(task_hash = hashes(task), task_id = ids(task), task = task)], by = "task_hash")
+    },
+
+    learners = function() {
+      unique(self$data[, list(learner_hash = hashes(learner), learner_id = ids(learner), learner = learner)], by = "learner_hash")
+    },
+
+    resamplings = function() {
+      unique(self$data[, list(resampling_hash = hashes(resampling), resampling_id = ids(resampling), resampling = resampling)], by = "resampling_hash")
+    },
+
+    measures = function() {
+      unique(rbindlist(lapply(self$data$measures, function(m) data.table(measure_id = ids(m), measure = m)), fill = TRUE), by = "measure_id")
+    },
+
     resample_results = function() {
-      res = self$data[, list(task = task[[1L]]$id, learner = learner[[1L]]$id, resampling = resampling[[1L]]$id, .N), by = "hash"]
-      setorderv(res, c("task", "learner", "resampling"))[]
+      self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, .N), by = "hash"]
     },
 
     performance = function() {
-      res = self$data[, list(task = ids(task), learner = ids(learner), resampling = ids(resampling), hash = hash, performance = performance)]
-      setorderv(res, c("task", "learner", "resampling"))
-      rcbind(res[, !"performance"], rbindlist(res$performance, fill = TRUE))[]
+      flatten(self$data[, list(hash = hash, task_id = ids(task), learner_id = ids(learner),
+        resampling_id = ids(resampling), performance = performance)], "performance")
+    },
+
+    aggregated = function() {
+      collect = function(data) as.list(ResampleResult$new(data)$aggregated)
+      res = self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, performance = list(collect(.SD))), by = hash]
+      flatten(res, "performance")
     }
   )
 )

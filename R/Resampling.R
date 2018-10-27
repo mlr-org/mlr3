@@ -113,7 +113,7 @@ Resampling = R6Class("Resampling",
       if (is.null(self$instance))
         return(NA_character_)
       if (is.na(private$.hash))
-        private$.hash = hash(self)
+        private$.hash = digest::digest(list(self$id, self$par_vals, self$instance), algo = "xxhash64")
       private$.hash
     },
 
