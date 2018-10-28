@@ -205,11 +205,11 @@
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; node), split, n, loss, yval, (yprob)</span></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;       * denotes terminal node</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 1) root 120 78 setosa (0.35000000 0.34166667 0.30833333)  </span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;   2) Petal.Length&lt; 2.6 42  0 setosa (1.00000000 0.00000000 0.00000000) *</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   3) Petal.Length&gt;=2.6 78 37 versicolor (0.00000000 0.52564103 0.47435897)  </span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 1) root 120 76 setosa (0.36666667 0.34166667 0.29166667)  </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;   2) Petal.Length&lt; 2.6 44  0 setosa (1.00000000 0.00000000 0.00000000) *</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   3) Petal.Length&gt;=2.6 76 35 versicolor (0.00000000 0.53947368 0.46052632)  </span></a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;     6) Petal.Width&lt; 1.75 44  4 versicolor (0.00000000 0.90909091 0.09090909) *</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;     7) Petal.Width&gt;=1.75 34  1 virginica (0.00000000 0.02941176 0.97058824) *</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;     7) Petal.Width&gt;=1.75 32  1 virginica (0.00000000 0.03125000 0.96875000) *</span></a></code></pre></div>
 </div>
 <div id="predicting" class="section level2">
 <h2 class="hasAnchor">
@@ -231,12 +231,12 @@
 <p>The predictions can be retrieved as a simple <code>data.table</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">head</span>(e<span class="op">$</span>prediction)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt;    id  truth response</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; 1:  2 setosa   setosa</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 2:  4 setosa   setosa</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; 1:  5 setosa   setosa</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 2:  6 setosa   setosa</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 3: 10 setosa   setosa</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 4: 21 setosa   setosa</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 5: 22 setosa   setosa</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 6: 31 setosa   setosa</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 4: 23 setosa   setosa</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 5: 24 setosa   setosa</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 6: 30 setosa   setosa</span></a></code></pre></div>
 </div>
 <div id="performance-assessment" class="section level2">
 <h2 class="hasAnchor">
