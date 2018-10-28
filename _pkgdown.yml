@@ -1,0 +1,51 @@
+url: https://mlr3.mlr-org.com
+
+template:
+  params:
+    bootswatch: cosmo
+  path: pkgdown/templates
+  assets: pkgdown/assets
+  default_assets: false
+
+development:
+  mode: unreleased
+  destination: devel
+  version_label: default
+  version_tooltip: "Github version"
+
+toc:
+  depth: 3
+
+navbar:
+  title:
+  type: default
+  left:
+  #- icon: fa-home
+  #  href: index.html
+  - text: Basics
+    menu:
+    - text: Tasks
+      href: articles/basic-01-tasks.html
+    - text: Learners
+      href: articles/basic-02-train-predict-score.html
+    - text: Train
+      href: articles/basic-03-resample.html
+    - text: Predict
+      href: articles/basic-04-parallelization.html
+
+  - text: Appendix
+    menu:
+    - text: Function Reference
+      href: reference/index.html
+    - text: News
+      href: news/index.html
+
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/mlr-org/mlr3
+  - icon: fa-slack
+    href: https://mlr-org.slack.com
+  - icon: fa-stack-overflow
+    href: https://stackoverflow.com/questions/tagged/mlr
+  - icon: fa-rss
+    href: https://mlr-web.com/
