@@ -26,11 +26,11 @@ navbar:
     menu:
     - text: Tasks
       href: articles/basic-01-tasks.html
-    - text: Learners
+    - text: Train, predict, score
       href: articles/basic-02-train-predict-score.html
-    - text: Train
+    - text: Resampling
       href: articles/basic-03-resample.html
-    - text: Predict
+    - text: Parallelization
       href: articles/basic-04-parallelization.html
 
   - text: Appendix
