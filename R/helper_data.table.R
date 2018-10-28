@@ -15,3 +15,12 @@ rcbind = function(x, y) {
 
   x[, names(y) := y][]
 }
+
+flatten = function(x, cols) {
+  for (col in intersect(cols, names(x))) {
+    tmp = rbindlist(x[[col]], fill = TRUE)
+    x[, (col) := NULL]
+    rcbind(x, tmp)
+  }
+  x[]
+}

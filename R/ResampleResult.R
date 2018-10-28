@@ -70,7 +70,7 @@ ResampleResult = R6Class("ResampleResult",
       catf("ResampleResult of learner '%s' on task '%s' with %i iterations", self$task$id, self$learner$id, nrow(self$data))
 
       # FIXME: We want something like skimr w/o the dependencies
-      perf = self$performance[, !"iteration"]
+      perf = self$performance[, ids(self$measures), with = FALSE]
       tab = rbindlist(lapply(perf, function(x) c(as.list(summary(x)), list(Sd = sd(x)))))
       tab$Measure = names(perf)
       setcolorder(tab, "Measure")
@@ -109,22 +109,29 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     measures = function() {
-      self$data$task[[1L]]$measures
+      self$data$measures[[1L]]
     },
 
     performance = function() {
-      rcbind(data.table(iteration = self$data$iteration), rbindlist(self$data$performance, fill = TRUE))[]
+      tab = data.table(
+        hash = self$hash,
+        task_id = self$task$id,
+        learner_id = self$learner$id,
+        resampling_id = self$resampling$id,
+        iteration = self$data$iteration,
+        performance = self$data$performance
+      )
+      flatten(tab, "performance")
     },
 
     aggregated = function() {
-      measures = self$data$task[[1L]]$measures
+      measures = self$measures
       setNames(vnapply(measures, function(m) m$aggregate(self)), ids(measures))
     },
 
     hash = function() {
-      if (is.na(private$.hash)) {
-        private$.hash = hash(self$experiment(1L))
-      }
+      if (is.na(private$.hash))
+        private$.hash = self$experiment(1L)$hash
       private$.hash
     }
   ),

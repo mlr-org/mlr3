@@ -82,7 +82,7 @@ Collate:
     'TaskRegr.R'
     'benchmark.R'
     'exec_control.R'
-    'hash.R'
+    'hashes.R'
     'helper_asserts.R'
     'helper_condition.R'
     'helper_data.table.R'

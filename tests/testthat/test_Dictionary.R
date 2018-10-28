@@ -52,3 +52,14 @@ test_that("Dictionaries are populated", {
     expect_data_table(as.data.table(mlr_measures), nrow = length(mlr_measures$keys()))
   }
 })
+
+test_that("Error when a package containing the dataset is not installed", {
+
+  test_task = DictionaryTask$new()
+  test_task$add("missing_package", function() {
+    b = DataBackendDataTable$new(data = load_dataset("xxx", "missing_package_123"))
+    TaskClassif$new("missing_package", b, target = "x", positive = "y")
+  })
+  expect_error(test_task$get("missing_package"))
+
+})

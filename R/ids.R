@@ -14,4 +14,3 @@
 ids = function(x) {
   vcapply(x, "[[", "id", use.names = FALSE)
 }
-

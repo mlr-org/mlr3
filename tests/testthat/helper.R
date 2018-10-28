@@ -41,8 +41,8 @@ expect_different_address = function(x, y) {
   testthat::expect_false(identical(data.table::address(x), data.table::address(y)))
 }
 
-expect_hash = function(x) {
-  expect_string(x, pattern = "^[0-9a-z]{16}$")
+expect_hash = function(x, len = NULL) {
+  expect_character(x, len = len, any.missing = FALSE, min.chars = 4L, pattern = "^[0-9a-z]{16}$", unique = TRUE)
 }
 
 expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
@@ -134,7 +134,7 @@ expect_task = function(task) {
   properties = task$properties
   expect_subset(properties, capabilities$task_properties[[task$task_type]])
 
-  expect_hash(task$hash)
+  expect_hash(task$hash, 1L)
 }
 
 expect_task_supervised = function(task) {
@@ -147,7 +147,7 @@ expect_task_supervised = function(task) {
   expect_set_equal(labels(tf), task$feature_names) # rhs
   expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target_names) # lhs
   expect_subset(task$feature_names, colnames(task$head()))
-  expect_hash(task$hash)
+  expect_hash(task$hash, 1L)
 }
 
 expect_task_classif = function(task) {
@@ -169,7 +169,7 @@ expect_task_classif = function(task) {
     expect_set_equal(c(task$positive, task$negative), task$class_names)
     expect_true(task$positive != task$negative)
   }
-  expect_hash(task$hash)
+  expect_hash(task$hash, 1L)
 }
 
 expect_task_regr = function(task) {
@@ -178,7 +178,7 @@ expect_task_regr = function(task) {
   expect_data_table(y, ncol = 1)
   y = y[[1]]
   expect_numeric(y, any.missing = FALSE)
-  expect_hash(task$hash)
+  expect_hash(task$hash, 1L)
 }
 
 expect_learner = function(lrn, task = NULL) {
@@ -191,7 +191,7 @@ expect_learner = function(lrn, task = NULL) {
   expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   expect_function(lrn$train, args = "task", ordered = TRUE)
   expect_function(lrn$predict, args = c("model", "task"), ordered = TRUE)
-  expect_hash(lrn$hash)
+  expect_hash(lrn$hash, 1L)
 
   if (!is.null(task)) {
     assert_class(task, "Task")
@@ -214,7 +214,7 @@ expect_resampling = function(r, task = NULL) {
       expect_count(r$iters, positive = TRUE)
   } else {
     expect_true(r$is_instantiated)
-    expect_hash(r$hash)
+    expect_hash(r$hash, 1L)
     if (!is.null(task))
       ids = task$row_ids()
     expect_count(r$iters, positive = TRUE)
@@ -288,7 +288,7 @@ expect_resample_result = function(rr) {
   data = rr$data
   expect_data_table(rr$data, nrow = rr$resampling$iters, ncol = nrow(reflections$experiment_slots), any.missing = FALSE)
   expect_names(names(rr$data), permutation.of = reflections$experiment_slots$name)
-  expect_hash(rr$hash)
+  expect_hash(rr$hash, 1L)
 
   perf = rr$performance
   expect_data_table(perf, nrow = rr$resampling$iters, min.cols = 2L)
@@ -313,7 +313,7 @@ expect_benchmark_result = function(bmr) {
 
   rrs = bmr$resample_results
   expect_data_table(rrs, ncol = 5L)
-  expect_names(names(rrs), permutation.of = c("task", "learner", "resampling", "hash", "N"))
+  expect_names(names(rrs), permutation.of = c("task_id", "learner_id", "resampling_id", "hash", "N"))
   expect_character(rrs$hash, any.missing = FALSE, unique = TRUE)
   expect_integer(rrs$N, any.missing = FALSE, lower = 1L)
 }

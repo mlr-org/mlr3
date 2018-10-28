@@ -7,8 +7,10 @@
 This is the object returned by \link{benchmark}.
 }
 \section{Usage}{
-\preformatted{rr$experiment(iter)
-rr$experiments(iters)
+\preformatted{bmr$tasks
+bmr$learners
+bmr$resamplings
+bmr$measures
 bmr$performance
 bmr$aggregated
 bmr$resample_results
@@ -26,17 +28,17 @@ String which identifies a subgroup to extract as \link{ResampleResult}.
 
 \section{Details}{
 
-\code{$experiment()} returns an \link{Experiment} for the \code{iter}-th resampling iteration.
-
-\code{$experiments()} returns a list with the slice of \link{Experiment}s for the provided \code{iters}.
+\code{$tasks}, \code{$learners}, \code{$resamplings} and \code{$measures} return an overview table of involved objects.
 
 \code{$performance} provides a \code{\link[data.table:data.table]{data.table::data.table()}} with column \code{iteration} (integer) and a numeric column for each
 performance measure (columns named using the measure ids).
 
-\code{$aggregated} returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
+\code{$aggregated} returns aggregated performance measures as a \code{\link[data.table:data.table]{data.table::data.table()}}.
+The table is build similar to the one returned by \code{$performance}, but experiments are aggregated by their resample result group
+(combination of \link{Task}, \link{Learner} and \link{Resampling}). The actual aggregation function is defined by the respective \link{Measure}.
 
-\code{$resample_results} returns a \code{\link[data.table:data.table]{data.table::data.table()}} which gives an overview of the subgroups in the benchmark.
-Groups of experiments in the \link{BenchmarkResult} can be extracted as \link{ResampleResult}.
+\code{$resample_results} returns a \code{\link[data.table:data.table]{data.table::data.table()}} which gives an overview of the resample result groups in the benchmark.
+These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleResult} for further inspection.
 
 \code{$resample_result()} creates the \link{ResampleResult} identified by the specified \code{hash} value.
 }

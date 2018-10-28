@@ -43,7 +43,7 @@ as.data.table.DictionaryTask = function(x, ...) {
 }
 
 load_dataset = function(id, package, keep.rownames = FALSE) {
-  if (!nzchar(find.package(package, quiet = TRUE)))
+  if (!length(find.package(package, quiet = TRUE)))
     stopf("Please install package '%s' for data set '%s'", package, id)
   ee = new.env(parent = emptyenv())
   data(list = id, package = package, envir = ee)

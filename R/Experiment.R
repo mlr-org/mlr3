@@ -194,9 +194,23 @@ Experiment = R6Class("Experiment",
 
     state = function() {
       experiment_state(self)
+    },
+
+    hash = function() {
+      if (is.na(private$.hash))
+        private$.hash = experiment_data_hash(self$data)
+      private$.hash
     }
+  ),
+
+  private = list(
+    .hash = NA_character_
   )
 )
+
+experiment_data_hash = function(data) {
+  digest::digest(c(data$task$hash, data$learner$hash, data$resampling$hash), algo = "xxhash64")
+}
 
 experiment_print = function(e) {
   data = e$data
