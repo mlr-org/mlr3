@@ -5,14 +5,15 @@
   <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<!-- Google Site Verification -->
+<meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
 <title>Execution control object — exec_control • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -21,19 +22,16 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
-
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
-
-
+  <link href="../extra.css" rel="stylesheet">
+  <script src="../extra.js"></script>
 <meta property="og:title" content="Execution control object — exec_control" />
 
 <meta property="og:description" content="This function creates a named list of settings which control the execution of an Experiment.
-It contains all options (without the &quot;mlr3&quot; prefix) and additionally:
+It contains all options (without the "mlr3" prefix) and additionally:
 use_evaluate: if TRUE, the model will be trained and predictions will be generated via a call to evaluate::evaluate()
 and all output will be stored as a Log.
 store_predition: If FALSE, the predictions are discarded in order to save some memory after the experiment is completed.
@@ -42,7 +40,6 @@ store_model: If FALSE, the model returned by the learner is discarded in order t
 Note that you will be unable to further predict on new data.
 " />
 <meta name="twitter:card" content="summary" />
-
 
 
 <!-- mathjax -->
@@ -54,6 +51,10 @@ Note that you will be unable to further predict on new data.
 <![endif]-->
 
 
+
+
+<link rel="icon" type="image/png" href="https://mlr-org.github.io/mlr/favicon.ico">
+<link rel="apple-touch-icon" type="image/png" href="https://mlr-org.github.io/mlr/favicon.ico">
   </head>
 
   <body>
@@ -67,46 +68,49 @@ Note that you will be unable to further predict on new data.
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.9000</span>
-      </span>
+
+      <div class="navbar-brand-container">
+        <a class="navbar-brand" href="../index.html"></a>
+      </div>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
+        <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Basics
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/basic-01-tasks.html">Introduction to Tasks</a>
+      <a href="../articles/basic-01-tasks.html">Tasks</a>
     </li>
     <li>
-      <a href="../articles/basic-02-train-predict-score.html">Introduction to train/predict/score</a>
+      <a href="../articles/basic-02-train-predict-score.html">Learners</a>
     </li>
     <li>
-      <a href="../articles/basic-03-resample.html">Introduction to Resampling</a>
+      <a href="../articles/basic-03-resample.html">Train</a>
     </li>
     <li>
-      <a href="../articles/basic-04-parallelization.html">Introduction to parallelization</a>
+      <a href="../articles/basic-04-parallelization.html">Predict</a>
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Appendix
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../reference/index.html">Function Reference</a>
+    </li>
+    <li>
+      <a href="../news/index.html">News</a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -114,6 +118,24 @@ Note that you will be unable to further predict on new data.
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://mlr-org.slack.com">
+    <span class="fa fa-slack"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://stackoverflow.com/questions/tagged/mlr">
+    <span class="fa fa-stack-overflow"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://mlr-web.com/">
+    <span class="fa fa-rss"></span>
      
   </a>
 </li>
@@ -126,15 +148,13 @@ Note that you will be unable to further predict on new data.
       
       </header>
 
-<div class="row">
+      <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Execution control object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/exec_control.R'><code>R/exec_control.R</code></a></small>
-    <div class="hidden name"><code>exec_control.Rd</code></div>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/exec_control.R'><code>R/exec_control.R</code></a></small>
     </div>
 
-    <div class="ref-description">
     
     <p>This function creates a named list of settings which control the execution of an <a href='Experiment.html'>Experiment</a>.
 It contains all options (without the <code>"mlr3"</code> prefix) and additionally:</p><ul>
@@ -146,7 +166,6 @@ Note that you will be unable calculate more performance measures.</p></li>
 Note that you will be unable to further predict on new data.</p></li>
 </ul>
     
-    </div>
 
     <pre class="usage"><span class='fu'>exec_control</span>(<span class='no'>...</span>)</pre>
     
@@ -212,18 +231,18 @@ Note that you will be unable to further predict on new data.</p></li>
 </div>
 
       <footer>
-      <div class="copyright">
+      <!--<div class="copyright">
   <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
 </div>
 
 <div class="pkgdown">
   <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
-
+-->
       </footer>
    </div>
 
-  
+   
 
   </body>
 </html>
