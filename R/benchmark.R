@@ -19,7 +19,6 @@
 #' @return [BenchmarkResult].
 #' @export
 #' @examples
-#' set.seed(123)
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
 #' resamplings = mlr_resamplings$mget(c("holdout", "cv"))

@@ -72,7 +72,6 @@
 #' @name Experiment
 #' @export
 #' @examples
-#' set.seed(123)
 #' e = Experiment$new(
 #'   task = mlr_tasks$get("iris"),
 #'   learner = mlr_learners$get("classif.rpart")
