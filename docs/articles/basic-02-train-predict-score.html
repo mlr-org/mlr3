@@ -49,13 +49,13 @@
       <a href="../articles/basic-01-tasks.html">Tasks</a>
     </li>
     <li>
-      <a href="../articles/basic-02-train-predict-score.html">Learners</a>
+      <a href="../articles/basic-02-train-predict-score.html">Train, predict, score</a>
     </li>
     <li>
-      <a href="../articles/basic-03-resample.html">Train</a>
+      <a href="../articles/basic-03-resample.html">Resampling</a>
     </li>
     <li>
-      <a href="../articles/basic-04-parallelization.html">Predict</a>
+      <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
   </ul>
 </li>
@@ -115,7 +115,6 @@
       <h1>Introduction to train/predict/score</h1>
                         <h4 class="author">Michel Lang</h4>
             
-            <h4 class="date">2018-10-28</h4>
       
       <!--The 'toc' block was inserted manually by @pat-s. It triggeres the inline ToC in the vignettes.-->
             <div id="toc">
@@ -205,11 +204,11 @@
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; node), split, n, loss, yval, (yprob)</span></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;       * denotes terminal node</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 1) root 120 76 setosa (0.36666667 0.34166667 0.29166667)  </span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;   2) Petal.Length&lt; 2.6 44  0 setosa (1.00000000 0.00000000 0.00000000) *</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   3) Petal.Length&gt;=2.6 76 35 versicolor (0.00000000 0.53947368 0.46052632)  </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;     6) Petal.Width&lt; 1.75 44  4 versicolor (0.00000000 0.90909091 0.09090909) *</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;     7) Petal.Width&gt;=1.75 32  1 virginica (0.00000000 0.03125000 0.96875000) *</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 1) root 120 77 virginica (0.3333333 0.3083333 0.3583333)  </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;   2) Petal.Length&lt; 2.6 40  0 setosa (1.0000000 0.0000000 0.0000000) *</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   3) Petal.Length&gt;=2.6 80 37 virginica (0.0000000 0.4625000 0.5375000)  </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;     6) Petal.Length&lt; 4.95 40  4 versicolor (0.0000000 0.9000000 0.1000000) *</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;     7) Petal.Length&gt;=4.95 40  1 virginica (0.0000000 0.0250000 0.9750000) *</span></a></code></pre></div>
 </div>
 <div id="predicting" class="section level2">
 <h2 class="hasAnchor">
@@ -231,12 +230,12 @@
 <p>The predictions can be retrieved as a simple <code>data.table</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">head</span>(e<span class="op">$</span>prediction)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt;    id  truth response</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; 1:  5 setosa   setosa</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 2:  6 setosa   setosa</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 3: 10 setosa   setosa</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 4: 23 setosa   setosa</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 5: 24 setosa   setosa</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 6: 30 setosa   setosa</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; 1:  2 setosa   setosa</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 2:  3 setosa   setosa</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 3:  7 setosa   setosa</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 4: 10 setosa   setosa</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 5: 14 setosa   setosa</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 6: 22 setosa   setosa</span></a></code></pre></div>
 </div>
 <div id="performance-assessment" class="section level2">
 <h2 class="hasAnchor">
@@ -252,14 +251,14 @@
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  + Learner: classif.rpart</span></a>
 <a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  + Model: [rpart]</span></a>
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  + Predictions: [PredictionClassif]</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  + Performance: mmce=0.0333333</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  + Performance: mmce=0.1</span></a>
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; Public: clone, data, has_errors, logs, model, performance,</span></a>
 <a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt;   predict, prediction, score, state, test_set, timings, train,</span></a>
 <a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;   train_set, validation_set</span></a>
 <a class="sourceLine" id="cb9-16" data-line-number="16">e<span class="op">$</span>performance[<span class="st">"mmce"</span>]</a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt;       mmce </span></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; 0.03333333</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; mmce </span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt;  0.1</span></a></code></pre></div>
 <p>The experiment is now “complete” which means we can access all of its methods.</p>
 </div>
 <div id="chaining-methods" class="section level2">

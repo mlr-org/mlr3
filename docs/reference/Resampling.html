@@ -80,13 +80,13 @@ Predefined resamplings are stored in mlr_resamplings." />
       <a href="../articles/basic-01-tasks.html">Tasks</a>
     </li>
     <li>
-      <a href="../articles/basic-02-train-predict-score.html">Learners</a>
+      <a href="../articles/basic-02-train-predict-score.html">Train, predict, score</a>
     </li>
     <li>
-      <a href="../articles/basic-03-resample.html">Train</a>
+      <a href="../articles/basic-03-resample.html">Resampling</a>
     </li>
     <li>
-      <a href="../articles/basic-04-parallelization.html">Predict</a>
+      <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
   </ul>
 </li>
@@ -230,17 +230,17 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p>
 #&gt;   is_instantiated, iters, par_set, par_vals, test_set, train_set</div><div class='input'>
 <span class='co'># Extract train/test sets</span>
 <span class='no'>train_set</span> <span class='kw'>=</span> <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)
-<span class='fu'>print</span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]  14  21  23  33  46  48  55  72  88  90  94  98 102 125 144</div><div class='input'><span class='fu'>intersect</span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='fu'>print</span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]  18  24  28  37  38  59  76  79  86  93 111 120 128 136 147</div><div class='input'><span class='fu'>intersect</span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Another example: 10-fold CV</span>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'>get</span>(<span class='st'>"cv"</span>)$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]   1   3   5  17  32  42  45  59  69  73  75  89 119 141 146   2  11  16
-#&gt;  [19]  22  27  47  51  77  93 101 104 112 113 116 126  12  20  41  57  61  65
-#&gt;  [37]  68  79  92  96 107 109 117 134 135   7   9  15  21  46  49  86  94  97
-#&gt;  [55]  99 114 118 130 136 142  18  24  39  55  56  71  72  80  81 125 133 139
-#&gt;  [73] 140 145 147   6   8  23  28  29  30  64  66  78  82  85 122 124 143 150
-#&gt;  [91]  10  33  34  35  40  44  63  87  88  90 102 108 115 129 144  19  31  37
-#&gt; [109]  38  43  70  76  83 105 111 120 121 132 148 149   4  14  25  48  52  54
-#&gt; [127]  60  62  67  84 100 123 131 137 138</div></pre>
+<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]  14  16  22  32  44  53  58  63  69  76  84  96 108 109 138   2   9  19
+#&gt;  [19]  30  42  46  82  86  92 106 121 135 136 142 150   3  11  20  21  38  41
+#&gt;  [37]  54  61  85  89 124 126 130 132 137   6   8  17  27  35  37  40  43  65
+#&gt;  [55]  72  75  99 100 139 146  10  33  45  48  52  55  59  88  93  94 113 115
+#&gt;  [73] 120 129 140   1   5  12  29  34  39  73  81  83 110 117 118 131 145 148
+#&gt;  [91]  23  57  62  71  78  79  80  91  97 101 119 127 134 143 149  13  31  51
+#&gt; [109]  64  66  67  68  98 103 104 105 114 128 133 141   4  28  36  47  50  60
+#&gt; [127]  70  74  87  95 102 107 111 123 144</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

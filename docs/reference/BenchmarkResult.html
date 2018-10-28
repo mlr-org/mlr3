@@ -79,13 +79,13 @@
       <a href="../articles/basic-01-tasks.html">Tasks</a>
     </li>
     <li>
-      <a href="../articles/basic-02-train-predict-score.html">Learners</a>
+      <a href="../articles/basic-02-train-predict-score.html">Train, predict, score</a>
     </li>
     <li>
-      <a href="../articles/basic-03-resample.html">Train</a>
+      <a href="../articles/basic-03-resample.html">Resampling</a>
     </li>
     <li>
-      <a href="../articles/basic-04-parallelization.html">Predict</a>
+      <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
   </ul>
 </li>
@@ -154,8 +154,10 @@
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>rr$experiment(iter)
-rr$experiments(iters)
+    <pre>bmr$tasks
+bmr$learners
+bmr$resamplings
+bmr$measures
 bmr$performance
 bmr$aggregated
 bmr$resample_results
@@ -173,13 +175,14 @@ String which identifies a subgroup to extract as <a href='ResampleResult.html'>R
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$experiment()</code> returns an <a href='Experiment.html'>Experiment</a> for the <code>iter</code>-th resampling iteration.</p>
-<p><code>$experiments()</code> returns a list with the slice of <a href='Experiment.html'>Experiment</a>s for the provided <code>iters</code>.</p>
+    <p><code>$tasks</code>, <code>$learners</code>, <code>$resamplings</code> and <code>$measures</code> return an overview table of involved objects.</p>
 <p><code>$performance</code> provides a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> with column <code>iteration</code> (integer) and a numeric column for each
 performance measure (columns named using the measure ids).</p>
-<p><code>$aggregated</code> returns the aggregated performance measures. The aggregation method is part of the <a href='Measure.html'>Measure</a>.</p>
-<p><code>$resample_results</code> returns a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> which gives an overview of the subgroups in the benchmark.
-Groups of experiments in the BenchmarkResult can be extracted as <a href='ResampleResult.html'>ResampleResult</a>.</p>
+<p><code>$aggregated</code> returns aggregated performance measures as a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.
+The table is build similar to the one returned by <code>$performance</code>, but experiments are aggregated by their resample result group
+(combination of <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a> and <a href='Resampling.html'>Resampling</a>). The actual aggregation function is defined by the respective <a href='Measure.html'>Measure</a>.</p>
+<p><code>$resample_results</code> returns a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> which gives an overview of the resample result groups in the benchmark.
+These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.html'>ResampleResult</a> for further inspection.</p>
 <p><code>$resample_result()</code> creates the <a href='ResampleResult.html'>ResampleResult</a> identified by the specified <code>hash</code> value.</p>
     
 

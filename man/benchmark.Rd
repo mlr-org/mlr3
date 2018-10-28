@@ -32,7 +32,6 @@ See \code{\link[=exec_control]{exec_control()}}.}
 Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
 }
 \examples{
-set.seed(123)
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
 resamplings = mlr_resamplings$mget(c("holdout", "cv"))

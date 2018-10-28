@@ -49,13 +49,13 @@
       <a href="../articles/basic-01-tasks.html">Tasks</a>
     </li>
     <li>
-      <a href="../articles/basic-02-train-predict-score.html">Learners</a>
+      <a href="../articles/basic-02-train-predict-score.html">Train, predict, score</a>
     </li>
     <li>
-      <a href="../articles/basic-03-resample.html">Train</a>
+      <a href="../articles/basic-03-resample.html">Resampling</a>
     </li>
     <li>
-      <a href="../articles/basic-04-parallelization.html">Predict</a>
+      <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
   </ul>
 </li>
@@ -115,7 +115,6 @@
       <h1>Introduction to Resampling</h1>
                         <h4 class="author">Michel Lang</h4>
             
-            <h4 class="date">2018-10-28</h4>
       
       <!--The 'toc' block was inserted manually by @pat-s. It triggeres the inline ToC in the vignettes.-->
             <div id="toc">
@@ -186,19 +185,19 @@
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; Running learner 'classif.rpart' on task 'iris (iteration 3/3)' ...</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw">print</span>(rr)</a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; ResampleResult of learner 'iris' on task 'classif.rpart' with 3 iterations</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  Measure Min. 1st Qu. Median       Mean 3rd Qu. Max.         Sd</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;     mmce 0.04    0.05   0.06 0.05333333    0.06 0.06 0.01154701</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  Measure Min. 1st Qu. Median Mean 3rd Qu. Max.         Sd</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;     mmce 0.02    0.05   0.08 0.06    0.08 0.08 0.03464102</span></a></code></pre></div>
 <p>We can do different things with resampling results, e.g.:</p>
 <ul>
 <li>Extract the performance per fold and average it:</li>
 </ul>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">rr<span class="op">$</span>performance</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;    iteration mmce</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; 1:         1 0.06</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 2:         2 0.04</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 3:         3 0.06</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; 1:         1 0.02</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 2:         2 0.08</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 3:         3 0.08</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">rr<span class="op">$</span>performance[, <span class="kw">mean</span>(mmce)]</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; [1] 0.05333333</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; [1] 0.06</span></a></code></pre></div>
 <ul>
 <li>Extract and inspect the now instantiated resampling:</li>
 </ul>
@@ -211,17 +210,17 @@
 <a class="sourceLine" id="cb8-7" data-line-number="7">rr<span class="op">$</span>resampling<span class="op">$</span>iters</a>
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; [1] 3</span></a>
 <a class="sourceLine" id="cb8-9" data-line-number="9">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  [1]   1   4   7  10  13  20  23  29  31  33  39  40  42  43  53  58  63</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; [18]  66  67  68  69  71  75  77  81  84  87  88  89  90  92  94  97  98</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; [35]  99 101 103 105 108 112 122 123 124 125 129 132 134 135 144 148</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  [1]   1   5  11  13  15  16  18  27  28  32  35  36  41  48  51  55  63</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; [18]  65  66  73  81  82  83  86  90  94  95  97  98  99 101 102 106 109</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; [35] 111 112 113 114 122 123 124 126 127 133 134 138 140 141 143 144</span></a>
 <a class="sourceLine" id="cb8-13" data-line-number="13">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;  [1]   8   9  12  17  22  24  27  28  34  38  41  44  45  46  48  52  57</span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; [18]  59  60  61  64  65  74  76  78  82  93 100 102 104 106 107 109 114</span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; [35] 115 118 120 121 126 131 133 136 137 140 141 142 146 147 149 150</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;  [1]   2   3   4   7   8  10  12  20  22  24  33  34  37  38  42  44  45</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; [18]  46  47  50  52  54  56  62  64  70  71  72  74  76  77  79  80  87</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; [35]  89  92  93  96 100 103 104 107 116 118 120 130 131 136 147 149</span></a>
 <a class="sourceLine" id="cb8-17" data-line-number="17">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  [1]   2   3   5   6  11  14  15  16  18  19  21  25  26  30  32  35  36</span></a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; [18]  37  47  49  50  51  54  55  56  62  70  72  73  79  80  83  85  86</span></a>
-<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; [35]  91  95  96 110 111 113 116 117 119 127 128 130 138 139 143 145</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  [1]   6   9  14  17  19  21  23  25  26  29  30  31  39  40  43  49  53</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; [18]  57  58  59  60  61  67  68  69  75  78  84  85  88  91 105 108 110</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; [35] 115 117 119 121 125 128 129 132 135 137 139 142 145 146 148 150</span></a></code></pre></div>
 <ul>
 <li>Retrieve the experiment of a specific iteration and inspect it:</li>
 </ul>
@@ -232,11 +231,11 @@
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; node), split, n, loss, yval, (yprob)</span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;       * denotes terminal node</span></a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 1) root 100 64 setosa (0.3600000 0.2900000 0.3500000)  </span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;   2) Petal.Length&lt; 2.7 36  0 setosa (1.0000000 0.0000000 0.0000000) *</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;   3) Petal.Length&gt;=2.7 64 29 virginica (0.0000000 0.4531250 0.5468750)  </span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;     6) Petal.Width&lt; 1.75 32  3 versicolor (0.0000000 0.9062500 0.0937500) *</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;     7) Petal.Width&gt;=1.75 32  0 virginica (0.0000000 0.0000000 1.0000000) *</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 1) root 100 64 setosa (0.36000000 0.34000000 0.30000000)  </span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;   2) Petal.Length&lt; 2.6 36  0 setosa (1.00000000 0.00000000 0.00000000) *</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;   3) Petal.Length&gt;=2.6 64 30 versicolor (0.00000000 0.53125000 0.46875000)  </span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;     6) Petal.Width&lt; 1.75 37  4 versicolor (0.00000000 0.89189189 0.10810811) *</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;     7) Petal.Width&gt;=1.75 27  1 virginica (0.00000000 0.03703704 0.96296296) *</span></a></code></pre></div>
 </div>
 <div id="manual-instantiation" class="section level2">
 <h2 class="hasAnchor">
@@ -253,12 +252,12 @@
 <a class="sourceLine" id="cb10-9" data-line-number="9">resampling<span class="op">$</span>iters</a>
 <a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; [1] 3</span></a>
 <a class="sourceLine" id="cb10-11" data-line-number="11">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt;   [1]   2   4   5  22  25  31  34  36  40  43  51  54  58  59  64  67  68</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;  [18]  69  72  73  79  80  84  86  87  88  92  95  97  98  99 101 103 106</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;  [35] 107 114 115 117 118 122 123 127 132 133 136 138 140 142 143 148   3</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;  [52]   8   9  11  15  19  21  23  24  26  28  29  35  41  42  44  47  48</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt;  [69]  49  53  56  60  62  63  65  66  71  75  76  77  78  81  83  85  89</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt;  [86]  90  91  93  96 105 110 113 120 124 128 130 134 147 149 150</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt;   [1]   1   2   3   7   9  11  13  19  21  25  27  34  36  49  50  51  55</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;  [18]  68  73  75  81  84  85  87  89  91  92  94  95 101 102 110 111 113</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;  [35] 115 119 120 122 127 128 130 132 133 134 141 143 144 146 147 149   6</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;  [52]   8  12  14  17  22  30  31  33  35  37  38  39  40  43  44  47  48</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt;  [69]  52  53  54  57  62  66  67  70  71  74  78  80  82  86  88  96  97</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt;  [86] 100 103 105 106 108 114 116 117 123 124 135 137 138 142 145</span></a></code></pre></div>
 <p>If we now pass this instantiated object to resample, the pre-calculated training and test splits will be used for both learners:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">learner1 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">"classif.rpart"</span>)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">learner2 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">"classif.dummy"</span>)</a>
@@ -277,12 +276,12 @@
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">bmr =<span class="st"> </span>rr1<span class="op">$</span><span class="kw">combine</span>(rr2)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">bmr<span class="op">$</span>performance</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;    task       learner resampling             hash mmce</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: iris classif.dummy         cv e23829a6f66c7922 0.82</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: iris classif.dummy         cv e23829a6f66c7922 0.80</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; 3: iris classif.dummy         cv e23829a6f66c7922 0.78</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 4: iris classif.rpart         cv cf4afbda206886cd 0.02</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 5: iris classif.rpart         cv cf4afbda206886cd 0.08</span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 6: iris classif.rpart         cv cf4afbda206886cd 0.10</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: iris classif.dummy         cv adf3ae207d25878b 0.70</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: iris classif.dummy         cv adf3ae207d25878b 0.72</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; 3: iris classif.dummy         cv adf3ae207d25878b 0.72</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 4: iris classif.rpart         cv 4fd4ea132c16186e 0.04</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 5: iris classif.rpart         cv 4fd4ea132c16186e 0.06</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 6: iris classif.rpart         cv 4fd4ea132c16186e 0.06</span></a></code></pre></div>
 </div>
 <div id="custom-resampling" class="section level2">
 <h2 class="hasAnchor">
