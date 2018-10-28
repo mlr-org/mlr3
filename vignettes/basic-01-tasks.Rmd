@@ -1,7 +1,6 @@
 ---
 title: "Introduction to Tasks"
 author: "Michel Lang"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to Tasks}
