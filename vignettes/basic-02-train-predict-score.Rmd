@@ -19,7 +19,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-set.seed(123)
 ```
 
 In this introduction we simply fit a classification tree on the iris and determine the mean misclassification error.
