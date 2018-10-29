@@ -41,6 +41,7 @@ Suggests:
     rmarkdown,
     rpart,
     testthat,
+    titanic,
     withr
 VignetteBuilder:
     knitr
@@ -68,6 +69,7 @@ Collate:
     'Measure.R'
     'MeasureClassif.R'
     'MeasureRegr.R'
+    'Pipe.R'
     'Prediction.R'
     'PredictionClassif.R'
     'PredictionRegr.R'

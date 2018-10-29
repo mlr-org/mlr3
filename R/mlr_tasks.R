@@ -81,3 +81,10 @@ mlr_tasks$add("spam", function() {
   b = DataBackendDataTable$new(data = load_dataset("spam", "kernlab"))
   TaskClassif$new("spam", b, target = "type", positive = "spam")
 })
+
+mlr_tasks$add("titanic", function() {
+  data = rbindlist(list(load_dataset("titanic_train", package = "titanic"), load_dataset("titanic_test", package = "titanic")), fill = TRUE)
+  data$Survived = factor(data$Survived, levels = c("0", "1"))
+  b = DataBackendDataTable$new(data)
+  TaskClassif$new("titanic", b, target = "Survived", positive = "1")
+})

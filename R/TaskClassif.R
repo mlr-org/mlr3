@@ -44,17 +44,22 @@ TaskClassif = R6Class("TaskClassif",
     initialize = function(id, backend, target, positive = NULL) {
       super$initialize(id = id, backend = backend, target = target)
 
-      truth = factor(self$truth()[[1L]])
-      assert_factor(truth, min.levels = 2L, any.missing = FALSE, empty.levels.ok = FALSE, .var.name = "target column")
+      info = self$col_info[id == target]
+      levels = info$levels[[1L]]
 
-      if (nlevels(truth) == 2L) {
+      if (!info$type == "factor")
+        stopf("Target column '%s' must be a factor", target)
+      if (length(levels) < 2L)
+        stopf("Target column '%s' must have at least two levels", target)
+
+      if (length(levels) == 2L) {
         if (is.null(positive)) {
-          self$positive = levels(truth)[1L]
+          self$positive = levels[1L]
           info("Setting positive class to '%s'", self$positive)
         } else {
-          self$positive = assert_choice(positive, levels(truth))
+          self$positive = assert_choice(positive, levels)
         }
-        self$negative = setdiff(levels(truth), self$positive)
+        self$negative = setdiff(levels, self$positive)
         self$properties = union(self$properties, "twoclass")
       } else {
         if (!is.null(positive))
