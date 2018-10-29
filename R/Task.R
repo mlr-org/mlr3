@@ -203,6 +203,10 @@ Task = R6Class("Task",
       task_cbind(self, data)
     },
 
+    overwrite = function(data) {
+      task_overwrite(self, data)
+    },
+
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
       assert_subset(new_roles, capabilities$task_row_roles)
       assert_flag(exclusive)
@@ -421,6 +425,44 @@ task_cbind = function(self, data) {
   self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
 }
 
+# Performs the following steps to virtually overwrite data in the task:
+# 1. Check that an overwrite is feasible
+# 2. Overwrite self$backend with new backend
+# 3. Update col_info
+task_overwrite = function(self, data) {
+  assert_data_frame(data, min.rows = 1L, min.cols = 2L)
+  data = as.data.table(data)
+  pk = self$backend$primary_key
+
+  ## 1.1 Check primary key column
+  if (pk %nin% names(data)) {
+    stopf("Cannot cbind task: Missing primary key column '%s'", self$backend$primary_key)
+  }
+
+  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
+  if (self$col_info[list(pk), "type", on = "id"][[1L]] != class(data[[pk]])) {
+    stopf("Cannot cbind task: Primary key column '%s' has wrong type", self$backend$primary_key)
+  }
+
+  ## 1.2 Check that there are no extra column names in data
+  tmp = setdiff(names(data), self$col_info$id)
+  if (length(tmp)) {
+    stopf("Cannot overwrite task: Extra columns: %s", stri_head(tmp))
+  }
+
+  ## 1.3 Check for set equality of row ids
+  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
+  if (self$backend$data(data[[pk]], pk)[, .N] != nrow(data)) {
+    stopf("Cannot overwrite task: Extra row ids")
+  }
+
+  # 2. Overwrite Task
+  self$backend = DataBackendOverwrite$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
+
+  # 3. Update column info
+  self$col_info = col_info(self$backend) ### FIXME: we can do better here
+}
+
 task_print = function(self) {
   catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
   catf(stri_wrap(initial = "Target: ", self$target_names))
@@ -430,10 +472,8 @@ task_print = function(self) {
   catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
 }
 
-
 col_info = function(x, ...) {
   UseMethod("col_info")
-
 }
 
 col_info.data.table = function(x, primary_key = character(0L), ...) {
