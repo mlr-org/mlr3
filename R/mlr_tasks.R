@@ -85,6 +85,9 @@ mlr_tasks$add("spam", function() {
 mlr_tasks$add("titanic", function() {
   data = rbindlist(list(load_dataset("titanic_train", package = "titanic"), load_dataset("titanic_test", package = "titanic")), fill = TRUE)
   data$Survived = factor(data$Survived, levels = c("0", "1"))
+  data$Sex = factor(data$Sex)
+  data$Embarked = factor(replace(data$Embarked, !nzchar(data$Embarked), NA))
+  data$Cabin = replace(data$Cabin, !nzchar(data$Cabin), NA)
   b = DataBackendDataTable$new(data)
   TaskClassif$new("titanic", b, target = "Survived", positive = "1")
 })
