@@ -191,7 +191,7 @@ Task = R6Class("Task",
     },
 
     select = function(cols) {
-      self$col_roles$feature = setdiff(self$col_roles$feature, cols)
+      self$col_roles$feature = intersect(self$col_roles$feature, cols)
       self
     },
 
