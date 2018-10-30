@@ -176,7 +176,7 @@ Experiment = R6Class("Experiment",
       if (is.null(prediction))
         stopf("No predictions available")
       row_ids = self$test_set
-      rcbind(x = data.table(id = row_ids, truth = self$data$task$truth(row_ids)[[1L]], key = "id"), y = as.data.table(prediction))[]
+      setkeyv(rcbind(x = data.table(id = row_ids), y = as.data.table(prediction)), "id")[]
     },
 
     performance = function() {

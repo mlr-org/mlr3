@@ -10,6 +10,7 @@ This object stores the predictions returned by a learner of class \link{LearnerR
 \preformatted{p = PredictionRegr$new(task, response, se = NULL)
 
 p$response
+p$truth
 p$se
 
 as.data.table(p)
@@ -30,6 +31,8 @@ as.data.table(p)
 \code{$new()} initializes a new object of class \link{Prediction}.
 
 \code{$response} stores the predicted values.
+
+\code{$truth} stores the true values.
 
 \code{$se} stores the predicted standard errors (if available), or is \code{NULL}.
 

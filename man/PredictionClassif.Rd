@@ -10,6 +10,7 @@ This object stores the predictions returned by a learner of class \link{LearnerC
 \preformatted{p = PredictionClassif$new(task, response, prob = NULL)
 
 p$response
+p$truth
 p$prob
 
 as.data.table(p)
@@ -31,6 +32,8 @@ observations in the test set. Columns must be named with class levels.
 \code{$new()} initializes a new object of class \link{Prediction}.
 
 \code{$response} stores the predicted class labels.
+
+\code{$truth} stores the true class labels.
 
 \code{$prob} stores the label probabilities (if available), or is \code{NULL}.
 

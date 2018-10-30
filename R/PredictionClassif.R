@@ -8,6 +8,7 @@
 #' p = PredictionClassif$new(task, response, prob = NULL)
 #'
 #' p$response
+#' p$truth
 #' p$prob
 #'
 #' as.data.table(p)
@@ -22,6 +23,8 @@
 #' `$new()` initializes a new object of class [Prediction].
 #'
 #' `$response` stores the predicted class labels.
+#'
+#' `$truth` stores the true class labels.
 #'
 #' `$prob` stores the label probabilities (if available), or is `NULL`.
 #'
@@ -42,6 +45,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       if (is.character(response))
         response = factor(response, levels = classes)
       self$response = assert_factor(response, len = task$nrow, levels = classes, any.missing = FALSE)
+      self$truth = task$truth()[[1L]]
 
       if (!is.null(prob)) {
         assert_matrix(prob, nrow = task$nrow, ncol = length(classes))
@@ -51,16 +55,14 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
           rownames(prob) = NULL
         self$prob = prob[, match(colnames(prob), classes), drop = FALSE]
       }
-
     }
   )
 )
 
 #' @export
 as.data.table.PredictionClassif = function(x, ...) {
-  tab = data.table(response = x$response)
-  prob = x$prob
-  if (!is.null(prob))
-    tab[, paste0("prob.", colnames(prob)) := as.data.table(prob)]
+  tab = data.table(response = x$response, truth = x$truth)
+  if (!is.null(x$prob))
+    tab[, paste0("prob.", colnames(x$prob)) := as.data.table(x$prob)]
   tab
 }

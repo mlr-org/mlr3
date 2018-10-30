@@ -8,6 +8,7 @@
 #' p = PredictionRegr$new(task, response, se = NULL)
 #'
 #' p$response
+#' p$truth
 #' p$se
 #'
 #' as.data.table(p)
@@ -21,6 +22,8 @@
 #' `$new()` initializes a new object of class [Prediction].
 #'
 #' `$response` stores the predicted values.
+#'
+#' `$truth` stores the true values.
 #'
 #' `$se` stores the predicted standard errors (if available), or is `NULL`.
 #'
@@ -39,13 +42,14 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     initialize = function(task, response, se = NULL) {
       self$response = assert_numeric(response, len = task$nrow, any.missing = FALSE)
       self$se = assert_numeric(se, len = task$nrow, any.missing = FALSE, lower = 0, null.ok = TRUE)
+      self$truth = task$truth()[[1L]]
     }
   )
 )
 
 #' @export
 as.data.table.PredictionRegr = function(x, ...) {
-  tab = data.table(response = x$response)
+  tab = data.table(response = x$response, truth = x$truth)
   if (!is.null(x$se))
     tab[, "se" := x$se]
   tab
