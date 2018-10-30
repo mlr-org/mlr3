@@ -7,10 +7,10 @@
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
 }
 \section{Usage}{
-\preformatted{p = PredictionRegr$new(task, response, se = NULL)
+\preformatted{p = PredictionRegr$new(truth, response, se = NULL)
 
-p$response
 p$truth
+p$response
 p$se
 
 as.data.table(p)
@@ -20,9 +20,9 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{task} (\link{TaskRegr}): Used to extract essential information to assert the correctness of \code{response}.
-\item \code{response} (\code{numeric}): Predicted response of the same length as number of observations in the test set.
-\item \code{se} (\code{numeric}): Predicted standard error of the same length as number of observations in the test set.
+\item \code{truth} (\link{numeric}): Numeric vector of true response.
+\item \code{response} (\link{numeric}): Numeric vector of predictions. Must have length \code{length(truth)}.
+\item \code{se} (\link{numeric}): Numeric vector of predicted standard error. Must have length \code{length(truth)}.
 }
 }
 
@@ -30,9 +30,9 @@ as.data.table(p)
 
 \code{$new()} initializes a new object of class \link{Prediction}.
 
-\code{$response} stores the predicted values.
-
 \code{$truth} stores the true values.
+
+\code{$response} stores the predicted values.
 
 \code{$se} stores the predicted standard errors (if available), or is \code{NULL}.
 

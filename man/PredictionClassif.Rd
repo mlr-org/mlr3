@@ -7,10 +7,10 @@
 This object stores the predictions returned by a learner of class \link{LearnerClassif}.
 }
 \section{Usage}{
-\preformatted{p = PredictionClassif$new(task, response, prob = NULL)
+\preformatted{p = PredictionClassif$new(truth, response, prob = NULL)
 
-p$response
 p$truth
+p$response
 p$prob
 
 as.data.table(p)
@@ -20,10 +20,10 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{task} (\link{TaskRegr}): Used to extract essential information to assert the correctness of \code{response}.
-\item \code{response} (\code{numeric}): Predicted class labels as \code{factor} of the same length as number of observations in the test set.
-\item \code{prob} (\code{matrix}): Numeric matrix of class probabilities with \code{task$class_n} columns and rows equal to the number of
-observations in the test set. Columns must be named with class levels.
+\item \code{truth} (\link{factor}): Factor of true class labels (as returned by \code{task$truth()}). Note that empty levels may not be dropped.
+\item \code{response} (\link{factor} | \link{character}): Vector of predicted class labels. Must have length \code{length(truth)}.
+\item \code{prob} (\link{matrix}): Numeric matrix of class probabilities with \code{levels(truth)} columns and \code{length(truth)} rows.
+Columns must be named with class levels.
 }
 }
 
@@ -31,11 +31,11 @@ observations in the test set. Columns must be named with class levels.
 
 \code{$new()} initializes a new object of class \link{Prediction}.
 
-\code{$response} stores the predicted class labels.
+\code{$truth} stores the predicted class labels as factor.
 
-\code{$truth} stores the true class labels.
+\code{$response} stores the predicted class labels as factor.
 
-\code{$prob} stores the label probabilities (if available), or is \code{NULL}.
+\code{$prob} stores the label probabilities (if available) as matrix, or is \code{NULL}.
 
 Object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}} with \code{data.table::as.data.table()}.
 }

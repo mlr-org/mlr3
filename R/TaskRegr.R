@@ -21,6 +21,7 @@
 #' task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
 #' task$task_type
 #' task$formula
+#' task$truth()
 NULL
 
 #' @include TaskSupervised.R
@@ -32,8 +33,12 @@ TaskRegr = R6Class("TaskRegr",
     initialize = function(id, backend, target) {
       super$initialize(id = id, backend = backend, target = target)
       assert_string(target) # check for length 1
-      assert_numeric(self$truth()[[1L]], finite = TRUE, any.missing = FALSE, .var.name = "target column")
+      assert_numeric(self$truth(), finite = TRUE, any.missing = FALSE, .var.name = "target column")
       self$measures = list(mlr_measures$get("mse"))
+    },
+
+    truth = function(row_ids = NULL) {
+      self$data(row_ids, cols = self$target_names)[[1L]]
     }
   )
 )

@@ -24,6 +24,7 @@ b = DataBackendDataTable$new(iris)
 task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
 task$task_type
 task$formula
+task$truth()
 }
 \seealso{
 Other Task: \code{\link{TaskClassif}},

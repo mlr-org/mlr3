@@ -156,10 +156,7 @@ expect_task_supervised = function(task) {
 expect_task_classif = function(task) {
   expect_r6(task, "TaskClassif")
   y = task$truth()
-  expect_data_table(y, ncol = 1)
-  expect_data_table(y, ncol = 1)
-  y = y[[1]]
-  expect_true(is.character(y) || is.factor(y))
+  expect_factor(y)
 
   expect_int(task$class_n, lower = 2L)
   expect_equal(task$class_n, length(unique(y)))
@@ -178,8 +175,6 @@ expect_task_classif = function(task) {
 expect_task_regr = function(task) {
   expect_r6(task, "TaskRegr")
   y = task$truth()
-  expect_data_table(y, ncol = 1)
-  y = y[[1]]
   expect_numeric(y, any.missing = FALSE)
   expect_hash(task$hash, 1L)
 }

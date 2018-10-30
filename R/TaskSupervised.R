@@ -16,7 +16,7 @@
 #'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
 #' @section Details:
-#' `$truth()` returns (a subset of) the columns which are labeled as target as `data.table`.
+#' `$truth()` returns the true labels. The type depends on the type of the task.
 #'
 #' @name TaskSupervised
 #' @family Task
@@ -45,8 +45,6 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
     },
 
     truth = function(row_ids = NULL) {
-      if (is.null(row_ids))
-        row_ids = self$row_roles$use
       self$data(row_ids, cols = self$target_names)
     }
   )

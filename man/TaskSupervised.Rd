@@ -24,7 +24,7 @@ Subset of row ids to subset rows from the \link{DataBackend} using its primary k
 
 \section{Details}{
 
-\code{$truth()} returns (a subset of) the columns which are labeled as target as \code{data.table}.
+\code{$truth()} returns the true labels. The type depends on the type of the task.
 }
 
 \seealso{

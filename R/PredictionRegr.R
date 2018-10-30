@@ -5,25 +5,25 @@
 #'
 #' @section Usage:
 #' ```
-#' p = PredictionRegr$new(task, response, se = NULL)
+#' p = PredictionRegr$new(truth, response, se = NULL)
 #'
-#' p$response
 #' p$truth
+#' p$response
 #' p$se
 #'
 #' as.data.table(p)
 #'
 #' @section Arguments:
-#' * `task` ([TaskRegr]): Used to extract essential information to assert the correctness of `response`.
-#' * `response` (`numeric`): Predicted response of the same length as number of observations in the test set.
-#' * `se` (`numeric`): Predicted standard error of the same length as number of observations in the test set.
+#' * `truth` ([numeric]): Numeric vector of true response.
+#' * `response` ([numeric]): Numeric vector of predictions. Must have length `length(truth)`.
+#' * `se` ([numeric]): Numeric vector of predicted standard error. Must have length `length(truth)`.
 #'
 #' @section Details:
 #' `$new()` initializes a new object of class [Prediction].
 #'
-#' `$response` stores the predicted values.
-#'
 #' `$truth` stores the true values.
+#'
+#' `$response` stores the predicted values.
 #'
 #' `$se` stores the predicted standard errors (if available), or is `NULL`.
 #'
@@ -39,10 +39,11 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     se = NULL,
-    initialize = function(task, response, se = NULL) {
-      self$response = assert_numeric(response, len = task$nrow, any.missing = FALSE)
-      self$se = assert_numeric(se, len = task$nrow, any.missing = FALSE, lower = 0, null.ok = TRUE)
-      self$truth = task$truth()[[1L]]
+    initialize = function(truth, response, se = NULL) {
+      self$truth = assert_numeric(truth, any.missing = FALSE)
+      self$response = assert_numeric(response, len = length(truth), any.missing = FALSE)
+      if (!is.null(se))
+        self$se = assert_numeric(se, len = length(truth), any.missing = FALSE, lower = 0)
     }
   )
 )
