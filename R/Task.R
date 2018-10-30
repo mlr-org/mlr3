@@ -191,7 +191,7 @@ Task = R6Class("Task",
     },
 
     select = function(cols) {
-      self$col_roles$feature = setdiff(self$col_roles$feature, cols)
+      self$col_roles$feature = intersect(self$col_roles$feature, cols)
       self
     },
 
@@ -201,6 +201,10 @@ Task = R6Class("Task",
 
     cbind = function(data) {
       task_cbind(self, data)
+    },
+
+    overwrite = function(data) {
+      task_overwrite(self, data)
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
@@ -375,10 +379,12 @@ task_rbind = function(self, data) {
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 3. Update col_info
-  self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
+  self$col_info$levels = Map(union, as.character(joined$levels.x), as.character(joined$levels.y))
 
   # 4. Overwrite self$backend with new backend
   self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
+
+  invisible(self)
 }
 
 # Performs the following steps to virtually cbind data to the task:
@@ -419,6 +425,48 @@ task_cbind = function(self, data) {
 
   # 3. Overwrite self$backend with new backend
   self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
+
+  invisible(self)
+}
+
+# Performs the following steps to virtually overwrite data in the task:
+# 1. Check that an overwrite is feasible
+# 2. Overwrite self$backend with new backend
+# 3. Update col_info
+task_overwrite = function(self, data) {
+  assert_data_frame(data, min.rows = 1L, min.cols = 2L)
+  data = as.data.table(data)
+  pk = self$backend$primary_key
+
+  ## 1.1 Check primary key column
+  if (pk %nin% names(data)) {
+    stopf("Cannot cbind task: Missing primary key column '%s'", self$backend$primary_key)
+  }
+
+  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
+  if (self$col_info[list(pk), "type", on = "id"][[1L]] != class(data[[pk]])) {
+    stopf("Cannot cbind task: Primary key column '%s' has wrong type", self$backend$primary_key)
+  }
+
+  ## 1.2 Check that there are no extra column names in data
+  tmp = setdiff(names(data), self$col_info$id)
+  if (length(tmp)) {
+    stopf("Cannot overwrite task: Extra columns: %s", stri_head(tmp))
+  }
+
+  ## 1.3 Check for set equality of row ids
+  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
+  if (self$backend$data(data[[pk]], pk)[, .N] != nrow(data)) {
+    stopf("Cannot overwrite task: Extra row ids")
+  }
+
+  # 2. Overwrite Task
+  self$backend = DataBackendOverwrite$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
+
+  # 3. Update column info
+  self$col_info = col_info(self$backend) ### FIXME: we can do better here
+
+  invisible(self)
 }
 
 task_print = function(self) {
@@ -430,10 +478,8 @@ task_print = function(self) {
   catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
 }
 
-
 col_info = function(x, ...) {
   UseMethod("col_info")
-
 }
 
 col_info.data.table = function(x, primary_key = character(0L), ...) {

@@ -74,3 +74,35 @@ test_that("cbind/rbind works", {
   expect_set_equal(task$row_ids(), c(1:150, 201:210))
   expect_data_table(task$data(), ncol = 6, nrow = 160, any.missing = FALSE)
 })
+
+test_that("cbind/rbind works", {
+  task = mlr_tasks$get("iris")
+  data = data.table(..row_id = 1:10, Sepal.Length = -1, Species = "a")
+  task$overwrite(data)
+  data = task$data()
+  expect_set_equal(levels(data$Species), c(levels(iris$Species), "a"))
+  expect_true(all(data$Sepal.Length[1:10] == -1))
+  expect_true(all(data$Sepal.Length[11:150] > 0))
+})
+
+test_that("filter works", {
+  task = mlr_tasks$get("iris")
+  task$filter(1:100)
+  expect_equal(task$nrow, 100L)
+
+  task$filter(91:150)
+  expect_equal(task$nrow, 10L)
+
+  expect_equal(task$row_ids(), 91:100)
+})
+
+test_that("select works", {
+  task = mlr_tasks$get("iris")
+  task$select(setdiff(task$feature_names, "Sepal.Length"))
+  expect_equal(task$ncol, 4L)
+
+  task$select(c("Sepal.Width", "foobar"))
+  expect_equal(task$ncol, 2L)
+
+  expect_equal(task$feature_names, "Sepal.Width")
+})

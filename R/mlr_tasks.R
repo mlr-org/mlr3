@@ -14,12 +14,20 @@
 #'
 #' # Add a new task, based on a subset of iris:
 #' data = iris
-#' data$Species = ifelse(data$Species == "setosa", "1", "0")
+#' data$Species = factor(ifelse(data$Species == "setosa", "1", "0"))
 #' b = DataBackendDataTable$new(data)
-#' task = TaskClassif$new("iris.binary", b, target = "Species")
+#' task = TaskClassif$new("iris.binary", b, target = "Species", positive = "1")
+#'
+#' # add to dictionary
 #' mlr_tasks$add("iris.binary", task)
+#'
+#' # list available tasks
 #' mlr_tasks$keys()
+#'
+#' # retrieve from dictionary
 #' mlr_tasks$get("iris.binary")
+#'
+#' # remove task again
 #' mlr_tasks$remove("iris.binary")
 NULL
 
@@ -80,4 +88,14 @@ mlr_tasks$add("zoo", function() {
 mlr_tasks$add("spam", function() {
   b = DataBackendDataTable$new(data = load_dataset("spam", "kernlab"))
   TaskClassif$new("spam", b, target = "type", positive = "spam")
+})
+
+mlr_tasks$add("titanic", function() {
+  data = rbindlist(list(load_dataset("titanic_train", package = "titanic"), load_dataset("titanic_test", package = "titanic")), fill = TRUE)
+  data$Survived = factor(data$Survived, levels = c("0", "1"))
+  data$Sex = factor(data$Sex)
+  data$Embarked = factor(replace(data$Embarked, !nzchar(data$Embarked), NA))
+  data$Cabin = replace(data$Cabin, !nzchar(data$Cabin), NA)
+  b = DataBackendDataTable$new(data)
+  TaskClassif$new("titanic", b, target = "Survived", positive = "1")
 })

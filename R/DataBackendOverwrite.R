@@ -1,33 +1,37 @@
-#' @include DataBackend.R
-DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable = FALSE,
+DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cloneable = FALSE,
   public = list(
     primary_key = NULL,
     initialize = function(b1, b2) {
       private$.b1 = assert_backend(b1)
       private$.b2 = assert_backend(b2)
       if (b1$primary_key != b2$primary_key)
-        stop("All backends to rbind must have the same primary_key")
+        stop("All backends must have the same primary_key")
       self$primary_key = b1$primary_key
     },
 
     data = function(rows, cols) {
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
+      cols = intersect(cols, self$colnames)
+      query_cols = union(cols, self$primary_key)
 
-      tab = private$.b1$data(rows, cols)
+      x = private$.b1$data(rows, query_cols)
+      y = private$.b2$data(rows, query_cols)
 
-      if (ncol(tab) < length(cols))
-        tab = rcbind(tab, remove(private$.b2$data(rows, cols), self$primary_key))
-      return(tab)
+      if (ncol(y) > 1L && nrow(y) > 0L)
+        x = ujoin(x, y, self$primary_key)
+
+      x[, cols, with = FALSE]
     },
 
     head = function(n = 6L) {
       x = private$.b1$head(n)
-      rcbind(x, private$.b2$data(rows = x[[self$primary_key]], cols = setdiff(private$.b2$colnames, self$primary_key)))
+      y = private$.b2$data(rows = x[[self$primary_key]], cols = names(x))
+      ujoin(x, y, self$primary_key)[]
     },
 
     distinct = function(cols) {
-      c(private$.b1$distinct(cols), private$.b2$distinct(cols))
+      lapply(self$data(self$rownames, cols), distinct)
     }
   ),
 
@@ -37,7 +41,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     },
 
     colnames = function() {
-      c(private$.b1$colnames, setdiff(private$.b2$colnames, self$primary_key))
+      private$.b1$colnames
     },
 
     nrow = function() {
@@ -45,7 +49,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     },
 
     ncol = function() {
-      private$.b1$ncol + private$.b2$ncol - 1L
+      private$.b1$ncol
     }
   ),
 

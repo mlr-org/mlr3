@@ -43,6 +43,7 @@ Suggests:
     rmarkdown,
     rpart,
     testthat,
+    titanic,
     withr
 VignetteBuilder:
     knitr
@@ -60,6 +61,7 @@ Collate:
     'DataBackend.R'
     'DataBackendCbind.R'
     'DataBackendDataTable.R'
+    'DataBackendOverwrite.R'
     'DataBackendRbind.R'
     'Dictionary.R'
     'Experiment.R'

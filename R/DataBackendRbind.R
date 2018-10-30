@@ -1,5 +1,5 @@
 #' @include DataBackend.R
-DataBackendRbind = R6Class("DataBackend", inherit = DataBackend, cloneable = FALSE,
+DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
     primary_key = NULL,
     initialize = function(b1, b2) {
