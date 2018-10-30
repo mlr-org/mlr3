@@ -96,9 +96,12 @@ expect_backend = function(b) {
   # duplicated cols raise exception
   expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L)), "uniquely")
 
+  # argument n of head
   expect_data_table(b$head(3), nrow = 3, ncol = p)
 
-  expect_atomic_vector(distinct(b$data(rows = rn, cols = b$primary_key)[[1L]]), len = n)
+  # primary_key is distinct
+  d = b$distinct(b$primary_key)[[1L]]
+  expect_atomic_vector(d, len = n)
 }
 
 expect_task = function(task) {

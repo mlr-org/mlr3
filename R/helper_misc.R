@@ -26,4 +26,3 @@ named_list = function(nn, init = NULL) {
 distinct = function(x) {
   if (is.factor(x)) levels(x) else unique(x)
 }
-
