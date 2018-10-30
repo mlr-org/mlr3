@@ -379,10 +379,12 @@ task_rbind = function(self, data) {
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 3. Update col_info
-  self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
+  self$col_info$levels = Map(union, as.character(joined$levels.x), as.character(joined$levels.y))
 
   # 4. Overwrite self$backend with new backend
   self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
+
+  invisible(self)
 }
 
 # Performs the following steps to virtually cbind data to the task:
@@ -423,6 +425,8 @@ task_cbind = function(self, data) {
 
   # 3. Overwrite self$backend with new backend
   self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
+
+  invisible(self)
 }
 
 # Performs the following steps to virtually overwrite data in the task:
@@ -461,6 +465,8 @@ task_overwrite = function(self, data) {
 
   # 3. Update column info
   self$col_info = col_info(self$backend) ### FIXME: we can do better here
+
+  invisible(self)
 }
 
 task_print = function(self) {
