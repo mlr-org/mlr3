@@ -31,7 +31,7 @@ DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cl
     },
 
     distinct = function(cols) {
-      distinct(self$data(self$rownames, cols))
+      lapply(self$data(self$rownames, cols), distinct)
     }
   ),
 
