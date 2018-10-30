@@ -17,6 +17,8 @@ Authors@R:
              email = "jakob1richter@gmail.com"))
 Description: Machine Learning in R. Next Generation.
 License: MIT + file LICENSE
+URL: https://github.com/mlr-org/mlr3
+BugReports: https://github.com/mlr-org/mlr3/issues
 Depends:
     R (>= 3.1.0)
 Imports:
@@ -119,5 +121,3 @@ Collate:
     'split_train_validation.R'
     'worker.R'
     'zzz.R'
-URL: https://github.com/mlr-org/mlr3
-BugReports: https://github.com/mlr-org/mlr3/issues

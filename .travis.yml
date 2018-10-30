@@ -20,6 +20,7 @@ after_deploy: R -q -e 'tic::after_deploy()'
 after_script: R -q -e 'tic::after_script()'
 # DO NOT CHANGE THE CODE ABOVE
 
+
 # Custom parts:
 
 # Header
@@ -29,11 +30,7 @@ dist: trusty
 cache: packages
 latex: true
 
-#env
 env:
   global:
   - _R_CHECK_FORCE_SUGGESTS_=false
   - MAKEFLAGS="-j 2"
-
-#services
-services:
