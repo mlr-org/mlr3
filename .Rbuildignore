@@ -4,9 +4,10 @@
 .editorconfig
 .gitignore
 ^\.travis\.yml$
-^_pkgdown.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^man-roxygen$
 ^attic$
 ^docs$
+^_pkgdown.yml$
+^pkgdown$
