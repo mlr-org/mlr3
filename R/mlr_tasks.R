@@ -14,12 +14,20 @@
 #'
 #' # Add a new task, based on a subset of iris:
 #' data = iris
-#' data$Species = ifelse(data$Species == "setosa", "1", "0")
+#' data$Species = factor(ifelse(data$Species == "setosa", "1", "0"))
 #' b = DataBackendDataTable$new(data)
-#' task = TaskClassif$new("iris.binary", b, target = "Species")
+#' task = TaskClassif$new("iris.binary", b, target = "Species", positive = "1")
+#'
+#' # add to dictionary
 #' mlr_tasks$add("iris.binary", task)
+#'
+#' # list available tasks
 #' mlr_tasks$keys()
+#'
+#' # retrieve from dictionary
 #' mlr_tasks$get("iris.binary")
+#'
+#' # remove task again
 #' mlr_tasks$remove("iris.binary")
 NULL
 
