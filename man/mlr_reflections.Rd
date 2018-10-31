@@ -9,6 +9,6 @@
 mlr_reflections
 }
 \description{
-Environment which stores various information about feasible values to allow for reflections.
+Environment which stores various information for reflections.
 }
 \keyword{internal}

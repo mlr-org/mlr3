@@ -3,36 +3,35 @@
 #' @description
 #' Functions intended to be used in packages extending \pkg{mlr3}.
 #'
-#' @name mlr3_assertions
-#' @name mlr3_assertions
+#' @name mlr_assertions
 #' @keywords internal
 NULL
 
 
 #' @export
 #' @param b (`[DataBackend]`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_backend = function(b) {
   assert_class(b, "DataBackend")
 }
 
 #' @export
 #' @param e (`[Experiment]`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_experiment = function(e) {
   assert_class(e, "Experiment")
 }
 
 #' @export
 #' @param task (`[Task]`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_task = function(task) {
   assert_class(task, "Task")
 }
 
 #' @export
 #' @param learner (`[Learner]`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_learner = function(learner, task = NULL) {
   assert_class(learner, "Learner")
   if (!is.null(task)) {
@@ -46,7 +45,7 @@ assert_learner = function(learner, task = NULL) {
 
 #' @export
 #' @param measure (`[Measure]`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_measure = function(measure, task = NULL, learner = NULL) {
   assert_class(measure, "Measure")
 
@@ -81,7 +80,7 @@ assert_measure = function(measure, task = NULL, learner = NULL) {
 
 #' @export
 #' @param measures (list of `[Measure]`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, learner = NULL) {
   assert_list(measures, min.len = 1L)
   lapply(measures, assert_measure, task = task, learner = learner)
@@ -89,14 +88,14 @@ assert_measures = function(measures, task = NULL, learner = NULL) {
 
 #' @export
 #' @param resampling (`[Resampling]`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_resampling = function(resampling) {
   assert_class(resampling, "Resampling")
 }
 
 #' @export
 #' @param resample_result (`[ResampleResult]`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_resample_result = function(resample_result) {
   assert_class(resample_result, "ResampleResult")
 }
@@ -104,14 +103,14 @@ assert_resample_result = function(resample_result) {
 
 #' @export
 #' @param par_set (`[paradox::ParamSet()]`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_par_set = function(par_set) {
   assert_class(par_set, "ParamSet")
 }
 
 #' @export
 #' @param par_vals (`named list`).
-#' @rdname mlr3_assertions
+#' @rdname mlr_assertions
 assert_par_vals = function(par_vals, par_set) {
   assert_list(par_vals, names = "unique", any.missing = FALSE)
   assert_subset(names(par_vals), par_set$ids)

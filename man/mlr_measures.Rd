@@ -2,9 +2,9 @@
 % Please edit documentation in R/mlr_measures.R
 \name{mlr_measures}
 \alias{mlr_measures}
-\title{Dictionary of registered performance measures}
+\title{Dictionary of Performance Measures}
 \description{
-Dictionary of registered performance measures
+Dictionary of Performance Measures
 }
 \section{Usage}{
 
@@ -14,8 +14,7 @@ See \link{Dictionary}.
 \examples{
 mlr_measures$keys()
 as.data.table(mlr_measures)
-m = mlr_measures$get("mmce")
-print(m)
+mlr_measures$get("mmce")
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},

@@ -1,4 +1,4 @@
-#' @title Dictionary of registered learners
+#' @title Dictionary of Learners
 #'
 #' @section Usage:
 #' See [Dictionary].
@@ -9,8 +9,7 @@
 #' @examples
 #' mlr_learners$keys()
 #' as.data.table(mlr_learners)
-#' l = mlr_learners$get("classif.dummy")
-#' print(l)
+#' mlr_learners$get("classif.dummy")
 NULL
 
 #' @include Dictionary.R

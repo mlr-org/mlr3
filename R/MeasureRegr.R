@@ -1,3 +1,7 @@
+#' @name MeasureRegr
+#' @rdname Measure
+NULL
+
 #' @include Measure.R
 #' @export
 MeasureRegr = R6Class("MeasureRegr", inherit = Measure, cloneable = FALSE,

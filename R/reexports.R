@@ -4,5 +4,6 @@
 #'
 #' @name as.data.table
 #' @rdname as.data.table
+#' @keywords internal
 #' @export
 NULL

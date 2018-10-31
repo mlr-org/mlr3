@@ -2,9 +2,9 @@
 % Please edit documentation in R/mlr_tasks.R
 \name{mlr_tasks}
 \alias{mlr_tasks}
-\title{Dictionary of example learning tasks}
+\title{Dictionary of Tasks}
 \description{
-Dictionary of example learning tasks
+Dictionary of Tasks
 }
 \section{Usage}{
 

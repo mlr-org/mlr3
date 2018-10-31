@@ -20,9 +20,12 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{truth} (\link{factor}): Factor of true class labels (as returned by \code{task$truth()}). Note that empty levels may not be dropped.
-\item \code{response} (\link{factor} | \link{character}): Vector of predicted class labels. Must have length \code{length(truth)}.
-\item \code{prob} (\link{matrix}): Numeric matrix of class probabilities with \code{levels(truth)} columns and \code{length(truth)} rows.
+\item \code{truth} [\link{factor}]:\cr
+Factor of true class labels (as returned by \code{task$truth()}). Note that empty levels may not be dropped.
+\item \code{response} [\link{factor} | \link{character}]:\cr
+Vector of predicted class labels. Must have length \code{length(truth)}.
+\item \code{prob} [\link{matrix}]:\cr
+Numeric matrix of class probabilities with \code{levels(truth)} columns and \code{length(truth)} rows.
 Columns must be named with class levels.
 }
 }

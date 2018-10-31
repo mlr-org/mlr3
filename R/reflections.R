@@ -1,7 +1,7 @@
 #' @title Reflections for mlr3
 #'
 #' @description
-#' Environment which stores various information about feasible values to allow for reflections.
+#' Environment which stores various information for reflections.
 #' @keywords internal
 #' @export
 mlr_reflections = new.env(parent = emptyenv())

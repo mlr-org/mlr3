@@ -1,4 +1,4 @@
-#' @title Dictionary of registered performance measures
+#' @title Dictionary of Performance Measures
 #'
 #' @section Usage:
 #' See [Dictionary].
@@ -9,8 +9,7 @@
 #' @examples
 #' mlr_measures$keys()
 #' as.data.table(mlr_measures)
-#' m = mlr_measures$get("mmce")
-#' print(m)
+#' mlr_measures$get("mmce")
 NULL
 
 #' @include Dictionary.R

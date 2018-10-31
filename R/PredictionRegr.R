@@ -12,11 +12,15 @@
 #' p$se
 #'
 #' as.data.table(p)
+#' ```
 #'
 #' @section Arguments:
-#' * `truth` ([numeric]): Numeric vector of true response.
-#' * `response` ([numeric]): Numeric vector of predictions. Must have length `length(truth)`.
-#' * `se` ([numeric]): Numeric vector of predicted standard error. Must have length `length(truth)`.
+#' * `truth` \[[numeric]\]:\cr
+#'   Numeric vector of true response.
+#' * `response` \[[numeric]\]:\cr
+#'   Numeric vector of predictions. Must have length `length(truth)`.
+#' * `se` \[[numeric]\]:\cr
+#'   Numeric vector of predicted standard error. Must have length `length(truth)`.
 #'
 #' @section Details:
 #' `$new()` initializes a new object of class [Prediction].

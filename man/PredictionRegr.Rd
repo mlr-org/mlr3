@@ -20,9 +20,12 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{truth} (\link{numeric}): Numeric vector of true response.
-\item \code{response} (\link{numeric}): Numeric vector of predictions. Must have length \code{length(truth)}.
-\item \code{se} (\link{numeric}): Numeric vector of predicted standard error. Must have length \code{length(truth)}.
+\item \code{truth} [\link{numeric}]:\cr
+Numeric vector of true response.
+\item \code{response} [\link{numeric}]:\cr
+Numeric vector of predictions. Must have length \code{length(truth)}.
+\item \code{se} [\link{numeric}]:\cr
+Numeric vector of predicted standard error. Must have length \code{length(truth)}.
 }
 }
 

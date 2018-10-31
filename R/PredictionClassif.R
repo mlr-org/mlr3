@@ -12,11 +12,15 @@
 #' p$prob
 #'
 #' as.data.table(p)
+#' ```
 #'
 #' @section Arguments:
-#' * `truth` ([factor]): Factor of true class labels (as returned by `task$truth()`). Note that empty levels may not be dropped.
-#' * `response` ([factor] | [character]): Vector of predicted class labels. Must have length `length(truth)`.
-#' * `prob` ([matrix]): Numeric matrix of class probabilities with `levels(truth)` columns and `length(truth)` rows.
+#' * `truth` \[[factor]\]:\cr
+#'   Factor of true class labels (as returned by `task$truth()`). Note that empty levels may not be dropped.
+#' * `response` \[[factor] | [character]\]:\cr
+#'   Vector of predicted class labels. Must have length `length(truth)`.
+#' * `prob` \[[matrix]\]:\cr
+#'   Numeric matrix of class probabilities with `levels(truth)` columns and `length(truth)` rows.
 #'   Columns must be named with class levels.
 #'
 #' @section Details:

@@ -1,14 +1,14 @@
-#' @title Abstract measure class
+#' @title Measure Class
 #'
 #' @description
-#' Abstraction for performance measures.
-#'
 #' Predefined measures are stored in [mlr_measures].
 #'
 #' @section Usage:
 #' ```
+#' m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
+#' m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
 #' m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
-#' m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
+#' #
 #' m$id
 #' m$packages
 #' m$task_type

@@ -10,3 +10,4 @@ Re-export of as.data.table
 
 See \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
 }
+\keyword{internal}

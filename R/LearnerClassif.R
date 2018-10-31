@@ -1,18 +1,5 @@
-#' @title Class for classification learners
-#'
-#' @description
-#' Class for classification learners. Inherits from [Learner].
-#' Predict type is set to "response" by default.
-#'
-#' Instantiated learners can be retrieved from [mlr_learners].
-#'
-#' @section Usage:
-#' ```
-#' l = LearnerClassif$new()
-#' ```
-#'
 #' @name LearnerClassif
-#' @family Learner
+#' @rdname Learner
 NULL
 
 #' @export
