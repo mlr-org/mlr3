@@ -9,7 +9,7 @@ Abstraction for learners.
 Predefined learners are stored in \link{mlr_learners}.
 }
 \section{Usage}{
-\preformatted{l = Learner$new(id, packages = character(0), par_set = ParamSet$new(), par_vals = list(), properties = character(0))
+\preformatted{l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
 l$id
 l$task_type
 l$feature_types
@@ -28,11 +28,25 @@ l$hash
 \section{Arguments}{
 
 \itemize{
-\item \code{id} (\code{character(1)}):
+\item \code{id} [\code{character(1)}]:
 identifier for this object.
-\item \code{task} (\link{Task}):
+\item \code{task_type} [\code{character(1)}]:\cr
+Type of the task the learner can operator on. E.g., \code{"classif"} or \code{"regr"}.
+\item \code{feature_types} [\code{character()}]:\cr
+Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
+\item \code{predict_types} [\code{character()}]:\cr
+Supported predict types. Must be a subset of \code{mlr_reflections$predict_types}.
+\item \code{packages} [\code{character()}]:\cr
+Set of required packages.
+\item \code{par_set} [\code{\link[paradox:ParamSet]{ParamSet}}]:\cr
+Set of required packages.
+\item \code{par_vals} [\code{named list()}]:\cr
+List of hyperparameters.
+\item \code{properties} [\code{character()}]:\cr
+Set of properties of the learner. Must be a subset of \code{mlr_reflections$learner_properties}.
+\item \code{task} [\link{Task}]:\cr
 Task to train/predict on.
-\item \code{model} (any):
+\item \code{model} [any]:\cr
 Fitted model as returned by \code{train}.
 }
 }
@@ -41,24 +55,24 @@ Fitted model as returned by \code{train}.
 
 \code{$new()} creates a new object of class \link{Learner}.
 
-\code{$id} (\code{character(1)}) stores the identifier of the object.
+\code{$id} [\code{character(1)}] stores the identifier of the object.
 
-\code{$task_type} (\code{character(1)}) stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
+\code{$task_type} [\code{character(1)}] stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
 
-\code{$feature_types} (\code{character()}) stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+\code{$feature_types} [\code{character()}] stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
 
-\code{$predict_types} (\code{character()}) stores the possible predict types the learner is capable of. For classification,
+\code{$predict_types} [\code{character()}] stores the possible predict types the learner is capable of. For classification,
 feasible values are \code{"response"} and \code{"prob"}, for regression \code{"response"} and \code{"se"} can be specified.
 
-\code{$predict_type} (\code{character(1)}) stores the currently selected predict type.
+\code{$predict_type} [\code{character(1)}] stores the currently selected predict type.
 
-\code{$packages} (\code{character(1)}) stores the names of required packages.
+\code{$packages} [\code{character()}] stores the names of required packages.
 
-\code{$par_set()} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter and possible settings.
+\code{$par_set()} [\link[paradox:ParamSet]{paradox::ParamSet}] describes the available hyperparameter and possible settings.
 
-\code{$par_vals()} (\code{named list}) stores the list set hyperparameter values.
+\code{$par_vals()} [\code{named list()}] stores the list set hyperparameter values.
 
-\code{$properties} (\code{character()}) is a set of tags which describe the properties of the learner.
+\code{$properties} [\code{character()}] is a set of tags which describe the properties of the learner.
 
 \code{$train()} takes a task and returns a model fitted on all observations.
 
@@ -72,4 +86,3 @@ Other Learner: \code{\link{LearnerClassif}},
   \code{\link{LearnerRegr}}, \code{\link{mlr_learners}}
 }
 \concept{Learner}
-\keyword{internal}

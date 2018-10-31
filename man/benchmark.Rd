@@ -8,22 +8,21 @@ benchmark(tasks, learners, resamplings, measures = NULL,
   ctrl = exec_control())
 }
 \arguments{
-\item{tasks}{(\code{list} of \link{Task})\cr
+\item{tasks}{[\code{list} of \link{Task}]:\cr
 List of objects of type \link{Task}.}
 
-\item{learners}{(\code{list} of \link{Learner})\cr
+\item{learners}{[\code{list} of \link{Learner}]:\cr
 List of objects of type \link{Learner}.}
 
-\item{resamplings}{(\code{list} of \link{Resampling})\cr
+\item{resamplings}{[\code{list} of \link{Resampling}]:\cr
 List of objects of type \link{Resampling}.}
 
-\item{measures}{(list of \link{Measure})\cr
+\item{measures}{[\code{list} of \link{Measure}]:\cr
 List of performance measures used to assess the predictive performance.
 Defaults to the respective measures stored in \code{task}.}
 
-\item{ctrl}{(list returned by \code{\link[=exec_control]{exec_control()}})\cr
-Object to control various parts of the execution.
-See \code{\link[=exec_control]{exec_control()}}.}
+\item{ctrl}{[\code{named list} as returned by \code{\link[=exec_control]{exec_control()}}]:\cr
+Object to control experiment execution. See \code{\link[=exec_control]{exec_control()}}.}
 }
 \value{
 \link{BenchmarkResult}.
