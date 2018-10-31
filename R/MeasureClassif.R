@@ -1,4 +1,5 @@
 #' @include Measure.R
+#' @export
 MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
   public = list(
     initialize = function(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L)) {

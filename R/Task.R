@@ -136,7 +136,7 @@
 #' task$formula
 NULL
 
-#' @include capabilities.R
+#' @include reflections.R
 Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
@@ -155,7 +155,7 @@ Task = R6Class("Task",
 
       rn = backend$rownames
       self$row_roles = list(use = rn, validation = vector(typeof(rn), 0L))
-      self$col_roles = named_list(capabilities$task_col_roles, character(0L))
+      self$col_roles = named_list(mlr_reflections$task_col_roles, character(0L))
       self$col_roles$feature = feature = setdiff(backend$colnames, backend$primary_key)
 
       self$col_info = col_info(backend)
@@ -208,7 +208,7 @@ Task = R6Class("Task",
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
-      assert_subset(new_roles, capabilities$task_row_roles)
+      assert_subset(new_roles, mlr_reflections$task_row_roles)
       assert_flag(exclusive)
 
       for (role in new_roles)
@@ -224,7 +224,7 @@ Task = R6Class("Task",
     },
 
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
-      assert_subset(new_roles, capabilities$task_col_roles)
+      assert_subset(new_roles, mlr_reflections$task_col_roles)
       assert_flag(exclusive)
 
       for (role in new_roles)

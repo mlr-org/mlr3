@@ -117,25 +117,25 @@ expect_task = function(task) {
   expect_data_table(task$col_info, key = "id", ncol = length(cols))
   expect_names(names(task$col_info), permutation.of = cols)
   expect_character(task$col_info$id, any.missing = FALSE, unique = TRUE)
-  expect_subset(task$col_info$type, capabilities$task_feature_types)
+  expect_subset(task$col_info$type, mlr_reflections$task_feature_types)
   expect_list(task$col_info$levels)
 
   expect_list(task$col_roles, names = "unique", any.missing = FALSE)
-  expect_names(names(task$col_roles), permutation.of = capabilities$task_col_roles)
+  expect_names(names(task$col_roles), permutation.of = mlr_reflections$task_col_roles)
   lapply(task$col_roles, expect_character, any.missing = FALSE, unique = TRUE, min.chars = 1L)
   expect_subset(unlist(task$col_roles), task$col_info$id)
 
   expect_list(task$row_roles, names = "unique", types = c("integer", "character"), any.missing = FALSE)
-  expect_names(names(task$row_roles), permutation.of = capabilities$task_row_roles)
+  expect_names(names(task$row_roles), permutation.of = mlr_reflections$task_row_roles)
   lapply(task$row_roles, expect_atomic_vector, any.missing = FALSE, unique = TRUE)
 
   types = task$feature_types
   expect_data_table(types, ncol = 2, nrow = length(task$feature_names))
   expect_set_equal(types$id, task$feature_names)
-  expect_subset(types$type, capabilities$task_feature_types)
+  expect_subset(types$type, mlr_reflections$task_feature_types)
 
   properties = task$properties
-  expect_subset(properties, capabilities$task_properties[[task$task_type]])
+  expect_subset(properties, mlr_reflections$task_properties[[task$task_type]])
 
   expect_hash(task$hash, 1L)
 }
@@ -183,7 +183,7 @@ expect_learner = function(lrn, task = NULL) {
   expect_r6(lrn, "Learner", cloneable = TRUE)
   expect_output(print(lrn))
 
-  expect_choice(lrn$task_type, capabilities$task_types)
+  expect_choice(lrn$task_type, mlr_reflections$task_types)
   expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   expect_class(lrn$par_set, "ParamSet")
   expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
@@ -193,7 +193,7 @@ expect_learner = function(lrn, task = NULL) {
 
   if (!is.null(task)) {
     assert_class(task, "Task")
-    expect_subset(lrn$properties, capabilities$learner_properties[[task$task_type]])
+    expect_subset(lrn$properties, mlr_reflections$learner_properties[[task$task_type]])
     expect_identical(lrn$task_type, task$task_type)
   }
 }
@@ -237,7 +237,7 @@ expect_measure = function(m) {
   expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type", "task_properties", "learner_properties"))
 
   expect_string(m$id, min.chars = 1L)
-  expect_subset(m$task_type, c(NA_character_, capabilities$task_types), empty.ok = FALSE)
+  expect_subset(m$task_type, c(NA_character_, mlr_reflections$task_types), empty.ok = FALSE)
   expect_numeric(m$range, len = 2, any.missing = FALSE)
   expect_lt(m$range[1], m$range[2])
   expect_flag(m$minimize)
@@ -250,9 +250,9 @@ expect_experiment = function(e) {
   expect_r6(e, "Experiment")
   state = e$state
   expect_factor(state, ordered = TRUE)
-  expect_subset(as.character(state), levels(reflections$experiment_slots$state))
-  expect_list(e$data, len = nrow(reflections$experiment_slots))
-  expect_names(names(e$data), permutation.of = reflections$experiment_slots$name)
+  expect_subset(as.character(state), levels(mlr_reflections$experiment_slots$state))
+  expect_list(e$data, len = nrow(mlr_reflections$experiment_slots))
+  expect_names(names(e$data), permutation.of = mlr_reflections$experiment_slots$name)
 
   expect_class(e$data$task, "Task")
   expect_class(e$data$learner, "Learner")
@@ -284,8 +284,8 @@ expect_resample_result = function(rr) {
   expect_resampling(rr$resampling, task = rr$task)
 
   data = rr$data
-  expect_data_table(rr$data, nrow = rr$resampling$iters, ncol = nrow(reflections$experiment_slots), any.missing = FALSE)
-  expect_names(names(rr$data), permutation.of = reflections$experiment_slots$name)
+  expect_data_table(rr$data, nrow = rr$resampling$iters, ncol = nrow(mlr_reflections$experiment_slots), any.missing = FALSE)
+  expect_names(names(rr$data), permutation.of = mlr_reflections$experiment_slots$name)
   expect_hash(rr$hash, 1L)
 
   perf = rr$performance

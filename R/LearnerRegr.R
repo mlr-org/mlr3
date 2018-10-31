@@ -21,7 +21,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
     initialize = function(id, feature_types = character(0L), predict_types = "response", packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L)) {
       super$initialize(id = id, task_type = "regr", feature_types = feature_types, predict_types = predict_types, packages = packages,
         par_set = par_set, par_vals = par_vals, properties = properties)
-      assert_subset(self$properties, capabilities$learner_properties$regr)
+      assert_subset(self$properties, mlr_reflections$learner_properties$regr)
       private$.predict_type = predict_types[1L]
     }
   )

@@ -4,44 +4,44 @@
 #' A simple key-value store for \pkg{R6} objects.
 #' On retrieval of an object, the following applies:
 #'
-#' * Factories (objects of class `R6ClassGenerator`) are initialized.
-#' * R6 objects are cloned.
-#' * Functions called.
+#' * R6 Factories (objects of class `R6ClassGenerator`) are initialized.
+#' * [R6::R6Class] objects are cloned.
+#' * Functions are called.
 #' * All other objects are returned as-is.
 #'
 #' @section Usage:
 #' ```
 #' d = Dictionary$new()
-#'
 #' d$keys(pattern)
 #' d$add(value)
 #' d$get(key)
 #' d$mget(keys)
+#' d$has(key)
+#' d$remove(key, value)
 #' d$remove(keys)
 #' ```
 #'
 #' @section Arguments:
-#' * `pattern` (`string`):
-#'  Restrict keys to keys  which match the `pattern`.
-#' * `key` (`string`):
-#'   Key of single object to work on.
-#' * `keys` (`string`):
-#'   Keys of multiple objects to work on.
+#' * `pattern` \[`character(1)`\]:\cr
+#'  Restrict keys to keys  which match `pattern`.
+#' * `key` \[`character(1)`\]:\cr
+#'   Single Key as string.
+#' * `value` \[any\]:\cr
+#'   Arbitrary value.
+#' * `keys` \[`character()`\]:\cr
+#'   Vector of keys.
 #'
 #' @section Details:
-#' `$new()` initializes a new object of class [Dictionary].
-#'
-#' `$keys()` returns a vector of type `character` with all keys (or all keys matching `pattern`).
-#'
-#' `$get()` retrieves a single object with key `key` (or raises an exception).
-#'
-#' `$mget()` retrieves a named list of objects with keys `keys` (or raises an exception).
-#'
-#' `$remove()` removes item with key `key` from the Dictionary.
+#' * `$new()` initializes a new object of class [Dictionary].
+#' * `$keys()` \[`character()`\] returns a vector with all keys (or all keys matching `pattern`).
+#' * `$get()` \[any\] retrieves a single object with key `key` (or raises an exception).
+#' * `$mget()` \[`named list`\] creates a list of objects with keys `keys` (or raises an exception).
+#' * `$has()` \[`logical()`\] is `TRUE` if `key` is present in the Dictionary.
+#' * `$add()` adds item `value` with key `key` to the Dictionary.
+#' * `$remove()` removes item with key `key` from the Dictionary.
 #'
 #' @name Dictionary
 #' @family Dictionary
-#' @keywords internal
 NULL
 
 #' @export
@@ -68,6 +68,11 @@ Dictionary = R6Class("Dictionary",
       keys
     },
 
+    has = function(key) {
+      assert_id(key)
+      exists(key, envir = self$items, inherits = FALSE)
+    },
+
     add = function(key, value) {
       assert_id(key)
       assign(x = key, value = value, envir = self$items)
@@ -88,11 +93,6 @@ Dictionary = R6Class("Dictionary",
     mget = function(keys) {
       assert_keys_exist(assert_character(keys, any.missing = FALSE), self)
       setNames(lapply(keys, dictionary_retrieve, self = self), keys)
-    },
-
-    has = function(key) {
-      assert_id(key)
-      exists(key, envir = self$items, inherits = FALSE)
     }
   )
 )

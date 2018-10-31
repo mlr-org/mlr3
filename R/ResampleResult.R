@@ -59,7 +59,7 @@ ResampleResult = R6Class("ResampleResult",
 
     initialize = function(data, hash = NULL) {
       assert_data_table(data)
-      slots = reflections$experiment_slots$name
+      slots = mlr_reflections$experiment_slots$name
       assert_names(names(data), must.include = slots)
       self$data = setkeyv(data[, slots, with = FALSE], "iteration")
       if (!is.null(hash))

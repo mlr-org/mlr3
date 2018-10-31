@@ -1,6 +1,6 @@
 context("evaluate")
 
-is_empty_log = function(log) { test_data_table(log$messages, nrow = 0L, ncol = 2L) && test_factor(log$messages$class, levels = reflections$log_classes) }
+is_empty_log = function(log) { test_data_table(log$messages, nrow = 0L, ncol = 2L) && test_factor(log$messages$class, levels = mlr_reflections$log_classes) }
 disabled = exec_control(use_future = FALSE, use_evaluate = FALSE)
 enabled = exec_control(use_future = FALSE, use_evaluate = TRUE, verbose = FALSE)
 task = mlr_tasks$get("iris")
@@ -22,7 +22,7 @@ test_that("evaluate / experiment", {
   expect_is(log, "Log")
   expect_output(print(log), "<Log> with 2")
   expect_data_table(log$messages, nrow = 2L, ncol = 2L, any.missing = FALSE)
-  expect_factor(log$messages$class, levels = reflections$log_classes)
+  expect_factor(log$messages$class, levels = mlr_reflections$log_classes)
   expect_equal(as.character(log$messages$class), c("message", "warning"))
   expect_true(all(grepl("$train()", log$messages$msg, fixed = TRUE)))
   expect_true(log$has_condition("message"))
@@ -38,7 +38,7 @@ test_that("evaluate / experiment", {
   log = e$data$predict_log
   expect_is(log, "Log")
   expect_data_table(log$messages, nrow = 2L, ncol = 2L, any.missing = FALSE)
-  expect_factor(log$messages$class, levels = reflections$log_classes)
+  expect_factor(log$messages$class, levels = mlr_reflections$log_classes)
   expect_equal(as.character(log$messages$class), c("message", "warning"))
   expect_true(all(grepl("$predict()", log$messages$msg, fixed = TRUE)))
 })
