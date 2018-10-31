@@ -9,5 +9,4 @@
 ^man-roxygen$
 ^attic$
 ^docs$
-^_pkgdown.yml$
 ^pkgdown$
