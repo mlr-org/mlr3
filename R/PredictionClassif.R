@@ -5,30 +5,36 @@
 #'
 #' @section Usage:
 #' ```
+#' # Construction
 #' p = PredictionClassif$new(truth, response, prob = NULL)
-#'
+#' #
 #' p$truth
 #' p$response
 #' p$prob
-#'
+#' #
 #' as.data.table(p)
+#' ```
 #'
 #' @section Arguments:
-#' * `truth` ([factor]): Factor of true class labels (as returned by `task$truth()`). Note that empty levels may not be dropped.
-#' * `response` ([factor] | [character]): Vector of predicted class labels. Must have length `length(truth)`.
-#' * `prob` ([matrix]): Numeric matrix of class probabilities with `levels(truth)` columns and `length(truth)` rows.
+#' * `truth` \[[factor]\]:\cr
+#'   Factor of true class labels (as returned by `task$truth()`). Note that empty levels may not be dropped.
+#' * `response` \[[factor] | [character]\]:\cr
+#'   Vector of predicted class labels. Must have length `length(truth)`.
+#' * `prob` \[[matrix]\]:\cr
+#'   Numeric matrix of class probabilities with `levels(truth)` columns and `length(truth)` rows.
 #'   Columns must be named with class levels.
 #'
 #' @section Details:
-#' `$new()` initializes a new object of class [Prediction].
+#' * `$new()` initializes a new object of class [Prediction].
 #'
-#' `$truth` stores the predicted class labels as factor.
+#' * `$truth` stores the predicted class labels as factor.
 #'
-#' `$response` stores the predicted class labels as factor.
+#' * `$response` stores the predicted class labels as factor.
 #'
-#' `$prob` stores the label probabilities (if available) as matrix, or is `NULL`.
+#' * `$prob` stores the label probabilities (if available) as matrix, or is `NULL`.
 #'
-#' Object can be transformed to a simple [data.table::data.table()] with `data.table::as.data.table()`.
+#' * The prediction object can be transformed to a simple [`data.table()`][data.table::data.table()]
+#'   with [`as.data.table()`][data.table::as.data.table()].
 #' @name PredictionClassif
 #' @export
 #' @family Prediction

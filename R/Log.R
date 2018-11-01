@@ -5,30 +5,30 @@
 #'
 #' @section Usage:
 #' ```
+#' # Construction
 #' l = Log$new(log = NULL)
+#'
 #' l$is_empty
 #' l$has_condition(cl)
-#'
 #' l$format()
 #' l$print()
 #' ```
 #'
 #' @section Arguments:
-#' * `log` (`data.table()`):
+#' * `log` \[[`data.table()`][data.table::data.table()]\]:
 #'   Object as returned by [evaluate::evaluate()].
-#'
-#' * `cl` (`character(1)`):
+#' * `cl` \[`character(1)`\]:
 #'   Class of a condition. One of "output", "message", "warning", or "error".
 #'
 #' @section Details:
-#' `$new(log)` parses the object returned by [evaluate::evaluate()] and creates a new [Log].
+#' * `$new(log)` parses the object returned by [evaluate::evaluate()] and creates a new [Log].
 #'
-#' `$is_empty` is `TRUE` if there has been no log captured, either because logging was turned off or there was not a single line out output.
+#' * `$is_empty` is `TRUE` if there has been no log captured, either because logging was turned off or there was not a single line out output.
 #'
-#' `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is logged.
-#'  Possible conditions are "output", "message", "warning", and "error".
+#' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is logged.
+#'   Possible conditions are "output", "message", "warning", and "error".
 #'
-#' `format()` and `print()` are for formatting and printing via [base::format()] or [base::print()], respectively.
+#' * `format()` and `print()` are for formatting and printing via [base::format()] or [base::print()], respectively.
 #'
 #' @name Log
 #' @examples
@@ -38,11 +38,14 @@
 #'  learner = mlr_learners$get("classif.crashtest")
 #' )
 #' e$train(ctrl = exec_control(use_evaluate = TRUE))
-#' log = e$data$train_log
+#' log = e$logs$train
 #'
 #' log$is_empty
 #' log$has_condition("error")
 #' log$print()
+NULL
+
+#' @export
 Log = R6Class("Log", cloneable = FALSE,
   public = list(
     is_empty = NULL,
@@ -50,7 +53,7 @@ Log = R6Class("Log", cloneable = FALSE,
     initialize = function(log = NULL) {
       if (length(log) <= 1L) {
         self$is_empty = TRUE
-        self$messages = data.table(msg = character(0L), class = factor(character(0L), levels = reflections$log_classes))
+        self$messages = data.table(msg = character(0L), class = factor(character(0L), levels = mlr_reflections$log_classes))
       } else {
         self$is_empty = FALSE
         self$messages = parse_evaluate(log)
@@ -69,7 +72,7 @@ Log = R6Class("Log", cloneable = FALSE,
     },
 
     has_condition = function(cl) {
-      assert_choice(cl, reflections$log_classes)
+      assert_choice(cl, mlr_reflections$log_classes)
       !self$is_empty && self$messages[list(cl), .N, on = "class", nomatch = 0L] > 0L
     }
   )
@@ -91,6 +94,6 @@ parse_evaluate = function(log) {
   log = log[-1L] # remove $src
   data.table(
     msg = vcapply(log, function(x) trimws(if (is.character(x)) x else x$message)),
-    class = factor(vcapply(log, translate_class), levels = reflections$log_classes)
+    class = factor(vcapply(log, translate_class), levels = mlr_reflections$log_classes)
   )
 }

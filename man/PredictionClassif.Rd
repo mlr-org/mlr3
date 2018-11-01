@@ -7,12 +7,13 @@
 This object stores the predictions returned by a learner of class \link{LearnerClassif}.
 }
 \section{Usage}{
-\preformatted{p = PredictionClassif$new(truth, response, prob = NULL)
-
+\preformatted{# Construction
+p = PredictionClassif$new(truth, response, prob = NULL)
+#
 p$truth
 p$response
 p$prob
-
+#
 as.data.table(p)
 }
 }
@@ -20,24 +21,26 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{truth} (\link{factor}): Factor of true class labels (as returned by \code{task$truth()}). Note that empty levels may not be dropped.
-\item \code{response} (\link{factor} | \link{character}): Vector of predicted class labels. Must have length \code{length(truth)}.
-\item \code{prob} (\link{matrix}): Numeric matrix of class probabilities with \code{levels(truth)} columns and \code{length(truth)} rows.
+\item \code{truth} [\link{factor}]:\cr
+Factor of true class labels (as returned by \code{task$truth()}). Note that empty levels may not be dropped.
+\item \code{response} [\link{factor} | \link{character}]:\cr
+Vector of predicted class labels. Must have length \code{length(truth)}.
+\item \code{prob} [\link{matrix}]:\cr
+Numeric matrix of class probabilities with \code{levels(truth)} columns and \code{length(truth)} rows.
 Columns must be named with class levels.
 }
 }
 
 \section{Details}{
 
-\code{$new()} initializes a new object of class \link{Prediction}.
-
-\code{$truth} stores the predicted class labels as factor.
-
-\code{$response} stores the predicted class labels as factor.
-
-\code{$prob} stores the label probabilities (if available) as matrix, or is \code{NULL}.
-
-Object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}} with \code{data.table::as.data.table()}.
+\itemize{
+\item \code{$new()} initializes a new object of class \link{Prediction}.
+\item \code{$truth} stores the predicted class labels as factor.
+\item \code{$response} stores the predicted class labels as factor.
+\item \code{$prob} stores the label probabilities (if available) as matrix, or is \code{NULL}.
+\item The prediction object can be transformed to a simple \code{\link[data.table:data.table]{data.table()}}
+with \code{\link[data.table:as.data.table]{as.data.table()}}.
+}
 }
 
 \seealso{

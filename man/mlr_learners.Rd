@@ -2,9 +2,9 @@
 % Please edit documentation in R/mlr_learners.R
 \name{mlr_learners}
 \alias{mlr_learners}
-\title{Dictionary of registered learners}
+\title{Dictionary of Learners}
 \description{
-Dictionary of registered learners
+Dictionary of Learners
 }
 \section{Usage}{
 
@@ -14,16 +14,14 @@ See \link{Dictionary}.
 \examples{
 mlr_learners$keys()
 as.data.table(mlr_learners)
-l = mlr_learners$get("classif.dummy")
-print(l)
+mlr_learners$get("classif.dummy")
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_measures}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 
-Other Learner: \code{\link{LearnerClassif}},
-  \code{\link{LearnerRegr}}, \code{\link{Learner}}
+Other Learner: \code{\link{Learner}}
 }
 \concept{Dictionary}
 \concept{Learner}

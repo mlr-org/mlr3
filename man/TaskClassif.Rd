@@ -8,8 +8,10 @@ This task specializes \link{Task} and \link{TaskSupervised} for classification p
 The target column is assumed to be a factor.
 }
 \section{Usage}{
-\preformatted{t = TaskClassif$new(id, backend, target, positive = NULL)
 
+In addition to the interface of \link{Task}/\link{TaskSupervised}, this class offers:\preformatted{# Construction
+t = TaskClassif$new(id, backend, target, positive = NULL)
+#
 t$class_names
 t$class_n
 t$task_type

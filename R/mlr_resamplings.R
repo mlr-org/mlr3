@@ -1,4 +1,4 @@
-#' Dictionary of registered resampling strategies
+#' @title Dictionary of Resampling Strategies
 #'
 #' @section Usage:
 #' See [Dictionary].
@@ -9,8 +9,7 @@
 #' @examples
 #' mlr_resamplings$keys()
 #' as.data.table(mlr_resamplings)
-#' r = mlr_resamplings$get("cv")
-#' print(r)
+#' mlr_resamplings$get("cv")
 NULL
 
 #' @include Dictionary.R

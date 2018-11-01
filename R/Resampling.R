@@ -7,7 +7,9 @@
 #'
 #' @section Usage:
 #' ```
+#' # Construction
 #' r = Resampling$new(id)
+#' #
 #' r$id
 #' r$iters
 #' r$par_set
@@ -28,29 +30,29 @@
 #'   Get the `i`-th training/test set.
 #'
 #' @section Details:
-#' `$new()` creates a new object of class [Resampling].
+#' * `$new()` creates a new object of class [Resampling].
 #'
-#' `$id` (`character(1)`) stores the identifier of the object.
+#' * `$id` (`character(1)`) stores the identifier of the object.
 #'
-#' `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `par_vals`.
+#' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `par_vals`.
 #'
-#' `$par_set` (`[paradox::ParamSet()]`) describes available parameters.
+#' * `$par_set` (`[paradox::ParamSet()]`) describes available parameters.
 #'
-#' `$par_vals` (`named list`) stores the currently set parameter values.
-#' You can set parameters by assigning a named list of new parameters to this slot.
+#' * `$par_vals` (`named list`) stores the currently set parameter values.
+#'   You can set parameters by assigning a named list of new parameters to this slot.
 #'
-#' `$instantiate` materializes fixed training and test splits for a given task.
+#' * `$instantiate` materializes fixed training and test splits for a given task.
 #'
-#' `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
+#' * `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
 #'
-#' `$instance` stores the instantiated realization of the resampling. This is an arbitrary object, do
+#' * `$instance` stores the instantiated realization of the resampling. This is an arbitrary object, do
 #'   not work directly with it. Instead, use `$train_set()` and `$test_set()`.
 #'
-#' `$train_set()` returns the training set for the `i`-th iteration.
+#' * `$train_set()` returns the training set for the `i`-th iteration.
 #'
-#' `$test_set()` returns the test set for the `i`-th iteration.
+#' * `$test_set()` returns the test set for the `i`-th iteration.
 #'
-#' `$hash` stores a checksum (`character(1)`) calculated on the `id`, `par_vals` and the instantiation.
+#' * `$hash` stores a checksum (`character(1)`) calculated on the `id`, `par_vals` and the instantiation.
 #'   If the object is not instantiated yet, `NA` is returned.
 #'
 #' @name Resampling

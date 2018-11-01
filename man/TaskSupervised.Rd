@@ -8,8 +8,9 @@ This is the abstract base class for task objects like \link{TaskClassif} and \li
 It extends \link{Task} with some handling of target columns.
 }
 \section{Usage}{
-\preformatted{t = TaskSupervised$new(id, backend, targets)
-
+\preformatted{# Construction
+t = TaskSupervised$new(id, backend, targets)
+#
 t$truth(subset = NULL)
 }
 }
@@ -17,14 +18,16 @@ t$truth(subset = NULL)
 \section{Arguments}{
 
 \itemize{
-\item \code{subset} (\code{vector}):
+\item \code{subset} (\code{vector}):\cr
 Subset of row ids to subset rows from the \link{DataBackend} using its primary key.
 }
 }
 
 \section{Details}{
 
-\code{$truth()} returns the true labels. The type depends on the type of the task.
+\itemize{
+\item \code{$truth()} returns the true labels. The type depends on the type of the task.
+}
 }
 
 \seealso{

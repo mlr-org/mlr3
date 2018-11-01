@@ -7,19 +7,22 @@
 A simple key-value store for \pkg{R6} objects.
 On retrieval of an object, the following applies:
 \itemize{
-\item Factories (objects of class \code{R6ClassGenerator}) are initialized.
-\item R6 objects are cloned.
-\item Functions called.
+\item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized.
+\item \link[R6:R6Class]{R6::R6Class} objects are cloned.
+\item Functions are called.
 \item All other objects are returned as-is.
 }
 }
 \section{Usage}{
-\preformatted{d = Dictionary$new()
+\preformatted{# Construction
+d = Dictionary$new()
 
 d$keys(pattern)
 d$add(value)
 d$get(key)
 d$mget(keys)
+d$has(key)
+d$remove(key, value)
 d$remove(keys)
 }
 }
@@ -27,26 +30,28 @@ d$remove(keys)
 \section{Arguments}{
 
 \itemize{
-\item \code{pattern} (\code{string}):
-Restrict keys to keys  which match the \code{pattern}.
-\item \code{key} (\code{string}):
-Key of single object to work on.
-\item \code{keys} (\code{string}):
-Keys of multiple objects to work on.
+\item \code{pattern} [\code{character(1)}]:\cr
+Restrict keys to keys  which match \code{pattern}.
+\item \code{key} [\code{character(1)}]:\cr
+Single Key as string.
+\item \code{value} [any]:\cr
+Arbitrary value.
+\item \code{keys} [\code{character()}]:\cr
+Vector of keys.
 }
 }
 
 \section{Details}{
 
-\code{$new()} initializes a new object of class \link{Dictionary}.
-
-\code{$keys()} returns a vector of type \code{character} with all keys (or all keys matching \code{pattern}).
-
-\code{$get()} retrieves a single object with key \code{key} (or raises an exception).
-
-\code{$mget()} retrieves a named list of objects with keys \code{keys} (or raises an exception).
-
-\code{$remove()} removes item with key \code{key} from the Dictionary.
+\itemize{
+\item \code{$new()} initializes a new object of class \link{Dictionary}.
+\item \code{$keys()} [\code{character()}] returns a vector with all keys (or all keys matching \code{pattern}).
+\item \code{$get()} [any] retrieves a single object with key \code{key} (or raises an exception).
+\item \code{$mget()} [\code{named list}] creates a list of objects with keys \code{keys} (or raises an exception).
+\item \code{$has()} [\code{logical()}] is \code{TRUE} if \code{key} is present in the Dictionary.
+\item \code{$add()} adds item \code{value} with key \code{key} to the Dictionary.
+\item \code{$remove()} removes item with key \code{key} from the Dictionary.
+}
 }
 
 \seealso{
@@ -55,4 +60,3 @@ Other Dictionary: \code{\link{mlr_learners}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 }
 \concept{Dictionary}
-\keyword{internal}

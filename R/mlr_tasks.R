@@ -1,4 +1,4 @@
-#' @title Dictionary of example learning tasks
+#' @title Dictionary of Tasks
 #'
 #' @section Usage:
 #' See [Dictionary].

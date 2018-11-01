@@ -6,68 +6,76 @@
 #' @section Usage:
 #'
 #' ```
+#' # Construction
 #' e = Experiment$new(task, learner, ...)
+#' #
 #' e$train(subset)
 #' e$predict(subset, newdata)
 #' e$score(measures = NULL)
-#'
+#' #
 #' e$model
 #' e$prediction
 #' e$performance
-#'
 #' e$train_set
 #' e$test_set
 #' e$validation_set
 #' e$timings
+#' e$logs
 #' e$state
-#'
 #' e$data
 #' ```
 #'
 #' @section Arguments:
-#' * `task` ([Task]): Task to conduct experiment on
-#' * `learner` ([Learner]): Learner to conduct experiment with.
-#' * `subset` (`integer` | `character`): Subset of the task's row ids to work on.
-#' * `newdata` (`data.frame`): New data to predict on. Will be added to the task.
-#' * `measures` (list of [Measure]): Performance measure to use. Defaults to the measures
-#'    set in the [Task].
+#' * `task` \[[Task]\]:\cr
+#'   Task to conduct experiment on
+#' * `learner` \[[Learner]\]:\cr
+#'   Learner to conduct experiment with.
+#' * `subset` \[`integer()` | `character()`\]:\cr
+#'   Subset of the task's row ids to work on.
+#' * `newdata` \[[`data.frame()`][base::data.frame()]\]:\cr
+#'   New data to predict on. Will be appended to the task.
+#' * `measures` \[`list` of [Measure]\]:\cr
+#'   Performance measure to use. Defaults to the measures set in the [Task].
 #'
 #' @section Details:
-#' `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
+#' * `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
 #'
-#' `$train()` fits the induces `learner` on the (subset of the) `task` and internally stores the model.
-#'  The model can be accessed via `e$model`.
+#' * `$train()` fits the induced `learner` on the (subset of the) `task` and internally stores the model.
+#'   The model can be accessed via `e$model`.
 #'
-#' `$predict()` uses the previously fitted model to predict new observations.
-#'  The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction`.
+#' * `$predict()` uses the previously fitted model to predict new observations.
+#'   The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction` as [`data.table()`][data.table::data.table()].
 #'
-#' `$score()` quantifies stored predictions using the provided list of [Measure] (or the task's [Measure] if not provided)
-#'  and stores the resulting performance values. The performance can be accessed via `e$performance`.
+#' * `$score()` quantifies stored predictions using the provided list of [Measure] (or the task's [Measure] if not provided)
+#'   and stores the resulting performance values. The performance can be accessed via `e$performance`.
 #'
-#' `$train_set` and `test_set` return the row ids of the training set or test set, respectively.
-#' If there is a validation set (see [Task]), `validation_set` returns the corresponding row ids.
+#' * `$train_set` and `$test_set` return the row ids of the training set or test set, respectively.
 #'
-#' `$timings` holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (see [base::proc.time()]).
-#'  Timings are `NA` if the step has not been performed yet.
+#' * `$validation_set` returns the row ids of the validation set (see [Task]).
 #'
-#' `$state` returns an factor of length 1 with ordered levels `"defined"`, `"trained"`, `"predicted"` and `"scored"`.
+#' * `$timings` holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (c.f. [base::proc.time()]).
+#'   Timings are `NA` if the respective step has not been performed yet.
 #'
-#' `$data` stores the internal representation of an Experiment as a `named list` with the following slots:
-#'   * task: [Task].
-#'   * learner: [Learner].
-#'   * resampling: [Resampling]. Is `NULL` prior to calling `$train()`.
-#'      If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()],
-#'      a `ResamplingCustom` object is stored here.
-#'   * iteration: `integer(1)`. If the experiment is constructed manually, this is always 1.
+#' * `$logs` creates a list with names `train` and `predict`.
+#'   Both store an object of class [Log] if logging of the learner has been enabled via [exec_control()], and are `NULL` if logging was disabled or the respective step has not been performed yet.
+#'
+#' * `$state` returns an factor of length 1 with ordered levels `"defined"`, `"trained"`, `"predicted"` and `"scored"`.
+#'
+#' * `$data` stores the internal representation of an Experiment as a `named list` with the following slots:
+#'   * task \[[Task]\].
+#'   * learner \[[Learner]\].
+#'   * resampling \[[Resampling]\]. Is `NULL` prior to calling `$train()`.
+#'     If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()], a `ResamplingCustom` object is stored here.
+#'   * iteration \[`integer(1)`\]. If the experiment is constructed manually, this is always 1.
 #'   * model: Trained model as returned by the [Learner].
-#'   * train_log: Log for the training step.
-#'   * train_time: `numeric(1)`. Elapsed time in microseconds.
-#'   * predict_log: Log for the predict step.
-#'   * predict_time: `numeric(1)`. Elapsed time in microseconds.
-#'   * prediction: [Prediction].
-#'   * measures: list of [Measure]. Used performance measures.
-#'   * performance: `named numeric`. Depending on the column `measures`.
-#'   * score_time: `numeric(1)`. Elapsed time in microseconds.
+#'   * train_log: [Log] for the training step.
+#'   * train_time \[`numeric(1)`\]. Elapsed time in microseconds.
+#'   * predict_log. [Log] for the predict step.
+#'   * predict_time \[`numeric(1)`\]. Elapsed time in microseconds.
+#'   * prediction \[[Prediction]\].
+#'   * measures \[`list` of [Measure]\]. Actually used performance measures.
+#'   * performance \[`named numeric`\]. Performance values are returned by the measures.
+#'   * score_time \[`numeric(1)`\]. Elapsed time in microseconds.
 #'
 #' @name Experiment
 #' @export
@@ -104,7 +112,7 @@ Experiment = R6Class("Experiment",
     data = NULL,
 
     initialize = function(task, learner, ...) {
-      self$data = named_list(reflections$experiment_slots$name)
+      self$data = named_list(mlr_reflections$experiment_slots$name)
       self$data$task = assert_task(task)
       self$data$learner = assert_learner(learner, task = task)
       if (...length()) {
@@ -148,7 +156,7 @@ Experiment = R6Class("Experiment",
     },
 
     logs = function() {
-      list(train = self$data$train_log, test = self$data$predict_log)
+      list(train = self$data$train_log, predict = self$data$predict_log)
     },
 
     train_set = function() {
@@ -245,7 +253,7 @@ experiment_train = function(e, row_ids, ctrl = exec_control()) {
     value = train_worker(e, ctrl = ctrl)
   }
   e$data = insert(e$data, value)
-  e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "trained", "name"][[1L]]))
+  e$data = insert(e$data, named_list(mlr_reflections$experiment_slots[get("state") > "trained", "name"][[1L]]))
   return(e)
 }
 
@@ -269,7 +277,7 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = exec_con
     value = predict_worker(e, ctrl = ctrl)
   }
   e$data = insert(e$data, value)
-  e$data = insert(e$data, named_list(reflections$experiment_slots[get("state") > "predicted", "name"][[1L]]))
+  e$data = insert(e$data, named_list(mlr_reflections$experiment_slots[get("state") > "predicted", "name"][[1L]]))
   return(e)
 }
 
@@ -291,7 +299,7 @@ experiment_score = function(e, measures = NULL, ctrl = exec_control()) {
 
 experiment_state = function(self) {
   d = self$data
-  states = levels(reflections$experiment_slots$state)
+  states = levels(mlr_reflections$experiment_slots$state)
   if (!is.null(d$performance))
     return(ordered("scored", levels = states))
   if (!is.null(d$prediction))
@@ -304,7 +312,7 @@ experiment_state = function(self) {
 combine_experiments = function(x) {
   name = atomic = NULL
   nn = names(x[[1L]])
-  encapsulate = reflections$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
+  encapsulate = mlr_reflections$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
   rbindlist(lapply(x, function(exp) {
     exp[encapsulate] = lapply(exp[encapsulate], list)
     exp

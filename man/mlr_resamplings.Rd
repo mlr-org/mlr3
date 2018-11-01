@@ -2,9 +2,9 @@
 % Please edit documentation in R/mlr_resamplings.R
 \name{mlr_resamplings}
 \alias{mlr_resamplings}
-\title{Dictionary of registered resampling strategies}
+\title{Dictionary of Resampling Strategies}
 \description{
-Dictionary of registered resampling strategies
+Dictionary of Resampling Strategies
 }
 \section{Usage}{
 
@@ -14,8 +14,7 @@ See \link{Dictionary}.
 \examples{
 mlr_resamplings$keys()
 as.data.table(mlr_resamplings)
-r = mlr_resamplings$get("cv")
-print(r)
+mlr_resamplings$get("cv")
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},

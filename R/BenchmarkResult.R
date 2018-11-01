@@ -17,25 +17,44 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `hash` (`character(1)`):
+#' * `hash` \[`character(1)`\]:\cr
 #'   String which identifies a subgroup to extract as [ResampleResult].
 #'
 #' @section Details:
-#' `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects.
+#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects.
 #'
-#' `$performance` provides a [data.table::data.table()] with column `iteration` (integer) and a numeric column for each
+#' * `$performance` provides a [`data.table()`][data.table::data.table()] with column `iteration` (integer) and a numeric column for each
 #'   performance measure (columns named using the measure ids).
 #'
-#' `$aggregated` returns aggregated performance measures as a [data.table::data.table()].
+#' * `$aggregated` returns aggregated performance measures as a [`data.table()`][data.table::data.table()].
 #'   The table is build similar to the one returned by `$performance`, but experiments are aggregated by their resample result group
 #'   (combination of [Task], [Learner] and [Resampling]). The actual aggregation function is defined by the respective [Measure].
 #'
-#' `$resample_results` returns a [data.table::data.table()] which gives an overview of the resample result groups in the benchmark.
+#' * `$resample_results` returns a [`data.table()`][data.table::data.table()] which gives an overview of the resample result groups in the benchmark.
 #'   These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
 #'
-#' `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
+#' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
 #'
 #' @name BenchmarkResult
+#' @examples
+#' bmr = benchmark(
+#'   tasks = mlr_tasks$mget("iris"),
+#'   learners = mlr_learners$mget(c("classif.dummy", "classif.rpart")),
+#'   resamplings = mlr_resamplings$mget("cv"),
+#'   ctrl = exec_control(verbose = FALSE)
+#' )
+#'
+#' bmr$tasks
+#' bmr$learners
+#' bmr$resamplings
+#' bmr$measures
+#' bmr$performance
+#' bmr$aggregated
+#' rrs = bmr$resample_results
+#' print(rrs)
+#' rr = bmr$resample_result(rrs$hash[1])
+#' print(rr)
+#' rr$experiment(1)$model
 NULL
 
 BenchmarkResult = R6Class("BenchmarkResult",
@@ -45,7 +64,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     initialize = function(data) {
       assert_data_table(data)
-      slots = reflections$experiment_slots$name
+      slots = mlr_reflections$experiment_slots$name
       assert_names(names(data), permutation.of = c(slots, "hash"))
       self$data = setcolorder(data, slots)
       setkeyv(self$data, "hash")

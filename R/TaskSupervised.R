@@ -6,17 +6,18 @@
 #'
 #' @section Usage:
 #' ```
+#' # Construction
 #' t = TaskSupervised$new(id, backend, targets)
-#'
+#' #
 #' t$truth(subset = NULL)
 #' ```
 #'
 #' @section Arguments:
-#' * `subset` (`vector`):
+#' * `subset` (`vector`):\cr
 #'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
 #' @section Details:
-#' `$truth()` returns the true labels. The type depends on the type of the task.
+#' * `$truth()` returns the true labels. The type depends on the type of the task.
 #'
 #' @name TaskSupervised
 #' @family Task

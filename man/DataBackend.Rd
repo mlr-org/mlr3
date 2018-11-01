@@ -10,7 +10,7 @@ All objects of type \code{DataBackend} must provide the following interface:
 \section{Usage}{
 \preformatted{b$data(rows, cols)
 b$head(n = 6)
-b$distinct(col)
+b$distinct(cols)
 b$rownames
 b$colnames
 b$nrow
@@ -24,30 +24,27 @@ See \link{DataBackendDataTable} for an exemplary implementation of this interfac
 \section{Arguments}{
 
 \itemize{
-\item \code{rows} (\code{integer()} or \code{character()}):
+\item \code{rows} [\code{integer()} or \code{character()}]:\cr
 Vector of row indices to subset rows using the primary key in the data backend.
-\item \code{cols} (\code{character()}):
+\item \code{cols} [\code{character()}]:\cr
 Vector of column names to select.
-\item \code{n} (\code{integer(1)}): Number of rows to return.
+\item \code{n} [\code{integer(1)}]:\cr
+Number of rows to return.
 }
 }
 
 \section{Details}{
 
-\code{$data()} returns a slice of the data as \link[data.table:data.table]{data.table}:
-rows are matched by the \code{primary_key} column, columns are selected by name.
-
-\code{$head()} (\code{data.table}) returns a \link[data.table:data.table]{data.table} of the first \code{n} data rows.
-
-\code{$distinct()} (\code{vector}) returns a named list of distinct values for selected \code{cols}.
-
-\code{$rownames} (\code{character(1)}) returns all rownames of \code{data} as integer or character vector.
-
-\code{$colnames} (\code{character(1)}) returns all colnames of \code{data} as character vector.
-
-\code{$nrow} (\code{integer(1)}) returns the number of total rows.
-
-\code{$ncol} (\code{integer(1)}) returns the number of total columns, including primary key column.
+\itemize{
+\item \code{$data()} [\code{\link[data.table:data.table]{data.table()}}] returns a slice of the data:
+rows are filtered using the \code{primary_key} column, columns are selected by name.
+\item \code{$head()} [\code{\link[data.table:data.table]{data.table()}}] returns a \link[data.table:data.table]{data.table} of the first \code{n} data rows.
+\item \code{$distinct()} [\code{list()}] returns a named list of distinct values for specified columns \code{cols}.
+\item \code{$rownames} [\code{character(1)}] returns all row names of \code{data} as integer or character vector.
+\item \code{$colnames} [\code{character(1)}] returns all column names of \code{data} as character vector.
+\item \code{$nrow} [\code{integer(1)}] returns the number of total rows.
+\item \code{$ncol} [\code{integer(1)}] returns the number of total columns, including primary key column.
+}
 }
 
 \seealso{

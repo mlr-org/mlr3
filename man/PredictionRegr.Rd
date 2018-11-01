@@ -7,12 +7,13 @@
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
 }
 \section{Usage}{
-\preformatted{p = PredictionRegr$new(truth, response, se = NULL)
-
+\preformatted{# Construction
+p = PredictionRegr$new(truth, response, se = NULL)
+#
 p$truth
 p$response
 p$se
-
+#
 as.data.table(p)
 }
 }
@@ -20,23 +21,25 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{truth} (\link{numeric}): Numeric vector of true response.
-\item \code{response} (\link{numeric}): Numeric vector of predictions. Must have length \code{length(truth)}.
-\item \code{se} (\link{numeric}): Numeric vector of predicted standard error. Must have length \code{length(truth)}.
+\item \code{truth} [\link{numeric}]:\cr
+Numeric vector of true response.
+\item \code{response} [\link{numeric}]:\cr
+Numeric vector of predictions. Must have length \code{length(truth)}.
+\item \code{se} [\link{numeric}]:\cr
+Numeric vector of predicted standard error. Must have length \code{length(truth)}.
 }
 }
 
 \section{Details}{
 
-\code{$new()} initializes a new object of class \link{Prediction}.
-
-\code{$truth} stores the true values.
-
-\code{$response} stores the predicted values.
-
-\code{$se} stores the predicted standard errors (if available), or is \code{NULL}.
-
-Object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}} with \code{data.table::as.data.table()}.
+\itemize{
+\item \code{$new()} initializes a new object of class \link{Prediction}.
+\item \code{$truth} stores the true values.
+\item \code{$response} stores the predicted values.
+\item \code{$se} stores the predicted standard errors (if available), or is \code{NULL}.
+\item The prediction object can be transformed to a simple \code{\link[data.table:data.table]{data.table()}}
+with \code{\link[data.table:as.data.table]{as.data.table()}}.
+}
 }
 
 \seealso{

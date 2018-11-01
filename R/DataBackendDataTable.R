@@ -1,22 +1,23 @@
 #' @title DataBackend for data.table
 #'
 #' @description
-#' Abstraction for [data.table::data.table()] as an in-memory data base.
+#' Abstraction for [`data.table()`][data.table::data.table()] as an in-memory data base.
 #' Returns an object of class [DataBackend].
 #'
 #' @section Usage:
 #' ```
+#' # Construction
 #' b = DataBackendDataTable$new(data, primary_key = NULL)
 #' ```
+#' The interface is described in [DataBackend].
 #'
 #' @section Arguments:
-#' * `data` (`data.frame` or `data.table`).
-#' * `primary_key` (`character(1)`): Name of the column in `data` which represents a unique
-#'     row identifier (as integer or character). If `NULL`, a new column with integer indices is
-#'     automatically created.
+#' * `data` \[[`data.frame()`][base::data.frame()]\].
 #'
-#' @section Details:
-#' `$new()` creates a new object of class [DataBackend].
+#' * `primary_key` \[`character(1)`\]:\cr
+#'   Name of the column in `data` which represents a unique
+#'   row identifier (as integer or character). If `NULL`, a new column with integer indices is
+#'   automatically created.
 #'
 #' @name DataBackendDataTable
 #' @family DataBackend

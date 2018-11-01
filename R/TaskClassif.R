@@ -5,9 +5,11 @@
 #' The target column is assumed to be a factor.
 #'
 #' @section Usage:
+#' In addition to the interface of [Task]/[TaskSupervised], this class offers:
 #' ```
+#' # Construction
 #' t = TaskClassif$new(id, backend, target, positive = NULL)
-#'
+#' #
 #' t$class_names
 #' t$class_n
 #' t$task_type

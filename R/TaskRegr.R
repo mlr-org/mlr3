@@ -5,6 +5,7 @@
 #' The target column is assumed to be numeric.
 #'
 #' @section Usage:
+#' In addition to the interface of [Task]/[TaskSupervised], this class offers:
 #' ```
 #' t = TaskRegr$new(id, backend, target)
 #'
