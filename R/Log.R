@@ -5,16 +5,17 @@
 #'
 #' @section Usage:
 #' ```
+#' # Construction
 #' l = Log$new(log = NULL)
+#'
 #' l$is_empty
 #' l$has_condition(cl)
-#'
 #' l$format()
 #' l$print()
 #' ```
 #'
 #' @section Arguments:
-#' * `log` \[[`data.table`][data.table::data.table()]\]:
+#' * `log` \[[`data.table()`][data.table::data.table()]\]:
 #'   Object as returned by [evaluate::evaluate()].
 #' * `cl` \[`character(1)`\]:
 #'   Class of a condition. One of "output", "message", "warning", or "error".

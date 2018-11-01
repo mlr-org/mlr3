@@ -4,11 +4,12 @@
 \alias{DataBackendDataTable}
 \title{DataBackend for data.table}
 \description{
-Abstraction for \code{\link[data.table:data.table]{data.table}} as an in-memory data base.
+Abstraction for \code{\link[data.table:data.table]{data.table()}} as an in-memory data base.
 Returns an object of class \link{DataBackend}.
 }
 \section{Usage}{
-\preformatted{b = DataBackendDataTable$new(data, primary_key = NULL)
+\preformatted{# Construction
+b = DataBackendDataTable$new(data, primary_key = NULL)
 }
 
 The interface is described in \link{DataBackend}.
@@ -23,11 +24,6 @@ Name of the column in \code{data} which represents a unique
 row identifier (as integer or character). If \code{NULL}, a new column with integer indices is
 automatically created.
 }
-}
-
-\section{Details}{
-
-\code{$new()} creates a new object of class \link{DataBackend}.
 }
 
 \examples{

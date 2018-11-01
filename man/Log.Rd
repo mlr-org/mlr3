@@ -7,10 +7,11 @@
 Object which stores the output of the \code{train} or \code{predict} step of an \link{Experiment}.
 }
 \section{Usage}{
-\preformatted{l = Log$new(log = NULL)
+\preformatted{# Construction
+l = Log$new(log = NULL)
+
 l$is_empty
 l$has_condition(cl)
-
 l$format()
 l$print()
 }
@@ -19,7 +20,7 @@ l$print()
 \section{Arguments}{
 
 \itemize{
-\item \code{log} [\code{\link[data.table:data.table]{data.table}}]:
+\item \code{log} [\code{\link[data.table:data.table]{data.table()}}]:
 Object as returned by \code{\link[evaluate:evaluate]{evaluate::evaluate()}}.
 \item \code{cl} [\code{character(1)}]:
 Class of a condition. One of "output", "message", "warning", or "error".

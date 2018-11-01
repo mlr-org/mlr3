@@ -7,8 +7,9 @@
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
 }
 \section{Usage}{
-\preformatted{t = Task$new(id, backend)
-
+\preformatted{# Construction
+t = Task$new(id, backend)
+#
 t$id
 t$backend
 t$row_roles
@@ -27,11 +28,12 @@ t$ncol
 t$feature_types
 t$formula
 t$hash
-
+#
 t$filter(rows)
 t$select(cols)
 t$rbind(data)
 t$cbind(data)
+t$overwrite(cols)
 }
 }
 
@@ -64,22 +66,18 @@ Subset of row ids to subset rows from the \link{DataBackend} using its primary k
 
 \section{Details}{
 
-\code{$new()} initializes a new object of class \link{Task}.
-
-\code{$id} (\code{character(1)}) stores the name of the task.
-
-\code{$backend()} (\link{DataBackend}) stores the \link{DataBackend} of the task.
-
-\code{$row_roles} (\code{list}).
-Stores the row ids of \link{DataBackend} in vectors of row roles:
+\itemize{
+\item \code{$new()} initializes a new object of class \link{Task}.
+\item \code{$id} (\code{character(1)}) stores the name of the task.
+\item \code{$backend()} (\link{DataBackend}) stores the \link{DataBackend} of the task.
+\item \code{$row_roles} (\code{list}). Stores the row ids of \link{DataBackend} in vectors of row roles:
 \itemize{
 \item \code{"use"}: Use in training.
 \item \code{"validation"}: Do not use in training, this are (possibly unlabeled) observations
 which are held back unless explicitly addressed.
 To alter the role, use \code{set_row_role()}.
 }
-
-\code{$col_info} (\code{data.table}) with columns \code{id}, \code{role} and \code{type}.
+\item \code{$col_info} (\code{data.table}) with columns \code{id}, \code{role} and \code{type}.
 Stores column names of \link{DataBackend} in column \code{id}. Each column (feature)
 can have a specific mutually exclusive role in the learning task:
 \itemize{
@@ -90,46 +88,32 @@ can have a specific mutually exclusive role in the learning task:
 Column \code{type} stores the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 To alter the role, use \code{set_col_role()}.
 }
-
-\code{$set_row_role()} overwrites the role for specified rows, referenced by row id.
-
-\code{$set_col_role()} overwrites the role for specified columns.
-
-\code{$measures} is a list of \link{Measure} (performance measures) to use in this task.
-
-\code{$data()} is used to retrieve data from the backend as \code{data.table}.
+\item \code{$set_row_role()} overwrites the role for specified rows, referenced by row id.
+\item \code{$set_col_role()} overwrites the role for specified columns.
+\item \code{$measures} is a list of \link{Measure} (performance measures) to use in this task.
+\item \code{$data()} is used to retrieve data from the backend as \code{data.table}.
 Rows are subsetted to only contain observations with \code{role == "use"}.
 Columns are filtered to only contain features with \code{role \%in\% c("target", "feature")}.
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
-
-\code{$head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
-
-\code{$levels()} queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
+\item \code{$head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
+\item \code{$levels()} queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
 This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
-
-\code{$row_ids()} returns a (subset of) row ids used in the task, i.e. subsetted to observations with \code{role == "use"}.
-
-\code{$feature_names} returns a \code{character} vector of all feature names with \code{role == "feature"}.
-
-\code{$target_names} returns a \code{character} vector of all feature names with \code{role == "target"}.
-
-\code{$nrow} provides the total number of rows with \code{role == "use"}.
-
-\code{$ncol} provides the total number of cols with \code{role \%in\% c("target", "feature")}.
-
-\code{$feature_types} gives a \code{data.table} with columns \code{id} and \code{type} where \code{id} are the column names of "active" features of the task and \code{type} is the storage type.
-
-\code{$formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
-
-\code{$filter()} reduces the task, subsetting it to only the rows specified.
-
-\code{$select()} reduces the task, subsetting it to only the columns specified.
-
-\code{$rbind()} extends the task with additional rows.
-
-\code{$cbind()} extends the task with additional columns.
-
-\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_roles} and \code{col_info}.
+\item \code{$row_ids()} returns a (subset of) row ids used in the task, i.e. subsetted to observations with \code{role == "use"}.
+\item \code{$feature_names} returns a \code{character} vector of all feature names with \code{role == "feature"}.
+\item \code{$target_names} returns a \code{character} vector of all feature names with \code{role == "target"}.
+\item \code{$nrow} provides the total number of rows with \code{role == "use"}.
+\item \code{$ncol} provides the total number of cols with \code{role \%in\% c("target", "feature")}.
+\item \code{$feature_types} gives a \code{data.table} with columns \code{id} and \code{type} where \code{id} are the column names of "active"
+features of the task and \code{type} is the storage type.
+\item \code{$formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
+\item \code{$filter()} reduces the task, subsetting it to only the rows specified.
+\item \code{$select()} reduces the task, subsetting it to only the columns specified.
+\item \code{$rbind()} extends the task with additional rows.
+\item \code{$cbind()} extends the task with additional columns.
+\item \code{$overwrite()} overwrite the data in the \link{Backend} with data provided as \code{\link[data.table:data.table]{data.table()}}.
+Values to overwrite are matched via column names and primary key.
+\item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_roles} and \code{col_info}.
+}
 }
 
 \examples{

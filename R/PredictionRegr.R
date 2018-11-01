@@ -5,12 +5,13 @@
 #'
 #' @section Usage:
 #' ```
+#' # Construction
 #' p = PredictionRegr$new(truth, response, se = NULL)
-#'
+#' #
 #' p$truth
 #' p$response
 #' p$se
-#'
+#' #
 #' as.data.table(p)
 #' ```
 #'
@@ -23,15 +24,16 @@
 #'   Numeric vector of predicted standard error. Must have length `length(truth)`.
 #'
 #' @section Details:
-#' `$new()` initializes a new object of class [Prediction].
+#' * `$new()` initializes a new object of class [Prediction].
 #'
-#' `$truth` stores the true values.
+#' * `$truth` stores the true values.
 #'
-#' `$response` stores the predicted values.
+#' * `$response` stores the predicted values.
 #'
-#' `$se` stores the predicted standard errors (if available), or is `NULL`.
+#' * `$se` stores the predicted standard errors (if available), or is `NULL`.
 #'
-#' Object can be transformed to a simple [data.table::data.table()] with `data.table::as.data.table()`.
+#' * The prediction object can be transformed to a simple [`data.table()`][data.table::data.table()]
+#'   with [`as.data.table()`][data.table::as.data.table()].
 #' @name PredictionRegr
 #' @export
 #' @family Prediction

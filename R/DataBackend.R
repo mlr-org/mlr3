@@ -26,13 +26,19 @@
 #'   Number of rows to return.
 #'
 #' @section Details:
-#' * `$data()` \[[`data.table`][data.table::data.table()]\] returns a slice of the data:
+#' * `$data()` \[[`data.table()`][data.table::data.table()]\] returns a slice of the data:
 #'   rows are filtered using the `primary_key` column, columns are selected by name.
-#' * `$head()` \[[`data.table`][data.table::data.table()]\] returns a [data.table][data.table::data.table()] of the first `n` data rows.
+#'
+#' * `$head()` \[[`data.table()`][data.table::data.table()]\] returns a [data.table][data.table::data.table()] of the first `n` data rows.
+#'
 #' * `$distinct()` \[`list()`\] returns a named list of distinct values for specified columns `cols`.
+#'
 #' * `$rownames` \[`character(1)`\] returns all row names of `data` as integer or character vector.
+#'
 #' * `$colnames` \[`character(1)`\] returns all column names of `data` as character vector.
+#'
 #' * `$nrow` \[`integer(1)`\] returns the number of total rows.
+#'
 #' * `$ncol` \[`integer(1)`\] returns the number of total columns, including primary key column.
 #'
 #' @name DataBackend

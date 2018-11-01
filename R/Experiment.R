@@ -6,11 +6,13 @@
 #' @section Usage:
 #'
 #' ```
+#' # Construction
 #' e = Experiment$new(task, learner, ...)
+#' #
 #' e$train(subset)
 #' e$predict(subset, newdata)
 #' e$score(measures = NULL)
-#'
+#' #
 #' e$model
 #' e$prediction
 #' e$performance
@@ -20,7 +22,6 @@
 #' e$timings
 #' e$logs
 #' e$state
-#'
 #' e$data
 #' ```
 #'
@@ -43,7 +44,7 @@
 #'   The model can be accessed via `e$model`.
 #'
 #' * `$predict()` uses the previously fitted model to predict new observations.
-#'   The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction` as [`data.table`][data.table::data.table()].
+#'   The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction` as [`data.table()`][data.table::data.table()].
 #'
 #' * `$score()` quantifies stored predictions using the provided list of [Measure] (or the task's [Measure] if not provided)
 #'   and stores the resulting performance values. The performance can be accessed via `e$performance`.

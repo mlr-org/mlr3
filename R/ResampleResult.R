@@ -7,7 +7,7 @@
 #'
 #' ```
 #' rr = ResampleResult$new(data, hash = NULL)
-#'
+#' #
 #' rr$task
 #' rr$learner
 #' rr$resampling
@@ -21,33 +21,33 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `data` (`data.table`):
+#' * `data` \[[`data.table()`][data.table::data.table()]\]:\cr
 #'   `data.table` with columns matching the data of an [Experiment].
 #'   Each row corresponds to a single experiment.
-#' * `hash` (`NULL` or `character(1)`):
+#' * `hash` \[`NULL` | `character(1)`\]:\cr
 #'   Pre-calculated hash for the combination of `task`, `learner` and `resampling`.
 #'   If `NULL`, the checksum will be calculated on-demand.
-#' * `i` (`integer`):
+#' * `i` \[`integer`\]:\cr
 #'   Iteration(s) of the experiment(s) to retrieve.
-#' * `rr` (`ResampleResult`):
+#' * `rr` \[`ResampleResult`\]:\cr
 #'   Second [ResampleResult].
 #'
 #' @section Details:
-#' `$task`, `learner`, `resampling` and `measure` allow access to the [Task], [Learner], [Resampling] and [Measure] used in
-#' the resampling.
+#' * `$task`, `$learner`, `$resampling` and `$measure` allow access to the [Task], [Learner], [Resampling] and
+#'   [Measure] used in the resampling.
 #'
-#' `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
+#' * `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
 #'
-#' `$experiments()` returns a list with the slice of [Experiment]s for the provided `iters`.
+#' * `$experiments()` returns a list with the slice of [Experiment]s for the provided `iters`.
 #'
-#' `$combine()` takes a second [ResampleResult] and combines both [ResampleResult]s into a [BenchmarkResult].
+#' * `$combine()` takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
 #'
-#' `$performance` provides a [data.table::data.table] with column `iteration` (integer) and a numeric column for each
-#'   performance measure (columns named using the measure ids).
+#' * `$performance` provides a [`data.table()`][data.table::data.table()] with column `iteration` (integer) and
+#'   a numeric column for each performance measure (columns named using the measure ids).
 #'
-#' `$aggregated` returns the aggregated performance measures. The aggregation method is part of the [Measure].
+#' * `$aggregated` returns the aggregated performance measures. The aggregation method is part of the [Measure].
 #'
-#' `$hash` stores a hash for the combination of task, learner and resampling.
+#' * `$hash` stores a hash for the combination of task, learner and resampling.
 #'
 #' @name ResampleResult
 NULL

@@ -7,11 +7,11 @@
 ids(x)
 }
 \arguments{
-\item{x}{(\code{list})\cr
+\item{x}{[\code{list}]\cr
 List of objects which have a slot \code{"id"}.}
 }
 \value{
-(\code{character}) of the same length as input \code{x}.
+[\code{character}] of the same length as input \code{x}.
 }
 \description{
 A simple helper which extracts the id slot of a list of objects.

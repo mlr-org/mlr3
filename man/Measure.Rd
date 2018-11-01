@@ -9,7 +9,8 @@
 Predefined measures are stored in \link{mlr_measures}.
 }
 \section{Usage}{
-\preformatted{m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
+\preformatted{# Construction
+m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
 m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
 m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
 #

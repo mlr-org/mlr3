@@ -35,25 +35,27 @@ assert_par_set(par_set)
 assert_par_vals(par_vals, par_set)
 }
 \arguments{
-\item{b}{(\code{[DataBackend]}).}
+\item{b}{[\code{[DataBackend]}].}
 
-\item{e}{(\code{[Experiment]}).}
+\item{e}{[\code{[Experiment]}].}
 
-\item{task}{(\code{[Task]}).}
+\item{task}{[\code{[Task]}].}
 
-\item{learner}{(\code{[Learner]}).}
+\item{learner}{[\code{[Learner]}].}
 
-\item{measure}{(\code{[Measure]}).}
+\item{measure}{[\code{[Measure]}].}
 
-\item{measures}{(list of \code{[Measure]}).}
+\item{measures}{[\code{list} of \code{[Measure]}].}
 
-\item{resampling}{(\code{[Resampling]}).}
+\item{resampling}{[\code{[Resampling]}].}
 
-\item{resample_result}{(\code{[ResampleResult]}).}
+\item{resample_result}{[\code{[ResampleResult]}].}
 
-\item{par_set}{(\code{[paradox::ParamSet()]}).}
+\item{par_set}{[`[paradox::ParamSet(].
 
-\item{par_vals}{(\code{named list}).}
+[paradox::ParamSet(]: R:paradox::ParamSet(%5C}
+
+\item{par_vals}{[\code{named list}].}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

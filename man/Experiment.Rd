@@ -7,11 +7,13 @@
 Container object for machine learning experiments.
 }
 \section{Usage}{
-\preformatted{e = Experiment$new(task, learner, ...)
+\preformatted{# Construction
+e = Experiment$new(task, learner, ...)
+#
 e$train(subset)
 e$predict(subset, newdata)
 e$score(measures = NULL)
-
+#
 e$model
 e$prediction
 e$performance
@@ -21,7 +23,6 @@ e$validation_set
 e$timings
 e$logs
 e$state
-
 e$data
 }
 }
@@ -49,7 +50,7 @@ Performance measure to use. Defaults to the measures set in the \link{Task}.
 \item \code{$train()} fits the induced \code{learner} on the (subset of the) \code{task} and internally stores the model.
 The model can be accessed via \code{e$model}.
 \item \code{$predict()} uses the previously fitted model to predict new observations.
-The predictions are stored internally as an \link{Prediction} object and can be accessed via \code{e$prediction} as \code{\link[data.table:data.table]{data.table}}.
+The predictions are stored internally as an \link{Prediction} object and can be accessed via \code{e$prediction} as \code{\link[data.table:data.table]{data.table()}}.
 \item \code{$score()} quantifies stored predictions using the provided list of \link{Measure} (or the task's \link{Measure} if not provided)
 and stores the resulting performance values. The performance can be accessed via \code{e$performance}.
 \item \code{$train_set} and \code{$test_set} return the row ids of the training set or test set, respectively.

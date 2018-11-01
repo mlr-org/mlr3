@@ -11,7 +11,9 @@
 #'
 #' @section Usage:
 #' ```
+#' # Construction
 #' d = Dictionary$new()
+#'
 #' d$keys(pattern)
 #' d$add(value)
 #' d$get(key)

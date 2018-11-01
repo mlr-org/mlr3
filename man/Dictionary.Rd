@@ -14,7 +14,9 @@ On retrieval of an object, the following applies:
 }
 }
 \section{Usage}{
-\preformatted{d = Dictionary$new()
+\preformatted{# Construction
+d = Dictionary$new()
+
 d$keys(pattern)
 d$add(value)
 d$get(key)

@@ -9,7 +9,9 @@ Abstraction for resampling strategies.
 Predefined resamplings are stored in \link{mlr_resamplings}.
 }
 \section{Usage}{
-\preformatted{r = Resampling$new(id)
+\preformatted{# Construction
+r = Resampling$new(id)
+#
 r$id
 r$iters
 r$par_set
@@ -35,30 +37,22 @@ Get the \code{i}-th training/test set.
 
 \section{Details}{
 
-\code{$new()} creates a new object of class \link{Resampling}.
-
-\code{$id} (\code{character(1)}) stores the identifier of the object.
-
-\code{$iters} (\code{integer(1)}) calculates the resulting number of iterations, given the current \code{par_vals}.
-
-\code{$par_set} (\code{[paradox::ParamSet()]}) describes available parameters.
-
-\code{$par_vals} (\code{named list}) stores the currently set parameter values.
+\itemize{
+\item \code{$new()} creates a new object of class \link{Resampling}.
+\item \code{$id} (\code{character(1)}) stores the identifier of the object.
+\item \code{$iters} (\code{integer(1)}) calculates the resulting number of iterations, given the current \code{par_vals}.
+\item \code{$par_set} (\code{[paradox::ParamSet()]}) describes available parameters.
+\item \code{$par_vals} (\code{named list}) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.
-
-\code{$instantiate} materializes fixed training and test splits for a given task.
-
-\code{$is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
-
-\code{$instance} stores the instantiated realization of the resampling. This is an arbitrary object, do
+\item \code{$instantiate} materializes fixed training and test splits for a given task.
+\item \code{$is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
+\item \code{$instance} stores the instantiated realization of the resampling. This is an arbitrary object, do
 not work directly with it. Instead, use \code{$train_set()} and \code{$test_set()}.
-
-\code{$train_set()} returns the training set for the \code{i}-th iteration.
-
-\code{$test_set()} returns the test set for the \code{i}-th iteration.
-
-\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{par_vals} and the instantiation.
+\item \code{$train_set()} returns the training set for the \code{i}-th iteration.
+\item \code{$test_set()} returns the test set for the \code{i}-th iteration.
+\item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{par_vals} and the instantiation.
 If the object is not instantiated yet, \code{NA} is returned.
+}
 }
 
 \examples{

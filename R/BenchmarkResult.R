@@ -22,13 +22,17 @@
 #'
 #' @section Details:
 #' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects.
-#' * `$performance` provides a [`data.table`][data.table::data.table()] with column `iteration` (integer) and a numeric column for each
+#'
+#' * `$performance` provides a [`data.table()`][data.table::data.table()] with column `iteration` (integer) and a numeric column for each
 #'   performance measure (columns named using the measure ids).
-#' * `$aggregated` returns aggregated performance measures as a [`data.table`][data.table::data.table()].
+#'
+#' * `$aggregated` returns aggregated performance measures as a [`data.table()`][data.table::data.table()].
 #'   The table is build similar to the one returned by `$performance`, but experiments are aggregated by their resample result group
 #'   (combination of [Task], [Learner] and [Resampling]). The actual aggregation function is defined by the respective [Measure].
-#' * `$resample_results` returns a [`data.table`][data.table::data.table()] which gives an overview of the resample result groups in the benchmark.
+#'
+#' * `$resample_results` returns a [`data.table()`][data.table::data.table()] which gives an overview of the resample result groups in the benchmark.
 #'   These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
+#'
 #' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
 #'
 #' @name BenchmarkResult

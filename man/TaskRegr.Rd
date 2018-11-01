@@ -8,7 +8,8 @@ This task specializes \link{Task} and \link{TaskSupervised} for regression probl
 The target column is assumed to be numeric.
 }
 \section{Usage}{
-\preformatted{t = TaskRegr$new(id, backend, target)
+
+In addition to the interface of \link{Task}/\link{TaskSupervised}, this class offers:\preformatted{t = TaskRegr$new(id, backend, target)
 
 t$task_type
 }

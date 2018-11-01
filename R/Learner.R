@@ -5,10 +5,11 @@
 #'
 #' @section Usage:
 #' ```
+#' # Construction
 #' l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
 #' l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
 #' l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
-#'
+#' #
 #' l$id
 #' l$task_type
 #' l$feature_types
