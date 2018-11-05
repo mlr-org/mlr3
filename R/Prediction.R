@@ -17,11 +17,11 @@ Prediction = R6Class("Prediction",
 )
 
 #' @export
-as.data.table.Prediciton = function(x, ...) {
+as.data.table.Prediction = function(x, ...) {
   data.table(response = x$response, truth = x$truth)
 }
 
 #' @export
-as.data.frame.Prediciton = function(x, ...) {
+as.data.frame.Prediction = function(x, ...) {
   setDF(as.data.table(x))[]
 }

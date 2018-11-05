@@ -51,9 +51,7 @@ assert_par_vals(par_vals, par_set)
 
 \item{resample_result}{[\code{[ResampleResult]}].}
 
-\item{par_set}{[`[paradox::ParamSet(].
-
-[paradox::ParamSet(]: R:paradox::ParamSet(%5C}
+\item{par_set}{[\code{\link[paradox:ParamSet]{paradox::ParamSet()}}].}
 
 \item{par_vals}{[\code{named list}].}
 }
