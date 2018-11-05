@@ -24,6 +24,13 @@ d$mget(keys)
 d$has(key)
 d$remove(key, value)
 d$remove(keys)
+
+as.data.frame(d)
+as.data.table(d)
+names(d)
+d[[key]]
+d[keys]
+length(d)
 }
 }
 
@@ -51,6 +58,11 @@ Vector of keys.
 \item \code{$has()} [\code{logical()}] is \code{TRUE} if \code{key} is present in the Dictionary.
 \item \code{$add()} adds item \code{value} with key \code{key} to the Dictionary.
 \item \code{$remove()} removes item with key \code{key} from the Dictionary.
+\item \code{as.data.frame()} and \code{as.data.table()} give a summarizing overview as \code{data.frame} or \code{data.table}, respectively.
+\item \code{names(d)} is an alternative way to call \code{d$keys()}.
+\item \code{d[[key]]} is an alternative way to call \code{d$get(key)}.
+\item \code{d[keys]} is an alternative way to call \code{d$mget(key)}.
+\item \code{length(d)} returns the number of items stored in the Dictionary.
 }
 }
 

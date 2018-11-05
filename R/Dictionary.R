@@ -21,6 +21,13 @@
 #' d$has(key)
 #' d$remove(key, value)
 #' d$remove(keys)
+#'
+#' as.data.frame(d)
+#' as.data.table(d)
+#' names(d)
+#' d[[key]]
+#' d[keys]
+#' length(d)
 #' ```
 #'
 #' @section Arguments:
@@ -41,6 +48,11 @@
 #' * `$has()` \[`logical()`\] is `TRUE` if `key` is present in the Dictionary.
 #' * `$add()` adds item `value` with key `key` to the Dictionary.
 #' * `$remove()` removes item with key `key` from the Dictionary.
+#' * `as.data.frame()` and `as.data.table()` give a summarizing overview as `data.frame` or `data.table`, respectively.
+#' * `names(d)` is an alternative way to call `d$keys()`.
+#' * `d[[key]]` is an alternative way to call `d$get(key)`.
+#' * `d[keys]` is an alternative way to call `d$mget(key)`.
+#' * `length(d)` returns the number of items stored in the Dictionary.
 #'
 #' @name Dictionary
 #' @family Dictionary
@@ -130,4 +142,24 @@ as.data.table.Dictionary = function(x, ...) {
 #' @export
 as.data.frame.Dictionary = function(x, ...) {
   setDF(as.data.table(x))[]
+}
+
+#' @export
+names.Dictionary = function(x) {
+  x$keys()
+}
+
+#' @export
+`[[.Dictionary` = function(x, i, ...) {
+  x$get(i)
+}
+
+#' @export
+`[.Dictionary` = function(x, i, ...) {
+  x$mget(i)
+}
+
+#' @export
+length.Dictionary = function(x) {
+  length(x$keys())
 }
