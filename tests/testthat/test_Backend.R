@@ -4,7 +4,7 @@ test_that("DataBackendDataTable construction", {
   data = iris
   b = DataBackendDataTable$new(data = data)
   expect_backend(b)
-  expect_integer(b$rownames, len = 150, any.missing = FALSE, sorted = TRUE, lower = 1, upper = 150, unique = TRUE)
+  expect_iris_backend(b)
 
   data$id = sprintf("r%02i", 1:150)
   b = DataBackendDataTable$new(data = data, primary_key = "id")
@@ -26,6 +26,7 @@ test_that("DataBackendRbind", {
   b2 = DataBackendDataTable$new(data[101:150, ], primary_key = "id")
   b = DataBackendRbind$new(b1, b2)
   expect_backend(b)
+  expect_iris_backend(b)
 
   expect_set_equal(b$rownames, 1:150)
   expect_set_equal(b$colnames, names(data))
@@ -41,6 +42,7 @@ test_that("DataBackendCbind", {
   b2 = DataBackendDataTable$new(data[, c("id", "Sepal.Length")], primary_key = "id")
   b = DataBackendCbind$new(b1, b2)
   expect_backend(b)
+  expect_iris_backend(b)
 
   expect_set_equal(b$rownames, 1:150)
   expect_set_equal(b$colnames, names(data))
@@ -58,6 +60,7 @@ test_that("DataBackendOverwrite", {
 
   b = DataBackendOverwrite$new(b1, b2)
   expect_backend(b)
+  expect_iris_backend(b) # we do not test on Sepal.Length
 
   expect_equal(b$nrow, 150)
   expect_equal(b$ncol, 6)
@@ -89,8 +92,5 @@ test_that("Nested backends", {
   b7 = DataBackendCbind$new(b5, b6)
   expect_backend(b7)
 
-  expect_set_equal(b7$rownames, 1:150)
-  expect_set_equal(b7$colnames, names(data))
-  expect_data_table(b7$data(b7$rownames, b7$colnames), nrow = 150, ncol = 6)
-  expect_set_equal(b7$distinct("Species")$Species, distinct(iris$Species))
+  expect_iris_backend(b7)
 })

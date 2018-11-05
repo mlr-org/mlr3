@@ -69,6 +69,46 @@ expect_backend = function(b) {
   expect_atomic_vector(d, len = n)
 }
 
+expect_iris_backend = function(b) {
+  expect_equal(b$nrow, 150L)
+  expect_equal(b$ncol, 6L)
+  expect_set_equal(b$colnames, c(names(iris), b$primary_key))
+  expect_set_equal(b$rownames, seq_len(150L))
+
+  x = b$head(2)
+  expect_data_table(x, nrow = 2L, ncol = 6L, any.missing = FALSE)
+  expect_set_equal(names(x), c(names(iris), b$primary_key))
+
+  x = b$distinct("Species")
+  expect_list(x, "character", len = 1)
+  expect_set_equal(x$Species, levels(iris$Species))
+
+  x = b$data(rows = 2:10, cols = c(b$primary_key, "Species", "Sepal.Width"))
+  expect_data_table(x, nrow = 9L, ncol = 3L)
+  expect_set_equal(names(x), c(b$primary_key, "Species", "Sepal.Width"))
+  expect_set_equal(x[[b$primary_key]], 2:10)
+
+  if (is.factor(x$Species))
+    expect_factor(x$Species, levels = levels(iris$Species))
+  else
+    expect_character(x$Species, any.missing = FALSE)
+
+  expect_true(all(x$Species == "setosa"))
+  expect_numeric(x$Sepal.Width, any.missing = FALSE)
+
+  # invalid row ids
+  x = b$data(rows = 150:151, cols = c(b$primary_key, "Species"))
+  expect_data_table(x, nrow = 1L, ncol = 2L)
+  expect_equal(x[[b$primary_key]], 150L)
+  expect_equal(as.character(x[["Species"]]), "virginica")
+
+  # duplicated row ids
+  x = b$data(rows = c(1L, 1L), cols = c(b$primary_key, "Species"))
+  expect_data_table(x, nrow = 2L, ncol = 2L)
+  expect_equal(x[[b$primary_key]], c(1L, 1L))
+  expect_equal(as.character(x[["Species"]]), c("setosa", "setosa"))
+}
+
 expect_task = function(task) {
   expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   expect_string(task$id, min.chars = 1L)
