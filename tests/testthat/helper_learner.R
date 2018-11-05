@@ -28,5 +28,6 @@ if (!mlr_learners$has("classif.verbose")) {
       }
     )
   )
+
   mlr_learners$add("classif.verbose", LearnerClassifVerbose)
 }
