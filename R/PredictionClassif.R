@@ -73,3 +73,8 @@ as.data.table.PredictionClassif = function(x, ...) {
     tab[, paste0("prob.", colnames(x$prob)) := as.data.table(x$prob)]
   tab
 }
+
+#' @export
+as.data.frame.PredictionClassif = function(x, ...) {
+  setDF(as.data.table.PredictionClassif(x, ...))
+}

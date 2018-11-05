@@ -61,3 +61,8 @@ as.data.table.PredictionRegr = function(x, ...) {
     tab[, "se" := x$se]
   tab
 }
+
+#' @export
+as.data.frame.PredictionRegr = function(x, ...) {
+  setDF(as.data.table.PredictionRegr(x, ...))
+}
