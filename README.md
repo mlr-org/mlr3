@@ -54,8 +54,8 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - Learner
     - Resampling strategies
     - Performance measures
-* Data backend for tasks. This allows to transparently work on out-of-memory data like data bases.
-  Prototype backend for `dbplyr` data can be found in [mlr3db](https://github.com/mlr-org/mlr3db) (outdated).
+* Data backend for tasks. This allows to transparently work with out-of-memory data like data bases.
+  See [mlr3db](https://github.com/mlr-org/mlr3db) for connecting various SQL data bases, MonetDB, Bigquery, Spark, Impala, ...
 * Single step experiments via the `Experiment` class
 * Resampling via `resample()`
 * Benchmarking via `benchmark()`
