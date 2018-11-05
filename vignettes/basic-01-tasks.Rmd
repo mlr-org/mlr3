@@ -22,47 +22,58 @@ knitr::opts_chunk$set(
 
 ## Predefined tasks
 
-`mlr` ships with some predefined, well-known toy tasks.
-They are stored in the dictionary (key-value store) `mlr_tasks`.
+`mlr3` ships with some popular machine learning toy tasks.
+These are stored in a `mlr3::Dictionary`, a simple key-value store, named `mlr3::mlr_tasks`:
 
 ```{r}
-# list keys
-mlr_tasks$keys()
+mlr_tasks
 
-# retrieve iris task
-task = mlr_tasks$get("iris")
+# list keys
+names(mlr_tasks)
+
+# get a quick overview
+as.data.frame(mlr_tasks)
 ```
 
-Several task properties and characteristics can be queried using the task methods.
-Many of them should be self-explanatory.
+Here, we will stick to the popular [iris data set](https://en.wikipedia.org/wiki/Iris_flower_data_set):
 
 ```{r}
+task = mlr_tasks$get("iris")
 print(task)
+```
 
+Several task properties and characteristics can be queried using the task's methods (see `mlr3::Task`).
+Most of them should be self-explanatory.
+
+```{r}
 task$nrow
 task$ncol
 task$target_names
 task$class_n
 task$class_names
 task$feature_names
-task$head()
+task$formula
+task$head(n = 3)
 ```
 
 In `mlr3`, each row has a unique identifier (row name) which can be either `integer` or `character.`
 These can be used to select specific rows.
-To filter columns, you can just specify the column names.
 
 ```{r}
 # iris uses integer row_ids
 task$row_ids()
+
+# filter rows 1, 51, and 101
 task$data(rows = c(1, 51, 101))
+
+# filter rows 1, 51, and 101 and only select column "Species"
 task$data(rows = c(1, 51, 101), cols = "Species")
 ```
 
 
 ## Task Creation
 
-To create a task from a `data.frame`, you must determine the task type to select the respective constructor:
+To create an own task from a `data.frame`, you must determine the task type to select the respective constructor:
 
 * Classification Task: Target column is labels (stored as `character`/`factor`) with only few distinct values.
   <br>$\Rightarrow$ `TaskClassif`.
@@ -76,13 +87,20 @@ We only take the first two features here to keep the output in the following exa
 
 ```{r}
 data("mtcars", package = "datasets")
-b = DataBackendDataTable$new(data = mtcars[, 1:3])
+cars = mtcars[, 1:3]
+str(cars)
+```
+
+Before we can create a regression task, we must create a `mlr3::DataBackend`, an abstraction for data storage system.
+Here, we will stick to the simplest form of data storage: an in-memory table format using `data.table::data.table()`.
+We construct the backend first, and then pass it to the regression task constructor:
+```{r}
+b = DataBackendDataTable$new(data = cars)
 task = TaskRegr$new(id = "cars", b, target = "mpg")
 print(task)
 ```
-
-The row names of `mtcars` are automatically used as row_ids.
-
+The rownames of the `data.frame` `cars` have been automatically used as `row_ids`.
+We can use analogously to integer row ids to filter observations of the task:
 ```{r}
 task$row_ids()
 task$data(rows = c("Merc 280", "Volvo 142E"))
@@ -98,7 +116,7 @@ Thus, we first pre-process the `data.frame` and then re-create the task.
 library("data.table")
 # `as.data.table` removes rownames, but  argument `keep.rownames` ensures
 # that they are stored in a separate column before
-data = as.data.table(mtcars[, 1:3], keep.rownames = TRUE)
+data = as.data.table(cars[, 1:3], keep.rownames = TRUE)
 b = DataBackendDataTable$new(data)
 task = TaskRegr$new(id = "cars", b, target = "mpg")
 
@@ -116,7 +134,7 @@ We have seen three different roles for columns so far:
 2. Features, also called independent variables.
 3. The `row_id`. This column is there for technical reasons, and is typically useless for learning.
 
-The different roles are stored as as a list of column names:
+The different roles are stored as as a list of column name vectors:
 
 ```{r}
 task$col_roles
@@ -141,7 +159,7 @@ task$data(rows = 1:2)
 task$head(2)
 ```
 
-## row_roles
+## Row roles
 
 Just like columns, you can also assign different roles to rows.
 Rows can have two different roles:
