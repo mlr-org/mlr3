@@ -28,8 +28,3 @@ as.data.table.DictionaryResampling = function(x, ...) {
     data.table(id = id, hyperpars = list(r$par_set$ids), default_iters = r$iters)
   })), "id")[]
 }
-
-#' @export
-as.data.frame.DictionaryResampling = function(x, ...) {
-  setDF(as.data.table.DictionaryResampling(x, ...))[]
-}

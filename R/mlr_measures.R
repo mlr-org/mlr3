@@ -28,8 +28,3 @@ as.data.table.DictionaryMeasure = function(x, ...) {
     data.table(id = id, task_type = m$task_type, packages = list(m$packages))
   })), "id")[]
 }
-
-#' @export
-as.data.frame.DictionaryMeasure = function(x, ...) {
-  setDF(as.data.table.DictionaryMeasure(x, ...))[]
-}

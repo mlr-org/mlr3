@@ -121,3 +121,13 @@ dictionary_retrieve = function(self, key) {
   }
   return(value)
 }
+
+#' @export
+as.data.table.Dictionary = function(x, ...) {
+  data.table(id = x$keys())
+}
+
+#' @export
+as.data.frame.Dictionary = function(x, ...) {
+  setDF(as.data.table(x))[]
+}

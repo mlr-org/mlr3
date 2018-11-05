@@ -49,11 +49,6 @@ as.data.table.DictionaryTask = function(x, ...) {
   })), "id")[]
 }
 
-#' @export
-as.data.frame.DictionaryTask = function(x, ...) {
-  setDF(as.data.table.DictionaryTask(x, ...))[]
-}
-
 load_dataset = function(id, package, keep.rownames = FALSE) {
   if (!length(find.package(package, quiet = TRUE)))
     stopf("Please install package '%s' for data set '%s'", package, id)

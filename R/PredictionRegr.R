@@ -56,13 +56,8 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 
 #' @export
 as.data.table.PredictionRegr = function(x, ...) {
-  tab = data.table(response = x$response, truth = x$truth)
+  tab = as.data.table.Prediction(x)
   if (!is.null(x$se))
     tab[, "se" := x$se]
   tab
-}
-
-#' @export
-as.data.frame.PredictionRegr = function(x, ...) {
-  setDF(as.data.table.PredictionRegr(x, ...))[]
 }

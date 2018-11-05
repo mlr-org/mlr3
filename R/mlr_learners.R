@@ -28,8 +28,3 @@ as.data.table.DictionaryLearner = function(x, ...) {
     data.table(id = id, packages = list(l$packages))
   })), "id")[]
 }
-
-#' @export
-as.data.frame.DictionaryLearner = function(x, ...) {
-  setDF(as.data.table.DictionaryLearner(x, ...))[]
-}

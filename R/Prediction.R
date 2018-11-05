@@ -15,3 +15,13 @@ Prediction = R6Class("Prediction",
     truth = NULL
   )
 )
+
+#' @export
+as.data.table.Prediciton = function(x, ...) {
+  data.table(response = x$response, truth = x$truth)
+}
+
+#' @export
+as.data.frame.Prediciton = function(x, ...) {
+  setDF(as.data.table(x))[]
+}
