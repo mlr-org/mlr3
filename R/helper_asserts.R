@@ -102,7 +102,7 @@ assert_resample_result = function(resample_result) {
 
 
 #' @export
-#' @param par_set \[`[paradox::ParamSet(\].
+#' @param par_set \[[paradox::ParamSet()]\].
 #' @rdname mlr_assertions
 assert_par_set = function(par_set) {
   assert_class(par_set, "ParamSet")
