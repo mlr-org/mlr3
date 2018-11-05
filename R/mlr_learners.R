@@ -31,5 +31,5 @@ as.data.table.DictionaryLearner = function(x, ...) {
 
 #' @export
 as.data.frame.DictionaryLearner = function(x, ...) {
-  setDF(as.data.table.DictionaryLearner(x, ...))
+  setDF(as.data.table.DictionaryLearner(x, ...))[]
 }

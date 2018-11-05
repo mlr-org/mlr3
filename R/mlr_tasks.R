@@ -51,7 +51,7 @@ as.data.table.DictionaryTask = function(x, ...) {
 
 #' @export
 as.data.frame.DictionaryTask = function(x, ...) {
-  setDF(as.data.table.DictionaryTask(x, ...))
+  setDF(as.data.table.DictionaryTask(x, ...))[]
 }
 
 load_dataset = function(id, package, keep.rownames = FALSE) {

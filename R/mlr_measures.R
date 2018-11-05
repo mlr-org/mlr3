@@ -31,5 +31,5 @@ as.data.table.DictionaryMeasure = function(x, ...) {
 
 #' @export
 as.data.frame.DictionaryMeasure = function(x, ...) {
-  setDF(as.data.table.DictionaryMeasure(x, ...))
+  setDF(as.data.table.DictionaryMeasure(x, ...))[]
 }

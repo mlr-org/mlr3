@@ -76,5 +76,5 @@ as.data.table.PredictionClassif = function(x, ...) {
 
 #' @export
 as.data.frame.PredictionClassif = function(x, ...) {
-  setDF(as.data.table.PredictionClassif(x, ...))
+  setDF(as.data.table.PredictionClassif(x, ...))[]
 }

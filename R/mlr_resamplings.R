@@ -31,5 +31,5 @@ as.data.table.DictionaryResampling = function(x, ...) {
 
 #' @export
 as.data.frame.DictionaryResampling = function(x, ...) {
-  setDF(as.data.table.DictionaryResampling(x, ...))
+  setDF(as.data.table.DictionaryResampling(x, ...))[]
 }

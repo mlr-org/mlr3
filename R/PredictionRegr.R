@@ -64,5 +64,5 @@ as.data.table.PredictionRegr = function(x, ...) {
 
 #' @export
 as.data.frame.PredictionRegr = function(x, ...) {
-  setDF(as.data.table.PredictionRegr(x, ...))
+  setDF(as.data.table.PredictionRegr(x, ...))[]
 }
