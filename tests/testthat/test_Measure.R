@@ -47,8 +47,8 @@ test_that("Regression measures", {
 
 test_that("Measure assertion", {
   task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.dummy")
   m = mlr_measures$get("time_train")
-  assert_measure(m)
-  assert_measure(m, task = task)
-  assert_measures(list(m), task = task)
+  expect_class(assert_measure(m), "Measure")
+  expect_class(assert_measure(m, task = task, learner = learner), "Measure")
 })

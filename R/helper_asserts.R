@@ -61,7 +61,7 @@ assert_measure = function(measure, task = NULL, learner = NULL) {
   }
 
   if (!is.null(learner)) {
-    if (measure$task_type != learner$task_type)
+    if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type)
       stopf("Measure '%s'  is not compatible with type of learner '%s' (type: %s)",
         measure$id, learner$id, learner$task_type)
 
