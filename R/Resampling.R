@@ -141,3 +141,19 @@ Resampling = R6Class("Resampling",
     }
   )
 )
+
+stratify_groups = function(task, stratify, min_group_size = 0L) {
+  row_ids = task$row_ids()
+  grps = cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
+  if (min_group_size > 0L) {
+    ii = wf(grps$..N < min_group_size)
+    if (length(ii)) {
+      tmp = as.list(grps[ii, stratify, with = FALSE])
+      stopf("Cannot stratify: combination %s has only %i observations",
+        paste0(sprintf("[%s=%s]", names(tmp), tmp), collapse = "x"),
+        grps$..N[ii]
+      )
+    }
+  }
+  grps
+}
