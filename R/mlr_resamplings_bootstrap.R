@@ -45,7 +45,7 @@ mlr_resamplings$add("bootstrap", ResamplingBootstrap)
 
 
 resample_bootstrap = function(ids, ratio, repeats) {
-  nr = max(round(length(ids) * ratio), 1L)
+  nr = pround(length(ids) * ratio)
   x = factor(seq_along(ids))
   M = replicate(repeats, table(sample(x, nr, replace = TRUE)), simplify = "array")
   rownames(M) = NULL
@@ -56,8 +56,8 @@ instantiate_bootstrap = function(task, ratio, repeats, stratify = character(0L))
   if (length(stratify) == 0L) {
     res = resample_bootstrap(task$row_ids(), ratio, repeats)
   } else {
-    grps = stratify_groups(task, stratify = stratify, min_group_size = 2L)
+    grps = stratify_groups(task, stratify = stratify)
     res = lapply(grps$..row_id, resample_bootstrap, ratio = ratio, repeats = repeats)
-    res2 = Reduce(function(lhs, rhs) list(row_ids = c(lhs$row_ids, rhs$row_ids), M = rbind(lhs$M, rhs$M)), res)
+    Reduce(function(lhs, rhs) list(row_ids = c(lhs$row_ids, rhs$row_ids), M = rbind(lhs$M, rhs$M)), res)
   }
 }

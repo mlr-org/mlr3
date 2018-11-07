@@ -26,3 +26,12 @@ named_list = function(nn, init = NULL) {
 distinct = function(x) {
   if (is.factor(x)) levels(x) else unique(x)
 }
+
+pround = function(x) {
+  xi = as.integer(x)
+  delta = x - xi
+  ii = which(delta > sqrt(.Machine$double.eps))
+  if (length(ii))
+    xi[ii] = xi[ii] + (delta[ii] > runif(length(ii)))
+  xi
+}

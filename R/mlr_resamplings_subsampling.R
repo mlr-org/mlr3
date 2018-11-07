@@ -44,7 +44,7 @@ mlr_resamplings$add("subsampling", ResamplingSubsampling)
 
 resample_subsampling = function(ids, ratio, repeats) {
   n = length(ids)
-  nr = max(round(n * ratio), 1L)
+  nr = pround(n * ratio)
 
   train = replicate(repeats,
     bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
@@ -57,7 +57,7 @@ instantiate_subsampling = function(task, ratio, repeats, stratify = character(0L
     res = resample_subsampling(task$row_ids(), ratio, repeats)
   } else {
     grps = stratify_groups(task, stratify = stratify)
-    res = lapply(grps$..row_id, resample_subsampling, ratio = ratio, repeats = repeats, min_group_size = 2L)
+    res = lapply(grps$..row_id, resample_subsampling, ratio = ratio, repeats = repeats)
     res = Reduce(function(lhs, rhs) { list(train = Map(c, lhs$train, rhs$train), row_ids = c(lhs$row_ids , rhs$row_ids)) }, res)
   }
   res

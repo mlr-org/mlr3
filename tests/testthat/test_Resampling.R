@@ -95,6 +95,19 @@ test_that("stratification", {
     expect_equal(task$data(r$train_set(i))[y == "b", .N], 10)
   }
 
+  # subsampling
+  r = mlr_resamplings$get("subsampling")
+  r$par_vals = list(ratio = 0.5, repeats = 3)
+  r$stratify = "y"
+  r$instantiate(task)
+
+  for (i in seq_len(r$iters)) {
+    expect_equal(task$data(r$train_set(i))[y == "a", .N], 45)
+    expect_equal(task$data(r$train_set(i))[y == "b", .N],  5)
+    expect_equal(task$data(r$test_set(i))[y == "a", .N],  45)
+    expect_equal(task$data(r$test_set(i))[y == "b", .N],   5)
+  }
+
   # CV
   r = mlr_resamplings$get("cv")
   r$par_vals = list(folds = 5)
