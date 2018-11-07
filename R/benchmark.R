@@ -18,7 +18,6 @@
 #' @return [BenchmarkResult].
 #' @export
 #' @examples
-#' \dontrun{
 #' set.seed(123)
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))

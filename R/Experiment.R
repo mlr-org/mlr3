@@ -104,7 +104,7 @@
 #'
 #' e$train_set
 #' e$test_set
-#' e$timings
+#' # e$timings
 NULL
 
 Experiment = R6Class("Experiment",
