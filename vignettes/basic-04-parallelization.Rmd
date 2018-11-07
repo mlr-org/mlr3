@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 future::plan("sequential")
+set.seed(123)
 ```
 
 This introduction shows how to parallelize `mlr3` with the packages [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply).

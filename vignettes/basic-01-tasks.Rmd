@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+set.seed(123)
 ```
 
 ## Predefined tasks
@@ -32,7 +33,7 @@ mlr_tasks
 names(mlr_tasks)
 
 # get a quick overview
-as.data.frame(mlr_tasks)
+# as.data.frame(mlr_tasks)
 ```
 
 Here, we will stick to the popular [iris data set](https://en.wikipedia.org/wiki/Iris_flower_data_set):
