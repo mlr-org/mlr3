@@ -13,7 +13,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     instantiate = function(task, ...) {
       assert_task(task)
       private$.hash = NA_character_
-      self$instance = resampling_cv(task$row_ids(), self$par_vals$folds)
+      self$instance = instantiate_cv(task, self$par_vals$folds, self$stratify)
       self
     },
 
@@ -40,10 +40,21 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
 mlr_resamplings$add("cv", ResamplingCV)
 
 
-resampling_cv = function(ids, folds) {
+resample_cv = function(ids, folds) {
   data.table(
     row_id = ids,
-    fold = shuffle(seq_along0(ids) %% folds + 1L),
-    key = "fold"
+    fold = shuffle(seq_along0(ids) %% folds + 1L)
   )
+}
+
+
+instantiate_cv = function(task, folds, stratify = character(0L)) {
+  if (length(stratify) == 0L) {
+    res = resample_cv(task$row_ids(), folds)
+  } else {
+    grps = stratify_groups(task, stratify = stratify, min_group_size = folds)
+    res = rbindlist(lapply(grps$..row_id, resample_cv, folds = folds))
+  }
+
+  setkeyv(res, "fold")[]
 }

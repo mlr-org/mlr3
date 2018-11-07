@@ -13,7 +13,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
     instantiate = function(task, ...) {
       assert_task(task)
       private$.hash = NA_character_
-      self$instance = resampling_subsampling(task$row_ids(), self$par_vals$ratio, self$par_vals$repeats)
+      self$instance = instantiate_subsampling(task, self$par_vals$ratio, self$par_vals$repeats, stratify = self$stratify)
       self
     },
 
@@ -40,9 +40,10 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
 mlr_resamplings$add("subsampling", ResamplingSubsampling)
 
 
-resampling_subsampling = function(ids, ratio, repeats) {
+
+resample_subsampling = function(ids, ratio, repeats) {
   n = length(ids)
-  nr = as.integer(round(n * ratio))
+  nr = rround(n * ratio)
 
   train = replicate(repeats,
     bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
@@ -50,3 +51,13 @@ resampling_subsampling = function(ids, ratio, repeats) {
   list(train = train, row_ids = ids)
 }
 
+instantiate_subsampling = function(task, ratio, repeats, stratify = character(0L)) {
+  if (length(stratify) == 0L) {
+    res = resample_subsampling(task$row_ids(), ratio, repeats)
+  } else {
+    grps = stratify_groups(task, stratify = stratify)
+    res = lapply(grps$..row_id, resample_subsampling, ratio = ratio, repeats = repeats)
+    res = Reduce(function(lhs, rhs) { list(train = Map(c, lhs$train, rhs$train), row_ids = c(lhs$row_ids , rhs$row_ids)) }, res)
+  }
+  res
+}

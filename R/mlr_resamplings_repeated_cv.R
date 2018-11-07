@@ -13,7 +13,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     instantiate = function(task, ...) {
       assert_task(task)
       private$.hash = NA_character_
-      self$instance = resampling_repeated_cv(task$row_ids(), self$par_vals$folds, self$par_vals$repeats)
+      self$instance = instantiate_repeated_cv(task, self$par_vals$folds, self$par_vals$repeats, stratify = self$stratify)
       self
     },
 
@@ -48,15 +48,21 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 mlr_resamplings$add("repeated_cv", ResamplingRepeatedCV)
 
 
-resampling_repeated_cv = function(ids, folds, repeats) {
+resample_repeated_cv = function(ids, folds, repeats) {
   n = length(ids)
-  data = rbindlist(lapply(seq_len(repeats), function(i) {
-    data.table(
-      row_id = ids,
-      rep = i,
-      fold = shuffle(seq_len0(n) %% folds + 1L)
-    )
+  rbindlist(lapply(seq_len(repeats), function(i) {
+    data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
   }))
+}
 
-  setkeyv(data, c("rep", "fold"))
+
+instantiate_repeated_cv = function(task, folds, repeats, stratify = character(0L)) {
+  if (length(stratify) == 0L) {
+    res = resample_repeated_cv(task$row_ids(), folds, repeats)
+  } else {
+    grps = stratify_groups(task, stratify = stratify, min_group_size = folds)
+    res = rbindlist(lapply(grps$..row_id, resample_repeated_cv, folds = folds, repeats = repeats))
+  }
+
+  setkeyv(res, c("rep", "fold"))[]
 }
