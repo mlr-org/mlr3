@@ -19,6 +19,7 @@ r$par_vals
 r$instantiate(task)
 r$is_instantiated
 r$instance
+r$stratify
 r$train_set(i)
 r$test_set(i)
 r$hash
@@ -48,6 +49,7 @@ You can set parameters by assigning a named list of new parameters to this slot.
 \item \code{$is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
 \item \code{$instance} stores the instantiated realization of the resampling. This is an arbitrary object, do
 not work directly with it. Instead, use \code{$train_set()} and \code{$test_set()}.
+\item \code{$stratify} can be set to column names of the \link{Task} which will be used for stratification during instantiation.
 \item \code{$train_set()} returns the training set for the \code{i}-th iteration.
 \item \code{$test_set()} returns the test set for the \code{i}-th iteration.
 \item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{par_vals} and the instantiation.
@@ -65,7 +67,6 @@ r$par_vals
 r$par_vals = list(ratio = 0.1, repeats = 3)
 r$par_vals
 
-
 # Instantiate on iris task
 task = mlr_tasks$get("iris")
 r$instantiate(task)
@@ -78,6 +79,16 @@ intersect(train_set, r$test_set(1))
 # Another example: 10-fold CV
 r = mlr_resamplings$get("cv")$instantiate(task)
 r$train_set(1)
+
+# Stratification
+task = mlr_tasks$get("pima")
+prop.table(table(task$truth())) # moderately unbalanced
+
+r = mlr_resamplings$get("subsampling")
+r$stratify = task$target_names # stratify on target column
+r$instantiate(task)
+prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
+prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 }
 \seealso{
 Other Resampling: \code{\link{mlr_resamplings}}

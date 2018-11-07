@@ -17,6 +17,7 @@
 #' r$instantiate(task)
 #' r$is_instantiated
 #' r$instance
+#' r$stratify
 #' r$train_set(i)
 #' r$test_set(i)
 #' r$hash
@@ -48,6 +49,8 @@
 #' * `$instance` stores the instantiated realization of the resampling. This is an arbitrary object, do
 #'   not work directly with it. Instead, use `$train_set()` and `$test_set()`.
 #'
+#' * `$stratify` can be set to column names of the [Task] which will be used for stratification during instantiation.
+#'
 #' * `$train_set()` returns the training set for the `i`-th iteration.
 #'
 #' * `$test_set()` returns the test set for the `i`-th iteration.
@@ -68,7 +71,6 @@
 #' r$par_vals = list(ratio = 0.1, repeats = 3)
 #' r$par_vals
 #'
-#'
 #' # Instantiate on iris task
 #' task = mlr_tasks$get("iris")
 #' r$instantiate(task)
@@ -81,6 +83,16 @@
 #' # Another example: 10-fold CV
 #' r = mlr_resamplings$get("cv")$instantiate(task)
 #' r$train_set(1)
+#'
+#' # Stratification
+#' task = mlr_tasks$get("pima")
+#' prop.table(table(task$truth())) # moderately unbalanced
+#'
+#' r = mlr_resamplings$get("subsampling")
+#' r$stratify = task$target_names # stratify on target column
+#' r$instantiate(task)
+#' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
+#' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 NULL
 
 #' @export
@@ -88,6 +100,7 @@ Resampling = R6Class("Resampling",
   public = list(
     id = NULL,
     par_set = NULL,
+    stratify = NULL,
     instance = NULL,
     has_duplicates = NA,
 
@@ -95,6 +108,7 @@ Resampling = R6Class("Resampling",
       self$id = assert_id(id)
       self$par_set = assert_par_set(par_set)
       private$.par_vals = assert_par_vals(par_vals, par_set)
+      self$stratify = character(0L)
     },
 
     train_set = function(...) stopf("Method not implemented, should have been overloaded during construction"),
@@ -143,6 +157,7 @@ Resampling = R6Class("Resampling",
 )
 
 stratify_groups = function(task, stratify, min_group_size = 0L) {
+  assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)
   row_ids = task$row_ids()
   grps = cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
   if (min_group_size > 0L) {

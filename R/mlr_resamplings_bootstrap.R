@@ -1,7 +1,6 @@
 #' @include Resampling.R
 ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   public = list(
-    stratify = character(0L),
     initialize = function(id = "bootstrap") {
       super$initialize(
         id = id,

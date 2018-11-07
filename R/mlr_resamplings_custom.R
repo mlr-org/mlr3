@@ -8,8 +8,10 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
       assert_task(task)
+      if (length(self$stratify))
+        stopf("Cannot stratify custom resampling")
       private$.hash = NA_character_
-      self$instance = resampling_custom(self$instance, train_sets, test_sets)
+      self$instance = instantiate_custom(self$instance, train_sets, test_sets)
       self
     },
 
@@ -42,7 +44,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 mlr_resamplings$add("custom", ResamplingCustom)
 
 
-resampling_custom = function(instance, train_sets = NULL, test_sets = NULL) {
+instantiate_custom = function(instance, train_sets = NULL, test_sets = NULL) {
   if (is.null(train_sets) && is.null(test_sets))
     stopf("At least one of 'train_sets' or 'test_sets' must be provided")
   instance = instance %??% list(train = NULL, test = NULL)

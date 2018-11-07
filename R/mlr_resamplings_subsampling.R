@@ -1,7 +1,6 @@
 #' @include Resampling.R
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
-    stratify = character(0L),
     initialize = function(id = "subsampling") {
       super$initialize(
         id = id,

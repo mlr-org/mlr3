@@ -1,8 +1,6 @@
 #' @include Resampling.R
 ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
-    stratify = character(0L),
-
     initialize = function(id = "cv") {
       super$initialize(
         id = id,

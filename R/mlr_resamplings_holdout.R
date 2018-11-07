@@ -14,7 +14,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     instantiate = function(task, ...) {
       assert_task(task)
       private$.hash = NA_character_
-      self$instance = instantiate_holdout(task, self$par_vals$ratio)
+      self$instance = instantiate_holdout(task, self$par_vals$ratio, stratify = self$stratify)
       self
     },
 
@@ -38,12 +38,18 @@ mlr_resamplings$add("holdout", ResamplingHoldout)
 
 
 resample_holdout = function(ids, ratio) {
-  nr = max(round(length(ids) * ratio), 1L)
+  nr = pround(length(ids) * ratio)
   ii = shuffle(ids, nr)
   list(train = ii, test = setdiff(ids, ii))
 }
 
 
-instantiate_holdout = function(task, ratio) {
-  resample_holdout(task$row_ids(), ratio)
+instantiate_holdout = function(task, ratio, stratify = character(0L)) {
+  if (length(stratify) == 0L) {
+    res = resample_holdout(task$row_ids(), ratio)
+  } else {
+    grps = stratify_groups(task, stratify = stratify)
+    res = lapply(grps$..row_id, resample_holdout, ratio = ratio)
+    res = Reduce(function(lhs, rhs) { list(train = c(lhs$train, rhs$train), test = c(lhs$test , rhs$test)) }, res)
+  }
 }
