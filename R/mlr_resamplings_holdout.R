@@ -38,7 +38,7 @@ mlr_resamplings$add("holdout", ResamplingHoldout)
 
 
 resample_holdout = function(ids, ratio) {
-  nr = pround(length(ids) * ratio)
+  nr = rround(length(ids) * ratio)
   ii = shuffle(ids, nr)
   list(train = ii, test = setdiff(ids, ii))
 }

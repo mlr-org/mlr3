@@ -43,7 +43,7 @@ mlr_resamplings$add("subsampling", ResamplingSubsampling)
 
 resample_subsampling = function(ids, ratio, repeats) {
   n = length(ids)
-  nr = pround(n * ratio)
+  nr = rround(n * ratio)
 
   train = replicate(repeats,
     bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
