@@ -140,20 +140,17 @@
 <a href="#predefined-tasks" class="anchor"></a>Predefined tasks</h2>
 <p><code>mlr3</code> ships with some popular machine learning toy tasks. These are stored in a <code><a href="../reference/Dictionary.html">mlr3::Dictionary</a></code>, a simple key-value store, named <code><a href="../reference/mlr_tasks.html">mlr3::mlr_tasks</a></code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">mlr_tasks</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; &lt;DictionaryTask&gt; with 6 stored values: bh, iris, pima, sonar,</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt;   spam, zoo</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; &lt;DictionaryTask&gt; with 7 stored values: bh, iris, pima, sonar,</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt;   spam, titanic, zoo</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Public: add, get, has, items, keys, mget, remove</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># list keys</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">names</span>(mlr_tasks)</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;  [1] ".__enclos_env__" "keys"            "items"          </span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;  [4] "remove"          "mget"            "initialize"     </span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;  [7] "has"             "print"           "add"            </span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; [10] "get"</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># get a quick overview</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co"># as.data.frame(mlr_tasks)</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] "bh"      "iris"    "pima"    "sonar"   "spam"    "titanic" "zoo"</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co"># get a quick overview</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># as.data.frame(mlr_tasks)</span></a></code></pre></div>
 <p>Here, we will stick to the popular <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris data set</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw">get</span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">print</span>(task)</a>
@@ -164,8 +161,9 @@
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Public: all_classes, backend, cbind, class_n, class_names, clone,</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   col_info, col_roles, data, feature_names, feature_types, filter,</span></a>
 <a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   formula, hash, head, id, levels, measures, ncol, negative, nrow,</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;   positive, properties, rbind, row_ids, row_roles, select,</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;   set_col_role, set_row_role, target_names, task_type, truth</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;   overwrite, positive, properties, rbind, row_ids, row_roles,</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;   select, set_col_role, set_row_role, target_names, task_type,</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;   truth</span></a></code></pre></div>
 <p>Several task properties and characteristics can be queried using the task’s methods (see <code><a href="../reference/Task.html">mlr3::Task</a></code>). Most of them should be self-explanatory.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">task<span class="op">$</span>nrow</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] 150</span></a>
@@ -241,9 +239,9 @@
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; Public: backend, cbind, clone, col_info, col_roles, data,</span></a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;   feature_names, feature_types, filter, formula, hash, head, id,</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   levels, measures, ncol, nrow, properties, rbind, row_ids,</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;   row_roles, select, set_col_role, set_row_role, target_names,</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;   task_type, truth</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   levels, measures, ncol, nrow, overwrite, properties, rbind,</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;   row_ids, row_roles, select, set_col_role, set_row_role,</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;   target_names, task_type, truth</span></a></code></pre></div>
 <p>The rownames of the <code>data.frame</code> <code>cars</code> have been automatically used as <code>row_ids</code>. We can use analogously to integer row ids to filter observations of the task:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">task<span class="op">$</span><span class="kw">row_ids</span>()</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;  [1] "AMC Javelin"         "Cadillac Fleetwood"  "Camaro Z28"         </span></a>
