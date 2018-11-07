@@ -27,10 +27,10 @@
 #' bmr = benchmark(tasks, learners, resamplings, measures)
 #'
 #' # performance for all conducted experiments
-#' bmr$performance
+#' bmr$performance[, !"time_train"]
 #'
 #' # aggregated performance
-#' bmr$aggregated
+#' bmr$aggregated[, !"time_train"]
 #'
 #' # Overview of of resamplings that were conducted internally
 #' rrs = bmr$resample_results
@@ -42,7 +42,6 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' rr$experiment(1)$prediction
-#' }
 benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = exec_control()) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)
