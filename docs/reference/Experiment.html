@@ -154,64 +154,75 @@
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>e = Experiment$new(task, learner, ...)
+    <pre># Construction
+e = Experiment$new(task, learner, ...)
+#
 e$train(subset)
 e$predict(subset, newdata)
 e$score(measures = NULL)
-    e$model
+#
+e$model
 e$prediction
 e$performance
-    e$train_set
+e$train_set
 e$test_set
 e$validation_set
 e$timings
+e$logs
 e$state
-    e$data
+e$data
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
     
     <ul>
-<li><p><code>task</code> (<a href='Task.html'>Task</a>): Task to conduct experiment on</p></li>
-<li><p><code>learner</code> (<a href='Learner.html'>Learner</a>): Learner to conduct experiment with.</p></li>
-<li><p><code>subset</code> (<code>integer</code> | <code>character</code>): Subset of the task's row ids to work on.</p></li>
-<li><p><code>newdata</code> (<code>data.frame</code>): New data to predict on. Will be added to the task.</p></li>
-<li><p><code>measures</code> (list of <a href='Measure.html'>Measure</a>): Performance measure to use. Defaults to the measures
-set in the <a href='Task.html'>Task</a>.</p></li>
+<li><p><code>task</code> [<a href='Task.html'>Task</a>]:<br />
+Task to conduct experiment on</p></li>
+<li><p><code>learner</code> [<a href='Learner.html'>Learner</a>]:<br />
+Learner to conduct experiment with.</p></li>
+<li><p><code>subset</code> [<code>integer()</code> | <code>character()</code>]:<br />
+Subset of the task's row ids to work on.</p></li>
+<li><p><code>newdata</code> [<code><a href='http://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>]:<br />
+New data to predict on. Will be appended to the task.</p></li>
+<li><p><code>measures</code> [<code>list</code> of <a href='Measure.html'>Measure</a>]:<br />
+Performance measure to use. Defaults to the measures set in the <a href='Task.html'>Task</a>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$new()</code> initializes a new machine learning experiment which can grow in a stepwise fashion.</p>
-<p><code>$train()</code> fits the induces <code>learner</code> on the (subset of the) <code>task</code> and internally stores the model.
-The model can be accessed via <code>e$model</code>.</p>
-<p><code>$predict()</code> uses the previously fitted model to predict new observations.
-The predictions are stored internally as an <a href='Prediction.html'>Prediction</a> object and can be accessed via <code>e$prediction</code>.</p>
-<p><code>$score()</code> quantifies stored predictions using the provided list of <a href='Measure.html'>Measure</a> (or the task's <a href='Measure.html'>Measure</a> if not provided)
-and stores the resulting performance values. The performance can be accessed via <code>e$performance</code>.</p>
-<p><code>$train_set</code> and <code>test_set</code> return the row ids of the training set or test set, respectively.
-If there is a validation set (see <a href='Task.html'>Task</a>), <code>validation_set</code> returns the corresponding row ids.</p>
-<p><code>$timings</code> holds the elapsed time for the steps <code>train</code>, <code>predict</code> and <code>score</code> in seconds with up to millisecond accuracy (see <code><a href='http://www.rdocumentation.org/packages/base/topics/proc.time'>base::proc.time()</a></code>).
-Timings are <code>NA</code> if the step has not been performed yet.</p>
-<p><code>$state</code> returns an factor of length 1 with ordered levels <code>"defined"</code>, <code>"trained"</code>, <code>"predicted"</code> and <code>"scored"</code>.</p>
-<p><code>$data</code> stores the internal representation of an Experiment as a <code>named list</code> with the following slots:</p><ul>
-<li><p>task: <a href='Task.html'>Task</a>.</p></li>
-<li><p>learner: <a href='Learner.html'>Learner</a>.</p></li>
-<li><p>resampling: <a href='Resampling.html'>Resampling</a>. Is <code>NULL</code> prior to calling <code>$train()</code>.
-If the experiment is constructed manually (i.e., not via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>,
-a <code>ResamplingCustom</code> object is stored here.</p></li>
-<li><p>iteration: <code>integer(1)</code>. If the experiment is constructed manually, this is always 1.</p></li>
+    <ul>
+<li><p><code>$new()</code> initializes a new machine learning experiment which can grow in a stepwise fashion.</p></li>
+<li><p><code>$train()</code> fits the induced <code>learner</code> on the (subset of the) <code>task</code> and internally stores the model.
+The model can be accessed via <code>e$model</code>.</p></li>
+<li><p><code>$predict()</code> uses the previously fitted model to predict new observations.
+The predictions are stored internally as an <a href='Prediction.html'>Prediction</a> object and can be accessed via <code>e$prediction</code> as <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.</p></li>
+<li><p><code>$score()</code> quantifies stored predictions using the provided list of <a href='Measure.html'>Measure</a> (or the task's <a href='Measure.html'>Measure</a> if not provided)
+and stores the resulting performance values. The performance can be accessed via <code>e$performance</code>.</p></li>
+<li><p><code>$train_set</code> and <code>$test_set</code> return the row ids of the training set or test set, respectively.</p></li>
+<li><p><code>$validation_set</code> returns the row ids of the validation set (see <a href='Task.html'>Task</a>).</p></li>
+<li><p><code>$timings</code> holds the elapsed time for the steps <code>train</code>, <code>predict</code> and <code>score</code> in seconds with up to millisecond accuracy (c.f. <code><a href='http://www.rdocumentation.org/packages/base/topics/proc.time'>base::proc.time()</a></code>).
+Timings are <code>NA</code> if the respective step has not been performed yet.</p></li>
+<li><p><code>$logs</code> creates a list with names <code>train</code> and <code>predict</code>.
+Both store an object of class <a href='Log.html'>Log</a> if logging of the learner has been enabled via <code><a href='exec_control.html'>exec_control()</a></code>, and are <code>NULL</code> if logging was disabled or the respective step has not been performed yet.</p></li>
+<li><p><code>$state</code> returns an factor of length 1 with ordered levels <code>"defined"</code>, <code>"trained"</code>, <code>"predicted"</code> and <code>"scored"</code>.</p></li>
+<li><p><code>$data</code> stores the internal representation of an Experiment as a <code>named list</code> with the following slots:</p><ul>
+<li><p>task [<a href='Task.html'>Task</a>].</p></li>
+<li><p>learner [<a href='Learner.html'>Learner</a>].</p></li>
+<li><p>resampling [<a href='Resampling.html'>Resampling</a>]. Is <code>NULL</code> prior to calling <code>$train()</code>.
+If the experiment is constructed manually (i.e., not via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>, a <code>ResamplingCustom</code> object is stored here.</p></li>
+<li><p>iteration [<code>integer(1)</code>]. If the experiment is constructed manually, this is always 1.</p></li>
 <li><p>model: Trained model as returned by the <a href='Learner.html'>Learner</a>.</p></li>
-<li><p>train_log: Log for the training step.</p></li>
-<li><p>train_time: <code>numeric(1)</code>. Elapsed time in microseconds.</p></li>
-<li><p>predict_log: Log for the predict step.</p></li>
-<li><p>predict_time: <code>numeric(1)</code>. Elapsed time in microseconds.</p></li>
-<li><p>prediction: <a href='Prediction.html'>Prediction</a>.</p></li>
-<li><p>measures: list of <a href='Measure.html'>Measure</a>. Used performance measures.</p></li>
-<li><p>performance: <code>named numeric</code>. Depending on the column <code>measures</code>.</p></li>
-<li><p>score_time: <code>numeric(1)</code>. Elapsed time in microseconds.</p></li>
+<li><p>train_log: <a href='Log.html'>Log</a> for the training step.</p></li>
+<li><p>train_time [<code>numeric(1)</code>]. Elapsed time in microseconds.</p></li>
+<li><p>predict_log. <a href='Log.html'>Log</a> for the predict step.</p></li>
+<li><p>predict_time [<code>numeric(1)</code>]. Elapsed time in microseconds.</p></li>
+<li><p>prediction [<a href='Prediction.html'>Prediction</a>].</p></li>
+<li><p>measures [<code>list</code> of <a href='Measure.html'>Measure</a>]. Actually used performance measures.</p></li>
+<li><p>performance [<code>named numeric</code>]. Performance values are returned by the measures.</p></li>
+<li><p>score_time [<code>numeric(1)</code>]. Elapsed time in microseconds.</p></li>
+</ul></li>
 </ul>
     
 
@@ -261,38 +272,38 @@ a <code>ResamplingCustom</code> object is stored here.</p></li>
 #&gt; Public: clone, data, has_errors, hash, logs, model, performance,
 #&gt;   predict, prediction, score, state, test_set, timings, train,
 #&gt;   train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] predicted
-#&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>prediction</span></div><div class='output co'>#&gt;      id     truth   response
-#&gt;  1: 121 virginica  virginica
-#&gt;  2: 122 virginica versicolor
-#&gt;  3: 123 virginica  virginica
-#&gt;  4: 124 virginica versicolor
-#&gt;  5: 125 virginica  virginica
-#&gt;  6: 126 virginica  virginica
-#&gt;  7: 127 virginica versicolor
-#&gt;  8: 128 virginica versicolor
-#&gt;  9: 129 virginica  virginica
-#&gt; 10: 130 virginica  virginica
-#&gt; 11: 131 virginica  virginica
-#&gt; 12: 132 virginica  virginica
-#&gt; 13: 133 virginica  virginica
-#&gt; 14: 134 virginica  virginica
-#&gt; 15: 135 virginica  virginica
-#&gt; 16: 136 virginica  virginica
-#&gt; 17: 137 virginica  virginica
-#&gt; 18: 138 virginica  virginica
-#&gt; 19: 139 virginica versicolor
-#&gt; 20: 140 virginica  virginica
-#&gt; 21: 141 virginica  virginica
-#&gt; 22: 142 virginica  virginica
-#&gt; 23: 143 virginica  virginica
-#&gt; 24: 144 virginica  virginica
-#&gt; 25: 145 virginica  virginica
-#&gt; 26: 146 virginica  virginica
-#&gt; 27: 147 virginica  virginica
-#&gt; 28: 148 virginica  virginica
-#&gt; 29: 149 virginica  virginica
-#&gt; 30: 150 virginica  virginica
-#&gt;      id     truth   response</div><div class='input'>
+#&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>prediction</span></div><div class='output co'>#&gt;      id   response     truth
+#&gt;  1: 121  virginica virginica
+#&gt;  2: 122 versicolor virginica
+#&gt;  3: 123  virginica virginica
+#&gt;  4: 124 versicolor virginica
+#&gt;  5: 125  virginica virginica
+#&gt;  6: 126  virginica virginica
+#&gt;  7: 127 versicolor virginica
+#&gt;  8: 128 versicolor virginica
+#&gt;  9: 129  virginica virginica
+#&gt; 10: 130  virginica virginica
+#&gt; 11: 131  virginica virginica
+#&gt; 12: 132  virginica virginica
+#&gt; 13: 133  virginica virginica
+#&gt; 14: 134  virginica virginica
+#&gt; 15: 135  virginica virginica
+#&gt; 16: 136  virginica virginica
+#&gt; 17: 137  virginica virginica
+#&gt; 18: 138  virginica virginica
+#&gt; 19: 139 versicolor virginica
+#&gt; 20: 140  virginica virginica
+#&gt; 21: 141  virginica virginica
+#&gt; 22: 142  virginica virginica
+#&gt; 23: 143  virginica virginica
+#&gt; 24: 144  virginica virginica
+#&gt; 25: 145  virginica virginica
+#&gt; 26: 146  virginica virginica
+#&gt; 27: 147  virginica virginica
+#&gt; 28: 148  virginica virginica
+#&gt; 29: 149  virginica virginica
+#&gt; 30: 150  virginica virginica
+#&gt;      id   response     truth</div><div class='input'>
 <span class='no'>e</span>$<span class='fu'>score</span>()</div><div class='output co'>#&gt; <span class='message'>Scoring predictions of learner 'classif.rpart' on task 'iris' ...</span></div><div class='input'><span class='fu'>print</span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [complete]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
@@ -313,7 +324,7 @@ a <code>ResamplingCustom</code> object is stored here.</p></li>
 #&gt;  [91]  91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 106 107 108
 #&gt; [109] 109 110 111 112 113 114 115 116 117 118 119 120</div><div class='input'><span class='no'>e</span>$<span class='no'>test_set</span></div><div class='output co'>#&gt;  [1] 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139
 #&gt; [20] 140 141 142 143 144 145 146 147 148 149 150</div><div class='input'><span class='no'>e</span>$<span class='no'>timings</span></div><div class='output co'>#&gt;   train predict   score 
-#&gt;   0.038   0.006   0.006 </div></pre>
+#&gt;   0.005   0.004   0.002 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

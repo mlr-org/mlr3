@@ -168,24 +168,79 @@ bmr$resample_result(hash)
 
     
     <ul>
-<li><p><code>hash</code> (<code>character(1)</code>):
+<li><p><code>hash</code> [<code>character(1)</code>]:<br />
 String which identifies a subgroup to extract as <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$tasks</code>, <code>$learners</code>, <code>$resamplings</code> and <code>$measures</code> return an overview table of involved objects.</p>
-<p><code>$performance</code> provides a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> with column <code>iteration</code> (integer) and a numeric column for each
-performance measure (columns named using the measure ids).</p>
-<p><code>$aggregated</code> returns aggregated performance measures as a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.
+    <ul>
+<li><p><code>$tasks</code>, <code>$learners</code>, <code>$resamplings</code> and <code>$measures</code> return an overview table of involved objects.</p></li>
+<li><p><code>$performance</code> provides a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code> with column <code>iteration</code> (integer) and a numeric column for each
+performance measure (columns named using the measure ids).</p></li>
+<li><p><code>$aggregated</code> returns aggregated performance measures as a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.
 The table is build similar to the one returned by <code>$performance</code>, but experiments are aggregated by their resample result group
-(combination of <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a> and <a href='Resampling.html'>Resampling</a>). The actual aggregation function is defined by the respective <a href='Measure.html'>Measure</a>.</p>
-<p><code>$resample_results</code> returns a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> which gives an overview of the resample result groups in the benchmark.
-These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.html'>ResampleResult</a> for further inspection.</p>
-<p><code>$resample_result()</code> creates the <a href='ResampleResult.html'>ResampleResult</a> identified by the specified <code>hash</code> value.</p>
+(combination of <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a> and <a href='Resampling.html'>Resampling</a>). The actual aggregation function is defined by the respective <a href='Measure.html'>Measure</a>.</p></li>
+<li><p><code>$resample_results</code> returns a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code> which gives an overview of the resample result groups in the benchmark.
+These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.html'>ResampleResult</a> for further inspection.</p></li>
+<li><p><code>$resample_result()</code> creates the <a href='ResampleResult.html'>ResampleResult</a> identified by the specified <code>hash</code> value.</p></li>
+</ul>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'><a href='benchmark.html'>benchmark</a></span>(
+  <span class='kw'>tasks</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'>mget</span>(<span class='st'>"iris"</span>),
+  <span class='kw'>learners</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'>mget</span>(<span class='fu'>c</span>(<span class='st'>"classif.dummy"</span>, <span class='st'>"classif.rpart"</span>)),
+  <span class='kw'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'>mget</span>(<span class='st'>"cv"</span>),
+  <span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='exec_control.html'>exec_control</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+)
+
+<span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
+#&gt; 1: 9e2a48c8f2f07100    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash    learner_id               learner
+#&gt; 1: afef6eda1b787161 classif.rpart &lt;LearnerClassifRpart&gt;
+#&gt; 2: 0de784a40d0c2eea classif.dummy &lt;LearnerClassifDummy&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>resamplings</span></div><div class='output co'>#&gt;     resampling_hash resampling_id     resampling
+#&gt; 1: 78538621b13cb796            cv &lt;ResamplingCV&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>measures</span></div><div class='output co'>#&gt;    measure_id              measure
+#&gt; 1:       mmce &lt;MeasureClassifMMCE&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>performance</span></div><div class='output co'>#&gt;                 hash task_id    learner_id resampling_id       mmce
+#&gt;  1: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.00000000
+#&gt;  2: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.00000000
+#&gt;  3: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.13333333
+#&gt;  4: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.06666667
+#&gt;  5: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.06666667
+#&gt;  6: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.00000000
+#&gt;  7: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.00000000
+#&gt;  8: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.13333333
+#&gt;  9: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.13333333
+#&gt; 10: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.06666667
+#&gt; 11: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.73333333
+#&gt; 12: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.86666667
+#&gt; 13: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.80000000
+#&gt; 14: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.73333333
+#&gt; 15: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.66666667
+#&gt; 16: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.73333333
+#&gt; 17: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.80000000
+#&gt; 18: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.73333333
+#&gt; 19: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.80000000
+#&gt; 20: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.66666667</div><div class='input'><span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id      mmce
+#&gt; 1: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.0600000
+#&gt; 2: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.7533333</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
+<span class='fu'>print</span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id  N
+#&gt; 1: 1c8a65bdbff30e7b    iris classif.rpart            cv 10
+#&gt; 2: 8ea7c1371ef8e2d6    iris classif.dummy            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
+<span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.rpart' with 10 iterations
+#&gt;  Measure Min. 1st Qu.     Median Mean   3rd Qu.      Max.       Sd
+#&gt;     mmce    0       0 0.06666667 0.06 0.1166667 0.1333333 0.058373</div><div class='input'><span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>model</span></div><div class='output co'>#&gt; n= 135 
+#&gt; 
+#&gt; node), split, n, loss, yval, (yprob)
+#&gt;       * denotes terminal node
+#&gt; 
+#&gt;  1) root 135 89 setosa (0.34074074 0.32592593 0.33333333)  
+#&gt;    2) Petal.Length&lt; 2.45 46  0 setosa (1.00000000 0.00000000 0.00000000) *
+#&gt;    3) Petal.Length&gt;=2.45 89 44 virginica (0.00000000 0.49438202 0.50561798)  
+#&gt;      6) Petal.Width&lt; 1.65 47  4 versicolor (0.00000000 0.91489362 0.08510638)  
+#&gt;       12) Petal.Length&lt; 4.85 40  0 versicolor (0.00000000 1.00000000 0.00000000) *
+#&gt;       13) Petal.Length&gt;=4.85 7  3 virginica (0.00000000 0.42857143 0.57142857) *
+#&gt;      7) Petal.Width&gt;=1.65 42  1 virginica (0.00000000 0.02380952 0.97619048) *</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -196,7 +251,9 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

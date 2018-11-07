@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Prediction Object for Regression — PredictionRegr • mlr3</title>
+<title>Reflections for mlr3 — mlr_reflections • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Prediction Object for Regression — PredictionRegr" />
+<meta property="og:title" content="Reflections for mlr3 — mlr_reflections" />
 
-<meta property="og:description" content="This object stores the predictions returned by a learner of class LearnerRegr." />
+<meta property="og:description" content="Environment which stores various information for reflections." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -143,55 +143,19 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prediction Object for Regression</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/PredictionRegr.R'><code>R/PredictionRegr.R</code></a></small>
+    <h1>Reflections for mlr3</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/reflections.R'><code>R/reflections.R</code></a></small>
     </div>
 
     
-    <p>This object stores the predictions returned by a learner of class <a href='Learner.html'>LearnerRegr</a>.</p>
+    <p>Environment which stores various information for reflections.</p>
     
 
+    <pre class="usage"><span class='no'>mlr_reflections</span></pre>
         
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <pre># Construction
-p = PredictionRegr$new(truth, response, se = NULL)
-#
-p$truth
-p$response
-p$se
-#
-as.data.table(p)
-</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>truth</code> [numeric]:<br />
-Numeric vector of true response.</p></li>
-<li><p><code>response</code> [numeric]:<br />
-Numeric vector of predictions. Must have length <code>length(truth)</code>.</p></li>
-<li><p><code>se</code> [numeric]:<br />
-Numeric vector of predicted standard error. Must have length <code>length(truth)</code>.</p></li>
-</ul>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-    <ul>
-<li><p><code>$new()</code> initializes a new object of class <a href='Prediction.html'>Prediction</a>.</p></li>
-<li><p><code>$truth</code> stores the true values.</p></li>
-<li><p><code>$response</code> stores the predicted values.</p></li>
-<li><p><code>$se</code> stores the predicted standard errors (if available), or is <code>NULL</code>.</p></li>
-<li><p>The prediction object can be transformed to a simple <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>
-with <code><a href='http://www.rdocumentation.org/packages/data.table/topics/as.data.table'>as.data.table()</a></code>.</p></li>
-</ul>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other Prediction: <code><a href='PredictionClassif.html'>PredictionClassif</a></code>,
-  <code><a href='Prediction.html'>Prediction</a></code></p></div>
+    <p>An object of class <code>environment</code> of length 9.</p>
     
 
   </div>
@@ -199,13 +163,7 @@ with <code><a href='http://www.rdocumentation.org/packages/data.table/topics/as.
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#usage">Usage</a></li>
-
-      <li><a href="#arguments">Arguments</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#format">Format</a></li>
           </ul>
 
   </div>
