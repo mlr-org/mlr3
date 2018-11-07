@@ -151,18 +151,14 @@
     <p>Object which stores the output of the <code>train</code> or <code>predict</code> step of an <a href='Experiment.html'>Experiment</a>.</p>
     
 
-    <pre class="usage"><span class='no'>Log</span></pre>
         
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An object of class <code>R6ClassGenerator</code> of length 24.</p>
-    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>l = Log$new(log = NULL)
-l$is_empty
+    <pre># Construction
+l = Log$new(log = NULL)
+    l$is_empty
 l$has_condition(cl)
-    l$format()
+l$format()
 l$print()
 </pre>
     
@@ -170,20 +166,22 @@ l$print()
 
     
     <ul>
-<li><p><code>log</code> (<code>data.table()</code>):
+<li><p><code>log</code> [<code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>]:
 Object as returned by <code><a href='http://www.rdocumentation.org/packages/evaluate/topics/evaluate'>evaluate::evaluate()</a></code>.</p></li>
-<li><p><code>cl</code> (<code>character(1)</code>):
+<li><p><code>cl</code> [<code>character(1)</code>]:
 Class of a condition. One of "output", "message", "warning", or "error".</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$new(log)</code> parses the object returned by <code><a href='http://www.rdocumentation.org/packages/evaluate/topics/evaluate'>evaluate::evaluate()</a></code> and creates a new Log.</p>
-<p><code>$is_empty</code> is <code>TRUE</code> if there has been no log captured, either because logging was turned off or there was not a single line out output.</p>
-<p><code>$has_condition(cl)</code> returns <code>TRUE</code> if at least on message of class <code>cl</code> is logged.
-Possible conditions are "output", "message", "warning", and "error".</p>
-<p><code>format()</code> and <code>print()</code> are for formatting and printing via <code><a href='http://www.rdocumentation.org/packages/base/topics/format'>base::format()</a></code> or <code><a href='http://www.rdocumentation.org/packages/base/topics/print'>base::print()</a></code>, respectively.</p>
+    <ul>
+<li><p><code>$new(log)</code> parses the object returned by <code><a href='http://www.rdocumentation.org/packages/evaluate/topics/evaluate'>evaluate::evaluate()</a></code> and creates a new Log.</p></li>
+<li><p><code>$is_empty</code> is <code>TRUE</code> if there has been no log captured, either because logging was turned off or there was not a single line out output.</p></li>
+<li><p><code>$has_condition(cl)</code> returns <code>TRUE</code> if at least on message of class <code>cl</code> is logged.
+Possible conditions are "output", "message", "warning", and "error".</p></li>
+<li><p><code>format()</code> and <code>print()</code> are for formatting and printing via <code><a href='http://www.rdocumentation.org/packages/base/topics/format'>base::format()</a></code> or <code><a href='http://www.rdocumentation.org/packages/base/topics/print'>base::print()</a></code>, respectively.</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -192,7 +190,7 @@ Possible conditions are "output", "message", "warning", and "error".</p>
  <span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'>get</span>(<span class='st'>"sonar"</span>),
  <span class='kw'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'>get</span>(<span class='st'>"classif.crashtest"</span>)
 )
-<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='exec_control.html'>exec_control</a></span>(<span class='kw'>use_evaluate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='message'>Training learner 'classif.crashtest' on task 'sonar' ...</span></div><div class='input'><span class='no'>log</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>data</span>$<span class='no'>train_log</span>
+<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='exec_control.html'>exec_control</a></span>(<span class='kw'>use_evaluate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='message'>Training learner 'classif.crashtest' on task 'sonar' ...</span></div><div class='input'><span class='no'>log</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>logs</span>$<span class='no'>train</span>
 
 <span class='no'>log</span>$<span class='no'>is_empty</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='no'>log</span>$<span class='fu'>has_condition</span>(<span class='st'>"error"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>log</span>$<span class='fu'>print</span>()</div><div class='output co'>#&gt; &lt;Log&gt; with 1 message:
 #&gt; 1: [error] Error in classif.crashtest during train()</div></pre>
@@ -201,8 +199,6 @@ Possible conditions are "output", "message", "warning", and "error".</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#format">Format</a></li>
-
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>

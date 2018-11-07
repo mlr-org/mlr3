@@ -159,28 +159,28 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>task</th>
-      <td><p>(<a href='Task.html'>Task</a>)<br />
+      <td><p>[<a href='Task.html'>Task</a>]:<br />
 Object of type <a href='Task.html'>Task</a>.</p></td>
     </tr>
     <tr>
       <th>learner</th>
-      <td><p>(<a href='Learner.html'>Learner</a>)<br />
+      <td><p>[<a href='Learner.html'>Learner</a>]:<br />
 Object of type <a href='Learner.html'>Learner</a>.</p></td>
     </tr>
     <tr>
       <th>resampling</th>
-      <td><p>(<a href='Resampling.html'>Resampling</a>)<br />
+      <td><p>[<a href='Resampling.html'>Resampling</a>]:<br />
 Object of type <a href='Resampling.html'>Resampling</a>.</p></td>
     </tr>
     <tr>
       <th>measures</th>
-      <td><p>(list of <a href='Measure.html'>Measure</a>)<br />
+      <td><p>[<code>list</code> of <a href='Measure.html'>Measure</a>]:<br />
 List of performance measures used to assess the predictive performance.
 Defaults to the measures stored in <code>task</code>.</p></td>
     </tr>
     <tr>
       <th>ctrl</th>
-      <td><p>(list returned by <code><a href='exec_control.html'>exec_control()</a></code>)<br />
+      <td><p>[<code>list</code> returned by <code><a href='exec_control.html'>exec_control()</a></code>]:<br />
 Object to control various parts of the execution.
 See <code><a href='exec_control.html'>exec_control()</a></code>.</p></td>
     </tr>
@@ -196,27 +196,27 @@ See <code><a href='exec_control.html'>exec_control()</a></code>.</p></td>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'>get</span>(<span class='st'>"classif.rpart"</span>)
 <span class='no'>resampling</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'>get</span>(<span class='st'>"cv"</span>)
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 10/10)' ...</span></div><div class='input'><span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.rpart' with 10 iterations
-#&gt;  Measure Min.    1st Qu.     Median Mean    3rd Qu. Max.       Sd
-#&gt;     mmce    0 0.01666667 0.06666667 0.06 0.06666667  0.2 0.058373</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt; mmce 
+#&gt;  Measure Min. 1st Qu.     Median Mean   3rd Qu.      Max.       Sd
+#&gt;     mmce    0       0 0.06666667 0.06 0.1166667 0.1333333 0.058373</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt; mmce 
 #&gt; 0.06 </div><div class='input'><span class='no'>rr</span>$<span class='no'>performance</span></div><div class='output co'>#&gt;                 hash task_id    learner_id resampling_id iteration       mmce
-#&gt;  1: a8b8817af832869f    iris classif.rpart            cv         1 0.06666667
-#&gt;  2: a8b8817af832869f    iris classif.rpart            cv         2 0.06666667
-#&gt;  3: a8b8817af832869f    iris classif.rpart            cv         3 0.20000000
-#&gt;  4: a8b8817af832869f    iris classif.rpart            cv         4 0.06666667
-#&gt;  5: a8b8817af832869f    iris classif.rpart            cv         5 0.06666667
-#&gt;  6: a8b8817af832869f    iris classif.rpart            cv         6 0.00000000
-#&gt;  7: a8b8817af832869f    iris classif.rpart            cv         7 0.06666667
-#&gt;  8: a8b8817af832869f    iris classif.rpart            cv         8 0.00000000
-#&gt;  9: a8b8817af832869f    iris classif.rpart            cv         9 0.00000000
-#&gt; 10: a8b8817af832869f    iris classif.rpart            cv        10 0.06666667</div><div class='input'>
+#&gt;  1: ffbc3f167e4d80b1    iris classif.rpart            cv         1 0.00000000
+#&gt;  2: ffbc3f167e4d80b1    iris classif.rpart            cv         2 0.06666667
+#&gt;  3: ffbc3f167e4d80b1    iris classif.rpart            cv         3 0.13333333
+#&gt;  4: ffbc3f167e4d80b1    iris classif.rpart            cv         4 0.00000000
+#&gt;  5: ffbc3f167e4d80b1    iris classif.rpart            cv         5 0.06666667
+#&gt;  6: ffbc3f167e4d80b1    iris classif.rpart            cv         6 0.00000000
+#&gt;  7: ffbc3f167e4d80b1    iris classif.rpart            cv         7 0.06666667
+#&gt;  8: ffbc3f167e4d80b1    iris classif.rpart            cv         8 0.13333333
+#&gt;  9: ffbc3f167e4d80b1    iris classif.rpart            cv         9 0.13333333
+#&gt; 10: ffbc3f167e4d80b1    iris classif.rpart            cv        10 0.00000000</div><div class='input'>
 <span class='co'># Repeat resampling with dummy learner and combine</span>
 <span class='co'># the ResampleResults into a BenchmarkResult</span>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'>get</span>(<span class='st'>"classif.dummy"</span>)
 <span class='no'>rr.dummy</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 10/10)' ...</span></div><div class='input'>
 <span class='no'>bmr</span> <span class='kw'>=</span> <span class='no'>rr</span>$<span class='fu'>combine</span>(<span class='no'>rr.dummy</span>)
 <span class='no'>bmr</span>$<span class='no'>performance</span>[, <span class='fu'>list</span>(<span class='kw'>mean.mmce</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>mmce</span>)), <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"learner_id"</span>]</div><div class='output co'>#&gt;       learner_id mean.mmce
-#&gt; 1: classif.dummy 0.7866667
-#&gt; 2: classif.rpart 0.0600000</div></pre>
+#&gt; 1: classif.dummy      0.78
+#&gt; 2: classif.rpart      0.06</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

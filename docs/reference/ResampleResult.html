@@ -155,7 +155,8 @@
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre>rr = ResampleResult$new(data, hash = NULL)
-    rr$task
+#
+rr$task
 rr$learner
 rr$resampling
 rr$measures
@@ -171,30 +172,32 @@ rr$hash
 
     
     <ul>
-<li><p><code>data</code> (<code>data.table</code>):
+<li><p><code>data</code> [<code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>]:<br />
 <code>data.table</code> with columns matching the data of an <a href='Experiment.html'>Experiment</a>.
 Each row corresponds to a single experiment.</p></li>
-<li><p><code>hash</code> (<code>NULL</code> or <code>character(1)</code>):
+<li><p><code>hash</code> [<code>NULL</code> | <code>character(1)</code>]:<br />
 Pre-calculated hash for the combination of <code>task</code>, <code>learner</code> and <code>resampling</code>.
 If <code>NULL</code>, the checksum will be calculated on-demand.</p></li>
-<li><p><code>i</code> (<code>integer</code>):
+<li><p><code>i</code> [<code>integer</code>]:<br />
 Iteration(s) of the experiment(s) to retrieve.</p></li>
-<li><p><code>rr</code> (<code>ResampleResult</code>):
+<li><p><code>rr</code> [<code>ResampleResult</code>]:<br />
 Second ResampleResult.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$task</code>, <code>learner</code>, <code>resampling</code> and <code>measure</code> allow access to the <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a> and <a href='Measure.html'>Measure</a> used in
-the resampling.</p>
-<p><code>$experiment()</code> returns an <a href='Experiment.html'>Experiment</a> for the <code>iter</code>-th resampling iteration.</p>
-<p><code>$experiments()</code> returns a list with the slice of <a href='Experiment.html'>Experiment</a>s for the provided <code>iters</code>.</p>
-<p><code>$combine()</code> takes a second ResampleResult and combines both ResampleResults into a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p>
-<p><code>$performance</code> provides a <a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a> with column <code>iteration</code> (integer) and a numeric column for each
-performance measure (columns named using the measure ids).</p>
-<p><code>$aggregated</code> returns the aggregated performance measures. The aggregation method is part of the <a href='Measure.html'>Measure</a>.</p>
-<p><code>$hash</code> stores a hash for the combination of task, learner and resampling.</p>
+    <ul>
+<li><p><code>$task</code>, <code>$learner</code>, <code>$resampling</code> and <code>$measure</code> allow access to the <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a> and
+<a href='Measure.html'>Measure</a> used in the resampling.</p></li>
+<li><p><code>$experiment()</code> returns an <a href='Experiment.html'>Experiment</a> for the <code>iter</code>-th resampling iteration.</p></li>
+<li><p><code>$experiments()</code> returns a list with the slice of <a href='Experiment.html'>Experiment</a>s for the provided <code>iters</code>.</p></li>
+<li><p><code>$combine()</code> takes a second ResampleResult and combines both ResampleResults to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
+<li><p><code>$performance</code> provides a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code> with column <code>iteration</code> (integer) and
+a numeric column for each performance measure (columns named using the measure ids).</p></li>
+<li><p><code>$aggregated</code> returns the aggregated performance measures. The aggregation method is part of the <a href='Measure.html'>Measure</a>.</p></li>
+<li><p><code>$hash</code> stores a hash for the combination of task, learner and resampling.</p></li>
+</ul>
     
 
   </div>

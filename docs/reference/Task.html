@@ -154,8 +154,10 @@
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>t = Task$new(id, backend)
-    t$id
+    <pre># Construction
+t = Task$new(id, backend)
+#
+t$id
 t$backend
 t$row_roles
 t$col_info
@@ -173,10 +175,12 @@ t$ncol
 t$feature_types
 t$formula
 t$hash
-    t$filter(rows)
+#
+t$filter(rows)
 t$select(cols)
 t$rbind(data)
 t$cbind(data)
+t$overwrite(cols)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -209,17 +213,17 @@ Subset of row ids to subset rows from the <a href='DataBackend.html'>DataBackend
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$new()</code> initializes a new object of class Task.</p>
-<p><code>$id</code> (<code>character(1)</code>) stores the name of the task.</p>
-<p><code>$backend()</code> (<a href='DataBackend.html'>DataBackend</a>) stores the <a href='DataBackend.html'>DataBackend</a> of the task.</p>
-<p><code>$row_roles</code> (<code>list</code>).
-Stores the row ids of <a href='DataBackend.html'>DataBackend</a> in vectors of row roles:</p><ul>
+    <ul>
+<li><p><code>$new()</code> initializes a new object of class Task.</p></li>
+<li><p><code>$id</code> (<code>character(1)</code>) stores the name of the task.</p></li>
+<li><p><code>$backend()</code> (<a href='DataBackend.html'>DataBackend</a>) stores the <a href='DataBackend.html'>DataBackend</a> of the task.</p></li>
+<li><p><code>$row_roles</code> (<code>list</code>). Stores the row ids of <a href='DataBackend.html'>DataBackend</a> in vectors of row roles:</p><ul>
 <li><p><code>"use"</code>: Use in training.</p></li>
 <li><p><code>"validation"</code>: Do not use in training, this are (possibly unlabeled) observations
 which are held back unless explicitly addressed.
 To alter the role, use <code>set_row_role()</code>.</p></li>
-</ul>
-    <p><code>$col_info</code> (<code>data.table</code>) with columns <code>id</code>, <code>role</code> and <code>type</code>.
+</ul></li>
+<li><p><code>$col_info</code> (<code>data.table</code>) with columns <code>id</code>, <code>role</code> and <code>type</code>.
 Stores column names of <a href='DataBackend.html'>DataBackend</a> in column <code>id</code>. Each column (feature)
 can have a specific mutually exclusive role in the learning task:</p><ul>
 <li><p><code>"feature"</code>: Regular feature.</p></li>
@@ -228,29 +232,33 @@ can have a specific mutually exclusive role in the learning task:</p><ul>
 <li><p><code>"primary_key"</code>: Name of the primary id column used in <a href='DataBackend.html'>DataBackend</a>.
 Column <code>type</code> stores the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
 To alter the role, use <code>set_col_role()</code>.</p></li>
-</ul>
-    <p><code>$set_row_role()</code> overwrites the role for specified rows, referenced by row id.</p>
-<p><code>$set_col_role()</code> overwrites the role for specified columns.</p>
-<p><code>$measures</code> is a list of <a href='Measure.html'>Measure</a> (performance measures) to use in this task.</p>
-<p><code>$data()</code> is used to retrieve data from the backend as <code>data.table</code>.
+</ul></li>
+<li><p><code>$set_row_role()</code> overwrites the role for specified rows, referenced by row id.</p></li>
+<li><p><code>$set_col_role()</code> overwrites the role for specified columns.</p></li>
+<li><p><code>$measures</code> is a list of <a href='Measure.html'>Measure</a> (performance measures) to use in this task.</p></li>
+<li><p><code>$data()</code> is used to retrieve data from the backend as <code>data.table</code>.
 Rows are subsetted to only contain observations with <code>role == "use"</code>.
 Columns are filtered to only contain features with <code>role %in% c("target", "feature")</code>.
-If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p>
-<p><code>$head()</code> can be used to peek into the first <code>n</code> observations with <code>role == "use"</code>.</p>
-<p><code>$levels()</code> queries the distinct levels of the column <code>col</code>. Only works for <code>character</code> and <code>factor</code> columns.
-This function ignores the row roles, so you get all levels found in the <a href='DataBackend.html'>DataBackend</a>.</p>
-<p><code>$row_ids()</code> returns a (subset of) row ids used in the task, i.e. subsetted to observations with <code>role == "use"</code>.</p>
-<p><code>$feature_names</code> returns a <code>character</code> vector of all feature names with <code>role == "feature"</code>.</p>
-<p><code>$target_names</code> returns a <code>character</code> vector of all feature names with <code>role == "target"</code>.</p>
-<p><code>$nrow</code> provides the total number of rows with <code>role == "use"</code>.</p>
-<p><code>$ncol</code> provides the total number of cols with <code>role %in% c("target", "feature")</code>.</p>
-<p><code>$feature_types</code> gives a <code>data.table</code> with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active" features of the task and <code>type</code> is the storage type.</p>
-<p><code>$formula</code> constructs a <a href='http://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>.</p>
-<p><code>$filter()</code> reduces the task, subsetting it to only the rows specified.</p>
-<p><code>$select()</code> reduces the task, subsetting it to only the columns specified.</p>
-<p><code>$rbind()</code> extends the task with additional rows.</p>
-<p><code>$cbind()</code> extends the task with additional columns.</p>
-<p><code>$hash</code> stores a checksum (<code>character(1)</code>) calculated on the <code>id</code>, <code>row_roles</code> and <code>col_info</code>.</p>
+If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p></li>
+<li><p><code>$head()</code> can be used to peek into the first <code>n</code> observations with <code>role == "use"</code>.</p></li>
+<li><p><code>$levels()</code> queries the distinct levels of the column <code>col</code>. Only works for <code>character</code> and <code>factor</code> columns.
+This function ignores the row roles, so you get all levels found in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
+<li><p><code>$row_ids()</code> returns a (subset of) row ids used in the task, i.e. subsetted to observations with <code>role == "use"</code>.</p></li>
+<li><p><code>$feature_names</code> returns a <code>character</code> vector of all feature names with <code>role == "feature"</code>.</p></li>
+<li><p><code>$target_names</code> returns a <code>character</code> vector of all feature names with <code>role == "target"</code>.</p></li>
+<li><p><code>$nrow</code> provides the total number of rows with <code>role == "use"</code>.</p></li>
+<li><p><code>$ncol</code> provides the total number of cols with <code>role %in% c("target", "feature")</code>.</p></li>
+<li><p><code>$feature_types</code> gives a <code>data.table</code> with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
+features of the task and <code>type</code> is the storage type.</p></li>
+<li><p><code>$formula</code> constructs a <a href='http://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>.</p></li>
+<li><p><code>$filter()</code> reduces the task, subsetting it to only the rows specified.</p></li>
+<li><p><code>$select()</code> reduces the task, subsetting it to only the columns specified.</p></li>
+<li><p><code>$rbind()</code> extends the task with additional rows.</p></li>
+<li><p><code>$cbind()</code> extends the task with additional columns.</p></li>
+<li><p><code>$overwrite()</code> overwrite the data in the Backend with data provided as <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.
+Values to overwrite are matched via column names and primary key.</p></li>
+<li><p><code>$hash</code> stores a checksum (<code>character(1)</code>) calculated on the <code>id</code>, <code>row_roles</code> and <code>col_info</code>.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

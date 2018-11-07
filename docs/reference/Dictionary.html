@@ -32,9 +32,9 @@
 
 <meta property="og:description" content="A simple key-value store for R6 objects.
 On retrieval of an object, the following applies:
-Factories (objects of class R6ClassGenerator) are initialized.
-R6 objects are cloned.
-Functions called.
+R6 Factories (objects of class R6ClassGenerator) are initialized.
+R6::R6Class objects are cloned.
+Functions are called.
 All other objects are returned as-is.
 " />
 <meta name="twitter:card" content="summary" />
@@ -156,9 +156,9 @@ All other objects are returned as-is.
     
     <p>A simple key-value store for <span class="pkg">R6</span> objects.
 On retrieval of an object, the following applies:</p><ul>
-<li><p>Factories (objects of class <code>R6ClassGenerator</code>) are initialized.</p></li>
-<li><p>R6 objects are cloned.</p></li>
-<li><p>Functions called.</p></li>
+<li><p>R6 Factories (objects of class <code>R6ClassGenerator</code>) are initialized.</p></li>
+<li><p><a href='http://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> objects are cloned.</p></li>
+<li><p>Functions are called.</p></li>
 <li><p>All other objects are returned as-is.</p></li>
 </ul>
     
@@ -166,34 +166,54 @@ On retrieval of an object, the following applies:</p><ul>
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>d = Dictionary$new()
+    <pre># Construction
+d = Dictionary$new()
     d$keys(pattern)
 d$add(value)
 d$get(key)
 d$mget(keys)
+d$has(key)
+d$remove(key, value)
 d$remove(keys)
+    as.data.frame(d)
+as.data.table(d)
+names(d)
+d[[key]]
+d[keys]
+length(d)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
     
     <ul>
-<li><p><code>pattern</code> (<code>string</code>):
-Restrict keys to keys  which match the <code>pattern</code>.</p></li>
-<li><p><code>key</code> (<code>string</code>):
-Key of single object to work on.</p></li>
-<li><p><code>keys</code> (<code>string</code>):
-Keys of multiple objects to work on.</p></li>
+<li><p><code>pattern</code> [<code>character(1)</code>]:<br />
+Restrict keys to keys  which match <code>pattern</code>.</p></li>
+<li><p><code>key</code> [<code>character(1)</code>]:<br />
+Single Key as string.</p></li>
+<li><p><code>value</code> [any]:<br />
+Arbitrary value.</p></li>
+<li><p><code>keys</code> [<code>character()</code>]:<br />
+Vector of keys.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$new()</code> initializes a new object of class Dictionary.</p>
-<p><code>$keys()</code> returns a vector of type <code>character</code> with all keys (or all keys matching <code>pattern</code>).</p>
-<p><code>$get()</code> retrieves a single object with key <code>key</code> (or raises an exception).</p>
-<p><code>$mget()</code> retrieves a named list of objects with keys <code>keys</code> (or raises an exception).</p>
-<p><code>$remove()</code> removes item with key <code>key</code> from the Dictionary.</p>
+    <ul>
+<li><p><code>$new()</code> initializes a new object of class Dictionary.</p></li>
+<li><p><code>$keys()</code> [<code>character()</code>] returns a vector with all keys (or all keys matching <code>pattern</code>).</p></li>
+<li><p><code>$get()</code> [any] retrieves a single object with key <code>key</code> (or raises an exception).</p></li>
+<li><p><code>$mget()</code> [<code>named list</code>] creates a list of objects with keys <code>keys</code> (or raises an exception).</p></li>
+<li><p><code>$has()</code> [<code>logical()</code>] is <code>TRUE</code> if <code>key</code> is present in the Dictionary.</p></li>
+<li><p><code>$add()</code> adds item <code>value</code> with key <code>key</code> to the Dictionary.</p></li>
+<li><p><code>$remove()</code> removes item with key <code>key</code> from the Dictionary.</p></li>
+<li><p><code>as.data.frame()</code> and <code><a href='as.data.table.html'>as.data.table()</a></code> give a summarizing overview as <code>data.frame</code> or <code>data.table</code>, respectively.</p></li>
+<li><p><code>names(d)</code> is an alternative way to call <code>d$keys()</code>.</p></li>
+<li><p><code>d[[key]]</code> is an alternative way to call <code>d$get(key)</code>.</p></li>
+<li><p><code>d[keys]</code> is an alternative way to call <code>d$mget(key)</code>.</p></li>
+<li><p><code>length(d)</code> returns the number of items stored in the Dictionary.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
