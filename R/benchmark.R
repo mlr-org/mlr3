@@ -18,6 +18,7 @@
 #' @return [BenchmarkResult].
 #' @export
 #' @examples
+#' \dontrun{
 #' set.seed(123)
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
@@ -41,6 +42,7 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' rr$experiment(1)$prediction
+#' }
 benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = exec_control()) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)

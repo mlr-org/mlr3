@@ -24,3 +24,5 @@ inst/doc
 
 .DS_Store
 .Rproj.user
+
+docs/*
