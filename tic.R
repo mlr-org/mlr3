@@ -22,7 +22,7 @@ if (inherits(ci(), "TravisCI") && !Sys.getenv("TRAVIS_EVENT_TYPE") == "cron") {
 
   get_stage("deploy") %>%
     add_code_step(devtools::document()) %>%
-    add_step(step_push_deploy(commit_paths = "man/"))
+    add_step(step_push_deploy(commit_paths = c("man/", "DESCRIPTION")))
 
   get_stage("after_deploy") %>%
     add_code_step(covr::codecov(quiet = FALSE))

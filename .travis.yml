@@ -29,6 +29,7 @@ sudo: false
 dist: trusty
 cache: packages
 latex: true
+pandoc_version: 2.3.1
 
 env:
   global:
