@@ -55,7 +55,7 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate:
     'BenchmarkResult.R'
     'DataBackend.R'
