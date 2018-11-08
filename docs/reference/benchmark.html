@@ -270,10 +270,10 @@ Object to control experiment execution. See <code><a href='exec_control.html'>ex
 <span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.dummy' with 10 iterations
 #&gt;     Measure       Min.   1st Qu. Median      Mean   3rd Qu.      Max.
 #&gt;         acc 0.06666667 0.1333333  0.200 0.1933333 0.2666667 0.2666667
-#&gt;  time_train 0.00000000 0.0010000  0.001 0.0011000 0.0010000 0.0020000
+#&gt;  time_train 0.00000000 0.0002500  0.001 0.0007000 0.0010000 0.0010000
 #&gt;            Sd
 #&gt;  0.0733669956
-#&gt;  0.0005676462</div><div class='input'>
+#&gt;  0.0004830459</div><div class='input'>
 <span class='co'># Extract predictions of first experiment of this resampling</span>
 <span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>prediction</span></div><div class='output co'>#&gt;      id  response      truth
 #&gt;  1:   4 virginica     setosa
