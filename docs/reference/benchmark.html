@@ -267,13 +267,8 @@ Object to control experiment execution. See <code><a href='exec_control.html'>ex
 #&gt; 8: fdfa483e082c1801    iris classif.rpart       holdout  1</div><div class='input'>
 <span class='co'># Extract first ResampleResult</span>
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='kw'>hash</span> <span class='kw'>=</span> <span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
-<span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.dummy' with 10 iterations
-#&gt;     Measure       Min.   1st Qu. Median      Mean   3rd Qu.      Max.
-#&gt;         acc 0.06666667 0.1333333  0.200 0.1933333 0.2666667 0.2666667
-#&gt;  time_train 0.00100000 0.0010000  0.001 0.0010000 0.0010000 0.0010000
-#&gt;            Sd
-#&gt;  7.336700e-02
-#&gt;  7.489778e-16</div><div class='input'>
+<span class='co'># print(rr)</span>
+
 <span class='co'># Extract predictions of first experiment of this resampling</span>
 <span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>prediction</span></div><div class='output co'>#&gt;      id  response      truth
 #&gt;  1:   4 virginica     setosa
