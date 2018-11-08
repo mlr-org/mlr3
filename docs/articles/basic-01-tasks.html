@@ -150,7 +150,15 @@
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] "bh"      "iris"    "pima"    "sonar"   "spam"    "titanic" "zoo"</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co"># get a quick overview</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># as.data.frame(mlr_tasks)</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">as.data.frame</span>(mlr_tasks)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;        id    type nrow ncol</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 1      bh    regr  506   19</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 2    iris classif  150    5</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; 3    pima classif  768    9</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 4   sonar classif  208   61</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; 5    spam classif 4601   58</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; 6 titanic classif  891   12</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; 7     zoo classif  101   17</span></a></code></pre></div>
 <p>Here, we will stick to the popular <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris data set</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw">get</span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">print</span>(task)</a>
