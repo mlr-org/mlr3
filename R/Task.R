@@ -384,7 +384,7 @@ task_rbind = function(self, data) {
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 3. Update col_info
-  self$col_info$levels = Map(union, as.character(joined$levels.x), as.character(joined$levels.y))
+  self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
 
   # 4. Overwrite self$backend with new backend
   self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
@@ -488,14 +488,14 @@ col_info = function(x, ...) {
 }
 
 col_info.data.table = function(x, primary_key = character(0L), ...) {
-  types = vcapply(x, class)
+  types = map_chr(x, class)
   discrete = setdiff(names(types)[types %in% c("character", "factor")], primary_key)
   levels = insert(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
 col_info.DataBackend = function(x, ...) {
-  types = vcapply(x$head(1L), class)
+  types = map_chr(x$head(1L), class)
   discrete = setdiff(names(types)[types %in% c("character", "factor")], x$primary_key)
   levels = insert(named_list(names(types)), x$distinct(discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")

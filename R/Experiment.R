@@ -151,7 +151,7 @@ Experiment = R6Class("Experiment",
     },
 
     timings = function() {
-      t = vnapply(self$data[c("train_time", "predict_time", "score_time")], function(x) x %??% NA_real_, use.names = FALSE)
+      t = map_dbl(self$data[c("train_time", "predict_time", "score_time")], function(x) x %??% NA_real_)
       setNames(t, c("train", "predict", "score"))
     },
 
@@ -313,8 +313,8 @@ combine_experiments = function(x) {
   name = atomic = NULL
   nn = names(x[[1L]])
   encapsulate = mlr_reflections$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
-  rbindlist(lapply(x, function(exp) {
+  map_dtr(x, function(exp) {
     exp[encapsulate] = lapply(exp[encapsulate], list)
     exp
-  }))
+  })
 }

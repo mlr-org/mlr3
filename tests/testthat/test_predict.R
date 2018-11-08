@@ -14,5 +14,11 @@ test_that("Simple prediction", {
   expect_integer(e$test_set, len = 50L, unique = TRUE, any.missing = FALSE)
 
   e$predict(subset = 101:150)
-  expect_null(e$data$performance)
+  expect_null(e$data$performance) # performance is reset?
+
+  expect_data_table(e$prediction, nrow = 50)
+
+  p = e$data$prediction
+  expect_is(p, "Prediction")
+  expect_data_frame(as.data.frame(p), nrow = 50)
 })

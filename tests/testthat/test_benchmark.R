@@ -42,6 +42,12 @@ test_that("Basic benchmarking", {
   expect_data_table(tab, nrow = 2, any.missing = FALSE)
   expect_names(names(tab), permutation.of = c("measure_id", "measure"))
   expect_character(tab$measure_id, len = 2L, unique = TRUE, any.missing = FALSE)
+
+  tab = bmr$aggregated
+  expect_data_table(tab, nrow = 4, key = "hash")
+  expect_names(names(tab), permutation.of = c("hash", "task_id", "learner_id", "resampling_id", "mmce", "acc"))
+  expect_numeric(tab[task_id == "sonar", mmce], any.missing = FALSE)
+  expect_numeric(tab[task_id == "iris", acc], any.missing = FALSE)
 })
 
 test_that("ResampleResult getter", {
@@ -55,6 +61,6 @@ test_that("ResampleResult getter", {
 
 test_that("discarding model", {
   bmr = benchmark(tasks[1L], learners[1L], resamplings, ctrl = exec_control(store_prediction = FALSE, store_model = FALSE))
-  expect_true(all(viapply(bmr$data$prediction, is.null)))
-  expect_true(all(viapply(bmr$data$model, is.null)))
+  expect_true(all(map_lgl(bmr$data$prediction, is.null)))
+  expect_true(all(map_lgl(bmr$data$model, is.null)))
 })

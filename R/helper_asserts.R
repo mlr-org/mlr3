@@ -140,7 +140,7 @@ assert_range = function(range) {
 
 assert_unique_hashes = function(x) {
   assert_list(x)
-  hashes = vcapply(x, "[[", "hash")
+  hashes = hashes(x)
   if (anyDuplicated(hashes))
     stopf("Duplicated elements found in '%s'", deparse(substitute(x)))
   invisible(x)

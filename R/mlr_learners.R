@@ -23,8 +23,8 @@ mlr_learners = DictionaryLearner$new()
 
 #' @export
 as.data.table.DictionaryLearner = function(x, ...) {
-  setkeyv(rbindlist(lapply(x$keys(), function(id) {
+  map_dtr(x$keys(), function(id) {
     l = x$get(id)
-    data.table(id = id, packages = list(l$packages))
-  })), "id")[]
+    list(id = id, packages = list(l$packages))
+  }, .key = "id")
 }

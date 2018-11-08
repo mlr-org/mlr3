@@ -47,10 +47,10 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = exec_
   assert_list(resamplings, "Resampling", min.len = 1L)
 
   if (is.null(measures)) {
-    measures = unname(lapply(tasks, "[[", "measures"))
+    measures = unname(pluck(tasks, "measures"))
   } else {
     assert_list(measures, "Measure", min.len = 1L)
-    measures = replicate(length(tasks), measures, simplify = FALSE)
+    measures = replicate(length(tasks), unname(measures), simplify = FALSE)
   }
   # TODO: call assert measures on grid
 
@@ -69,7 +69,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = exec_
   grid = grid[tmp, on = "task", allow.cartesian = TRUE]
 
   # Cross join resampling iterations
-  tmp = rbindlist(lapply(seq_along(instances), function(i) data.table(instance = i, iter = seq_len(instances[[i]]$iters))))
+  tmp = map_dtr(seq_along(instances), function(i) data.table(instance = i, iter = seq_len(instances[[i]]$iters)))
   grid = grid[tmp, on = "instance", allow.cartesian = TRUE]
 
   # compute hashes

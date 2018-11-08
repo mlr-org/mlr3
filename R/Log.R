@@ -93,7 +93,7 @@ parse_evaluate = function(log) {
 
   log = log[-1L] # remove $src
   data.table(
-    msg = vcapply(log, function(x) trimws(if (is.character(x)) x else x$message)),
-    class = factor(vcapply(log, translate_class), levels = mlr_reflections$log_classes)
+    msg = map_chr(log, function(x) trimws(if (is.character(x)) x else x$message)),
+    class = factor(map_chr(log, translate_class), levels = mlr_reflections$log_classes)
   )
 }

@@ -12,6 +12,7 @@ expect_hash = function(x, len = NULL) {
 
 expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
   checkmate::expect_r6(d, "Dictionary")
+  testthat::expect_output(print(d), "Dictionary")
   checkmate::expect_environment(d$items)
   checkmate::expect_character(d$keys(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
   if (!is.na(contains)) {
@@ -21,6 +22,8 @@ expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
 
 expect_backend = function(b) {
   checkmate::expect_r6(b, cloneable = FALSE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
+  expect_output(print(b), "^DataBackend")
+
   n = checkmate::expect_count(b$nrow)
   p = checkmate::expect_count(b$ncol)
   cn = checkmate::expect_atomic_vector(b$colnames, any.missing = FALSE, len = p, unique = TRUE)
@@ -111,6 +114,7 @@ expect_iris_backend = function(b) {
 
 expect_task = function(task) {
   checkmate::expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
+  testthat::expect_output(print(task), "Task")
   checkmate::expect_string(task$id, min.chars = 1L)
   checkmate::expect_count(task$nrow)
   checkmate::expect_count(task$ncol)
@@ -205,6 +209,7 @@ expect_learner = function(lrn, task = NULL) {
 
 expect_resampling = function(r, task = NULL) {
   checkmate::expect_r6(r, "Resampling")
+  testthat::expect_output(print(r))
   checkmate::expect_string(r$id, min.chars = 1L)
 
   instance = r$instance
@@ -253,6 +258,7 @@ expect_measure = function(m) {
 
 expect_experiment = function(e) {
   checkmate::expect_r6(e, "Experiment")
+  testthat::expect_output(print(e), "Experiment")
   state = e$state
   checkmate::expect_factor(state, ordered = TRUE)
   checkmate::expect_subset(as.character(state), levels(mlr3::mlr_reflections$experiment_slots$state))
@@ -284,6 +290,7 @@ expect_experiment = function(e) {
 
 expect_resample_result = function(rr) {
   checkmate::expect_r6(rr, "ResampleResult")
+  testthat::expect_output(print(rr), "ResampleResult")
   expect_task(rr$task)
   expect_learner(rr$learner, task = rr$task)
   expect_resampling(rr$resampling, task = rr$task)

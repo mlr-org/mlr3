@@ -80,7 +80,7 @@ test_that("has_duplicates", {
 })
 
 test_that("stratification", {
-  data = data.table(y = rep(letters[1:2], times = c(90, 10)), x1 = runif(100), x2 = rep(LETTERS[1:2], times = c(90, 10)))
+  data = data.table(y = rep(letters[1:2], times = c(90, 10)), x1 = runif(100), x2 = rep(LETTERS[1:2], times = c(50, 50)))
   b = DataBackendDataTable$new(data)
   task = TaskClassif$new("stratify_data", b, target = "y")
 
@@ -146,4 +146,10 @@ test_that("stratification", {
     expect_equal(task$data(r$test_set(i))[y == "a", .N],  18)
     expect_equal(task$data(r$test_set(i))[y == "b", .N],   2)
   }
+
+  # error for min group size
+  r = mlr_resamplings$get("cv")
+  r$par_vals = list(folds = 11)
+  r$stratify = "y"
+  expect_error(r$instantiate(task), "combination")
 })
