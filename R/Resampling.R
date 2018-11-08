@@ -165,7 +165,7 @@ stratify_groups = function(task, stratify, min_group_size = 0L) {
     if (length(ii)) {
       tmp = as.list(grps[ii, stratify, with = FALSE])
       stopf("Cannot stratify: combination %s has only %i observations",
-        paste0(sprintf("[%s=%s]", names(tmp), tmp), collapse = "x"),
+        paste0(sprintf("[%s == '%s']", names(tmp), tmp), collapse = "x"),
         grps$..N[ii]
       )
     }

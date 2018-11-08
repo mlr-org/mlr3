@@ -10,8 +10,10 @@ test_that("Dictionary", {
   f2 = Foo$new(2)
   f2$id = "f2"
 
+  expect_false(d$has("f1"))
   d$add("f1", f1)
   expect_identical(d$keys(), "f1")
+  expect_true(d$has("f1"))
   f1c = d$get("f1")
   expect_different_address(f1, f1c)
   expect_list(d$mget("f1"), names = "unique", len = 1, types = "Foo")
@@ -23,6 +25,13 @@ test_that("Dictionary", {
   d$add("f2", f2)
   expect_set_equal(d$keys(), c("f1", "f2"))
   expect_list(d$mget(c("f1", "f2")), names = "unique", len = 2, types = "Foo")
+
+  d$remove("f2")
+  expect_set_equal(d$keys(), "f1")
+  expect_false(d$has("f2"))
+
+  expect_data_frame(as.data.frame(d), nrow = 1L)
+  expect_data_table(as.data.table(d), nrow = 1L)
 })
 
 test_that("Dictionary: lazy values", {
@@ -54,7 +63,6 @@ test_that("Dictionaries are populated", {
 })
 
 test_that("Error when a package containing the dataset is not installed", {
-
   test_task = DictionaryTask$new()
   test_task$add("missing_package", function() {
     b = DataBackendDataTable$new(data = load_dataset("xxx", "missing_package_123"))

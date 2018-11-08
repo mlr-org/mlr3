@@ -32,7 +32,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     distinct = function(cols) {
       d1 = private$.b1$distinct(cols)
       d2 = private$.b2$distinct(cols)
-      setNames(lapply(names(d1), function(nn) union(d1[[nn]], d2[[nn]])), names(d1))
+      Map(function(nn) union(d1[[nn]], d2[[nn]]), names(d1))
     }
   ),
 

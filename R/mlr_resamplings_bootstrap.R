@@ -15,9 +15,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.hash = NA_character_
-      self$instance = instantiate_bootstrap(task, self$par_vals$ratio, self$par_vals$repeats, self$stratify)
-      self
+      private$.instantiate(instantiate_bootstrap(task, self$par_vals$ratio, self$par_vals$repeats, self$stratify))
     },
 
     train_set = function(i) {
@@ -57,6 +55,8 @@ instantiate_bootstrap = function(task, ratio, repeats, stratify = character(0L))
   } else {
     grps = stratify_groups(task, stratify = stratify)
     res = lapply(grps$..row_id, resample_bootstrap, ratio = ratio, repeats = repeats)
-    Reduce(function(lhs, rhs) list(row_ids = c(lhs$row_ids, rhs$row_ids), M = rbind(lhs$M, rhs$M)), res)
+    res = list(row_ids = do.call(c, pluck(res, "row_ids")), M = do.call(rbind, pluck(res, "M")))
   }
+
+  res
 }

@@ -384,7 +384,7 @@ task_rbind = function(self, data) {
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 3. Update col_info
-  self$col_info$levels = Map(union, as.character(joined$levels.x), as.character(joined$levels.y))
+  self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
 
   # 4. Overwrite self$backend with new backend
   self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
