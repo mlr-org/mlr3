@@ -7,7 +7,7 @@ is_scalar_na = function(x) {
 }
 
 require_namespaces = function(pkgs, msg = "The following packages are missing: %s") {
-  ok = vlapply(unique(pkgs), requireNamespace, quietly = TRUE)
+  ok = map_lgl(unique(pkgs), requireNamespace, quietly = TRUE)
   if (!all(ok))
     stopf(msg, paste0(pkgs[!ok], collapse = ","))
 }

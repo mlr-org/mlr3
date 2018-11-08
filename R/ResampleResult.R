@@ -71,7 +71,7 @@ ResampleResult = R6Class("ResampleResult",
 
       # FIXME: We want something like skimr w/o the dependencies
       perf = self$performance[, ids(self$measures), with = FALSE]
-      tab = rbindlist(lapply(perf, function(x) c(as.list(summary(x)), list(Sd = sd(x)))))
+      tab = map_dtr(perf, function(x) c(as.list(summary(x)), list(Sd = sd(x))))
       tab$Measure = names(perf)
       setcolorder(tab, "Measure")
       print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE)
@@ -126,7 +126,7 @@ ResampleResult = R6Class("ResampleResult",
 
     aggregated = function() {
       measures = self$measures
-      setNames(vnapply(measures, function(m) m$aggregate(self)), ids(measures))
+      setNames(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
     },
 
     hash = function() {

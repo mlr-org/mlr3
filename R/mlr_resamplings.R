@@ -23,8 +23,8 @@ mlr_resamplings = DictionaryResampling$new()
 
 #' @export
 as.data.table.DictionaryResampling = function(x, ...) {
-  setkeyv(rbindlist(lapply(x$keys(), function(id) {
+  map_dtr(x$keys(), function(id) {
     r = x$get(id)
-    data.table(id = id, hyperpars = list(r$par_set$ids), default_iters = r$iters)
-  })), "id")[]
+    list(id = id, hyperpars = list(r$par_set$ids), default_iters = r$iters)
+  }, .key = "id")
 }

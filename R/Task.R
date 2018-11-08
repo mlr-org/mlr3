@@ -488,14 +488,14 @@ col_info = function(x, ...) {
 }
 
 col_info.data.table = function(x, primary_key = character(0L), ...) {
-  types = vcapply(x, class)
+  types = map_chr(x, class)
   discrete = setdiff(names(types)[types %in% c("character", "factor")], primary_key)
   levels = insert(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
 col_info.DataBackend = function(x, ...) {
-  types = vcapply(x$head(1L), class)
+  types = map_chr(x$head(1L), class)
   discrete = setdiff(names(types)[types %in% c("character", "factor")], x$primary_key)
   levels = insert(named_list(names(types)), x$distinct(discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")

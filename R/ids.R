@@ -12,5 +12,5 @@
 #' x = mlr_tasks$mget(c("iris", "sonar"))
 #' ids(x)
 ids = function(x) {
-  vcapply(x, "[[", "id", use.names = FALSE)
+  pluck_chr(unname(x), "id")
 }

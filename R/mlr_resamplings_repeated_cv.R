@@ -50,9 +50,9 @@ mlr_resamplings$add("repeated_cv", ResamplingRepeatedCV)
 
 resample_repeated_cv = function(ids, folds, repeats) {
   n = length(ids)
-  rbindlist(lapply(seq_len(repeats), function(i) {
+  map_dtr(seq_len(repeats), function(i) {
     data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
-  }))
+  })
 }
 
 
@@ -61,7 +61,7 @@ instantiate_repeated_cv = function(task, folds, repeats, stratify = character(0L
     res = resample_repeated_cv(task$row_ids(), folds, repeats)
   } else {
     grps = stratify_groups(task, stratify = stratify, min_group_size = folds)
-    res = rbindlist(lapply(grps$..row_id, resample_repeated_cv, folds = folds, repeats = repeats))
+    res = map_dtr(grps$..row_id, resample_repeated_cv, folds = folds, repeats = repeats)
   }
 
   setkeyv(res, c("rep", "fold"))[]

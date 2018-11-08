@@ -23,8 +23,8 @@ mlr_measures = DictionaryMeasure$new()
 
 #' @export
 as.data.table.DictionaryMeasure = function(x, ...) {
-  setkeyv(rbindlist(lapply(x$keys(), function(id) {
+  map_dtr(x$keys(), function(id) {
     m = x$get(id)
-    data.table(id = id, task_type = m$task_type, packages = list(m$packages))
-  })), "id")[]
+    list(id = id, task_type = m$task_type, packages = list(m$packages))
+  }, .key = "id")
 }

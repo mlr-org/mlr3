@@ -92,7 +92,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     measures = function() {
-      unique(rbindlist(lapply(self$data$measures, function(m) data.table(measure_id = ids(m), measure = m)), fill = TRUE), by = "measure_id")
+      unique(map_dtr(self$data$measures, function(m) data.table(measure_id = ids(m), measure = m)), by = "measure_id")
     },
 
     resample_results = function() {
