@@ -156,22 +156,26 @@ It extends <a href='Task.html'>Task</a> with some handling of target columns.</p
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>t = TaskSupervised$new(id, backend, targets)
-    t$truth(subset = NULL)
+    <pre># Construction
+t = TaskSupervised$new(id, backend, targets)
+#
+t$truth(subset = NULL)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
     
     <ul>
-<li><p><code>subset</code> (<code>vector</code>):
+<li><p><code>subset</code> (<code>vector</code>):<br />
 Subset of row ids to subset rows from the <a href='DataBackend.html'>DataBackend</a> using its primary key.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$truth()</code> returns (a subset of) the columns which are labeled as target as <code>data.table</code>.</p>
+    <ul>
+<li><p><code>$truth()</code> returns the true labels. The type depends on the type of the task.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

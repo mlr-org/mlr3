@@ -12,8 +12,8 @@ if (Sys.getenv("id_rsa") != "") {
     add_step(step_setup_ssh())
 
   get_stage("deploy") %>%
-    add_step(step_build_pkgdown()) #%>%
-   # add_step(step_push_deploy(commit_paths = "docs"))
+    add_step(step_build_pkgdown()) %>%
+    add_step(step_push_deploy(commit_paths = "docs"))
 }
 
 # only deploy man files on Travis on non-cron builds
@@ -22,7 +22,7 @@ if (inherits(ci(), "TravisCI") && !Sys.getenv("TRAVIS_EVENT_TYPE") == "cron") {
 
   get_stage("deploy") %>%
     add_code_step(devtools::document()) %>%
-    add_step(step_push_deploy(commit_paths = "man/"))
+    add_step(step_push_deploy(commit_paths = c("man/", "DESCRIPTION", "NAMESPACE")))
 
   get_stage("after_deploy") %>%
     add_code_step(covr::codecov(quiet = FALSE))

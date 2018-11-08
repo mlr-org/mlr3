@@ -148,35 +148,46 @@
     </div>
 
     
-    <p>This object stores the predictions returned by a learner of class <a href='LearnerClassif.html'>LearnerClassif</a>.</p>
+    <p>This object stores the predictions returned by a learner of class <a href='Learner.html'>LearnerClassif</a>.</p>
     
 
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>p = PredictionClassif$new(task, response, prob = NULL)
-    p$response
+    <pre># Construction
+p = PredictionClassif$new(truth, response, prob = NULL)
+#
+p$truth
+p$response
 p$prob
-    as.data.table(p)
+#
+as.data.table(p)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
     
     <ul>
-<li><p><code>task</code> (<a href='TaskRegr.html'>TaskRegr</a>): Used to extract essential information to assert the correctness of <code>response</code>.</p></li>
-<li><p><code>response</code> (<code>numeric</code>): Predicted class labels as <code>factor</code> of the same length as number of observations in the test set.</p></li>
-<li><p><code>prob</code> (<code>matrix</code>): Numeric matrix of class probabilities with <code>task$class_n</code> columns and rows equal to the number of
-observations in the test set. Columns must be named with class levels.</p></li>
+<li><p><code>truth</code> [factor]:<br />
+Factor of true class labels (as returned by <code>task$truth()</code>). Note that empty levels may not be dropped.</p></li>
+<li><p><code>response</code> [factor | character]:<br />
+Vector of predicted class labels. Must have length <code>length(truth)</code>.</p></li>
+<li><p><code>prob</code> [matrix]:<br />
+Numeric matrix of class probabilities with <code>levels(truth)</code> columns and <code>length(truth)</code> rows.
+Columns must be named with class levels.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$new()</code> initializes a new object of class <a href='Prediction.html'>Prediction</a>.</p>
-<p><code>$response</code> stores the predicted class labels.</p>
-<p><code>$prob</code> stores the label probabilities (if available), or is <code>NULL</code>.</p>
-<p>Object can be transformed to a simple <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> with <code><a href='http://www.rdocumentation.org/packages/data.table/topics/as.data.table'>data.table::as.data.table()</a></code>.</p>
+    <ul>
+<li><p><code>$new()</code> initializes a new object of class <a href='Prediction.html'>Prediction</a>.</p></li>
+<li><p><code>$truth</code> stores the predicted class labels as factor.</p></li>
+<li><p><code>$response</code> stores the predicted class labels as factor.</p></li>
+<li><p><code>$prob</code> stores the label probabilities (if available) as matrix, or is <code>NULL</code>.</p></li>
+<li><p>The prediction object can be transformed to a simple <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>
+with <code><a href='http://www.rdocumentation.org/packages/data.table/topics/as.data.table'>as.data.table()</a></code>.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

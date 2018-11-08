@@ -22,12 +22,6 @@
     <loc>https://mlr3.mlr-org.com/reference/Learner.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerClassif.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerRegr.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/Log.html</loc>
   </url>
   <url>
@@ -76,6 +70,9 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr3-package.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_assertions.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_learners.html</loc>
   </url>
   <url>
@@ -83,6 +80,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_options.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_reflections.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings.html</loc>

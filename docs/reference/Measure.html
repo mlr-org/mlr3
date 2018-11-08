@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Abstract measure class — Measure • mlr3</title>
+<title>Measure Class — Measure • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Abstract measure class — Measure" />
+<meta property="og:title" content="Measure Class — Measure" />
 
-<meta property="og:description" content="Abstraction for performance measures.
-Predefined measures are stored in mlr_measures." />
+<meta property="og:description" content="Predefined measures are stored in mlr_measures." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -144,19 +143,22 @@ Predefined measures are stored in mlr_measures." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Abstract measure class</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/Measure.R'><code>R/Measure.R</code></a></small>
+    <h1>Measure Class</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/Measure.R'><code>R/Measure.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureClassif.R'><code>R/MeasureClassif.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureRegr.R'><code>R/MeasureRegr.R</code></a></small>
     </div>
 
     
-    <p>Abstraction for performance measures.</p>
-<p>Predefined measures are stored in <a href='mlr_measures.html'>mlr_measures</a>.</p>
+    <p>Predefined measures are stored in <a href='mlr_measures.html'>mlr_measures</a>.</p>
     
 
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>m = Measure$new(id)
+    <pre># Construction
+m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
+m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
+m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
+#
 m$id
 m$packages
 m$task_type
@@ -172,28 +174,42 @@ m$aggregate(rr)
 
     
     <ul>
-<li><p><code>id</code> (<code>character(1)</code>):
-identifier for this object.</p></li>
-<li><p><code>e</code> (<a href='Experiment.html'>Experiment</a>):
+<li><p><code>id</code> [<code>character(1)</code>]:<br />
+Identifier for this object.</p></li>
+<li><p><code>range</code> [<code>numeric(2)</code>]:<br />:
+Feasible range for this measure as <code>c(lower_bound, upper_bound)</code>.</p></li>
+<li><p><code>minimize</code> [<code>logical(1)</code>]<br />:
+Set to <code>TRUE</code> if good predictions correspond to small values.</p></li>
+<li><p><code>predict_type</code> [<code>character(1)</code>]<br />:
+Required predict type of the <a href='Learner.html'>Learner</a>.</p></li>
+<li><p><code>task_properties</code> [<code>character()</code>]<br />:
+Required task properties, see <a href='Task.html'>Task</a>.</p></li>
+<li><p><code>learner_properties</code> [<code>character()</code>]<br />:
+Required learner properties, see <a href='Learner.html'>Learner</a>.</p></li>
+<li><p><code>packages</code> [<code>character()</code>]:<br />
+Set of required packages.</p></li>
+<li><p><code>e</code> [<a href='Experiment.html'>Experiment</a>]:<br />
 Experiment to work on.</p></li>
-<li><p><code>rr</code> (<a href='ResampleResult.html'>ResampleResult</a>):
+<li><p><code>rr</code> [<a href='ResampleResult.html'>ResampleResult</a>]:<br />
 Performance object returned by <a href='resample.html'>resample</a> to be aggregated.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$new()</code> creates a new object.</p>
-<p><code>$id</code> (<code>character(1)</code>) stores the identifier of the object.</p>
-<p><code>$packages</code> (<code>character(1)</code>) stores the names of required packages.</p>
-<p><code>$task_type</code> (<code>character</code>) stores the class names of tasks this measure can operate on.</p>
-<p><code>$task_properties</code> (<code>character</code>) defines a set of required task properties.</p>
-<p><code>$learner_properties</code> (<code>character</code>) defines a set of required learner properties.</p>
-<p><code>$range</code> (<code>numeric(2)</code>) stores the numeric range of feasible measure values.</p>
-<p><code>$minimize</code> (<code>logical(1)</code>) indicates if the good values are reached via minimization.</p>
-<p><code>$calculate</code> (<code>function</code>) does the actual work.</p>
-<p><code>$aggregate</code> (<code>function</code>) aggregates multiple performance measures using the <code>aggregate</code> function.
-Operates on a <a href='ResampleResult.html'>ResampleResult</a> as returned by <a href='resample.html'>resample</a>.</p>
+    <ul>
+<li><p><code>$new()</code> creates a new object of class Measure.</p></li>
+<li><p><code>$id</code> [<code>character(1)</code>] stores the identifier of the object.</p></li>
+<li><p><code>$packages</code> [<code>character()</code>] stores the set of required packages.</p></li>
+<li><p><code>$task_type</code> [<code>character()</code>] stores the class names of tasks this measure can operate on.</p></li>
+<li><p><code>$task_properties</code> [<code>character()</code>] defines a set of required task properties.</p></li>
+<li><p><code>$learner_properties</code> [<code>character()</code>] defines a set of required learner properties.</p></li>
+<li><p><code>$range</code> [<code>numeric(2)</code>] stores the numeric range of feasible measure values.</p></li>
+<li><p><code>$minimize</code> [<code>logical(1)</code>] indicates if the good values are reached via minimization.</p></li>
+<li><p><code>$calculate</code> [<code>function(e)</code>] does the actual work.</p></li>
+<li><p><code>$aggregate</code> [<code>function(rr)</code>] aggregates multiple performance measures using the <code>aggregate</code> function.
+Operates on a <a href='ResampleResult.html'>ResampleResult</a> as returned by <a href='resample.html'>resample</a>.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

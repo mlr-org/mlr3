@@ -31,6 +31,7 @@ Object to control experiment execution. See \code{\link[=exec_control]{exec_cont
 Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
 }
 \examples{
+set.seed(123)
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
 resamplings = mlr_resamplings$mget(c("holdout", "cv"))
@@ -38,10 +39,10 @@ measures = mlr_measures$mget(c("acc", "time_train"))
 bmr = benchmark(tasks, learners, resamplings, measures)
 
 # performance for all conducted experiments
-bmr$performance
+bmr$performance[, !"time_train"]
 
 # aggregated performance
-bmr$aggregated
+bmr$aggregated[, !"time_train"]
 
 # Overview of of resamplings that were conducted internally
 rrs = bmr$resample_results
@@ -49,7 +50,7 @@ print(rrs)
 
 # Extract first ResampleResult
 rr = bmr$resample_result(hash = rrs$hash[1])
-print(rr)
+# print(rr)
 
 # Extract predictions of first experiment of this resampling
 rr$experiment(1)$prediction

@@ -105,5 +105,5 @@ e$performance
 
 e$train_set
 e$test_set
-e$timings
+# e$timings
 }

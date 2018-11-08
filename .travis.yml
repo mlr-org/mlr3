@@ -1,9 +1,5 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-# Default configuration for use with tic package
-# Usually you shouldn't need to change the first part of the file
-
 # DO NOT CHANGE THE CODE BELOW
-before_install: R -q -e 'if (!requireNamespace("devtools")) install.packages("devtools"); if (!requireNamespace("curl")) install.packages("curl"); devtools::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
+before_install: R -q -e 'if (!requireNamespace("remotes")) install.packages("remotes"); if (!requireNamespace("curl")) install.packages("curl"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 install: R -q -e 'tic::install()'
 after_install: R -q -e 'tic::after_install()'
 before_script: R -q -e 'tic::before_script()'
@@ -29,6 +25,7 @@ sudo: false
 dist: trusty
 cache: packages
 latex: true
+pandoc_version: 2.3.1
 
 env:
   global:

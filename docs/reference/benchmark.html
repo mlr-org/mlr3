@@ -159,30 +159,29 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>tasks</th>
-      <td><p>(<code>list</code> of <a href='Task.html'>Task</a>)<br />
+      <td><p>[<code>list</code> of <a href='Task.html'>Task</a>]:<br />
 List of objects of type <a href='Task.html'>Task</a>.</p></td>
     </tr>
     <tr>
       <th>learners</th>
-      <td><p>(<code>list</code> of <a href='Learner.html'>Learner</a>)<br />
+      <td><p>[<code>list</code> of <a href='Learner.html'>Learner</a>]:<br />
 List of objects of type <a href='Learner.html'>Learner</a>.</p></td>
     </tr>
     <tr>
       <th>resamplings</th>
-      <td><p>(<code>list</code> of <a href='Resampling.html'>Resampling</a>)<br />
+      <td><p>[<code>list</code> of <a href='Resampling.html'>Resampling</a>]:<br />
 List of objects of type <a href='Resampling.html'>Resampling</a>.</p></td>
     </tr>
     <tr>
       <th>measures</th>
-      <td><p>(list of <a href='Measure.html'>Measure</a>)<br />
+      <td><p>[<code>list</code> of <a href='Measure.html'>Measure</a>]:<br />
 List of performance measures used to assess the predictive performance.
 Defaults to the respective measures stored in <code>task</code>.</p></td>
     </tr>
     <tr>
       <th>ctrl</th>
-      <td><p>(list returned by <code><a href='exec_control.html'>exec_control()</a></code>)<br />
-Object to control various parts of the execution.
-See <code><a href='exec_control.html'>exec_control()</a></code>.</p></td>
+      <td><p>[<code>named list</code> as returned by <code><a href='exec_control.html'>exec_control()</a></code>]:<br />
+Object to control experiment execution. See <code><a href='exec_control.html'>exec_control()</a></code>.</p></td>
     </tr>
     </table>
     
@@ -192,138 +191,101 @@ See <code><a href='exec_control.html'>exec_control()</a></code>.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>tasks</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'>mget</span>(<span class='fu'>c</span>(<span class='st'>"iris"</span>, <span class='st'>"sonar"</span>))
+    <pre class="examples"><div class='input'><span class='fu'>set.seed</span>(<span class='fl'>123</span>)
+<span class='no'>tasks</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'>mget</span>(<span class='fu'>c</span>(<span class='st'>"iris"</span>, <span class='st'>"sonar"</span>))
 <span class='no'>learners</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'>mget</span>(<span class='fu'>c</span>(<span class='st'>"classif.dummy"</span>, <span class='st'>"classif.rpart"</span>))
 <span class='no'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'>mget</span>(<span class='fu'>c</span>(<span class='st'>"holdout"</span>, <span class='st'>"cv"</span>))
 <span class='no'>measures</span> <span class='kw'>=</span> <span class='no'>mlr_measures</span>$<span class='fu'>mget</span>(<span class='fu'>c</span>(<span class='st'>"acc"</span>, <span class='st'>"time_train"</span>))
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>, <span class='no'>measures</span>)</div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 1/1)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 1/1)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 1/1)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 10/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 1/1)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 10/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 10/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 10/10)' ...</span></div><div class='input'>
+<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>, <span class='no'>measures</span>)</div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 1/1)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 10/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 1/1)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 10/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 1/1)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 10/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 9/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 3/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 1/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 10/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 2/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 8/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 1/1)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'iris (iteration 6/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 7/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 5/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'iris (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.dummy' on task 'sonar (iteration 4/10)' ...</span></div><div class='output co'>#&gt; <span class='message'>Running learner 'classif.rpart' on task 'sonar (iteration 4/10)' ...</span></div><div class='input'>
 <span class='co'># performance for all conducted experiments</span>
-<span class='no'>bmr</span>$<span class='no'>performance</span></div><div class='output co'>#&gt;                 hash task_id    learner_id resampling_id        acc time_train
-#&gt;  1: 235c0a5f20bf8fc2    iris classif.rpart       holdout 0.96000000      0.010
-#&gt;  2: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.52380952      0.001
-#&gt;  3: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.45000000      0.001
-#&gt;  4: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.66666667      0.000
-#&gt;  5: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.80952381      0.001
-#&gt;  6: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.47619048      0.002
-#&gt;  7: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.38095238      0.001
-#&gt;  8: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.55000000      0.001
-#&gt;  9: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.66666667      0.001
-#&gt; 10: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.42857143      0.003
-#&gt; 11: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.38095238      0.001
-#&gt; 12: 85978c23a37a458d    iris classif.dummy       holdout 0.28000000      0.002
-#&gt; 13: d6bee5b92d9de13d    iris classif.dummy            cv 0.26666667      0.001
-#&gt; 14: d6bee5b92d9de13d    iris classif.dummy            cv 0.06666667      0.002
-#&gt; 15: d6bee5b92d9de13d    iris classif.dummy            cv 0.26666667      0.002
-#&gt; 16: d6bee5b92d9de13d    iris classif.dummy            cv 0.06666667      0.001
-#&gt; 17: d6bee5b92d9de13d    iris classif.dummy            cv 0.20000000      0.000
-#&gt; 18: d6bee5b92d9de13d    iris classif.dummy            cv 0.20000000      0.001
-#&gt; 19: d6bee5b92d9de13d    iris classif.dummy            cv 0.26666667      0.001
-#&gt; 20: d6bee5b92d9de13d    iris classif.dummy            cv 0.20000000      0.002
-#&gt; 21: d6bee5b92d9de13d    iris classif.dummy            cv 0.13333333      0.001
-#&gt; 22: d6bee5b92d9de13d    iris classif.dummy            cv 0.20000000      0.001
-#&gt; 23: d8917116d47389da   sonar classif.rpart       holdout 0.68115942      0.033
-#&gt; 24: f1a08973f0720c74   sonar classif.dummy       holdout 0.53623188      0.001
-#&gt; 25: f1f780c21d7a23b9    iris classif.rpart            cv 0.93333333      0.006
-#&gt; 26: f1f780c21d7a23b9    iris classif.rpart            cv 0.93333333      0.015
-#&gt; 27: f1f780c21d7a23b9    iris classif.rpart            cv 0.93333333      0.010
-#&gt; 28: f1f780c21d7a23b9    iris classif.rpart            cv 0.86666667      0.008
-#&gt; 29: f1f780c21d7a23b9    iris classif.rpart            cv 0.86666667      0.009
-#&gt; 30: f1f780c21d7a23b9    iris classif.rpart            cv 0.93333333      0.010
-#&gt; 31: f1f780c21d7a23b9    iris classif.rpart            cv 0.93333333      0.008
-#&gt; 32: f1f780c21d7a23b9    iris classif.rpart            cv 0.93333333      0.010
-#&gt; 33: f1f780c21d7a23b9    iris classif.rpart            cv 0.93333333      0.010
-#&gt; 34: f1f780c21d7a23b9    iris classif.rpart            cv 1.00000000      0.007
-#&gt; 35: fc26493beafe9508   sonar classif.rpart            cv 0.76190476      0.035
-#&gt; 36: fc26493beafe9508   sonar classif.rpart            cv 0.80952381      0.035
-#&gt; 37: fc26493beafe9508   sonar classif.rpart            cv 0.66666667      0.037
-#&gt; 38: fc26493beafe9508   sonar classif.rpart            cv 0.76190476      0.045
-#&gt; 39: fc26493beafe9508   sonar classif.rpart            cv 0.52380952      0.059
-#&gt; 40: fc26493beafe9508   sonar classif.rpart            cv 0.80952381      0.052
-#&gt; 41: fc26493beafe9508   sonar classif.rpart            cv 0.70000000      0.048
-#&gt; 42: fc26493beafe9508   sonar classif.rpart            cv 0.71428571      0.041
-#&gt; 43: fc26493beafe9508   sonar classif.rpart            cv 0.80952381      0.044
-#&gt; 44: fc26493beafe9508   sonar classif.rpart            cv 0.75000000      0.049
-#&gt;                 hash task_id    learner_id resampling_id        acc time_train</div><div class='input'>
+<span class='no'>bmr</span>$<span class='no'>performance</span>[, !<span class='st'>"time_train"</span>]</div><div class='output co'>#&gt;                 hash task_id    learner_id resampling_id        acc
+#&gt;  1: 0871f3203495a223    iris classif.dummy            cv 0.13333333
+#&gt;  2: 0871f3203495a223    iris classif.dummy            cv 0.13333333
+#&gt;  3: 0871f3203495a223    iris classif.dummy            cv 0.13333333
+#&gt;  4: 0871f3203495a223    iris classif.dummy            cv 0.20000000
+#&gt;  5: 0871f3203495a223    iris classif.dummy            cv 0.26666667
+#&gt;  6: 0871f3203495a223    iris classif.dummy            cv 0.20000000
+#&gt;  7: 0871f3203495a223    iris classif.dummy            cv 0.26666667
+#&gt;  8: 0871f3203495a223    iris classif.dummy            cv 0.26666667
+#&gt;  9: 0871f3203495a223    iris classif.dummy            cv 0.06666667
+#&gt; 10: 0871f3203495a223    iris classif.dummy            cv 0.26666667
+#&gt; 11: 12211bd028dc0b96   sonar classif.dummy       holdout 0.55072464
+#&gt; 12: 22c5ff6e7bcb9680    iris classif.rpart            cv 0.93333333
+#&gt; 13: 22c5ff6e7bcb9680    iris classif.rpart            cv 0.86666667
+#&gt; 14: 22c5ff6e7bcb9680    iris classif.rpart            cv 0.93333333
+#&gt; 15: 22c5ff6e7bcb9680    iris classif.rpart            cv 0.93333333
+#&gt; 16: 22c5ff6e7bcb9680    iris classif.rpart            cv 0.93333333
+#&gt; 17: 22c5ff6e7bcb9680    iris classif.rpart            cv 1.00000000
+#&gt; 18: 22c5ff6e7bcb9680    iris classif.rpart            cv 1.00000000
+#&gt; 19: 22c5ff6e7bcb9680    iris classif.rpart            cv 0.86666667
+#&gt; 20: 22c5ff6e7bcb9680    iris classif.rpart            cv 0.86666667
+#&gt; 21: 22c5ff6e7bcb9680    iris classif.rpart            cv 1.00000000
+#&gt; 22: 3231323c696f33a4   sonar classif.dummy            cv 0.52380952
+#&gt; 23: 3231323c696f33a4   sonar classif.dummy            cv 0.50000000
+#&gt; 24: 3231323c696f33a4   sonar classif.dummy            cv 0.52380952
+#&gt; 25: 3231323c696f33a4   sonar classif.dummy            cv 0.33333333
+#&gt; 26: 3231323c696f33a4   sonar classif.dummy            cv 0.80000000
+#&gt; 27: 3231323c696f33a4   sonar classif.dummy            cv 0.52380952
+#&gt; 28: 3231323c696f33a4   sonar classif.dummy            cv 0.47619048
+#&gt; 29: 3231323c696f33a4   sonar classif.dummy            cv 0.42857143
+#&gt; 30: 3231323c696f33a4   sonar classif.dummy            cv 0.66666667
+#&gt; 31: 3231323c696f33a4   sonar classif.dummy            cv 0.57142857
+#&gt; 32: 7010e0c271223e35   sonar classif.rpart            cv 0.61904762
+#&gt; 33: 7010e0c271223e35   sonar classif.rpart            cv 0.65000000
+#&gt; 34: 7010e0c271223e35   sonar classif.rpart            cv 0.76190476
+#&gt; 35: 7010e0c271223e35   sonar classif.rpart            cv 0.71428571
+#&gt; 36: 7010e0c271223e35   sonar classif.rpart            cv 0.61904762
+#&gt; 37: 7010e0c271223e35   sonar classif.rpart            cv 0.61904762
+#&gt; 38: 7010e0c271223e35   sonar classif.rpart            cv 0.75000000
+#&gt; 39: 7010e0c271223e35   sonar classif.rpart            cv 0.80952381
+#&gt; 40: 7010e0c271223e35   sonar classif.rpart            cv 0.80952381
+#&gt; 41: 7010e0c271223e35   sonar classif.rpart            cv 0.80952381
+#&gt; 42: 70ee6246f6f933da   sonar classif.rpart       holdout 0.75362319
+#&gt; 43: 8c4d553709eae2b3    iris classif.dummy       holdout 0.28000000
+#&gt; 44: fdfa483e082c1801    iris classif.rpart       holdout 0.92000000
+#&gt;                 hash task_id    learner_id resampling_id        acc</div><div class='input'>
 <span class='co'># aggregated performance</span>
-<span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id       acc time_train
-#&gt; 1: 235c0a5f20bf8fc2    iris classif.rpart       holdout 0.9600000     0.0100
-#&gt; 2: 2cecd7cd4e3e107b   sonar classif.dummy            cv 0.5333333     0.0012
-#&gt; 3: 85978c23a37a458d    iris classif.dummy       holdout 0.2800000     0.0020
-#&gt; 4: d6bee5b92d9de13d    iris classif.dummy            cv 0.1866667     0.0012
-#&gt; 5: d8917116d47389da   sonar classif.rpart       holdout 0.6811594     0.0330
-#&gt; 6: f1a08973f0720c74   sonar classif.dummy       holdout 0.5362319     0.0010
-#&gt; 7: f1f780c21d7a23b9    iris classif.rpart            cv 0.9266667     0.0093
-#&gt; 8: fc26493beafe9508   sonar classif.rpart            cv 0.7307143     0.0445</div><div class='input'>
+<span class='no'>bmr</span>$<span class='no'>aggregated</span>[, !<span class='st'>"time_train"</span>]</div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id       acc
+#&gt; 1: 0871f3203495a223    iris classif.dummy            cv 0.1933333
+#&gt; 2: 12211bd028dc0b96   sonar classif.dummy       holdout 0.5507246
+#&gt; 3: 22c5ff6e7bcb9680    iris classif.rpart            cv 0.9333333
+#&gt; 4: 3231323c696f33a4   sonar classif.dummy            cv 0.5347619
+#&gt; 5: 7010e0c271223e35   sonar classif.rpart            cv 0.7161905
+#&gt; 6: 70ee6246f6f933da   sonar classif.rpart       holdout 0.7536232
+#&gt; 7: 8c4d553709eae2b3    iris classif.dummy       holdout 0.2800000
+#&gt; 8: fdfa483e082c1801    iris classif.rpart       holdout 0.9200000</div><div class='input'>
 <span class='co'># Overview of of resamplings that were conducted internally</span>
 <span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'>print</span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id  N
-#&gt; 1: 235c0a5f20bf8fc2    iris classif.rpart       holdout  1
-#&gt; 2: 2cecd7cd4e3e107b   sonar classif.dummy            cv 10
-#&gt; 3: 85978c23a37a458d    iris classif.dummy       holdout  1
-#&gt; 4: d6bee5b92d9de13d    iris classif.dummy            cv 10
-#&gt; 5: d8917116d47389da   sonar classif.rpart       holdout  1
-#&gt; 6: f1a08973f0720c74   sonar classif.dummy       holdout  1
-#&gt; 7: f1f780c21d7a23b9    iris classif.rpart            cv 10
-#&gt; 8: fc26493beafe9508   sonar classif.rpart            cv 10</div><div class='input'>
+#&gt; 1: 0871f3203495a223    iris classif.dummy            cv 10
+#&gt; 2: 12211bd028dc0b96   sonar classif.dummy       holdout  1
+#&gt; 3: 22c5ff6e7bcb9680    iris classif.rpart            cv 10
+#&gt; 4: 3231323c696f33a4   sonar classif.dummy            cv 10
+#&gt; 5: 7010e0c271223e35   sonar classif.rpart            cv 10
+#&gt; 6: 70ee6246f6f933da   sonar classif.rpart       holdout  1
+#&gt; 7: 8c4d553709eae2b3    iris classif.dummy       holdout  1
+#&gt; 8: fdfa483e082c1801    iris classif.rpart       holdout  1</div><div class='input'>
 <span class='co'># Extract first ResampleResult</span>
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='kw'>hash</span> <span class='kw'>=</span> <span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
-<span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.rpart' with 1 iterations
-#&gt;     Measure Min. 1st Qu. Median Mean 3rd Qu. Max. Sd
-#&gt;         acc 0.96    0.96   0.96 0.96    0.96 0.96 NA
-#&gt;  time_train 0.01    0.01   0.01 0.01    0.01 0.01 NA</div><div class='input'>
+<span class='co'># print(rr)</span>
+
 <span class='co'># Extract predictions of first experiment of this resampling</span>
-<span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>prediction</span></div><div class='output co'>#&gt;      id      truth   response
-#&gt;  1:   2     setosa     setosa
-#&gt;  2:   7     setosa     setosa
-#&gt;  3:   9     setosa     setosa
-#&gt;  4:  10     setosa     setosa
-#&gt;  5:  11     setosa     setosa
-#&gt;  6:  15     setosa     setosa
-#&gt;  7:  19     setosa     setosa
-#&gt;  8:  22     setosa     setosa
-#&gt;  9:  27     setosa     setosa
-#&gt; 10:  31     setosa     setosa
-#&gt; 11:  32     setosa     setosa
-#&gt; 12:  33     setosa     setosa
-#&gt; 13:  34     setosa     setosa
-#&gt; 14:  35     setosa     setosa
-#&gt; 15:  36     setosa     setosa
-#&gt; 16:  38     setosa     setosa
-#&gt; 17:  39     setosa     setosa
-#&gt; 18:  40     setosa     setosa
-#&gt; 19:  41     setosa     setosa
-#&gt; 20:  44     setosa     setosa
-#&gt; 21:  46     setosa     setosa
-#&gt; 22:  52 versicolor versicolor
-#&gt; 23:  53 versicolor versicolor
-#&gt; 24:  55 versicolor versicolor
-#&gt; 25:  56 versicolor versicolor
-#&gt; 26:  64 versicolor versicolor
-#&gt; 27:  66 versicolor versicolor
-#&gt; 28:  67 versicolor versicolor
-#&gt; 29:  68 versicolor versicolor
-#&gt; 30:  74 versicolor versicolor
-#&gt; 31:  76 versicolor versicolor
-#&gt; 32:  87 versicolor versicolor
-#&gt; 33:  91 versicolor versicolor
-#&gt; 34:  93 versicolor versicolor
-#&gt; 35:  95 versicolor versicolor
-#&gt; 36:  96 versicolor versicolor
-#&gt; 37: 102  virginica  virginica
-#&gt; 38: 105  virginica  virginica
-#&gt; 39: 106  virginica  virginica
-#&gt; 40: 108  virginica  virginica
-#&gt; 41: 109  virginica  virginica
-#&gt; 42: 126  virginica  virginica
-#&gt; 43: 128  virginica  virginica
-#&gt; 44: 130  virginica versicolor
-#&gt; 45: 132  virginica  virginica
-#&gt; 46: 134  virginica versicolor
-#&gt; 47: 141  virginica  virginica
-#&gt; 48: 143  virginica  virginica
-#&gt; 49: 144  virginica  virginica
-#&gt; 50: 145  virginica  virginica
-#&gt;      id      truth   response</div></pre>
+<span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>prediction</span></div><div class='output co'>#&gt;      id  response      truth
+#&gt;  1:   4 virginica     setosa
+#&gt;  2:   5 virginica     setosa
+#&gt;  3:  10 virginica     setosa
+#&gt;  4:  11 virginica     setosa
+#&gt;  5:  35 virginica     setosa
+#&gt;  6:  55 virginica versicolor
+#&gt;  7:  59 virginica versicolor
+#&gt;  8:  65 virginica versicolor
+#&gt;  9:  71 virginica versicolor
+#&gt; 10:  79 virginica versicolor
+#&gt; 11:  82 virginica versicolor
+#&gt; 12:  83 virginica versicolor
+#&gt; 13: 111 virginica  virginica
+#&gt; 14: 122 virginica  virginica
+#&gt; 15: 134 virginica  virginica</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

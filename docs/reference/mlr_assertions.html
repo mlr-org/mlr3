@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Class for regression learners — LearnerRegr • mlr3</title>
+<title>Assertion for mlr3 objects — mlr_assertions • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,11 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Class for regression learners — LearnerRegr" />
+<meta property="og:title" content="Assertion for mlr3 objects — mlr_assertions" />
 
-<meta property="og:description" content="Class for regression learners. Inherits from Learner.
-Predict type is set to "response" by default.
-Instantiated learners can be retrieved from mlr_learners." />
+<meta property="og:description" content="Functions intended to be used in packages extending mlr3." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -145,37 +143,86 @@ Instantiated learners can be retrieved from mlr_learners." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Class for regression learners</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerRegr.R'><code>R/LearnerRegr.R</code></a></small>
+    <h1>Assertion for mlr3 objects</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/helper_asserts.R'><code>R/helper_asserts.R</code></a></small>
     </div>
 
     
-    <p>Class for regression learners. Inherits from <a href='Learner.html'>Learner</a>.
-Predict type is set to "response" by default.</p>
-<p>Instantiated learners can be retrieved from <a href='mlr_learners.html'>mlr_learners</a>.</p>
+    <p>Functions intended to be used in packages extending <span class="pkg">mlr3</span>.</p>
     
 
-        
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <pre class="usage"><span class='fu'>assert_backend</span>(<span class='no'>b</span>)
 
-    <pre>l = LearnerRegr$new()
-</pre>
+<span class='fu'>assert_experiment</span>(<span class='no'>e</span>)
+
+<span class='fu'>assert_task</span>(<span class='no'>task</span>)
+
+<span class='fu'>assert_learner</span>(<span class='no'>learner</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>assert_measure</span>(<span class='no'>measure</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>assert_measures</span>(<span class='no'>measures</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>assert_resampling</span>(<span class='no'>resampling</span>)
+
+<span class='fu'>assert_resample_result</span>(<span class='no'>resample_result</span>)
+
+<span class='fu'>assert_par_set</span>(<span class='no'>par_set</span>)
+
+<span class='fu'>assert_par_vals</span>(<span class='no'>par_vals</span>, <span class='no'>par_set</span>)</pre>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other Learner: <code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
-  <code><a href='Learner.html'>Learner</a></code>, <code><a href='mlr_learners.html'>mlr_learners</a></code></p></div>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>b</th>
+      <td><p>[<code>[DataBackend]</code>].</p></td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td><p>[<code>[Experiment]</code>].</p></td>
+    </tr>
+    <tr>
+      <th>task</th>
+      <td><p>[<code>[Task]</code>].</p></td>
+    </tr>
+    <tr>
+      <th>learner</th>
+      <td><p>[<code>[Learner]</code>].</p></td>
+    </tr>
+    <tr>
+      <th>measure</th>
+      <td><p>[<code>[Measure]</code>].</p></td>
+    </tr>
+    <tr>
+      <th>measures</th>
+      <td><p>[<code>list</code> of <code>[Measure]</code>].</p></td>
+    </tr>
+    <tr>
+      <th>resampling</th>
+      <td><p>[<code>[Resampling]</code>].</p></td>
+    </tr>
+    <tr>
+      <th>resample_result</th>
+      <td><p>[<code>[ResampleResult]</code>].</p></td>
+    </tr>
+    <tr>
+      <th>par_set</th>
+      <td><p>[<code><a href='http://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet()</a></code>].</p></td>
+    </tr>
+    <tr>
+      <th>par_vals</th>
+      <td><p>[<code>named list</code>].</p></td>
+    </tr>
+    </table>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#usage">Usage</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
 
   </div>
 </div>

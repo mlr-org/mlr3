@@ -32,6 +32,7 @@ See \code{\link[=exec_control]{exec_control()}}.}
 Runs a resampling (possibly in parallel).
 }
 \examples{
+set.seed(123)
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 resampling = mlr_resamplings$get("cv")

@@ -148,34 +148,45 @@
     </div>
 
     
-    <p>This object stores the predictions returned by a learner of class <a href='LearnerRegr.html'>LearnerRegr</a>.</p>
+    <p>This object stores the predictions returned by a learner of class <a href='Learner.html'>LearnerRegr</a>.</p>
     
 
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>p = PredictionRegr$new(task, response, se = NULL)
-    p$response
+    <pre># Construction
+p = PredictionRegr$new(truth, response, se = NULL)
+#
+p$truth
+p$response
 p$se
-    as.data.table(p)
+#
+as.data.table(p)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
     
     <ul>
-<li><p><code>task</code> (<a href='TaskRegr.html'>TaskRegr</a>): Used to extract essential information to assert the correctness of <code>response</code>.</p></li>
-<li><p><code>response</code> (<code>numeric</code>): Predicted response of the same length as number of observations in the test set.</p></li>
-<li><p><code>se</code> (<code>numeric</code>): Predicted standard error of the same length as number of observations in the test set.</p></li>
+<li><p><code>truth</code> [numeric]:<br />
+Numeric vector of true response.</p></li>
+<li><p><code>response</code> [numeric]:<br />
+Numeric vector of predictions. Must have length <code>length(truth)</code>.</p></li>
+<li><p><code>se</code> [numeric]:<br />
+Numeric vector of predicted standard error. Must have length <code>length(truth)</code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p><code>$new()</code> initializes a new object of class <a href='Prediction.html'>Prediction</a>.</p>
-<p><code>$response</code> stores the predicted values.</p>
-<p><code>$se</code> stores the predicted standard errors (if available), or is <code>NULL</code>.</p>
-<p>Object can be transformed to a simple <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> with <code><a href='http://www.rdocumentation.org/packages/data.table/topics/as.data.table'>data.table::as.data.table()</a></code>.</p>
+    <ul>
+<li><p><code>$new()</code> initializes a new object of class <a href='Prediction.html'>Prediction</a>.</p></li>
+<li><p><code>$truth</code> stores the true values.</p></li>
+<li><p><code>$response</code> stores the predicted values.</p></li>
+<li><p><code>$se</code> stores the predicted standard errors (if available), or is <code>NULL</code>.</p></li>
+<li><p>The prediction object can be transformed to a simple <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>
+with <code><a href='http://www.rdocumentation.org/packages/data.table/topics/as.data.table'>as.data.table()</a></code>.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
