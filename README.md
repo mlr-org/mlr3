@@ -38,7 +38,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`paradox`](https://github.com/mlr-org/paradox) Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra reverse dependencies.
 * Additional functionality that comes with extra dependencies:
     - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
-    - To capture output for logging, [`evaluate`](https://cran.r-project.org/package=future) is used.
+    - To capture output for logging, [`evaluate`](https://cran.r-project.org/package=evaluate) is used.
 
 
 ## State of the project
