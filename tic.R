@@ -27,4 +27,3 @@ if (inherits(ci(), "TravisCI") && !Sys.getenv("TRAVIS_EVENT_TYPE") == "cron") {
   get_stage("after_deploy") %>%
     add_code_step(covr::codecov(quiet = FALSE))
 }
-
