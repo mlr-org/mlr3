@@ -110,7 +110,7 @@ features of the task and \code{type} is the storage type.
 \item \code{$select()} reduces the task, subsetting it to only the columns specified.
 \item \code{$rbind()} extends the task with additional rows.
 \item \code{$cbind()} extends the task with additional columns.
-\item \code{$overwrite()} overwrite the data in the \link{Backend} with data provided as \code{\link[data.table:data.table]{data.table()}}.
+\item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[data.table:data.table]{data.table()}}.
 Values to overwrite are matched via column names and primary key.
 \item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_roles} and \code{col_info}.
 }
