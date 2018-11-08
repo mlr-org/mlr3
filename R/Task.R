@@ -119,7 +119,7 @@
 #'
 #' * `$cbind()` extends the task with additional columns.
 #'
-#' * `$overwrite()` overwrite the data in the [Backend] with data provided as [`data.table()`][data.table::data.table()].
+#' * `$overwrite()` overwrite the data in the [DataBackend] with data provided as [`data.table()`][data.table::data.table()].
 #'   Values to overwrite are matched via column names and primary key.
 #'
 #' * `$hash` stores a checksum (`character(1)`) calculated on the `id`, `row_roles` and `col_info`.
