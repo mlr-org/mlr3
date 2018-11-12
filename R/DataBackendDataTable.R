@@ -39,38 +39,22 @@ NULL
 DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   cloneable = FALSE,
   public = list(
-    key_is_seq = FALSE,
+    compact_seq = FALSE,
 
-    initialize = function(data, primary_key = NULL) {
-      assert_data_frame(data, min.rows = 1L, min.cols = 1L)
-
-      if (is.null(primary_key)) {
-        rn = attr(data, "row.names")
-        if (is.character(rn)) {
-          rn = make.unique(rn)
-        } else { # integer -> no row names
-          self$key_is_seq = TRUE
-        }
-
-        self$primary_key = "..row_id"
-        private$.data = setkeyv(insert(as.data.table(data), list("..row_id" = rn)), "..row_id")[]
-      } else {
-        assert_string(primary_key)
-        assert_names(colnames(data), must.include = primary_key)
-        assert_atomic_vector(data[[primary_key]], any.missing = FALSE, unique = TRUE)
-        self$primary_key = primary_key
-        private$.data = setkeyv(as.data.table(data), primary_key)[]
-      }
+    initialize = function(data, primary_key) {
+      assert_data_table(data)
+      self$format = "data.table"
+      self$primary_key = primary_key
+      private$.data = setkeyv(data, primary_key)[]
     },
 
     data = function(rows, cols) {
       assert_names(cols, type = "unique")
       cols = intersect(cols, colnames(private$.data))
 
-      if (self$key_is_seq) {
-        rows = assert_integerish(rows, coerce = TRUE)
+      if (self$compact_seq) {
         # https://github.com/Rdatatable/data.table/issues/3109
-        rows = rows[!is.na(rows) & rows >= 1L & rows <= nrow(private$.data)]
+        rows = filter_oob_index(rows, 1L, nrow(private$.data))
         data = private$.data[rows, cols, with = FALSE]
       } else {
         assert_atomic_vector(rows)
@@ -111,3 +95,26 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     .data = NULL
   )
 )
+
+#' @export
+as_data_backend.data.frame = function(data, primary_key = NULL, ...) {
+  assert_data_frame(data, min.rows = 1L, min.cols = 1L)
+
+  if (!is.null(primary_key)) {
+    assert_atomic_vector(data[[primary_key]], any.missing = FALSE, unique = TRUE)
+    assert_string(primary_key)
+    assert_names(colnames(data), must.include = primary_key)
+    return(DataBackendDataTable$new(as.data.table(data), primary_key))
+  }
+
+  rn = attr(data, "row.names")
+  if (is.character(rn)) {
+    data = insert(as.data.table(data), list("..row_id" = make.unique(rn)))
+    return(DataBackendDataTable$new(data, primary_key = "..row_id"))
+  }
+
+  data = insert(as.data.table(data), list("..row_id" = seq_row(data)))
+  b = DataBackendDataTable$new(data, primary_key = "..row_id")
+  b$compact_seq = TRUE
+  b
+}

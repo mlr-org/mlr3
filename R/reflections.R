@@ -6,6 +6,10 @@
 #' @export
 mlr_reflections = new.env(parent = emptyenv())
 
+mlr_reflections$backend_formats = c(
+  "data.table", "sparse"
+)
+
 mlr_reflections$task_types = c(
   "regr", "classif"
 )

@@ -61,6 +61,7 @@ Collate:
     'DataBackend.R'
     'DataBackendCbind.R'
     'DataBackendDataTable.R'
+    'DataBackendMatrix.R'
     'DataBackendOverwrite.R'
     'DataBackendRbind.R'
     'Dictionary.R'

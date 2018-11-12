@@ -34,7 +34,7 @@ Name of the "positive" class for binary classification problems.
 }
 
 \examples{
-b = DataBackendDataTable$new(iris)
+b = as_data_backend(iris)
 task = TaskClassif$new("iris", backend = b, target = "Species")
 task$formula
 task$truth()
@@ -42,7 +42,7 @@ task$all_classes
 task$class_names
 
 data("Sonar", package = "mlbench")
-b = DataBackendDataTable$new(Sonar)
+b = as_data_backend(Sonar)
 task = TaskClassif$new("sonar", backend = b, target = "Class", positive = "M")
 task$positive
 task$negative

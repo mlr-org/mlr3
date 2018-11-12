@@ -22,16 +22,23 @@ expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
 
 expect_backend = function(b) {
   checkmate::expect_r6(b, cloneable = FALSE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
-  expect_output(print(b), "^DataBackend")
+  checkmate::expect_choice(b$format, mlr_reflections$backend_formats)
+  testthat::expect_output(print(b), "^DataBackend")
 
   n = checkmate::expect_count(b$nrow)
   p = checkmate::expect_count(b$ncol)
   cn = checkmate::expect_atomic_vector(b$colnames, any.missing = FALSE, len = p, unique = TRUE)
   rn = checkmate::expect_atomic_vector(b$rownames, any.missing = FALSE, len = n, unique = TRUE)
+  pk = b$primary_key
 
-  x = b$data(rows = rn, cols = cn[1L])
-  checkmate::expect_data_table(x, ncol = 1L, nrow = n)
-  x = x[[cn[1L]]]
+  x = b$data(rows = rn, cols = pk)
+  checkmate::expect_data_table(x, ncol = 1L, nrow = n, col.names = "unique")
+  x = x[[1L]]
+  checkmate::expect_atomic_vector(x, len = n, unique = TRUE)
+
+  x = b$data(rows = rn, cols = setdiff(cn, pk)[1L])
+  checkmate::expect_data_table(x, ncol = 1L, nrow = n, col.names = "unique")
+  x = x[[1L]]
   checkmate::expect_atomic_vector(x, len = n)
 
   # extra cols are ignored

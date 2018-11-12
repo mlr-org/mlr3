@@ -129,7 +129,7 @@
 #' @family Task
 #' @keywords internal
 #' @examples
-#' b = DataBackendDataTable$new(iris)
+#' b = as_data_backend(iris)
 #' task = Task$new("iris", b)
 #' task$nrow
 #' task$ncol
@@ -365,7 +365,7 @@ task_rbind = function(self, data) {
   ## 1.2 Check for set equality of column names
   assert_set_equal(names(data), c(self$col_roles$feature, self$col_roles$target, pk))
 
-  ## 1.3 Check that there are now duplicated row_ids
+  ## 1.3 Check that there are no duplicated row_ids
   if (!auto_incremented) {
     tmp = self$backend$data(data[[pk]], pk)[[1L]]
     if (length(tmp))
@@ -387,7 +387,7 @@ task_rbind = function(self, data) {
   self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
 
   # 4. Overwrite self$backend with new backend
-  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
+  self$backend = DataBackendRbind$new(self$backend, as_data_backend(data, primary_key = pk))
 
   invisible(self)
 }
@@ -429,7 +429,7 @@ task_cbind = function(self, data) {
   self$col_roles$feature = c(self$col_roles$feature, setdiff(names(data), pk))
 
   # 3. Overwrite self$backend with new backend
-  self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
+  self$backend = DataBackendCbind$new(self$backend, as_data_backend(data, primary_key = pk))
 
   invisible(self)
 }
@@ -466,7 +466,7 @@ task_overwrite = function(self, data) {
   }
 
   # 2. Overwrite Task
-  self$backend = DataBackendOverwrite$new(self$backend, DataBackendDataTable$new(data, primary_key = pk))
+  self$backend = DataBackendOverwrite$new(self$backend, as_data_backend(data, primary_key = pk))
 
   # 3. Update column info
   self$col_info = col_info(self$backend) ### FIXME: we can do better here

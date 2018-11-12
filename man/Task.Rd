@@ -117,7 +117,7 @@ Values to overwrite are matched via column names and primary key.
 }
 
 \examples{
-b = DataBackendDataTable$new(iris)
+b = as_data_backend(iris)
 task = Task$new("iris", b)
 task$nrow
 task$ncol
