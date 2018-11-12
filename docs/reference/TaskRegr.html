@@ -174,7 +174,7 @@ The target column is assumed to be numeric.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='no'>DataBackendDataTable</span>$<span class='fu'>new</span>(<span class='no'>iris</span>)
+    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskRegr</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Sepal.Length"</span>)
 <span class='no'>task</span>$<span class='no'>task_type</span></div><div class='output co'>#&gt; [1] "regr"</div><div class='input'><span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; Sepal.Length ~ Sepal.Width + Petal.Length + Petal.Width + Species
 #&gt; NULL</div><div class='input'><span class='no'>task</span>$<span class='fu'>truth</span>()</div><div class='output co'>#&gt;   [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 4.8 4.3 5.8 5.7 5.4 5.1

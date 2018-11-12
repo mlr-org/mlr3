@@ -164,6 +164,7 @@ b$colnames
 b$nrow
 b$ncol
 print(b)
+    as_data_backend(data)
 </pre>
     <p>See <a href='DataBackendDataTable.html'>DataBackendDataTable</a> for an exemplary implementation of this interface.</p>
     
@@ -177,6 +178,8 @@ Vector of row indices to subset rows using the primary key in the data backend.<
 Vector of column names to select.</p></li>
 <li><p><code>n</code> [<code>integer(1)</code>]:<br />
 Number of rows to return.</p></li>
+<li><p><code>data</code> [<code>any</code>]:<br />
+Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -191,11 +194,14 @@ rows are filtered using the <code>primary_key</code> column, columns are selecte
 <li><p><code>$colnames</code> [<code>character(1)</code>] returns all column names of <code>data</code> as character vector.</p></li>
 <li><p><code>$nrow</code> [<code>integer(1)</code>] returns the number of total rows.</p></li>
 <li><p><code>$ncol</code> [<code>integer(1)</code>] returns the number of total columns, including primary key column.</p></li>
+<li><p><code>as_data_backend()</code> wraps a <code>DataBackend</code> around the provided data. See <code>methods("as_data_backend")</code> for
+possible input formats.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other DataBackend: <code><a href='DataBackendDataTable.html'>DataBackendDataTable</a></code></p></div>
+    <div class='dont-index'><p>Other DataBackend: <code><a href='DataBackendDataTable.html'>DataBackendDataTable</a></code>,
+  <code>DataBackendMatrix</code></p></div>
     
 
   </div>
