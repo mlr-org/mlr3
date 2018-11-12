@@ -39,7 +39,6 @@ NULL
 DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   cloneable = FALSE,
   public = list(
-    primary_key = NULL,
     key_is_seq = FALSE,
 
     initialize = function(data, primary_key = NULL) {

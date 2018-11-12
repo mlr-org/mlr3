@@ -1,6 +1,5 @@
 DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cloneable = FALSE,
   public = list(
-    primary_key = NULL,
     initialize = function(b1, b2) {
       private$.b1 = assert_backend(b1)
       private$.b2 = assert_backend(b2)
