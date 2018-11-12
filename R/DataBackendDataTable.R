@@ -22,7 +22,9 @@
 #' @name DataBackendDataTable
 #' @family DataBackend
 #' @examples
-#' b = DataBackendDataTable$new(data = iris)
+#' data = as.data.table(iris)
+#' data$id = seq_len(nrow(iris))
+#' b = DataBackendDataTable$new(data = data, primary_key = "id")
 #' print(b)
 #' b$head()
 #' b$data(rows = 100:101, cols = "Species")
@@ -43,7 +45,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     initialize = function(data, primary_key) {
       assert_data_table(data)
-      self$format = "data.table"
+      self$formats = "data.table"
       self$primary_key = primary_key
       private$.data = setkeyv(data, primary_key)[]
     },

@@ -55,6 +55,7 @@ possible input formats.
 }
 
 \seealso{
-Other DataBackend: \code{\link{DataBackendDataTable}}
+Other DataBackend: \code{\link{DataBackendDataTable}},
+  \code{\link{DataBackendMatrix}}
 }
 \concept{DataBackend}

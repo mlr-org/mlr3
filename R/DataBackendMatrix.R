@@ -1,3 +1,37 @@
+#' @title DataBackend for Matrix
+#'
+#' @description
+#' Abstraction for [`Matrix()`][Matrix::Matrix()]. Data is stored as (sparse) matrix.
+#' Supports two output formats:
+#'
+#' * `"data.table"` (default): Returns a `data.table::data.table()`. The primary key is returned as a regular column.
+#' * `"sparse"` (native): Returns a `Matrix::Matrix()`. The primary key is either stored as row names, or as additional attribute (`"row_i"`).
+#'
+#' @section Usage:
+#' ```
+#' # Construction
+#' b = DataBackendMatrix$new(data)
+#' ```
+#' The interface is described in [DataBackend].
+#'
+#' @section Arguments:
+#' * `data` \[[`Matrix`][Matrix::Matrix()]\].\cr
+#'   A (sparse) matrix. If `data` has row names, these will be used as primary key.
+#'   Integer keys (`1:nrow(data)`) are used otherwise.
+#'
+#' @name DataBackendMatrix
+#' @family DataBackend
+#' @examples
+#' requireNamespace("Matrix")
+#' data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)
+#' colnames(data) = c("x1", "x2")
+#' rownames(data) = paste0("row_", 1:10)
+#'
+#' b = as_data_backend(data)
+#' print(b$head(n = 3, format = "data.table"))
+#' print(b$head(n = 3, format = "sparse"))
+NULL
+
 #' @include DataBackend.R
 #' @export
 DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneable = FALSE,
@@ -10,14 +44,14 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         assert_names(rownames(data), type = "unique")
 
       self$primary_key = "..row_id"
-      self$format = "data.table"
+      self$formats = c("data.table", "sparse")
       private$.data = data
     },
 
-    data = function(rows, cols, format = self$format) {
+    data = function(rows, cols, format = "data.table") {
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
-      assert_choice(format, c("data.table", "sparse"))
+      assert_choice(format, self$formats)
 
       rn = rownames(private$.data)
 
@@ -47,7 +81,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       )
     },
 
-    head = function(n = 6L, format = self$format) {
+    head = function(n = 6L, format = "data.table") {
       self$data(head(self$rownames, n), self$colnames, format = format)
     },
 
@@ -85,10 +119,6 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
 
 #' @export
-as_data_backend.Matrix = function(x, ...) {
-  DataBackendMatrix$new(x)
-}
-
-
-if (FALSE) {
+as_data_backend.Matrix = function(data, ...) {
+  DataBackendMatrix$new(data)
 }

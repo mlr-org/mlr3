@@ -7,10 +7,7 @@ DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cl
       if (b1$primary_key != b2$primary_key)
         stopf("All backends must have the same primary_key")
       self$primary_key = b1$primary_key
-
-      if (b1$format != b2$format)
-        stopf("All backends must have the same format")
-      self$format = b1$format
+      self$formats = intersect(b1$formats, b2$formats)
     },
 
     data = function(rows, cols) {
