@@ -1,19 +1,19 @@
 context("DataBackend")
 
 test_that("DataBackendDataTable construction", {
-  data = iris
-  b = DataBackendDataTable$new(data = data)
+  b = as_data_backend(iris)
   expect_backend(b)
   expect_iris_backend(b)
 
+  data = iris
   data$id = sprintf("r%02i", 1:150)
-  b = DataBackendDataTable$new(data = data, primary_key = "id")
+  b = as_data_backend(data, primary_key = "id")
   expect_backend(b)
   expect_character(b$rownames, len = 150, any.missing = FALSE, unique = TRUE, pattern = "^r[0-9]+$")
 
   rownames(data) = data$id
   data$id = NULL
-  b = DataBackendDataTable$new(data = data)
+  b = as_data_backend(data)
   expect_backend(b)
   expect_character(b$rownames, len = 150, any.missing = FALSE, unique = TRUE, pattern = "^r[0-9]+$")
 })
@@ -22,8 +22,8 @@ test_that("DataBackendRbind", {
   data = as.data.table(iris)
   data$id = 1:150
 
-  b1 = DataBackendDataTable$new(data[1:100, ], primary_key = "id")
-  b2 = DataBackendDataTable$new(data[101:150, ], primary_key = "id")
+  b1 = as_data_backend(data[1:100, ], primary_key = "id")
+  b2 = as_data_backend(data[101:150, ], primary_key = "id")
   b = DataBackendRbind$new(b1, b2)
   expect_backend(b)
   expect_iris_backend(b)
@@ -38,8 +38,8 @@ test_that("DataBackendCbind", {
   data = as.data.table(iris)
   data$id = 1:150
 
-  b1 = DataBackendDataTable$new(data[, -"Sepal.Length"], primary_key = "id")
-  b2 = DataBackendDataTable$new(data[, c("id", "Sepal.Length")], primary_key = "id")
+  b1 = as_data_backend(data[, -"Sepal.Length"], primary_key = "id")
+  b2 = as_data_backend(data[, c("id", "Sepal.Length")], primary_key = "id")
   b = DataBackendCbind$new(b1, b2)
   expect_backend(b)
   expect_iris_backend(b)
@@ -55,8 +55,8 @@ test_that("DataBackendOverwrite", {
   data$id = 1:150
   newdata = data[1:30, c("id", "Sepal.Length")][, Sepal.Length := 0]
 
-  b1 = DataBackendDataTable$new(data, primary_key = "id")
-  b2 = DataBackendDataTable$new(newdata, primary_key = "id")
+  b1 = as_data_backend(data, primary_key = "id")
+  b2 = as_data_backend(newdata, primary_key = "id")
 
   b = DataBackendOverwrite$new(b1, b2)
   expect_backend(b)
@@ -79,16 +79,16 @@ test_that("Nested backends", {
   data = as.data.table(iris)
   data$id = 1:150
 
-  b1 = DataBackendDataTable$new(data[1:100, -"Sepal.Length"], primary_key = "id")
-  b2 = DataBackendDataTable$new(data[101:130, -"Sepal.Length"], primary_key = "id")
+  b1 = as_data_backend(data[1:100, -"Sepal.Length"], primary_key = "id")
+  b2 = as_data_backend(data[101:130, -"Sepal.Length"], primary_key = "id")
   b3 = DataBackendRbind$new(b1, b2)
   expect_backend(b3)
 
-  b4 = DataBackendDataTable$new(data[131:150, -"Sepal.Length"], primary_key = "id")
+  b4 = as_data_backend(data[131:150, -"Sepal.Length"], primary_key = "id")
   b5 = DataBackendRbind$new(b3, b4)
   expect_backend(b5)
 
-  b6 = DataBackendDataTable$new(data[, c("id", "Sepal.Length")], primary_key = "id")
+  b6 = as_data_backend(data[, c("id", "Sepal.Length")], primary_key = "id")
   b7 = DataBackendCbind$new(b5, b6)
   expect_backend(b7)
 

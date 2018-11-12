@@ -14,6 +14,8 @@
 #' b$nrow
 #' b$ncol
 #' print(b)
+#'
+#' as_data_backend(data)
 #' ```
 #' See [DataBackendDataTable] for an exemplary implementation of this interface.
 #'
@@ -24,6 +26,8 @@
 #'   Vector of column names to select.
 #' * `n` \[`integer(1)`\]:\cr
 #'   Number of rows to return.
+#' * `data` \[`any`\]:\cr
+#'   Data to wrap the backend around. Typically a `data.frame`.
 #'
 #' @section Details:
 #' * `$data()` \[[`data.table()`][data.table::data.table()]\] returns a slice of the data:
@@ -41,7 +45,10 @@
 #'
 #' * `$ncol` \[`integer(1)`\] returns the number of total columns, including primary key column.
 #'
+#' * `as_data_backend()` wraps a `DataBackend` around the provided data. See `methods("as_data_backend")` for
+#'   possible input formats.
 #' @name DataBackend
+#' @aliases as_data_backend
 #' @family DataBackend
 NULL
 
@@ -49,9 +56,15 @@ NULL
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     primary_key = NULL,
+    formats = character(0L),
     print = function() {
       catf("DataBackend <%s> (%ix%i)", class(self)[1L], self$nrow, self$ncol)
       print(self$head(6L))
     }
   )
 )
+
+#' @export
+as_data_backend = function(data, ...) {
+  UseMethod("as_data_backend")
+}

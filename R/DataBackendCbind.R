@@ -4,9 +4,11 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     initialize = function(b1, b2) {
       private$.b1 = assert_backend(b1)
       private$.b2 = assert_backend(b2)
+
       if (b1$primary_key != b2$primary_key)
-        stop("All backends to rbind must have the same primary_key")
+        stopf("All backends to rbind must have the same primary_key")
       self$primary_key = b1$primary_key
+      self$formats = intersect(b1$formats, b2$formats)
     },
 
     data = function(rows, cols) {

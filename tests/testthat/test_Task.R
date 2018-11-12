@@ -30,7 +30,7 @@ test_that("Rows return ordered", {
   data$t = as.integer(time(x))
   data = data[rev(seq_row(data)), ]
   rownames(data) = NULL
-  b = DataBackendDataTable$new(data)
+  b = as_data_backend(data)
   task = TaskRegr$new(id = "nhtemp", b, target = "x")
 
   x = task$data()

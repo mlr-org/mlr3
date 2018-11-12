@@ -3,9 +3,11 @@ DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cl
     initialize = function(b1, b2) {
       private$.b1 = assert_backend(b1)
       private$.b2 = assert_backend(b2)
+
       if (b1$primary_key != b2$primary_key)
-        stop("All backends must have the same primary_key")
+        stopf("All backends must have the same primary_key")
       self$primary_key = b1$primary_key
+      self$formats = intersect(b1$formats, b2$formats)
     },
 
     data = function(rows, cols) {

@@ -15,7 +15,7 @@
 #' # Add a new task, based on a subset of iris:
 #' data = iris
 #' data$Species = factor(ifelse(data$Species == "setosa", "1", "0"))
-#' b = DataBackendDataTable$new(data)
+#' b = as_data_backend(data)
 #' task = TaskClassif$new("iris.binary", b, target = "Species", positive = "1")
 #'
 #' # add to dictionary
@@ -60,32 +60,32 @@ load_dataset = function(id, package, keep.rownames = FALSE) {
 }
 
 mlr_tasks$add("iris", function() {
-  b = DataBackendDataTable$new(data = load_dataset("iris", "datasets"))
+  b = as_data_backend(load_dataset("iris", "datasets"))
   TaskClassif$new("iris", b, target = "Species")
 })
 
 mlr_tasks$add("sonar",  function() {
-  b = DataBackendDataTable$new(data = load_dataset("Sonar", "mlbench"))
+  b = as_data_backend(load_dataset("Sonar", "mlbench"))
   TaskClassif$new("sonar", b, target = "Class", positive = "M")
 })
 
 mlr_tasks$add("bh",  function() {
-  b = DataBackendDataTable$new(data = load_dataset("BostonHousing2", "mlbench"))
+  b = as_data_backend(load_dataset("BostonHousing2", "mlbench"))
   TaskRegr$new("boston_housing", b, target = "medv")
 })
 
 mlr_tasks$add("pima", function() {
-  b = DataBackendDataTable$new(data = load_dataset("PimaIndiansDiabetes2", "mlbench"))
+  b = as_data_backend(load_dataset("PimaIndiansDiabetes2", "mlbench"))
   TaskClassif$new("pima_indians", b, target = "diabetes", positive = "pos")
 })
 
 mlr_tasks$add("zoo", function() {
-  b = DataBackendDataTable$new(data = load_dataset("Zoo", "mlbench", keep.rownames = TRUE))
+  b = as_data_backend(load_dataset("Zoo", "mlbench", keep.rownames = TRUE))
   TaskClassif$new("zoo", b, target = "type")
 })
 
 mlr_tasks$add("spam", function() {
-  b = DataBackendDataTable$new(data = load_dataset("spam", "kernlab"))
+  b = as_data_backend(load_dataset("spam", "kernlab"))
   TaskClassif$new("spam", b, target = "type", positive = "spam")
 })
 
@@ -95,6 +95,6 @@ mlr_tasks$add("titanic", function() {
   data$Sex = factor(data$Sex)
   data$Embarked = factor(replace(data$Embarked, !nzchar(data$Embarked), NA))
   data$Cabin = replace(data$Cabin, !nzchar(data$Cabin), NA)
-  b = DataBackendDataTable$new(data)
+  b = as_data_backend(data)
   TaskClassif$new("titanic", b, target = "Survived", positive = "1")
 })

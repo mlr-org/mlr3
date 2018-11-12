@@ -96,7 +96,7 @@ Before we can create a regression task, we must create a `mlr3::DataBackend`, an
 Here, we will stick to the simplest form of data storage: an in-memory table format using `data.table::data.table()`.
 We construct the backend first, and then pass it to the regression task constructor:
 ```{r}
-b = DataBackendDataTable$new(data = cars)
+b = as_data_backend(cars)
 task = TaskRegr$new(id = "cars", b, target = "mpg")
 print(task)
 ```
@@ -118,7 +118,7 @@ library("data.table")
 # `as.data.table` removes rownames, but  argument `keep.rownames` ensures
 # that they are stored in a separate column before
 data = as.data.table(cars[, 1:3], keep.rownames = TRUE)
-b = DataBackendDataTable$new(data)
+b = as_data_backend(data)
 task = TaskRegr$new(id = "cars", b, target = "mpg")
 
 # we now have integer row_ids

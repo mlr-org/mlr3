@@ -65,7 +65,7 @@ test_that("Dictionaries are populated", {
 test_that("Error when a package containing the dataset is not installed", {
   test_task = DictionaryTask$new()
   test_task$add("missing_package", function() {
-    b = DataBackendDataTable$new(data = load_dataset("xxx", "missing_package_123"))
+    b = DataBackendDataTableVirtualKey$new(data = load_dataset("xxx", "missing_package_123"))
     TaskClassif$new("missing_package", b, target = "x", positive = "y")
   })
   expect_error(test_task$get("missing_package"))

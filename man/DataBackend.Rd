@@ -2,6 +2,7 @@
 % Please edit documentation in R/DataBackend.R
 \name{DataBackend}
 \alias{DataBackend}
+\alias{as_data_backend}
 \title{DataBackend}
 \description{
 This is the abstract base class for data backends.
@@ -16,6 +17,8 @@ b$colnames
 b$nrow
 b$ncol
 print(b)
+
+as_data_backend(data)
 }
 
 See \link{DataBackendDataTable} for an exemplary implementation of this interface.
@@ -30,6 +33,8 @@ Vector of row indices to subset rows using the primary key in the data backend.
 Vector of column names to select.
 \item \code{n} [\code{integer(1)}]:\cr
 Number of rows to return.
+\item \code{data} [\code{any}]:\cr
+Data to wrap the backend around. Typically a \code{data.frame}.
 }
 }
 
@@ -44,10 +49,13 @@ rows are filtered using the \code{primary_key} column, columns are selected by n
 \item \code{$colnames} [\code{character(1)}] returns all column names of \code{data} as character vector.
 \item \code{$nrow} [\code{integer(1)}] returns the number of total rows.
 \item \code{$ncol} [\code{integer(1)}] returns the number of total columns, including primary key column.
+\item \code{as_data_backend()} wraps a \code{DataBackend} around the provided data. See \code{methods("as_data_backend")} for
+possible input formats.
 }
 }
 
 \seealso{
-Other DataBackend: \code{\link{DataBackendDataTable}}
+Other DataBackend: \code{\link{DataBackendDataTable}},
+  \code{\link{DataBackendMatrix}}
 }
 \concept{DataBackend}

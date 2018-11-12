@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Regression task — TaskRegr • mlr3</title>
+<title>DataBackend for Matrix — DataBackendMatrix • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,13 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Regression task — TaskRegr" />
+<meta property="og:title" content="DataBackend for Matrix — DataBackendMatrix" />
 
-<meta property="og:description" content="This task specializes Task and TaskSupervised for regression problems.
-The target column is assumed to be numeric." />
+<meta property="og:description" content="Abstraction for Matrix(). Data is stored as (sparse) matrix.
+Supports two output formats:
+"data.table" (default): Returns a data.table::data.table(). The primary key is returned as a regular column.
+"sparse" (native): Returns a Matrix::Matrix(). The primary key is either stored as row names, or as additional attribute ("row_i").
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -144,48 +147,55 @@ The target column is assumed to be numeric." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Regression task</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskRegr.R'><code>R/TaskRegr.R</code></a></small>
+    <h1>DataBackend for Matrix</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/DataBackendMatrix.R'><code>R/DataBackendMatrix.R</code></a></small>
     </div>
 
     
-    <p>This task specializes <a href='Task.html'>Task</a> and <a href='TaskSupervised.html'>TaskSupervised</a> for regression problems.
-The target column is assumed to be numeric.</p>
+    <p>Abstraction for <code><a href='http://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix()</a></code>. Data is stored as (sparse) matrix.
+Supports two output formats:</p><ul>
+<li><p><code>"data.table"</code> (default): Returns a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>. The primary key is returned as a regular column.</p></li>
+<li><p><code>"sparse"</code> (native): Returns a <code><a href='http://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>. The primary key is either stored as row names, or as additional attribute (<code>"row_i"</code>).</p></li>
+</ul>
     
 
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    
-    <p>In addition to the interface of <a href='Task.html'>Task</a>/<a href='TaskSupervised.html'>TaskSupervised</a>, this class offers:</p><pre>t = TaskRegr$new(id, backend, target)
-    t$task_type
+    <pre># Construction
+b = DataBackendMatrix$new(data)
 </pre>
+    <p>The interface is described in <a href='DataBackend.html'>DataBackend</a>.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
     
-    <p><code>$task_type</code> is <code>"classif"</code></p>
+    <ul>
+<li><p><code>data</code> [<code><a href='http://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix</a></code>].<br />
+A (sparse) matrix. If <code>data</code> has row names, these will be used as primary key.
+Integer keys (<code>1:nrow(data)</code>) are used otherwise.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Task: <code><a href='TaskClassif.html'>TaskClassif</a></code>,
-  <code><a href='TaskSupervised.html'>TaskSupervised</a></code>, <code><a href='Task.html'>Task</a></code>,
-  <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
+    <div class='dont-index'><p>Other DataBackend: <code><a href='DataBackendDataTable.html'>DataBackendDataTable</a></code>,
+  <code><a href='DataBackend.html'>DataBackend</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
-<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskRegr</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Sepal.Length"</span>)
-<span class='no'>task</span>$<span class='no'>task_type</span></div><div class='output co'>#&gt; [1] "regr"</div><div class='input'><span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; Sepal.Length ~ Sepal.Width + Petal.Length + Petal.Width + Species
-#&gt; NULL</div><div class='input'><span class='no'>task</span>$<span class='fu'>truth</span>()</div><div class='output co'>#&gt;   [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 4.8 4.3 5.8 5.7 5.4 5.1
-#&gt;  [19] 5.7 5.1 5.4 5.1 4.6 5.1 4.8 5.0 5.0 5.2 5.2 4.7 4.8 5.4 5.2 5.5 4.9 5.0
-#&gt;  [37] 5.5 4.9 4.4 5.1 5.0 4.5 4.4 5.0 5.1 4.8 5.1 4.6 5.3 5.0 7.0 6.4 6.9 5.5
-#&gt;  [55] 6.5 5.7 6.3 4.9 6.6 5.2 5.0 5.9 6.0 6.1 5.6 6.7 5.6 5.8 6.2 5.6 5.9 6.1
-#&gt;  [73] 6.3 6.1 6.4 6.6 6.8 6.7 6.0 5.7 5.5 5.5 5.8 6.0 5.4 6.0 6.7 6.3 5.6 5.5
-#&gt;  [91] 5.5 6.1 5.8 5.0 5.6 5.7 5.7 6.2 5.1 5.7 6.3 5.8 7.1 6.3 6.5 7.6 4.9 7.3
-#&gt; [109] 6.7 7.2 6.5 6.4 6.8 5.7 5.8 6.4 6.5 7.7 7.7 6.0 6.9 5.6 7.7 6.3 6.7 7.2
-#&gt; [127] 6.2 6.1 6.4 7.2 7.4 7.9 6.4 6.3 6.1 7.7 6.3 6.4 6.0 6.9 6.7 6.9 5.8 6.8
-#&gt; [145] 6.7 6.7 6.3 6.5 6.2 5.9</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>requireNamespace</span>(<span class='st'>"Matrix"</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: Matrix</span></div><div class='input'><span class='no'>data</span> <span class='kw'>=</span> <span class='kw pkg'>Matrix</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix</a></span>(<span class='fu'>sample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>20</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='fu'>colnames</span>(<span class='no'>data</span>) <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"x1"</span>, <span class='st'>"x2"</span>)
+<span class='fu'>rownames</span>(<span class='no'>data</span>) <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"row_"</span>, <span class='fl'>1</span>:<span class='fl'>10</span>)
+
+<span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>data</span>)
+<span class='fu'>print</span>(<span class='no'>b</span>$<span class='fu'>head</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>))</div><div class='output co'>#&gt;    x1 x2 ..row_id
+#&gt; 1:  1  1    row_1
+#&gt; 2:  1  0    row_2
+#&gt; 3:  0  1    row_3</div><div class='input'><span class='fu'>print</span>(<span class='no'>b</span>$<span class='fu'>head</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"sparse"</span>))</div><div class='output co'>#&gt; 3 x 2 Matrix of class "dgeMatrix"
+#&gt;       x1 x2
+#&gt; row_1  1  1
+#&gt; row_2  1  0
+#&gt; row_3  0  1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -193,7 +203,7 @@ The target column is assumed to be numeric.</p>
       
       <li><a href="#usage">Usage</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

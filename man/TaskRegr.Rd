@@ -21,7 +21,7 @@ t$task_type
 }
 
 \examples{
-b = DataBackendDataTable$new(iris)
+b = as_data_backend(iris)
 task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
 task$task_type
 task$formula

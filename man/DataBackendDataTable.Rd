@@ -27,7 +27,9 @@ automatically created.
 }
 
 \examples{
-b = DataBackendDataTable$new(data = iris)
+data = as.data.table(iris)
+data$id = seq_len(nrow(iris))
+b = DataBackendDataTable$new(data = data, primary_key = "id")
 print(b)
 b$head()
 b$data(rows = 100:101, cols = "Species")
@@ -39,6 +41,7 @@ b$ncol
 b$colnames
 }
 \seealso{
-Other DataBackend: \code{\link{DataBackend}}
+Other DataBackend: \code{\link{DataBackendMatrix}},
+  \code{\link{DataBackend}}
 }
 \concept{DataBackend}
