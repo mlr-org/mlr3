@@ -168,19 +168,21 @@ On retrieval of an object, the following applies:</p><ul>
 
     <pre># Construction
 d = Dictionary$new()
-    d$keys(pattern)
+# Getters
+d$keys(pattern)
 d$add(value)
 d$get(key)
 d$mget(keys)
 d$has(key)
 d$remove(key, value)
 d$remove(keys)
-    as.data.frame(d)
+# S3 methods
+as.data.frame(d)
 as.data.table(d)
 names(d)
+length(d)
 d[[key]]
 d[keys]
-length(d)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>

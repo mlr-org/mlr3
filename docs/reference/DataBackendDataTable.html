@@ -157,7 +157,8 @@ Returns an object of class <a href='DataBackend.html'>DataBackend</a>.</p>
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
-b = DataBackendDataTable$new(data, primary_key = NULL)
+b = DataBackendDataTable$new(data, primary_key)
+b = as_data_backend(data, primary_key = NULL)
 </pre>
     <p>The interface is described in <a href='DataBackend.html'>DataBackend</a>.</p>
     
@@ -168,8 +169,8 @@ b = DataBackendDataTable$new(data, primary_key = NULL)
 <li><p><code>data</code> [<code><a href='http://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>].</p></li>
 <li><p><code>primary_key</code> [<code>character(1)</code>]:<br />
 Name of the column in <code>data</code> which represents a unique
-row identifier (as integer or character). If <code>NULL</code>, a new column with integer indices is
-automatically created.</p></li>
+row identifier (as integer or character).
+If `NULL, the constructor <code><a href='DataBackend.html'>as_data_backend()</a></code> automatically creates an integer column of primary keys.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

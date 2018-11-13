@@ -32,8 +32,8 @@
 
 <meta property="og:description" content="Abstraction for Matrix(). Data is stored as (sparse) matrix.
 Supports two output formats:
-"data.table" (default): Returns a data.table::data.table(). The primary key is returned as a regular column.
-"sparse" (native): Returns a Matrix::Matrix(). The primary key is either stored as row names, or as additional attribute ("row_i").
+"data.table" (default): Returns a data.table(). The primary key is returned as a regular column.
+"sparse" (native): Returns a Matrix::Matrix(). The primary key is stored as additional attribute ..row_id.
 " />
 <meta name="twitter:card" content="summary" />
 
@@ -154,8 +154,8 @@ Supports two output formats:
     
     <p>Abstraction for <code><a href='http://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix()</a></code>. Data is stored as (sparse) matrix.
 Supports two output formats:</p><ul>
-<li><p><code>"data.table"</code> (default): Returns a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>. The primary key is returned as a regular column.</p></li>
-<li><p><code>"sparse"</code> (native): Returns a <code><a href='http://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>. The primary key is either stored as row names, or as additional attribute (<code>"row_i"</code>).</p></li>
+<li><p><code>"data.table"</code> (default): Returns a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>. The primary key is returned as a regular column.</p></li>
+<li><p><code>"sparse"</code> (native): Returns a <code><a href='http://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>. The primary key is stored as additional attribute <code>..row_id</code>.</p></li>
 </ul>
     
 
@@ -164,6 +164,7 @@ Supports two output formats:</p><ul>
 
     <pre># Construction
 b = DataBackendMatrix$new(data)
+b = as_data_backend(data)
 </pre>
     <p>The interface is described in <a href='DataBackend.html'>DataBackend</a>.</p>
     

@@ -156,7 +156,8 @@ All objects of type <code>DataBackend</code> must provide the following interfac
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>b$data(rows, cols)
+    <pre>b = as_data_backend(data)
+b$data(rows, cols)
 b$head(n = 6)
 b$distinct(cols)
 b$rownames
@@ -164,7 +165,6 @@ b$colnames
 b$nrow
 b$ncol
 print(b)
-    as_data_backend(data)
 </pre>
     <p>See <a href='DataBackendDataTable.html'>DataBackendDataTable</a> for an exemplary implementation of this interface.</p>
     
@@ -172,20 +172,22 @@ print(b)
 
     
     <ul>
+<li><p><code>data</code> [<code>any</code>]:<br />
+Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
 <li><p><code>rows</code> [<code>integer()</code> or <code>character()</code>]:<br />
 Vector of row indices to subset rows using the primary key in the data backend.</p></li>
 <li><p><code>cols</code> [<code>character()</code>]:<br />
 Vector of column names to select.</p></li>
 <li><p><code>n</code> [<code>integer(1)</code>]:<br />
 Number of rows to return.</p></li>
-<li><p><code>data</code> [<code>any</code>]:<br />
-Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
     <ul>
+<li><p><code>as_data_backend()</code> wraps a <code>DataBackend</code> around the provided data. See <code>methods("as_data_backend")</code> for
+possible input formats.</p></li>
 <li><p><code>$data()</code> [<code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>] returns a slice of the data:
 rows are filtered using the <code>primary_key</code> column, columns are selected by name.</p></li>
 <li><p><code>$head()</code> [<code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>] returns a <a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table</a> of the first <code>n</code> data rows.</p></li>
@@ -194,8 +196,6 @@ rows are filtered using the <code>primary_key</code> column, columns are selecte
 <li><p><code>$colnames</code> [<code>character(1)</code>] returns all column names of <code>data</code> as character vector.</p></li>
 <li><p><code>$nrow</code> [<code>integer(1)</code>] returns the number of total rows.</p></li>
 <li><p><code>$ncol</code> [<code>integer(1)</code>] returns the number of total columns, including primary key column.</p></li>
-<li><p><code>as_data_backend()</code> wraps a <code>DataBackend</code> around the provided data. See <code>methods("as_data_backend")</code> for
-possible input formats.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
