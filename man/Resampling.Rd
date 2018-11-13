@@ -94,4 +94,3 @@ prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 Other Resampling: \code{\link{mlr_resamplings}}
 }
 \concept{Resampling}
-\keyword{internal}
