@@ -115,7 +115,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#mlr3" class="anchor"></a>mlr3</h1></div>
 <p>A clean, object-oriented rewrite of <a href="https://github.com/mlr-org/mlr">mlr</a>.</p>
-<p><a href="https://travis-ci.org/mlr-org/mlr3"><img src="https://travis-ci.org/mlr-org/mlr3.svg?branch=master" alt="Build Status"></a> <a href="https://ci.appveyor.com/project/mlr-org/mlr3/branch/master"><img src="https://ci.appveyor.com/api/projects/status/skoekgkgu8l5tc1o/branch/master?svg=true" alt="Build status"></a> <a href="https://cran.r-project.org/package=mlr3"><img src="https://www.r-pkg.org/badges/version/mlr3" alt="CRAN"></a> <a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a> <a href="https://codecov.io/gh/mlr-org/mlr3"><img src="https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg" alt="codecov"></a></p>
+<p><a href="https://travis-ci.org/mlr-org/mlr3"><img src="https://travis-ci.org/mlr-org/mlr3.svg?branch=master" alt="Build Status"></a> <a href="https://ci.appveyor.com/project/mlr-org/mlr3/branch/master"><img src="https://ci.appveyor.com/api/projects/status/skoekgkgu8l5tc1o/branch/master?svg=true" alt="Build status"></a> <a href="https://cran.r-project.org/package=mlr3"><img src="https://www.r-pkg.org/badges/version/mlr3" alt="CRAN"></a> <a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a> <a href="https://codecov.io/gh/mlr-org/mlr3"><img src="https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg" alt="codecov"></a></p>
 <div id="why-a-rewrite" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-a-rewrite" class="anchor"></a>Why a rewrite?</h2>
@@ -170,41 +170,31 @@
 <ul>
 <li>Basic building blocks of machine learning
 <ul>
-<li>Experiment: Class to store and access a single machine learning experiment</li>
-<li>Tasks for classification and regression</li>
-<li>Learner</li>
-<li>Resampling strategies</li>
-<li>Performance measures</li>
+<li>
+<a href="https://mlr3.mlr-org.com/reference/Experiment.html">Experiment</a>: Class to store and access a single machine learning experiment</li>
+<li>Tasks for <a href="https://mlr3.mlr-org.com/reference/TaskClassif.html">classification</a> and <a href="https://mlr3.mlr-org.com/reference/TaskRegr.html">regression</a>
+</li>
+<li>Abstract <a href="https://mlr3.mlr-org.com/reference/Learner.html">Learner</a>
+</li>
+<li>
+<a href="https://mlr3.mlr-org.com/reference/Resampling.html">Resampling</a> strategies</li>
+<li>Performance <a href="https://mlr3.mlr-org.com/reference/Measure.html">measures</a>
+</li>
 </ul>
 </li>
-<li>Data backend for tasks. This allows to transparently work with out-of-memory data like data bases. See <a href="https://github.com/mlr-org/mlr3db">mlr3db</a> for connecting various SQL data bases, MonetDB, Bigquery, Spark, Impala, …</li>
 <li>Single step experiments via the <code>Experiment</code> class</li>
 <li>Resampling via <code><a href="reference/resample.html">resample()</a></code>
 </li>
 <li>Benchmarking via <code><a href="reference/benchmark.html">benchmark()</a></code>
 </li>
+<li>Stratification.</li>
 </ul>
-<p>Some objects are documented <a href="https://mlr-org.github.io/mlr3/">here</a>.</p>
+<p>THe <a href="https://mlr3.mlr-org.com">webpage</a> provides, besides a short introduction, a <a href="https://mlr3.mlr-org.com/reference/">function reference</a>.</p>
 </div>
 <div id="wip" class="section level3">
 <h3 class="hasAnchor">
 <a href="#wip" class="anchor"></a>WiP</h3>
-<ul>
-<li>Tuning: <a href="https://github.com/mlr-org/mlr3tuning">mlr3tuning</a>
-</li>
-<li>Pipelining: <a href="https://github.com/mlr-org/mlr3pipelines">mlr3pipelines</a>
-</li>
-<li>Recommended learners: <a href="https://github.com/mlr-org/mlr3learners">mlr3learners</a>
-</li>
-</ul>
-</div>
-<div id="next-steps" class="section level3">
-<h3 class="hasAnchor">
-<a href="#next-steps" class="anchor"></a>Next steps</h3>
-<ul>
-<li>Write a package which interfaces the most popular learners in R</li>
-<li>Write documentation and use cases</li>
-</ul>
+<p>While <code>mlr3</code> implements the building blocks for machine learning, some of the advanced features of the monolithic <a href="https://github.com/mlr-org/mlr">mlr</a> are now shipped in multiple <a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages">extension packages</a>.</p>
 </div>
 </div>
 </div>
