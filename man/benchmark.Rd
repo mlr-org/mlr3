@@ -5,7 +5,7 @@
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
 benchmark(tasks, learners, resamplings, measures = NULL,
-  ctrl = exec_control())
+  ctrl = mlr_control())
 }
 \arguments{
 \item{tasks}{[\code{list} of \link{Task}]:\cr
@@ -21,8 +21,8 @@ List of objects of type \link{Resampling}.}
 List of performance measures used to assess the predictive performance.
 Defaults to the respective measures stored in \code{task}.}
 
-\item{ctrl}{[\code{named list} as returned by \code{\link[=exec_control]{exec_control()}}]:\cr
-Object to control experiment execution. See \code{\link[=exec_control]{exec_control()}}.}
+\item{ctrl}{[\code{named list} as returned by \code{\link[=mlr_control]{mlr_control()}}]:\cr
+Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}}.}
 }
 \value{
 \link{BenchmarkResult}.

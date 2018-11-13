@@ -12,9 +12,9 @@
 #' @param measures \[`list` of [Measure]\]:\cr
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the measures stored in `task`.
-#' @param ctrl \[`list` returned by [exec_control()]\]:\cr
+#' @param ctrl \[`list` returned by [mlr_control()]\]:\cr
 #'   Object to control various parts of the execution.
-#'   See [exec_control()].
+#'   See [mlr_control()].
 #' @return [ResampleResult].
 #' @export
 #' @examples
@@ -34,7 +34,7 @@
 #'
 #' bmr = rr$combine(rr.dummy)
 #' bmr$performance[, list(mean.mmce = mean(mmce)), by = "learner_id"]
-resample = function(task, learner, resampling, measures = NULL, ctrl = exec_control()) {
+resample = function(task, learner, resampling, measures = NULL, ctrl = mlr_control()) {
   assert_task(task)
   assert_learner(learner, task = task)
   assert_resampling(resampling)

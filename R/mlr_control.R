@@ -1,4 +1,4 @@
-default_exec_control = list(
+default_mlr_control = list(
   use_evaluate = FALSE,
   store_model = TRUE,
   store_prediction = TRUE
@@ -22,12 +22,12 @@ default_exec_control = list(
 #' @export
 #' @examples
 #' # get a list of the currently active defaults
-#' exec_control()
+#' mlr_control()
 #'
 #' # enable debuging
-#' exec_control(debug = TRUE)
-exec_control = function(...) {
-  ec = insert(default_exec_control, mlr_options())
+#' mlr_control(debug = TRUE)
+mlr_control = function(...) {
+  ec = insert(default_mlr_control, mlr_options())
   if (...length()) {
     opts = assert_list(list(...), names = "unique")
 

@@ -46,7 +46,7 @@ bmr = benchmark(
   tasks = mlr_tasks$mget("iris"),
   learners = mlr_learners$mget(c("classif.dummy", "classif.rpart")),
   resamplings = mlr_resamplings$mget("cv"),
-  ctrl = exec_control(verbose = FALSE)
+  ctrl = mlr_control(verbose = FALSE)
 )
 
 bmr$tasks

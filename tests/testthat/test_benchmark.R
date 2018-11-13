@@ -60,7 +60,7 @@ test_that("ResampleResult getter", {
 
 
 test_that("discarding model", {
-  bmr = benchmark(tasks[1L], learners[1L], resamplings, ctrl = exec_control(store_prediction = FALSE, store_model = FALSE))
+  bmr = benchmark(tasks[1L], learners[1L], resamplings, ctrl = mlr_control(store_prediction = FALSE, store_model = FALSE))
   expect_true(all(map_lgl(bmr$data$prediction, is.null)))
   expect_true(all(map_lgl(bmr$data$model, is.null)))
 })

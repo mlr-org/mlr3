@@ -57,7 +57,7 @@
 #'   Timings are `NA` if the respective step has not been performed yet.
 #'
 #' * `$logs` creates a list with names `train` and `predict`.
-#'   Both store an object of class [Log] if logging of the learner has been enabled via [exec_control()], and are `NULL` if logging was disabled or the respective step has not been performed yet.
+#'   Both store an object of class [Log] if logging of the learner has been enabled via [mlr_control()], and are `NULL` if logging was disabled or the respective step has not been performed yet.
 #'
 #' * `$state` returns an factor of length 1 with ordered levels `"defined"`, `"trained"`, `"predicted"` and `"scored"`.
 #'
@@ -126,17 +126,17 @@ Experiment = R6Class("Experiment",
       experiment_print(self)
     },
 
-    train = function(subset = NULL, ctrl = exec_control()) {
+    train = function(subset = NULL, ctrl = mlr_control()) {
       experiment_train(self, self$data$task$row_ids(subset), ctrl = ctrl)
       invisible(self)
     },
 
-    predict = function(subset = NULL, newdata = NULL, ctrl = exec_control()) {
+    predict = function(subset = NULL, newdata = NULL, ctrl = mlr_control()) {
       experiment_predict(self, row_ids = self$data$task$row_ids(subset), newdata = newdata, ctrl = ctrl)
       invisible(self)
     },
 
-    score = function(measures = NULL, ctrl = exec_control()) {
+    score = function(measures = NULL, ctrl = mlr_control()) {
       experiment_score(self, measures, ctrl = ctrl)
       invisible(self)
     }
@@ -240,7 +240,7 @@ experiment_print = function(e) {
 }
 
 
-experiment_train = function(e, row_ids, ctrl = exec_control()) {
+experiment_train = function(e, row_ids, ctrl = mlr_control()) {
   e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
   e$data$iteration = 1L
 
@@ -257,7 +257,7 @@ experiment_train = function(e, row_ids, ctrl = exec_control()) {
   return(e)
 }
 
-experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = exec_control()) {
+experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = mlr_control()) {
   if (!is.null(row_ids) && !is.null(newdata))
     stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
 
@@ -281,7 +281,7 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = exec_con
   return(e)
 }
 
-experiment_score = function(e, measures = NULL, ctrl = exec_control()) {
+experiment_score = function(e, measures = NULL, ctrl = mlr_control()) {
   e$data$measures = assert_measures(measures %??% e$data$task$measures, task = e$data$task, learner = e$data$learner)
 
   if (use_future(ctrl)) {

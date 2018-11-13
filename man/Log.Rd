@@ -44,7 +44,7 @@ e = Experiment$new(
  task = mlr_tasks$get("sonar"),
  learner = mlr_learners$get("classif.crashtest")
 )
-e$train(ctrl = exec_control(use_evaluate = TRUE))
+e$train(ctrl = mlr_control(use_evaluate = TRUE))
 log = e$logs$train
 
 log$is_empty

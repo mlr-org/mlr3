@@ -13,8 +13,8 @@
 #' @param measures \[`list` of [Measure]\]:\cr
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the respective measures stored in `task`.
-#' @param ctrl \[`named list` as returned by [exec_control()]\]:\cr
-#'   Object to control experiment execution. See [exec_control()].
+#' @param ctrl \[`named list` as returned by [mlr_control()]\]:\cr
+#'   Object to control experiment execution. See [mlr_control()].
 #' @return [BenchmarkResult].
 #' @export
 #' @examples
@@ -41,7 +41,7 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' rr$experiment(1)$prediction
-benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = exec_control()) {
+benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_control()) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)
   assert_list(resamplings, "Resampling", min.len = 1L)
