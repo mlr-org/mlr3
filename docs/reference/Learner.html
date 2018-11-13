@@ -155,9 +155,9 @@
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
-l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
-l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
-l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
+l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
+l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
+l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #
 l$id
 l$task_type
@@ -165,8 +165,8 @@ l$feature_types
 l$predict_types
 l$predict_type
 l$packages
-l$par_set
-l$par_vals
+l$param_set
+l$param_vals
 l$properties
 l$train(task)
 l$predict(task, model)
@@ -187,9 +187,9 @@ Feature types the learner operates on. Must be a subset of <code>mlr_reflections
 Supported predict types. Must be a subset of <code>mlr_reflections$predict_types</code>.</p></li>
 <li><p><code>packages</code> [<code>character()</code>]:<br />
 Set of required packages.</p></li>
-<li><p><code>par_set</code> [<code><a href='http://www.rdocumentation.org/packages/paradox/topics/ParamSet'>ParamSet</a></code>]:<br />
+<li><p><code>param_set</code> [<code><a href='http://www.rdocumentation.org/packages/paradox/topics/ParamSet'>ParamSet</a></code>]:<br />
 Set of required packages.</p></li>
-<li><p><code>par_vals</code> [<code>named list()</code>]:<br />
+<li><p><code>param_vals</code> [<code>named list()</code>]:<br />
 List of hyperparameters.</p></li>
 <li><p><code>properties</code> [<code>character()</code>]:<br />
 Set of properties of the learner. Must be a subset of <code>mlr_reflections$learner_properties</code>.</p></li>
@@ -210,12 +210,12 @@ Fitted model as returned by <code>train</code>.</p></li>
 feasible values are <code>"response"</code> and <code>"prob"</code>, for regression <code>"response"</code> and <code>"se"</code> can be specified.</p>
 <p><code>$predict_type</code> [<code>character(1)</code>] stores the currently selected predict type.</p>
 <p><code>$packages</code> [<code>character()</code>] stores the names of required packages.</p>
-<p><code>$par_set()</code> [<a href='http://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>] describes the available hyperparameter and possible settings.</p>
-<p><code>$par_vals()</code> [<code>named list()</code>] stores the list set hyperparameter values.</p>
+<p><code>$param_set()</code> [<a href='http://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>] describes the available hyperparameter and possible settings.</p>
+<p><code>$param_vals()</code> [<code>named list()</code>] stores the list set hyperparameter values.</p>
 <p><code>$properties</code> [<code>character()</code>] is a set of tags which describe the properties of the learner.</p>
 <p><code>$train()</code> takes a task and returns a model fitted on all observations.</p>
 <p><code>$predict()</code> takes a task and the model fitted in <code>$train()</code> to return predicted labels.</p>
-<p><code>$hash</code> stores a checksum (<code>character(1)</code>) calculated on the <code>id</code> and <code>par_vals</code>.</p>
+<p><code>$hash</code> stores a checksum (<code>character(1)</code>) calculated on the <code>id</code> and <code>param_vals</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

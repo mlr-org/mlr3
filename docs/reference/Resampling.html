@@ -161,8 +161,8 @@ r = Resampling$new(id)
 #
 r$id
 r$iters
-r$par_set
-r$par_vals
+r$param_set
+r$param_vals
 r$instantiate(task)
 r$is_instantiated
 r$instance
@@ -188,9 +188,9 @@ Get the <code>i</code>-th training/test set.</p></li>
     <ul>
 <li><p><code>$new()</code> creates a new object of class Resampling.</p></li>
 <li><p><code>$id</code> (<code>character(1)</code>) stores the identifier of the object.</p></li>
-<li><p><code>$iters</code> (<code>integer(1)</code>) calculates the resulting number of iterations, given the current <code>par_vals</code>.</p></li>
-<li><p><code>$par_set</code> (<code>[paradox::ParamSet()]</code>) describes available parameters.</p></li>
-<li><p><code>$par_vals</code> (<code>named list</code>) stores the currently set parameter values.
+<li><p><code>$iters</code> (<code>integer(1)</code>) calculates the resulting number of iterations, given the current <code>param_vals</code>.</p></li>
+<li><p><code>$param_set</code> (<code>[paradox::ParamSet()]</code>) describes available parameters.</p></li>
+<li><p><code>$param_vals</code> (<code>named list</code>) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.</p></li>
 <li><p><code>$instantiate</code> materializes fixed training and test splits for a given task.</p></li>
 <li><p><code>$is_instantiated</code> returns <code>TRUE</code> if the resampling has been instantiated, and <code>FALSE</code> otherwise.</p></li>
@@ -199,7 +199,7 @@ not work directly with it. Instead, use <code>$train_set()</code> and <code>$tes
 <li><p><code>$stratify</code> can be set to column names of the <a href='Task.html'>Task</a> which will be used for stratification during instantiation.</p></li>
 <li><p><code>$train_set()</code> returns the training set for the <code>i</code>-th iteration.</p></li>
 <li><p><code>$test_set()</code> returns the test set for the <code>i</code>-th iteration.</p></li>
-<li><p><code>$hash</code> stores a checksum (<code>character(1)</code>) calculated on the <code>id</code>, <code>par_vals</code> and the instantiation.
+<li><p><code>$hash</code> stores a checksum (<code>character(1)</code>) calculated on the <code>id</code>, <code>param_vals</code> and the instantiation.
 If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 </ul>
     
@@ -212,15 +212,15 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
     <pre class="examples"><div class='input'><span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'>get</span>(<span class='st'>"subsampling"</span>)
 
 <span class='co'># Default parametrization</span>
-<span class='no'>r</span>$<span class='no'>par_vals</span></div><div class='output co'>#&gt; $repeats
+<span class='no'>r</span>$<span class='no'>param_vals</span></div><div class='output co'>#&gt; $repeats
 #&gt; [1] 30
 #&gt; 
 #&gt; $ratio
 #&gt; [1] 0.67
 #&gt; </div><div class='input'>
 <span class='co'># Do only 3 repeats on 10% of the data</span>
-<span class='no'>r</span>$<span class='no'>par_vals</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='no'>r</span>$<span class='no'>par_vals</span></div><div class='output co'>#&gt; $ratio
+<span class='no'>r</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='no'>r</span>$<span class='no'>param_vals</span></div><div class='output co'>#&gt; $ratio
 #&gt; [1] 0.1
 #&gt; 
 #&gt; $repeats
@@ -232,7 +232,7 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 #&gt; Parameters: ratio=0.1, repeats=3
 #&gt; 
 #&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,
-#&gt;   is_instantiated, iters, par_set, par_vals, stratify, test_set,
+#&gt;   is_instantiated, iters, param_set, param_vals, stratify, test_set,
 #&gt;   train_set</div><div class='input'>
 <span class='co'># Extract train/test sets</span>
 <span class='no'>train_set</span> <span class='kw'>=</span> <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)
@@ -258,7 +258,7 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 #&gt; Parameters: repeats=30, ratio=0.67
 #&gt; 
 #&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,
-#&gt;   is_instantiated, iters, par_set, par_vals, stratify, test_set,
+#&gt;   is_instantiated, iters, param_set, param_vals, stratify, test_set,
 #&gt;   train_set</div><div class='input'><span class='fu'>prop.table</span>(<span class='fu'>table</span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
 #&gt;       pos       neg 
 #&gt; 0.3495146 0.6504854 </div><div class='input'><span class='fu'>prop.table</span>(<span class='fu'>table</span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
