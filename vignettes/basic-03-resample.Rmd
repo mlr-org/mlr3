@@ -111,14 +111,14 @@ resampling$train_set(1)
 If we now pass this instantiated object to resample, the pre-calculated training and test splits will be used for both learners:
 
 ```{r}
-learner1 = mlr_learners$get("classif.rpart")
-learner2 = mlr_learners$get("classif.dummy")
+learner1 = mlr_learners$get("classif.rpart") # simple classification tree
+learner2 = mlr_learners$get("classif.dummy") # dummy learner, prediction majority class
 rr1 = resample(task, learner1, resampling)
 rr2 = resample(task, learner2, resampling)
 
 setequal(rr1$experiment(1)$train_set, rr2$experiment(1)$train_set)
 ```
-We can also combine the created result objects into a `BenchmarkResult`:
+We can also combine the created result objects into a `BenchmarkResult` (see below for an introduction to simple benchmarking):
 
 ```{r}
 bmr = rr1$combine(rr2)
@@ -139,4 +139,65 @@ resampling$instantiate(task,
 resampling$iters
 resampling$train_set(1)
 resampling$test_set(1)
+```
+
+
+## Benchmarking
+
+As comparing the performance of multiple learners on multiple tasks is a frequent task, `mlr3` offers the `benchmark()` function for convenience.
+Internally, the resampling strategies are automatically instantiated for you, so that each learner sees the same split of the data.
+
+```{r}
+# get some example tasks
+tasks = mlr_tasks$mget(c("pima", "sonar", "spam"))
+
+# get a dummy learner and a classification tree
+learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
+
+# let the learners predict probabilities instead of class labels (required for AUC measure)
+learners$classif.dummy$predict_type = "prob"
+learners$classif.rpart$predict_type = "prob"
+
+# compare via 10-fold cross validation
+resamplings = mlr_resamplings$mget("cv")
+
+# measure accuracy (acc) and area under the curve (AUC)
+measures = mlr_measures$mget(c("acc", "auc"))
+
+# create a BenchmarkResult object
+bmr = benchmark(tasks, learners, resamplings, measures)
+```
+
+Usually you want to look at the results aggregated over resampling iterations:
+```{r}
+bmr$aggregated[, c("task_id", "learner_id", "acc", "auc")]
+```
+We can aggregate it further, i.e. if we are interested which learner performed best over all tasks:
+```{r}
+bmr$aggregated[, list(acc = mean(acc), auc = mean(auc)), by = "learner_id"]
+```
+Unsurprisingly, the classification tree outperformed the dummy learner.
+
+As a `BenchmarkResult` is basically a collection of multiple `ResampleResult`, we can extract specific `ResampleResult` using the stored hashes:
+```{r}
+tab = bmr$aggregated[task_id == "spam" & learner_id == "classif.rpart"]
+print(tab)
+
+rr = bmr$resample_result(tab$hash)
+```
+We can now investigate this resampling and even single experiments using the previously introduced API:
+```{r}
+rr$aggregated
+
+# get the iteration with worst AUC
+worst = rr$performance[which.min(auc), c("iteration", "auc")]
+print(worst)
+
+# get the corresponding experiment
+e = rr$experiment(worst$iteration)
+
+# get the model and plot it
+library(rpart)
+plot(e$model)
+text(e$model)
 ```

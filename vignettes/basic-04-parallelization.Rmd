@@ -82,7 +82,7 @@ system.time(
 )[3L]
 ```
 
-# Running learner in a fail-safe way
+# Running learners in a fail-safe way
 
 With future as backend, it is also possible to run learners in an isolated R session.
 If the learner crashed, e.g. with a SEGFAULT, it does not tear down the master session.
