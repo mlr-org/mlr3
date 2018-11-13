@@ -59,7 +59,6 @@
 #'   If the object is not instantiated yet, `NA` is returned.
 #'
 #' @name Resampling
-#' @keywords internal
 #' @family Resampling
 #' @examples
 #' r = mlr_resamplings$get("subsampling")

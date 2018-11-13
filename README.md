@@ -5,7 +5,7 @@ A clean, object-oriented rewrite of [mlr](https://github.com/mlr-org/mlr).
 [![Build Status](https://travis-ci.org/mlr-org/mlr3.svg?branch=master)](https://travis-ci.org/mlr-org/mlr3)
 [![Build status](https://ci.appveyor.com/api/projects/status/skoekgkgu8l5tc1o/branch/master?svg=true)](https://ci.appveyor.com/project/mlr-org/mlr3/branch/master)
 [![CRAN](https://www.r-pkg.org/badges/version/mlr3)](https://cran.r-project.org/package=mlr3)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 
 ## Why a rewrite?
@@ -49,28 +49,18 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 ### Already implemented:
 
 * Basic building blocks of machine learning
-    - Experiment: Class to store and access a single machine learning experiment
-    - Tasks for classification and regression
-    - Learner
-    - Resampling strategies
-    - Performance measures
-* Data backend for tasks. This allows to transparently work with out-of-memory data like data bases.
-  See [mlr3db](https://github.com/mlr-org/mlr3db) for connecting various SQL data bases, MonetDB, Bigquery, Spark, Impala, ...
+    - [Experiment](https://mlr3.mlr-org.com/reference/Experiment.html): Class to store and access a single machine learning experiment
+    - Tasks for [classification](https://mlr3.mlr-org.com/reference/TaskClassif.html) and [regression](https://mlr3.mlr-org.com/reference/TaskRegr.html)
+    - Abstract [Learner](https://mlr3.mlr-org.com/reference/Learner.html)
+    - [Resampling](https://mlr3.mlr-org.com/reference/Resampling.html) strategies
+    - Performance [measures](https://mlr3.mlr-org.com/reference/Measure.html)
 * Single step experiments via the `Experiment` class
 * Resampling via `resample()`
 * Benchmarking via `benchmark()`
+* Stratification.
 
-Some objects are documented [here](https://mlr-org.github.io/mlr3/).
-
+THe [webpage](https://mlr3.mlr-org.com) provides, besides a short introduction, a [function reference](https://mlr3.mlr-org.com/reference/).
 
 ### WiP
 
-* Tuning: [mlr3tuning](https://github.com/mlr-org/mlr3tuning)
-* Pipelining: [mlr3pipelines](https://github.com/mlr-org/mlr3pipelines)
-* Recommended learners: [mlr3learners](https://github.com/mlr-org/mlr3learners)
-
-
-### Next steps
-
-* Write a package which interfaces the most popular learners in R
-* Write documentation and use cases
+While `mlr3` implements the building blocks for machine learning, some of the advanced features of the monolithic  [mlr](https://github.com/mlr-org/mlr) are now shipped in multiple [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
