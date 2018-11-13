@@ -193,7 +193,7 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
   <span class='kw'>tasks</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'>mget</span>(<span class='st'>"iris"</span>),
   <span class='kw'>learners</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'>mget</span>(<span class='fu'>c</span>(<span class='st'>"classif.dummy"</span>, <span class='st'>"classif.rpart"</span>)),
   <span class='kw'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'>mget</span>(<span class='st'>"cv"</span>),
-  <span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='exec_control.html'>exec_control</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+  <span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_control.html'>mlr_control</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 )
 
 <span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
