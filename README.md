@@ -55,8 +55,8 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [Resampling](https://mlr3.mlr-org.com/reference/Resampling.html) strategies
     - Performance [measures](https://mlr3.mlr-org.com/reference/Measure.html)
 * Single step experiments via the `Experiment` class
-* Resampling via `resample()`
-* Benchmarking via `benchmark()`
+* Resampling via [`resample()`](https://mlr3.mlr-org.com/reference/resample.html)
+* Benchmarking via [`benchmark()`](https://mlr3.mlr-org.com/reference/benchmark.html)
 * Stratification.
 
 THe [webpage](https://mlr3.mlr-org.com) provides, besides a short introduction, a [function reference](https://mlr3.mlr-org.com/reference/).
