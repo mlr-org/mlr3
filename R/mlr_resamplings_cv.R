@@ -41,7 +41,8 @@ mlr_resamplings$add("cv", ResamplingCV)
 resample_cv = function(ids, folds) {
   data.table(
     row_id = ids,
-    fold = shuffle(seq_along0(ids) %% folds + 1L)
+    fold = shuffle(seq_along0(ids) %% folds + 1L),
+    key = "fold"
   )
 }
 
