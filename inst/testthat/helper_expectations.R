@@ -22,7 +22,7 @@ expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
 
 expect_backend = function(b) {
   checkmate::expect_r6(b, cloneable = FALSE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
-  checkmate::expect_subset(b$formats, mlr_reflections$backend_formats, empty.ok = FALSE)
+  checkmate::expect_subset(b$formats, mlr3::mlr_reflections$backend_formats, empty.ok = FALSE)
   testthat::expect_output(print(b), "^DataBackend")
 
   n = checkmate::expect_count(b$nrow)
