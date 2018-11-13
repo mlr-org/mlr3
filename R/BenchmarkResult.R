@@ -74,7 +74,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_string(hash)
       assert_choice(hash, self$data[, unique(hash)])
       tmp = hash
-      ResampleResult$new(self$data[hash == tmp], hash = hash) # FIXME: join
+      ResampleResult$new(self$data[list(tmp), on = "hash", nomatch = 0L], hash = hash)
     },
 
     combine = function(bmr) {
