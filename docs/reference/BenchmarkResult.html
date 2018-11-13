@@ -200,33 +200,33 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
 #&gt; 1: 9e2a48c8f2f07100    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash    learner_id               learner
 #&gt; 1: afef6eda1b787161 classif.rpart &lt;LearnerClassifRpart&gt;
 #&gt; 2: 0de784a40d0c2eea classif.dummy &lt;LearnerClassifDummy&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>resamplings</span></div><div class='output co'>#&gt;     resampling_hash resampling_id     resampling
-#&gt; 1: 78538621b13cb796            cv &lt;ResamplingCV&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>measures</span></div><div class='output co'>#&gt;    measure_id              measure
+#&gt; 1: d26601064ecba62b            cv &lt;ResamplingCV&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>measures</span></div><div class='output co'>#&gt;    measure_id              measure
 #&gt; 1:       mmce &lt;MeasureClassifMMCE&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>performance</span></div><div class='output co'>#&gt;                 hash task_id    learner_id resampling_id       mmce
-#&gt;  1: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.00000000
-#&gt;  2: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.00000000
-#&gt;  3: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.13333333
-#&gt;  4: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.06666667
-#&gt;  5: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.06666667
-#&gt;  6: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.00000000
-#&gt;  7: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.00000000
-#&gt;  8: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.13333333
-#&gt;  9: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.13333333
-#&gt; 10: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.06666667
-#&gt; 11: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.73333333
-#&gt; 12: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.86666667
-#&gt; 13: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.80000000
-#&gt; 14: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.73333333
-#&gt; 15: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.66666667
-#&gt; 16: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.73333333
-#&gt; 17: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.80000000
-#&gt; 18: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.73333333
-#&gt; 19: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.80000000
-#&gt; 20: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.66666667</div><div class='input'><span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id      mmce
-#&gt; 1: 1c8a65bdbff30e7b    iris classif.rpart            cv 0.0600000
-#&gt; 2: 8ea7c1371ef8e2d6    iris classif.dummy            cv 0.7533333</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
+#&gt;  1: bcbe290cdbc79cec    iris classif.rpart            cv 0.00000000
+#&gt;  2: bcbe290cdbc79cec    iris classif.rpart            cv 0.00000000
+#&gt;  3: bcbe290cdbc79cec    iris classif.rpart            cv 0.13333333
+#&gt;  4: bcbe290cdbc79cec    iris classif.rpart            cv 0.06666667
+#&gt;  5: bcbe290cdbc79cec    iris classif.rpart            cv 0.06666667
+#&gt;  6: bcbe290cdbc79cec    iris classif.rpart            cv 0.00000000
+#&gt;  7: bcbe290cdbc79cec    iris classif.rpart            cv 0.00000000
+#&gt;  8: bcbe290cdbc79cec    iris classif.rpart            cv 0.13333333
+#&gt;  9: bcbe290cdbc79cec    iris classif.rpart            cv 0.13333333
+#&gt; 10: bcbe290cdbc79cec    iris classif.rpart            cv 0.06666667
+#&gt; 11: c9fc8cec0519f9cf    iris classif.dummy            cv 0.73333333
+#&gt; 12: c9fc8cec0519f9cf    iris classif.dummy            cv 0.86666667
+#&gt; 13: c9fc8cec0519f9cf    iris classif.dummy            cv 0.80000000
+#&gt; 14: c9fc8cec0519f9cf    iris classif.dummy            cv 0.73333333
+#&gt; 15: c9fc8cec0519f9cf    iris classif.dummy            cv 0.66666667
+#&gt; 16: c9fc8cec0519f9cf    iris classif.dummy            cv 0.73333333
+#&gt; 17: c9fc8cec0519f9cf    iris classif.dummy            cv 0.80000000
+#&gt; 18: c9fc8cec0519f9cf    iris classif.dummy            cv 0.73333333
+#&gt; 19: c9fc8cec0519f9cf    iris classif.dummy            cv 0.80000000
+#&gt; 20: c9fc8cec0519f9cf    iris classif.dummy            cv 0.66666667</div><div class='input'><span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id      mmce
+#&gt; 1: bcbe290cdbc79cec    iris classif.rpart            cv 0.0600000
+#&gt; 2: c9fc8cec0519f9cf    iris classif.dummy            cv 0.7533333</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'>print</span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id  N
-#&gt; 1: 1c8a65bdbff30e7b    iris classif.rpart            cv 10
-#&gt; 2: 8ea7c1371ef8e2d6    iris classif.dummy            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
+#&gt; 1: bcbe290cdbc79cec    iris classif.rpart            cv 10
+#&gt; 2: c9fc8cec0519f9cf    iris classif.dummy            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
 <span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.rpart' with 10 iterations
 #&gt;  Measure Min. 1st Qu.     Median Mean   3rd Qu.      Max.       Sd
 #&gt;     mmce    0       0 0.06666667 0.06 0.1166667 0.1333333 0.058373</div><div class='input'><span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>model</span></div><div class='output co'>#&gt; n= 135 

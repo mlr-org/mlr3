@@ -194,9 +194,9 @@
 </ul>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">rr<span class="op">$</span>performance</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;                hash task_id    learner_id resampling_id iteration mmce</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; 1: 0045b23e167c539d    iris classif.rpart            cv         1 0.00</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 2: 0045b23e167c539d    iris classif.rpart            cv         2 0.10</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 3: 0045b23e167c539d    iris classif.rpart            cv         3 0.08</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; 1: c9e456bbea4bf8d2    iris classif.rpart            cv         1 0.00</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 2: c9e456bbea4bf8d2    iris classif.rpart            cv         2 0.10</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 3: c9e456bbea4bf8d2    iris classif.rpart            cv         3 0.08</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">rr<span class="op">$</span>performance[, <span class="kw">mean</span>(mmce)]</a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; [1] 0.06</span></a></code></pre></div>
 <ul>
@@ -279,12 +279,12 @@
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">bmr =<span class="st"> </span>rr1<span class="op">$</span><span class="kw">combine</span>(rr2)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">bmr<span class="op">$</span>performance</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;                hash task_id    learner_id resampling_id mmce</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: 0387823962e4ba76    iris classif.dummy            cv 0.72</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: 0387823962e4ba76    iris classif.dummy            cv 0.70</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; 3: 0387823962e4ba76    iris classif.dummy            cv 0.70</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 4: 9e2c3844d01e7dc9    iris classif.rpart            cv 0.04</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 5: 9e2c3844d01e7dc9    iris classif.rpart            cv 0.06</span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 6: 9e2c3844d01e7dc9    iris classif.rpart            cv 0.04</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: 280f5245cf45b080    iris classif.rpart            cv 0.04</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: 280f5245cf45b080    iris classif.rpart            cv 0.06</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; 3: 280f5245cf45b080    iris classif.rpart            cv 0.04</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 4: bcdeccfa519dddeb    iris classif.dummy            cv 0.72</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 5: bcdeccfa519dddeb    iris classif.dummy            cv 0.70</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 6: bcdeccfa519dddeb    iris classif.dummy            cv 0.70</span></a></code></pre></div>
 </div>
 <div id="custom-resampling" class="section level2">
 <h2 class="hasAnchor">
