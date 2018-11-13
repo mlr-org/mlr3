@@ -5,7 +5,7 @@ data = Matrix::Matrix(0, nrow = 10, ncol = 12, sparse = TRUE)
 colnames(data) = sprintf("cn%04i", seq_len(ncol(data)))
 
 get_row_id = function(x) {
-  rownames(x) %??% attr(x, "row_i")
+  attr(x, "..row_id")
 }
 
 expect_Matrix = function(x, ...) {

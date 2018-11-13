@@ -8,11 +8,11 @@
 #' ```
 #' # Construction
 #' e = Experiment$new(task, learner, ...)
-#' #
+#' # Stepwise execution
 #' e$train(subset)
 #' e$predict(subset, newdata)
 #' e$score(measures = NULL)
-#' #
+#' # Getters
 #' e$model
 #' e$prediction
 #' e$performance

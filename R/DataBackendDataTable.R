@@ -7,7 +7,8 @@
 #' @section Usage:
 #' ```
 #' # Construction
-#' b = DataBackendDataTable$new(data, primary_key = NULL)
+#' b = DataBackendDataTable$new(data, primary_key)
+#' b = as_data_backend(data, primary_key = NULL)
 #' ```
 #' The interface is described in [DataBackend].
 #'
@@ -16,8 +17,8 @@
 #'
 #' * `primary_key` \[`character(1)`\]:\cr
 #'   Name of the column in `data` which represents a unique
-#'   row identifier (as integer or character). If `NULL`, a new column with integer indices is
-#'   automatically created.
+#'   row identifier (as integer or character).
+#'   If `NULL, the constructor [as_data_backend()] automatically creates an integer column of primary keys.
 #'
 #' @name DataBackendDataTable
 #' @family DataBackend

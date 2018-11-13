@@ -7,8 +7,8 @@
 ids(x)
 }
 \arguments{
-\item{x}{[\code{list}]\cr
-List of objects which have a slot \code{"id"}.}
+\item{x}{[\code{list()}]\cr
+List of objects which have a slot named \code{"id"}.}
 }
 \value{
 [\code{character}] of the same length as input \code{x}.

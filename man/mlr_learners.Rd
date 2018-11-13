@@ -4,7 +4,7 @@
 \alias{mlr_learners}
 \title{Dictionary of Learners}
 \description{
-Dictionary of Learners
+A simple \link{Dictionary} storing objects of class \link{Learner}.
 }
 \section{Usage}{
 

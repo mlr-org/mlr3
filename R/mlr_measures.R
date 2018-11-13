@@ -1,5 +1,8 @@
 #' @title Dictionary of Performance Measures
 #'
+#' @description
+#' A simple [Dictionary] storing objects of class [Measure].
+#'
 #' @section Usage:
 #' See [Dictionary].
 #'

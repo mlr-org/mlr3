@@ -9,7 +9,8 @@ Returns an object of class \link{DataBackend}.
 }
 \section{Usage}{
 \preformatted{# Construction
-b = DataBackendDataTable$new(data, primary_key = NULL)
+b = DataBackendDataTable$new(data, primary_key)
+b = as_data_backend(data, primary_key = NULL)
 }
 
 The interface is described in \link{DataBackend}.
@@ -21,8 +22,8 @@ The interface is described in \link{DataBackend}.
 \item \code{data} [\code{\link[base:data.frame]{data.frame()}}].
 \item \code{primary_key} [\code{character(1)}]:\cr
 Name of the column in \code{data} which represents a unique
-row identifier (as integer or character). If \code{NULL}, a new column with integer indices is
-automatically created.
+row identifier (as integer or character).
+If `NULL, the constructor \code{\link[=as_data_backend]{as_data_backend()}} automatically creates an integer column of primary keys.
 }
 }
 

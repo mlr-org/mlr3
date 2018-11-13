@@ -3,8 +3,8 @@
 #' @description
 #' A simple helper which extracts the id slot of a list of objects.
 #'
-#' @param x \[`list`\]\cr
-#'  List of objects which have a slot `"id"`.
+#' @param x \[`list()`\]\cr
+#'  List of objects which have a slot named `"id"`.
 #'
 #' @return \[`character`\] of the same length as input `x`.
 #' @export

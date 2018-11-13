@@ -4,7 +4,7 @@
 \alias{mlr_tasks}
 \title{Dictionary of Tasks}
 \description{
-Dictionary of Tasks
+A simple \link{Dictionary} storing objects of class \link{Task}.
 }
 \section{Usage}{
 

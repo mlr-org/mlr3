@@ -57,32 +57,22 @@ Fitted model as returned by \code{train}.
 
 \section{Details}{
 
-\code{$new()} creates a new object of class \link{Learner}.
-
-\code{$id} [\code{character(1)}] stores the identifier of the object.
-
-\code{$task_type} [\code{character(1)}] stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
-
-\code{$feature_types} [\code{character()}] stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
-
-\code{$predict_types} [\code{character()}] stores the possible predict types the learner is capable of. For classification,
+\itemize{
+\item \code{$new()} creates a new object of class \link{Learner}.
+\item \code{$id} [\code{character(1)}] stores the identifier of the object.
+\item \code{$task_type} [\code{character(1)}] stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
+\item \code{$feature_types} [\code{character()}] stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+\item \code{$predict_types} [\code{character()}] stores the possible predict types the learner is capable of. For classification,
 feasible values are \code{"response"} and \code{"prob"}, for regression \code{"response"} and \code{"se"} can be specified.
-
-\code{$predict_type} [\code{character(1)}] stores the currently selected predict type.
-
-\code{$packages} [\code{character()}] stores the names of required packages.
-
-\code{$param_set()} [\link[paradox:ParamSet]{paradox::ParamSet}] describes the available hyperparameter and possible settings.
-
-\code{$param_vals()} [\code{named list()}] stores the list set hyperparameter values.
-
-\code{$properties} [\code{character()}] is a set of tags which describe the properties of the learner.
-
-\code{$train()} takes a task and returns a model fitted on all observations.
-
-\code{$predict()} takes a task and the model fitted in \code{$train()} to return predicted labels.
-
-\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id} and \code{param_vals}.
+\item \code{$predict_type} [\code{character(1)}] stores the currently selected predict type.
+\item \code{$packages} [\code{character()}] stores the names of required packages.
+\item \code{$param_set()} [\link[paradox:ParamSet]{paradox::ParamSet}] describes the available hyperparameter and possible settings.
+\item \code{$param_vals()} [\code{named list()}] stores the list set hyperparameter values.
+\item \code{$properties} [\code{character()}] is a set of tags which describe the properties of the learner.
+\item \code{$train()} takes a task and returns a model fitted on all observations.
+\item \code{$predict()} takes a task and the model fitted in \code{$train()} to return predicted labels.
+\item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id} and \code{param_vals}.
+}
 }
 
 \seealso{

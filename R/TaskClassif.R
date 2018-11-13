@@ -5,7 +5,7 @@
 #' The target column is assumed to be a factor.
 #'
 #' @section Usage:
-#' In addition to the interface of [Task]/[TaskSupervised], this class offers:
+#' In addition to the interface of [Task]/[TaskSupervised], this class implements:
 #' ```
 #' # Construction
 #' t = TaskClassif$new(id, backend, target, positive = NULL)
@@ -20,9 +20,9 @@
 #'   Name of the "positive" class for binary classification problems.
 #'
 #' @section Details:
-#' `$class_names` returns all class labels of the rows which `role == "use"`.
-#' `$class_n` returns the number of class labels of the rows which `role == "use"`.
-#' `$task_type` is `"classif"`
+#' * `$class_names` returns all class labels of the rows which `role == "use"`.
+#' * `$class_n` returns the number of class labels of the rows which `role == "use"`.
+#' * `$task_type` is `"classif"`
 #'
 #' @name TaskClassif
 #' @family Task

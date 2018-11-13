@@ -11,7 +11,7 @@ mlr_control(...)
 }
 \description{
 This function creates a named list of settings which control the execution of an \link{Experiment}.
-It contains all options (without the \code{"mlr3"} prefix) and additionally:
+It contains all options (see \code{\link[=mlr_options]{mlr_options()}}) without the \code{"mlr3"} prefix and additionally:
 \itemize{
 \item \code{use_evaluate}: if \code{TRUE}, the model will be trained and predictions will be generated via a call to \code{\link[evaluate:evaluate]{evaluate::evaluate()}}
 and all output will be stored as a \link{Log}.

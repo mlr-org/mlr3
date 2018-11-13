@@ -47,32 +47,20 @@
 #'   Fitted model as returned by `train`.
 #'
 #' @section Details:
-#' `$new()` creates a new object of class [Learner].
-#'
-#' `$id` \[`character(1)`\] stores the identifier of the object.
-#'
-#' `$task_type` \[`character(1)`\] stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
-#'
-#' `$feature_types` \[`character()`\] stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
-#'
-#' `$predict_types` \[`character()`\] stores the possible predict types the learner is capable of. For classification,
+#' * `$new()` creates a new object of class [Learner].
+#' * `$id` \[`character(1)`\] stores the identifier of the object.
+#' * `$task_type` \[`character(1)`\] stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
+#' * `$feature_types` \[`character()`\] stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+#' * `$predict_types` \[`character()`\] stores the possible predict types the learner is capable of. For classification,
 #'   feasible values are `"response"` and `"prob"`, for regression `"response"` and `"se"` can be specified.
-#'
-#' `$predict_type` \[`character(1)`\] stores the currently selected predict type.
-#'
-#' `$packages` \[`character()`\] stores the names of required packages.
-#'
-#' `$param_set()` \[[paradox::ParamSet]\] describes the available hyperparameter and possible settings.
-#'
-#' `$param_vals()` \[`named list()`\] stores the list set hyperparameter values.
-#'
-#' `$properties` \[`character()`\] is a set of tags which describe the properties of the learner.
-#'
-#' `$train()` takes a task and returns a model fitted on all observations.
-#'
-#' `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
-#'
-#' `$hash` stores a checksum (`character(1)`) calculated on the `id` and `param_vals`.
+#' * `$predict_type` \[`character(1)`\] stores the currently selected predict type.
+#' * `$packages` \[`character()`\] stores the names of required packages.
+#' * `$param_set()` \[[paradox::ParamSet]\] describes the available hyperparameter and possible settings.
+#' * `$param_vals()` \[`named list()`\] stores the list set hyperparameter values.
+#' * `$properties` \[`character()`\] is a set of tags which describe the properties of the learner.
+#' * `$train()` takes a task and returns a model fitted on all observations.
+#' * `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
+#' * `$hash` stores a checksum (`character(1)`) calculated on the `id` and `param_vals`.
 #'
 #' @name Learner
 #' @family Learner

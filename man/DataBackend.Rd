@@ -9,7 +9,8 @@ This is the abstract base class for data backends.
 All objects of type \code{DataBackend} must provide the following interface:
 }
 \section{Usage}{
-\preformatted{b$data(rows, cols)
+\preformatted{b = as_data_backend(data)
+b$data(rows, cols)
 b$head(n = 6)
 b$distinct(cols)
 b$rownames
@@ -17,8 +18,6 @@ b$colnames
 b$nrow
 b$ncol
 print(b)
-
-as_data_backend(data)
 }
 
 See \link{DataBackendDataTable} for an exemplary implementation of this interface.
@@ -27,20 +26,22 @@ See \link{DataBackendDataTable} for an exemplary implementation of this interfac
 \section{Arguments}{
 
 \itemize{
+\item \code{data} [\code{any}]:\cr
+Data to wrap the backend around. Typically a \code{data.frame}.
 \item \code{rows} [\code{integer()} or \code{character()}]:\cr
 Vector of row indices to subset rows using the primary key in the data backend.
 \item \code{cols} [\code{character()}]:\cr
 Vector of column names to select.
 \item \code{n} [\code{integer(1)}]:\cr
 Number of rows to return.
-\item \code{data} [\code{any}]:\cr
-Data to wrap the backend around. Typically a \code{data.frame}.
 }
 }
 
 \section{Details}{
 
 \itemize{
+\item \code{as_data_backend()} wraps a \code{DataBackend} around the provided data. See \code{methods("as_data_backend")} for
+possible input formats.
 \item \code{$data()} [\code{\link[data.table:data.table]{data.table()}}] returns a slice of the data:
 rows are filtered using the \code{primary_key} column, columns are selected by name.
 \item \code{$head()} [\code{\link[data.table:data.table]{data.table()}}] returns a \link[data.table:data.table]{data.table} of the first \code{n} data rows.
@@ -49,8 +50,6 @@ rows are filtered using the \code{primary_key} column, columns are selected by n
 \item \code{$colnames} [\code{character(1)}] returns all column names of \code{data} as character vector.
 \item \code{$nrow} [\code{integer(1)}] returns the number of total rows.
 \item \code{$ncol} [\code{integer(1)}] returns the number of total columns, including primary key column.
-\item \code{as_data_backend()} wraps a \code{DataBackend} around the provided data. See \code{methods("as_data_backend")} for
-possible input formats.
 }
 }
 

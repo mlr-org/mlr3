@@ -1,5 +1,8 @@
 #' @title Dictionary of Resampling Strategies
 #'
+#' @description
+#' A simple [Dictionary] storing objects of class [Resampling].
+#'
 #' @section Usage:
 #' See [Dictionary].
 #'

@@ -9,7 +9,7 @@ The target column is assumed to be a factor.
 }
 \section{Usage}{
 
-In addition to the interface of \link{Task}/\link{TaskSupervised}, this class offers:\preformatted{# Construction
+In addition to the interface of \link{Task}/\link{TaskSupervised}, this class implements:\preformatted{# Construction
 t = TaskClassif$new(id, backend, target, positive = NULL)
 #
 t$class_names
@@ -28,9 +28,11 @@ Name of the "positive" class for binary classification problems.
 
 \section{Details}{
 
-\code{$class_names} returns all class labels of the rows which \code{role == "use"}.
-\code{$class_n} returns the number of class labels of the rows which \code{role == "use"}.
-\code{$task_type} is \code{"classif"}
+\itemize{
+\item \code{$class_names} returns all class labels of the rows which \code{role == "use"}.
+\item \code{$class_n} returns the number of class labels of the rows which \code{role == "use"}.
+\item \code{$task_type} is \code{"classif"}
+}
 }
 
 \examples{

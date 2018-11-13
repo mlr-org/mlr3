@@ -5,7 +5,7 @@
 #' The target column is assumed to be numeric.
 #'
 #' @section Usage:
-#' In addition to the interface of [Task]/[TaskSupervised], this class offers:
+#' In addition to the interface of [Task]/[TaskSupervised], this class implements:
 #' ```
 #' t = TaskRegr$new(id, backend, target)
 #'
@@ -13,7 +13,7 @@
 #' ```
 #'
 #' @section Details:
-#' `$task_type` is `"classif"`
+#' * `$task_type` is `"classif"`
 #'
 #' @name TaskRegr
 #' @family Task

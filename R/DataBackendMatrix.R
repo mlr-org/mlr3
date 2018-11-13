@@ -4,13 +4,14 @@
 #' Abstraction for [`Matrix()`][Matrix::Matrix()]. Data is stored as (sparse) matrix.
 #' Supports two output formats:
 #'
-#' * `"data.table"` (default): Returns a `data.table::data.table()`. The primary key is returned as a regular column.
-#' * `"sparse"` (native): Returns a `Matrix::Matrix()`. The primary key is either stored as row names, or as additional attribute (`"row_i"`).
+#' * `"data.table"` (default): Returns a [`data.table()`][data.table::data.table()]. The primary key is returned as a regular column.
+#' * `"sparse"` (native): Returns a `Matrix::Matrix()`. The primary key is stored as additional attribute `..row_id`.
 #'
 #' @section Usage:
 #' ```
 #' # Construction
 #' b = DataBackendMatrix$new(data)
+#' b = as_data_backend(data)
 #' ```
 #' The interface is described in [DataBackend].
 #'
@@ -73,8 +74,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
           data
         },
         "sparse" = {
-          if (is.integer(query_rows))
-            attr(data, "row_i") = query_rows
+          attr(data, "..row_id") = query_rows
           data
         },
         stopf("Cannot convert to format '%s'", format)

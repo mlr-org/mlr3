@@ -6,6 +6,7 @@
 #' @section Usage:
 #'
 #' ```
+#' # Construction
 #' rr = ResampleResult$new(data, hash = NULL)
 #' #
 #' rr$task

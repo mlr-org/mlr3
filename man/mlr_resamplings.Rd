@@ -4,7 +4,7 @@
 \alias{mlr_resamplings}
 \title{Dictionary of Resampling Strategies}
 \description{
-Dictionary of Resampling Strategies
+A simple \link{Dictionary} storing objects of class \link{Resampling}.
 }
 \section{Usage}{
 

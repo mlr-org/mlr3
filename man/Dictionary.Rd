@@ -16,7 +16,7 @@ On retrieval of an object, the following applies:
 \section{Usage}{
 \preformatted{# Construction
 d = Dictionary$new()
-
+# Getters
 d$keys(pattern)
 d$add(value)
 d$get(key)
@@ -24,13 +24,13 @@ d$mget(keys)
 d$has(key)
 d$remove(key, value)
 d$remove(keys)
-
+# S3 methods
 as.data.frame(d)
 as.data.table(d)
 names(d)
+length(d)
 d[[key]]
 d[keys]
-length(d)
 }
 }
 

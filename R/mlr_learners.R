@@ -1,5 +1,8 @@
 #' @title Dictionary of Learners
 #'
+#' @description
+#' A simple [Dictionary] storing objects of class [Learner].
+#'
 #' @section Usage:
 #' See [Dictionary].
 #'

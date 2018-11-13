@@ -7,7 +7,8 @@
 This is the object returned by \link{resample}.
 }
 \section{Usage}{
-\preformatted{rr = ResampleResult$new(data, hash = NULL)
+\preformatted{# Construction
+rr = ResampleResult$new(data, hash = NULL)
 #
 rr$task
 rr$learner

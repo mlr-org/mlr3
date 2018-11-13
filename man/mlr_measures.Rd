@@ -4,7 +4,7 @@
 \alias{mlr_measures}
 \title{Dictionary of Performance Measures}
 \description{
-Dictionary of Performance Measures
+A simple \link{Dictionary} storing objects of class \link{Measure}.
 }
 \section{Usage}{
 

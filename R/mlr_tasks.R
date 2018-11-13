@@ -1,5 +1,8 @@
 #' @title Dictionary of Tasks
 #'
+#' @description
+#' A simple [Dictionary] storing objects of class [Task].
+#'
 #' @section Usage:
 #' See [Dictionary].
 #'

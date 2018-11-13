@@ -22,14 +22,16 @@
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
 #' resamplings = mlr_resamplings$mget(c("holdout", "cv"))
-#' measures = mlr_measures$mget(c("acc", "time_train"))
-#' bmr = benchmark(tasks, learners, resamplings, measures)
+#' measures = mlr_measures$mget("acc")
+#' ctrl = mlr_control()
+#' ctrl$verbose = FALSE
+#' bmr = benchmark(tasks, learners, resamplings, measures, ctrl = ctrl)
 #'
 #' # performance for all conducted experiments
-#' bmr$performance[, !"time_train"]
+#' head(bmr$performance)
 #'
 #' # aggregated performance
-#' bmr$aggregated[, !"time_train"]
+#' bmr$aggregated
 #'
 #' # Overview of of resamplings that were conducted internally
 #' rrs = bmr$resample_results
@@ -37,10 +39,10 @@
 #'
 #' # Extract first ResampleResult
 #' rr = bmr$resample_result(hash = rrs$hash[1])
-#' # print(rr)
+#' print(rr)
 #'
 #' # Extract predictions of first experiment of this resampling
-#' rr$experiment(1)$prediction
+#' head(rr$experiment(1)$prediction)
 benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_control()) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)

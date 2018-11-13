@@ -13,7 +13,7 @@
 #' ```
 #' # Construction
 #' d = Dictionary$new()
-#'
+#' # Getters
 #' d$keys(pattern)
 #' d$add(value)
 #' d$get(key)
@@ -21,13 +21,13 @@
 #' d$has(key)
 #' d$remove(key, value)
 #' d$remove(keys)
-#'
+#' # S3 methods
 #' as.data.frame(d)
 #' as.data.table(d)
 #' names(d)
+#' length(d)
 #' d[[key]]
 #' d[keys]
-#' length(d)
 #' ```
 #'
 #' @section Arguments:

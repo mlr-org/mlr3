@@ -9,7 +9,7 @@ The target column is assumed to be numeric.
 }
 \section{Usage}{
 
-In addition to the interface of \link{Task}/\link{TaskSupervised}, this class offers:\preformatted{t = TaskRegr$new(id, backend, target)
+In addition to the interface of \link{Task}/\link{TaskSupervised}, this class implements:\preformatted{t = TaskRegr$new(id, backend, target)
 
 t$task_type
 }
@@ -17,7 +17,9 @@ t$task_type
 
 \section{Details}{
 
-\code{$task_type} is \code{"classif"}
+\itemize{
+\item \code{$task_type} is \code{"classif"}
+}
 }
 
 \examples{
