@@ -42,7 +42,7 @@ Get the \code{i}-th training/test set.
 \item \code{$new()} creates a new object of class \link{Resampling}.
 \item \code{$id} (\code{character(1)}) stores the identifier of the object.
 \item \code{$iters} (\code{integer(1)}) calculates the resulting number of iterations, given the current \code{param_vals}.
-\item \code{$param_set} (\code{[paradox::ParamSet()]}) describes available parameters.
+\item \code{$param_set} (\code{\link[paradox:ParamSet]{paradox::ParamSet()}}) describes available parameters.
 \item \code{$param_vals} (\code{named list}) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.
 \item \code{$instantiate} materializes fixed training and test splits for a given task.

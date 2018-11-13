@@ -57,8 +57,8 @@
 #' rr$experiment(1)$model
 NULL
 
+#' @export
 BenchmarkResult = R6Class("BenchmarkResult",
-  cloneable = FALSE,
   public = list(
     data = NULL,
 
@@ -75,6 +75,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_choice(hash, self$data[, unique(hash)])
       tmp = hash
       ResampleResult$new(self$data[hash == tmp], hash = hash) # FIXME: join
+    },
+
+    combine = function(bmr) {
+      assert_benchmark_result(bmr)
+      self$data = setkeyv(rbind(self$data, bmr$data), "hash")
+      invisible(self)
     }
   ),
 
@@ -108,6 +114,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
       collect = function(data) as.list(ResampleResult$new(data)$aggregated)
       res = self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, performance = list(collect(.SD))), by = hash]
       flatten(res, "performance")
+    }
+  ),
+
+  private = list(
+    deep_clone = function(name, value) {
+      if (name == "data") copy(value) else value
     }
   )
 )

@@ -53,7 +53,6 @@
 NULL
 
 ResampleResult = R6Class("ResampleResult",
-  cloneable = FALSE,
   public = list(
     data = NULL,
 
@@ -137,6 +136,10 @@ ResampleResult = R6Class("ResampleResult",
   ),
 
   private = list(
-    .hash = NA_character_
+    .hash = NA_character_,
+
+    deep_clone = function(name, value) {
+      if (name == "data") copy(value) else value
+    }
   )
 )

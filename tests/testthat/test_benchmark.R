@@ -64,3 +64,20 @@ test_that("discarding model", {
   expect_true(all(map_lgl(bmr$data$prediction, is.null)))
   expect_true(all(map_lgl(bmr$data$model, is.null)))
 })
+
+test_that("bmr$combine()", {
+  bmr_new = benchmark(mlr_tasks$mget("pima"), learners, resamplings)
+  bmr_combined = bmr$clone(deep = TRUE)$combine(bmr_new)
+
+  expect_benchmark_result(bmr)
+  expect_benchmark_result(bmr_new)
+  expect_benchmark_result(bmr_combined)
+
+  expect_data_table(bmr$data, nrow = 12)
+  expect_data_table(bmr_new$data, nrow = 6)
+  expect_data_table(bmr_combined$data, nrow = 18)
+
+  expect_false("pima_indians" %in% bmr$tasks$task_id)
+  expect_true("pima_indians" %in% bmr_new$tasks$task_id)
+  expect_true("pima_indians" %in% bmr_combined$tasks$task_id)
+})
