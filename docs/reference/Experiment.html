@@ -205,7 +205,7 @@ and stores the resulting performance values. The performance can be accessed via
 <li><p><code>$timings</code> holds the elapsed time for the steps <code>train</code>, <code>predict</code> and <code>score</code> in seconds with up to millisecond accuracy (c.f. <code><a href='http://www.rdocumentation.org/packages/base/topics/proc.time'>base::proc.time()</a></code>).
 Timings are <code>NA</code> if the respective step has not been performed yet.</p></li>
 <li><p><code>$logs</code> creates a list with names <code>train</code> and <code>predict</code>.
-Both store an object of class <a href='Log.html'>Log</a> if logging of the learner has been enabled via <code><a href='exec_control.html'>exec_control()</a></code>, and are <code>NULL</code> if logging was disabled or the respective step has not been performed yet.</p></li>
+Both store an object of class <a href='Log.html'>Log</a> if logging of the learner has been enabled via <code><a href='mlr_control.html'>mlr_control()</a></code>, and are <code>NULL</code> if logging was disabled or the respective step has not been performed yet.</p></li>
 <li><p><code>$state</code> returns an factor of length 1 with ordered levels <code>"defined"</code>, <code>"trained"</code>, <code>"predicted"</code> and <code>"scored"</code>.</p></li>
 <li><p><code>$data</code> stores the internal representation of an Experiment as a <code>named list</code> with the following slots:</p><ul>
 <li><p>task [<a href='Task.html'>Task</a>].</p></li>

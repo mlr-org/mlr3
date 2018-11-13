@@ -64,9 +64,6 @@
     <loc>https://mlr3.mlr-org.com/reference/benchmark.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/exec_control.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/ids.html</loc>
   </url>
   <url>
@@ -74,6 +71,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_assertions.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_control.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_learners.html</loc>
