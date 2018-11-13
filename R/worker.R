@@ -26,7 +26,7 @@ train_worker = function(e, ctrl) {
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$train_set)
-  pars = c(list(task = task), learner$par_vals)
+  pars = c(list(task = task), learner$param_vals)
 
   if (ctrl$verbose)
     message(sprintf("Training learner '%s' on task '%s' ...", learner$id, task$id))
@@ -45,7 +45,7 @@ predict_worker = function(e, ctrl) {
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
-  pars = c(list(model = data$model, task = task), learner$par_vals)
+  pars = c(list(model = data$model, task = task), learner$param_vals)
 
   if (ctrl$verbose)
     message(sprintf("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id))

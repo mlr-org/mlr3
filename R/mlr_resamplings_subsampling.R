@@ -4,15 +4,15 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
     initialize = function(id = "subsampling") {
       super$initialize(
         id = id,
-        par_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamReal$new("ratio", lower = 0, upper = 1))),
-        par_vals = list(repeats = 30L, ratio = 0.67)
+        param_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamReal$new("ratio", lower = 0, upper = 1))),
+        param_vals = list(repeats = 30L, ratio = 0.67)
       )
       self$has_duplicates = FALSE
     },
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.instantiate(instantiate_subsampling(task, self$par_vals$ratio, self$par_vals$repeats, stratify = self$stratify))
+      private$.instantiate(instantiate_subsampling(task, self$param_vals$ratio, self$param_vals$repeats, stratify = self$stratify))
     },
 
     train_set = function(i) {
@@ -28,7 +28,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
 
   active = list(
     iters = function() {
-      self$par_vals$repeats
+      self$param_vals$repeats
     }
   )
 )

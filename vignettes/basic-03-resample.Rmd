@@ -42,13 +42,13 @@ The experiment conducted in the introduction on train/predict/score is equivalen
 ```{r}
 resampling = mlr_resamplings$get("holdout")
 print(resampling)
-print(resampling$par_set)
-print(resampling$par_vals)
+print(resampling$param_set)
+print(resampling$param_vals)
 ```
 To change the ratio to $0.8$, we simply overwrite the slot:
 
 ```{r}
-resampling$par_vals = list(ratio = 0.8)
+resampling$param_vals = list(ratio = 0.8)
 ```
 
 ## Resampling
@@ -64,7 +64,7 @@ Before we go into more detail, lets change the resampling to a 3-fold cross-vali
 
 ```{r}
 resampling = mlr_resamplings$get("cv")
-resampling$par_vals = list(folds = 3)
+resampling$param_vals = list(folds = 3)
 rr = resample(task, learner, resampling)
 print(rr)
 ```
@@ -103,7 +103,7 @@ Here, we manually instantiate the resampling:
 
 ```{r}
 resampling = mlr_resamplings$get("cv")
-resampling$par_vals = list(folds = 3)
+resampling$param_vals = list(folds = 3)
 resampling$instantiate(task)
 resampling$iters
 resampling$train_set(1)

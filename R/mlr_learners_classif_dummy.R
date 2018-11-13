@@ -6,7 +6,7 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
-        par_set = ParamSet$new(
+        param_set = ParamSet$new(
           params = list(
             ParamCategorical$new("method", values = c("mode", "sample", "weighted.sample"), default = "mode")
           )

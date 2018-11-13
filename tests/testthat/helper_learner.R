@@ -3,7 +3,7 @@ if (!mlr_learners$has("classif.verbose")) {
     public = list(
       initialize = function(id = "classif.verbose") {
         super$initialize(id = id)
-        self$par_set = paradox::ParamSet$new(
+        self$param_set = paradox::ParamSet$new(
             params = list(
               paradox::ParamFlag$new("message"),
               paradox::ParamFlag$new("warning")
@@ -12,17 +12,17 @@ if (!mlr_learners$has("classif.verbose")) {
       },
 
       train = function(task, ...) {
-        if (isTRUE(self$par_vals$message))
+        if (isTRUE(self$param_vals$message))
           message("Message from classif.verbose$train()")
-        if (isTRUE(self$par_vals$warning))
+        if (isTRUE(self$param_vals$warning))
           warning("Warning from classif.verbose$train()")
         super$train(task, ...)
       },
 
       predict = function(model, task, ...) {
-        if (isTRUE(self$par_vals$message))
+        if (isTRUE(self$param_vals$message))
           message("Message from classif.verbose$predict()")
-        if (isTRUE(self$par_vals$warning))
+        if (isTRUE(self$param_vals$warning))
           warning("Warning from classif.verbose$predict()")
         super$predict(model, task, ...)
       }

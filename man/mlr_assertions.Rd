@@ -10,8 +10,8 @@
 \alias{assert_measures}
 \alias{assert_resampling}
 \alias{assert_resample_result}
-\alias{assert_par_set}
-\alias{assert_par_vals}
+\alias{assert_param_set}
+\alias{assert_param_vals}
 \title{Assertion for mlr3 objects}
 \usage{
 assert_backend(b)
@@ -30,9 +30,9 @@ assert_resampling(resampling)
 
 assert_resample_result(resample_result)
 
-assert_par_set(par_set)
+assert_param_set(param_set)
 
-assert_par_vals(par_vals, par_set)
+assert_param_vals(param_vals, param_set)
 }
 \arguments{
 \item{b}{[\code{[DataBackend]}].}
@@ -51,9 +51,9 @@ assert_par_vals(par_vals, par_set)
 
 \item{resample_result}{[\code{[ResampleResult]}].}
 
-\item{par_set}{[\code{\link[paradox:ParamSet]{paradox::ParamSet()}}].}
+\item{param_set}{[\code{\link[paradox:ParamSet]{paradox::ParamSet()}}].}
 
-\item{par_vals}{[\code{named list}].}
+\item{param_vals}{[\code{named list}].}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

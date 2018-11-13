@@ -4,15 +4,15 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     initialize = function(id = "cv") {
       super$initialize(
         id = id,
-        par_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L))),
-        par_vals = list(folds = 10L)
+        param_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L))),
+        param_vals = list(folds = 10L)
       )
       self$has_duplicates = FALSE
     },
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.instantiate(instantiate_cv(task, self$par_vals$folds, self$stratify))
+      private$.instantiate(instantiate_cv(task, self$param_vals$folds, self$stratify))
     },
 
     train_set = function(i) {
@@ -28,7 +28,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
 
   active = list(
     iters = function() {
-      self$par_vals$folds
+      self$param_vals$folds
     }
   )
 )

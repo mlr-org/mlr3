@@ -4,18 +4,18 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
     initialize = function(id = "bootstrap") {
       super$initialize(
         id = id,
-        par_set = ParamSet$new(params = list(
+        param_set = ParamSet$new(params = list(
             ParamInt$new("repeats", lower = 1L),
             ParamReal$new("ratio", lower = 0, upper = 1))
         ),
-        par_vals = list(ratio = 1, repeats = 30L)
+        param_vals = list(ratio = 1, repeats = 30L)
       )
       self$has_duplicates = TRUE
     },
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.instantiate(instantiate_bootstrap(task, self$par_vals$ratio, self$par_vals$repeats, self$stratify))
+      private$.instantiate(instantiate_bootstrap(task, self$param_vals$ratio, self$param_vals$repeats, self$stratify))
     },
 
     train_set = function(i) {
@@ -31,7 +31,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
   active = list(
     iters = function() {
-      self$par_vals$repeats
+      self$param_vals$repeats
     }
   )
 )

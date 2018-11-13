@@ -12,8 +12,8 @@
 #' #
 #' r$id
 #' r$iters
-#' r$par_set
-#' r$par_vals
+#' r$param_set
+#' r$param_vals
 #' r$instantiate(task)
 #' r$is_instantiated
 #' r$instance
@@ -35,11 +35,11 @@
 #'
 #' * `$id` (`character(1)`) stores the identifier of the object.
 #'
-#' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `par_vals`.
+#' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `param_vals`.
 #'
-#' * `$par_set` (`[paradox::ParamSet()]`) describes available parameters.
+#' * `$param_set` (`[paradox::ParamSet()]`) describes available parameters.
 #'
-#' * `$par_vals` (`named list`) stores the currently set parameter values.
+#' * `$param_vals` (`named list`) stores the currently set parameter values.
 #'   You can set parameters by assigning a named list of new parameters to this slot.
 #'
 #' * `$instantiate` materializes fixed training and test splits for a given task.
@@ -55,7 +55,7 @@
 #'
 #' * `$test_set()` returns the test set for the `i`-th iteration.
 #'
-#' * `$hash` stores a checksum (`character(1)`) calculated on the `id`, `par_vals` and the instantiation.
+#' * `$hash` stores a checksum (`character(1)`) calculated on the `id`, `param_vals` and the instantiation.
 #'   If the object is not instantiated yet, `NA` is returned.
 #'
 #' @name Resampling
@@ -65,11 +65,11 @@
 #' r = mlr_resamplings$get("subsampling")
 #'
 #' # Default parametrization
-#' r$par_vals
+#' r$param_vals
 #'
 #' # Do only 3 repeats on 10% of the data
-#' r$par_vals = list(ratio = 0.1, repeats = 3)
-#' r$par_vals
+#' r$param_vals = list(ratio = 0.1, repeats = 3)
+#' r$param_vals
 #'
 #' # Instantiate on iris task
 #' task = mlr_tasks$get("iris")
@@ -99,15 +99,15 @@ NULL
 Resampling = R6Class("Resampling",
   public = list(
     id = NULL,
-    par_set = NULL,
+    param_set = NULL,
     stratify = NULL,
     instance = NULL,
     has_duplicates = NA,
 
-    initialize = function(id, par_set = ParamSet$new(), par_vals = list()) {
+    initialize = function(id, param_set = ParamSet$new(), param_vals = list()) {
       self$id = assert_id(id)
-      self$par_set = assert_par_set(par_set)
-      private$.par_vals = assert_par_vals(par_vals, par_set)
+      self$param_set = assert_param_set(param_set)
+      private$.param_vals = assert_param_vals(param_vals, param_set)
       self$stratify = character(0L)
     },
 
@@ -116,7 +116,7 @@ Resampling = R6Class("Resampling",
     instantiate = function(...) stopf("Method not implemented, should have been overloaded during construction"),
 
     print = function(...) {
-      pv = self$par_vals
+      pv = self$param_vals
       catf("%s<%s> with %i iterations", if (self$is_instantiated) "Instantiated " else "", class(self)[1L], self$iters)
       catf("Parameters: %s", stri_key_val(pv))
       catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
@@ -129,15 +129,15 @@ Resampling = R6Class("Resampling",
       if (is.null(self$instance))
         return(NA_character_)
       if (is.na(private$.hash))
-        private$.hash = digest::digest(list(self$id, self$par_vals, self$instance), algo = "xxhash64")
+        private$.hash = digest::digest(list(self$id, self$param_vals, self$instance), algo = "xxhash64")
       private$.hash
     },
 
-    par_vals = function(rhs) {
+    param_vals = function(rhs) {
       if (missing(rhs))
-        return(private$.par_vals)
-      self$par_set$check(rhs)
-      private$.par_vals = rhs
+        return(private$.param_vals)
+      self$param_set$check(rhs)
+      private$.param_vals = rhs
     },
 
     is_instantiated = function() {
@@ -147,7 +147,7 @@ Resampling = R6Class("Resampling",
 
   private = list(
     .hash = NA_character_,
-    .par_vals = NULL,
+    .param_vals = NULL,
     .instantiate = function(instance) {
       self$instance = instance
       private$.hash = NA_character_

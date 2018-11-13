@@ -201,7 +201,7 @@ expect_learner = function(lrn, task = NULL) {
 
   checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types)
   checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
-  checkmate::expect_class(lrn$par_set, "ParamSet")
+  checkmate::expect_class(lrn$param_set, "ParamSet")
   checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   checkmate::expect_function(lrn$train, args = "task", ordered = TRUE)
   checkmate::expect_function(lrn$predict, args = c("model", "task"), ordered = TRUE)
@@ -246,8 +246,8 @@ expect_resampling = function(r, task = NULL) {
       }
     }
   }
-  checkmate::expect_list(r$par_vals, names = "unique")
-  testthat::expect_true(qtestr(r$par_vals, "V1"))
+  checkmate::expect_list(r$param_vals, names = "unique")
+  testthat::expect_true(qtestr(r$param_vals, "V1"))
 }
 
 expect_measure = function(m) {

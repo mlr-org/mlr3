@@ -102,19 +102,19 @@ assert_resample_result = function(resample_result) {
 
 
 #' @export
-#' @param par_set \[[paradox::ParamSet()]\].
+#' @param param_set \[[paradox::ParamSet()]\].
 #' @rdname mlr_assertions
-assert_par_set = function(par_set) {
-  assert_class(par_set, "ParamSet")
+assert_param_set = function(param_set) {
+  assert_class(param_set, "ParamSet")
 }
 
 #' @export
-#' @param par_vals \[`named list`\].
+#' @param param_vals \[`named list`\].
 #' @rdname mlr_assertions
-assert_par_vals = function(par_vals, par_set) {
-  assert_list(par_vals, names = "unique", any.missing = FALSE)
-  assert_subset(names(par_vals), par_set$ids)
-  par_vals
+assert_param_vals = function(param_vals, param_set) {
+  assert_list(param_vals, names = "unique", any.missing = FALSE)
+  assert_subset(names(param_vals), param_set$ids)
+  param_vals
 }
 
 assert_id = function(id) {

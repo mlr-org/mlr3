@@ -19,13 +19,13 @@ test_that("Resampling construction", {
 })
 
 
-test_that("par_vals", {
+test_that("param_vals", {
   r = mlr_resamplings$get("bootstrap")
   task = mlr_tasks$get("iris")
 
-  r$par_vals = insert(r$par_vals, list(repeats = 100L))
-  expect_identical(r$par_vals$ratio, 1)
-  expect_identical(r$par_vals$repeats, 100L)
+  r$param_vals = insert(r$param_vals, list(repeats = 100L))
+  expect_identical(r$param_vals$ratio, 1)
+  expect_identical(r$param_vals$repeats, 100L)
 
   r$instantiate(task)
   expect_true(r$is_instantiated)
@@ -35,11 +35,11 @@ test_that("par_vals", {
   expect_resampling(r)
 
   expect_error({
-    r$par_vals = list(repeats = 10L)
+    r$param_vals = list(repeats = 10L)
   }, "equal to set")
 
   expect_error({
-    r$par_vals = list(ratio = 0.5, repeats = 10L, foobar = 12)
+    r$param_vals = list(ratio = 0.5, repeats = 10L, foobar = 12)
   }, "equal to set")
 })
 
@@ -86,7 +86,7 @@ test_that("stratification", {
 
   # bootstrap
   r = mlr_resamplings$get("bootstrap")
-  r$par_vals = list(ratio = 1, repeats = 3)
+  r$param_vals = list(ratio = 1, repeats = 3)
   r$stratify = "y"
   r$instantiate(task)
 
@@ -97,7 +97,7 @@ test_that("stratification", {
 
   # holdout
   r = mlr_resamplings$get("holdout")
-  r$par_vals = list(ratio = 0.5)
+  r$param_vals = list(ratio = 0.5)
   r$stratify = "y"
   r$instantiate(task)
 
@@ -110,7 +110,7 @@ test_that("stratification", {
 
   # subsampling
   r = mlr_resamplings$get("subsampling")
-  r$par_vals = list(ratio = 0.5, repeats = 3)
+  r$param_vals = list(ratio = 0.5, repeats = 3)
   r$stratify = "y"
   r$instantiate(task)
 
@@ -123,7 +123,7 @@ test_that("stratification", {
 
   # CV
   r = mlr_resamplings$get("cv")
-  r$par_vals = list(folds = 5)
+  r$param_vals = list(folds = 5)
   r$stratify = "y"
   r$instantiate(task)
 
@@ -136,7 +136,7 @@ test_that("stratification", {
 
   # RCV
   r = mlr_resamplings$get("repeated_cv")
-  r$par_vals = list(folds = 5, repeats = 2)
+  r$param_vals = list(folds = 5, repeats = 2)
   r$stratify = "y"
   r$instantiate(task)
 
@@ -149,7 +149,7 @@ test_that("stratification", {
 
   # error for min group size
   r = mlr_resamplings$get("cv")
-  r$par_vals = list(folds = 11)
+  r$param_vals = list(folds = 11)
   r$stratify = "y"
   expect_error(r$instantiate(task), "combination")
 })

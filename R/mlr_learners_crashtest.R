@@ -6,13 +6,13 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
-        par_set = ParamSet$new(
+        param_set = ParamSet$new(
           params = list(
             ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train"),
             ParamCategorical$new("crash.mode", values = c("error", "segfault"), default = "error")
           )
         ),
-        par_vals = list(crash.on = "train", crash.mode = "error"),
+        param_vals = list(crash.on = "train", crash.mode = "error"),
         properties = "missings"
       )
     },

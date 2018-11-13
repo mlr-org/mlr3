@@ -4,20 +4,20 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     initialize = function(id = "repeated_cv") {
       super$initialize(
         id = id,
-        par_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamInt$new("folds", lower = 1L))),
-        par_vals = list(repeats = 10L, folds = 10L)
+        param_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamInt$new("folds", lower = 1L))),
+        param_vals = list(repeats = 10L, folds = 10L)
       )
       self$has_duplicates = FALSE
     },
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.instantiate(instantiate_repeated_cv(task, self$par_vals$folds, self$par_vals$repeats, stratify = self$stratify))
+      private$.instantiate(instantiate_repeated_cv(task, self$param_vals$folds, self$param_vals$repeats, stratify = self$stratify))
     },
 
     train_set = function(i) {
       i = assert_resampling_index(self, i) - 1L
-      folds = as.integer(self$par_vals$folds)
+      folds = as.integer(self$param_vals$folds)
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = setdiff(seq_len(folds), fold))
@@ -26,7 +26,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
     test_set = function(i) {
       i = assert_resampling_index(self, i) - 1L
-      folds = as.integer(self$par_vals$folds)
+      folds = as.integer(self$param_vals$folds)
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = fold)
@@ -36,7 +36,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
   active = list(
     iters = function() {
-      self$par_vals$repeats * self$par_vals$folds
+      self$param_vals$repeats * self$param_vals$folds
     }
   )
 )

@@ -25,6 +25,6 @@ mlr_resamplings = DictionaryResampling$new()
 as.data.table.DictionaryResampling = function(x, ...) {
   map_dtr(x$keys(), function(id) {
     r = x$get(id)
-    list(id = id, hyperpars = list(r$par_set$ids), default_iters = r$iters)
+    list(id = id, hyperpars = list(r$param_set$ids), default_iters = r$iters)
   }, .key = "id")
 }

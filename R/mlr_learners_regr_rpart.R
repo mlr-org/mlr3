@@ -7,7 +7,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = "response",
         packages = "rpart",
-        par_set = ParamSet$new(
+        param_set = ParamSet$new(
           params = list(
             ParamInt$new(id = "minsplit", default = 20L, lower = 1L),
             ParamReal$new(id = "cp", default = 0.01, lower = 0, upper = 1),

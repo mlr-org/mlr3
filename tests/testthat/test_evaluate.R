@@ -5,7 +5,7 @@ disabled = exec_control(use_future = FALSE, use_evaluate = FALSE)
 enabled = exec_control(use_future = FALSE, use_evaluate = TRUE, verbose = FALSE)
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.verbose")
-learner$par_vals = list(message = TRUE, warning = TRUE)
+learner$param_vals = list(message = TRUE, warning = TRUE)
 
 test_that("evaluate / experiment", {
   subset = 1:120
@@ -45,7 +45,7 @@ test_that("evaluate / experiment", {
 
 test_that("evaluate / resample", {
   resampling = mlr_resamplings$get("cv")
-  resampling$par_vals = list(folds = 3)
+  resampling$param_vals = list(folds = 3)
 
   rr = expect_warning(resample(task, learner, resampling, ctrl = disabled))
   expect_true(all(map_lgl(rr$data$train_log$messages, is_empty_log)))

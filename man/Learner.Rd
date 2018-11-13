@@ -10,9 +10,9 @@ Predefined learners are stored in \link{mlr_learners}.
 }
 \section{Usage}{
 \preformatted{# Construction
-l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
-l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
-l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), par_set = ParamSet$new(), par_vals = list(), properties = character(0L))
+l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
+l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
+l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #
 l$id
 l$task_type
@@ -20,8 +20,8 @@ l$feature_types
 l$predict_types
 l$predict_type
 l$packages
-l$par_set
-l$par_vals
+l$param_set
+l$param_vals
 l$properties
 l$train(task)
 l$predict(task, model)
@@ -42,9 +42,9 @@ Feature types the learner operates on. Must be a subset of \code{mlr_reflections
 Supported predict types. Must be a subset of \code{mlr_reflections$predict_types}.
 \item \code{packages} [\code{character()}]:\cr
 Set of required packages.
-\item \code{par_set} [\code{\link[paradox:ParamSet]{ParamSet}}]:\cr
+\item \code{param_set} [\code{\link[paradox:ParamSet]{ParamSet}}]:\cr
 Set of required packages.
-\item \code{par_vals} [\code{named list()}]:\cr
+\item \code{param_vals} [\code{named list()}]:\cr
 List of hyperparameters.
 \item \code{properties} [\code{character()}]:\cr
 Set of properties of the learner. Must be a subset of \code{mlr_reflections$learner_properties}.
@@ -72,9 +72,9 @@ feasible values are \code{"response"} and \code{"prob"}, for regression \code{"r
 
 \code{$packages} [\code{character()}] stores the names of required packages.
 
-\code{$par_set()} [\link[paradox:ParamSet]{paradox::ParamSet}] describes the available hyperparameter and possible settings.
+\code{$param_set()} [\link[paradox:ParamSet]{paradox::ParamSet}] describes the available hyperparameter and possible settings.
 
-\code{$par_vals()} [\code{named list()}] stores the list set hyperparameter values.
+\code{$param_vals()} [\code{named list()}] stores the list set hyperparameter values.
 
 \code{$properties} [\code{character()}] is a set of tags which describe the properties of the learner.
 
@@ -82,7 +82,7 @@ feasible values are \code{"response"} and \code{"prob"}, for regression \code{"r
 
 \code{$predict()} takes a task and the model fitted in \code{$train()} to return predicted labels.
 
-\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id} and \code{par_vals}.
+\code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id} and \code{param_vals}.
 }
 
 \seealso{

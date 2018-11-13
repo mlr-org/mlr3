@@ -5,15 +5,15 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     initialize = function(id = "holdout") {
       super$initialize(
         id = id,
-        par_set = ParamSet$new(params = list(ParamReal$new("ratio", lower = 0, upper = 1))),
-        par_vals = list(ratio = 2/3)
+        param_set = ParamSet$new(params = list(ParamReal$new("ratio", lower = 0, upper = 1))),
+        param_vals = list(ratio = 2/3)
       )
       self$has_duplicates = FALSE
     },
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.instantiate(instantiate_holdout(task, self$par_vals$ratio, stratify = self$stratify))
+      private$.instantiate(instantiate_holdout(task, self$param_vals$ratio, stratify = self$stratify))
     },
 
     train_set = function(i) {
