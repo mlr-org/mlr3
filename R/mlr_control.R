@@ -12,10 +12,10 @@ default_mlr_control = list(
 #'
 #' * `use_evaluate`: if \code{TRUE}, the model will be trained and predictions will be generated via a call to [evaluate::evaluate()]
 #'   and all output will be stored as a [Log].
-#' * `store_predition`: If `FALSE`, the predictions are discarded in order to save some memory after the experiment is completed.
-#'  Note that you will be unable calculate more performance measures.
 #' * `store_model`: If `FALSE`, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 #'  Note that you will be unable to further predict on new data.
+#' * `store_prediction`: If `FALSE`, the predictions are discarded in order to save some memory after the experiment is completed.
+#'  Note that you will be unable calculate more performance measures.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
 #'

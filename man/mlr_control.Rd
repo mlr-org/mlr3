@@ -15,10 +15,10 @@ It contains all options (see \code{\link[=mlr_options]{mlr_options()}}) without 
 \itemize{
 \item \code{use_evaluate}: if \code{TRUE}, the model will be trained and predictions will be generated via a call to \code{\link[evaluate:evaluate]{evaluate::evaluate()}}
 and all output will be stored as a \link{Log}.
-\item \code{store_predition}: If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
-Note that you will be unable calculate more performance measures.
 \item \code{store_model}: If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
+\item \code{store_prediction}: If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
+Note that you will be unable calculate more performance measures.
 }
 }
 \examples{

@@ -279,14 +279,16 @@ expect_experiment = function(e) {
     checkmate::expect_int(e$data$iteration, lower = 1L)
     checkmate::expect_class(e$data$train_log, "Log")
     checkmate::expect_number(e$data$train_time)
-    testthat::expect_false(is.null(e$data$model))
+    # testthat::expect_false(is.null(e$data$model)) # may be null, depending on options
   }
 
   if (state >= "predicted") {
     checkmate::expect_class(e$data$predict_log, "Log")
     checkmate::expect_number(e$data$predict_time)
-    checkmate::expect_class(e$data$prediction, "Prediction")
-    checkmate::expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
+    if (!is.null(e$data$prediction)) {# may be null, depending on options
+      checkmate::expect_class(e$data$prediction, "Prediction")
+      checkmate::expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
+    }
   }
 
   if (state >= "scored") {
