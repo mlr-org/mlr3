@@ -43,10 +43,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       assert_names(colnames(data), type = "unique")
       if (!is.null(rownames(data)))
         assert_names(rownames(data), type = "unique")
-
-      self$primary_key = "..row_id"
-      self$formats = c("data.table", "sparse")
-      private$.data = data
+      super$initialize(data, "..row_id", c("data.table", "sparse"))
     },
 
     data = function(rows, cols, format = "data.table") {
@@ -110,10 +107,6 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     ncol = function() {
       ncol(private$.data) + 1L
     }
-  ),
-
-  private = list(
-    .data = NULL
   )
 )
 

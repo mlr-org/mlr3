@@ -46,9 +46,8 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     initialize = function(data, primary_key) {
       assert_data_table(data)
-      self$formats = "data.table"
-      self$primary_key = primary_key
-      private$.data = setkeyv(data, primary_key)[]
+      super$initialize(setkeyv(data, primary_key), primary_key)
+      assert_choice(primary_key, names(data))
     },
 
     data = function(rows, cols) {
@@ -92,10 +91,6 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     ncol = function() {
       ncol(private$.data)
     }
-  ),
-
-  private = list(
-    .data = NULL
   )
 )
 

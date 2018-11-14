@@ -57,11 +57,17 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     primary_key = NULL,
     formats = character(0L),
+    initialize = function(data, primary_key, formats = "data.table") {
+      private$.data = data
+      self$primary_key = assert_string(primary_key)
+      self$formats = assert_subset(formats, mlr_reflections$backend_formats, empty.ok = FALSE)
+    },
     print = function() {
       catf("DataBackend <%s> (%ix%i)", class(self)[1L], self$nrow, self$ncol)
       print(self$head(6L))
     }
-  )
+  ),
+  private = list(.data = NULL)
 )
 
 #' @export
