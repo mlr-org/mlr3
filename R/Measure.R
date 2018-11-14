@@ -80,7 +80,7 @@ Measure = R6Class("Measure", cloneable = FALSE,
     range = NULL,
     minimize = NULL,
     packages = NULL,
-    aggregate = function(rr) mean(rr$performance[[self$id]]),
+    aggregate = function(rr) mean(rr$performance(self$id)),
 
     initialize = function(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L)) {
       self$id = assert_id(id)

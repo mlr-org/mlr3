@@ -69,12 +69,16 @@ ResampleResult = R6Class("ResampleResult",
     print = function(...) {
       catf("ResampleResult of learner '%s' on task '%s' with %i iterations", self$task$id, self$learner$id, nrow(self$data))
 
-      # FIXME: We want something like skimr w/o the dependencies
-      perf = self$performance[, ids(self$measures), with = FALSE]
-      tab = map_dtr(perf, function(x) c(as.list(summary(x)), list(Sd = sd(x))))
-      tab$Measure = names(perf)
-      setcolorder(tab, "Measure")
+      tab = map_dtr(ids(self$measures), function(id) {
+        perf = self$performance(id)
+        c(list(Measure = id), as.list(summary(perf)), list(Sd = sd(perf)))
+      })
       print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE)
+    },
+
+    performance = function(id) {
+      assert_choice(id, ids(self$measures))
+      map_dbl(self$data$performance, function(x) x[[id]] %??% NA_real_)
     },
 
     experiment = function(iter) {
@@ -112,18 +116,6 @@ ResampleResult = R6Class("ResampleResult",
       self$data$measures[[1L]]
     },
 
-    performance = function() {
-      tab = data.table(
-        hash = self$hash,
-        task_id = self$task$id,
-        learner_id = self$learner$id,
-        resampling_id = self$resampling$id,
-        iteration = self$data$iteration,
-        performance = self$data$performance
-      )
-      flatten(tab, "performance")
-    },
-
     aggregated = function() {
       measures = self$measures
       setNames(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
@@ -144,3 +136,11 @@ ResampleResult = R6Class("ResampleResult",
     }
   )
 )
+
+#' @export
+as.data.table.ResampleResult = function(x, ...) {
+  cols = c("task", "learner", "resampling", "iteration", "performance")
+  tab = x$data[, cols, with = FALSE]
+  tab[, c("hash", "task", "learner", "resampling") := list(x$hash, ids(task), ids(learner), ids(resampling))]
+  flatten(tab, "performance")
+}

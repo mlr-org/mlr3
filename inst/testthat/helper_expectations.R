@@ -311,12 +311,12 @@ expect_resample_result = function(rr) {
   checkmate::expect_names(names(rr$data), permutation.of = mlr3::mlr_reflections$experiment_slots$name)
   expect_hash(rr$hash, 1L)
 
-  perf = rr$performance
-  checkmate::expect_data_table(perf, nrow = rr$resampling$iters, min.cols = 2L)
-  checkmate::expect_names(names(perf), must.include = c("iteration", mlr3::ids(rr$task$measures)))
-  testthat::expect_identical(perf$iteration, seq_len(rr$resampling$iters))
-  for (m in names(rr$task$measures))
-    checkmate::expect_numeric(perf[[m]], any.missing = FALSE)
+  # perf = rr$performance
+  # checkmate::expect_data_table(perf, nrow = rr$resampling$iters, min.cols = 2L)
+  # checkmate::expect_names(names(perf), must.include = c("iteration", mlr3::ids(rr$task$measures)))
+  # testthat::expect_identical(perf$iteration, seq_len(rr$resampling$iters))
+  # for (m in names(rr$measures))
+    # checkmate::expect_numeric(perf[[m]], any.missing = FALSE)
 
   e = rr$experiment(1L)
   expect_experiment(e)
