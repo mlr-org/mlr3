@@ -1,8 +1,10 @@
 expect_same_address = function(x, y) {
+  requireNamespace("data.table")
   testthat::expect_identical(data.table::address(x), data.table::address(y))
 }
 
 expect_different_address = function(x, y) {
+  requireNamespace("data.table")
   testthat::expect_false(identical(data.table::address(x), data.table::address(y)))
 }
 

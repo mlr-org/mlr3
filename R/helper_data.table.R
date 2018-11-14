@@ -1,3 +1,4 @@
+# cbind by reference
 rcbind = function(x, y) {
   if (ncol(x) == 0L)
     return(y)

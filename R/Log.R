@@ -66,7 +66,7 @@ Log = R6Class("Log", cloneable = FALSE,
 
     print = function() {
       n = nrow(self$messages)
-      catf("<Log> with %i message%s:", n, plural(n))
+      catf("<Log> with %i message%s:", n, if (n == 1L) "" else "s")
       if (n > 0L)
         catf(strwrap(paste0(seq_len(n), ": ", format(self)), exdent = nchar(n) + 2L))
     },
