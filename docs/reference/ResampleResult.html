@@ -161,12 +161,13 @@ rr$task
 rr$learner
 rr$resampling
 rr$measures
+rr$performance(id)
 rr$experiment(iter)
 rr$experiments(iters)
 rr$combine(rr)
-rr$performance
 rr$aggregated
 rr$hash
+as.data.table(bmr)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -179,8 +180,12 @@ Each row corresponds to a single experiment.</p></li>
 <li><p><code>hash</code> [<code>NULL</code> | <code>character(1)</code>]:<br />
 Pre-calculated hash for the combination of <code>task</code>, <code>learner</code> and <code>resampling</code>.
 If <code>NULL</code>, the checksum will be calculated on-demand.</p></li>
-<li><p><code>i</code> [<code>integer</code>]:<br />
-Iteration(s) of the experiment(s) to retrieve.</p></li>
+<li><p><code>id</code> [<code>character(1)</code>]:<br />
+Identifier of a performance measure.</p></li>
+<li><p><code>iter</code> [<code>integer(1)</code>]:<br />
+Iteration of the experiment to retrieve.</p></li>
+<li><p><code>iters</code> [<code>integer</code>]:<br />
+Iterations of experiments to retrieve as <code>list()</code>.</p></li>
 <li><p><code>rr</code> [<code>ResampleResult</code>]:<br />
 Second ResampleResult.</p></li>
 </ul>
@@ -191,13 +196,13 @@ Second ResampleResult.</p></li>
     <ul>
 <li><p><code>$task</code>, <code>$learner</code>, <code>$resampling</code> and <code>$measure</code> allow access to the <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a> and
 <a href='Measure.html'>Measure</a> used in the resampling.</p></li>
+<li><p><code>$performance(id)</code> retrieves the performance values for the measure with id <code>id</code> as numeric vector.</p></li>
 <li><p><code>$experiment()</code> returns an <a href='Experiment.html'>Experiment</a> for the <code>iter</code>-th resampling iteration.</p></li>
 <li><p><code>$experiments()</code> returns a list with the slice of <a href='Experiment.html'>Experiment</a>s for the provided <code>iters</code>.</p></li>
 <li><p><code>$combine()</code> takes a second ResampleResult and combines both ResampleResults to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
-<li><p><code>$performance</code> provides a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code> with column <code>iteration</code> (integer) and
-a numeric column for each performance measure (columns named using the measure ids).</p></li>
 <li><p><code>$aggregated</code> returns the aggregated performance measures. The aggregation method is part of the <a href='Measure.html'>Measure</a>.</p></li>
 <li><p><code>$hash</code> stores a hash for the combination of task, learner and resampling.</p></li>
+<li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts the <a href='BenchmarkResult.html'>BenchmarkResult</a> to a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.</p></li>
 </ul>
     
 
