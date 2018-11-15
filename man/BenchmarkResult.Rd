@@ -11,10 +11,10 @@ This is the object returned by \link{benchmark}.
 bmr$learners
 bmr$resamplings
 bmr$measures
-bmr$performance
 bmr$aggregated
 bmr$resample_results
 bmr$resample_result(hash)
+as.data.table(bmr)
 }
 }
 
@@ -30,14 +30,13 @@ String which identifies a subgroup to extract as \link{ResampleResult}.
 
 \itemize{
 \item \code{$tasks}, \code{$learners}, \code{$resamplings} and \code{$measures} return an overview table of involved objects.
-\item \code{$performance} provides a \code{\link[data.table:data.table]{data.table()}} with column \code{iteration} (integer) and a numeric column for each
-performance measure (columns named using the measure ids).
 \item \code{$aggregated} returns aggregated performance measures as a \code{\link[data.table:data.table]{data.table()}}.
-The table is build similar to the one returned by \code{$performance}, but experiments are aggregated by their resample result group
+Experiments are aggregated by their resample result group
 (combination of \link{Task}, \link{Learner} and \link{Resampling}). The actual aggregation function is defined by the respective \link{Measure}.
 \item \code{$resample_results} returns a \code{\link[data.table:data.table]{data.table()}} which gives an overview of the resample result groups in the benchmark.
 These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleResult} for further inspection.
 \item \code{$resample_result()} creates the \link{ResampleResult} identified by the specified \code{hash} value.
+\item \code{as.data.table()} converts the \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table()}}.
 }
 }
 
@@ -53,7 +52,6 @@ bmr$tasks
 bmr$learners
 bmr$resamplings
 bmr$measures
-bmr$performance
 bmr$aggregated
 rrs = bmr$resample_results
 print(rrs)

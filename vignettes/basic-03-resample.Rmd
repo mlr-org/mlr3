@@ -71,11 +71,10 @@ print(rr)
 
 We can do different things with resampling results, e.g.:
 
-* Extract the performance per fold and average it:
+* Extract the performance for the individual resampling iterations:
 
 ```{r}
-rr$performance
-rr$performance[, mean(mmce)]
+rr$performance("mmce")
 ```
 
 * Extract and inspect the now instantiated resampling:
@@ -122,7 +121,7 @@ We can also combine the created result objects into a `BenchmarkResult` (see bel
 
 ```{r}
 bmr = rr1$combine(rr2)
-bmr$performance
+bmr$aggregated
 ```
 
 ## Custom Resampling
@@ -165,7 +164,7 @@ resamplings = mlr_resamplings$mget("cv")
 measures = mlr_measures$mget(c("acc", "auc"))
 
 # create a BenchmarkResult object
-bmr = benchmark(tasks, learners, resamplings, measures)
+bmr = benchmark(tasks, learners, resamplings, measures, mlr_control(verbose = FALSE))
 ```
 
 Usually you want to look at the results aggregated over resampling iterations:
@@ -190,7 +189,7 @@ We can now investigate this resampling and even single experiments using the pre
 rr$aggregated
 
 # get the iteration with worst AUC
-worst = rr$performance[which.min(auc), c("iteration", "auc")]
+worst = as.data.table(rr)[which.min(auc), c("iteration", "auc")]
 print(worst)
 
 # get the corresponding experiment

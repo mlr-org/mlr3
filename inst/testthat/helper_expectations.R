@@ -307,16 +307,9 @@ expect_resample_result = function(rr) {
   expect_resampling(rr$resampling, task = rr$task)
 
   data = rr$data
-  checkmate::expect_data_table(rr$data, nrow = rr$resampling$iters, ncol = nrow(mlr3::mlr_reflections$experiment_slots), any.missing = FALSE)
-  checkmate::expect_names(names(rr$data), permutation.of = mlr3::mlr_reflections$experiment_slots$name)
+  checkmate::expect_data_table(rr$data, nrow = rr$resampling$iters, min.cols = nrow(mlr3::mlr_reflections$experiment_slots), any.missing = FALSE)
+  checkmate::expect_names(names(rr$data), must.include = mlr3::mlr_reflections$experiment_slots$name)
   expect_hash(rr$hash, 1L)
-
-  # perf = rr$performance
-  # checkmate::expect_data_table(perf, nrow = rr$resampling$iters, min.cols = 2L)
-  # checkmate::expect_names(names(perf), must.include = c("iteration", mlr3::ids(rr$task$measures)))
-  # testthat::expect_identical(perf$iteration, seq_len(rr$resampling$iters))
-  # for (m in names(rr$measures))
-    # checkmate::expect_numeric(perf[[m]], any.missing = FALSE)
 
   e = rr$experiment(1L)
   expect_experiment(e)
@@ -325,12 +318,14 @@ expect_resample_result = function(rr) {
   measures = rr$measures
   aggr = rr$aggregated
   for (m in measures) {
+    y = rr$performance(m$id)
+    checkmate::expect_numeric(y, lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
     checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
   }
 }
 
 expect_benchmark_result = function(bmr) {
-  checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data", "resample_results", "resample_result", "performance"))
+  checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data", "resample_results", "resample_result"))
 
   rrs = bmr$resample_results
   checkmate::expect_data_table(rrs, ncol = 5L)

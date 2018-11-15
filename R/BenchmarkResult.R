@@ -10,10 +10,10 @@
 #' bmr$learners
 #' bmr$resamplings
 #' bmr$measures
-#' bmr$performance
 #' bmr$aggregated
 #' bmr$resample_results
 #' bmr$resample_result(hash)
+#' as.data.table(bmr)
 #' ```
 #'
 #' @section Arguments:
@@ -23,17 +23,16 @@
 #' @section Details:
 #' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects.
 #'
-#' * `$performance` provides a [`data.table()`][data.table::data.table()] with column `iteration` (integer) and a numeric column for each
-#'   performance measure (columns named using the measure ids).
-#'
 #' * `$aggregated` returns aggregated performance measures as a [`data.table()`][data.table::data.table()].
-#'   The table is build similar to the one returned by `$performance`, but experiments are aggregated by their resample result group
+#'   Experiments are aggregated by their resample result group
 #'   (combination of [Task], [Learner] and [Resampling]). The actual aggregation function is defined by the respective [Measure].
 #'
 #' * `$resample_results` returns a [`data.table()`][data.table::data.table()] which gives an overview of the resample result groups in the benchmark.
 #'   These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
 #'
 #' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
+#'
+#' * `as.data.table()` converts the [BenchmarkResult] to a [`data.table()`][data.table::data.table()].
 #'
 #' @name BenchmarkResult
 #' @examples
@@ -48,7 +47,6 @@
 #' bmr$learners
 #' bmr$resamplings
 #' bmr$measures
-#' bmr$performance
 #' bmr$aggregated
 #' rrs = bmr$resample_results
 #' print(rrs)
@@ -66,8 +64,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_data_table(data)
       slots = mlr_reflections$experiment_slots$name
       assert_names(names(data), permutation.of = c(slots, "hash"))
-      self$data = setcolorder(data, slots)
-      setkeyv(self$data, "hash")
+      self$data = data
     },
 
     resample_result = function(hash) {
@@ -79,7 +76,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     combine = function(bmr) {
       assert_benchmark_result(bmr)
-      self$data = setkeyv(rbind(self$data, bmr$data), "hash")
+      self$data = rbindlist(list(self$data, bmr$data), fill = TRUE)
       invisible(self)
     }
   ),
@@ -105,11 +102,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, .N), by = "hash"]
     },
 
-    performance = function(id, hash) {
-      flatten(self$data[, list(hash = hash, task_id = ids(task), learner_id = ids(learner),
-        resampling_id = ids(resampling), performance = performance)], "performance")
-    },
-
     aggregated = function() {
       collect = function(data) as.list(ResampleResult$new(data)$aggregated)
       res = self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, performance = list(collect(.SD))), by = hash]
@@ -124,9 +116,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
   )
 )
 
-#' export
+#' @export
 as.data.frame.BenchmarkResult = function(x, ...) {
-  setDF(as.data.table.BenchmarkResult(x, ...))
+  setDF(as.data.table.BenchmarkResult(x))
 }
 
 #' @export

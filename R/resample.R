@@ -33,7 +33,7 @@
 #' rr.dummy = resample(task, learner, resampling)
 #'
 #' bmr = rr$combine(rr.dummy)
-#' bmr$performance[, list(mean.mmce = mean(mmce)), by = "learner_id"]
+#' bmr$aggregated
 resample = function(task, learner, resampling, measures = NULL, ctrl = mlr_control()) {
   assert_task(task)
   assert_learner(learner, task = task)

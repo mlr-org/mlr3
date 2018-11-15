@@ -2,8 +2,10 @@
 
 S3method("[",Dictionary)
 S3method("[[",Dictionary)
+S3method(as.data.frame,BenchmarkResult)
 S3method(as.data.frame,Dictionary)
 S3method(as.data.frame,Prediction)
+S3method(as.data.frame,ResampleResult)
 S3method(as.data.table,BenchmarkResult)
 S3method(as.data.table,Dictionary)
 S3method(as.data.table,DictionaryLearner)

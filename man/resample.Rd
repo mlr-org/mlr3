@@ -47,5 +47,5 @@ learner = mlr_learners$get("classif.dummy")
 rr.dummy = resample(task, learner, resampling)
 
 bmr = rr$combine(rr.dummy)
-bmr$performance[, list(mean.mmce = mean(mmce)), by = "learner_id"]
+bmr$aggregated
 }
