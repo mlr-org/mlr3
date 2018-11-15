@@ -25,7 +25,7 @@
 #' rr = resample(task, learner, resampling)
 #' print(rr)
 #' rr$aggregated
-#' rr$performance
+#' rr$performance("mmce")
 #'
 #' # Repeat resampling with dummy learner and combine
 #' # the ResampleResults into a BenchmarkResult

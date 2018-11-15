@@ -59,9 +59,7 @@ ResampleResult = R6Class("ResampleResult",
 
     initialize = function(data, hash = NULL) {
       assert_data_table(data)
-      slots = mlr_reflections$experiment_slots$name
-      assert_names(names(data), must.include = slots)
-      self$data = setkeyv(data[, slots, with = FALSE], "iteration")
+      assert_names(names(data), must.include = mlr_reflections$experiment_slots$name)
       if (!is.null(hash))
         private$.hash = assert_string(hash)
     },
@@ -77,8 +75,9 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     performance = function(id) {
-      assert_choice(id, ids(self$measures))
-      map_dbl(self$data$performance, function(x) x[[id]] %??% NA_real_)
+      assert_choice(subset, ids(self$measures))
+      flatten(self$data[order(iteration), c("iteration", "performance")], "performance")
+      cbind(iteration = self$data$iteration, rbindlist(self$data$performance, fill = TRUE))
     },
 
     experiment = function(iter) {
@@ -137,10 +136,21 @@ ResampleResult = R6Class("ResampleResult",
   )
 )
 
+#' export
+as.data.frame.ResampleResult = function(x, ...) {
+  setDF(as.data.table.ResampleResult(x, ...))
+}
+
 #' @export
 as.data.table.ResampleResult = function(x, ...) {
-  cols = c("task", "learner", "resampling", "iteration", "performance")
-  tab = x$data[, cols, with = FALSE]
-  tab[, c("hash", "task", "learner", "resampling") := list(x$hash, ids(task), ids(learner), ids(resampling))]
-  flatten(tab, "performance")
+  hash = task = learner = resampling = iteration = performance = NULL
+  flatten(x$data[order(iteration),
+    list(
+      hash = x$hash,
+      task = task, task_id = ids(task),
+      learner = learner, learner_id = ids(learner),
+      resampling = resampling, resampling_id = ids(resampling),
+      iteration = iteration, performance = performance
+    )
+  ], "performance")
 }

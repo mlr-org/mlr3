@@ -105,7 +105,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, .N), by = "hash"]
     },
 
-    performance = function() {
+    performance = function(id, hash) {
       flatten(self$data[, list(hash = hash, task_id = ids(task), learner_id = ids(learner),
         resampling_id = ids(resampling), performance = performance)], "performance")
     },
@@ -123,3 +123,22 @@ BenchmarkResult = R6Class("BenchmarkResult",
     }
   )
 )
+
+#' export
+as.data.frame.BenchmarkResult = function(x, ...) {
+  setDF(as.data.table.BenchmarkResult(x, ...))
+}
+
+#' @export
+as.data.table.BenchmarkResult = function(x, ...) {
+  hash = task = learner = resampling = performance = NULL
+  flatten(x$data[,
+    list(
+      hash = hash,
+      task = task, task_id = ids(task),
+      learner = learner, learner_id = ids(learner),
+      resampling = resampling, resampling_id = ids(resampling),
+      performance = performance
+    )
+  ], "performance")
+}
