@@ -6,10 +6,14 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       assert_backend(b2)
       if (b1$primary_key != b2$primary_key)
         stopf("All backends to rbind must have the same primary_key")
-      super$initialize(list(b1 = b1, b2 = b2), b1$primary_key, format = intersect(b1$formats, b2$formats))
+      formats = intersect(b1$formats, b2$formats)
+      if (length(formats) == 0L)
+        stopf("There is no common format for the backends to cbind")
+      super$initialize(list(b1 = b1, b2 = b2), b1$primary_key, formats = formats)
     },
 
-    data = function(rows, cols) {
+    data = function(rows, cols, format = self$formats[1L]) {
+      assert_choice(format, self$formats)
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
 

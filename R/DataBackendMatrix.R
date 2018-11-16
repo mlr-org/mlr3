@@ -46,7 +46,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       super$initialize(data, "..row_id", c("data.table", "sparse"))
     },
 
-    data = function(rows, cols, format = "data.table") {
+    data = function(rows, cols, format = self$formats[1L]) {
+      assert_choice(format, self$formats)
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
       assert_choice(format, self$formats)

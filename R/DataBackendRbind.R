@@ -9,7 +9,8 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       super$initialize(list(b1 = b1, b2 = b2), b1$primary_key, intersect(b1$formats, b2$formats))
     },
 
-    data = function(rows, cols) {
+    data = function(rows, cols, format = self$formats[1L]) {
+      assert_choice(format, self$formats)
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
 

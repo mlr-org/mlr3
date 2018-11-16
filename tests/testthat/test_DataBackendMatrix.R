@@ -62,3 +62,12 @@ test_that("DataBackendMatrix sparse output", {
   # argument n of head
   expect_Matrix(b$head(3, format = "sparse"), nrow = 3, ncol = b$ncol - 1L)
 })
+
+test_that("task argument 'format' is passed down", {
+  td = cbind(y = 1:10, data)
+  b = as_data_backend(td)
+  b$colnames
+  task = TaskRegr$new("regr_task", b, target = "y")
+  expect_data_table(task$data(format = "data.table"))
+  expect_Matrix(task$data(format = "sparse"))
+})
