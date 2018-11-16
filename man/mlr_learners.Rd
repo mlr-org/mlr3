@@ -14,7 +14,7 @@ See \link{Dictionary}.
 \examples{
 mlr_learners$keys()
 as.data.table(mlr_learners)
-mlr_learners$get("classif.dummy")
+mlr_learners$get("classif.featureless")
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},

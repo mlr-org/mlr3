@@ -1,13 +1,13 @@
-context("mlr_learners_regr_dummy")
+context("mlr_learners_regr_featureless")
 
 test_that("Simple training/predict", {
   task = mlr_tasks$get("bh")
-  learner = mlr_learners$get("regr.dummy")
+  learner = mlr_learners$get("regr.featureless")
   expect_learner(learner, task)
 
   e = Experiment$new(task, learner)
   e$train()
-  expect_class(e$model, "dummy.model")
+  expect_class(e$model, "featureless")
   expect_numeric(e$model, len = 2L, any.missing = FALSE)
   e$predict()
   e$data$prediction
@@ -20,7 +20,7 @@ test_that("Simple training/predict", {
 
 test_that("Predict with se", {
   task = mlr_tasks$get("bh")
-  learner = mlr_learners$get("regr.dummy")
+  learner = mlr_learners$get("regr.featureless")
   learner$predict_type = "se"
   expect_learner(learner, task)
 

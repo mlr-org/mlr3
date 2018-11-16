@@ -1,15 +1,15 @@
 context("train")
 
-test_that("Simple train+predict+score of dummy model", {
+test_that("Simple train+predict+score of featureless model", {
   task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.dummy")
+  learner = mlr_learners$get("classif.featureless")
   subset = 1:100
   e = Experiment$new(task, learner)
 
   e$train(subset)
   expect_set_equal(e$train_set, subset)
-  expect_class(e$model, "dummy.model")
-  expect_class(e$data$model, "dummy.model")
+  expect_class(e$model, "featureless")
+  expect_class(e$data$model, "featureless")
   expect_equal(task$nrow, 150L)
   expect_equal(e$data$task$nrow, 150L)
 
@@ -28,14 +28,14 @@ test_that("Simple train+predict+score of dummy model", {
 test_that("Simple train+predict+score in independent session", {
   with_plan(future.callr::callr, {
     task = mlr_tasks$get("iris")
-    learner = mlr_learners$get("classif.dummy")
+    learner = mlr_learners$get("classif.featureless")
     subset = 1:100
     e = Experiment$new(task, learner)
 
     e$train(subset)
     expect_set_equal(e$train_set, subset)
-    expect_class(e$model, "dummy.model")
-    expect_class(e$data$model, "dummy.model")
+    expect_class(e$model, "featureless")
+    expect_class(e$data$model, "featureless")
     expect_equal(task$nrow, 150L)
     expect_equal(e$data$task$nrow, 150L)
 

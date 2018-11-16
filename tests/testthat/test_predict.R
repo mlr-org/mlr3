@@ -2,7 +2,7 @@ context("predict")
 
 test_that("Simple prediction", {
   task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.dummy")
+  learner = mlr_learners$get("classif.featureless")
   subset = 1:120
   e = Experiment$new(task = task, learner = learner)
   e$train(subset)

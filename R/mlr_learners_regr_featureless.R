@@ -1,7 +1,7 @@
 #' @include LearnerRegr.R
 LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
   public = list(
-    initialize = function(id = "regr.dummy") {
+    initialize = function(id = "regr.featureless") {
       super$initialize(
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
@@ -18,7 +18,7 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
     train = function(task, robust = TRUE, ...) {
       tn = unlist(task$data(cols = task$target_names))
       mod = if (isTRUE(robust)) c(mean(tn), sd(tn)) else c(median(tn), madn(tn))
-      class(mod) = "dummy.model"
+      class(mod) = "featureless"
       mod
     },
 
@@ -34,4 +34,4 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("regr.dummy", LearnerRegrDummy)
+mlr_learners$add("regr.featureless", LearnerRegrDummy)

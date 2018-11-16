@@ -1,7 +1,7 @@
 #' @include LearnerClassif.R
 LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "classif.dummy") {
+    initialize = function(id = "classif.featureless") {
       super$initialize(
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
@@ -18,7 +18,7 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
     train = function(task, ...) {
       tn = task$target_names
       model = table(task$data(cols = tn))
-      class(model) = "dummy.model"
+      class(model) = "featureless"
       model
     },
 
@@ -48,4 +48,4 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("classif.dummy", LearnerClassifDummy)
+mlr_learners$add("classif.featureless", LearnerClassifDummy)

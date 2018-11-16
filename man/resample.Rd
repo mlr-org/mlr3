@@ -41,11 +41,11 @@ print(rr)
 rr$aggregated
 rr$performance("mmce")
 
-# Repeat resampling with dummy learner and combine
+# Repeat resampling with featureless learner and combine
 # the ResampleResults into a BenchmarkResult
-learner = mlr_learners$get("classif.dummy")
-rr.dummy = resample(task, learner, resampling)
+learner = mlr_learners$get("classif.featureless")
+rr.featureless = resample(task, learner, resampling)
 
-bmr = rr$combine(rr.dummy)
+bmr = rr$combine(rr.featureless)
 bmr$aggregated
 }

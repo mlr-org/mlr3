@@ -111,7 +111,7 @@ If we now pass this instantiated object to resample, the pre-calculated training
 
 ```{r}
 learner1 = mlr_learners$get("classif.rpart") # simple classification tree
-learner2 = mlr_learners$get("classif.dummy") # dummy learner, prediction majority class
+learner2 = mlr_learners$get("classif.featureless") # featureless learner, prediction majority class
 rr1 = resample(task, learner1, resampling)
 rr2 = resample(task, learner2, resampling)
 
@@ -150,11 +150,11 @@ Internally, the resampling strategies are automatically instantiated for you, so
 # get some example tasks
 tasks = mlr_tasks$mget(c("pima", "sonar", "spam"))
 
-# get a dummy learner and a classification tree
-learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
+# get a featureless learner and a classification tree
+learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 
 # let the learners predict probabilities instead of class labels (required for AUC measure)
-learners$classif.dummy$predict_type = "prob"
+learners$classif.featureless$predict_type = "prob"
 learners$classif.rpart$predict_type = "prob"
 
 # compare via 10-fold cross validation
@@ -175,7 +175,7 @@ We can aggregate it further, i.e. if we are interested which learner performed b
 ```{r}
 bmr$aggregated[, list(acc = mean(acc), auc = mean(auc)), by = "learner_id"]
 ```
-Unsurprisingly, the classification tree outperformed the dummy learner.
+Unsurprisingly, the classification tree outperformed the featureless learner.
 
 As a `BenchmarkResult` is basically a collection of multiple `ResampleResult`, we can extract specific `ResampleResult` using the stored hashes:
 ```{r}

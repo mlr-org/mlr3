@@ -2,7 +2,7 @@ context("resample")
 
 test_that("resample", {
   task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.dummy")
+  learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv")
   resampling$param_vals = list(folds = 3)
 
@@ -20,7 +20,7 @@ test_that("resample", {
 test_that("resample with multiple measures", {
   task = mlr_tasks$get("iris")
   task$measures = mlr_measures$mget(c("mmce", "acc"))
-  learner = mlr_learners$get("classif.dummy")
+  learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv")
   resampling$param_vals = list(folds = 3)
   rr = resample(task, learner, resampling)
@@ -31,7 +31,7 @@ test_that("resample with multiple measures", {
 test_that("rr$combine()", {
   task = mlr_tasks$get("iris")
   task$measures = mlr_measures$mget(c("mmce", "acc"))
-  learner = mlr_learners$get("classif.dummy")
+  learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv")
   resampling$param_vals = list(folds = 3)
   rr1 = resample(task, learner, resampling)
@@ -51,7 +51,7 @@ test_that("rr$combine()", {
 
 test_that("discarding model", {
   task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.dummy")
+  learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv")
   resampling$param_vals = list(folds = 3)
 

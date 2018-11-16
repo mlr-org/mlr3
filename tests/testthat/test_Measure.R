@@ -11,7 +11,7 @@ test_that("Measure construction", {
 
 test_that("Classification measures", {
   ids = mlr_measures$keys()
-  lrn = mlr_learners$get("classif.dummy")
+  lrn = mlr_learners$get("classif.featureless")
   lrn$predict_type = "prob"
   e = Experiment$new(
     task = mlr_tasks$get("sonar"),
@@ -32,7 +32,7 @@ test_that("Regression measures", {
   ids = mlr_measures$keys()
   e = Experiment$new(
     task = mlr_tasks$get("bh"),
-    learner = mlr_learners$get("regr.dummy")
+    learner = mlr_learners$get("regr.featureless")
   )
   e$train()$predict()
 
@@ -47,7 +47,7 @@ test_that("Regression measures", {
 
 test_that("Measure assertion", {
   task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.dummy")
+  learner = mlr_learners$get("classif.featureless")
   m = mlr_measures$get("time_train")
   expect_class(assert_measure(m), "Measure")
   expect_class(assert_measure(m, task = task, learner = learner), "Measure")

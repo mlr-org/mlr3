@@ -33,7 +33,7 @@ Runs a benchmark of the cross-product of learners, tasks, and resampling strateg
 \examples{
 set.seed(123)
 tasks = mlr_tasks$mget(c("iris", "sonar"))
-learners = mlr_learners$mget(c("classif.dummy", "classif.rpart"))
+learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget(c("holdout", "cv"))
 measures = mlr_measures$mget("acc")
 ctrl = mlr_control()

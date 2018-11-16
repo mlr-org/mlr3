@@ -24,7 +24,7 @@ test_that("$class_names and $class_n only consider active rows", {
 
 test_that("Factor levels are preserved in prediction", {
   task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.dummy")
+  learner = mlr_learners$get("classif.featureless")
   learner$predict_type = "prob"
   e = Experiment$new(task, learner)
   e$train(subset = 1:100)

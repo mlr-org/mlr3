@@ -43,7 +43,7 @@ These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleRes
 \examples{
 bmr = benchmark(
   tasks = mlr_tasks$mget("iris"),
-  learners = mlr_learners$mget(c("classif.dummy", "classif.rpart")),
+  learners = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
   resamplings = mlr_resamplings$mget("cv"),
   ctrl = mlr_control(verbose = FALSE)
 )

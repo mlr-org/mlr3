@@ -12,7 +12,7 @@
 #' @examples
 #' mlr_learners$keys()
 #' as.data.table(mlr_learners)
-#' mlr_learners$get("classif.dummy")
+#' mlr_learners$get("classif.featureless")
 NULL
 
 #' @include Dictionary.R
