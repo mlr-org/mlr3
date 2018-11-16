@@ -63,8 +63,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     initialize = function(data) {
       assert_data_table(data)
       slots = mlr_reflections$experiment_slots$name
-      assert_names(names(data), permutation.of = c(slots, "hash"))
-      self$data = data
+      assert_names(names(data), must.include = c(slots, "hash"))
+      self$data = setcolorder(data, slots)
     },
 
     resample_result = function(hash) {
