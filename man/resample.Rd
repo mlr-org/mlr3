@@ -39,7 +39,7 @@ resampling = mlr_resamplings$get("cv")
 rr = resample(task, learner, resampling)
 print(rr)
 rr$aggregated
-rr$performance
+rr$performance("mmce")
 
 # Repeat resampling with dummy learner and combine
 # the ResampleResults into a BenchmarkResult
@@ -47,5 +47,5 @@ learner = mlr_learners$get("classif.dummy")
 rr.dummy = resample(task, learner, resampling)
 
 bmr = rr$combine(rr.dummy)
-bmr$performance[, list(mean.mmce = mean(mmce)), by = "learner_id"]
+bmr$aggregated
 }

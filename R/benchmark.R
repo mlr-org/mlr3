@@ -28,7 +28,7 @@
 #' bmr = benchmark(tasks, learners, resamplings, measures, ctrl = ctrl)
 #'
 #' # performance for all conducted experiments
-#' head(bmr$performance)
+#' head(as.data.table(bmr))
 #'
 #' # aggregated performance
 #' bmr$aggregated

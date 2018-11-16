@@ -13,12 +13,13 @@
 #' rr$learner
 #' rr$resampling
 #' rr$measures
+#' rr$performance(id)
 #' rr$experiment(iter)
 #' rr$experiments(iters)
 #' rr$combine(rr)
-#' rr$performance
 #' rr$aggregated
 #' rr$hash
+#' as.data.table(bmr)
 #' ```
 #'
 #' @section Arguments:
@@ -28,8 +29,12 @@
 #' * `hash` \[`NULL` | `character(1)`\]:\cr
 #'   Pre-calculated hash for the combination of `task`, `learner` and `resampling`.
 #'   If `NULL`, the checksum will be calculated on-demand.
-#' * `i` \[`integer`\]:\cr
-#'   Iteration(s) of the experiment(s) to retrieve.
+#' * `id` \[`character(1)`\]:\cr
+#'   Identifier of a performance measure.
+#' * `iter` \[`integer(1)`\]:\cr
+#'   Iteration of the experiment to retrieve.
+#' * `iters` \[`integer`\]:\cr
+#'   Iterations of experiments to retrieve as `list()`.
 #' * `rr` \[`ResampleResult`\]:\cr
 #'   Second [ResampleResult].
 #'
@@ -37,18 +42,19 @@
 #' * `$task`, `$learner`, `$resampling` and `$measure` allow access to the [Task], [Learner], [Resampling] and
 #'   [Measure] used in the resampling.
 #'
+#' * `$performance(id)` retrieves the performance values for the measure with id `id` as numeric vector.
+#'
 #' * `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
 #'
 #' * `$experiments()` returns a list with the slice of [Experiment]s for the provided `iters`.
 #'
 #' * `$combine()` takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
 #'
-#' * `$performance` provides a [`data.table()`][data.table::data.table()] with column `iteration` (integer) and
-#'   a numeric column for each performance measure (columns named using the measure ids).
-#'
 #' * `$aggregated` returns the aggregated performance measures. The aggregation method is part of the [Measure].
 #'
 #' * `$hash` stores a hash for the combination of task, learner and resampling.
+#'
+#' * `as.data.table()` converts the [BenchmarkResult] to a [`data.table()`][data.table::data.table()].
 #'
 #' @name ResampleResult
 NULL
@@ -59,9 +65,8 @@ ResampleResult = R6Class("ResampleResult",
 
     initialize = function(data, hash = NULL) {
       assert_data_table(data)
-      slots = mlr_reflections$experiment_slots$name
-      assert_names(names(data), must.include = slots)
-      self$data = setkeyv(data[, slots, with = FALSE], "iteration")
+      assert_names(names(data), must.include = mlr_reflections$experiment_slots$name)
+      self$data = data[order(iteration), ]
       if (!is.null(hash))
         private$.hash = assert_string(hash)
     },
@@ -69,17 +74,21 @@ ResampleResult = R6Class("ResampleResult",
     print = function(...) {
       catf("ResampleResult of learner '%s' on task '%s' with %i iterations", self$task$id, self$learner$id, nrow(self$data))
 
-      # FIXME: We want something like skimr w/o the dependencies
-      perf = self$performance[, ids(self$measures), with = FALSE]
-      tab = map_dtr(perf, function(x) c(as.list(summary(x)), list(Sd = sd(x))))
-      tab$Measure = names(perf)
-      setcolorder(tab, "Measure")
+      tab = map_dtr(ids(self$measures), function(id) {
+        perf = self$performance(id)
+        c(list(Measure = id), as.list(summary(perf)), list(Sd = sd(perf)))
+      })
       print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE)
+    },
+
+    performance = function(id) {
+      assert_choice(id, ids(self$measures))
+      map_dbl(self$data$performance, function(x) x[[id]] %??% NA_real)
     },
 
     experiment = function(iter) {
       iter = assert_int(iter, lower = 1L, upper = nrow(self$data), coerce = TRUE)
-      .mapply(Experiment$new, self$data[get("iteration") == iter], MoreArgs = list())[[1L]]
+      .mapply(Experiment$new, self$data[get("iteration") == iter, mlr_reflections$experiment_slots$name, with = FALSE], MoreArgs = list())[[1L]]
     },
 
     experiments = function(iters) {
@@ -112,18 +121,6 @@ ResampleResult = R6Class("ResampleResult",
       self$data$measures[[1L]]
     },
 
-    performance = function() {
-      tab = data.table(
-        hash = self$hash,
-        task_id = self$task$id,
-        learner_id = self$learner$id,
-        resampling_id = self$resampling$id,
-        iteration = self$data$iteration,
-        performance = self$data$performance
-      )
-      flatten(tab, "performance")
-    },
-
     aggregated = function() {
       measures = self$measures
       setNames(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
@@ -144,3 +141,22 @@ ResampleResult = R6Class("ResampleResult",
     }
   )
 )
+
+#' @export
+as.data.frame.ResampleResult = function(x, ...) {
+  setDF(as.data.table.ResampleResult(x))
+}
+
+#' @export
+as.data.table.ResampleResult = function(x, ...) {
+  hash = task = learner = resampling = iteration = performance = NULL
+  flatten(x$data[order(iteration),
+    list(
+      hash = x$hash,
+      task = task, task_id = ids(task),
+      learner = learner, learner_id = ids(learner),
+      resampling = resampling, resampling_id = ids(resampling),
+      iteration = iteration, performance = performance
+    )
+  ], "performance")
+}

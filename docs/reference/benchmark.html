@@ -201,47 +201,54 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 <span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>, <span class='no'>measures</span>, <span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='no'>ctrl</span>)
 
 <span class='co'># performance for all conducted experiments</span>
-<span class='fu'>head</span>(<span class='no'>bmr</span>$<span class='no'>performance</span>)</div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id       acc
-#&gt; 1: 12211bd028dc0b96   sonar classif.dummy       holdout 0.5507246
-#&gt; 2: 5d9b603446969261   sonar classif.rpart            cv 0.6190476
-#&gt; 3: 5d9b603446969261   sonar classif.rpart            cv 0.6500000
-#&gt; 4: 5d9b603446969261   sonar classif.rpart            cv 0.7619048
-#&gt; 5: 5d9b603446969261   sonar classif.rpart            cv 0.7142857
-#&gt; 6: 5d9b603446969261   sonar classif.rpart            cv 0.6190476</div><div class='input'>
+<span class='fu'>head</span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                hash          task task_id               learner    learner_id
+#&gt; 1: 5d9b603446969261 &lt;TaskClassif&gt;   sonar &lt;LearnerClassifRpart&gt; classif.rpart
+#&gt; 2: fdfa483e082c1801 &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart
+#&gt; 3: 94963101e493fb84 &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart
+#&gt; 4: 8063303de91f8cf5 &lt;TaskClassif&gt;   sonar &lt;LearnerClassifDummy&gt; classif.dummy
+#&gt; 5: 5d9b603446969261 &lt;TaskClassif&gt;   sonar &lt;LearnerClassifRpart&gt; classif.rpart
+#&gt; 6: 84496cf112c22e0a &lt;TaskClassif&gt;    iris &lt;LearnerClassifDummy&gt; classif.dummy
+#&gt;             resampling resampling_id       acc
+#&gt; 1:      &lt;ResamplingCV&gt;            cv 0.6190476
+#&gt; 2: &lt;ResamplingHoldout&gt;       holdout 0.9200000
+#&gt; 3:      &lt;ResamplingCV&gt;            cv 0.9333333
+#&gt; 4:      &lt;ResamplingCV&gt;            cv 0.5238095
+#&gt; 5:      &lt;ResamplingCV&gt;            cv 0.6500000
+#&gt; 6:      &lt;ResamplingCV&gt;            cv 0.1333333</div><div class='input'>
 <span class='co'># aggregated performance</span>
 <span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id       acc
-#&gt; 1: 12211bd028dc0b96   sonar classif.dummy       holdout 0.5507246
-#&gt; 2: 5d9b603446969261   sonar classif.rpart            cv 0.7161905
-#&gt; 3: 70ee6246f6f933da   sonar classif.rpart       holdout 0.7536232
+#&gt; 1: 5d9b603446969261   sonar classif.rpart            cv 0.7161905
+#&gt; 2: fdfa483e082c1801    iris classif.rpart       holdout 0.9200000
+#&gt; 3: 94963101e493fb84    iris classif.rpart            cv 0.9333333
 #&gt; 4: 8063303de91f8cf5   sonar classif.dummy            cv 0.5347619
 #&gt; 5: 84496cf112c22e0a    iris classif.dummy            cv 0.1933333
 #&gt; 6: 8c4d553709eae2b3    iris classif.dummy       holdout 0.2800000
-#&gt; 7: 94963101e493fb84    iris classif.rpart            cv 0.9333333
-#&gt; 8: fdfa483e082c1801    iris classif.rpart       holdout 0.9200000</div><div class='input'>
+#&gt; 7: 70ee6246f6f933da   sonar classif.rpart       holdout 0.7536232
+#&gt; 8: 12211bd028dc0b96   sonar classif.dummy       holdout 0.5507246</div><div class='input'>
 <span class='co'># Overview of of resamplings that were conducted internally</span>
 <span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'>print</span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id    learner_id resampling_id  N
-#&gt; 1: 12211bd028dc0b96   sonar classif.dummy       holdout  1
-#&gt; 2: 5d9b603446969261   sonar classif.rpart            cv 10
-#&gt; 3: 70ee6246f6f933da   sonar classif.rpart       holdout  1
+#&gt; 1: 5d9b603446969261   sonar classif.rpart            cv 10
+#&gt; 2: fdfa483e082c1801    iris classif.rpart       holdout  1
+#&gt; 3: 94963101e493fb84    iris classif.rpart            cv 10
 #&gt; 4: 8063303de91f8cf5   sonar classif.dummy            cv 10
 #&gt; 5: 84496cf112c22e0a    iris classif.dummy            cv 10
 #&gt; 6: 8c4d553709eae2b3    iris classif.dummy       holdout  1
-#&gt; 7: 94963101e493fb84    iris classif.rpart            cv 10
-#&gt; 8: fdfa483e082c1801    iris classif.rpart       holdout  1</div><div class='input'>
+#&gt; 7: 70ee6246f6f933da   sonar classif.rpart       holdout  1
+#&gt; 8: 12211bd028dc0b96   sonar classif.dummy       holdout  1</div><div class='input'>
 <span class='co'># Extract first ResampleResult</span>
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='kw'>hash</span> <span class='kw'>=</span> <span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
-<span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'sonar' on task 'classif.dummy' with 1 iterations
-#&gt;  Measure      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. Sd
-#&gt;      acc 0.5507246 0.5507246 0.5507246 0.5507246 0.5507246 0.5507246 NA</div><div class='input'>
+<span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'sonar' on task 'classif.rpart' with 10 iterations
+#&gt;  Measure      Min.   1st Qu.    Median      Mean  3rd Qu.      Max.        Sd
+#&gt;      acc 0.6190476 0.6267857 0.7321429 0.7161905 0.797619 0.8095238 0.0830403</div><div class='input'>
 <span class='co'># Extract predictions of first experiment of this resampling</span>
 <span class='fu'>head</span>(<span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>prediction</span>)</div><div class='output co'>#&gt;    id response truth
-#&gt; 1:  1        M     R
-#&gt; 2:  3        M     R
-#&gt; 3:  6        M     R
-#&gt; 4:  8        M     R
-#&gt; 5: 20        M     R
-#&gt; 6: 22        M     R</div></pre>
+#&gt; 1:  8        M     R
+#&gt; 2: 23        R     R
+#&gt; 3: 25        R     R
+#&gt; 4: 41        R     R
+#&gt; 5: 49        R     R
+#&gt; 6: 60        R     R</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

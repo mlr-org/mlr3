@@ -14,12 +14,13 @@ rr$task
 rr$learner
 rr$resampling
 rr$measures
+rr$performance(id)
 rr$experiment(iter)
 rr$experiments(iters)
 rr$combine(rr)
-rr$performance
 rr$aggregated
 rr$hash
+as.data.table(bmr)
 }
 }
 
@@ -32,8 +33,12 @@ Each row corresponds to a single experiment.
 \item \code{hash} [\code{NULL} | \code{character(1)}]:\cr
 Pre-calculated hash for the combination of \code{task}, \code{learner} and \code{resampling}.
 If \code{NULL}, the checksum will be calculated on-demand.
-\item \code{i} [\code{integer}]:\cr
-Iteration(s) of the experiment(s) to retrieve.
+\item \code{id} [\code{character(1)}]:\cr
+Identifier of a performance measure.
+\item \code{iter} [\code{integer(1)}]:\cr
+Iteration of the experiment to retrieve.
+\item \code{iters} [\code{integer}]:\cr
+Iterations of experiments to retrieve as \code{list()}.
 \item \code{rr} [\code{ResampleResult}]:\cr
 Second \link{ResampleResult}.
 }
@@ -44,13 +49,13 @@ Second \link{ResampleResult}.
 \itemize{
 \item \code{$task}, \code{$learner}, \code{$resampling} and \code{$measure} allow access to the \link{Task}, \link{Learner}, \link{Resampling} and
 \link{Measure} used in the resampling.
+\item \code{$performance(id)} retrieves the performance values for the measure with id \code{id} as numeric vector.
 \item \code{$experiment()} returns an \link{Experiment} for the \code{iter}-th resampling iteration.
 \item \code{$experiments()} returns a list with the slice of \link{Experiment}s for the provided \code{iters}.
 \item \code{$combine()} takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
-\item \code{$performance} provides a \code{\link[data.table:data.table]{data.table()}} with column \code{iteration} (integer) and
-a numeric column for each performance measure (columns named using the measure ids).
 \item \code{$aggregated} returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
 \item \code{$hash} stores a hash for the combination of task, learner and resampling.
+\item \code{as.data.table()} converts the \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table()}}.
 }
 }
 

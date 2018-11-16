@@ -60,22 +60,3 @@ pluck_dbl = function(.x, .f) {
 pluck_chr = function(.x, .f) {
   map_chr(.x, `[[`, .f)
 }
-
-probe = function(.x, .p, ...) {
-  if (is.logical(.p)) {
-    stopifnot(length(.p) == length(.x))
-    .p
-  } else {
-    map_lgl(.x, .p, ...)
-  }
-}
-
-keep = function(.x, .f, ...) {
-  sel = probe(.x, .f, ...)
-  .x[!is.na(sel) & sel]
-}
-
-discard = function(.x, .p, ...) {
-  sel = probe(.x, .p, ...)
-  .x[is.na(sel) | !sel]
-}
