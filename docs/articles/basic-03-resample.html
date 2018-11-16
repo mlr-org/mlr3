@@ -259,24 +259,24 @@
 <a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt;  [86] 109 112 113 116 119 120 123 124 133 135 136 138 141 143 150</span></a></code></pre></div>
 <p>If we now pass this instantiated object to resample, the pre-calculated training and test splits will be used for both learners:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">learner1 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">"classif.rpart"</span>) <span class="co"># simple classification tree</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">learner2 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">"classif.dummy"</span>) <span class="co"># dummy learner, prediction majority class</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">learner2 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">"classif.featureless"</span>) <span class="co"># featureless learner, prediction majority class</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">rr1 =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner1, resampling)</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; Running learner 'classif.rpart' on task 'iris (iteration 1/3)' ...</span></a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; Running learner 'classif.rpart' on task 'iris (iteration 2/3)' ...</span></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; Running learner 'classif.rpart' on task 'iris (iteration 3/3)' ...</span></a>
 <a class="sourceLine" id="cb11-7" data-line-number="7">rr2 =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner2, resampling)</a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; Running learner 'classif.dummy' on task 'iris (iteration 1/3)' ...</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; Running learner 'classif.dummy' on task 'iris (iteration 2/3)' ...</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; Running learner 'classif.dummy' on task 'iris (iteration 3/3)' ...</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; Running learner 'classif.featureless' on task 'iris (iteration 1/3)' ...</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; Running learner 'classif.featureless' on task 'iris (iteration 2/3)' ...</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; Running learner 'classif.featureless' on task 'iris (iteration 3/3)' ...</span></a>
 <a class="sourceLine" id="cb11-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb11-12" data-line-number="12"><span class="kw">setequal</span>(rr1<span class="op">$</span><span class="kw">experiment</span>(<span class="dv">1</span>)<span class="op">$</span>train_set, rr2<span class="op">$</span><span class="kw">experiment</span>(<span class="dv">1</span>)<span class="op">$</span>train_set)</a>
 <a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 <p>We can also combine the created result objects into a <code>BenchmarkResult</code> (see below for an introduction to simple benchmarking):</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">bmr =<span class="st"> </span>rr1<span class="op">$</span><span class="kw">combine</span>(rr2)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">bmr<span class="op">$</span>aggregated</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;                hash task_id    learner_id resampling_id       mmce</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: 280f5245cf45b080    iris classif.rpart            cv 0.04666667</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: bcdeccfa519dddeb    iris classif.dummy            cv 0.70666667</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;                hash task_id          learner_id resampling_id       mmce</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: 280f5245cf45b080    iris       classif.rpart            cv 0.04666667</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: f55509b3efbfd85c    iris classif.featureless            cv 0.70666667</span></a></code></pre></div>
 </div>
 <div id="custom-resampling" class="section level2">
 <h2 class="hasAnchor">
@@ -309,11 +309,11 @@
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># get some example tasks</span></a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">tasks =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw">mget</span>(<span class="kw">c</span>(<span class="st">"pima"</span>, <span class="st">"sonar"</span>, <span class="st">"spam"</span>))</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co"># get a dummy learner and a classification tree</span></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">learners =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">mget</span>(<span class="kw">c</span>(<span class="st">"classif.dummy"</span>, <span class="st">"classif.rpart"</span>))</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co"># get a featureless learner and a classification tree</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">learners =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">mget</span>(<span class="kw">c</span>(<span class="st">"classif.featureless"</span>, <span class="st">"classif.rpart"</span>))</a>
 <a class="sourceLine" id="cb14-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co"># let the learners predict probabilities instead of class labels (required for AUC measure)</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">learners<span class="op">$</span>classif.dummy<span class="op">$</span>predict_type =<span class="st"> "prob"</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">learners<span class="op">$</span>classif.featureless<span class="op">$</span>predict_type =<span class="st"> "prob"</span></a>
 <a class="sourceLine" id="cb14-9" data-line-number="9">learners<span class="op">$</span>classif.rpart<span class="op">$</span>predict_type =<span class="st"> "prob"</span></a>
 <a class="sourceLine" id="cb14-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co"># compare via 10-fold cross validation</span></a>
@@ -326,19 +326,19 @@
 <a class="sourceLine" id="cb14-18" data-line-number="18">bmr =<span class="st"> </span><span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(tasks, learners, resamplings, measures, <span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <p>Usually you want to look at the results aggregated over resampling iterations:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">bmr<span class="op">$</span>aggregated[, <span class="kw">c</span>(<span class="st">"task_id"</span>, <span class="st">"learner_id"</span>, <span class="st">"acc"</span>, <span class="st">"auc"</span>)]</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt;         task_id    learner_id       acc       auc</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; 1:        sonar classif.dummy 0.5323810 0.5000000</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; 2: pima_indians classif.rpart 0.7474026 0.7728679</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; 3:         spam classif.rpart 0.8917655 0.8964850</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; 4:         spam classif.dummy 0.6059606 0.5000000</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 5: pima_indians classif.dummy 0.6509911 0.5000000</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 6:        sonar classif.rpart 0.7495238 0.7247953</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt;         task_id          learner_id       acc       auc</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; 1:        sonar classif.featureless 0.5323810 0.5000000</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; 2: pima_indians       classif.rpart 0.7474026 0.7728679</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; 3:         spam       classif.rpart 0.8917655 0.8964850</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; 4:         spam classif.featureless 0.6059606 0.5000000</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 5: pima_indians classif.featureless 0.6509911 0.5000000</span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 6:        sonar       classif.rpart 0.7495238 0.7247953</span></a></code></pre></div>
 <p>We can aggregate it further, i.e. if we are interested which learner performed best over all tasks:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">bmr<span class="op">$</span>aggregated[, <span class="kw">list</span>(<span class="dt">acc =</span> <span class="kw">mean</span>(acc), <span class="dt">auc =</span> <span class="kw">mean</span>(auc)), by =<span class="st"> "learner_id"</span>]</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt;       learner_id       acc       auc</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1: classif.dummy 0.5964442 0.5000000</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2: classif.rpart 0.7962306 0.7980494</span></a></code></pre></div>
-<p>Unsurprisingly, the classification tree outperformed the dummy learner.</p>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt;             learner_id       acc       auc</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1: classif.featureless 0.5964442 0.5000000</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2:       classif.rpart 0.7962306 0.7980494</span></a></code></pre></div>
+<p>Unsurprisingly, the classification tree outperformed the featureless learner.</p>
 <p>As a <code>BenchmarkResult</code> is basically a collection of multiple <code>ResampleResult</code>, we can extract specific <code>ResampleResult</code> using the stored hashes:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">tab =<span class="st"> </span>bmr<span class="op">$</span>aggregated[task_id <span class="op">==</span><span class="st"> "spam"</span> <span class="op">&amp;</span><span class="st"> </span>learner_id <span class="op">==</span><span class="st"> "classif.rpart"</span>]</a>
 <a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">print</span>(tab)</a>
