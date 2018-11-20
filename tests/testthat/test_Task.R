@@ -22,7 +22,7 @@ test_that("Task cbind", {
   expect_names(task$feature_names, must.include = "foo")
 
   data = data.frame(bar = runif(150))
-  task$cbind(data)
+  task$cbind(data, rows = task$row_ids[[1L]])
   expect_task(task)
   expect_names(task$feature_names, must.include = "bar")
 })

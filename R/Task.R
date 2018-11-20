@@ -405,7 +405,7 @@ task_cbind = function(self, data, rows = NULL) {
   pk = self$backend$primary_key
 
   ## 1.1 Check primary key column
-  set_primary_key(task, data, rows)
+  set_primary_key(self, data, rows)
 
   ## 1.2 Check that there are no duplicated column names
   tmp = setdiff(intersect(self$col_info$id, names(data)), pk)
@@ -431,7 +431,7 @@ task_cbind = function(self, data, rows = NULL) {
 
 # Performs the following steps to virtually overwrite data in the task:
 # 1. Check that an overwrite is feasible
-# 2. Overwrite self$backend with new backend
+# 2. Overwrite self$backend with new backend (fusion of both backends)
 # 3. Update col_info
 task_overwrite = function(self, data, rows = NULL) {
   assert_data_frame(data, min.rows = 1L, min.cols = 1L)
@@ -439,7 +439,7 @@ task_overwrite = function(self, data, rows = NULL) {
   pk = self$backend$primary_key
 
   ## 1.1 Check/Set primary key column
-  set_primary_key(task, data, rows)
+  set_primary_key(self, data, rows)
 
   ## 1.2 Check that there are no extra column names in data
   tmp = setdiff(names(data), self$col_info$id)
