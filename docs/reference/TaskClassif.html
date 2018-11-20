@@ -169,7 +169,7 @@ t$task_type
 
     
     <ul>
-<li><p><code>positive</code> (<code>character(1)</code>):
+<li><p><code>positive</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
 Name of the "positive" class for binary classification problems.</p></li>
 </ul>
     
@@ -219,7 +219,7 @@ Name of the "positive" class for binary classification problems.</p></li>
 #&gt; [139] virginica  virginica  virginica  virginica  virginica  virginica 
 #&gt; [145] virginica  virginica  virginica  virginica  virginica  virginica 
 #&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='no'>task</span>$<span class='no'>all_classes</span></div><div class='output co'>#&gt; [1] "setosa"     "versicolor" "virginica" </div><div class='input'><span class='no'>task</span>$<span class='no'>class_names</span></div><div class='output co'>#&gt; [1] "setosa"     "versicolor" "virginica" </div><div class='input'>
-<span class='fu'>data</span>(<span class='st'>"Sonar"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"mlbench"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"Sonar"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"mlbench"</span>)
 <span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>Sonar</span>)
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskClassif</span>$<span class='fu'>new</span>(<span class='st'>"sonar"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Class"</span>, <span class='kw'>positive</span> <span class='kw'>=</span> <span class='st'>"M"</span>)
 <span class='no'>task</span>$<span class='no'>positive</span></div><div class='output co'>#&gt; [1] "M"</div><div class='input'><span class='no'>task</span>$<span class='no'>negative</span></div><div class='output co'>#&gt; [1] "R"</div></pre>

@@ -177,21 +177,21 @@ l$hash
 
     
     <ul>
-<li><p><code>id</code> [<code>character(1)</code>]:
+<li><p><code>id</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]:
 identifier for this object.</p></li>
-<li><p><code>task_type</code> [<code>character(1)</code>]:<br />
+<li><p><code>task_type</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]:<br />
 Type of the task the learner can operator on. E.g., <code>"classif"</code> or <code>"regr"</code>.</p></li>
-<li><p><code>feature_types</code> [<code>character()</code>]:<br />
+<li><p><code>feature_types</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
 Feature types the learner operates on. Must be a subset of <code>mlr_reflections$task_feature_types</code>.</p></li>
-<li><p><code>predict_types</code> [<code>character()</code>]:<br />
+<li><p><code>predict_types</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
 Supported predict types. Must be a subset of <code>mlr_reflections$predict_types</code>.</p></li>
-<li><p><code>packages</code> [<code>character()</code>]:<br />
+<li><p><code>packages</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
 Set of required packages.</p></li>
-<li><p><code>param_set</code> [<code><a href='http://www.rdocumentation.org/packages/paradox/topics/ParamSet'>ParamSet</a></code>]:<br />
+<li><p><code>param_set</code> [<code><a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>ParamSet</a></code>]:<br />
 Set of required packages.</p></li>
 <li><p><code>param_vals</code> [<code>named list()</code>]:<br />
 List of hyperparameters.</p></li>
-<li><p><code>properties</code> [<code>character()</code>]:<br />
+<li><p><code>properties</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
 Set of properties of the learner. Must be a subset of <code>mlr_reflections$learner_properties</code>.</p></li>
 <li><p><code>task</code> [<a href='Task.html'>Task</a>]:<br />
 Task to train/predict on.</p></li>
@@ -204,19 +204,19 @@ Fitted model as returned by <code>train</code>.</p></li>
     
     <ul>
 <li><p><code>$new()</code> creates a new object of class Learner.</p></li>
-<li><p><code>$id</code> [<code>character(1)</code>] stores the identifier of the object.</p></li>
-<li><p><code>$task_type</code> [<code>character(1)</code>] stores the type of class this learner can operate on, e.g. <code>"classif"</code> or <code>"regr"</code>.</p></li>
-<li><p><code>$feature_types</code> [<code>character()</code>] stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.</p></li>
-<li><p><code>$predict_types</code> [<code>character()</code>] stores the possible predict types the learner is capable of. For classification,
+<li><p><code>$id</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>] stores the identifier of the object.</p></li>
+<li><p><code>$task_type</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>] stores the type of class this learner can operate on, e.g. <code>"classif"</code> or <code>"regr"</code>.</p></li>
+<li><p><code>$feature_types</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>] stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.</p></li>
+<li><p><code>$predict_types</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>] stores the possible predict types the learner is capable of. For classification,
 feasible values are <code>"response"</code> and <code>"prob"</code>, for regression <code>"response"</code> and <code>"se"</code> can be specified.</p></li>
-<li><p><code>$predict_type</code> [<code>character(1)</code>] stores the currently selected predict type.</p></li>
-<li><p><code>$packages</code> [<code>character()</code>] stores the names of required packages.</p></li>
-<li><p><code>$param_set()</code> [<a href='http://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>] describes the available hyperparameter and possible settings.</p></li>
+<li><p><code>$predict_type</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>] stores the currently selected predict type.</p></li>
+<li><p><code>$packages</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>] stores the names of required packages.</p></li>
+<li><p><code>$param_set()</code> [<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>] describes the available hyperparameter and possible settings.</p></li>
 <li><p><code>$param_vals()</code> [<code>named list()</code>] stores the list set hyperparameter values.</p></li>
-<li><p><code>$properties</code> [<code>character()</code>] is a set of tags which describe the properties of the learner.</p></li>
+<li><p><code>$properties</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>] is a set of tags which describe the properties of the learner.</p></li>
 <li><p><code>$train()</code> takes a task and returns a model fitted on all observations.</p></li>
 <li><p><code>$predict()</code> takes a task and the model fitted in <code>$train()</code> to return predicted labels.</p></li>
-<li><p><code>$hash</code> stores a checksum (<code>character(1)</code>) calculated on the <code>id</code> and <code>param_vals</code>.</p></li>
+<li><p><code>$hash</code> stores a checksum (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) calculated on the <code>id</code> and <code>param_vals</code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

@@ -146,11 +146,11 @@
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Public: add, get, has, items, keys, mget, remove</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># list keys</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">names</span>(mlr_tasks)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(mlr_tasks)</a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] "bh"      "iris"    "pima"    "sonar"   "spam"    "titanic" "zoo"</span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co"># get a quick overview</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">as.data.frame</span>(mlr_tasks)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(mlr_tasks)</a>
 <a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;        id    type nrow ncol</span></a>
 <a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 1      bh    regr  506   19</span></a>
 <a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 2    iris classif  150    5</span></a>
@@ -160,8 +160,8 @@
 <a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; 6 titanic classif  891   12</span></a>
 <a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; 7     zoo classif  101   17</span></a></code></pre></div>
 <p>Here, we will stick to the popular <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris data set</a>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw">get</span>(<span class="st">"iris"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">print</span>(task)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Task 'iris' of type classif (150 x 5)</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Target: Species</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Features: Sepal.Length, Sepal.Width, Petal.Length, Petal.Width</span></a>
@@ -188,37 +188,40 @@
 <a class="sourceLine" id="cb3-13" data-line-number="13">task<span class="op">$</span>formula</a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; NULL</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">task<span class="op">$</span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="dt">n =</span> <span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width</span></a>
 <a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; 1:  setosa          5.1         3.5          1.4         0.2</span></a>
 <a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; 2:  setosa          4.9         3.0          1.4         0.2</span></a>
 <a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; 3:  setosa          4.7         3.2          1.3         0.2</span></a></code></pre></div>
 <p>In <code>mlr3</code>, each row has a unique identifier (row name) which can be either <code>integer</code> or <code>character.</code> These can be used to select specific rows.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># iris uses integer row_ids</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">task<span class="op">$</span><span class="kw">row_ids</span>()</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;  [35]  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;  [52]  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;  [69]  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;  [86]  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100 101 102</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; [103] 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; [120] 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; [137] 137 138 139 140 141 142 143 144 145 146 147 148 149 150</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co"># filter rows 1, 51, and 101</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14">task<span class="op">$</span><span class="kw">data</span>(<span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>))</a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;       Species Sepal.Length Sepal.Width Petal.Length Petal.Width</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 1:     setosa          5.1         3.5          1.4         0.2</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 2: versicolor          7.0         3.2          4.7         1.4</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 3:  virginica          6.3         3.3          6.0         2.5</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co"># filter rows 1, 51, and 101 and only select column "Species"</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21">task<span class="op">$</span><span class="kw">data</span>(<span class="dt">rows =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>), <span class="dt">cols =</span> <span class="st">"Species"</span>)</a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt;       Species</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; 1:     setosa</span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; 2: versicolor</span></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; 3:  virginica</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2">task<span class="op">$</span>row_ids</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;      ..row_id</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   1:        1</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;   2:        2</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   3:        3</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   4:        4</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;   5:        5</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;  ---         </span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 146:      146</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 147:      147</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; 148:      148</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; 149:      149</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; 150:      150</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co"># filter rows 1, 51, and 101</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>))</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;       Species Sepal.Length Sepal.Width Petal.Length Petal.Width</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 1:     setosa          5.1         3.5          1.4         0.2</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 2: versicolor          7.0         3.2          4.7         1.4</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 3:  virginica          6.3         3.3          6.0         2.5</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co"># filter rows 1, 51, and 101 and only select column "Species"</span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>), <span class="dt">cols =</span> <span class="st">"Species"</span>)</a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt;       Species</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt; 1:     setosa</span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt; 2: versicolor</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt; 3:  virginica</span></a></code></pre></div>
 </div>
 <div id="task-creation" class="section level2">
 <h2 class="hasAnchor">
@@ -230,17 +233,17 @@
 <li>Cluster Task: You don’t have a target but want to identify similarities in the feature space. <br><span class="math inline">\(\Rightarrow\)</span> Not yet implemented.</li>
 </ul>
 <p>Let’s assume we want to create a simple regression task using the <code>mtcars</code> data set from the package <code>datasets</code> to predict the column <code>"mpg"</code> (miles per gallon). We only take the first two features here to keep the output in the following examples short.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">data</span>(<span class="st">"mtcars"</span>, <span class="dt">package =</span> <span class="st">"datasets"</span>)</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"mtcars"</span>, <span class="dt">package =</span> <span class="st">"datasets"</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">cars =<span class="st"> </span>mtcars[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">str</span>(cars)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cars)</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; 'data.frame':    32 obs. of  3 variables:</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...</span></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  $ disp: num  160 160 108 258 360 ...</span></a></code></pre></div>
-<p>Before we can create a regression task, we must create a <code><a href="../reference/DataBackend.html">mlr3::DataBackend</a></code>, an abstraction for data storage system. Here, we will stick to the simplest form of data storage: an in-memory table format using <code><a href="http://www.rdocumentation.org/packages/data.table/topics/data.table">data.table::data.table()</a></code>. We construct the backend first, and then pass it to the regression task constructor:</p>
+<p>Before we can create a regression task, we must create a <code><a href="../reference/DataBackend.html">mlr3::DataBackend</a></code>, an abstraction for data storage system. Here, we will stick to the simplest form of data storage: an in-memory table format using <code><a href="https://www.rdocumentation.org/packages/data.table/topics/data.table">data.table::data.table()</a></code>. We construct the backend first, and then pass it to the regression task constructor:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">b =<span class="st"> </span><span class="kw"><a href="../reference/DataBackend.html">as_data_backend</a></span>(cars)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">task =<span class="st"> </span>TaskRegr<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">"cars"</span>, b, <span class="dt">target =</span> <span class="st">"mpg"</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">print</span>(task)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task)</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; Task 'cars' of type regr (32 x 3)</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; Target: mpg</span></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; Features: cyl, disp</span></a>
@@ -251,28 +254,51 @@
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;   row_ids, row_roles, select, set_col_role, set_row_role,</span></a>
 <a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;   target_names, task_type, truth</span></a></code></pre></div>
 <p>The rownames of the <code>data.frame</code> <code>cars</code> have been automatically used as <code>row_ids</code>. We can use analogously to integer row ids to filter observations of the task:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">task<span class="op">$</span><span class="kw">row_ids</span>()</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;  [1] "AMC Javelin"         "Cadillac Fleetwood"  "Camaro Z28"         </span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;  [4] "Chrysler Imperial"   "Datsun 710"          "Dodge Challenger"   </span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;  [7] "Duster 360"          "Ferrari Dino"        "Fiat 128"           </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; [10] "Fiat X1-9"           "Ford Pantera L"      "Honda Civic"        </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; [13] "Hornet 4 Drive"      "Hornet Sportabout"   "Lincoln Continental"</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; [16] "Lotus Europa"        "Maserati Bora"       "Mazda RX4"          </span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; [19] "Mazda RX4 Wag"       "Merc 230"            "Merc 240D"          </span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; [22] "Merc 280"            "Merc 280C"           "Merc 450SE"         </span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; [25] "Merc 450SL"          "Merc 450SLC"         "Pontiac Firebird"   </span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; [28] "Porsche 914-2"       "Toyota Corolla"      "Toyota Corona"      </span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; [31] "Valiant"             "Volvo 142E"</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13">task<span class="op">$</span><span class="kw">data</span>(<span class="dt">rows =</span> <span class="kw">c</span>(<span class="st">"Merc 280"</span>, <span class="st">"Volvo 142E"</span>))</a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt;     mpg cyl  disp</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; 1: 19.2   6 167.6</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; 2: 21.4   4 121.0</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">task<span class="op">$</span>row_ids</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;                ..row_id</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;  1:         AMC Javelin</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;  2:  Cadillac Fleetwood</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;  3:          Camaro Z28</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;  4:   Chrysler Imperial</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;  5:          Datsun 710</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;  6:    Dodge Challenger</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;  7:          Duster 360</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;  8:        Ferrari Dino</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt;  9:            Fiat 128</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; 10:           Fiat X1-9</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; 11:      Ford Pantera L</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 12:         Honda Civic</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; 13:      Hornet 4 Drive</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; 14:   Hornet Sportabout</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; 15: Lincoln Continental</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; 16:        Lotus Europa</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; 17:       Maserati Bora</span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; 18:           Mazda RX4</span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; 19:       Mazda RX4 Wag</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; 20:            Merc 230</span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt; 21:           Merc 240D</span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt; 22:            Merc 280</span></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt; 23:           Merc 280C</span></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt; 24:          Merc 450SE</span></a>
+<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt; 25:          Merc 450SL</span></a>
+<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; 26:         Merc 450SLC</span></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">#&gt; 27:    Pontiac Firebird</span></a>
+<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt; 28:       Porsche 914-2</span></a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt; 29:      Toyota Corolla</span></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt; 30:       Toyota Corona</span></a>
+<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt; 31:             Valiant</span></a>
+<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt; 32:          Volvo 142E</span></a>
+<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt;                ..row_id</span></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Merc 280"</span>, <span class="st">"Volvo 142E"</span>))</a>
+<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt;     mpg cyl  disp</span></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; 1: 19.2   6 167.6</span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 2: 21.4   4 121.0</span></a></code></pre></div>
 </div>
 <div id="column-roles" class="section level2">
 <h2 class="hasAnchor">
 <a href="#column-roles" class="anchor"></a>Column Roles</h2>
-<p>Now, we want the original <code>rownames()</code> of <code>mtcars</code> to be a regular column. Thus, we first pre-process the <code>data.frame</code> and then re-create the task.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"data.table"</span>)</a>
+<p>Now, we want the original <code><a href="https://www.rdocumentation.org/packages/base/topics/colnames">rownames()</a></code> of <code>mtcars</code> to be a regular column. Thus, we first pre-process the <code>data.frame</code> and then re-create the task.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"data.table"</span>)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co"># `as.data.table` removes rownames, but  argument `keep.rownames` ensures</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co"># that they are stored in a separate column before</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4">data =<span class="st"> </span><span class="kw"><a href="../reference/as.data.table.html">as.data.table</a></span>(cars[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="dt">keep.rownames =</span> <span class="ot">TRUE</span>)</a>
@@ -280,13 +306,45 @@
 <a class="sourceLine" id="cb8-6" data-line-number="6">task =<span class="st"> </span>TaskRegr<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">"cars"</span>, b, <span class="dt">target =</span> <span class="st">"mpg"</span>)</a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co"># we now have integer row_ids</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">task<span class="op">$</span><span class="kw">row_ids</span>()</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; [24] 24 25 26 27 28 29 30 31 32</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co"># there is a new "feature" called "rn"</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14">task<span class="op">$</span>feature_names</a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; [1] "rn"   "cyl"  "disp"</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-9" data-line-number="9">task<span class="op">$</span>row_ids</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;     ..row_id</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  1:        1</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  2:        2</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  3:        3</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;  4:        4</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;  5:        5</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;  6:        6</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt;  7:        7</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  8:        8</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;  9:        9</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; 10:       10</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; 11:       11</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; 12:       12</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt; 13:       13</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt; 14:       14</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; 15:       15</span></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt; 16:       16</span></a>
+<a class="sourceLine" id="cb8-27" data-line-number="27"><span class="co">#&gt; 17:       17</span></a>
+<a class="sourceLine" id="cb8-28" data-line-number="28"><span class="co">#&gt; 18:       18</span></a>
+<a class="sourceLine" id="cb8-29" data-line-number="29"><span class="co">#&gt; 19:       19</span></a>
+<a class="sourceLine" id="cb8-30" data-line-number="30"><span class="co">#&gt; 20:       20</span></a>
+<a class="sourceLine" id="cb8-31" data-line-number="31"><span class="co">#&gt; 21:       21</span></a>
+<a class="sourceLine" id="cb8-32" data-line-number="32"><span class="co">#&gt; 22:       22</span></a>
+<a class="sourceLine" id="cb8-33" data-line-number="33"><span class="co">#&gt; 23:       23</span></a>
+<a class="sourceLine" id="cb8-34" data-line-number="34"><span class="co">#&gt; 24:       24</span></a>
+<a class="sourceLine" id="cb8-35" data-line-number="35"><span class="co">#&gt; 25:       25</span></a>
+<a class="sourceLine" id="cb8-36" data-line-number="36"><span class="co">#&gt; 26:       26</span></a>
+<a class="sourceLine" id="cb8-37" data-line-number="37"><span class="co">#&gt; 27:       27</span></a>
+<a class="sourceLine" id="cb8-38" data-line-number="38"><span class="co">#&gt; 28:       28</span></a>
+<a class="sourceLine" id="cb8-39" data-line-number="39"><span class="co">#&gt; 29:       29</span></a>
+<a class="sourceLine" id="cb8-40" data-line-number="40"><span class="co">#&gt; 30:       30</span></a>
+<a class="sourceLine" id="cb8-41" data-line-number="41"><span class="co">#&gt; 31:       31</span></a>
+<a class="sourceLine" id="cb8-42" data-line-number="42"><span class="co">#&gt; 32:       32</span></a>
+<a class="sourceLine" id="cb8-43" data-line-number="43"><span class="co">#&gt;     ..row_id</span></a>
+<a class="sourceLine" id="cb8-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb8-45" data-line-number="45"><span class="co"># there is a new "feature" called "rn"</span></a>
+<a class="sourceLine" id="cb8-46" data-line-number="46">task<span class="op">$</span>feature_names</a>
+<a class="sourceLine" id="cb8-47" data-line-number="47"><span class="co">#&gt; [1] "rn"   "cyl"  "disp"</span></a></code></pre></div>
 <p>In <code>mlr3</code>, columns (and rows) can be assigned roles. We have seen three different roles for columns so far:</p>
 <ol style="list-style-type: decimal">
 <li>The target column (here <code>"mpg"</code>), also called dependent variable.</li>
@@ -307,18 +365,18 @@
 <p>In the following we do not want to learn on neither the primary key (which is taken care of <code>mlr3</code>) nor the new column <code>rn</code> with the row names. However, we still might want to carry <code>rn</code> around for different reasons. E.g., we can use the row names in plots or to associate outliers with the row names. This being said, we need to change the role of the rownames column <code>rn</code> and remove it from the set of features.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">task<span class="op">$</span>feature_names</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; [1] "rn"   "cyl"  "disp"</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">task<span class="op">$</span><span class="kw">set_col_role</span>(<span class="st">"rn"</span>, <span class="dt">new_roles =</span> <span class="kw">character</span>(0L))</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">task<span class="op">$</span><span class="kw">set_col_role</span>(<span class="st">"rn"</span>, <span class="dt">new_roles =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">character</a></span>(0L))</a>
 <a class="sourceLine" id="cb10-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co"># "rn" not listed as feature any more</span></a>
 <a class="sourceLine" id="cb10-6" data-line-number="6">task<span class="op">$</span>feature_names</a>
 <a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; [1] "cyl"  "disp"</span></a>
 <a class="sourceLine" id="cb10-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co"># also eliminated from "data" and "head"</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10">task<span class="op">$</span><span class="kw">data</span>(<span class="dt">rows =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt;    mpg cyl disp</span></a>
 <a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 1:  21   6  160</span></a>
 <a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; 2:  21   6  160</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14">task<span class="op">$</span><span class="kw">head</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;    mpg cyl disp</span></a>
 <a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 1:  21   6  160</span></a>
 <a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 2:  21   6  160</span></a></code></pre></div>
@@ -337,7 +395,7 @@
 <li>Some observations may be unlabeled, e.g. in data mining cups or <a href="https://www.kaggle.com/">Kaggle</a> competitions. These observations cannot be used for training a model, but you can still predict labels.</li>
 </ol>
 <p>Instead of creating a task with only a subset of observations and then manually apply the fitted model on an hold-back <code>data.frame</code>, you can just call the function <code>validate()</code> later on. Marking observations as validation works analogously to changing column roles:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">str</span>(task<span class="op">$</span>row_roles)</a>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(task<span class="op">$</span>row_roles)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; List of 2</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;  $ use       : int [1:32] 1 2 3 4 5 6 7 8 9 10 ...</span></a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;  $ validation: int(0)</span></a>

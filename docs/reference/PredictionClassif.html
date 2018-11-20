@@ -168,12 +168,12 @@ as.data.table(p)
 
     
     <ul>
-<li><p><code>truth</code> [factor]:<br />
+<li><p><code>truth</code> [<a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a>]:<br />
 Factor of true class labels (as returned by <code>task$truth()</code>). Note that empty levels may not be dropped.</p></li>
-<li><p><code>response</code> [factor | character]:<br />
-Vector of predicted class labels. Must have length <code>length(truth)</code>.</p></li>
-<li><p><code>prob</code> [matrix]:<br />
-Numeric matrix of class probabilities with <code>levels(truth)</code> columns and <code>length(truth)</code> rows.
+<li><p><code>response</code> [<a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a> | <a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a>]:<br />
+Vector of predicted class labels. Must have length <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(truth)</a></code>.</p></li>
+<li><p><code>prob</code> [<a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a>]:<br />
+Numeric matrix of class probabilities with <code><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels(truth)</a></code> columns and <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(truth)</a></code> rows.
 Columns must be named with class levels.</p></li>
 </ul>
     
@@ -185,8 +185,8 @@ Columns must be named with class levels.</p></li>
 <li><p><code>$truth</code> stores the predicted class labels as factor.</p></li>
 <li><p><code>$response</code> stores the predicted class labels as factor.</p></li>
 <li><p><code>$prob</code> stores the label probabilities (if available) as matrix, or is <code>NULL</code>.</p></li>
-<li><p>The prediction object can be transformed to a simple <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>
-with <code><a href='http://www.rdocumentation.org/packages/data.table/topics/as.data.table'>as.data.table()</a></code>.</p></li>
+<li><p>The prediction object can be transformed to a simple <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>
+with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as.data.table'>as.data.table()</a></code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

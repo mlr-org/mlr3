@@ -139,39 +139,39 @@
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p>Make sure you have installed <code>future</code> and <code>future.apply</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">"future"</span>))</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="kw">install.packages</span>(<span class="st">"future"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">"future.apply"</span>))</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="kw">install.packages</span>(<span class="st">"future.apply"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ns-load">requireNamespace</a></span>(<span class="st">"future"</span>))</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"future"</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ns-load">requireNamespace</a></span>(<span class="st">"future.apply"</span>))</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"future.apply"</span>)</a></code></pre></div>
 </div>
 <div id="parallel-resampling" class="section level1">
 <h1 class="hasAnchor">
 <a href="#parallel-resampling" class="anchor"></a>Parallel Resampling</h1>
 <p>The most outer loop in resampling runs independent repetitions of applying a learner on a subset of a task, predict on a different subset and score the performance by comparing true and predicted labels. This loop is what is called embarrassingly parallel.</p>
 <p>In the following, we will consider the spam task and a simple classification tree (<code>"classif.rpart"</code>) to illustrate the parallelization.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"mlr3"</span>)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"mlr3"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw">get</span>(<span class="st">"spam"</span>)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">"classif.rpart"</span>)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw">get</span>(<span class="st">"subsampling"</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"subsampling"</span>)</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw">system.time</span>(</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(</a>
 <a class="sourceLine" id="cb2-8" data-line-number="8">  <span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner, resampling)</a>
 <a class="sourceLine" id="cb2-9" data-line-number="9">)[3L]</a></code></pre></div>
 <p>We now use the <code>future</code> package to parallelize the resampling by selecting a backend via the function <code>plan</code> and then repeat the resampling. We use the “multiprocess” backend here which uses threads on linux/mac and a socket cluster on windows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">future<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/future/topics/plan">plan</a></span>(<span class="st">"multiprocess"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">system.time</span>(</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">future<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/future/topics/plan">plan</a></span>(<span class="st">"multiprocess"</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner, resampling)</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">)[3L]</a></code></pre></div>
 <p>On most systems you should see a decrease in the reported real CPU time. On some systems (e.g. windows), the overhead for parallelization is quite large though. Therefore, you should only enable parallelization for experiments which run more than 10s each.</p>
 <p>Benchmarking is also parallelized. The following code sends 64 jobs (4 tasks * 16 resampling repeats) to the future backend:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">tasks =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw">mget</span>(<span class="kw">c</span>(<span class="st">"iris"</span>, <span class="st">"spam"</span>, <span class="st">"pima"</span>))</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">learners =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">mget</span>(<span class="st">"classif.rpart"</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">resamplings =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw">mget</span>(<span class="st">"subsampling"</span>)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">resamplings<span class="op">$</span>subsampling<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw">list</span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>, <span class="dt">repeats =</span> <span class="dv">16</span>)</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">tasks =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"iris"</span>, <span class="st">"spam"</span>, <span class="st">"pima"</span>))</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">learners =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"classif.rpart"</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">resamplings =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"subsampling"</span>)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">resamplings<span class="op">$</span>subsampling<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>, <span class="dt">repeats =</span> <span class="dv">16</span>)</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">future<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/future/topics/plan">plan</a></span>(<span class="st">"multiprocess"</span>)</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw">system.time</span>(</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">future<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/future/topics/plan">plan</a></span>(<span class="st">"multiprocess"</span>)</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(tasks, learners, resamplings)</a>
 <a class="sourceLine" id="cb4-9" data-line-number="9">)[3L]</a></code></pre></div>
 </div>
@@ -179,12 +179,12 @@
 <h1 class="hasAnchor">
 <a href="#running-learners-in-a-fail-safe-way" class="anchor"></a>Running learners in a fail-safe way</h1>
 <p>With future as backend, it is also possible to run learners in an isolated R session. If the learner crashed, e.g. with a SEGFAULT, it does not tear down the master session. Here is a small example where a single model fit is executed in an independent R session.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"future.callr"</span>)</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"future.callr"</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">plan</span>(<span class="st">"callr"</span>)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">task =</span> mlr_tasks<span class="op">$</span><span class="kw">get</span>(<span class="st">"spam"</span>),</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">learner =</span> mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">"classif.crashtest"</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">task =</span> mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>),</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">learner =</span> mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.crashtest"</span>)</a>
 <a class="sourceLine" id="cb5-7" data-line-number="7">)</a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9">e<span class="op">$</span><span class="kw">train</span>()</a></code></pre></div>

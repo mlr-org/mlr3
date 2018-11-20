@@ -146,11 +146,11 @@
 <ol style="list-style-type: decimal">
 <li>
 <p>The classification task</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw">get</span>(<span class="st">"iris"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a></code></pre></div>
 </li>
 <li>
 <p>A learner for the classification tree</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw">get</span>(<span class="st">"classif.rpart"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>)</a></code></pre></div>
 </li>
 </ol>
 </div>
@@ -158,15 +158,15 @@
 <h2 class="hasAnchor">
 <a href="#splitting-into-train-and-test" class="anchor"></a>Splitting into train and test</h2>
 <p>We opt to learn on roughly <span class="math inline">\(\frac{4}{5}\)</span> of the observations and predict on the other <span class="math inline">\(\frac{1}{5}\)</span>. To do so we create two index vectors:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">train.set =<span class="st"> </span><span class="kw">sample</span>(task<span class="op">$</span>nrow, <span class="dv">4</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>task<span class="op">$</span>nrow)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">test.set =<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">seq_len</span>(task<span class="op">$</span>nrow), train.set)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">train.set =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(task<span class="op">$</span>nrow, <span class="dv">4</span><span class="op">/</span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>task<span class="op">$</span>nrow)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">test.set =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(task<span class="op">$</span>nrow), train.set)</a></code></pre></div>
 </div>
 <div id="setting-up-an-experiment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#setting-up-an-experiment" class="anchor"></a>Setting up an Experiment</h2>
 <p>The process of fitting a machine learning model, predicting on test data and scoring the predictions by comparing predicted and true labels is called an experiment. For this reason, we start by initializing an experiment here, too:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(<span class="dt">task =</span> task, <span class="dt">learner =</span> learner)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">print</span>(e)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Experiment [incomplete]:</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;  + Task: iris</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;  + Learner: classif.rpart</span></a>
@@ -185,7 +185,7 @@
 <p>To train the learner on the task, we call the train function of the experiment:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">subset =</span> train.set)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Training learner 'classif.rpart' on task 'iris' ...</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">print</span>(e)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; Experiment [incomplete]:</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  + Task: iris</span></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  + Learner: classif.rpart</span></a>
@@ -198,7 +198,7 @@
 <a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;   train_set, validation_set</span></a></code></pre></div>
 <p>The printer indicates that the object was grown, we have now stored a model in the experiment (along some more technical stuff like log files):</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">rpart.model =<span class="st"> </span>e<span class="op">$</span>model</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">print</span>(rpart.model)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rpart.model)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; n= 120 </span></a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; node), split, n, loss, yval, (yprob)</span></a>
@@ -214,9 +214,9 @@
 <h2 class="hasAnchor">
 <a href="#predicting" class="anchor"></a>Predicting</h2>
 <p>After the training step, we are able to use the experiment to predict on observations of the task (note that you may alternatively also pass new data here as <code>data.frame</code>):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">e<span class="op">$</span><span class="kw">predict</span>(<span class="dt">subset =</span> test.set)</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(<span class="dt">subset =</span> test.set)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Predicting model of learner 'classif.rpart' on task 'iris' ...</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">print</span>(e)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Experiment [incomplete]:</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;  + Task: iris</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;  + Learner: classif.rpart</span></a>
@@ -228,7 +228,7 @@
 <a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;   predict, prediction, score, state, test_set, timings, train,</span></a>
 <a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;   train_set, validation_set</span></a></code></pre></div>
 <p>The predictions can be retrieved as a simple <code>data.table</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">head</span>(e<span class="op">$</span>prediction)</a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(e<span class="op">$</span>prediction)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt;    id response  truth</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; 1:  2   setosa setosa</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 2:  4   setosa setosa</span></a>
@@ -245,7 +245,7 @@
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] "mmce"</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">e<span class="op">$</span><span class="kw">score</span>()</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Scoring predictions of learner 'classif.rpart' on task 'iris' ...</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw">print</span>(e)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; Experiment [complete]:</span></a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;  + Task: iris</span></a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  + Learner: classif.rpart</span></a>
@@ -265,7 +265,7 @@
 <h2 class="hasAnchor">
 <a href="#chaining-methods" class="anchor"></a>Chaining methods</h2>
 <p>Instead of calling the methods <code>$train()</code>, <code>$predict()</code> and <code>$score()</code> one after each other, it is also possible to chain these commands:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">Experiment<span class="op">$</span><span class="kw">new</span>(<span class="dt">task =</span> task, <span class="dt">learner =</span> learner)<span class="op">$</span><span class="kw">train</span>(train.set)<span class="op">$</span><span class="kw">predict</span>(test.set)<span class="op">$</span><span class="kw">score</span>()</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">Experiment<span class="op">$</span><span class="kw">new</span>(<span class="dt">task =</span> task, <span class="dt">learner =</span> learner)<span class="op">$</span><span class="kw">train</span>(train.set)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(test.set)<span class="op">$</span><span class="kw">score</span>()</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; Training learner 'classif.rpart' on task 'iris' ...</span></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; Predicting model of learner 'classif.rpart' on task 'iris' ...</span></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; Scoring predictions of learner 'classif.rpart' on task 'iris' ...</span></a></code></pre></div>

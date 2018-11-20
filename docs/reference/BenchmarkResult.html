@@ -168,7 +168,7 @@ as.data.table(bmr)
 
     
     <ul>
-<li><p><code>hash</code> [<code>character(1)</code>]:<br />
+<li><p><code>hash</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]:<br />
 String which identifies a subgroup to extract as <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
 </ul>
     
@@ -177,21 +177,21 @@ String which identifies a subgroup to extract as <a href='ResampleResult.html'>R
     
     <ul>
 <li><p><code>$tasks</code>, <code>$learners</code>, <code>$resamplings</code> and <code>$measures</code> return an overview table of involved objects.</p></li>
-<li><p><code>$aggregated</code> returns aggregated performance measures as a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.
+<li><p><code>$aggregated</code> returns aggregated performance measures as a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.
 Experiments are aggregated by their resample result group
 (combination of <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a> and <a href='Resampling.html'>Resampling</a>). The actual aggregation function is defined by the respective <a href='Measure.html'>Measure</a>.</p></li>
-<li><p><code>$resample_results</code> returns a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code> which gives an overview of the resample result groups in the benchmark.
+<li><p><code>$resample_results</code> returns a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code> which gives an overview of the resample result groups in the benchmark.
 These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.html'>ResampleResult</a> for further inspection.</p></li>
 <li><p><code>$resample_result()</code> creates the <a href='ResampleResult.html'>ResampleResult</a> identified by the specified <code>hash</code> value.</p></li>
-<li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts the BenchmarkResult to a <code><a href='http://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.</p></li>
+<li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts the BenchmarkResult to a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.</p></li>
 </ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'><a href='benchmark.html'>benchmark</a></span>(
-  <span class='kw'>tasks</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'>mget</span>(<span class='st'>"iris"</span>),
-  <span class='kw'>learners</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'>mget</span>(<span class='fu'>c</span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>)),
-  <span class='kw'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'>mget</span>(<span class='st'>"cv"</span>),
+  <span class='kw'>tasks</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='st'>"iris"</span>),
+  <span class='kw'>learners</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>)),
+  <span class='kw'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='st'>"cv"</span>),
   <span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_control.html'>mlr_control</a></span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 )
 
@@ -203,10 +203,10 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
 #&gt; 1:       mmce &lt;MeasureClassifMMCE&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash task_id          learner_id resampling_id      mmce
 #&gt; 1: 7a67769f33b78aa7    iris classif.featureless            cv 0.7533333
 #&gt; 2: bcbe290cdbc79cec    iris       classif.rpart            cv 0.0600000</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
-<span class='fu'>print</span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id          learner_id resampling_id  N
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id          learner_id resampling_id  N
 #&gt; 1: 7a67769f33b78aa7    iris classif.featureless            cv 10
 #&gt; 2: bcbe290cdbc79cec    iris       classif.rpart            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
-<span class='fu'>print</span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.featureless' with 10 iterations
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.featureless' with 10 iterations
 #&gt;  Measure      Min.   1st Qu.    Median      Mean 3rd Qu.      Max.         Sd
 #&gt;     mmce 0.6666667 0.7333333 0.7333333 0.7533333     0.8 0.8666667 0.06324555</div><div class='input'><span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>model</span></div><div class='output co'>#&gt; 
 #&gt;     setosa versicolor  virginica 

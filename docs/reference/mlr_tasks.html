@@ -175,7 +175,7 @@
 #&gt; 4:   sonar classif  208   61
 #&gt; 5:    spam classif 4601   58
 #&gt; 6: titanic classif  891   12
-#&gt; 7:     zoo classif  101   17</div><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'>get</span>(<span class='st'>"iris"</span>)</div><div class='output co'>#&gt; Task 'iris' of type classif (150 x 5)
+#&gt; 7:     zoo classif  101   17</div><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)</div><div class='output co'>#&gt; Task 'iris' of type classif (150 x 5)
 #&gt; Target: Species
 #&gt; Features: Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
 #&gt; 
@@ -183,7 +183,7 @@
 #&gt;   col_info, col_roles, data, feature_names, feature_types, filter,
 #&gt;   formula, hash, head, id, levels, measures, ncol, negative, nrow,
 #&gt;   overwrite, positive, properties, rbind, row_ids, row_roles, select,
-#&gt;   set_col_role, set_row_role, target_names, task_type, truth</div><div class='input'><span class='fu'>head</span>(<span class='no'>mlr_tasks</span>$<span class='fu'>get</span>(<span class='st'>"iris"</span>)$<span class='fu'>data</span>())</div><div class='output co'>#&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width
+#&gt;   set_col_role, set_row_role, target_names, task_type, truth</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>())</div><div class='output co'>#&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width
 #&gt; 1:  setosa          5.1         3.5          1.4         0.2
 #&gt; 2:  setosa          4.9         3.0          1.4         0.2
 #&gt; 3:  setosa          4.7         3.2          1.3         0.2
@@ -192,7 +192,7 @@
 #&gt; 6:  setosa          5.4         3.9          1.7         0.4</div><div class='input'>
 <span class='co'># Add a new task, based on a subset of iris:</span>
 <span class='no'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>
-<span class='no'>data</span>$<span class='no'>Species</span> <span class='kw'>=</span> <span class='fu'>factor</span>(<span class='fu'>ifelse</span>(<span class='no'>data</span>$<span class='no'>Species</span> <span class='kw'>==</span> <span class='st'>"setosa"</span>, <span class='st'>"1"</span>, <span class='st'>"0"</span>))
+<span class='no'>data</span>$<span class='no'>Species</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='no'>data</span>$<span class='no'>Species</span> <span class='kw'>==</span> <span class='st'>"setosa"</span>, <span class='st'>"1"</span>, <span class='st'>"0"</span>))
 <span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>data</span>)
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskClassif</span>$<span class='fu'>new</span>(<span class='st'>"iris.binary"</span>, <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>, <span class='kw'>positive</span> <span class='kw'>=</span> <span class='st'>"1"</span>)
 
@@ -203,7 +203,7 @@
 <span class='no'>mlr_tasks</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "bh"          "iris"        "iris.binary" "pima"        "sonar"      
 #&gt; [6] "spam"        "titanic"     "zoo"        </div><div class='input'>
 <span class='co'># retrieve from dictionary</span>
-<span class='no'>mlr_tasks</span>$<span class='fu'>get</span>(<span class='st'>"iris.binary"</span>)</div><div class='output co'>#&gt; Task 'iris.binary' of type classif (150 x 5)
+<span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris.binary"</span>)</div><div class='output co'>#&gt; Task 'iris.binary' of type classif (150 x 5)
 #&gt; Target: Species
 #&gt; Features: Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
 #&gt; 
@@ -213,7 +213,7 @@
 #&gt;   overwrite, positive, properties, rbind, row_ids, row_roles, select,
 #&gt;   set_col_role, set_row_role, target_names, task_type, truth</div><div class='input'>
 <span class='co'># remove task again</span>
-<span class='no'>mlr_tasks</span>$<span class='fu'>remove</span>(<span class='st'>"iris.binary"</span>)</div></pre>
+<span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rm'>remove</a></span>(<span class='st'>"iris.binary"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
