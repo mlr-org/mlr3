@@ -62,7 +62,7 @@ These can be used to select specific rows.
 
 ```{r}
 # iris uses integer row_ids
-task$row_ids()
+task$row_ids
 
 # filter rows 1, 51, and 101
 task$data(rows = c(1, 51, 101))
@@ -103,7 +103,7 @@ print(task)
 The rownames of the `data.frame` `cars` have been automatically used as `row_ids`.
 We can use analogously to integer row ids to filter observations of the task:
 ```{r}
-task$row_ids()
+task$row_ids
 task$data(rows = c("Merc 280", "Volvo 142E"))
 ```
 
@@ -122,7 +122,7 @@ b = as_data_backend(data)
 task = TaskRegr$new(id = "cars", b, target = "mpg")
 
 # we now have integer row_ids
-task$row_ids()
+task$row_ids
 
 # there is a new "feature" called "rn"
 task$feature_names

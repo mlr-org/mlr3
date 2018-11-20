@@ -56,7 +56,7 @@ resample_repeated_cv = function(ids, folds, repeats) {
 
 instantiate_repeated_cv = function(task, folds, repeats, stratify = character(0L)) {
   if (length(stratify) == 0L) {
-    res = resample_repeated_cv(task$row_ids(), folds, repeats)
+    res = resample_repeated_cv(task$row_ids[[1L]], folds, repeats)
   } else {
     grps = stratify_groups(task, stratify = stratify, min_group_size = folds)
     res = map_dtr(grps$..row_id, resample_repeated_cv, folds = folds, repeats = repeats)

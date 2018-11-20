@@ -233,7 +233,7 @@ expect_resampling = function(r, task = NULL) {
     testthat::expect_true(r$is_instantiated)
     expect_hash(r$hash, 1L)
     if (!is.null(task))
-      ids = task$row_ids()
+      ids = task$row_ids[[1L]]
     checkmate::expect_count(r$iters, positive = TRUE)
 
     for (i in seq_len(r$iters)) {

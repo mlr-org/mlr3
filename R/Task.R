@@ -18,7 +18,7 @@
 #' t$data(rows = NULL, cols = NULL)
 #' t$head(n = 6)
 #' t$levels(col)
-#' t$row_ids(subset = NULL)
+#' t$row_ids
 #' t$features_names
 #' t$target_names
 #' t$nrow
@@ -30,8 +30,8 @@
 #' t$filter(rows)
 #' t$select(cols)
 #' t$rbind(data)
-#' t$cbind(data)
-#' t$overwrite(cols)
+#' t$cbind(data, rows = NULL)
+#' t$overwrite(data, rows = NULL)
 #' ```
 #'
 #' @section Arguments:
@@ -96,7 +96,8 @@
 #' * `$levels()` queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
 #'   This function ignores the row roles, so you get all levels found in the [DataBackend].
 #'
-#' * `$row_ids()` returns a (subset of) row ids used in the task, i.e. subsetted to observations with `role == "use"`.
+#' * `$row_ids` \[`data.table()`] returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
+#'    The column names of the returned `data.table` equals the primary key column in the [DataBackend].
 #'
 #' * `$feature_names` returns a `character` vector of all feature names with `role == "feature"`.
 #'
@@ -186,10 +187,6 @@ Task = R6Class("Task",
       self$col_info[list(col), "levels", with = FALSE, nomatch = 0L][[1L]][[1L]]
     },
 
-    row_ids = function(subset = NULL) {
-      if (is.null(subset)) self$row_roles$use else intersect(self$row_roles$use, subset)
-    },
-
     filter = function(rows) {
       self$row_roles$use = intersect(self$row_roles$use, rows)
       self
@@ -204,12 +201,12 @@ Task = R6Class("Task",
       task_rbind(self, data)
     },
 
-    cbind = function(data) {
-      task_cbind(self, data)
+    cbind = function(data, rows = NULL) {
+      task_cbind(self, data, rows = rows)
     },
 
-    overwrite = function(data) {
-      task_overwrite(self, data)
+    overwrite = function(data, rows = NULL) {
+      task_overwrite(self, data, rows = rows)
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
@@ -250,6 +247,11 @@ Task = R6Class("Task",
       if (is.na(private$.hash))
         private$.hash = digest::digest(list(self$id, self$row_roles, self$col_roles), algo = "xxhash64")
       private$.hash
+    },
+
+    row_ids = function() {
+      res = data.table(..row_id = self$row_roles$use)
+      setnames(res, "..row_id", self$backend$primary_key)
     },
 
     feature_names = function() {
@@ -351,7 +353,7 @@ task_rbind = function(self, data) {
 
   ## 1.1 Check for primary key column and auto-increment if possible
   if (pk %nin% names(data)) {
-    rids = self$row_ids()
+    rids = self$row_ids[[1L]]
     if (is.integer(rids)) {
       data[[pk]] = max(rids) + seq_row(data)
       auto_incremented = TRUE
@@ -396,21 +398,14 @@ task_rbind = function(self, data) {
 # 1. Check that an cbind is feasible
 # 2. Update col_info
 # 3. Overwrite self$backend with new backend
-task_cbind = function(self, data) {
+task_cbind = function(self, data, rows = NULL) {
   # 1. Check that an cbind is feasible
-  assert_data_frame(data, min.rows = 1L, min.cols = 2L)
+  assert_data_frame(data, min.rows = 1L, min.cols = 1L)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
   ## 1.1 Check primary key column
-  if (pk %nin% names(data)) {
-    stopf("Cannot cbind task: Missing primary key column '%s'", self$backend$primary_key)
-  }
-
-  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
-  if (self$col_info[list(pk), "type", on = "id"][[1L]] != class(data[[pk]])) {
-    stopf("Cannot cbind task: Primary key column '%s' has wrong type", self$backend$primary_key)
-  }
+  set_primary_key(task, data, rows)
 
   ## 1.2 Check that there are no duplicated column names
   tmp = setdiff(intersect(self$col_info$id, names(data)), pk)
@@ -438,25 +433,18 @@ task_cbind = function(self, data) {
 # 1. Check that an overwrite is feasible
 # 2. Overwrite self$backend with new backend
 # 3. Update col_info
-task_overwrite = function(self, data) {
-  assert_data_frame(data, min.rows = 1L, min.cols = 2L)
+task_overwrite = function(self, data, rows = NULL) {
+  assert_data_frame(data, min.rows = 1L, min.cols = 1L)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
-  ## 1.1 Check primary key column
-  if (pk %nin% names(data)) {
-    stopf("Cannot cbind task: Missing primary key column '%s'", self$backend$primary_key)
-  }
-
-  assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
-  if (self$col_info[list(pk), "type", on = "id"][[1L]] != class(data[[pk]])) {
-    stopf("Cannot cbind task: Primary key column '%s' has wrong type", self$backend$primary_key)
-  }
+  ## 1.1 Check/Set primary key column
+  set_primary_key(task, data, rows)
 
   ## 1.2 Check that there are no extra column names in data
   tmp = setdiff(names(data), self$col_info$id)
   if (length(tmp)) {
-    stopf("Cannot overwrite task: Extra columns: %s", stri_head(tmp))
+    stopf("Cannot overwrite task: Extra columns found: %s", stri_head(tmp))
   }
 
   ## 1.3 Check for set equality of row ids
@@ -481,6 +469,23 @@ task_print = function(self) {
   if (length(self$col_roles$order))
     catf(stri_wrap(initial = "Order by: ", self$col_roles$order))
   catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
+}
+
+set_primary_key = function(task, data, rows = NULL) {
+  pk = task$backend$primary_key
+  pk_in_data = pk %in% names(data)
+  if (!xor(pk_in_data, !is.null(rows)))
+    stopf("Primary key must be a column in `data` _xor_ manually specified")
+
+  if (pk_in_data) {
+    assert_atomic_vector(data[[pk]], any.missing = FALSE, unique = TRUE)
+    if (task$col_info[list(pk), "type", on = "id"][[1L]] != class(data[[pk]]))
+      stopf("Cannot mutate task: Primary key column '%s' has wrong type", pk)
+  } else {
+    assert_atomic_vector(rows, len = nrow(data))
+    insert(data, setNames(list(rows), pk))
+  }
+  data
 }
 
 col_info = function(x, ...) {

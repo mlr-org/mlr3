@@ -157,7 +157,7 @@ Resampling = R6Class("Resampling",
 
 stratify_groups = function(task, stratify, min_group_size = 0L) {
   assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)
-  row_ids = task$row_ids()
+  row_ids = task$row_ids[[1L]]
   grps = cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
   if (min_group_size > 0L) {
     ii = wf(grps$..N < min_group_size)

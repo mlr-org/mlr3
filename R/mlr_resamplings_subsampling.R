@@ -51,7 +51,7 @@ resample_subsampling = function(ids, ratio, repeats) {
 
 instantiate_subsampling = function(task, ratio, repeats, stratify = character(0L)) {
   if (length(stratify) == 0L) {
-    res = resample_subsampling(task$row_ids(), ratio, repeats)
+    res = resample_subsampling(task$row_ids[[1L]], ratio, repeats)
   } else {
     grps = stratify_groups(task, stratify = stratify)
     res = lapply(grps$..row_id, resample_subsampling, ratio = ratio, repeats = repeats)

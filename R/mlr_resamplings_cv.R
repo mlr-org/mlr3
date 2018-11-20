@@ -49,7 +49,7 @@ resample_cv = function(ids, folds) {
 
 instantiate_cv = function(task, folds, stratify = character(0L)) {
   if (length(stratify) == 0L) {
-    res = resample_cv(task$row_ids(), folds)
+    res = resample_cv(task$row_ids[[1L]], folds)
   } else {
     grps = stratify_groups(task, stratify = stratify, min_group_size = folds)
     res = map_dtr(grps$..row_id, resample_cv, folds = folds)

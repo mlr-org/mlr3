@@ -51,7 +51,7 @@ resample_bootstrap = function(ids, ratio, repeats) {
 
 instantiate_bootstrap = function(task, ratio, repeats, stratify = character(0L)) {
   if (length(stratify) == 0L) {
-    res = resample_bootstrap(task$row_ids(), ratio, repeats)
+    res = resample_bootstrap(task$row_ids[[1L]], ratio, repeats)
   } else {
     grps = stratify_groups(task, stratify = stratify)
     res = lapply(grps$..row_id, resample_bootstrap, ratio = ratio, repeats = repeats)

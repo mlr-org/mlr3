@@ -16,10 +16,15 @@ test_that("Task rbind", {
 
 test_that("Task cbind", {
   task = mlr_tasks$get("iris")
-  data = data.frame(..row_id = task$row_ids(), foo = 150:1)
+  data = data.frame(..row_id = task$row_ids[[1L]], foo = 150:1)
   task$cbind(data)
   expect_task(task)
   expect_names(task$feature_names, must.include = "foo")
+
+  data = data.frame(bar = runif(150))
+  task$cbind(data)
+  expect_task(task)
+  expect_names(task$feature_names, must.include = "bar")
 })
 
 
@@ -71,11 +76,11 @@ test_that("cbind/rbind works", {
 
   task$rbind(cbind(data.table(..row_id = 201:210, foo = 99L), iris[1:10, ]))
   expect_task(task)
-  expect_set_equal(task$row_ids(), c(1:150, 201:210))
+  expect_set_equal(task$row_ids[[1L]], c(1:150, 201:210))
   expect_data_table(task$data(), ncol = 6, nrow = 160, any.missing = FALSE)
 })
 
-test_that("cbind/rbind works", {
+test_that("overwrite works", {
   task = mlr_tasks$get("iris")
   data = data.table(..row_id = 1:10, Sepal.Length = -1, Species = "a")
   task$overwrite(data)
@@ -83,6 +88,10 @@ test_that("cbind/rbind works", {
   expect_set_equal(levels(data$Species), c(levels(iris$Species), "a"))
   expect_true(all(data$Sepal.Length[1:10] == -1))
   expect_true(all(data$Sepal.Length[11:150] > 0))
+
+  data = data.table(Sepal.Length = 99)
+  task$overwrite(data, rows = 150)
+  expect_equal(task$data(150, "Sepal.Length")[[1L]], 99)
 })
 
 test_that("filter works", {
@@ -93,7 +102,7 @@ test_that("filter works", {
   task$filter(91:150)
   expect_equal(task$nrow, 10L)
 
-  expect_equal(task$row_ids(), 91:100)
+  expect_equal(task$row_ids[[1L]], 91:100)
 })
 
 test_that("select works", {

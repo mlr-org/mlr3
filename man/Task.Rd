@@ -20,7 +20,7 @@ t$measures
 t$data(rows = NULL, cols = NULL)
 t$head(n = 6)
 t$levels(col)
-t$row_ids(subset = NULL)
+t$row_ids
 t$features_names
 t$target_names
 t$nrow
@@ -32,8 +32,8 @@ t$hash
 t$filter(rows)
 t$select(cols)
 t$rbind(data)
-t$cbind(data)
-t$overwrite(cols)
+t$cbind(data, rows = NULL)
+t$overwrite(data, rows = NULL)
 }
 }
 
@@ -98,7 +98,8 @@ If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \item \code{$head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
 \item \code{$levels()} queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
 This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
-\item \code{$row_ids()} returns a (subset of) row ids used in the task, i.e. subsetted to observations with \code{role == "use"}.
+\item \code{$row_ids} [\code{data.table()}] returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
+The column names of the returned \code{data.table} equals the primary key column in the \link{DataBackend}.
 \item \code{$feature_names} returns a \code{character} vector of all feature names with \code{role == "feature"}.
 \item \code{$target_names} returns a \code{character} vector of all feature names with \code{role == "target"}.
 \item \code{$nrow} provides the total number of rows with \code{role == "use"}.

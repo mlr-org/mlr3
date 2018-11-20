@@ -44,7 +44,7 @@ resample_holdout = function(ids, ratio) {
 
 instantiate_holdout = function(task, ratio, stratify = character(0L)) {
   if (length(stratify) == 0L) {
-    res = resample_holdout(task$row_ids(), ratio)
+    res = resample_holdout(task$row_ids[[1L]], ratio)
   } else {
     grps = stratify_groups(task, stratify = stratify)
     res = lapply(grps$..row_id, resample_holdout, ratio = ratio)

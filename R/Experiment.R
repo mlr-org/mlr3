@@ -127,12 +127,18 @@ Experiment = R6Class("Experiment",
     },
 
     train = function(subset = NULL, ctrl = mlr_control()) {
-      experiment_train(self, self$data$task$row_ids(subset), ctrl = ctrl)
+      ids = self$data$task$row_ids[[1L]]
+      if (!is.null(subset))
+        ids = intersect(ids, subset)
+      experiment_train(self, row_ids = ids, ctrl = ctrl)
       invisible(self)
     },
 
     predict = function(subset = NULL, newdata = NULL, ctrl = mlr_control()) {
-      experiment_predict(self, row_ids = self$data$task$row_ids(subset), newdata = newdata, ctrl = ctrl)
+      ids = self$data$task$row_ids[[1L]]
+      if (!is.null(subset))
+        ids = intersect(ids, subset)
+      experiment_predict(self, row_ids = ids, newdata = newdata, ctrl = ctrl)
       invisible(self)
     },
 
