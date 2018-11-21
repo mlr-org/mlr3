@@ -32,8 +32,8 @@ t$hash
 t$filter(rows)
 t$select(cols)
 t$rbind(data)
-t$cbind(data, rows = NULL)
-t$overwrite(data, rows = NULL)
+t$cbind(data)
+t$overwrite(data)
 }
 }
 
@@ -111,9 +111,9 @@ features of the task and \code{type} is the storage type.
 \item \code{$select()} reduces the task, subsetting it to only the columns specified.
 \item \code{$rbind()} extends the task with additional rows.
 \item \code{$cbind()} extends the task with additional columns.
-The row ids must be provided either as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}) or as vector \code{rows}.
+The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
 \item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[data.table:data.table]{data.table()}}.
-The row ids must be provided either as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}) or as vector \code{rows}.
+The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
 \item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_roles} and \code{col_info}.
 }
 }
@@ -146,7 +146,7 @@ task$select(setdiff(task$feature_names, "Petal.Width"))
 task$feature_names
 
 # Add new column "foo"
-task$cbind(data.table(foo = 1:150), task$row_ids[[1L]])
+task$cbind(cbind(data.frame(foo = 1:150), task$row_ids))
 }
 \seealso{
 Other Task: \code{\link{TaskClassif}},

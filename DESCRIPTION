@@ -84,6 +84,7 @@ Collate:
     'TaskSupervised.R'
     'TaskClassif.R'
     'TaskRegr.R'
+    'Task_mutators.R'
     'assertions.R'
     'benchmark.R'
     'hashes.R'

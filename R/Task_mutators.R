@@ -1,0 +1,128 @@
+check_row_ids = function(task, data, type) {
+  pk = task$backend$primary_key
+  row_ids = data[[pk]]
+  task_row_ids = task$row_roles$use
+
+  assert_atomic_vector(row_ids, any.missing = FALSE, unique = TRUE)
+  if (typeof(task_row_ids) != typeof(row_ids))
+    stopf("Cannot mutate task: Key column '%s' has wrong type", pk)
+
+  switch(type,
+    "disjunct" = {
+      # assert_disjunct(x, y)
+      if (any(row_ids %in% task_row_ids))
+        stopf("Cannot mutate task: Duplicated row_ids")
+    },
+    "setequal" = {
+      if (!setequal(task_row_ids, row_ids))
+        stopf("Cannot mutate task: row_ids do not match")
+    },
+    "subset" = {
+      if (!all(row_ids %in% task_row_ids))
+        stopf("Cannot mutate task: Extra row ids")
+    }
+  )
+}
+
+
+# Performs the following steps to virtually rbind data to the task:
+# 1. Check that an rbind is feasible
+# 2. Update row_roles
+# 3. Update col_info
+# 4. Overwrite self$backend with new backend
+task_rbind = function(self, data) {
+  # 1. Check that an rbind is feasible
+  assert_data_frame(data, min.rows = 1L, min.cols = 1L)
+  data = as.data.table(data)
+  pk = self$backend$primary_key
+
+  ## 1.1 Check for primary key column and auto-increment if possible
+  if (pk %nin% names(data)) {
+    rids = self$row_ids[[1L]]
+    if (!is.integer(rids))
+      stopf("Cannot rbind to task: Missing primary key column '%s'", pk)
+    data[[pk]] = max(rids) + seq_row(data)
+  } else {
+    check_row_ids(self, data, "disjunct")
+  }
+
+  ## 1.2 Check for set equality of column names
+  assert_set_equal(names(data), c(self$col_roles$feature, self$col_roles$target, pk))
+
+  ## 1.4 Check that types are matching
+  data_col_info = col_info(data, primary_key = self$backend$primary_key)
+  joined = merge(self$col_info, data_col_info, by = "id")
+  tmp = head(joined[get("type.x") != get("type.y")], 1L)
+  if (nrow(tmp)) {
+    stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", tmp$id, tmp$type.x, tmp$type.y)
+  }
+
+  # 2. Update row_roles
+  self$row_roles$use = c(self$row_roles$use, data[[pk]])
+
+  # 3. Update col_info
+  self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
+
+  # 4. Overwrite self$backend with new backend
+  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk))
+
+  invisible(self)
+}
+
+# Performs the following steps to virtually cbind data to the task:
+# 1. Check that an cbind is feasible
+# 2. Update col_info
+# 3. Overwrite self$backend with new backend
+task_cbind = function(self, data) {
+  # 1. Check that an cbind is feasible
+  assert_data_frame(data, min.rows = 1L, min.cols = 1L)
+  data = as.data.table(data)
+  pk = self$backend$primary_key
+
+  ## 1.1 Check primary key column
+  check_row_ids(self, data, "setequal")
+
+  ## 1.2 Check that there are no duplicated column names
+  # assert_disjunct
+  tmp = setdiff(intersect(self$col_info$id, names(data)), pk)
+  if (length(tmp)) {
+    stopf("Cannot cbind task: Duplicated column names: %s", stri_head(tmp))
+  }
+
+  # 2. Update col_info
+  data_col_info = col_info(data)
+  self$col_info = setkeyv(rbindlist(list(self$col_info, data_col_info[!list(pk)])), "id")
+  self$col_roles$feature = c(self$col_roles$feature, setdiff(names(data), pk))
+
+  # 3. Overwrite self$backend with new backend
+  self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, pk))
+
+  invisible(self)
+}
+
+# Performs the following steps to virtually overwrite data in the task:
+# 1. Check that an overwrite is feasible
+# 2. Overwrite self$backend with new backend (fusion of both backends)
+# 3. Update col_info
+task_overwrite = function(self, data) {
+  assert_data_frame(data, min.rows = 1L, min.cols = 1L)
+  data = as.data.table(data)
+  pk = self$backend$primary_key
+
+  ## 1.1 Check/Set primary key column
+  check_row_ids(self, data, "subset")
+
+  ## 1.2 Check that there are no extra column names in data
+  tmp = setdiff(names(data), self$col_info$id)
+  if (length(tmp)) {
+    stopf("Cannot overwrite task: Extra columns found: %s", stri_head(tmp))
+  }
+
+  # 2. Overwrite Task
+  self$backend = DataBackendOverwrite$new(self$backend, DataBackendDataTable$new(data, pk))
+
+  # 3. Update column info
+  self$col_info = col_info(self$backend) ### FIXME: we can do better here
+
+  invisible(self)
+}

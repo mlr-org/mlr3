@@ -61,7 +61,6 @@ predict_worker = function(e, ctrl) {
 
 score_worker = function(e, ctrl) {
   data = e$data
-  task = data$task
   measures = data$measures
   require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
 

@@ -6,28 +6,6 @@ test_that("Task duplicates rows", {
   expect_data_table(data, nrow = 2L, any.missing = FALSE)
 })
 
-test_that("Task rbind", {
-  task = mlr_tasks$get("iris")
-  data = iris[1:10, ]
-  task$rbind(iris[1:10, ])
-  expect_task(task)
-  expect_equal(task$nrow, 160)
-})
-
-test_that("Task cbind", {
-  task = mlr_tasks$get("iris")
-  data = data.frame(..row_id = task$row_ids[[1L]], foo = 150:1)
-  task$cbind(data)
-  expect_task(task)
-  expect_names(task$feature_names, must.include = "foo")
-
-  data = data.frame(bar = runif(150))
-  task$cbind(data, rows = task$row_ids[[1L]])
-  expect_task(task)
-  expect_names(task$feature_names, must.include = "bar")
-})
-
-
 test_that("Rows return ordered", {
   x = load_dataset("nhtemp", "datasets", TRUE)
   data = as.data.frame(x)
@@ -65,6 +43,28 @@ test_that("Rows return ordered with multiple order cols", {
 })
 
 
+test_that("Task rbind", {
+  task = mlr_tasks$get("iris")
+  data = iris[1:10, ]
+  task$rbind(iris[1:10, ])
+  expect_task(task)
+  expect_equal(task$nrow, 160)
+})
+
+test_that("Task cbind", {
+  task = mlr_tasks$get("iris")
+  data = cbind(data.frame(foo = 150:1), task$row_ids)
+  task$cbind(data)
+  expect_task(task)
+  expect_names(task$feature_names, must.include = "foo")
+
+  data = data.frame(bar = runif(150))
+  task$cbind(cbind(data, task$row_ids))
+  expect_task(task)
+  expect_names(task$feature_names, must.include = "bar")
+})
+
+
 test_that("cbind/rbind works", {
   task = mlr_tasks$get("iris")
   data = data.table(..row_id = 1:150, foo = 150:1)
@@ -88,10 +88,6 @@ test_that("overwrite works", {
   expect_set_equal(levels(data$Species), c(levels(iris$Species), "a"))
   expect_true(all(data$Sepal.Length[1:10] == -1))
   expect_true(all(data$Sepal.Length[11:150] > 0))
-
-  data = data.table(Sepal.Length = 99)
-  task$overwrite(data, rows = 150)
-  expect_equal(task$data(150, "Sepal.Length")[[1L]], 99)
 })
 
 test_that("filter works", {
