@@ -150,7 +150,7 @@ as.data.frame.ResampleResult = function(x, ...) {
 #' @export
 as.data.table.ResampleResult = function(x, ...) {
   task = learner = resampling = iteration = performance = NULL
-  flatten(x$data[order(iteration),
+  unnest(x$data[order(iteration),
     list(
       hash = x$hash,
       task = task, task_id = ids(task),

@@ -12,5 +12,5 @@
 #' x = mlr_tasks$mget(c("iris", "sonar"))
 #' ids(x)
 ids = function(x) {
-  pluck_chr(unname(x), "id")
+  map_chr(unname(x), "id")
 }

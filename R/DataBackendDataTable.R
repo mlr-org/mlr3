@@ -108,11 +108,11 @@ as_data_backend.data.frame = function(data, primary_key = NULL, ...) {
 
   rn = attr(data, "row.names")
   if (is.character(rn)) {
-    data = insert(as.data.table(data), list("..row_id" = make.unique(rn)))
+    data = insert_named(as.data.table(data), list("..row_id" = make.unique(rn)))
     return(DataBackendDataTable$new(data, primary_key = "..row_id"))
   }
 
-  data = insert(as.data.table(data), list("..row_id" = seq_row(data)))
+  data = insert_named(as.data.table(data), list("..row_id" = seq_row(data)))
   b = DataBackendDataTable$new(data, primary_key = "..row_id")
   b$compact_seq = TRUE
   b

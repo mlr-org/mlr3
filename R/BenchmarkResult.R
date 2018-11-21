@@ -105,7 +105,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     aggregated = function() {
       collect = function(data) as.list(ResampleResult$new(data)$aggregated)
       res = self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, performance = list(collect(.SD))), by = hash]
-      flatten(res, "performance")
+      unnest(res, "performance")
     }
   ),
 
@@ -124,7 +124,7 @@ as.data.frame.BenchmarkResult = function(x, ...) {
 #' @export
 as.data.table.BenchmarkResult = function(x, ...) {
   hash = task = learner = resampling = performance = NULL
-  flatten(x$data[,
+  unnest(x$data[,
     list(
       hash = hash,
       task = task, task_id = ids(task),

@@ -49,7 +49,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_c
   assert_list(resamplings, "Resampling", min.len = 1L)
 
   if (is.null(measures)) {
-    measures = unname(pluck(tasks, "measures"))
+    measures = unname(map(tasks, "measures"))
   } else {
     assert_list(measures, "Measure", min.len = 1L)
     measures = replicate(length(tasks), unname(measures), simplify = FALSE)
@@ -98,7 +98,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_c
   }
 
   res = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], measures = measures[grid$task], hash = grid$hash)
-  res = rcbind(res, combine_experiments(tmp))
+  ref_cbind(res, combine_experiments(tmp))
 
   BenchmarkResult$new(res)
 }

@@ -20,13 +20,13 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       tab = private$.data$b1$data(rows, cols)
 
       if (ncol(tab) < length(cols))
-        tab = rcbind(tab, remove(private$.data$b2$data(rows, cols), self$primary_key))
+        ref_cbind(tab, remove_named(private$.data$b2$data(rows, cols), self$primary_key))
       return(tab)
     },
 
     head = function(n = 6L) {
       x = private$.data$b1$head(n)
-      rcbind(x, private$.data$b2$data(rows = x[[self$primary_key]], cols = setdiff(private$.data$b2$colnames, self$primary_key)))
+      ref_cbind(x, private$.data$b2$data(rows = x[[self$primary_key]], cols = setdiff(private$.data$b2$colnames, self$primary_key)))
     },
 
     distinct = function(cols) {

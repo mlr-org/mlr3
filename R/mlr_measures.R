@@ -26,8 +26,8 @@ mlr_measures = DictionaryMeasure$new()
 
 #' @export
 as.data.table.DictionaryMeasure = function(x, ...) {
-  map_dtr(x$keys(), function(id) {
+  setkeyv(map_dtr(x$keys(), function(id) {
     m = x$get(id)
     list(id = id, task_type = m$task_type, packages = list(m$packages))
-  }, .key = "id")
+  }), "id")
 }

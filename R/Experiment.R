@@ -118,7 +118,7 @@ Experiment = R6Class("Experiment",
       if (...length()) {
         dots = list(...)
         assert_names(names(dots), subset.of = names(self$data))
-        self$data = insert(self$data, dots)
+        self$data = insert_named(self$data, dots)
       }
     },
 
@@ -190,7 +190,7 @@ Experiment = R6Class("Experiment",
       if (is.null(prediction))
         stopf("No predictions available")
       row_ids = self$test_set
-      setkeyv(rcbind(x = data.table(id = row_ids), y = as.data.table(prediction)), "id")[]
+      setkeyv(ref_cbind(x = data.table(id = row_ids), y = as.data.table(prediction)), "id")[]
     },
 
     performance = function() {
@@ -258,8 +258,8 @@ experiment_train = function(e, row_ids, ctrl = mlr_control()) {
     debug("Running train_worker()")
     value = train_worker(e, ctrl = ctrl)
   }
-  e$data = insert(e$data, value)
-  e$data = insert(e$data, named_list(mlr_reflections$experiment_slots[get("state") > "trained", "name"][[1L]]))
+  e$data = insert_named(e$data, value)
+  e$data = insert_named(e$data, named_list(mlr_reflections$experiment_slots[get("state") > "trained", "name"][[1L]]))
   return(e)
 }
 
@@ -282,8 +282,8 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = mlr_cont
     debug("Running predict_worker()")
     value = predict_worker(e, ctrl = ctrl)
   }
-  e$data = insert(e$data, value)
-  e$data = insert(e$data, named_list(mlr_reflections$experiment_slots[get("state") > "predicted", "name"][[1L]]))
+  e$data = insert_named(e$data, value)
+  e$data = insert_named(e$data, named_list(mlr_reflections$experiment_slots[get("state") > "predicted", "name"][[1L]]))
   return(e)
 }
 
@@ -299,7 +299,7 @@ experiment_score = function(e, measures = NULL, ctrl = mlr_control()) {
     value = score_worker(e, ctrl = ctrl)
   }
 
-  e$data = insert(e$data, value)
+  e$data = insert_named(e$data, value)
   return(e)
 }
 

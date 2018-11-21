@@ -48,7 +48,7 @@ instantiate_holdout = function(task, ratio, stratify = character(0L)) {
   } else {
     grps = stratify_groups(task, stratify = stratify)
     res = lapply(grps$..row_id, resample_holdout, ratio = ratio)
-    res = list(train = do.call(c, pluck(res, "train")), test = do.call(c, pluck(res, "test")))
+    res = list(train = do.call(c, map(res, "train")), test = do.call(c, map(res, "test")))
   }
   res
 }

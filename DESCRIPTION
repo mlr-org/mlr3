@@ -28,6 +28,7 @@ Imports:
     data.table,
     digest,
     Metrics,
+    mlr3misc,
     paradox,
     R6
 Suggests:
@@ -50,7 +51,8 @@ VignetteBuilder:
     knitr
 Remotes:
     mllg/checkmate,
-    mlr-org/paradox
+    mlr-org/paradox,
+    mlr-org/mlr3misc
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
@@ -88,13 +90,9 @@ Collate:
     'assertions.R'
     'benchmark.R'
     'hashes.R'
-    'helper_condition.R'
     'helper_data.table.R'
-    'helper_insert.R'
-    'helper_map.R'
+    'helper_debug.R'
     'helper_misc.R'
-    'helper_pluck.R'
-    'helper_seq.R'
     'helper_string.R'
     'ids.R'
     'mlr_control.R'

@@ -27,7 +27,7 @@ default_mlr_control = list(
 #' # enable debuging
 #' mlr_control(debug = TRUE)
 mlr_control = function(...) {
-  ec = insert(default_mlr_control, mlr_options())
+  ec = insert_named(default_mlr_control, mlr_options())
   if (...length()) {
     opts = assert_list(list(...), names = "unique")
 
@@ -35,7 +35,7 @@ mlr_control = function(...) {
     if (length(ii))
       stopf("Unknown option '%s'!%s", names(opts)[ii], did_you_mean(names(opts)[ii], names(ec)))
 
-    ec = insert(ec, opts)
+    ec = insert_named(ec, opts)
   }
   ec
 }

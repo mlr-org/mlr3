@@ -26,8 +26,8 @@ mlr_learners = DictionaryLearner$new()
 
 #' @export
 as.data.table.DictionaryLearner = function(x, ...) {
-  map_dtr(x$keys(), function(id) {
+  setkeyv(map_dtr(x$keys(), function(id) {
     l = x$get(id)
     list(id = id, packages = list(l$packages))
-  }, .key = "id")
+  }), "id")
 }

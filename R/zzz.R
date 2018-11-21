@@ -1,6 +1,7 @@
 #' @import checkmate
 #' @import data.table
 #' @import paradox
+#' @import mlr3misc
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
 #' @importFrom stats setNames reformulate median mad runif

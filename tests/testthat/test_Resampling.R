@@ -23,7 +23,7 @@ test_that("param_vals", {
   r = mlr_resamplings$get("bootstrap")
   task = mlr_tasks$get("iris")
 
-  r$param_vals = insert(r$param_vals, list(repeats = 100L))
+  r$param_vals = insert_named(r$param_vals, list(repeats = 100L))
   expect_identical(r$param_vals$ratio, 1)
   expect_identical(r$param_vals$repeats, 100L)
 

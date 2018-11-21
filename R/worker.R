@@ -82,13 +82,13 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   }
 
   tmp = train_worker(e, ctrl)
-  e$data = insert(e$data, tmp)
+  e$data = insert_named(e$data, tmp)
 
   tmp = predict_worker(e, ctrl)
-  e$data = insert(e$data, tmp)
+  e$data = insert_named(e$data, tmp)
 
   tmp = score_worker(e, ctrl)
-  e$data = insert(e$data, tmp)
+  e$data = insert_named(e$data, tmp)
 
   if (!ctrl$store_prediction)
     e$data["prediction"] = list(NULL)
@@ -96,5 +96,5 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   if (!ctrl$store_model)
     e$data["model"] = list(NULL)
 
-  remove(e$data, c("task", "learner", "resampling", "measures"))
+  remove_named(e$data, c("task", "learner", "resampling", "measures"))
 }
