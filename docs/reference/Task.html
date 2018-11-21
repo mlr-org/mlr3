@@ -179,8 +179,8 @@ t$hash
 t$filter(rows)
 t$select(cols)
 t$rbind(data)
-t$cbind(data, rows = NULL)
-t$overwrite(data, rows = NULL)
+t$cbind(data)
+t$overwrite(data)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -255,11 +255,21 @@ features of the task and <code>type</code> is the storage type.</p></li>
 <li><p><code>$filter()</code> reduces the task, subsetting it to only the rows specified.</p></li>
 <li><p><code>$select()</code> reduces the task, subsetting it to only the columns specified.</p></li>
 <li><p><code>$rbind()</code> extends the task with additional rows.</p></li>
-<li><p><code>$cbind()</code> extends the task with additional columns.</p></li>
+<li><p><code>$cbind()</code> extends the task with additional columns.
+The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
 <li><p><code>$overwrite()</code> overwrite the data in the <a href='DataBackend.html'>DataBackend</a> with data provided as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.
-Values to overwrite are matched via column names and primary key.</p></li>
+The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
 <li><p><code>$hash</code> stores a checksum (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) calculated on the <code>id</code>, <code>row_roles</code> and <code>col_info</code>.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="task-mutators"><a class="anchor" href="#task-mutators"></a>Task mutators</h2>
+
+    
+    <p>The methods <code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code>, <code>select()</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, and <code>overwrite()</code> change the task in-place,
+but without modifying the <a href='DataBackend.html'>DataBackend</a>.
+<code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code> and <code>select()</code> just reduce the set of rows or columns to show.
+<code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, and <code>overwrite()</code> first create a <a href='DataBackendDataTable.html'>DataBackendDataTable</a> from the provided data, and then
+merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> which combines the results on-demand.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -271,18 +281,24 @@ Values to overwrite are matched via column names and primary key.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>Task</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='no'>b</span>)
+
 <span class='no'>task</span>$<span class='no'>nrow</span></div><div class='output co'>#&gt; [1] 150</div><div class='input'><span class='no'>task</span>$<span class='no'>ncol</span></div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>()</div><div class='output co'>#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt; 1:          5.1         3.5          1.4         0.2  setosa
 #&gt; 2:          4.9         3.0          1.4         0.2  setosa
 #&gt; 3:          4.7         3.2          1.3         0.2  setosa
 #&gt; 4:          4.6         3.1          1.5         0.2  setosa
 #&gt; 5:          5.0         3.6          1.4         0.2  setosa
-#&gt; 6:          5.4         3.9          1.7         0.4  setosa</div><div class='input'><span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; ~Sepal.Length + Sepal.Width + Petal.Length + Petal.Width + Species
+#&gt; 6:          5.4         3.9          1.7         0.4  setosa</div><div class='input'><span class='no'>task</span>$<span class='no'>feature_names</span></div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     </div><div class='input'><span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; ~Sepal.Length + Sepal.Width + Petal.Length + Petal.Width + Species
 #&gt; NULL</div><div class='input'>
 <span class='co'># Remove "Petal.Length"</span>
 <span class='no'>task</span>$<span class='fu'>set_col_role</span>(<span class='st'>"Petal.Length"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(<span class='fl'>0L</span>))
-<span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; ~Sepal.Length + Sepal.Width + Petal.Width + Species
-#&gt; NULL</div></pre>
+
+<span class='co'># Remove "Petal.Width", alternative way</span>
+<span class='no'>task</span>$<span class='fu'>select</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>setdiff</a></span>(<span class='no'>task</span>$<span class='no'>feature_names</span>, <span class='st'>"Petal.Width"</span>))
+
+<span class='no'>task</span>$<span class='no'>feature_names</span></div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Species"     </div><div class='input'>
+<span class='co'># Add new column "foo"</span>
+<span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>foo</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>150</span>), <span class='no'>task</span>$<span class='no'>row_ids</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -293,6 +309,8 @@ Values to overwrite are matched via column names and primary key.</p></li>
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#task-mutators">Task mutators</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
