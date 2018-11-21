@@ -111,23 +111,42 @@ features of the task and \code{type} is the storage type.
 \item \code{$select()} reduces the task, subsetting it to only the columns specified.
 \item \code{$rbind()} extends the task with additional rows.
 \item \code{$cbind()} extends the task with additional columns.
+The row ids must be provided either as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}) or as vector \code{rows}.
 \item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[data.table:data.table]{data.table()}}.
-Values to overwrite are matched via column names and primary key.
+The row ids must be provided either as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}) or as vector \code{rows}.
 \item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_roles} and \code{col_info}.
 }
+}
+
+\section{Task mutators}{
+
+The methods \code{filter()}, \code{select()}, \code{rbind()}, \code{cbind()}, and \code{overwrite()} change the task in-place,
+but without modifying the \link{DataBackend}.
+\code{filter()} and \code{select()} just reduce the set of rows or columns to show.
+\code{rbind()}, \code{cbind()}, and \code{overwrite()} first create a \link{DataBackendDataTable} from the provided data, and then
+merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
 }
 
 \examples{
 b = as_data_backend(iris)
 task = Task$new("iris", b)
+
 task$nrow
 task$ncol
 task$head()
+task$feature_names
 task$formula
 
 # Remove "Petal.Length"
 task$set_col_role("Petal.Length", character(0L))
-task$formula
+
+# Remove "Petal.Width", alternative way
+task$select(setdiff(task$feature_names, "Petal.Width"))
+
+task$feature_names
+
+# Add new column "foo"
+task$cbind(data.table(foo = 1:150), task$row_ids[[1L]])
 }
 \seealso{
 Other Task: \code{\link{TaskClassif}},
@@ -135,4 +154,3 @@ Other Task: \code{\link{TaskClassif}},
   \code{\link{mlr_tasks}}
 }
 \concept{Task}
-\keyword{internal}

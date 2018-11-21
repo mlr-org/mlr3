@@ -119,27 +119,44 @@
 #' * `$rbind()` extends the task with additional rows.
 #'
 #' * `$cbind()` extends the task with additional columns.
+#'   The row ids must be provided either as column in `data` (with column name matching the primary key name of the [DataBackend]) or as vector `rows`.
 #'
 #' * `$overwrite()` overwrite the data in the [DataBackend] with data provided as [`data.table()`][data.table::data.table()].
-#'   Values to overwrite are matched via column names and primary key.
+#'   The row ids must be provided either as column in `data` (with column name matching the primary key name of the [DataBackend]) or as vector `rows`.
 #'
 #' * `$hash` stores a checksum (`character(1)`) calculated on the `id`, `row_roles` and `col_info`.
+#'
+#' @section Task mutators:
+#' The methods `filter()`, `select()`, `rbind()`, `cbind()`, and `overwrite()` change the task in-place,
+#' but without modifying the [DataBackend].
+#' `filter()` and `select()` just reduce the set of rows or columns to show.
+#' `rbind()`, `cbind()`, and `overwrite()` first create a [DataBackendDataTable] from the provided data, and then
+#' merge both backends into an abstract [DataBackend] which combines the results on-demand.
+#'
 #'
 #' @name Task
 #' @export
 #' @family Task
-#' @keywords internal
 #' @examples
 #' b = as_data_backend(iris)
 #' task = Task$new("iris", b)
+#'
 #' task$nrow
 #' task$ncol
 #' task$head()
+#' task$feature_names
 #' task$formula
 #'
 #' # Remove "Petal.Length"
 #' task$set_col_role("Petal.Length", character(0L))
-#' task$formula
+#'
+#' # Remove "Petal.Width", alternative way
+#' task$select(setdiff(task$feature_names, "Petal.Width"))
+#'
+#' task$feature_names
+#'
+#' # Add new column "foo"
+#' task$cbind(data.table(foo = 1:150), task$row_ids[[1L]])
 NULL
 
 #' @include reflections.R
@@ -189,12 +206,12 @@ Task = R6Class("Task",
 
     filter = function(rows) {
       self$row_roles$use = intersect(self$row_roles$use, rows)
-      self
+      invisible(self)
     },
 
     select = function(cols) {
       self$col_roles$feature = intersect(self$col_roles$feature, cols)
-      self
+      invisible(self)
     },
 
     rbind = function(data) {
@@ -389,7 +406,7 @@ task_rbind = function(self, data) {
   self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
 
   # 4. Overwrite self$backend with new backend
-  self$backend = DataBackendRbind$new(self$backend, as_data_backend(data, primary_key = pk))
+  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk))
 
   invisible(self)
 }
@@ -424,7 +441,7 @@ task_cbind = function(self, data, rows = NULL) {
   self$col_roles$feature = c(self$col_roles$feature, setdiff(names(data), pk))
 
   # 3. Overwrite self$backend with new backend
-  self$backend = DataBackendCbind$new(self$backend, as_data_backend(data, primary_key = pk))
+  self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, pk))
 
   invisible(self)
 }
@@ -454,7 +471,7 @@ task_overwrite = function(self, data, rows = NULL) {
   }
 
   # 2. Overwrite Task
-  self$backend = DataBackendOverwrite$new(self$backend, as_data_backend(data, primary_key = pk))
+  self$backend = DataBackendOverwrite$new(self$backend, DataBackendDataTable$new(data, pk))
 
   # 3. Update column info
   self$col_info = col_info(self$backend) ### FIXME: we can do better here
