@@ -1,4 +1,4 @@
-check_row_ids = function(task, data, type) {
+check_new_row_ids = function(task, data, type) {
   pk = task$backend$primary_key
   row_ids = data[[pk]]
   task_row_ids = task$row_roles$use
@@ -9,12 +9,11 @@ check_row_ids = function(task, data, type) {
 
   switch(type,
     "disjunct" = {
-      # assert_disjunct(x, y)
       if (any(row_ids %in% task_row_ids))
         stopf("Cannot mutate task: Duplicated row_ids")
     },
     "setequal" = {
-      if (!setequal(task_row_ids, row_ids))
+      if (!setequal(row_ids, task_row_ids))
         stopf("Cannot mutate task: row_ids do not match")
     },
     "subset" = {
@@ -24,6 +23,17 @@ check_row_ids = function(task, data, type) {
   )
 }
 
+check_matching_types = function(col_info_x, col_info_y) {
+  cmp = function(x, y) {
+    # character -> factor conversion is handled by data.table
+    x != y & !(x %in% c("character", "factor") & y %in% c("character", "factor"))
+  }
+  joined = merge(col_info_x, col_info_y, by = "id")
+  joined = head(joined[cmp(get("type.x"), get("type.y"))], 1L)
+  if (nrow(joined)) {
+    stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", joined$id, joined$type.x, joined$type.y)
+  }
+}
 
 # Performs the following steps to virtually rbind data to the task:
 # 1. Check that an rbind is feasible
@@ -43,25 +53,21 @@ task_rbind = function(self, data) {
       stopf("Cannot rbind to task: Missing primary key column '%s'", pk)
     data[[pk]] = max(rids) + seq_row(data)
   } else {
-    check_row_ids(self, data, "disjunct")
+    check_new_row_ids(self, data, "disjunct")
   }
 
   ## 1.2 Check for set equality of column names
   assert_set_equal(names(data), c(self$col_roles$feature, self$col_roles$target, pk))
 
   ## 1.4 Check that types are matching
-  data_col_info = col_info(data, primary_key = self$backend$primary_key)
-  joined = merge(self$col_info, data_col_info, by = "id")
-  tmp = head(joined[get("type.x") != get("type.y")], 1L)
-  if (nrow(tmp)) {
-    stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", tmp$id, tmp$type.x, tmp$type.y)
-  }
+  data_col_info = col_info(data, primary_key = pk)
+  check_matching_types(self$col_info, data_col_info)
 
   # 2. Update row_roles
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 3. Update col_info
-  self$col_info$levels = Map(union, joined$levels.x, joined$levels.y)
+  self$col_info$levels = Map(union, self$col_info$levels, data_col_info$levels)
 
   # 4. Overwrite self$backend with new backend
   self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk))
@@ -80,7 +86,7 @@ task_cbind = function(self, data) {
   pk = self$backend$primary_key
 
   ## 1.1 Check primary key column
-  check_row_ids(self, data, "setequal")
+  check_new_row_ids(self, data, "setequal")
 
   ## 1.2 Check that there are no duplicated column names
   # assert_disjunct
@@ -110,13 +116,16 @@ task_overwrite = function(self, data) {
   pk = self$backend$primary_key
 
   ## 1.1 Check/Set primary key column
-  check_row_ids(self, data, "subset")
+  check_new_row_ids(self, data, "subset")
 
   ## 1.2 Check that there are no extra column names in data
   tmp = setdiff(names(data), self$col_info$id)
   if (length(tmp)) {
     stopf("Cannot overwrite task: Extra columns found: %s", stri_head(tmp))
   }
+
+  ## 1.3 Check that types are matching
+  check_matching_types(self$col_info, col_info(data, primary_key = pk))
 
   # 2. Overwrite Task
   self$backend = DataBackendOverwrite$new(self$backend, DataBackendDataTable$new(data, pk))
