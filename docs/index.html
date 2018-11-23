@@ -132,8 +132,10 @@
 <li>Embrace <a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a> for fast and convenient data frame computations.</li>
 <li>Combine <code>data.table</code> and <code>R6</code>, for this we will make heavy use of list columns in data.tables.</li>
 <li>Once the API is fixed, both advanced techniques and implementations for different learners will be implemented in extra packages to reduce the maintenance burden.</li>
-<li>Be light on dependencies. <code>mlr3</code> only requires the following packages:
+<li>Be light on dependencies. <code>mlr3</code> requires the following packages:
 <ul>
+<li>
+<a href="https://github.com/mlr-org/mlr3misc"><code>mlr3misc</code></a> Miscellaneous functions used in multiple mlr3 <a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages">extension packages</a>. Developed by the <code>mlr</code> team. No extra reverse dependencies.</li>
 <li>
 <a href="https://cran.r-project.org/package=R6"><code>R6</code></a>: Reference class objects. No extra reverse dependencies.</li>
 <li>

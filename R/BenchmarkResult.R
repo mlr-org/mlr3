@@ -25,9 +25,11 @@
 #'
 #' * `$aggregated` returns aggregated performance measures as a [`data.table()`][data.table::data.table()].
 #'   Experiments are aggregated by their resample result group
-#'   (combination of [Task], [Learner] and [Resampling]). The actual aggregation function is defined by the respective [Measure].
+#'   (combination of [Task], [Learner] and [Resampling]).
+#'  The actual aggregation function is defined by the respective [Measure].
 #'
-#' * `$resample_results` returns a [`data.table()`][data.table::data.table()] which gives an overview of the resample result groups in the benchmark.
+#' * `$resample_results` returns a [`data.table()`][data.table::data.table()] which gives an overview of the
+#'   resample result groups in the benchmark.
 #'   These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
 #'
 #' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
@@ -78,6 +80,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_benchmark_result(bmr)
       self$data = rbindlist(list(self$data, bmr$data), fill = TRUE)
       invisible(self)
+    },
+
+    get_best = function(measure) {
+      assert_measure(measure)
+      id = measure$id
+      aggr = self$aggregated
+      if (id %nin% names(aggr))
+        stopf("Measure with id '%s' not in BenchmarkResult", id)
+      best = if (measure$minimize) which_min(aggr[[id]]) else which_max(aggr[[id]])
+      aggr$resample_result[[best]]
     }
   ),
 
@@ -103,9 +115,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     aggregated = function() {
-      collect = function(data) as.list(ResampleResult$new(data)$aggregated)
-      res = self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, performance = list(collect(.SD))), by = hash]
-      unnest(res, "performance")
+      extract = function(x) {
+        c(list(task_id = x$task$id, learner_id = x$learner$id, resampling_id = x$resampling$id),
+          as.list(x$aggregated))
+      }
+      res = self$data[, list(resample_result = list(ResampleResult$new(.SD))), by = hash]
+      ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
     }
   ),
 
@@ -118,7 +133,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
 #' @export
 as.data.frame.BenchmarkResult = function(x, ...) {
-  setDF(as.data.table.BenchmarkResult(x))
+  setDF(as.data.table.BenchmarkResult(x))[]
 }
 
 #' @export

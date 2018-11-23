@@ -169,7 +169,7 @@ bmr = benchmark(tasks, learners, resamplings, measures, mlr_control(verbose = FA
 
 Usually you want to look at the results aggregated over resampling iterations:
 ```{r}
-bmr$aggregated[, c("task_id", "learner_id", "acc", "auc")]
+bmr$aggregated
 ```
 We can aggregate it further, i.e. if we are interested which learner performed best over all tasks:
 ```{r}

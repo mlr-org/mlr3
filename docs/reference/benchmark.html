@@ -215,16 +215,25 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 #&gt; 4: classif.featureless      &lt;ResamplingCV&gt;            cv 0.5238095
 #&gt; 5:       classif.rpart      &lt;ResamplingCV&gt;            cv 0.6500000
 #&gt; 6: classif.featureless      &lt;ResamplingCV&gt;            cv 0.1333333</div><div class='input'>
-<span class='co'># aggregated performance</span>
-<span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash task_id          learner_id resampling_id       acc
-#&gt; 1: 5d9b603446969261   sonar       classif.rpart            cv 0.7161905
-#&gt; 2: fdfa483e082c1801    iris       classif.rpart       holdout 0.9200000
-#&gt; 3: 94963101e493fb84    iris       classif.rpart            cv 0.9333333
-#&gt; 4: e954a69fe266cf7a   sonar classif.featureless            cv 0.5347619
-#&gt; 5: 99eb8e71045b22ab    iris classif.featureless            cv 0.1933333
-#&gt; 6: 4bb6de60798ba4a9    iris classif.featureless       holdout 0.2800000
-#&gt; 7: 70ee6246f6f933da   sonar       classif.rpart       holdout 0.7536232
-#&gt; 8: b1f4b484636ce410   sonar classif.featureless       holdout 0.5507246</div><div class='input'>
+<span class='co'># aggregated performance values</span>
+<span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id          learner_id resampling_id
+#&gt; 1: 5d9b603446969261 &lt;ResampleResult&gt;   sonar       classif.rpart            cv
+#&gt; 2: fdfa483e082c1801 &lt;ResampleResult&gt;    iris       classif.rpart       holdout
+#&gt; 3: 94963101e493fb84 &lt;ResampleResult&gt;    iris       classif.rpart            cv
+#&gt; 4: e954a69fe266cf7a &lt;ResampleResult&gt;   sonar classif.featureless            cv
+#&gt; 5: 99eb8e71045b22ab &lt;ResampleResult&gt;    iris classif.featureless            cv
+#&gt; 6: 4bb6de60798ba4a9 &lt;ResampleResult&gt;    iris classif.featureless       holdout
+#&gt; 7: 70ee6246f6f933da &lt;ResampleResult&gt;   sonar       classif.rpart       holdout
+#&gt; 8: b1f4b484636ce410 &lt;ResampleResult&gt;   sonar classif.featureless       holdout
+#&gt;          acc
+#&gt; 1: 0.7161905
+#&gt; 2: 0.9200000
+#&gt; 3: 0.9333333
+#&gt; 4: 0.5347619
+#&gt; 5: 0.1933333
+#&gt; 6: 0.2800000
+#&gt; 7: 0.7536232
+#&gt; 8: 0.5507246</div><div class='input'>
 <span class='co'># Overview of of resamplings that were conducted internally</span>
 <span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id          learner_id resampling_id  N

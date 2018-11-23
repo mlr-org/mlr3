@@ -30,7 +30,7 @@
 #' # performance for all conducted experiments
 #' head(as.data.table(bmr))
 #'
-#' # aggregated performance
+#' # aggregated performance values
 #' bmr$aggregated
 #'
 #' # Overview of of resamplings that were conducted internally
