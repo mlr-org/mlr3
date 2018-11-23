@@ -26,7 +26,8 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * Embrace [`data.table`](https://cran.r-project.org/package=data.table) for fast and convenient data frame computations.
 * Combine `data.table` and `R6`, for this we will make heavy use of list columns in data.tables.
 * Once the API is fixed, both advanced techniques and implementations for different learners will be implemented in extra packages to reduce the maintenance burden.
-* Be light on dependencies. `mlr3` only requires the following packages:
+* Be light on dependencies. `mlr3` requires the following packages:
+    - [`mlr3misc`](https://github.com/mlr-org/mlr3misc) Miscellaneous functions used in multiple mlr3 [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages). Developed by the `mlr` team. No extra reverse dependencies.
     - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No extra reverse dependencies.
     - [`backports`](https://cran.r-project.org/package=backports): Ensures backward compatibility with older R releases. Developed by members of the `mlr` team. No extra reverse dependencies.
     - [`bit`](https://cran.r-project.org/package=bit): Efficient storage of logical vectors. No extra reverse dependencies.

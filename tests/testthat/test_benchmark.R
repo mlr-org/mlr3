@@ -42,8 +42,9 @@ test_that("Basic benchmarking", {
   expect_character(tab$measure_id, len = 2L, unique = TRUE, any.missing = FALSE)
 
   tab = bmr$aggregated
-  expect_data_table(tab, nrow = 4)
-  expect_names(names(tab), permutation.of = c("hash", "task_id", "learner_id", "resampling_id", "mmce", "acc"))
+  expect_data_table(tab, nrow = 4L)
+  expect_names(names(tab), permutation.of = c("hash", "resample_result", "mmce", "acc"))
+  tab[, task_id := map_chr(resample_result, function(x) x$task$id)]
   expect_numeric(tab[task_id == "sonar", mmce], any.missing = FALSE)
   expect_numeric(tab[task_id == "iris", acc], any.missing = FALSE)
 })
