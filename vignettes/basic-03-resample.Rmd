@@ -169,18 +169,17 @@ bmr = benchmark(tasks, learners, resamplings, measures, mlr_control(verbose = FA
 
 Usually you want to look at the results aggregated over resampling iterations:
 ```{r}
-
-as.data.table(bmr)[, c("task_id", "learner_id", "acc", "auc")]
+bmr$aggregated
 ```
 We can aggregate it further, i.e. if we are interested which learner performed best over all tasks:
 ```{r}
-as.data.table(bmr)[, list(acc = mean(acc), auc = mean(auc)), by = "learner_id"]
+bmr$aggregated[, list(acc = mean(acc), auc = mean(auc)), by = "learner_id"]
 ```
 Unsurprisingly, the classification tree outperformed the featureless learner.
 
 As a `BenchmarkResult` is basically a collection of multiple `ResampleResult`, we can extract specific `ResampleResult` using the stored hashes:
 ```{r}
-tab = as.data.table(bmr)[task_id == "spam" & learner_id == "classif.rpart"]
+tab = bmr$aggregated[task_id == "spam" & learner_id == "classif.rpart"]
 print(tab)
 
 rr = bmr$resample_result(tab$hash)

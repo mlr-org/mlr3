@@ -82,14 +82,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
       invisible(self)
     },
 
-    get_best = function(measure_id) {
-      measures = unlist(self$data$measures, recursive = FALSE)
-      i = wf(ids(measures) == measure_id)
-      if (length(i) == 0L)
-        stopf("Measure with  id '%s' not found", measure_id)
+    get_best = function(measure) {
+      assert_measure(measure)
+      id = measure$id
       aggr = self$aggregated
-      measure = measures[[i]]
-      best = if (measure$minimize) which_min(aggr[[measure$id]]) else which_max(aggr[[measure_id]])
+      if (id %nin% names(aggr))
+        stopf("Measure with id '%s' not in BenchmarkResult", id)
+      best = if (measure$minimize) which_min(aggr[[id]]) else which_max(aggr[[id]])
       aggr$resample_result[[best]]
     }
   ),
@@ -116,8 +115,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     aggregated = function() {
+      extract = function(x) {
+        c(list(task_id = x$task$id, learner_id = x$learner$id, resampling_id = x$resampling$id),
+          as.list(x$aggregated))
+      }
       res = self$data[, list(resample_result = list(ResampleResult$new(.SD))), by = hash]
-      ref_cbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregated), .fill = TRUE))
+      ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
     }
   ),
 
