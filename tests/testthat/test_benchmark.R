@@ -42,8 +42,8 @@ test_that("Basic benchmarking", {
   expect_character(tab$measure_id, len = 2L, unique = TRUE, any.missing = FALSE)
 
   tab = bmr$aggregated
-  expect_data_table(tab, nrow = 4)
-  expect_names(names(tab), permutation.of = c("hash", "task_id", "learner_id", "resampling_id", "mmce", "acc"))
+  expect_data_table(tab, nrow = 4L)
+  expect_names(names(tab), type = "unique", permutation.of = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", "mmce", "acc"))
   expect_numeric(tab[task_id == "sonar", mmce], any.missing = FALSE)
   expect_numeric(tab[task_id == "iris", acc], any.missing = FALSE)
 })
@@ -78,4 +78,11 @@ test_that("bmr$combine()", {
   expect_false("pima_indians" %in% bmr$tasks$task_id)
   expect_true("pima_indians" %in% bmr_new$tasks$task_id)
   expect_true("pima_indians" %in% bmr_combined$tasks$task_id)
+})
+
+
+test_that("bmr$get_best()", {
+  measure = tasks$iris$measures[[1L]]
+  best = bmr$get_best(measure)
+  expect_resample_result(best)
 })

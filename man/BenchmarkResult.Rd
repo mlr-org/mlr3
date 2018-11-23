@@ -32,8 +32,10 @@ String which identifies a subgroup to extract as \link{ResampleResult}.
 \item \code{$tasks}, \code{$learners}, \code{$resamplings} and \code{$measures} return an overview table of involved objects.
 \item \code{$aggregated} returns aggregated performance measures as a \code{\link[data.table:data.table]{data.table()}}.
 Experiments are aggregated by their resample result group
-(combination of \link{Task}, \link{Learner} and \link{Resampling}). The actual aggregation function is defined by the respective \link{Measure}.
-\item \code{$resample_results} returns a \code{\link[data.table:data.table]{data.table()}} which gives an overview of the resample result groups in the benchmark.
+(combination of \link{Task}, \link{Learner} and \link{Resampling}).
+The actual aggregation function is defined by the respective \link{Measure}.
+\item \code{$resample_results} returns a \code{\link[data.table:data.table]{data.table()}} which gives an overview of the
+resample result groups in the benchmark.
 These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleResult} for further inspection.
 \item \code{$resample_result()} creates the \link{ResampleResult} identified by the specified \code{hash} value.
 \item \code{as.data.table()} converts the \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table()}}.

@@ -8,6 +8,10 @@ expect_different_address = function(x, y) {
   testthat::expect_false(identical(data.table::address(x), data.table::address(y)))
 }
 
+expect_id = function(x, len = NULL) {
+  checkmate::expect_character(x, len = len, any.missing = FALSE, min.chars = 1L, unique = FALSE)
+}
+
 expect_hash = function(x, len = NULL) {
   checkmate::expect_character(x, len = len, any.missing = FALSE, min.chars = 4L, pattern = "^[0-9a-z]{16}$", unique = TRUE)
 }
@@ -124,7 +128,7 @@ expect_iris_backend = function(b) {
 expect_task = function(task) {
   checkmate::expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   testthat::expect_output(print(task), "Task")
-  checkmate::expect_string(task$id, min.chars = 1L)
+  expect_id(task$id)
   checkmate::expect_count(task$nrow)
   checkmate::expect_count(task$ncol)
   checkmate::expect_data_table(task$data())
@@ -134,7 +138,7 @@ expect_task = function(task) {
   cols = c("id", "type", "levels")
   checkmate::expect_data_table(task$col_info, key = "id", ncol = length(cols))
   checkmate::expect_names(names(task$col_info), permutation.of = cols)
-  checkmate::expect_character(task$col_info$id, any.missing = FALSE, unique = TRUE)
+  expect_id(task$col_info$id)
   checkmate::expect_subset(task$col_info$type, mlr3::mlr_reflections$task_feature_types)
   checkmate::expect_list(task$col_info$levels)
 
@@ -219,7 +223,7 @@ expect_learner = function(lrn, task = NULL) {
 expect_resampling = function(r, task = NULL) {
   checkmate::expect_r6(r, "Resampling")
   testthat::expect_output(print(r))
-  checkmate::expect_string(r$id, min.chars = 1L)
+  expect_id(r$id)
 
   instance = r$instance
   if (is.null(instance)) {
@@ -255,7 +259,7 @@ expect_resampling = function(r, task = NULL) {
 expect_measure = function(m) {
   checkmate::expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type", "task_properties", "learner_properties"))
 
-  checkmate::expect_string(m$id, min.chars = 1L)
+  expect_id(m$id)
   checkmate::expect_subset(m$task_type, c(NA_character_, mlr3::mlr_reflections$task_types), empty.ok = FALSE)
   checkmate::expect_numeric(m$range, len = 2, any.missing = FALSE)
   testthat::expect_lt(m$range[1], m$range[2])
@@ -327,9 +331,50 @@ expect_resample_result = function(rr) {
 expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data", "resample_results", "resample_result"))
 
-  rrs = bmr$resample_results
-  checkmate::expect_data_table(rrs, ncol = 5L)
-  checkmate::expect_names(names(rrs), permutation.of = c("task_id", "learner_id", "resampling_id", "hash", "N"))
-  checkmate::expect_character(rrs$hash, any.missing = FALSE, unique = TRUE)
-  checkmate::expect_integer(rrs$N, any.missing = FALSE, lower = 1L)
+  checkmate::expect_data_table(bmr$data, min.cols = nrow(mlr_reflections$experiment_slots) + 1L)
+  checkmate::expect_names(names(bmr$data), must.include = c(mlr_reflections$experiment_slots$name, "hash"))
+
+  tab = bmr$tasks
+  checkmate::expect_data_table(tab, ncol = 3L)
+  checkmate::expect_names(names(tab), identical.to = c("task_hash", "task_id", "task"))
+  expect_hash(tab$task_hash)
+  expect_id(tab$task_id)
+  checkmate::expect_list(tab$task, "Task")
+
+  tab = bmr$learners
+  checkmate::expect_data_table(tab, ncol = 3L)
+  checkmate::expect_names(names(tab), identical.to = c("learner_hash", "learner_id", "learner"))
+  expect_hash(tab$learner_hash)
+  expect_id(tab$learner_id)
+  checkmate::expect_list(tab$learner, "Learner")
+
+  tab = bmr$resamplings
+  checkmate::expect_data_table(tab, ncol = 3L)
+  checkmate::expect_names(names(tab), identical.to = c("resampling_hash", "resampling_id", "resampling"))
+  expect_hash(tab$resampling_hash)
+  expect_id(tab$resampling_id)
+  checkmate::expect_list(tab$resampling, "Resampling")
+
+  tab = bmr$measures
+  checkmate::expect_data_table(tab, ncol = 2L)
+  checkmate::expect_names(names(tab), identical.to = c("measure_id", "measure"))
+  expect_id(tab$measure_id)
+  checkmate::expect_list(tab$measure, "Measure")
+
+  tab = bmr$aggregated
+  checkmate::expect_data_table(tab, ncol = 5L + nrow(bmr$measures))
+  checkmate::expect_names(names(tab), identical.to = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", bmr$measures$measure_id))
+  expect_hash(tab$hash)
+  expect_list(tab$resample_result, "ResampleResult")
+  for (m in bmr$measures$measure)
+    expect_numeric(tab[[m$id]])
+
+  tab = bmr$resample_results
+  checkmate::expect_data_table(tab, ncol = 5L)
+  checkmate::expect_names(names(tab), identical.to = c("hash", "task_id", "learner_id", "resampling_id", "N"))
+  expect_hash(tab$hash)
+  expect_id(tab$task_id)
+  expect_id(tab$learner_id)
+  expect_id(tab$resampling_id)
+  checkmate::expect_integer(tab$N, any.missing = FALSE, lower = 1L)
 }

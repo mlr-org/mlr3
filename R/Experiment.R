@@ -117,7 +117,7 @@ Experiment = R6Class("Experiment",
       self$data$learner = assert_learner(learner, task = task)
       if (...length()) {
         dots = list(...)
-        assert_names(names(dots), subset.of = names(self$data))
+        assert_names(names(dots), type = "unique", subset.of = names(self$data))
         self$data = insert_named(self$data, dots)
       }
     },
