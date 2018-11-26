@@ -1,3 +1,16 @@
+stri_wrap = function(str, initial, n = 100L) {
+  str = if (length(str) == 0L) "-" else paste0(head(str, n), collapse = ", ")
+  strwrap(str, initial = initial, exdent = 2L)
+}
+
+did_you_mean = function(str, candidates) {
+  candidates = unique(candidates)
+  D = setNames(adist(str, candidates, ignore.case = TRUE, partial = TRUE)[1L, ], candidates)
+  suggested = names(head(sort(D[D <= ceiling(0.2 * nchar(str))]), 3L))
+
+  if (length(suggested)) sprintf(" Did you mean %s?", paste0("'", suggested, "'", collapse = " / ")) else ""
+}
+
 info = function(msg, ...) {
   if (isTRUE(getOption("mlr3.verbose")))
     messagef(msg, ...)
