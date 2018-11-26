@@ -90,7 +90,7 @@ Collate:
     'assertions.R'
     'benchmark.R'
     'hashes.R'
-    'helper_misc.R'
+    'helper.R'
     'ids.R'
     'mlr_control.R'
     'mlr_learners.R'
