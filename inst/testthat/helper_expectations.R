@@ -83,9 +83,16 @@ expect_backend = function(b) {
   # primary_key is distinct
   d = b$distinct(b$primary_key)[[1L]]
   checkmate::expect_atomic_vector(d, len = n)
+
+  # missing
+  x = b$missing(b$rownames, b$colnames)
+  expect_integer(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
+  expect_names(names(x), permutation.of = b$colnames)
+  expect_integer(b$missing(b$rownames, "does_not_exist"), len = 0L, names = "named")
+  expect_integer(b$missing(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
 }
 
-expect_iris_backend = function(b) {
+expect_iris_backend = function(b, n_missing = 0L) {
   testthat::expect_equal(b$nrow, 150L)
   testthat::expect_equal(b$ncol, 6L)
   checkmate::expect_set_equal(b$colnames, c(names(iris), b$primary_key))
@@ -123,6 +130,12 @@ expect_iris_backend = function(b) {
   checkmate::expect_data_table(x, nrow = 2L, ncol = 2L)
   testthat::expect_equal(x[[b$primary_key]], c(1L, 1L))
   testthat::expect_equal(as.character(x[["Species"]]), c("setosa", "setosa"))
+
+  # no missing values
+  x = b$missing(b$rownames, b$colnames)
+  expect_integer(x, names = "unique", lower = 0L, upper = b$nrow, any.missing = FALSE)
+  expect_names(names(x), permutation.of = b$colnames)
+  expect_identical(sum(x), as.integer(n_missing))
 }
 
 expect_task = function(task) {

@@ -34,7 +34,9 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     },
 
     missing = function(rows, cols) {
-      c(private$.data$b1$missing(rows, cols), private$.data$b2$missing(rows, cols))
+      m1 = private$.data$b1$missing(rows, cols)
+      m2 = private$.data$b2$missing(rows, cols)
+      c(m1, remove_named(m2, self$primary_key))
     }
   ),
 
