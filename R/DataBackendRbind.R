@@ -33,6 +33,12 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       d1 = private$.data$b1$distinct(cols)
       d2 = private$.data$b2$distinct(cols)
       Map(function(nn) union(d1[[nn]], d2[[nn]]), names(d1))
+    },
+
+    missing = function(rows, cols) {
+      m1 = private$.data$b1$missing(rows, cols)
+      m2 = private$.data$b2$missing(rows, cols)
+      m1 + m2[match(names(m1), names(m2))]
     }
   ),
 

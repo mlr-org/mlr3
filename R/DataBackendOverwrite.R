@@ -32,6 +32,10 @@ DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cl
 
     distinct = function(cols) {
       lapply(self$data(self$rownames, cols), distinct)
+    },
+
+    missing = function(rows, cols) {
+      unlist(lapply(self$data(rows, cols), function(x) sum(is.na(x))))
     }
   ),
 

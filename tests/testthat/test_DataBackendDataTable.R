@@ -16,10 +16,16 @@ test_that("DataBackendDataTable construction", {
   b = as_data_backend(data)
   expect_backend(b)
   expect_character(b$rownames, len = 150, any.missing = FALSE, unique = TRUE, pattern = "^r[0-9]+$")
+
+  data$Petal.Length[21:50] = NA
+  b = as_data_backend(data)
+  x = b$missing(b$rownames, c("Petal.Width", "Petal.Length"))
+  expect_equal(x, setNames(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })
 
 test_that("DataBackendRbind", {
   data = as.data.table(iris)
+  data$Petal.Length[91:120] = NA
   data$id = 1:150
 
   b1 = as_data_backend(data[1:100, ], primary_key = "id")
@@ -32,10 +38,14 @@ test_that("DataBackendRbind", {
   expect_set_equal(b$colnames, names(data))
   expect_data_table(b$data(b$rownames, b$colnames), nrow = 150, ncol = 6)
   expect_set_equal(b$distinct("Species")$Species, distinct(iris$Species))
+
+  x = b$missing(b$rownames, c("Petal.Width", "Petal.Length"))
+  expect_equal(x, setNames(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })
 
 test_that("DataBackendCbind", {
   data = as.data.table(iris)
+  data$Petal.Length[91:120] = NA
   data$id = 1:150
 
   b1 = as_data_backend(data[, -"Sepal.Length"], primary_key = "id")
@@ -48,10 +58,14 @@ test_that("DataBackendCbind", {
   expect_set_equal(b$colnames, names(data))
   expect_data_table(b$data(b$rownames, b$colnames), nrow = 150, ncol = 6)
   expect_set_equal(b$distinct("Species")$Species, distinct(iris$Species))
+
+  x = b$missing(b$rownames, c("Petal.Width", "Petal.Length"))
+  expect_equal(x, setNames(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })
 
 test_that("DataBackendOverwrite", {
   data = as.data.table(iris)
+  data$Petal.Length[91:120] = NA
   data$id = 1:150
   newdata = data[1:30, c("id", "Sepal.Length")][, Sepal.Length := 0]
 
@@ -73,10 +87,14 @@ test_that("DataBackendOverwrite", {
   expect_equal(tab$Sepal.Length, rep(0, 6))
 
   expect_true(0 %in% b$distinct("Sepal.Length")[[1L]])
+
+  x = b$missing(b$rownames, c("Petal.Width", "Petal.Length"))
+  expect_equal(x, setNames(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })
 
 test_that("Nested backends", {
   data = as.data.table(iris)
+  data$Petal.Length[91:120] = NA
   data$id = 1:150
 
   b1 = as_data_backend(data[1:100, -"Sepal.Length"], primary_key = "id")
@@ -93,4 +111,7 @@ test_that("Nested backends", {
   expect_backend(b7)
 
   expect_iris_backend(b7)
+
+  x = b7$missing(b7$rownames, c("Petal.Width", "Petal.Length"))
+  expect_equal(x, setNames(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })

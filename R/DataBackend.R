@@ -10,6 +10,7 @@
 #' b$data(rows, cols)
 #' b$head(n = 6)
 #' b$distinct(cols)
+#' b$missing(rows, cols)
 #' b$rownames
 #' b$colnames
 #' b$nrow
@@ -38,6 +39,8 @@
 #' * `$head()` \[[`data.table()`][data.table::data.table()]\] returns a [data.table][data.table::data.table()] of the first `n` data rows.
 #'
 #' * `$distinct()` \[`list()`\] returns a named list of distinct values for specified columns `cols`.
+#'
+#' * `$missing()` \[`named integer()`\] returns a named integer of the number of missing values.
 #'
 #' * `$rownames` \[`character(1)`\] returns all row names of `data` as integer or character vector.
 #'

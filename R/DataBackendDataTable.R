@@ -73,6 +73,20 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     distinct = function(cols) {
       cols = intersect(cols, colnames(private$.data))
       lapply(private$.data[, cols, with = FALSE], distinct)
+    },
+
+    missing = function(rows, cols) {
+      assert_names(cols, type = "unique")
+      cols = intersect(cols, colnames(private$.data))
+
+      if (self$compact_seq) {
+        rows = filter_oob_index(rows, 1L, nrow(private$.data))
+        data = private$.data[rows, lapply(.SD, function(x) sum(is.na(x))), with = FALSE, .SDcols = cols]
+      } else {
+        assert_atomic_vector(rows)
+        data = private$.data[list(rows), lapply(.SD, function(x) sum(is.na(x))), on = self$primary_key, nomatch = 0L, .SDcols = cols]
+      }
+      unlist(data)
     }
   ),
 
