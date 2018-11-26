@@ -13,6 +13,7 @@ All objects of type \code{DataBackend} must provide the following interface:
 b$data(rows, cols)
 b$head(n = 6)
 b$distinct(cols)
+b$missing(rows, cols)
 b$rownames
 b$colnames
 b$nrow
@@ -46,6 +47,7 @@ possible input formats.
 rows are filtered using the \code{primary_key} column, columns are selected by name.
 \item \code{$head()} [\code{\link[data.table:data.table]{data.table()}}] returns a \link[data.table:data.table]{data.table} of the first \code{n} data rows.
 \item \code{$distinct()} [\code{list()}] returns a named list of distinct values for specified columns \code{cols}.
+\item \code{$missing()} [\code{named integer()}] returns a named integer of the number of missing values.
 \item \code{$rownames} [\code{character(1)}] returns all row names of \code{data} as integer or character vector.
 \item \code{$colnames} [\code{character(1)}] returns all column names of \code{data} as character vector.
 \item \code{$nrow} [\code{integer(1)}] returns the number of total rows.
