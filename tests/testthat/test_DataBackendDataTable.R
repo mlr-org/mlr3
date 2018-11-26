@@ -2,11 +2,6 @@ context("DataBackend")
 
 test_that("DataBackendDataTable construction", {
   b = as_data_backend(iris)
-  rows = self$rownames
-  cols = self$colnames
-  self = b
-  private = private(self)
-  rows = rows[0]
 
   expect_backend(b)
   expect_iris_backend(b)
