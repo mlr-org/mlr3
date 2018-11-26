@@ -33,8 +33,9 @@ TaskRegr = R6Class("TaskRegr",
     task_type = "regr",
     initialize = function(id, backend, target) {
       super$initialize(id = id, backend = backend, target = target)
+
       assert_string(target) # check for length 1
-      assert_numeric(self$truth(), finite = TRUE, any.missing = FALSE, .var.name = "target column")
+      # assert_numeric(self$truth(), finite = TRUE, any.missing = FALSE, .var.name = "target column")
       self$measures = list(mlr_measures$get("mse"))
     },
 

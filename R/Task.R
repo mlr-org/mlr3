@@ -175,13 +175,14 @@ Task = R6Class("Task",
     initialize = function(id, backend) {
       self$id = assert_id(id)
       self$backend = assert_backend(backend)
+      self$col_info = col_info(backend)
 
       rn = backend$rownames
-      self$row_roles = list(use = rn, validation = vector(typeof(rn), 0L))
-      self$col_roles = named_list(mlr_reflections$task_col_roles, character(0L))
-      self$col_roles$feature = feature = setdiff(backend$colnames, backend$primary_key)
+      cn = self$col_info$id
 
-      self$col_info = col_info(backend)
+      self$row_roles = list(use = rn, validation = rn[0L])
+      self$col_roles = named_list(mlr_reflections$task_col_roles, character(0L))
+      self$col_roles$feature = setdiff(cn, backend$primary_key)
     },
 
     print = function(...) {

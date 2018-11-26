@@ -2,7 +2,7 @@
 % Please edit documentation in R/TaskSupervised.R
 \name{TaskSupervised}
 \alias{TaskSupervised}
-\title{Abstract learning task}
+\title{Abstract supervised task}
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
 It extends \link{Task} with some handling of target columns.
