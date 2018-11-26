@@ -192,7 +192,7 @@ Name of the "positive" class for binary classification problems.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskClassif</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)
-<span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width
+<span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; Species ~ Petal.Length + Petal.Width + Sepal.Length + Sepal.Width
 #&gt; NULL</div><div class='input'><span class='no'>task</span>$<span class='fu'>truth</span>()</div><div class='output co'>#&gt;   [1] setosa     setosa     setosa     setosa     setosa     setosa    
 #&gt;   [7] setosa     setosa     setosa     setosa     setosa     setosa    
 #&gt;  [13] setosa     setosa     setosa     setosa     setosa     setosa    

@@ -157,14 +157,14 @@
 <a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; 3    pima classif  768    9</span></a>
 <a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 4   sonar classif  208   61</span></a>
 <a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; 5    spam classif 4601   58</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; 6 titanic classif  891   12</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; 6 titanic classif 1309   12</span></a>
 <a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; 7     zoo classif  101   17</span></a></code></pre></div>
 <p>Here, we will stick to the popular <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris data set</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Task 'iris' of type classif (150 x 5)</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Target: Species</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Features: Sepal.Length, Sepal.Width, Petal.Length, Petal.Width</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Features: Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Public: all_classes, backend, cbind, class_n, class_names, clone,</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   col_info, col_roles, data, feature_names, feature_types, filter,</span></a>
@@ -184,15 +184,15 @@
 <a class="sourceLine" id="cb3-9" data-line-number="9">task<span class="op">$</span>class_names</a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [1] "setosa"     "versicolor" "virginica"</span></a>
 <a class="sourceLine" id="cb3-11" data-line-number="11">task<span class="op">$</span>feature_names</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; [1] "Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width"</span></a>
 <a class="sourceLine" id="cb3-13" data-line-number="13">task<span class="op">$</span>formula</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Species ~ Petal.Length + Petal.Width + Sepal.Length + Sepal.Width</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; NULL</span></a>
 <a class="sourceLine" id="cb3-16" data-line-number="16">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="dt">n =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; 1:  setosa          5.1         3.5          1.4         0.2</span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; 2:  setosa          4.9         3.0          1.4         0.2</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; 3:  setosa          4.7         3.2          1.3         0.2</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt;    Species Petal.Length Petal.Width Sepal.Length Sepal.Width</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; 1:  setosa          1.4         0.2          5.1         3.5</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; 2:  setosa          1.4         0.2          4.9         3.0</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; 3:  setosa          1.3         0.2          4.7         3.2</span></a></code></pre></div>
 <p>In <code>mlr3</code>, each row has a unique identifier (row name) which can be either <code>integer</code> or <code>character.</code> These can be used to select specific rows.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># iris uses integer row_ids</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">task<span class="op">$</span>row_ids</a>
@@ -211,10 +211,10 @@
 <a class="sourceLine" id="cb4-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co"># filter rows 1, 51, and 101</span></a>
 <a class="sourceLine" id="cb4-17" data-line-number="17">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>))</a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;       Species Sepal.Length Sepal.Width Petal.Length Petal.Width</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 1:     setosa          5.1         3.5          1.4         0.2</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 2: versicolor          7.0         3.2          4.7         1.4</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 3:  virginica          6.3         3.3          6.0         2.5</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;       Species Petal.Length Petal.Width Sepal.Length Sepal.Width</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 1:     setosa          1.4         0.2          5.1         3.5</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 2: versicolor          4.7         1.4          7.0         3.2</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 3:  virginica          6.0         2.5          6.3         3.3</span></a>
 <a class="sourceLine" id="cb4-22" data-line-number="22"></a>
 <a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co"># filter rows 1, 51, and 101 and only select column "Species"</span></a>
 <a class="sourceLine" id="cb4-24" data-line-number="24">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>), <span class="dt">cols =</span> <span class="st">"Species"</span>)</a>
@@ -344,7 +344,7 @@
 <a class="sourceLine" id="cb8-44" data-line-number="44"></a>
 <a class="sourceLine" id="cb8-45" data-line-number="45"><span class="co"># there is a new "feature" called "rn"</span></a>
 <a class="sourceLine" id="cb8-46" data-line-number="46">task<span class="op">$</span>feature_names</a>
-<a class="sourceLine" id="cb8-47" data-line-number="47"><span class="co">#&gt; [1] "rn"   "cyl"  "disp"</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-47" data-line-number="47"><span class="co">#&gt; [1] "cyl"  "disp" "rn"</span></a></code></pre></div>
 <p>In <code>mlr3</code>, columns (and rows) can be assigned roles. We have seen three different roles for columns so far:</p>
 <ol style="list-style-type: decimal">
 <li>The target column (here <code>"mpg"</code>), also called dependent variable.</li>
@@ -354,7 +354,7 @@
 <p>The different roles are stored as as a list of column name vectors:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">task<span class="op">$</span>col_roles</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; $feature</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; [1] "rn"   "cyl"  "disp"</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; [1] "cyl"  "disp" "rn"  </span></a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; $target</span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; [1] "mpg"</span></a>
@@ -364,7 +364,7 @@
 <p>As the output shows, the column is <code>"mpg"</code> is the target column and are three features: <code>"rn"</code> (rownames), <code>"cyl"</code>, and <code>"disp"</code>. More roles are documented in the help for tasks.</p>
 <p>In the following we do not want to learn on neither the primary key (which is taken care of <code>mlr3</code>) nor the new column <code>rn</code> with the row names. However, we still might want to carry <code>rn</code> around for different reasons. E.g., we can use the row names in plots or to associate outliers with the row names. This being said, we need to change the role of the rownames column <code>rn</code> and remove it from the set of features.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">task<span class="op">$</span>feature_names</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; [1] "rn"   "cyl"  "disp"</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; [1] "cyl"  "disp" "rn"</span></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3">task<span class="op">$</span><span class="kw">set_col_role</span>(<span class="st">"rn"</span>, <span class="dt">new_roles =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">character</a></span>(0L))</a>
 <a class="sourceLine" id="cb10-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co"># "rn" not listed as feature any more</span></a>

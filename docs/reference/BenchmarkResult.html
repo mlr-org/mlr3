@@ -198,19 +198,19 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
 )
 
 <span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
-#&gt; 1: 9e2a48c8f2f07100    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash          learner_id               learner
+#&gt; 1: 4366a92ae1a6e66a    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash          learner_id               learner
 #&gt; 1: fe453aa853afd505 classif.featureless &lt;LearnerClassifDummy&gt;
 #&gt; 2: afef6eda1b787161       classif.rpart &lt;LearnerClassifRpart&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>resamplings</span></div><div class='output co'>#&gt;     resampling_hash resampling_id     resampling
 #&gt; 1: d26601064ecba62b            cv &lt;ResamplingCV&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>measures</span></div><div class='output co'>#&gt;    measure_id              measure
 #&gt; 1:       mmce &lt;MeasureClassifMMCE&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id          learner_id resampling_id
-#&gt; 1: 7a67769f33b78aa7 &lt;ResampleResult&gt;    iris classif.featureless            cv
-#&gt; 2: bcbe290cdbc79cec &lt;ResampleResult&gt;    iris       classif.rpart            cv
+#&gt; 1: 341d3153fd715676 &lt;ResampleResult&gt;    iris classif.featureless            cv
+#&gt; 2: 1975af471652ff3a &lt;ResampleResult&gt;    iris       classif.rpart            cv
 #&gt;         mmce
 #&gt; 1: 0.7533333
 #&gt; 2: 0.0600000</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id          learner_id resampling_id  N
-#&gt; 1: 7a67769f33b78aa7    iris classif.featureless            cv 10
-#&gt; 2: bcbe290cdbc79cec    iris       classif.rpart            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
+#&gt; 1: 341d3153fd715676    iris classif.featureless            cv 10
+#&gt; 2: 1975af471652ff3a    iris       classif.rpart            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.featureless' with 10 iterations
 #&gt;  Measure      Min.   1st Qu.    Median      Mean 3rd Qu.      Max.         Sd
 #&gt;     mmce 0.6666667 0.7333333 0.7333333 0.7533333     0.8 0.8666667 0.06324555</div><div class='input'><span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>model</span></div><div class='output co'>#&gt; 
