@@ -77,19 +77,26 @@ expect_backend = function(b) {
   # duplicated cols raise exception
   testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L)), "uniquely")
 
-  # argument n of head
-  checkmate::expect_data_table(b$head(3), nrow = 3, ncol = p)
+  # $head()
+  checkmate::expect_data_table(b$head(9999L), nrow = n, ncol = p)
+  checkmate::expect_data_table(b$head(2L), nrow = 2L, ncol = p)
+  checkmate::expect_data_table(b$head(0L), nrow = 0, ncol = p)
 
-  # primary_key is distinct
+  # $distinct()
   d = b$distinct(b$primary_key)[[1L]]
-  checkmate::expect_atomic_vector(d, len = n)
+  checkmate::expect_atomic_vector(d, any.missing = FALSE, len = n, unique = TRUE)
+  checkmate::expect_list(b$distinct("_not_existing_"), len = 0L, names = "named")
+  d = b$distinct(rev(cn))
+  checkmate::expect_list(d, names = "unique")
+  expect_names(names(d), permutation.of = rev(cn))
 
-  # missing
+  # $missing()
   x = b$missing(b$rownames, b$colnames)
   expect_integer(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
   expect_names(names(x), permutation.of = b$colnames)
-  expect_integer(b$missing(b$rownames, "does_not_exist"), len = 0L, names = "named")
+  expect_integer(b$missing(b$rownames, "_not_existing_"), len = 0L, names = "named")
   expect_integer(b$missing(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
+  expect_integer(b$missing(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")
 }
 
 expect_iris_backend = function(b, n_missing = 0L) {

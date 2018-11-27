@@ -79,7 +79,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       assert_names(cols, type = "unique")
       cols = intersect(cols, colnames(private$.data))
       if (length(cols) == 0L)
-        return(setNames(integer(), character()))
+        return(setNames(integer(0L), character(0L)))
 
       if (self$compact_seq) {
         rows = filter_oob_index(rows, 1L, nrow(private$.data))
@@ -89,8 +89,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
         data = private$.data[list(rows), lapply(.SD, function(x) sum(is.na(x))), on = self$primary_key, nomatch = 0L, .SDcols = cols]
       }
       if (nrow(data) == 0L)
-        return(setNames(integer(ncol(data)), names(data)))
-
+        return(setNames(integer(length(cols)), cols))
       unlist(data, recursive = FALSE)
     }
   ),
