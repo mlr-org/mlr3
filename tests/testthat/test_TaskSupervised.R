@@ -2,7 +2,7 @@ context("TaskSupervised")
 
 test_that("TaskSupervised Construction", {
   b = as_data_backend(iris)
-  task = TaskSupervised$new(id = "foo", b, target = "Species")
+  task = TaskSupervised$new(id = "foo", "classif", b, target = "Species")
   b = task$backend
   expect_backend(b)
   expect_task(task)

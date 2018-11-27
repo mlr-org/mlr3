@@ -7,7 +7,7 @@
 #' @section Usage:
 #' ```
 #' # Construction
-#' t = TaskSupervised$new(id, backend, targets)
+#' t = TaskSupervised$new(id, task_type, backend, targets)
 #' #
 #' t$truth(subset = NULL)
 #' ```
@@ -28,9 +28,9 @@ NULL
 #' @export
 TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
-    initialize = function(id, backend, targets) {
+    initialize = function(id, task_type, backend, targets) {
       assert_character(targets, any.missing = FALSE, min.len = 1L)
-      super$initialize(id = id, backend = backend)
+      super$initialize(id = id, task_type = task_type, backend = backend)
 
       i = which(targets %nin% self$col_roles$feature)
       if (length(i))

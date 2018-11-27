@@ -6,9 +6,10 @@
 #' @section Usage:
 #' ```
 #' # Construction
-#' t = Task$new(id, backend)
+#' t = Task$new(id, backend, task_type)
 #' #
 #' t$id
+#' t$task_type
 #' t$backend
 #' t$row_roles
 #' t$col_info
@@ -39,6 +40,8 @@
 #'   Name of the task.
 #' * `backend` ([DataBackend]):
 #'   [DataBackend] which stores the data.
+#' * `task_type` (`character(1)`):
+#'   Task type. Set via class which inherits from [Task].
 #' * `data` ([base::data.frame]):
 #'   New data to rbind/cbind to the task.
 #' * `rows` (`vector`):
@@ -164,7 +167,7 @@ Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
     id = NULL,
-    task_type = NA_character_,
+    task_type = NULL,
     backend = NULL,
     properties = character(0L),
     row_roles = NULL,
@@ -172,8 +175,9 @@ Task = R6Class("Task",
     col_info = NULL,
     measures = list(),
 
-    initialize = function(id, backend) {
+    initialize = function(id, task_type, backend) {
       self$id = assert_id(id)
+      self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$backend = assert_backend(backend)
       self$col_info = col_info(backend)
 
@@ -181,7 +185,7 @@ Task = R6Class("Task",
       cn = self$col_info$id
 
       self$row_roles = list(use = rn, validation = rn[0L])
-      self$col_roles = named_list(mlr_reflections$task_col_roles, character(0L))
+      self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character(0L))
       self$col_roles$feature = setdiff(cn, backend$primary_key)
     },
 
@@ -244,7 +248,7 @@ Task = R6Class("Task",
     },
 
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
-      assert_subset(new_roles, mlr_reflections$task_col_roles)
+      assert_subset(new_roles, mlr_reflections$task_col_roles[[self$task_type]])
       assert_flag(exclusive)
 
       for (role in new_roles)

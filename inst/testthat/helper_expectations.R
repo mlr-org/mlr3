@@ -163,7 +163,7 @@ expect_task = function(task) {
   checkmate::expect_list(task$col_info$levels)
 
   checkmate::expect_list(task$col_roles, names = "unique", any.missing = FALSE)
-  checkmate::expect_names(names(task$col_roles), permutation.of = mlr3::mlr_reflections$task_col_roles)
+  checkmate::expect_names(names(task$col_roles), permutation.of = mlr3::mlr_reflections$task_col_roles[[task$task_type]])
   lapply(task$col_roles, expect_character, any.missing = FALSE, unique = TRUE, min.chars = 1L)
   checkmate::expect_subset(unlist(task$col_roles), task$col_info$id)
 

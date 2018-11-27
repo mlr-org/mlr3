@@ -8,12 +8,10 @@
 #' In addition to the interface of [Task]/[TaskSupervised], this class implements:
 #' ```
 #' t = TaskRegr$new(id, backend, target)
-#'
-#' t$task_type
 #' ```
 #'
 #' @section Details:
-#' * `$task_type` is `"classif"`
+#' * `$task_type` is `"regr"`
 #'
 #' @name TaskRegr
 #' @family Task
@@ -30,9 +28,8 @@ NULL
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
-    task_type = "regr",
     initialize = function(id, backend, target) {
-      super$initialize(id = id, backend = backend, target = target)
+      super$initialize(id = id, task_type = "regr", backend = backend, target = target)
 
       assert_string(target) # check for length 1
       # assert_numeric(self$truth(), finite = TRUE, any.missing = FALSE, .var.name = "target column")

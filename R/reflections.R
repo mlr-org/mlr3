@@ -22,8 +22,9 @@ mlr_reflections$task_row_roles = c(
   "use", "validation"
 )
 
-mlr_reflections$task_col_roles = c(
-  "feature", "target", "order"
+mlr_reflections$task_col_roles = list(
+  regr = c("feature", "target", "order"),
+  classif = c("feature", "target", "order")
 )
 
 mlr_reflections$task_properties = list(
