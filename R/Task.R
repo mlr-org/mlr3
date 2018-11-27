@@ -142,7 +142,7 @@
 #' @family Task
 #' @examples
 #' b = as_data_backend(iris)
-#' task = Task$new("iris", b)
+#' task = Task$new("iris", task_type = "classif", backend = b)
 #'
 #' task$nrow
 #' task$ncol

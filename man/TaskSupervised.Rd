@@ -9,7 +9,7 @@ It extends \link{Task} with some handling of target columns.
 }
 \section{Usage}{
 \preformatted{# Construction
-t = TaskSupervised$new(id, backend, targets)
+t = TaskSupervised$new(id, task_type, backend, targets)
 #
 t$truth(subset = NULL)
 }

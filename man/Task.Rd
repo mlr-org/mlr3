@@ -8,9 +8,10 @@ This is the abstract base class for task objects like \link{TaskClassif} and \li
 }
 \section{Usage}{
 \preformatted{# Construction
-t = Task$new(id, backend)
+t = Task$new(id, backend, task_type)
 #
 t$id
+t$task_type
 t$backend
 t$row_roles
 t$col_info
@@ -44,6 +45,8 @@ t$overwrite(data)
 Name of the task.
 \item \code{backend} (\link{DataBackend}):
 \link{DataBackend} which stores the data.
+\item \code{task_type} (\code{character(1)}):
+Task type. Set via class which inherits from \link{Task}.
 \item \code{data} (\link[base:data.frame]{base::data.frame}):
 New data to rbind/cbind to the task.
 \item \code{rows} (\code{vector}):
@@ -129,7 +132,7 @@ merge both backends into an abstract \link{DataBackend} which combines the resul
 
 \examples{
 b = as_data_backend(iris)
-task = Task$new("iris", b)
+task = Task$new("iris", task_type = "classif", backend = b)
 
 task$nrow
 task$ncol
