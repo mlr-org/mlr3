@@ -120,9 +120,8 @@ task_overwrite = function(self, data) {
 
   ## 1.2 Check that there are no extra column names in data
   tmp = setdiff(names(data), self$col_info$id)
-  if (length(tmp)) {
+  if (length(tmp))
     stopf("Cannot overwrite task: Extra columns found: %s", stri_head(tmp))
-  }
 
   ## 1.3 Check that types are matching
   check_matching_types(self$col_info, col_info(data, primary_key = pk))

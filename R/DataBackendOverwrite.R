@@ -15,8 +15,8 @@ DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cl
       cols = intersect(cols, self$colnames)
       query_cols = union(cols, self$primary_key)
 
-      x = private$.data$b1$data(rows, query_cols)
-      y = private$.data$b2$data(rows, query_cols)
+      x = private$.data$b1$data(rows, query_cols, format)
+      y = private$.data$b2$data(rows, query_cols, format)
 
       if (ncol(y) > 1L && nrow(y) > 0L)
         x = ujoin(x, y, self$primary_key)
@@ -32,6 +32,14 @@ DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cl
 
     distinct = function(cols) {
       lapply(self$data(self$rownames, cols), distinct)
+    },
+
+    missing = function(rows, cols) {
+      cols = intersect(cols, self$colnames)
+      data = self$data(rows, cols)
+      if (any(dim(data) == 0L))
+        return(setNames(integer(length(cols)), cols))
+      unlist(lapply(data, function(x) sum(is.na(x))), recursive = FALSE)
     }
   ),
 

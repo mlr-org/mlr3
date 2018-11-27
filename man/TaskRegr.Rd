@@ -10,15 +10,13 @@ The target column is assumed to be numeric.
 \section{Usage}{
 
 In addition to the interface of \link{Task}/\link{TaskSupervised}, this class implements:\preformatted{t = TaskRegr$new(id, backend, target)
-
-t$task_type
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$task_type} is \code{"classif"}
+\item \code{$task_type} is \code{"regr"}
 }
 }
 

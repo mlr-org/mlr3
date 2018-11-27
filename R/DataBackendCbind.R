@@ -30,7 +30,13 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     },
 
     distinct = function(cols) {
-      c(private$.data$b1$distinct(cols), private$.data$b2$distinct(cols))
+      c(private$.data$b1$distinct(cols), private$.data$b2$distinct(setdiff(cols, self$primary_key)))
+    },
+
+    missing = function(rows, cols) {
+      m1 = private$.data$b1$missing(rows, cols)
+      m2 = private$.data$b2$missing(rows, cols)
+      c(m1, remove_named(m2, self$primary_key))
     }
   ),
 

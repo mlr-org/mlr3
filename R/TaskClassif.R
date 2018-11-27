@@ -47,12 +47,11 @@ NULL
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
-    task_type = "classif",
     positive = NA_character_,
     negative = NA_character_,
 
     initialize = function(id, backend, target, positive = NULL) {
-      super$initialize(id = id, backend = backend, target = target)
+      super$initialize(id = id, task_type = "classif", backend = backend, target = target)
 
       info = self$col_info[id == target]
       levels = info$levels[[1L]]
