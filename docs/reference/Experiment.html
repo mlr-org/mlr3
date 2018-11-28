@@ -161,6 +161,8 @@ e$train(subset)
 e$predict(subset, newdata)
 e$score(measures = NULL)
 # Getters
+e$task
+e$learner
 e$model
 e$prediction
 e$performance
@@ -194,6 +196,7 @@ Performance measure to use. Defaults to the measures set in the <a href='Task.ht
     
     <ul>
 <li><p><code>$new()</code> initializes a new machine learning experiment which can grow in a stepwise fashion.</p></li>
+<li><p><code>$task</code> and <code>$learner</code> can be used to access the <a href='Task.html'>Task</a> and <a href='Learner.html'>Learner</a>.</p></li>
 <li><p><code>$train()</code> fits the induced <code>learner</code> on the (subset of the) <code>task</code> and internally stores the model.
 The model can be accessed via <code>e$model</code>.</p></li>
 <li><p><code>$predict()</code> uses the previously fitted model to predict new observations.
@@ -238,9 +241,9 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt;  - Predictions: [missing]
 #&gt;  - Performance: [missing]
 #&gt; 
-#&gt; Public: clone, data, has_errors, hash, logs, model, performance,
-#&gt;   predict, prediction, score, state, test_set, timings, train,
-#&gt;   train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
+#&gt; Public: clone, data, has_errors, hash, learner, logs, model,
+#&gt;   performance, predict, prediction, score, state, task, test_set,
+#&gt;   timings, train, train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
 #&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'>
 <span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; <span class='message'>Training learner 'classif.rpart' on task 'iris' ...</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [incomplete]:
 #&gt;  + Task: iris
@@ -249,9 +252,9 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt;  - Predictions: [missing]
 #&gt;  - Performance: [missing]
 #&gt; 
-#&gt; Public: clone, data, has_errors, hash, logs, model, performance,
-#&gt;   predict, prediction, score, state, test_set, timings, train,
-#&gt;   train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] trained
+#&gt; Public: clone, data, has_errors, hash, learner, logs, model,
+#&gt;   performance, predict, prediction, score, state, task, test_set,
+#&gt;   timings, train, train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] trained
 #&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>model</span></div><div class='output co'>#&gt; n= 120 
 #&gt; 
 #&gt; node), split, n, loss, yval, (yprob)
@@ -269,9 +272,9 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt;  + Predictions: [PredictionClassif]
 #&gt;  - Performance: [missing]
 #&gt; 
-#&gt; Public: clone, data, has_errors, hash, logs, model, performance,
-#&gt;   predict, prediction, score, state, test_set, timings, train,
-#&gt;   train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] predicted
+#&gt; Public: clone, data, has_errors, hash, learner, logs, model,
+#&gt;   performance, predict, prediction, score, state, task, test_set,
+#&gt;   timings, train, train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] predicted
 #&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>prediction</span></div><div class='output co'>#&gt;      id   response     truth
 #&gt;  1: 121  virginica virginica
 #&gt;  2: 122 versicolor virginica
@@ -311,9 +314,9 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt;  + Predictions: [PredictionClassif]
 #&gt;  + Performance: mmce=0.166667
 #&gt; 
-#&gt; Public: clone, data, has_errors, hash, logs, model, performance,
-#&gt;   predict, prediction, score, state, test_set, timings, train,
-#&gt;   train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] scored
+#&gt; Public: clone, data, has_errors, hash, learner, logs, model,
+#&gt;   performance, predict, prediction, score, state, task, test_set,
+#&gt;   timings, train, train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] scored
 #&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>performance</span></div><div class='output co'>#&gt;      mmce 
 #&gt; 0.1666667 </div><div class='input'>
 <span class='no'>e</span>$<span class='no'>train_set</span></div><div class='output co'>#&gt;   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18

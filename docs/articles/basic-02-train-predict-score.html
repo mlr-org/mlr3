@@ -174,9 +174,9 @@
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;  - Predictions: [missing]</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;  - Performance: [missing]</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; Public: clone, data, has_errors, hash, logs, model, performance,</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;   predict, prediction, score, state, test_set, timings, train,</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;   train_set, validation_set</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; Public: clone, data, has_errors, hash, learner, logs, model,</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;   performance, predict, prediction, score, state, task, test_set,</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;   timings, train, train_set, validation_set</span></a></code></pre></div>
 <p>The printer also shows a summary of the state of the experiment.</p>
 </div>
 <div id="training" class="section level2">
@@ -193,9 +193,9 @@
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  - Predictions: [missing]</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  - Performance: [missing]</span></a>
 <a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; Public: clone, data, has_errors, hash, logs, model, performance,</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;   predict, prediction, score, state, test_set, timings, train,</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;   train_set, validation_set</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; Public: clone, data, has_errors, hash, learner, logs, model,</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;   performance, predict, prediction, score, state, task, test_set,</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;   timings, train, train_set, validation_set</span></a></code></pre></div>
 <p>The printer indicates that the object was grown, we have now stored a model in the experiment (along some more technical stuff like log files):</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">rpart.model =<span class="st"> </span>e<span class="op">$</span>model</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rpart.model)</a>
@@ -224,9 +224,9 @@
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;  + Predictions: [PredictionClassif]</span></a>
 <a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;  - Performance: [missing]</span></a>
 <a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; Public: clone, data, has_errors, hash, logs, model, performance,</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;   predict, prediction, score, state, test_set, timings, train,</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;   train_set, validation_set</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; Public: clone, data, has_errors, hash, learner, logs, model,</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;   performance, predict, prediction, score, state, task, test_set,</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;   timings, train, train_set, validation_set</span></a></code></pre></div>
 <p>The predictions can be retrieved as a simple <code>data.table</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(e<span class="op">$</span>prediction)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt;    id response  truth</span></a>
@@ -253,9 +253,9 @@
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  + Predictions: [PredictionClassif]</span></a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  + Performance: mmce=0.0333333</span></a>
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; Public: clone, data, has_errors, hash, logs, model, performance,</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt;   predict, prediction, score, state, test_set, timings, train,</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;   train_set, validation_set</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; Public: clone, data, has_errors, hash, learner, logs, model,</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt;   performance, predict, prediction, score, state, task, test_set,</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;   timings, train, train_set, validation_set</span></a>
 <a class="sourceLine" id="cb9-16" data-line-number="16">e<span class="op">$</span>performance[<span class="st">"mmce"</span>]</a>
 <a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt;       mmce </span></a>
 <a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; 0.03333333</span></a></code></pre></div>
