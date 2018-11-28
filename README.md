@@ -27,15 +27,15 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * Combine `data.table` and `R6`, for this we will make heavy use of list columns in data.tables.
 * Once the API is fixed, both advanced techniques and implementations for different learners will be implemented in extra packages to reduce the maintenance burden.
 * Be light on dependencies. `mlr3` requires the following packages:
-    - [`mlr3misc`](https://github.com/mlr-org/mlr3misc) Miscellaneous functions used in multiple mlr3 [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages). Developed by the `mlr` team. No extra reverse dependencies.
-    - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No extra reverse dependencies.
-    - [`backports`](https://cran.r-project.org/package=backports): Ensures backward compatibility with older R releases. Developed by members of the `mlr` team. No extra reverse dependencies.
-    - [`bit`](https://cran.r-project.org/package=bit): Efficient storage of logical vectors. No extra reverse dependencies.
-    - [`checkmate`](https://cran.r-project.org/package=checkmate): Fast argument checks. Developed by members of the `mlr` team. No extra reverse dependencies.
-    - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No extra reverse dependencies.
-    - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No extra reverse dependencies.
-    - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No extra reverse dependencies.
-    - [`paradox`](https://github.com/mlr-org/paradox) Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra reverse dependencies.
+    - [`mlr3misc`](https://github.com/mlr-org/mlr3misc) Miscellaneous functions used in multiple mlr3 [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages). Developed by the `mlr` team. No extra recursive dependencies.
+    - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No extra recursive dependencies.
+    - [`backports`](https://cran.r-project.org/package=backports): Ensures backward compatibility with older R releases. Developed by members of the `mlr` team. No extra recursive dependencies.
+    - [`bit`](https://cran.r-project.org/package=bit): Efficient storage of logical vectors. No extra recursive dependencies.
+    - [`checkmate`](https://cran.r-project.org/package=checkmate): Fast argument checks. Developed by members of the `mlr` team. No extra recursive dependencies.
+    - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No extra recursive dependencies.
+    - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No extra recursive dependencies.
+    - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No extra recursive dependencies.
+    - [`paradox`](https://github.com/mlr-org/paradox) Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra recursive dependencies.
 * Additional functionality that comes with extra dependencies:
     - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
     - To capture output for logging, [`evaluate`](https://cran.r-project.org/package=evaluate) is used.
