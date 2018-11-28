@@ -74,7 +74,7 @@ ResampleResult = R6Class("ResampleResult",
     print = function(...) {
       catf("ResampleResult of learner '%s' on task '%s' with %i iterations", self$task$id, self$learner$id, nrow(self$data))
 
-      tab = map_dtr(ids(self$measures), function(id) {
+      tab = map_dtr(self$measures$measure_id, function(id) {
         perf = self$performance(id)
         c(list(Measure = id), as.list(summary(perf)), list(Sd = sd(perf)))
       })
@@ -82,7 +82,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     performance = function(id) {
-      assert_choice(id, ids(self$measures))
+      assert_choice(id, self$measures$measure_id)
       map_dbl(self$data$performance, function(x) x[[id]] %??% NA_real)
     },
 
@@ -118,11 +118,11 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     measures = function() {
-      self$data$measures[[1L]]
+      unique(map_dtr(self$data$measures, function(m) data.table(measure_id = ids(m), measure = m)), by = "measure_id")
     },
 
     aggregated = function() {
-      measures = self$measures
+      measures = self$measures$measure
       setNames(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
     },
 

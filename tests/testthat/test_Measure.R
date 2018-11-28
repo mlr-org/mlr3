@@ -17,6 +17,7 @@ test_that("Classification measures", {
     task = mlr_tasks$get("sonar"),
     learner = lrn
   )
+  # e$train()$predict()$score()
   e$train()$predict()
 
   for (key in ids) {

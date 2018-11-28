@@ -339,7 +339,7 @@ expect_resample_result = function(rr) {
   expect_experiment(e)
   testthat::expect_true(e$state == "scored")
 
-  measures = rr$measures
+  measures = rr$measures$measure
   aggr = rr$aggregated
   for (m in measures) {
     y = rr$performance(m$id)
