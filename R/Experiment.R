@@ -13,6 +13,8 @@
 #' e$predict(subset, newdata)
 #' e$score(measures = NULL)
 #' # Getters
+#' e$task
+#' e$learner
 #' e$model
 #' e$prediction
 #' e$performance
@@ -39,6 +41,8 @@
 #'
 #' @section Details:
 #' * `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
+#'
+#' * `$task` and `$learner` can be used to access the [Task] and [Learner].
 #'
 #' * `$train()` fits the induced `learner` on the (subset of the) `task` and internally stores the model.
 #'   The model can be accessed via `e$model`.
@@ -149,6 +153,14 @@ Experiment = R6Class("Experiment",
   ),
 
   active = list(
+    task = function() {
+      self$data$task
+    },
+
+    learner = function() {
+      self$data$learner
+    },
+
     model = function() {
       model = self$data$model
       if (is.null(model))
@@ -288,7 +300,7 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = mlr_cont
 }
 
 experiment_score = function(e, measures = NULL, ctrl = mlr_control()) {
-  e$data$measures = assert_measures(measures %??% e$data$task$measures, task = e$data$task, learner = e$data$learner)
+  e$data$measures = assert_measures(measures %??% e$data$task$measures, task = e$task, learner = e$learner)
 
   if (use_future(ctrl)) {
     debug("Running score_worker() via futureCall()")

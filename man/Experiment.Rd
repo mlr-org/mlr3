@@ -14,6 +14,8 @@ e$train(subset)
 e$predict(subset, newdata)
 e$score(measures = NULL)
 # Getters
+e$task
+e$learner
 e$model
 e$prediction
 e$performance
@@ -47,6 +49,7 @@ Performance measure to use. Defaults to the measures set in the \link{Task}.
 
 \itemize{
 \item \code{$new()} initializes a new machine learning experiment which can grow in a stepwise fashion.
+\item \code{$task} and \code{$learner} can be used to access the \link{Task} and \link{Learner}.
 \item \code{$train()} fits the induced \code{learner} on the (subset of the) \code{task} and internally stores the model.
 The model can be accessed via \code{e$model}.
 \item \code{$predict()} uses the previously fitted model to predict new observations.
