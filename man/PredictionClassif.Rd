@@ -8,7 +8,7 @@ This object stores the predictions returned by a learner of class \link{LearnerC
 }
 \section{Usage}{
 \preformatted{# Construction
-p = PredictionClassif$new(truth, response, prob = NULL)
+p = PredictionClassif$new(task, response, prob = NULL)
 #
 p$truth
 p$response
@@ -21,13 +21,15 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{truth} [\link{factor}]:\cr
-Factor of true class labels (as returned by \code{task$truth()}). Note that empty levels may not be dropped.
+\item \code{task} [\link{Task}]:\cr
+Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
+Set to \code{NULL} to skip all argument checks during initialization.
+Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
 \item \code{response} [\link{factor} | \link{character}]:\cr
-Vector of predicted class labels. Must have length \code{length(truth)}.
+Vector of predicted class labels.
 \item \code{prob} [\link{matrix}]:\cr
-Numeric matrix of class probabilities with \code{levels(truth)} columns and \code{length(truth)} rows.
-Columns must be named with class levels.
+Numeric matrix of class probabilities with one column for each class in \code{task$all_classes}
+and one row for each observation in the test set.
 }
 }
 

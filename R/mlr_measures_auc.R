@@ -15,7 +15,7 @@ MeasureClassifAUC = R6Class("MeasureClassifAUC",
     calculate = function(e) {
       p = e$prediction
       positive = e$data$task$positive
-      Metrics::auc(actual = (p$truth == positive), predicted = p[[paste0("prob.", positive)]])
+      Metrics::auc(actual = (p$truth == positive), predicted = p$prob[, positive])
     }
   )
 )

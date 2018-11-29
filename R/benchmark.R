@@ -42,7 +42,7 @@
 #' print(rr)
 #'
 #' # Extract predictions of first experiment of this resampling
-#' head(rr$experiment(1)$prediction)
+#' head(as.data.table(rr$experiment(1)$prediction))
 benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_control()) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)

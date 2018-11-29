@@ -16,9 +16,7 @@ test_that("Simple prediction", {
   e$predict(subset = 101:150)
   expect_null(e$data$performance) # performance is reset?
 
-  expect_data_table(e$prediction, nrow = 50)
-
-  p = e$data$prediction
-  expect_is(p, "Prediction")
-  expect_data_frame(as.data.frame(p), nrow = 50)
+  expect_class(e$prediction, "Prediction")
+  expect_data_table(as.data.table(e$prediction), nrow = 50)
+  expect_data_frame(as.data.frame(e$prediction), nrow = 50)
 })

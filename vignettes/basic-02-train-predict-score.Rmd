@@ -82,7 +82,7 @@ print(e)
 ```
 The predictions can be retrieved as a simple `data.table`.
 ```{r}
-head(e$prediction)
+head(as.data.table(e$prediction))
 ```
 
 ## Performance Assessment

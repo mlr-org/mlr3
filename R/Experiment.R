@@ -201,8 +201,7 @@ Experiment = R6Class("Experiment",
       prediction = self$data$prediction
       if (is.null(prediction))
         stopf("No predictions available")
-      row_ids = self$test_set
-      setkeyv(ref_cbind(x = data.table(id = row_ids), y = as.data.table(prediction)), "id")[]
+      prediction
     },
 
     performance = function() {

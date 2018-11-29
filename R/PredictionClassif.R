@@ -6,7 +6,7 @@
 #' @section Usage:
 #' ```
 #' # Construction
-#' p = PredictionClassif$new(truth, response, prob = NULL)
+#' p = PredictionClassif$new(task, response, prob = NULL)
 #' #
 #' p$truth
 #' p$response
@@ -16,13 +16,15 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `truth` \[[factor]\]:\cr
-#'   Factor of true class labels (as returned by `task$truth()`). Note that empty levels may not be dropped.
+#' * `task` \[[Task]\]:\cr
+#'   Task used for prediction. Used to extract `row_ids` and `truth`.
+#'   Set to `NULL` to skip all argument checks during initialization.
+#'   Slots `p$row_ids` and `p$truth` need to be set manually in this case
 #' * `response` \[[factor] | [character]\]:\cr
-#'   Vector of predicted class labels. Must have length `length(truth)`.
+#'   Vector of predicted class labels.
 #' * `prob` \[[matrix]\]:\cr
-#'   Numeric matrix of class probabilities with `levels(truth)` columns and `length(truth)` rows.
-#'   Columns must be named with class levels.
+#'   Numeric matrix of class probabilities with one column for each class in `task$all_classes`
+#'   and one row for each observation in the test set.
 #'
 #' @section Details:
 #' * `$new()` initializes a new object of class [Prediction].
@@ -45,22 +47,31 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     prob = NULL,
-    initialize = function(truth, response, prob = NULL) {
-      self$truth = assert_factor(truth, any.missing = FALSE)
-      classes = levels(truth)
+    initialize = function(task = NULL, response = NULL, prob = NULL) {
+      if (!is.null(task)) {
+        self$row_ids = row_ids = task$row_ids[[1L]]
+        self$truth = task$truth()
+        n = length(row_ids)
+        classes = task$all_classes
 
-      if (is.character(response))
-        response = factor(response, levels = classes)
-      self$response = assert_factor(response, len = length(truth), levels = classes, any.missing = FALSE)
+        if (!is.null(response)) {
+          if (is.character(response))
+            response = factor(response, levels = classes)
+          assert_factor(response, len = n, levels = classes, any.missing = FALSE)
+        }
 
-      if (!is.null(prob)) {
-        assert_matrix(prob, nrow = length(truth), ncol = length(classes))
-        assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
-        assert_names(colnames(prob), permutation.of = classes)
-        if (!is.null(rownames(prob)))
-          rownames(prob) = NULL
-        self$prob = prob[, match(colnames(prob), classes), drop = FALSE]
+        if (!is.null(prob)) {
+          assert_matrix(prob, nrow = n, ncol = length(classes))
+          assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
+          assert_names(colnames(prob), permutation.of = classes)
+          if (!is.null(rownames(prob)))
+            rownames(prob) = row_ids
+          self$prob = prob[, match(colnames(prob), classes), drop = FALSE]
+        }
       }
+
+      self$response = response
+      self$prob = prob
     }
   )
 )

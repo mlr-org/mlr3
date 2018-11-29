@@ -6,7 +6,7 @@
 #' @section Usage:
 #' ```
 #' # Construction
-#' p = PredictionRegr$new(truth, response, se = NULL)
+#' p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 #' #
 #' p$truth
 #' p$response
@@ -16,12 +16,16 @@
 #' ```
 #'
 #' @section Arguments:
+#' * `task` \[[Task]\]:\cr
+#'   Task used for prediction. Used to extract `row_ids` and `truth`.
+#'   Set to `NULL` to skip all argument checks during initialization.
+#'   Slots `p$row_ids` and `p$truth` need to be set manually in this case
 #' * `truth` \[[numeric]\]:\cr
 #'   Numeric vector of true response.
 #' * `response` \[[numeric]\]:\cr
-#'   Numeric vector of predictions. Must have length `length(truth)`.
+#'   Numeric vector of predictions. One element for each observation in the test set.
 #' * `se` \[[numeric]\]:\cr
-#'   Numeric vector of predicted standard error. Must have length `length(truth)`.
+#'   Numeric vector of predicted standard error. One element for each observation in the test set.
 #'
 #' @section Details:
 #' * `$new()` initializes a new object of class [Prediction].
@@ -44,11 +48,23 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     se = NULL,
-    initialize = function(truth, response, se = NULL) {
-      self$truth = assert_numeric(truth, any.missing = FALSE)
-      self$response = assert_numeric(response, len = length(truth), any.missing = FALSE)
-      if (!is.null(se))
-        self$se = assert_numeric(se, len = length(truth), any.missing = FALSE, lower = 0)
+    initialize = function(task = NULL, response = NULL, se = NULL) {
+      if (!is.null(task)) {
+        self$row_ids = row_ids = task$row_ids[[1L]]
+        self$truth = task$truth()
+        n = length(row_ids)
+
+        if (!is.null(response)) {
+          assert_numeric(response, len = n, any.missing = FALSE)
+        }
+
+        if (!is.null(se)) {
+          assert_numeric(se, len = n, lower = 0, any.missing = FALSE)
+        }
+
+        self$response = response
+        self$se = se
+      }
     }
   )
 )

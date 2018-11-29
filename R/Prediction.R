@@ -10,14 +10,21 @@ NULL
 
 Prediction = R6Class("Prediction",
   public = list(
+    row_ids = NULL,
+    truth = NULL,
     response = NULL,
-    truth = NULL
+
+    print = function(...) {
+      data = as.data.table(self)
+      catf("<%s> for %i observations:", class(self)[1L], nrow(data))
+      print(data, nrows = 10L, topn = 3L, print.class = TRUE, print.keys = FALSE)
+    }
   )
 )
 
 #' @export
 as.data.table.Prediction = function(x, ...) {
-  data.table(response = x$response, truth = x$truth)
+  data.table(row_id = x$row_ids, response = x$response, truth = x$truth)
 }
 
 #' @export

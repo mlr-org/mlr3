@@ -8,7 +8,7 @@ This object stores the predictions returned by a learner of class \link{LearnerR
 }
 \section{Usage}{
 \preformatted{# Construction
-p = PredictionRegr$new(truth, response, se = NULL)
+p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 #
 p$truth
 p$response
@@ -21,12 +21,16 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
+\item \code{task} [\link{Task}]:\cr
+Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
+Set to \code{NULL} to skip all argument checks during initialization.
+Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
 \item \code{truth} [\link{numeric}]:\cr
 Numeric vector of true response.
 \item \code{response} [\link{numeric}]:\cr
-Numeric vector of predictions. Must have length \code{length(truth)}.
+Numeric vector of predictions. One element for each observation in the test set.
 \item \code{se} [\link{numeric}]:\cr
-Numeric vector of predicted standard error. Must have length \code{length(truth)}.
+Numeric vector of predicted standard error. One element for each observation in the test set.
 }
 }
 

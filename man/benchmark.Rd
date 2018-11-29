@@ -55,5 +55,5 @@ rr = bmr$resample_result(hash = rrs$hash[1])
 print(rr)
 
 # Extract predictions of first experiment of this resampling
-head(rr$experiment(1)$prediction)
+head(as.data.table(rr$experiment(1)$prediction))
 }

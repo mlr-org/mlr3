@@ -42,7 +42,7 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
         prob = NULL
       }
 
-      PredictionClassif$new(task$truth(), response = response, prob = prob)
+      PredictionClassif$new(task, response = response, prob = prob)
     }
   )
 )
