@@ -241,7 +241,7 @@
 <h2 class="hasAnchor">
 <a href="#performance-assessment" class="anchor"></a>Performance Assessment</h2>
 <p>The last step of the experiment is quantifying the predicted labels by comparing them with the true labels using a performance measure. The default measure for the iris classification task is the mean misclassification error which is used here automatically:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/ids.html">ids</a></span>(task<span class="op">$</span>measures)</a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">task<span class="op">$</span>measures[[1L]]<span class="op">$</span>id</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] "mmce"</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">e<span class="op">$</span><span class="kw">score</span>()</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Scoring predictions of learner 'classif.rpart' on task 'iris' ...</span></a>
