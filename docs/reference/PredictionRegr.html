@@ -155,7 +155,7 @@
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
-p = PredictionRegr$new(truth, response, se = NULL)
+p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 #
 p$truth
 p$response
@@ -168,12 +168,16 @@ as.data.table(p)
 
     
     <ul>
+<li><p><code>task</code> [<a href='Task.html'>Task</a>]:<br />
+Task used for prediction. Used to extract <code>row_ids</code> and <code>truth</code>.
+Set to <code>NULL</code> to skip all argument checks during initialization.
+Slots <code>p$row_ids</code> and <code>p$truth</code> need to be set manually in this case</p></li>
 <li><p><code>truth</code> [<a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric</a>]:<br />
 Numeric vector of true response.</p></li>
 <li><p><code>response</code> [<a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric</a>]:<br />
-Numeric vector of predictions. Must have length <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(truth)</a></code>.</p></li>
+Numeric vector of predictions. One element for each observation in the test set.</p></li>
 <li><p><code>se</code> [<a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric</a>]:<br />
-Numeric vector of predicted standard error. Must have length <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(truth)</a></code>.</p></li>
+Numeric vector of predicted standard error. One element for each observation in the test set.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
