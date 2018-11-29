@@ -90,7 +90,7 @@ head(e$prediction)
 The last step of the experiment is quantifying the predicted labels by comparing them with the true labels using a performance measure.
 The default measure for the iris classification task is the mean misclassification error which is used here automatically:
 ```{r}
-ids(task$measures)
+task$measures[[1L]]$id
 e$score()
 print(e)
 e$performance["mmce"]

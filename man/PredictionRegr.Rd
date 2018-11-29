@@ -47,4 +47,3 @@ Other Prediction: \code{\link{PredictionClassif}},
   \code{\link{Prediction}}
 }
 \concept{Prediction}
-\keyword{internal}

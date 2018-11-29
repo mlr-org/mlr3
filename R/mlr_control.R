@@ -1,9 +1,3 @@
-default_mlr_control = list(
-  use_evaluate = FALSE,
-  store_model = TRUE,
-  store_prediction = TRUE
-)
-
 #' @title Execution control object
 #'
 #' @description
@@ -27,7 +21,7 @@ default_mlr_control = list(
 #' # enable debuging
 #' mlr_control(debug = TRUE)
 mlr_control = function(...) {
-  ec = insert_named(default_mlr_control, mlr_options())
+  ec = insert_named(mlr_reflections$default_mlr_control, mlr_options())
   if (...length()) {
     opts = assert_list(list(...), names = "unique")
 

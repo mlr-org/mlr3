@@ -11,4 +11,3 @@ Other Prediction: \code{\link{PredictionClassif}},
   \code{\link{PredictionRegr}}
 }
 \concept{Prediction}
-\keyword{internal}

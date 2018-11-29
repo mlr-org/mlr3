@@ -52,3 +52,9 @@ mlr_reflections$experiment_slots = data.table(
 mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = c("defined", "trained", "predicted", "scored"))
 
 mlr_reflections$log_classes = c("output", "message", "warning", "error")
+
+mlr_reflections$default_mlr_control = list(
+  use_evaluate = FALSE,
+  store_model = TRUE,
+  store_prediction = TRUE
+)

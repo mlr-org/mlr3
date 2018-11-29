@@ -37,7 +37,6 @@
 #' @name PredictionRegr
 #' @export
 #' @family Prediction
-#' @keywords internal
 NULL
 
 #' @include Prediction.R

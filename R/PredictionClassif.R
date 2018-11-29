@@ -38,7 +38,6 @@
 #' @name PredictionClassif
 #' @export
 #' @family Prediction
-#' @keywords internal
 NULL
 
 #' @include Prediction.R

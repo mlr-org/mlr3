@@ -6,7 +6,6 @@
 #' @export
 #' @name Prediction
 #' @family Prediction
-#' @keywords internal
 NULL
 
 Prediction = R6Class("Prediction",

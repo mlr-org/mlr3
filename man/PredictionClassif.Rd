@@ -48,4 +48,3 @@ Other Prediction: \code{\link{PredictionRegr}},
   \code{\link{Prediction}}
 }
 \concept{Prediction}
-\keyword{internal}

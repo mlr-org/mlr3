@@ -1,3 +1,25 @@
+# @title Extract the id slot
+#
+# @description
+# A simple helper which extracts the id slot of a list of objects.
+#
+# @param x \[`list()`\]\cr
+#  List of objects which have a slot named `"id"`.
+#
+# @return \[`character`\] of the same length as input `x`.
+# @export
+# @examples
+# x = mlr_tasks$mget(c("iris", "sonar"))
+# ids(x)
+ids = function(x) {
+  map_chr(unname(x), "id")
+}
+
+# same as ids() but for hashes
+hashes = function(x) {
+  map_chr(unname(x), "hash")
+}
+
 stri_wrap = function(str, initial, n = 100L) {
   str = if (length(str) == 0L) "-" else paste0(head(str, n), collapse = ", ")
   strwrap(str, initial = initial, exdent = 2L)
