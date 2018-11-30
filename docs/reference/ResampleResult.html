@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Container for Results of resample — ResampleResult • mlr3</title>
+<title>Results of Resampling — ResampleResult • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Container for Results of resample — ResampleResult" />
+<meta property="og:title" content="Results of Resampling — ResampleResult" />
 
-<meta property="og:description" content="This is the object returned by resample." />
+<meta property="og:description" content="This is the object returned by resample()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -143,12 +143,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Container for Results of resample</h1>
+    <h1>Results of Resampling</h1>
     <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/ResampleResult.R'><code>R/ResampleResult.R</code></a></small>
     </div>
 
     
-    <p>This is the object returned by <a href='resample.html'>resample</a>.</p>
+    <p>This is the object returned by <code><a href='resample.html'>resample()</a></code>.</p>
     
 
         
@@ -198,10 +198,10 @@ Second ResampleResult.</p></li>
 <a href='Measure.html'>Measure</a> used in the resampling.</p></li>
 <li><p><code>$performance(id)</code> retrieves the performance values for the measure with id <code>id</code> as numeric vector.</p></li>
 <li><p><code>$experiment()</code> returns an <a href='Experiment.html'>Experiment</a> for the <code>iter</code>-th resampling iteration.</p></li>
-<li><p><code>$experiments()</code> returns a list with the slice of <a href='Experiment.html'>Experiment</a>s for the provided <code>iters</code>.</p></li>
+<li><p><code>$experiments()</code> returns a <code>list</code> with the slice of <a href='Experiment.html'>Experiment</a>s for the provided <code>iters</code>.</p></li>
 <li><p><code>$combine()</code> takes a second ResampleResult and combines both ResampleResults to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
-<li><p><code>$aggregated</code> returns the aggregated performance measures. The aggregation method is part of the <a href='Measure.html'>Measure</a>.</p></li>
-<li><p><code>$hash</code> stores a hash for the combination of task, learner and resampling.</p></li>
+<li><p><code>$aggregated</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric()</a></code>) returns the aggregated performance measures. The aggregation method is part of the <a href='Measure.html'>Measure</a>.</p></li>
+<li><p><code>$hash</code> (<code>character(1))</code> stores a hash for the combination of task, learner and resampling.</p></li>
 <li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts the <a href='BenchmarkResult.html'>BenchmarkResult</a> to a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
 </ul>
     

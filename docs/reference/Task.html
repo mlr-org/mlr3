@@ -188,7 +188,7 @@ t$overwrite(data)
 
     
     <ul>
-<li><p><code>id</code> (<code>string</code>):
+<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
 Name of the task.</p></li>
 <li><p><code>backend</code> (<a href='DataBackend.html'>DataBackend</a>):
 <a href='DataBackend.html'>DataBackend</a> which stores the data.</p></li>
@@ -196,7 +196,7 @@ Name of the task.</p></li>
 Task type. Set via class which inherits from Task.</p></li>
 <li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>):
 New data to rbind/cbind to the task.</p></li>
-<li><p><code>rows</code> (<code>vector</code>):
+<li><p><code>rows</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):
 Vector of row ids specifying rows from the <a href='DataBackend.html'>DataBackend</a> using its primary key.
 Can be <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> or <code>integer</code>, depending on the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 <li><p><code>cols</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):
@@ -209,8 +209,6 @@ Number of rows to retrieve from the <a href='DataBackend.html'>DataBackend</a>.<
 New roles to assign for specified rows/columns.</p></li>
 <li><p><code>exclusive</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>):
 If <code>TRUE</code>, the cols/rows will be removed from all roles except <code>new_roles</code>.</p></li>
-<li><p><code>subset</code> (<code>vector</code>):
-Subset of row ids to subset rows from the <a href='DataBackend.html'>DataBackend</a> using its primary key.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -238,23 +236,25 @@ To alter the role, use <code>set_col_role()</code>.</p></li>
 Stores column names of <a href='DataBackend.html'>DataBackend</a> in column <code>id</code>.
 Column <code>type</code> stores the storage type of the variables, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
 Column <code>levels</code> stores the levels for factor and character variables.</p></li>
-<li><p><code>$set_row_role()</code> overwrites the role for specified rows, referenced by row id.</p></li>
-<li><p><code>$set_col_role()</code> overwrites the role for specified columns.</p></li>
-<li><p><code>$measures</code> is a list of <a href='Measure.html'>Measure</a> (performance measures) to use in this task.</p></li>
+<li><p><code>$set_row_role()</code> sets the role for specified rows, referenced by row id.
+If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p></li>
+<li><p><code>$set_col_role()</code> sets the role for specified columns, referenced by name.
+If <code>exclusive</code> is <code>TRUE</code>, the referenced columns will be removed from all other roles.</p></li>
+<li><p><code>$measures</code> (<code>list</code> of <a href='Measure.html'>Measure</a>) stores the default measures for this task.</p></li>
 <li><p><code>$data()</code> is used to retrieve data from the backend as <code>data.table</code>.
 Rows are subsetted to only contain observations with <code>role == "use"</code>.
 Columns are filtered to only contain features with <code>role %in% c("target", "feature")</code>.
 If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p></li>
-<li><p><code>$head()</code> can be used to peek into the first <code>n</code> observations with <code>role == "use"</code>.</p></li>
-<li><p><code>$levels()</code> queries the distinct levels of the column <code>col</code>. Only works for <code>character</code> and <code>factor</code> columns.
+<li><p><code>$head()</code> (<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>) can be used to peek into the first <code>n</code> observations with <code>role == "use"</code>.</p></li>
+<li><p><code>$levels()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) queries the distinct levels of the column <code>col</code>. Only works for <code>character</code> and <code>factor</code> columns.
 This function ignores the row roles, so you get all levels found in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 <li><p><code>$row_ids</code> (<code>data.table()</code>] returns the active row ids used in the backend, i.e. subsetted to observations with <code>role == "use"</code>.
 The column names of the returned <code>data.table</code> equals the primary key column in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>$feature_names</code> returns a <code>character</code> vector of all feature names with <code>role == "feature"</code>.</p></li>
-<li><p><code>$target_names</code> returns a <code>character</code> vector of all feature names with <code>role == "target"</code>.</p></li>
-<li><p><code>$nrow</code> provides the total number of rows with <code>role == "use"</code>.</p></li>
-<li><p><code>$ncol</code> provides the total number of cols with <code>role %in% c("target", "feature")</code>.</p></li>
-<li><p><code>$feature_types</code> gives a <code>data.table</code> with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
+<li><p><code>$feature_names</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all column names with <code>role == "feature"</code>.</p></li>
+<li><p><code>$target_names</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all column names with <code>role == "target"</code>.</p></li>
+<li><p><code>$nrow</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) provides the total number of rows with <code>role == "use"</code>.</p></li>
+<li><p><code>$ncol</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) provides the total number of cols with <code>role %in% c("target", "feature")</code>.</p></li>
+<li><p><code>$feature_types</code> [<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>) returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
 features of the task and <code>type</code> is the storage type.</p></li>
 <li><p><code>$formula</code> constructs a <a href='https://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>.</p></li>
 <li><p><code>$filter()</code> reduces the task, subsetting it to only the rows specified.</p></li>
@@ -264,7 +264,7 @@ features of the task and <code>type</code> is the storage type.</p></li>
 The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
 <li><p><code>$overwrite()</code> overwrite the data in the <a href='DataBackend.html'>DataBackend</a> with data provided as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.
 The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
-<li><p><code>$hash</code> stores a checksum (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) calculated on the <code>id</code>, <code>row_roles</code> and <code>col_info</code>.</p></li>
+<li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>row_roles</code> and <code>col_info</code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="task-mutators"><a class="anchor" href="#task-mutators"></a>Task mutators</h2>
@@ -272,8 +272,8 @@ The row ids must be provided as column in <code>data</code> (with column name ma
     
     <p>The methods <code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code>, <code>select()</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, and <code>overwrite()</code> change the task in-place,
 but without modifying the <a href='DataBackend.html'>DataBackend</a>.
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code> and <code>select()</code> just reduce the set of rows or columns to show.
-<code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, and <code>overwrite()</code> first create a <a href='DataBackendDataTable.html'>DataBackendDataTable</a> from the provided data, and then
+<code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code> and <code>select()</code> just reduce the set of active rows or columns, providing a different view on the data.
+<code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, and <code>overwrite()</code> first create a new <a href='DataBackendDataTable.html'>DataBackendDataTable</a> from the provided data, and then
 merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> which combines the results on-demand.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
