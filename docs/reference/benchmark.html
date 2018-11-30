@@ -251,13 +251,13 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 #&gt;  Measure      Min.   1st Qu.    Median      Mean  3rd Qu.      Max.         Sd
 #&gt;      acc 0.6190476 0.6541667 0.7321429 0.7209524 0.797619 0.8095238 0.07806716</div><div class='input'>
 <span class='co'># Extract predictions of first experiment of this resampling</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>prediction</span>)</div><div class='output co'>#&gt;    id response truth
-#&gt; 1:  8        M     R
-#&gt; 2: 23        R     R
-#&gt; 3: 25        R     R
-#&gt; 4: 41        R     R
-#&gt; 5: 49        R     R
-#&gt; 6: 60        R     R</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>prediction</span>))</div><div class='output co'>#&gt;    row_id response truth
+#&gt; 1:      8        M     R
+#&gt; 2:     23        R     R
+#&gt; 3:     25        R     R
+#&gt; 4:     41        R     R
+#&gt; 5:     49        R     R
+#&gt; 6:     60        R     R</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
