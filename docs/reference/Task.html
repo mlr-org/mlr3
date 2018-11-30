@@ -194,7 +194,7 @@ Name of the task.</p></li>
 <a href='DataBackend.html'>DataBackend</a> which stores the data.</p></li>
 <li><p><code>task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
 Task type. Set via class which inherits from Task.</p></li>
-<li><p><code>data</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>base::data.frame</a>):
+<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>):
 New data to rbind/cbind to the task.</p></li>
 <li><p><code>rows</code> (<code>vector</code>):
 Vector of row ids specifying rows from the <a href='DataBackend.html'>DataBackend</a> using its primary key.
@@ -226,16 +226,18 @@ Subset of row ids to subset rows from the <a href='DataBackend.html'>DataBackend
 which are held back unless explicitly addressed.
 To alter the role, use <code>set_row_role()</code>.</p></li>
 </ul></li>
-<li><p><code>$col_info</code> (<code>data.table</code>) with columns <code>id</code>, <code>role</code> and <code>type</code>.
-Stores column names of <a href='DataBackend.html'>DataBackend</a> in column <code>id</code>. Each column (feature)
+<li><p><code>$col_roles</code> (<code>list</code>). Each column (feature)
 can have a specific mutually exclusive role in the learning task:</p><ul>
 <li><p><code>"feature"</code>: Regular feature.</p></li>
 <li><p><code>"target"</code>: Column with target labels.</p></li>
 <li><p><code>"ignore"</code>: Do not these features at all.</p></li>
 <li><p><code>"primary_key"</code>: Name of the primary id column used in <a href='DataBackend.html'>DataBackend</a>.
-Column <code>type</code> stores the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
 To alter the role, use <code>set_col_role()</code>.</p></li>
 </ul></li>
+<li><p><code>$col_info</code> (<code>data.table</code>) with columns <code>id</code>, and <code>type</code> and <code>levels</code>.
+Stores column names of <a href='DataBackend.html'>DataBackend</a> in column <code>id</code>.
+Column <code>type</code> stores the storage type of the variables, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
+Column <code>levels</code> stores the levels for factor and character variables.</p></li>
 <li><p><code>$set_row_role()</code> overwrites the role for specified rows, referenced by row id.</p></li>
 <li><p><code>$set_col_role()</code> overwrites the role for specified columns.</p></li>
 <li><p><code>$measures</code> is a list of <a href='Measure.html'>Measure</a> (performance measures) to use in this task.</p></li>
@@ -246,7 +248,7 @@ If invalid <code>rows</code> or <code>cols</code> are specified, an exception is
 <li><p><code>$head()</code> can be used to peek into the first <code>n</code> observations with <code>role == "use"</code>.</p></li>
 <li><p><code>$levels()</code> queries the distinct levels of the column <code>col</code>. Only works for <code>character</code> and <code>factor</code> columns.
 This function ignores the row roles, so you get all levels found in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>$row_ids</code> [<code>data.table()</code>] returns the active row ids used in the backend, i.e. subsetted to observations with <code>role == "use"</code>.
+<li><p><code>$row_ids</code> (<code>data.table()</code>] returns the active row ids used in the backend, i.e. subsetted to observations with <code>role == "use"</code>.
 The column names of the returned <code>data.table</code> equals the primary key column in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 <li><p><code>$feature_names</code> returns a <code>character</code> vector of all feature names with <code>role == "feature"</code>.</p></li>
 <li><p><code>$target_names</code> returns a <code>character</code> vector of all feature names with <code>role == "target"</code>.</p></li>
@@ -260,7 +262,7 @@ features of the task and <code>type</code> is the storage type.</p></li>
 <li><p><code>$rbind()</code> extends the task with additional rows.</p></li>
 <li><p><code>$cbind()</code> extends the task with additional columns.
 The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
-<li><p><code>$overwrite()</code> overwrite the data in the <a href='DataBackend.html'>DataBackend</a> with data provided as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.
+<li><p><code>$overwrite()</code> overwrite the data in the <a href='DataBackend.html'>DataBackend</a> with data provided as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.
 The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
 <li><p><code>$hash</code> stores a checksum (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) calculated on the <code>id</code>, <code>row_roles</code> and <code>col_info</code>.</p></li>
 </ul>

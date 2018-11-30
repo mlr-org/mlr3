@@ -168,13 +168,13 @@ as.data.table(p)
 
     
     <ul>
-<li><p><code>task</code> [<a href='Task.html'>Task</a>]:<br />
+<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
 Task used for prediction. Used to extract <code>row_ids</code> and <code>truth</code>.
 Set to <code>NULL</code> to skip all argument checks during initialization.
 Slots <code>p$row_ids</code> and <code>p$truth</code> need to be set manually in this case</p></li>
-<li><p><code>response</code> [<a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a> | <a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a>]:<br />
+<li><p><code>response</code> (<code>factor</code> | <code>character</code>):<br />
 Vector of predicted class labels.</p></li>
-<li><p><code>prob</code> [<a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a>]:<br />
+<li><p><code>prob</code> (<a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a>):<br />
 Numeric matrix of class probabilities with one column for each class in <code>task$all_classes</code>
 and one row for each observation in the test set.</p></li>
 </ul>
@@ -187,8 +187,8 @@ and one row for each observation in the test set.</p></li>
 <li><p><code>$truth</code> stores the predicted class labels as factor.</p></li>
 <li><p><code>$response</code> stores the predicted class labels as factor.</p></li>
 <li><p><code>$prob</code> stores the label probabilities (if available) as matrix, or is <code>NULL</code>.</p></li>
-<li><p>The prediction object can be transformed to a simple <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>
-with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as.data.table'>as.data.table()</a></code>.</p></li>
+<li><p>The prediction object can be transformed to a simple <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>
+with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as.data.table'>data.table::as.data.table()</a></code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

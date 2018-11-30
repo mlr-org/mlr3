@@ -173,13 +173,13 @@ print(b)
 
     
     <ul>
-<li><p><code>data</code> [<code>any</code>]:<br />
+<li><p><code>data</code>:<br />
 Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
-<li><p><code>rows</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
+<li><p><code>rows</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
 Vector of row indices to subset rows using the primary key in the data backend.</p></li>
-<li><p><code>cols</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
+<li><p><code>cols</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
 Vector of column names to select.</p></li>
-<li><p><code>n</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>]:<br />
+<li><p><code>n</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>):<br />
 Number of rows to return.</p></li>
 </ul>
     
@@ -191,13 +191,13 @@ Number of rows to return.</p></li>
 possible input formats.</p></li>
 <li><p><code>$data()</code> returns a slice of the data:
 rows are filtered using the <code>primary_key</code> column, columns are selected by name.</p></li>
-<li><p><code>$head()</code> [<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>] returns a <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table</a> of the first <code>n</code> data rows.</p></li>
-<li><p><code>$distinct()</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>] returns a named list of distinct values for specified columns <code>cols</code>.</p></li>
-<li><p><code>$missing()</code> [<code>named integer()</code>] returns a named integer with the number of missing values.</p></li>
-<li><p><code>$rownames</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>] returns all row names of <code>data</code> as integer or character vector.</p></li>
-<li><p><code>$colnames</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>] returns all column names of <code>data</code> as character vector.</p></li>
-<li><p><code>$nrow</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>] returns the number of total rows.</p></li>
-<li><p><code>$ncol</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>] returns the number of total columns, including primary key column.</p></li>
+<li><p><code>$head()</code> (<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>) returns a table of the first <code>n</code> data rows.</p></li>
+<li><p><code>$distinct()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) returns a named list of distinct values for specified columns <code>cols</code>.</p></li>
+<li><p><code>$missing()</code> (<code>named integer()</code>) returns a named integer with the number of missing values per column.</p></li>
+<li><p><code>$rownames</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all row names of <code>data</code> as integer or character vector.</p></li>
+<li><p><code>$colnames</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all column names of <code>data</code> as character vector.</p></li>
+<li><p><code>$nrow</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) returns the number of total rows.</p></li>
+<li><p><code>$ncol</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) returns the number of total columns, including primary key column.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

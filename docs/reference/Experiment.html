@@ -179,15 +179,15 @@ e$data
 
     
     <ul>
-<li><p><code>task</code> [<a href='Task.html'>Task</a>]:<br />
+<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
 Task to conduct experiment on</p></li>
-<li><p><code>learner</code> [<a href='Learner.html'>Learner</a>]:<br />
+<li><p><code>learner</code> (<a href='Learner.html'>Learner</a>):<br />
 Learner to conduct experiment with.</p></li>
-<li><p><code>subset</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
+<li><p><code>subset</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
 Subset of the task's row ids to work on.</p></li>
-<li><p><code>newdata</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>]:<br />
+<li><p><code>newdata</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>):<br />
 New data to predict on. Will be appended to the task.</p></li>
-<li><p><code>measures</code> [<code>list</code> of <a href='Measure.html'>Measure</a>]:<br />
+<li><p><code>measures</code> (list of <a href='Measure.html'>Measure</a>):<br />
 Performance measure to use. Defaults to the measures set in the <a href='Task.html'>Task</a>.</p></li>
 </ul>
     
@@ -200,31 +200,31 @@ Performance measure to use. Defaults to the measures set in the <a href='Task.ht
 <li><p><code>$train()</code> fits the induced <code>learner</code> on the (subset of the) <code>task</code> and internally stores the model.
 The model can be accessed via <code>e$model</code>.</p></li>
 <li><p><code>$predict()</code> uses the previously fitted model to predict new observations.
-The predictions are stored internally as an <a href='Prediction.html'>Prediction</a> object and can be accessed via <code>e$prediction</code> as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.</p></li>
+The predictions are stored internally as an <a href='Prediction.html'>Prediction</a> object and can be accessed via <code>e$prediction</code> as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
 <li><p><code>$score()</code> quantifies stored predictions using the provided list of <a href='Measure.html'>Measure</a> (or the task's <a href='Measure.html'>Measure</a> if not provided)
 and stores the resulting performance values. The performance can be accessed via <code>e$performance</code>.</p></li>
 <li><p><code>$train_set</code> and <code>$test_set</code> return the row ids of the training set or test set, respectively.</p></li>
 <li><p><code>$validation_set</code> returns the row ids of the validation set (see <a href='Task.html'>Task</a>).</p></li>
-<li><p><code>$timings</code> holds the elapsed time for the steps <code>train</code>, <code>predict</code> and <code>score</code> in seconds with up to millisecond accuracy (c.f. <code><a href='https://www.rdocumentation.org/packages/base/topics/proc.time'>base::proc.time()</a></code>).
+<li><p><code>$timings</code> holds the elapsed time for the steps <code>train</code>, <code>predict</code> and <code>score</code> in seconds with up to millisecond accuracy (c.f. <code><a href='https://www.rdocumentation.org/packages/base/topics/proc.time'>proc.time()</a></code>).
 Timings are <code>NA</code> if the respective step has not been performed yet.</p></li>
 <li><p><code>$logs</code> creates a list with names <code>train</code> and <code>predict</code>.
 Both store an object of class <a href='Log.html'>Log</a> if logging of the learner has been enabled via <code><a href='mlr_control.html'>mlr_control()</a></code>, and are <code>NULL</code> if logging was disabled or the respective step has not been performed yet.</p></li>
 <li><p><code>$state</code> returns an factor of length 1 with ordered levels <code>"defined"</code>, <code>"trained"</code>, <code>"predicted"</code> and <code>"scored"</code>.</p></li>
 <li><p><code>$data</code> stores the internal representation of an Experiment as a <code>named list</code> with the following slots:</p><ul>
-<li><p>task [<a href='Task.html'>Task</a>].</p></li>
-<li><p>learner [<a href='Learner.html'>Learner</a>].</p></li>
-<li><p>resampling [<a href='Resampling.html'>Resampling</a>]. Is <code>NULL</code> prior to calling <code>$train()</code>.
+<li><p>task (<a href='Task.html'>Task</a>).</p></li>
+<li><p>learner (<a href='Learner.html'>Learner</a>).</p></li>
+<li><p>resampling (<a href='Resampling.html'>Resampling</a>). Is <code>NULL</code> prior to calling <code>$train()</code>.
 If the experiment is constructed manually (i.e., not via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>, a <code>ResamplingCustom</code> object is stored here.</p></li>
-<li><p>iteration [<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>]. If the experiment is constructed manually, this is always 1.</p></li>
+<li><p>iteration (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>). If the experiment is constructed manually, this is always 1.</p></li>
 <li><p>model: Trained model as returned by the <a href='Learner.html'>Learner</a>.</p></li>
 <li><p>train_log: <a href='Log.html'>Log</a> for the training step.</p></li>
-<li><p>train_time [<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]. Elapsed time in microseconds.</p></li>
+<li><p>train_time (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>). Elapsed time in microseconds.</p></li>
 <li><p>predict_log. <a href='Log.html'>Log</a> for the predict step.</p></li>
-<li><p>predict_time [<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]. Elapsed time in microseconds.</p></li>
-<li><p>prediction [<a href='Prediction.html'>Prediction</a>].</p></li>
-<li><p>measures [<code>list</code> of <a href='Measure.html'>Measure</a>]. Actually used performance measures.</p></li>
-<li><p>performance [<code>named numeric</code>]. Performance values are returned by the measures.</p></li>
-<li><p>score_time [<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]. Elapsed time in microseconds.</p></li>
+<li><p>predict_time (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>). Elapsed time in microseconds.</p></li>
+<li><p>prediction (<a href='Prediction.html'>Prediction</a>).</p></li>
+<li><p>measures (<code>list</code> of <a href='Measure.html'>Measure</a>). Actually used performance measures.</p></li>
+<li><p>performance (<code>named numeric</code>). Performance values are returned by the measures.</p></li>
+<li><p>score_time (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>). Elapsed time in microseconds.</p></li>
 </ul></li>
 </ul>
     

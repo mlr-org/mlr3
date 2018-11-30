@@ -32,9 +32,9 @@
 
 <meta property="og:description" content="A simple key-value store for R6 objects.
 On retrieval of an object, the following applies:
-R6 Factories (objects of class R6ClassGenerator) are initialized.
+R6 Factories (objects of class R6ClassGenerator) are initialized (with no arguments).
 R6::R6Class objects are cloned.
-Functions are called.
+Functions are called (with no arguments).
 All other objects are returned as-is.
 " />
 <meta name="twitter:card" content="summary" />
@@ -156,9 +156,9 @@ All other objects are returned as-is.
     
     <p>A simple key-value store for <span class="pkg">R6</span> objects.
 On retrieval of an object, the following applies:</p><ul>
-<li><p>R6 Factories (objects of class <code>R6ClassGenerator</code>) are initialized.</p></li>
+<li><p>R6 Factories (objects of class <code>R6ClassGenerator</code>) are initialized (with no arguments).</p></li>
 <li><p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> objects are cloned.</p></li>
-<li><p>Functions are called.</p></li>
+<li><p>Functions are called (with no arguments).</p></li>
 <li><p>All other objects are returned as-is.</p></li>
 </ul>
     
@@ -189,13 +189,13 @@ d[keys]
 
     
     <ul>
-<li><p><code>pattern</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]:<br />
+<li><p><code>pattern</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
 Restrict keys to keys  which match <code>pattern</code>.</p></li>
-<li><p><code>key</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]:<br />
+<li><p><code>key</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
 Single Key as string.</p></li>
-<li><p><code>value</code> [any]:<br />
+<li><p><code>value</code>:<br />
 Arbitrary value.</p></li>
-<li><p><code>keys</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
+<li><p><code>keys</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
 Vector of keys.</p></li>
 </ul>
     
@@ -204,10 +204,10 @@ Vector of keys.</p></li>
     
     <ul>
 <li><p><code>$new()</code> initializes a new object of class Dictionary.</p></li>
-<li><p><code>$keys()</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>] returns a vector with all keys (or all keys matching <code>pattern</code>).</p></li>
-<li><p><code>$get()</code> [any] retrieves a single object with key <code>key</code> (or raises an exception).</p></li>
-<li><p><code>$mget()</code> [<code>named list</code>] creates a list of objects with keys <code>keys</code> (or raises an exception).</p></li>
-<li><p><code>$has()</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code>] is <code>TRUE</code> if <code>key</code> is present in the Dictionary.</p></li>
+<li><p><code>$keys()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns a vector with all keys (or all keys matching <code>pattern</code>).</p></li>
+<li><p><code>$get()</code> (any) retrieves a single object with key <code>key</code> (or raises an exception).</p></li>
+<li><p><code>$mget()</code> (<code>named list</code>) creates a list of objects with keys <code>keys</code> (or raises an exception).</p></li>
+<li><p><code>$has()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code>) is <code>TRUE</code> if <code>key</code> is present in the Dictionary.</p></li>
 <li><p><code>$add()</code> adds item <code>value</code> with key <code>key</code> to the Dictionary.</p></li>
 <li><p><code>$remove()</code> removes item with key <code>key</code> from the Dictionary.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame()</a></code> and <code><a href='as.data.table.html'>as.data.table()</a></code> give a summarizing overview as <code>data.frame</code> or <code>data.table</code>, respectively.</p></li>

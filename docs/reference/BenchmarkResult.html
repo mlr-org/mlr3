@@ -168,7 +168,9 @@ as.data.table(bmr)
 
     
     <ul>
-<li><p><code>hash</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]:<br />
+<li><p><code>hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
+String which identifies a subgroup to extract as <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
+<li><p><code>bmr</code> (BenchmarkResult):<br />
 String which identifies a subgroup to extract as <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
 </ul>
     
@@ -177,15 +179,15 @@ String which identifies a subgroup to extract as <a href='ResampleResult.html'>R
     
     <ul>
 <li><p><code>$tasks</code>, <code>$learners</code>, <code>$resamplings</code> and <code>$measures</code> return an overview table of involved objects.</p></li>
-<li><p><code>$aggregated</code> returns aggregated performance measures as a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.
+<li><p><code>$aggregated</code> returns aggregated performance measures as a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.
 Experiments are aggregated by their resample result group
 (combination of <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a> and <a href='Resampling.html'>Resampling</a>).
 The actual aggregation function is defined by the respective <a href='Measure.html'>Measure</a>.</p></li>
-<li><p><code>$resample_results</code> returns a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code> which gives an overview of the
+<li><p><code>$resample_results</code> returns a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> which gives an overview of the
 resample result groups in the benchmark.
 These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.html'>ResampleResult</a> for further inspection.</p></li>
 <li><p><code>$resample_result()</code> creates the <a href='ResampleResult.html'>ResampleResult</a> identified by the specified <code>hash</code> value.</p></li>
-<li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts the BenchmarkResult to a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>.</p></li>
+<li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts a BenchmarkResult to a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
 </ul>
     
 

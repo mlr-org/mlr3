@@ -168,15 +168,15 @@ as.data.table(p)
 
     
     <ul>
-<li><p><code>task</code> [<a href='Task.html'>Task</a>]:<br />
+<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
 Task used for prediction. Used to extract <code>row_ids</code> and <code>truth</code>.
 Set to <code>NULL</code> to skip all argument checks during initialization.
 Slots <code>p$row_ids</code> and <code>p$truth</code> need to be set manually in this case</p></li>
-<li><p><code>truth</code> [<a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric</a>]:<br />
+<li><p><code>truth</code> (<code>numeric</code>):<br />
 Numeric vector of true response.</p></li>
-<li><p><code>response</code> [<a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric</a>]:<br />
+<li><p><code>response</code> (<code>numeric</code>):<br />
 Numeric vector of predictions. One element for each observation in the test set.</p></li>
-<li><p><code>se</code> [<a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric</a>]:<br />
+<li><p><code>se</code> (<code>numeric</code>):<br />
 Numeric vector of predicted standard error. One element for each observation in the test set.</p></li>
 </ul>
     
@@ -188,8 +188,8 @@ Numeric vector of predicted standard error. One element for each observation in 
 <li><p><code>$truth</code> stores the true values.</p></li>
 <li><p><code>$response</code> stores the predicted values.</p></li>
 <li><p><code>$se</code> stores the predicted standard errors (if available), or is <code>NULL</code>.</p></li>
-<li><p>The prediction object can be transformed to a simple <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code>
-with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as.data.table'>as.data.table()</a></code>.</p></li>
+<li><p>The prediction object can be transformed to a simple <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>
+with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as.data.table'>data.table::as.data.table()</a></code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

@@ -174,23 +174,23 @@ m$aggregate(rr)
 
     
     <ul>
-<li><p><code>id</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]:<br />
+<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
 Identifier for this object.</p></li>
-<li><p><code>range</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code>]:<br />:
+<li><p><code>range</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code>):<br />:
 Feasible range for this measure as <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(lower_bound, upper_bound)</a></code>.</p></li>
-<li><p><code>minimize</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>]<br />:
+<li><p><code>minimize</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>)<br />:
 Set to <code>TRUE</code> if good predictions correspond to small values.</p></li>
-<li><p><code>predict_type</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]<br />:
+<li><p><code>predict_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>)<br />:
 Required predict type of the <a href='Learner.html'>Learner</a>.</p></li>
-<li><p><code>task_properties</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]<br />:
+<li><p><code>task_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>)<br />:
 Required task properties, see <a href='Task.html'>Task</a>.</p></li>
-<li><p><code>learner_properties</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]<br />:
+<li><p><code>learner_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>)<br />:
 Required learner properties, see <a href='Learner.html'>Learner</a>.</p></li>
-<li><p><code>packages</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
+<li><p><code>packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
 Set of required packages.</p></li>
-<li><p><code>e</code> [<a href='Experiment.html'>Experiment</a>]:<br />
+<li><p><code>e</code> (<a href='Experiment.html'>Experiment</a>):<br />
 Experiment to work on.</p></li>
-<li><p><code>rr</code> [<a href='ResampleResult.html'>ResampleResult</a>]:<br />
+<li><p><code>rr</code> (<a href='ResampleResult.html'>ResampleResult</a>):<br />
 Performance object returned by <a href='resample.html'>resample</a> to be aggregated.</p></li>
 </ul>
     
@@ -199,15 +199,15 @@ Performance object returned by <a href='resample.html'>resample</a> to be aggreg
     
     <ul>
 <li><p><code>$new()</code> creates a new object of class Measure.</p></li>
-<li><p><code>$id</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>] stores the identifier of the object.</p></li>
-<li><p><code>$packages</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>] stores the set of required packages.</p></li>
-<li><p><code>$task_type</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>] stores the class names of tasks this measure can operate on.</p></li>
-<li><p><code>$task_properties</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>] defines a set of required task properties.</p></li>
-<li><p><code>$learner_properties</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>] defines a set of required learner properties.</p></li>
-<li><p><code>$range</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code>] stores the numeric range of feasible measure values.</p></li>
-<li><p><code>$minimize</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>] indicates if the good values are reached via minimization.</p></li>
-<li><p><code>$calculate</code> [<code>function(e)</code>] does the actual work.</p></li>
-<li><p><code>$aggregate</code> [<code>function(rr)</code>] aggregates multiple performance measures using the <code>aggregate</code> function.
+<li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
+<li><p><code>$packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the set of required packages.</p></li>
+<li><p><code>$task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the class names of tasks this measure can operate on.</p></li>
+<li><p><code>$task_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) defines a set of required task properties.</p></li>
+<li><p><code>$learner_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) defines a set of required learner properties.</p></li>
+<li><p><code>$range</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code>) stores the numeric range of feasible measure values.</p></li>
+<li><p><code>$minimize</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) indicates if the good values are reached via minimization.</p></li>
+<li><p><code>$calculate</code> (<code>function(e)</code>) does the actual work.</p></li>
+<li><p><code>$aggregate</code> (<code>function(rr)</code>) aggregates multiple performance measures using the <code>aggregate</code> function.
 Operates on a <a href='ResampleResult.html'>ResampleResult</a> as returned by <a href='resample.html'>resample</a>.</p></li>
 </ul>
     

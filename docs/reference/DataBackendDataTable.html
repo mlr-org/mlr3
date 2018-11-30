@@ -30,7 +30,7 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="DataBackend for data.table — DataBackendDataTable" />
 
-<meta property="og:description" content="Abstraction for data.table() as an in-memory data base.
+<meta property="og:description" content="Abstraction for data.table::data.table() as an in-memory data base.
 Returns an object of class DataBackend." />
 <meta name="twitter:card" content="summary" />
 
@@ -149,7 +149,7 @@ Returns an object of class DataBackend." />
     </div>
 
     
-    <p>Abstraction for <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table()</a></code> as an in-memory data base.
+    <p>Abstraction for <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> as an in-memory data base.
 Returns an object of class <a href='DataBackend.html'>DataBackend</a>.</p>
     
 
@@ -166,8 +166,8 @@ b = as_data_backend(data, primary_key = NULL)
 
     
     <ul>
-<li><p><code>data</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>].</p></li>
-<li><p><code>primary_key</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]:<br />
+<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>).</p></li>
+<li><p><code>primary_key</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
 Name of the column in <code>data</code> which represents a unique
 row identifier (as integer or character).
 If `NULL, the constructor <code><a href='DataBackend.html'>as_data_backend()</a></code> automatically creates an integer column of primary keys.</p></li>
