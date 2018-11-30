@@ -18,7 +18,7 @@ t$truth(subset = NULL)
 \section{Arguments}{
 
 \itemize{
-\item \code{subset} (\code{vector}):\cr
+\item \code{subset} (\code{integer()} | \code{character()}):\cr
 Subset of row ids to subset rows from the \link{DataBackend} using its primary key.
 }
 }

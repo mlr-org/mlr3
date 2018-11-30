@@ -20,13 +20,13 @@
 #' See [DataBackendDataTable] for an exemplary implementation of this interface.
 #'
 #' @section Arguments:
-#' * `data` \[`any`\]:\cr
+#' * `data`:\cr
 #'   Data to wrap the backend around. Typically a `data.frame`.
-#' * `rows` \[`integer()` or `character()`\]:\cr
+#' * `rows` (`integer()` or `character()`):\cr
 #'   Vector of row indices to subset rows using the primary key in the data backend.
-#' * `cols` \[`character()`\]:\cr
+#' * `cols` (`character()`):\cr
 #'   Vector of column names to select.
-#' * `n` \[`integer(1)`\]:\cr
+#' * `n` (`integer(1)`):\cr
 #'   Number of rows to return.
 #'
 #' @section Details:
@@ -36,19 +36,19 @@
 #' * `$data()` returns a slice of the data:
 #'   rows are filtered using the `primary_key` column, columns are selected by name.
 #'
-#' * `$head()` \[[`data.table()`][data.table::data.table()]\] returns a [data.table][data.table::data.table()] of the first `n` data rows.
+#' * `$head()` ([data.table::data.table()]) returns a table of the first `n` data rows.
 #'
-#' * `$distinct()` \[`list()`\] returns a named list of distinct values for specified columns `cols`.
+#' * `$distinct()` (`list()`) returns a named list of distinct values for specified columns `cols`.
 #'
-#' * `$missing()` \[`named integer()`\] returns a named integer with the number of missing values.
+#' * `$missing()` (`named integer()`) returns a named integer with the number of missing values per column.
 #'
-#' * `$rownames` \[`character(1)`\] returns all row names of `data` as integer or character vector.
+#' * `$rownames` (`character()`) returns all row names of `data` as integer or character vector.
 #'
-#' * `$colnames` \[`character(1)`\] returns all column names of `data` as character vector.
+#' * `$colnames` (`character()`) returns all column names of `data` as character vector.
 #'
-#' * `$nrow` \[`integer(1)`\] returns the number of total rows.
+#' * `$nrow` (`integer(1)`) returns the number of total rows.
 #'
-#' * `$ncol` \[`integer(1)`\] returns the number of total columns, including primary key column.
+#' * `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
 #'
 #' @name DataBackend
 #' @aliases as_data_backend

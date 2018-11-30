@@ -29,9 +29,9 @@ r$hash
 \section{Arguments}{
 
 \itemize{
-\item \code{id} (\code{character(1)}):
+\item \code{id} (\code{character(1)}):\cr
 identifier for this object.
-\item \code{i} (\code{integer(1)}):
+\item \code{i} (\code{integer(1)}):\cr
 Get the \code{i}-th training/test set.
 }
 }

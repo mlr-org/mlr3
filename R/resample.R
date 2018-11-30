@@ -3,16 +3,16 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task \[[Task]\]:\cr
+#' @param task ([Task]):\cr
 #'   Object of type [Task].
-#' @param learner \[[Learner]\]:\cr
+#' @param learner ([Learner]):\cr
 #'   Object of type [Learner].
-#' @param resampling \[[Resampling]\]:\cr
+#' @param resampling ([Resampling]):\cr
 #'   Object of type [Resampling].
-#' @param measures \[`list` of [Measure]\]:\cr
+#' @param measures (`list` of [Measure]):\cr
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the measures stored in `task`.
-#' @param ctrl \[`list` returned by [mlr_control()]\]:\cr
+#' @param ctrl (`list` returned by [mlr_control()]):\cr
 #'   Object to control various parts of the execution.
 #'   See [mlr_control()].
 #' @return [ResampleResult].

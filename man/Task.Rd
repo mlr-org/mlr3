@@ -47,7 +47,7 @@ Name of the task.
 \link{DataBackend} which stores the data.
 \item \code{task_type} (\code{character(1)}):
 Task type. Set via class which inherits from \link{Task}.
-\item \code{data} (\link[base:data.frame]{base::data.frame}):
+\item \code{data} (\code{\link[=data.frame]{data.frame()}}):
 New data to rbind/cbind to the task.
 \item \code{rows} (\code{vector}):
 Vector of row ids specifying rows from the \link{DataBackend} using its primary key.
@@ -80,7 +80,7 @@ Subset of row ids to subset rows from the \link{DataBackend} using its primary k
 which are held back unless explicitly addressed.
 To alter the role, use \code{set_row_role()}.
 }
-\item \code{$col_roles} [\code{list}]. Each column (feature)
+\item \code{$col_roles} (\code{list}). Each column (feature)
 can have a specific mutually exclusive role in the learning task:
 \itemize{
 \item \code{"feature"}: Regular feature.
@@ -103,7 +103,7 @@ If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \item \code{$head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
 \item \code{$levels()} queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
 This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
-\item \code{$row_ids} [\code{data.table()}] returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
+\item \code{$row_ids} (\code{data.table()}] returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
 The column names of the returned \code{data.table} equals the primary key column in the \link{DataBackend}.
 \item \code{$feature_names} returns a \code{character} vector of all feature names with \code{role == "feature"}.
 \item \code{$target_names} returns a \code{character} vector of all feature names with \code{role == "target"}.
@@ -117,7 +117,7 @@ features of the task and \code{type} is the storage type.
 \item \code{$rbind()} extends the task with additional rows.
 \item \code{$cbind()} extends the task with additional columns.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
-\item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[data.table:data.table]{data.table()}}.
+\item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[data.table:data.table]{data.table::data.table()}}.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
 \item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_roles} and \code{col_info}.
 }

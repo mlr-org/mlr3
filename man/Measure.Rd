@@ -29,23 +29,23 @@ m$aggregate(rr)
 \section{Arguments}{
 
 \itemize{
-\item \code{id} [\code{character(1)}]:\cr
+\item \code{id} (\code{character(1)}):\cr
 Identifier for this object.
-\item \code{range} [\code{numeric(2)}]:\cr:
+\item \code{range} (\code{numeric(2)}):\cr:
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
-\item \code{minimize} [\code{logical(1)}]\cr:
+\item \code{minimize} (\code{logical(1)})\cr:
 Set to \code{TRUE} if good predictions correspond to small values.
-\item \code{predict_type} [\code{character(1)}]\cr:
+\item \code{predict_type} (\code{character(1)})\cr:
 Required predict type of the \link{Learner}.
-\item \code{task_properties} [\code{character()}]\cr:
+\item \code{task_properties} (\code{character()})\cr:
 Required task properties, see \link{Task}.
-\item \code{learner_properties} [\code{character()}]\cr:
+\item \code{learner_properties} (\code{character()})\cr:
 Required learner properties, see \link{Learner}.
-\item \code{packages} [\code{character()}]:\cr
+\item \code{packages} (\code{character()}):\cr
 Set of required packages.
-\item \code{e} [\link{Experiment}]:\cr
+\item \code{e} (\link{Experiment}):\cr
 Experiment to work on.
-\item \code{rr} [\link{ResampleResult}]:\cr
+\item \code{rr} (\link{ResampleResult}):\cr
 Performance object returned by \link{resample} to be aggregated.
 }
 }
@@ -54,15 +54,15 @@ Performance object returned by \link{resample} to be aggregated.
 
 \itemize{
 \item \code{$new()} creates a new object of class \link{Measure}.
-\item \code{$id} [\code{character(1)}] stores the identifier of the object.
-\item \code{$packages} [\code{character()}] stores the set of required packages.
-\item \code{$task_type} [\code{character()}] stores the class names of tasks this measure can operate on.
-\item \code{$task_properties} [\code{character()}] defines a set of required task properties.
-\item \code{$learner_properties} [\code{character()}] defines a set of required learner properties.
-\item \code{$range} [\code{numeric(2)}] stores the numeric range of feasible measure values.
-\item \code{$minimize} [\code{logical(1)}] indicates if the good values are reached via minimization.
-\item \code{$calculate} [\code{function(e)}] does the actual work.
-\item \code{$aggregate} [\code{function(rr)}] aggregates multiple performance measures using the \code{aggregate} function.
+\item \code{$id} (\code{character(1)}) stores the identifier of the object.
+\item \code{$packages} (\code{character()}) stores the set of required packages.
+\item \code{$task_type} (\code{character()}) stores the class names of tasks this measure can operate on.
+\item \code{$task_properties} (\code{character()}) defines a set of required task properties.
+\item \code{$learner_properties} (\code{character()}) defines a set of required learner properties.
+\item \code{$range} (\code{numeric(2)}) stores the numeric range of feasible measure values.
+\item \code{$minimize} (\code{logical(1)}) indicates if the good values are reached via minimization.
+\item \code{$calculate} (\code{function(e)}) does the actual work.
+\item \code{$aggregate} (\code{function(rr)}) aggregates multiple performance measures using the \code{aggregate} function.
 Operates on a \link{ResampleResult} as returned by \link{resample}.
 }
 }

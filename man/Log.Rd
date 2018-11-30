@@ -20,9 +20,9 @@ l$print()
 \section{Arguments}{
 
 \itemize{
-\item \code{log} [\code{\link[data.table:data.table]{data.table()}}]:
+\item \code{log}:
 Object as returned by \code{\link[evaluate:evaluate]{evaluate::evaluate()}}.
-\item \code{cl} [\code{character(1)}]:
+\item \code{cl} (\code{character(1)}):
 Class of a condition. One of "output", "message", "warning", or "error".
 }
 }
@@ -34,7 +34,7 @@ Class of a condition. One of "output", "message", "warning", or "error".
 \item \code{$is_empty} is \code{TRUE} if there has been no log captured, either because logging was turned off or there was not a single line out output.
 \item \code{$has_condition(cl)} returns \code{TRUE} if at least on message of class \code{cl} is logged.
 Possible conditions are "output", "message", "warning", and "error".
-\item \code{format()} and \code{print()} are for formatting and printing via \code{\link[base:format]{base::format()}} or \code{\link[base:print]{base::print()}}, respectively.
+\item \code{format()} and \code{print()} are for formatting and printing via \code{\link[=format]{format()}} or \code{\link[=print]{print()}}, respectively.
 }
 }
 

@@ -38,27 +38,27 @@ assert_param_set(param_set)
 assert_param_vals(param_vals, param_set)
 }
 \arguments{
-\item{b}{[\link{DataBackend}].}
+\item{b}{(\link{DataBackend}).}
 
-\item{e}{[\link{Experiment}].}
+\item{e}{(\link{Experiment}).}
 
-\item{task}{[\link{Task}].}
+\item{task}{(\link{Task}).}
 
-\item{learner}{[\link{Learner}].}
+\item{learner}{(\link{Learner}).}
 
-\item{measure}{[\link{Measure}].}
+\item{measure}{(\link{Measure}).}
 
-\item{measures}{[\code{list} of \link{Measure}].}
+\item{measures}{(list of \link{Measure}).}
 
-\item{resampling}{[\link{Resampling}].}
+\item{resampling}{(\link{Resampling}).}
 
-\item{resample_result}{[\link{ResampleResult}].}
+\item{resample_result}{(\link{ResampleResult}).}
 
-\item{bmr}{[\link{BenchmarkResult}].}
+\item{bmr}{(\link{BenchmarkResult}).}
 
-\item{param_set}{[\code{\link[paradox:ParamSet]{paradox::ParamSet()}}].}
+\item{param_set}{(\code{\link[paradox:ParamSet]{paradox::ParamSet()}}).}
 
-\item{param_vals}{[\code{named list}].}
+\item{param_vals}{(named list).}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

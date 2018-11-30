@@ -4,16 +4,16 @@
 #' Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
 #'
 #'
-#' @param tasks \[`list` of [Task]\]:\cr
+#' @param tasks (list of [Task]):\cr
 #'   List of objects of type [Task].
-#' @param learners \[`list` of [Learner]\]:\cr
+#' @param learners (list of [Learner]):\cr
 #'   List of objects of type [Learner].
-#' @param resamplings \[`list` of [Resampling]\]:\cr
+#' @param resamplings (list of [Resampling]):\cr
 #'   List of objects of type [Resampling].
-#' @param measures \[`list` of [Measure]\]:\cr
+#' @param measures (list of [Measure]):\cr
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the respective measures stored in `task`.
-#' @param ctrl \[`named list` as returned by [mlr_control()]\]:\cr
+#' @param ctrl (named list as returned by [mlr_control()]):\cr
 #'   Object to control experiment execution. See [mlr_control()].
 #' @return [BenchmarkResult].
 #' @export

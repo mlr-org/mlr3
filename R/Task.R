@@ -42,7 +42,7 @@
 #'   [DataBackend] which stores the data.
 #' * `task_type` (`character(1)`):
 #'   Task type. Set via class which inherits from [Task].
-#' * `data` ([base::data.frame]):
+#' * `data` ([data.frame()]):
 #'   New data to rbind/cbind to the task.
 #' * `rows` (`vector`):
 #'   Vector of row ids specifying rows from the [DataBackend] using its primary key.
@@ -73,7 +73,7 @@
 #'     which are held back unless explicitly addressed.
 #'   To alter the role, use `set_row_role()`.
 #'
-#' * `$col_roles` \[`list`\]. Each column (feature)
+#' * `$col_roles` (`list`). Each column (feature)
 #'   can have a specific mutually exclusive role in the learning task:
 #'   - `"feature"`: Regular feature.
 #'   - `"target"`: Column with target labels.
@@ -102,7 +102,7 @@
 #' * `$levels()` queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
 #'   This function ignores the row roles, so you get all levels found in the [DataBackend].
 #'
-#' * `$row_ids` \[`data.table()`] returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
+#' * `$row_ids` (`data.table()`] returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
 #'    The column names of the returned `data.table` equals the primary key column in the [DataBackend].
 #'
 #' * `$feature_names` returns a `character` vector of all feature names with `role == "feature"`.
@@ -127,7 +127,7 @@
 #' * `$cbind()` extends the task with additional columns.
 #'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
 #'
-#' * `$overwrite()` overwrite the data in the [DataBackend] with data provided as [`data.table()`][data.table::data.table()].
+#' * `$overwrite()` overwrite the data in the [DataBackend] with data provided as [data.table::data.table()].
 #'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
 #'
 #' * `$hash` stores a checksum (`character(1)`) calculated on the `id`, `row_roles` and `col_info`.

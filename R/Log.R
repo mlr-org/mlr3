@@ -15,9 +15,9 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `log` \[[`data.table()`][data.table::data.table()]\]:
+#' * `log`:
 #'   Object as returned by [evaluate::evaluate()].
-#' * `cl` \[`character(1)`\]:
+#' * `cl` (`character(1)`):
 #'   Class of a condition. One of "output", "message", "warning", or "error".
 #'
 #' @section Details:
@@ -28,7 +28,7 @@
 #' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is logged.
 #'   Possible conditions are "output", "message", "warning", and "error".
 #'
-#' * `format()` and `print()` are for formatting and printing via [base::format()] or [base::print()], respectively.
+#' * `format()` and `print()` are for formatting and printing via [format()] or [print()], respectively.
 #'
 #' @name Log
 #' @examples

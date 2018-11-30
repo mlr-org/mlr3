@@ -16,13 +16,13 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `task` \[[Task]\]:\cr
+#' * `task` ([Task]):\cr
 #'   Task used for prediction. Used to extract `row_ids` and `truth`.
 #'   Set to `NULL` to skip all argument checks during initialization.
 #'   Slots `p$row_ids` and `p$truth` need to be set manually in this case
-#' * `response` \[[factor] | [character]\]:\cr
+#' * `response` (`factor` | `character`):\cr
 #'   Vector of predicted class labels.
-#' * `prob` \[[matrix]\]:\cr
+#' * `prob` ([matrix]):\cr
 #'   Numeric matrix of class probabilities with one column for each class in `task$all_classes`
 #'   and one row for each observation in the test set.
 #'
@@ -35,8 +35,8 @@
 #'
 #' * `$prob` stores the label probabilities (if available) as matrix, or is `NULL`.
 #'
-#' * The prediction object can be transformed to a simple [`data.table()`][data.table::data.table()]
-#'   with [`as.data.table()`][data.table::as.data.table()].
+#' * The prediction object can be transformed to a simple [data.table::data.table()]
+#'   with [data.table::as.data.table()].
 #' @name PredictionClassif
 #' @export
 #' @family Prediction

@@ -23,19 +23,19 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `data` \[[`data.table()`][data.table::data.table()]\]:\cr
+#' * `data` ([data.table::data.table()]):\cr
 #'   `data.table` with columns matching the data of an [Experiment].
 #'   Each row corresponds to a single experiment.
-#' * `hash` \[`NULL` | `character(1)`\]:\cr
+#' * `hash` (`NULL` | `character(1)`):\cr
 #'   Pre-calculated hash for the combination of `task`, `learner` and `resampling`.
 #'   If `NULL`, the checksum will be calculated on-demand.
-#' * `id` \[`character(1)`\]:\cr
+#' * `id` (`character(1)`):\cr
 #'   Identifier of a performance measure.
-#' * `iter` \[`integer(1)`\]:\cr
+#' * `iter` (`integer(1)`):\cr
 #'   Iteration of the experiment to retrieve.
-#' * `iters` \[`integer`\]:\cr
+#' * `iters` (`integer`):\cr
 #'   Iterations of experiments to retrieve as `list()`.
-#' * `rr` \[`ResampleResult`\]:\cr
+#' * `rr` (`ResampleResult`):\cr
 #'   Second [ResampleResult].
 #'
 #' @section Details:
@@ -54,7 +54,7 @@
 #'
 #' * `$hash` stores a hash for the combination of task, learner and resampling.
 #'
-#' * `as.data.table()` converts the [BenchmarkResult] to a [`data.table()`][data.table::data.table()].
+#' * `as.data.table()` converts the [BenchmarkResult] to a [data.table::data.table()].
 #'
 #' @name ResampleResult
 NULL

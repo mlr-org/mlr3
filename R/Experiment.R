@@ -28,15 +28,15 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `task` \[[Task]\]:\cr
+#' * `task` ([Task]):\cr
 #'   Task to conduct experiment on
-#' * `learner` \[[Learner]\]:\cr
+#' * `learner` ([Learner]):\cr
 #'   Learner to conduct experiment with.
-#' * `subset` \[`integer()` | `character()`\]:\cr
+#' * `subset` (`integer()` | `character()`):\cr
 #'   Subset of the task's row ids to work on.
-#' * `newdata` \[[`data.frame()`][base::data.frame()]\]:\cr
+#' * `newdata` ([data.frame()]):\cr
 #'   New data to predict on. Will be appended to the task.
-#' * `measures` \[`list` of [Measure]\]:\cr
+#' * `measures` (list of [Measure]):\cr
 #'   Performance measure to use. Defaults to the measures set in the [Task].
 #'
 #' @section Details:
@@ -48,7 +48,7 @@
 #'   The model can be accessed via `e$model`.
 #'
 #' * `$predict()` uses the previously fitted model to predict new observations.
-#'   The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction` as [`data.table()`][data.table::data.table()].
+#'   The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction` as [data.table::data.table()].
 #'
 #' * `$score()` quantifies stored predictions using the provided list of [Measure] (or the task's [Measure] if not provided)
 #'   and stores the resulting performance values. The performance can be accessed via `e$performance`.
@@ -57,7 +57,7 @@
 #'
 #' * `$validation_set` returns the row ids of the validation set (see [Task]).
 #'
-#' * `$timings` holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (c.f. [base::proc.time()]).
+#' * `$timings` holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (c.f. [proc.time()]).
 #'   Timings are `NA` if the respective step has not been performed yet.
 #'
 #' * `$logs` creates a list with names `train` and `predict`.
@@ -66,20 +66,20 @@
 #' * `$state` returns an factor of length 1 with ordered levels `"defined"`, `"trained"`, `"predicted"` and `"scored"`.
 #'
 #' * `$data` stores the internal representation of an Experiment as a `named list` with the following slots:
-#'   * task \[[Task]\].
-#'   * learner \[[Learner]\].
-#'   * resampling \[[Resampling]\]. Is `NULL` prior to calling `$train()`.
+#'   * task ([Task]).
+#'   * learner ([Learner]).
+#'   * resampling ([Resampling]). Is `NULL` prior to calling `$train()`.
 #'     If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()], a `ResamplingCustom` object is stored here.
-#'   * iteration \[`integer(1)`\]. If the experiment is constructed manually, this is always 1.
+#'   * iteration (`integer(1)`). If the experiment is constructed manually, this is always 1.
 #'   * model: Trained model as returned by the [Learner].
 #'   * train_log: [Log] for the training step.
-#'   * train_time \[`numeric(1)`\]. Elapsed time in microseconds.
+#'   * train_time (`numeric(1)`). Elapsed time in microseconds.
 #'   * predict_log. [Log] for the predict step.
-#'   * predict_time \[`numeric(1)`\]. Elapsed time in microseconds.
-#'   * prediction \[[Prediction]\].
-#'   * measures \[`list` of [Measure]\]. Actually used performance measures.
-#'   * performance \[`named numeric`\]. Performance values are returned by the measures.
-#'   * score_time \[`numeric(1)`\]. Elapsed time in microseconds.
+#'   * predict_time (`numeric(1)`). Elapsed time in microseconds.
+#'   * prediction ([Prediction]).
+#'   * measures (`list` of [Measure]). Actually used performance measures.
+#'   * performance (`named numeric`). Performance values are returned by the measures.
+#'   * score_time (`numeric(1)`). Elapsed time in microseconds.
 #'
 #' @name Experiment
 #' @export

@@ -4,9 +4,9 @@
 #' A simple key-value store for \pkg{R6} objects.
 #' On retrieval of an object, the following applies:
 #'
-#' * R6 Factories (objects of class `R6ClassGenerator`) are initialized.
+#' * R6 Factories (objects of class `R6ClassGenerator`) are initialized (with no arguments).
 #' * [R6::R6Class] objects are cloned.
-#' * Functions are called.
+#' * Functions are called (with no arguments).
 #' * All other objects are returned as-is.
 #'
 #' @section Usage:
@@ -31,21 +31,21 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `pattern` \[`character(1)`\]:\cr
+#' * `pattern` (`character(1)`):\cr
 #'  Restrict keys to keys  which match `pattern`.
-#' * `key` \[`character(1)`\]:\cr
+#' * `key` (`character(1)`):\cr
 #'   Single Key as string.
-#' * `value` \[any\]:\cr
+#' * `value`:\cr
 #'   Arbitrary value.
-#' * `keys` \[`character()`\]:\cr
+#' * `keys` (`character()`):\cr
 #'   Vector of keys.
 #'
 #' @section Details:
 #' * `$new()` initializes a new object of class [Dictionary].
-#' * `$keys()` \[`character()`\] returns a vector with all keys (or all keys matching `pattern`).
-#' * `$get()` \[any\] retrieves a single object with key `key` (or raises an exception).
-#' * `$mget()` \[`named list`\] creates a list of objects with keys `keys` (or raises an exception).
-#' * `$has()` \[`logical()`\] is `TRUE` if `key` is present in the Dictionary.
+#' * `$keys()` (`character()`) returns a vector with all keys (or all keys matching `pattern`).
+#' * `$get()` (any) retrieves a single object with key `key` (or raises an exception).
+#' * `$mget()` (`named list`) creates a list of objects with keys `keys` (or raises an exception).
+#' * `$has()` (`logical()`) is `TRUE` if `key` is present in the Dictionary.
 #' * `$add()` adds item `value` with key `key` to the Dictionary.
 #' * `$remove()` removes item with key `key` from the Dictionary.
 #' * `as.data.frame()` and `as.data.table()` give a summarizing overview as `data.frame` or `data.table`, respectively.

@@ -21,13 +21,13 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{task} [\link{Task}]:\cr
+\item \code{task} (\link{Task}):\cr
 Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
 Set to \code{NULL} to skip all argument checks during initialization.
 Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
-\item \code{response} [\link{factor} | \link{character}]:\cr
+\item \code{response} (\code{factor} | \code{character}):\cr
 Vector of predicted class labels.
-\item \code{prob} [\link{matrix}]:\cr
+\item \code{prob} (\link{matrix}):\cr
 Numeric matrix of class probabilities with one column for each class in \code{task$all_classes}
 and one row for each observation in the test set.
 }
@@ -40,8 +40,8 @@ and one row for each observation in the test set.
 \item \code{$truth} stores the predicted class labels as factor.
 \item \code{$response} stores the predicted class labels as factor.
 \item \code{$prob} stores the label probabilities (if available) as matrix, or is \code{NULL}.
-\item The prediction object can be transformed to a simple \code{\link[data.table:data.table]{data.table()}}
-with \code{\link[data.table:as.data.table]{as.data.table()}}.
+\item The prediction object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}}
+with \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
 }
 }
 

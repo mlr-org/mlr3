@@ -21,15 +21,15 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{task} [\link{Task}]:\cr
+\item \code{task} (\link{Task}):\cr
 Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
 Set to \code{NULL} to skip all argument checks during initialization.
 Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
-\item \code{truth} [\link{numeric}]:\cr
+\item \code{truth} (\code{numeric}):\cr
 Numeric vector of true response.
-\item \code{response} [\link{numeric}]:\cr
+\item \code{response} (\code{numeric}):\cr
 Numeric vector of predictions. One element for each observation in the test set.
-\item \code{se} [\link{numeric}]:\cr
+\item \code{se} (\code{numeric}):\cr
 Numeric vector of predicted standard error. One element for each observation in the test set.
 }
 }
@@ -41,8 +41,8 @@ Numeric vector of predicted standard error. One element for each observation in 
 \item \code{$truth} stores the true values.
 \item \code{$response} stores the predicted values.
 \item \code{$se} stores the predicted standard errors (if available), or is \code{NULL}.
-\item The prediction object can be transformed to a simple \code{\link[data.table:data.table]{data.table()}}
-with \code{\link[data.table:as.data.table]{as.data.table()}}.
+\item The prediction object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}}
+with \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
 }
 }
 

@@ -7,7 +7,7 @@
 mlr_options()
 }
 \description{
-The following options are currently understood by mlr3:
+The following options are currently supported by \pkg{mlr3}:
 \itemize{
 \item \code{mlr3.verbose}: Set to \code{FALSE} to suppress output of informational messages.
 \item \code{mlr3.debug}: Set to \code{TRUE} to enable extra output and additional (potentially expensive) assertions.

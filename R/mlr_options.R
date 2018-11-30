@@ -1,13 +1,7 @@
-default_opts = list(
-  mlr3.verbose = TRUE,
-  mlr3.debug = FALSE,
-  mlr3.use_future = TRUE
-)
-
 #' @title Options for mlr3
 #'
 #' @description
-#' The following options are currently understood by mlr3:
+#' The following options are currently supported by \pkg{mlr3}:
 #'
 #' * `mlr3.verbose`: Set to `FALSE` to suppress output of informational messages.
 #' * `mlr3.debug`: Set to `TRUE` to enable extra output and additional (potentially expensive) assertions.

@@ -7,9 +7,9 @@
 A simple key-value store for \pkg{R6} objects.
 On retrieval of an object, the following applies:
 \itemize{
-\item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized.
+\item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized (with no arguments).
 \item \link[R6:R6Class]{R6::R6Class} objects are cloned.
-\item Functions are called.
+\item Functions are called (with no arguments).
 \item All other objects are returned as-is.
 }
 }
@@ -37,13 +37,13 @@ d[keys]
 \section{Arguments}{
 
 \itemize{
-\item \code{pattern} [\code{character(1)}]:\cr
+\item \code{pattern} (\code{character(1)}):\cr
 Restrict keys to keys  which match \code{pattern}.
-\item \code{key} [\code{character(1)}]:\cr
+\item \code{key} (\code{character(1)}):\cr
 Single Key as string.
-\item \code{value} [any]:\cr
+\item \code{value}:\cr
 Arbitrary value.
-\item \code{keys} [\code{character()}]:\cr
+\item \code{keys} (\code{character()}):\cr
 Vector of keys.
 }
 }
@@ -52,10 +52,10 @@ Vector of keys.
 
 \itemize{
 \item \code{$new()} initializes a new object of class \link{Dictionary}.
-\item \code{$keys()} [\code{character()}] returns a vector with all keys (or all keys matching \code{pattern}).
-\item \code{$get()} [any] retrieves a single object with key \code{key} (or raises an exception).
-\item \code{$mget()} [\code{named list}] creates a list of objects with keys \code{keys} (or raises an exception).
-\item \code{$has()} [\code{logical()}] is \code{TRUE} if \code{key} is present in the Dictionary.
+\item \code{$keys()} (\code{character()}) returns a vector with all keys (or all keys matching \code{pattern}).
+\item \code{$get()} (any) retrieves a single object with key \code{key} (or raises an exception).
+\item \code{$mget()} (\code{named list}) creates a list of objects with keys \code{keys} (or raises an exception).
+\item \code{$has()} (\code{logical()}) is \code{TRUE} if \code{key} is present in the Dictionary.
 \item \code{$add()} adds item \code{value} with key \code{key} to the Dictionary.
 \item \code{$remove()} removes item with key \code{key} from the Dictionary.
 \item \code{as.data.frame()} and \code{as.data.table()} give a summarizing overview as \code{data.frame} or \code{data.table}, respectively.

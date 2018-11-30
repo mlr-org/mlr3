@@ -2,7 +2,7 @@
 #'
 #' @description
 #' This function creates a named list of settings which control the execution of an [Experiment].
-#' It contains all options (see [mlr_options()]) without the `"mlr3"` prefix and additionally:
+#' It contains all options (see [mlr_options()]) without the `"mlr3"` prefix, and additionally:
 #'
 #' * `use_evaluate`: if \code{TRUE}, the model will be trained and predictions will be generated via a call to [evaluate::evaluate()]
 #'   and all output will be stored as a [Log].

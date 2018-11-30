@@ -7,7 +7,7 @@
 Abstraction for \code{\link[Matrix:Matrix]{Matrix()}}. Data is stored as (sparse) matrix.
 Supports two output formats:
 \itemize{
-\item \code{"data.table"} (default): Returns a \code{\link[data.table:data.table]{data.table()}}. The primary key is returned as a regular column.
+\item \code{"data.table"} (default): Returns a \code{\link[data.table:data.table]{data.table::data.table()}}. The primary key is returned as a regular column.
 \item \code{"sparse"} (native): Returns a \code{Matrix::Matrix()}. The primary key is stored as additional attribute \code{..row_id}.
 }
 }
@@ -23,9 +23,9 @@ The interface is described in \link{DataBackend}.
 \section{Arguments}{
 
 \itemize{
-\item \code{data} [\code{\link[Matrix:Matrix]{Matrix}}].\cr
+\item \code{data} (\code{\link[Matrix:Matrix]{Matrix::Matrix()}}).\cr
 A (sparse) matrix. If \code{data} has row names, these will be used as primary key.
-Integer keys (\code{1:nrow(data)}) are used otherwise.
+Integer keys (\code{seq_len(nrow(data))}) are used otherwise.
 }
 }
 

@@ -24,10 +24,10 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `id` (`character(1)`):
+#' * `id` (`character(1)`):\cr
 #'   identifier for this object.
 #'
-#' * `i` (`integer(1)`):
+#' * `i` (`integer(1)`):\cr
 #'   Get the `i`-th training/test set.
 #'
 #' @section Details:

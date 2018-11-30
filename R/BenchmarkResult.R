@@ -17,24 +17,26 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `hash` \[`character(1)`\]:\cr
+#' * `hash` (`character(1)`):\cr
+#'   String which identifies a subgroup to extract as [ResampleResult].
+#' * `bmr` ([BenchmarkResult]):\cr
 #'   String which identifies a subgroup to extract as [ResampleResult].
 #'
 #' @section Details:
 #' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects.
 #'
-#' * `$aggregated` returns aggregated performance measures as a [`data.table()`][data.table::data.table()].
+#' * `$aggregated` returns aggregated performance measures as a [data.table::data.table()].
 #'   Experiments are aggregated by their resample result group
 #'   (combination of [Task], [Learner] and [Resampling]).
 #'  The actual aggregation function is defined by the respective [Measure].
 #'
-#' * `$resample_results` returns a [`data.table()`][data.table::data.table()] which gives an overview of the
+#' * `$resample_results` returns a [data.table::data.table()] which gives an overview of the
 #'   resample result groups in the benchmark.
 #'   These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
 #'
 #' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
 #'
-#' * `as.data.table()` converts the [BenchmarkResult] to a [`data.table()`][data.table::data.table()].
+#' * `as.data.table()` converts a [BenchmarkResult] to a [data.table::data.table()].
 #'
 #' @name BenchmarkResult
 #' @examples

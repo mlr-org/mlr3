@@ -27,19 +27,19 @@ as.data.table(bmr)
 \section{Arguments}{
 
 \itemize{
-\item \code{data} [\code{\link[data.table:data.table]{data.table()}}]:\cr
+\item \code{data} (\code{\link[data.table:data.table]{data.table::data.table()}}):\cr
 \code{data.table} with columns matching the data of an \link{Experiment}.
 Each row corresponds to a single experiment.
-\item \code{hash} [\code{NULL} | \code{character(1)}]:\cr
+\item \code{hash} (\code{NULL} | \code{character(1)}):\cr
 Pre-calculated hash for the combination of \code{task}, \code{learner} and \code{resampling}.
 If \code{NULL}, the checksum will be calculated on-demand.
-\item \code{id} [\code{character(1)}]:\cr
+\item \code{id} (\code{character(1)}):\cr
 Identifier of a performance measure.
-\item \code{iter} [\code{integer(1)}]:\cr
+\item \code{iter} (\code{integer(1)}):\cr
 Iteration of the experiment to retrieve.
-\item \code{iters} [\code{integer}]:\cr
+\item \code{iters} (\code{integer}):\cr
 Iterations of experiments to retrieve as \code{list()}.
-\item \code{rr} [\code{ResampleResult}]:\cr
+\item \code{rr} (\code{ResampleResult}):\cr
 Second \link{ResampleResult}.
 }
 }
@@ -55,7 +55,7 @@ Second \link{ResampleResult}.
 \item \code{$combine()} takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
 \item \code{$aggregated} returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
 \item \code{$hash} stores a hash for the combination of task, learner and resampling.
-\item \code{as.data.table()} converts the \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table()}}.
+\item \code{as.data.table()} converts the \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }
 

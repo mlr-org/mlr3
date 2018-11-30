@@ -4,11 +4,14 @@
 \name{mlr_reflections}
 \alias{mlr_reflections}
 \title{Reflections for mlr3}
-\format{An object of class \code{environment} of length 11.}
+\format{An object of class \code{environment} of length 12.}
 \usage{
 mlr_reflections
 }
 \description{
 Environment which stores various information for reflections.
+}
+\examples{
+ls.str(mlr_reflections)
 }
 \keyword{internal}

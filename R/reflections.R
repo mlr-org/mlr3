@@ -4,6 +4,8 @@
 #' Environment which stores various information for reflections.
 #' @keywords internal
 #' @export
+#' @examples
+#' ls.str(mlr_reflections)
 mlr_reflections = new.env(parent = emptyenv())
 
 mlr_reflections$backend_formats = c(
@@ -52,6 +54,12 @@ mlr_reflections$experiment_slots = data.table(
 mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = c("defined", "trained", "predicted", "scored"))
 
 mlr_reflections$log_classes = c("output", "message", "warning", "error")
+
+mlr_reflections$default_mlr_options = list(
+  mlr3.verbose = TRUE,
+  mlr3.debug = FALSE,
+  mlr3.use_future = TRUE
+)
 
 mlr_reflections$default_mlr_control = list(
   use_evaluate = FALSE,

@@ -13,7 +13,7 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `subset` (`vector`):\cr
+#' * `subset` (`integer()` | `character()`):\cr
 #'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
 #' @section Details:

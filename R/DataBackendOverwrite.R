@@ -1,3 +1,4 @@
+#' @include DataBackend.R
 DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cloneable = FALSE,
   public = list(
     initialize = function(b1, b2) {

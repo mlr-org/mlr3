@@ -25,39 +25,39 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `id` \[`character(1)`\]:
-#'   identifier for this object.
-#' * `task_type` \[`character(1)`\]:\cr
+#' * `id` (`character(1)`):\cr
+#'   Identifier for this object.
+#' * `task_type` (`character(1)`):\cr
 #'   Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
-#' * `feature_types` \[`character()`\]:\cr
+#' * `feature_types` (`character()`):\cr
 #'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
-#' * `predict_types` \[`character()`\]:\cr
+#' * `predict_types` (`character()`):\cr
 #'   Supported predict types. Must be a subset of `mlr_reflections$predict_types`.
-#' * `packages` \[`character()`]:\cr
+#' * `packages` (`character()`]:\cr
 #'   Set of required packages.
-#' * `param_set` \[[`ParamSet`][paradox::ParamSet]\]:\cr
+#' * `param_set` ([paradox::ParamSet]):\cr
 #'   Set of required packages.
-#' * `param_vals` \[`named list()`\]:\cr
+#' * `param_vals` (`named list()`):\cr
 #'   List of hyperparameters.
-#' * `properties` \[`character()`\]:\cr
+#' * `properties` (`character()`):\cr
 #'   Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
-#' * `task` \[[Task]\]:\cr
+#' * `task` ([Task]):\cr
 #'   Task to train/predict on.
-#' * `model` \[any\]:\cr
-#'   Fitted model as returned by `train`.
+#' * `model`:\cr
+#'   Arbitrary fitted model as returned by `train()`.
 #'
 #' @section Details:
 #' * `$new()` creates a new object of class [Learner].
-#' * `$id` \[`character(1)`\] stores the identifier of the object.
-#' * `$task_type` \[`character(1)`\] stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
-#' * `$feature_types` \[`character()`\] stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
-#' * `$predict_types` \[`character()`\] stores the possible predict types the learner is capable of. For classification,
+#' * `$id` (`character(1)`) stores the identifier of the object.
+#' * `$task_type` (`character(1)`) stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
+#' * `$feature_types` (`character()`) stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+#' * `$predict_types` (`character()`) stores the possible predict types the learner is capable of. For classification,
 #'   feasible values are `"response"` and `"prob"`, for regression `"response"` and `"se"` can be specified.
-#' * `$predict_type` \[`character(1)`\] stores the currently selected predict type.
-#' * `$packages` \[`character()`\] stores the names of required packages.
-#' * `$param_set()` \[[paradox::ParamSet]\] describes the available hyperparameter and possible settings.
-#' * `$param_vals()` \[`named list()`\] stores the list set hyperparameter values.
-#' * `$properties` \[`character()`\] is a set of tags which describe the properties of the learner.
+#' * `$predict_type` (`character(1)`) stores the currently selected predict type.
+#' * `$packages` (`character()`) stores the names of required packages.
+#' * `$param_set()` ([paradox::ParamSet]) describes the available hyperparameter and possible settings.
+#' * `$param_vals()` (`named list()`) stores the list set hyperparameter values.
+#' * `$properties` (`character()`) is a set of tags which describe the properties of the learner.
 #' * `$train()` takes a task and returns a model fitted on all observations.
 #' * `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
 #' * `$hash` stores a checksum (`character(1)`) calculated on the `id` and `param_vals`.

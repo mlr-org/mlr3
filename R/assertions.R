@@ -9,28 +9,28 @@ NULL
 
 
 #' @export
-#' @param b \[[DataBackend]\].
+#' @param b ([DataBackend]).
 #' @rdname mlr_assertions
 assert_backend = function(b) {
   assert_class(b, "DataBackend")
 }
 
 #' @export
-#' @param e \[[Experiment]\].
+#' @param e ([Experiment]).
 #' @rdname mlr_assertions
 assert_experiment = function(e) {
   assert_class(e, "Experiment")
 }
 
 #' @export
-#' @param task \[[Task]\].
+#' @param task ([Task]).
 #' @rdname mlr_assertions
 assert_task = function(task) {
   assert_class(task, "Task")
 }
 
 #' @export
-#' @param learner \[[Learner]\].
+#' @param learner ([Learner]).
 #' @rdname mlr_assertions
 assert_learner = function(learner, task = NULL) {
   assert_class(learner, "Learner")
@@ -44,7 +44,7 @@ assert_learner = function(learner, task = NULL) {
 }
 
 #' @export
-#' @param measure \[[Measure]\].
+#' @param measure ([Measure]).
 #' @rdname mlr_assertions
 assert_measure = function(measure, task = NULL, learner = NULL) {
   assert_class(measure, "Measure")
@@ -79,7 +79,7 @@ assert_measure = function(measure, task = NULL, learner = NULL) {
 }
 
 #' @export
-#' @param measures \[`list` of [Measure]\].
+#' @param measures (list of [Measure]).
 #' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, learner = NULL) {
   assert_list(measures, min.len = 1L)
@@ -87,35 +87,35 @@ assert_measures = function(measures, task = NULL, learner = NULL) {
 }
 
 #' @export
-#' @param resampling \[[Resampling]\].
+#' @param resampling ([Resampling]).
 #' @rdname mlr_assertions
 assert_resampling = function(resampling) {
   assert_class(resampling, "Resampling")
 }
 
 #' @export
-#' @param resample_result \[[ResampleResult]\].
+#' @param resample_result ([ResampleResult]).
 #' @rdname mlr_assertions
 assert_resample_result = function(resample_result) {
   assert_class(resample_result, "ResampleResult")
 }
 
 #' @export
-#' @param bmr \[[BenchmarkResult]\].
+#' @param bmr ([BenchmarkResult]).
 #' @rdname mlr_assertions
 assert_benchmark_result = function(bmr) {
   assert_class(bmr, "BenchmarkResult")
 }
 
 #' @export
-#' @param param_set \[[paradox::ParamSet()]\].
+#' @param param_set ([paradox::ParamSet()]).
 #' @rdname mlr_assertions
 assert_param_set = function(param_set) {
   assert_class(param_set, "ParamSet")
 }
 
 #' @export
-#' @param param_vals \[`named list`\].
+#' @param param_vals (named list).
 #' @rdname mlr_assertions
 assert_param_vals = function(param_vals, param_set) {
   assert_list(param_vals, names = "unique", any.missing = FALSE)
