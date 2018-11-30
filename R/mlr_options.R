@@ -8,6 +8,8 @@
 #' * `mlr3.use_future`: Set to `FALSE` to disable parallelization via \pkg{future}.
 #'   Explicitly disabling this simplifies debugging.
 #'
+#' @return (named `list`). Currently set options (without the prefix `"mlr3."`).
+#'
 #' @export
 #' @examples
 #' # get a list of currently set options (without the prefix)

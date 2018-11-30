@@ -36,7 +36,7 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `id` (`string`):
+#' * `id` (`character(1)`):
 #'   Name of the task.
 #' * `backend` ([DataBackend]):
 #'   [DataBackend] which stores the data.
@@ -44,7 +44,7 @@
 #'   Task type. Set via class which inherits from [Task].
 #' * `data` ([data.frame()]):
 #'   New data to rbind/cbind to the task.
-#' * `rows` (`vector`):
+#' * `rows` (`integer()` | `character()`):
 #'   Vector of row ids specifying rows from the [DataBackend] using its primary key.
 #'   Can be `character()` or `integer`, depending on the [DataBackend].
 #' * `cols` (`character()`):
@@ -57,8 +57,6 @@
 #'   New roles to assign for specified rows/columns.
 #' * `exclusive` (`logical(1)`):
 #'   If `TRUE`, the cols/rows will be removed from all roles except `new_roles`.
-#' * `subset` (`vector`):
-#'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
 #' @section Details:
 #' * `$new()` initializes a new object of class [Task].
@@ -86,34 +84,36 @@
 #'   Column `type` stores the storage type of the variables, e.g. `integer`, `numeric` or `character`.
 #'   Column `levels` stores the levels for factor and character variables.
 #'
-#' * `$set_row_role()` overwrites the role for specified rows, referenced by row id.
+#' * `$set_row_role()` sets the role for specified rows, referenced by row id.
+#'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
 #'
-#' * `$set_col_role()` overwrites the role for specified columns.
+#' * `$set_col_role()` sets the role for specified columns, referenced by name.
+#'   If `exclusive` is `TRUE`, the referenced columns will be removed from all other roles.
 #'
-#' * `$measures` is a list of [Measure] (performance measures) to use in this task.
+#' * `$measures` (`list` of [Measure]) stores the default measures for this task.
 #'
 #' * `$data()` is used to retrieve data from the backend as `data.table`.
 #'   Rows are subsetted to only contain observations with `role == "use"`.
 #'   Columns are filtered to only contain features with `role %in% c("target", "feature")`.
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
 #'
-#' * `$head()` can be used to peek into the first `n` observations with `role == "use"`.
+#' * `$head()` ([data.table::data.table()]) can be used to peek into the first `n` observations with `role == "use"`.
 #'
-#' * `$levels()` queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
+#' * `$levels()` (`character()`) queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
 #'   This function ignores the row roles, so you get all levels found in the [DataBackend].
 #'
 #' * `$row_ids` (`data.table()`] returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
 #'    The column names of the returned `data.table` equals the primary key column in the [DataBackend].
 #'
-#' * `$feature_names` returns a `character` vector of all feature names with `role == "feature"`.
+#' * `$feature_names` (`character()`) returns all column names with `role == "feature"`.
 #'
-#' * `$target_names` returns a `character` vector of all feature names with `role == "target"`.
+#' * `$target_names` (`character()`) returns all column names with `role == "target"`.
 #'
-#' * `$nrow` provides the total number of rows with `role == "use"`.
+#' * `$nrow` (`integer(1)`) provides the total number of rows with `role == "use"`.
 #'
-#' * `$ncol` provides the total number of cols with `role %in% c("target", "feature")`.
+#' * `$ncol` (`integer(1)`) provides the total number of cols with `role %in% c("target", "feature")`.
 #'
-#' * `$feature_types` gives a `data.table` with columns `id` and `type` where `id` are the column names of "active"
+#' * `$feature_types` [`data.table::data.table()`) returns a table with columns `id` and `type` where `id` are the column names of "active"
 #'   features of the task and `type` is the storage type.
 #'
 #' * `$formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
@@ -130,13 +130,13 @@
 #' * `$overwrite()` overwrite the data in the [DataBackend] with data provided as [data.table::data.table()].
 #'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
 #'
-#' * `$hash` stores a checksum (`character(1)`) calculated on the `id`, `row_roles` and `col_info`.
+#' * `$hash` (`character(1)`) stores a checksum calculated on the `id`, `row_roles` and `col_info`.
 #'
 #' @section Task mutators:
 #' The methods `filter()`, `select()`, `rbind()`, `cbind()`, and `overwrite()` change the task in-place,
 #' but without modifying the [DataBackend].
-#' `filter()` and `select()` just reduce the set of rows or columns to show.
-#' `rbind()`, `cbind()`, and `overwrite()` first create a [DataBackendDataTable] from the provided data, and then
+#' `filter()` and `select()` just reduce the set of active rows or columns, providing a different view on the data.
+#' `rbind()`, `cbind()`, and `overwrite()` first create a new [DataBackendDataTable] from the provided data, and then
 #' merge both backends into an abstract [DataBackend] which combines the results on-demand.
 #'
 #'

@@ -47,7 +47,7 @@ possible input formats.
 rows are filtered using the \code{primary_key} column, columns are selected by name.
 \item \code{$head()} (\code{\link[data.table:data.table]{data.table::data.table()}}) returns a table of the first \code{n} data rows.
 \item \code{$distinct()} (\code{list()}) returns a named list of distinct values for specified columns \code{cols}.
-\item \code{$missing()} (\code{named integer()}) returns a named integer with the number of missing values per column.
+\item \code{$missing()} (named \code{integer()}) returns a named integer with the number of missing values per column.
 \item \code{$rownames} (\code{character()}) returns all row names of \code{data} as integer or character vector.
 \item \code{$colnames} (\code{character()}) returns all column names of \code{data} as character vector.
 \item \code{$nrow} (\code{integer(1)}) returns the number of total rows.

@@ -43,8 +43,8 @@
 #' @section Details:
 #' * `$new()` initializes a new object of class [Dictionary].
 #' * `$keys()` (`character()`) returns a vector with all keys (or all keys matching `pattern`).
-#' * `$get()` (any) retrieves a single object with key `key` (or raises an exception).
-#' * `$mget()` (`named list`) creates a list of objects with keys `keys` (or raises an exception).
+#' * `$get()` retrieves a single object with key `key` (or raises an exception).
+#' * `$mget()` (named `list`) creates a list of objects with keys `keys` (or raises an exception).
 #' * `$has()` (`logical()`) is `TRUE` if `key` is present in the Dictionary.
 #' * `$add()` adds item `value` with key `key` to the Dictionary.
 #' * `$remove()` removes item with key `key` from the Dictionary.

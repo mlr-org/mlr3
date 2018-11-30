@@ -44,7 +44,7 @@ Supported predict types. Must be a subset of \code{mlr_reflections$predict_types
 Set of required packages.
 \item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}):\cr
 Set of required packages.
-\item \code{param_vals} (\code{named list()}):\cr
+\item \code{param_vals} (named \code{list()}):\cr
 List of hyperparameters.
 \item \code{properties} (\code{character()}):\cr
 Set of properties of the learner. Must be a subset of \code{mlr_reflections$learner_properties}.
@@ -67,7 +67,7 @@ feasible values are \code{"response"} and \code{"prob"}, for regression \code{"r
 \item \code{$predict_type} (\code{character(1)}) stores the currently selected predict type.
 \item \code{$packages} (\code{character()}) stores the names of required packages.
 \item \code{$param_set()} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter and possible settings.
-\item \code{$param_vals()} (\code{named list()}) stores the list set hyperparameter values.
+\item \code{$param_vals()} (named \code{list()}) stores the list set hyperparameter values.
 \item \code{$properties} (\code{character()}) is a set of tags which describe the properties of the learner.
 \item \code{$train()} takes a task and returns a model fitted on all observations.
 \item \code{$predict()} takes a task and the model fitted in \code{$train()} to return predicted labels.

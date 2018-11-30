@@ -1,7 +1,7 @@
-#' @title Container for Results of resample
+#' @title Results of Resampling
 #'
 #' @description
-#' This is the object returned by [resample].
+#' This is the object returned by [resample()].
 #'
 #' @section Usage:
 #'
@@ -46,13 +46,13 @@
 #'
 #' * `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
 #'
-#' * `$experiments()` returns a list with the slice of [Experiment]s for the provided `iters`.
+#' * `$experiments()` returns a `list` with the slice of [Experiment]s for the provided `iters`.
 #'
 #' * `$combine()` takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
 #'
-#' * `$aggregated` returns the aggregated performance measures. The aggregation method is part of the [Measure].
+#' * `$aggregated` (named `numeric()`) returns the aggregated performance measures. The aggregation method is part of the [Measure].
 #'
-#' * `$hash` stores a hash for the combination of task, learner and resampling.
+#' * `$hash` (`character(1))` stores a hash for the combination of task, learner and resampling.
 #'
 #' * `as.data.table()` converts the [BenchmarkResult] to a [data.table::data.table()].
 #'

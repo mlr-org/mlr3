@@ -31,15 +31,15 @@ m$aggregate(rr)
 \itemize{
 \item \code{id} (\code{character(1)}):\cr
 Identifier for this object.
-\item \code{range} (\code{numeric(2)}):\cr:
+\item \code{range} (\code{numeric(2)}):\cr
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
 \item \code{minimize} (\code{logical(1)})\cr:
 Set to \code{TRUE} if good predictions correspond to small values.
-\item \code{predict_type} (\code{character(1)})\cr:
+\item \code{predict_type} (\code{character(1)}):\cr
 Required predict type of the \link{Learner}.
-\item \code{task_properties} (\code{character()})\cr:
+\item \code{task_properties} (\code{character()}):\cr
 Required task properties, see \link{Task}.
-\item \code{learner_properties} (\code{character()})\cr:
+\item \code{learner_properties} (\code{character()}):\cr
 Required learner properties, see \link{Learner}.
 \item \code{packages} (\code{character()}):\cr
 Set of required packages.

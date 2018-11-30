@@ -6,6 +6,9 @@
 \usage{
 mlr_options()
 }
+\value{
+(named \code{list}). Currently set options (without the prefix \code{"mlr3."}).
+}
 \description{
 The following options are currently supported by \pkg{mlr3}:
 \itemize{

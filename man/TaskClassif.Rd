@@ -12,9 +12,10 @@ The target column is assumed to be a factor.
 In addition to the interface of \link{Task}/\link{TaskSupervised}, this class implements:\preformatted{# Construction
 t = TaskClassif$new(id, backend, target, positive = NULL)
 #
+t$task_type
 t$class_names
 t$class_n
-t$task_type
+t$all_classes
 }
 }
 
@@ -29,9 +30,11 @@ Name of the "positive" class for binary classification problems.
 \section{Details}{
 
 \itemize{
+\item \code{$task_type} is \code{"classif"}.
 \item \code{$class_names} returns all class labels of the rows which \code{role == "use"}.
 \item \code{$class_n} returns the number of class labels of the rows which \code{role == "use"}.
-\item \code{$task_type} is \code{"classif"}
+\item \code{$all_classes} returns all class labels for the target column in the \link{DataBackend}.
+In contrast to \code{$class_names}, this is not restricted to the currently active rows.
 }
 }
 

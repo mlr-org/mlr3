@@ -25,11 +25,11 @@ as.data.table(p)
 Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
 Set to \code{NULL} to skip all argument checks during initialization.
 Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
-\item \code{truth} (\code{numeric}):\cr
+\item \code{truth} (\code{numeric()}):\cr
 Numeric vector of true response.
-\item \code{response} (\code{numeric}):\cr
+\item \code{response} (\code{numeric()}):\cr
 Numeric vector of predictions. One element for each observation in the test set.
-\item \code{se} (\code{numeric}):\cr
+\item \code{se} (\code{numeric()}):\cr
 Numeric vector of predicted standard error. One element for each observation in the test set.
 }
 }

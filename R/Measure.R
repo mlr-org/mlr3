@@ -24,15 +24,15 @@
 #' @section Arguments:
 #' * `id` (`character(1)`):\cr
 #'   Identifier for this object.
-#' * `range` (`numeric(2)`):\cr:
+#' * `range` (`numeric(2)`):\cr
 #'   Feasible range for this measure as `c(lower_bound, upper_bound)`.
 #' * `minimize` (`logical(1)`)\cr:
 #'   Set to `TRUE` if good predictions correspond to small values.
-#' * `predict_type` (`character(1)`)\cr:
+#' * `predict_type` (`character(1)`):\cr
 #'   Required predict type of the [Learner].
-#' * `task_properties` (`character()`)\cr:
+#' * `task_properties` (`character()`):\cr
 #'   Required task properties, see [Task].
-#' * `learner_properties` (`character()`)\cr:
+#' * `learner_properties` (`character()`):\cr
 #'   Required learner properties, see [Learner].
 #' * `packages` (`character()`):\cr
 #'   Set of required packages.

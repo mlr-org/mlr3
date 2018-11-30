@@ -40,7 +40,7 @@
 #'
 #' * `$distinct()` (`list()`) returns a named list of distinct values for specified columns `cols`.
 #'
-#' * `$missing()` (`named integer()`) returns a named integer with the number of missing values per column.
+#' * `$missing()` (named `integer()`) returns a named integer with the number of missing values per column.
 #'
 #' * `$rownames` (`character()`) returns all row names of `data` as integer or character vector.
 #'

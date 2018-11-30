@@ -41,7 +41,7 @@ t$overwrite(data)
 \section{Arguments}{
 
 \itemize{
-\item \code{id} (\code{string}):
+\item \code{id} (\code{character(1)}):
 Name of the task.
 \item \code{backend} (\link{DataBackend}):
 \link{DataBackend} which stores the data.
@@ -49,7 +49,7 @@ Name of the task.
 Task type. Set via class which inherits from \link{Task}.
 \item \code{data} (\code{\link[=data.frame]{data.frame()}}):
 New data to rbind/cbind to the task.
-\item \code{rows} (\code{vector}):
+\item \code{rows} (\code{integer()} | \code{character()}):
 Vector of row ids specifying rows from the \link{DataBackend} using its primary key.
 Can be \code{character()} or \code{integer}, depending on the \link{DataBackend}.
 \item \code{cols} (\code{character()}):
@@ -62,8 +62,6 @@ Number of rows to retrieve from the \link{DataBackend}.
 New roles to assign for specified rows/columns.
 \item \code{exclusive} (\code{logical(1)}):
 If \code{TRUE}, the cols/rows will be removed from all roles except \code{new_roles}.
-\item \code{subset} (\code{vector}):
-Subset of row ids to subset rows from the \link{DataBackend} using its primary key.
 }
 }
 
@@ -93,23 +91,25 @@ To alter the role, use \code{set_col_role()}.
 Stores column names of \link{DataBackend} in column \code{id}.
 Column \code{type} stores the storage type of the variables, e.g. \code{integer}, \code{numeric} or \code{character}.
 Column \code{levels} stores the levels for factor and character variables.
-\item \code{$set_row_role()} overwrites the role for specified rows, referenced by row id.
-\item \code{$set_col_role()} overwrites the role for specified columns.
-\item \code{$measures} is a list of \link{Measure} (performance measures) to use in this task.
+\item \code{$set_row_role()} sets the role for specified rows, referenced by row id.
+If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
+\item \code{$set_col_role()} sets the role for specified columns, referenced by name.
+If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
+\item \code{$measures} (\code{list} of \link{Measure}) stores the default measures for this task.
 \item \code{$data()} is used to retrieve data from the backend as \code{data.table}.
 Rows are subsetted to only contain observations with \code{role == "use"}.
 Columns are filtered to only contain features with \code{role \%in\% c("target", "feature")}.
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
-\item \code{$head()} can be used to peek into the first \code{n} observations with \code{role == "use"}.
-\item \code{$levels()} queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
+\item \code{$head()} (\code{\link[data.table:data.table]{data.table::data.table()}}) can be used to peek into the first \code{n} observations with \code{role == "use"}.
+\item \code{$levels()} (\code{character()}) queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
 This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
 \item \code{$row_ids} (\code{data.table()}] returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
 The column names of the returned \code{data.table} equals the primary key column in the \link{DataBackend}.
-\item \code{$feature_names} returns a \code{character} vector of all feature names with \code{role == "feature"}.
-\item \code{$target_names} returns a \code{character} vector of all feature names with \code{role == "target"}.
-\item \code{$nrow} provides the total number of rows with \code{role == "use"}.
-\item \code{$ncol} provides the total number of cols with \code{role \%in\% c("target", "feature")}.
-\item \code{$feature_types} gives a \code{data.table} with columns \code{id} and \code{type} where \code{id} are the column names of "active"
+\item \code{$feature_names} (\code{character()}) returns all column names with \code{role == "feature"}.
+\item \code{$target_names} (\code{character()}) returns all column names with \code{role == "target"}.
+\item \code{$nrow} (\code{integer(1)}) provides the total number of rows with \code{role == "use"}.
+\item \code{$ncol} (\code{integer(1)}) provides the total number of cols with \code{role \%in\% c("target", "feature")}.
+\item \code{$feature_types} [\code{data.table::data.table()}) returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
 features of the task and \code{type} is the storage type.
 \item \code{$formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
 \item \code{$filter()} reduces the task, subsetting it to only the rows specified.
@@ -119,7 +119,7 @@ features of the task and \code{type} is the storage type.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
 \item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[data.table:data.table]{data.table::data.table()}}.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
-\item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{row_roles} and \code{col_info}.
+\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{row_roles} and \code{col_info}.
 }
 }
 
@@ -127,8 +127,8 @@ The row ids must be provided as column in \code{data} (with column name matching
 
 The methods \code{filter()}, \code{select()}, \code{rbind()}, \code{cbind()}, and \code{overwrite()} change the task in-place,
 but without modifying the \link{DataBackend}.
-\code{filter()} and \code{select()} just reduce the set of rows or columns to show.
-\code{rbind()}, \code{cbind()}, and \code{overwrite()} first create a \link{DataBackendDataTable} from the provided data, and then
+\code{filter()} and \code{select()} just reduce the set of active rows or columns, providing a different view on the data.
+\code{rbind()}, \code{cbind()}, and \code{overwrite()} first create a new \link{DataBackendDataTable} from the provided data, and then
 merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
 }
 

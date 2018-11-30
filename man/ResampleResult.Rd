@@ -2,9 +2,9 @@
 % Please edit documentation in R/ResampleResult.R
 \name{ResampleResult}
 \alias{ResampleResult}
-\title{Container for Results of resample}
+\title{Results of Resampling}
 \description{
-This is the object returned by \link{resample}.
+This is the object returned by \code{\link[=resample]{resample()}}.
 }
 \section{Usage}{
 \preformatted{# Construction
@@ -51,10 +51,10 @@ Second \link{ResampleResult}.
 \link{Measure} used in the resampling.
 \item \code{$performance(id)} retrieves the performance values for the measure with id \code{id} as numeric vector.
 \item \code{$experiment()} returns an \link{Experiment} for the \code{iter}-th resampling iteration.
-\item \code{$experiments()} returns a list with the slice of \link{Experiment}s for the provided \code{iters}.
+\item \code{$experiments()} returns a \code{list} with the slice of \link{Experiment}s for the provided \code{iters}.
 \item \code{$combine()} takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
-\item \code{$aggregated} returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
-\item \code{$hash} stores a hash for the combination of task, learner and resampling.
+\item \code{$aggregated} (named \code{numeric()}) returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
+\item \code{$hash} (\code{character(1))} stores a hash for the combination of task, learner and resampling.
 \item \code{as.data.table()} converts the \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }

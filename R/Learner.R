@@ -37,7 +37,7 @@
 #'   Set of required packages.
 #' * `param_set` ([paradox::ParamSet]):\cr
 #'   Set of required packages.
-#' * `param_vals` (`named list()`):\cr
+#' * `param_vals` (named `list()`):\cr
 #'   List of hyperparameters.
 #' * `properties` (`character()`):\cr
 #'   Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
@@ -56,7 +56,7 @@
 #' * `$predict_type` (`character(1)`) stores the currently selected predict type.
 #' * `$packages` (`character()`) stores the names of required packages.
 #' * `$param_set()` ([paradox::ParamSet]) describes the available hyperparameter and possible settings.
-#' * `$param_vals()` (`named list()`) stores the list set hyperparameter values.
+#' * `$param_vals()` (named `list()`) stores the list set hyperparameter values.
 #' * `$properties` (`character()`) is a set of tags which describe the properties of the learner.
 #' * `$train()` takes a task and returns a model fitted on all observations.
 #' * `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.

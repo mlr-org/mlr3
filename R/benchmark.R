@@ -13,7 +13,7 @@
 #' @param measures (list of [Measure]):\cr
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the respective measures stored in `task`.
-#' @param ctrl (named list as returned by [mlr_control()]):\cr
+#' @param ctrl (named `list` as returned by [mlr_control()]):\cr
 #'   Object to control experiment execution. See [mlr_control()].
 #' @return [BenchmarkResult].
 #' @export

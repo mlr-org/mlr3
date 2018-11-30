@@ -43,7 +43,7 @@ Get the \code{i}-th training/test set.
 \item \code{$id} (\code{character(1)}) stores the identifier of the object.
 \item \code{$iters} (\code{integer(1)}) calculates the resulting number of iterations, given the current \code{param_vals}.
 \item \code{$param_set} (\code{\link[paradox:ParamSet]{paradox::ParamSet()}}) describes available parameters.
-\item \code{$param_vals} (\code{named list}) stores the currently set parameter values.
+\item \code{$param_vals} (named \code{list}) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.
 \item \code{$instantiate} materializes fixed training and test splits for a given task.
 \item \code{$is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
@@ -52,7 +52,7 @@ not work directly with it. Instead, use \code{$train_set()} and \code{$test_set(
 \item \code{$stratify} can be set to column names of the \link{Task} which will be used for stratification during instantiation.
 \item \code{$train_set()} returns the training set for the \code{i}-th iteration.
 \item \code{$test_set()} returns the test set for the \code{i}-th iteration.
-\item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id}, \code{param_vals} and the instantiation.
+\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{param_vals} and the instantiation.
 If the object is not instantiated yet, \code{NA} is returned.
 }
 }

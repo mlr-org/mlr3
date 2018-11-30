@@ -16,7 +16,7 @@ In addition to the interface of \link{Task}/\link{TaskSupervised}, this class im
 \section{Details}{
 
 \itemize{
-\item \code{$task_type} is \code{"regr"}
+\item \code{$task_type} is \code{"regr"}.
 }
 }
 

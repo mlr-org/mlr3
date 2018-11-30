@@ -39,7 +39,7 @@
 #'
 #' * `$param_set` ([paradox::ParamSet()]) describes available parameters.
 #'
-#' * `$param_vals` (`named list`) stores the currently set parameter values.
+#' * `$param_vals` (named `list`) stores the currently set parameter values.
 #'   You can set parameters by assigning a named list of new parameters to this slot.
 #'
 #' * `$instantiate` materializes fixed training and test splits for a given task.
@@ -55,7 +55,7 @@
 #'
 #' * `$test_set()` returns the test set for the `i`-th iteration.
 #'
-#' * `$hash` stores a checksum (`character(1)`) calculated on the `id`, `param_vals` and the instantiation.
+#' * `$hash` (`character(1)`) stores a checksum calculated on the `id`, `param_vals` and the instantiation.
 #'   If the object is not instantiated yet, `NA` is returned.
 #'
 #' @name Resampling

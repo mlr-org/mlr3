@@ -11,7 +11,7 @@
 #' ```
 #'
 #' @section Details:
-#' * `$task_type` is `"regr"`
+#' * `$task_type` is `"regr"`.
 #'
 #' @name TaskRegr
 #' @family Task

@@ -21,7 +21,7 @@ List of objects of type \link{Resampling}.}
 List of performance measures used to assess the predictive performance.
 Defaults to the respective measures stored in \code{task}.}
 
-\item{ctrl}{(named list as returned by \code{\link[=mlr_control]{mlr_control()}}):\cr
+\item{ctrl}{(named \code{list} as returned by \code{\link[=mlr_control]{mlr_control()}}):\cr
 Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}}.}
 }
 \value{

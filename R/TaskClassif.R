@@ -10,9 +10,10 @@
 #' # Construction
 #' t = TaskClassif$new(id, backend, target, positive = NULL)
 #' #
+#' t$task_type
 #' t$class_names
 #' t$class_n
-#' t$task_type
+#' t$all_classes
 #' ```
 #'
 #' @section Arguments:
@@ -20,9 +21,12 @@
 #'   Name of the "positive" class for binary classification problems.
 #'
 #' @section Details:
+#' * `$task_type` is `"classif"`.
 #' * `$class_names` returns all class labels of the rows which `role == "use"`.
 #' * `$class_n` returns the number of class labels of the rows which `role == "use"`.
-#' * `$task_type` is `"classif"`
+#' * `$all_classes` returns all class labels for the target column in the [DataBackend].
+#'   In contrast to `$class_names`, this is not restricted to the currently active rows.
+#'
 #'
 #' @name TaskClassif
 #' @family Task

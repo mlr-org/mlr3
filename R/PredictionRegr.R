@@ -20,11 +20,11 @@
 #'   Task used for prediction. Used to extract `row_ids` and `truth`.
 #'   Set to `NULL` to skip all argument checks during initialization.
 #'   Slots `p$row_ids` and `p$truth` need to be set manually in this case
-#' * `truth` (`numeric`):\cr
+#' * `truth` (`numeric()`):\cr
 #'   Numeric vector of true response.
-#' * `response` (`numeric`):\cr
+#' * `response` (`numeric()`):\cr
 #'   Numeric vector of predictions. One element for each observation in the test set.
-#' * `se` (`numeric`):\cr
+#' * `se` (`numeric()`):\cr
 #'   Numeric vector of predicted standard error. One element for each observation in the test set.
 #'
 #' @section Details:

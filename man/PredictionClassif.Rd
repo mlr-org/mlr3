@@ -25,9 +25,9 @@ as.data.table(p)
 Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
 Set to \code{NULL} to skip all argument checks during initialization.
 Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
-\item \code{response} (\code{factor} | \code{character}):\cr
+\item \code{response} (\code{factor()} | \code{character()}):\cr
 Vector of predicted class labels.
-\item \code{prob} (\link{matrix}):\cr
+\item \code{prob} (\code{matrix}):\cr
 Numeric matrix of class probabilities with one column for each class in \code{task$all_classes}
 and one row for each observation in the test set.
 }
