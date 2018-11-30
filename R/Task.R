@@ -73,15 +73,18 @@
 #'     which are held back unless explicitly addressed.
 #'   To alter the role, use `set_row_role()`.
 #'
-#' * `$col_info` (`data.table`) with columns `id`, `role` and `type`.
-#'   Stores column names of [DataBackend] in column `id`. Each column (feature)
+#' * `$col_roles` \[`list`\]. Each column (feature)
 #'   can have a specific mutually exclusive role in the learning task:
 #'   - `"feature"`: Regular feature.
 #'   - `"target"`: Column with target labels.
 #'   - `"ignore"`: Do not these features at all.
 #'   - `"primary_key"`: Name of the primary id column used in [DataBackend].
-#'   Column `type` stores the storage type of the variable, e.g. `integer`, `numeric` or `character`.
 #'   To alter the role, use `set_col_role()`.
+#'
+#' * `$col_info` (`data.table`) with columns `id`, and `type` and `levels`.
+#'   Stores column names of [DataBackend] in column `id`.
+#'   Column `type` stores the storage type of the variables, e.g. `integer`, `numeric` or `character`.
+#'   Column `levels` stores the levels for factor and character variables.
 #'
 #' * `$set_row_role()` overwrites the role for specified rows, referenced by row id.
 #'

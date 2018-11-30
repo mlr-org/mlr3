@@ -80,17 +80,19 @@ Subset of row ids to subset rows from the \link{DataBackend} using its primary k
 which are held back unless explicitly addressed.
 To alter the role, use \code{set_row_role()}.
 }
-\item \code{$col_info} (\code{data.table}) with columns \code{id}, \code{role} and \code{type}.
-Stores column names of \link{DataBackend} in column \code{id}. Each column (feature)
+\item \code{$col_roles} [\code{list}]. Each column (feature)
 can have a specific mutually exclusive role in the learning task:
 \itemize{
 \item \code{"feature"}: Regular feature.
 \item \code{"target"}: Column with target labels.
 \item \code{"ignore"}: Do not these features at all.
 \item \code{"primary_key"}: Name of the primary id column used in \link{DataBackend}.
-Column \code{type} stores the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
 To alter the role, use \code{set_col_role()}.
 }
+\item \code{$col_info} (\code{data.table}) with columns \code{id}, and \code{type} and \code{levels}.
+Stores column names of \link{DataBackend} in column \code{id}.
+Column \code{type} stores the storage type of the variables, e.g. \code{integer}, \code{numeric} or \code{character}.
+Column \code{levels} stores the levels for factor and character variables.
 \item \code{$set_row_role()} overwrites the role for specified rows, referenced by row id.
 \item \code{$set_col_role()} overwrites the role for specified columns.
 \item \code{$measures} is a list of \link{Measure} (performance measures) to use in this task.
