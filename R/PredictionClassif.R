@@ -68,6 +68,11 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
             rownames(prob) = row_ids
           self$prob = prob[, match(colnames(prob), classes), drop = FALSE]
         }
+
+        if (is.null(response) && !is.null(prob)) {
+          # calculate response from prob
+          response = factor(colnames(prob)[unname(apply(prob, 1L, which_max))], levels = classes)
+        }
       }
 
       self$response = response

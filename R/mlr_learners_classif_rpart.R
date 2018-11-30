@@ -26,8 +26,13 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
 
     predict = function(model, task, ...) {
       newdata = task$data(cols = task$feature_names)
-      response = as.character(predict(model, newdata = newdata, type = "class"))
-      prob = if (self$predict_type == "response") NULL else predict(model, newdata = newdata, type = "prob")
+      response = prob = NULL
+
+      if (self$predict_type == "response") {
+        response = as.character(predict(model, newdata = newdata, type = "class"))
+      } else if (self$predict_type == "prob") {
+        prob = predict(model, newdata = newdata, type = "prob")
+      }
 
       PredictionClassif$new(task, response, prob)
     }

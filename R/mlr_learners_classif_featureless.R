@@ -24,13 +24,15 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
 
     predict = function(model, task, method = "mode", ...) {
       n = task$nrow
-      response = switch(method,
-        mode = rep.int(sample(names(model[model == max(model)]), 1L), n),
-        sample = sample(names(model), n, replace = TRUE),
-        weighted.sample = sample(names(model), n, replace = TRUE, prob = model)
-      )
+      response = prob = NULL
 
-      if (self$predict_type == "prob") {
+      if (self$predict_type == "response") {
+        response = switch(method,
+          mode = rep.int(sample(names(model[model == max(model)]), 1L), n),
+          sample = sample(names(model), n, replace = TRUE),
+          weighted.sample = sample(names(model), n, replace = TRUE, prob = model)
+        )
+      } else if (self$predict_type == "prob") {
         prob = switch(method,
           mode = { tmp = (model == max(model)); tmp / sum(tmp) },
           sample = rep.int(1 / length(model), length(model)),
@@ -38,8 +40,6 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
         )
         prob = matrix(prob, nrow = n, ncol = length(model), byrow = TRUE)
         colnames(prob) = names(model)
-      } else {
-        prob = NULL
       }
 
       PredictionClassif$new(task, response = response, prob = prob)
