@@ -30,18 +30,27 @@ train_worker = function(e, ctrl) {
 
   if (ctrl$verbose)
     message(sprintf("Training learner '%s' on task '%s' ...", learner$id, task$id))
-  res = ecall(learner$train, pars, ctrl)
 
-  return(list(
-    model = res$result,
-    train_time = res$elapsed,
-    train_log = res$log
-  ))
+  res = setNames(ecall(learner$train, pars, ctrl),
+    c("model", "train_log", "train_time"))
+
+  if (!is.null(ctrl$fallback_learner) && res$train_log$has_condition("error")) {
+    res$fallback_learner = fb = assert_learner(ctrl$fallback_learner)
+    message(sprintf("Training fallback learner '%s' on task '%s' ...", fb$id, task$id))
+    require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
+    res$model = try(fb$train(task))
+    if (inherits(res$model, "try-error"))
+      stopf("Fallback learner '%s' failed during train", fb$id)
+  }
+
+  res
 }
 
 predict_worker = function(e, ctrl) {
   data = e$data
-  learner = data$learner
+  if (is.null(data$model))
+    return(NULL)
+  learner = data$fallback_learner %??% data$learner
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
@@ -49,19 +58,20 @@ predict_worker = function(e, ctrl) {
 
   if (ctrl$verbose)
     message(sprintf("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id))
-  res = ecall(learner$predict, pars, ctrl)
-  assert_class(res$result, "Prediction")
 
-  return(list(
-    prediction = res$result,
-    predict_time = res$elapsed,
-    predict_log = res$log
-  ))
+  res = setNames(ecall(learner$predict, pars, ctrl),
+    c("prediction", "predict_log", "predict_time"))
+  assert_class(res$prediction, "Prediction")
+
+  res
 }
 
 score_worker = function(e, ctrl) {
   data = e$data
   measures = data$measures
+  if (is.null(data$prediction)) {
+    return(list(performance = setNames(rep.int(NA_real_, length(measures)), ids(measures))))
+  }
   require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
 
   if (ctrl$verbose)
