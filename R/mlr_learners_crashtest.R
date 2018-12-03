@@ -8,8 +8,8 @@ LearnerClassifCrashtest = R6Class("LearnerClassifCrashtest", inherit = LearnerCl
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
-            ParamCategorical$new("crash.on", values = c("train", "predict"), default = "train"),
-            ParamCategorical$new("crash.mode", values = c("error", "segfault"), default = "error")
+            ParamCateg$new("crash.on", values = c("train", "predict"), default = "train"),
+            ParamCateg$new("crash.mode", values = c("error", "segfault"), default = "error")
           )
         ),
         param_vals = list(crash.on = "train", crash.mode = "error"),

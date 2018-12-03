@@ -9,6 +9,7 @@ Container object for machine learning experiments.
 \section{Usage}{
 \preformatted{# Construction
 e = Experiment$new(task, learner, ...)
+e$reset(new_state)
 # Stepwise execution
 e$train(subset)
 e$predict(subset, newdata)
@@ -36,6 +37,8 @@ e$data
 Task to conduct experiment on
 \item \code{learner} (\link{Learner}):\cr
 Learner to conduct experiment with.
+\item \code{new_state} (\code{character(1)}):\cr
+State to reset the experiment to. See details.
 \item \code{subset} (\code{integer()} | \code{character()}):\cr
 Subset of the task's row ids to work on.
 \item \code{newdata} (\code{\link[=data.frame]{data.frame()}}):\cr
@@ -50,6 +53,8 @@ Performance measure to use. Defaults to the measures set in the \link{Task}.
 \itemize{
 \item \code{$new()} initializes a new machine learning experiment which can grow in a stepwise fashion.
 \item \code{$task} and \code{$learner} can be used to access the \link{Task} and \link{Learner}.
+\item \code{$reset()} is used to reset the experiment to a specific state.
+Possible states are  \code{"defined"}, \code{"trained"}, \code{"predicted"}, and \code{"scored"}.
 \item \code{$train()} fits the induced \code{learner} on the (subset of the) \code{task} and internally stores the model.
 The model can be accessed via \code{e$model}.
 \item \code{$predict()} uses the previously fitted model to predict new observations.
@@ -62,7 +67,7 @@ and stores the resulting performance values. The performance can be accessed via
 Timings are \code{NA} if the respective step has not been performed yet.
 \item \code{$logs} creates a list with names \code{train} and \code{predict}.
 Both store an object of class \link{Log} if logging of the learner has been enabled via \code{\link[=mlr_control]{mlr_control()}}, and are \code{NULL} if logging was disabled or the respective step has not been performed yet.
-\item \code{$state} (\code{ordered(1)}) returns returns the state of the experiment: \code{"defined"}, \code{"trained"}, \code{"predicted"}, or \code{"scored"}.
+\item \code{$state} (\code{ordered(1)}) returns the state of the experiment: \code{"defined"}, \code{"trained"}, \code{"predicted"}, or \code{"scored"}.
 \item \code{$data} stores the internal representation of an Experiment as a \code{named list} with the following slots:
 \itemize{
 \item task (\link{Task}).

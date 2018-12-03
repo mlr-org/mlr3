@@ -8,6 +8,7 @@
 #' ```
 #' # Construction
 #' e = Experiment$new(task, learner, ...)
+#' e$reset(new_state)
 #' # Stepwise execution
 #' e$train(subset)
 #' e$predict(subset, newdata)
@@ -32,6 +33,8 @@
 #'   Task to conduct experiment on
 #' * `learner` ([Learner]):\cr
 #'   Learner to conduct experiment with.
+#' * `new_state` (`character(1)`):\cr
+#'   State to reset the experiment to. See details.
 #' * `subset` (`integer()` | `character()`):\cr
 #'   Subset of the task's row ids to work on.
 #' * `newdata` ([data.frame()]):\cr
@@ -43,6 +46,9 @@
 #' * `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
 #'
 #' * `$task` and `$learner` can be used to access the [Task] and [Learner].
+#'
+#' * `$reset()` is used to reset the experiment to a specific state.
+#'   Possible states are  `"defined"`, `"trained"`, `"predicted"`, and `"scored"`.
 #'
 #' * `$train()` fits the induced `learner` on the (subset of the) `task` and internally stores the model.
 #'   The model can be accessed via `e$model`.
@@ -63,7 +69,7 @@
 #' * `$logs` creates a list with names `train` and `predict`.
 #'   Both store an object of class [Log] if logging of the learner has been enabled via [mlr_control()], and are `NULL` if logging was disabled or the respective step has not been performed yet.
 #'
-#' * `$state` (`ordered(1)`) returns returns the state of the experiment: `"defined"`, `"trained"`, `"predicted"`, or `"scored"`.
+#' * `$state` (`ordered(1)`) returns the state of the experiment: `"defined"`, `"trained"`, `"predicted"`, or `"scored"`.
 #'
 #' * `$data` stores the internal representation of an Experiment as a `named list` with the following slots:
 #'   * task ([Task]).
@@ -108,7 +114,6 @@
 #'
 #' e$train_set
 #' e$test_set
-#' # e$timings
 NULL
 
 Experiment = R6Class("Experiment",
@@ -119,6 +124,7 @@ Experiment = R6Class("Experiment",
       self$data = named_list(mlr_reflections$experiment_slots$name)
       self$data$task = assert_task(task)
       self$data$learner = assert_learner(learner, task = task)
+      self$data$state = as_experiment_state("defined")
       if (...length()) {
         dots = list(...)
         assert_names(names(dots), type = "unique", subset.of = names(self$data))
@@ -148,6 +154,14 @@ Experiment = R6Class("Experiment",
 
     score = function(measures = NULL, ctrl = mlr_control()) {
       experiment_score(self, measures, ctrl = ctrl)
+      invisible(self)
+    },
+
+    reset = function(new_state) {
+      new_state = as_experiment_state(new_state)
+      reset = mlr_reflections$experiment_slots[get("state") > new_state, "name", with = FALSE][[1L]]
+      self$data = insert_named(self$data, named_list(reset))
+      self$data$state = new_state
       invisible(self)
     }
   ),
@@ -217,7 +231,7 @@ Experiment = R6Class("Experiment",
     },
 
     state = function() {
-      experiment_state(self)
+      self$data$state
     },
 
     hash = function() {
@@ -247,7 +261,7 @@ experiment_print = function(e) {
     }
   }
 
-  catf("Experiment [%s]:", if (e$state == "scored") "complete" else "incomplete")
+  catf("Experiment [%s (%s)]:", e$state, if (e$state == "scored") "complete" else "incomplete")
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
   catf(fmt(data$model, "Model", sprintf("[%s]", class(data$model)[[1L]])))
@@ -269,8 +283,8 @@ experiment_train = function(e, row_ids, ctrl = mlr_control()) {
     debug("Running train_worker()")
     value = train_worker(e, ctrl = ctrl)
   }
+  e$reset("trained")
   e$data = insert_named(e$data, value)
-  e$data = insert_named(e$data, named_list(mlr_reflections$experiment_slots[get("state") > "trained", "name"][[1L]]))
   return(e)
 }
 
@@ -293,8 +307,8 @@ experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = mlr_cont
     debug("Running predict_worker()")
     value = predict_worker(e, ctrl = ctrl)
   }
+  e$reset("predicted")
   e$data = insert_named(e$data, value)
-  e$data = insert_named(e$data, named_list(mlr_reflections$experiment_slots[get("state") > "predicted", "name"][[1L]]))
   return(e)
 }
 
@@ -310,20 +324,9 @@ experiment_score = function(e, measures = NULL, ctrl = mlr_control()) {
     value = score_worker(e, ctrl = ctrl)
   }
 
+  e$reset("scored")
   e$data = insert_named(e$data, value)
   return(e)
-}
-
-experiment_state = function(self) {
-  d = self$data
-  states = levels(mlr_reflections$experiment_slots$state)
-  if (!is.null(d$score_time))
-    return(ordered("scored", levels = states))
-  if (!is.null(d$predict_time))
-    return(ordered("predicted", levels = states))
-  if (!is.null(d$train_time))
-    return(ordered("trained", levels = states))
-  return(ordered("defined", levels = states))
 }
 
 combine_experiments = function(x) {
@@ -334,4 +337,10 @@ combine_experiments = function(x) {
     exp[encapsulate] = lapply(exp[encapsulate], list)
     exp
   })
+}
+
+as_experiment_state = function(state) {
+  states = levels(mlr_reflections$experiment_slots$state)
+  assert_choice(state, states)
+  ordered(state, levels = states)
 }
