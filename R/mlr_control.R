@@ -33,17 +33,21 @@
 mlr_control = function(...) {
   opts = mlr_options()
   names(opts) = substr(names(opts), 6L, 255L)
-  ec = insert_named(mlr_reflections$default_mlr_control, opts)
-  if (...length()) {
-    opts = assert_list(list(...), names = "unique")
+  ctrl = insert_named(mlr_reflections$default_mlr_control, opts)
 
-    ii = wf(names(opts) %nin% names(ec))
+  dots = list(...)
+  if (length(dots) > 0L) {
+    if (length(dots) == 1L && is.null(names(dots)) && is.list(dots[[1L]]))
+      dots = dots[[1L]]
+    assert_names(names(dots), "unique")
+
+    ii = wf(names(dots) %nin% names(ctrl))
     if (length(ii))
-      stopf("Unknown option '%s'!%s", names(opts)[ii], did_you_mean(names(opts)[ii], names(ec)))
-
-    ec = insert_named(ec, opts)
+      stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
+    ctrl = insert_named(ctrl, dots)
   }
-  ec
+
+  ctrl
 }
 
 use_future = function(ctrl = NULL) {
