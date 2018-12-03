@@ -4,7 +4,7 @@ is_empty_log = function(log) { test_data_table(log$messages, nrow = 0L, ncol = 2
 disabled = mlr_control(use_future = FALSE, error_handling = "off")
 enabled = mlr_control(use_future = FALSE, error_handling = "catch", verbose = FALSE)
 task = mlr_tasks$get("iris")
-learner = mlr_learners$get("classif.verbose")
+learner = get_verbose_learner()
 learner$param_vals = list(message = TRUE, warning = TRUE)
 
 test_that("evaluate / experiment", {
