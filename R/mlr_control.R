@@ -31,7 +31,9 @@
 #' # enable debuging
 #' mlr_control(debug = TRUE)
 mlr_control = function(...) {
-  ec = insert_named(mlr_reflections$default_mlr_control, mlr_options())
+  opts = mlr_options()
+  names(opts) = substr(names(opts), 6L, 255L)
+  ec = insert_named(mlr_reflections$default_mlr_control, opts)
   if (...length()) {
     opts = assert_list(list(...), names = "unique")
 

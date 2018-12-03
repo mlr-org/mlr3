@@ -4,10 +4,14 @@
 \alias{mlr_options}
 \title{Options for mlr3}
 \usage{
-mlr_options()
+mlr_options(...)
+}
+\arguments{
+\item{...}{: Named arguments to set. Alternatively, you can also provide a single list of named arguments
+(similar to \code{\link[=options]{options()}}).}
 }
 \value{
-(named \code{list}). Currently set options (without the prefix \code{"mlr3."}).
+(named \code{list}). Currently set options specific to mlr3.
 }
 \description{
 The following options are currently supported by \pkg{mlr3}:
@@ -21,4 +25,6 @@ Explicitly disabling this simplifies debugging.
 \examples{
 # get a list of currently set options (without the prefix)
 mlr_options()
+old = mlr_options(mlr3.debug = TRUE)
+mlr_options(old)
 }
