@@ -63,7 +63,7 @@
 #' * `$logs` creates a list with names `train` and `predict`.
 #'   Both store an object of class [Log] if logging of the learner has been enabled via [mlr_control()], and are `NULL` if logging was disabled or the respective step has not been performed yet.
 #'
-#' * `$state` returns an factor of length 1 with ordered levels `"defined"`, `"trained"`, `"predicted"` and `"scored"`.
+#' * `$state` (`ordered(1)`) returns returns the state of the experiment: `"defined"`, `"trained"`, `"predicted"`, or `"scored"`.
 #'
 #' * `$data` stores the internal representation of an Experiment as a `named list` with the following slots:
 #'   * task ([Task]).
@@ -317,11 +317,11 @@ experiment_score = function(e, measures = NULL, ctrl = mlr_control()) {
 experiment_state = function(self) {
   d = self$data
   states = levels(mlr_reflections$experiment_slots$state)
-  if (!is.null(d$performance))
+  if (!is.null(d$score_time))
     return(ordered("scored", levels = states))
-  if (!is.null(d$prediction))
+  if (!is.null(d$predict_time))
     return(ordered("predicted", levels = states))
-  if (!is.null(d$model))
+  if (!is.null(d$train_time))
     return(ordered("trained", levels = states))
   return(ordered("defined", levels = states))
 }

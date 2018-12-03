@@ -1,5 +1,6 @@
 #' @title Reflections for mlr3
-#' @description Environment which stores various information for reflections. @keywords internal
+#' @description Environment which stores various information for reflections.
+#' @keywords internal
 #' @export
 #' @examples
 #' ls.str(mlr_reflections)
@@ -42,10 +43,10 @@ mlr_reflections$predict_types = list(
 )
 
 mlr_reflections$experiment_slots = data.table(
-  name =   c("task",    "learner", "resampling", "iteration", "fallback_learner", "model",       "train_log",  "train_time", "predict_log", "predict_time", "prediction", "measures", "performance", "score_time"),
-  type =   c("Task",    "Learner", "Resampling", "integer",   "Learner",          NA_character_, "data.table", "numeric",    "data.table",  "numeric",      "data.table", "list",     "list",        "numeric"),
-  atomic = c(FALSE,     FALSE,     FALSE,        TRUE,        FALSE,              FALSE,         FALSE,        TRUE,         FALSE,         TRUE,           FALSE,        FALSE,      FALSE,         TRUE),
-  state =  c("defined", "defined", "trained",    "trained",   "trained",          "trained",     "trained",    "trained",    "predicted",   "predicted",    "predicted",  "scored",   "scored",      "scored")
+  name =   c("task",    "learner", "resampling", "iteration", "model",       "fallback", "train_log",  "train_time", "predict_log", "predict_time", "prediction", "measures", "performance", "score_time"),
+  type =   c("Task",    "Learner", "Resampling", "integer",   NA_character_, "Learner",  "data.table", "numeric",    "data.table",  "numeric",      "data.table", "list",     "list",        "numeric"),
+  atomic = c(FALSE,     FALSE,     FALSE,        TRUE,        FALSE,         FALSE,      FALSE,        TRUE,         FALSE,         TRUE,           FALSE,        FALSE,      FALSE,         TRUE),
+  state =  c("defined", "defined", "trained",    "trained",   "trained",     "trained",  "trained",    "trained",    "predicted",   "predicted",    "predicted",  "scored",   "scored",      "scored")
 )
 
 mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = c("defined", "trained", "predicted", "scored"))

@@ -34,8 +34,13 @@ train_worker = function(e, ctrl) {
   res = setNames(ecall(learner$train, pars, ctrl),
     c("model", "train_log", "train_time"))
 
-  if (!is.null(ctrl$fallback_learner) && res$train_log$has_condition("error")) {
-    res$fallback_learner = fb = assert_learner(ctrl$fallback_learner)
+  if (!is.null(ctrl$fallback_learner)) {
+    # we always fit a fallback learner to be able to deal with models which fail to predict.
+    fb = ctrl$fallback_learner
+    res$fallback = list(
+      learner = assert_learner(fb),
+      model = NULL
+    )
     message(sprintf("Training fallback learner '%s' on task '%s' ...", fb$id, task$id))
     require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
     res$model = try(fb$train(task))
