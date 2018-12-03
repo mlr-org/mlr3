@@ -81,24 +81,3 @@ system.time(
   benchmark(tasks, learners, resamplings)
 )[3L]
 ```
-
-# Running learners in a fail-safe way
-
-With future as backend, it is also possible to run learners in an isolated R session.
-If the learner crashed, e.g. with a SEGFAULT, it does not tear down the master session.
-Here is a small example where a single model fit is executed in an independent R session.
-
-```{r, eval=FALSE}
-library("future.callr")
-plan("callr")
-
-e = Experiment$new(
-  task = mlr_tasks$get("spam"),
-  learner = mlr_learners$get("classif.crashtest")
-)
-
-e$train()
-```
-
-Of course, this also works for resampling and benchmarking.
-Nested parallelization is not yet implemented in `mlr3`, although `future` already supports it.
