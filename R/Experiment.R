@@ -236,8 +236,8 @@ experiment_data_hash = function(data) {
   digest::digest(c(data$task$hash, data$learner$hash, data$resampling$hash), algo = "xxhash64")
 }
 
-experiment_print = function(e) {
-  data = e$data
+experiment_print = function(self) {
+  data = self$data
 
   fmt = function(x, obj, info) {
     if (is.null(x)) {
@@ -247,72 +247,72 @@ experiment_print = function(e) {
     }
   }
 
-  catf("Experiment [%s (%s)]:", e$state, if (e$state == "scored") "complete" else "incomplete")
+  catf("Experiment [%s (%s)]:", self$state, if (self$state == "scored") "complete" else "incomplete")
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
   catf(fmt(data$model, "Model", sprintf("[%s]", class(data$model)[[1L]])))
   catf(fmt(data$prediction, "Predictions", sprintf("[%s]", class(data$prediction)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
-  catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(e), c("initialize", "print"))))
+  catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
 }
 
 
-experiment_train = function(e, row_ids, ctrl = mlr_control()) {
-  e$data$resampling = ResamplingCustom$new()$instantiate(e$data$task, train_sets = list(row_ids))
-  e$data$iteration = 1L
+experiment_train = function(self, row_ids, ctrl = mlr_control()) {
+  self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
+  self$data$iteration = 1L
 
   if (use_future(ctrl)) {
     debug("Running train_worker() via futureCall()")
-    value = future::futureCall(train_worker, list(e = e, ctrl = ctrl), globals = FALSE, packages = "mlr3")
+    value = future::futureCall(train_worker, list(e = self, ctrl = ctrl), globals = FALSE, packages = "mlr3")
     value = future::value(value)
   } else {
     debug("Running train_worker()")
-    value = train_worker(e, ctrl = ctrl)
+    value = train_worker(self, ctrl = ctrl)
   }
-  experiment_set_state(e, "trained")
-  e$data = insert_named(e$data, value)
-  return(e)
+  experiment_set_state(self, "trained")
+  self$data = insert_named(self$data, value)
+  return(self)
 }
 
-experiment_predict = function(e, row_ids = NULL, newdata = NULL, ctrl = mlr_control()) {
+experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = mlr_control()) {
   if (!is.null(row_ids) && !is.null(newdata))
     stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
 
   if (is.null(newdata)) {
-    e$data$resampling$instantiate(e$data$task, test_sets = list(row_ids))
+    self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
   } else {
-    e$data$task = e$data$task$clone()$rbind(newdata)
-    row_ids = e$validation_set
+    self$data$task = self$data$task$clone()$rbind(newdata)
+    row_ids = self$validation_set
   }
 
   if (use_future(ctrl)) {
     debug("Running predict_worker() via futureCall()")
-    value = future::futureCall(predict_worker, list(e = e, ctrl = ctrl), globals = FALSE, packages = "mlr3")
+    value = future::futureCall(predict_worker, list(e = self, ctrl = ctrl), globals = FALSE, packages = "mlr3")
     value = future::value(value)
   } else {
     debug("Running predict_worker()")
-    value = predict_worker(e, ctrl = ctrl)
+    value = predict_worker(self, ctrl = ctrl)
   }
-  experiment_set_state(e, "predicted")
-  e$data = insert_named(e$data, value)
-  return(e)
+  experiment_set_state(self, "predicted")
+  self$data = insert_named(self$data, value)
+  return(self)
 }
 
-experiment_score = function(e, measures = NULL, ctrl = mlr_control()) {
-  e$data$measures = assert_measures(measures %??% e$data$task$measures, task = e$task, learner = e$learner)
+experiment_score = function(self, measures = NULL, ctrl = mlr_control()) {
+  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, learner = self$learner)
 
   if (use_future(ctrl)) {
     debug("Running score_worker() via futureCall()")
-    value = future::futureCall(score_worker, list(e = e, ctrl = ctrl), globals = FALSE, packages = "mlr3")
+    value = future::futureCall(score_worker, list(e = self, ctrl = ctrl), globals = FALSE, packages = "mlr3")
     value = future::value(value)
   } else {
     debug("Running score_worker()")
-    value = score_worker(e, ctrl = ctrl)
+    value = score_worker(self, ctrl = ctrl)
   }
 
-  experiment_set_state(e, "scored")
-  e$data = insert_named(e$data, value)
-  return(e)
+  experiment_set_state(self, "scored")
+  self$data = insert_named(self$data, value)
+  return(self)
 }
 
 combine_experiments = function(x) {
@@ -328,7 +328,6 @@ combine_experiments = function(x) {
 experiment_set_state = function(self, new_state) {
   new_state = as_experiment_state(new_state)
   reset = mlr_reflections$experiment_slots[get("state") > new_state, "name", with = FALSE][[1L]]
-  mlr_reflections$experiment_slots[get("state") > new_state]
   self$data = insert_named(self$data, named_list(reset))
   self$data$state = new_state
   invisible(self)

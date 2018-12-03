@@ -9,7 +9,6 @@ Container object for machine learning experiments.
 \section{Usage}{
 \preformatted{# Construction
 e = Experiment$new(task, learner, ...)
-e$reset(new_state)
 # Stepwise execution
 e$train(subset)
 e$predict(subset, newdata)
@@ -37,8 +36,6 @@ e$data
 Task to conduct experiment on
 \item \code{learner} (\link{Learner}):\cr
 Learner to conduct experiment with.
-\item \code{new_state} (\code{character(1)}):\cr
-State to reset the experiment to. See details.
 \item \code{subset} (\code{integer()} | \code{character()}):\cr
 Subset of the task's row ids to work on.
 \item \code{newdata} (\code{\link[=data.frame]{data.frame()}}):\cr
@@ -53,8 +50,6 @@ Performance measure to use. Defaults to the measures set in the \link{Task}.
 \itemize{
 \item \code{$new()} initializes a new machine learning experiment which can grow in a stepwise fashion.
 \item \code{$task} and \code{$learner} can be used to access the \link{Task} and \link{Learner}.
-\item \code{$reset()} is used to reset the experiment to a specific state.
-Possible states are  \code{"defined"}, \code{"trained"}, \code{"predicted"}, and \code{"scored"}.
 \item \code{$train()} fits the induced \code{learner} on the (subset of the) \code{task} and internally stores the model.
 The model can be accessed via \code{e$model}.
 \item \code{$predict()} uses the previously fitted model to predict new observations.
@@ -113,5 +108,4 @@ e$performance
 
 e$train_set
 e$test_set
-# e$timings
 }
