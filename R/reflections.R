@@ -60,8 +60,8 @@ mlr_reflections$default_mlr_options = list(
 )
 
 mlr_reflections$default_mlr_control = list(
-  use_evaluate = FALSE,
   store_model = TRUE,
   store_prediction = TRUE,
+  error_handling = "off",
   fallback_learner = NULL
 )

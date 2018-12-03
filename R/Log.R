@@ -37,7 +37,7 @@
 #'  task = mlr_tasks$get("sonar"),
 #'  learner = mlr_learners$get("classif.crashtest")
 #' )
-#' e$train(ctrl = mlr_control(use_evaluate = TRUE))
+#' e$train(ctrl = mlr_control(error_handling = "catch"))
 #' log = e$logs$train
 #'
 #' log$is_empty

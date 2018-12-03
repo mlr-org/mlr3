@@ -34,18 +34,17 @@ train_worker = function(e, ctrl) {
   res = setNames(ecall(learner$train, pars, ctrl),
     c("model", "train_log", "train_time"))
 
-  if (!is.null(ctrl$fallback_learner)) {
-    # we always fit a fallback learner to be able to deal with models which fail to predict.
-    fb = ctrl$fallback_learner
-    res$fallback = list(
-      learner = assert_learner(fb),
-      model = NULL
-    )
+  if (ctrl$error_handling == "fallback" || (ctrl$error_handling == "fallback_train" && res$train_log$has_condition("error"))) {
+    fb = assert_learner(ctrl$fallback_learner)
     message(sprintf("Training fallback learner '%s' on task '%s' ...", fb$id, task$id))
     require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
-    res$model = try(fb$train(task))
-    if (inherits(res$model, "try-error"))
+    fb_model = try(fb$train(task))
+    if (inherits(fb_model, "try-error"))
       stopf("Fallback learner '%s' failed during train", fb$id)
+    res$fallback = list(
+      learner = fb,
+      model = fb_model
+    )
   }
 
   res
@@ -53,9 +52,13 @@ train_worker = function(e, ctrl) {
 
 predict_worker = function(e, ctrl) {
   data = e$data
-  if (is.null(data$model))
-    return(NULL)
-  learner = data$fallback_learner %??% data$learner
+  if (is.null(data$model)) {
+    if (is.null(data$fallback))
+      return(list(predict_time = 0))
+    data$learner = data$fallback$learner
+    data$model = data$fallback$model
+  }
+  learner = data$learner
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
@@ -75,7 +78,12 @@ score_worker = function(e, ctrl) {
   data = e$data
   measures = data$measures
   if (is.null(data$prediction)) {
-    return(list(performance = setNames(rep.int(NA_real_, length(measures)), ids(measures))))
+    perf = if (ctrl$error_handling == "impute_worst") {
+      map_dbl(map(measures, "range"), 2L) # FIXME: purrr
+    } else {
+      rep.int(NA_real_, length(measures))
+    }
+    return(list(score_time = 0, performance = setNames(perf, ids(measures))))
   }
   require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
 
