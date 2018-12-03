@@ -9,9 +9,9 @@
 mlr_reflections
 }
 \description{
-Environment which stores various information for reflections. @keywords internal
+Environment which stores various information for reflections.
 }
 \examples{
 ls.str(mlr_reflections)
 }
-\keyword{datasets}
+\keyword{internal}
