@@ -79,7 +79,7 @@ score_worker = function(e, ctrl) {
   measures = data$measures
   if (is.null(data$prediction)) {
     perf = if (ctrl$error_handling == "impute_worst") {
-      map_dbl(measures, list("range", 2L))
+      map_dbl(measures, function(x) x$range[2L])
     } else {
       rep.int(NA_real_, length(measures))
     }
