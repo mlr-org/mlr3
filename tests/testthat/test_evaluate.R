@@ -1,8 +1,8 @@
 context("evaluate")
 
 is_empty_log = function(log) { test_data_table(log$messages, nrow = 0L, ncol = 2L) && test_factor(log$messages$class, levels = mlr_reflections$log_classes) }
-disabled = mlr_control(use_future = FALSE, error_handling = "off")
-enabled = mlr_control(use_future = FALSE, error_handling = "catch", verbose = FALSE)
+disabled = mlr_control(use_future = FALSE, use_evaluate = FALSE)
+enabled = mlr_control(use_future = FALSE, use_evaluate = TRUE, verbose = FALSE)
 task = mlr_tasks$get("iris")
 learner = get_verbose_learner()
 learner$param_vals = list(message = TRUE, warning = TRUE)

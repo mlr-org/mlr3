@@ -42,14 +42,16 @@ mlr_reflections$predict_types = list(
   regr    = c("response", "se")
 )
 
+mlr_reflections$experiment_states = c("defined", "trained", "predicted", "scored")
+
 mlr_reflections$experiment_slots = data.table(
-  name =   c("state",   "task",    "learner", "resampling", "iteration", "model",       "fallback", "train_log",  "train_time", "predict_log", "predict_time", "prediction", "measures", "performance", "score_time"),
-  type =   c("ordered", "Task",    "Learner", "Resampling", "integer",   NA_character_, "Learner",  "data.table", "numeric",    "data.table",  "numeric",      "data.table", "list",     "list",        "numeric"),
-  atomic = c(TRUE,      FALSE,     FALSE,     FALSE,        TRUE,        FALSE,         FALSE,      FALSE,        TRUE,         FALSE,         TRUE,           FALSE,        FALSE,      FALSE,         TRUE),
-  state =  c("defined", "defined", "defined", "trained",    "trained",   "trained",     "trained",  "trained",    "trained",    "predicted",   "predicted",    "predicted",  "scored",   "scored",      "scored")
+  name =   c("task",    "learner", "resampling", "iteration", "model",       "train_log",  "train_time", "predict_log", "predict_time", "prediction", "measures", "performance", "score_time"),
+  type =   c("Task",    "Learner", "Resampling", "integer",   NA_character_, "data.table", "numeric",    "data.table",  "numeric",      "data.table", "list",     "list",        "numeric"),
+  atomic = c(FALSE,     FALSE,     FALSE,        TRUE,        FALSE,         FALSE,        TRUE,         FALSE,         TRUE,           FALSE,        FALSE,      FALSE,         TRUE),
+  state =  c("defined", "defined", "trained",    "trained",   "trained",     "trained",    "trained",    "predicted",   "predicted",    "predicted",  "scored",   "scored",      "scored")
 )
 
-mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = c("defined", "trained", "predicted", "scored"))
+mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = mlr_reflections$experiment_states)
 
 mlr_reflections$log_classes = c("output", "message", "warning", "error")
 
@@ -62,6 +64,5 @@ mlr_reflections$default_mlr_options = list(
 mlr_reflections$default_mlr_control = list(
   store_model = TRUE,
   store_prediction = TRUE,
-  error_handling = "off",
-  fallback_learner = NULL
+  use_evaluate = FALSE
 )

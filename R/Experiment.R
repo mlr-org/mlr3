@@ -118,7 +118,6 @@ Experiment = R6Class("Experiment",
       self$data = named_list(mlr_reflections$experiment_slots$name)
       self$data$task = assert_task(task)
       self$data$learner = assert_learner(learner, task = task)
-      self$data$state = as_experiment_state("defined")
       if (...length()) {
         dots = list(...)
         assert_names(names(dots), type = "unique", subset.of = names(self$data))
@@ -217,7 +216,7 @@ Experiment = R6Class("Experiment",
     },
 
     state = function() {
-      self$data$state
+      experiment_state(self)
     },
 
     hash = function() {
@@ -269,9 +268,8 @@ experiment_train = function(self, row_ids, ctrl = mlr_control()) {
     debug("Running train_worker()")
     value = train_worker(self, ctrl = ctrl)
   }
-  experiment_set_state(self, "trained")
   self$data = insert_named(self$data, value)
-  return(self)
+  return(experiment_reset_state(self, "trained"))
 }
 
 experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = mlr_control()) {
@@ -293,9 +291,8 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = mlr_c
     debug("Running predict_worker()")
     value = predict_worker(self, ctrl = ctrl)
   }
-  experiment_set_state(self, "predicted")
   self$data = insert_named(self$data, value)
-  return(self)
+  return(experiment_reset_state(self, "predicted"))
 }
 
 experiment_score = function(self, measures = NULL, ctrl = mlr_control()) {
@@ -310,7 +307,6 @@ experiment_score = function(self, measures = NULL, ctrl = mlr_control()) {
     value = score_worker(self, ctrl = ctrl)
   }
 
-  experiment_set_state(self, "scored")
   self$data = insert_named(self$data, value)
   return(self)
 }
@@ -325,16 +321,21 @@ combine_experiments = function(x) {
   })
 }
 
-experiment_set_state = function(self, new_state) {
-  new_state = as_experiment_state(new_state)
-  reset = mlr_reflections$experiment_slots[get("state") > new_state, "name", with = FALSE][[1L]]
-  self$data = insert_named(self$data, named_list(reset))
-  self$data$state = new_state
-  invisible(self)
+experiment_state = function(self) {
+  as_state = function(state) ordered(state, levels = mlr_reflections$experiment_states)
+  d = self$data
+
+  if (!is.null(d$performance))
+    return(as_state("scored"))
+  if (!is.null(d$prediction))
+    return(as_state("predicted"))
+  if (!is.null(d$model))
+    return(as_state("trained"))
+  return(as_state("defined"))
 }
 
-as_experiment_state = function(state) {
-  states = levels(mlr_reflections$experiment_slots$state)
-  assert_choice(state, states)
-  ordered(state, levels = states)
+experiment_reset_state = function(self, new_state) {
+  slots = mlr_reflections$experiment_slots[get("state") > new_state, "name", with = FALSE][[1L]]
+  self$data[slots] = list(NULL)
+  self
 }

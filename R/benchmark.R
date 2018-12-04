@@ -99,7 +99,6 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_c
 
   res = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], measures = measures[grid$task], hash = grid$hash)
   ref_cbind(res, combine_experiments(tmp))
-  res$state = as_experiment_state("scored")
 
   BenchmarkResult$new(res)
 }

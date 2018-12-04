@@ -16,21 +16,7 @@ It contains all options (see \code{\link[=mlr_options]{mlr_options()}}) without 
 \item \code{store_model}: If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
 \item \code{store_prediction}: If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
-Note that you will be unable calculate more performance measures.
-\item \code{error_handling}: How to deal with models raising exceptions during \code{train} or \code{predict}?
-\itemize{
-\item \code{"off"} (default). An exception is raised, stopping the execution.
-\item \code{"catch"}. Exceptions are caught and logged. There will be no predictions available, and the performance will be \code{NA}.
-All output is stored in the \link{Experiment} as a \link{Log}.
-\item \code{"impute_worst"}. This is similar to the \code{"catch"} approach, but instead of predicting \code{NA}, the worst
-possible performance is predicted.
-\item \code{"fallback_train"}. If the learner fails to fit a model during train, fit a fallback model, e.g. with a featureless learner.
-The fallback learner is in this case used to generate predictions which are then scored.
-Note that this mechanism does not guard you from models which successfully train, but raise exceptions during predict.
-This would result in missing predictions and \code{NA} scores.
-\item \code{"fallback"}. Always fit a fallback model and use it if the learner fails to train or predict.
-}
-\item \code{fallback_learner}: If \code{"error_handling"} is set to \code{"fallback_train"} or \code{"fallback"}, use this learner as fallback learner.
+\item \code{use_evaluate}: Capture output via \pkg{evaluate} and store it as log.
 }
 }
 \examples{
