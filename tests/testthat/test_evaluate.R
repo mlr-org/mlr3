@@ -1,10 +1,10 @@
 context("evaluate")
 
 is_empty_log = function(log) { test_data_table(log$messages, nrow = 0L, ncol = 2L) && test_factor(log$messages$class, levels = mlr_reflections$log_classes) }
-disabled = mlr_control(use_future = FALSE, use_evaluate = FALSE)
-enabled = mlr_control(use_future = FALSE, use_evaluate = TRUE, verbose = FALSE)
+disabled = mlr_control(use_future = FALSE, error_handling = "off")
+enabled = mlr_control(use_future = FALSE, error_handling = "catch", verbose = FALSE)
 task = mlr_tasks$get("iris")
-learner = mlr_learners$get("classif.verbose")
+learner = get_verbose_learner()
 learner$param_vals = list(message = TRUE, warning = TRUE)
 
 test_that("evaluate / experiment", {
@@ -48,8 +48,8 @@ test_that("evaluate / resample", {
   resampling$param_vals = list(folds = 3)
 
   rr = expect_warning(resample(task, learner, resampling, ctrl = disabled))
-  expect_true(all(map_lgl(rr$data$train_log$messages, is_empty_log)))
-  expect_true(all(map_lgl(rr$data$predict_log$messages, is_empty_log)))
+  expect_true(every(rr$data$train_log$messages, is_empty_log))
+  expect_true(every(rr$data$predict_log$messages, is_empty_log))
 
   rr = expect_silent(resample(task, learner, resampling, ctrl = enabled))
   lapply(rr$data$train_log$messages, expect_data_table, , nrow = 2L, ncol = 2L, any.missing = FALSE)

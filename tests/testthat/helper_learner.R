@@ -1,12 +1,12 @@
-if (!mlr_learners$has("classif.verbose")) {
+get_verbose_learner = function() {
   LearnerClassifVerbose = R6::R6Class("LearnerClassifVerbose", inherit = LearnerClassifDummy,
     public = list(
       initialize = function(id = "classif.verbose") {
         super$initialize(id = id)
         self$param_set = paradox::ParamSet$new(
             params = list(
-              paradox::ParamFlag$new("message"),
-              paradox::ParamFlag$new("warning")
+              paradox::ParamLgl$new("message"),
+              paradox::ParamLgl$new("warning")
             )
           )
       },
@@ -29,5 +29,5 @@ if (!mlr_learners$has("classif.verbose")) {
     )
   )
 
-  mlr_learners$add("classif.verbose", LearnerClassifVerbose)
+  LearnerClassifVerbose$new()
 }

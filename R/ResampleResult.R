@@ -123,7 +123,7 @@ ResampleResult = R6Class("ResampleResult",
 
     aggregated = function() {
       measures = self$measures$measure
-      setNames(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
+      set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
     },
 
     hash = function() {

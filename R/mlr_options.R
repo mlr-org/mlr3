@@ -8,14 +8,30 @@
 #' * `mlr3.use_future`: Set to `FALSE` to disable parallelization via \pkg{future}.
 #'   Explicitly disabling this simplifies debugging.
 #'
-#' @return (named `list`). Currently set options (without the prefix `"mlr3."`).
+#' @param ... : Named arguments to set. Alternatively, you can also provide a single list of named arguments
+#'   (similar to [options()]).
+#'
+#' @return (named `list`). Currently set options specific to mlr3.
 #'
 #' @export
 #' @examples
 #' # get a list of currently set options (without the prefix)
 #' mlr_options()
-mlr_options = function() {
+#' old = mlr_options(mlr3.debug = TRUE)
+#' mlr_options(old)
+mlr_options = function(...) {
   opts = .Options[startsWith(names(.Options), "mlr3.")]
-  names(opts) = substr(names(opts), 6L, 100L)
-  opts
+
+  dots = list(...)
+  if (length(dots) > 0L) {
+    if (length(dots) == 1L && is.null(names(dots)) && is.list(dots[[1L]]))
+      dots = dots[[1L]]
+    assert_names(names(dots), "unique")
+
+    if (!all(startsWith(names(dots), "mlr3.")))
+      stopf("Options need to start with 'mlr3.'")
+    options(dots)
+  } else {
+    opts
+  }
 }

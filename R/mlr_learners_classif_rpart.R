@@ -10,7 +10,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         param_set = ParamSet$new(
           params = list(
             ParamInt$new(id = "minsplit", default = 20L, lower = 1L),
-            ParamReal$new(id = "cp", default = 0.01, lower = 0, upper = 1),
+            ParamDbl$new(id = "cp", default = 0.01, lower = 0, upper = 1),
             ParamInt$new(id = "maxcompete", default = 4L, lower = 0L),
             ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L), ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L),
             ParamInt$new(id = "xval", default = 10L, lower = 0L)

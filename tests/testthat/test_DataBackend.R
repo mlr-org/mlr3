@@ -21,5 +21,5 @@ test_that("Nested backends", {
   expect_iris_backend(b7, n_missing = 30L)
 
   x = b7$missing(b7$rownames, c("Petal.Width", "Petal.Length"))
-  expect_equal(x, setNames(c(0L, 30L), c("Petal.Width", "Petal.Length")))
+  expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })

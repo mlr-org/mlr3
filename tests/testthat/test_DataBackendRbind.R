@@ -17,5 +17,5 @@ test_that("DataBackendRbind", {
   expect_set_equal(b$distinct("Species")$Species, distinct(iris$Species))
 
   x = b$missing(b$rownames, c("Petal.Width", "Petal.Length"))
-  expect_equal(x, setNames(c(0L, 30L), c("Petal.Width", "Petal.Length")))
+  expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })

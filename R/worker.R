@@ -30,17 +30,34 @@ train_worker = function(e, ctrl) {
 
   if (ctrl$verbose)
     message(sprintf("Training learner '%s' on task '%s' ...", learner$id, task$id))
-  res = ecall(learner$train, pars, ctrl)
 
-  return(list(
-    model = res$result,
-    train_time = res$elapsed,
-    train_log = res$log
-  ))
+  res = set_names(ecall(learner$train, pars, ctrl),
+    c("model", "train_log", "train_time"))
+
+  if (ctrl$error_handling == "fallback" || (ctrl$error_handling == "fallback_train" && res$train_log$has_condition("error"))) {
+    fb = assert_learner(ctrl$fallback_learner)
+    message(sprintf("Training fallback learner '%s' on task '%s' ...", fb$id, task$id))
+    require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
+    fb_model = try(fb$train(task))
+    if (inherits(fb_model, "try-error"))
+      stopf("Fallback learner '%s' failed during train", fb$id)
+    res$fallback = list(
+      learner = fb,
+      model = fb_model
+    )
+  }
+
+  res
 }
 
 predict_worker = function(e, ctrl) {
   data = e$data
+  if (is.null(data$model)) {
+    if (is.null(data$fallback))
+      return(list(predict_time = 0))
+    data$learner = data$fallback$learner
+    data$model = data$fallback$model
+  }
   learner = data$learner
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
@@ -49,25 +66,31 @@ predict_worker = function(e, ctrl) {
 
   if (ctrl$verbose)
     message(sprintf("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id))
-  res = ecall(learner$predict, pars, ctrl)
-  assert_class(res$result, "Prediction")
 
-  return(list(
-    prediction = res$result,
-    predict_time = res$elapsed,
-    predict_log = res$log
-  ))
+  res = set_names(ecall(learner$predict, pars, ctrl),
+    c("prediction", "predict_log", "predict_time"))
+  assert_class(res$prediction, "Prediction")
+
+  res
 }
 
 score_worker = function(e, ctrl) {
   data = e$data
   measures = data$measures
+  if (is.null(data$prediction)) {
+    perf = if (ctrl$error_handling == "impute_worst") {
+      map_dbl(measures, function(x) x$range[2L])
+    } else {
+      rep.int(NA_real_, length(measures))
+    }
+    return(list(score_time = 0, performance = set_names(perf, ids(measures))))
+  }
   require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
 
   if (ctrl$verbose)
     message(sprintf("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id))
   calc_all_measures = function() {
-    setNames(lapply(measures, function(m) m$calculate(e)), ids(measures))
+    set_names(lapply(measures, function(m) m$calculate(e)), ids(measures))
   }
   res = ecall(calc_all_measures, list(), ctrl)
   return(list(performance = res$result, score_time = res$elapsed))

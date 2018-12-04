@@ -106,7 +106,7 @@ Dictionary = R6Class("Dictionary",
 
     mget = function(keys) {
       assert_keys_exist(assert_character(keys, any.missing = FALSE), self)
-      setNames(lapply(keys, dictionary_retrieve, self = self), keys)
+      set_names(lapply(keys, dictionary_retrieve, self = self), keys)
     }
   )
 )

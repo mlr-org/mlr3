@@ -13,7 +13,7 @@ stri_wrap = function(str, initial, n = 100L) {
 
 did_you_mean = function(str, candidates) {
   candidates = unique(candidates)
-  D = setNames(adist(str, candidates, ignore.case = TRUE, partial = TRUE)[1L, ], candidates)
+  D = set_names(adist(str, candidates, ignore.case = TRUE, partial = TRUE)[1L, ], candidates)
   suggested = names(head(sort(D[D <= ceiling(0.2 * nchar(str))]), 3L))
 
   if (length(suggested)) sprintf(" Did you mean %s?", paste0("'", suggested, "'", collapse = " / ")) else ""

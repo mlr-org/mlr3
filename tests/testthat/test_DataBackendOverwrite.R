@@ -26,5 +26,5 @@ test_that("DataBackendOverwrite", {
   expect_true(0 %in% b$distinct("Sepal.Length")[[1L]])
 
   x = b$missing(b$rownames, c("Petal.Width", "Petal.Length"))
-  expect_equal(x, setNames(c(0L, 30L), c("Petal.Width", "Petal.Length")))
+  expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })

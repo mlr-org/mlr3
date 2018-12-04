@@ -60,7 +60,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         "data.table" = {
           data = as.data.table(as.matrix(data))
           if (self$primary_key %in% cols)
-            data = insert_named(data, setNames(list(query_rows), self$primary_key))
+            data = insert_named(data, set_names(list(query_rows), self$primary_key))
           data
         },
         "sparse" = {
@@ -77,7 +77,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
     distinct = function(cols) {
       query_cols = intersect(cols, colnames(private$.data))
-      res = setNames(lapply(query_cols, function(col) distinct(private$.data[, col])), query_cols)
+      res = set_names(lapply(query_cols, function(col) distinct(private$.data[, col])), query_cols)
       if (self$primary_key %in% cols) {
         res[[self$primary_key]] = self$rownames
         # res = res[match(names(res), cols, nomatch = 0L)]

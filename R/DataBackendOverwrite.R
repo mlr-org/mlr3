@@ -39,7 +39,7 @@ DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cl
       cols = intersect(cols, self$colnames)
       data = self$data(rows, cols)
       if (any(dim(data) == 0L))
-        return(setNames(integer(length(cols)), cols))
+        return(set_names(integer(length(cols)), cols))
       unlist(lapply(data, function(x) sum(is.na(x))), recursive = FALSE)
     }
   ),
