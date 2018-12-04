@@ -5,8 +5,8 @@ get_verbose_learner = function() {
         super$initialize(id = id)
         self$param_set = paradox::ParamSet$new(
             params = list(
-              paradox::ParamBool$new("message"),
-              paradox::ParamBool$new("warning")
+              paradox::ParamLgl$new("message"),
+              paradox::ParamLgl$new("warning")
             )
           )
       },

@@ -170,7 +170,7 @@ Experiment = R6Class("Experiment",
 
     timings = function() {
       t = map_dbl(self$data[c("train_time", "predict_time", "score_time")], function(x) x %??% NA_real_)
-      setNames(t, c("train", "predict", "score"))
+      set_names(t, c("train", "predict", "score"))
     },
 
     logs = function() {

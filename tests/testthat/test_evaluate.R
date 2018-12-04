@@ -48,8 +48,8 @@ test_that("evaluate / resample", {
   resampling$param_vals = list(folds = 3)
 
   rr = expect_warning(resample(task, learner, resampling, ctrl = disabled))
-  expect_true(all(map_lgl(rr$data$train_log$messages, is_empty_log)))
-  expect_true(all(map_lgl(rr$data$predict_log$messages, is_empty_log)))
+  expect_true(purrr::every(rr$data$train_log$messages, is_empty_log))
+  expect_true(purrr::every(rr$data$predict_log$messages, is_empty_log))
 
   rr = expect_silent(resample(task, learner, resampling, ctrl = enabled))
   lapply(rr$data$train_log$messages, expect_data_table, , nrow = 2L, ncol = 2L, any.missing = FALSE)

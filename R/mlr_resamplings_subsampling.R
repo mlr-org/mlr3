@@ -4,7 +4,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
     initialize = function(id = "subsampling") {
       super$initialize(
         id = id,
-        param_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamFloat$new("ratio", lower = 0, upper = 1))),
+        param_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamDbl$new("ratio", lower = 0, upper = 1))),
         param_vals = list(repeats = 30L, ratio = 0.67)
       )
       self$has_duplicates = FALSE

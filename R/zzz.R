@@ -2,9 +2,10 @@
 #' @import data.table
 #' @import paradox
 #' @import mlr3misc
+#' @importFrom purrr map map_lgl map_int map_dbl map_chr set_names
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
-#' @importFrom stats setNames reformulate median mad runif
+#' @importFrom stats reformulate median mad runif
 #'
 #' @section Options:
 #' Available package options are documented in [mlr_options()].

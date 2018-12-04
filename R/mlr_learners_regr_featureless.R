@@ -8,7 +8,7 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
         predict_types = c("response", "se"),
         param_set = ParamSet$new(
           params = list(
-            ParamBool$new("robust", default = TRUE)
+            ParamLgl$new("robust", default = TRUE)
           )
         ),
         properties = "missings",
