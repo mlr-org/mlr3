@@ -123,7 +123,6 @@
       <ul>
 <li><a href="#installation">Installation</a></li>
       <li><a href="#parallel-resampling">Parallel Resampling</a></li>
-      <li><a href="#running-learners-in-a-fail-safe-way">Running learners in a fail-safe way</a></li>
       </ul>
 </div>
       
@@ -175,21 +174,6 @@
 <a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(tasks, learners, resamplings)</a>
 <a class="sourceLine" id="cb4-9" data-line-number="9">)[3L]</a></code></pre></div>
 </div>
-<div id="running-learners-in-a-fail-safe-way" class="section level1">
-<h1 class="hasAnchor">
-<a href="#running-learners-in-a-fail-safe-way" class="anchor"></a>Running learners in a fail-safe way</h1>
-<p>With future as backend, it is also possible to run learners in an isolated R session. If the learner crashed, e.g. with a SEGFAULT, it does not tear down the master session. Here is a small example where a single model fit is executed in an independent R session.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"future.callr"</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">plan</span>(<span class="st">"callr"</span>)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">task =</span> mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>),</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">  <span class="dt">learner =</span> mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.crashtest"</span>)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">e<span class="op">$</span><span class="kw">train</span>()</a></code></pre></div>
-<p>Of course, this also works for resampling and benchmarking. Nested parallelization is not yet implemented in <code>mlr3</code>, although <code>future</code> already supports it.</p>
-</div>
 </div>
   </div>
 
@@ -200,7 +184,6 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#installation">Installation</a></li>
       <li><a href="#parallel-resampling">Parallel Resampling</a></li>
-      <li><a href="#running-learners-in-a-fail-safe-way">Running learners in a fail-safe way</a></li>
       </ul>
 </div>
       </div>

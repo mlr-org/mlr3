@@ -157,7 +157,6 @@
     <pre># Construction
 l = Log$new(log = NULL)
 #
-l$is_empty
 l$has_condition(cl)
 l$format()
 l$print()
@@ -178,7 +177,6 @@ Class of a condition. One of "output", "message", "warning", or "error".</p></li
     
     <ul>
 <li><p><code>$new(log)</code> parses the object returned by <code><a href='https://www.rdocumentation.org/packages/evaluate/topics/evaluate'>evaluate::evaluate()</a></code> and creates a new Log.</p></li>
-<li><p><code>$is_empty</code> is <code>TRUE</code> if there has been no log captured, either because logging was turned off or there was not a single line out output.</p></li>
 <li><p><code>$has_condition(cl)</code> returns <code>TRUE</code> if at least on message of class <code>cl</code> is logged.
 Possible conditions are "output", "message", "warning", and "error".</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/format'>format()</a></code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code> are for formatting and printing via <code><a href='https://www.rdocumentation.org/packages/base/topics/format'>format()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>, respectively.</p></li>
@@ -191,9 +189,9 @@ Possible conditions are "output", "message", "warning", and "error".</p></li>
  <span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"sonar"</span>),
  <span class='kw'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.crashtest"</span>)
 )
-<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_control.html'>mlr_control</a></span>(<span class='kw'>use_evaluate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='message'>Training learner 'classif.crashtest' on task 'sonar' ...</span></div><div class='input'><span class='no'>log</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>logs</span>$<span class='no'>train</span>
+<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_control.html'>mlr_control</a></span>(<span class='kw'>error_handling</span> <span class='kw'>=</span> <span class='st'>"catch"</span>))</div><div class='output co'>#&gt; <span class='message'>Training learner 'classif.crashtest' on task 'sonar' ...</span></div><div class='input'><span class='no'>log</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>logs</span>$<span class='no'>train</span>
 
-<span class='no'>log</span>$<span class='no'>is_empty</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='no'>log</span>$<span class='fu'>has_condition</span>(<span class='st'>"error"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>log</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>()</div><div class='output co'>#&gt; &lt;Log&gt; with 1 message:
+<span class='no'>log</span>$<span class='fu'>has_condition</span>(<span class='st'>"error"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>log</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>()</div><div class='output co'>#&gt; &lt;Log&gt; with 1 message:
 #&gt; 1: [error] Error in classif.crashtest during train()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

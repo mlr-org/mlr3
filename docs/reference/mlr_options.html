@@ -161,28 +161,40 @@ Explicitly disabling this simplifies debugging.</p></li>
 </ul>
     
 
-    <pre class="usage"><span class='fu'>mlr_options</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>mlr_options</span>(<span class='no'>...</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>...</th>
+      <td><p>: Named arguments to set. Alternatively, you can also provide a single list of named arguments
+(similar to <code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options()</a></code>).</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(named <code>list</code>). Currently set options (without the prefix <code>"mlr3."</code>).</p>
+    <p>(named <code>list</code>). Currently set options specific to mlr3.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get a list of currently set options (without the prefix)</span>
-<span class='fu'>mlr_options</span>()</div><div class='output co'>#&gt; $verbose
+<span class='fu'>mlr_options</span>()</div><div class='output co'>#&gt; $mlr3.verbose
 #&gt; [1] TRUE
 #&gt; 
-#&gt; $debug
+#&gt; $mlr3.debug
 #&gt; [1] FALSE
 #&gt; 
-#&gt; $use_future
+#&gt; $mlr3.use_future
 #&gt; [1] TRUE
-#&gt; </div></pre>
+#&gt; </div><div class='input'><span class='no'>old</span> <span class='kw'>=</span> <span class='fu'>mlr_options</span>(<span class='kw'>mlr3.debug</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>mlr_options</span>(<span class='no'>old</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
       

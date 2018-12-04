@@ -6,6 +6,7 @@ articles:
   basic-02-train-predict-score: basic-02-train-predict-score.html
   basic-03-resample: basic-03-resample.html
   basic-04-parallelization: basic-04-parallelization.html
+  basic-05-error-handling: basic-05-error-handling.html
 urls:
   reference: https://mlr3.mlr-org.com/reference
   article: https://mlr3.mlr-org.com/articles
