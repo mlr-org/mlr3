@@ -108,7 +108,7 @@ assert_benchmark_result = function(bmr) {
 }
 
 #' @export
-#' @param param_set ([paradox::ParamSet()]).
+#' @param param_set ([paradox::ParamSet]).
 #' @rdname mlr_assertions
 assert_param_set = function(param_set) {
   assert_class(param_set, "ParamSet")

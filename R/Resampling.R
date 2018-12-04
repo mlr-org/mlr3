@@ -37,7 +37,7 @@
 #'
 #' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `param_vals`.
 #'
-#' * `$param_set` ([paradox::ParamSet()]) describes available parameters.
+#' * `$param_set` ([paradox::ParamSet]) describes available parameters.
 #'
 #' * `$param_vals` (named `list`) stores the currently set parameter values.
 #'   You can set parameters by assigning a named list of new parameters to this slot.

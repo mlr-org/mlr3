@@ -8,7 +8,6 @@
 #' # Construction
 #' l = Log$new(log = NULL)
 #' #
-#' l$is_empty
 #' l$has_condition(cl)
 #' l$format()
 #' l$print()
@@ -23,7 +22,6 @@
 #' @section Details:
 #' * `$new(log)` parses the object returned by [evaluate::evaluate()] and creates a new [Log].
 #'
-#' * `$is_empty` is `TRUE` if there has been no log captured, either because logging was turned off or there was not a single line out output.
 #'
 #' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is logged.
 #'   Possible conditions are "output", "message", "warning", and "error".
@@ -40,7 +38,6 @@
 #' e$train(ctrl = mlr_control(error_handling = "catch"))
 #' log = e$logs$train
 #'
-#' log$is_empty
 #' log$has_condition("error")
 #' log$print()
 NULL
@@ -48,14 +45,11 @@ NULL
 #' @export
 Log = R6Class("Log", cloneable = FALSE,
   public = list(
-    is_empty = NULL,
     messages = NULL,
     initialize = function(log = NULL) {
       if (length(log) <= 1L) {
-        self$is_empty = TRUE
         self$messages = data.table(msg = character(0L), class = factor(character(0L), levels = mlr_reflections$log_classes))
       } else {
-        self$is_empty = FALSE
         self$messages = parse_evaluate(log)
       }
     },
@@ -73,7 +67,7 @@ Log = R6Class("Log", cloneable = FALSE,
 
     has_condition = function(cl) {
       assert_choice(cl, mlr_reflections$log_classes)
-      !self$is_empty && self$messages[list(cl), .N, on = "class", nomatch = 0L] > 0L
+      nrow(self$messages) && self$messages[list(cl), .N, on = "class", nomatch = 0L] > 0L
     }
   )
 )

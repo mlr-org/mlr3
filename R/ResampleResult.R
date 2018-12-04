@@ -83,7 +83,7 @@ ResampleResult = R6Class("ResampleResult",
 
     performance = function(id) {
       assert_choice(id, self$measures$measure_id)
-      map_dbl(self$data$performance, function(x) x[[id]] %??% NA_real)
+      map_dbl(self$data$performance, function(x) x[[id]] %??% NA_real_)
     },
 
     experiment = function(iter) {
@@ -130,6 +130,10 @@ ResampleResult = R6Class("ResampleResult",
       if (is.na(private$.hash))
         private$.hash = self$experiment(1L)$hash
       private$.hash
+    },
+
+    errors = function() {
+      map_lgl(self$data$train_log, function(x) x$has_condition("error"))
     }
   ),
 

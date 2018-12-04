@@ -54,7 +54,7 @@ predict_worker = function(e, ctrl) {
   data = e$data
   if (is.null(data$model)) {
     if (is.null(data$fallback))
-      return(list(predict_time = 0))
+      return(list(predict_time = NA_real_))
     data$learner = data$fallback$learner
     data$model = data$fallback$model
   }
@@ -79,11 +79,11 @@ score_worker = function(e, ctrl) {
   measures = data$measures
   if (is.null(data$prediction)) {
     perf = if (ctrl$error_handling == "impute_worst") {
-      map_dbl(measures, function(x) x$range[2L])
+      map(measures, function(x) x$range[2L])
     } else {
-      rep.int(NA_real_, length(measures))
+      replicate(length(measures), NA_real_, simplify = FALSE)
     }
-    return(list(score_time = 0, performance = set_names(perf, ids(measures))))
+    return(list(score_time = NA_real_, performance = set_names(perf, ids(measures))))
   }
   require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
 

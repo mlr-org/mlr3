@@ -56,7 +56,7 @@ assert_param_vals(param_vals, param_set)
 
 \item{bmr}{(\link{BenchmarkResult}).}
 
-\item{param_set}{(\code{\link[paradox:ParamSet]{paradox::ParamSet()}}).}
+\item{param_set}{(\link[paradox:ParamSet]{paradox::ParamSet}).}
 
 \item{param_vals}{(named list).}
 }

@@ -312,9 +312,9 @@ expect_experiment = function(e) {
   }
 
   if (state >= "predicted") {
-    checkmate::expect_class(e$data$predict_log, "Log")
-    checkmate::expect_number(e$data$predict_time)
-    if (!is.null(e$data$prediction)) {# may be null, depending on options
+    checkmate::expect_class(e$data$predict_log, "Log", null.ok = TRUE)
+    checkmate::expect_number(e$data$predict_time, na.ok = e$has_errors)
+    if (!is.null(e$data$prediction)) { # may be null, depending on options
       checkmate::expect_class(e$data$prediction, "Prediction")
       checkmate::expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
     }
@@ -322,7 +322,7 @@ expect_experiment = function(e) {
 
   if (state >= "scored") {
     checkmate::expect_list(e$data$performance, names = "unique")
-    checkmate::qassertr(e$data$performance, "N1")
+    checkmate::qassertr(e$data$performance, "n1")
   }
 }
 
@@ -334,7 +334,7 @@ expect_resample_result = function(rr) {
   expect_resampling(rr$resampling, task = rr$task)
 
   data = rr$data
-  checkmate::expect_data_table(rr$data, nrow = rr$resampling$iters, min.cols = nrow(mlr3::mlr_reflections$experiment_slots), any.missing = FALSE)
+  checkmate::expect_data_table(rr$data, nrow = rr$resampling$iters, min.cols = nrow(mlr3::mlr_reflections$experiment_slots), any.missing = TRUE)
   checkmate::expect_names(names(rr$data), must.include = mlr3::mlr_reflections$experiment_slots$name)
   expect_hash(rr$hash, 1L)
 
@@ -344,10 +344,11 @@ expect_resample_result = function(rr) {
 
   measures = rr$measures$measure
   aggr = rr$aggregated
+  errors = any(rr$errors)
   for (m in measures) {
     y = rr$performance(m$id)
-    checkmate::expect_numeric(y, lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
-    checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
+    checkmate::expect_numeric(y, lower = m$range[1], upper = m$range[2], any.missing = errors, label = sprintf("measure %s", m$id))
+    checkmate::expect_number(aggr[[m$id]], na.ok = errors, lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
   }
 }
 

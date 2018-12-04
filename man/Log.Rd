@@ -10,7 +10,6 @@ Object which stores the output of the \code{train} or \code{predict} step of an 
 \preformatted{# Construction
 l = Log$new(log = NULL)
 #
-l$is_empty
 l$has_condition(cl)
 l$format()
 l$print()
@@ -31,7 +30,6 @@ Class of a condition. One of "output", "message", "warning", or "error".
 
 \itemize{
 \item \code{$new(log)} parses the object returned by \code{\link[evaluate:evaluate]{evaluate::evaluate()}} and creates a new \link{Log}.
-\item \code{$is_empty} is \code{TRUE} if there has been no log captured, either because logging was turned off or there was not a single line out output.
 \item \code{$has_condition(cl)} returns \code{TRUE} if at least on message of class \code{cl} is logged.
 Possible conditions are "output", "message", "warning", and "error".
 \item \code{format()} and \code{print()} are for formatting and printing via \code{\link[=format]{format()}} or \code{\link[=print]{print()}}, respectively.
@@ -47,7 +45,6 @@ e = Experiment$new(
 e$train(ctrl = mlr_control(error_handling = "catch"))
 log = e$logs$train
 
-log$is_empty
 log$has_condition("error")
 log$print()
 }
