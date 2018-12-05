@@ -52,7 +52,7 @@ predict_worker = function(e, ctrl) {
   learner = data$learner
   if (data$train_log$has_condition("error")) {
     if (is.null(learner$fallback))
-      stopf("Unable to predict learner '%s' without model", learner$id)
+      stop(sprintf("Unable to predict learner '%s' without model", learner$id))
     learner = learner$fallback
   }
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))

@@ -1,3 +1,5 @@
+Meta
+doc
 # History files
 .Rhistory
 .Rapp.history
@@ -21,6 +23,5 @@
 *.utf8.md
 *.knit.md
 inst/doc
-
 .DS_Store
 .Rproj.user
