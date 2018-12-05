@@ -20,6 +20,7 @@ ecall = function(fun, pars, ctrl) {
   list(result = result, log = log, elapsed = elapsed)
 }
 
+
 train_worker = function(e, ctrl) {
   data = e$data
   learner = data$learner
@@ -28,15 +29,14 @@ train_worker = function(e, ctrl) {
   task = data$task$clone(deep = TRUE)$filter(e$train_set)
   pars = c(list(task = task), learner$param_vals)
 
-  if (ctrl$verbose)
-    message(sprintf("Training learner '%s' on task '%s' ...", learner$id, task$id))
+  log_level(INFO, "Training learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
   res = set_names(ecall(learner$train, pars, ctrl),
     c("model", "train_log", "train_time"))
 
   if (!is.null(learner$fallback)) {
     fb = assert_learner(learner$fallback)
-    message(sprintf("Training fallback learner '%s' on task '%s' ...", fb$id, task$id))
+    log_info("Training fallback learner '%s' on task '%s' ...", fb$id, task$id, namespace = "mlr3")
     require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
     fb_model = try(fb$train(task))
     if (inherits(fb_model, "try-error"))
@@ -61,7 +61,7 @@ predict_worker = function(e, ctrl) {
   pars = c(list(model = data$model, task = task), learner$param_vals)
 
   if (ctrl$verbose)
-    message(sprintf("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id))
+    log_info("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
   res = set_names(ecall(learner$predict, pars, ctrl),
     c("prediction", "predict_log", "predict_time"))
@@ -76,7 +76,7 @@ score_worker = function(e, ctrl) {
   require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
 
   if (ctrl$verbose)
-    message(sprintf("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id))
+    log_info("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id, namespace = "mlr3")
   calc_all_measures = function() {
     set_names(lapply(measures, function(m) m$calculate(e)), ids(measures))
   }
@@ -88,7 +88,7 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   e = Experiment$new(task, learner, resampling = resampling, iteration = iteration, measures = measures)
 
   if (ctrl$verbose) {
-    message(sprintf("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters))
+    log_info("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
     ctrl$verbose = FALSE
   }
 

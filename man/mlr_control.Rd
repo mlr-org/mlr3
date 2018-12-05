@@ -25,9 +25,9 @@ Note that you will be unable to further predict on new data.
 }
 }
 \examples{
-# get a list of the currently active defaults
+# get a list of the defaults
 mlr_control()
 
-# enable debuging
-mlr_control(debug = TRUE)
+# get a control object, with the default of store_model switched to FALSE
+mlr_control(store_model = FALSE)
 }

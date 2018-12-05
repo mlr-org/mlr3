@@ -39,3 +39,11 @@ mlr_reflections$default_mlr_options = list(
   mlr3.verbose = TRUE,
   mlr3.debug = FALSE
 )
+
+
+
+  # Set default options without overwriting already set options
+  opts = mlr_reflections$default_mlr_options
+  opts = opts[match(names(opts), names(.Options), nomatch = 0L) == 0L]
+  if (length(opts))
+    options(opts)

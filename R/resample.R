@@ -12,9 +12,8 @@
 #' @param measures (`list` of [Measure]):\cr
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the measures stored in `task`.
-#' @param ctrl (named `list()` as returned by [mlr_control()]):\cr
-#'   Object to control various parts of the execution.
-#'   See [mlr_control()].
+#' @param ctrl (named `list()`, e.g. as returned by [mlr_control()]):\cr
+#'   Object to control various parts of the execution. See [mlr_control()].
 #' @return [ResampleResult].
 #' @export
 #' @examples
@@ -51,12 +50,12 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   n = instance$iters
 
   if (use_future(ctrl)) {
-    debug("Running resample() via future with %i iterations", n)
+    log_debug("Running resample() via future with %i iterations", n, namespace = "mlr3")
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
       task = task, learner = learner, resampling = resampling, measures = measures, ctrl = ctrl,
       future.globals = FALSE, future.packages = "mlr3")
   } else {
-    debug("Running resample() sequentially with %i iterations", n)
+    log_debug("Running resample() sequentially with %i iterations", n, namespace = "mlr3")
     res = lapply(seq_len(n), experiment_worker,
       task = task, learner = learner, resampling = resampling, measures = measures, ctrl = ctrl)
   }

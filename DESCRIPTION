@@ -27,6 +27,7 @@ Imports:
     checkmate (>= 1.8.9),
     data.table,
     digest,
+    logger,
     Metrics,
     mlr3misc,
     paradox,
@@ -50,6 +51,7 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
+    daroczig/logger,
     mllg/checkmate,
     mlr-org/paradox,
     mlr-org/mlr3misc

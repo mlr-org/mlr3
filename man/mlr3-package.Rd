@@ -8,11 +8,6 @@
 \description{
 Machine Learning in R. Next Generation.
 }
-\section{Options}{
-
-Available package options are documented in \code{\link[=mlr_options]{mlr_options()}}.
-}
-
 \seealso{
 Useful links:
 \itemize{

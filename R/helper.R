@@ -19,16 +19,6 @@ did_you_mean = function(str, candidates) {
   if (length(suggested)) sprintf(" Did you mean %s?", paste0("'", suggested, "'", collapse = " / ")) else ""
 }
 
-info = function(msg, ...) {
-  if (isTRUE(getOption("mlr3.verbose")))
-    messagef(msg, ...)
-}
-
-debug = function(msg, ...) {
-  if (isTRUE(getOption("mlr3.debug", FALSE)))
-    message("[debug] ", sprintf(msg, ...))
-}
-
 # updating join:
 # replaces values in x with values in y
 ujoin = function(x, y, key) {

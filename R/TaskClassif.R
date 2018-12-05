@@ -68,7 +68,7 @@ TaskClassif = R6Class("TaskClassif",
       if (length(levels) == 2L) {
         if (is.null(positive)) {
           self$positive = levels[1L]
-          info("Setting positive class to '%s'", self$positive)
+          log_info("Setting positive class to '%s'", self$positive, namespace = "mlr3")
         } else {
           self$positive = assert_choice(positive, levels)
         }

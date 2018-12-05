@@ -4,8 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(tasks, learners, resamplings, measures = NULL,
-  ctrl = mlr_control())
+benchmark(tasks, learners, resamplings, measures = NULL, ctrl = list())
 }
 \arguments{
 \item{tasks}{(list of \link{Task}):\cr
@@ -36,8 +35,7 @@ tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget(c("holdout", "cv"))
 measures = mlr_measures$mget("acc")
-ctrl = mlr_control()
-ctrl$verbose = FALSE
+ctrl = mlr_control(verbose = FALSE)
 bmr = benchmark(tasks, learners, resamplings, measures, ctrl = ctrl)
 
 # performance for all conducted experiments

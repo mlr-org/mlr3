@@ -61,7 +61,8 @@ and stores the resulting performance values. The performance can be accessed via
 \item \code{$timings} holds the elapsed time for the steps \code{train}, \code{predict} and \code{score} in seconds with up to millisecond accuracy (c.f. \code{\link[=proc.time]{proc.time()}}).
 Timings are \code{NA} if the respective step has not been performed yet.
 \item \code{$logs} creates a list with names \code{train} and \code{predict}.
-Both store an object of class \link{Log} if logging of the learner has been enabled via \code{\link[=mlr_control]{mlr_control()}}, and are \code{NULL} if logging was disabled or the respective step has not been performed yet.
+Both store an object of class \link{Log} if logging of the learner has been enabled via \code{\link[=mlr_control]{mlr_control()}},
+and are \code{NULL} if logging was disabled or the respective step has not been performed yet.
 \item \code{$state} (\code{ordered(1)}) returns the state of the experiment: \code{"defined"}, \code{"trained"}, \code{"predicted"}, or \code{"scored"}.
 \item \code{$data} stores the internal representation of an Experiment as a \code{named list} with the following slots:
 \itemize{
