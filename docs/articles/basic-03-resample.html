@@ -159,11 +159,10 @@
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling<span class="op">$</span>param_set)</a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; ParamSet: paramset </span></a>
 <a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; Parameters: </span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; ratio [numeric]</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; : [0, 1]</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling<span class="op">$</span>param_vals)</a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; $ratio</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; [1] 0.6666667</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; ratio d [0, 1]</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling<span class="op">$</span>param_vals)</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; $ratio</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; [1] 0.6666667</span></a></code></pre></div>
 <p>To change the ratio to <span class="math inline">\(0.8\)</span>, we simply overwrite the slot:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">resampling<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>)</a></code></pre></div>
 </div>

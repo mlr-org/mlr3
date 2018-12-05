@@ -123,8 +123,6 @@
       <ul>
 <li><a href="#setup">Setup</a></li>
       <li><a href="#no-error-handling">No Error Handling</a></li>
-      <li><a href="#catching-and-logging">Catching and Logging</a></li>
-      <li><a href="#impute-performance">Impute performance</a></li>
       <li><a href="#fallback-learners">Fallback Learners</a></li>
       </ul>
 </div>
@@ -146,123 +144,74 @@
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(learner)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Learner 'classif.crashtest' for classif</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Parameters: crash.on=train, crash.mode=error</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Feature types: logical,integer,numeric,character,factor,ordered</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(learner<span class="op">$</span>param_set)</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; ParamSet: paramset </span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; Parameters: </span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; crash.on [character]</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;  (Default: train)</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; : {train, predict}</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; crash.mode [character]</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt;  (Default: error)</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; : {error, segfault}</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Feature types: logical,integer,numeric,character,factor,ordered</span></a></code></pre></div>
 <p>The hyperparameters let us control (a) whether it should crash during train or predict, and (b) if the learner should crash with an error or segfault (which tears down the complete R session).</p>
 </div>
 <div id="no-error-handling" class="section level1">
 <h1 class="hasAnchor">
 <a href="#no-error-handling" class="anchor"></a>No Error Handling</h1>
-<p>In the defaults, <code>mlr3</code> does not handle model errors. Thus, the crashtest learner raises a normal exception which we can traceback:</p>
+<p>In the defaults, <code>mlr3</code> does not handle model errors specially. Thus, the exception raised by the crashtest learner can stops the execution and can be tracebacked:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">e<span class="op">$</span><span class="kw">train</span>()</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Training learner 'classif.crashtest' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Error in (function (task, crash.on, crash.mode, ...) : Error in classif.crashtest during train()</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Error in safeTraceback(e$train()): could not find function "safeTraceback"</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/traceback">traceback</a></span>()</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; No traceback available</span></a></code></pre></div>
-<p>The traceback might be obfuscated by the parallelization framework, depending on your installation. To get a better traceback, we turn the parallelization completely off:</p>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Error in (function (task, crash.on, crash.mode, ...) : Error in classif.crashtest during train()</span></a></code></pre></div>
+<p>The traceback might be obfuscated by the parallelization framework, depending on your configuration and installation. To get a better traceback, we turn the parallelization completely off:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">use_future =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Training learner 'classif.crashtest' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Error in (function (task, crash.on, crash.mode, ...) : Error in classif.crashtest during train()</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Error in safeTraceback(e$train(ctrl = ctrl)): could not find function "safeTraceback"</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/traceback">traceback</a></span>()</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; No traceback available</span></a></code></pre></div>
-</div>
-<div id="catching-and-logging" class="section level1">
-<h1 class="hasAnchor">
-<a href="#catching-and-logging" class="anchor"></a>Catching and Logging</h1>
-<p>We can tell <code>mlr3</code> to catch errors for us and process computation. In this mode, we can proceed with the computation of the experiment stages (train, predict, score) even if there are errors in the stages. However, the resulting performance will be <code>NA</code> if errors occurred. This mode is especially useful for <code><a href="../reference/resample.html">resample()</a></code> or <code><a href="../reference/benchmark.html">benchmark()</a></code>, but we demonstrate it here for a single <code>Experiment</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">error_handling =</span> <span class="st">"catch"</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Training learner 'classif.crashtest' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Experiment [trained (incomplete)]:</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;  + Task: spam</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;  + Learner: classif.crashtest</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;  - Model: [missing]</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;  - Predictions: [missing]</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;  - Performance: [missing]</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; Public: clone, data, has_errors, hash, learner, logs, model,</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;   performance, predict, prediction, score, state, task, test_set,</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;   timings, train, train_set, validation_set</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15">e<span class="op">$</span>state</a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; [1] trained</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</span></a></code></pre></div>
-<p>No exception has been raised, and the experiment has state <code>"trained"</code>. We can have a look at the output which has been captured and ask if there was an error:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">e<span class="op">$</span>logs<span class="op">$</span>train</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; &lt;Log&gt; with 1 message:</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; 1: [error] Error in classif.crashtest during train()</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">e<span class="op">$</span>logs<span class="op">$</span>train<span class="op">$</span><span class="kw">has_condition</span>(<span class="st">"error"</span>)</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
-<p>Although there has been an error, we can proceed to work with this <code>Experiment</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(<span class="dt">ctrl =</span> ctrl)<span class="op">$</span><span class="kw">score</span>(<span class="dt">ctrl =</span> ctrl)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">e<span class="op">$</span>state</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; [1] scored</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</span></a></code></pre></div>
-<p>We cannot access the predictions (as there are none), but we can access the performance slot:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">e<span class="op">$</span>prediction</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Error: No predictions available</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">e<span class="op">$</span>performance</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; mmce </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;   NA</span></a></code></pre></div>
-</div>
-<div id="impute-performance" class="section level1">
-<h1 class="hasAnchor">
-<a href="#impute-performance" class="anchor"></a>Impute performance</h1>
-<p>Generating <code>NA</code> scores and ignoring them during the aggregation can lead to overoptimism in the results.</p>
-<p>For example, consider a 10-fold CV on a small task where half of the splits are easy to learn, yielding good performance values (accuracy 0.9), and the other half is rather difficult (accuracy = 0.6).</p>
-<p>Learner A successfully learns models for all splits, and has an average accuracy of <span class="math inline">\((5 * 0.9 + 5 * 0.6) / 10 = 0.75\)</span>. Learner B simply raises an exception for the difficult splits, and after removing the missing values for averaging we get an accuracy of <span class="math inline">\((5 * 0.9) / 5 = 0.9\)</span>. We don’t know the real accuracy for learner B, but 0.9 is obviously not a good estimate.</p>
-<p>As a way out, <code>mlr3</code> can set the performance of a measure to the worst possible value (instead of <code>NA</code>) if the learner is unable to generate predictions:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">error_handling =</span> <span class="st">"impute_worst"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(<span class="dt">ctrl =</span> ctrl)<span class="op">$</span><span class="kw">score</span>(<span class="dt">ctrl =</span> ctrl)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Training learner 'classif.crashtest' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">e<span class="op">$</span>performance</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; mmce </span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;    1</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Error in (function (task, crash.on, crash.mode, ...) : Error in classif.crashtest during train()</span></a></code></pre></div>
+<p>During parallelization, error messages (as well as normal output or warnings) are often not properly forwarded to the master R session, or they arrive in a confusing order. The learner execution can be encapsulated, so its output is logged to the experiment instead of just printed to the console.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">use_evaluate =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Training learner 'classif.crashtest' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">e<span class="op">$</span>has_errors</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">e<span class="op">$</span>logs<span class="op">$</span>train</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; &lt;Log&gt; with 1 message:</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 1: [error] Error in classif.crashtest during train()</span></a></code></pre></div>
+<p>Note that, although no exception has been raised, it is impossible to perform the predict step without a model.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>()</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Error in (function (e, ctrl) : Unable to predict learner 'classif.crashtest' without model</span></a></code></pre></div>
 </div>
 <div id="fallback-learners" class="section level1">
 <h1 class="hasAnchor">
 <a href="#fallback-learners" class="anchor"></a>Fallback Learners</h1>
-<p>Instead of penalizing the learner with the worst possible performance, it is sometimes (e.g., while tuning) more reasonable to fallback to a simple, but more robust learner. Here, we simply fallback to the predictions of a featureless learner (predicting majority class):</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">error_handling =</span> <span class="st">"fallback"</span>, <span class="dt">fallback_learner =</span> mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.featureless"</span>))</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(<span class="dt">ctrl =</span> ctrl)<span class="op">$</span><span class="kw">score</span>(<span class="dt">ctrl =</span> ctrl)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; Training learner 'classif.crashtest' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Training fallback learner 'classif.featureless' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; Predicting model of learner 'classif.featureless' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; Scoring predictions of learner 'classif.crashtest' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">e<span class="op">$</span>prediction</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; &lt;PredictionClassif&gt; for 4601 observations:</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;       row_id response   truth</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;    1:      1  nonspam    spam</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;    2:      2  nonspam    spam</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;    3:      3  nonspam    spam</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt;   ---                        </span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 4599:   4599  nonspam nonspam</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 4600:   4600  nonspam nonspam</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4601:   4601  nonspam nonspam</span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17">e<span class="op">$</span>performance</a>
-<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt;      mmce </span></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; 0.3940448</span></a></code></pre></div>
-<p>Note that the logs and timings are tracked for the original learner, not the fallback learner:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">e<span class="op">$</span>logs</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; $train</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; &lt;Log&gt; with 1 message:</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; 1: [error] Error in classif.crashtest during train()</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; $predict</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; &lt;Log&gt; with 0 messages:</span></a></code></pre></div>
+<p>Each learner can have a fallback learner, which is used if either the train or predict step fail. Here, we simply fallback to the predictions of a featureless learner (predicting majority class):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.crashtest"</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">learner<span class="op">$</span>fallback =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.featureless"</span>)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">use_evaluate =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(<span class="dt">task =</span> task, <span class="dt">learner =</span> learner)</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; Training learner 'classif.crashtest' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; Training fallback learner 'classif.featureless' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(<span class="dt">ctrl =</span> ctrl)</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; Predicting model of learner 'classif.featureless' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">e<span class="op">$</span><span class="kw">score</span>(<span class="dt">ctrl =</span> ctrl)</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; Scoring predictions of learner 'classif.crashtest' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14">e<span class="op">$</span>prediction</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; &lt;PredictionClassif&gt; for 4601 observations:</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;       row_id response   truth</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt;    1:      1  nonspam    spam</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt;    2:      2  nonspam    spam</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt;    3:      3  nonspam    spam</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt;   ---                        </span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 4599:   4599  nonspam nonspam</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; 4600:   4600  nonspam nonspam</span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; 4601:   4601  nonspam nonspam</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24">e<span class="op">$</span>performance</a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt;      mmce </span></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; 0.3940448</span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27">e<span class="op">$</span>logs</a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; $train</span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; &lt;Log&gt; with 1 message:</span></a>
+<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; 1: [error] Error in classif.crashtest during train()</span></a>
+<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; $predict</span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; &lt;Log&gt; with 0 messages:</span></a></code></pre></div>
+<p>Note that the logs and timings are tracked for the original learner, not the fallback learner.</p>
 </div>
 </div>
   </div>
@@ -274,8 +223,6 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#setup">Setup</a></li>
       <li><a href="#no-error-handling">No Error Handling</a></li>
-      <li><a href="#catching-and-logging">Catching and Logging</a></li>
-      <li><a href="#impute-performance">Impute performance</a></li>
       <li><a href="#fallback-learners">Fallback Learners</a></li>
       </ul>
 </div>

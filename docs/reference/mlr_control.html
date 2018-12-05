@@ -35,20 +35,7 @@ It contains all options (see mlr_options()) without the "mlr3" prefix, and addit
 store_model: If FALSE, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
 store_prediction: If FALSE, the predictions are discarded in order to save some memory after the experiment is completed.
-Note that you will be unable calculate more performance measures.
-error_handling: How to deal with models raising exceptions during train or predict?
-"off" (default). An exception is raised, stopping the execution.
-"catch". Exceptions are caught and logged. There will be no predictions available, and the performance will be NA.
-All output is stored in the Experiment as a Log.
-"impute_worst". This is similar to the "catch" approach, but instead of predicting NA, the worst
-possible performance is predicted.
-"fallback_train". If the learner fails to fit a model during train, fit a fallback model, e.g. with a featureless learner.
-The fallback learner is in this case used to generate predictions which are then scored.
-Note that this mechanism does not guard you from models which successfully train, but raise exceptions during predict.
-This would result in missing predictions and NA scores.
-"fallback". Always fit a fallback model and use it if the learner fails to train or predict.
-
-fallback_learner: If "error_handling" is set to "fallback_train" or "fallback", use this learner as fallback learner.
+use_evaluate: Capture output via evaluate and store it as log.
 " />
 <meta name="twitter:card" content="summary" />
 
@@ -171,21 +158,8 @@ fallback_learner: If "error_handling" is set to "fallback_train" or "fallback", 
 It contains all options (see <code><a href='mlr_options.html'>mlr_options()</a></code>) without the <code>"mlr3"</code> prefix, and additionally:</p><ul>
 <li><p><code>store_model</code>: If <code>FALSE</code>, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.</p></li>
-<li><p><code>store_prediction</code>: If <code>FALSE</code>, the predictions are discarded in order to save some memory after the experiment is completed.
-Note that you will be unable calculate more performance measures.</p></li>
-<li><p><code>error_handling</code>: How to deal with models raising exceptions during <code>train</code> or <code>predict</code>?</p><ul>
-<li><p><code>"off"</code> (default). An exception is raised, stopping the execution.</p></li>
-<li><p><code>"catch"</code>. Exceptions are caught and logged. There will be no predictions available, and the performance will be <code>NA</code>.
-All output is stored in the <a href='Experiment.html'>Experiment</a> as a <a href='Log.html'>Log</a>.</p></li>
-<li><p><code>"impute_worst"</code>. This is similar to the <code>"catch"</code> approach, but instead of predicting <code>NA</code>, the worst
-possible performance is predicted.</p></li>
-<li><p><code>"fallback_train"</code>. If the learner fails to fit a model during train, fit a fallback model, e.g. with a featureless learner.
-The fallback learner is in this case used to generate predictions which are then scored.
-Note that this mechanism does not guard you from models which successfully train, but raise exceptions during predict.
-This would result in missing predictions and <code>NA</code> scores.</p></li>
-<li><p><code>"fallback"</code>. Always fit a fallback model and use it if the learner fails to train or predict.</p></li>
-</ul></li>
-<li><p><code>fallback_learner</code>: If <code>"error_handling"</code> is set to <code>"fallback_train"</code> or <code>"fallback"</code>, use this learner as fallback learner.</p></li>
+<li><p><code>store_prediction</code>: If <code>FALSE</code>, the predictions are discarded in order to save some memory after the experiment is completed.</p></li>
+<li><p><code>use_evaluate</code>: Capture output via <span class="pkg">evaluate</span> and store it as log.</p></li>
 </ul>
     
 
@@ -209,11 +183,8 @@ This would result in missing predictions and <code>NA</code> scores.</p></li>
 #&gt; $store_prediction
 #&gt; [1] TRUE
 #&gt; 
-#&gt; $error_handling
-#&gt; [1] "off"
-#&gt; 
-#&gt; $fallback_learner
-#&gt; NULL
+#&gt; $use_evaluate
+#&gt; [1] FALSE
 #&gt; 
 #&gt; $verbose
 #&gt; [1] TRUE
@@ -231,11 +202,8 @@ This would result in missing predictions and <code>NA</code> scores.</p></li>
 #&gt; $store_prediction
 #&gt; [1] TRUE
 #&gt; 
-#&gt; $error_handling
-#&gt; [1] "off"
-#&gt; 
-#&gt; $fallback_learner
-#&gt; NULL
+#&gt; $use_evaluate
+#&gt; [1] FALSE
 #&gt; 
 #&gt; $verbose
 #&gt; [1] TRUE
