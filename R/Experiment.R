@@ -113,8 +113,9 @@ NULL
 Experiment = R6Class("Experiment",
   public = list(
     data = NULL,
+    ctrl = NULL,
 
-    initialize = function(task, learner, ...) {
+    initialize = function(task, learner, ..., ctrl = list()) {
       self$data = named_list(mlr_reflections$experiment_slots$name)
       self$data$task = assert_task(task)
       self$data$learner = assert_learner(learner, task = task)
@@ -123,13 +124,14 @@ Experiment = R6Class("Experiment",
         assert_names(names(dots), type = "unique", subset.of = names(self$data))
         self$data = insert_named(self$data, dots)
       }
+      self$ctrl = assert_list(ctrl)
     },
 
     print = function(...) {
       experiment_print(self)
     },
 
-    train = function(subset = NULL, ctrl = mlr_control()) {
+    train = function(subset = NULL, ctrl = list()) {
       ids = self$data$task$row_ids[[1L]]
       if (!is.null(subset))
         ids = intersect(ids, subset)
@@ -137,7 +139,7 @@ Experiment = R6Class("Experiment",
       invisible(self)
     },
 
-    predict = function(subset = NULL, newdata = NULL, ctrl = mlr_control()) {
+    predict = function(subset = NULL, newdata = NULL, ctrl = list()) {
       ids = self$data$task$row_ids[[1L]]
       if (!is.null(subset))
         ids = intersect(ids, subset)
@@ -145,7 +147,7 @@ Experiment = R6Class("Experiment",
       invisible(self)
     },
 
-    score = function(measures = NULL, ctrl = mlr_control()) {
+    score = function(measures = NULL, ctrl = list()) {
       experiment_score(self, measures, ctrl = ctrl)
       invisible(self)
     }
@@ -256,7 +258,8 @@ experiment_print = function(self) {
 }
 
 
-experiment_train = function(self, row_ids, ctrl = mlr_control()) {
+experiment_train = function(self, row_ids, ctrl = list()) {
+  ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
   self$data$iteration = 1L
 
@@ -272,9 +275,10 @@ experiment_train = function(self, row_ids, ctrl = mlr_control()) {
   return(experiment_reset_state(self, "trained"))
 }
 
-experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = mlr_control()) {
+experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list()) {
   if (!is.null(row_ids) && !is.null(newdata))
     stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
+  ctrl = mlr_control(insert_named(self$ctrl, ctrl))
 
   if (is.null(newdata)) {
     self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
@@ -295,8 +299,9 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = mlr_c
   return(experiment_reset_state(self, "predicted"))
 }
 
-experiment_score = function(self, measures = NULL, ctrl = mlr_control()) {
+experiment_score = function(self, measures = NULL, ctrl = list()) {
   self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, learner = self$learner)
+  ctrl = mlr_control(insert_named(self$ctrl, ctrl))
 
   if (use_future(ctrl)) {
     debug("Running score_worker() via futureCall()")

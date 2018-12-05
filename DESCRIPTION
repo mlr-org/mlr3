@@ -103,7 +103,6 @@ Collate:
     'mlr_measures_elapsed_time.R'
     'mlr_measures_mmce.R'
     'mlr_measures_mse.R'
-    'mlr_options.R'
     'mlr_resamplings.R'
     'mlr_resamplings_bootstrap.R'
     'mlr_resamplings_custom.R'

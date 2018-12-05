@@ -17,11 +17,11 @@
 #'
 #' @export
 #' @examples
-#' # get a list of the currently active defaults
+#' # get a list of the defaults
 #' mlr_control()
 #'
-#' # enable debuging
-#' mlr_control(debug = TRUE)
+#' # get a control object, change default of store_model
+#' mlr_control(store_model = FALSE)
 mlr_control = function(...) {
   ctrl = mlr_reflections$default_mlr_control
   ldots = ...length()
@@ -29,10 +29,13 @@ mlr_control = function(...) {
     return(ctrl)
 
   dots = list(...)
-  if (ldots == 1L && is.null(names(dots)) && is.list(dots[[1L]]))
+  if (ldots == 1L && is.null(names(dots)) && is.list(dots[[1L]])) {
     dots = dots[[1L]]
-  assert_names(names(dots), "unique")
+    if (length(dots) == 0L)
+      return(ctrl)
+  }
 
+  assert_names(names(dots), "unique")
   ii = wf(names(dots) %nin% names(ctrl))
   if (length(ii))
     stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))

@@ -35,7 +35,7 @@
 #' learner = mlr_learners$get("classif.crashtest")
 #' learner$fallback = mlr_learners$get("classif.featureless")
 #' e = Experiment$new(task, learner)
-#' e$train(ctrl = mlr_control(use_evaluate = TRUE))
+#' e$train(ctrl = list(use_evaluate = TRUE))
 #' log = e$logs$train
 #'
 #' log$has_condition("error")

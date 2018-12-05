@@ -9,14 +9,19 @@ mlr_control(...)
 \arguments{
 \item{...}{Named arguments to overwrite the defaults / options.}
 }
+\value{
+(named \code{list()}). If no argument is provided, returns all settings as named list.
+If arguments are provided in a \code{name = value} fashion, the settings are returned as named list
+after some argument checks.
+}
 \description{
 This function creates a named list of settings which control the execution of an \link{Experiment}.
-It contains all options (see \code{\link[=mlr_options]{mlr_options()}}) without the \code{"mlr3"} prefix, and additionally:
 \itemize{
 \item \code{store_model}: If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
 \item \code{store_prediction}: If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
-\item \code{use_evaluate}: Capture output via \pkg{evaluate} and store it as log.
+\item \code{use_evaluate}: Set to \code{TRUE} to capture output via \pkg{evaluate} and store it as log.
+\item \code{use_future}: Set to \code{FALSE} to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
 }
 }
 \examples{

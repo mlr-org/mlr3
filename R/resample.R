@@ -12,7 +12,7 @@
 #' @param measures (`list` of [Measure]):\cr
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the measures stored in `task`.
-#' @param ctrl (`list` returned by [mlr_control()]):\cr
+#' @param ctrl (named `list()` as returned by [mlr_control()]):\cr
 #'   Object to control various parts of the execution.
 #'   See [mlr_control()].
 #' @return [ResampleResult].
@@ -34,13 +34,14 @@
 #'
 #' bmr = rr$combine(rr.featureless)
 #' bmr$aggregated
-resample = function(task, learner, resampling, measures = NULL, ctrl = mlr_control()) {
+resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   assert_task(task)
   assert_learner(learner, task = task)
   assert_resampling(resampling)
   if (is.null(measures))
     measures = task$measures
   assert_measures(measures, task = task, learner = learner)
+  ctrl = mlr_control(ctrl)
 
   if (resampling$is_instantiated) {
     instance = resampling$clone()

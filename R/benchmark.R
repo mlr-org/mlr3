@@ -23,8 +23,7 @@
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 #' resamplings = mlr_resamplings$mget(c("holdout", "cv"))
 #' measures = mlr_measures$mget("acc")
-#' ctrl = mlr_control()
-#' ctrl$verbose = FALSE
+#' ctrl = mlr_control(verbose = FALSE)
 #' bmr = benchmark(tasks, learners, resamplings, measures, ctrl = ctrl)
 #'
 #' # performance for all conducted experiments
@@ -43,7 +42,7 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
-benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_control()) {
+benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list()) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)
   assert_list(resamplings, "Resampling", min.len = 1L)

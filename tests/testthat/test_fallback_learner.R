@@ -16,12 +16,12 @@ test_that("fallback_learner", {
   learner$fallback = mlr_learners$get("classif.featureless")
   ctrl = mlr_control(use_evaluate = TRUE)
 
-  e = Experiment$new(task = task, learner = learner)
-  e$train(ctrl = ctrl)
-  e$predict(ctrl = ctrl)
-  e$prediction
-  e$score(ctr = ctrl)
-  e$performance
+  e = Experiment$new(task = task, learner = learner, ctrl = ctrl)
+  assert_list(e$ctrl)
+  expect_true(e$ctrl$use_evaluate)
+
+  e$train()$predict()$score()
+  expect_number(e$performance)
 })
 
 test_that("fallback_learner, resampling", {
