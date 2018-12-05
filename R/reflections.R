@@ -55,14 +55,11 @@ mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slot
 
 mlr_reflections$log_classes = c("output", "message", "warning", "error")
 
-mlr_reflections$default_mlr_options = list(
-  mlr3.verbose = TRUE,
-  mlr3.debug = FALSE,
-  mlr3.use_future = TRUE
-)
-
 mlr_reflections$default_mlr_control = list(
   store_model = TRUE,
   store_prediction = TRUE,
-  use_evaluate = FALSE
+  use_evaluate = FALSE,
+  use_future = TRUE,
+  verbose = TRUE,
+  debug = FALSE
 )
