@@ -61,7 +61,7 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = mlr_contr
   }
 
   res = combine_experiments(res)
-  res[, c("state", "task", "learner", "resampling", "measures") :=
-    list(as_experiment_state("scored"), list(task), list(learner), list(instance), list(measures))]
+  res[, c("task", "learner", "resampling", "measures") :=
+    list(list(task), list(learner), list(instance), list(measures))]
   ResampleResult$new(res)
 }

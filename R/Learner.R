@@ -60,6 +60,9 @@
 #' * `$properties` (`character()`) is a set of tags which describe the properties of the learner.
 #' * `$train()` takes a task and returns a model fitted on all observations.
 #' * `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
+#' * `$fallback` stores the fallback learner which is used to generate predictions if this learner
+#'    fails to train or predict. This mechanism is disabled unless you explictly
+#'    assign a learner to this slot.
 #' * `$hash` stores a checksum (`character(1)`) calculated on the `id` and `param_vals`.
 #'
 #' @name Learner
@@ -76,6 +79,7 @@ Learner = R6Class("Learner",
     packages = NULL,
     properties = NULL,
     param_set = NULL,
+    fallback = NULL,
 
     initialize = function(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
       self$id = assert_id(id)

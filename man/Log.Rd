@@ -38,11 +38,11 @@ Possible conditions are "output", "message", "warning", and "error".
 
 \examples{
 # Create a simple experiment and extract the train log:
-e = Experiment$new(
- task = mlr_tasks$get("sonar"),
- learner = mlr_learners$get("classif.crashtest")
-)
-e$train(ctrl = mlr_control(error_handling = "catch"))
+task = mlr_tasks$get("sonar")
+learner = mlr_learners$get("classif.crashtest")
+learner$fallback = mlr_learners$get("classif.featureless")
+e = Experiment$new(task, learner)
+e$train(ctrl = mlr_control(use_evaluate = TRUE))
 log = e$logs$train
 
 log$has_condition("error")
