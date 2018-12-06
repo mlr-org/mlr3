@@ -154,7 +154,7 @@
 <p>In the defaults, <code>mlr3</code> does not handle errors. Thus, the exception raised by the crashtest learner stops the execution and can be tracebacked:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">e<span class="op">$</span><span class="kw">train</span>()</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; INFO [2018-12-06 14:26:09] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; INFO [2018-12-06 14:31:31] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Error in (function (task, crash.on, crash.mode, ...) : Error in classif.crashtest during train()</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">## traceback()</span></a></code></pre></div>
 <p>Note that the traceback sometimes is obfuscated by the parallelization framework, i.e. if your entry point in the calculation is via <code><a href="../reference/resample.html">resample()</a></code> or <code><a href="../reference/benchmark.html">benchmark()</a></code>. To get a better traceback, you can turn the parallelization completely off by setting the control argument <code>disable_future</code>:</p>
@@ -167,7 +167,7 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">encapsulate =</span> <span class="st">"evaluate"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner, <span class="dt">ctrl =</span> ctrl)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">e<span class="op">$</span><span class="kw">train</span>()</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; INFO [2018-12-06 14:26:09] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; INFO [2018-12-06 14:31:31] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">e<span class="op">$</span>logs<span class="op">$</span>train</a>
@@ -177,7 +177,7 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">encapsulate =</span> <span class="st">"callr"</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; INFO [2018-12-06 14:26:09] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; INFO [2018-12-06 14:31:31] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7">e<span class="op">$</span>logs<span class="op">$</span>train</a>
@@ -189,7 +189,7 @@
 <a class="sourceLine" id="cb6-4" data-line-number="4">learner<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">crash.on =</span> <span class="st">"train"</span>, <span class="dt">crash.mode =</span> <span class="st">"segfault"</span>)</a>
 <a class="sourceLine" id="cb6-5" data-line-number="5">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
 <a class="sourceLine" id="cb6-6" data-line-number="6">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; INFO [2018-12-06 14:26:09] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; INFO [2018-12-06 14:31:32] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb6-10" data-line-number="10">e<span class="op">$</span>logs<span class="op">$</span>train<span class="op">$</span>errors</a>
@@ -210,8 +210,8 @@
 <a class="sourceLine" id="cb8-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(<span class="dt">task =</span> task, <span class="dt">learner =</span> learner, <span class="dt">ctrl =</span> ctrl)</a>
 <a class="sourceLine" id="cb8-7" data-line-number="7">e<span class="op">$</span><span class="kw">train</span>()</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; INFO [2018-12-06 14:26:10] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; INFO [2018-12-06 14:26:10] Training fallback learner 'classif.featureless' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; INFO [2018-12-06 14:31:32] Training learner 'classif.crashtest' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; INFO [2018-12-06 14:31:32] Training fallback learner 'classif.featureless' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb8-10" data-line-number="10">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb8-12" data-line-number="12">e<span class="op">$</span>logs<span class="op">$</span>train</a>
@@ -219,9 +219,9 @@
 <a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 1: [error] Error in classif.crashtest during train()</span></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb8-16" data-line-number="16">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>()</a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; INFO [2018-12-06 14:26:10] Predicting model of learner 'classif.featureless' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; INFO [2018-12-06 14:31:32] Predicting model of learner 'classif.featureless' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb8-18" data-line-number="18">e<span class="op">$</span><span class="kw">score</span>()</a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; INFO [2018-12-06 14:26:10] Scoring predictions of learner 'classif.crashtest' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; INFO [2018-12-06 14:31:32] Scoring predictions of learner 'classif.crashtest' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb8-20" data-line-number="20">e<span class="op">$</span>prediction</a>
 <a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; &lt;PredictionClassif&gt; for 4601 observations:</span></a>
 <a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt;       row_id response   truth</span></a>
