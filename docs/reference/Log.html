@@ -185,11 +185,12 @@ Possible conditions are "output", "message", "warning", and "error".</p></li>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Create a simple experiment and extract the train log:</span>
-<span class='no'>e</span> <span class='kw'>=</span> <span class='no'>Experiment</span>$<span class='fu'>new</span>(
- <span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"sonar"</span>),
- <span class='kw'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.crashtest"</span>)
-)
-<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_control.html'>mlr_control</a></span>(<span class='kw'>error_handling</span> <span class='kw'>=</span> <span class='st'>"catch"</span>))</div><div class='output co'>#&gt; <span class='message'>Training learner 'classif.crashtest' on task 'sonar' ...</span></div><div class='input'><span class='no'>log</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>logs</span>$<span class='no'>train</span>
+<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"sonar"</span>)
+<span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.crashtest"</span>)
+<span class='no'>learner</span>$<span class='no'>fallback</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)
+<span class='no'>e</span> <span class='kw'>=</span> <span class='no'>Experiment</span>$<span class='fu'>new</span>(<span class='no'>task</span>, <span class='no'>learner</span>)
+<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>use_evaluate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; INFO [2018-12-05 13:16:35] Training learner 'classif.crashtest' on task 'sonar' ...
+#&gt; INFO [2018-12-05 13:16:35] Training fallback learner 'classif.featureless' on task 'sonar' ...</div><div class='input'><span class='no'>log</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>logs</span>$<span class='no'>train</span>
 
 <span class='no'>log</span>$<span class='fu'>has_condition</span>(<span class='st'>"error"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>log</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>()</div><div class='output co'>#&gt; &lt;Log&gt; with 1 message:
 #&gt; 1: [error] Error in classif.crashtest during train()</div></pre>

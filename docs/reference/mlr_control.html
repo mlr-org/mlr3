@@ -31,24 +31,11 @@
 <meta property="og:title" content="Execution control object — mlr_control" />
 
 <meta property="og:description" content="This function creates a named list of settings which control the execution of an Experiment.
-It contains all options (see mlr_options()) without the "mlr3" prefix, and additionally:
 store_model: If FALSE, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
 store_prediction: If FALSE, the predictions are discarded in order to save some memory after the experiment is completed.
-Note that you will be unable calculate more performance measures.
-error_handling: How to deal with models raising exceptions during train or predict?
-"off" (default). An exception is raised, stopping the execution.
-"catch". Exceptions are caught and logged. There will be no predictions available, and the performance will be NA.
-All output is stored in the Experiment as a Log.
-"impute_worst". This is similar to the "catch" approach, but instead of predicting NA, the worst
-possible performance is predicted.
-"fallback_train". If the learner fails to fit a model during train, fit a fallback model, e.g. with a featureless learner.
-The fallback learner is in this case used to generate predictions which are then scored.
-Note that this mechanism does not guard you from models which successfully train, but raise exceptions during predict.
-This would result in missing predictions and NA scores.
-"fallback". Always fit a fallback model and use it if the learner fails to train or predict.
-
-fallback_learner: If "error_handling" is set to "fallback_train" or "fallback", use this learner as fallback learner.
+use_evaluate: Set to TRUE to capture output via evaluate and store it as log.
+use_future: Set to FALSE to disable parallelization via future. This sometimes simplifies debugging.
 " />
 <meta name="twitter:card" content="summary" />
 
@@ -167,25 +154,12 @@ fallback_learner: If "error_handling" is set to "fallback_train" or "fallback", 
     </div>
 
     
-    <p>This function creates a named list of settings which control the execution of an <a href='Experiment.html'>Experiment</a>.
-It contains all options (see <code><a href='mlr_options.html'>mlr_options()</a></code>) without the <code>"mlr3"</code> prefix, and additionally:</p><ul>
+    <p>This function creates a named list of settings which control the execution of an <a href='Experiment.html'>Experiment</a>.</p><ul>
 <li><p><code>store_model</code>: If <code>FALSE</code>, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.</p></li>
-<li><p><code>store_prediction</code>: If <code>FALSE</code>, the predictions are discarded in order to save some memory after the experiment is completed.
-Note that you will be unable calculate more performance measures.</p></li>
-<li><p><code>error_handling</code>: How to deal with models raising exceptions during <code>train</code> or <code>predict</code>?</p><ul>
-<li><p><code>"off"</code> (default). An exception is raised, stopping the execution.</p></li>
-<li><p><code>"catch"</code>. Exceptions are caught and logged. There will be no predictions available, and the performance will be <code>NA</code>.
-All output is stored in the <a href='Experiment.html'>Experiment</a> as a <a href='Log.html'>Log</a>.</p></li>
-<li><p><code>"impute_worst"</code>. This is similar to the <code>"catch"</code> approach, but instead of predicting <code>NA</code>, the worst
-possible performance is predicted.</p></li>
-<li><p><code>"fallback_train"</code>. If the learner fails to fit a model during train, fit a fallback model, e.g. with a featureless learner.
-The fallback learner is in this case used to generate predictions which are then scored.
-Note that this mechanism does not guard you from models which successfully train, but raise exceptions during predict.
-This would result in missing predictions and <code>NA</code> scores.</p></li>
-<li><p><code>"fallback"</code>. Always fit a fallback model and use it if the learner fails to train or predict.</p></li>
-</ul></li>
-<li><p><code>fallback_learner</code>: If <code>"error_handling"</code> is set to <code>"fallback_train"</code> or <code>"fallback"</code>, use this learner as fallback learner.</p></li>
+<li><p><code>store_prediction</code>: If <code>FALSE</code>, the predictions are discarded in order to save some memory after the experiment is completed.</p></li>
+<li><p><code>use_evaluate</code>: Set to <code>TRUE</code> to capture output via <span class="pkg">evaluate</span> and store it as log.</p></li>
+<li><p><code>use_future</code>: Set to <code>FALSE</code> to disable parallelization via <span class="pkg">future</span>. This sometimes simplifies debugging.</p></li>
 </ul>
     
 
@@ -200,20 +174,26 @@ This would result in missing predictions and <code>NA</code> scores.</p></li>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>(named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>). If no argument is provided, returns all settings as named list.
+If arguments are provided in a <code>name = value</code> fashion, the settings are returned as named list
+after some argument checks.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># get a list of the currently active defaults</span>
+    <pre class="examples"><div class='input'><span class='co'># get a list of the defaults</span>
 <span class='fu'>mlr_control</span>()</div><div class='output co'>#&gt; $store_model
 #&gt; [1] TRUE
 #&gt; 
 #&gt; $store_prediction
 #&gt; [1] TRUE
 #&gt; 
-#&gt; $error_handling
-#&gt; [1] "off"
+#&gt; $use_evaluate
+#&gt; [1] FALSE
 #&gt; 
-#&gt; $fallback_learner
-#&gt; NULL
+#&gt; $use_future
+#&gt; [1] TRUE
 #&gt; 
 #&gt; $verbose
 #&gt; [1] TRUE
@@ -221,37 +201,47 @@ This would result in missing predictions and <code>NA</code> scores.</p></li>
 #&gt; $debug
 #&gt; [1] FALSE
 #&gt; 
-#&gt; $use_future
-#&gt; [1] TRUE
+#&gt; $log_threshold
+#&gt; [1] 400
+#&gt; attr(,"level")
+#&gt; [1] "INFO"
+#&gt; attr(,"class")
+#&gt; [1] "loglevel" "integer" 
 #&gt; </div><div class='input'>
-<span class='co'># enable debuging</span>
-<span class='fu'>mlr_control</span>(<span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $store_model
-#&gt; [1] TRUE
+<span class='co'># get a control object, with the default of store_model switched to FALSE</span>
+<span class='fu'>mlr_control</span>(<span class='kw'>store_model</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; $store_model
+#&gt; [1] FALSE
 #&gt; 
 #&gt; $store_prediction
 #&gt; [1] TRUE
 #&gt; 
-#&gt; $error_handling
-#&gt; [1] "off"
+#&gt; $use_evaluate
+#&gt; [1] FALSE
 #&gt; 
-#&gt; $fallback_learner
-#&gt; NULL
+#&gt; $use_future
+#&gt; [1] TRUE
 #&gt; 
 #&gt; $verbose
 #&gt; [1] TRUE
 #&gt; 
 #&gt; $debug
-#&gt; [1] TRUE
+#&gt; [1] FALSE
 #&gt; 
-#&gt; $use_future
-#&gt; [1] TRUE
+#&gt; $log_threshold
+#&gt; [1] 400
+#&gt; attr(,"level")
+#&gt; [1] "INFO"
+#&gt; attr(,"class")
+#&gt; [1] "loglevel" "integer" 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#value">Value</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
