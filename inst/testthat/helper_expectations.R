@@ -402,3 +402,11 @@ expect_benchmark_result = function(bmr) {
   expect_id(tab$resampling_id)
   checkmate::expect_integer(tab$N, any.missing = FALSE, lower = 1L)
 }
+
+expect_log = function(log) {
+  checkmate::expect_class(log, "Log")
+  checkmate::expect_data_table(log$log, ncol = 2L)
+  checkmate::expect_character(log$log$class, any.missing = FALSE)
+  checkmate::expect_subset(log$log$class, mlr_reflections$log_classes)
+  checkmate::expect_character(log$log$msg, any.missing = FALSE)
+}

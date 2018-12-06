@@ -266,14 +266,9 @@ experiment_train = function(self, row_ids, ctrl = list()) {
   self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
   self$data$iteration = 1L
 
-  if (use_future(ctrl)) {
-    log_debug("Running train_worker() via futureCall()", namespace = "mlr3")
-    value = future::futureCall(train_worker, list(e = self, ctrl = ctrl), globals = FALSE, packages = "mlr3")
-    value = future::value(value)
-  } else {
-    log_debug("Running train_worker()", namespace = "mlr3")
-    value = train_worker(self, ctrl = ctrl)
-  }
+  log_debug("Running train_worker()", namespace = "mlr3")
+  value = train_worker(self, ctrl = ctrl)
+
   self$data = insert_named(self$data, value)
   return(experiment_reset_state(self, "trained"))
 }
@@ -288,14 +283,9 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list(
     row_ids = self$validation_set
   }
 
-  if (use_future(ctrl)) {
-    log_debug("Running predict_worker() via futureCall()", namespace = "mlr3")
-    value = future::futureCall(predict_worker, list(e = self, ctrl = ctrl), globals = FALSE, packages = "mlr3")
-    value = future::value(value)
-  } else {
-    log_debug("Running predict_worker()", namespace = "mlr3")
-    value = predict_worker(self, ctrl = ctrl)
-  }
+  log_debug("Running predict_worker()", namespace = "mlr3")
+  value = predict_worker(self, ctrl = ctrl)
+
   self$data = insert_named(self$data, value)
   return(experiment_reset_state(self, "predicted"))
 }
@@ -304,14 +294,8 @@ experiment_score = function(self, measures = NULL, ctrl = list()) {
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, learner = self$learner)
 
-  if (use_future(ctrl)) {
-    log_debug("Running score_worker() via futureCall()", namespace = "mlr3")
-    value = future::futureCall(score_worker, list(e = self, ctrl = ctrl), globals = FALSE, packages = "mlr3")
-    value = future::value(value)
-  } else {
-    log_debug("Running score_worker()", namespace = "mlr3")
-    value = score_worker(self, ctrl = ctrl)
-  }
+  log_debug("Running score_worker()", namespace = "mlr3")
+  value = score_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)
   return(self)

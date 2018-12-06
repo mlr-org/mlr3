@@ -1,26 +1,3 @@
-ecall = function(fun, pars, ctrl) {
-  if (use_evaluate(ctrl)) {
-    result = NULL
-    now = proc.time()[[3L]]
-    log = evaluate::evaluate(
-      "result <- do.call(fun, pars)",
-      stop_on_error = 1L,
-      new_device = FALSE,
-      include_timing = FALSE
-    )
-    elapsed = proc.time()[[3L]] - now
-    log = Log$new(log)
-  } else {
-    now = proc.time()[[3L]]
-    result = do.call(fun, pars)
-    elapsed = proc.time()[[3L]] - now
-    log = Log$new()
-  }
-
-  list(result = result, log = log, elapsed = elapsed)
-}
-
-
 train_worker = function(e, ctrl) {
   data = e$data
   learner = data$learner
@@ -31,7 +8,8 @@ train_worker = function(e, ctrl) {
 
   log_level(INFO, "Training learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
-  res = set_names(ecall(learner$train, pars, ctrl),
+  enc = encapsulate(ctrl)
+  res = set_names(enc(learner$train, pars),
     c("model", "train_log", "train_time"))
 
   if (!is.null(learner$fallback)) {
@@ -63,7 +41,8 @@ predict_worker = function(e, ctrl) {
   if (ctrl$verbose)
     log_info("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
-  res = set_names(ecall(learner$predict, pars, ctrl),
+  enc = encapsulate(ctrl)
+  res = set_names(enc(learner$predict, pars),
     c("prediction", "predict_log", "predict_time"))
   assert_class(res$prediction, "Prediction")
 
@@ -80,7 +59,8 @@ score_worker = function(e, ctrl) {
   calc_all_measures = function() {
     set_names(lapply(measures, function(m) m$calculate(e)), ids(measures))
   }
-  res = ecall(calc_all_measures, list(), ctrl)
+  enc = encapsulate(ctrl)
+  res = enc(calc_all_measures, list())
   return(list(performance = res$result, score_time = res$elapsed))
 }
 

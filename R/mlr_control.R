@@ -6,7 +6,10 @@
 #' * `store_model`: If `FALSE`, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 #'  Note that you will be unable to further predict on new data.
 #' * `store_prediction`: If `FALSE`, the predictions are discarded in order to save some memory after the experiment is completed.
-#' * `use_evaluate`: Set to `TRUE` to capture output via \pkg{evaluate} and store it as log.
+#' * `encapsulate`: How to call external code, e.g. train and predict methods of third party packages.
+#'   If not set or `NULL` (default), the code is executed in the running session without error handling.
+#'
+#'
 #' * `use_future`: Set to `FALSE` to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
@@ -48,10 +51,4 @@ use_future = function(ctrl) {
   isTRUE(ctrl$use_future) &&
     requireNamespace("future", quietly = TRUE) &&
     requireNamespace("future.apply", quietly = TRUE)
-}
-
-use_evaluate = function(ctrl) {
-  if (ctrl$use_evaluate)
-    require_namespaces("evaluate")
-  ctrl$use_evaluate
 }

@@ -33,15 +33,15 @@ Imports:
     paradox,
     R6
 Suggests:
-    Matrix,
+    callr,
     datasets,
     devtools,
     evaluate,
     future (>= 1.9.0),
     future.apply,
-    future.callr,
     kernlab,
     knitr,
+    Matrix,
     mlbench,
     rmarkdown,
     rpart,
@@ -91,6 +91,7 @@ Collate:
     'Task_mutators.R'
     'assertions.R'
     'benchmark.R'
+    'encapsulate.R'
     'helper.R'
     'mlr_control.R'
     'mlr_learners.R'

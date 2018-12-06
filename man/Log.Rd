@@ -42,7 +42,7 @@ task = mlr_tasks$get("sonar")
 learner = mlr_learners$get("classif.crashtest")
 learner$fallback = mlr_learners$get("classif.featureless")
 e = Experiment$new(task, learner)
-e$train(ctrl = list(use_evaluate = TRUE))
+e$train(ctrl = list(encapsulate = "evaluate"))
 log = e$logs$train
 
 log$has_condition("error")

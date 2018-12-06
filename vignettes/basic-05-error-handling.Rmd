@@ -57,7 +57,7 @@ e$train(ctrl = ctrl)
 During parallelization, error messages (as well as normal output or warnings) are often not properly forwarded to the master R session, or they arrive in a confusing order.
 The learner execution can be encapsulated, so its output is logged to the experiment instead of just printed to the console.
 ```{r}
-ctrl = mlr_control(use_evaluate = TRUE)
+ctrl = mlr_control(encapsulate = "evaluate")
 e = Experiment$new(task, learner)
 e$train(ctrl = ctrl)
 e$has_errors
@@ -77,7 +77,7 @@ Here, we simply fallback to the predictions of a featureless learner (predicting
 task = mlr_tasks$get("spam")
 learner = mlr_learners$get("classif.crashtest")
 learner$fallback = mlr_learners$get("classif.featureless")
-ctrl = mlr_control(use_evaluate = TRUE)
+ctrl = mlr_control(encapsulate = "evaluate")
 
 e = Experiment$new(task = task, learner = learner)
 e$train(ctrl = ctrl)

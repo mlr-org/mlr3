@@ -20,7 +20,8 @@ This function creates a named list of settings which control the execution of an
 \item \code{store_model}: If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
 \item \code{store_prediction}: If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
-\item \code{use_evaluate}: Set to \code{TRUE} to capture output via \pkg{evaluate} and store it as log.
+\item \code{encapsulate}: How to call external code, e.g. train and predict methods of third party packages.
+If not set or \code{NULL} (default), the code is executed in the running session without error handling.
 \item \code{use_future}: Set to \code{FALSE} to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
 }
 }
