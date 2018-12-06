@@ -409,4 +409,6 @@ expect_log = function(log) {
   checkmate::expect_character(log$log$class, any.missing = FALSE)
   checkmate::expect_subset(log$log$class, mlr_reflections$log_classes)
   checkmate::expect_character(log$log$msg, any.missing = FALSE)
+  checkmate::expect_character(log$warnings, any.missing = FALSE)
+  checkmate::expect_character(log$errors, any.missing = FALSE)
 }

@@ -28,6 +28,7 @@ This introduction is about resampling.
 Again, we consider the iris task and a simple classification tree here.
 
 ```{r}
+library(mlr3)
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 ```
@@ -42,7 +43,6 @@ The experiment conducted in the introduction on train/predict/score is equivalen
 ```{r}
 resampling = mlr_resamplings$get("holdout")
 print(resampling)
-print(resampling$param_set)
 print(resampling$param_vals)
 ```
 To change the ratio to $0.8$, we simply overwrite the slot:

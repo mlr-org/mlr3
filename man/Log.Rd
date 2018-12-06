@@ -11,6 +11,8 @@ Object which stores the output of the \code{train} or \code{predict} step of an 
 l = Log$new(log = NULL)
 #
 l$has_condition(cl)
+l$warnings
+l$errors
 l$format()
 l$print()
 }
@@ -19,10 +21,10 @@ l$print()
 \section{Arguments}{
 
 \itemize{
-\item \code{log}:
-Object as returned by \code{\link[evaluate:evaluate]{evaluate::evaluate()}}.
+\item \code{log} (\code{data.table::data.table()}):
+\code{data.table()} with columns \code{class} (\code{character()}) and \code{message} (\code{character()}).
 \item \code{cl} (\code{character(1)}):
-Class of a condition. One of "output", "message", "warning", or "error".
+Class of a condition. One of "output", "warning", or "error".
 }
 }
 
@@ -32,6 +34,8 @@ Class of a condition. One of "output", "message", "warning", or "error".
 \item \code{$new(log)} parses the object returned by \code{\link[evaluate:evaluate]{evaluate::evaluate()}} and creates a new \link{Log}.
 \item \code{$has_condition(cl)} returns \code{TRUE} if at least on message of class \code{cl} is logged.
 Possible conditions are "output", "message", "warning", and "error".
+\item \code{$warnings} (\code{character()}) returns all lines which are warnings.
+\item \code{$errors} (\code{character()}) returns all lines which are errors.
 \item \code{format()} and \code{print()} are for formatting and printing via \code{\link[=format]{format()}} or \code{\link[=print]{print()}}, respectively.
 }
 }
@@ -43,8 +47,8 @@ learner = mlr_learners$get("classif.crashtest")
 learner$fallback = mlr_learners$get("classif.featureless")
 e = Experiment$new(task, learner)
 e$train(ctrl = list(encapsulate = "evaluate"))
-log = e$logs$train
+l = e$logs$train
 
-log$has_condition("error")
-log$print()
+l$has_condition("error")
+print(l)
 }

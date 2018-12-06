@@ -9,22 +9,27 @@
 #' l = Log$new(log = NULL)
 #' #
 #' l$has_condition(cl)
+#' l$warnings
+#' l$errors
 #' l$format()
 #' l$print()
 #' ```
 #'
 #' @section Arguments:
-#' * `log`:
-#'   Object as returned by [evaluate::evaluate()].
+#' * `log` (`data.table::data.table()`):
+#'   `data.table()` with columns `class` (`character()`) and `message` (`character()`).
 #' * `cl` (`character(1)`):
-#'   Class of a condition. One of "output", "message", "warning", or "error".
+#'   Class of a condition. One of "output", "warning", or "error".
 #'
 #' @section Details:
 #' * `$new(log)` parses the object returned by [evaluate::evaluate()] and creates a new [Log].
 #'
-#'
 #' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is logged.
 #'   Possible conditions are "output", "message", "warning", and "error".
+#'
+#' * `$warnings` (`character()`) returns all lines which are warnings.
+#'
+#' * `$errors` (`character()`) returns all lines which are errors.
 #'
 #' * `format()` and `print()` are for formatting and printing via [format()] or [print()], respectively.
 #'
@@ -36,10 +41,10 @@
 #' learner$fallback = mlr_learners$get("classif.featureless")
 #' e = Experiment$new(task, learner)
 #' e$train(ctrl = list(encapsulate = "evaluate"))
-#' log = e$logs$train
+#' l = e$logs$train
 #'
-#' log$has_condition("error")
-#' log$print()
+#' l$has_condition("error")
+#' print(l)
 NULL
 
 #' @export
@@ -68,6 +73,15 @@ Log = R6Class("Log", cloneable = FALSE,
       assert_choice(cl, mlr_reflections$log_classes)
       nrow(self$log) && self$log[list(cl), .N, on = "class", nomatch = 0L] > 0L
     }
+  ),
+
+  active = list(
+    warnings = function() {
+      self$log[list("warning"), "msg", on = "class", nomatch = 0L, with = FALSE][[1L]]
+    },
+
+    errors = function() {
+      self$log[list("error"), "msg", on = "class", nomatch = 0L, with = FALSE][[1L]]
+    }
   )
 )
-

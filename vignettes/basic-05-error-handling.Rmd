@@ -35,38 +35,67 @@ learner = mlr_learners$get("classif.crashtest")
 print(learner)
 ```
 The hyperparameters let us control (a) whether it should crash during train or predict, and (b) if the learner should crash with an error or segfault (which tears down the complete R session).
+With its default settings, it will throw an exception during the `train` step.
 
 
 # No Error Handling
 
-In the defaults, `mlr3` does not handle model errors specially.
-Thus, the exception raised by the crashtest learner can stops the execution and can be tracebacked:
+In the defaults, `mlr3` does not handle errors.
+Thus, the exception raised by the crashtest learner stops the execution and can be tracebacked:
 
-```{r, error=TRUE}
+```{r, error = TRUE, eval = -3}
 e = Experiment$new(task, learner)
 e$train()
+traceback()
 ```
 
-The traceback might be obfuscated by the parallelization framework, depending on your configuration and installation.
-To get a better traceback, we turn the parallelization completely off:
-```{r, error = TRUE}
-ctrl = mlr_control(use_future = FALSE)
-e$train(ctrl = ctrl)
+Note that the traceback sometimes is obfuscated by the parallelization framework, i.e. if your entry point in the calculation is via `resample()` or `benchmark()`.
+To get a better traceback, you can turn the parallelization completely off by setting the control argument `disable_future`:
+```{r}
+ctrl = mlr_control(disable_future = TRUE)
 ```
+
+# Encapsulation
 
 During parallelization, error messages (as well as normal output or warnings) are often not properly forwarded to the master R session, or they arrive in a confusing order.
-The learner execution can be encapsulated, so its output is logged to the experiment instead of just printed to the console.
+The learner execution can be encapsulated, so its output is logged to the experiment instead of just printed to the console:
 ```{r}
 ctrl = mlr_control(encapsulate = "evaluate")
+e = Experiment$new(task, learner, ctrl = ctrl)
+e$train()
+e$has_errors
+e$logs$train
+```
+
+Another possibility to encapsulate is execution via package the [`callr`](https://cran.r-project.org/package=callr).
+[`callr`](https://cran.r-project.org/package=callr) spawns a new R process, and thus guards us from segfaults.
+On the downside, starting new processes comes with a computational overhead.
+```{r}
+ctrl = mlr_control(encapsulate = "callr")
 e = Experiment$new(task, learner)
 e$train(ctrl = ctrl)
 e$has_errors
 e$logs$train
 ```
-Note that, although no exception has been raised, it is impossible to perform the predict step without a model.
+
+```{r}
+ctrl = mlr_control(encapsulate = "callr")
+task = mlr_tasks$get("spam")
+learner = mlr_learners$get("classif.crashtest")
+learner$param_vals = list(crash.on = "train", crash.mode = "segfault")
+e = Experiment$new(task, learner)
+e$train(ctrl = ctrl)
+e$has_errors
+e$logs$train$errors
+```
+
+Note that, although no exception has been raised with encapsulation, it is impossible to perform the predict step without a model:
 ```{r, error = TRUE}
 e$predict()
 ```
+
+As a workaround, we define a learner in the next section which is used as a surrogate to create predictions.
+
 
 # Fallback Learners
 
@@ -79,13 +108,15 @@ learner = mlr_learners$get("classif.crashtest")
 learner$fallback = mlr_learners$get("classif.featureless")
 ctrl = mlr_control(encapsulate = "evaluate")
 
-e = Experiment$new(task = task, learner = learner)
-e$train(ctrl = ctrl)
-e$predict(ctrl = ctrl)
-e$score(ctrl = ctrl)
+e = Experiment$new(task = task, learner = learner, ctrl = ctrl)
+e$train()
+e$has_errors
+e$logs$train
+
+e$predict()
+e$score()
 e$prediction
 e$performance
-e$logs
 ```
 
 Note that the logs and timings are tracked for the original learner, not the fallback learner.

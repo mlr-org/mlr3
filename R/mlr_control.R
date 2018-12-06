@@ -7,10 +7,13 @@
 #'  Note that you will be unable to further predict on new data.
 #' * `store_prediction`: If `FALSE`, the predictions are discarded in order to save some memory after the experiment is completed.
 #' * `encapsulate`: How to call external code, e.g. train and predict methods of third party packages.
-#'   If not set or `NULL` (default), the code is executed in the running session without error handling.
-#'
-#'
-#' * `use_future`: Set to `FALSE` to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
+#'     - If not set or `NULL` (default), the code is executed in the running session without error handling.
+#'       Output is send to the console, and not logged at all.
+#'     - If set to `"evaluate"`, the exceptions are caught using \pkg{evaluate}, and output is stored in a [Log] of the corresponding [Experiment].
+#'     - If set to `"callr"`, the code is executed in an independent R session. This guards your session from segfaults,
+#'       at the cost of some computational overhead.
+#'      Logs are also stored in the [Experiment].
+#' * `disable_future`: Set to `TRUE` to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
 #'
@@ -48,7 +51,7 @@ mlr_control = function(...) {
 }
 
 use_future = function(ctrl) {
-  isTRUE(ctrl$use_future) &&
+  isFALSE(ctrl$disable_future) &&
     requireNamespace("future", quietly = TRUE) &&
     requireNamespace("future.apply", quietly = TRUE)
 }

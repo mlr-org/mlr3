@@ -59,7 +59,7 @@ mlr_reflections$default_mlr_control = list(
   store_model = TRUE,
   store_prediction = TRUE,
   encapsulate = NULL,
-  use_future = TRUE,
+  disable_future = FALSE,
   verbose = TRUE,
   debug = FALSE
 )
