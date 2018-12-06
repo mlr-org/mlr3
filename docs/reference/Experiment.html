@@ -246,7 +246,7 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt;   performance, predict, prediction, score, state, task, test_set,
 #&gt;   timings, train, train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
 #&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [2018-12-05 13:16:34] Training learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [trained (incomplete)]:
+<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [2018-12-06 14:25:44] Training learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [trained (incomplete)]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]
@@ -266,7 +266,7 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt;   3) Petal.Length&gt;=2.45 70 20 versicolor (0.00000000 0.71428571 0.28571429)  
 #&gt;     6) Petal.Length&lt; 4.95 49  1 versicolor (0.00000000 0.97959184 0.02040816) *
 #&gt;     7) Petal.Length&gt;=4.95 21  2 virginica (0.00000000 0.09523810 0.90476190) *</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [2018-12-05 13:16:34] Predicting model of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [predicted (incomplete)]:
+<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [2018-12-06 14:25:44] Predicting model of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [predicted (incomplete)]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]
@@ -285,7 +285,7 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt; 28:    148  virginica virginica
 #&gt; 29:    149  virginica virginica
 #&gt; 30:    150  virginica virginica</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'>score</span>()</div><div class='output co'>#&gt; INFO [2018-12-05 13:16:34] Scoring predictions of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [scored (complete)]:
+<span class='no'>e</span>$<span class='fu'>score</span>()</div><div class='output co'>#&gt; INFO [2018-12-06 14:25:44] Scoring predictions of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [scored (complete)]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]
