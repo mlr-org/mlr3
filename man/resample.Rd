@@ -4,8 +4,7 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, measures = NULL,
-  ctrl = mlr_control())
+resample(task, learner, resampling, measures = NULL, ctrl = list())
 }
 \arguments{
 \item{task}{(\link{Task}):\cr
@@ -21,9 +20,8 @@ Object of type \link{Resampling}.}
 List of performance measures used to assess the predictive performance.
 Defaults to the measures stored in \code{task}.}
 
-\item{ctrl}{(\code{list} returned by \code{\link[=mlr_control]{mlr_control()}}):\cr
-Object to control various parts of the execution.
-See \code{\link[=mlr_control]{mlr_control()}}.}
+\item{ctrl}{(named \code{list()}, e.g. as returned by \code{\link[=mlr_control]{mlr_control()}}):\cr
+Object to control various parts of the execution. See \code{\link[=mlr_control]{mlr_control()}}.}
 }
 \value{
 \link{ResampleResult}.

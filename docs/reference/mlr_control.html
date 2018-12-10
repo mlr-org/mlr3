@@ -31,11 +31,18 @@
 <meta property="og:title" content="Execution control object — mlr_control" />
 
 <meta property="og:description" content="This function creates a named list of settings which control the execution of an Experiment.
-It contains all options (see mlr_options()) without the "mlr3" prefix, and additionally:
 store_model: If FALSE, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
 store_prediction: If FALSE, the predictions are discarded in order to save some memory after the experiment is completed.
-use_evaluate: Capture output via evaluate and store it as log.
+encapsulate: How to call external code, e.g. train and predict methods of third party packages.
+If not set or NULL (default), the code is executed in the running session without error handling.
+Output is send to the console, and not logged at all.
+If set to "evaluate", the exceptions are caught using evaluate, and output is stored in a Log of the corresponding Experiment.
+If set to "callr", the code is executed in an independent R session. This guards your session from segfaults,
+at the cost of some computational overhead.
+Logs are also stored in the Experiment.
+
+disable_future: Set to TRUE to disable parallelization via future. This sometimes simplifies debugging.
 " />
 <meta name="twitter:card" content="summary" />
 
@@ -154,12 +161,19 @@ use_evaluate: Capture output via evaluate and store it as log.
     </div>
 
     
-    <p>This function creates a named list of settings which control the execution of an <a href='Experiment.html'>Experiment</a>.
-It contains all options (see <code><a href='mlr_options.html'>mlr_options()</a></code>) without the <code>"mlr3"</code> prefix, and additionally:</p><ul>
+    <p>This function creates a named list of settings which control the execution of an <a href='Experiment.html'>Experiment</a>.</p><ul>
 <li><p><code>store_model</code>: If <code>FALSE</code>, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.</p></li>
 <li><p><code>store_prediction</code>: If <code>FALSE</code>, the predictions are discarded in order to save some memory after the experiment is completed.</p></li>
-<li><p><code>use_evaluate</code>: Capture output via <span class="pkg">evaluate</span> and store it as log.</p></li>
+<li><p><code>encapsulate</code>: How to call external code, e.g. train and predict methods of third party packages.</p><ul>
+<li><p>If not set or <code>NULL</code> (default), the code is executed in the running session without error handling.
+Output is send to the console, and not logged at all.</p></li>
+<li><p>If set to <code>"evaluate"</code>, the exceptions are caught using <span class="pkg">evaluate</span>, and output is stored in a <a href='Log.html'>Log</a> of the corresponding <a href='Experiment.html'>Experiment</a>.</p></li>
+<li><p>If set to <code>"callr"</code>, the code is executed in an independent R session. This guards your session from segfaults,
+at the cost of some computational overhead.
+Logs are also stored in the <a href='Experiment.html'>Experiment</a>.</p></li>
+</ul></li>
+<li><p><code>disable_future</code>: Set to <code>TRUE</code> to disable parallelization via <span class="pkg">future</span>. This sometimes simplifies debugging.</p></li>
 </ul>
     
 
@@ -174,16 +188,25 @@ Note that you will be unable to further predict on new data.</p></li>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>(named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>). If no argument is provided, returns all settings as named list.
+If arguments are provided in a <code>name = value</code> fashion, the settings are returned as named list
+after some argument checks.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># get a list of the currently active defaults</span>
+    <pre class="examples"><div class='input'><span class='co'># get a list of the defaults</span>
 <span class='fu'>mlr_control</span>()</div><div class='output co'>#&gt; $store_model
 #&gt; [1] TRUE
 #&gt; 
 #&gt; $store_prediction
 #&gt; [1] TRUE
 #&gt; 
-#&gt; $use_evaluate
+#&gt; $encapsulate
+#&gt; NULL
+#&gt; 
+#&gt; $disable_future
 #&gt; [1] FALSE
 #&gt; 
 #&gt; $verbose
@@ -192,34 +215,47 @@ Note that you will be unable to further predict on new data.</p></li>
 #&gt; $debug
 #&gt; [1] FALSE
 #&gt; 
-#&gt; $use_future
-#&gt; [1] TRUE
+#&gt; $log_threshold
+#&gt; [1] 400
+#&gt; attr(,"level")
+#&gt; [1] "INFO"
+#&gt; attr(,"class")
+#&gt; [1] "loglevel" "integer" 
 #&gt; </div><div class='input'>
-<span class='co'># enable debuging</span>
-<span class='fu'>mlr_control</span>(<span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; $store_model
-#&gt; [1] TRUE
+<span class='co'># get a control object, with the default of store_model switched to FALSE</span>
+<span class='fu'>mlr_control</span>(<span class='kw'>store_model</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; $store_model
+#&gt; [1] FALSE
 #&gt; 
 #&gt; $store_prediction
 #&gt; [1] TRUE
 #&gt; 
-#&gt; $use_evaluate
+#&gt; $encapsulate
+#&gt; NULL
+#&gt; 
+#&gt; $disable_future
 #&gt; [1] FALSE
 #&gt; 
 #&gt; $verbose
 #&gt; [1] TRUE
 #&gt; 
 #&gt; $debug
-#&gt; [1] TRUE
+#&gt; [1] FALSE
 #&gt; 
-#&gt; $use_future
-#&gt; [1] TRUE
+#&gt; $log_threshold
+#&gt; [1] 400
+#&gt; attr(,"level")
+#&gt; [1] "INFO"
+#&gt; attr(,"class")
+#&gt; [1] "loglevel" "integer" 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#value">Value</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

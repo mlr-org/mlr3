@@ -68,7 +68,7 @@ TaskClassif = R6Class("TaskClassif",
       if (length(levels) == 2L) {
         if (is.null(positive)) {
           self$positive = levels[1L]
-          info("Setting positive class to '%s'", self$positive)
+          log_info("Setting positive class to '%s'", self$positive, namespace = "mlr3")
         } else {
           self$positive = assert_choice(positive, levels)
         }
@@ -98,7 +98,9 @@ TaskClassif = R6Class("TaskClassif",
     class_n = function() uniqueN(self$truth()),
 
     all_classes = function() {
-      levs = self$col_info[list(self$target_names), levels, on = "id"][[1L]]
+      # TODO: this operation is slow for small data, and we do this quite often
+      # we might want to optimize here in the future
+      self$col_info[list(self$target_names), "levels", on = "id", nomatch = 0L, with = FALSE][[1L]][[1L]]
     }
   )
 )

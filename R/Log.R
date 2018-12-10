@@ -9,22 +9,27 @@
 #' l = Log$new(log = NULL)
 #' #
 #' l$has_condition(cl)
+#' l$warnings
+#' l$errors
 #' l$format()
 #' l$print()
 #' ```
 #'
 #' @section Arguments:
-#' * `log`:
-#'   Object as returned by [evaluate::evaluate()].
+#' * `log` (`data.table::data.table()`):
+#'   `data.table()` with columns `class` (`character()`) and `message` (`character()`).
 #' * `cl` (`character(1)`):
-#'   Class of a condition. One of "output", "message", "warning", or "error".
+#'   Class of a condition. One of "output", "warning", or "error".
 #'
 #' @section Details:
 #' * `$new(log)` parses the object returned by [evaluate::evaluate()] and creates a new [Log].
 #'
-#'
 #' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is logged.
 #'   Possible conditions are "output", "message", "warning", and "error".
+#'
+#' * `$warnings` (`character()`) returns all lines which are warnings.
+#'
+#' * `$errors` (`character()`) returns all lines which are errors.
 #'
 #' * `format()` and `print()` are for formatting and printing via [format()] or [print()], respectively.
 #'
@@ -35,59 +40,48 @@
 #' learner = mlr_learners$get("classif.crashtest")
 #' learner$fallback = mlr_learners$get("classif.featureless")
 #' e = Experiment$new(task, learner)
-#' e$train(ctrl = mlr_control(use_evaluate = TRUE))
-#' log = e$logs$train
+#' e$train(ctrl = list(encapsulate_train = "evaluate"))
+#' l = e$logs$train
 #'
-#' log$has_condition("error")
-#' log$print()
+#' l$has_condition("error")
+#' print(l)
 NULL
 
 #' @export
 Log = R6Class("Log", cloneable = FALSE,
   public = list(
-    messages = NULL,
-    initialize = function(log = NULL) {
-      if (length(log) <= 1L) {
-        self$messages = data.table(msg = character(0L), class = factor(character(0L), levels = mlr_reflections$log_classes))
-      } else {
-        self$messages = parse_evaluate(log)
-      }
+    log = NULL,
+    initialize = function(log) {
+      self$log = assert_data_table(log, ncol = 2L)
     },
 
     format = function() {
-      sprintf("[%s] %s", self$messages$class, self$messages$msg)
+      sprintf("[%s] %s", self$log$class, self$log$msg)
     },
 
     print = function() {
-      n = nrow(self$messages)
-      catf("<Log> with %i message%s:", n, if (n == 1L) "" else "s")
-      if (n > 0L)
+      n = nrow(self$log)
+      if (n == 0L) {
+        catf("Empty <Log>")
+      } else {
+        catf("<Log> with %i message%s:", n, if (n == 1L) "" else "s")
         catf(strwrap(paste0(seq_len(n), ": ", format(self)), exdent = nchar(n) + 2L))
+      }
     },
 
     has_condition = function(cl) {
       assert_choice(cl, mlr_reflections$log_classes)
-      nrow(self$messages) && self$messages[list(cl), .N, on = "class", nomatch = 0L] > 0L
+      nrow(self$log) && self$log[list(cl), .N, on = "class", nomatch = 0L] > 0L
+    }
+  ),
+
+  active = list(
+    warnings = function() {
+      self$log[list("warning"), "msg", on = "class", nomatch = 0L, with = FALSE][[1L]]
+    },
+
+    errors = function() {
+      self$log[list("error"), "msg", on = "class", nomatch = 0L, with = FALSE][[1L]]
     }
   )
 )
-
-parse_evaluate = function(log) {
-  translate_class = function(x) {
-    if (is.character(x))
-      return("output")
-    if (inherits(x, "message"))
-      return("message")
-    if (inherits(x, "warning"))
-      return("warning")
-    if (inherits(x, "error"))
-      return("error")
-    stop("Unknown log class while parsing log")
-  }
-
-  log = log[-1L] # remove $src
-  data.table(
-    msg = map_chr(log, function(x) trimws(if (is.character(x)) x else x$message)),
-    class = factor(map_chr(log, translate_class), levels = mlr_reflections$log_classes)
-  )
-}

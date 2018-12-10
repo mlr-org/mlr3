@@ -9,20 +9,36 @@ mlr_control(...)
 \arguments{
 \item{...}{Named arguments to overwrite the defaults / options.}
 }
+\value{
+(named \code{list()}). If no argument is provided, returns all settings as named list.
+If arguments are provided in a \code{name = value} fashion, the settings are returned as named list
+after some argument checks.
+}
 \description{
 This function creates a named list of settings which control the execution of an \link{Experiment}.
-It contains all options (see \code{\link[=mlr_options]{mlr_options()}}) without the \code{"mlr3"} prefix, and additionally:
 \itemize{
 \item \code{store_model}: If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
 \item \code{store_prediction}: If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
-\item \code{use_evaluate}: Capture output via \pkg{evaluate} and store it as log.
+\item \code{encapsulate_train}: How to call external code in third party packages during train.
+\itemize{
+\item If set to \code{"none"} (default), the code is executed in the running session without error handling.
+Output is not stored, just send to the console.
+\item If set to \code{"evaluate"}, the exceptions are caught using \pkg{evaluate}, and output is stored in a \link{Log} of the corresponding \link{Experiment}.
+\item If set to \code{"callr"}, the code is executed in an independent R session. This guards your session from segfaults,
+at the cost of some computational overhead. Logs are also stored in the \link{Experiment}.
+}
+\item \code{encapsulate_predict}: How to call external code in third party packages during predict.
+Same format as \code{encapsulate_train}.
+\item \code{encapsulate_score}: How to call external code in third party packages during score
+Same format as \code{encapsulate_train}.
+\item \code{disable_future}: Set to \code{TRUE} to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
 }
 }
 \examples{
-# get a list of the currently active defaults
+# get a list of the defaults
 mlr_control()
 
-# enable debuging
-mlr_control(debug = TRUE)
+# get a control object, with the default of store_model switched to FALSE
+mlr_control(store_model = FALSE)
 }

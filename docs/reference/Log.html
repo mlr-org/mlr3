@@ -158,6 +158,8 @@
 l = Log$new(log = NULL)
 #
 l$has_condition(cl)
+l$warnings
+l$errors
 l$format()
 l$print()
 </pre>
@@ -166,10 +168,10 @@ l$print()
 
     
     <ul>
-<li><p><code>log</code>:
-Object as returned by <code><a href='https://www.rdocumentation.org/packages/evaluate/topics/evaluate'>evaluate::evaluate()</a></code>.</p></li>
+<li><p><code>log</code> (<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>):
+<code>data.table()</code> with columns <code>class</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) and <code>message</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>).</p></li>
 <li><p><code>cl</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
-Class of a condition. One of "output", "message", "warning", or "error".</p></li>
+Class of a condition. One of "output", "warning", or "error".</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -179,6 +181,8 @@ Class of a condition. One of "output", "message", "warning", or "error".</p></li
 <li><p><code>$new(log)</code> parses the object returned by <code><a href='https://www.rdocumentation.org/packages/evaluate/topics/evaluate'>evaluate::evaluate()</a></code> and creates a new Log.</p></li>
 <li><p><code>$has_condition(cl)</code> returns <code>TRUE</code> if at least on message of class <code>cl</code> is logged.
 Possible conditions are "output", "message", "warning", and "error".</p></li>
+<li><p><code>$warnings</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all lines which are warnings.</p></li>
+<li><p><code>$errors</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all lines which are errors.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/format'>format()</a></code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code> are for formatting and printing via <code><a href='https://www.rdocumentation.org/packages/base/topics/format'>format()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>, respectively.</p></li>
 </ul>
     
@@ -189,9 +193,10 @@ Possible conditions are "output", "message", "warning", and "error".</p></li>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.crashtest"</span>)
 <span class='no'>learner</span>$<span class='no'>fallback</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)
 <span class='no'>e</span> <span class='kw'>=</span> <span class='no'>Experiment</span>$<span class='fu'>new</span>(<span class='no'>task</span>, <span class='no'>learner</span>)
-<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_control.html'>mlr_control</a></span>(<span class='kw'>use_evaluate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='message'>Training learner 'classif.crashtest' on task 'sonar' ...</span></div><div class='output co'>#&gt; <span class='message'>Training fallback learner 'classif.featureless' on task 'sonar' ...</span></div><div class='input'><span class='no'>log</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>logs</span>$<span class='no'>train</span>
+<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>encapsulate</span> <span class='kw'>=</span> <span class='st'>"evaluate"</span>))</div><div class='output co'>#&gt; INFO [2018-12-06 14:31:08] Training learner 'classif.crashtest' on task 'sonar' ...
+#&gt; INFO [2018-12-06 14:31:08] Training fallback learner 'classif.featureless' on task 'sonar' ...</div><div class='input'><span class='no'>l</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>logs</span>$<span class='no'>train</span>
 
-<span class='no'>log</span>$<span class='fu'>has_condition</span>(<span class='st'>"error"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>log</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>()</div><div class='output co'>#&gt; &lt;Log&gt; with 1 message:
+<span class='no'>l</span>$<span class='fu'>has_condition</span>(<span class='st'>"error"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>l</span>)</div><div class='output co'>#&gt; &lt;Log&gt; with 1 message:
 #&gt; 1: [error] Error in classif.crashtest during train()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

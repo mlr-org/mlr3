@@ -3,7 +3,7 @@ context("fallback learner")
 test_that("no fallback_learner, no encapsulation", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.crashtest")
-  ctrl = mlr_control(use_evaluate = FALSE)
+  ctrl = mlr_control(encapsulate_train = "none")
 
   e = Experiment$new(task = task, learner = learner)
   expect_error(e$train(ctrl = ctrl), "crashtest")
@@ -14,14 +14,16 @@ test_that("fallback_learner", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.crashtest")
   learner$fallback = mlr_learners$get("classif.featureless")
-  ctrl = mlr_control(use_evaluate = TRUE)
+  ctrl = mlr_control(encapsulate_train = "evaluate")
 
-  e = Experiment$new(task = task, learner = learner)
-  e$train(ctrl = ctrl)
-  e$predict(ctrl = ctrl)
-  e$prediction
-  e$score(ctr = ctrl)
-  e$performance
+  e = Experiment$new(task = task, learner = learner, ctrl = ctrl)
+  assert_list(e$ctrl)
+  expect_equal(e$ctrl$encapsulate_train, "evaluate")
+
+  e$train()
+  e$predict()
+  e$score()
+  expect_number(e$performance)
 })
 
 test_that("fallback_learner, resampling", {
@@ -31,7 +33,7 @@ test_that("fallback_learner, resampling", {
   resampling = mlr_resamplings$get("cv")
   resampling$param_vals = list(folds = 3L)
 
-  ctrl = mlr_control(use_evaluate = TRUE)
+  ctrl = mlr_control(encapsulate_train = "evaluate")
   rr = resample(task, learner, resampling, ctrl = ctrl)
   expect_resample_result(rr)
   expect_true(all(rr$errors))

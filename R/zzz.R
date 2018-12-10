@@ -2,25 +2,23 @@
 #' @import data.table
 #' @import paradox
 #' @import mlr3misc
+#' @import logger
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
 #' @importFrom stats reformulate median mad runif
 #'
-#' @section Options:
-#' Available package options are documented in [mlr_options()].
-#'
 "_PACKAGE"
 
+layout_mlr3 <- structure(function(level, msg) {
+  paste0(attr(level, 'level'), ' [mlr3] ', msg)
+}, generator = quote(layout_mlr3()))
+
 .onLoad = function(libname, pkgname) { #nocov start
-  utils::globalVariables(c("id", "role"), package = "mlr3")
-
   backports::import(pkgname)
+  logger::log_formatter(logger::formatter_sprintf, namespace = pkgname)
+  logger::log_layout(layout_mlr3, namespace = pkgname)
 
-  # Set default options without overwriting already set options
-  opts = mlr_reflections$default_mlr_options
-  opts = opts[match(names(opts), names(.Options), nomatch = 0L) == 0L]
-  if (length(opts))
-    options(opts)
+  # utils::globalVariables(c("id", "role"), package = "mlr3")
 } #nocov end
 
 .onAttach = function(libname, pkgname) { #nocov start

@@ -23,8 +23,7 @@
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 #' resamplings = mlr_resamplings$mget(c("holdout", "cv"))
 #' measures = mlr_measures$mget("acc")
-#' ctrl = mlr_control()
-#' ctrl$verbose = FALSE
+#' ctrl = mlr_control(verbose = FALSE)
 #' bmr = benchmark(tasks, learners, resamplings, measures, ctrl = ctrl)
 #'
 #' # performance for all conducted experiments
@@ -43,10 +42,11 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
-benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_control()) {
+benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list()) {
   assert_list(tasks, "Task", min.len = 1L)
   assert_list(learners, "Learner", min.len = 1L)
   assert_list(resamplings, "Resampling", min.len = 1L)
+  ctrl = mlr_control(ctrl)
 
   if (is.null(measures)) {
     measures = unname(map(tasks, "measures"))
@@ -78,8 +78,10 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_c
   task = learner = instance = NULL
   grid[, "hash" := experiment_data_hash(list(task = tasks[[task]], learner = learners[[learner]], resampling = instances[[instance]])), by = c("task", "learner", "instance")]
 
+  log_info("Benchmarking %i experiments", nrow(grid))
+
   if (use_future(ctrl)) {
-    debug("Running resample() via future with %i iterations", nrow(grid))
+    log_debug("Running benchmark() via future", namespace = "mlr3")
 
     # randomize order for parallelization
     grid = grid[sample.int(nrow(grid))]
@@ -90,7 +92,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_c
       future.globals = FALSE, future.packages = "mlr3"
       )
   } else {
-    debug("Running benchmark() sequentially with %i iterations", nrow(grid))
+    log_debug("Running benchmark() sequentially", namespace = "mlr3")
     tmp = mapply(experiment_worker,
       task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter, measures = measures[grid$task],
       MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE
@@ -99,6 +101,8 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = mlr_c
 
   res = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], measures = measures[grid$task], hash = grid$hash)
   ref_cbind(res, combine_experiments(tmp))
+
+  log_info("Finished benchmark")
 
   BenchmarkResult$new(res)
 }

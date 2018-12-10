@@ -1,3 +1,4 @@
+
 #' @title Options for mlr3
 #'
 #' @description
@@ -5,8 +6,6 @@
 #'
 #' * `mlr3.verbose`: Set to `FALSE` to suppress output of informational messages.
 #' * `mlr3.debug`: Set to `TRUE` to enable extra output and additional (potentially expensive) assertions.
-#' * `mlr3.use_future`: Set to `FALSE` to disable parallelization via \pkg{future}.
-#'   Explicitly disabling this simplifies debugging.
 #'
 #' @param ... : Named arguments to set. Alternatively, you can also provide a single list of named arguments
 #'   (similar to [options()]).
@@ -35,3 +34,16 @@ mlr_options = function(...) {
     opts
   }
 }
+
+mlr_reflections$default_mlr_options = list(
+  mlr3.verbose = TRUE,
+  mlr3.debug = FALSE
+)
+
+
+
+  # Set default options without overwriting already set options
+  opts = mlr_reflections$default_mlr_options
+  opts = opts[match(names(opts), names(.Options), nomatch = 0L) == 0L]
+  if (length(opts))
+    options(opts)

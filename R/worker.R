@@ -1,25 +1,3 @@
-ecall = function(fun, pars, ctrl) {
-  if (use_evaluate(ctrl)) {
-    result = NULL
-    now = proc.time()[[3L]]
-    log = evaluate::evaluate(
-      "result <- do.call(fun, pars)",
-      stop_on_error = 1L,
-      new_device = FALSE,
-      include_timing = FALSE
-    )
-    elapsed = proc.time()[[3L]] - now
-    log = Log$new(log)
-  } else {
-    now = proc.time()[[3L]]
-    result = do.call(fun, pars)
-    elapsed = proc.time()[[3L]] - now
-    log = Log$new()
-  }
-
-  list(result = result, log = log, elapsed = elapsed)
-}
-
 train_worker = function(e, ctrl) {
   data = e$data
   learner = data$learner
@@ -28,20 +6,20 @@ train_worker = function(e, ctrl) {
   task = data$task$clone(deep = TRUE)$filter(e$train_set)
   pars = c(list(task = task), learner$param_vals)
 
-  if (ctrl$verbose)
-    message(sprintf("Training learner '%s' on task '%s' ...", learner$id, task$id))
+  log_level(INFO, "Training learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
-  res = set_names(ecall(learner$train, pars, ctrl),
+  enc = encapsulate(ctrl$encapsulate_train)
+  res = set_names(enc(learner$train, pars),
     c("model", "train_log", "train_time"))
 
   if (!is.null(learner$fallback)) {
     fb = assert_learner(learner$fallback)
-    message(sprintf("Training fallback learner '%s' on task '%s' ...", fb$id, task$id))
+    log_info("Training fallback learner '%s' on task '%s' ...", fb$id, task$id, namespace = "mlr3")
     require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
     fb_model = try(fb$train(task))
     if (inherits(fb_model, "try-error"))
       stopf("Fallback learner '%s' failed during train", fb$id)
-    res$model = fb_model
+    res$fallback = fb_model
   }
 
   res
@@ -50,20 +28,24 @@ train_worker = function(e, ctrl) {
 predict_worker = function(e, ctrl) {
   data = e$data
   learner = data$learner
+  model = data$model
+
   if (data$train_log$has_condition("error")) {
     if (is.null(learner$fallback))
       stop(sprintf("Unable to predict learner '%s' without model", learner$id))
     learner = learner$fallback
+    model = data$fallback
   }
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
-  pars = c(list(model = data$model, task = task), learner$param_vals)
+  pars = c(list(model = model, task = task), learner$param_vals)
 
   if (ctrl$verbose)
-    message(sprintf("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id))
+    log_info("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
-  res = set_names(ecall(learner$predict, pars, ctrl),
+  enc = encapsulate(ctrl$encapsulate_predict)
+  res = set_names(enc(learner$predict, pars),
     c("prediction", "predict_log", "predict_time"))
   assert_class(res$prediction, "Prediction")
 
@@ -76,11 +58,12 @@ score_worker = function(e, ctrl) {
   require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
 
   if (ctrl$verbose)
-    message(sprintf("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id))
+    log_info("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id, namespace = "mlr3")
   calc_all_measures = function() {
     set_names(lapply(measures, function(m) m$calculate(e)), ids(measures))
   }
-  res = ecall(calc_all_measures, list(), ctrl)
+  enc = encapsulate(ctrl$encapsulate_score)
+  res = enc(calc_all_measures, list())
   return(list(performance = res$result, score_time = res$elapsed))
 }
 
@@ -88,7 +71,7 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   e = Experiment$new(task, learner, resampling = resampling, iteration = iteration, measures = measures)
 
   if (ctrl$verbose) {
-    message(sprintf("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters))
+    log_info("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
     ctrl$verbose = FALSE
   }
 

@@ -45,24 +45,23 @@ mlr_reflections$predict_types = list(
 mlr_reflections$experiment_states = c("defined", "trained", "predicted", "scored")
 
 mlr_reflections$experiment_slots = data.table(
-  name =   c("task",    "learner", "resampling", "iteration", "model",       "train_log",  "train_time", "predict_log", "predict_time", "prediction", "measures", "performance", "score_time"),
-  type =   c("Task",    "Learner", "Resampling", "integer",   NA_character_, "data.table", "numeric",    "data.table",  "numeric",      "data.table", "list",     "list",        "numeric"),
-  atomic = c(FALSE,     FALSE,     FALSE,        TRUE,        FALSE,         FALSE,        TRUE,         FALSE,         TRUE,           FALSE,        FALSE,      FALSE,         TRUE),
-  state =  c("defined", "defined", "trained",    "trained",   "trained",     "trained",    "trained",    "predicted",   "predicted",    "predicted",  "scored",   "scored",      "scored")
+  name =   c("task",    "learner", "resampling", "iteration", "model",       "fallback",    "train_log",  "train_time", "predict_log", "predict_time", "prediction", "measures", "performance", "score_time"),
+  type =   c("Task",    "Learner", "Resampling", "integer",   NA_character_, NA_character_, "data.table", "numeric",    "data.table",  "numeric",      "data.table", "list",     "list",        "numeric"),
+  atomic = c(FALSE,     FALSE,     FALSE,        TRUE,        FALSE,         FALSE,         FALSE,        TRUE,         FALSE,         TRUE,           FALSE,        FALSE,      FALSE,         TRUE),
+  state =  c("defined", "defined", "trained",    "trained",   "trained",     "trained",     "trained",    "trained",    "predicted",   "predicted",    "predicted",  "scored",   "scored",      "scored")
 )
 
 mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = mlr_reflections$experiment_states)
 
-mlr_reflections$log_classes = c("output", "message", "warning", "error")
-
-mlr_reflections$default_mlr_options = list(
-  mlr3.verbose = TRUE,
-  mlr3.debug = FALSE,
-  mlr3.use_future = TRUE
-)
+mlr_reflections$log_classes = c("output", "warning", "error")
 
 mlr_reflections$default_mlr_control = list(
   store_model = TRUE,
   store_prediction = TRUE,
-  use_evaluate = FALSE
+  encapsulate_train = "none",
+  encapsulate_predict = "none",
+  encapsulate_score = "none",
+  disable_future = FALSE,
+  verbose = TRUE,
+  debug = FALSE
 )

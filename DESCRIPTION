@@ -27,20 +27,21 @@ Imports:
     checkmate (>= 1.8.9),
     data.table,
     digest,
+    logger,
     Metrics,
     mlr3misc,
     paradox,
     R6
 Suggests:
-    Matrix,
+    callr,
     datasets,
     devtools,
     evaluate,
     future (>= 1.9.0),
     future.apply,
-    future.callr,
     kernlab,
     knitr,
+    Matrix,
     mlbench,
     rmarkdown,
     rpart,
@@ -50,6 +51,7 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
+    daroczig/logger,
     mllg/checkmate,
     mlr-org/paradox,
     mlr-org/mlr3misc
@@ -89,6 +91,7 @@ Collate:
     'Task_mutators.R'
     'assertions.R'
     'benchmark.R'
+    'encapsulate.R'
     'helper.R'
     'mlr_control.R'
     'mlr_learners.R'
@@ -103,7 +106,6 @@ Collate:
     'mlr_measures_elapsed_time.R'
     'mlr_measures_mmce.R'
     'mlr_measures_mse.R'
-    'mlr_options.R'
     'mlr_resamplings.R'
     'mlr_resamplings_bootstrap.R'
     'mlr_resamplings_custom.R'

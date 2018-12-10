@@ -61,7 +61,8 @@
 #'   Timings are `NA` if the respective step has not been performed yet.
 #'
 #' * `$logs` creates a list with names `train` and `predict`.
-#'   Both store an object of class [Log] if logging of the learner has been enabled via [mlr_control()], and are `NULL` if logging was disabled or the respective step has not been performed yet.
+#'   Both store an object of class [Log] if logging of the learner has been enabled via [mlr_control()],
+#'   and are `NULL` if logging was disabled or the respective step has not been performed yet.
 #'
 #' * `$state` (`ordered(1)`) returns the state of the experiment: `"defined"`, `"trained"`, `"predicted"`, or `"scored"`.
 #'
@@ -113,8 +114,9 @@ NULL
 Experiment = R6Class("Experiment",
   public = list(
     data = NULL,
+    ctrl = NULL,
 
-    initialize = function(task, learner, ...) {
+    initialize = function(task, learner, ..., ctrl = list()) {
       self$data = named_list(mlr_reflections$experiment_slots$name)
       self$data$task = assert_task(task)
       self$data$learner = assert_learner(learner, task = task)
@@ -123,13 +125,14 @@ Experiment = R6Class("Experiment",
         assert_names(names(dots), type = "unique", subset.of = names(self$data))
         self$data = insert_named(self$data, dots)
       }
+      self$ctrl = assert_list(ctrl)
     },
 
     print = function(...) {
       experiment_print(self)
     },
 
-    train = function(subset = NULL, ctrl = mlr_control()) {
+    train = function(subset = NULL, ctrl = list()) {
       ids = self$data$task$row_ids[[1L]]
       if (!is.null(subset))
         ids = intersect(ids, subset)
@@ -137,7 +140,9 @@ Experiment = R6Class("Experiment",
       invisible(self)
     },
 
-    predict = function(subset = NULL, newdata = NULL, ctrl = mlr_control()) {
+    predict = function(subset = NULL, newdata = NULL, ctrl = list()) {
+      if (!is.null(subset) && !is.null(newdata))
+        stopf("Arguments 'subset' and 'newdata' are mutually exclusive")
       ids = self$data$task$row_ids[[1L]]
       if (!is.null(subset))
         ids = intersect(ids, subset)
@@ -145,7 +150,7 @@ Experiment = R6Class("Experiment",
       invisible(self)
     },
 
-    score = function(measures = NULL, ctrl = mlr_control()) {
+    score = function(measures = NULL, ctrl = list()) {
       experiment_score(self, measures, ctrl = ctrl)
       invisible(self)
     }
@@ -256,25 +261,20 @@ experiment_print = function(self) {
 }
 
 
-experiment_train = function(self, row_ids, ctrl = mlr_control()) {
+experiment_train = function(self, row_ids, ctrl = list()) {
+  ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
   self$data$iteration = 1L
 
-  if (use_future(ctrl)) {
-    debug("Running train_worker() via futureCall()")
-    value = future::futureCall(train_worker, list(e = self, ctrl = ctrl), globals = FALSE, packages = "mlr3")
-    value = future::value(value)
-  } else {
-    debug("Running train_worker()")
-    value = train_worker(self, ctrl = ctrl)
-  }
+  log_debug("Running train_worker()", namespace = "mlr3")
+  value = train_worker(self, ctrl = ctrl)
+
   self$data = insert_named(self$data, value)
   return(experiment_reset_state(self, "trained"))
 }
 
-experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = mlr_control()) {
-  if (!is.null(row_ids) && !is.null(newdata))
-    stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
+experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list()) {
+  ctrl = mlr_control(insert_named(self$ctrl, ctrl))
 
   if (is.null(newdata)) {
     self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
@@ -283,29 +283,19 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = mlr_c
     row_ids = self$validation_set
   }
 
-  if (use_future(ctrl)) {
-    debug("Running predict_worker() via futureCall()")
-    value = future::futureCall(predict_worker, list(e = self, ctrl = ctrl), globals = FALSE, packages = "mlr3")
-    value = future::value(value)
-  } else {
-    debug("Running predict_worker()")
-    value = predict_worker(self, ctrl = ctrl)
-  }
+  log_debug("Running predict_worker()", namespace = "mlr3")
+  value = predict_worker(self, ctrl = ctrl)
+
   self$data = insert_named(self$data, value)
   return(experiment_reset_state(self, "predicted"))
 }
 
-experiment_score = function(self, measures = NULL, ctrl = mlr_control()) {
+experiment_score = function(self, measures = NULL, ctrl = list()) {
+  ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, learner = self$learner)
 
-  if (use_future(ctrl)) {
-    debug("Running score_worker() via futureCall()")
-    value = future::futureCall(score_worker, list(e = self, ctrl = ctrl), globals = FALSE, packages = "mlr3")
-    value = future::value(value)
-  } else {
-    debug("Running score_worker()")
-    value = score_worker(self, ctrl = ctrl)
-  }
+  log_debug("Running score_worker()", namespace = "mlr3")
+  value = score_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)
   return(self)
@@ -314,9 +304,9 @@ experiment_score = function(self, measures = NULL, ctrl = mlr_control()) {
 combine_experiments = function(x) {
   name = atomic = NULL
   nn = names(x[[1L]])
-  encapsulate = mlr_reflections$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
+  wrap_list = mlr_reflections$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
   map_dtr(x, function(exp) {
-    exp[encapsulate] = lapply(exp[encapsulate], list)
+    exp[wrap_list] = lapply(exp[wrap_list], list)
     exp
   })
 }

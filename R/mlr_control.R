@@ -2,47 +2,59 @@
 #'
 #' @description
 #' This function creates a named list of settings which control the execution of an [Experiment].
-#' It contains all options (see [mlr_options()]) without the `"mlr3"` prefix, and additionally:
 #'
 #' * `store_model`: If `FALSE`, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 #'  Note that you will be unable to further predict on new data.
 #' * `store_prediction`: If `FALSE`, the predictions are discarded in order to save some memory after the experiment is completed.
-#' * `use_evaluate`: Capture output via \pkg{evaluate} and store it as log.
+#' * `encapsulate_train`: How to call external code in third party packages during train.
+#'     - If set to `"none"` (default), the code is executed in the running session without error handling.
+#'       Output is not stored, just send to the console.
+#'     - If set to `"evaluate"`, the exceptions are caught using \pkg{evaluate}, and output is stored in a [Log] of the corresponding [Experiment].
+#'     - If set to `"callr"`, the code is executed in an independent R session. This guards your session from segfaults,
+#'       at the cost of some computational overhead. Logs are also stored in the [Experiment].
+#' * `encapsulate_predict`: How to call external code in third party packages during predict.
+#'   Same format as `encapsulate_train`.
+#' * `encapsulate_score`: How to call external code in third party packages during score
+#'   Same format as `encapsulate_train`.
+#' * `disable_future`: Set to `TRUE` to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
 #'
+#' @return (named `list()`). If no argument is provided, returns all settings as named list.
+#'   If arguments are provided in a `name = value` fashion, the settings are returned as named list
+#'   after some argument checks.
+#'
 #' @export
 #' @examples
-#' # get a list of the currently active defaults
+#' # get a list of the defaults
 #' mlr_control()
 #'
-#' # enable debuging
-#' mlr_control(debug = TRUE)
+#' # get a control object, with the default of store_model switched to FALSE
+#' mlr_control(store_model = FALSE)
 mlr_control = function(...) {
-  opts = mlr_options()
-  names(opts) = substr(names(opts), 6L, 255L)
-  ctrl = insert_named(mlr_reflections$default_mlr_control, opts)
+  ctrl = mlr_reflections$default_mlr_control
+  ctrl$log_threshold = log_threshold(namespace = "mlr3")
+  ldots = ...length()
+  if (ldots == 0L)
+    return(ctrl)
 
   dots = list(...)
-  if (length(dots) > 0L) {
-    if (length(dots) == 1L && is.null(names(dots)) && is.list(dots[[1L]]))
-      dots = dots[[1L]]
-    assert_names(names(dots), "unique")
-
-    ii = wf(names(dots) %nin% names(ctrl))
-    if (length(ii))
-      stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
-    ctrl = insert_named(ctrl, dots)
+  if (ldots == 1L && is.null(names(dots)) && is.list(dots[[1L]])) {
+    dots = dots[[1L]]
+    if (length(dots) == 0L)
+      return(ctrl)
   }
 
+  assert_names(names(dots), "unique")
+  ii = wf(names(dots) %nin% names(ctrl))
+  if (length(ii))
+    stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
+  ctrl[names(dots)] = dots
   ctrl
 }
 
-use_future = function(ctrl = NULL) {
-  opt = if (is.null(ctrl)) getOption("mlr3.use_future") else ctrl$use_future
-  isTRUE(opt) && requireNamespace("future", quietly = TRUE) && requireNamespace("future.apply", quietly = TRUE)
-}
-
-use_evaluate = function(ctrl) {
-  ctrl$use_evaluate && requireNamespace("evaluate", quietly = TRUE)
+use_future = function(ctrl) {
+  isFALSE(ctrl$disable_future) &&
+    requireNamespace("future", quietly = TRUE) &&
+    requireNamespace("future.apply", quietly = TRUE)
 }
