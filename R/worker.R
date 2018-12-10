@@ -8,7 +8,7 @@ train_worker = function(e, ctrl) {
 
   log_level(INFO, "Training learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
-  enc = encapsulate(ctrl)
+  enc = encapsulate(ctrl$encapsulate_train)
   res = set_names(enc(learner$train, pars),
     c("model", "train_log", "train_time"))
 
@@ -19,7 +19,7 @@ train_worker = function(e, ctrl) {
     fb_model = try(fb$train(task))
     if (inherits(fb_model, "try-error"))
       stopf("Fallback learner '%s' failed during train", fb$id)
-    res$model = fb_model
+    res$fallback = fb_model
   }
 
   res
@@ -28,20 +28,23 @@ train_worker = function(e, ctrl) {
 predict_worker = function(e, ctrl) {
   data = e$data
   learner = data$learner
+  model = data$model
+
   if (data$train_log$has_condition("error")) {
     if (is.null(learner$fallback))
       stop(sprintf("Unable to predict learner '%s' without model", learner$id))
     learner = learner$fallback
+    model = data$fallback
   }
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
-  pars = c(list(model = data$model, task = task), learner$param_vals)
+  pars = c(list(model = model, task = task), learner$param_vals)
 
   if (ctrl$verbose)
     log_info("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
-  enc = encapsulate(ctrl)
+  enc = encapsulate(ctrl$encapsulate_predict)
   res = set_names(enc(learner$predict, pars),
     c("prediction", "predict_log", "predict_time"))
   assert_class(res$prediction, "Prediction")
@@ -59,7 +62,7 @@ score_worker = function(e, ctrl) {
   calc_all_measures = function() {
     set_names(lapply(measures, function(m) m$calculate(e)), ids(measures))
   }
-  enc = encapsulate(ctrl)
+  enc = encapsulate(ctrl$encapsulate_score)
   res = enc(calc_all_measures, list())
   return(list(performance = res$result, score_time = res$elapsed))
 }

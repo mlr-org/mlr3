@@ -20,15 +20,18 @@ This function creates a named list of settings which control the execution of an
 \item \code{store_model}: If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
 \item \code{store_prediction}: If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
-\item \code{encapsulate}: How to call external code, e.g. train and predict methods of third party packages.
+\item \code{encapsulate_train}: How to call external code in third party packages during train.
 \itemize{
-\item If not set or \code{NULL} (default), the code is executed in the running session without error handling.
-Output is send to the console, and not logged at all.
+\item If set to \code{"none"} (default), the code is executed in the running session without error handling.
+Output is not stored, just send to the console.
 \item If set to \code{"evaluate"}, the exceptions are caught using \pkg{evaluate}, and output is stored in a \link{Log} of the corresponding \link{Experiment}.
 \item If set to \code{"callr"}, the code is executed in an independent R session. This guards your session from segfaults,
-at the cost of some computational overhead.
-Logs are also stored in the \link{Experiment}.
+at the cost of some computational overhead. Logs are also stored in the \link{Experiment}.
 }
+\item \code{encapsulate_predict}: How to call external code in third party packages during predict.
+Same format as \code{encapsulate_train}.
+\item \code{encapsulate_score}: How to call external code in third party packages during score
+Same format as \code{encapsulate_train}.
 \item \code{disable_future}: Set to \code{TRUE} to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
 }
 }

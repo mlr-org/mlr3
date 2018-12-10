@@ -304,9 +304,9 @@ experiment_score = function(self, measures = NULL, ctrl = list()) {
 combine_experiments = function(x) {
   name = atomic = NULL
   nn = names(x[[1L]])
-  encapsulate = mlr_reflections$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
+  wrap_list = mlr_reflections$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
   map_dtr(x, function(exp) {
-    exp[encapsulate] = lapply(exp[encapsulate], list)
+    exp[wrap_list] = lapply(exp[wrap_list], list)
     exp
   })
 }

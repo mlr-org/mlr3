@@ -1,11 +1,9 @@
-encapsulate = function(ctrl) {
-  opt = ctrl$encapsulate
-  if (is.null(opt))
-    return(encapsulate_dummy)
-  switch(opt,
+encapsulate = function(method) {
+  switch(method,
+    "none" = encapsulate_dummy,
     "evaluate" = encapsulate_evaluate,
     "callr" = encapsulate_callr,
-    stopf("Unkown encapsulation method '%s'", opt)
+    stopf("Unkown encapsulation method '%s'", method)
   )
 }
 
