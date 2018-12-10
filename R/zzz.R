@@ -9,10 +9,15 @@
 #'
 "_PACKAGE"
 
+layout_mlr3 <- structure(function(level, msg) {
+  paste0(attr(level, 'level'), ' [mlr3] ', msg)
+}, generator = quote(layout_mlr3()))
+
 .onLoad = function(libname, pkgname) { #nocov start
   backports::import(pkgname)
   logger::log_formatter(logger::formatter_sprintf, namespace = pkgname)
-  logger::log_threshold(INFO, namespace = pkgname)
+  logger::log_layout(layout_mlr3, namespace = pkgname)
+
   # utils::globalVariables(c("id", "role"), package = "mlr3")
 } #nocov end
 
