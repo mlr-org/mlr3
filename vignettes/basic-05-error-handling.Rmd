@@ -66,6 +66,7 @@ e$train()
 e$has_errors
 e$logs$train
 ```
+You can also enable the encapsulation for the *predict* or *score* steps of an experiment by setting `encapsulate_predict` or `encapsulate_score`, respectively.
 
 Another possibility to encapsulate is execution via package the [`callr`](https://cran.r-project.org/package=callr).
 [`callr`](https://cran.r-project.org/package=callr) spawns a new R process, and thus guards us from segfaults.
