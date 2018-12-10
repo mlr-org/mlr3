@@ -1,8 +1,8 @@
 #' @import checkmate
+#' @import data.table
 #' @import paradox
 #' @import mlr3misc
 #' @import logger
-#' @importFrom data.table data.table as.data.table setkeyv setnames setcolorder setorderv setDT setDF CJ rbindlist copy uniqueN
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
 #' @importFrom stats reformulate median mad runif
