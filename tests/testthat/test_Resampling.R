@@ -17,11 +17,12 @@ test_that("param_vals", {
 
   expect_error({
     r$param_vals = list(repeats = 10L)
-  }, "equal to set")
+  }, "permutation of set \\{repeats,ratio\\}")
 
   expect_error({
     r$param_vals = list(ratio = 0.5, repeats = 10L, foobar = 12)
-  }, "equal to set")
+  }, "permutation of set \\{repeats,ratio\\}")
+
 })
 
 test_that("hashing", {
