@@ -160,18 +160,20 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/ls_str'>ls.str</a></span>(<span class='no'>mlr_reflections</span>)</div><div class='output co'>#&gt; backend_formats :  chr [1:2] "data.table" "sparse"
-#&gt; default_mlr_control : List of 6
-#&gt;  $ store_model     : logi TRUE
-#&gt;  $ store_prediction: logi TRUE
-#&gt;  $ encapsulate     : NULL
-#&gt;  $ disable_future  : logi FALSE
-#&gt;  $ verbose         : logi TRUE
-#&gt;  $ debug           : logi FALSE
-#&gt; experiment_slots : Classes ‘data.table’ and 'data.frame':	13 obs. of  4 variables:
+#&gt; default_mlr_control : List of 8
+#&gt;  $ store_model        : logi TRUE
+#&gt;  $ store_prediction   : logi TRUE
+#&gt;  $ encapsulate_train  : chr "none"
+#&gt;  $ encapsulate_predict: chr "none"
+#&gt;  $ encapsulate_score  : chr "none"
+#&gt;  $ disable_future     : logi FALSE
+#&gt;  $ verbose            : logi TRUE
+#&gt;  $ debug              : logi FALSE
+#&gt; experiment_slots : Classes ‘data.table’ and 'data.frame':	14 obs. of  4 variables:
 #&gt;  $ name  : chr  "task" "learner" "resampling" "iteration" ...
 #&gt;  $ type  : chr  "Task" "Learner" "Resampling" "integer" ...
 #&gt;  $ atomic: logi  FALSE FALSE FALSE TRUE FALSE FALSE ...
-#&gt;  $ state : Ord.factor w/ 4 levels "defined"&lt;"trained"&lt;..: 1 1 2 2 2 2 2 3 3 3 ...
+#&gt;  $ state : Ord.factor w/ 4 levels "defined"&lt;"trained"&lt;..: 1 1 2 2 2 2 2 2 3 3 ...
 #&gt; experiment_states :  chr [1:4] "defined" "trained" "predicted" "scored"
 #&gt; learner_properties : List of 2
 #&gt;  $ classif: chr [1:5] "missings" "weights" "parallel" "twoclass" ...
