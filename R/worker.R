@@ -55,7 +55,7 @@ predict_worker = function(e, ctrl) {
 score_worker = function(e, ctrl) {
   data = e$data
   measures = data$measures
-  require_namespaces(unlist(lapply(measures, "[[", "packages")), "The following packages are required for the measures: %s")
+  require_namespaces(unlist(map(measures, "packages")), "The following packages are required for the measures: %s")
 
   if (ctrl$verbose)
     log_info("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id, namespace = "mlr3")

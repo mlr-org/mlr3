@@ -39,6 +39,7 @@ Suggests:
     evaluate,
     future (>= 1.9.0),
     future.apply,
+    future.callr,
     kernlab,
     knitr,
     Matrix,

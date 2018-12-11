@@ -88,12 +88,12 @@ ResampleResult = R6Class("ResampleResult",
 
     experiment = function(iter) {
       iter = assert_int(iter, lower = 1L, upper = nrow(self$data), coerce = TRUE)
-      .mapply(Experiment$new, self$data[get("iteration") == iter, mlr_reflections$experiment_slots$name, with = FALSE], MoreArgs = list())[[1L]]
+      pmap(self$data[get("iteration") == iter, mlr_reflections$experiment_slots$name, with = FALSE], Experiment$new)[[1L]]
     },
 
     experiments = function(iters) {
       iters = assert_integerish(iters, lower = 1L, upper = nrow(self$data), any.missing = FALSE, coerce = TRUE)
-      .mapply(Experiment$new, self$data[get("iteration") %in% iters], MoreArgs = list())
+      pmap(self$data[get("iteration") %in% iters], Experiment$new)
     },
 
     combine = function(rr) {
