@@ -2,7 +2,7 @@
 #' @import checkmate
 #' @import paradox
 #' @import mlr3misc
-#' @import logger
+#' @importFrom logger DEBUG log_debug INFO log_info WARN log_warn ERROR log_error with_log_threshold
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
 #' @importFrom stats reformulate median mad runif

@@ -95,6 +95,7 @@ encapsulate_callr = function(fun, args = list()) {
   }
 
   if (length(lines)) {
+    msg = NULL
     log = data.table(class = "output", msg = lines)
     parse_line = function(x) gsub("<br>", "\n", substr(x, 7L, nchar(x)))
     log[startsWith(get("msg"), "[WRN] "), c("class", "msg") := list("warning", parse_line(msg))]

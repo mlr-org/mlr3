@@ -1,1 +1,1 @@
-logger::log_threshold(INFO, namespace = "mlr3")
+logger::log_threshold(old_threshold, namespace = "mlr3")
