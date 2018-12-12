@@ -21,7 +21,7 @@
 #' \dontshow{
 #'    set.seed(123)
 #'    .threshold = logger::log_threshold(namespace = "mlr3")
-#'    logger::log_threshold(WARN, namespace = "mlr3")
+#'    logger::log_threshold(logger::WARN, namespace = "mlr3")
 #' }
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))

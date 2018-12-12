@@ -48,7 +48,7 @@ These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleRes
 \dontshow{
    set.seed(123)
    .threshold = logger::log_threshold(namespace = "mlr3")
-   logger::log_threshold(WARN, namespace = "mlr3")
+   logger::log_threshold(logger::WARN, namespace = "mlr3")
 }
 bmr = benchmark(
   tasks = mlr_tasks$mget("iris"),

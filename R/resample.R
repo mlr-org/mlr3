@@ -20,7 +20,7 @@
 #' \dontshow{
 #'    set.seed(123)
 #'    .threshold = logger::log_threshold(namespace = "mlr3")
-#'    logger::log_threshold(WARN, namespace = "mlr3")
+#'    logger::log_threshold(logger::WARN, namespace = "mlr3")
 #' }
 #' task = mlr_tasks$get("iris")
 #' learner = mlr_learners$get("classif.rpart")
