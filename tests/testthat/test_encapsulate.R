@@ -18,7 +18,7 @@ test_that("encapsulate", {
     expect_number(res$elapsed, lower = 0)
     expect_log(log)
     expect_set_equal(as.character(log$log$class), c("output", "warning"))
-    expect_true(grepl("\n", log$log$msg[2]))
+    expect_true(log$log[class == "warning", grepl("\n", msg, fixed = TRUE)])
     expect_true(log$has_condition("warning"))
     expect_true(log$has_condition("output"))
     expect_false(log$has_condition("error"))

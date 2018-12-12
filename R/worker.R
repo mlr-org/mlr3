@@ -1,14 +1,12 @@
 train_worker = function(e, ctrl) {
   data = e$data
   learner = data$learner
-  require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$train_set)
-
   log_info("Training learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
   enc = encapsulate(ctrl$encapsulate_train)
-  res = set_names(enc(learner$train, list(task = task)),
+  res = set_names(enc(learner$train, list(task = task), learner$packages),
     c("model", "train_log", "train_time"))
 
   if (!is.null(learner$fallback)) {
@@ -35,14 +33,12 @@ predict_worker = function(e, ctrl) {
     learner = learner$fallback
     model = data$fallback
   }
-  require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
-
   log_info("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
   enc = encapsulate(ctrl$encapsulate_predict)
-  res = set_names(enc(learner$predict, list(model = model, task = task)),
+  res = set_names(enc(learner$predict, list(model = model, task = task), learner$packages),
     c("prediction", "predict_log", "predict_time"))
   assert_class(res$prediction, "Prediction")
 
@@ -52,14 +48,14 @@ predict_worker = function(e, ctrl) {
 score_worker = function(e, ctrl) {
   data = e$data
   measures = data$measures
-  require_namespaces(unlist(map(measures, "packages")), "The following packages are required for the measures: %s")
+  pkgs = unique(unlist(map(measures, "packages")))
 
   log_info("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id, namespace = "mlr3")
   calc_all_measures = function() {
     set_names(lapply(measures, function(m) m$calculate(e)), ids(measures))
   }
   enc = encapsulate(ctrl$encapsulate_score)
-  res = enc(calc_all_measures, list())
+  res = enc(calc_all_measures, list(), pkgs)
   return(list(performance = res$result, score_time = res$elapsed))
 }
 
