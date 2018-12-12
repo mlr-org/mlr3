@@ -51,7 +51,7 @@ test_that("evaluate / experiment", {
   expect_is(log, "Log")
   expect_true(is_empty_log(log))
 
-  if (!interactive()) expect_silent(e$train(subset, enabled))
+  expect_silent(e$train(subset, enabled))
   log = e$data$train_log
   expect_is(log, "Log")
   expect_output(print(log), "<Log> with 2")
