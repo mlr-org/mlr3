@@ -17,7 +17,11 @@
 #' @return [ResampleResult].
 #' @export
 #' @examples
-#' set.seed(123)
+#' \dontshow{
+#'    set.seed(123)
+#'    .threshold = logger::logging_threshold(namespace = "mlr3")
+#'    logger::logging_threshold(WARN, namespace = "mlr3")
+#' }
 #' task = mlr_tasks$get("iris")
 #' learner = mlr_learners$get("classif.rpart")
 #' resampling = mlr_resamplings$get("cv")
@@ -33,6 +37,9 @@
 #'
 #' bmr = rr$combine(rr.featureless)
 #' bmr$aggregated
+#' \dontshow{
+#'    logger::logging_threshold(.threshold, namespace = "mlr3")
+#' }
 resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   assert_task(task)
   assert_learner(learner, task = task)

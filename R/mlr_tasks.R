@@ -49,7 +49,7 @@ as.data.table.DictionaryTask = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(id) {
     t = x$get(id)
     data.table(id = id, type = t$task_type, nrow = t$nrow, ncol = t$ncol)
-  }), "id")
+  }), "id")[]
 }
 
 load_dataset = function(id, package, keep.rownames = FALSE) {

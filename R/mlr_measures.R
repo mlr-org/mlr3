@@ -29,5 +29,5 @@ as.data.table.DictionaryMeasure = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(id) {
     m = x$get(id)
     list(id = id, task_type = m$task_type, packages = list(m$packages))
-  }), "id")
+  }), "id")[]
 }

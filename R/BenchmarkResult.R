@@ -40,6 +40,11 @@
 #'
 #' @name BenchmarkResult
 #' @examples
+#' \dontshow{
+#'    set.seed(123)
+#'    .threshold = logger::logging_threshold(namespace = "mlr3")
+#'    logger::logging_threshold(WARN, namespace = "mlr3")
+#' }
 #' bmr = benchmark(
 #'   tasks = mlr_tasks$mget("iris"),
 #'   learners = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
@@ -56,6 +61,9 @@
 #' rr = bmr$resample_result(rrs$hash[1])
 #' print(rr)
 #' rr$experiment(1)$model
+#' \dontshow{
+#'    logger::logging_threshold(.threshold, namespace = "mlr3")
+#' }
 NULL
 
 #' @export

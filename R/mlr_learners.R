@@ -29,5 +29,5 @@ as.data.table.DictionaryLearner = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(id) {
     l = x$get(id)
     list(id = id, packages = list(l$packages))
-  }), "id")
+  }), "id")[]
 }

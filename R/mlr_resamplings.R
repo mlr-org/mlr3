@@ -29,5 +29,5 @@ as.data.table.DictionaryResampling = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(id) {
     r = x$get(id)
     list(id = id, hyperpars = list(r$param_set$ids), default_iters = r$iters)
-  }), "id")
+  }), "id")[]
 }

@@ -30,7 +30,11 @@ Object to control experiment execution. See \code{\link[=mlr_control]{mlr_contro
 Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
 }
 \examples{
-set.seed(123)
+\dontshow{
+   set.seed(123)
+   .threshold = logger::logging_threshold(namespace = "mlr3")
+   logger::logging_threshold(WARN, namespace = "mlr3")
+}
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget(c("holdout", "cv"))
@@ -53,4 +57,7 @@ print(rr)
 
 # Extract predictions of first experiment of this resampling
 head(as.data.table(rr$experiment(1)$prediction))
+\dontshow{
+   logger::logging_threshold(.threshold, namespace = "mlr3")
+}
 }
