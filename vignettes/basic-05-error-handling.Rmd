@@ -28,31 +28,29 @@ This vignettes demonstrates how to deal with learners which raise exceptions dur
 # Setup
 
 First, we need a simple learning task and a learner which raises exceptions.
-For this purpose, `mlr3` ships with the learner `classif.crashtest`:
+For this purpose, `mlr3` ships with the learner `classif.unittest`:
 ```{r}
 task = mlr_tasks$get("spam")
-learner = mlr_learners$get("classif.crashtest")
+learner = mlr_learners$get("classif.unittest")
 print(learner)
 ```
-The hyperparameters let us control (a) whether it should crash during train or predict, and (b) if the learner should crash with an error or segfault (which tears down the complete R session).
-With its default settings, it will throw an exception during the `train` step.
+The hyperparameters let us control (a) what conditions should be signaled (message, warning, error), and (b) during which stage (train or predict).
+Additionally, we can tell the learner to provoke a segfault which tears down the complete R session.
+With its default settings, it will do nothing special: it learns a random label and which is used to create constant predictions.
 
 
 # No Error Handling
 
 In the defaults, `mlr3` does not handle errors.
-Thus, the exception raised by the crashtest learner stops the execution and can be tracebacked:
+Thus, the exception raised by the unittest learner stops the execution and can be tracebacked:
 
 ```{r, error = TRUE, eval = -3}
+task = mlr_tasks$get("spam")
+learner = mlr_learners$get("classif.unittest")
+learner$param_vals = list(error_train = TRUE)
 e = Experiment$new(task, learner)
 e$train()
 traceback()
-```
-
-Note that the traceback sometimes is obfuscated by the parallelization framework, i.e. if your entry point in the calculation is via `resample()` or `benchmark()`.
-To get a better traceback, you can turn the parallelization completely off by setting the control argument `disable_future`:
-```{r}
-ctrl = mlr_control(disable_future = TRUE)
 ```
 
 # Encapsulation
@@ -60,11 +58,17 @@ ctrl = mlr_control(disable_future = TRUE)
 During parallelization, error messages (as well as normal output or warnings) are often not properly forwarded to the master R session, or they arrive in a confusing order.
 The learner execution can be encapsulated, so its output is logged to the experiment instead of just printed to the console:
 ```{r}
+task = mlr_tasks$get("spam")
+learner = mlr_learners$get("classif.unittest")
+learner$param_vals = list(warning_train = TRUE, error_train = TRUE)
+
 ctrl = mlr_control(encapsulate_train = "evaluate")
 e = Experiment$new(task, learner, ctrl = ctrl)
 e$train()
-e$has_errors
-e$logs$train
+e$has_errors # any errors recorded?
+e$logs$train # print train log
+e$logs$train$warnings # get all the warnings
+e$logs$train$errors # get all the errors
 ```
 You can also enable the encapsulation for the *predict* or *score* steps of an experiment by setting `encapsulate_predict` or `encapsulate_score`, respectively.
 
@@ -82,8 +86,8 @@ e$logs$train
 ```{r}
 ctrl = mlr_control(encapsulate_train = "callr")
 task = mlr_tasks$get("spam")
-learner = mlr_learners$get("classif.crashtest")
-learner$param_vals = list(crash.on = "train", crash.mode = "segfault")
+learner = mlr_learners$get("classif.unittest")
+learner$param_vals = list(segfault_train = TRUE)
 e = Experiment$new(task, learner)
 e$train(ctrl = ctrl)
 e$has_errors
@@ -105,7 +109,8 @@ Here, we simply fallback to the predictions of a featureless learner (predicting
 
 ```{r}
 task = mlr_tasks$get("spam")
-learner = mlr_learners$get("classif.crashtest")
+learner = mlr_learners$get("classif.unittest")
+learner$param_vals = list(error_train = TRUE)
 learner$fallback = mlr_learners$get("classif.featureless")
 ctrl = mlr_control(encapsulate_train = "evaluate")
 
@@ -120,4 +125,4 @@ e$prediction
 e$performance
 ```
 
-Note that the logs and timings are tracked for the original learner, not the fallback learner.
+Note that the logs and timings are tracked for the original learner (until it errored), not the fallback learner.

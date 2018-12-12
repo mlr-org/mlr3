@@ -164,7 +164,7 @@ resamplings = mlr_resamplings$mget("cv")
 measures = mlr_measures$mget(c("acc", "auc"))
 
 # create a BenchmarkResult object
-bmr = benchmark(tasks, learners, resamplings, measures, mlr_control(verbose = FALSE))
+bmr = benchmark(tasks, learners, resamplings, measures)
 ```
 
 Usually you want to look at the results aggregated over resampling iterations:

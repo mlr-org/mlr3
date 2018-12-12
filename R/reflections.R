@@ -61,7 +61,5 @@ mlr_reflections$default_mlr_control = list(
   encapsulate_train = "none",
   encapsulate_predict = "none",
   encapsulate_score = "none",
-  disable_future = FALSE,
-  verbose = TRUE,
-  debug = FALSE
+  log_threshold = INFO
 )

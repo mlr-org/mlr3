@@ -122,8 +122,21 @@ Learner = R6Class("Learner",
       if (rhs %nin% self$predict_types)
         stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
+    },
+
+    params_train = function() {
+      # TODO: move some logic to paradox
+      pv = self$param_vals
+      pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = "train")]
+    },
+
+    params_predict = function() {
+      # TODO: move some logic to paradox
+      pv = self$param_vals
+      pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = "predict")]
     }
   ),
+
   private = list(
     .hash = NA_character_,
     .param_vals = NULL,

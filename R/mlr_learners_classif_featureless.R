@@ -8,32 +8,33 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
-            ParamFct$new("method", values = c("mode", "sample", "weighted.sample"), default = "mode")
+            ParamFct$new("method", values = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")
           )
         ),
+        param_vals = list(method = "mode"),
         properties = "missings",
       )
     },
 
-    train = function(task, ...) {
+    train = function(task) {
       tn = task$target_names
       model = table(task$data(cols = tn))
       class(model) = "featureless"
       model
     },
 
-    predict = function(model, task, method = "mode", ...) {
+    predict = function(model, task) {
       n = task$nrow
       response = prob = NULL
 
       if (self$predict_type == "response") {
-        response = switch(method,
+        response = switch(self$param_vals$method,
           mode = rep.int(sample(names(model[model == max(model)]), 1L), n),
           sample = sample(names(model), n, replace = TRUE),
           weighted.sample = sample(names(model), n, replace = TRUE, prob = model)
         )
       } else if (self$predict_type == "prob") {
-        prob = switch(method,
+        prob = switch(self$param_vals$method,
           mode = { tmp = (model == max(model)); tmp / sum(tmp) },
           sample = rep.int(1 / length(model), length(model)),
           weighted.sample = model / sum(model)

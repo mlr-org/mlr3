@@ -16,7 +16,6 @@
 #'   Same format as `encapsulate_train`.
 #' * `encapsulate_score`: How to call external code in third party packages during score
 #'   Same format as `encapsulate_train`.
-#' * `disable_future`: Set to `TRUE` to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
 #'
@@ -33,6 +32,8 @@
 #' mlr_control(store_model = FALSE)
 mlr_control = function(...) {
   ctrl = mlr_reflections$default_mlr_control
+  ctrl$log_threshold = logger::log_threshold(namespace = "mlr3")
+
   ldots = ...length()
   if (ldots == 0L)
     return(ctrl)
@@ -50,10 +51,4 @@ mlr_control = function(...) {
     stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
   ctrl[names(dots)] = dots
   ctrl
-}
-
-use_future = function(ctrl) {
-  isFALSE(ctrl$disable_future) &&
-    requireNamespace("future", quietly = TRUE) &&
-    requireNamespace("future.apply", quietly = TRUE)
 }

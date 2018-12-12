@@ -6,7 +6,6 @@ test_that("resample", {
   resampling = mlr_resamplings$get("cv")
   resampling$param_vals = list(folds = 3)
 
-  logger::log_threshold(WARN, namespace = "mlr3")
   rr = resample(task, learner, resampling)
 
   expect_resample_result(rr)

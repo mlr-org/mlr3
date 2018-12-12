@@ -56,7 +56,7 @@ Remotes:
     mllg/checkmate,
     mlr-org/paradox,
     mlr-org/mlr3misc
-ByteCompile: true
+ByteCompile: false
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
@@ -94,11 +94,12 @@ Collate:
     'benchmark.R'
     'encapsulate.R'
     'helper.R'
+    'helper_future.R'
     'mlr_control.R'
     'mlr_learners.R'
     'mlr_learners_classif_featureless.R'
     'mlr_learners_classif_rpart.R'
-    'mlr_learners_crashtest.R'
+    'mlr_learners_classif_unittest.R'
     'mlr_learners_regr_featureless.R'
     'mlr_learners_regr_rpart.R'
     'mlr_measures.R'

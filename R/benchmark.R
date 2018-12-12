@@ -23,8 +23,7 @@
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 #' resamplings = mlr_resamplings$mget(c("holdout", "cv"))
 #' measures = mlr_measures$mget("acc")
-#' ctrl = mlr_control(verbose = FALSE)
-#' bmr = benchmark(tasks, learners, resamplings, measures, ctrl = ctrl)
+#' bmr = benchmark(tasks, learners, resamplings, measures)
 #'
 #' # performance for all conducted experiments
 #' head(as.data.table(bmr))
@@ -80,7 +79,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list(
 
   log_info("Benchmarking %i experiments", nrow(grid))
 
-  if (use_future(ctrl)) {
+  if (future_remote()) {
     log_debug("Running benchmark() via future", namespace = "mlr3")
 
     # randomize order for parallelization
@@ -89,7 +88,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list(
     tmp = future.apply::future_mapply(experiment_worker,
       task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter, measures = measures[grid$task],
       MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE,
-      future.globals = FALSE, future.packages = "mlr3"
+      remote = TRUE, future.globals = FALSE, future.packages = "mlr3"
       )
   } else {
     log_debug("Running benchmark() sequentially", namespace = "mlr3")

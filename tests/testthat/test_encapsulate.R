@@ -1,16 +1,16 @@
 context("encapsulate")
 
-fun1 = function(...) {
-  message("foo")
-  warning("bar\nfoobar")
-  return(99L)
-}
-
-fun2 = function(...) {
-  1L
-}
-
 test_that("encapsulate", {
+  fun1 = function(...) {
+    message("foo")
+    warning("bar\nfoobar")
+    return(99L)
+  }
+
+  fun2 = function(...) {
+    1L
+  }
+
   for (e in list(encapsulate_callr, encapsulate_evaluate)) {
     res = e(fun1)
     log = res$log
@@ -36,10 +36,10 @@ test_that("encapsulate", {
 
 is_empty_log = function(log) { test_data_table(log$log, nrow = 0L, ncol = 2L) && test_subset(log$log$class, mlr_reflections$log_classes) }
 disabled = mlr_control(encapsulate_train = "none")
-enabled = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate", verbose = FALSE)
+enabled = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
 task = mlr_tasks$get("iris")
-learner = get_verbose_learner()
-learner$param_vals = list(message = TRUE, warning = TRUE)
+learner = mlr_learners$get("classif.unittest")
+learner$param_vals = list(message_train = TRUE, warning_train = TRUE, message_predict = TRUE, warning_predict = TRUE)
 
 test_that("evaluate / experiment", {
   subset = 1:120
@@ -58,7 +58,7 @@ test_that("evaluate / experiment", {
   expect_data_table(log$log, nrow = 2L, ncol = 2L, any.missing = FALSE)
   expect_character(log$log$class)
   expect_equal(log$log$class, c("output", "warning"))
-  expect_true(all(grepl("$train()", log$log$msg, fixed = TRUE)))
+  expect_true(all(grepl("->train()", log$log$msg, fixed = TRUE)))
   expect_true(log$has_condition("output"))
   expect_true(log$has_condition("warning"))
   expect_false(log$has_condition("error"))
@@ -74,7 +74,7 @@ test_that("evaluate / experiment", {
   expect_data_table(log$log, nrow = 2L, ncol = 2L, any.missing = FALSE)
   expect_character(log$log$class)
   expect_equal(log$log$class, c("output", "warning"))
-  expect_true(all(grepl("$predict()", log$log$msg, fixed = TRUE)))
+  expect_true(all(grepl("->predict()", log$log$msg, fixed = TRUE)))
 })
 
 test_that("evaluate / resample", {

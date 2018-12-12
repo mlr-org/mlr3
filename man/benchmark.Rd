@@ -35,8 +35,7 @@ tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget(c("holdout", "cv"))
 measures = mlr_measures$mget("acc")
-ctrl = mlr_control(verbose = FALSE)
-bmr = benchmark(tasks, learners, resamplings, measures, ctrl = ctrl)
+bmr = benchmark(tasks, learners, resamplings, measures)
 
 # performance for all conducted experiments
 head(as.data.table(bmr))

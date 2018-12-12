@@ -8,21 +8,22 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
         predict_types = c("response", "se"),
         param_set = ParamSet$new(
           params = list(
-            ParamLgl$new("robust", default = TRUE)
+            ParamLgl$new("robust", default = TRUE, tags = "train")
           )
         ),
+        param_vals = list(robust = TRUE),
         properties = "missings",
       )
     },
 
-    train = function(task, robust = TRUE, ...) {
+    train = function(task) {
       tn = unlist(task$data(cols = task$target_names))
-      mod = if (isTRUE(robust)) c(mean(tn), sd(tn)) else c(median(tn), madn(tn))
+      mod = if (isTRUE(self$param_vals$robust)) c(mean(tn), sd(tn)) else c(median(tn), madn(tn))
       class(mod) = "featureless"
       mod
     },
 
-    predict = function(model, task, ...) {
+    predict = function(model, task) {
       n = task$nrow
       PredictionRegr$new(task, response = rep(model[1L], n), se = rep(model[2L], n))
     }

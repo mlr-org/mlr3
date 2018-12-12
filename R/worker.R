@@ -4,12 +4,11 @@ train_worker = function(e, ctrl) {
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$train_set)
-  pars = c(list(task = task), learner$param_vals)
 
   log_info("Training learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
   enc = encapsulate(ctrl$encapsulate_train)
-  res = set_names(enc(learner$train, pars),
+  res = set_names(enc(learner$train, list(task = task)),
     c("model", "train_log", "train_time"))
 
   if (!is.null(learner$fallback)) {
@@ -39,12 +38,11 @@ predict_worker = function(e, ctrl) {
   require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
-  pars = c(list(model = model, task = task), learner$param_vals)
 
   log_info("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
 
   enc = encapsulate(ctrl$encapsulate_predict)
-  res = set_names(enc(learner$predict, pars),
+  res = set_names(enc(learner$predict, list(model = model, task = task)),
     c("prediction", "predict_log", "predict_time"))
   assert_class(res$prediction, "Prediction")
 
@@ -52,7 +50,6 @@ predict_worker = function(e, ctrl) {
 }
 
 score_worker = function(e, ctrl) {
-  lvl = if (ctrl$verbose) INFO else DEBUG
   data = e$data
   measures = data$measures
   require_namespaces(unlist(map(measures, "packages")), "The following packages are required for the measures: %s")
@@ -66,7 +63,13 @@ score_worker = function(e, ctrl) {
   return(list(performance = res$result, score_time = res$elapsed))
 }
 
-experiment_worker = function(iteration, task, learner, resampling, measures, ctrl) {
+experiment_worker = function(iteration, task, learner, resampling, measures, ctrl, remote = FALSE) {
+  if (remote) {
+    # restore the state of the master session
+    # currently, this only affects logging as we do not use any global options
+    logger::log_threshold(ctrl$log_threshold, namespace = "mlr3")
+  }
+
   e = Experiment$new(task, learner, resampling = resampling, iteration = iteration, measures = measures)
 
   log_info("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")

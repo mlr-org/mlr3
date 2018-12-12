@@ -49,11 +49,11 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   }
   n = instance$iters
 
-  if (use_future(ctrl)) {
+  if (future_remote()) {
     log_debug("Running resample() via future with %i iterations", n, namespace = "mlr3")
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
       task = task, learner = learner, resampling = resampling, measures = measures, ctrl = ctrl,
-      future.globals = FALSE, future.packages = "mlr3")
+      remote = TRUE, future.globals = FALSE, future.packages = "mlr3")
   } else {
     log_debug("Running resample() sequentially with %i iterations", n, namespace = "mlr3")
     res = lapply(seq_len(n), experiment_worker,
