@@ -56,7 +56,6 @@ Remotes:
     mllg/checkmate,
     mlr-org/paradox,
     mlr-org/mlr3misc
-ByteCompile: false
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
