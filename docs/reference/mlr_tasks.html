@@ -87,6 +87,9 @@
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -168,8 +171,14 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "bh"      "iris"    "pima"    "sonar"   "spam"    "titanic" "zoo"    </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_tasks</span>)
-<span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)</div><div class='output co'>#&gt; Task 'iris' of type classif (150 x 5)
+    <pre class="examples"><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "bh"      "iris"    "pima"    "sonar"   "spam"    "titanic" "zoo"    </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_tasks</span>)</div><div class='output co'>#&gt;         id    type nrow ncol
+#&gt; 1:      bh    regr  506   19
+#&gt; 2:    iris classif  150    5
+#&gt; 3:    pima classif  768    9
+#&gt; 4:   sonar classif  208   61
+#&gt; 5:    spam classif 4601   58
+#&gt; 6: titanic classif 1309   12
+#&gt; 7:     zoo classif  101   17</div><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)</div><div class='output co'>#&gt; Task 'iris' of type classif (150 x 5)
 #&gt; Target: Species
 #&gt; Features: Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
 #&gt; 

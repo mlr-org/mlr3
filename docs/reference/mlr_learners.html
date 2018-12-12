@@ -87,6 +87,9 @@
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -167,8 +170,12 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "classif.featureless" "classif.rpart"       "classif.unittest"   
-#&gt; [4] "regr.featureless"    "regr.rpart"         </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_learners</span>)
-<span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; Learner 'classif.featureless' for classif
+#&gt; [4] "regr.featureless"    "regr.rpart"         </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_learners</span>)</div><div class='output co'>#&gt;                     id packages
+#&gt; 1: classif.featureless         
+#&gt; 2:       classif.rpart    rpart
+#&gt; 3:    classif.unittest         
+#&gt; 4:    regr.featureless         
+#&gt; 5:          regr.rpart    rpart</div><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; Learner 'classif.featureless' for classif
 #&gt; Parameters: method=mode
 #&gt; Feature types: logical,integer,numeric,character,factor,ordered</div></pre>
   </div>
