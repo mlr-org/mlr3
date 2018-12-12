@@ -1,4 +1,4 @@
-#' @title Re-export of as.data.table
+#' @title Re-export of `as.data.table`
 #'
 #' See [data.table::as.data.table()].
 #'

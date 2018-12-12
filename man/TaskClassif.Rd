@@ -2,7 +2,7 @@
 % Please edit documentation in R/TaskClassif.R
 \name{TaskClassif}
 \alias{TaskClassif}
-\title{Classification task}
+\title{Classification Task}
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for classification problems.
 The target column is assumed to be a factor.

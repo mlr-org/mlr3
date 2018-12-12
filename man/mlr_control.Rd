@@ -2,7 +2,7 @@
 % Please edit documentation in R/mlr_control.R
 \name{mlr_control}
 \alias{mlr_control}
-\title{Execution control object}
+\title{Execution Control Object}
 \usage{
 mlr_control(...)
 }

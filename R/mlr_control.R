@@ -1,4 +1,4 @@
-#' @title Execution control object
+#' @title Execution Control Object
 #'
 #' @description
 #' This function creates a named list of settings which control the execution of an [Experiment].

@@ -2,7 +2,7 @@
 % Please edit documentation in R/Dictionary.R
 \name{Dictionary}
 \alias{Dictionary}
-\title{Key-value storage}
+\title{Key-Value Storage}
 \description{
 A simple key-value store for \pkg{R6} objects.
 On retrieval of an object, the following applies:

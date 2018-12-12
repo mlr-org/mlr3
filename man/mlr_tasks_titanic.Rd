@@ -2,7 +2,7 @@
 % Please edit documentation in R/mlr_tasks.R
 \name{mlr_tasks_titanic}
 \alias{mlr_tasks_titanic}
-\title{Titanic classification task}
+\title{Titanic Classification Task}
 \description{
 A classification task for the \link[titanic:titanic]{titanic::titanic} data set.
 

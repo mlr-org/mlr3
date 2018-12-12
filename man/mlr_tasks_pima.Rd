@@ -2,7 +2,7 @@
 % Please edit documentation in R/mlr_tasks.R
 \name{mlr_tasks_pima}
 \alias{mlr_tasks_pima}
-\title{Pima Indian Diabetes classification task}
+\title{Pima Indian Diabetes Classification Task}
 \description{
 A classification task for the \link[mlbench:PimaIndiansDiabetes2]{mlbench::PimaIndiansDiabetes2} data set.
 Positive class is set to "pos".

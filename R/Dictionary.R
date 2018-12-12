@@ -1,4 +1,4 @@
-#' @title Key-value storage
+#' @title Key-Value Storage
 #'
 #' @description
 #' A simple key-value store for \pkg{R6} objects.

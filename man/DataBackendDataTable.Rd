@@ -2,7 +2,7 @@
 % Please edit documentation in R/DataBackendDataTable.R
 \name{DataBackendDataTable}
 \alias{DataBackendDataTable}
-\title{DataBackend for data.table}
+\title{DataBackend for \code{data.table}}
 \description{
 Abstraction for \code{\link[data.table:data.table]{data.table::data.table()}} as an in-memory data base.
 Returns an object of class \link{DataBackend}.

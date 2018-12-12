@@ -2,7 +2,7 @@
 % Please edit documentation in R/mlr_tasks.R
 \name{mlr_tasks_iris}
 \alias{mlr_tasks_iris}
-\title{Iris classification task}
+\title{Iris Classification Task}
 \description{
 A classification task for the popular \link[datasets:iris]{datasets::iris} data set.
 }

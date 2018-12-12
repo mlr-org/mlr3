@@ -43,7 +43,7 @@ Possible conditions are "output", "message", "warning", and "error".
 \examples{
 # Create a simple experiment and extract the train log:
 task = mlr_tasks$get("sonar")
-learner = mlr_learners$get("classif.unittest")
+learner = mlr_learners$get("classif.debug")
 learner$param_vals = list(message_train = TRUE, error_train = TRUE)
 learner$fallback = mlr_learners$get("classif.featureless")
 e = Experiment$new(task, learner)

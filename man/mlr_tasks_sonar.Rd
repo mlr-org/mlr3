@@ -2,7 +2,7 @@
 % Please edit documentation in R/mlr_tasks.R
 \name{mlr_tasks_sonar}
 \alias{mlr_tasks_sonar}
-\title{Sonar classification task}
+\title{Sonar Classification Task}
 \description{
 A classification task for the \link[mlbench:Sonar]{mlbench::Sonar} data set.
 Positive class is set to "M" (Mine).

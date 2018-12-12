@@ -64,7 +64,7 @@ load_dataset = function(id, package, keep.rownames = FALSE) {
 }
 
 
-#' @title Iris classification task
+#' @title Iris Classification Task
 #' @name mlr_tasks_iris
 #' @description
 #' A classification task for the popular [datasets::iris] data set.
@@ -73,7 +73,7 @@ mlr_tasks$add("iris", function() {
   TaskClassif$new("iris", b, target = "Species")
 })
 
-#' @title Sonar classification task
+#' @title Sonar Classification Task
 #' @name mlr_tasks_sonar
 #' @description
 #' A classification task for the [mlbench::Sonar] data set.
@@ -83,7 +83,7 @@ mlr_tasks$add("sonar",  function() {
   TaskClassif$new("sonar", b, target = "Class", positive = "M")
 })
 
-#' @title Boston Housing regression task
+#' @title Boston Housing Regression Task
 #' @name mlr_tasks_bh
 #' @description
 #' A regression task for the [mlbench::BostonHousing2] data set.
@@ -92,7 +92,7 @@ mlr_tasks$add("bh",  function() {
   TaskRegr$new("boston_housing", b, target = "medv")
 })
 
-#' @title Pima Indian Diabetes classification task
+#' @title Pima Indian Diabetes Classification Task
 #' @name mlr_tasks_pima
 #' @description
 #' A classification task for the [mlbench::PimaIndiansDiabetes2] data set.
@@ -102,7 +102,7 @@ mlr_tasks$add("pima", function() {
   TaskClassif$new("pima_indians", b, target = "diabetes", positive = "pos")
 })
 
-#' @title Zoo classification task
+#' @title Zoo Classification Task
 #' @name mlr_tasks_zoo
 #' @description
 #' A classification task for the [mlbench::Zoo] data set.
@@ -111,7 +111,7 @@ mlr_tasks$add("zoo", function() {
   TaskClassif$new("zoo", b, target = "type")
 })
 
-#' @title Spam classification task
+#' @title Spam Classification Task
 #' @name mlr_tasks_spam
 #' @description
 #' A classification task for the [kernlab::spam] data set.
@@ -121,7 +121,7 @@ mlr_tasks$add("spam", function() {
   TaskClassif$new("spam", b, target = "type", positive = "spam")
 })
 
-#' @title Titanic classification task
+#' @title Titanic Classification Task
 #' @name mlr_tasks_titanic
 #' @description
 #' A classification task for the [titanic::titanic] data set.

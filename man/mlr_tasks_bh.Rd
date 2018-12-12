@@ -2,7 +2,7 @@
 % Please edit documentation in R/mlr_tasks.R
 \name{mlr_tasks_bh}
 \alias{mlr_tasks_bh}
-\title{Boston Housing regression task}
+\title{Boston Housing Regression Task}
 \description{
 A regression task for the \link[mlbench:BostonHousing2]{mlbench::BostonHousing2} data set.
 }

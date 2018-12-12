@@ -1,7 +1,28 @@
+#' @title Toy Classification Learner
+#' @name mlr_learners_classif_debug
+#' @format [R6::R6Class()] inheriting from [LearnerClassif].
+#' @description
+#' A simple learner used primarily in the unit tests and for debugging purposes.
+#' If no hyperparameter is set, it simply constantly predicts a randomly selected label.
+#' The following hyperparameters trigger the following actions:
+#' \describe{
+#'    \item{message_train:}{Outputs a message during train.}
+#'    \item{message_predict:}{Outputs a message during predict.}
+#'    \item{warning_train:}{Signals a warning during train.}
+#'    \item{warning_predict:}{Signals a warning during predict.}
+#'    \item{error_train:}{Raises an exception during train.}
+#'    \item{error_predict:}{Raises an exception during predict.}
+#'    \item{segfault_train:}{Provokes a segfault during train.}
+#'    \item{segfault_predict:}{Provokes a segfault during predict.}
+#' }
+#' Note that segfaults may not work on your operating system.
+#' Also note that if they work, they will tear down your R session immediately!
+#' @keywords internal
+#' @export
 #' @include LearnerClassif.R
-LearnerClassifUnittest = R6Class("LearnerClassifUnittest", inherit = LearnerClassif,
+LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "classif.unittest") {
+    initialize = function(id = "classif.debug") {
       super$initialize(
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
@@ -25,11 +46,11 @@ LearnerClassifUnittest = R6Class("LearnerClassifUnittest", inherit = LearnerClas
     train = function(task) {
       pv = self$param_vals
       if (isTRUE(pv$message_train))
-        message("Message from classif.unittest->train()")
+        message("Message from classif.debug->train()")
       if (isTRUE(pv$warning_train))
-        warning("Warning from classif.unittest->train()")
+        warning("Warning from classif.debug->train()")
       if (isTRUE(pv$error_train))
-        stop("Error from classif.unittest->train()")
+        stop("Error from classif.debug->train()")
       if (isTRUE(pv$segfault_train))
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
 
@@ -40,11 +61,11 @@ LearnerClassifUnittest = R6Class("LearnerClassifUnittest", inherit = LearnerClas
     predict = function(model, task, ...) {
       pv = self$param_vals
       if (isTRUE(pv$message_predict))
-        message("Message from classif.unittest->predict()")
+        message("Message from classif.debug->predict()")
       if (isTRUE(pv$warning_predict))
-        warning("Warning from classif.unittest->predict()")
+        warning("Warning from classif.debug->predict()")
       if (isTRUE(pv$error_predict))
-        stop("Error from classif.unittest->predict()")
+        stop("Error from classif.debug->predict()")
       if (isTRUE(pv$segfault_predict))
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
 
@@ -54,4 +75,4 @@ LearnerClassifUnittest = R6Class("LearnerClassifUnittest", inherit = LearnerClas
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("classif.unittest", LearnerClassifUnittest)
+mlr_learners$add("classif.debug", LearnerClassifDebug)

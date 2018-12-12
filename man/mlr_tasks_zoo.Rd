@@ -2,7 +2,7 @@
 % Please edit documentation in R/mlr_tasks.R
 \name{mlr_tasks_zoo}
 \alias{mlr_tasks_zoo}
-\title{Zoo classification task}
+\title{Zoo Classification Task}
 \description{
 A classification task for the \link[mlbench:Zoo]{mlbench::Zoo} data set.
 }

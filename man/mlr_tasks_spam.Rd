@@ -2,7 +2,7 @@
 % Please edit documentation in R/mlr_tasks.R
 \name{mlr_tasks_spam}
 \alias{mlr_tasks_spam}
-\title{Spam classification task}
+\title{Spam Classification Task}
 \description{
 A classification task for the \link[kernlab:spam]{kernlab::spam} data set.
 Positive class is set to "spam".

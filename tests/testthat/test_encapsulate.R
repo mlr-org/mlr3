@@ -38,7 +38,7 @@ is_empty_log = function(log) { test_data_table(log$log, nrow = 0L, ncol = 2L) &&
 disabled = mlr_control(encapsulate_train = "none")
 enabled = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
 task = mlr_tasks$get("iris")
-learner = mlr_learners$get("classif.unittest")
+learner = mlr_learners$get("classif.debug")
 learner$param_vals = list(message_train = TRUE, warning_train = TRUE, message_predict = TRUE, warning_predict = TRUE)
 
 test_that("evaluate / experiment", {
