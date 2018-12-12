@@ -42,8 +42,8 @@
 #' @examples
 #' \dontshow{
 #'    set.seed(123)
-#'    .threshold = logger::logging_threshold(namespace = "mlr3")
-#'    logger::logging_threshold(WARN, namespace = "mlr3")
+#'    .threshold = logger::log_threshold(namespace = "mlr3")
+#'    logger::log_threshold(WARN, namespace = "mlr3")
 #' }
 #' bmr = benchmark(
 #'   tasks = mlr_tasks$mget("iris"),
@@ -62,7 +62,7 @@
 #' print(rr)
 #' rr$experiment(1)$model
 #' \dontshow{
-#'    logger::logging_threshold(.threshold, namespace = "mlr3")
+#'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
 NULL
 

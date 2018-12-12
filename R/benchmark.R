@@ -20,8 +20,8 @@
 #' @examples
 #' \dontshow{
 #'    set.seed(123)
-#'    .threshold = logger::logging_threshold(namespace = "mlr3")
-#'    logger::logging_threshold(WARN, namespace = "mlr3")
+#'    .threshold = logger::log_threshold(namespace = "mlr3")
+#'    logger::log_threshold(WARN, namespace = "mlr3")
 #' }
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
@@ -46,7 +46,7 @@
 #' # Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
 #' \dontshow{
-#'    logger::logging_threshold(.threshold, namespace = "mlr3")
+#'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
 benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list()) {
   assert_list(tasks, "Task", min.len = 1L)

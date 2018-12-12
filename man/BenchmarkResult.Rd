@@ -47,8 +47,8 @@ These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleRes
 \examples{
 \dontshow{
    set.seed(123)
-   .threshold = logger::logging_threshold(namespace = "mlr3")
-   logger::logging_threshold(WARN, namespace = "mlr3")
+   .threshold = logger::log_threshold(namespace = "mlr3")
+   logger::log_threshold(WARN, namespace = "mlr3")
 }
 bmr = benchmark(
   tasks = mlr_tasks$mget("iris"),
@@ -67,6 +67,6 @@ rr = bmr$resample_result(rrs$hash[1])
 print(rr)
 rr$experiment(1)$model
 \dontshow{
-   logger::logging_threshold(.threshold, namespace = "mlr3")
+   logger::log_threshold(.threshold, namespace = "mlr3")
 }
 }
