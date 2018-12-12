@@ -32,6 +32,8 @@ navbar:
       href: articles/basic-03-resample.html
     - text: Parallelization
       href: articles/basic-04-parallelization.html
+    - text: Error handling
+      href: articles/basic-05-error-handling.html
 
   - text: Appendix
     menu:
