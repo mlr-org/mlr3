@@ -45,7 +45,6 @@ encapsulate_predict: How to call external code in third party packages during pr
 Same format as encapsulate_train.
 encapsulate_score: How to call external code in third party packages during score
 Same format as encapsulate_train.
-disable_future: Set to TRUE to disable parallelization via future. This sometimes simplifies debugging.
 " />
 <meta name="twitter:card" content="summary" />
 
@@ -179,7 +178,6 @@ at the cost of some computational overhead. Logs are also stored in the <a href=
 Same format as <code>encapsulate_train</code>.</p></li>
 <li><p><code>encapsulate_score</code>: How to call external code in third party packages during score
 Same format as <code>encapsulate_train</code>.</p></li>
-<li><p><code>disable_future</code>: Set to <code>TRUE</code> to disable parallelization via <span class="pkg">future</span>. This sometimes simplifies debugging.</p></li>
 </ul>
     
 
@@ -218,14 +216,12 @@ after some argument checks.</p>
 #&gt; $encapsulate_score
 #&gt; [1] "none"
 #&gt; 
-#&gt; $disable_future
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $verbose
-#&gt; [1] TRUE
-#&gt; 
-#&gt; $debug
-#&gt; [1] FALSE
+#&gt; $log_threshold
+#&gt; [1] 400
+#&gt; attr(,"level")
+#&gt; [1] "INFO"
+#&gt; attr(,"class")
+#&gt; [1] "loglevel" "integer" 
 #&gt; </div><div class='input'>
 <span class='co'># get a control object, with the default of store_model switched to FALSE</span>
 <span class='fu'>mlr_control</span>(<span class='kw'>store_model</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; $store_model
@@ -243,14 +239,12 @@ after some argument checks.</p>
 #&gt; $encapsulate_score
 #&gt; [1] "none"
 #&gt; 
-#&gt; $disable_future
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $verbose
-#&gt; [1] TRUE
-#&gt; 
-#&gt; $debug
-#&gt; [1] FALSE
+#&gt; $log_threshold
+#&gt; [1] 400
+#&gt; attr(,"level")
+#&gt; [1] "INFO"
+#&gt; attr(,"class")
+#&gt; [1] "loglevel" "integer" 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
