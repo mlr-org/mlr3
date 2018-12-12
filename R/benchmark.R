@@ -84,7 +84,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list(
   task = learner = instance = NULL
   grid[, "hash" := experiment_data_hash(list(task = tasks[[task]], learner = learners[[learner]], resampling = instances[[instance]])), by = c("task", "learner", "instance")]
 
-  log_info("Benchmarking %i experiments", nrow(grid))
+  log_info("Benchmarking %i experiments", nrow(grid), namespace = "mlr3")
 
   if (future_remote()) {
     log_debug("Running benchmark() via future", namespace = "mlr3")
@@ -108,7 +108,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list(
   res = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], measures = measures[grid$task], hash = grid$hash)
   ref_cbind(res, combine_experiments(tmp))
 
-  log_info("Finished benchmark")
+  log_info("Finished benchmark", namespace = "mlr3")
 
   BenchmarkResult$new(res)
 }
