@@ -20,7 +20,3 @@ layout_mlr3 <- structure(function(level, msg) {
 
   # utils::globalVariables(c("id", "role"), package = "mlr3")
 } #nocov end
-
-.onAttach = function(libname, pkgname) { #nocov start
-  packageStartupMessage("The mlr3 package is currently work-in-progress. Do not use in production. The API will change. You have been warned.")
-} #nocov end

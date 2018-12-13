@@ -2,9 +2,9 @@
 % Please edit documentation in R/BenchmarkResult.R
 \name{BenchmarkResult}
 \alias{BenchmarkResult}
-\title{Container for Results of benchmark}
+\title{Container for Results of \code{benchmark()}}
 \description{
-This is the object returned by \link{benchmark}.
+This is the object returned by \code{\link[=benchmark]{benchmark()}}.
 }
 \section{Usage}{
 \preformatted{bmr$tasks

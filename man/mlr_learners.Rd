@@ -5,6 +5,7 @@
 \title{Dictionary of Learners}
 \description{
 A simple \link{Dictionary} storing objects of class \link{Learner}.
+Each learner has an associated help page, see \code{mlr_learners_[id]}.
 }
 \section{Usage}{
 

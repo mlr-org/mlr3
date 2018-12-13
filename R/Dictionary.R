@@ -1,7 +1,7 @@
-#' @title Key-value storage
+#' @title Key-Value Storage
 #'
 #' @description
-#' A simple key-value store for \pkg{R6} objects.
+#' A simple key-value store for [R6::R6] objects.
 #' On retrieval of an object, the following applies:
 #'
 #' * R6 Factories (objects of class `R6ClassGenerator`) are initialized (with no arguments).

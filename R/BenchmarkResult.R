@@ -1,7 +1,7 @@
-#' @title Container for Results of benchmark
+#' @title Container for Results of `benchmark()`
 #'
 #' @description
-#' This is the object returned by [benchmark].
+#' This is the object returned by [benchmark()].
 #'
 #' @section Usage:
 #'

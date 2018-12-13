@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Key-value storage — Dictionary • mlr3</title>
+<title>Key-Value Storage — Dictionary • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Key-value storage — Dictionary" />
+<meta property="og:title" content="Key-Value Storage — Dictionary" />
 
-<meta property="og:description" content="A simple key-value store for R6 objects.
+<meta property="og:description" content="A simple key-value store for R6::R6 objects.
 On retrieval of an object, the following applies:
 R6 Factories (objects of class R6ClassGenerator) are initialized (with no arguments).
 R6::R6Class objects are cloned.
@@ -93,6 +93,9 @@ All other objects are returned as-is.
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -149,12 +152,12 @@ All other objects are returned as-is.
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Key-value storage</h1>
+    <h1>Key-Value Storage</h1>
     <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/Dictionary.R'><code>R/Dictionary.R</code></a></small>
     </div>
 
     
-    <p>A simple key-value store for <span class="pkg">R6</span> objects.
+    <p>A simple key-value store for <a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6</a> objects.
 On retrieval of an object, the following applies:</p><ul>
 <li><p>R6 Factories (objects of class <code>R6ClassGenerator</code>) are initialized (with no arguments).</p></li>
 <li><p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> objects are cloned.</p></li>

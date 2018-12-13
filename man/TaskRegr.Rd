@@ -2,7 +2,7 @@
 % Please edit documentation in R/TaskRegr.R
 \name{TaskRegr}
 \alias{TaskRegr}
-\title{Regression task}
+\title{Regression Task}
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for regression problems.
 The target column is assumed to be numeric.

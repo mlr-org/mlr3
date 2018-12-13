@@ -18,7 +18,7 @@ test_that("encapsulate", {
     expect_number(res$elapsed, lower = 0)
     expect_log(log)
     expect_set_equal(as.character(log$log$class), c("output", "warning"))
-    expect_true(grepl("\n", log$log$msg[2]))
+    expect_true(log$log[class == "warning", grepl("\n", msg, fixed = TRUE)])
     expect_true(log$has_condition("warning"))
     expect_true(log$has_condition("output"))
     expect_false(log$has_condition("error"))
@@ -38,7 +38,7 @@ is_empty_log = function(log) { test_data_table(log$log, nrow = 0L, ncol = 2L) &&
 disabled = mlr_control(encapsulate_train = "none")
 enabled = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
 task = mlr_tasks$get("iris")
-learner = mlr_learners$get("classif.unittest")
+learner = mlr_learners$get("classif.debug")
 learner$param_vals = list(message_train = TRUE, warning_train = TRUE, message_predict = TRUE, warning_predict = TRUE)
 
 test_that("evaluate / experiment", {
@@ -51,7 +51,7 @@ test_that("evaluate / experiment", {
   expect_is(log, "Log")
   expect_true(is_empty_log(log))
 
-  if (!interactive()) expect_silent(e$train(subset, enabled))
+  expect_silent(e$train(subset, enabled))
   log = e$data$train_log
   expect_is(log, "Log")
   expect_output(print(log), "<Log> with 2")

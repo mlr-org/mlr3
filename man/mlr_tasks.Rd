@@ -5,6 +5,7 @@
 \title{Dictionary of Tasks}
 \description{
 A simple \link{Dictionary} storing objects of class \link{Task}.
+Each task has an associated help page, see \code{mlr_tasks_[id]}.
 }
 \section{Usage}{
 

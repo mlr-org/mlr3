@@ -1,3 +1,9 @@
+#' @title Regression Tree Learner
+#' @name mlr_learners_regr_rpart
+#' @format [R6::R6Class()] inheriting from [LearnerRegr].
+#' @description
+#' A learner for a regression tree implemented in [rpart::rpart()].
+#' @export
 #' @include LearnerRegr.R
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(

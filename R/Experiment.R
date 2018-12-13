@@ -53,14 +53,14 @@
 #' * `$score()` quantifies stored predictions using the provided list of [Measure] (or the task's [Measure] if not provided)
 #'   and stores the resulting performance values. The performance can be accessed via `e$performance`.
 #'
-#' * `$train_set` and `$test_set` return the row ids of the training set or test set, respectively.
+#' * `$train_set` and `$test_set` (`integer()` | `character()`) return the row ids of the training set or test set, respectively.
 #'
-#' * `$validation_set` returns the row ids of the validation set (see [Task]).
+#' * `$validation_set` (`integer()` | `character()`) returns the row ids of the validation set (see [Task]).
 #'
-#' * `$timings` holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (c.f. [proc.time()]).
+#' * `$timings` (named `numeric(3)`) holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (c.f. [proc.time()]).
 #'   Timings are `NA` if the respective step has not been performed yet.
 #'
-#' * `$logs` creates a list with names `train` and `predict`.
+#' * `$logs` (named `list(2)`) returns a list with names `train` and `predict`.
 #'   Both store an object of class [Log] if logging of the learner has been enabled via [mlr_control()],
 #'   and are `NULL` if logging was disabled or the respective step has not been performed yet.
 #'
@@ -73,6 +73,7 @@
 #'     If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()], a `ResamplingCustom` object is stored here.
 #'   * iteration (`integer(1)`). If the experiment is constructed manually, this is always 1.
 #'   * model: Trained model as returned by the [Learner].
+#'   * fallback: Trained fallback model, if the [Learner] comes with a fallback learner.
 #'   * train_log: [Log] for the training step.
 #'   * train_time (`numeric(1)`). Elapsed time in microseconds.
 #'   * predict_log. [Log] for the predict step.

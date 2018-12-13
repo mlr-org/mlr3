@@ -13,7 +13,7 @@
 \alias{assert_benchmark_result}
 \alias{assert_param_set}
 \alias{assert_param_vals}
-\title{Assertion for mlr3 objects}
+\title{Assertion for mlr3 Objects}
 \usage{
 assert_backend(b)
 

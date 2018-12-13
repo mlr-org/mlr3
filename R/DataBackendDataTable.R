@@ -1,4 +1,4 @@
-#' @title DataBackend for data.table
+#' @title DataBackend for `data.table`
 #'
 #' @description
 #' Abstraction for [data.table::data.table()] as an in-memory data base.

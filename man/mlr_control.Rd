@@ -2,7 +2,7 @@
 % Please edit documentation in R/mlr_control.R
 \name{mlr_control}
 \alias{mlr_control}
-\title{Execution control object}
+\title{Execution Control Object}
 \usage{
 mlr_control(...)
 }
@@ -24,7 +24,7 @@ Note that you will be unable to further predict on new data.
 \itemize{
 \item If set to \code{"none"} (default), the code is executed in the running session without error handling.
 Output is not stored, just send to the console.
-\item If set to \code{"evaluate"}, the exceptions are caught using \pkg{evaluate}, and output is stored in a \link{Log} of the corresponding \link{Experiment}.
+\item If set to \code{"evaluate"}, the exceptions are caught using \code{\link[evaluate:evaluate]{evaluate::evaluate()}}, and output is stored in a \link{Log} of the corresponding \link{Experiment}.
 \item If set to \code{"callr"}, the code is executed in an independent R session. This guards your session from segfaults,
 at the cost of some computational overhead. Logs are also stored in the \link{Experiment}.
 }

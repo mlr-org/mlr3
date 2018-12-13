@@ -1,3 +1,11 @@
+#' @title Accuracy Classification Measure
+#' @name mlr_measures_acc
+#' @format [R6::R6Class()] inheriting from [MeasureClassif].
+#'
+#' @description
+#' Calls [Metrics::accuracy].
+#'
+#' @export
 #' @include MeasureClassif.R
 MeasureClassifACC = R6Class("MeasureClassifACC",
   inherit = MeasureClassif,

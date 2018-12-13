@@ -33,18 +33,18 @@
 #' * `as_data_backend()` wraps a `DataBackend` around the provided data. See `methods("as_data_backend")` for
 #'   possible input formats.
 #'
-#' * `$data()` returns a slice of the data:
+#' * `$data()` ([data.table::data.table()]) returns a slice of the data:
 #'   rows are filtered using the `primary_key` column, columns are selected by name.
 #'
 #' * `$head()` ([data.table::data.table()]) returns a table of the first `n` data rows.
 #'
-#' * `$distinct()` (`list()`) returns a named list of distinct values for specified columns `cols`.
+#' * `$distinct()` (named `list()`) returns distinct values for columns `cols`.
 #'
 #' * `$missing()` (named `integer()`) returns a named integer with the number of missing values per column.
 #'
-#' * `$rownames` (`character()`) returns all row names of `data` as integer or character vector.
+#' * `$rownames` (`integer()` | `character()`) returns all row names of `data`.
 #'
-#' * `$colnames` (`character()`) returns all column names of `data` as character vector.
+#' * `$colnames` (`character()`) returns all column names of `data`.
 #'
 #' * `$nrow` (`integer(1)`) returns the number of total rows.
 #'

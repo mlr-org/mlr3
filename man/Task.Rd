@@ -2,7 +2,7 @@
 % Please edit documentation in R/Task.R
 \name{Task}
 \alias{Task}
-\title{Abstract learning task}
+\title{Abstract Learning Task}
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
 }

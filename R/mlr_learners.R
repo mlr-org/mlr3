@@ -2,6 +2,7 @@
 #'
 #' @description
 #' A simple [Dictionary] storing objects of class [Learner].
+#' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
 #' @section Usage:
 #' See [Dictionary].

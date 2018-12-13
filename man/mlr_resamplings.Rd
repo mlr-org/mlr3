@@ -5,6 +5,7 @@
 \title{Dictionary of Resampling Strategies}
 \description{
 A simple \link{Dictionary} storing objects of class \link{Resampling}.
+Each resampling has an associated help page, see \code{mlr_resamplings_[id]}.
 }
 \section{Usage}{
 

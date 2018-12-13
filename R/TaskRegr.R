@@ -1,4 +1,4 @@
-#' @title Regression task
+#' @title Regression Task
 #'
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for regression problems.

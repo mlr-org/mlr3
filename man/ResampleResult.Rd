@@ -2,7 +2,7 @@
 % Please edit documentation in R/ResampleResult.R
 \name{ResampleResult}
 \alias{ResampleResult}
-\title{Results of Resampling}
+\title{Container for Results of \code{resample()}.}
 \description{
 This is the object returned by \code{\link[=resample]{resample()}}.
 }

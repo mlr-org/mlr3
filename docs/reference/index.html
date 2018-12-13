@@ -84,6 +84,9 @@
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -163,7 +166,7 @@
           <td>
             <p><code><a href="BenchmarkResult.html">BenchmarkResult</a></code> </p>
           </td>
-          <td><p>Container for Results of benchmark</p></td>
+          <td><p>Container for Results of <code>benchmark()</code></p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -175,7 +178,7 @@
           <td>
             <p><code><a href="DataBackendDataTable.html">DataBackendDataTable</a></code> </p>
           </td>
-          <td><p>DataBackend for data.table</p></td>
+          <td><p>DataBackend for <code>data.table</code></p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -187,7 +190,7 @@
           <td>
             <p><code><a href="Dictionary.html">Dictionary</a></code> </p>
           </td>
-          <td><p>Key-value storage</p></td>
+          <td><p>Key-Value Storage</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -235,31 +238,31 @@
           <td>
             <p><code><a href="ResampleResult.html">ResampleResult</a></code> </p>
           </td>
-          <td><p>Results of Resampling</p></td>
+          <td><p>Container for Results of <code>resample()</code>.</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="Resampling.html">Resampling</a></code> </p>
           </td>
-          <td><p>Abstract resampling class</p></td>
+          <td><p>Abstract Resampling Class</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="Task.html">Task</a></code> </p>
           </td>
-          <td><p>Abstract learning task</p></td>
+          <td><p>Abstract Learning Task</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="TaskClassif.html">TaskClassif</a></code> </p>
           </td>
-          <td><p>Classification task</p></td>
+          <td><p>Classification Task</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="TaskRegr.html">TaskRegr</a></code> </p>
           </td>
-          <td><p>Regression task</p></td>
+          <td><p>Regression Task</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -277,7 +280,7 @@
           <td>
             <p><code><a href="mlr_control.html">mlr_control()</a></code> </p>
           </td>
-          <td><p>Execution control object</p></td>
+          <td><p>Execution Control Object</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -287,9 +290,69 @@
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="mlr_learners_classif_debug.html">LearnerClassifDebug</a></code> </p>
+          </td>
+          <td><p>Toy Classification Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners_classif_featureless.html">LearnerClassifFeatureless</a></code> </p>
+          </td>
+          <td><p>Featureless Classification Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners_classif_rpart.html">LearnerClassifRpart</a></code> </p>
+          </td>
+          <td><p>Classification Tree Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners_regr_featureless.html">LearnerRegrDummy</a></code> </p>
+          </td>
+          <td><p>Featureless Regression Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners_regr_rpart.html">LearnerRegrRpart</a></code> </p>
+          </td>
+          <td><p>Regression Tree Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
             <p><code><a href="mlr_measures.html">mlr_measures</a></code> </p>
           </td>
           <td><p>Dictionary of Performance Measures</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_acc.html">MeasureClassifACC</a></code> </p>
+          </td>
+          <td><p>Accuracy Classification Measure</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_auc.html">MeasureClassifAUC</a></code> </p>
+          </td>
+          <td><p>Area Under the Curve Classification Measure</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_elapsed_time.html">MeasureElapsedTime</a></code> <code><a href="mlr_measures_elapsed_time.html">MeasureTimeTrain</a></code> <code><a href="mlr_measures_elapsed_time.html">MeasureTimePredict</a></code> <code><a href="mlr_measures_elapsed_time.html">MeasureTimeBoth</a></code> </p>
+          </td>
+          <td><p>Elapsed Time Measure</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_mmce.html">MeasureClassifMMCE</a></code> </p>
+          </td>
+          <td><p>Mean Misclassification Error Measure</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_mse.html">MeasureRegrMSE</a></code> </p>
+          </td>
+          <td><p>Mean Squared Error Measure</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -299,9 +362,87 @@
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="mlr_resamplings_bootstrap.html">ResamplingBootstrap</a></code> </p>
+          </td>
+          <td><p>Bootstrap Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_custom.html">ResamplingCustom</a></code> </p>
+          </td>
+          <td><p>Custom Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_cv.html">ResamplingCV</a></code> </p>
+          </td>
+          <td><p>Cross Validation Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_holdout.html">ResamplingHoldout</a></code> </p>
+          </td>
+          <td><p>Holdout Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_repeated_cv.html">ResamplingRepeatedCV</a></code> </p>
+          </td>
+          <td><p>Repeated Cross Validation Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_subsampling.html">ResamplingSubsampling</a></code> </p>
+          </td>
+          <td><p>Subsampling Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
             <p><code><a href="mlr_tasks.html">mlr_tasks</a></code> </p>
           </td>
           <td><p>Dictionary of Tasks</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_bh.html">mlr_tasks_bh</a></code> </p>
+          </td>
+          <td><p>Boston Housing Regression Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_iris.html">mlr_tasks_iris</a></code> </p>
+          </td>
+          <td><p>Iris Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_pima.html">mlr_tasks_pima</a></code> </p>
+          </td>
+          <td><p>Pima Indian Diabetes Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_sonar.html">mlr_tasks_sonar</a></code> </p>
+          </td>
+          <td><p>Sonar Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_spam.html">mlr_tasks_spam</a></code> </p>
+          </td>
+          <td><p>Spam Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_titanic.html">mlr_tasks_titanic</a></code> </p>
+          </td>
+          <td><p>Titanic Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_zoo.html">mlr_tasks_zoo</a></code> </p>
+          </td>
+          <td><p>Zoo Classification Task</p></td>
         </tr><tr>
           <!--  -->
           <td>

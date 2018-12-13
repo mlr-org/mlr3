@@ -2,6 +2,7 @@
 #'
 #' @description
 #' A simple [Dictionary] storing objects of class [Resampling].
+#' Each resampling has an associated help page, see `mlr_resamplings_[id]`.
 #'
 #' @section Usage:
 #' See [Dictionary].

@@ -2,7 +2,7 @@
 % Please edit documentation in R/Resampling.R
 \name{Resampling}
 \alias{Resampling}
-\title{Abstract resampling class}
+\title{Abstract Resampling Class}
 \description{
 Abstraction for resampling strategies.
 

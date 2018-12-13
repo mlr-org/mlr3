@@ -1,4 +1,4 @@
-#' @title Classification task
+#' @title Classification Task
 #'
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.

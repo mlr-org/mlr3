@@ -1,5 +1,29 @@
+#' @title Holdout Resampling
+#' @name mlr_resamplings_holdout
+#' @format [R6::R6Class()] inheriting from [Resampling].
+#'
+#' @description
+#' Simple holdout: A single split into training and test.
+#' Parameter `ratio` determines the ratio of observation in the train set.
+#'
+#' @export
 #' @include Resampling.R
-#' @include mlr_resamplings_subsampling.R
+#' @examples
+#' # Create a task with 10 observations
+#' task = mlr_tasks$get("iris")
+#' task$filter(1:10)
+#'
+#' # Instantiate Resampling
+#' rho = ResamplingHoldout$new()
+#' rho$instantiate(task)
+#'
+#' # Individual sets:
+#' rho$train_set(1)
+#' rho$test_set(1)
+#' intersect(rho$train_set(1), rho$test_set(1))
+#'
+#' # Internal storage:
+#' rho$instance # simple list
 ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
   public = list(
     initialize = function(id = "holdout") {

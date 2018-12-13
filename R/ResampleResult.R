@@ -1,4 +1,4 @@
-#' @title Results of Resampling
+#' @title Container for Results of `resample()`.
 #'
 #' @description
 #' This is the object returned by [resample()].

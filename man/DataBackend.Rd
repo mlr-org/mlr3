@@ -43,13 +43,13 @@ Number of rows to return.
 \itemize{
 \item \code{as_data_backend()} wraps a \code{DataBackend} around the provided data. See \code{methods("as_data_backend")} for
 possible input formats.
-\item \code{$data()} returns a slice of the data:
+\item \code{$data()} (\code{\link[data.table:data.table]{data.table::data.table()}}) returns a slice of the data:
 rows are filtered using the \code{primary_key} column, columns are selected by name.
 \item \code{$head()} (\code{\link[data.table:data.table]{data.table::data.table()}}) returns a table of the first \code{n} data rows.
-\item \code{$distinct()} (\code{list()}) returns a named list of distinct values for specified columns \code{cols}.
+\item \code{$distinct()} (named \code{list()}) returns distinct values for columns \code{cols}.
 \item \code{$missing()} (named \code{integer()}) returns a named integer with the number of missing values per column.
-\item \code{$rownames} (\code{character()}) returns all row names of \code{data} as integer or character vector.
-\item \code{$colnames} (\code{character()}) returns all column names of \code{data} as character vector.
+\item \code{$rownames} (\code{integer()} | \code{character()}) returns all row names of \code{data}.
+\item \code{$colnames} (\code{character()}) returns all column names of \code{data}.
 \item \code{$nrow} (\code{integer(1)}) returns the number of total rows.
 \item \code{$ncol} (\code{integer(1)}) returns the number of total columns, including primary key column.
 }
