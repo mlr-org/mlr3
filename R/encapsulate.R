@@ -56,7 +56,6 @@ encapsulate_callr = function(fun, args = list(), pkgs = character(0L)) {
   wrapper = function(fun, args, pkgs) {
     options(warn = 1L)
     suppressPackageStartupMessages({
-      library("backports")
       library("mlr3")
       lapply(pkgs, requireNamespace)
     })
