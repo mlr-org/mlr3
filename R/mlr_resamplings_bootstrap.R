@@ -1,4 +1,31 @@
+#' @title Bootstrap Resampling
+#' @name mlr_resamplings_bootstrap
+#' @format [R6::R6Class()] inheriting from [Resampling].
+#'
+#' @description
+#' Simple Bootstrap sampling.
+#' You can control the number of bootstrap iterations (`repeats`)
+#' and the number of observations to draw per iteration (`ratio`).
+#'
+#' @export
 #' @include Resampling.R
+#' @examples
+#' # Create a task with 10 observations
+#' task = mlr_tasks$get("iris")
+#' task$filter(1:10)
+#'
+#' # Instantiate Resampling
+#' rb = ResamplingBootstrap$new()
+#' rb$param_vals = list(repeats = 2, ratio = 1)
+#' rb$instantiate(task)
+#'
+#' # Individual sets:
+#' rb$train_set(1)
+#' rb$test_set(1)
+#' intersect(rb$train_set(1), rb$test_set(1))
+#'
+#' # Internal storage:
+#' rb$instance$M # Matrix of counts
 ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   public = list(
     initialize = function(id = "bootstrap") {

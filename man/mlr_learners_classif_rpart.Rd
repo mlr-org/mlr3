@@ -12,4 +12,4 @@ LearnerClassifRpart
 \description{
 A learner for a classification tree implemented in package \pkg{rpart}.
 }
-\keyword{internal}
+\keyword{datasets}

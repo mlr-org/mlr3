@@ -17,7 +17,6 @@
 #' }
 #' Note that segfaults may not work on your operating system.
 #' Also note that if they work, they will tear down your R session immediately!
-#' @keywords internal
 #' @export
 #' @include LearnerClassif.R
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,

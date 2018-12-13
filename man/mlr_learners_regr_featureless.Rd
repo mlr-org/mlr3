@@ -16,4 +16,4 @@ and \code{sd(y)} as standard error.
 If \code{robust} is \code{TRUE}, \code{median()} and \code{madn()} are used instead of \code{mean()} and \code{sd()},
 respectively.
 }
-\keyword{internal}
+\keyword{datasets}

@@ -2,6 +2,7 @@
 #'
 #' @description
 #' A simple [Dictionary] storing objects of class [Measure].
+#' Each measure has an associated help page, see `mlr_measures_[id]`.
 #'
 #' @section Usage:
 #' See [Dictionary].

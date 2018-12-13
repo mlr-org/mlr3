@@ -7,7 +7,6 @@
 #' and `sd(y)` as standard error.
 #' If `robust` is `TRUE`, `median()` and `madn()` are used instead of `mean()` and `sd()`,
 #' respectively.
-#' @keywords internal
 #' @export
 #' @include LearnerRegr.R
 LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,

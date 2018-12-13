@@ -9,7 +9,6 @@
 #'   \item{sample:}{Randomly predict a label uniformly.}
 #'   \item{weighed.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
 #' }
-#' @keywords internal
 #' @export
 #' @include LearnerClassif.R
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,

@@ -1,4 +1,26 @@
+#' @title Custom Resampling
+#' @name mlr_resamplings_custom
+#' @format [R6::R6Class()] inheriting from [Resampling].
+#'
+#' @description
+#' A custom resampling class where the training and test indices
+#' can be set manually.
+#'
+#' @export
 #' @include Resampling.R
+#' @examples
+#' # Create a task with 10 observations
+#' task = mlr_tasks$get("iris")
+#' task$filter(1:10)
+#'
+#' # Instantiate Resampling
+#' rc = ResamplingCustom$new()
+#' train_sets = list(1:5, 5:10)
+#' test_sets = list(5:10, 1:5)
+#' rc$instantiate(task, train_sets, test_sets)
+#'
+#' rc$train_set(1)
+#' rc$test_set(1)
 ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   public = list(
     initialize = function(id = "custom") {

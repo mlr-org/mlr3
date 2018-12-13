@@ -26,4 +26,4 @@ The following hyperparameters trigger the following actions:
 Note that segfaults may not work on your operating system.
 Also note that if they work, they will tear down your R session immediately!
 }
-\keyword{internal}
+\keyword{datasets}

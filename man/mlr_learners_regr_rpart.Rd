@@ -12,4 +12,4 @@ LearnerRegrRpart
 \description{
 A learner for a regression tree implemented in package \pkg{rpart}.
 }
-\keyword{internal}
+\keyword{datasets}

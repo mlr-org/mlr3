@@ -1,4 +1,30 @@
+#' @title Repeated Cross Validation Resampling
+#' @name mlr_resamplings_repeated_cv
+#' @format [R6::R6Class()] inheriting from [Resampling].
+#'
+#' @description
+#' `repeats` times repeated `folds`-fold cross validation.
+#'
+#' @export
 #' @include Resampling.R
+#' @examples
+#' # Create a task with 10 observations
+#' task = mlr_tasks$get("iris")
+#' task$filter(1:10)
+#'
+#' # Instantiate Resampling
+#' rrcv = ResamplingRepeatedCV$new()
+#' rrcv$param_vals = list(repeats = 2, folds = 3)
+#' rrcv$instantiate(task)
+#' rrcv$iters
+#'
+#' # Individual sets:
+#' rrcv$train_set(1)
+#' rrcv$test_set(1)
+#' intersect(rrcv$train_set(1), rrcv$test_set(1))
+#'
+#' # Internal storage:
+#' rrcv$instance # table
 ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
   public = list(
     initialize = function(id = "repeated_cv") {

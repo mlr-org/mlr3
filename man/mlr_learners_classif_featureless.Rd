@@ -18,4 +18,4 @@ Hyperparameter \code{method} determines the mode of operation during prediction:
 \item{weighed.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
 }
 }
-\keyword{internal}
+\keyword{datasets}

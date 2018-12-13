@@ -3,7 +3,6 @@
 #' @format [R6::R6Class()] inheriting from [LearnerClassif].
 #' @description
 #' A learner for a classification tree implemented in package \pkg{rpart}.
-#' @keywords internal
 #' @export
 #' @include LearnerClassif.R
 LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
