@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Container for Results of benchmark — BenchmarkResult • mlr3</title>
+<title>Container for Results of <code>benchmark()</code> — BenchmarkResult • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Container for Results of benchmark — BenchmarkResult" />
+<meta property="og:title" content="Container for Results of <code>benchmark()</code> — BenchmarkResult" />
 
-<meta property="og:description" content="This is the object returned by benchmark." />
+<meta property="og:description" content="This is the object returned by benchmark()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -146,12 +146,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Container for Results of benchmark</h1>
+    <h1>Container for Results of <code>benchmark()</code></h1>
     <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/BenchmarkResult.R'><code>R/BenchmarkResult.R</code></a></small>
     </div>
 
     
-    <p>This is the object returned by <a href='benchmark.html'>benchmark</a>.</p>
+    <p>This is the object returned by <code><a href='benchmark.html'>benchmark()</a></code>.</p>
     
 
         
@@ -202,9 +202,9 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
 )
 
 <span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
-#&gt; 1: 4366a92ae1a6e66a    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash          learner_id               learner
-#&gt; 1: f3259ef9dfee9e56 classif.featureless &lt;LearnerClassifDummy&gt;
-#&gt; 2: afef6eda1b787161       classif.rpart &lt;LearnerClassifRpart&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>resamplings</span></div><div class='output co'>#&gt;     resampling_hash resampling_id     resampling
+#&gt; 1: 4366a92ae1a6e66a    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash          learner_id                     learner
+#&gt; 1: f3259ef9dfee9e56 classif.featureless &lt;LearnerClassifFeatureless&gt;
+#&gt; 2: afef6eda1b787161       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>resamplings</span></div><div class='output co'>#&gt;     resampling_hash resampling_id     resampling
 #&gt; 1: b6a7b3b9867d32e4            cv &lt;ResamplingCV&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>measures</span></div><div class='output co'>#&gt;    measure_id              measure
 #&gt; 1:       mmce &lt;MeasureClassifMMCE&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id          learner_id resampling_id
 #&gt; 1: 8e311a309dc5bbde &lt;ResampleResult&gt;    iris classif.featureless            cv

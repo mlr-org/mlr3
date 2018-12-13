@@ -200,13 +200,13 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 <span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>, <span class='no'>measures</span>)
 
 <span class='co'># performance for all conducted experiments</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                hash          task task_id               learner
-#&gt; 1: d655caad12795ce3 &lt;TaskClassif&gt;    iris &lt;LearnerClassifDummy&gt;
-#&gt; 2: 0213798e918b2c45 &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt;
-#&gt; 3: 593e62e60f69bdeb &lt;TaskClassif&gt;    iris &lt;LearnerClassifDummy&gt;
-#&gt; 4: 794ecedc1344f8b3 &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt;
-#&gt; 5: 593e62e60f69bdeb &lt;TaskClassif&gt;    iris &lt;LearnerClassifDummy&gt;
-#&gt; 6: 794ecedc1344f8b3 &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt;
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                hash          task task_id                     learner
+#&gt; 1: d655caad12795ce3 &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;
+#&gt; 2: 0213798e918b2c45 &lt;TaskClassif&gt;    iris       &lt;LearnerClassifRpart&gt;
+#&gt; 3: 593e62e60f69bdeb &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;
+#&gt; 4: 794ecedc1344f8b3 &lt;TaskClassif&gt;    iris       &lt;LearnerClassifRpart&gt;
+#&gt; 5: 593e62e60f69bdeb &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;
+#&gt; 6: 794ecedc1344f8b3 &lt;TaskClassif&gt;    iris       &lt;LearnerClassifRpart&gt;
 #&gt;             learner_id          resampling resampling_id       acc
 #&gt; 1: classif.featureless &lt;ResamplingHoldout&gt;       holdout 0.2800000
 #&gt; 2:       classif.rpart &lt;ResamplingHoldout&gt;       holdout 0.9200000

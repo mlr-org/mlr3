@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Dictionary of Resampling Strategies — mlr_resamplings • mlr3</title>
+<title>Iris Classification Task — mlr_tasks_iris • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Dictionary of Resampling Strategies — mlr_resamplings" />
+<meta property="og:title" content="Iris Classification Task — mlr_tasks_iris" />
 
-<meta property="og:description" content="A simple Dictionary storing objects of class Resampling.
-Each resampling has an associated help page, see mlr_resamplings_[id]." />
+<meta property="og:description" content="A classification task for the popular datasets::iris data set." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -147,54 +146,21 @@ Each resampling has an associated help page, see mlr_resamplings_[id]." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Dictionary of Resampling Strategies</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_resamplings.R'><code>R/mlr_resamplings.R</code></a></small>
+    <h1>Iris Classification Task</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_tasks.R'><code>R/mlr_tasks.R</code></a></small>
     </div>
 
     
-    <p>A simple <a href='Dictionary.html'>Dictionary</a> storing objects of class <a href='Resampling.html'>Resampling</a>.
-Each resampling has an associated help page, see <code>mlr_resamplings_[id]</code>.</p>
+    <p>A classification task for the popular <a href='https://www.rdocumentation.org/packages/datasets/topics/iris'>datasets::iris</a> data set.</p>
     
 
         
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    
-    <p>See <a href='Dictionary.html'>Dictionary</a>.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other Dictionary: <code><a href='Dictionary.html'>Dictionary</a></code>,
-  <code><a href='mlr_learners.html'>mlr_learners</a></code>, <code><a href='mlr_measures.html'>mlr_measures</a></code>,
-  <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p>
-<p>Other Resampling: <code><a href='Resampling.html'>Resampling</a></code></p></div>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_resamplings</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "bootstrap"   "custom"      "cv"          "holdout"     "repeated_cv"
-#&gt; [6] "subsampling"</div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_resamplings</span>)</div><div class='output co'>#&gt;             id     hyperpars default_iters
-#&gt; 1:   bootstrap repeats,ratio            30
-#&gt; 2:      custom                           0
-#&gt; 3:          cv         folds            10
-#&gt; 4:     holdout         ratio             1
-#&gt; 5: repeated_cv repeats,folds           100
-#&gt; 6: subsampling repeats,ratio            30</div><div class='input'><span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)</div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 10 iterations
-#&gt; Parameters: folds=10
-#&gt; 
-#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,
-#&gt;   is_instantiated, iters, param_set, param_vals, stratify, test_set,
-#&gt;   train_set</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#usage">Usage</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>
