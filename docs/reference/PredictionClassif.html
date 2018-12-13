@@ -160,6 +160,7 @@
     <pre># Construction
 p = PredictionClassif$new(task, response, prob = NULL)
 #
+p$predict_types
 p$truth
 p$response
 p$prob
@@ -187,6 +188,7 @@ and one row for each observation in the test set.</p></li>
     
     <ul>
 <li><p><code>$new()</code> initializes a new object of class <a href='Prediction.html'>Prediction</a>.</p></li>
+<li><p><code>$predict_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the predict types available: a subset of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("response", "prob")</a></code>.</p></li>
 <li><p><code>$truth</code> stores the predicted class labels as factor.</p></li>
 <li><p><code>$response</code> stores the predicted class labels as factor.</p></li>
 <li><p><code>$prob</code> stores the label probabilities (if available) as matrix, or is <code>NULL</code>.</p></li>

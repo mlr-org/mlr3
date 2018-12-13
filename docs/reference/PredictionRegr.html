@@ -160,6 +160,7 @@
     <pre># Construction
 p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 #
+p$predict_types
 p$truth
 p$response
 p$se
@@ -188,6 +189,7 @@ Numeric vector of predicted standard error. One element for each observation in 
     
     <ul>
 <li><p><code>$new()</code> initializes a new object of class <a href='Prediction.html'>Prediction</a>.</p></li>
+<li><p><code>$predict_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the predict types available: a subset of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("response", "se")</a></code>.</p></li>
 <li><p><code>$truth</code> stores the true values.</p></li>
 <li><p><code>$response</code> stores the predicted values.</p></li>
 <li><p><code>$se</code> stores the predicted standard errors (if available), or is <code>NULL</code>.</p></li>
