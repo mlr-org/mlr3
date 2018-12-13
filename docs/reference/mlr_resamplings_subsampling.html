@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Execution Control Object — mlr_control • mlr3</title>
+<title>Subsampling Resampling — mlr_resamplings_subsampling • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,24 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Execution Control Object — mlr_control" />
+<meta property="og:title" content="Subsampling Resampling — mlr_resamplings_subsampling" />
 
-<meta property="og:description" content="This function creates a named list of settings which control the execution of an Experiment.
-store_model: If FALSE, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
-Note that you will be unable to further predict on new data.
-store_prediction: If FALSE, the predictions are discarded in order to save some memory after the experiment is completed.
-encapsulate_train: How to call external code in third party packages during train.
-If set to "none" (default), the code is executed in the running session without error handling.
-Output is not stored, just send to the console.
-If set to "evaluate", the exceptions are caught using evaluate, and output is stored in a Log of the corresponding Experiment.
-If set to "callr", the code is executed in an independent R session. This guards your session from segfaults,
-at the cost of some computational overhead. Logs are also stored in the Experiment.
-
-encapsulate_predict: How to call external code in third party packages during predict.
-Same format as encapsulate_train.
-encapsulate_score: How to call external code in third party packages during score
-Same format as encapsulate_train.
-" />
+<meta property="og:description" content="repeats times repeated splits into training and test set with a ratio ratio of training observations." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -161,101 +146,54 @@ Same format as encapsulate_train.
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Execution Control Object</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_control.R'><code>R/mlr_control.R</code></a></small>
+    <h1>Subsampling Resampling</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_resamplings_subsampling.R'><code>R/mlr_resamplings_subsampling.R</code></a></small>
     </div>
 
     
-    <p>This function creates a named list of settings which control the execution of an <a href='Experiment.html'>Experiment</a>.</p><ul>
-<li><p><code>store_model</code>: If <code>FALSE</code>, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
-Note that you will be unable to further predict on new data.</p></li>
-<li><p><code>store_prediction</code>: If <code>FALSE</code>, the predictions are discarded in order to save some memory after the experiment is completed.</p></li>
-<li><p><code>encapsulate_train</code>: How to call external code in third party packages during train.</p><ul>
-<li><p>If set to <code>"none"</code> (default), the code is executed in the running session without error handling.
-Output is not stored, just send to the console.</p></li>
-<li><p>If set to <code>"evaluate"</code>, the exceptions are caught using <span class="pkg">evaluate</span>, and output is stored in a <a href='Log.html'>Log</a> of the corresponding <a href='Experiment.html'>Experiment</a>.</p></li>
-<li><p>If set to <code>"callr"</code>, the code is executed in an independent R session. This guards your session from segfaults,
-at the cost of some computational overhead. Logs are also stored in the <a href='Experiment.html'>Experiment</a>.</p></li>
-</ul></li>
-<li><p><code>encapsulate_predict</code>: How to call external code in third party packages during predict.
-Same format as <code>encapsulate_train</code>.</p></li>
-<li><p><code>encapsulate_score</code>: How to call external code in third party packages during score
-Same format as <code>encapsulate_train</code>.</p></li>
-</ul>
+    <p><code>repeats</code> times repeated splits into training and test set with a <code>ratio</code> ratio of training observations.</p>
     
 
-    <pre class="usage"><span class='fu'>mlr_control</span>(<span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>...</th>
-      <td><p>Named arguments to overwrite the defaults / options.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='no'>ResamplingSubsampling</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>(named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>). If no argument is provided, returns all settings as named list.
-If arguments are provided in a <code>name = value</code> fashion, the settings are returned as named list
-after some argument checks.</p>
+    <p><code><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class()</a></code> inheriting from <a href='Resampling.html'>Resampling</a>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># get a list of the defaults</span>
-<span class='fu'>mlr_control</span>()</div><div class='output co'>#&gt; $store_model
-#&gt; [1] TRUE
+    <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
+<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)
+<span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
+
+<span class='co'># Instantiate Resampling</span>
+<span class='no'>rss</span> <span class='kw'>=</span> <span class='no'>ResamplingSubsampling</span>$<span class='fu'>new</span>()
+<span class='no'>rss</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
+<span class='no'>rss</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; Instantiated &lt;ResamplingSubsampling&gt; with 2 iterations
+#&gt; Parameters: repeats=2, ratio=0.5
 #&gt; 
-#&gt; $store_prediction
-#&gt; [1] TRUE
+#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,
+#&gt;   is_instantiated, iters, param_set, param_vals, stratify, test_set,
+#&gt;   train_set</div><div class='input'>
+<span class='co'># Individual sets:</span>
+<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 2 3 6 7 9</div><div class='input'><span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  4  5  8 10</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='co'># Internal storage:</span>
+<span class='no'>rss</span>$<span class='no'>instance</span>$<span class='no'>train</span> <span class='co'># list of bit vectors</span></div><div class='output co'>#&gt; [[1]]
+#&gt; bit length=10 occupying only 1 integers
+#&gt;     1     2     3     4     5     6     7     8     9    10 
+#&gt; FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE 
 #&gt; 
-#&gt; $encapsulate_train
-#&gt; [1] "none"
-#&gt; 
-#&gt; $encapsulate_predict
-#&gt; [1] "none"
-#&gt; 
-#&gt; $encapsulate_score
-#&gt; [1] "none"
-#&gt; 
-#&gt; $log_threshold
-#&gt; [1] 400
-#&gt; attr(,"level")
-#&gt; [1] "INFO"
-#&gt; attr(,"class")
-#&gt; [1] "loglevel" "integer" 
-#&gt; </div><div class='input'>
-<span class='co'># get a control object, with the default of store_model switched to FALSE</span>
-<span class='fu'>mlr_control</span>(<span class='kw'>store_model</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; $store_model
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $store_prediction
-#&gt; [1] TRUE
-#&gt; 
-#&gt; $encapsulate_train
-#&gt; [1] "none"
-#&gt; 
-#&gt; $encapsulate_predict
-#&gt; [1] "none"
-#&gt; 
-#&gt; $encapsulate_score
-#&gt; [1] "none"
-#&gt; 
-#&gt; $log_threshold
-#&gt; [1] 400
-#&gt; attr(,"level")
-#&gt; [1] "INFO"
-#&gt; attr(,"class")
-#&gt; [1] "loglevel" "integer" 
+#&gt; [[2]]
+#&gt; bit length=10 occupying only 1 integers
+#&gt;     1     2     3     4     5     6     7     8     9    10 
+#&gt; FALSE  TRUE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
