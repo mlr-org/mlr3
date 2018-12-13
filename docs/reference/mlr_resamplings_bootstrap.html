@@ -171,7 +171,7 @@ and the number of observations to draw per iteration (<code>ratio</code>).</p>
 <span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
 
 <span class='co'># Instantiate Resampling</span>
-<span class='no'>rb</span> <span class='kw'>=</span> <span class='no'>ResamplingBootstrap</span>$<span class='fu'>new</span>()
+<span class='no'>rb</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"bootstrap"</span>)
 <span class='no'>rb</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 <span class='no'>rb</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; Instantiated &lt;ResamplingBootstrap&gt; with 2 iterations
 #&gt; Parameters: repeats=2, ratio=1

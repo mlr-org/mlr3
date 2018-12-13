@@ -167,7 +167,7 @@
 <span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
 
 <span class='co'># Instantiate Resampling</span>
-<span class='no'>rrcv</span> <span class='kw'>=</span> <span class='no'>ResamplingRepeatedCV</span>$<span class='fu'>new</span>()
+<span class='no'>rrcv</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"repeated_cv"</span>)
 <span class='no'>rrcv</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 <span class='no'>rrcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; Instantiated &lt;ResamplingRepeatedCV&gt; with 6 iterations
 #&gt; Parameters: repeats=2, folds=3
