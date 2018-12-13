@@ -46,7 +46,7 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   assert_resampling(resampling)
   if (is.null(measures))
     measures = task$measures
-  assert_measures(measures, task = task, learner = learner)
+  assert_measures(measures, task = task)
   ctrl = mlr_control(ctrl)
 
   if (resampling$is_instantiated) {

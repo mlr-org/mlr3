@@ -10,6 +10,7 @@ This object stores the predictions returned by a learner of class \link{LearnerC
 \preformatted{# Construction
 p = PredictionClassif$new(task, response, prob = NULL)
 #
+p$predict_types
 p$truth
 p$response
 p$prob
@@ -37,6 +38,7 @@ and one row for each observation in the test set.
 
 \itemize{
 \item \code{$new()} initializes a new object of class \link{Prediction}.
+\item \code{$predict_types} (\code{\link[=character]{character()}}) stores the predict types available: a subset of \code{c("response", "prob")}.
 \item \code{$truth} stores the predicted class labels as factor.
 \item \code{$response} stores the predicted class labels as factor.
 \item \code{$prob} stores the label probabilities (if available) as matrix, or is \code{NULL}.

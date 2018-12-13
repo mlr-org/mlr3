@@ -8,6 +8,7 @@
 #' # Construction
 #' p = PredictionClassif$new(task, response, prob = NULL)
 #' #
+#' p$predict_types
 #' p$truth
 #' p$response
 #' p$prob
@@ -28,6 +29,8 @@
 #'
 #' @section Details:
 #' * `$new()` initializes a new object of class [Prediction].
+#'
+#' * `$predict_types` ([character()]) stores the predict types available: a subset of `c("response", "prob")`.
 #'
 #' * `$truth` stores the predicted class labels as factor.
 #'
@@ -75,6 +78,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         }
       }
 
+      self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(prob))]
       self$response = response
       self$prob = prob
     }

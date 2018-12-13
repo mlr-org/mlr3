@@ -11,6 +11,7 @@ NULL
 Prediction = R6Class("Prediction",
   public = list(
     row_ids = NULL,
+    predict_types = NULL,
     truth = NULL,
     response = NULL,
 

@@ -8,6 +8,7 @@
 #' # Construction
 #' p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 #' #
+#' p$predict_types
 #' p$truth
 #' p$response
 #' p$se
@@ -29,6 +30,8 @@
 #'
 #' @section Details:
 #' * `$new()` initializes a new object of class [Prediction].
+#'
+#' * `$predict_types` ([character()]) stores the predict types available: a subset of `c("response", "se")`.
 #'
 #' * `$truth` stores the true values.
 #'
@@ -62,6 +65,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
           assert_numeric(se, len = n, lower = 0, any.missing = FALSE)
         }
 
+        self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
         self$response = response
         self$se = se
       }

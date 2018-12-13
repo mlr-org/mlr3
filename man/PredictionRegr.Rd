@@ -10,6 +10,7 @@ This object stores the predictions returned by a learner of class \link{LearnerR
 \preformatted{# Construction
 p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 #
+p$predict_types
 p$truth
 p$response
 p$se
@@ -38,6 +39,7 @@ Numeric vector of predicted standard error. One element for each observation in 
 
 \itemize{
 \item \code{$new()} initializes a new object of class \link{Prediction}.
+\item \code{$predict_types} (\code{\link[=character]{character()}}) stores the predict types available: a subset of \code{c("response", "se")}.
 \item \code{$truth} stores the true values.
 \item \code{$response} stores the predicted values.
 \item \code{$se} stores the predicted standard errors (if available), or is \code{NULL}.

@@ -46,7 +46,7 @@ assert_learner = function(learner, task = NULL) {
 #' @export
 #' @param measure ([Measure]).
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, learner = NULL) {
+assert_measure = function(measure, task = NULL, prediction = NULL) {
   assert_class(measure, "Measure")
 
   if (!is.null(task)) {
@@ -60,19 +60,9 @@ assert_measure = function(measure, task = NULL, learner = NULL) {
         measure$id, paste0(miss, collapse = ", "))
   }
 
-  if (!is.null(learner)) {
-    if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type)
-      stopf("Measure '%s'  is not compatible with type of learner '%s' (type: %s)",
-        measure$id, learner$id, learner$task_type)
-
-    miss = setdiff(measure$task_properties, learner$properties)
-    if (length(miss))
-      stopf("Measure '%s' needs learner '%s' to have the properties: %s",
-        measure$id, learner$id, paste0(miss, collapse = ", "))
-
-    if (!is_scalar_na(measure$predict_type) && measure$predict_type != learner$predict_type)
-      stopf("Measure '%s' needs learner '%s' to have predict_type '%s'",
-        measure$id, learner$id, measure$predict_type)
+  if (!is.null(prediction)) {
+    if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% prediction$predict_types)
+      stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
   }
 
   measure
@@ -81,9 +71,9 @@ assert_measure = function(measure, task = NULL, learner = NULL) {
 #' @export
 #' @param measures (list of [Measure]).
 #' @rdname mlr_assertions
-assert_measures = function(measures, task = NULL, learner = NULL) {
+assert_measures = function(measures, task = NULL, prediction = NULL) {
   assert_list(measures, min.len = 1L)
-  lapply(measures, assert_measure, task = task, learner = learner)
+  lapply(measures, assert_measure, task = task, prediction = prediction)
 }
 
 #' @export

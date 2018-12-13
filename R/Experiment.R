@@ -293,7 +293,7 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list(
 
 experiment_score = function(self, measures = NULL, ctrl = list()) {
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, learner = self$learner)
+  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, prediction = self$prediction)
 
   log_debug("Running score_worker()", namespace = "mlr3")
   value = score_worker(self, ctrl = ctrl)

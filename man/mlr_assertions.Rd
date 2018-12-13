@@ -23,9 +23,9 @@ assert_task(task)
 
 assert_learner(learner, task = NULL)
 
-assert_measure(measure, task = NULL, learner = NULL)
+assert_measure(measure, task = NULL, prediction = NULL)
 
-assert_measures(measures, task = NULL, learner = NULL)
+assert_measures(measures, task = NULL, prediction = NULL)
 
 assert_resampling(resampling)
 
