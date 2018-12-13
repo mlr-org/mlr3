@@ -1,5 +1,16 @@
+#' @title Regression Learner
+#'
+#' @description
+#' This Learner specializes [Learner] for regression problems.
+#'
+#' @section Usage:
+#' See [Learner].
+#'
+#' @section Details:
+#' * `$task_type` is `"regr"`.
+#'
 #' @name LearnerRegr
-#' @rdname Learner
+#' @family Learner
 NULL
 
 #' @export

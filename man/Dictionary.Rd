@@ -72,3 +72,4 @@ Other Dictionary: \code{\link{mlr_learners}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 }
 \concept{Dictionary}
+\keyword{internal}

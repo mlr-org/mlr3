@@ -15,7 +15,7 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rb = ResamplingBootstrap$new()
+#' rb = mlr_resamplings$get("bootstrap")
 #' rb$param_vals = list(repeats = 2, ratio = 1)
 #' rb$instantiate(task)
 #'

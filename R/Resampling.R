@@ -1,4 +1,4 @@
-#' @title Abstract Resampling Class
+#' @title Resampling Class
 #'
 #' @description
 #' Abstraction for resampling strategies.

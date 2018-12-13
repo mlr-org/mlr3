@@ -1,4 +1,4 @@
-#' @title Abstract Learning Task
+#' @title Supervised or Unsupervised Tasks
 #'
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].

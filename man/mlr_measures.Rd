@@ -22,7 +22,8 @@ Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_learners}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 
-Other Measure: \code{\link{Measure}}
+Other Measure: \code{\link{MeasureClassif}},
+  \code{\link{MeasureRegr}}, \code{\link{Measure}}
 }
 \concept{Dictionary}
 \concept{Measure}

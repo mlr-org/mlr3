@@ -1,5 +1,16 @@
+#' @title Regression Measure
+#'
+#' @description
+#' This task specializes [Measure] for regression problems.
+#'
+#' @section Usage:
+#' See [Measure].
+#'
+#' @section Details:
+#' * `$task_type` is `"regr"`.
+#'
 #' @name MeasureRegr
-#' @rdname Measure
+#' @family Measure
 NULL
 
 #' @include Measure.R

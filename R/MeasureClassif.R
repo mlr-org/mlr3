@@ -1,5 +1,16 @@
+#' @title Classification Measure
+#'
+#' @description
+#' This task specializes [Measure] for classification problems.
+#'
+#' @section Usage:
+#' See [Measure].
+#'
+#' @section Details:
+#' * `$task_type` is `"classif"`.
+#'
 #' @name MeasureClassif
-#' @rdname Measure
+#' @family Measure
 NULL
 
 #' @include Measure.R

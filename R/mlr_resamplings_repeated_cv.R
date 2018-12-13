@@ -13,7 +13,7 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rrcv = ResamplingRepeatedCV$new()
+#' rrcv = mlr_resamplings$get("repeated_cv")
 #' rrcv$param_vals = list(repeats = 2, folds = 3)
 #' rrcv$instantiate(task)
 #' rrcv$iters

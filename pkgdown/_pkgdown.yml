@@ -51,3 +51,53 @@ navbar:
     href: https://stackoverflow.com/questions/tagged/mlr
   - icon: fa-rss
     href: https://mlr-web.com/
+
+reference:
+  - title: Building Blocks
+    contents:
+      - Experiment
+      - Task
+      - Learner
+      - Measure
+      - Resampling
+      - Prediction
+  - title: Data Backends
+    contents:
+      - starts_with("DataBackend")
+  - title: Classification
+    contents:
+      - TaskClassif
+      - LearnerClassif
+      - MeasureClassif
+      - PredictionClassif
+  - title: Regression
+    contents:
+      - TaskRegr
+      - LearnerRegr
+      - MeasureRegr
+      - PredictionRegr
+  - title: Tasks
+    contents:
+      - starts_with("mlr_tasks")
+  - title: Learners
+    contents:
+      - starts_with("mlr_learners")
+  - title: Measures
+    contents:
+      - starts_with("mlr_measures")
+  - title: Resampling Strategies
+    contents:
+      - starts_with("mlr_resamplings")
+  - title: Resample
+    contents:
+      - resample
+      - ResampleResult
+  - title: Benchmarking
+    contents:
+      - benchmark
+      - BenchmarkResult
+  - title: Error Handling
+    contents:
+      - mlr_control
+      - Log
+

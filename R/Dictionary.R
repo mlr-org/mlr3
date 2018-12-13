@@ -54,6 +54,7 @@
 #' * `d[keys]` is an alternative way to call `d$mget(key)`.
 #' * `length(d)` returns the number of items stored in the Dictionary.
 #'
+#' @keywords internal
 #' @name Dictionary
 #' @family Dictionary
 NULL

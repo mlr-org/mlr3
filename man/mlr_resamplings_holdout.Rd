@@ -19,7 +19,7 @@ task = mlr_tasks$get("iris")
 task$filter(1:10)
 
 # Instantiate Resampling
-rho = ResamplingHoldout$new()
+rho = mlr_resamplings$get("holdout")
 rho$instantiate(task)
 
 # Individual sets:
