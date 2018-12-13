@@ -169,7 +169,7 @@ Parameter <code>ratio</code> determines the ratio of observation in the train se
 <span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
 
 <span class='co'># Instantiate Resampling</span>
-<span class='no'>rho</span> <span class='kw'>=</span> <span class='no'>ResamplingHoldout</span>$<span class='fu'>new</span>()
+<span class='no'>rho</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"holdout"</span>)
 <span class='no'>rho</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; Instantiated &lt;ResamplingHoldout&gt; with 1 iterations
 #&gt; Parameters: ratio=0.6667
 #&gt; 

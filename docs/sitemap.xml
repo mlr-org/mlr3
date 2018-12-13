@@ -25,10 +25,22 @@
     <loc>https://mlr3.mlr-org.com/reference/Learner.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/LearnerClassif.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/LearnerRegr.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/Log.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/Measure.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureClassif.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureRegr.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/Prediction.html</loc>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Dictionary of Learners — mlr_learners • mlr3</title>
+<title>Classification Measure — MeasureClassif • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Dictionary of Learners — mlr_learners" />
+<meta property="og:title" content="Classification Measure — MeasureClassif" />
 
-<meta property="og:description" content="A simple Dictionary storing objects of class Learner.
-Each learner has an associated help page, see mlr_learners_[id]." />
+<meta property="og:description" content="This task specializes Measure for classification problems." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -147,40 +146,33 @@ Each learner has an associated help page, see mlr_learners_[id]." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Dictionary of Learners</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_learners.R'><code>R/mlr_learners.R</code></a></small>
+    <h1>Classification Measure</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureClassif.R'><code>R/MeasureClassif.R</code></a></small>
     </div>
 
     
-    <p>A simple <a href='Dictionary.html'>Dictionary</a> storing objects of class <a href='Learner.html'>Learner</a>.
-Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p>
+    <p>This task specializes <a href='Measure.html'>Measure</a> for classification problems.</p>
     
 
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     
-    <p>See <a href='Dictionary.html'>Dictionary</a>.</p>
+    <p>See <a href='Measure.html'>Measure</a>.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+    <ul>
+<li><p><code>$task_type</code> is <code>"classif"</code>.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Dictionary: <code><a href='Dictionary.html'>Dictionary</a></code>,
-  <code><a href='mlr_measures.html'>mlr_measures</a></code>,
-  <code><a href='mlr_resamplings.html'>mlr_resamplings</a></code>, <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p>
-<p>Other Learner: <code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
-  <code><a href='LearnerRegr.html'>LearnerRegr</a></code>, <code><a href='Learner.html'>Learner</a></code></p></div>
+    <div class='dont-index'><p>Other Measure: <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
+  <code><a href='Measure.html'>Measure</a></code>, <code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "classif.debug"       "classif.featureless" "classif.rpart"      
-#&gt; [4] "regr.featureless"    "regr.rpart"         </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_learners</span>)</div><div class='output co'>#&gt;                     id packages
-#&gt; 1:       classif.debug         
-#&gt; 2: classif.featureless         
-#&gt; 3:       classif.rpart    rpart
-#&gt; 4:    regr.featureless         
-#&gt; 5:          regr.rpart    rpart</div><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; Learner 'classif.featureless' for classif
-#&gt; Parameters: method=mode
-#&gt; Feature types: logical,integer,numeric,character,factor,ordered</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -188,10 +180,10 @@ Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p
       
       <li><a href="#usage">Usage</a></li>
 
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
