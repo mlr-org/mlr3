@@ -4,7 +4,7 @@
 \alias{Dictionary}
 \title{Key-Value Storage}
 \description{
-A simple key-value store for \pkg{R6} objects.
+A simple key-value store for \link[R6:R6]{R6::R6} objects.
 On retrieval of an object, the following applies:
 \itemize{
 \item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized (with no arguments).

@@ -10,6 +10,6 @@
 LearnerRegrRpart
 }
 \description{
-A learner for a regression tree implemented in package \pkg{rpart}.
+A learner for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}}.
 }
 \keyword{datasets}

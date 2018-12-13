@@ -10,6 +10,6 @@
 LearnerClassifRpart
 }
 \description{
-A learner for a classification tree implemented in package \pkg{rpart}.
+A learner for a classification tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}}.
 }
 \keyword{datasets}

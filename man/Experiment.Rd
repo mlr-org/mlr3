@@ -56,11 +56,11 @@ The model can be accessed via \code{e$model}.
 The predictions are stored internally as an \link{Prediction} object and can be accessed via \code{e$prediction} as \code{\link[data.table:data.table]{data.table::data.table()}}.
 \item \code{$score()} quantifies stored predictions using the provided list of \link{Measure} (or the task's \link{Measure} if not provided)
 and stores the resulting performance values. The performance can be accessed via \code{e$performance}.
-\item \code{$train_set} and \code{$test_set} return the row ids of the training set or test set, respectively.
-\item \code{$validation_set} returns the row ids of the validation set (see \link{Task}).
-\item \code{$timings} holds the elapsed time for the steps \code{train}, \code{predict} and \code{score} in seconds with up to millisecond accuracy (c.f. \code{\link[=proc.time]{proc.time()}}).
+\item \code{$train_set} and \code{$test_set} (\code{integer()} | \code{character()}) return the row ids of the training set or test set, respectively.
+\item \code{$validation_set} (\code{integer()} | \code{character()}) returns the row ids of the validation set (see \link{Task}).
+\item \code{$timings} (named \code{numeric(3)}) holds the elapsed time for the steps \code{train}, \code{predict} and \code{score} in seconds with up to millisecond accuracy (c.f. \code{\link[=proc.time]{proc.time()}}).
 Timings are \code{NA} if the respective step has not been performed yet.
-\item \code{$logs} creates a list with names \code{train} and \code{predict}.
+\item \code{$logs} (named \code{list(2)}) returns a list with names \code{train} and \code{predict}.
 Both store an object of class \link{Log} if logging of the learner has been enabled via \code{\link[=mlr_control]{mlr_control()}},
 and are \code{NULL} if logging was disabled or the respective step has not been performed yet.
 \item \code{$state} (\code{ordered(1)}) returns the state of the experiment: \code{"defined"}, \code{"trained"}, \code{"predicted"}, or \code{"scored"}.
@@ -72,6 +72,7 @@ and are \code{NULL} if logging was disabled or the respective step has not been 
 If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, a \code{ResamplingCustom} object is stored here.
 \item iteration (\code{integer(1)}). If the experiment is constructed manually, this is always 1.
 \item model: Trained model as returned by the \link{Learner}.
+\item fallback: Trained fallback model, if the \link{Learner} comes with a fallback learner.
 \item train_log: \link{Log} for the training step.
 \item train_time (\code{numeric(1)}). Elapsed time in microseconds.
 \item predict_log. \link{Log} for the predict step.
