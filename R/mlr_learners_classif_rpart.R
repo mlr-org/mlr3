@@ -29,7 +29,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
 
     train = function(task) {
       pars = self$params_train
-      invoke(rpart::rpart, pars, formula = task$formula, data = task$data())
+      invoke(rpart::rpart, formula = task$formula, data = task$data(), .args = pars)
     },
 
     predict = function(model, task) {
