@@ -3,7 +3,7 @@ train_worker = function(e, ctrl) {
   learner = data$learner
 
   task = data$task$clone(deep = TRUE)$filter(e$train_set)
-  log_info("Training learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
+  log_debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
 
   enc = encapsulate(ctrl$encapsulate_train)
   res = set_names(enc(learner$train, list(task = task), learner$packages),
@@ -11,7 +11,7 @@ train_worker = function(e, ctrl) {
 
   if (!is.null(learner$fallback)) {
     fb = assert_learner(learner$fallback)
-    log_info("Training fallback learner '%s' on task '%s' ...", fb$id, task$id, namespace = "mlr3")
+    log_debug("train_worker: Training fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
     require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
     fb_model = try(fb$train(task))
     if (inherits(fb_model, "try-error"))
@@ -35,7 +35,7 @@ predict_worker = function(e, ctrl) {
   }
 
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
-  log_info("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
+  log_debug("predict_worker: Learner '%s' on task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
 
   enc = encapsulate(ctrl$encapsulate_predict)
   res = set_names(enc(learner$predict, list(model = model, task = task), learner$packages),
@@ -50,7 +50,7 @@ score_worker = function(e, ctrl) {
   measures = data$measures
   pkgs = unique(unlist(map(measures, "packages")))
 
-  log_info("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id, namespace = "mlr3")
+  log_debug("score_worker: Learner '%s' on task '%s' [%ix%i]", data$learner$id, data$task$id, data$task$nrow, data$task$ncol, namespace = "mlr3")
   calc_all_measures = function() {
     set_names(lapply(measures, function(m) m$calculate(e)), ids(measures))
   }
@@ -70,16 +70,14 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
 
   log_info("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
 
-  logger::with_log_threshold(threshold = WARN, namespace = "mlr3", {
-    tmp = train_worker(e, ctrl)
-    e$data = insert_named(e$data, tmp)
+  tmp = train_worker(e, ctrl)
+  e$data = insert_named(e$data, tmp)
 
-    tmp = predict_worker(e, ctrl)
-    e$data = insert_named(e$data, tmp)
+  tmp = predict_worker(e, ctrl)
+  e$data = insert_named(e$data, tmp)
 
-    tmp = score_worker(e, ctrl)
-    e$data = insert_named(e$data, tmp)
-  })
+  tmp = score_worker(e, ctrl)
+  e$data = insert_named(e$data, tmp)
 
   if (!ctrl$store_prediction)
     e$data["prediction"] = list(NULL)

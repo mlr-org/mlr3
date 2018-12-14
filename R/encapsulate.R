@@ -10,7 +10,7 @@ encapsulate = function(method) {
 encapsulate_dummy = function(fun, args = list(), pkgs = character(0L)) {
   require_namespaces(pkgs)
   now = proc.time()[[3L]]
-  result = do.call(fun, args)
+  result = invoke(fun, .args = args)
   elapsed = proc.time()[[3L]] - now
   log = setDT(list(class = character(), msg = character()))
   list(result = result, log = Log$new(log), elapsed = elapsed)
@@ -74,7 +74,6 @@ encapsulate_callr = function(fun, args = list(), pkgs = character(0L)) {
     )
     list(result = result, elapsed = proc.time()[[3L]] - now)
   }
-
 
   require_namespaces("callr")
 
