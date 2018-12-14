@@ -162,7 +162,7 @@
 <li>Additional functionality that comes with extra dependencies:
 <ul>
 <li>For parallelization, <code>mlr3</code> utilizes the <a href="https://cran.r-project.org/package=future"><code>future</code></a> and <a href="https://cran.r-project.org/package=future.apply"><code>future.apply</code></a> packages.</li>
-<li>To capture output for logging, <a href="https://cran.r-project.org/package=evaluate"><code>evaluate</code></a> is used.</li>
+<li>To capture output for logging, <a href="https://cran.r-project.org/package=evaluate"><code>evaluate</code></a> is used to capture output of third party learners. Alternatively, <a href="https://cran.r-project.org/package=callr"><code>callr</code></a> starts a new R session to completely isolate the learner from the running session.</li>
 </ul>
 </li>
 </ul>
@@ -195,8 +195,9 @@
 <li>Benchmarking via <a href="https://mlr3.mlr-org.com/reference/benchmark.html"><code><a href="reference/benchmark.html">benchmark()</a></code></a>
 </li>
 <li>Stratification.</li>
+<li>Parallelization via <a href="https://cran.r-project.org/package=future"><code>future</code></a>.</li>
 </ul>
-<p>THe <a href="https://mlr3.mlr-org.com">webpage</a> provides, besides a short introduction, a <a href="https://mlr3.mlr-org.com/reference/">function reference</a>.</p>
+<p>The <a href="https://mlr3.mlr-org.com">webpage</a> provides, besides a short introduction, a <a href="https://mlr3.mlr-org.com/reference/">function reference</a>.</p>
 </div>
 <div id="wip" class="section level3">
 <h3 class="hasAnchor">
