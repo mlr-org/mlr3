@@ -16,8 +16,11 @@ train_worker = function(e, ctrl) {
 
   # if something went wrong, res$learner is null
   # we simply replace with the learner again (which has no model learnt)
-  if (res$train_log$has_condition("error"))
+  if (is.null(res$learner)) {
     res$learner = learner
+  } else {
+    assert_learner(res$learner)
+  }
 
   # if there is a fallback learner defined, also fit fallback learner
   if (!is.null(learner$fallback)) {
