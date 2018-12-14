@@ -61,7 +61,7 @@
 #' * `$train()` takes a task and returns a model fitted on all observations.
 #' * `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
 #' * `$fallback` stores the fallback learner which is used to generate predictions if this learner
-#'    fails to train or predict. This mechanism is disabled unless you explictly
+#'    fails to train or predict. This mechanism is disabled unless you explicitly
 #'    assign a learner to this slot.
 #' * `$hash` stores a checksum (`character(1)`) calculated on the `id` and `param_vals`.
 #'

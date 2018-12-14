@@ -70,7 +70,7 @@ feasible values are \code{"response"} and \code{"prob"}, for regression \code{"r
 \item \code{$train()} takes a task and returns a model fitted on all observations.
 \item \code{$predict()} takes a task and the model fitted in \code{$train()} to return predicted labels.
 \item \code{$fallback} stores the fallback learner which is used to generate predictions if this learner
-fails to train or predict. This mechanism is disabled unless you explictly
+fails to train or predict. This mechanism is disabled unless you explicitly
 assign a learner to this slot.
 \item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id} and \code{param_vals}.
 }
