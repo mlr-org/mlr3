@@ -39,7 +39,8 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`paradox`](https://github.com/mlr-org/paradox) Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra recursive dependencies.
 * Additional functionality that comes with extra dependencies:
     - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
-    - To capture output for logging, [`evaluate`](https://cran.r-project.org/package=evaluate) is used.
+    - To capture output for logging, [`evaluate`](https://cran.r-project.org/package=evaluate) is used to capture output of third party learners.
+      Alternatively, [`callr`](https://cran.r-project.org/package=callr) starts a new R session to completely isolate the learner from the running session.
 
 
 ## State of the project
@@ -59,8 +60,9 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * Resampling via [`resample()`](https://mlr3.mlr-org.com/reference/resample.html)
 * Benchmarking via [`benchmark()`](https://mlr3.mlr-org.com/reference/benchmark.html)
 * Stratification.
+* Parallelization via [`future`](https://cran.r-project.org/package=future).
 
-THe [webpage](https://mlr3.mlr-org.com) provides, besides a short introduction, a [function reference](https://mlr3.mlr-org.com/reference/).
+The [webpage](https://mlr3.mlr-org.com) provides, besides a short introduction, a [function reference](https://mlr3.mlr-org.com/reference/).
 
 ### WiP
 
