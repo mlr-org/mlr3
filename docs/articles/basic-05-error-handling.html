@@ -186,7 +186,7 @@
 <a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; [1] "Warning from classif.debug-&gt;train()"</span></a>
 <a class="sourceLine" id="cb3-17" data-line-number="17">e<span class="op">$</span>logs<span class="op">$</span>train<span class="op">$</span>errors <span class="co"># get all the errors</span></a>
 <a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; [1] "Error from classif.debug-&gt;train()"</span></a></code></pre></div>
-<p>You can also enable the encapsulation for the <em>predict</em> or <em>score</em> steps of an experiment by setting <code>encapsulate_predict</code> or <code>encapsulate_score</code>, respectively.</p>
+<p>You can also enable the encapsulation for the <em>predict</em> step of an experiment by setting <code>encapsulate_predict</code>.</p>
 <p>Another possibility to encapsulate is execution via package the <a href="https://cran.r-project.org/package=callr"><code>callr</code></a>. <a href="https://cran.r-project.org/package=callr"><code>callr</code></a> spawns a new R process, and thus guards us from segfaults. On the downside, starting new processes comes with a computational overhead.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">encapsulate_train =</span> <span class="st">"callr"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
@@ -211,7 +211,7 @@
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [1] "callr exited with status -11"</span></a></code></pre></div>
 <p>Note that, although no exception has been raised with encapsulation, it is impossible to perform the predict step without a model:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>()</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Predicting model of learner 'classif.debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'classif.debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; Error in predict_worker(self, ctrl = ctrl): Unable to predict learner 'classif.debug' without model</span></a></code></pre></div>
 <p>As a workaround, we define a learner in the next section which is used as a surrogate to create predictions.</p>
 </div>
@@ -235,7 +235,7 @@
 <a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 1: [error] Error from classif.debug-&gt;train()</span></a>
 <a class="sourceLine" id="cb7-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb7-16" data-line-number="16">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>()</a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; INFO [mlr3] Predicting model of learner 'classif.debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'classif.debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb7-18" data-line-number="18">e<span class="op">$</span><span class="kw">score</span>()</a>
 <a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; INFO [mlr3] Scoring predictions of learner 'classif.debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb7-20" data-line-number="20">e<span class="op">$</span>prediction</a>
