@@ -30,8 +30,6 @@ at the cost of some computational overhead. Logs are also stored in the \link{Ex
 }
 \item \code{encapsulate_predict}: How to call external code in third party packages during predict.
 Same format as \code{encapsulate_train}.
-\item \code{encapsulate_score}: How to call external code in third party packages during score
-Same format as \code{encapsulate_train}.
 }
 }
 \examples{

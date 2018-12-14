@@ -105,7 +105,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list(
     )
   }
 
-  res = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], measures = measures[grid$task], hash = grid$hash)
+  res = data.table(task = tasks[grid$task], resampling = instances[grid$instance], measures = measures[grid$task], hash = grid$hash)
   ref_cbind(res, combine_experiments(tmp))
 
   log_info("Finished benchmark", namespace = "mlr3")

@@ -200,7 +200,7 @@ Performance measure to use. Defaults to the measures set in the <a href='Task.ht
     <ul>
 <li><p><code>$new()</code> initializes a new machine learning experiment which can grow in a stepwise fashion.</p></li>
 <li><p><code>$task</code> and <code>$learner</code> can be used to access the <a href='Task.html'>Task</a> and <a href='Learner.html'>Learner</a>.</p></li>
-<li><p><code>$train()</code> fits the induced <code>learner</code> on the (subset of the) <code>task</code> and internally stores the model.
+<li><p><code>$train()</code> fits the induced <a href='Learner.html'>Learner</a> on the (subset of the) <code>task</code> and stores the model in the <a href='Learner.html'>Learner</a>.
 The model can be accessed via <code>e$model</code>.</p></li>
 <li><p><code>$predict()</code> uses the previously fitted model to predict new observations.
 The predictions are stored internally as an <a href='Prediction.html'>Prediction</a> object and can be accessed via <code>e$prediction</code> as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
@@ -220,8 +220,6 @@ and are <code>NULL</code> if logging was disabled or the respective step has not
 <li><p>resampling (<a href='Resampling.html'>Resampling</a>). Is <code>NULL</code> prior to calling <code>$train()</code>.
 If the experiment is constructed manually (i.e., not via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>, a <code>ResamplingCustom</code> object is stored here.</p></li>
 <li><p>iteration (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>). If the experiment is constructed manually, this is always 1.</p></li>
-<li><p>model: Trained model as returned by the <a href='Learner.html'>Learner</a>.</p></li>
-<li><p>fallback: Trained fallback model, if the <a href='Learner.html'>Learner</a> comes with a fallback learner.</p></li>
 <li><p>train_log: <a href='Log.html'>Log</a> for the training step.</p></li>
 <li><p>train_time (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>). Elapsed time in microseconds.</p></li>
 <li><p>predict_log. <a href='Log.html'>Log</a> for the predict step.</p></li>
@@ -239,7 +237,7 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
   <span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>),
   <span class='kw'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.rpart"</span>)
 )
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [defined (incomplete)]:
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [defined]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  - Model: [missing]
@@ -250,7 +248,7 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt;   performance, predict, prediction, score, state, task, test_set,
 #&gt;   timings, train, train_set, validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
 #&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [trained (incomplete)]:
+<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [trained]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]
@@ -270,7 +268,7 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt;   3) Petal.Length&gt;=2.45 70 20 versicolor (0.00000000 0.71428571 0.28571429)  
 #&gt;     6) Petal.Length&lt; 4.95 49  1 versicolor (0.00000000 0.97959184 0.02040816) *
 #&gt;     7) Petal.Length&gt;=4.95 21  2 virginica (0.00000000 0.09523810 0.90476190) *</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [mlr3] Predicting model of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [predicted (incomplete)]:
+<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [mlr3] Predicting with model of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [predicted]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]
@@ -289,7 +287,7 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 #&gt; 28:    148  virginica virginica
 #&gt; 29:    149  virginica virginica
 #&gt; 30:    150  virginica virginica</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'>score</span>()</div><div class='output co'>#&gt; INFO [mlr3] Scoring predictions of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [scored (complete)]:
+<span class='no'>e</span>$<span class='fu'>score</span>()</div><div class='output co'>#&gt; INFO [mlr3] Scoring predictions of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; Experiment [scored]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]

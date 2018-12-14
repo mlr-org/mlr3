@@ -22,6 +22,7 @@ test_that("fallback_learner", {
   assert_list(e$ctrl)
   expect_equal(e$ctrl$encapsulate_train, "evaluate")
 
+  expect_learner(e$learner$fallback)
   e$train()
   e$predict()
   e$score()

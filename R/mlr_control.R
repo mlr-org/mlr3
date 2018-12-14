@@ -14,8 +14,6 @@
 #'       at the cost of some computational overhead. Logs are also stored in the [Experiment].
 #' * `encapsulate_predict`: How to call external code in third party packages during predict.
 #'   Same format as `encapsulate_train`.
-#' * `encapsulate_score`: How to call external code in third party packages during score
-#'   Same format as `encapsulate_train`.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
 #'

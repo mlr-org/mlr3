@@ -54,10 +54,11 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
 
       label = sample(task$truth(), 1L)
-      structure(as.character(label), class = "unittest.model")
+      self$model = set_class(as.character(label), "unittest.model")
+      self
     },
 
-    predict = function(model, task, ...) {
+    predict = function(task) {
       pv = self$param_vals
       if (isTRUE(pv$message_predict))
         message("Message from classif.debug->predict()")
@@ -68,7 +69,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$segfault_predict))
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
 
-      PredictionClassif$new(response = rep.int(unclass(model), task$nrow))
+      PredictionClassif$new(response = rep.int(unclass(self$model), task$nrow))
     }
   )
 )
