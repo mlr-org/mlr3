@@ -21,8 +21,9 @@ l$packages
 l$param_set
 l$param_vals
 l$properties
+l$model
 l$train(task)
-l$predict(task, model)
+l$predict(task)
 l$hash
 }
 }
@@ -48,8 +49,6 @@ List of hyperparameters.
 Set of properties of the learner. Must be a subset of \code{mlr_reflections$learner_properties}.
 \item \code{task} (\link{Task}):\cr
 Task to train/predict on.
-\item \code{model}:\cr
-Arbitrary fitted model as returned by \code{train()}.
 }
 }
 
@@ -67,12 +66,11 @@ feasible values are \code{"response"} and \code{"prob"}, for regression \code{"r
 \item \code{$param_set()} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter and possible settings.
 \item \code{$param_vals()} (named \code{list()}) stores the list set hyperparameter values.
 \item \code{$properties} (\code{character()}) is a set of tags which describe the properties of the learner.
-\item \code{$train()} takes a task and returns a model fitted on all observations.
-\item \code{$predict()} takes a task and the model fitted in \code{$train()} to return predicted labels.
-\item \code{$fallback} stores the fallback learner which is used to generate predictions if this learner
-fails to train or predict. This mechanism is disabled unless you explicitly
-assign a learner to this slot.
-\item \code{$hash} stores a checksum (\code{character(1)}) calculated on the \code{id} and \code{param_vals}.
+\item \code{$train()} takes a \link{Task}, sets the slot \code{model} and returns \code{self}.
+\item \code{$predict()} takes a \link{Task} and uses \code{self$model} (fitted during train()) to return a \link{Prediction} object.
+\item \code{$fallback} (\link{Learner} | \code{NULL}) optionally stores a fallback learner which is used to generate predictions if this learner
+fails to train or predict. This mechanism is disabled unless you explicitly assign a learner to this slot.
+\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id} and \code{param_vals}. This hash is cached internally.
 }
 }
 

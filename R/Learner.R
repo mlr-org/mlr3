@@ -19,8 +19,9 @@
 #' l$param_set
 #' l$param_vals
 #' l$properties
+#' l$model
 #' l$train(task)
-#' l$predict(task, model)
+#' l$predict(task)
 #' l$hash
 #' ```
 #'
@@ -43,27 +44,37 @@
 #'   Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
 #' * `task` ([Task]):\cr
 #'   Task to train/predict on.
-#' * `model`:\cr
-#'   Arbitrary fitted model as returned by `train()`.
 #'
 #' @section Details:
 #' * `$new()` creates a new object of class [Learner].
+#'
 #' * `$id` (`character(1)`) stores the identifier of the object.
+#'
 #' * `$task_type` (`character(1)`) stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
+#'
 #' * `$feature_types` (`character()`) stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+#'
 #' * `$predict_types` (`character()`) stores the possible predict types the learner is capable of. For classification,
 #'   feasible values are `"response"` and `"prob"`, for regression `"response"` and `"se"` can be specified.
+#'
 #' * `$predict_type` (`character(1)`) stores the currently selected predict type.
+#'
 #' * `$packages` (`character()`) stores the names of required packages.
+#'
 #' * `$param_set()` ([paradox::ParamSet]) describes the available hyperparameter and possible settings.
+#'
 #' * `$param_vals()` (named `list()`) stores the list set hyperparameter values.
+#'
 #' * `$properties` (`character()`) is a set of tags which describe the properties of the learner.
-#' * `$train()` takes a task and returns a model fitted on all observations.
-#' * `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
-#' * `$fallback` stores the fallback learner which is used to generate predictions if this learner
-#'    fails to train or predict. This mechanism is disabled unless you explicitly
-#'    assign a learner to this slot.
-#' * `$hash` stores a checksum (`character(1)`) calculated on the `id` and `param_vals`.
+#'
+#' * `$train()` takes a [Task], sets the slot `model` and returns `self`.
+#'
+#' * `$predict()` takes a [Task] and uses `self$model` (fitted during train()) to return a [Prediction] object.
+#'
+#' * `$fallback` ([Learner] | `NULL`) optionally stores a fallback learner which is used to generate predictions if this learner
+#'    fails to train or predict. This mechanism is disabled unless you explicitly assign a learner to this slot.
+#'
+#' * `$hash` (`character(1)`) stores a checksum calculated on the `id` and `param_vals`. This hash is cached internally.
 #'
 #' @name Learner
 #' @family Learner

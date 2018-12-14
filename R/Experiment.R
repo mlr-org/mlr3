@@ -44,7 +44,7 @@
 #'
 #' * `$task` and `$learner` can be used to access the [Task] and [Learner].
 #'
-#' * `$train()` fits the induced `learner` on the (subset of the) `task` and internally stores the model.
+#' * `$train()` fits the induced [Learner] on the (subset of the) `task` and stores the model in the [Learner].
 #'   The model can be accessed via `e$model`.
 #'
 #' * `$predict()` uses the previously fitted model to predict new observations.
@@ -72,8 +72,6 @@
 #'   * resampling ([Resampling]). Is `NULL` prior to calling `$train()`.
 #'     If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()], a `ResamplingCustom` object is stored here.
 #'   * iteration (`integer(1)`). If the experiment is constructed manually, this is always 1.
-#'   * model: Trained model as returned by the [Learner].
-#'   * fallback: Trained fallback model, if the [Learner] comes with a fallback learner.
 #'   * train_log: [Log] for the training step.
 #'   * train_time (`numeric(1)`). Elapsed time in microseconds.
 #'   * predict_log. [Log] for the predict step.
