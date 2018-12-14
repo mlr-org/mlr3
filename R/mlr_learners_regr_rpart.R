@@ -29,12 +29,13 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
 
     train = function(task) {
       pars = self$params_train
-      invoke(rpart::rpart, formula = task$formula, data = task$data(), .args = pars)
+      self$model = invoke(rpart::rpart, formula = task$formula, data = task$data(), .args = pars)
+      self
     },
 
-    predict = function(model, task) {
+    predict = function(task) {
       newdata = task$data()
-      response = predict(model, newdata = newdata)
+      response = predict(self$model, newdata = newdata)
       PredictionRegr$new(task, response = response)
     }
   )

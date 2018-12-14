@@ -167,10 +167,8 @@ Experiment = R6Class("Experiment",
     },
 
     model = function() {
-      model = self$data$model
-      if (is.null(model))
-        stopf("No model available")
-      model
+      learner = self$data$learner
+      learner$model %??% learner$fallback$model
     },
 
     timings = function() {
@@ -252,10 +250,10 @@ experiment_print = function(self) {
     }
   }
 
-  catf("Experiment [%s (%s)]:", self$state, if (self$state == "scored") "complete" else "incomplete")
+  catf("Experiment [%s]:", self$state)
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
-  catf(fmt(data$model, "Model", sprintf("[%s]", class(data$model)[[1L]])))
+  catf(fmt(self$model, "Model", sprintf("[%s]", class(self$model)[[1L]])))
   catf(fmt(data$prediction, "Predictions", sprintf("[%s]", class(data$prediction)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
   catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
@@ -284,7 +282,8 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list(
     row_ids = self$validation_set
   }
 
-  log_info("Predicting model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
+  # FIXME: learner id
+  log_info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = predict_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)
@@ -316,11 +315,11 @@ experiment_state = function(self) {
   as_state = function(state) ordered(state, levels = mlr_reflections$experiment_states)
   d = self$data
 
-  if (!is.null(d$performance))
+  if (!is.null(d$score_time))
     return(as_state("scored"))
-  if (!is.null(d$prediction))
+  if (!is.null(d$predict_time))
     return(as_state("predicted"))
-  if (!is.null(d$model))
+  if (!is.null(d$train_time))
     return(as_state("trained"))
   return(as_state("defined"))
 }

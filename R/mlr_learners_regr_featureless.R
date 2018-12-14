@@ -29,13 +29,13 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
     train = function(task) {
       tn = unlist(task$data(cols = task$target_names))
       mod = if (isTRUE(self$param_vals$robust)) c(mean(tn), sd(tn)) else c(median(tn), madn(tn))
-      class(mod) = "featureless"
-      mod
+      self$model = set_class(mod, "featureless")
+      self
     },
 
-    predict = function(model, task) {
+    predict = function(task) {
       n = task$nrow
-      PredictionRegr$new(task, response = rep(model[1L], n), se = rep(model[2L], n))
+      PredictionRegr$new(task, response = rep(self$model[1L], n), se = rep(self$model[2L], n))
     }
   )
 )

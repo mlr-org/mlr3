@@ -11,10 +11,10 @@ test_that("resample", {
   expect_resample_result(rr)
   expect_numeric(rr$performance(task$measures[[1]]$id), any.missing = FALSE)
   expect_number(rr$aggregated)
-  expect_same_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
+  expect_different_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
   expect_same_address(rr$data$task[[1L]], rr$data$task[[2L]])
   expect_same_address(rr$data$resampling[[1L]], rr$data$resampling[[2L]])
-  expect_different_address(rr$data$model[[1L]], rr$data$model[[2L]])
+  expect_different_address(rr$data$learner[[1L]]$model, rr$data$learner[[2L]]$model)
 })
 
 test_that("resample with multiple measures", {
@@ -56,5 +56,5 @@ test_that("discarding model", {
   resampling$param_vals = list(folds = 3)
 
   rr = resample(task, learner, resampling, ctrl = mlr_control(store_model = FALSE))
-  expect_equal(rr$data$model, vector("list", 3L))
+  expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
 })

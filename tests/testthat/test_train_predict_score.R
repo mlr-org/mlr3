@@ -9,7 +9,7 @@ test_that("Simple train+predict+score of featureless model", {
   e$train(subset)
   expect_set_equal(e$train_set, subset)
   expect_class(e$model, "featureless")
-  expect_class(e$data$model, "featureless")
+  expect_class(e$model, "featureless")
   expect_equal(task$nrow, 150L)
   expect_equal(e$data$task$nrow, 150L)
 
