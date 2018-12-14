@@ -69,7 +69,7 @@ mlr_resamplings$add("bootstrap", ResamplingBootstrap)
 
 
 resample_bootstrap = function(ids, ratio, repeats) {
-  nr = rround(length(ids) * ratio)
+  nr = round(length(ids) * ratio)
   x = factor(seq_along(ids))
   M = replicate(repeats, table(sample(x, nr, replace = TRUE)), simplify = "array")
   rownames(M) = NULL
