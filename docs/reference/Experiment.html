@@ -200,7 +200,7 @@ Performance measure to use. Defaults to the measures set in the <a href='Task.ht
     <ul>
 <li><p><code>$new()</code> initializes a new machine learning experiment which can grow in a stepwise fashion.</p></li>
 <li><p><code>$task</code> and <code>$learner</code> can be used to access the <a href='Task.html'>Task</a> and <a href='Learner.html'>Learner</a>.</p></li>
-<li><p><code>$train()</code> fits the induced <code>learner</code> on the (subset of the) <code>task</code> and internally stores the model.
+<li><p><code>$train()</code> fits the induced <a href='Learner.html'>Learner</a> on the (subset of the) <code>task</code> and stores the model in the <a href='Learner.html'>Learner</a>.
 The model can be accessed via <code>e$model</code>.</p></li>
 <li><p><code>$predict()</code> uses the previously fitted model to predict new observations.
 The predictions are stored internally as an <a href='Prediction.html'>Prediction</a> object and can be accessed via <code>e$prediction</code> as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
@@ -220,8 +220,6 @@ and are <code>NULL</code> if logging was disabled or the respective step has not
 <li><p>resampling (<a href='Resampling.html'>Resampling</a>). Is <code>NULL</code> prior to calling <code>$train()</code>.
 If the experiment is constructed manually (i.e., not via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>, a <code>ResamplingCustom</code> object is stored here.</p></li>
 <li><p>iteration (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>). If the experiment is constructed manually, this is always 1.</p></li>
-<li><p>model: Trained model as returned by the <a href='Learner.html'>Learner</a>.</p></li>
-<li><p>fallback: Trained fallback model, if the <a href='Learner.html'>Learner</a> comes with a fallback learner.</p></li>
 <li><p>train_log: <a href='Log.html'>Log</a> for the training step.</p></li>
 <li><p>train_time (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>). Elapsed time in microseconds.</p></li>
 <li><p>predict_log. <a href='Log.html'>Log</a> for the predict step.</p></li>
