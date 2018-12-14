@@ -94,6 +94,7 @@ Collate:
     'encapsulate.R'
     'helper.R'
     'helper_future.R'
+    'helper_print.R'
     'mlr_control.R'
     'mlr_learners.R'
     'mlr_learners_classif_debug.R'
