@@ -15,12 +15,11 @@
 #' d = Dictionary$new()
 #' # Getters
 #' d$keys(pattern)
-#' d$add(value)
+#' d$add(key, value)
 #' d$get(key)
 #' d$mget(keys)
 #' d$has(key)
-#' d$remove(key, value)
-#' d$remove(keys)
+#' d$remove(key)
 #' # S3 methods
 #' as.data.frame(d)
 #' as.data.table(d)
