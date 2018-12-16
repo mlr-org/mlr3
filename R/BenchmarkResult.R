@@ -6,6 +6,9 @@
 #' @section Usage:
 #'
 #' ```
+#' # Construction
+#' bmr$new(data)
+#' # Getters
 #' bmr$data
 #' bmr$tasks
 #' bmr$learners
@@ -16,6 +19,7 @@
 #' bmr$resample_result(hash)
 #' bmr$combine(bmr)
 #' bmr$get_best(measure)
+#' # S3 methods
 #' as.data.table(bmr)
 #' ```
 #'
