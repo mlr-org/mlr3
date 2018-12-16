@@ -201,7 +201,11 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
   <span class='kw'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='st'>"cv"</span>)
 )
 
-<span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 20 experiments in 2 resamplings
+#&gt; Best: Learner classif.rpart on iris (resampling cv) with mmce=0.0733333
+#&gt; 
+#&gt; Public: aggregated, clone(), combine(), data, get_best(), learners,
+#&gt;   measures, resample_result(), resample_results, resamplings, tasks</div><div class='input'><span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
 #&gt; 1: 4366a92ae1a6e66a    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash          learner_id                     learner
 #&gt; 1: f3259ef9dfee9e56 classif.featureless &lt;LearnerClassifFeatureless&gt;
 #&gt; 2: afef6eda1b787161       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>resamplings</span></div><div class='output co'>#&gt;     resampling_hash resampling_id     resampling
