@@ -1,3 +1,5 @@
+# DOCS FIXME: ctrl argument von methoden
+
 #' @title Experiment
 #'
 #' @description
@@ -13,6 +15,7 @@
 #' e$predict(subset, newdata)
 #' e$score(measures = NULL)
 #' # Getters
+#' e$ctrl
 #' e$task
 #' e$learner
 #' e$model
@@ -25,6 +28,8 @@
 #' e$logs
 #' e$state
 #' e$data
+#' e$hash
+#' e$has_errors
 #' ```
 #'
 #' @section Arguments:
@@ -81,6 +86,8 @@
 #'   * measures (`list` of [Measure]). Actually used performance measures.
 #'   * performance (`named numeric`). Performance values are returned by the measures.
 #'   * score_time (`numeric(1)`). Elapsed time in microseconds.
+#'
+#'   FIXME: Missing: has_errors, hash, ctrl
 #'
 #' @name Experiment
 #' @export
