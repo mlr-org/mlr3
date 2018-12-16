@@ -110,6 +110,7 @@ Learner = R6Class("Learner",
       catf("Learner '%s' for %s", self$id, self$task_type)
       catf("Parameters: %s", as_short_string(self$param_vals, 1000L))
       catf("Feature types: %s", paste0(self$feature_types, collapse = ","))
+      catf(str_indent(initial = "\nPublic: ", str_r6_interface(self)))
     }
   ),
 

@@ -51,6 +51,7 @@
 #'   resamplings = mlr_resamplings$mget("cv")
 #' )
 #'
+#' print(bmr)
 #' bmr$tasks
 #' bmr$learners
 #' bmr$resamplings
@@ -76,6 +77,17 @@ BenchmarkResult = R6Class("BenchmarkResult",
       slots = mlr_reflections$experiment_slots$name
       assert_names(names(data), must.include = c(slots, "hash"))
       self$data = setcolorder(data, slots)
+    },
+
+    print = function() {
+      catf("<BenchmarkResult> of %i experiments in %i resamplings",
+        nrow(self$data), uniqueN(self$data$hash))
+      measure = self$measures$measure[[1L]]
+      best = self$get_best(measure)
+      aggregated = best$aggregated
+      catf("Best: Learner %s on %s (resampling %s) with %s=%g",
+        best$learner$id, best$task$id, best$resampling$id, measure$id, best$aggregated[[measure$id]])
+      catf(str_indent(initial = "\nPublic: ", str_r6_interface(self)))
     },
 
     resample_result = function(hash) {

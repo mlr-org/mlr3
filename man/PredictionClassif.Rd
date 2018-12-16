@@ -5,6 +5,9 @@
 \title{Prediction Object for Classification}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerClassif}.
+If probabilities are provided via construction and response is missing,
+the response is calculated from the probabilities: the class label with the highest
+probability is chosen. In case of ties, a random class label of the tied labels picked.
 }
 \section{Usage}{
 \preformatted{# Construction
@@ -47,6 +50,15 @@ with \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
 }
 }
 
+\examples{
+task = mlr_tasks$get("iris")
+learner = mlr_learners$get("classif.rpart")
+learner$predict_type = "prob"
+e = Experiment$new(task, learner)$train()$predict()
+p = e$prediction
+p$predict_types
+head(as.data.table(p))
+}
 \seealso{
 Other Prediction: \code{\link{PredictionRegr}},
   \code{\link{Prediction}}

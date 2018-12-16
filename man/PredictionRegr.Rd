@@ -48,6 +48,15 @@ with \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
 }
 }
 
+\examples{
+task = mlr_tasks$get("bh")
+learner = mlr_learners$get("regr.featureless")
+learner$predict_type = "se"
+e = Experiment$new(task, learner)$train()$predict()
+p = e$prediction
+p$predict_types
+head(as.data.table(p))
+}
 \seealso{
 Other Prediction: \code{\link{PredictionClassif}},
   \code{\link{Prediction}}

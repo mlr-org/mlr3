@@ -56,6 +56,7 @@ bmr = benchmark(
   resamplings = mlr_resamplings$mget("cv")
 )
 
+print(bmr)
 bmr$tasks
 bmr$learners
 bmr$resamplings

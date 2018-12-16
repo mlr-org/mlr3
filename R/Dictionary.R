@@ -64,8 +64,8 @@ Dictionary = R6Class("Dictionary",
 
     print = function(...) {
       keys = self$keys()
-      catf(stri_wrap(initial = sprintf("<%s> with %i stored values: ", class(self)[1L], length(keys)), keys))
-      catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
+      catf(str_indent(initial = sprintf("<%s> with %i stored values: ", class(self)[1L], length(keys)), keys))
+      catf(str_indent(initial = "\nPublic: ", str_r6_interface(self)))
     },
 
     keys = function(pattern = NULL) {

@@ -182,7 +182,7 @@ Experiment = R6Class("Experiment",
       resampling = self$data$resampling
       iteration = self$data$iteration
       if (is.null(resampling) || is.null(iteration))
-        stopf("No train_set available")
+        return(NULL)
       resampling$train_set(iteration)
     },
 
@@ -190,7 +190,7 @@ Experiment = R6Class("Experiment",
       resampling = self$data$resampling
       iteration = self$data$iteration
       if (is.null(resampling) || is.null(iteration))
-        stopf("No test_set available")
+        return(NULL)
       resampling$test_set(iteration)
     },
 
@@ -199,10 +199,7 @@ Experiment = R6Class("Experiment",
     },
 
     prediction = function() {
-      prediction = self$data$prediction
-      if (is.null(prediction))
-        stopf("No predictions available")
-      prediction
+      self$data$prediction
     },
 
     performance = function() {
@@ -254,7 +251,7 @@ experiment_print = function(self) {
   catf(fmt(self$model, "Model", sprintf("[%s]", class(self$model)[[1L]])))
   catf(fmt(data$prediction, "Predictions", sprintf("[%s]", class(data$prediction)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
-  catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
+  catf(str_indent(initial = "\nPublic: ", str_r6_interface(self)))
 }
 
 
