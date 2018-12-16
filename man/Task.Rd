@@ -119,7 +119,7 @@ features of the task and \code{type} is the storage type.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
 \item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[data.table:data.table]{data.table::data.table()}}.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
-\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{row_roles} and \code{col_info}.
+\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{row_roles} and \code{col_roles}.
 }
 }
 
