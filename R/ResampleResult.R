@@ -8,7 +8,8 @@
 #' ```
 #' # Construction
 #' rr = ResampleResult$new(data, hash = NULL)
-#' #
+#' # Getters
+#' rr$data
 #' rr$task
 #' rr$learner
 #' rr$resampling
@@ -19,6 +20,9 @@
 #' rr$combine(rr)
 #' rr$aggregated
 #' rr$hash
+#' rr$errors
+#' rr$print()
+#' # S3 methods
 #' as.data.table(bmr)
 #' ```
 #'
@@ -53,6 +57,8 @@
 #' * `$aggregated` (named `numeric()`) returns the aggregated performance measures. The aggregation method is part of the [Measure].
 #'
 #' * `$hash` (`character(1))` stores a hash for the combination of task, learner and resampling.
+#'
+#' * `$errors` FIXME ???
 #'
 #' * `as.data.table()` converts the [BenchmarkResult] to a [data.table::data.table()].
 #'
