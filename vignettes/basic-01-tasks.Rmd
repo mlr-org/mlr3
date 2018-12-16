@@ -30,7 +30,7 @@ These are stored in a `mlr3::Dictionary`, a simple key-value store, named `mlr3:
 mlr_tasks
 
 # list keys
-names(mlr_tasks)
+mlr_tasks$keys()
 
 # get a quick overview
 as.data.frame(mlr_tasks)

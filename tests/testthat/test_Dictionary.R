@@ -68,11 +68,3 @@ test_that("Error when a package containing the dataset is not installed", {
   })
   expect_error(test_task$get("missing_package"))
 })
-
-test_that("S3 methods", {
-  expect_equal(names(mlr_tasks), mlr_tasks$keys())
-  expect_equal(length(mlr_tasks), length(mlr_tasks$keys()))
-  expect_class(mlr_tasks[["iris"]], "Task")
-  expect_list(mlr_tasks["iris"], "Task", len = 1)
-  expect_list(mlr_tasks[c("iris", "bh")], "Task", len = 2)
-})
