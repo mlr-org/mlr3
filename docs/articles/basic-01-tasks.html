@@ -127,7 +127,15 @@
 <li><a href="#predefined-tasks">Predefined tasks</a></li>
       <li><a href="#task-creation">Task Creation</a></li>
       <li><a href="#column-roles">Column Roles</a></li>
-      <li><a href="#row-roles">Row roles</a></li>
+      <li><a href="#row-roles">Row Roles</a></li>
+      <li>
+<a href="#task-mutation">Task Mutation</a><ul>
+<li><a href="#filter">$filter()</a></li>
+      <li><a href="#select">$select()</a></li>
+      <li><a href="#rbind-cbind">$rbind(), $cbind()</a></li>
+      <li><a href="#overwrite">$overwrite()</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       
@@ -149,19 +157,22 @@
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Public:  add(), get(), has(), items, keys(), mget(), remove()</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># list keys</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">mlr_tasks<span class="op">$</span><span class="kw">keys</span>()</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; [1] "bh"      "iris"    "pima"    "sonar"   "spam"    "titanic" "zoo"</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co"># get a quick overview</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(mlr_tasks)</a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;        id    type nrow ncol</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 1      bh    regr  506   19</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 2    iris classif  150    5</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; 3    pima classif  768    9</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 4   sonar classif  208   61</span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; 5    spam classif 4601   58</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; 6 titanic classif 1309   12</span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; 7     zoo classif  101   17</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(mlr_tasks)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;  [1] ".__enclos_env__" "keys"            "items"          </span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;  [4] "remove"          "mget"            "initialize"     </span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;  [7] "has"             "print"           "add"            </span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; [10] "get"</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># get a quick overview</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(mlr_tasks)</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt;        id    type nrow ncol</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 1      bh    regr  506   19</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; 2    iris classif  150    5</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; 3    pima classif  768    9</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; 4   sonar classif  208   61</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; 5    spam classif 4601   58</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt; 6 titanic classif 1309   12</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt; 7     zoo classif  101   17</span></a></code></pre></div>
 <p>Here, we will stick to the popular <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris data set</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task)</a>
@@ -225,6 +236,7 @@
 <a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt; 1:     setosa</span></a>
 <a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt; 2: versicolor</span></a>
 <a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt; 3:  virginica</span></a></code></pre></div>
+<p>Note that method <code>$data()</code> is only an accesor and does not modify the underlying data/task. To do this, please see methods <a href="basic-01-tasks.html#filter"><code>$filter()</code></a> and <a href="basic-01-tasks.html#select"><code>$select()</code></a>.</p>
 </div>
 <div id="task-creation" class="section level2">
 <h2 class="hasAnchor">
@@ -389,7 +401,7 @@
 </div>
 <div id="row-roles" class="section level2">
 <h2 class="hasAnchor">
-<a href="#row-roles" class="anchor"></a>Row roles</h2>
+<a href="#row-roles" class="anchor"></a>Row Roles</h2>
 <p>Just like columns, you can also assign different roles to rows. Rows can have two different roles:</p>
 <ol style="list-style-type: decimal">
 <li>Role <code>"use"</code>: Rows that are generally available for model fitting (although they may also be used as test set in resampling). This is the default role.</li>
@@ -413,6 +425,61 @@
 <a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; [1] 28</span></a></code></pre></div>
 <p>All pre- and post-processing you have used on the training data is also applied to the validation data in exactly the same way.</p>
 </div>
+<div id="task-mutation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#task-mutation" class="anchor"></a>Task Mutation</h2>
+<p>A task can be mutated using methods <code><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter()</a></code>, <code>select()</code>, <code><a href="https://www.rdocumentation.org/packages/data.table/topics/rbindlist">rbind()</a></code>, <code><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind()</a></code> and <code>overwrite()</code>.</p>
+<p>The <code>iris</code> task is used again to showcase the mutators.</p>
+<div id="filter" class="section level3">
+<h3 class="hasAnchor">
+<a href="#filter" class="anchor"></a>$filter()</h3>
+<p>Subsetting based on rows is done with <code>$filter()</code>. Afterwards we can check the modified task by either quering the <code>data</code> slot or by checking the number of rows.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">99</span>))</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>()</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;       Species Petal.Length Petal.Width Sepal.Length Sepal.Width</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 1:     setosa          1.5         0.1          4.9         3.1</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 2:     setosa          1.4         0.2          5.0         3.3</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 3: versicolor          3.0         1.1          5.1         2.5</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">task<span class="op">$</span>nrow</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; [1] 3</span></a></code></pre></div>
+</div>
+<div id="select" class="section level3">
+<h3 class="hasAnchor">
+<a href="#select" class="anchor"></a>$select()</h3>
+<p>The equivalent method for subsetting columns is <code>select()</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">task<span class="op">$</span>feature_names</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; [1] "Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width"</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">task<span class="op">$</span><span class="kw">select</span>(<span class="st">"Petal.Length"</span>)</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">task<span class="op">$</span>ncol</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; [1] 2</span></a></code></pre></div>
+<p>You might wonder why there are still two columns left even if we selected only one? The subsetting only applies to the columns listed as “feature” (<code>task$col_roles</code>). The “target” column is not touched.</p>
+</div>
+<div id="rbind-cbind" class="section level3">
+<h3 class="hasAnchor">
+<a href="#rbind-cbind" class="anchor"></a>$rbind(), $cbind()</h3>
+<p>These methods add rows or columns to the data set, respectively. In the following example we duplicate the rows of the <code>iris</code> task (please do not do this in practice):</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># init a fresh task</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">task2 =<span class="st"> </span>task </a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/rbindlist">rbind</a></span>(task2<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>())</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">task<span class="op">$</span>nrow</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; [1] 300</span></a></code></pre></div>
+<p>The same logic applies to <code>$cbind()</code>.</p>
+</div>
+<div id="overwrite" class="section level3">
+<h3 class="hasAnchor">
+<a href="#overwrite" class="anchor"></a>$overwrite()</h3>
+<p>This method can be used to overwrite the <code>data</code> slot of an <strong>existing</strong> task. This is useful if the [<code>DataBackend</code>] should be changed, for example from a database backend (via <a href="https://mlr3db.mlr-org.com/articles/working-with-sql-data-bases.html">mlr3db</a>) to a <code>data.table</code> backend. This special use case will be explained in more detail in a designated article.</p>
+</div>
+</div>
 </div>
   </div>
 
@@ -424,7 +491,15 @@
 <li><a href="#predefined-tasks">Predefined tasks</a></li>
       <li><a href="#task-creation">Task Creation</a></li>
       <li><a href="#column-roles">Column Roles</a></li>
-      <li><a href="#row-roles">Row roles</a></li>
+      <li><a href="#row-roles">Row Roles</a></li>
+      <li>
+<a href="#task-mutation">Task Mutation</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#filter">$filter()</a></li>
+      <li><a href="#select">$select()</a></li>
+      <li><a href="#rbind-cbind">$rbind(), $cbind()</a></li>
+      <li><a href="#overwrite">$overwrite()</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>
