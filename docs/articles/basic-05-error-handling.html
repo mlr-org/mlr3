@@ -146,14 +146,12 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.debug"</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(learner)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Learner 'classif.debug' for classif</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Parameters: list()</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Feature types: logical,integer,numeric,character,factor,ordered</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; Public: clone(), fallback, feature_types, hash, id, model,</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;   packages, param_set, param_vals, params_predict, params_train,</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;   predict_type, predict_types, predict(), properties, task_type,</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;   train()</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; &lt;LearnerClassifDebug&gt; (classif.debug)</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Public: clone(), fallback, feature_types, hash, id, model,</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt;   packages, param_set, param_vals, params_predict, params_train,</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt;   predict_type, predict_types, predict(), properties, task_type,</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;   train()</span></a></code></pre></div>
 <p>The hyperparameters let us control (a) what conditions should be signaled (message, warning, error), and (b) during which stage (train or predict). Additionally, we can tell the learner to provoke a segfault which tears down the complete R session. With its default settings, it will do nothing special: it learns a random label and which is used to create constant predictions.</p>
 </div>
 <div id="no-error-handling" class="section level1">

@@ -178,6 +178,7 @@ t$nrow
 t$ncol
 t$feature_types
 t$formula
+t$groups
 t$hash
 #
 t$filter(rows)
@@ -231,8 +232,10 @@ To alter the role, use <code>set_row_role()</code>.</p></li>
 can have a specific mutually exclusive role in the learning task:</p><ul>
 <li><p><code>"feature"</code>: Regular feature.</p></li>
 <li><p><code>"target"</code>: Column with target labels.</p></li>
-<li><p><code>"ignore"</code>: Do not these features at all.</p></li>
-<li><p><code>"primary_key"</code>: Name of the primary id column used in <a href='DataBackend.html'>DataBackend</a>.
+<li><p><code>"order"</code>: Returned data is ordered by these column(s).</p></li>
+<li><p><code>"group"</code>: During resampling, observations with the same value of the variable
+listed in <code>"group"</code> are marked as "belonging together". They will be assigned
+jointly to be either in the training set or the test set.
 To alter the role, use <code>set_col_role()</code>.</p></li>
 </ul></li>
 <li><p><code>$col_info</code> (<code>data.table</code>) with columns <code>id</code>, and <code>type</code> and <code>levels</code>.
@@ -260,6 +263,7 @@ The column names of the returned <code>data.table</code> equals the primary key 
 <li><p><code>$feature_types</code> [<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>) returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
 features of the task and <code>type</code> is the storage type.</p></li>
 <li><p><code>$formula</code> constructs a <a href='https://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>.</p></li>
+<li><p><code>$groups</code> returns a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> with two columns: the row ids and the grouping / blocking information.</p></li>
 <li><p><code>$filter()</code> reduces the task, subsetting it to only the rows specified.</p></li>
 <li><p><code>$select()</code> reduces the task, subsetting it to only the columns specified.</p></li>
 <li><p><code>$rbind()</code> extends the task with additional rows.</p></li>

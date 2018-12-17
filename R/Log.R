@@ -7,7 +7,8 @@
 #' ```
 #' # Construction
 #' l = Log$new(log = NULL)
-#' #
+#' # Getters
+#' l$log
 #' l$has_condition(cl)
 #' l$warnings
 #' l$errors
@@ -19,7 +20,7 @@
 #' * `log` (`data.table::data.table()`):
 #'   `data.table()` with columns `class` (`character()`) and `message` (`character()`).
 #' * `cl` (`character(1)`):
-#'   Class of a condition. One of "output", "warning", or "error".
+#'   Class of a condition. One of "output", "warning", or "error". #FIXME: missing "message"?
 #'
 #' @section Details:
 #' * `$new(log)` parses the object returned by [evaluate::evaluate()] and creates a new [Log].

@@ -14,6 +14,7 @@ e$train(subset)
 e$predict(subset, newdata)
 e$score(measures = NULL)
 # Getters
+e$ctrl
 e$task
 e$learner
 e$model
@@ -26,6 +27,8 @@ e$timings
 e$logs
 e$state
 e$data
+e$hash
+e$has_errors
 }
 }
 
@@ -80,6 +83,8 @@ If the experiment is constructed manually (i.e., not via \code{\link[=resample]{
 \item performance (\code{named numeric}). Performance values are returned by the measures.
 \item score_time (\code{numeric(1)}). Elapsed time in microseconds.
 }
+
+FIXME: Missing: has_errors, hash, ctrl
 }
 }
 

@@ -7,13 +7,20 @@
 This is the object returned by \code{\link[=benchmark]{benchmark()}}.
 }
 \section{Usage}{
-\preformatted{bmr$tasks
+\preformatted{# Construction
+bmr$new(data)
+# Getters
+bmr$data
+bmr$tasks
 bmr$learners
 bmr$resamplings
 bmr$measures
 bmr$aggregated
 bmr$resample_results
 bmr$resample_result(hash)
+bmr$combine(bmr)
+bmr$get_best(measure)
+# S3 methods
 as.data.table(bmr)
 }
 }
@@ -21,16 +28,21 @@ as.data.table(bmr)
 \section{Arguments}{
 
 \itemize{
+\item \code{data} ():\cr
+Argument of initialize.
 \item \code{hash} (\code{character(1)}):\cr
 String which identifies a subgroup to extract as \link{ResampleResult}.
 \item \code{bmr} (\link{BenchmarkResult}):\cr
 String which identifies a subgroup to extract as \link{ResampleResult}.
+\item \code{measure} ():\cr
+Argument of get_best
 }
 }
 
 \section{Details}{
 
 \itemize{
+\item \code{$data} ???
 \item \code{$tasks}, \code{$learners}, \code{$resamplings} and \code{$measures} return an overview table of involved objects.
 \item \code{$aggregated} returns aggregated performance measures as a \code{\link[data.table:data.table]{data.table::data.table()}}.
 Experiments are aggregated by their resample result group

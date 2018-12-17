@@ -9,7 +9,8 @@ This is the object returned by \code{\link[=resample]{resample()}}.
 \section{Usage}{
 \preformatted{# Construction
 rr = ResampleResult$new(data, hash = NULL)
-#
+# Getters
+rr$data
 rr$task
 rr$learner
 rr$resampling
@@ -20,6 +21,9 @@ rr$experiments(iters)
 rr$combine(rr)
 rr$aggregated
 rr$hash
+rr$errors
+rr$print()
+# S3 methods
 as.data.table(bmr)
 }
 }
@@ -55,6 +59,7 @@ Second \link{ResampleResult}.
 \item \code{$combine()} takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
 \item \code{$aggregated} (named \code{numeric()}) returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
 \item \code{$hash} (\code{character(1))} stores a hash for the combination of task, learner and resampling.
+\item \code{$errors} FIXME ???
 \item \code{as.data.table()} converts the \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }

@@ -18,7 +18,7 @@
 #' d$add(value)
 #' d$get(key)
 #' d$mget(keys)
-#' d$has(key)
+#' d$has(keys)
 #' d$remove(key, value)
 #' d$remove(keys)
 #' # S3 methods
@@ -41,7 +41,7 @@
 #' * `$keys()` (`character()`) returns a vector with all keys (or all keys matching `pattern`).
 #' * `$get()` retrieves a single object with key `key` (or raises an exception).
 #' * `$mget()` (named `list`) creates a list of objects with keys `keys` (or raises an exception).
-#' * `$has()` (`logical()`) is `TRUE` if `key` is present in the Dictionary.
+#' * `$has()` (`logical()`) returns a named logical of the same length as `keys` with value `TRUE` if the respective key is found in the Dictionary.
 #' * `$add()` adds item `value` with key `key` to the Dictionary.
 #' * `$remove()` removes item with key `key` from the Dictionary.
 #' * `as.data.frame()` and `as.data.table()` give a summarizing overview as `data.frame` or `data.table`, respectively.
@@ -75,9 +75,9 @@ Dictionary = R6Class("Dictionary",
       keys
     },
 
-    has = function(key) {
-      assert_id(key)
-      exists(key, envir = self$items, inherits = FALSE)
+    has = function(keys) {
+      assert_character(keys, any.missing = FALSE)
+      set_names(map_lgl(keys, exists, envir = self$items, inherits = FALSE), keys)
     },
 
     add = function(key, value) {
@@ -136,3 +136,4 @@ as.data.table.Dictionary = function(x, ...) {
 as.data.frame.Dictionary = function(x, ...) {
   setDF(as.data.table(x))[]
 }
+
