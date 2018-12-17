@@ -8,15 +8,14 @@ Predefined measures are stored in \link{mlr_measures}.
 }
 \section{Usage}{
 \preformatted{# Construction
-m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
-m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
-m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
+m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
+m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
+m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
 #
 m$id
 m$packages
 m$task_type
 m$task_properties
-m$learner_properties
 m$calculate(e)
 m$range
 m$minimize
@@ -37,8 +36,6 @@ Set to \code{TRUE} if good predictions correspond to small values.
 Required predict type of the \link{Learner}.
 \item \code{task_properties} (\code{character()}):\cr
 Required task properties, see \link{Task}.
-\item \code{learner_properties} (\code{character()}):\cr
-Required learner properties, see \link{Learner}.
 \item \code{packages} (\code{character()}):\cr
 Set of required packages.
 \item \code{e} (\link{Experiment}):\cr
@@ -56,7 +53,6 @@ Performance object returned by \link{resample} to be aggregated.
 \item \code{$packages} (\code{character()}) stores the set of required packages.
 \item \code{$task_type} (\code{character()}) stores the class names of tasks this measure can operate on.
 \item \code{$task_properties} (\code{character()}) defines a set of required task properties.
-\item \code{$learner_properties} (\code{character()}) defines a set of required learner properties.
 \item \code{$range} (\code{numeric(2)}) stores the numeric range of feasible measure values.
 \item \code{$minimize} (\code{logical(1)}) indicates if the good values are reached via minimization.
 \item \code{$calculate} (\code{function(e)}) does the actual work.

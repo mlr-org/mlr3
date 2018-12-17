@@ -11,7 +11,9 @@ did_you_mean = function(str, candidates) {
   D = set_names(adist(str, candidates, ignore.case = TRUE, partial = TRUE)[1L, ], candidates)
   suggested = names(head(sort(D[D <= ceiling(0.2 * nchar(str))]), 3L))
 
-  if (length(suggested)) sprintf(" Did you mean %s?", paste0("'", suggested, "'", collapse = " / ")) else ""
+  if (!length(suggested))
+    return("")
+  sprintf(" Did you mean %s?", str_collapse(suggested, quote = "'", sep = " / "))
 }
 
 # updating join:

@@ -66,7 +66,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
       self$formats = assert_subset(formats, mlr_reflections$backend_formats, empty.ok = FALSE)
     },
     print = function() {
-      catf("DataBackend <%s> (%ix%i)", class(self)[1L], self$nrow, self$ncol)
+      catf("<%s> (%ix%i)", class(self)[1L], self$nrow, self$ncol)
       catf(str_indent("\nPublic: ", str_r6_interface(self)))
       print(self$head(6L))
     }

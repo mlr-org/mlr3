@@ -4,7 +4,7 @@ str_r6_interface = function(x) {
       return("active_binding")
     if (is.function(x[[name]]))
       return("method")
-    return("slot")
+    return("field")
   }
 
   public = setdiff(ls(x), c("initialize", "print", "format", "finalize"))

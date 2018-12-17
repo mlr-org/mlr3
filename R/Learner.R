@@ -106,10 +106,11 @@ Learner = R6Class("Learner",
 
     train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
     predict = function(...) stopf("Method not implemented, should have been overloaded during construction"),
+
     print = function(...) {
-      catf("Learner '%s' for %s", self$id, self$task_type)
-      catf("Parameters: %s", as_short_string(self$param_vals, 1000L))
-      catf("Feature types: %s", paste0(self$feature_types, collapse = ","))
+      catf("<%s> (%s)", class(self)[1L], self$id)
+      str_indent("Parameters:", as_short_string(self$param_vals, 1000L))
+      str_indent("Feature types:", self$feature_types)
       catf(str_indent("\nPublic:", str_r6_interface(self)))
     }
   ),

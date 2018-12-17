@@ -57,7 +57,7 @@ assert_measure = function(measure, task = NULL, prediction = NULL) {
     miss = setdiff(measure$task_properties, task$properties)
     if (length(miss))
       stopf("Measure '%s' needs task properties: %s",
-        measure$id, paste0(miss, collapse = ", "))
+        measure$id, str_collapse(miss))
   }
 
   if (!is.null(prediction)) {
