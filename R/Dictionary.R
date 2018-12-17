@@ -136,3 +136,4 @@ as.data.table.Dictionary = function(x, ...) {
 as.data.frame.Dictionary = function(x, ...) {
   setDF(as.data.table(x))[]
 }
+

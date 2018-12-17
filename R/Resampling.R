@@ -8,14 +8,15 @@
 #' @section Usage:
 #' ```
 #' # Construction
-#' r = Resampling$new(id)
-#' #
+#' r = Resampling$new(id) # FIXME: param_set, param_vals?
+#' # Getters
 #' r$id
 #' r$iters
 #' r$param_set
 #' r$param_vals
 #' r$instantiate(task)
 #' r$is_instantiated
+#' r$has_duplicates
 #' r$instance
 #' r$stratify
 #' r$train_set(i)
@@ -29,6 +30,8 @@
 #'
 #' * `i` (`integer(1)`):\cr
 #'   Get the `i`-th training/test set.
+#'
+#' missing: FIXME param_set param_vals
 #'
 #' @section Details:
 #' * `$new()` creates a new object of class [Resampling].
@@ -45,6 +48,8 @@
 #' * `$instantiate` materializes fixed training and test splits for a given task.
 #'
 #' * `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
+#'
+#' * `$has_duplicates` FIXME ???
 #'
 #' * `$instance` stores the instantiated realization of the resampling. This is an arbitrary object, do
 #'   not work directly with it. Instead, use `$train_set()` and `$test_set()`.
@@ -91,7 +96,7 @@
 #' r$stratify = task$target_names # stratify on target column
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
-#' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
+#' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
 NULL
 
 #' @export
