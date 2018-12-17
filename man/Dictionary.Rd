@@ -21,7 +21,7 @@ d$keys(pattern)
 d$add(value)
 d$get(key)
 d$mget(keys)
-d$has(key)
+d$has(keys)
 d$remove(key, value)
 d$remove(keys)
 # S3 methods
@@ -51,7 +51,7 @@ Vector of keys.
 \item \code{$keys()} (\code{character()}) returns a vector with all keys (or all keys matching \code{pattern}).
 \item \code{$get()} retrieves a single object with key \code{key} (or raises an exception).
 \item \code{$mget()} (named \code{list}) creates a list of objects with keys \code{keys} (or raises an exception).
-\item \code{$has()} (\code{logical()}) is \code{TRUE} if \code{key} is present in the Dictionary.
+\item \code{$has()} (\code{logical()}) returns a named logical of the same length as \code{keys} with value \code{TRUE} if the respective key is found in the Dictionary.
 \item \code{$add()} adds item \code{value} with key \code{key} to the Dictionary.
 \item \code{$remove()} removes item with key \code{key} from the Dictionary.
 \item \code{as.data.frame()} and \code{as.data.table()} give a summarizing overview as \code{data.frame} or \code{data.table}, respectively.
