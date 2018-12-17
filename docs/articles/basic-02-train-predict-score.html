@@ -185,7 +185,7 @@
 <div id="training" class="section level2">
 <h2 class="hasAnchor">
 <a href="#training" class="anchor"></a>Training</h2>
-<p>To train the learner on the task, we need to call the train function of the experiment and specify :</p>
+<p>To train the learner on the task, we need to call the train function of the experiment:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">subset =</span> train.set)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
@@ -199,7 +199,7 @@
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs,</span></a>
 <a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;   model, performance, predict(), prediction, score(), state, task,</span></a>
 <a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;   test_set, timings, train_set, train(), validation_set</span></a></code></pre></div>
-<p>The printer indicates that the <code>Experiment</code> object has been modified (its state is now <code>[trained]</code>) and has also been extended, since the object now includes a <code>rpart</code> model:</p>
+<p>The printer indicates that the <code>Experiment</code> object was modified (its state is now <code>[trained]</code>) and was also extended, since the object now includes a <code>rpart</code> model:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">rpart.model =<span class="st"> </span>e<span class="op">$</span>model</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rpart.model)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; n= 120 </span></a>
@@ -216,7 +216,7 @@
 <div id="predicting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#predicting" class="anchor"></a>Predicting</h2>
-<p>After the training step, we are able to use the experiment to predict on observations of the task (note that you may alternatively also pass new data here as <code>data.frame</code>):</p>
+<p>After the training step, we can use the experiment to predict on observations of the task (note that you may alternatively also pass new data here as <code>data.frame</code>):</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(<span class="dt">subset =</span> test.set)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'classif.rpart' on task 'iris' ...</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
@@ -243,7 +243,7 @@
 <div id="performance-assessment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#performance-assessment" class="anchor"></a>Performance assessment</h2>
-<p>The last step of the experiment is quantifying the predicted labels by comparing them with the true labels using a performance measure. The default measure for the iris classification task is the mean misclassification error which is used here automatically:</p>
+<p>The last step of the experiment is quantifying the performance of the model by comparing the predicted labels with the true labels using a performance measure. The default measure for the iris classification task is the mean misclassification error, which is used here by default:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">task<span class="op">$</span>measures[[1L]]<span class="op">$</span>id</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] "mmce"</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">e<span class="op">$</span><span class="kw">score</span>()</a>
