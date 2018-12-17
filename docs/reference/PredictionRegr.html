@@ -203,6 +203,19 @@ with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as
   <code><a href='Prediction.html'>Prediction</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"bh"</span>)
+<span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"regr.featureless"</span>)
+<span class='no'>learner</span>$<span class='no'>predict_type</span> <span class='kw'>=</span> <span class='st'>"se"</span>
+<span class='no'>e</span> <span class='kw'>=</span> <span class='no'>Experiment</span>$<span class='fu'>new</span>(<span class='no'>task</span>, <span class='no'>learner</span>)$<span class='fu'>train</span>()$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>()</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'regr.featureless' on task 'boston_housing' ...
+#&gt; INFO [mlr3] Predicting with model of learner 'regr.featureless' on task 'boston_housing' ...</div><div class='input'><span class='no'>p</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>prediction</span>
+<span class='no'>p</span>$<span class='no'>predict_types</span></div><div class='output co'>#&gt; [1] "response" "se"      </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>p</span>))</div><div class='output co'>#&gt;    row_id response truth       se
+#&gt; 1:      1 22.53281  24.0 9.197104
+#&gt; 2:      2 22.53281  21.6 9.197104
+#&gt; 3:      3 22.53281  34.7 9.197104
+#&gt; 4:      4 22.53281  33.4 9.197104
+#&gt; 5:      5 22.53281  36.2 9.197104
+#&gt; 6:      6 22.53281  28.7 9.197104</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -215,7 +228,9 @@ with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
