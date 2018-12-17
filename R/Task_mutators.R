@@ -92,7 +92,7 @@ task_cbind = function(self, data) {
   # assert_disjunct
   tmp = setdiff(intersect(self$col_info$id, names(data)), pk)
   if (length(tmp)) {
-    stopf("Cannot cbind task: Duplicated column names: %s", stri_head(tmp))
+    stopf("Cannot cbind task: Duplicated column names: %s", str_collapse(tmp))
   }
 
   # 2. Update col_info
@@ -121,7 +121,7 @@ task_overwrite = function(self, data) {
   ## 1.2 Check that there are no extra column names in data
   tmp = setdiff(names(data), self$col_info$id)
   if (length(tmp))
-    stopf("Cannot overwrite task: Extra columns found: %s", stri_head(tmp))
+    stopf("Cannot overwrite task: Extra columns found: %s", str_collapse(tmp))
 
   ## 1.3 Check that types are matching
   check_matching_types(self$col_info, col_info(data, primary_key = pk))

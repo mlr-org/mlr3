@@ -34,7 +34,7 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
 
       i = which(targets %nin% self$col_roles$feature)
       if (length(i))
-        stopf("Target columns %s not in DataBackend", stri_head(targets[i]))
+        stopf("Target columns %s not in DataBackend", str_collapse(targets[i], quote = "'"))
 
       self$col_roles$target = targets
       self$col_roles$feature = setdiff(self$col_roles$feature, targets)
