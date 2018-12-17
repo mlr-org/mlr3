@@ -160,14 +160,15 @@ Predefined resamplings are stored in mlr_resamplings." />
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
-r = Resampling$new(id)
-#
+r = Resampling$new(id) # FIXME: param_set, param_vals?
+# Getters
 r$id
 r$iters
 r$param_set
 r$param_vals
 r$instantiate(task)
 r$is_instantiated
+r$has_duplicates
 r$instance
 r$stratify
 r$train_set(i)
@@ -184,6 +185,7 @@ identifier for this object.</p></li>
 <li><p><code>i</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>):<br />
 Get the <code>i</code>-th training/test set.</p></li>
 </ul>
+    <p>missing: FIXME param_set param_vals</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -197,6 +199,7 @@ Get the <code>i</code>-th training/test set.</p></li>
 You can set parameters by assigning a named list of new parameters to this slot.</p></li>
 <li><p><code>$instantiate</code> materializes fixed training and test splits for a given task.</p></li>
 <li><p><code>$is_instantiated</code> returns <code>TRUE</code> if the resampling has been instantiated, and <code>FALSE</code> otherwise.</p></li>
+<li><p><code>$has_duplicates</code> FIXME ???</p></li>
 <li><p><code>$instance</code> stores the instantiated realization of the resampling. This is an arbitrary object, do
 not work directly with it. Instead, use <code>$train_set()</code> and <code>$test_set()</code>.</p></li>
 <li><p><code>$stratify</code> can be set to column names of the <a href='Task.html'>Task</a> which will be used for stratification during instantiation.</p></li>
@@ -264,7 +267,7 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 #&gt;   is_instantiated, iters, param_set, param_vals, stratify, test_set,
 #&gt;   train_set</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 
-#&gt; 0.6504854 0.3495146 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
+#&gt; 0.6504854 0.3495146 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion # FIXME why two times?</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 
 #&gt; 0.6504854 0.3495146 </div></pre>
   </div>

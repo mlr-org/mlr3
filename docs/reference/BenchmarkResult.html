@@ -157,13 +157,20 @@
         
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>bmr$tasks
+    <pre># Construction
+bmr$new(data)
+# Getters
+bmr$data
+bmr$tasks
 bmr$learners
 bmr$resamplings
 bmr$measures
 bmr$aggregated
 bmr$resample_results
 bmr$resample_result(hash)
+bmr$combine(bmr)
+bmr$get_best(measure)
+# S3 methods
 as.data.table(bmr)
 </pre>
     
@@ -171,16 +178,21 @@ as.data.table(bmr)
 
     
     <ul>
+<li><p><code>data</code> ():<br />
+Argument of initialize.</p></li>
 <li><p><code>hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
 String which identifies a subgroup to extract as <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
 <li><p><code>bmr</code> (BenchmarkResult):<br />
 String which identifies a subgroup to extract as <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
+<li><p><code>measure</code> ():<br />
+Argument of get_best</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
     <ul>
+<li><p><code>$data</code> ???</p></li>
 <li><p><code>$tasks</code>, <code>$learners</code>, <code>$resamplings</code> and <code>$measures</code> return an overview table of involved objects.</p></li>
 <li><p><code>$aggregated</code> returns aggregated performance measures as a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.
 Experiments are aggregated by their resample result group
