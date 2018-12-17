@@ -29,7 +29,7 @@ expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
 expect_backend = function(b) {
   checkmate::expect_r6(b, cloneable = FALSE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
   checkmate::expect_subset(b$formats, mlr3::mlr_reflections$backend_formats, empty.ok = FALSE)
-  testthat::expect_output(print(b), "^DataBackend")
+  testthat::expect_output(print(b), "^<DataBackend")
 
   n = checkmate::expect_count(b$nrow)
   p = checkmate::expect_count(b$ncol)
@@ -277,7 +277,7 @@ expect_resampling = function(r, task = NULL) {
 }
 
 expect_measure = function(m) {
-  checkmate::expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type", "task_properties", "learner_properties"))
+  checkmate::expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type", "task_properties"))
 
   expect_id(m$id)
   checkmate::expect_subset(m$task_type, c(NA_character_, mlr3::mlr_reflections$task_types), empty.ok = FALSE)
