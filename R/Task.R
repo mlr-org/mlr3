@@ -26,6 +26,7 @@
 #' t$ncol
 #' t$feature_types
 #' t$formula
+#' t$groups
 #' t$hash
 #' #
 #' t$filter(rows)
@@ -75,8 +76,10 @@
 #'   can have a specific mutually exclusive role in the learning task:
 #'   - `"feature"`: Regular feature.
 #'   - `"target"`: Column with target labels.
-#'   - `"ignore"`: Do not these features at all.
-#'   - `"primary_key"`: Name of the primary id column used in [DataBackend].
+#'   - `"order"`: Returned data is ordered by these column(s).
+#'   - `"group"`: During resampling, observations with the same value of the variable
+#'        listed in `"group"` are marked as "belonging together". They will be assigned
+#'        jointly to be either in the training set or the test set.
 #'   To alter the role, use `set_col_role()`.
 #'
 #' * `$col_info` (`data.table`) with columns `id`, and `type` and `levels`.
@@ -117,6 +120,8 @@
 #'   features of the task and `type` is the storage type.
 #'
 #' * `$formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
+#'
+#' * `$groups` returns a [`data.table::data.table()`] with two columns: the row ids and the grouping / blocking information.
 #'
 #' * `$filter()` reduces the task, subsetting it to only the rows specified.
 #'
@@ -306,7 +311,14 @@ Task = R6Class("Task",
       f = reformulate(self$feature_names, response = tn)
       environment(f) = NULL
       f
-    }
+    },
+
+     groups = function() {
+       grp = self$col_roles$group
+       if (length(grp) == 0L)
+         return(NULL)
+       self$backend$data(self$row_roles$use, c(self$backend$primary_key, grp))
+     }
   ),
 
   private = list(

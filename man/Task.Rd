@@ -28,6 +28,7 @@ t$nrow
 t$ncol
 t$feature_types
 t$formula
+t$groups
 t$hash
 #
 t$filter(rows)
@@ -83,8 +84,10 @@ can have a specific mutually exclusive role in the learning task:
 \itemize{
 \item \code{"feature"}: Regular feature.
 \item \code{"target"}: Column with target labels.
-\item \code{"ignore"}: Do not these features at all.
-\item \code{"primary_key"}: Name of the primary id column used in \link{DataBackend}.
+\item \code{"order"}: Returned data is ordered by these column(s).
+\item \code{"group"}: During resampling, observations with the same value of the variable
+listed in \code{"group"} are marked as "belonging together". They will be assigned
+jointly to be either in the training set or the test set.
 To alter the role, use \code{set_col_role()}.
 }
 \item \code{$col_info} (\code{data.table}) with columns \code{id}, and \code{type} and \code{levels}.
@@ -112,6 +115,7 @@ The column names of the returned \code{data.table} equals the primary key column
 \item \code{$feature_types} [\code{data.table::data.table()}) returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
 features of the task and \code{type} is the storage type.
 \item \code{$formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
+\item \code{$groups} returns a \code{\link[data.table:data.table]{data.table::data.table()}} with two columns: the row ids and the grouping / blocking information.
 \item \code{$filter()} reduces the task, subsetting it to only the rows specified.
 \item \code{$select()} reduces the task, subsetting it to only the columns specified.
 \item \code{$rbind()} extends the task with additional rows.
