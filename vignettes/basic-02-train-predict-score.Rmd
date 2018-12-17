@@ -60,14 +60,14 @@ The printer shows a summary of the state of the experiment, which is currently `
 
 ## Training
 
-To train the learner on the task, we need to call the train function of the experiment and specify :
+To train the learner on the task, we need to call the train function of the experiment:
 
 ```{r}
 e$train(subset = train.set)
 print(e)
 ```
 
-The printer indicates that the `Experiment` object has been modified (its state is now `[trained]`) and has also been extended, since the object now includes a `rpart` model:
+The printer indicates that the `Experiment` object was modified (its state is now `[trained]`) and was also extended, since the object now includes a `rpart` model:
 
 ```{r}
 rpart.model = e$model
@@ -76,7 +76,7 @@ print(rpart.model)
 
 ## Predicting
 
-After the training step, we are able to use the experiment to predict on observations of the task (note that you may alternatively also pass new data here as `data.frame`):
+After the training step, we can use the experiment to predict on observations of the task (note that you may alternatively also pass new data here as `data.frame`):
 
 ```{r}
 e$predict(subset = test.set)
@@ -91,8 +91,8 @@ head(as.data.table(e$prediction))
 
 ## Performance assessment
 
-The last step of the experiment is quantifying the predicted labels by comparing them with the true labels using a performance measure.
-The default measure for the iris classification task is the mean misclassification error which is used here automatically:
+The last step of the experiment is quantifying the performance of the model by comparing the predicted labels with the true labels using a performance measure.
+The default measure for the iris classification task is the mean misclassification error, which is used here by default:
 
 ```{r}
 task$measures[[1L]]$id
