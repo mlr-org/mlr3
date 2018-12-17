@@ -158,15 +158,14 @@
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
-m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
-m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
-m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), learner_properties = character(0L), packages = character(0L))
+m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
+m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
+m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
 #
 m$id
 m$packages
 m$task_type
 m$task_properties
-m$learner_properties
 m$calculate(e)
 m$range
 m$minimize
@@ -187,8 +186,6 @@ Set to <code>TRUE</code> if good predictions correspond to small values.</p></li
 Required predict type of the <a href='Learner.html'>Learner</a>.</p></li>
 <li><p><code>task_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
 Required task properties, see <a href='Task.html'>Task</a>.</p></li>
-<li><p><code>learner_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
-Required learner properties, see <a href='Learner.html'>Learner</a>.</p></li>
 <li><p><code>packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
 Set of required packages.</p></li>
 <li><p><code>e</code> (<a href='Experiment.html'>Experiment</a>):<br />
@@ -206,7 +203,6 @@ Performance object returned by <a href='resample.html'>resample</a> to be aggreg
 <li><p><code>$packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the set of required packages.</p></li>
 <li><p><code>$task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the class names of tasks this measure can operate on.</p></li>
 <li><p><code>$task_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) defines a set of required task properties.</p></li>
-<li><p><code>$learner_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) defines a set of required learner properties.</p></li>
 <li><p><code>$range</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code>) stores the numeric range of feasible measure values.</p></li>
 <li><p><code>$minimize</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) indicates if the good values are reached via minimization.</p></li>
 <li><p><code>$calculate</code> (<code>function(e)</code>) does the actual work.</p></li>
@@ -221,21 +217,11 @@ Operates on a <a href='ResampleResult.html'>ResampleResult</a> as returned by <a
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"mmce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifMMCE&gt;
-#&gt;   Inherits from: &lt;MeasureClassif&gt;
-#&gt;   Public:
-#&gt;     aggregate: function (rr) 
-#&gt;     calculate: function (e) 
-#&gt;     clone: function (deep = FALSE) 
-#&gt;     id: mmce
-#&gt;     initialize: function (id = "mmce") 
-#&gt;     learner_properties: 
-#&gt;     minimize: TRUE
-#&gt;     packages: Metrics
-#&gt;     predict_type: response
-#&gt;     range: 0 1
-#&gt;     task_properties: 
-#&gt;     task_type: classif</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"mmce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifMMCE&gt; for classif
+#&gt; Packages: Metrics
+#&gt; Range: [0, 1]
+#&gt; Minimize: TRUE
+#&gt; Predict type: response</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
