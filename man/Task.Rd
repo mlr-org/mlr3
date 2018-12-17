@@ -9,33 +9,36 @@ This is the abstract base class for task objects like \link{TaskClassif} and \li
 \section{Usage}{
 \preformatted{# Construction
 t = Task$new(id, backend, task_type)
-#
-t$id
-t$task_type
+
+# Accessors
 t$backend
-t$row_roles
 t$col_info
-t$set_row_role(rows, new_roles, exclusive = TRUE)
-t$set_col_role(cols, new_roles, exclusive = TRUE)
-t$measures
-t$data(rows = NULL, cols = NULL)
-t$head(n = 6)
-t$levels(col)
-t$row_ids
 t$features_names
-t$target_names
-t$nrow
-t$ncol
 t$feature_types
 t$formula
 t$groups
 t$hash
-#
-t$filter(rows)
-t$select(cols)
-t$rbind(data)
+t$id
+t$measures
+t$ncol
+t$nrow
+t$row_ids
+t$row_roles
+t$target_names
+t$task_type
+
+t$data(rows = NULL, cols = NULL)
+t$head(n = 6)
+t$levels(col)
+t$set_col_role(cols, new_roles, exclusive = TRUE)
+t$set_row_role(rows, new_roles, exclusive = TRUE)
+
+# Mutators
 t$cbind(data)
+t$filter(rows)
 t$overwrite(data)
+t$rbind(data)
+t$select(cols)
 }
 }
 
@@ -66,19 +69,16 @@ If \code{TRUE}, the cols/rows will be removed from all roles except \code{new_ro
 }
 }
 
-\section{Details}{
+\section{Methods}{
 
 \itemize{
-\item \code{$new()} initializes a new object of class \link{Task}.
-\item \code{$id} (\code{character(1)}) stores the name of the task.
 \item \code{$backend()} (\link{DataBackend}) stores the \link{DataBackend} of the task.
-\item \code{$row_roles} (\code{list}). Stores the row ids of \link{DataBackend} in vectors of row roles:
-\itemize{
-\item \code{"use"}: Use in training.
-\item \code{"validation"}: Do not use in training, this are (possibly unlabeled) observations
-which are held back unless explicitly addressed.
-To alter the role, use \code{set_row_role()}.
-}
+\item \code{$cbind()} extends the task with additional columns.
+The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
+\item \code{$col_info} (\code{data.table}) with columns \code{id}, and \code{type} and \code{levels}.
+Stores column names of \link{DataBackend} in column \code{id}.
+Column \code{type} stores the storage type of the variables, e.g. \code{integer}, \code{numeric} or \code{character}.
+Column \code{levels} stores the levels for factor and character variables.
 \item \code{$col_roles} (\code{list}). Each column (feature)
 can have a specific mutually exclusive role in the learning task:
 \itemize{
@@ -88,42 +88,45 @@ can have a specific mutually exclusive role in the learning task:
 \item \code{"group"}: During resampling, observations with the same value of the variable
 listed in \code{"group"} are marked as "belonging together". They will be assigned
 jointly to be either in the training set or the test set.
-To alter the role, use \code{set_col_role()}.
+To alter the role, use \code{set_col_role()}
 }
-\item \code{$col_info} (\code{data.table}) with columns \code{id}, and \code{type} and \code{levels}.
-Stores column names of \link{DataBackend} in column \code{id}.
-Column \code{type} stores the storage type of the variables, e.g. \code{integer}, \code{numeric} or \code{character}.
-Column \code{levels} stores the levels for factor and character variables.
-\item \code{$set_row_role()} sets the role for specified rows, referenced by row id.
-If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
-\item \code{$set_col_role()} sets the role for specified columns, referenced by name.
-If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
-\item \code{$measures} (\code{list} of \link{Measure}) stores the default measures for this task.
 \item \code{$data()} is used to retrieve data from the backend as \code{data.table}.
 Rows are subsetted to only contain observations with \code{role == "use"}.
 Columns are filtered to only contain features with \code{role \%in\% c("target", "feature")}.
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
-\item \code{$head()} (\code{\link[data.table:data.table]{data.table::data.table()}}) can be used to peek into the first \code{n} observations with \code{role == "use"}.
-\item \code{$levels()} (\code{character()}) queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
-This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
-\item \code{$row_ids} (\code{data.table()}] returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
-The column names of the returned \code{data.table} equals the primary key column in the \link{DataBackend}.
 \item \code{$feature_names} (\code{character()}) returns all column names with \code{role == "feature"}.
-\item \code{$target_names} (\code{character()}) returns all column names with \code{role == "target"}.
-\item \code{$nrow} (\code{integer(1)}) provides the total number of rows with \code{role == "use"}.
-\item \code{$ncol} (\code{integer(1)}) provides the total number of cols with \code{role \%in\% c("target", "feature")}.
 \item \code{$feature_types} [\code{data.table::data.table()}) returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
 features of the task and \code{type} is the storage type.
+\item \code{$filter()} reduces the task, subsetting it to only the rows specified.
 \item \code{$formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
 \item \code{$groups} returns a \code{\link[data.table:data.table]{data.table::data.table()}} with two columns: the row ids and the grouping / blocking information.
-\item \code{$filter()} reduces the task, subsetting it to only the rows specified.
-\item \code{$select()} reduces the task, subsetting it to only the columns specified.
-\item \code{$rbind()} extends the task with additional rows.
-\item \code{$cbind()} extends the task with additional columns.
-The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
+\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{row_roles} and \code{col_roles}.
+\item \code{$head()} (\code{\link[data.table:data.table]{data.table::data.table()}}) can be used to peek into the first \code{n} observations with \code{role == "use"}.
+\item \code{$new()} initializes a new object of class \link{Task}.
+\item \code{$id} (\code{character(1)}) stores the name of the task.
+\item \code{$levels()} (\code{character()}) queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
+This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
+\item \code{$measures} (\code{list} of \link{Measure}) stores the default measures for this task.
+\item \code{$ncol} (\code{integer(1)}) provides the total number of cols with \code{role \%in\% c("target", "feature")}.
+\item \code{$nrow} (\code{integer(1)}) provides the total number of rows with \code{role == "use"}.
 \item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[data.table:data.table]{data.table::data.table()}}.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
-\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{row_roles} and \code{col_roles}.
+\item \code{$rbind()} extends the task with additional rows.
+\item \code{$row_ids} (\code{data.table()}] returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
+The column names of the returned \code{data.table} equals the primary key column in the \link{DataBackend}.
+\item \code{$row_roles} (\code{list}). Stores the row ids of \link{DataBackend} in vectors of row roles:
+\itemize{
+\item \code{"use"}: Use in training.
+\item \code{"validation"}: Do not use in training, this are (possibly unlabeled) observations
+which are held back unless explicitly addressed.
+To alter the role, use \code{set_row_role()}.
+}
+\item \code{$select()} reduces the task, subsetting it to only the columns specified.
+\item \code{$set_col_role()} sets the role for specified columns, referenced by name.
+If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
+\item \code{$set_row_role()} sets the role for specified rows, referenced by row id.
+If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
+\item \code{$target_names} (\code{character()}) returns all column names with \code{role == "target"}.
 }
 }
 
