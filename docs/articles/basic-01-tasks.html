@@ -171,8 +171,8 @@
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Public: all_classes, backend, cbind(), class_n, class_names,</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   clone(), col_info, col_roles, data(), feature_names,</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   feature_types, filter(), formula, hash, head(), id, levels(),</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;   measures, ncol, negative, nrow, overwrite(), positive,</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   feature_types, filter(), formula, groups, hash, head(), id,</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;   levels(), measures, ncol, negative, nrow, overwrite(), positive,</span></a>
 <a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;   properties, rbind(), row_ids, row_roles, select(),</span></a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type, truth()</span></a></code></pre></div>
 <p>Several task properties and characteristics can be queried using the task’s methods (see <code><a href="../reference/Task.html">mlr3::Task</a></code>). Most of them should be self-explanatory.</p>
@@ -252,10 +252,10 @@
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; Features: cyl, disp</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; Public: backend, cbind(), clone(), col_info, col_roles, data(),</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;   feature_names, feature_types, filter(), formula, hash, head(),</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   id, levels(), measures, ncol, nrow, overwrite(), properties,</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;   rbind(), row_ids, row_roles, select(), set_col_role(),</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;   set_row_role(), target_names, task_type, truth()</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;   feature_names, feature_types, filter(), formula, groups, hash,</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   head(), id, levels(), measures, ncol, nrow, overwrite(),</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;   properties, rbind(), row_ids, row_roles, select(),</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type, truth()</span></a></code></pre></div>
 <p>The rownames of the <code>data.frame</code> <code>cars</code> have been automatically used as <code>row_ids</code>. We can use analogously to integer row ids to filter observations of the task:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">task<span class="op">$</span>row_ids</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;                ..row_id</span></a>
@@ -363,7 +363,10 @@
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; [1] "mpg"</span></a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; $order</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; character(0)</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; character(0)</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; $group</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; character(0)</span></a></code></pre></div>
 <p>As the output shows, the column is <code>"mpg"</code> is the target column and are three features: <code>"rn"</code> (rownames), <code>"cyl"</code>, and <code>"disp"</code>. More roles are documented in the help for tasks.</p>
 <p>In the following we do not want to learn on neither the primary key (which is taken care of <code>mlr3</code>) nor the new column <code>rn</code> with the row names. However, we still might want to carry <code>rn</code> around for different reasons. E.g., we can use the row names in plots or to associate outliers with the row names. This being said, we need to change the role of the rownames column <code>rn</code> and remove it from the set of features.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">task<span class="op">$</span>feature_names</a>
