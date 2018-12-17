@@ -6,6 +6,10 @@
 #' @section Usage:
 #'
 #' ```
+#' # Construction
+#' bmr$new(data)
+#' # Getters
+#' bmr$data
 #' bmr$tasks
 #' bmr$learners
 #' bmr$resamplings
@@ -13,16 +17,25 @@
 #' bmr$aggregated
 #' bmr$resample_results
 #' bmr$resample_result(hash)
+#' bmr$combine(bmr)
+#' bmr$get_best(measure)
+#' # S3 methods
 #' as.data.table(bmr)
 #' ```
 #'
 #' @section Arguments:
+#' * `data` ():\cr
+#'   Argument of initialize.
 #' * `hash` (`character(1)`):\cr
 #'   String which identifies a subgroup to extract as [ResampleResult].
 #' * `bmr` ([BenchmarkResult]):\cr
 #'   String which identifies a subgroup to extract as [ResampleResult].
+#' * `measure` ():\cr
+#'   Argument of get_best
 #'
 #' @section Details:
+#' * `$data` ???
+#'
 #' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects.
 #'
 #' * `$aggregated` returns aggregated performance measures as a [data.table::data.table()].
