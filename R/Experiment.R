@@ -251,7 +251,7 @@ experiment_print = function(self) {
   catf(fmt(self$model, "Model", sprintf("[%s]", class(self$model)[[1L]])))
   catf(fmt(data$prediction, "Predictions", sprintf("[%s]", class(data$prediction)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), signif(as.numeric(data$performance)), sep = "=", collapse = ", ")))
-  catf(str_indent(initial = "\nPublic: ", str_r6_interface(self)))
+  catf(str_indent("\nPublic:", str_r6_interface(self)))
 }
 
 

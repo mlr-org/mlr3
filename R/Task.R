@@ -365,11 +365,11 @@ task_data = function(self, rows = NULL, cols = NULL, format = NULL) {
 
 task_print = function(self) {
   catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
-  catf(str_indent(initial = "Target: ", self$target_names))
-  catf(str_indent(initial = "Features: ", self$feature_names))
+  catf(str_indent("Target:", self$target_names))
+  catf(str_indent("Features:", self$feature_names, n = 100L))
   if (length(self$col_roles$order))
-    catf(str_indent(initial = "Order by: ", self$col_roles$order))
-  catf(str_indent(initial = "\nPublic: ", str_r6_interface(self)))
+    catf(str_indent("Order by:", self$col_roles$order))
+  catf(str_indent("\nPublic:", str_r6_interface(self)))
 }
 
 col_info = function(x, ...) {

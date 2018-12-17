@@ -67,7 +67,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     },
     print = function() {
       catf("DataBackend <%s> (%ix%i)", class(self)[1L], self$nrow, self$ncol)
-      catf(str_indent(initial = "\nPublic: ", str_r6_interface(self)))
+      catf(str_indent("\nPublic: ", str_r6_interface(self)))
       print(self$head(6L))
     }
   ),

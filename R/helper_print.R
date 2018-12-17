@@ -7,7 +7,7 @@ str_r6_interface = function(x) {
     return("slot")
   }
 
-  public = setdiff(ls(x), c("initialize", "print", "format"))
+  public = setdiff(ls(x), c("initialize", "print", "format", "finalize"))
   cats = split(public, map_chr(public, categorize))
   cats$method = paste0(cats$method, "()")
   sort(unlist(cats, use.names = FALSE))
