@@ -9,7 +9,8 @@ Object which stores the output of the \code{train} or \code{predict} step of an 
 \section{Usage}{
 \preformatted{# Construction
 l = Log$new(log = NULL)
-#
+# Getters
+l$log
 l$has_condition(cl)
 l$warnings
 l$errors
@@ -24,7 +25,7 @@ l$print()
 \item \code{log} (\code{data.table::data.table()}):
 \code{data.table()} with columns \code{class} (\code{character()}) and \code{message} (\code{character()}).
 \item \code{cl} (\code{character(1)}):
-Class of a condition. One of "output", "warning", or "error".
+Class of a condition. One of "output", "warning", or "error". #FIXME: missing "message"?
 }
 }
 

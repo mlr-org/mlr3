@@ -10,14 +10,15 @@ Predefined resamplings are stored in \link{mlr_resamplings}.
 }
 \section{Usage}{
 \preformatted{# Construction
-r = Resampling$new(id)
-#
+r = Resampling$new(id) # FIXME: param_set, param_vals?
+# Getters
 r$id
 r$iters
 r$param_set
 r$param_vals
 r$instantiate(task)
 r$is_instantiated
+r$has_duplicates
 r$instance
 r$stratify
 r$train_set(i)
@@ -34,6 +35,8 @@ identifier for this object.
 \item \code{i} (\code{integer(1)}):\cr
 Get the \code{i}-th training/test set.
 }
+
+missing: FIXME param_set param_vals
 }
 
 \section{Details}{
@@ -47,6 +50,7 @@ Get the \code{i}-th training/test set.
 You can set parameters by assigning a named list of new parameters to this slot.
 \item \code{$instantiate} materializes fixed training and test splits for a given task.
 \item \code{$is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
+\item \code{$has_duplicates} FIXME ???
 \item \code{$instance} stores the instantiated realization of the resampling. This is an arbitrary object, do
 not work directly with it. Instead, use \code{$train_set()} and \code{$test_set()}.
 \item \code{$stratify} can be set to column names of the \link{Task} which will be used for stratification during instantiation.
@@ -88,7 +92,7 @@ r = mlr_resamplings$get("subsampling")
 r$stratify = task$target_names # stratify on target column
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
-prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
+prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
 }
 \seealso{
 Other Resampling: \code{\link{mlr_resamplings}}
