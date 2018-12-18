@@ -140,8 +140,7 @@ Resampling = R6Class("Resampling",
     param_vals = function(rhs) {
       if (missing(rhs))
         return(private$.param_vals)
-      self$param_set$check(rhs)
-      private$.param_vals = rhs
+      private$.param_vals = assert_param_vals(rhs, self$param_set)
     },
 
     is_instantiated = function() {

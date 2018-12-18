@@ -109,7 +109,11 @@ assert_param_set = function(param_set) {
 #' @rdname mlr_assertions
 assert_param_vals = function(param_vals, param_set) {
   assert_list(param_vals, names = "unique", any.missing = FALSE)
-  assert_subset(names(param_vals), param_set$ids)
+  param_set$assert(param_vals, .var.name = "param_vals")
+  required = names(which(map_lgl(param_set$tags, is.element, el = "required")))
+  required = setdiff(required, names(param_vals))
+  if (length(required))
+    stopf("Missing required parameters: %s", str_collapse(required))
   param_vals
 }
 
