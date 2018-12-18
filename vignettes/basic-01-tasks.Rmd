@@ -30,7 +30,7 @@ These are stored in a `mlr3::Dictionary`, a simple key-value store, named `mlr3:
 mlr_tasks
 
 # list keys
-mlr_tasks$keys()
+names(mlr_tasks)
 
 # get a quick overview
 as.data.frame(mlr_tasks)
@@ -71,6 +71,8 @@ task$data(rows = c(1, 51, 101))
 task$data(rows = c(1, 51, 101), cols = "Species")
 ```
 
+Note that method `$data()` is only an accesor and does not modify the underlying data/task.
+To do this, please see methods [`$filter()`](basic-01-tasks.html#filter) and [`$select()`](basic-01-tasks.html#select).
 
 ## Task Creation
 
@@ -95,18 +97,20 @@ str(cars)
 Before we can create a regression task, we must create a `mlr3::DataBackend`, an abstraction for data storage system.
 Here, we will stick to the simplest form of data storage: an in-memory table format using `data.table::data.table()`.
 We construct the backend first, and then pass it to the regression task constructor:
+
 ```{r}
 b = as_data_backend(cars)
 task = TaskRegr$new(id = "cars", b, target = "mpg")
 print(task)
 ```
+
 The rownames of the `data.frame` `cars` have been automatically used as `row_ids`.
 We can use analogously to integer row ids to filter observations of the task:
+
 ```{r}
 task$row_ids
 task$data(rows = c("Merc 280", "Volvo 142E"))
 ```
-
 
 ## Column Roles
 
@@ -140,6 +144,7 @@ The different roles are stored as as a list of column name vectors:
 ```{r}
 task$col_roles
 ```
+
 As the output shows, the column is `"mpg"` is the target column and are three features: `"rn"` (rownames), `"cyl"`, and `"disp"`.
 More roles are documented in the help for tasks.
 
@@ -160,7 +165,7 @@ task$data(rows = 1:2)
 task$head(2)
 ```
 
-## Row roles
+## Row Roles
 
 Just like columns, you can also assign different roles to rows.
 Rows can have two different roles:
@@ -190,3 +195,63 @@ task$nrow
 ```
 
 All pre- and post-processing you have used on the training data is also applied to the validation data in exactly the same way.
+
+## Task Mutation
+
+A task can be mutated using methods `filter()`, `select()`, `rbind()`, `cbind()` and `overwrite()`.
+
+The `iris` task is used again to showcase the mutators.
+
+### $filter()
+
+Subsetting based on rows is done with `$filter()`.
+Afterwards we can check the modified task by either quering the `data` slot or by checking the number of rows.
+
+```{r}
+task = mlr_tasks$get("iris")
+
+task$filter(c(10, 50, 99))
+
+task$data()
+task$nrow
+```
+
+### $select()
+
+The equivalent method for subsetting columns is `select()`.
+
+```{r}
+task$feature_names
+
+task$select("Petal.Length")
+
+task$ncol
+```
+
+You might wonder why there are still two columns left even if we selected only one?
+The subsetting only applies to the columns listed as "feature" (`task$col_roles`). 
+The "target" column is not touched.
+
+### $rbind(), $cbind()
+
+These methods add rows or columns to the data set, respectively.
+In the following example we duplicate the rows of the `iris` task (please do not do this in practice):
+
+```{r}
+# init a fresh task
+task = mlr_tasks$get("iris")
+
+task2 = task 
+
+task$rbind(task2$data())
+
+task$nrow
+```
+
+The same logic applies to `$cbind()`.
+
+### $overwrite()
+
+This method can be used to overwrite the `data` slot of an **existing** task.
+This is useful if the [`DataBackend`] should be changed, for example from a database backend (via [mlr3db](https://mlr3db.mlr-org.com/articles/working-with-sql-data-bases.html)) to a `data.table` backend.
+This special use case will be explained in more detail in a designated article.
