@@ -14,5 +14,5 @@ test_that("Basic ops on BostonHousing task", {
 
 test_that("Target is numeric", {
   b = as_data_backend(iris)
-  expect_error(TaskRegr$new("iris", backend = b, target = "Species"), "target column")
+  expect_error(TaskRegr$new("iris", backend = b, target = "Species"), "Target column")
 })
