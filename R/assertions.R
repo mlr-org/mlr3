@@ -109,8 +109,7 @@ assert_param_set = function(param_set) {
 #' @rdname mlr_assertions
 assert_param_vals = function(param_vals, param_set) {
   assert_list(param_vals, names = "unique", any.missing = FALSE)
-  assert_subset(names(param_vals), param_set$ids)
-  param_vals
+  param_set$assert(param_vals)
 }
 
 assert_id = function(id) {
