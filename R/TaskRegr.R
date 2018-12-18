@@ -32,7 +32,7 @@ TaskRegr = R6Class("TaskRegr",
       super$initialize(id = id, task_type = "regr", backend = backend, target = target)
 
       assert_string(target) # check for length 1
-      # assert_numeric(self$truth(), finite = TRUE, any.missing = FALSE, .var.name = "target column")
+      assert_numeric(self$truth(), finite = TRUE, any.missing = FALSE, .var.name = sprintf("target column %s", target))
       self$measures = list(mlr_measures$get("mse"))
     },
 
