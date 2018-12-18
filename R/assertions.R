@@ -110,6 +110,11 @@ assert_param_set = function(param_set) {
 assert_param_vals = function(param_vals, param_set) {
   assert_list(param_vals, names = "unique", any.missing = FALSE)
   param_set$assert(param_vals)
+  required = names(which(map_lgl(param_set$tags, is.element, el = "required")))
+  required = setdiff(required, names(param_vals))
+  if (length(required))
+    stopf("Missing required parameters: %s", str_collapse(required))
+  param_vals
 }
 
 assert_id = function(id) {

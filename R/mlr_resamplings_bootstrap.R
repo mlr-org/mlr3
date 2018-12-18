@@ -32,8 +32,8 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
-            ParamInt$new("repeats", lower = 1L),
-            ParamDbl$new("ratio", lower = 0, upper = 1))
+            ParamInt$new("repeats", lower = 1L, tags = "required"),
+            ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
         ),
         param_vals = list(ratio = 1, repeats = 30L)
       )
