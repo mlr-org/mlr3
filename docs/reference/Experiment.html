@@ -164,6 +164,7 @@ e$train(subset)
 e$predict(subset, newdata)
 e$score(measures = NULL)
 # Getters
+e$ctrl
 e$task
 e$learner
 e$model
@@ -176,6 +177,8 @@ e$timings
 e$logs
 e$state
 e$data
+e$hash
+e$has_errors
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -228,7 +231,8 @@ If the experiment is constructed manually (i.e., not via <code><a href='resample
 <li><p>measures (<code>list</code> of <a href='Measure.html'>Measure</a>). Actually used performance measures.</p></li>
 <li><p>performance (<code>named numeric</code>). Performance values are returned by the measures.</p></li>
 <li><p>score_time (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>). Elapsed time in microseconds.</p></li>
-</ul></li>
+</ul>
+    <p>FIXME: Missing: has_errors, hash, ctrl</p></li>
 </ul>
     
 
