@@ -160,12 +160,11 @@
 <p>In the defaults, <code>mlr3</code> does not handle errors. Thus, the exception raised by the unittest learner stops the execution and can be tracebacked:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.debug"</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## learner$param_vals = list(error_train = TRUE)</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">learner<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">error_train =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">e<span class="op">$</span><span class="kw">train</span>()</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.debug' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/traceback">traceback</a></span>()</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; No traceback available</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Error in fun(task = &lt;environment&gt;): Error from classif.debug-&gt;train()</span></a></code></pre></div>
 </div>
 <div id="encapsulation" class="section level1">
 <h1 class="hasAnchor">
