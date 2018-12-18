@@ -29,7 +29,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     initialize = function(id = "cv") {
       super$initialize(
         id = id,
-        param_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L))),
+        param_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L, tags = "required"))),
         param_vals = list(folds = 10L)
       )
       self$has_duplicates = FALSE

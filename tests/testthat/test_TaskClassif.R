@@ -43,3 +43,8 @@ test_that("Factor levels are preserved in prediction", {
   expect_equal(levels(pred$truth), levels(pred$response))
   expect_numeric(pred$prob.virginica, lower = 0, upper = 0, any.missing = FALSE)
 })
+
+test_that("Target is character/factor", {
+  b = as_data_backend(iris)
+  expect_error(TaskClassif$new("iris", backend = b, target = "Sepal.Length"), "Target column")
+})
