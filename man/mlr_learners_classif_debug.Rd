@@ -22,6 +22,7 @@ The following hyperparameters trigger the following actions:
 \item{error_predict:}{Raises an exception during predict.}
 \item{segfault_train:}{Provokes a segfault during train.}
 \item{segfault_predict:}{Provokes a segfault during predict.}
+\item{x:}{Numeric parameter. Ignored.}
 }
 Note that segfaults may not work on your operating system.
 Also note that if they work, they will tear down your R session immediately!
