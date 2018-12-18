@@ -159,7 +159,8 @@
 
     <pre># Construction
 rr = ResampleResult$new(data, hash = NULL)
-#
+# Getters
+rr$data
 rr$task
 rr$learner
 rr$resampling
@@ -170,6 +171,9 @@ rr$experiments(iters)
 rr$combine(rr)
 rr$aggregated
 rr$hash
+rr$errors
+rr$print()
+# S3 methods
 as.data.table(bmr)
 </pre>
     
@@ -205,6 +209,7 @@ Second ResampleResult.</p></li>
 <li><p><code>$combine()</code> takes a second ResampleResult and combines both ResampleResults to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
 <li><p><code>$aggregated</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric()</a></code>) returns the aggregated performance measures. The aggregation method is part of the <a href='Measure.html'>Measure</a>.</p></li>
 <li><p><code>$hash</code> (<code>character(1))</code> stores a hash for the combination of task, learner and resampling.</p></li>
+<li><p><code>$errors</code> FIXME ???</p></li>
 <li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts the <a href='BenchmarkResult.html'>BenchmarkResult</a> to a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
 </ul>
     
