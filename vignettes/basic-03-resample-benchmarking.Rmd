@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Resampling"
+title: "Introduction to Resampling and Benchmarking"
 author: "Michel Lang"
 output: rmarkdown::html_vignette
 vignette: >
@@ -33,11 +33,15 @@ task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 ```
 
-Additionally, we need to define **how** we want to resample. `mlr3` comes with the following resampling strategies implemented:
+Additionally, we need to define **how** we want to resample. 
+`mlr3` comes with the following resampling strategies implemented:
 
 ```{r}
 mlr_resamplings$keys()
 ```
+
+Additional resampling methods for special use cases will be available via extension packages, such as [mlr3spatiotemporal](https://github.com/mlr-org/mlr3spatiotemporal) for spatial data (still in development).
+
 The experiment conducted in the introduction on train/predict/score is equivalent to a simple "holdout", so let's consider this one first.
 
 ```{r}
@@ -45,6 +49,7 @@ resampling = mlr_resamplings$get("holdout")
 print(resampling)
 print(resampling$param_vals)
 ```
+
 To change the ratio to $0.8$, we simply overwrite the slot:
 
 ```{r}
@@ -60,7 +65,7 @@ rr = resample(task, learner, resampling)
 print(rr)
 ```
 
-Before we go into more detail, lets change the resampling to a 3-fold cross-validation to better illustrate what operations are possible with a resampling result.
+Before we go into more detail, let's change the resampling to a 3-fold cross-validation to better illustrate what operations are possible with a resampling result.
 
 ```{r}
 resampling = mlr_resamplings$get("cv")
@@ -77,7 +82,7 @@ We can do different things with resampling results, e.g.:
 rr$performance("mmce")
 ```
 
-* Extract and inspect the now instantiated resampling:
+* Extract and inspect the now created resampling:
 
 ```{r}
 rr$resampling
@@ -107,6 +112,7 @@ resampling$instantiate(task)
 resampling$iters
 resampling$train_set(1)
 ```
+
 If we now pass this instantiated object to resample, the pre-calculated training and test splits will be used for both learners:
 
 ```{r}
@@ -117,6 +123,7 @@ rr2 = resample(task, learner2, resampling)
 
 setequal(rr1$experiment(1)$train_set, rr2$experiment(1)$train_set)
 ```
+
 We can also combine the created result objects into a `BenchmarkResult` (see below for an introduction to simple benchmarking):
 
 ```{r}
@@ -140,11 +147,10 @@ resampling$train_set(1)
 resampling$test_set(1)
 ```
 
-
 ## Benchmarking
 
-As comparing the performance of multiple learners on multiple tasks is a frequent task, `mlr3` offers the `benchmark()` function for convenience.
-Internally, the resampling strategies are automatically instantiated for you, so that each learner sees the same split of the data.
+Comparing the performance of different learners on multiple tasks is a recurrent task. `mlr3` offers the `benchmark()` function for convenience.
+Internally the resampling strategies are automatically instantiated so that each learner sees the same split of the data.
 
 ```{r}
 # get some example tasks
@@ -167,24 +173,32 @@ measures = mlr_measures$mget(c("acc", "auc"))
 bmr = benchmark(tasks, learners, resamplings, measures)
 ```
 
-Usually you want to look at the results aggregated over resampling iterations:
+The aggreated resampling results can be accessed with:
+
 ```{r}
 bmr$aggregated
 ```
 We can aggregate it further, i.e. if we are interested which learner performed best over all tasks:
+
 ```{r}
 bmr$aggregated[, list(acc = mean(acc), auc = mean(auc)), by = "learner_id"]
 ```
+
 Unsurprisingly, the classification tree outperformed the featureless learner.
 
-As a `BenchmarkResult` is basically a collection of multiple `ResampleResult`, we can extract specific `ResampleResult` using the stored hashes:
+### Converting specific benchmark objects to resample objects
+
+As a `BenchmarkResult` object is basically a collection of multiple `ResampleResult` objects, we can extract specific `ResampleResult` objects using the stored hashes:
+
 ```{r}
 tab = bmr$aggregated[task_id == "spam" & learner_id == "classif.rpart"]
 print(tab)
 
 rr = bmr$resample_result(tab$hash)
 ```
+
 We can now investigate this resampling and even single experiments using the previously introduced API:
+
 ```{r}
 rr$aggregated
 
@@ -194,9 +208,4 @@ print(worst)
 
 # get the corresponding experiment
 e = rr$experiment(worst$iteration)
-
-# get the model and plot it
-library(rpart)
-plot(e$model)
-text(e$model)
 ```
