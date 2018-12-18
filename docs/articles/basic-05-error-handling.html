@@ -164,9 +164,7 @@
 <a class="sourceLine" id="cb2-4" data-line-number="4">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">e<span class="op">$</span><span class="kw">train</span>()</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.debug' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Error in fun(task = &lt;environment&gt;): Error from classif.debug-&gt;train()</span></a></code></pre></div>
-</div>
-<div id="encapsulation" class="section level1">
+ation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#encapsulation" class="anchor"></a>Encapsulation</h1>
 <p>During parallelization, error messages (as well as normal output or warnings) are often not properly forwarded to the master R session, or they arrive in a confusing order. The learner execution can be encapsulated, so its output is logged to the experiment instead of just printed to the console:</p>
