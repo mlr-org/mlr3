@@ -125,9 +125,9 @@
 <a href="#toc" class="anchor"></a>Table of Contents</h3>
       <ul>
 <li><a href="#setup">Setup</a></li>
-      <li><a href="#no-error-handling">No Error Handling</a></li>
+      <li><a href="#no-error-handling">No error handling</a></li>
       <li><a href="#encapsulation">Encapsulation</a></li>
-      <li><a href="#fallback-learners">Fallback Learners</a></li>
+      <li><a href="#fallback-learners">Fallback learners</a></li>
       </ul>
 </div>
       
@@ -156,7 +156,7 @@
 </div>
 <div id="no-error-handling" class="section level1">
 <h1 class="hasAnchor">
-<a href="#no-error-handling" class="anchor"></a>No Error Handling</h1>
+<a href="#no-error-handling" class="anchor"></a>No error handling</h1>
 <p>In the defaults, <code>mlr3</code> does not handle errors. Thus, the exception raised by the unittest learner stops the execution and can be tracebacked:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.debug"</span>)</a>
@@ -219,7 +219,7 @@
 </div>
 <div id="fallback-learners" class="section level1">
 <h1 class="hasAnchor">
-<a href="#fallback-learners" class="anchor"></a>Fallback Learners</h1>
+<a href="#fallback-learners" class="anchor"></a>Fallback learners</h1>
 <p>Each learner can have a fallback learner, which is used if either the train or predict step fail. Here, we simply fallback to the predictions of a featureless learner (predicting majority class):</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.debug"</span>)</a>
@@ -264,9 +264,9 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#setup">Setup</a></li>
-      <li><a href="#no-error-handling">No Error Handling</a></li>
+      <li><a href="#no-error-handling">No error handling</a></li>
       <li><a href="#encapsulation">Encapsulation</a></li>
-      <li><a href="#fallback-learners">Fallback Learners</a></li>
+      <li><a href="#fallback-learners">Fallback learners</a></li>
       </ul>
 </div>
       </div>

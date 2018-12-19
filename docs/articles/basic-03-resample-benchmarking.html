@@ -126,8 +126,8 @@
       <ul>
 <li><a href="#objects">Objects</a></li>
       <li><a href="#resampling">Resampling</a></li>
-      <li><a href="#manual-instantiation">Manual Instantiation</a></li>
-      <li><a href="#custom-resampling">Custom Resampling</a></li>
+      <li><a href="#manual-instantiation">Manual instantiation</a></li>
+      <li><a href="#custom-resampling">Custom resampling</a></li>
       <li>
 <a href="#benchmarking">Benchmarking</a><ul>
 <li><a href="#converting-specific-benchmark-objects-to-resample-objects">Converting specific benchmark objects to resample objects</a></li>
@@ -143,7 +143,7 @@
     
     
 <div class="contents">
-<p>This introduction is about resampling.</p>
+<p>This introduction is about resampling and benchmarking.</p>
 <div id="objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#objects" class="anchor"></a>Objects</h2>
@@ -242,7 +242,7 @@
 </div>
 <div id="manual-instantiation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#manual-instantiation" class="anchor"></a>Manual Instantiation</h2>
+<a href="#manual-instantiation" class="anchor"></a>Manual instantiation</h2>
 <p>If you want to compare multiple learners, you should use the same resampling per task to reduce the variance of the performance estimation. Until now, we have just passed a resampling strategy to <code><a href="../reference/resample.html">resample()</a></code>, without specifying the actual splits into training and test. Here, we manually instantiate the resampling:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"cv"</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">resampling<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">folds =</span> <span class="dv">3</span>)</a>
@@ -288,7 +288,7 @@
 </div>
 <div id="custom-resampling" class="section level2">
 <h2 class="hasAnchor">
-<a href="#custom-resampling" class="anchor"></a>Custom Resampling</h2>
+<a href="#custom-resampling" class="anchor"></a>Custom resampling</h2>
 <p>Sometimes it is necessary to perform resampling with custom splits, e.g. to reproduce a study. For this purpose, splits can be manually set for <code>ResamplingCustom</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"custom"</span>)</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">resampling<span class="op">$</span><span class="kw">instantiate</span>(task,</a>
@@ -453,8 +453,8 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#objects">Objects</a></li>
       <li><a href="#resampling">Resampling</a></li>
-      <li><a href="#manual-instantiation">Manual Instantiation</a></li>
-      <li><a href="#custom-resampling">Custom Resampling</a></li>
+      <li><a href="#manual-instantiation">Manual instantiation</a></li>
+      <li><a href="#custom-resampling">Custom resampling</a></li>
       <li>
 <a href="#benchmarking">Benchmarking</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#converting-specific-benchmark-objects-to-resample-objects">Converting specific benchmark objects to resample objects</a></li>
