@@ -111,3 +111,20 @@ test_that("select works", {
 
   expect_equal(task$feature_names, "Sepal.Width")
 })
+
+test_that("groups/weights work", {
+  b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
+  task = TaskRegr$new("test", b, target = "y")
+  task$set_row_role(16:20, character(0))
+
+  expect_null(task$groups)
+  expect_null(task$weights)
+
+  task$set_col_role("w", "weights")
+  expect_data_table(task$weights, ncol = 2, nrow = 15)
+  expect_numeric(task$weights$weights, any.missing = FALSE)
+
+  task$set_col_role("g", "groups")
+  expect_data_table(task$groups, ncol = 2, nrow = 15)
+  expect_subset(task$groups$groups, c("a", "b"))
+})

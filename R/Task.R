@@ -78,10 +78,14 @@
 #'   - `"feature"`: Regular feature.
 #'   - `"target"`: Column with target labels.
 #'   - `"order"`: Returned data is ordered by these column(s).
-#'   - `"group"`: During resampling, observations with the same value of the variable
-#'        listed in `"group"` are marked as "belonging together". They will be assigned
+#'   - `"groups"`: During resampling, observations with the same value of the variable
+#'        listed in `"groups"` are marked as "belonging together". They will be assigned
 #'        jointly to be either in the training set or the test set.
-#'   To alter the role, use `set_col_role()`
+#'        Returns a `data.table::data.table()` with two columns: first column are rows ids,
+#'       second column are the group labels.
+#'   - `"weights"`: Observation weights. `data.table::data.table()` with two columns: first column are the row ids,
+#'       second column are the observation weights.
+#'   To alter the role, use `$set_col_role()`
 #'
 #' * `$data()` is used to retrieve data from the backend as `data.table`.
 #'   Rows are subsetted to only contain observations with `role == "use"`.
@@ -317,10 +321,17 @@ Task = R6Class("Task",
     },
 
      groups = function() {
-       grp = self$col_roles$group
-       if (length(grp) == 0L)
+       groups = self$col_roles$group
+       if (length(groups) == 0L)
          return(NULL)
-       self$backend$data(self$row_roles$use, c(self$backend$primary_key, grp))
+       setnames(self$backend$data(self$row_roles$use, c(self$backend$primary_key, groups)), groups, "groups")
+     },
+
+     weights = function() {
+       weights = self$col_roles$weights
+       if (length(weights) == 0L)
+         return(NULL)
+       setnames(self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights)), weights, "weights")
      }
   ),
 
