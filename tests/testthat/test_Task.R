@@ -128,3 +128,12 @@ test_that("groups/weights work", {
   expect_data_table(task$groups, ncol = 2, nrow = 15)
   expect_subset(task$groups$groups, c("a", "b"))
 })
+
+test_that("ordered factors (#95)", {
+  df = data.frame(x = c(1, 2, 3), y = factor(letters[1:3], ordered = TRUE), z = c("M", "R", "R"))
+  b = as_data_backend(df)
+  task = TaskClassif$new(id = "id", backend = b, target = "z")
+  expect_subset(c("numeric", "ordered", "factor"), task$col_info$type)
+  expect_set_equal(task$col_info[id == "z", levels][[1L]], c("M", "R"))
+  expect_set_equal(task$col_info[id == "y", levels][[1L]], letters[1:3])
+})

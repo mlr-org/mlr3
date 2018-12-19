@@ -410,8 +410,8 @@ col_info.data.table = function(x, primary_key = character(0L), ...) {
 }
 
 col_info.DataBackend = function(x, ...) {
-  types = map_chr(x$head(1L), class)
-  discrete = setdiff(names(types)[types %in% c("character", "factor")], x$primary_key)
+  types = map_chr(x$head(1L), function(x) class(x)[1L])
+  discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
