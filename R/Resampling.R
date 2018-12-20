@@ -71,6 +71,7 @@
 #'
 #' @name Resampling
 #' @family Resampling
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Resampling.html)
 #' @examples
 #' r = mlr_resamplings$get("subsampling")
 #'

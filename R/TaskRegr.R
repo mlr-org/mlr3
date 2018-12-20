@@ -5,6 +5,9 @@
 #' The target column is assumed to be numeric.
 #'
 #' @section Usage:
+#'
+#' Inherits from [TaskSupervised]
+#'
 #' In addition to the interface of [Task]/[TaskSupervised], this class implements:
 #' ```
 #' t = TaskRegr$new(id, backend, target)
@@ -15,6 +18,7 @@
 #'
 #' @name TaskRegr
 #' @family Task
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/TaskRegr.html)
 #' @examples
 #' b = as_data_backend(iris)
 #' task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")

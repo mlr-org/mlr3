@@ -5,6 +5,7 @@
 #' The target column is assumed to be a factor.
 #'
 #' @section Usage:
+#'
 #' Inherits from [TaskSupervised]
 #'
 #' ```
@@ -32,6 +33,7 @@
 #'
 #' @name TaskClassif
 #' @family Task
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/TaskClassif.html)
 #' @examples
 #' b = as_data_backend(iris)
 #' task = TaskClassif$new("iris", backend = b, target = "Species")
