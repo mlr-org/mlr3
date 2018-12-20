@@ -134,6 +134,10 @@ Experiment = R6Class("Experiment",
       self$ctrl = assert_list(ctrl)
     },
 
+    format = function() {
+      "<Experiment>"
+    },
+
     print = function(...) {
       experiment_print(self)
     },
@@ -252,7 +256,7 @@ experiment_print = function(self) {
     }
   }
 
-  catf("<Experiment> [%s]:", self$state)
+  catf("%s [%s]:", format(self), self$state)
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
   catf(fmt(self$model, "Model", sprintf("[%s]", class(self$model)[[1L]])))

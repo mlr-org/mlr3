@@ -62,9 +62,15 @@ Dictionary = R6Class("Dictionary",
       self$items = new.env(parent = emptyenv())
     },
 
-    print = function(...) {
+    format = function() {
+      sprintf("<%s>", class(self)[1L])
+    },
+
+    print = function() {
       ids = self$ids()
-      catf(str_indent(sprintf("<%s> with %i stored values:", class(self)[1L], length(ids)), ids))
+      catf(sprintf("%s with %i stored values", format(self), length(ids)))
+      catf(str_indent("Ids:", ids))
+
       catf(str_indent("\nPublic: ", str_r6_interface(self)))
     },
 

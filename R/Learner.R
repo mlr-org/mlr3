@@ -108,19 +108,11 @@ Learner = R6Class("Learner",
     predict = function(...) stopf("Method not implemented, should have been overloaded during construction"),
 
     format = function() {
-      sprintf("<%s>", class(self)[1L])
+      sprintf("<%s:%s>", class(self)[1L], self$id)
     },
 
     print = function() {
-      catf("%s (%s)", format(self), self$id)
-      catf(str_indent("Parameters:", as_short_string(self$param_vals, 1000L)))
-      catf(str_indent("Packages:", self$packages))
-      catf(str_indent("Predict Type:", self$predict_type))
-      catf(str_indent("Feature types:", self$feature_types))
-      catf(str_indent("Properties:", self$properties))
-      if (!is.null(self$fallback))
-      catf(str_indent("Fallback:", format(self$fallback)))
-      catf(str_indent("\nPublic:", str_r6_interface(self)))
+      learner_print(self)
     }
   ),
 
@@ -166,3 +158,15 @@ Learner = R6Class("Learner",
     .predict_type = NULL
   )
 )
+
+learner_print = function(self) {
+  catf(format(self))
+  catf(str_indent("Parameters:", as_short_string(self$param_vals, 1000L)))
+  catf(str_indent("Packages:", self$packages))
+  catf(str_indent("Predict Type:", self$predict_type))
+  catf(str_indent("Feature types:", self$feature_types))
+  catf(str_indent("Properties:", self$properties))
+  if (!is.null(self$fallback))
+    catf(str_indent("Fallback:", format(self$fallback)))
+  catf(str_indent("\nPublic:", str_r6_interface(self)))
+}

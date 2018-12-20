@@ -15,9 +15,13 @@ Prediction = R6Class("Prediction",
     truth = NULL,
     response = NULL,
 
+    format = function() {
+      sprintf("<%s>", class(self)[1L])
+    },
+
     print = function(...) {
       data = as.data.table(self)
-      catf("<%s> for %i observations:", class(self)[1L], nrow(data))
+      catf("%s for %i observations:", format(self), nrow(data))
       print(data, nrows = 10L, topn = 3L, print.class = TRUE, print.keys = FALSE)
     }
   )

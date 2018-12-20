@@ -115,14 +115,15 @@ Resampling = R6Class("Resampling",
       self$stratify = character(0L)
     },
 
-    train_set = function(...) stopf("Method not implemented, should have been overloaded during construction"),
-    test_set = function(...) stopf("Method not implemented, should have been overloaded during construction"),
-    instantiate = function(...) stopf("Method not implemented, should have been overloaded during construction"),
+    format = function() {
+      sprintf("<%s>", class(self)[1L])
+    },
 
     print = function(...) {
       pv = self$param_vals
-      catf("%s<%s> with %i iterations", if (self$is_instantiated) "Instantiated " else "", class(self)[1L], self$iters)
-      catf("Parameters: %s", as_short_string(pv, 1000L))
+      catf("%s with %i iterations", format(self), self$iters)
+      catf(str_indent("Instantiated:", self$is_instantiated))
+      catf(str_indent("Parameters:", as_short_string(pv, 1000L)))
       catf(str_indent("\nPublic:", setdiff(ls(self), c("initialize", "print"))))
     }
   ),

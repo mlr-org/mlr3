@@ -92,9 +92,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
       self$data = setcolorder(data, slots)
     },
 
+    format = function() {
+      "<BenchmarkResult>"
+    },
+
     print = function() {
-      catf("<BenchmarkResult> of %i experiments in %i resamplings:",
-        nrow(self$data), uniqueN(self$data$hash))
+      catf("%s of %i experiments in %i resamplings:",
+        format(self), nrow(self$data), uniqueN(self$data$hash))
       measure = self$measures$measure[[1L]]
 
       aggr = self$aggregated[, !c("hash", "resample_result"), with = FALSE]
