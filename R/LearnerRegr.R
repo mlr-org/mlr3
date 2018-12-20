@@ -1,5 +1,5 @@
 #' @title Regression Learner
-#'
+#' @format [R6Class] object
 #' @description
 #' This Learner specializes [Learner] for regression problems.
 #'

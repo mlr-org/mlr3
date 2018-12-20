@@ -1,5 +1,5 @@
 #' @title Classification Learner
-#'
+#' @format [R6Class] object
 #' @description
 #' This Learner specializes [Learner] for classification problems.
 #'
