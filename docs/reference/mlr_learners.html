@@ -172,13 +172,18 @@ Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "classif.debug"       "classif.featureless" "classif.rpart"      
+    <pre class="examples"><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'>ids</span>()</div><div class='output co'>#&gt; [1] "classif.debug"       "classif.featureless" "classif.rpart"      
 #&gt; [4] "regr.featureless"    "regr.rpart"         </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_learners</span>)</div><div class='output co'>#&gt;                     id packages
 #&gt; 1:       classif.debug         
 #&gt; 2: classif.featureless         
 #&gt; 3:       classif.rpart    rpart
 #&gt; 4:    regr.featureless         
-#&gt; 5:          regr.rpart    rpart</div><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless&gt; (classif.featureless)
+#&gt; 5:          regr.rpart    rpart</div><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
+#&gt; Parameters: method=mode
+#&gt; Packages: -
+#&gt; Predict Type: response
+#&gt; Feature types: logical, integer, numeric, character, factor, ordered
+#&gt; Properties: missings, multiclass, twoclass
 #&gt; 
 #&gt; Public: clone(), fallback, feature_types, hash, id, model, packages,
 #&gt;   param_set, param_vals, params_predict, params_train, predict_type,

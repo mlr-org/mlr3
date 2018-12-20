@@ -23,8 +23,6 @@ Authors:
 \itemize{
   \item Bernd Bischl \email{bernd_bischl@gmx.de}
   \item Jakob Richter \email{jakob1richter@gmail.com}
-  \item Giuseppe Casalicchio \email{giuseppe.casalicchio@stat.uni-muenchen.de} (0000-0001-5324-5966)
-  \item Patrick Schratz \email{patrick.schratz@gmail.com} (0000-0003-0748-6624)
 }
 
 }

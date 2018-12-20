@@ -13,7 +13,7 @@
 #' @name mlr_learners
 #' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_learners.html)
 #' @examples
-#' mlr_learners$keys()
+#' mlr_learners$ids()
 #' as.data.table(mlr_learners)
 #' mlr_learners$get("classif.featureless")
 NULL
@@ -29,7 +29,7 @@ mlr_learners = DictionaryLearner$new()
 
 #' @export
 as.data.table.DictionaryLearner = function(x, ...) {
-  setkeyv(map_dtr(x$keys(), function(id) {
+  setkeyv(map_dtr(x$ids(), function(id) {
     l = x$get(id)
     list(id = id, packages = list(l$packages))
   }), "id")[]

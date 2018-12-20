@@ -1,7 +1,7 @@
 context("MeasureClassif")
 
 test_that("Classification measures", {
-  ids = mlr_measures$keys()
+  ids = mlr_measures$ids()
   lrn = mlr_learners$get("classif.featureless")
   lrn$predict_type = "prob"
   e = Experiment$new(

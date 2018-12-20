@@ -3,7 +3,6 @@
 \name{LearnerClassif}
 \alias{LearnerClassif}
 \title{Classification Learner}
-\format{\link{R6Class} object}
 \description{
 This Learner specializes \link{Learner} for classification problems.
 }
@@ -19,6 +18,15 @@ See \link{Learner}.
 }
 }
 
+\examples{
+# get all classification learners from mlr_learners:
+lrns = mlr_learners$mget(mlr_learners$ids("^classif"))
+names(lrns)
+
+# get a specific learner from mlr_learners:
+lrn = mlr_learners$get("classif.rpart")
+print(lrn)
+}
 \seealso{
 Other Learner: \code{\link{LearnerRegr}},
   \code{\link{Learner}}, \code{\link{mlr_learners}}

@@ -5,7 +5,7 @@
 \alias{mlr_resamplings_custom}
 \alias{ResamplingCustom}
 \title{Custom Resampling}
-\format{\link{R6Class} object}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Resampling}.}
 \usage{
 ResamplingCustom
 }
@@ -26,8 +26,5 @@ rc$instantiate(task, train_sets, test_sets)
 
 rc$train_set(1)
 rc$test_set(1)
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_resamplings_custom.html}{HTML help page}
 }
 \keyword{datasets}

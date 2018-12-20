@@ -246,7 +246,7 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 #&gt; 8: 1f40c2d403a5e8f2   sonar       classif.rpart            cv 10</div><div class='input'>
 <span class='co'># Extract first ResampleResult</span>
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='kw'>hash</span> <span class='kw'>=</span> <span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.featureless' with 1 iterations
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.featureless' with 1 iterations
 #&gt;  Measure Min. 1st Qu. Median Mean 3rd Qu. Max. Sd
 #&gt;      acc 0.28    0.28   0.28 0.28    0.28 0.28 NA</div><div class='input'>
 <span class='co'># Extract predictions of first experiment of this resampling</span>

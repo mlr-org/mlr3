@@ -181,6 +181,10 @@ Task = R6Class("Task",
       self$col_roles$feature = setdiff(cn, backend$primary_key)
     },
 
+    format = function() {
+      sprintf("<%s:%s>", class(self)[1L], self$id)
+    },
+
     print = function(...) {
       task_print(self)
     },
@@ -367,7 +371,7 @@ task_data = function(self, rows = NULL, cols = NULL, format = NULL) {
 }
 
 task_print = function(self) {
-  catf("Task '%s' of type %s (%i x %i)", self$id, self$task_type, self$nrow, self$ncol)
+  catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
   catf(str_indent("Target:", self$target_names))
   catf(str_indent("Features:", self$feature_names, n = 100L))
   if (length(self$col_roles$order))

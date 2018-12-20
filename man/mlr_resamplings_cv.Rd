@@ -5,7 +5,7 @@
 \alias{mlr_resamplings_cv}
 \alias{ResamplingCV}
 \title{Cross Validation Resampling}
-\format{\link{R6Class} object}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Resampling}.}
 \usage{
 ResamplingCV
 }
@@ -29,8 +29,5 @@ intersect(rcv$train_set(1), rcv$test_set(1))
 
 # Internal storage:
 rcv$instance # table
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_resamplings_cv.html}{HTML help page}
 }
 \keyword{datasets}

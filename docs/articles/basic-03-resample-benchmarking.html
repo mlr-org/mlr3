@@ -152,7 +152,7 @@
 <a class="sourceLine" id="cb1-2" data-line-number="2">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>)</a></code></pre></div>
 <p>Additionally, we need to define <strong>how</strong> we want to resample. <code>mlr3</code> comes with the following resampling strategies implemented:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">mlr_resamplings<span class="op">$</span><span class="kw">keys</span>()</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">mlr_resamplings<span class="op">$</span><span class="kw">ids</span>()</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] "bootstrap"   "custom"      "cv"          "holdout"     "repeated_cv"</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; [6] "subsampling"</span></a></code></pre></div>
 <p>Additional resampling methods for special use cases will be available via extension packages, such as <a href="https://github.com/mlr-org/mlr3spatiotemporal">mlr3spatiotemporal</a> for spatial data (still in development).</p>
@@ -160,14 +160,15 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"holdout"</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; &lt;ResamplingHoldout&gt; with 1 iterations</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Parameters: ratio=0.6667</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;   is_instantiated, iters, param_set, param_vals, stratify,</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   test_set, train_set</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling<span class="op">$</span>param_vals)</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; $ratio</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; [1] 0.6666667</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Instantiated: FALSE</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Parameters: ratio=0.6667</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Public: clone, format, has_duplicates, hash, id, instance,</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   instantiate, is_instantiated, iters, param_set, param_vals,</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;   stratify, test_set, train_set</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling<span class="op">$</span>param_vals)</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; $ratio</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; [1] 0.6666667</span></a></code></pre></div>
 <p>To change the ratio to <span class="math inline">\(0.8\)</span>, we simply overwrite the slot:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">resampling<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>)</a></code></pre></div>
 </div>
@@ -178,7 +179,7 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">rr =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner, resampling)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 1/1)' ...</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; ResampleResult of learner 'iris' on task 'classif.rpart' with 1 iterations</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 1 iterations</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  Measure       Min.    1st Qu.     Median       Mean    3rd Qu.       Max.</span></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;     mmce 0.03333333 0.03333333 0.03333333 0.03333333 0.03333333 0.03333333</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  Sd</span></a>
@@ -191,7 +192,7 @@
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 2/3)' ...</span></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 3/3)' ...</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; ResampleResult of learner 'iris' on task 'classif.rpart' with 3 iterations</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 3 iterations</span></a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  Measure Min. 1st Qu. Median Mean 3rd Qu. Max.         Sd</span></a>
 <a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;     mmce    0    0.04   0.08 0.06    0.09  0.1 0.05291503</span></a></code></pre></div>
 <p>We can do different things with resampling results, e.g.:</p>
@@ -204,26 +205,27 @@
 <li>Extract and inspect the now created resampling:</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">rr<span class="op">$</span>resampling</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Instantiated &lt;ResamplingCV&gt; with 3 iterations</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Parameters: folds=3</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;   is_instantiated, iters, param_set, param_vals, stratify,</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;   test_set, train_set</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">rr<span class="op">$</span>resampling<span class="op">$</span>iters</a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; [1] 3</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  [1]   1   3   4   5   6   8  10  14  17  19  26  31  34  36  40  41  42</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; [18]  43  44  46  50  55  56  57  59  62  65  74  76  79  80  86  87  88</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; [35]  92  93 101 102 113 114 121 125 133 137 139 140 142 143 148 150</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;  [1]   2   7   9  11  12  15  16  20  23  25  27  29  30  33  35  38  51</span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; [18]  52  54  58  63  64  66  68  69  71  73  75  78  90  91  95  97 110</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; [35] 111 112 118 119 123 124 126 128 130 131 132 134 135 144 146 147</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;  [1]  13  18  21  22  24  28  32  37  39  45  47  48  49  53  60  61  67</span></a>
-<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; [18]  70  72  77  81  82  83  84  85  89  94  96  98  99 100 103 104 105</span></a>
-<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; [35] 106 107 108 109 115 116 117 120 122 127 129 136 138 141 145 149</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; &lt;ResamplingCV&gt; with 3 iterations</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Instantiated: TRUE</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Parameters: folds=3</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Public: clone, format, has_duplicates, hash, id, instance,</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;   instantiate, is_instantiated, iters, param_set, param_vals,</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;   stratify, test_set, train_set</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">rr<span class="op">$</span>resampling<span class="op">$</span>iters</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  [1]   1   3   4   5   6   8  10  14  17  19  26  31  34  36  40  41  42</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; [18]  43  44  46  50  55  56  57  59  62  65  74  76  79  80  86  87  88</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; [35]  92  93 101 102 113 114 121 125 133 137 139 140 142 143 148 150</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;  [1]   2   7   9  11  12  15  16  20  23  25  27  29  30  33  35  38  51</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; [18]  52  54  58  63  64  66  68  69  71  73  75  78  90  91  95  97 110</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; [35] 111 112 118 119 123 124 126 128 130 131 132 134 135 144 146 147</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt;  [1]  13  18  21  22  24  28  32  37  39  45  47  48  49  53  60  61  67</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; [18]  70  72  77  81  82  83  84  85  89  94  96  98  99 100 103 104 105</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; [35] 106 107 108 109 115 116 117 120 122 127 129 136 138 141 145 149</span></a></code></pre></div>
 <ul>
 <li>Retrieve the experiment of a specific iteration and inspect it:</li>
 </ul>
@@ -247,21 +249,22 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"cv"</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">resampling<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">folds =</span> <span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3">resampling<span class="op">$</span><span class="kw">instantiate</span>(task)</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; Instantiated &lt;ResamplingCV&gt; with 3 iterations</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; Parameters: folds=3</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;   is_instantiated, iters, param_set, param_vals, stratify,</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;   test_set, train_set</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10">resampling<span class="op">$</span>iters</a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; [1] 3</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;   [1]   5   7   8  15  16  20  21  24  27  30  32  36  40  42  50  52  53</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;  [18]  54  58  59  60  61  63  69  71  72  73  74  75  76  78  88  97 105</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;  [35] 108 110 111 115 122 125 126 127 128 129 131 134 140 142 146 148   1</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt;  [52]   2   3   4   6   9  10  13  19  28  29  31  34  38  39  51  62  64</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt;  [69]  66  67  70  79  80  81  82  84  87  89  92  93  94  96  99 102 106</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt;  [86] 109 112 113 116 119 120 123 124 133 135 136 138 141 143 150</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; &lt;ResamplingCV&gt; with 3 iterations</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; Instantiated: TRUE</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; Parameters: folds=3</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; Public: clone, format, has_duplicates, hash, id, instance,</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;   instantiate, is_instantiated, iters, param_set, param_vals,</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt;   stratify, test_set, train_set</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">resampling<span class="op">$</span>iters</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;   [1]   5   7   8  15  16  20  21  24  27  30  32  36  40  42  50  52  53</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;  [18]  54  58  59  60  61  63  69  71  72  73  74  75  76  78  88  97 105</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt;  [35] 108 110 111 115 122 125 126 127 128 129 131 134 140 142 146 148   1</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt;  [52]   2   3   4   6   9  10  13  19  28  29  31  34  38  39  51  62  64</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt;  [69]  66  67  70  79  80  81  82  84  87  89  92  93  94  96  99 102 106</span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt;  [86] 109 112 113 116 119 120 123 124 133 135 136 138 141 143 150</span></a></code></pre></div>
 <p>If we now pass this instantiated object to resample, the pre-calculated training and test splits will be used for both learners:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">learner1 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>) <span class="co"># simple classification tree</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">learner2 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.featureless"</span>) <span class="co"># featureless learner, prediction majority class</span></a>
@@ -295,20 +298,21 @@
 <a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">51</span><span class="op">:</span><span class="dv">60</span>, <span class="dv">101</span><span class="op">:</span><span class="dv">110</span>)),</a>
 <a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">11</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">61</span><span class="op">:</span><span class="dv">70</span>, <span class="dv">111</span><span class="op">:</span><span class="dv">120</span>))</a>
 <a class="sourceLine" id="cb13-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; Instantiated &lt;ResamplingCustom&gt; with 1 iterations</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; Parameters: list()</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt;   is_instantiated, iters, param_set, param_vals, stratify,</span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;   test_set, train_set</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12">resampling<span class="op">$</span>iters</a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; [1] 1</span></a>
-<a class="sourceLine" id="cb13-14" data-line-number="14">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt;  [1]   1   2   3   4   5   6   7   8   9  10  51  52  53  54  55  56  57</span></a>
-<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="co">#&gt; [18]  58  59  60 101 102 103 104 105 106 107 108 109 110</span></a>
-<a class="sourceLine" id="cb13-17" data-line-number="17">resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb13-18" data-line-number="18"><span class="co">#&gt;  [1]  11  12  13  14  15  16  17  18  19  20  61  62  63  64  65  66  67</span></a>
-<a class="sourceLine" id="cb13-19" data-line-number="19"><span class="co">#&gt; [18]  68  69  70 111 112 113 114 115 116 117 118 119 120</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; &lt;ResamplingCustom&gt; with 1 iterations</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; Instantiated: TRUE</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; Parameters: list()</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; Public: clone, format, has_duplicates, hash, id, instance,</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;   instantiate, is_instantiated, iters, param_set, param_vals,</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt;   stratify, test_set, train_set</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13">resampling<span class="op">$</span>iters</a>
+<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; [1] 1</span></a>
+<a class="sourceLine" id="cb13-15" data-line-number="15">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="co">#&gt;  [1]   1   2   3   4   5   6   7   8   9  10  51  52  53  54  55  56  57</span></a>
+<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="co">#&gt; [18]  58  59  60 101 102 103 104 105 106 107 108 109 110</span></a>
+<a class="sourceLine" id="cb13-18" data-line-number="18">resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb13-19" data-line-number="19"><span class="co">#&gt;  [1]  11  12  13  14  15  16  17  18  19  20  61  62  63  64  65  66  67</span></a>
+<a class="sourceLine" id="cb13-20" data-line-number="20"><span class="co">#&gt; [18]  68  69  70 111 112 113 114 115 116 117 118 119 120</span></a></code></pre></div>
 </div>
 <div id="benchmarking" class="section level2">
 <h2 class="hasAnchor">

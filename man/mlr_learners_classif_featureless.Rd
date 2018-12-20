@@ -5,7 +5,7 @@
 \alias{mlr_learners_classif_featureless}
 \alias{LearnerClassifFeatureless}
 \title{Featureless Classification Learner}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerClassif}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerClassif}.}
 \usage{
 LearnerClassifFeatureless
 }
@@ -17,8 +17,5 @@ Hyperparameter \code{method} determines the mode of operation during prediction:
 \item{sample:}{Randomly predict a label uniformly.}
 \item{weighed.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
 }
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_learners_classif_featureless.html}{HTML help page}
 }
 \keyword{datasets}

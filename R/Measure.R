@@ -87,8 +87,12 @@ Measure = R6Class("Measure", cloneable = FALSE,
       self$packages = assert_set(packages)
     },
 
+    format = function() {
+      sprintf("<%s:%s>", class(self)[1L], self$id)
+    },
+
     print = function() {
-      catf("<%s> for %s", class(self)[1L], self$task_type)
+      catf(format(self))
       catf(str_indent("Packages:", self$packages))
       catf(str_indent("Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catf(str_indent("Minimize:", self$minimize))

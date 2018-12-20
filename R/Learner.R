@@ -104,7 +104,7 @@ Learner = R6Class("Learner",
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, mlr_reflections$predict_types[[task_type]], empty.ok = FALSE)
       self$packages = assert_set(packages)
-      self$properties = assert_set(properties)
+      self$properties = sort(assert_set(properties))
       self$param_set = assert_param_set(param_set)
       private$.param_vals = assert_param_vals(param_vals, param_set)
     },
@@ -112,11 +112,12 @@ Learner = R6Class("Learner",
     train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
     predict = function(...) stopf("Method not implemented, should have been overloaded during construction"),
 
-    print = function(...) {
-      catf("<%s> (%s)", class(self)[1L], self$id)
-      str_indent("Parameters:", as_short_string(self$param_vals, 1000L))
-      str_indent("Feature types:", self$feature_types)
-      catf(str_indent("\nPublic:", str_r6_interface(self)))
+    format = function() {
+      sprintf("<%s:%s>", class(self)[1L], self$id)
+    },
+
+    print = function() {
+      learner_print(self)
     }
   ),
 
@@ -162,3 +163,15 @@ Learner = R6Class("Learner",
     .predict_type = NULL
   )
 )
+
+learner_print = function(self) {
+  catf(format(self))
+  catf(str_indent("Parameters:", as_short_string(self$param_vals, 1000L)))
+  catf(str_indent("Packages:", self$packages))
+  catf(str_indent("Predict Type:", self$predict_type))
+  catf(str_indent("Feature types:", self$feature_types))
+  catf(str_indent("Properties:", self$properties))
+  if (!is.null(self$fallback))
+    catf(str_indent("Fallback:", format(self$fallback)))
+  catf(str_indent("\nPublic:", str_r6_interface(self)))
+}

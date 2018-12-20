@@ -3,7 +3,6 @@
 \name{MeasureRegr}
 \alias{MeasureRegr}
 \title{Regression Measure}
-\format{\link{R6Class} object}
 \description{
 This task specializes \link{Measure} for regression problems.
 }

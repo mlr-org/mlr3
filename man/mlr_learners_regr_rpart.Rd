@@ -5,14 +5,11 @@
 \alias{mlr_learners_regr_rpart}
 \alias{LearnerRegrRpart}
 \title{Regression Tree Learner}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerRegr}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerRegr}.}
 \usage{
 LearnerRegrRpart
 }
 \description{
-A learner for a regression tree implemented in \link[rpart:rpart]{rpart::rpart}.
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_learners_regr_rpart.html}{HTML help page}
+A learner for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}}.
 }
 \keyword{datasets}
