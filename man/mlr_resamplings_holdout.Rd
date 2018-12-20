@@ -5,7 +5,7 @@
 \alias{mlr_resamplings_holdout}
 \alias{ResamplingHoldout}
 \title{Holdout Resampling}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Resampling}.}
+\format{\link{R6Class} object}
 \usage{
 ResamplingHoldout
 }
@@ -29,5 +29,8 @@ intersect(rho$train_set(1), rho$test_set(1))
 
 # Internal storage:
 rho$instance # simple list
+}
+\references{
+\href{https://mlr3.mlr-org.com/reference/mlr_resamplings_holdout.html}{HTML help page}
 }
 \keyword{datasets}

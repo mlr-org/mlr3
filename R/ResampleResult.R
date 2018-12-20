@@ -1,5 +1,5 @@
 #' @title Container for Results of `resample()`.
-#'
+#' @format [R6Class] object
 #' @description
 #' This is the object returned by [resample()].
 #'
@@ -8,20 +8,24 @@
 #' ```
 #' # Construction
 #' rr = ResampleResult$new(data, hash = NULL)
-#' # Getters
+#'
+#' # Members
+#' rr$aggregated
 #' rr$data
-#' rr$task
+#' rr$errors
+#' rr$hash
 #' rr$learner
-#' rr$resampling
 #' rr$measures
-#' rr$performance(id)
+#' rr$resampling
+#' rr$task
+#'
+#' # Methods
+#' rr$combine(rr)
 #' rr$experiment(iter)
 #' rr$experiments(iters)
-#' rr$combine(rr)
-#' rr$aggregated
-#' rr$hash
-#' rr$errors
+#' rr$performance(id)
 #' rr$print()
+#'
 #' # S3 methods
 #' as.data.table(bmr)
 #' ```

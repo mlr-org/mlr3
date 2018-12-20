@@ -1,5 +1,5 @@
 #' @title Regression Task
-#'
+#' @format [R6Class] object
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for regression problems.
 #' The target column is assumed to be numeric.

@@ -38,27 +38,37 @@ assert_param_set(param_set)
 assert_param_vals(param_vals, param_set)
 }
 \arguments{
-\item{b}{(\link{DataBackend}).}
+\item{b}{(\link{DataBackend}):\cr
+A data backend to be checked.}
 
-\item{e}{(\link{Experiment}).}
+\item{e}{(\link{Experiment}):\cr
+An experiment to be checked.}
 
-\item{task}{(\link{Task}).}
+\item{task}{(\link{Task}):\cr
+An task to be checked.}
 
-\item{learner}{(\link{Learner}).}
+\item{learner}{(\link{Learner}):\cr
+A learner to be checked.}
 
-\item{measure}{(\link{Measure}).}
+\item{measure}{(\link{Measure}):\cr
+A measure to be checked.}
 
 \item{measures}{(list of \link{Measure}).}
 
-\item{resampling}{(\link{Resampling}).}
+\item{resampling}{(\link{Resampling}):\cr
+A resampling object to be checked.}
 
-\item{resample_result}{(\link{ResampleResult}).}
+\item{resample_result}{(\link{ResampleResult}):\cr
+A resample result object to be checked.}
 
-\item{bmr}{(\link{BenchmarkResult}).}
+\item{bmr}{(\link{BenchmarkResult}):\cr
+A benchmark object to be checked.}
 
-\item{param_set}{(\link[paradox:ParamSet]{paradox::ParamSet}).}
+\item{param_set}{(\link[paradox:ParamSet]{paradox::ParamSet}):\cr
+A param set to be checked.}
 
-\item{param_vals}{(named list).}
+\item{param_vals}{(named list):\cr
+A param vals object be checked.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

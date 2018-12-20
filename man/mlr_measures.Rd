@@ -3,6 +3,7 @@
 \name{mlr_measures}
 \alias{mlr_measures}
 \title{Dictionary of Performance Measures}
+\format{\link{R6Class} object}
 \description{
 A simple \link{Dictionary} storing objects of class \link{Measure}.
 Each measure has an associated help page, see \code{mlr_measures_[id]}.
@@ -16,6 +17,9 @@ See \link{Dictionary}.
 mlr_measures$keys()
 as.data.table(mlr_measures)
 mlr_measures$get("mmce")
+}
+\references{
+\href{https://mlr3.mlr-org.com/reference/mlr_measures.html}{HTML help page}
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
