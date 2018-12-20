@@ -157,23 +157,28 @@ Predefined resamplings are stored in mlr_resamplings." />
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
-r = Resampling$new(id) # FIXME: param_set, param_vals?
-# Getters
+r = Resampling$new(id, param_set, param_vals)
+    # Members
+r$has_duplicates
+r$hash
 r$id
+r$instance
+r$is_instantiated
 r$iters
 r$param_set
 r$param_vals
-r$instantiate(task)
-r$is_instantiated
-r$has_duplicates
-r$instance
 r$stratify
-r$train_set(i)
+    # Methods
+r$instantiate(task)
 r$test_set(i)
-r$hash
+r$train_set(i)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -182,32 +187,41 @@ r$hash
     <ul>
 <li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
 identifier for this object.</p></li>
+<li><p><code>param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>):<br />
+describes available parameters.</p></li>
+<li><p><code>param_vals</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>):<br />
+Named list of parameter values.</p></li>
+<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
+Object of type <a href='Task.html'>Task</a>.</p></li>
 <li><p><code>i</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>):<br />
 Get the <code>i</code>-th training/test set.</p></li>
 </ul>
-    <p>missing: FIXME param_set param_vals</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
     <ul>
-<li><p><code>$new()</code> creates a new object of class Resampling.</p></li>
+<li><p><code>$has_duplicates</code> FIXME ???</p></li>
+<li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>param_vals</code> and the instantiation.
+If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 <li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
+<li><p><code>$instance</code> stores the instantiated realization of the resampling.
+This is an arbitrary object, do not work directly with it. Instead, use <code>$train_set()</code> and <code>$test_set()</code>.</p></li>
+<li><p><code>$instantiate</code> materializes fixed training and test splits for a given task.</p></li>
+<li><p><code>$is_instantiated</code> returns <code>TRUE</code> if the resampling has been instantiated, and <code>FALSE</code> otherwise.</p></li>
 <li><p><code>$iters</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) calculates the resulting number of iterations, given the current <code>param_vals</code>.</p></li>
+<li><p><code>$new()</code> creates a new object of class Resampling.</p></li>
 <li><p><code>$param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>) describes available parameters.</p></li>
 <li><p><code>$param_vals</code> (named <code>list</code>) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.</p></li>
-<li><p><code>$instantiate</code> materializes fixed training and test splits for a given task.</p></li>
-<li><p><code>$is_instantiated</code> returns <code>TRUE</code> if the resampling has been instantiated, and <code>FALSE</code> otherwise.</p></li>
-<li><p><code>$has_duplicates</code> FIXME ???</p></li>
-<li><p><code>$instance</code> stores the instantiated realization of the resampling. This is an arbitrary object, do
-not work directly with it. Instead, use <code>$train_set()</code> and <code>$test_set()</code>.</p></li>
 <li><p><code>$stratify</code> can be set to column names of the <a href='Task.html'>Task</a> which will be used for stratification during instantiation.</p></li>
-<li><p><code>$train_set()</code> returns the training set for the <code>i</code>-th iteration.</p></li>
 <li><p><code>$test_set()</code> returns the test set for the <code>i</code>-th iteration.</p></li>
-<li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>param_vals</code> and the instantiation.
-If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
+<li><p><code>$train_set()</code> returns the training set for the <code>i</code>-th iteration.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/Resampling.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -277,11 +291,15 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
@@ -293,7 +311,7 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

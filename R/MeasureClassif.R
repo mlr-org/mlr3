@@ -1,10 +1,10 @@
 #' @title Classification Measure
-#'
+#' @format [R6Class] object
 #' @description
 #' This task specializes [Measure] for classification problems.
 #'
 #' @section Usage:
-#' See [Measure].
+#' Inherits from [Measure].
 #'
 #' @section Details:
 #' * `$task_type` is `"classif"`.

@@ -5,7 +5,7 @@
 \alias{mlr_resamplings_bootstrap}
 \alias{ResamplingBootstrap}
 \title{Bootstrap Resampling}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Resampling}.}
+\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \usage{
 ResamplingBootstrap
 }
@@ -31,5 +31,8 @@ intersect(rb$train_set(1), rb$test_set(1))
 
 # Internal storage:
 rb$instance$M # Matrix of counts
+}
+\references{
+\href{https://mlr3.mlr-org.com/reference/mlr_resamplings_bootstrap.html}{HTML help page}
 }
 \keyword{datasets}

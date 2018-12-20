@@ -1,5 +1,5 @@
 #' @title Key-Value Storage
-#'
+#' @format [R6Class] object
 #' @description
 #' A simple key-value store for [R6::R6] objects.
 #' On retrieval of an object, the following applies:
@@ -10,18 +10,21 @@
 #' * All other objects are returned as-is.
 #'
 #' @section Usage:
+#'
 #' ```
 #' # Construction
 #' d = Dictionary$new()
-#' # Getters
-#' d$ids(pattern)
+#'
+#' # Methods
 #' d$add(value)
-#' d$get(id)
-#' d$mget(ids)
-#' d$has(ids)
-#' d$remove(id, value)
-#' d$remove(ids)
-#' # S3 methods
+#' d$get(key)
+#' d$has(keys)
+#' d$keys(pattern)
+#' d$mget(keys)
+#' d$remove(key, value)
+#' d$remove(keys)
+#'
+#' ## S3 methods
 #' as.data.frame(d)
 #' as.data.table(d)
 #' ```
@@ -37,18 +40,18 @@
 #'   Vector of ids.
 #'
 #' @section Details:
+#' * `$add()` adds item `value` with key `key` to the Dictionary.
+#' * `$get()` retrieves a single object with key `key` (or raises an exception).
+#' * `$has()` (`logical()`) returns a named logical of the same length as `keys` with value `TRUE` if the respective key is found in the Dictionary.
+#' * `$keys()` (`character()`) returns a vector with all keys (or all keys matching `pattern`).
+#' * `$mget()` (named `list`) creates a list of objects with keys `keys` (or raises an exception).
 #' * `$new()` initializes a new object of class [Dictionary].
-#' * `$ids()` (`character()`) returns a vector with all ids (or all ids matching `pattern`).
-#' * `$get()` retrieves a single object with id `id` (or raises an exception).
-#' * `$mget()` (named `list`) creates a list of objects with ids `ids` (or raises an exception).
-#' * `$has()` (`logical()`) returns a named logical of the same length as `ids` with value `TRUE` if the respective id is found in the Dictionary.
-#' * `$add()` adds item `value` with id `id` to the Dictionary.
-#' * `$remove()` removes item with id `id` from the Dictionary.
-#' * `as.data.frame()` and `as.data.table()` give a summarizing overview as `data.frame` or `data.table`, respectively.
-#'
+#' * `$remove()` removes item with key `key` from the Dictionary.
+#' * `as.data.frame()` and `as.data.table()` give a summarizing overview as `data.frame` or `data.table`, respectively.#'
 #' @keywords internal
 #' @name Dictionary
 #' @family Dictionary
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Dictionary.html)
 NULL
 
 #' @export

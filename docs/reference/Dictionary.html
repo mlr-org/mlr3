@@ -167,19 +167,23 @@ On retrieval of an object, the following applies:</p><ul>
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
 d = Dictionary$new()
-# Getters
-d$ids(pattern)
+    # Methods
 d$add(value)
-d$get(id)
-d$mget(ids)
-d$has(ids)
-d$remove(id, value)
-d$remove(ids)
-# S3 methods
+d$get(key)
+d$has(keys)
+d$keys(pattern)
+d$mget(keys)
+d$remove(key, value)
+d$remove(keys)
+    ## S3 methods
 as.data.frame(d)
 as.data.table(d)
 </pre>
@@ -202,15 +206,19 @@ Vector of ids.</p></li>
 
     
     <ul>
+<li><p><code>$add()</code> adds item <code>value</code> with key <code>key</code> to the Dictionary.</p></li>
+<li><p><code>$get()</code> retrieves a single object with key <code>key</code> (or raises an exception).</p></li>
+<li><p><code>$has()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code>) returns a named logical of the same length as <code>keys</code> with value <code>TRUE</code> if the respective key is found in the Dictionary.</p></li>
+<li><p><code>$keys()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns a vector with all keys (or all keys matching <code>pattern</code>).</p></li>
+<li><p><code>$mget()</code> (named <code>list</code>) creates a list of objects with keys <code>keys</code> (or raises an exception).</p></li>
 <li><p><code>$new()</code> initializes a new object of class Dictionary.</p></li>
-<li><p><code>$ids()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns a vector with all ids (or all ids matching <code>pattern</code>).</p></li>
-<li><p><code>$get()</code> retrieves a single object with id <code>id</code> (or raises an exception).</p></li>
-<li><p><code>$mget()</code> (named <code>list</code>) creates a list of objects with ids <code>ids</code> (or raises an exception).</p></li>
-<li><p><code>$has()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code>) returns a named logical of the same length as <code>ids</code> with value <code>TRUE</code> if the respective id is found in the Dictionary.</p></li>
-<li><p><code>$add()</code> adds item <code>value</code> with id <code>id</code> to the Dictionary.</p></li>
-<li><p><code>$remove()</code> removes item with id <code>id</code> from the Dictionary.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame()</a></code> and <code><a href='as.data.table.html'>as.data.table()</a></code> give a summarizing overview as <code>data.frame</code> or <code>data.table</code>, respectively.</p></li>
+<li><p><code>$remove()</code> removes item with key <code>key</code> from the Dictionary.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame()</a></code> and <code><a href='as.data.table.html'>as.data.table()</a></code> give a summarizing overview as <code>data.frame</code> or <code>data.table</code>, respectively.#'</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/Dictionary.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -224,11 +232,15 @@ Vector of ids.</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>
@@ -238,7 +250,7 @@ Vector of ids.</p></li>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

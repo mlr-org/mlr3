@@ -3,12 +3,13 @@
 \name{LearnerClassif}
 \alias{LearnerClassif}
 \title{Classification Learner}
+\format{\link{R6Class} object}
 \description{
 This Learner specializes \link{Learner} for classification problems.
 }
 \section{Usage}{
 
-See \link{Learner}.
+Inherits from \link{Learner}.
 }
 
 \section{Details}{

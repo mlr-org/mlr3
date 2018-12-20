@@ -3,6 +3,7 @@
 \name{Measure}
 \alias{Measure}
 \title{Measure Class}
+\format{\link{R6Class} object}
 \description{
 Predefined measures are stored in \link{mlr_measures}.
 }
@@ -11,15 +12,19 @@ Predefined measures are stored in \link{mlr_measures}.
 m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
 m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
 m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
-#
+
+# Members
 m$id
-m$packages
-m$task_type
-m$task_properties
-m$calculate(e)
-m$range
 m$minimize
+m$packages
+m$predict_type
+m$range
+m$task_properties
+m$task_type
+
+# Methods
 m$aggregate(rr)
+m$calculate(e)
 }
 }
 
@@ -48,21 +53,23 @@ Performance object returned by \link{resample} to be aggregated.
 \section{Details}{
 
 \itemize{
-\item \code{$new()} creates a new object of class \link{Measure}.
 \item \code{$id} (\code{character(1)}) stores the identifier of the object.
-\item \code{$packages} (\code{character()}) stores the set of required packages.
-\item \code{$task_type} (\code{character()}) stores the class names of tasks this measure can operate on.
-\item \code{$task_properties} (\code{character()}) defines a set of required task properties.
-\item \code{$range} (\code{numeric(2)}) stores the numeric range of feasible measure values.
 \item \code{$minimize} (\code{logical(1)}) indicates if the good values are reached via minimization.
-\item \code{$calculate} (\code{function(e)}) does the actual work.
-\item \code{$aggregate} (\code{function(rr)}) aggregates multiple performance measures using the \code{aggregate} function.
-Operates on a \link{ResampleResult} as returned by \link{resample}.
+\item \code{$packages} (\code{character()}) stores the set of required packages.
+\item \code{$range} (\code{numeric(2)}) stores the numeric range of feasible measure values.
+\item \code{$task_properties} (\code{character()}) defines a set of required task properties.
+\item \code{$task_type} (\code{character()}) stores the class names of tasks this measure can operate on.
+\item \code{$aggregate()} (\code{function(rr)}) aggregates multiple performance measures using the \code{aggregate} function. Operates on a \link{ResampleResult} as returned by \link{resample}.
+\item \code{$calculate()} (\code{function(e)}) does the actual work.
+\item \code{$new()} creates a new object of class \link{Measure}.
 }
 }
 
 \examples{
 mlr_measures$get("mmce")
+}
+\references{
+\href{https://mlr3.mlr-org.com/reference/Measure.html}{HTML help page}
 }
 \seealso{
 Other Measure: \code{\link{MeasureClassif}},

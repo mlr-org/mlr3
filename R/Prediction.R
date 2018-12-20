@@ -5,6 +5,7 @@
 #'
 #' @export
 #' @name Prediction
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Prediction.html)
 #' @family Prediction
 NULL
 

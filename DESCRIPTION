@@ -14,7 +14,17 @@ Authors@R:
       person(given = "Jakob",
              family = "Richter",
              role = "aut",
-             email = "jakob1richter@gmail.com"))
+             email = "jakob1richter@gmail.com"),
+      person(given = "Giuseppe",
+             family = "Casalicchio",
+             role = "aut",
+             email = "giuseppe.casalicchio@stat.uni-muenchen.de",
+             comment = c(ORCID = "0000-0001-5324-5966")),
+      person(given = "Patrick",
+             family = "Schratz",
+             role = "aut",
+             email = "patrick.schratz@gmail.com",
+             comment = c(ORCID = "0000-0003-0748-6624")))
 Description: Machine Learning in R. Next Generation.
 License: MIT + file LICENSE
 URL: https://github.com/mlr-org/mlr3
@@ -54,8 +64,8 @@ VignetteBuilder:
 Remotes:
     daroczig/logger@43089e07b51b74704eae0cbfa41705af0de5a0cd,
     mllg/checkmate,
-    mlr-org/paradox,
-    mlr-org/mlr3misc
+    mlr-org/mlr3misc,
+    mlr-org/paradox
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
@@ -89,6 +99,7 @@ Collate:
     'TaskClassif.R'
     'TaskRegr.R'
     'Task_mutators.R'
+    'as_data_backend.R'
     'assertions.R'
     'benchmark.R'
     'encapsulate.R'

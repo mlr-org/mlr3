@@ -155,22 +155,27 @@
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
-bmr$new(data)
-# Getters
-bmr$data
-bmr$tasks
-bmr$learners
-bmr$resamplings
-bmr$measures
+see ?benchmark
+    # Members
 bmr$aggregated
+bmr$data
+bmr$learners
+bmr$measures
 bmr$resample_results
-bmr$resample_result(hash)
+bmr$resamplings
+bmr$tasks
+    # Methods
 bmr$combine(bmr)
 bmr$get_best(measure)
-# S3 methods
+bmr$resample_result(hash)
+    # S3 methods
 as.data.table(bmr)
 </pre>
     
@@ -178,8 +183,8 @@ as.data.table(bmr)
 
     
     <ul>
-<li><p><code>data</code> ():<br />
-Argument of initialize.</p></li>
+<li><p><code>data</code> (data.table):<br />
+Argument of initialize. Created by <a href='benchmark.html'>benchmark</a>.</p></li>
 <li><p><code>hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
 String which identifies a subgroup to extract as <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
 <li><p><code>bmr</code> (BenchmarkResult):<br />
@@ -192,18 +197,17 @@ Argument of get_best</p></li>
 
     
     <ul>
-<li><p><code>$data</code> ???</p></li>
-<li><p><code>$tasks</code>, <code>$learners</code>, <code>$resamplings</code> and <code>$measures</code> return an overview table of involved objects.</p></li>
-<li><p><code>$aggregated</code> returns aggregated performance measures as a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.
-Experiments are aggregated by their resample result group
-(combination of <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a> and <a href='Resampling.html'>Resampling</a>).
-The actual aggregation function is defined by the respective <a href='Measure.html'>Measure</a>.</p></li>
-<li><p><code>$resample_results</code> returns a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> which gives an overview of the
-resample result groups in the benchmark.
-These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.html'>ResampleResult</a> for further inspection.</p></li>
+<li><p><code>$aggregated</code> returns aggregated performance measures as a <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a>. Experiments are aggregated by their resample result group (combination of <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a> and <a href='Resampling.html'>Resampling</a>). The actual aggregation function is defined by the respective <a href='Measure.html'>Measure</a>.</p></li>
+<li><p><code>$data</code> returns the full benchmark structure for each iteration (task, learner, resampling, etc).</p></li>
+<li><p><code>$resample_results</code> returns a <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a> which gives an overview of the resample result groups in the benchmark. These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.html'>ResampleResult</a> for further inspection.</p></li>
+<li><p><code>$tasks</code>, <code>$learners</code>, <code>$resamplings</code> and <code>$measures</code> return an overview table of involved objects with a unique hash.</p></li>
+<li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts a BenchmarkResult to a <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a>.</p></li>
 <li><p><code>$resample_result()</code> creates the <a href='ResampleResult.html'>ResampleResult</a> identified by the specified <code>hash</code> value.</p></li>
-<li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts a BenchmarkResult to a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/BenchmarkResult.html'>HTML help page</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -212,7 +216,6 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
   <span class='kw'>learners</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>)),
   <span class='kw'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='st'>"cv"</span>)
 )
-
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 20 experiments in 2 resamplings:
 #&gt;  task             learner resampling       mmce
 #&gt;  iris       classif.rpart         cv 0.07333333
@@ -245,11 +248,15 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -259,7 +266,7 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

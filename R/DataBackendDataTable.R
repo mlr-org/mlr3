@@ -1,10 +1,13 @@
 #' @title DataBackend for `data.table`
-#'
+#' @format [R6Class] object
 #' @description
-#' Abstraction for [data.table::data.table()] as an in-memory data base.
+#' Abstraction for [data.table::data.table] as an in-memory data base.
 #' Returns an object of class [DataBackend].
 #'
 #' @section Usage:
+#'
+#' Inherits from [DataBackend].
+#'
 #' ```
 #' # Construction
 #' b = DataBackendDataTable$new(data, primary_key)
@@ -13,15 +16,16 @@
 #' The interface is described in [DataBackend].
 #'
 #' @section Arguments:
-#' * `data` ([data.frame()]).
+#' * `data` ([data.frame]).
 #'
 #' * `primary_key` (`character(1)`):\cr
 #'   Name of the column in `data` which represents a unique
 #'   row identifier (as integer or character).
-#'   If `NULL, the constructor [as_data_backend()] automatically creates an integer column of primary keys.
+#'   If `NULL, the constructor [as_data_backend] automatically creates an integer column of primary keys.
 #'
 #' @name DataBackendDataTable
 #' @family DataBackend
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/DataBackendDataTable.html)
 #' @examples
 #' data = as.data.table(iris)
 #' data$id = seq_len(nrow(iris))
