@@ -81,9 +81,9 @@
 #'   - `"groups"`: During resampling, observations with the same value of the variable
 #'        listed in `"groups"` are marked as "belonging together". They will be assigned
 #'        jointly to be either in the training set or the test set.
-#'        Returns a `data.table::data.table()` with two columns: first column are rows ids,
+#'        Returns a ([data.table::data.table]) with two columns: first column are rows ids,
 #'       second column are the group labels.
-#'   - `"weights"`: Observation weights. `data.table::data.table()` with two columns: first column are the row ids,
+#'   - `"weights"`: Observation weights. ([data.table::data.table]) with two columns: first column are the row ids,
 #'       second column are the observation weights.
 #'   To alter the role, use `$set_col_role()`
 #' * `$data()` is used to retrieve data from the backend as `data.table`.
@@ -91,13 +91,13 @@
 #'   Columns are filtered to only contain features with `role %in% c("target", "feature")`.
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
 #' * `$feature_names()` (`character()`) returns all column names with `role == "feature"`.
-#' * `$feature_types()` [`data.table::data.table()`] returns a table with columns `id` and `type` where `id` are the column names of "active"
+#' * `$feature_types()` ([data.table::data.table])returns a table with columns `id` and `type` where `id` are the column names of "active"
 #'   features of the task and `type` is the storage type.
 #' * `$filter()` reduces the task, subsetting it to only the rows specified.
 #' * `$formula()` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
-#' * `$groups()` returns a [`data.table::data.table()`] with two columns: the row ids and the grouping / blocking information.
+#' * `$groups()` returns a ([data.table::data.table]) with two columns: the row ids and the grouping / blocking information.
 #' * `$hash()` (`character(1)`) stores a checksum calculated on the `id`, `row_roles` and `col_roles`.
-#' * `$head()` ([data.table::data.table()]) can be used to peek into the first `n` observations with `role == "use"`.
+#' * `$head()` ([data.table::data.table]) can be used to peek into the first `n` observations with `role == "use"`.
 #' * `$new()` initializes a new object of class [Task].
 #' * `$id()` (`character(1)`) stores the name of the task.
 #' * `$levels()` (`character()`) queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
