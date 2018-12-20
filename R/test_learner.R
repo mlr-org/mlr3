@@ -9,16 +9,46 @@
 #' @import testthat
 #' @export
 #' @examples
-#'   lrn = LearnerClassifRpart$new()
-#'   test_learner(lrn)
+#' lrn = LearnerClassifRpart$new()
+#' test_learner(lrn)
 # #' \dontshow{
 # #'    logger::log_threshold(.threshold, namespace = "mlr3")
 # #' }
 test_learner = function(learner) {
+  UseMethod("test_learner")
+}
+
+#' @export
+test_learner.LearnerClassif = function(learner) {
   assert_learner(learner)
   tasks = make_classif_test_tasks(learner)
   lapply(unlist(tasks), function(x) run_classif_tests(learner = learner, task = x))
   return(invisible())
+}
+
+#' @export
+test_learner.LearnerRegr = function(learner) {
+  assert_learner(learner)
+  tasks = make_regr_test_tasks(learner)
+  lapply(unlist(tasks), function(x) run_regr_tests(learner = learner, task = x))
+  return(invisible())
+}
+
+# Helper function. Runs unit tests on a learner and a task.
+# If predict_type se is available, this will be tested as well.
+run_regr_tests = function(learner, task) {
+  id = paste0("learner ", learner$id, " on task ", task$id)
+  e = Experiment$new(task, learner)
+  test_train_predict(e, id = id)
+  #test predict type se
+  if ("se" %in% learner$predict_types) {
+    id = paste(id, "predict_type se")
+    learner2 = learner$clone()
+    learner2$predict_type = "se"
+    e2 = Experiment$new(task, learner2)
+    test_train_predict(e2, id = id)
+    expect_true(!is.null(e2$prediction$se), info = id)
+  }
 }
 
 # Helper function. Runs unit tests on a learner and a task.
@@ -29,6 +59,7 @@ run_classif_tests = function(learner, task) {
   test_train_predict(e, id = id)
   #test predict type prob
   if ("prob" %in% learner$predict_types) {
+    id = paste(id, "predict_type prob")
     learner2 = learner$clone()
     learner2$predict_type = "prob"
     e2 = Experiment$new(task, learner2)
@@ -75,12 +106,10 @@ make_data = function(feature_types, target, missings = FALSE) {
 # ...
 # combinations length length(lrn$feature_types): ...
 #
-# missings will be TRUE, if learner supports missings.
+# dataset will contain missings, if learner supports missings.
 # Only multiclass will be tested, if multiclass is supported (twoclass otherwise).
 # args:
 # lrn: learner
-# target: character(1). "twoclass", "multiclass" or "regr"
-# missings: logical(1). If TRUE, all feature columns will contain missings
 make_classif_test_tasks = function(lrn) {
   combn = NULL
   feature_types = lrn$feature_types
@@ -96,6 +125,37 @@ make_classif_test_tasks = function(lrn) {
     df_list = lapply(combs_i, function(x) make_data(feature_types = x, target = target, missings))
     data_backend_list = lapply(df_list, as_data_backend)
     tasks_list = mapply(function(x,y) TaskClassif$new(id = x, backend = y, target = target), x = comb_names, y = data_backend_list)
+    tasks[[i]] = tasks_list
+  }
+  tasks
+}
+
+# Helper function which generates classification tasks for every feature type combination.
+# E.g.:
+# combinations length 1: one logical feature, one integer feature, one numeric feature ...
+# combinations length 2: logical + integer features, logical + numeric features, ....
+# ...
+# combinations length length(lrn$feature_types): ...
+#
+# dataset will contain missings, if learner supports missings.
+# Only multiclass will be tested, if multiclass is supported (twoclass otherwise).
+# args:
+# lrn: learner
+make_regr_test_tasks = function(lrn) {
+  combn = NULL
+  feature_types = lrn$feature_types
+  target = "regr"
+  missings = "missings" %in% lrn$properties
+
+  combs = lapply(1:length(feature_types), combn, x = feature_types, simplify = FALSE) #get all possible feature type combinations
+  tasks = list()
+  #loop over number of feature types
+  for (i in 1:length(combs)) {
+    combs_i = combs[[i]]
+    comb_names = lapply(combs_i, function(x) paste0(unlist(x), collapse = "."))
+    df_list = lapply(combs_i, function(x) make_data(feature_types = x, target = target, missings))
+    data_backend_list = lapply(df_list, as_data_backend)
+    tasks_list = mapply(function(x,y) TaskRegr$new(id = x, backend = y, target = target), x = comb_names, y = data_backend_list)
     tasks[[i]] = tasks_list
   }
   tasks

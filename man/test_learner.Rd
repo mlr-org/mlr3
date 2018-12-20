@@ -17,6 +17,6 @@ None.
 A learner is tested on many different tasks which cover the learner's specified feature types and properties.
 }
 \examples{
-  lrn = LearnerClassifRpart$new()
-  test_learner(lrn)
+lrn = LearnerClassifRpart$new()
+test_learner(lrn)
 }
