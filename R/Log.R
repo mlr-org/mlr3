@@ -1,18 +1,22 @@
 #' @title Learner Output Log
-#'
+#' @format [R6Class] object
 #' @description
 #' Object which stores the output of the `train` or `predict` step of an [Experiment].
 #'
 #' @section Usage:
+#'
 #' ```
 #' # Construction
 #' l = Log$new(log = NULL)
-#' # Getters
-#' l$log
-#' l$has_condition(cl)
-#' l$warnings
+#'
+#' # Members
 #' l$errors
+#' l$log
+#' l$warnings
+#'
+#' # Methods
 #' l$format()
+#' l$has_condition(cl)
 #' l$print()
 #' ```
 #'
@@ -23,18 +27,16 @@
 #'   Class of a condition. One of "output", "warning", or "error". #FIXME: missing "message"?
 #'
 #' @section Details:
-#' * `$new(log)` parses the object returned by [evaluate::evaluate()] and creates a new [Log].
-#'
-#' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is logged.
-#'   Possible conditions are "output", "message", "warning", and "error".
-#'
-#' * `$warnings` (`character()`) returns all lines which are warnings.
-#'
 #' * `$errors` (`character()`) returns all lines which are errors.
-#'
-#' * `format()` and `print()` are for formatting and printing via [format()] or [print()], respectively.
-#'
+#' * `$warnings` (`character()`) returns all lines which are warnings.
+#' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is
+#'   logged. Possible conditions are "output", "message", "warning", and "error".
+#' * `$new(log)` parses the object returned by [evaluate::evaluate] and creates
+#'   a new [Log].
+#' * `format()` and `print()` are for formatting and printing via [format] or
+#'   [print], respectively.
 #' @name Log
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Log.html)
 #' @examples
 #' # Create a simple experiment and extract the train log:
 #' task = mlr_tasks$get("sonar")
