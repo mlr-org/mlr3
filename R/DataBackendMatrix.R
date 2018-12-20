@@ -1,5 +1,5 @@
 #' @title DataBackend for Matrix
-#'
+#' @format [R6Class] object
 #' @description
 #' Abstraction for [`Matrix`][Matrix::Matrix]. Data is stored as (sparse) matrix.
 #' Supports two output formats:
@@ -23,6 +23,7 @@
 #'
 #' @name DataBackendMatrix
 #' @family DataBackend
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/DataBackendMatrix.html)
 #' @examples
 #' requireNamespace("Matrix")
 #' data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)
