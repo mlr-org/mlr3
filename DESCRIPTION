@@ -120,6 +120,5 @@ Collate:
     'resample.R'
     'split_train_validation.R'
     'test_learner.R'
-    'test_learner_sanity.R'
     'worker.R'
     'zzz.R'
