@@ -25,9 +25,6 @@
 #' rr$experiments(iters)
 #' rr$performance(id)
 #' rr$print()
-#'
-#' # S3 methods
-#' as.data.table(bmr)
 #' ```
 #'
 #' @section Arguments:
@@ -37,33 +34,25 @@
 #' * `hash` (`NULL` | `character(1)`):\cr
 #'   Pre-calculated hash for the combination of `task`, `learner` and `resampling`.
 #'   If `NULL`, the checksum will be calculated on-demand.
-#' * `id` (`character(1)`):\cr
-#'   Identifier of a performance measure.
+#' * `rr` (`ResampleResult`):\cr
+#'   Second [ResampleResult].
 #' * `iter` (`integer(1)`):\cr
 #'   Iteration of the experiment to retrieve.
 #' * `iters` (`integer`):\cr
 #'   Iterations of experiments to retrieve as `list()`.
-#' * `rr` (`ResampleResult`):\cr
-#'   Second [ResampleResult].
+#' * `id` (`character(1)`):\cr
+#'   Identifier of a performance measure.
 #'
 #' @section Details:
-#' * `$task`, `$learner`, `$resampling` and `$measure` allow access to the [Task], [Learner], [Resampling] and
-#'   [Measure] used in the resampling.
-#'
-#' * `$performance(id)` retrieves the performance values for the measure with id `id` as numeric vector.
-#'
-#' * `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
-#'
-#' * `$experiments()` returns a `list` with the slice of [Experiment]s for the provided `iters`.
-#'
-#' * `$combine()` takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
 #'
 #' * `$aggregated` (named `numeric()`) returns the aggregated performance measures. The aggregation method is part of the [Measure].
-#'
-#' * `$hash` (`character(1))` stores a hash for the combination of task, learner and resampling.
-#'
+#' * `$combine()` takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
 #' * `$errors` FIXME ???
-#'
+#' * `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
+#' * `$experiments()` returns a `list` with the slice of [Experiment]s for the provided `iters`.
+#' * `$hash` (`character(1))` stores a hash for the combination of task, learner and resampling.
+#' * `$performance(id)` retrieves the performance values for the measure with id `id` as numeric vector.
+#' * `$task`, `$learner`, `$resampling` and `$measure` allow access to the [Task], [Learner], [Resampling] and [Measure] used in the resampling.
 #' * `as.data.table()` converts the [BenchmarkResult] to a [data.table::data.table()].
 #'
 #' @name ResampleResult
