@@ -155,8 +155,8 @@
 <a href="#predefined-tasks" class="anchor"></a>Predefined tasks</h2>
 <p><code>mlr3</code> ships with some popular machine learning toy tasks. These are stored in a <code><a href="../reference/Dictionary.html">mlr3::Dictionary</a></code>, which is a simple key-value store named <code><a href="../reference/mlr_tasks.html">mlr3::mlr_tasks</a></code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">mlr_tasks</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; &lt;DictionaryTask&gt; with 7 stored values: bh, iris, pima, sonar,</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt;   spam, titanic, zoo</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; &lt;DictionaryTask&gt; with 7 stored values</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Ids: bh, iris, pima, sonar, spam, titanic, zoo</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Public:  add(), get(), has(), ids(), items, mget(), remove()</span></a></code></pre></div>
 <p>The <code>mlr_tasks</code> object offers public member methods to modify and extend the key-value store, see also the help page in <code><a href="../reference/mlr_tasks.html">?mlr_tasks</a></code>. We can obtain an overview of all currently available tasks by</p>
@@ -176,7 +176,7 @@
 <p>For illustration purposes, we now retrieve the popular <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris data set</a> from <code>mlr_tasks</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Task 'iris' of type classif (150 x 5)</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; &lt;TaskClassif:iris&gt; (150 x 5)</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Target: Species</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Features: Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; </span></a>
@@ -251,7 +251,7 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">b =<span class="st"> </span><span class="kw"><a href="../reference/DataBackend.html">as_data_backend</a></span>(cars)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">task =<span class="st"> </span>TaskRegr<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">"cars"</span>, <span class="dt">backend =</span> b, <span class="dt">target =</span> <span class="st">"mpg"</span>)</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Task 'cars' of type regr (32 x 3)</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; &lt;TaskRegr:cars&gt; (32 x 3)</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; Target: mpg</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Features: cyl, disp</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; </span></a>
