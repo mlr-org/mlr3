@@ -6,6 +6,13 @@
 \usage{
 as_data_backend(data, ...)
 }
+\arguments{
+\item{data}{\cr
+Data to wrap the backend around. Typically a \code{data.frame}.}
+
+\item{...}{\cr
+Additional arguments passed to the respective \link{DataBackend} method.}
+}
 \value{
 \link{DataBackend}
 }

@@ -12,4 +12,7 @@ MeasureClassifAUC
 \description{
 Calls \link[Metrics:auc]{Metrics::auc}.
 }
+\references{
+\href{https://mlr3.mlr-org.com/reference/mlr_measures_auc.html}{HTML help page}
+}
 \keyword{datasets}

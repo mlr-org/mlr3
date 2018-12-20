@@ -3,12 +3,13 @@
 \name{LearnerRegr}
 \alias{LearnerRegr}
 \title{Regression Learner}
+\format{\link{R6Class} object}
 \description{
 This Learner specializes \link{Learner} for regression problems.
 }
 \section{Usage}{
 
-See \link{Learner}.
+Inherits from \link{Learner}.
 }
 
 \section{Details}{
