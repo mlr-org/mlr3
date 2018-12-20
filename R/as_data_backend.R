@@ -8,9 +8,9 @@
 #'
 #' @section Details:
 #'   See `methods("as_data_backend")` for possible input formats.
-#' @param data \cr
+#' @param data ([data.frame]) \cr
 #'   Data to wrap the backend around. Typically a `data.frame`.
-#' @param ... \cr
+#' @param ... () \cr
 #'   Additional arguments passed to the respective [DataBackend] method.
 #' @return [DataBackend]
 #' @family DataBackend
