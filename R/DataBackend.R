@@ -46,7 +46,6 @@
 #' * `$missing()` (named `integer()`) returns a named integer with the number of
 #'   missing values per column.
 #' @family DataBackend
-#' @aliases as_data_backend
 #' @name DataBackend
 #' @references [HTML help page](https://mlr3.mlr-org.com/reference/DataBackend.html)
 NULL
