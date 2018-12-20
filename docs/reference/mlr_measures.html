@@ -172,7 +172,7 @@ Each measure has an associated help page, see <code>mlr_measures_[id]</code>.</p
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "acc"          "auc"          "mmce"         "mse"          "time_both"   
+    <pre class="examples"><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'>ids</span>()</div><div class='output co'>#&gt; [1] "acc"          "auc"          "mmce"         "mse"          "time_both"   
 #&gt; [6] "time_predict" "time_train"  </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_measures</span>)</div><div class='output co'>#&gt;              id task_type packages
 #&gt; 1:          acc   classif  Metrics
 #&gt; 2:          auc   classif  Metrics
@@ -180,7 +180,7 @@ Each measure has an associated help page, see <code>mlr_measures_[id]</code>.</p
 #&gt; 4:          mse      regr  Metrics
 #&gt; 5:    time_both      &lt;NA&gt;         
 #&gt; 6: time_predict      &lt;NA&gt;         
-#&gt; 7:   time_train      &lt;NA&gt;         </div><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"mmce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifMMCE&gt; for classif
+#&gt; 7:   time_train      &lt;NA&gt;         </div><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"mmce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifMMCE:mmce&gt;
 #&gt; Packages: Metrics
 #&gt; Range: [0, 1]
 #&gt; Minimize: TRUE

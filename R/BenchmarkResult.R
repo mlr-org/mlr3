@@ -38,21 +38,12 @@
 #'   Argument of get_best
 #'
 #' @section Details:
-#' * `$aggregated` returns aggregated performance measures as a [data.table::data.table].
-#'   Experiments are aggregated by their resample result group (combination of [Task],
-#'   [Learner] and [Resampling]). The actual aggregation function is defined by the
-#'   respective [Measure].
-#' * `$data` returns the full benchmark structure for each iteration (task, learner,
-#'   resampling, etc).
-#' * `$resample_result()` creates the [ResampleResult] identified by the specified
-#'   `hash` value.
-#' * `$resample_results` returns a [data.table::data.table] which gives an overview
-#'   of the resample result groups in the benchmark. These groups in the [BenchmarkResult]
-#'   can be extracted as [ResampleResult] for further inspection.
-#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table
-#'   of involved objects with a unique hash.
+#' * `$aggregated` returns aggregated performance measures as a [data.table::data.table]. Experiments are aggregated by their resample result group (combination of [Task], [Learner] and [Resampling]). The actual aggregation function is defined by the respective [Measure].
+#' * `$data` returns the full benchmark structure for each iteration (task, learner, resampling, etc).
+#' * `$resample_results` returns a [data.table::data.table] which gives an overview of the resample result groups in the benchmark. These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
+#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects with a unique hash.
 #' * `as.data.table()` converts a [BenchmarkResult] to a [data.table::data.table].
-#'
+#' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
 #' @name BenchmarkResult
 #' @references [HTML help page](https://mlr3.mlr-org.com/reference/BenchmarkResult.html)
 #'
@@ -95,14 +86,20 @@ BenchmarkResult = R6Class("BenchmarkResult",
       self$data = setcolorder(data, slots)
     },
 
+    format = function() {
+      "<BenchmarkResult>"
+    },
+
     print = function() {
-      catf("<BenchmarkResult> of %i experiments in %i resamplings",
-        nrow(self$data), uniqueN(self$data$hash))
+      catf("%s of %i experiments in %i resamplings:",
+        format(self), nrow(self$data), uniqueN(self$data$hash))
       measure = self$measures$measure[[1L]]
-      best = self$get_best(measure)
-      aggregated = best$aggregated
-      catf("Best: Learner %s on %s (resampling %s) with %s=%g",
-        best$learner$id, best$task$id, best$resampling$id, measure$id, best$aggregated[[measure$id]])
+
+      aggr = self$aggregated[, !c("hash", "resample_result"), with = FALSE]
+      setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
+      setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
+      print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
+
       catf(str_indent("\nPublic:", str_r6_interface(self)))
     },
 

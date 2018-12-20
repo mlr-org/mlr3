@@ -11,6 +11,14 @@
 #'
 #' @name LearnerClassif
 #' @family Learner
+#' @examples
+#' # get all classification learners from mlr_learners:
+#' lrns = mlr_learners$mget(mlr_learners$ids("^classif"))
+#' names(lrns)
+#'
+#' # get a specific learner from mlr_learners:
+#' lrn = mlr_learners$get("classif.rpart")
+#' print(lrn)
 NULL
 
 #' @export

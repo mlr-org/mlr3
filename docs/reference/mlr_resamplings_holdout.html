@@ -170,12 +170,13 @@ Parameter <code>ratio</code> determines the ratio of observation in the train se
 
 <span class='co'># Instantiate Resampling</span>
 <span class='no'>rho</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"holdout"</span>)
-<span class='no'>rho</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; Instantiated &lt;ResamplingHoldout&gt; with 1 iterations
+<span class='no'>rho</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;ResamplingHoldout&gt; with 1 iterations
+#&gt; Instantiated: TRUE
 #&gt; Parameters: ratio=0.6667
 #&gt; 
-#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,
-#&gt;   is_instantiated, iters, param_set, param_vals, stratify, test_set,
-#&gt;   train_set</div><div class='input'>
+#&gt; Public: clone, format, has_duplicates, hash, id, instance,
+#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
+#&gt;   test_set, train_set</div><div class='input'>
 <span class='co'># Individual sets:</span>
 <span class='no'>rho</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  7  4  9  5 10  2  3</div><div class='input'><span class='no'>rho</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 6 8</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rho</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rho</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>

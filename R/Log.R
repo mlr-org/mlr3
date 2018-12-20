@@ -60,7 +60,7 @@ Log = R6Class("Log", cloneable = FALSE,
     },
 
     format = function() {
-      sprintf("[%s] %s", self$log$class, self$log$msg)
+      sprintf("<%s>", class(self)[1L])
     },
 
     print = function() {
@@ -68,8 +68,8 @@ Log = R6Class("Log", cloneable = FALSE,
       if (n == 0L) {
         catf("Empty <Log>")
       } else {
-        catf("<Log> with %i message%s:", n, if (n == 1L) "" else "s")
-        catf(strwrap(paste0(seq_len(n), ": ", format(self)), exdent = nchar(n) + 2L))
+        catf("%s with %i message%s:", format(self), n, if (n == 1L) "" else "s")
+        catf(strwrap(sprintf("%i: [%s] %s", seq_len(n), self$log$class, self$log$msg), exdent = nchar(n) + 2L))
       }
     },
 

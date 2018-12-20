@@ -3,22 +3,17 @@
 \name{Log}
 \alias{Log}
 \title{Learner Output Log}
-\format{\link{R6Class} object}
 \description{
 Object which stores the output of the \code{train} or \code{predict} step of an \link{Experiment}.
 }
 \section{Usage}{
 \preformatted{# Construction
 l = Log$new(log = NULL)
-
-# Members
-l$errors
+# Getters
 l$log
-l$warnings
-
-# Methods
-l$format()
 l$has_condition(cl)
+l$warnings
+l$errors
 l$print()
 }
 }
@@ -36,14 +31,11 @@ Class of a condition. One of "output", "warning", or "error". #FIXME: missing "m
 \section{Details}{
 
 \itemize{
-\item \code{$errors} (\code{character()}) returns all lines which are errors.
+\item \code{$new(log)} parses the object returned by \code{\link[evaluate:evaluate]{evaluate::evaluate()}} and creates a new \link{Log}.
+\item \code{$has_condition(cl)} returns \code{TRUE} if at least on message of class \code{cl} is logged.
+Possible conditions are "output", "message", "warning", and "error".
 \item \code{$warnings} (\code{character()}) returns all lines which are warnings.
-\item \code{$has_condition(cl)} returns \code{TRUE} if at least on message of class \code{cl} is
-logged. Possible conditions are "output", "message", "warning", and "error".
-\item \code{$new(log)} parses the object returned by \link[evaluate:evaluate]{evaluate::evaluate} and creates
-a new \link{Log}.
-\item \code{format()} and \code{print()} are for formatting and printing via \link{format} or
-\link{print}, respectively.
+\item \code{$errors} (\code{character()}) returns all lines which are errors.
 }
 }
 
@@ -59,7 +51,4 @@ l = e$logs$train
 
 l$has_condition("error")
 print(l)
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/Log.html}{HTML help page}
 }

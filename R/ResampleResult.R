@@ -70,8 +70,12 @@ ResampleResult = R6Class("ResampleResult",
         private$.hash = assert_string(hash)
     },
 
+    format = function() {
+      sprintf("<%s>", class(self)[1L])
+    },
+
     print = function(...) {
-      catf("ResampleResult of learner '%s' on task '%s' with %i iterations", self$task$id, self$learner$id, nrow(self$data))
+      catf("%s of learner '%s' on task '%s' with %i iterations", format(self), self$task$id, self$learner$id, nrow(self$data))
 
       tab = map_dtr(self$measures$measure_id, function(id) {
         perf = self$performance(id)

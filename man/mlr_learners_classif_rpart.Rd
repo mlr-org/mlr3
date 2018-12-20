@@ -5,14 +5,11 @@
 \alias{mlr_learners_classif_rpart}
 \alias{LearnerClassifRpart}
 \title{Classification Tree Learner}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerClassif}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerClassif}.}
 \usage{
 LearnerClassifRpart
 }
 \description{
-A learner for a classification tree implemented in \link[rpart:rpart]{rpart::rpart}.
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_learners_classif_rpart.html}{HTML help page}
+A learner for a classification tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}}.
 }
 \keyword{datasets}

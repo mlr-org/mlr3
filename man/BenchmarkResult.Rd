@@ -3,28 +3,23 @@
 \name{BenchmarkResult}
 \alias{BenchmarkResult}
 \title{Container for Results of \code{benchmark()}}
-\format{\link{R6Class} object}
 \description{
-This is the object returned by \link{benchmark}.
+This is the object returned by \code{\link[=benchmark]{benchmark()}}.
 }
 \section{Usage}{
 \preformatted{# Construction
-see ?benchmark
-
-# Members
-bmr$aggregated
+bmr$new(data)
+# Getters
 bmr$data
-bmr$learners
-bmr$measures
-bmr$resample_results
-bmr$resamplings
 bmr$tasks
-
-# Methods
+bmr$learners
+bmr$resamplings
+bmr$measures
+bmr$aggregated
+bmr$resample_results
+bmr$resample_result(hash)
 bmr$combine(bmr)
 bmr$get_best(measure)
-bmr$resample_result(hash)
-
 # S3 methods
 as.data.table(bmr)
 }
@@ -33,8 +28,8 @@ as.data.table(bmr)
 \section{Arguments}{
 
 \itemize{
-\item \code{data} (\link{data.table}):\cr
-Argument of initialize. Created by \link{benchmark}.
+\item \code{data} ():\cr
+Argument of initialize.
 \item \code{hash} (\code{character(1)}):\cr
 String which identifies a subgroup to extract as \link{ResampleResult}.
 \item \code{bmr} (\link{BenchmarkResult}):\cr
@@ -47,20 +42,17 @@ Argument of get_best
 \section{Details}{
 
 \itemize{
-\item \code{$aggregated} returns aggregated performance measures as a \link[data.table:data.table]{data.table::data.table}.
-Experiments are aggregated by their resample result group (combination of \link{Task},
-\link{Learner} and \link{Resampling}). The actual aggregation function is defined by the
-respective \link{Measure}.
-\item \code{$data} returns the full benchmark structure for each iteration (task, learner,
-resampling, etc).
-\item \code{$resample_result()} creates the \link{ResampleResult} identified by the specified
-\code{hash} value.
-\item \code{$resample_results} returns a \link[data.table:data.table]{data.table::data.table} which gives an overview
-of the resample result groups in the benchmark. These groups in the \link{BenchmarkResult}
-can be extracted as \link{ResampleResult} for further inspection.
-\item \code{$tasks}, \code{$learners}, \code{$resamplings} and \code{$measures} return an overview table
-of involved objects with a unique hash.
-\item \code{as.data.table()} converts a \link{BenchmarkResult} to a \link[data.table:data.table]{data.table::data.table}.
+\item \code{$data} ???
+\item \code{$tasks}, \code{$learners}, \code{$resamplings} and \code{$measures} return an overview table of involved objects.
+\item \code{$aggregated} returns aggregated performance measures as a \code{\link[data.table:data.table]{data.table::data.table()}}.
+Experiments are aggregated by their resample result group
+(combination of \link{Task}, \link{Learner} and \link{Resampling}).
+The actual aggregation function is defined by the respective \link{Measure}.
+\item \code{$resample_results} returns a \code{\link[data.table:data.table]{data.table::data.table()}} which gives an overview of the
+resample result groups in the benchmark.
+These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleResult} for further inspection.
+\item \code{$resample_result()} creates the \link{ResampleResult} identified by the specified \code{hash} value.
+\item \code{as.data.table()} converts a \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }
 
@@ -75,6 +67,7 @@ bmr = benchmark(
   learners = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
   resamplings = mlr_resamplings$mget("cv")
 )
+
 print(bmr)
 bmr$tasks
 bmr$learners
@@ -89,7 +82,4 @@ rr$experiment(1)$model
 \dontshow{
    logger::log_threshold(.threshold, namespace = "mlr3")
 }
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/BenchmarkResult.html}{HTML help page}
 }

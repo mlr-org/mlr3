@@ -36,16 +36,15 @@
 #'
 #' @section Details:
 #' * `$colnames` (`character()`) returns all column names of `data`.
+#' * `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
+#' * `$nrow` (`integer(1)`) returns the number of total rows.
+#' * `$rownames` (`integer()` | `character()`) returns all row names of `data`.
 #' * `$data()` ([data.table::data.table]) returns a slice of the data: rows
 #'   are filtered using the `primary_key` column, columns are selected by name.
 #' * `$distinct()` (named `list()`) returns distinct values for columns `cols`.
 #' * `$head()` ([data.table::data.table]) returns a table of the first `n` data rows.
 #' * `$missing()` (named `integer()`) returns a named integer with the number of
 #'   missing values per column.
-#' * `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
-#' * `$nrow` (`integer(1)`) returns the number of total rows.
-#' * `$rownames` (`integer()` | `character()`) returns all row names of `data`.
-#'
 #' @family DataBackend
 #' @aliases as_data_backend
 #' @name DataBackend
@@ -57,13 +56,19 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     primary_key = NULL,
     formats = character(0L),
+
     initialize = function(data, primary_key, formats = "data.table") {
       private$.data = data
       self$primary_key = assert_string(primary_key)
       self$formats = assert_subset(formats, mlr_reflections$backend_formats, empty.ok = FALSE)
     },
+
+    format = function() {
+      sprintf("<%s>", class(self)[1L])
+    },
+
     print = function() {
-      catf("<%s> (%ix%i)", class(self)[1L], self$nrow, self$ncol)
+      catf("%s (%ix%i)", format(self), self$nrow, self$ncol)
       catf(str_indent("\nPublic:", str_r6_interface(self)))
       print(self$head(6L))
     }

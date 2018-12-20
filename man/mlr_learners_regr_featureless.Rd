@@ -5,7 +5,7 @@
 \alias{mlr_learners_regr_featureless}
 \alias{LearnerRegrDummy}
 \title{Featureless Regression Learner}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerRegr}.}
+\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{LearnerRegr}.}
 \usage{
 LearnerRegrDummy
 }
@@ -15,8 +15,5 @@ If hyperparameter \code{robust} is \code{FALSE} (default), constantly predicts \
 and \code{sd(y)} as standard error.
 If \code{robust} is \code{TRUE}, \code{median()} and \code{madn()} are used instead of \code{mean()} and \code{sd()},
 respectively.
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_learners_regr_featureless.html}{HTML help page}
 }
 \keyword{datasets}
