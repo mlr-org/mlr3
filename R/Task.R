@@ -1,5 +1,5 @@
 #' @title Supervised or Unsupervised Tasks
-#'
+#' @format [R6Class] object
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
 #'
@@ -8,9 +8,10 @@
 #' # Construction
 #' t = Task$new(id, backend, task_type)
 #'
-#' # Accessors
+#' # Members
 #' t$backend
 #' t$col_info
+#' t$col_roles
 #' t$features_names
 #' t$feature_types
 #' t$formula
@@ -20,18 +21,20 @@
 #' t$measures
 #' t$ncol
 #' t$nrow
+#' t$properties
 #' t$row_ids
 #' t$row_roles
 #' t$target_names
 #' t$task_type
 #'
+#' # Methods: Accessors
 #' t$data(rows = NULL, cols = NULL)
 #' t$head(n = 6)
 #' t$levels(col)
 #' t$set_col_role(cols, new_roles, exclusive = TRUE)
 #' t$set_row_role(rows, new_roles, exclusive = TRUE)
 #'
-#' # Mutators
+#' # Methods: Mutators
 #' t$cbind(data)
 #' t$filter(rows)
 #' t$overwrite(data)
@@ -46,23 +49,23 @@
 #'   [DataBackend] which stores the data.
 #' * `task_type` (`character(1)`):
 #'   Task type. Set via class which inherits from [Task].
-#' * `data` ([data.frame()]):
-#'   New data to rbind/cbind to the task.
 #' * `rows` (`integer()` | `character()`):
 #'   Vector of row ids specifying rows from the [DataBackend] using its primary key.
 #'   Can be `character()` or `integer`, depending on the [DataBackend].
 #' * `cols` (`character()`):
 #'   Character vector to specify columns from the [DataBackend].
-#' * `col` (`character(1)`):
-#'   Character vector to specify a single column from the [DataBackend].
 #' * `n` (`integer(1)`):
 #'   Number of rows to retrieve from the [DataBackend].
+#' * `col` (`character(1)`):
+#'   Character vector to specify a single column from the [DataBackend].
 #' * `new_roles` (`character(1)`):
 #'   New roles to assign for specified rows/columns.
 #' * `exclusive` (`logical(1)`):
 #'   If `TRUE`, the cols/rows will be removed from all roles except `new_roles`.
+#' * `data` ([data.frame()]):
+#'   New data to rbind/cbind to the task.
 #'
-#' @section Methods:
+#' @section Details:
 #' * `$backend()` ([DataBackend]) stores the [DataBackend] of the task.
 #'
 #' * `$cbind()` extends the task with additional columns.
@@ -94,7 +97,7 @@
 #'
 #' * `$feature_names()` (`character()`) returns all column names with `role == "feature"`.
 #'
-#' * `$feature_types()` [`data.table::data.table()`) returns a table with columns `id` and `type` where `id` are the column names of "active"
+#' * `$feature_types()` [`data.table::data.table()`] returns a table with columns `id` and `type` where `id` are the column names of "active"
 #'   features of the task and `type` is the storage type.
 #'
 #' * `$filter()` reduces the task, subsetting it to only the rows specified.
@@ -125,7 +128,7 @@
 #'
 #' * `$rbind()` extends the task with additional rows.
 #'
-#' * `$row_ids()` (`data.table()`] returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
+#' * `$row_ids()` (`data.table()`) returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
 #'    The column names of the returned `data.table` equals the primary key column in the [DataBackend].
 #'
 #' * `$row_roles()` (`list`). Stores the row ids of [DataBackend] in vectors of row roles:
@@ -150,7 +153,6 @@
 #' `filter()` and `select()` just reduce the set of active rows or columns, providing a different view on the data.
 #' `rbind()`, `cbind()`, and `overwrite()` first create a new [DataBackendDataTable] from the provided data, and then
 #' merge both backends into an abstract [DataBackend] which combines the results on-demand.
-#'
 #'
 #' @name Task
 #' @export

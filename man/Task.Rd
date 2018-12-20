@@ -3,6 +3,7 @@
 \name{Task}
 \alias{Task}
 \title{Supervised or Unsupervised Tasks}
+\format{\link{R6Class} object}
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
 }
@@ -10,9 +11,10 @@ This is the abstract base class for task objects like \link{TaskClassif} and \li
 \preformatted{# Construction
 t = Task$new(id, backend, task_type)
 
-# Accessors
+# Members
 t$backend
 t$col_info
+t$col_roles
 t$features_names
 t$feature_types
 t$formula
@@ -22,18 +24,20 @@ t$id
 t$measures
 t$ncol
 t$nrow
+t$properties
 t$row_ids
 t$row_roles
 t$target_names
 t$task_type
 
+# Methods: Accessors
 t$data(rows = NULL, cols = NULL)
 t$head(n = 6)
 t$levels(col)
 t$set_col_role(cols, new_roles, exclusive = TRUE)
 t$set_row_role(rows, new_roles, exclusive = TRUE)
 
-# Mutators
+# Methods: Mutators
 t$cbind(data)
 t$filter(rows)
 t$overwrite(data)
@@ -51,25 +55,25 @@ Name of the task.
 \link{DataBackend} which stores the data.
 \item \code{task_type} (\code{character(1)}):
 Task type. Set via class which inherits from \link{Task}.
-\item \code{data} (\code{\link[=data.frame]{data.frame()}}):
-New data to rbind/cbind to the task.
 \item \code{rows} (\code{integer()} | \code{character()}):
 Vector of row ids specifying rows from the \link{DataBackend} using its primary key.
 Can be \code{character()} or \code{integer}, depending on the \link{DataBackend}.
 \item \code{cols} (\code{character()}):
 Character vector to specify columns from the \link{DataBackend}.
-\item \code{col} (\code{character(1)}):
-Character vector to specify a single column from the \link{DataBackend}.
 \item \code{n} (\code{integer(1)}):
 Number of rows to retrieve from the \link{DataBackend}.
+\item \code{col} (\code{character(1)}):
+Character vector to specify a single column from the \link{DataBackend}.
 \item \code{new_roles} (\code{character(1)}):
 New roles to assign for specified rows/columns.
 \item \code{exclusive} (\code{logical(1)}):
 If \code{TRUE}, the cols/rows will be removed from all roles except \code{new_roles}.
+\item \code{data} (\code{\link[=data.frame]{data.frame()}}):
+New data to rbind/cbind to the task.
 }
 }
 
-\section{Methods}{
+\section{Details}{
 
 \itemize{
 \item \code{$backend()} (\link{DataBackend}) stores the \link{DataBackend} of the task.
@@ -99,7 +103,7 @@ Rows are subsetted to only contain observations with \code{role == "use"}.
 Columns are filtered to only contain features with \code{role \%in\% c("target", "feature")}.
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \item \code{$feature_names()} (\code{character()}) returns all column names with \code{role == "feature"}.
-\item \code{$feature_types()} [\code{data.table::data.table()}) returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
+\item \code{$feature_types()} \code{\link[data.table:data.table]{data.table::data.table()}} returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
 features of the task and \code{type} is the storage type.
 \item \code{$filter()} reduces the task, subsetting it to only the rows specified.
 \item \code{$formula()} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
@@ -116,7 +120,7 @@ This function ignores the row roles, so you get all levels found in the \link{Da
 \item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[data.table:data.table]{data.table::data.table()}}.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
 \item \code{$rbind()} extends the task with additional rows.
-\item \code{$row_ids()} (\code{data.table()}] returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
+\item \code{$row_ids()} (\code{data.table()}) returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
 The column names of the returned \code{data.table} equals the primary key column in the \link{DataBackend}.
 \item \code{$row_roles()} (\code{list}). Stores the row ids of \link{DataBackend} in vectors of row roles:
 \itemize{

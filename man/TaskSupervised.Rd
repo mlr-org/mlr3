@@ -8,9 +8,14 @@ This is the abstract base class for task objects like \link{TaskClassif} and \li
 It extends \link{Task} with some handling of target columns.
 }
 \section{Usage}{
-\preformatted{# Construction
+
+Inherits from \link{Task}\preformatted{# Construction
 t = TaskSupervised$new(id, task_type, backend, targets)
-#
+
+# Members
+t$weights
+
+# Methods
 t$truth(subset = NULL)
 }
 }
@@ -26,10 +31,16 @@ Subset of row ids to subset rows from the \link{DataBackend} using its primary k
 \section{Details}{
 
 \itemize{
+\item \code{$weights} returns the weights used in the \link{DataBackend}.
 \item \code{$truth()} returns the true labels. The type depends on the type of the task.
 }
 }
 
+\examples{
+b = as_data_backend(iris)
+task = TaskSupervised$new("iris", task_type = "classif", backend = b, targets = "Species")
+
+}
 \seealso{
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskRegr}}, \code{\link{Task}},

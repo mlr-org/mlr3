@@ -5,10 +5,16 @@
 #' It extends [Task] with some handling of target columns.
 #'
 #' @section Usage:
+#' Inherits from [Task]
+#'
 #' ```
 #' # Construction
 #' t = TaskSupervised$new(id, task_type, backend, targets)
-#' #
+#'
+#' # Members
+#' t$weights
+#'
+#' # Methods
 #' t$truth(subset = NULL)
 #' ```
 #'
@@ -17,10 +23,15 @@
 #'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
 #' @section Details:
+#' * `$weights` returns the weights used in the [DataBackend].
 #' * `$truth()` returns the true labels. The type depends on the type of the task.
 #'
 #' @name TaskSupervised
 #' @family Task
+#' @examples
+#' b = as_data_backend(iris)
+#' task = TaskSupervised$new("iris", task_type = "classif", backend = b, targets = "Species")
+#'
 #' @keywords internal
 NULL
 

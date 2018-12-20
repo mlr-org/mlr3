@@ -5,34 +5,37 @@
 #' The target column is assumed to be a factor.
 #'
 #' @section Usage:
-#' In addition to the interface of [Task]/[TaskSupervised], this class implements:
+#' Inherits from [TaskSupervised]
+#'
 #' ```
 #' # Construction
 #' t = TaskClassif$new(id, backend, target, positive = NULL)
-#' #
-#' t$task_type
-#' t$class_names
-#' t$class_n
+#'
+#' # Members
 #' t$all_classes
+#' t$class_n
+#' t$class_names
+#' t$negative
+#' t$positive
 #' ```
 #'
 #' @section Arguments:
 #' * `positive` (`character(1)`):
-#'   Name of the "positive" class for binary classification problems.
+#'   Name of the "positive" class, only required for binary classification problems.
 #'
 #' @section Details:
-#' * `$task_type` is `"classif"`.
-#' * `$class_names` returns all class labels of the rows which `role == "use"`.
-#' * `$class_n` returns the number of class labels of the rows which `role == "use"`.
 #' * `$all_classes` returns all class labels for the target column in the [DataBackend].
 #'   In contrast to `$class_names`, this is not restricted to the currently active rows.
-#'
+#' * `$class_n` returns the number of class labels of the rows which `role == "use"`.
+#' * `$class_names` returns all class labels of the rows which `role == "use"`.
+#' * `$task_type` is `"classif"`.
 #'
 #' @name TaskClassif
 #' @family Task
 #' @examples
 #' b = as_data_backend(iris)
 #' task = TaskClassif$new("iris", backend = b, target = "Species")
+#' task$task_type
 #' task$formula
 #' task$truth()
 #' task$all_classes
