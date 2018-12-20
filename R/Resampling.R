@@ -40,34 +40,22 @@
 #'   Get the `i`-th training/test set.
 #'
 #' @section Details:
-#' * `$new()` creates a new object of class [Resampling].
-#'
-#' * `$id` (`character(1)`) stores the identifier of the object.
-#'
-#' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `param_vals`.
-#'
-#' * `$param_set` ([paradox::ParamSet]) describes available parameters.
-#'
-#' * `$param_vals` (named `list`) stores the currently set parameter values.
-#'   You can set parameters by assigning a named list of new parameters to this slot.
-#'
-#' * `$instantiate` materializes fixed training and test splits for a given task.
-#'
-#' * `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
-#'
 #' * `$has_duplicates` FIXME ???
-#'
-#' * `$instance` stores the instantiated realization of the resampling. This is an arbitrary object, do
-#'   not work directly with it. Instead, use `$train_set()` and `$test_set()`.
-#'
-#' * `$stratify` can be set to column names of the [Task] which will be used for stratification during instantiation.
-#'
-#' * `$train_set()` returns the training set for the `i`-th iteration.
-#'
-#' * `$test_set()` returns the test set for the `i`-th iteration.
-#'
 #' * `$hash` (`character(1)`) stores a checksum calculated on the `id`, `param_vals` and the instantiation.
 #'   If the object is not instantiated yet, `NA` is returned.
+#' * `$id` (`character(1)`) stores the identifier of the object.
+#' * `$instance` stores the instantiated realization of the resampling.
+#'    This is an arbitrary object, do not work directly with it. Instead, use `$train_set()` and `$test_set()`.
+#' * `$instantiate` materializes fixed training and test splits for a given task.
+#' * `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
+#' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `param_vals`.
+#' * `$new()` creates a new object of class [Resampling].
+#' * `$param_set` ([paradox::ParamSet]) describes available parameters.
+#' * `$param_vals` (named `list`) stores the currently set parameter values.
+#'    You can set parameters by assigning a named list of new parameters to this slot.
+#' * `$stratify` can be set to column names of the [Task] which will be used for stratification during instantiation.
+#' * `$test_set()` returns the test set for the `i`-th iteration.
+#' * `$train_set()` returns the training set for the `i`-th iteration.
 #'
 #' @name Resampling
 #' @family Resampling
