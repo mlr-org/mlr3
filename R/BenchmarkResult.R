@@ -38,21 +38,12 @@
 #'   Argument of get_best
 #'
 #' @section Details:
-#' * `$aggregated` returns aggregated performance measures as a [data.table::data.table].
-#'   Experiments are aggregated by their resample result group (combination of [Task],
-#'   [Learner] and [Resampling]). The actual aggregation function is defined by the
-#'   respective [Measure].
-#' * `$data` returns the full benchmark structure for each iteration (task, learner,
-#'   resampling, etc).
-#' * `$resample_result()` creates the [ResampleResult] identified by the specified
-#'   `hash` value.
-#' * `$resample_results` returns a [data.table::data.table] which gives an overview
-#'   of the resample result groups in the benchmark. These groups in the [BenchmarkResult]
-#'   can be extracted as [ResampleResult] for further inspection.
-#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table
-#'   of involved objects with a unique hash.
+#' * `$aggregated` returns aggregated performance measures as a [data.table::data.table]. Experiments are aggregated by their resample result group (combination of [Task], [Learner] and [Resampling]). The actual aggregation function is defined by the respective [Measure].
+#' * `$data` returns the full benchmark structure for each iteration (task, learner, resampling, etc).
+#' * `$resample_results` returns a [data.table::data.table] which gives an overview of the resample result groups in the benchmark. These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
+#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects with a unique hash.
 #' * `as.data.table()` converts a [BenchmarkResult] to a [data.table::data.table].
-#'
+#' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
 #' @name BenchmarkResult
 #' @references [HTML help page](https://mlr3.mlr-org.com/reference/BenchmarkResult.html)
 #'
