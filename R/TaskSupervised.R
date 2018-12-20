@@ -23,8 +23,8 @@
 #'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
 #' @section Details:
-#' * `$weights` returns the weights used in the [DataBackend].
 #' * `$truth()` returns the true labels. The type depends on the type of the task.
+#' * `$weights` returns the weights used in the [DataBackend].
 #'
 #' @name TaskSupervised
 #' @family Task
