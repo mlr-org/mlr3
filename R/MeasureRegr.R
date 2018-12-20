@@ -1,5 +1,5 @@
 #' @title Regression Measure
-#'
+#' @format [R6Class] object
 #' @description
 #' This task specializes [Measure] for regression problems.
 #'
