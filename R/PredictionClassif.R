@@ -1,5 +1,5 @@
 #' @title Prediction Object for Classification
-#'
+#' @format [R6::R6Class] object
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerClassif].
 #' If probabilities are provided via construction and response is missing,
@@ -7,15 +7,20 @@
 #' probability is chosen. In case of ties, a random class label of the tied labels picked.
 #'
 #' @section Usage:
+#'
+#' Inherits from [Prediction]
+#'
 #' ```
 #' # Construction
 #' p = PredictionClassif$new(task, response, prob = NULL)
-#' #
+#'
+#' # Members
 #' p$predict_types
-#' p$truth
 #' p$response
-#' p$prob
-#' #
+#' p$row_ids
+#' p$truth
+#'
+#' # S3 methods
 #' as.data.table(p)
 #' ```
 #'
@@ -31,21 +36,17 @@
 #'   and one row for each observation in the test set.
 #'
 #' @section Details:
+#' * `$predict_types` ([character]) stores the predict types available: a subset of `c("response", "se")`.
+#' * `$response` stores the predicted values.
+#' * `row_ids` stores the row IDs.
+#' * `$truth` stores the true values.
 #' * `$new()` initializes a new object of class [Prediction].
-#'
-#' * `$predict_types` ([character()]) stores the predict types available: a subset of `c("response", "prob")`.
-#'
-#' * `$truth` stores the predicted class labels as factor.
-#'
-#' * `$response` stores the predicted class labels as factor.
-#'
-#' * `$prob` stores the label probabilities (if available) as matrix, or is `NULL`.
-#'
-#' * The prediction object can be transformed to a simple [data.table::data.table()]
-#'   with [data.table::as.data.table()].
+#' * The prediction object can be transformed to a simple [data.table::data.table]
+#'   with [data.table::as.data.table].
 #' @name PredictionClassif
 #' @export
 #' @family Prediction
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/PredictionClassif.html)
 #' @examples
 #' task = mlr_tasks$get("iris")
 #' learner = mlr_learners$get("classif.rpart")
