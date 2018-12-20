@@ -1,5 +1,5 @@
 #' @title Resampling Class
-#'
+#' @format [R6Class] object
 #' @description
 #' Abstraction for resampling strategies.
 #'
@@ -10,18 +10,19 @@
 #' # Construction
 #' r = Resampling$new(id, param_set, param_vals)
 #'
-#' # Getters
+#' # Members
 #' r$has_duplicates
 #' r$hash
 #' r$id
 #' r$instance
-#' r$instantiate(task)
-#' r$initialize(id, param_set, param_vals)
 #' r$is_instantiated
 #' r$iters
 #' r$param_set
 #' r$param_vals
 #' r$stratify
+#'
+#' # Methods
+#' r$instantiate(task)
 #' r$test_set(i)
 #' r$train_set(i)
 #' ```
@@ -29,11 +30,14 @@
 #' @section Arguments:
 #' * `id` (`character(1)`):\cr
 #'   identifier for this object.
-#'
+#' * `param_set` ([paradox::ParamSet]):\cr
+#'   describes available parameters.
+#' * `param_vals` (`list()`):\cr
+#'   Named list of parameter values.
+#' * `task` ([Task]):\cr
+#'   Object of type [Task].
 #' * `i` (`integer(1)`):\cr
 #'   Get the `i`-th training/test set.
-#'
-#' missing: FIXME param_set param_vals
 #'
 #' @section Details:
 #' * `$new()` creates a new object of class [Resampling].

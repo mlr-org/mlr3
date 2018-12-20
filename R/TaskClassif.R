@@ -1,5 +1,5 @@
 #' @title Classification Task
-#'
+#' @format [R6Class] object
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.
 #' The target column is assumed to be a factor.
@@ -47,7 +47,6 @@
 #' task$positive
 #' task$negative
 NULL
-
 
 #' @include TaskSupervised.R
 #' @export

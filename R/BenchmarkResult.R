@@ -1,7 +1,7 @@
 #' @title Container for Results of `benchmark()`
 #' @format [R6Class] object
 #' @description
-#' This is the object returned by [benchmark].
+#' This is the object returned by [benchmark()].
 #'
 #' @section Usage:
 #'
