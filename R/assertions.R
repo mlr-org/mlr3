@@ -1,36 +1,37 @@
 #' @title Assertion for mlr3 Objects
-#'
 #' @description
-#' Functions intended to be used in packages extending \pkg{mlr3}.
-#'
+#'   Functions intended to be used in packages extending \pkg{mlr3}.
 #' @name mlr_assertions
 #' @keywords internal
 NULL
 
-
 #' @export
-#' @param b ([DataBackend]).
+#' @param b ([DataBackend]):\cr
+#'   A data backend to be checked.
 #' @rdname mlr_assertions
 assert_backend = function(b) {
   assert_class(b, "DataBackend")
 }
 
 #' @export
-#' @param e ([Experiment]).
+#' @param e ([Experiment]):\cr
+#'   An experiment to be checked.
 #' @rdname mlr_assertions
 assert_experiment = function(e) {
   assert_class(e, "Experiment")
 }
 
 #' @export
-#' @param task ([Task]).
+#' @param task ([Task]):\cr
+#'   An task to be checked.
 #' @rdname mlr_assertions
 assert_task = function(task) {
   assert_class(task, "Task")
 }
 
 #' @export
-#' @param learner ([Learner]).
+#' @param learner ([Learner]):\cr
+#'   A learner to be checked.
 #' @rdname mlr_assertions
 assert_learner = function(learner, task = NULL) {
   assert_class(learner, "Learner")
@@ -44,7 +45,8 @@ assert_learner = function(learner, task = NULL) {
 }
 
 #' @export
-#' @param measure ([Measure]).
+#' @param measure ([Measure]):\cr
+#'   A measure to be checked.
 #' @rdname mlr_assertions
 assert_measure = function(measure, task = NULL, prediction = NULL) {
   assert_class(measure, "Measure")
@@ -77,35 +79,40 @@ assert_measures = function(measures, task = NULL, prediction = NULL) {
 }
 
 #' @export
-#' @param resampling ([Resampling]).
+#' @param resampling ([Resampling]):\cr
+#'   A resampling object to be checked.
 #' @rdname mlr_assertions
 assert_resampling = function(resampling) {
   assert_class(resampling, "Resampling")
 }
 
 #' @export
-#' @param resample_result ([ResampleResult]).
+#' @param resample_result ([ResampleResult]):\cr
+#'   A resample result object to be checked.
 #' @rdname mlr_assertions
 assert_resample_result = function(resample_result) {
   assert_class(resample_result, "ResampleResult")
 }
 
 #' @export
-#' @param bmr ([BenchmarkResult]).
+#' @param bmr ([BenchmarkResult]):\cr
+#'   A benchmark object to be checked.
 #' @rdname mlr_assertions
 assert_benchmark_result = function(bmr) {
   assert_class(bmr, "BenchmarkResult")
 }
 
 #' @export
-#' @param param_set ([paradox::ParamSet]).
+#' @param param_set ([paradox::ParamSet]):\cr
+#'   A param set to be checked.
 #' @rdname mlr_assertions
 assert_param_set = function(param_set) {
   assert_class(param_set, "ParamSet")
 }
 
 #' @export
-#' @param param_vals (named list).
+#' @param param_vals (named list):\cr
+#'   A param vals object be checked.
 #' @rdname mlr_assertions
 assert_param_vals = function(param_vals, param_set) {
   assert_list(param_vals, names = "unique", any.missing = FALSE)
