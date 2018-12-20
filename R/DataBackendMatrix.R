@@ -1,13 +1,14 @@
 #' @title DataBackend for Matrix
 #'
 #' @description
-#' Abstraction for [`Matrix()`][Matrix::Matrix()]. Data is stored as (sparse) matrix.
+#' Abstraction for [`Matrix`][Matrix::Matrix]. Data is stored as (sparse) matrix.
 #' Supports two output formats:
 #'
-#' * `"data.table"` (default): Returns a [data.table::data.table()]. The primary key is returned as a regular column.
-#' * `"sparse"` (native): Returns a `Matrix::Matrix()`. The primary key is stored as additional attribute `..row_id`.
+#' * `"data.table"` (default): Returns a [data.table::data.table]. The primary key is returned as a regular column.
+#' * `"sparse"` (native): Returns a [Matrix::Matrix]. The primary key is stored as additional attribute `..row_id`.
 #'
 #' @section Usage:
+#'
 #' ```
 #' # Construction
 #' b = DataBackendMatrix$new(data)
@@ -16,7 +17,7 @@
 #' The interface is described in [DataBackend].
 #'
 #' @section Arguments:
-#' * `data` ([Matrix::Matrix()]).\cr
+#' * `data` ([Matrix::Matrix]).\cr
 #'   A (sparse) matrix. If `data` has row names, these will be used as primary key.
 #'   Integer keys (`seq_len(nrow(data))`) are used otherwise.
 #'

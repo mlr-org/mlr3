@@ -8,7 +8,7 @@
 #'
 #' ```
 #' # Construction
-#' see ?as_data_backend
+#' b = as_data_backend(data, primary_key = NULL)
 #'
 #' # Members
 #' b$colnames
