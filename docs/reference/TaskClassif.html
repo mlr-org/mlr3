@@ -160,13 +160,14 @@ The target column is assumed to be a factor.</p>
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     
-    <p>In addition to the interface of <a href='Task.html'>Task</a>/<a href='TaskSupervised.html'>TaskSupervised</a>, this class implements:</p><pre># Construction
+    <p>Inherits from <a href='TaskSupervised.html'>TaskSupervised</a></p><pre># Construction
 t = TaskClassif$new(id, backend, target, positive = NULL)
-#
-t$task_type
-t$class_names
-t$class_n
+    # Members
 t$all_classes
+t$class_n
+t$class_names
+t$negative
+t$positive
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -174,18 +175,18 @@ t$all_classes
     
     <ul>
 <li><p><code>positive</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
-Name of the "positive" class for binary classification problems.</p></li>
+Name of the "positive" class, only required for binary classification problems.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
     <ul>
-<li><p><code>$task_type</code> is <code>"classif"</code>.</p></li>
-<li><p><code>$class_names</code> returns all class labels of the rows which <code>role == "use"</code>.</p></li>
-<li><p><code>$class_n</code> returns the number of class labels of the rows which <code>role == "use"</code>.</p></li>
 <li><p><code>$all_classes</code> returns all class labels for the target column in the <a href='DataBackend.html'>DataBackend</a>.
 In contrast to <code>$class_names</code>, this is not restricted to the currently active rows.</p></li>
+<li><p><code>$class_n</code> returns the number of class labels of the rows which <code>role == "use"</code>.</p></li>
+<li><p><code>$class_names</code> returns all class labels of the rows which <code>role == "use"</code>.</p></li>
+<li><p><code>$task_type</code> is <code>"classif"</code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -198,7 +199,7 @@ In contrast to <code>$class_names</code>, this is not restricted to the currentl
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskClassif</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)
-<span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; Species ~ Petal.Length + Petal.Width + Sepal.Length + Sepal.Width
+<span class='no'>task</span>$<span class='no'>task_type</span></div><div class='output co'>#&gt; [1] "classif"</div><div class='input'><span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; Species ~ Petal.Length + Petal.Width + Sepal.Length + Sepal.Width
 #&gt; NULL</div><div class='input'><span class='no'>task</span>$<span class='fu'>truth</span>()</div><div class='output co'>#&gt;   [1] setosa     setosa     setosa     setosa     setosa     setosa    
 #&gt;   [7] setosa     setosa     setosa     setosa     setosa     setosa    
 #&gt;  [13] setosa     setosa     setosa     setosa     setosa     setosa    
@@ -250,7 +251,7 @@ In contrast to <code>$class_names</code>, this is not restricted to the currentl
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">
