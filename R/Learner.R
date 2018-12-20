@@ -1,28 +1,33 @@
 #' @title Learner Class
-#'
+#' @format [R6Class] object
 #' @description
 #' Predefined learners are stored in [mlr_learners].
 #'
 #' @section Usage:
+#'
 #' ```
 #' # Construction
 #' l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #' l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #' l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-#' #
-#' l$id
-#' l$task_type
+#'
+#' # Members
 #' l$feature_types
-#' l$predict_types
-#' l$predict_type
+#' l$hash
+#' l$id
+#' l$model
 #' l$packages
 #' l$param_set
 #' l$param_vals
+#' l$predict_type
+#' l$predict_types
 #' l$properties
-#' l$model
+#' l$task_type
+#'
+#' # Methods
+#' l$new()
 #' l$train(task)
 #' l$predict(task)
-#' l$hash
 #' ```
 #'
 #' @section Arguments:
@@ -46,38 +51,33 @@
 #'   Task to train/predict on.
 #'
 #' @section Details:
-#' * `$new()` creates a new object of class [Learner].
-#'
+#' * `$fallback` ([Learner] | `NULL`) optionally stores a fallback learner which
+#'   is used to generate predictions if this learner fails to train or predict.
+#'   This mechanism is disabled unless you explicitly assign a learner to this slot.
+#' * `$feature_types` (`character()`) stores the feature types the learner can
+#'   handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+#' * `$hash` (`character(1)`) stores a checksum calculated on the `id` and `param_vals`.
+#'   This hash is cached internally.
 #' * `$id` (`character(1)`) stores the identifier of the object.
-#'
-#' * `$task_type` (`character(1)`) stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
-#'
-#' * `$feature_types` (`character()`) stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
-#'
-#' * `$predict_types` (`character()`) stores the possible predict types the learner is capable of. For classification,
-#'   feasible values are `"response"` and `"prob"`, for regression `"response"` and `"se"` can be specified.
-#'
-#' * `$predict_type` (`character(1)`) stores the currently selected predict type.
-#'
 #' * `$packages` (`character()`) stores the names of required packages.
-#'
-#' * `$param_set()` ([paradox::ParamSet]) describes the available hyperparameter and possible settings.
-#'
-#' * `$param_vals()` (named `list()`) stores the list set hyperparameter values.
-#'
-#' * `$properties` (`character()`) is a set of tags which describe the properties of the learner.
-#'
+#' * `$param_set` ([paradox::ParamSet]) describes the available hyperparameter
+#'   and possible settings.
+#' * `$param_vals` (named `list()`) stores the list set hyperparameter values.
+#' * `$predict_type` (`character(1)`) stores the currently selected predict type.
+#' * `$predict_types` (`character()`) stores the possible predict types the learner
+#'   is capable of. For classification, feasible values are `"response"` and
+#'   `"prob"`, for regression `"response"` and `"se"` can be specified.
+#' * `$properties` (`character()`) is a set of tags which describe the properties
+#'   of the learner.
+#' * `$task_type` (`character(1)`) stores the type of class this learner can
+#'   operate on, e.g. `"classif"` or `"regr"`.
+#' * `$new()` creates a new object of class [Learner].
+#' * `$predict()` takes a [Task] and uses `self$model` (fitted during train())
+#'   to return a [Prediction] object.
 #' * `$train()` takes a [Task], sets the slot `model` and returns `self`.
-#'
-#' * `$predict()` takes a [Task] and uses `self$model` (fitted during train()) to return a [Prediction] object.
-#'
-#' * `$fallback` ([Learner] | `NULL`) optionally stores a fallback learner which is used to generate predictions if this learner
-#'    fails to train or predict. This mechanism is disabled unless you explicitly assign a learner to this slot.
-#'
-#' * `$hash` (`character(1)`) stores a checksum calculated on the `id` and `param_vals`. This hash is cached internally.
-#'
 #' @name Learner
 #' @family Learner
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Learner.html)
 NULL
 
 #' @export
