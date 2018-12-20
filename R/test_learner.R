@@ -172,6 +172,3 @@ test_train_predict = function(e, id) {
   e$score()
   expect_number(e$performance, info = id)
 }
-
-
-
