@@ -2,7 +2,7 @@ context("mlr_resamplings")
 
 
 test_that("mlr_resamplings", {
-  ids = mlr_resamplings$keys()
+  ids = mlr_resamplings$ids()
   task = mlr_tasks$get("iris")
   for (key in ids) {
     r = mlr_resamplings$get(key)

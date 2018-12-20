@@ -26,7 +26,7 @@ test_that("param_vals", {
 
 test_that("hashing", {
   task = mlr_tasks$get("iris")
-  ids = setdiff(mlr_resamplings$keys(), "custom")
+  ids = setdiff(mlr_resamplings$ids(), "custom")
 
   for (id in ids) {
     r = mlr_resamplings$get(id)
