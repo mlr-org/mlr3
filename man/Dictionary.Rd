@@ -17,13 +17,13 @@ On retrieval of an object, the following applies:
 \preformatted{# Construction
 d = Dictionary$new()
 # Getters
-d$keys(pattern)
+d$ids(pattern)
 d$add(value)
-d$get(key)
-d$mget(keys)
-d$has(keys)
-d$remove(key, value)
-d$remove(keys)
+d$get(id)
+d$mget(ids)
+d$has(ids)
+d$remove(id, value)
+d$remove(ids)
 # S3 methods
 as.data.frame(d)
 as.data.table(d)
@@ -34,13 +34,13 @@ as.data.table(d)
 
 \itemize{
 \item \code{pattern} (\code{character(1)}):\cr
-Restrict keys to keys  which match \code{pattern}.
-\item \code{key} (\code{character(1)}):\cr
-Single Key as string.
+Restrict to ids which match the regular expression \code{pattern}.
+\item \code{id} (\code{character(1)}):\cr
+Single id as string.
 \item \code{value}:\cr
 Arbitrary value.
-\item \code{keys} (\code{character()}):\cr
-Vector of keys.
+\item \code{ids} (\code{character()}):\cr
+Vector of ids.
 }
 }
 
@@ -48,12 +48,12 @@ Vector of keys.
 
 \itemize{
 \item \code{$new()} initializes a new object of class \link{Dictionary}.
-\item \code{$keys()} (\code{character()}) returns a vector with all keys (or all keys matching \code{pattern}).
-\item \code{$get()} retrieves a single object with key \code{key} (or raises an exception).
-\item \code{$mget()} (named \code{list}) creates a list of objects with keys \code{keys} (or raises an exception).
-\item \code{$has()} (\code{logical()}) returns a named logical of the same length as \code{keys} with value \code{TRUE} if the respective key is found in the Dictionary.
-\item \code{$add()} adds item \code{value} with key \code{key} to the Dictionary.
-\item \code{$remove()} removes item with key \code{key} from the Dictionary.
+\item \code{$ids()} (\code{character()}) returns a vector with all ids (or all ids matching \code{pattern}).
+\item \code{$get()} retrieves a single object with id \code{id} (or raises an exception).
+\item \code{$mget()} (named \code{list}) creates a list of objects with ids \code{ids} (or raises an exception).
+\item \code{$has()} (\code{logical()}) returns a named logical of the same length as \code{ids} with value \code{TRUE} if the respective id is found in the Dictionary.
+\item \code{$add()} adds item \code{value} with id \code{id} to the Dictionary.
+\item \code{$remove()} removes item with id \code{id} from the Dictionary.
 \item \code{as.data.frame()} and \code{as.data.table()} give a summarizing overview as \code{data.frame} or \code{data.table}, respectively.
 }
 }
