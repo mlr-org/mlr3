@@ -14,7 +14,6 @@ l$log
 l$has_condition(cl)
 l$warnings
 l$errors
-l$format()
 l$print()
 }
 }
@@ -37,7 +36,6 @@ Class of a condition. One of "output", "warning", or "error". #FIXME: missing "m
 Possible conditions are "output", "message", "warning", and "error".
 \item \code{$warnings} (\code{character()}) returns all lines which are warnings.
 \item \code{$errors} (\code{character()}) returns all lines which are errors.
-\item \code{format()} and \code{print()} are for formatting and printing via \code{\link[=format]{format()}} or \code{\link[=print]{print()}}, respectively.
 }
 }
 
