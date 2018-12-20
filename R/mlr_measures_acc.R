@@ -6,6 +6,7 @@
 #' Calls [Metrics::accuracy].
 #'
 #' @export
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_measures_acc.html)
 #' @include MeasureClassif.R
 MeasureClassifACC = R6Class("MeasureClassifACC",
   inherit = MeasureClassif,

@@ -1,15 +1,17 @@
 #' @title Dictionary of Learners
-#'
+#' @format [R6Class] object
 #' @description
 #' A simple [Dictionary] storing objects of class [Learner].
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
 #' @section Usage:
+#'
 #' See [Dictionary].
 #'
 #' @family Dictionary
 #' @family Learner
 #' @name mlr_learners
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_learners.html)
 #' @examples
 #' mlr_learners$keys()
 #' as.data.table(mlr_learners)

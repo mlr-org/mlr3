@@ -1,5 +1,5 @@
 #' @title Dictionary of Resampling Strategies
-#'
+#' @format [R6Class] object
 #' @description
 #' A simple [Dictionary] storing objects of class [Resampling].
 #' Each resampling has an associated help page, see `mlr_resamplings_[id]`.
@@ -10,6 +10,7 @@
 #' @name mlr_resamplings
 #' @family Dictionary
 #' @family Resampling
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings.html)
 #' @examples
 #' mlr_resamplings$keys()
 #' as.data.table(mlr_resamplings)
