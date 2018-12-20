@@ -134,6 +134,7 @@
 #' @name Task
 #' @export
 #' @family Task
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Task.html)
 #' @examples
 #' b = as_data_backend(iris)
 #' task = Task$new("iris", task_type = "classif", backend = b)
