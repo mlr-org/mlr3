@@ -12,4 +12,7 @@ MeasureClassifACC
 \description{
 Calls \link[Metrics:accuracy]{Metrics::accuracy}.
 }
+\references{
+\href{https://mlr3.mlr-org.com/reference/mlr_measures_acc.html}{HTML help page}
+}
 \keyword{datasets}

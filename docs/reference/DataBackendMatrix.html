@@ -191,7 +191,7 @@ Integer keys (<code><a href='https://www.rdocumentation.org/packages/base/topics
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>data</span>) <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"x1"</span>, <span class='st'>"x2"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>data</span>) <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"row_"</span>, <span class='fl'>1</span>:<span class='fl'>10</span>)
 
-<span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>data</span>)
+<span class='no'>b</span> <span class='kw'>=</span> <span class='fu'>as_data_backend</span>(<span class='no'>data</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>))</div><div class='output co'>#&gt;    x1 x2 ..row_id
 #&gt; 1:  1  0    row_1
 #&gt; 2:  1  1    row_2

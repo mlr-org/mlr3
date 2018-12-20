@@ -155,18 +155,13 @@
     
 
         
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>R6Class object</p>
-    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
 t = Task$new(id, backend, task_type)
-    # Members
+    # Accessors
 t$backend
 t$col_info
-t$col_roles
 t$features_names
 t$feature_types
 t$formula
@@ -176,18 +171,16 @@ t$id
 t$measures
 t$ncol
 t$nrow
-t$properties
 t$row_ids
 t$row_roles
 t$target_names
 t$task_type
-    # Methods: Accessors
-t$data(rows = NULL, cols = NULL)
+    t$data(rows = NULL, cols = NULL)
 t$head(n = 6)
 t$levels(col)
 t$set_col_role(cols, new_roles, exclusive = TRUE)
 t$set_row_role(rows, new_roles, exclusive = TRUE)
-    # Methods: Mutators
+    # Mutators
 t$cbind(data)
 t$filter(rows)
 t$overwrite(data)
@@ -205,24 +198,24 @@ Name of the task.</p></li>
 <a href='DataBackend.html'>DataBackend</a> which stores the data.</p></li>
 <li><p><code>task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
 Task type. Set via class which inherits from Task.</p></li>
+<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>):
+New data to rbind/cbind to the task.</p></li>
 <li><p><code>rows</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):
 Vector of row ids specifying rows from the <a href='DataBackend.html'>DataBackend</a> using its primary key.
 Can be <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> or <code>integer</code>, depending on the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 <li><p><code>cols</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):
 Character vector to specify columns from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>n</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>):
-Number of rows to retrieve from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 <li><p><code>col</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
 Character vector to specify a single column from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
+<li><p><code>n</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>):
+Number of rows to retrieve from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 <li><p><code>new_roles</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
 New roles to assign for specified rows/columns.</p></li>
 <li><p><code>exclusive</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>):
 If <code>TRUE</code>, the cols/rows will be removed from all roles except <code>new_roles</code>.</p></li>
-<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>):
-New data to rbind/cbind to the task.</p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
     <ul>
@@ -252,7 +245,7 @@ Rows are subsetted to only contain observations with <code>role == "use"</code>.
 Columns are filtered to only contain features with <code>role %in% c("target", "feature")</code>.
 If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p></li>
 <li><p><code>$feature_names()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all column names with <code>role == "feature"</code>.</p></li>
-<li><p><code>$feature_types()</code> <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
+<li><p><code>$feature_types()</code> [<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>) returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
 features of the task and <code>type</code> is the storage type.</p></li>
 <li><p><code>$filter()</code> reduces the task, subsetting it to only the rows specified.</p></li>
 <li><p><code>$formula()</code> constructs a <a href='https://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>.</p></li>
@@ -269,7 +262,7 @@ This function ignores the row roles, so you get all levels found in the <a href=
 <li><p><code>$overwrite()</code> overwrite the data in the <a href='DataBackend.html'>DataBackend</a> with data provided as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.
 The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
 <li><p><code>$rbind()</code> extends the task with additional rows.</p></li>
-<li><p><code>$row_ids()</code> (<code>data.table()</code>) returns the active row ids used in the backend, i.e. subsetted to observations with <code>role == "use"</code>.
+<li><p><code>$row_ids()</code> (<code>data.table()</code>] returns the active row ids used in the backend, i.e. subsetted to observations with <code>role == "use"</code>.
 The column names of the returned <code>data.table</code> equals the primary key column in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 <li><p><code>$row_roles()</code> (<code>list</code>). Stores the row ids of <a href='DataBackend.html'>DataBackend</a> in vectors of row roles:</p><ul>
 <li><p><code>"use"</code>: Use in training.</p></li>
@@ -302,7 +295,7 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
+    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'>as_data_backend</span>(<span class='no'>iris</span>)
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>Task</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>)
 
 <span class='no'>task</span>$<span class='no'>nrow</span></div><div class='output co'>#&gt; [1] 150</div><div class='input'><span class='no'>task</span>$<span class='no'>ncol</span></div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>()</div><div class='output co'>#&gt;    Petal.Length Petal.Width Sepal.Length Sepal.Width Species
@@ -327,13 +320,11 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#format">Format</a></li>
-
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#methods">Methods</a></li>
 
       <li><a href="#task-mutators">Task mutators</a></li>
 

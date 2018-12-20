@@ -2,26 +2,29 @@
 % Please edit documentation in R/DataBackend.R
 \name{DataBackend}
 \alias{DataBackend}
-\alias{as_data_backend}
 \title{DataBackend}
+\format{\link{R6Class} object}
 \description{
 This is the abstract base class for data backends.
-All objects of type \code{DataBackend} must provide the following interface:
+See \link{DataBackendDataTable} for an exemplary implementation of this interface.
 }
 \section{Usage}{
-\preformatted{b = as_data_backend(data)
-b$data(rows, cols)
-b$head(n = 6)
-b$distinct(cols)
-b$missing(rows, cols)
-b$rownames
+\preformatted{# Construction
+b = as_data_backend(data, primary_key = NULL)
+
+# Members
 b$colnames
-b$nrow
 b$ncol
+b$nrow
+b$rownames
+
+# Methods
+b$data(rows, cols)
+b$distinct(cols)
+b$head(n = 6)
+b$missing(rows, cols)
 print(b)
 }
-
-See \link{DataBackendDataTable} for an exemplary implementation of this interface.
 }
 
 \section{Arguments}{
@@ -41,22 +44,25 @@ Number of rows to return.
 \section{Details}{
 
 \itemize{
-\item \code{as_data_backend()} wraps a \code{DataBackend} around the provided data. See \code{methods("as_data_backend")} for
-possible input formats.
-\item \code{$data()} (\code{\link[data.table:data.table]{data.table::data.table()}}) returns a slice of the data:
-rows are filtered using the \code{primary_key} column, columns are selected by name.
-\item \code{$head()} (\code{\link[data.table:data.table]{data.table::data.table()}}) returns a table of the first \code{n} data rows.
-\item \code{$distinct()} (named \code{list()}) returns distinct values for columns \code{cols}.
-\item \code{$missing()} (named \code{integer()}) returns a named integer with the number of missing values per column.
-\item \code{$rownames} (\code{integer()} | \code{character()}) returns all row names of \code{data}.
 \item \code{$colnames} (\code{character()}) returns all column names of \code{data}.
-\item \code{$nrow} (\code{integer(1)}) returns the number of total rows.
 \item \code{$ncol} (\code{integer(1)}) returns the number of total columns, including primary key column.
+\item \code{$nrow} (\code{integer(1)}) returns the number of total rows.
+\item \code{$rownames} (\code{integer()} | \code{character()}) returns all row names of \code{data}.
+\item \code{$data()} (\link[data.table:data.table]{data.table::data.table}) returns a slice of the data: rows
+are filtered using the \code{primary_key} column, columns are selected by name.
+\item \code{$distinct()} (named \code{list()}) returns distinct values for columns \code{cols}.
+\item \code{$head()} (\link[data.table:data.table]{data.table::data.table}) returns a table of the first \code{n} data rows.
+\item \code{$missing()} (named \code{integer()}) returns a named integer with the number of
+missing values per column.
 }
 }
 
+\references{
+\href{https://mlr3.mlr-org.com/reference/DataBackend.html}{HTML help page}
+}
 \seealso{
 Other DataBackend: \code{\link{DataBackendDataTable}},
-  \code{\link{DataBackendMatrix}}
+  \code{\link{DataBackendMatrix}},
+  \code{\link{as_data_backend}}
 }
 \concept{DataBackend}

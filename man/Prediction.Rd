@@ -6,6 +6,9 @@
 \description{
 This is the abstract base class for task objects like \link{PredictionClassif} and \link{PredictionRegr}.
 }
+\references{
+\href{https://mlr3.mlr-org.com/reference/Prediction.html}{HTML help page}
+}
 \seealso{
 Other Prediction: \code{\link{PredictionClassif}},
   \code{\link{PredictionRegr}}
