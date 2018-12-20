@@ -139,5 +139,6 @@ mlr_tasks$add("titanic", function() {
   data$Cabin = replace(data$Cabin, !nzchar(data$Cabin), NA)
   modify_if(data, is.character, factor)
   b = as_data_backend(data)
-  TaskClassif$new("titanic", b, target = "Survived", positive = "1")
+  task = TaskClassif$new("titanic", b, target = "Survived", positive = "1")
+  task$set_row_role(which(is.na(task$truth())), "validation")
 })
