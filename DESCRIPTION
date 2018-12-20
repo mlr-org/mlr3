@@ -31,7 +31,8 @@ Imports:
     Metrics,
     mlr3misc,
     paradox,
-    R6
+    R6,
+    testthat
 Suggests:
     callr,
     datasets,
@@ -46,7 +47,6 @@ Suggests:
     mlbench,
     rmarkdown,
     rpart,
-    testthat,
     titanic,
     withr
 VignetteBuilder:
@@ -95,6 +95,7 @@ Collate:
     'helper.R'
     'helper_future.R'
     'helper_print.R'
+    'helper_test_learner.R'
     'mlr_control.R'
     'mlr_learners.R'
     'mlr_learners_classif_debug.R'
@@ -119,5 +120,6 @@ Collate:
     'reexports.R'
     'resample.R'
     'split_train_validation.R'
+    'test_learner_classif.R'
     'worker.R'
     'zzz.R'
