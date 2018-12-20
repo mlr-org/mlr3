@@ -3,6 +3,7 @@
 \name{MeasureClassif}
 \alias{MeasureClassif}
 \title{Classification Measure}
+\format{\link{R6Class} object}
 \description{
 This task specializes \link{Measure} for classification problems.
 }

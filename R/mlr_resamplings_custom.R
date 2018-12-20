@@ -1,6 +1,7 @@
 #' @title Custom Resampling
+#' @format [R6Class] object
 #' @name mlr_resamplings_custom
-#' @format [R6::R6Class()] inheriting from [Resampling].
+#' @format [R6::R6Class] inheriting from [Resampling].
 #'
 #' @description
 #' A custom resampling class where the training and test indices
@@ -8,6 +9,7 @@
 #'
 #' @export
 #' @include Resampling.R
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_custom.html)
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")

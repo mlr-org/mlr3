@@ -1,5 +1,5 @@
 #' @title Classification Measure
-#'
+#' @format [R6Class] object
 #' @description
 #' This task specializes [Measure] for classification problems.
 #'

@@ -1,5 +1,4 @@
 #' @title Execution Control Object
-#'
 #' @description
 #' This function creates a named list of settings which control the execution of an [Experiment].
 #'
@@ -22,6 +21,7 @@
 #'   after some argument checks.
 #'
 #' @export
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_control.html)
 #' @examples
 #' # get a list of the defaults
 #' mlr_control()
