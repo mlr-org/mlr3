@@ -58,3 +58,23 @@ test_that("discarding model", {
   rr = resample(task, learner, resampling, ctrl = mlr_control(store_model = FALSE))
   expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
 })
+
+test_that("inputs are cloned", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.featureless")
+  resampling = mlr_resamplings$get("holdout")
+  resampling$instantiate(task)
+  dig_task = digest::digest(task, algo = "xxhash64")
+  dig_learner = digest::digest(learner, algo = "xxhash64")
+  dig_resampling = digest::digest(resampling, algo = "xxhash64")
+
+  rr = resample(task, learner, resampling)
+  e = rr$experiment(1L)
+  expect_different_address(task, e$task)
+  expect_different_address(learner, e$learner)
+  expect_different_address(resampling, e$data$resampling)
+
+  # expect_identical(dig_task, digest::digest(task, algo = "xxhash64"))
+  # expect_identical(dig_learner, digest::digest(learner, algo = "xxhash64"))
+  # expect_identical(dig_resampling, digest::digest(resampling, algo = "xxhash64"))
+})

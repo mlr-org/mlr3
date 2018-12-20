@@ -1,5 +1,16 @@
 context("Experiment")
 
+test_that("Empty Experiment construction", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.featureless")
+  e = Experiment$new()
+  expect_error(e$train(), "task")
+  e$task = task
+  e$learner = learner
+  expect_different_address(task, e$task)
+  expect_different_address(learner, e$learner)
+})
+
 test_that("Partial experiments + save/restore", {
   fn = tempfile(pattern = "exp_", fileext = ".rds")
   learner = learner = mlr_learners$get("classif.rpart")
@@ -17,14 +28,12 @@ test_that("Partial experiments + save/restore", {
 test_that("inputs are cloned", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
+  dig_task = digest::digest(task, algo = "xxhash64")
+  dig_learner = digest::digest(learner, algo = "xxhash64")
 
   e = Experiment$new(task, learner)
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
-
-  resampling = mlr_resamplings$get("holdout")
-  rr = resample(task, learner, resampling)
-  e = rr$experiment(1L)
-  expect_different_address(task, e$task)
-  expect_different_address(learner, e$learner)
+  # expect_identical(dig_task, digest::digest(task, algo = "xxhash64"))
+  # expect_identical(dig_learner, digest::digest(learner, algo = "xxhash64"))
 })

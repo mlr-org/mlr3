@@ -122,18 +122,12 @@ Experiment = R6Class("Experiment",
     data = NULL,
     ctrl = NULL,
 
-    initialize = function(task, learner, ..., ctrl = list()) {
+    initialize = function(task = NULL, learner = NULL, ctrl = list()) {
       self$data = named_list(mlr_reflections$experiment_slots$name)
-      self$data$task = assert_task(task)
-      self$data$learner = assert_learner(learner, task = task)
-      if (...length()) {
-        dots = list(...)
-        assert_names(names(dots), type = "unique", subset.of = names(self$data))
-        self$data = insert_named(self$data, dots)
-      }
-      if (isTRUE(clone)) {
-
-      }
+      if (!is.null(task))
+        self$data$task = assert_task(task)$clone(deep = TRUE)
+      if (!is.null(learner))
+        self$data$learner = assert_learner(learner, task = task)$clone(deep = TRUE)
       self$ctrl = assert_list(ctrl)
     },
 
@@ -146,6 +140,8 @@ Experiment = R6Class("Experiment",
     },
 
     train = function(subset = NULL, ctrl = list()) {
+      if (! self$state >= "defined")
+        stopf("Experiment needs a task and a learner")
       ids = self$data$task$row_ids[[1L]]
       if (!is.null(subset))
         ids = intersect(ids, subset)
@@ -154,6 +150,8 @@ Experiment = R6Class("Experiment",
     },
 
     predict = function(subset = NULL, newdata = NULL, ctrl = list()) {
+      if (! self$state >= "trained")
+        stopf("Experiment needs to be trained before predict()")
       if (!is.null(subset) && !is.null(newdata))
         stopf("Arguments 'subset' and 'newdata' are mutually exclusive")
       ids = self$data$task$row_ids[[1L]]
@@ -164,18 +162,24 @@ Experiment = R6Class("Experiment",
     },
 
     score = function(measures = NULL, ctrl = list()) {
+      if (! self$state >= "trained")
+        stopf("Experiment needs predictions before score()")
       experiment_score(self, measures, ctrl = ctrl)
       invisible(self)
     }
   ),
 
   active = list(
-    task = function() {
-      self$data$task
+    task = function(rhs) {
+      if (missing(rhs))
+        return(self$data$task)
+      self$data$task = assert_task(rhs)$clone(deep = TRUE)
     },
 
-    learner = function() {
-      self$data$learner
+    learner = function(rhs) {
+      if (missing(rhs))
+        return(self$data$learner)
+      self$data$learner = assert_learner(rhs)$clone(deep = TRUE)
     },
 
     model = function() {
@@ -330,11 +334,23 @@ experiment_state = function(self) {
     return(as_state("predicted"))
   if (!is.null(d$train_time))
     return(as_state("trained"))
-  return(as_state("defined"))
+  if (!is.null(d$task) && !is.null(d$learner))
+    return(as_state("defined"))
+  return(as_state("undefined"))
 }
 
 experiment_reset_state = function(self, new_state) {
   slots = mlr_reflections$experiment_slots[get("state") > new_state, "name", with = FALSE][[1L]]
   self$data[slots] = list(NULL)
   self
+}
+
+# creates an experiment with the data provided via ...
+# arguments are **not** cloned
+# extra args which do not belong in an experiment are removed
+as_experiment = function(...) {
+  e = Experiment$new()
+  dots = list(...)
+  e$data[match(names(dots), names(e$data), nomatch = 0L)] = dots
+  e
 }

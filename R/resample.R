@@ -41,7 +41,7 @@
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
 resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
-  assert_task(task)
+  task = assert_task(task)$clone(deep = TRUE)
   assert_learner(learner, task = task)
   assert_resampling(resampling)
   if (is.null(measures))

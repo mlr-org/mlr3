@@ -42,7 +42,7 @@ mlr_reflections$predict_types = list(
   regr    = c("response", "se")
 )
 
-mlr_reflections$experiment_states = c("defined", "trained", "predicted", "scored")
+mlr_reflections$experiment_states = c("undefined", "defined", "trained", "predicted", "scored")
 
 mlr_reflections$experiment_slots = data.table(
   name =   c("task",    "learner", "resampling", "iteration", "train_log",  "train_time", "predict_log", "predict_time", "prediction", "measures", "performance", "score_time"),
