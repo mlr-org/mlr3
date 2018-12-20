@@ -9,6 +9,8 @@
 #'
 #' @section Usage:
 #'
+#' Inherits from [DataBackend].
+#'
 #' ```
 #' # Construction
 #' b = DataBackendMatrix$new(data)

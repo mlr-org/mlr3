@@ -6,6 +6,8 @@
 #'
 #' @section Usage:
 #'
+#' Inherits from [DataBackend].
+#'
 #' ```
 #' # Construction
 #' b = DataBackendDataTable$new(data, primary_key)

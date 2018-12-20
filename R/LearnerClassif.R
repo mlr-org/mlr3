@@ -4,7 +4,7 @@
 #' This Learner specializes [Learner] for classification problems.
 #'
 #' @section Usage:
-#' See [Learner].
+#' Inherits from [Learner].
 #'
 #' @section Details:
 #' * `$task_type` is `"classif"`.
