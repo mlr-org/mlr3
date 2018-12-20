@@ -13,7 +13,7 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_measures$keys()
+mlr_measures$ids()
 as.data.table(mlr_measures)
 mlr_measures$get("mmce")
 }
