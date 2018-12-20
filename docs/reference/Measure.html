@@ -155,21 +155,27 @@
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
 m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
 m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
 m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
-#
+    # Members
 m$id
-m$packages
-m$task_type
-m$task_properties
-m$calculate(e)
-m$range
 m$minimize
+m$packages
+m$predict_type
+m$range
+m$task_properties
+m$task_type
+    # Methods
 m$aggregate(rr)
+m$calculate(e)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -198,17 +204,20 @@ Performance object returned by <a href='resample.html'>resample</a> to be aggreg
 
     
     <ul>
-<li><p><code>$new()</code> creates a new object of class Measure.</p></li>
 <li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
-<li><p><code>$packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the set of required packages.</p></li>
-<li><p><code>$task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the class names of tasks this measure can operate on.</p></li>
-<li><p><code>$task_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) defines a set of required task properties.</p></li>
-<li><p><code>$range</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code>) stores the numeric range of feasible measure values.</p></li>
 <li><p><code>$minimize</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) indicates if the good values are reached via minimization.</p></li>
-<li><p><code>$calculate</code> (<code>function(e)</code>) does the actual work.</p></li>
-<li><p><code>$aggregate</code> (<code>function(rr)</code>) aggregates multiple performance measures using the <code>aggregate</code> function.
-Operates on a <a href='ResampleResult.html'>ResampleResult</a> as returned by <a href='resample.html'>resample</a>.</p></li>
+<li><p><code>$packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the set of required packages.</p></li>
+<li><p><code>$range</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code>) stores the numeric range of feasible measure values.</p></li>
+<li><p><code>$task_properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) defines a set of required task properties.</p></li>
+<li><p><code>$task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the class names of tasks this measure can operate on.</p></li>
+<li><p><code>$aggregate()</code> (<code>function(rr)</code>) aggregates multiple performance measures using the <code>aggregate</code> function. Operates on a <a href='ResampleResult.html'>ResampleResult</a> as returned by <a href='resample.html'>resample</a>.</p></li>
+<li><p><code>$calculate()</code> (<code>function(e)</code>) does the actual work.</p></li>
+<li><p><code>$new()</code> creates a new object of class Measure.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/Measure.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -227,11 +236,15 @@ Operates on a <a href='ResampleResult.html'>ResampleResult</a> as returned by <a
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

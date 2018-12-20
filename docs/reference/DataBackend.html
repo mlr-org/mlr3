@@ -31,7 +31,7 @@
 <meta property="og:title" content="DataBackend — DataBackend" />
 
 <meta property="og:description" content="This is the abstract base class for data backends.
-All objects of type DataBackend must provide the following interface:" />
+See DataBackendDataTable for an exemplary implementation of this interface." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -153,24 +153,30 @@ All objects of type DataBackend must provide the following interface:" />
 
     
     <p>This is the abstract base class for data backends.
-All objects of type <code>DataBackend</code> must provide the following interface:</p>
+See <a href='DataBackendDataTable.html'>DataBackendDataTable</a> for an exemplary implementation of this interface.</p>
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>b = as_data_backend(data)
-b$data(rows, cols)
-b$head(n = 6)
-b$distinct(cols)
-b$missing(rows, cols)
-b$rownames
+    <pre># Construction
+b = as_data_backend(data, primary_key = NULL)
+    # Members
 b$colnames
-b$nrow
 b$ncol
+b$nrow
+b$rownames
+    # Methods
+b$data(rows, cols)
+b$distinct(cols)
+b$head(n = 6)
+b$missing(rows, cols)
 print(b)
 </pre>
-    <p>See <a href='DataBackendDataTable.html'>DataBackendDataTable</a> for an exemplary implementation of this interface.</p>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
@@ -190,23 +196,27 @@ Number of rows to return.</p></li>
 
     
     <ul>
-<li><p><code>as_data_backend()</code> wraps a <code>DataBackend</code> around the provided data. See <code><a href='https://www.rdocumentation.org/packages/utils/topics/methods'>methods("as_data_backend")</a></code> for
-possible input formats.</p></li>
-<li><p><code>$data()</code> (<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>) returns a slice of the data:
-rows are filtered using the <code>primary_key</code> column, columns are selected by name.</p></li>
-<li><p><code>$head()</code> (<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>) returns a table of the first <code>n</code> data rows.</p></li>
-<li><p><code>$distinct()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) returns distinct values for columns <code>cols</code>.</p></li>
-<li><p><code>$missing()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code>) returns a named integer with the number of missing values per column.</p></li>
-<li><p><code>$rownames</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all row names of <code>data</code>.</p></li>
 <li><p><code>$colnames</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all column names of <code>data</code>.</p></li>
-<li><p><code>$nrow</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) returns the number of total rows.</p></li>
 <li><p><code>$ncol</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) returns the number of total columns, including primary key column.</p></li>
+<li><p><code>$nrow</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) returns the number of total rows.</p></li>
+<li><p><code>$rownames</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all row names of <code>data</code>.</p></li>
+<li><p><code>$data()</code> (<a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a>) returns a slice of the data: rows
+are filtered using the <code>primary_key</code> column, columns are selected by name.</p></li>
+<li><p><code>$distinct()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) returns distinct values for columns <code>cols</code>.</p></li>
+<li><p><code>$head()</code> (<a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a>) returns a table of the first <code>n</code> data rows.</p></li>
+<li><p><code>$missing()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code>) returns a named integer with the number of
+missing values per column.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/DataBackend.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other DataBackend: <code><a href='DataBackendDataTable.html'>DataBackendDataTable</a></code>,
-  <code><a href='DataBackendMatrix.html'>DataBackendMatrix</a></code></p></div>
+  <code><a href='DataBackendMatrix.html'>DataBackendMatrix</a></code>,
+  <code><a href='as_data_backend.html'>as_data_backend</a></code></p></div>
     
 
   </div>
@@ -214,11 +224,15 @@ rows are filtered using the <code>primary_key</code> column, columns are selecte
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>

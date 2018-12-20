@@ -155,15 +155,21 @@
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
 l = Log$new(log = NULL)
-# Getters
-l$log
-l$has_condition(cl)
-l$warnings
+    # Members
 l$errors
+l$log
+l$warnings
+    # Methods
+l$format()
+l$has_condition(cl)
 l$print()
 </pre>
     
@@ -181,12 +187,19 @@ Class of a condition. One of "output", "warning", or "error". #FIXME: missing "m
 
     
     <ul>
-<li><p><code>$new(log)</code> parses the object returned by <code><a href='https://www.rdocumentation.org/packages/evaluate/topics/evaluate'>evaluate::evaluate()</a></code> and creates a new Log.</p></li>
-<li><p><code>$has_condition(cl)</code> returns <code>TRUE</code> if at least on message of class <code>cl</code> is logged.
-Possible conditions are "output", "message", "warning", and "error".</p></li>
-<li><p><code>$warnings</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all lines which are warnings.</p></li>
 <li><p><code>$errors</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all lines which are errors.</p></li>
+<li><p><code>$warnings</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all lines which are warnings.</p></li>
+<li><p><code>$has_condition(cl)</code> returns <code>TRUE</code> if at least on message of class <code>cl</code> is
+logged. Possible conditions are "output", "message", "warning", and "error".</p></li>
+<li><p><code>$new(log)</code> parses the object returned by <a href='https://www.rdocumentation.org/packages/evaluate/topics/evaluate'>evaluate::evaluate</a> and creates
+a new Log.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/format'>format()</a></code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code> are for formatting and printing via <a href='https://www.rdocumentation.org/packages/base/topics/format'>format</a> or
+<a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a>, respectively.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/Log.html'>HTML help page</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -206,11 +219,15 @@ Possible conditions are "output", "message", "warning", and "error".</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
