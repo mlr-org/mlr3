@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 set.seed(123)
 ```
 
-This introduction is about resampling.
+This introduction is about resampling and benchmarking.
 
 ## Objects
 
@@ -99,7 +99,7 @@ e = rr$experiment(iter = 1)
 e$model
 ```
 
-## Manual Instantiation
+## Manual instantiation
 
 If you want to compare multiple learners, you should use the same resampling per task to reduce the variance of the performance estimation.
 Until now, we have just passed a resampling strategy to `resample()`, without specifying the actual splits into training and test.
@@ -131,7 +131,7 @@ bmr = rr1$combine(rr2)
 bmr$aggregated
 ```
 
-## Custom Resampling
+## Custom resampling
 
 Sometimes it is necessary to perform resampling with custom splits, e.g. to reproduce a study.
 For this purpose, splits can be manually set for `ResamplingCustom`:
