@@ -99,8 +99,4 @@ test_that("inputs are cloned", {
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
   expect_different_address(resampling, e$data$resampling)
-
-  # expect_identical(dig_task, digest::digest(task, algo = "xxhash64"))
-  # expect_identical(dig_learner, digest::digest(learner, algo = "xxhash64"))
-  # expect_identical(dig_resampling, digest::digest(resampling, algo = "xxhash64"))
 })

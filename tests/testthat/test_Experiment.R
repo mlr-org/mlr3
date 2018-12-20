@@ -28,12 +28,8 @@ test_that("Partial experiments + save/restore", {
 test_that("inputs are cloned", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
-  dig_task = digest::digest(task, algo = "xxhash64")
-  dig_learner = digest::digest(learner, algo = "xxhash64")
 
   e = Experiment$new(task, learner)
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
-  # expect_identical(dig_task, digest::digest(task, algo = "xxhash64"))
-  # expect_identical(dig_learner, digest::digest(learner, algo = "xxhash64"))
 })
