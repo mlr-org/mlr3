@@ -152,7 +152,7 @@
 <a class="sourceLine" id="cb1-2" data-line-number="2">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>)</a></code></pre></div>
 <p>Additionally, we need to define <strong>how</strong> we want to resample. <code>mlr3</code> comes with the following resampling strategies implemented:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">mlr_resamplings<span class="op">$</span><span class="kw">keys</span>()</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">mlr_resamplings<span class="op">$</span><span class="kw">ids</span>()</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] "bootstrap"   "custom"      "cv"          "holdout"     "repeated_cv"</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; [6] "subsampling"</span></a></code></pre></div>
 <p>Additional resampling methods for special use cases will be available via extension packages, such as <a href="https://github.com/mlr-org/mlr3spatiotemporal">mlr3spatiotemporal</a> for spatial data (still in development).</p>
