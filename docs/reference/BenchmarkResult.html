@@ -213,8 +213,10 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
   <span class='kw'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='st'>"cv"</span>)
 )
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 20 experiments in 2 resamplings
-#&gt; Best: Learner classif.rpart on iris (resampling cv) with mmce=0.0733333
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 20 experiments in 2 resamplings:
+#&gt;  task             learner resampling       mmce
+#&gt;  iris       classif.rpart         cv 0.07333333
+#&gt;  iris classif.featureless         cv 0.80666667
 #&gt; 
 #&gt; Public: aggregated, clone(), combine(), data, get_best(), learners,
 #&gt;   measures, resample_result(), resample_results, resamplings, tasks</div><div class='input'><span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
