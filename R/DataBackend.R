@@ -1,23 +1,28 @@
 #' @title DataBackend
-#'
+#' @format [R6Class] object
 #' @description
 #' This is the abstract base class for data backends.
-#' All objects of type `DataBackend` must provide the following interface:
+#' See [DataBackendDataTable] for an exemplary implementation of this interface.
 #'
 #' @section Usage:
+#'
 #' ```
-#' b = as_data_backend(data)
-#' b$data(rows, cols)
-#' b$head(n = 6)
-#' b$distinct(cols)
-#' b$missing(rows, cols)
-#' b$rownames
+#' # Construction
+#' see ?as_data_backend
+#'
+#' # Members
 #' b$colnames
-#' b$nrow
 #' b$ncol
+#' b$nrow
+#' b$rownames
+#'
+#' # Methods
+#' b$data(rows, cols)
+#' b$distinct(cols)
+#' b$head(n = 6)
+#' b$missing(rows, cols)
 #' print(b)
 #' ```
-#' See [DataBackendDataTable] for an exemplary implementation of this interface.
 #'
 #' @section Arguments:
 #' * `data`:\cr
@@ -30,29 +35,21 @@
 #'   Number of rows to return.
 #'
 #' @section Details:
-#' * `as_data_backend()` wraps a `DataBackend` around the provided data. See `methods("as_data_backend")` for
-#'   possible input formats.
-#'
-#' * `$data()` ([data.table::data.table()]) returns a slice of the data:
-#'   rows are filtered using the `primary_key` column, columns are selected by name.
-#'
-#' * `$head()` ([data.table::data.table()]) returns a table of the first `n` data rows.
-#'
+#' * `$colnames` (`character()`) returns all column names of `data`.
+#' * `$data()` ([data.table::data.table]) returns a slice of the data: rows
+#'   are filtered using the `primary_key` column, columns are selected by name.
 #' * `$distinct()` (named `list()`) returns distinct values for columns `cols`.
-#'
-#' * `$missing()` (named `integer()`) returns a named integer with the number of missing values per column.
-#'
+#' * `$head()` ([data.table::data.table]) returns a table of the first `n` data rows.
+#' * `$missing()` (named `integer()`) returns a named integer with the number of
+#'   missing values per column.
+#' * `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
+#' * `$nrow` (`integer(1)`) returns the number of total rows.
 #' * `$rownames` (`integer()` | `character()`) returns all row names of `data`.
 #'
-#' * `$colnames` (`character()`) returns all column names of `data`.
-#'
-#' * `$nrow` (`integer(1)`) returns the number of total rows.
-#'
-#' * `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
-#'
-#' @name DataBackend
-#' @aliases as_data_backend
 #' @family DataBackend
+#' @aliases as_data_backend
+#' @name DataBackend
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/DataBackend.html)
 NULL
 
 #' @export
@@ -73,8 +70,3 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
   ),
   private = list(.data = NULL)
 )
-
-#' @export
-as_data_backend = function(data, ...) {
-  UseMethod("as_data_backend")
-}
