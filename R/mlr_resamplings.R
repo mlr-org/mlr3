@@ -5,7 +5,7 @@
 #' Each resampling has an associated help page, see `mlr_resamplings_[id]`.
 #'
 #' @section Usage:
-#' See [Dictionary].
+#' Inherits from [Dictionary].
 #'
 #' @name mlr_resamplings
 #' @family Dictionary

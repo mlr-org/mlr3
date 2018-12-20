@@ -4,7 +4,7 @@
 #' This task specializes [Measure] for regression problems.
 #'
 #' @section Usage:
-#' See [Measure].
+#' Inherits from [Measure].
 #'
 #' @section Details:
 #' * `$task_type` is `"regr"`.

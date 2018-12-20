@@ -28,6 +28,7 @@
 #'
 #' @name TaskSupervised
 #' @family Task
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/TaskSupervised.html)
 #' @examples
 #' b = as_data_backend(iris)
 #' task = TaskSupervised$new("iris", task_type = "classif", backend = b, targets = "Species")
