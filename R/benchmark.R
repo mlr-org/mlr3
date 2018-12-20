@@ -14,6 +14,7 @@
 #' @param ctrl (named `list` as returned by [mlr_control()]):\cr
 #'   Object to control experiment execution. See [mlr_control()].
 #' @return [BenchmarkResult].
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/benchmark.html)
 #' @export
 #' @examples
 #' \dontshow{
