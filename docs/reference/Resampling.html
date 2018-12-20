@@ -160,21 +160,20 @@ Predefined resamplings are stored in mlr_resamplings." />
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
-r = Resampling$new(id, param_set, param_vals)
-    # Getters
-r$has_duplicates
-r$hash
+r = Resampling$new(id) # FIXME: param_set, param_vals?
+# Getters
 r$id
-r$instance
-r$instantiate(task)
-r$initialize(id, param_set, param_vals)
-r$is_instantiated
 r$iters
 r$param_set
 r$param_vals
+r$instantiate(task)
+r$is_instantiated
+r$has_duplicates
+r$instance
 r$stratify
-r$test_set(i)
 r$train_set(i)
+r$test_set(i)
+r$hash
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>

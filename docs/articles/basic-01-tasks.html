@@ -248,7 +248,7 @@
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;  $ disp: num  160 160 108 258 360 ...</span></a></code></pre></div>
 <p>Before we can create a regression task, we must create a <code><a href="../reference/DataBackend.html">mlr3::DataBackend</a></code>, an abstraction for data storage system. Here, we will stick to the simplest form of data storage: an in-memory table format using <code><a href="https://www.rdocumentation.org/packages/data.table/topics/data.table">data.table::data.table()</a></code>. We construct the backend first, and then pass it to the regression task constructor:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">b =<span class="st"> </span><span class="kw"><a href="../reference/DataBackend.html">as_data_backend</a></span>(cars)</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">b =<span class="st"> </span><span class="kw">as_data_backend</span>(cars)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">task =<span class="st"> </span>TaskRegr<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">"cars"</span>, <span class="dt">backend =</span> b, <span class="dt">target =</span> <span class="st">"mpg"</span>)</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task)</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; &lt;TaskRegr:cars&gt; (32 x 3)</span></a>
@@ -313,7 +313,7 @@
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co"># `as.data.table` removes rownames, whereas `keep.rownames` ensures</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># that they are stored in a separate column.</span></a>
 <a class="sourceLine" id="cb9-4" data-line-number="4">data =<span class="st"> </span><span class="kw"><a href="../reference/as.data.table.html">as.data.table</a></span>(cars[, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="dt">keep.rownames =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">b =<span class="st"> </span><span class="kw"><a href="../reference/DataBackend.html">as_data_backend</a></span>(data)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">b =<span class="st"> </span><span class="kw">as_data_backend</span>(data)</a>
 <a class="sourceLine" id="cb9-6" data-line-number="6">task =<span class="st"> </span>TaskRegr<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">"cars"</span>, <span class="dt">backend =</span> b, <span class="dt">target =</span> <span class="st">"mpg"</span>)</a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co"># we now have integer row_ids</span></a>
