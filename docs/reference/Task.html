@@ -231,10 +231,14 @@ can have a specific mutually exclusive role in the learning task:</p><ul>
 <li><p><code>"feature"</code>: Regular feature.</p></li>
 <li><p><code>"target"</code>: Column with target labels.</p></li>
 <li><p><code>"order"</code>: Returned data is ordered by these column(s).</p></li>
-<li><p><code>"group"</code>: During resampling, observations with the same value of the variable
-listed in <code>"group"</code> are marked as "belonging together". They will be assigned
+<li><p><code>"groups"</code>: During resampling, observations with the same value of the variable
+listed in <code>"groups"</code> are marked as "belonging together". They will be assigned
 jointly to be either in the training set or the test set.
-To alter the role, use <code>set_col_role()</code></p></li>
+Returns a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> with two columns: first column are rows ids,
+second column are the group labels.</p></li>
+<li><p><code>"weights"</code>: Observation weights. <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> with two columns: first column are the row ids,
+second column are the observation weights.
+To alter the role, use <code>$set_col_role()</code></p></li>
 </ul></li>
 <li><p><code>$data()</code> is used to retrieve data from the backend as <code>data.table</code>.
 Rows are subsetted to only contain observations with <code>role == "use"</code>.
