@@ -8,20 +8,22 @@
 #' @section Usage:
 #' ```
 #' # Construction
-#' r = Resampling$new(id) # FIXME: param_set, param_vals?
+#' r = Resampling$new(id, param_set, param_vals)
+#'
 #' # Getters
+#' r$has_duplicates
+#' r$hash
 #' r$id
+#' r$instance
+#' r$instantiate(task)
+#' r$initialize(id, param_set, param_vals)
+#' r$is_instantiated
 #' r$iters
 #' r$param_set
 #' r$param_vals
-#' r$instantiate(task)
-#' r$is_instantiated
-#' r$has_duplicates
-#' r$instance
 #' r$stratify
-#' r$train_set(i)
 #' r$test_set(i)
-#' r$hash
+#' r$train_set(i)
 #' ```
 #'
 #' @section Arguments:
@@ -126,7 +128,6 @@ Resampling = R6Class("Resampling",
       catf(str_indent("\nPublic:", setdiff(ls(self), c("initialize", "print"))))
     }
   ),
-
 
   active = list(
     hash = function() {
