@@ -131,6 +131,9 @@ Experiment = R6Class("Experiment",
         assert_names(names(dots), type = "unique", subset.of = names(self$data))
         self$data = insert_named(self$data, dots)
       }
+      if (isTRUE(clone)) {
+
+      }
       self$ctrl = assert_list(ctrl)
     },
 

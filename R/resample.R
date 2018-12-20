@@ -49,22 +49,20 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   assert_measures(measures, task = task)
   ctrl = mlr_control(ctrl)
 
-  if (resampling$is_instantiated) {
-    instance = resampling$clone()
-  } else {
-    instance = resampling$instantiate(task)
-  }
+  instance = resampling$clone()
+  if (!instance$is_instantiated)
+    instance = instance$instantiate(task)
   n = instance$iters
 
   if (future_remote()) {
     log_debug("Running resample() via future with %i iterations", n, namespace = "mlr3")
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = ctrl,
+      task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl,
       remote = TRUE, future.globals = FALSE, future.packages = "mlr3")
   } else {
     log_debug("Running resample() sequentially with %i iterations", n, namespace = "mlr3")
     res = lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = ctrl)
+      task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl)
   }
 
   res = combine_experiments(res)
