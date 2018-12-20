@@ -7,10 +7,10 @@
 as_data_backend(data, ...)
 }
 \arguments{
-\item{data}{\cr
+\item{data}{(\link{data.frame}) \cr
 Data to wrap the backend around. Typically a \code{data.frame}.}
 
-\item{...}{\cr
+\item{...}{() \cr
 Additional arguments passed to the respective \link{DataBackend} method.}
 }
 \value{
