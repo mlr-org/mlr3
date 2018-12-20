@@ -1,6 +1,6 @@
 #' @title Assertion for mlr3 Objects
 #' @description
-#'   Functions intended to be used in packages extending \pkg{mlr3}.
+#' Functions intended to be used in packages extending \pkg{mlr3}.
 #' @name mlr_assertions
 #' @keywords internal
 NULL
