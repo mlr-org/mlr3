@@ -9,13 +9,15 @@ The target column is assumed to be a factor.
 }
 \section{Usage}{
 
-In addition to the interface of \link{Task}/\link{TaskSupervised}, this class implements:\preformatted{# Construction
+Inherits from \link{TaskSupervised}\preformatted{# Construction
 t = TaskClassif$new(id, backend, target, positive = NULL)
-#
-t$task_type
-t$class_names
-t$class_n
+
+# Members
 t$all_classes
+t$class_n
+t$class_names
+t$negative
+t$positive
 }
 }
 
@@ -23,24 +25,25 @@ t$all_classes
 
 \itemize{
 \item \code{positive} (\code{character(1)}):
-Name of the "positive" class for binary classification problems.
+Name of the "positive" class, only required for binary classification problems.
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$task_type} is \code{"classif"}.
-\item \code{$class_names} returns all class labels of the rows which \code{role == "use"}.
-\item \code{$class_n} returns the number of class labels of the rows which \code{role == "use"}.
 \item \code{$all_classes} returns all class labels for the target column in the \link{DataBackend}.
 In contrast to \code{$class_names}, this is not restricted to the currently active rows.
+\item \code{$class_n} returns the number of class labels of the rows which \code{role == "use"}.
+\item \code{$class_names} returns all class labels of the rows which \code{role == "use"}.
+\item \code{$task_type} is \code{"classif"}.
 }
 }
 
 \examples{
 b = as_data_backend(iris)
 task = TaskClassif$new("iris", backend = b, target = "Species")
+task$task_type
 task$formula
 task$truth()
 task$all_classes
