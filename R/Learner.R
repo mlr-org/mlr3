@@ -12,6 +12,7 @@
 #' l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #'
 #' # Members
+#' l$fallback
 #' l$feature_types
 #' l$hash
 #' l$id
@@ -19,6 +20,8 @@
 #' l$packages
 #' l$param_set
 #' l$param_vals
+#' l$params_predict
+#' l$params_train
 #' l$predict_type
 #' l$predict_types
 #' l$properties
@@ -63,6 +66,8 @@
 #' * `$param_set` ([paradox::ParamSet]) describes the available hyperparameter
 #'   and possible settings.
 #' * `$param_vals` (named `list()`) stores the list set hyperparameter values.
+#' * `$params_predict` (`list()`) stores the settings that have been used for prediction.
+#' * `$params_train` (`list()`) stores the settings that have been used for training
 #' * `$predict_type` (`character(1)`) stores the currently selected predict type.
 #' * `$predict_types` (`character()`) stores the possible predict types the learner
 #'   is capable of. For classification, feasible values are `"response"` and
