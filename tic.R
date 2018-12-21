@@ -20,9 +20,11 @@ if (Sys.getenv("id_rsa") != "") {
 # only run codecov on Travis
 if (inherits(ci(), "TravisCI") && !Sys.getenv("TRAVIS_EVENT_TYPE") == "cron") {
 
-  get_stage("deploy") %>%
-    add_code_step(devtools::document()) %>%
-    add_step(step_push_deploy(commit_paths = c("man/", "DESCRIPTION", "NAMESPACE")))
+  if (ci()$get_branch() == "master") {
+    get_stage("deploy") %>%
+      add_code_step(devtools::document()) %>%
+      add_step(step_push_deploy(commit_paths = c("man/", "DESCRIPTION", "NAMESPACE")))
+  }
 
   get_stage("after_deploy") %>%
     add_code_step(covr::codecov(quiet = FALSE))
