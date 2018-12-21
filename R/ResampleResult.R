@@ -1,4 +1,5 @@
 #' @title Container for Results of `resample()`.
+#'
 #' @format [R6Class] object
 #' @description
 #' This is the object returned by [resample()].

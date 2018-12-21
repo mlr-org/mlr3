@@ -1,4 +1,5 @@
 #' @title Bootstrap Resampling
+#'
 #' @name mlr_resamplings_bootstrap
 #' @format [R6::R6Class] inheriting from [Resampling].
 #'

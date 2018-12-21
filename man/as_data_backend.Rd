@@ -2,16 +2,16 @@
 % Please edit documentation in R/as_data_backend.R
 \name{as_data_backend}
 \alias{as_data_backend}
-\title{Wrap a backend around data.}
+\title{Create a Data Backend.}
 \usage{
 as_data_backend(data, ...)
 }
 \arguments{
-\item{data}{(\link{data.frame}) \cr
-Data to wrap the backend around. Typically a \code{data.frame}.}
+\item{data}{Data to wrap the backend around. For a \code{data.frame()} (this includes
+tibbles and data.tables), create a \link{DataBackendDataTable}.
+See \code{methods("as_data_backend")} for possible input formats.}
 
-\item{...}{() \cr
-Additional arguments passed to the respective \link{DataBackend} method.}
+\item{...}{Additional arguments passed to the respective \link{DataBackend} method.}
 }
 \value{
 \link{DataBackend}
@@ -19,19 +19,6 @@ Additional arguments passed to the respective \link{DataBackend} method.}
 \description{
 Wraps a \link{DataBackend} around data.
 }
-\section{Arguments}{
-
-\itemize{
-\item \code{data} (\link{data.frame} / \link[tibble:tibble]{tibble::tibble} / \link[data.table:data.table]{data.table::data.table}):\cr
-Data to wrap the backend around. Typically a \code{data.frame}.
-}
-}
-
-\section{Details}{
-
-See \code{methods("as_data_backend")} for possible input formats.
-}
-
 \references{
 \href{https://mlr3.mlr-org.com/reference/as_data_backend.html}{HTML help page}
 }

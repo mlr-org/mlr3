@@ -1,4 +1,5 @@
 #' @title Classification Task
+#'
 #' @format [R6Class] object
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.

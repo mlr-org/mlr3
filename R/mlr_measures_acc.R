@@ -1,4 +1,5 @@
 #' @title Accuracy Classification Measure
+#'
 #' @name mlr_measures_acc
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'

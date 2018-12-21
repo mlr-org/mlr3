@@ -1,4 +1,5 @@
 #' @title DataBackend for `data.table`
+#'
 #' @format [R6Class] object
 #' @description
 #' Abstraction for [data.table::data.table] as an in-memory data base.
@@ -21,7 +22,7 @@
 #' * `primary_key` (`character(1)`):\cr
 #'   Name of the column in `data` which represents a unique
 #'   row identifier (as integer or character).
-#'   If `NULL, the constructor [as_data_backend] automatically creates an integer column of primary keys.
+#'   If `NULL, the constructor [as_data_backend()] automatically creates an integer column of primary keys.
 #'
 #' @name DataBackendDataTable
 #' @family DataBackend

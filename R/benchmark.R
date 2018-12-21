@@ -1,4 +1,5 @@
 #' @title Benchmark Multiple Learners on Multiple Tasks
+#'
 #' @description
 #' Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
 #'

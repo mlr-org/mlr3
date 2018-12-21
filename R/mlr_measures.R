@@ -1,4 +1,5 @@
 #' @title Dictionary of Performance Measures
+#'
 #' @format [R6Class] object
 #' @description
 #' A simple [Dictionary] storing objects of class [Measure].

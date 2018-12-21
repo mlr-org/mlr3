@@ -1,4 +1,5 @@
 #' @title Featureless Classification Learner
+#'
 #' @name mlr_learners_classif_featureless
 #' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @description

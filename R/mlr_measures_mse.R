@@ -1,4 +1,5 @@
 #' @title Mean Squared Error Measure
+#'
 #' @name mlr_measures_mse
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'

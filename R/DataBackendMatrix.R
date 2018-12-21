@@ -1,7 +1,8 @@
 #' @title DataBackend for Matrix
+#'
 #' @format [R6Class] object
 #' @description
-#' Abstraction for [`Matrix`][Matrix::Matrix]. Data is stored as (sparse) matrix.
+#' Abstraction for [Matrix::Matrix()]. Data is stored as (sparse) matrix.
 #' Supports two output formats:
 #'
 #' * `"data.table"` (default): Returns a [data.table::data.table]. The primary key is returned as a regular column.

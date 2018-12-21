@@ -1,13 +1,15 @@
 #' @title Container for Results of `benchmark()`
+#'
 #' @format [R6Class] object
 #' @description
 #' This is the object returned by [benchmark()].
 #'
 #' @section Usage:
+#' This object is returned by [benchmark()].
 #'
 #' ```
 #' # Construction
-#' see ?benchmark
+#' bmr = benchmark(...)
 #'
 #' # Members
 #' bmr$aggregated
@@ -28,21 +30,22 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `data` ([data.table]):\cr
-#'   Argument of initialize. Created by [benchmark].
+#' * `data` ([data.table]): Data used to create the [BenchmarkResult].
 #' * `hash` (`character(1)`):\cr
 #'   String which identifies a subgroup to extract as [ResampleResult].
-#' * `bmr` ([BenchmarkResult]):\cr
-#'   String which identifies a subgroup to extract as [ResampleResult].
-#' * `measure` ():\cr
-#'   Argument of get_best
+#' * `bmr` ([BenchmarkResult]).
+#' * `measure` ([Measure]).
 #'
 #' @section Details:
-#' * `$aggregated` returns aggregated performance measures as a [data.table::data.table]. Experiments are aggregated by their resample result group (combination of [Task], [Learner] and [Resampling]). The actual aggregation function is defined by the respective [Measure].
+#' * `$aggregated` returns aggregated performance measures as a [data.table::data.table].
+#'   Experiments are aggregated by their resample result group (combination of [Task], [Learner] and [Resampling]).
+#'   The actual aggregation function is defined by the respective [Measure].
+#' * `$combine()` takes a second [BenchmarkResult] `bmr` as argument and extends itself with its data.
 #' * `$data` returns the full benchmark structure for each iteration (task, learner, resampling, etc).
-#' * `$resample_results` returns a [data.table::data.table] which gives an overview of the resample result groups in the benchmark. These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
-#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects with a unique hash.
-#' * `as.data.table()` converts a [BenchmarkResult] to a [data.table::data.table].
+#' * `$resample_results` returns a [data.table::data.table] which gives an overview of the resample result groups in the benchmark.
+#'    These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
+#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of included objects, together with a unique hash for the respective object.
+#' * `as.data.table()` converts a [BenchmarkResult] to a [data.table::data.table()].
 #' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
 #' @name BenchmarkResult
 #' @references [HTML help page](https://mlr3.mlr-org.com/reference/BenchmarkResult.html)

@@ -1,4 +1,5 @@
 #' @title Experiment
+#'
 #' @format [R6Class] object
 #' @description
 #' Container object for machine learning experiments.

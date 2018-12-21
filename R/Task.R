@@ -1,4 +1,5 @@
 #' @title Supervised or Unsupervised Tasks
+#'
 #' @format [R6Class] object
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].

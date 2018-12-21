@@ -1,4 +1,5 @@
 #' @title Learner Class
+#'
 #' @format [R6Class] object
 #' @description
 #' Predefined learners are stored in [mlr_learners].

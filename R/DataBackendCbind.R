@@ -1,5 +1,3 @@
-# DOCS FIXME
-
 #' @include DataBackend.R
 DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable = FALSE,
   public = list(

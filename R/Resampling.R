@@ -1,4 +1,5 @@
 #' @title Resampling Class
+#'
 #' @format [R6Class] object
 #' @description
 #' Abstraction for resampling strategies.

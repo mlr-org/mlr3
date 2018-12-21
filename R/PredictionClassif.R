@@ -1,4 +1,5 @@
 #' @title Prediction Object for Classification
+#'
 #' @format [R6::R6Class] object
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerClassif].

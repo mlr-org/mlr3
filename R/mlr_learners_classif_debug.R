@@ -1,4 +1,5 @@
 #' @title Toy Classification Learner
+#'
 #' @name mlr_learners_classif_debug
 #' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @description

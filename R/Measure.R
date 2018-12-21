@@ -1,4 +1,5 @@
 #' @title Measure Class
+#'
 #' @format [R6Class] object
 #' @description
 #' Predefined measures are stored in [mlr_measures].

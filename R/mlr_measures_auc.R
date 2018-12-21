@@ -1,4 +1,5 @@
 #' @title Area Under the Curve Classification Measure
+#'
 #' @name mlr_measures_auc
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'

@@ -5,7 +5,7 @@
 \title{DataBackend for Matrix}
 \format{\link{R6Class} object}
 \description{
-Abstraction for \code{\link[Matrix:Matrix]{Matrix}}. Data is stored as (sparse) matrix.
+Abstraction for \code{\link[Matrix:Matrix]{Matrix::Matrix()}}. Data is stored as (sparse) matrix.
 Supports two output formats:
 \itemize{
 \item \code{"data.table"} (default): Returns a \link[data.table:data.table]{data.table::data.table}. The primary key is returned as a regular column.

@@ -1,4 +1,5 @@
 #' @title Key-Value Storage
+#'
 #' @format [R6Class] object
 #' @description
 #' A simple key-value store for [R6::R6] objects.

@@ -1,4 +1,5 @@
 #' @title Reflections for mlr3
+#'
 #' @description Environment which stores various information for reflections.
 #' @keywords internal
 #' @export

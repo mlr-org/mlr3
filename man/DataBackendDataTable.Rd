@@ -26,7 +26,7 @@ The interface is described in \link{DataBackend}.
 \item \code{primary_key} (\code{character(1)}):\cr
 Name of the column in \code{data} which represents a unique
 row identifier (as integer or character).
-If `NULL, the constructor \link{as_data_backend} automatically creates an integer column of primary keys.
+If `NULL, the constructor \code{\link[=as_data_backend]{as_data_backend()}} automatically creates an integer column of primary keys.
 }
 }
 

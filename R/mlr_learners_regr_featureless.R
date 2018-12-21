@@ -1,4 +1,5 @@
 #' @title Featureless Regression Learner
+#'
 #' @name mlr_learners_regr_featureless
 #' @format [R6::R6Class] inheriting from [LearnerRegr].
 #' @description

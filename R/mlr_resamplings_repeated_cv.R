@@ -1,4 +1,5 @@
 #' @title Repeated Cross Validation Resampling
+#'
 #' @format [R6Class] object
 #' @name mlr_resamplings_repeated_cv
 #' @format [R6::R6Class()] inheriting from [Resampling].

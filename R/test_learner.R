@@ -6,14 +6,18 @@
 #' @param learner ([Learner]):\cr
 #'   Object of type [Learner].
 #' @return None.
-#' @import testthat
 #' @export
 #' @examples
-#' lrn = LearnerClassifRpart$new()
+#' \dontshow{
+#'    set.seed(123)
+#'    .threshold = logger::log_threshold(namespace = "mlr3")
+#'    logger::log_threshold(logger::WARN, namespace = "mlr3")
+#' }
+#' lrn = mlr_learners$get("classif.featureless")
 #' test_learner(lrn)
-# #' \dontshow{
-# #'    logger::log_threshold(.threshold, namespace = "mlr3")
-# #' }
+#' \dontshow{
+#'    logger::log_threshold(.threshold, namespace = "mlr3")
+#' }
 test_learner = function(learner) {
   UseMethod("test_learner")
 }
@@ -37,6 +41,7 @@ test_learner.LearnerRegr = function(learner) {
 # Helper function. Runs unit tests on a learner and a task.
 # If predict_type se is available, this will be tested as well.
 run_regr_tests = function(learner, task) {
+  require_namespaces("testthat")
   id = paste0("learner ", learner$id, " on task ", task$id)
   e = Experiment$new(task, learner)
   test_train_predict(e, id = id)
@@ -47,13 +52,14 @@ run_regr_tests = function(learner, task) {
     learner2$predict_type = "se"
     e2 = Experiment$new(task, learner2)
     test_train_predict(e2, id = id)
-    expect_true(!is.null(e2$prediction$se), info = id)
+    testthat::expect_true(!is.null(e2$prediction$se), info = id)
   }
 }
 
 # Helper function. Runs unit tests on a learner and a task.
 # If predict_type prob is available, this will be tested as well.
 run_classif_tests = function(learner, task) {
+  require_namespaces("testthat")
   id = paste0("learner ", learner$id, " on task ", task$id)
   e = Experiment$new(task, learner)
   test_train_predict(e, id = id)
@@ -64,8 +70,8 @@ run_classif_tests = function(learner, task) {
     learner2$predict_type = "prob"
     e2 = Experiment$new(task, learner2)
     test_train_predict(e2, id = id)
-    expect_true(!is.null(e2$prediction$prob), info = id)
-    expect_true(all(e2$prediction$prob >= 0 & e2$prediction$prob <= 1), info = id)
+    testthat::expect_true(!is.null(e2$prediction$prob), info = id)
+    testthat::expect_true(all(e2$prediction$prob >= 0 & e2$prediction$prob <= 1), info = id)
   }
 }
 
@@ -165,8 +171,9 @@ make_regr_test_tasks = function(lrn) {
 # args:
 # e: experiment from Experiment$new(task, learner)
 test_train_predict = function(e, id) {
+  require_namespaces("testthat")
   e$train()
-  expect_false(e$has_errors, info = id)
+  testthat::expect_false(e$has_errors, info = id)
   e$predict()
   expect_class(e$prediction, "Prediction", info = id)
   e$score()

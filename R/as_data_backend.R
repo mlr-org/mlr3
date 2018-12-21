@@ -1,17 +1,13 @@
-#' @title Wrap a backend around data.
+#' @title Create a Data Backend.
+#'
 #' @description
 #' Wraps a [DataBackend] around data.
 #'
-#' @section Arguments:
-#' * `data` ([data.frame] / [tibble::tibble] / [data.table::data.table]):\cr
-#'   Data to wrap the backend around. Typically a `data.frame`.
-#'
-#' @section Details:
+#' @param data Data to wrap the backend around. For a `data.frame()` (this includes
+#'   tibbles and data.tables), create a [DataBackendDataTable].
 #'   See `methods("as_data_backend")` for possible input formats.
-#' @param data ([data.frame]) \cr
-#'   Data to wrap the backend around. Typically a `data.frame`.
-#' @param ... () \cr
-#'   Additional arguments passed to the respective [DataBackend] method.
+#' @param ... Additional arguments passed to the respective [DataBackend] method.
+#'
 #' @return [DataBackend]
 #' @family DataBackend
 #' @references [HTML help page](https://mlr3.mlr-org.com/reference/as_data_backend.html)

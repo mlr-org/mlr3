@@ -1,5 +1,3 @@
-# DOCS FIXME
-
 #' @include DataBackend.R
 DataBackendOverwrite = R6Class("DataBackendOverwrite", inherit = DataBackend, cloneable = FALSE,
   public = list(

@@ -17,6 +17,14 @@ None.
 A learner is tested on many different tasks which cover the learner's specified feature types and properties.
 }
 \examples{
-lrn = LearnerClassifRpart$new()
+\dontshow{
+   set.seed(123)
+   .threshold = logger::log_threshold(namespace = "mlr3")
+   logger::log_threshold(logger::WARN, namespace = "mlr3")
+}
+lrn = mlr_learners$get("classif.featureless")
 test_learner(lrn)
+\dontshow{
+   logger::log_threshold(.threshold, namespace = "mlr3")
+}
 }
