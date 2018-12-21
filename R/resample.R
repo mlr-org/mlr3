@@ -42,7 +42,8 @@
 #' }
 resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   assert_task(task)
-  assert_learner(learner, task = task)
+  assert_learner(learner)
+  assert_task_type(learner, task)
   assert_resampling(resampling)
   if (is.null(measures))
     measures = task$measures
