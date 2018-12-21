@@ -125,7 +125,7 @@ Experiment = R6Class("Experiment",
     initialize = function(task, learner, ..., ctrl = list()) {
       self$data = named_list(mlr_reflections$experiment_slots$name)
       self$data$task = assert_task(task)
-      self$data$learner = assert_learner(learner, task = task)
+      self$data$learner = assert_task_type(learner, task = task)
       if (...length()) {
         dots = list(...)
         assert_names(names(dots), type = "unique", subset.of = names(self$data))

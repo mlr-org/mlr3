@@ -62,6 +62,14 @@ assert_feature_types = function(task, object) {
 }
 
 #' @export
+#' @param learner ([Learner]):\cr
+#'   A learner to be checked.
+#' @rdname mlr_assertions
+assert_learner = function(learner) {
+  assert_class(learner, "Learner")
+}
+
+#' @export
 #' @param measure ([Measure]):\cr
 #'   A measure to be checked.
 #' @rdname mlr_assertions
