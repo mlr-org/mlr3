@@ -64,7 +64,10 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list(
 
   # Instantiate resampling for each task
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
-  instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))
+  instances = pmap(grid, function(task, resampling) {
+    if (! resamplings[[resampling]]$is_instantiated)
+      resamplings[[resampling]]$clone()$instantiate(tasks[[task]])
+  })
   grid$instance = seq_row(grid)
 
   # some more validity checks
