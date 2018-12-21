@@ -64,6 +64,7 @@ reference:
   - title: Data Backends
     contents:
       - starts_with("DataBackend")
+      - as_data_backend
   - title: Classification
     contents:
       - TaskClassif

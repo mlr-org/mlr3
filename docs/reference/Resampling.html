@@ -157,22 +157,28 @@ Predefined resamplings are stored in mlr_resamplings." />
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
-r = Resampling$new(id)
-#
+r = Resampling$new(id, param_set, param_vals)
+    # Members
+r$has_duplicates
+r$hash
 r$id
+r$instance
+r$is_instantiated
 r$iters
 r$param_set
 r$param_vals
-r$instantiate(task)
-r$is_instantiated
-r$instance
 r$stratify
-r$train_set(i)
+    # Methods
+r$instantiate(task)
 r$test_set(i)
-r$hash
+r$train_set(i)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -181,6 +187,12 @@ r$hash
     <ul>
 <li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
 identifier for this object.</p></li>
+<li><p><code>param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>):<br />
+describes available parameters.</p></li>
+<li><p><code>param_vals</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>):<br />
+Named list of parameter values.</p></li>
+<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
+Object of type <a href='Task.html'>Task</a>.</p></li>
 <li><p><code>i</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>):<br />
 Get the <code>i</code>-th training/test set.</p></li>
 </ul>
@@ -189,22 +201,27 @@ Get the <code>i</code>-th training/test set.</p></li>
 
     
     <ul>
-<li><p><code>$new()</code> creates a new object of class Resampling.</p></li>
+<li><p><code>$has_duplicates</code> FIXME ???</p></li>
+<li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>param_vals</code> and the instantiation.
+If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 <li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
+<li><p><code>$instance</code> stores the instantiated realization of the resampling.
+This is an arbitrary object, do not work directly with it. Instead, use <code>$train_set()</code> and <code>$test_set()</code>.</p></li>
+<li><p><code>$instantiate</code> materializes fixed training and test splits for a given task.</p></li>
+<li><p><code>$is_instantiated</code> returns <code>TRUE</code> if the resampling has been instantiated, and <code>FALSE</code> otherwise.</p></li>
 <li><p><code>$iters</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) calculates the resulting number of iterations, given the current <code>param_vals</code>.</p></li>
+<li><p><code>$new()</code> creates a new object of class Resampling.</p></li>
 <li><p><code>$param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>) describes available parameters.</p></li>
 <li><p><code>$param_vals</code> (named <code>list</code>) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.</p></li>
-<li><p><code>$instantiate</code> materializes fixed training and test splits for a given task.</p></li>
-<li><p><code>$is_instantiated</code> returns <code>TRUE</code> if the resampling has been instantiated, and <code>FALSE</code> otherwise.</p></li>
-<li><p><code>$instance</code> stores the instantiated realization of the resampling. This is an arbitrary object, do
-not work directly with it. Instead, use <code>$train_set()</code> and <code>$test_set()</code>.</p></li>
 <li><p><code>$stratify</code> can be set to column names of the <a href='Task.html'>Task</a> which will be used for stratification during instantiation.</p></li>
-<li><p><code>$train_set()</code> returns the training set for the <code>i</code>-th iteration.</p></li>
 <li><p><code>$test_set()</code> returns the test set for the <code>i</code>-th iteration.</p></li>
-<li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>param_vals</code> and the instantiation.
-If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
+<li><p><code>$train_set()</code> returns the training set for the <code>i</code>-th iteration.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/Resampling.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -231,25 +248,26 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 #&gt; </div><div class='input'>
 <span class='co'># Instantiate on iris task</span>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)
-<span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; Instantiated &lt;ResamplingSubsampling&gt; with 3 iterations
+<span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;ResamplingSubsampling&gt; with 3 iterations
+#&gt; Instantiated: TRUE
 #&gt; Parameters: ratio=0.1, repeats=3
 #&gt; 
-#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,
-#&gt;   is_instantiated, iters, param_set, param_vals, stratify, test_set,
-#&gt;   train_set</div><div class='input'>
+#&gt; Public: clone, format, has_duplicates, hash, id, instance,
+#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
+#&gt;   test_set, train_set</div><div class='input'>
 <span class='co'># Extract train/test sets</span>
 <span class='no'>train_set</span> <span class='kw'>=</span> <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]  19  23  30  32  35  40  42  50  53  55  70  79  81 113 141</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]  19  23  30  32  35  40  49  53  55  70  79  80 112 115 140</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Another example: 10-fold CV</span>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]   5  17  18  21  38  50  88  91  97  98 109 119 123 132 150   1  22  30
-#&gt;  [19]  37  49  61  66  73 104 125 134 135 141 146 149   4  10  28  65  83  85
-#&gt;  [37]  90 102 121 129 133 139 144 145 147   7  26  27  40  41  43  48  52  68
-#&gt;  [55]  71 105 112 127 128 148   6  19  25  36  46  57  58  72  74  79  93  96
-#&gt;  [73] 130 131 140   3  14  15  24  33  35  44  53  70  87  95 111 120 138 142
-#&gt;  [91]   9  11  29  34  54  69  80  81  82  84  86 100 108 114 118  20  23  45
-#&gt; [109]  62  63  76  78  94  99 107 115 117 122 126 136   2  31  32  42  47  51
-#&gt; [127]  55  59  67  75  77  89 106 113 116</div><div class='input'>
+<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]   7  22  23  31  38  39  50  60  62  67  69  74  98 105 140   2  11  66
+#&gt;  [19] 106 119 121 122 125 127 130 134 135 137 142 147   5   8  18  27  29  41
+#&gt;  [37]  42  49  72  84 113 118 128 144 145  26  28  53  59  65  73  77  80  81
+#&gt;  [55] 102 104 107 129 132 148   1   4  15  20  25  34  36  54  58  91  97 116
+#&gt;  [73] 131 139 149  10  16  30  35  45  55  70  75  83  87  88  96 103 115 136
+#&gt;  [91]  12  21  24  37  61  79  82  86  94 100 108 109 120 146 150  32  43  46
+#&gt; [109]  48  64  68  71  76  89  95 101 112 117 123 126   3   9  33  40  44  47
+#&gt; [127]  52  56  57  63  78  90 111 138 141</div><div class='input'>
 <span class='co'># Stratification</span>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"pima"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>())) <span class='co'># moderately unbalanced</span></div><div class='output co'>#&gt; 
@@ -257,14 +275,15 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 #&gt; 0.6510417 0.3489583 </div><div class='input'>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"subsampling"</span>)
 <span class='no'>r</span>$<span class='no'>stratify</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>target_names</span> <span class='co'># stratify on target column</span>
-<span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; Instantiated &lt;ResamplingSubsampling&gt; with 30 iterations
+<span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;ResamplingSubsampling&gt; with 30 iterations
+#&gt; Instantiated: TRUE
 #&gt; Parameters: repeats=30, ratio=0.67
 #&gt; 
-#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,
-#&gt;   is_instantiated, iters, param_set, param_vals, stratify, test_set,
-#&gt;   train_set</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
+#&gt; Public: clone, format, has_duplicates, hash, id, instance,
+#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
+#&gt;   test_set, train_set</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 
-#&gt; 0.6504854 0.3495146 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
+#&gt; 0.6504854 0.3495146 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion # FIXME why two times?</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 
 #&gt; 0.6504854 0.3495146 </div></pre>
   </div>
@@ -272,11 +291,15 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
@@ -288,7 +311,7 @@ If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

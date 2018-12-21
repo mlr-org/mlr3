@@ -1,18 +1,25 @@
 #' @title Prediction Object for Regression
 #'
+#' @format [R6::R6Class] object
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerRegr].
 #'
 #' @section Usage:
+#'
+#' Inherits from [Prediction]
+#'
 #' ```
 #' # Construction
 #' p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
-#' #
+#'
+#' # Members
 #' p$predict_types
-#' p$truth
 #' p$response
+#' p$row_ids
 #' p$se
-#' #
+#' p$truth
+#'
+#' # S3 methods
 #' as.data.table(p)
 #' ```
 #'
@@ -29,21 +36,18 @@
 #'   Numeric vector of predicted standard error. One element for each observation in the test set.
 #'
 #' @section Details:
-#' * `$new()` initializes a new object of class [Prediction].
-#'
-#' * `$predict_types` ([character()]) stores the predict types available: a subset of `c("response", "se")`.
-#'
-#' * `$truth` stores the true values.
-#'
+#' * `$predict_types` ([character]) stores the predict types available: a subset of `c("response", "se")`.
 #' * `$response` stores the predicted values.
-#'
+#' * `row_ids` stores the row IDs.
 #' * `$se` stores the predicted standard errors (if available), or is `NULL`.
-#'
-#' * The prediction object can be transformed to a simple [data.table::data.table()]
-#'   with [data.table::as.data.table()].
+#' * `$truth` stores the true values.
+#' * `$new()` initializes a new object of class [Prediction].
+#' * The prediction object can be transformed to a simple [data.table::data.table]
+#'   with [data.table::as.data.table].
 #' @name PredictionRegr
 #' @export
 #' @family Prediction
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/PredictionRegr.html)
 #' @examples
 #' task = mlr_tasks$get("bh")
 #' learner = mlr_learners$get("regr.featureless")

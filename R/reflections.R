@@ -1,4 +1,5 @@
 #' @title Reflections for mlr3
+#'
 #' @description Environment which stores various information for reflections.
 #' @keywords internal
 #' @export
@@ -23,8 +24,8 @@ mlr_reflections$task_row_roles = c(
 )
 
 mlr_reflections$task_col_roles = list(
-  regr = c("feature", "target", "order"),
-  classif = c("feature", "target", "order")
+  regr = c("feature", "target", "order", "groups", "weights"),
+  classif = c("feature", "target", "order", "groups", "weights")
 )
 
 mlr_reflections$task_properties = list(

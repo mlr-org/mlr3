@@ -1,4 +1,5 @@
 #' @title Mean Squared Error Measure
+#'
 #' @name mlr_measures_mse
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'
@@ -6,6 +7,7 @@
 #' Calls [Metrics::mse].
 #'
 #' @export
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_measures_mse.html)
 #' @include MeasureRegr.R
 MeasureRegrMSE = R6Class("MeasureRegrMSE",
   inherit = MeasureRegr,

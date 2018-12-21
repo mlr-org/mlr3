@@ -1,6 +1,6 @@
 get_stage("script") %>%
-  add_step(step_rcmdcheck(args = "--as-cran", warnings_are_errors = FALSE,
-                          notes_are_errors = FALSE))
+  add_code_step(devtools::document()) %>%
+  add_step(step_rcmdcheck(args = "--as-cran", error_on = "error"))
 
 if (Sys.getenv("id_rsa") != "") {
   # pkgdown documentation can be built optionally. Other example criteria:

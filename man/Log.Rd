@@ -3,17 +3,22 @@
 \name{Log}
 \alias{Log}
 \title{Learner Output Log}
+\format{\link{R6Class} object}
 \description{
 Object which stores the output of the \code{train} or \code{predict} step of an \link{Experiment}.
 }
 \section{Usage}{
 \preformatted{# Construction
 l = Log$new(log = NULL)
-#
-l$has_condition(cl)
-l$warnings
+
+# Members
 l$errors
+l$log
+l$warnings
+
+# Methods
 l$format()
+l$has_condition(cl)
 l$print()
 }
 }
@@ -24,19 +29,21 @@ l$print()
 \item \code{log} (\code{data.table::data.table()}):
 \code{data.table()} with columns \code{class} (\code{character()}) and \code{message} (\code{character()}).
 \item \code{cl} (\code{character(1)}):
-Class of a condition. One of "output", "warning", or "error".
+Class of a condition. One of "output", "warning", or "error". #FIXME: missing "message"?
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$new(log)} parses the object returned by \code{\link[evaluate:evaluate]{evaluate::evaluate()}} and creates a new \link{Log}.
-\item \code{$has_condition(cl)} returns \code{TRUE} if at least on message of class \code{cl} is logged.
-Possible conditions are "output", "message", "warning", and "error".
-\item \code{$warnings} (\code{character()}) returns all lines which are warnings.
 \item \code{$errors} (\code{character()}) returns all lines which are errors.
-\item \code{format()} and \code{print()} are for formatting and printing via \code{\link[=format]{format()}} or \code{\link[=print]{print()}}, respectively.
+\item \code{$warnings} (\code{character()}) returns all lines which are warnings.
+\item \code{$has_condition(cl)} returns \code{TRUE} if at least on message of class \code{cl} is
+logged. Possible conditions are "output", "message", "warning", and "error".
+\item \code{$new(log)} parses the object returned by \link[evaluate:evaluate]{evaluate::evaluate} and creates
+a new \link{Log}.
+\item \code{format()} and \code{print()} are for formatting and printing via \link{format} or
+\link{print}, respectively.
 }
 }
 
@@ -52,4 +59,7 @@ l = e$logs$train
 
 l$has_condition("error")
 print(l)
+}
+\references{
+\href{https://mlr3.mlr-org.com/reference/Log.html}{HTML help page}
 }

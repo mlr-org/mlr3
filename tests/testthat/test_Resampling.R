@@ -17,17 +17,16 @@ test_that("param_vals", {
 
   expect_error({
     r$param_vals = list(repeats = 10L)
-  }, "permutation of set \\{repeats,ratio\\}")
+  }, "ratio")
 
   expect_error({
     r$param_vals = list(ratio = 0.5, repeats = 10L, foobar = 12)
-  }, "permutation of set \\{repeats,ratio\\}")
-
+  }, "subset")
 })
 
 test_that("hashing", {
   task = mlr_tasks$get("iris")
-  ids = setdiff(mlr_resamplings$keys(), "custom")
+  ids = setdiff(mlr_resamplings$ids(), "custom")
 
   for (id in ids) {
     r = mlr_resamplings$get(id)

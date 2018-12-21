@@ -73,6 +73,9 @@
     <loc>https://mlr3.mlr-org.com/reference/as.data.table.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/as_data_backend.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/benchmark.html</loc>
   </url>
   <url>
@@ -172,13 +175,16 @@
     <loc>https://mlr3.mlr-org.com/reference/resample.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/test_learner.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/articles/basic-01-tasks.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/articles/basic-02-train-predict-score.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/articles/basic-03-resample.html</loc>
+    <loc>https://mlr3.mlr-org.com/articles/basic-03-resample-benchmarking.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/articles/basic-04-parallelization.html</loc>

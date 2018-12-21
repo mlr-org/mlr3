@@ -1,5 +1,6 @@
 #' @title Experiment
 #'
+#' @format [R6Class] object
 #' @description
 #' Container object for machine learning experiments.
 #'
@@ -8,81 +9,87 @@
 #' ```
 #' # Construction
 #' e = Experiment$new(task, learner, ...)
-#' # Stepwise execution
-#' e$train(subset)
-#' e$predict(subset, newdata)
-#' e$score(measures = NULL)
-#' # Getters
-#' e$task
-#' e$learner
-#' e$model
-#' e$prediction
-#' e$performance
-#' e$train_set
-#' e$test_set
-#' e$validation_set
-#' e$timings
-#' e$logs
-#' e$state
+#'
+#' # Members
+#' e$ctrl
 #' e$data
+#' e$has_errors
+#' e$hash
+#' e$learner
+#' e$logs
+#' e$model
+#' e$performance
+#' e$prediction
+#' e$state
+#' e$task
+#' e$test_set
+#' e$timings
+#' e$train_set
+#' e$validation_set
+#'
+#' # Methods
+#' e$predict(subset, newdata, ctrl = list())
+#' e$score(measures = NULL, ctrl = list())
+#' e$train(subset, ctrl = list())
 #' ```
 #'
 #' @section Arguments:
 #' * `task` ([Task]):\cr
-#'   Task to conduct experiment on
+#'  Task to conduct experiment on
 #' * `learner` ([Learner]):\cr
 #'   Learner to conduct experiment with.
 #' * `subset` (`integer()` | `character()`):\cr
 #'   Subset of the task's row ids to work on.
-#' * `newdata` ([data.frame()]):\cr
+#' * `newdata` ([data.frame]):\cr
 #'   New data to predict on. Will be appended to the task.
 #' * `measures` (list of [Measure]):\cr
 #'   Performance measure to use. Defaults to the measures set in the [Task].
 #'
 #' @section Details:
-#' * `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
-#'
-#' * `$task` and `$learner` can be used to access the [Task] and [Learner].
-#'
-#' * `$train()` fits the induced [Learner] on the (subset of the) `task` and stores the model in the [Learner].
-#'   The model can be accessed via `e$model`.
-#'
+#' * `$new()` initializes a new machine learning experiment which can grow in a
+#'   stepwise fashion.
 #' * `$predict()` uses the previously fitted model to predict new observations.
-#'   The predictions are stored internally as an [Prediction] object and can be accessed via `e$prediction` as [data.table::data.table()].
-#'
-#' * `$score()` quantifies stored predictions using the provided list of [Measure] (or the task's [Measure] if not provided)
-#'   and stores the resulting performance values. The performance can be accessed via `e$performance`.
-#'
-#' * `$train_set` and `$test_set` (`integer()` | `character()`) return the row ids of the training set or test set, respectively.
-#'
-#' * `$validation_set` (`integer()` | `character()`) returns the row ids of the validation set (see [Task]).
-#'
-#' * `$timings` (named `numeric(3)`) holds the elapsed time for the steps `train`, `predict` and `score` in seconds with up to millisecond accuracy (c.f. [proc.time()]).
-#'   Timings are `NA` if the respective step has not been performed yet.
-#'
-#' * `$logs` (named `list(2)`) returns a list with names `train` and `predict`.
-#'   Both store an object of class [Log] if logging of the learner has been enabled via [mlr_control()],
-#'   and are `NULL` if logging was disabled or the respective step has not been performed yet.
-#'
-#' * `$state` (`ordered(1)`) returns the state of the experiment: `"defined"`, `"trained"`, `"predicted"`, or `"scored"`.
-#'
+#'   The predictions are stored internally as an [Prediction] object and can be
+#'   accessed via `e$prediction` as [data.table::data.table()].
+#' * `$score()` quantifies stored predictions using the provided list of
+#'   [Measure] (or the task's [Measure] if not provided) and stores the resulting
+#'   performance values. The performance can be accessed via `e$performance`.
+#' * `$train()` fits the induced [Learner] on the (subset of the) `task` and'stores the model in the [Learner]. The model can be accessed via `e$model`.
+#' * `$ctrl` ([list]). List of control settings passed to `$train()`, `$predict()` and `$score()`.
 #' * `$data` stores the internal representation of an Experiment as a `named list` with the following slots:
-#'   * task ([Task]).
-#'   * learner ([Learner]).
-#'   * resampling ([Resampling]). Is `NULL` prior to calling `$train()`.
-#'     If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()], a `ResamplingCustom` object is stored here.
 #'   * iteration (`integer(1)`). If the experiment is constructed manually, this is always 1.
-#'   * train_log: [Log] for the training step.
-#'   * train_time (`numeric(1)`). Elapsed time in microseconds.
+#'   * learner ([Learner]).
+#'   * measures (`list` of [Measure]). Actually used performance measures.
+#'   * performance (`named numeric`). Performance values are returned by the measures.
 #'   * predict_log. [Log] for the predict step.
 #'   * predict_time (`numeric(1)`). Elapsed time in microseconds.
 #'   * prediction ([Prediction]).
-#'   * measures (`list` of [Measure]). Actually used performance measures.
-#'   * performance (`named numeric`). Performance values are returned by the measures.
+#'   * resampling ([Resampling]). Is `NULL` prior to calling `$train()`. If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()], a `ResamplingCustom` object is stored here.
 #'   * score_time (`numeric(1)`). Elapsed time in microseconds.
+#'   * task ([Task]).
+#'   * train_log: [Log] for the training step.
+#'   * train_time (`numeric(1)`). Elapsed time in microseconds.
+#' * `$has_errors` (`logical(1)`). Whether the Experiment showed errors either during training or prediction.
+#' * `$hash` (`character(1)`). The hash of the experiment.
+#' * `$logs` (named `list(2)`) returns a list with names `train` and `predict`.
+#'   Both store an object of class [Log] if logging of the learner has been
+#'   enabled via [mlr_control()], and are `NULL` if logging was disabled or the
+#'   respective step has not been performed yet.
+#' * `$state` (`ordered(1)`) returns the state of the experiment: `"defined"`,
+#'   `"trained"`, `"predicted"`, or `"scored"`.
+#' * `$task` and `$learner` can be used to access the [Task] and [Learner].
+#' * `$timings` (named `numeric(3)`) holds the elapsed time for the steps
+#'   `train`, `predict` and `score` in seconds with up to millisecond accuracy
+#'   (c.f. [proc.time()]). Timings are `NA` if the respective step has not been
+#'   performed yet.
+#' * `$train_set` and `$test_set` (`integer()` | `character()`) return the row
+#'   ids of the training set or test set, respectively.
+#' * `$validation_set` (`integer()` | `character()`) returns the row ids of the
+#'   validation set (see [Task]).
 #'
-#' @name Experiment
 #' @export
+#' @name Experiment
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Experiment.html)
 #' @examples
 #' e = Experiment$new(
 #'   task = mlr_tasks$get("iris"),
@@ -125,6 +132,10 @@ Experiment = R6Class("Experiment",
         self$data = insert_named(self$data, dots)
       }
       self$ctrl = assert_list(ctrl)
+    },
+
+    format = function() {
+      "<Experiment>"
     },
 
     print = function(...) {
@@ -245,7 +256,7 @@ experiment_print = function(self) {
     }
   }
 
-  catf("<Experiment> [%s]:", self$state)
+  catf("%s [%s]:", format(self), self$state)
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
   catf(fmt(self$model, "Model", sprintf("[%s]", class(self$model)[[1L]])))

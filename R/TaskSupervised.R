@@ -1,14 +1,21 @@
 #' @title Supervised Task
 #'
+#' @format [R6Class] object
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
 #' It extends [Task] with some handling of target columns.
 #'
 #' @section Usage:
+#' Inherits from [Task]
+#'
 #' ```
 #' # Construction
 #' t = TaskSupervised$new(id, task_type, backend, targets)
-#' #
+#'
+#' # Members
+#' t$weights
+#'
+#' # Methods
 #' t$truth(subset = NULL)
 #' ```
 #'
@@ -18,9 +25,15 @@
 #'
 #' @section Details:
 #' * `$truth()` returns the true labels. The type depends on the type of the task.
+#' * `$weights` returns the weights used in the [DataBackend].
 #'
 #' @name TaskSupervised
 #' @family Task
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/TaskSupervised.html)
+#' @examples
+#' b = as_data_backend(iris)
+#' task = TaskSupervised$new("iris", task_type = "classif", backend = b, targets = "Species")
+#'
 #' @keywords internal
 NULL
 

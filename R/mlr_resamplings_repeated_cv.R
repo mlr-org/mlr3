@@ -1,4 +1,6 @@
 #' @title Repeated Cross Validation Resampling
+#'
+#' @format [R6Class] object
 #' @name mlr_resamplings_repeated_cv
 #' @format [R6::R6Class()] inheriting from [Resampling].
 #'
@@ -7,6 +9,7 @@
 #'
 #' @export
 #' @include Resampling.R
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_repeated_cv.html)
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")
@@ -30,7 +33,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     initialize = function(id = "repeated_cv") {
       super$initialize(
         id = id,
-        param_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamInt$new("folds", lower = 1L))),
+        param_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamInt$new("folds", lower = 1L, tags = "required"))),
         param_vals = list(repeats = 10L, folds = 10L)
       )
       self$has_duplicates = FALSE

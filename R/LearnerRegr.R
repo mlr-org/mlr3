@@ -1,10 +1,11 @@
 #' @title Regression Learner
 #'
+#' @format [R6Class] object
 #' @description
 #' This Learner specializes [Learner] for regression problems.
 #'
 #' @section Usage:
-#' See [Learner].
+#' Inherits from [Learner].
 #'
 #' @section Details:
 #' * `$task_type` is `"regr"`.

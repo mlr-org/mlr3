@@ -3,18 +3,24 @@
 \name{PredictionRegr}
 \alias{PredictionRegr}
 \title{Prediction Object for Regression}
+\format{\link[R6:R6Class]{R6::R6Class} object}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
 }
 \section{Usage}{
-\preformatted{# Construction
+
+
+Inherits from \link{Prediction}\preformatted{# Construction
 p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
-#
+
+# Members
 p$predict_types
-p$truth
 p$response
+p$row_ids
 p$se
-#
+p$truth
+
+# S3 methods
 as.data.table(p)
 }
 }
@@ -38,13 +44,14 @@ Numeric vector of predicted standard error. One element for each observation in 
 \section{Details}{
 
 \itemize{
-\item \code{$new()} initializes a new object of class \link{Prediction}.
-\item \code{$predict_types} (\code{\link[=character]{character()}}) stores the predict types available: a subset of \code{c("response", "se")}.
-\item \code{$truth} stores the true values.
+\item \code{$predict_types} (\link{character}) stores the predict types available: a subset of \code{c("response", "se")}.
 \item \code{$response} stores the predicted values.
+\item \code{row_ids} stores the row IDs.
 \item \code{$se} stores the predicted standard errors (if available), or is \code{NULL}.
-\item The prediction object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}}
-with \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
+\item \code{$truth} stores the true values.
+\item \code{$new()} initializes a new object of class \link{Prediction}.
+\item The prediction object can be transformed to a simple \link[data.table:data.table]{data.table::data.table}
+with \link[data.table:as.data.table]{data.table::as.data.table}.
 }
 }
 
@@ -56,6 +63,9 @@ e = Experiment$new(task, learner)$train()$predict()
 p = e$prediction
 p$predict_types
 head(as.data.table(p))
+}
+\references{
+\href{https://mlr3.mlr-org.com/reference/PredictionRegr.html}{HTML help page}
 }
 \seealso{
 Other Prediction: \code{\link{PredictionClassif}},

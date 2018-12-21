@@ -1,6 +1,7 @@
 #' @title Featureless Regression Learner
+#'
 #' @name mlr_learners_regr_featureless
-#' @format [R6::R6Class()] inheriting from [LearnerRegr].
+#' @format [R6::R6Class] inheriting from [LearnerRegr].
 #' @description
 #' A simple learner which only analyses the response during train, ignoring all features.
 #' If hyperparameter `robust` is `FALSE` (default), constantly predicts `mean(y)` as response
@@ -8,6 +9,7 @@
 #' If `robust` is `TRUE`, `median()` and `madn()` are used instead of `mean()` and `sd()`,
 #' respectively.
 #' @export
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_learners_regr_featureless.html)
 #' @include LearnerRegr.R
 LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
   public = list(

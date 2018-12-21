@@ -3,6 +3,7 @@
 \name{Resampling}
 \alias{Resampling}
 \title{Resampling Class}
+\format{\link{R6Class} object}
 \description{
 Abstraction for resampling strategies.
 
@@ -10,19 +11,23 @@ Predefined resamplings are stored in \link{mlr_resamplings}.
 }
 \section{Usage}{
 \preformatted{# Construction
-r = Resampling$new(id)
-#
+r = Resampling$new(id, param_set, param_vals)
+
+# Members
+r$has_duplicates
+r$hash
 r$id
+r$instance
+r$is_instantiated
 r$iters
 r$param_set
 r$param_vals
-r$instantiate(task)
-r$is_instantiated
-r$instance
 r$stratify
-r$train_set(i)
+
+# Methods
+r$instantiate(task)
 r$test_set(i)
-r$hash
+r$train_set(i)
 }
 }
 
@@ -31,6 +36,12 @@ r$hash
 \itemize{
 \item \code{id} (\code{character(1)}):\cr
 identifier for this object.
+\item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}):\cr
+describes available parameters.
+\item \code{param_vals} (\code{list()}):\cr
+Named list of parameter values.
+\item \code{task} (\link{Task}):\cr
+Object of type \link{Task}.
 \item \code{i} (\code{integer(1)}):\cr
 Get the \code{i}-th training/test set.
 }
@@ -39,21 +50,22 @@ Get the \code{i}-th training/test set.
 \section{Details}{
 
 \itemize{
-\item \code{$new()} creates a new object of class \link{Resampling}.
+\item \code{$has_duplicates} FIXME ???
+\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{param_vals} and the instantiation.
+If the object is not instantiated yet, \code{NA} is returned.
 \item \code{$id} (\code{character(1)}) stores the identifier of the object.
+\item \code{$instance} stores the instantiated realization of the resampling.
+This is an arbitrary object, do not work directly with it. Instead, use \code{$train_set()} and \code{$test_set()}.
+\item \code{$instantiate} materializes fixed training and test splits for a given task.
+\item \code{$is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
 \item \code{$iters} (\code{integer(1)}) calculates the resulting number of iterations, given the current \code{param_vals}.
+\item \code{$new()} creates a new object of class \link{Resampling}.
 \item \code{$param_set} (\link[paradox:ParamSet]{paradox::ParamSet}) describes available parameters.
 \item \code{$param_vals} (named \code{list}) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.
-\item \code{$instantiate} materializes fixed training and test splits for a given task.
-\item \code{$is_instantiated} returns \code{TRUE} if the resampling has been instantiated, and \code{FALSE} otherwise.
-\item \code{$instance} stores the instantiated realization of the resampling. This is an arbitrary object, do
-not work directly with it. Instead, use \code{$train_set()} and \code{$test_set()}.
 \item \code{$stratify} can be set to column names of the \link{Task} which will be used for stratification during instantiation.
-\item \code{$train_set()} returns the training set for the \code{i}-th iteration.
 \item \code{$test_set()} returns the test set for the \code{i}-th iteration.
-\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{param_vals} and the instantiation.
-If the object is not instantiated yet, \code{NA} is returned.
+\item \code{$train_set()} returns the training set for the \code{i}-th iteration.
 }
 }
 
@@ -88,7 +100,10 @@ r = mlr_resamplings$get("subsampling")
 r$stratify = task$target_names # stratify on target column
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
-prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
+prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
+}
+\references{
+\href{https://mlr3.mlr-org.com/reference/Resampling.html}{HTML help page}
 }
 \seealso{
 Other Resampling: \code{\link{mlr_resamplings}}

@@ -1,4 +1,5 @@
 #' @title Mean Misclassification Error Measure
+#'
 #' @name mlr_measures_mmce
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'
@@ -6,6 +7,7 @@
 #' Calls [Metrics::ce].
 #'
 #' @export
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_measures_mmce.html)
 #' @include MeasureClassif.R
 MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
   inherit = MeasureClassif,

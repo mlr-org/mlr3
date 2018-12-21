@@ -61,3 +61,6 @@ head(as.data.table(rr$experiment(1)$prediction))
    logger::log_threshold(.threshold, namespace = "mlr3")
 }
 }
+\references{
+\href{https://mlr3.mlr-org.com/reference/benchmark.html}{HTML help page}
+}

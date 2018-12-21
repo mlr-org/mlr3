@@ -6,7 +6,6 @@
 #' @importFrom R6 R6Class
 #' @importFrom utils data head tail adist
 #' @importFrom stats reformulate median mad runif
-#'
 "_PACKAGE"
 
 layout_mlr3 <- structure(function(level, msg) {

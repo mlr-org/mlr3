@@ -1,44 +1,55 @@
 #' @title Container for Results of `benchmark()`
 #'
+#' @format [R6Class] object
 #' @description
 #' This is the object returned by [benchmark()].
 #'
 #' @section Usage:
+#' This object is returned by [benchmark()].
 #'
 #' ```
-#' bmr$tasks
-#' bmr$learners
-#' bmr$resamplings
-#' bmr$measures
+#' # Construction
+#' bmr = benchmark(...)
+#'
+#' # Members
 #' bmr$aggregated
+#' bmr$data
+#' bmr$learners
+#' bmr$measures
 #' bmr$resample_results
+#' bmr$resamplings
+#' bmr$tasks
+#'
+#' # Methods
+#' bmr$combine(bmr)
+#' bmr$get_best(measure)
 #' bmr$resample_result(hash)
+#'
+#' # S3 methods
 #' as.data.table(bmr)
 #' ```
 #'
 #' @section Arguments:
+#' * `data` ([data.table]): Data used to create the [BenchmarkResult].
 #' * `hash` (`character(1)`):\cr
 #'   String which identifies a subgroup to extract as [ResampleResult].
-#' * `bmr` ([BenchmarkResult]):\cr
-#'   String which identifies a subgroup to extract as [ResampleResult].
+#' * `bmr` ([BenchmarkResult]).
+#' * `measure` ([Measure]).
 #'
 #' @section Details:
-#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of involved objects.
-#'
-#' * `$aggregated` returns aggregated performance measures as a [data.table::data.table()].
-#'   Experiments are aggregated by their resample result group
-#'   (combination of [Task], [Learner] and [Resampling]).
-#'  The actual aggregation function is defined by the respective [Measure].
-#'
-#' * `$resample_results` returns a [data.table::data.table()] which gives an overview of the
-#'   resample result groups in the benchmark.
-#'   These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
-#'
-#' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
-#'
+#' * `$aggregated` returns aggregated performance measures as a [data.table::data.table].
+#'   Experiments are aggregated by their resample result group (combination of [Task], [Learner] and [Resampling]).
+#'   The actual aggregation function is defined by the respective [Measure].
+#' * `$combine()` takes a second [BenchmarkResult] `bmr` as argument and extends itself with its data.
+#' * `$data` returns the full benchmark structure for each iteration (task, learner, resampling, etc).
+#' * `$resample_results` returns a [data.table::data.table] which gives an overview of the resample result groups in the benchmark.
+#'    These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
+#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of included objects, together with a unique hash for the respective object.
 #' * `as.data.table()` converts a [BenchmarkResult] to a [data.table::data.table()].
-#'
+#' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
 #' @name BenchmarkResult
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/BenchmarkResult.html)
+#'
 #' @examples
 #' \dontshow{
 #'    set.seed(123)
@@ -50,7 +61,6 @@
 #'   learners = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
 #'   resamplings = mlr_resamplings$mget("cv")
 #' )
-#'
 #' print(bmr)
 #' bmr$tasks
 #' bmr$learners
@@ -79,14 +89,20 @@ BenchmarkResult = R6Class("BenchmarkResult",
       self$data = setcolorder(data, slots)
     },
 
+    format = function() {
+      "<BenchmarkResult>"
+    },
+
     print = function() {
-      catf("<BenchmarkResult> of %i experiments in %i resamplings",
-        nrow(self$data), uniqueN(self$data$hash))
+      catf("%s of %i experiments in %i resamplings:",
+        format(self), nrow(self$data), uniqueN(self$data$hash))
       measure = self$measures$measure[[1L]]
-      best = self$get_best(measure)
-      aggregated = best$aggregated
-      catf("Best: Learner %s on %s (resampling %s) with %s=%g",
-        best$learner$id, best$task$id, best$resampling$id, measure$id, best$aggregated[[measure$id]])
+
+      aggr = self$aggregated[, !c("hash", "resample_result"), with = FALSE]
+      setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
+      setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
+      print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
+
       catf(str_indent("\nPublic:", str_r6_interface(self)))
     },
 
@@ -168,5 +184,5 @@ as.data.table.BenchmarkResult = function(x, ...) {
       resampling = resampling, resampling_id = ids(resampling),
       performance = performance
     )
-  ], "performance")
+    ], "performance")
 }

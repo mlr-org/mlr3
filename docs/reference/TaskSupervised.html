@@ -157,11 +157,18 @@ It extends <a href='Task.html'>Task</a> with some handling of target columns.</p
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre># Construction
+    
+    <p>Inherits from <a href='Task.html'>Task</a></p><pre># Construction
 t = TaskSupervised$new(id, task_type, backend, targets)
-#
+    # Members
+t$weights
+    # Methods
 t$truth(subset = NULL)
 </pre>
     
@@ -178,7 +185,12 @@ Subset of row ids to subset rows from the <a href='DataBackend.html'>DataBackend
     
     <ul>
 <li><p><code>$truth()</code> returns the true labels. The type depends on the type of the task.</p></li>
+<li><p><code>$weights</code> returns the weights used in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/TaskSupervised.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -187,26 +199,35 @@ Subset of row ids to subset rows from the <a href='DataBackend.html'>DataBackend
   <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
+<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskSupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>targets</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
 
+      <li><a href="#references">References</a></li>
+
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

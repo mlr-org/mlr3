@@ -30,10 +30,10 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="DataBackend for Matrix — DataBackendMatrix" />
 
-<meta property="og:description" content="Abstraction for Matrix(). Data is stored as (sparse) matrix.
+<meta property="og:description" content="Abstraction for Matrix::Matrix(). Data is stored as (sparse) matrix.
 Supports two output formats:
-"data.table" (default): Returns a data.table::data.table(). The primary key is returned as a regular column.
-"sparse" (native): Returns a Matrix::Matrix(). The primary key is stored as additional attribute ..row_id.
+"data.table" (default): Returns a data.table::data.table. The primary key is returned as a regular column.
+"sparse" (native): Returns a Matrix::Matrix. The primary key is stored as additional attribute ..row_id.
 " />
 <meta name="twitter:card" content="summary" />
 
@@ -155,17 +155,22 @@ Supports two output formats:
     </div>
 
     
-    <p>Abstraction for <code><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix()</a></code>. Data is stored as (sparse) matrix.
+    <p>Abstraction for <code><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>. Data is stored as (sparse) matrix.
 Supports two output formats:</p><ul>
-<li><p><code>"data.table"</code> (default): Returns a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>. The primary key is returned as a regular column.</p></li>
-<li><p><code>"sparse"</code> (native): Returns a <code><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>. The primary key is stored as additional attribute <code>..row_id</code>.</p></li>
+<li><p><code>"data.table"</code> (default): Returns a <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a>. The primary key is returned as a regular column.</p></li>
+<li><p><code>"sparse"</code> (native): Returns a <a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix</a>. The primary key is stored as additional attribute <code>..row_id</code>.</p></li>
 </ul>
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre># Construction
+    
+    <p>Inherits from <a href='DataBackend.html'>DataBackend</a>.</p><pre># Construction
 b = DataBackendMatrix$new(data)
 b = as_data_backend(data)
 </pre>
@@ -175,15 +180,19 @@ b = as_data_backend(data)
 
     
     <ul>
-<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>).<br />
+<li><p><code>data</code> (<a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix</a>).<br />
 A (sparse) matrix. If <code>data</code> has row names, these will be used as primary key.
 Integer keys (<code><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len(nrow(data))</a></code>) are used otherwise.</p></li>
 </ul>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/DataBackendMatrix.html'>HTML help page</a></p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other DataBackend: <code><a href='DataBackendDataTable.html'>DataBackendDataTable</a></code>,
-  <code><a href='DataBackend.html'>DataBackend</a></code></p></div>
+  <code><a href='DataBackend.html'>DataBackend</a></code>, <code><a href='as_data_backend.html'>as_data_backend</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -191,23 +200,27 @@ Integer keys (<code><a href='https://www.rdocumentation.org/packages/base/topics
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>data</span>) <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"x1"</span>, <span class='st'>"x2"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>data</span>) <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"row_"</span>, <span class='fl'>1</span>:<span class='fl'>10</span>)
 
-<span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>data</span>)
+<span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>data</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>))</div><div class='output co'>#&gt;    x1 x2 ..row_id
-#&gt; 1:  1  1    row_1
-#&gt; 2:  0  0    row_2
-#&gt; 3:  0  1    row_3</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"sparse"</span>))</div><div class='output co'>#&gt; 3 x 2 sparse Matrix of class "dgCMatrix"
+#&gt; 1:  1  0    row_1
+#&gt; 2:  1  1    row_2
+#&gt; 3:  0  0    row_3</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"sparse"</span>))</div><div class='output co'>#&gt; 3 x 2 sparse Matrix of class "dgCMatrix"
 #&gt;       x1 x2
-#&gt; row_1  1  1
-#&gt; row_2  .  .
-#&gt; row_3  .  1</div></pre>
+#&gt; row_1  1  .
+#&gt; row_2  1  1
+#&gt; row_3  .  .</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
@@ -219,7 +232,7 @@ Integer keys (<code><a href='https://www.rdocumentation.org/packages/base/topics
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

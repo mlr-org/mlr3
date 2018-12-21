@@ -161,16 +161,21 @@ probability is chosen. In case of ties, a random class label of the tied labels 
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre># Construction
+    
+    <p>Inherits from <a href='Prediction.html'>Prediction</a></p><pre># Construction
 p = PredictionClassif$new(task, response, prob = NULL)
-#
+    # Members
 p$predict_types
-p$truth
 p$response
-p$prob
-#
+p$row_ids
+p$truth
+    # S3 methods
 as.data.table(p)
 </pre>
     
@@ -193,14 +198,18 @@ and one row for each observation in the test set.</p></li>
 
     
     <ul>
+<li><p><code>$predict_types</code> (<a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a>) stores the predict types available: a subset of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("response", "se")</a></code>.</p></li>
+<li><p><code>$response</code> stores the predicted values.</p></li>
+<li><p><code>row_ids</code> stores the row IDs.</p></li>
+<li><p><code>$truth</code> stores the true values.</p></li>
 <li><p><code>$new()</code> initializes a new object of class <a href='Prediction.html'>Prediction</a>.</p></li>
-<li><p><code>$predict_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the predict types available: a subset of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("response", "prob")</a></code>.</p></li>
-<li><p><code>$truth</code> stores the predicted class labels as factor.</p></li>
-<li><p><code>$response</code> stores the predicted class labels as factor.</p></li>
-<li><p><code>$prob</code> stores the label probabilities (if available) as matrix, or is <code>NULL</code>.</p></li>
-<li><p>The prediction object can be transformed to a simple <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>
-with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as.data.table'>data.table::as.data.table()</a></code>.</p></li>
+<li><p>The prediction object can be transformed to a simple <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a>
+with <a href='https://www.rdocumentation.org/packages/data.table/topics/as.data.table'>data.table::as.data.table</a>.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/PredictionClassif.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -226,11 +235,15 @@ with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
@@ -242,7 +255,7 @@ with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

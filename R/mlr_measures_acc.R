@@ -1,4 +1,5 @@
 #' @title Accuracy Classification Measure
+#'
 #' @name mlr_measures_acc
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'
@@ -6,6 +7,7 @@
 #' Calls [Metrics::accuracy].
 #'
 #' @export
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_measures_acc.html)
 #' @include MeasureClassif.R
 MeasureClassifACC = R6Class("MeasureClassifACC",
   inherit = MeasureClassif,
@@ -25,7 +27,6 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
     }
   )
 )
-
 
 #' @include mlr_measures.R
 mlr_measures$add("acc", MeasureClassifACC)

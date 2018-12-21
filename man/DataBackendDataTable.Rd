@@ -3,12 +3,15 @@
 \name{DataBackendDataTable}
 \alias{DataBackendDataTable}
 \title{DataBackend for \code{data.table}}
+\format{\link{R6Class} object}
 \description{
-Abstraction for \code{\link[data.table:data.table]{data.table::data.table()}} as an in-memory data base.
+Abstraction for \link[data.table:data.table]{data.table::data.table} as an in-memory data base.
 Returns an object of class \link{DataBackend}.
 }
 \section{Usage}{
-\preformatted{# Construction
+
+
+Inherits from \link{DataBackend}.\preformatted{# Construction
 b = DataBackendDataTable$new(data, primary_key)
 b = as_data_backend(data, primary_key = NULL)
 }
@@ -19,7 +22,7 @@ The interface is described in \link{DataBackend}.
 \section{Arguments}{
 
 \itemize{
-\item \code{data} (\code{\link[=data.frame]{data.frame()}}).
+\item \code{data} (\link{data.frame}).
 \item \code{primary_key} (\code{character(1)}):\cr
 Name of the column in \code{data} which represents a unique
 row identifier (as integer or character).
@@ -41,8 +44,11 @@ head(b$rownames)
 b$ncol
 b$colnames
 }
+\references{
+\href{https://mlr3.mlr-org.com/reference/DataBackendDataTable.html}{HTML help page}
+}
 \seealso{
 Other DataBackend: \code{\link{DataBackendMatrix}},
-  \code{\link{DataBackend}}
+  \code{\link{DataBackend}}, \code{\link{as_data_backend}}
 }
 \concept{DataBackend}

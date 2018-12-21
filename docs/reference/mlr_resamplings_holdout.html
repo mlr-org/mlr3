@@ -160,7 +160,11 @@ Parameter <code>ratio</code> determines the ratio of observation in the train se
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><code><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class()</a></code> inheriting from <a href='Resampling.html'>Resampling</a>.</p>
+    <p>R6Class object</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/mlr_resamplings_holdout.html'>HTML help page</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -170,12 +174,13 @@ Parameter <code>ratio</code> determines the ratio of observation in the train se
 
 <span class='co'># Instantiate Resampling</span>
 <span class='no'>rho</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"holdout"</span>)
-<span class='no'>rho</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; Instantiated &lt;ResamplingHoldout&gt; with 1 iterations
+<span class='no'>rho</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;ResamplingHoldout&gt; with 1 iterations
+#&gt; Instantiated: TRUE
 #&gt; Parameters: ratio=0.6667
 #&gt; 
-#&gt; Public: clone, has_duplicates, hash, id, instance, instantiate,
-#&gt;   is_instantiated, iters, param_set, param_vals, stratify, test_set,
-#&gt;   train_set</div><div class='input'>
+#&gt; Public: clone, format, has_duplicates, hash, id, instance,
+#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
+#&gt;   test_set, train_set</div><div class='input'>
 <span class='co'># Individual sets:</span>
 <span class='no'>rho</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  7  4  9  5 10  2  3</div><div class='input'><span class='no'>rho</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 6 8</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rho</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rho</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
@@ -191,6 +196,8 @@ Parameter <code>ratio</code> determines the ratio of observation in the train se
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -200,7 +207,7 @@ Parameter <code>ratio</code> determines the ratio of observation in the train se
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

@@ -20,9 +20,9 @@ expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
   checkmate::expect_r6(d, "Dictionary")
   testthat::expect_output(print(d), "Dictionary")
   checkmate::expect_environment(d$items)
-  checkmate::expect_character(d$keys(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
+  checkmate::expect_character(d$ids(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
   if (!is.na(contains)) {
-    checkmate::expect_list(d$mget(d$keys()), types = contains, names = "unique")
+    checkmate::expect_list(d$mget(d$ids()), types = contains, names = "unique")
   }
 }
 
@@ -221,22 +221,22 @@ expect_task_regr = function(task) {
   expect_hash(task$hash, 1L)
 }
 
-expect_learner = function(lrn, task = NULL) {
-  checkmate::expect_r6(lrn, "Learner", cloneable = TRUE)
-  testthat::expect_output(print(lrn))
+expect_learner = function(lrn, task = NULL, info = NULL) {
+  checkmate::expect_r6(lrn, "Learner", cloneable = TRUE, info = info)
+  testthat::expect_output(print(lrn), info = info)
 
-  checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types)
-  checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
-  checkmate::expect_class(lrn$param_set, "ParamSet")
-  checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
-  checkmate::expect_function(lrn$train, args = "task", nargs = 1L)
-  checkmate::expect_function(lrn$predict, args = "task", nargs = 1L)
+  checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types, info = info)
+  checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE, info = info)
+  checkmate::expect_class(lrn$param_set, "ParamSet", info = info)
+  checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE, info = info)
+  checkmate::expect_function(lrn$train, args = "task", nargs = 1L, info = info)
+  checkmate::expect_function(lrn$predict, args = "task", nargs = 1L, info = info)
   expect_hash(lrn$hash, 1L)
 
   if (!is.null(task)) {
-    checkmate::expect_class(task, "Task")
-    checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]])
-    testthat::expect_identical(lrn$task_type, task$task_type)
+    checkmate::expect_class(task, "Task", info = info)
+    checkmate::expect_subset(lrn$properties, mlr3::mlr_reflections$learner_properties[[task$task_type]], info = info)
+    testthat::expect_identical(lrn$task_type, task$task_type, info = info)
   }
 }
 

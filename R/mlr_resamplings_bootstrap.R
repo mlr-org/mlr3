@@ -1,6 +1,7 @@
 #' @title Bootstrap Resampling
+#'
 #' @name mlr_resamplings_bootstrap
-#' @format [R6::R6Class()] inheriting from [Resampling].
+#' @format [R6::R6Class] inheriting from [Resampling].
 #'
 #' @description
 #' Simple Bootstrap sampling.
@@ -9,6 +10,7 @@
 #'
 #' @export
 #' @include Resampling.R
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_bootstrap.html)
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")
@@ -32,8 +34,8 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
-            ParamInt$new("repeats", lower = 1L),
-            ParamDbl$new("ratio", lower = 0, upper = 1))
+            ParamInt$new("repeats", lower = 1L, tags = "required"),
+            ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
         ),
         param_vals = list(ratio = 1, repeats = 30L)
       )

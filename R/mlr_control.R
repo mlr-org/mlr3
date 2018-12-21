@@ -22,6 +22,7 @@
 #'   after some argument checks.
 #'
 #' @export
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_control.html)
 #' @examples
 #' # get a list of the defaults
 #' mlr_control()
