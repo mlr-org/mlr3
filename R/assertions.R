@@ -30,6 +30,22 @@ assert_task = function(task) {
 }
 
 #' @export
+#' @param object ([Learner] | [Filter]):\cr
+#'   A filter or learner to be checked
+#' @param task ([Task]):\cr
+#'   An task to be checked.
+#' @rdname mlr_assertions
+assert_task_type = function (object, task = NULL) {
+  if (!is.null(task)) {
+    if (!any(task$task_type %in% object$task_type)) {
+      stopf("'%s' is not compatible with type of task '%s' (type: %s)",
+        object$id, task$id, task$task_type)
+    }
+  }
+  invisible(object)
+}
+
+#' @export
 #' @param learner ([Learner]):\cr
 #'   A learner to be checked.
 #' @rdname mlr_assertions
