@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Wrap a backend around data. — as_data_backend • mlr3</title>
+<title>Create a Data Backend. — as_data_backend • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,7 +28,7 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Wrap a backend around data. — as_data_backend" />
+<meta property="og:title" content="Create a Data Backend. — as_data_backend" />
 
 <meta property="og:description" content="Wraps a DataBackend around data." />
 <meta name="twitter:card" content="summary" />
@@ -146,7 +146,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrap a backend around data.</h1>
+    <h1>Create a Data Backend.</h1>
     <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_data_backend.R'><code>R/as_data_backend.R</code></a></small>
     </div>
 
@@ -161,32 +161,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>(<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>) <br />
-Data to wrap the backend around. Typically a <code>data.frame</code>.</p></td>
+      <td><p>Data to wrap the backend around. For a <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> (this includes
+tibbles and data.tables), create a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.
+See <code><a href='https://www.rdocumentation.org/packages/utils/topics/methods'>methods("as_data_backend")</a></code> for possible input formats.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>() <br />
-Additional arguments passed to the respective <a href='DataBackend.html'>DataBackend</a> method.</p></td>
+      <td><p>Additional arguments passed to the respective <a href='DataBackend.html'>DataBackend</a> method.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><a href='DataBackend.html'>DataBackend</a></p>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>data</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a> / <a href='https://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble::tibble</a> / <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a>):<br />
-Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
-</ul>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-    <p>See <code><a href='https://www.rdocumentation.org/packages/utils/topics/methods'>methods("as_data_backend")</a></code> for possible input formats.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -206,10 +193,6 @@ Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#arguments">Arguments</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
 
