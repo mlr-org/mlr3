@@ -1,4 +1,5 @@
 #' @title Repeated Cross Validation Resampling
+#' @format [R6Class] object
 #' @name mlr_resamplings_repeated_cv
 #' @format [R6::R6Class()] inheriting from [Resampling].
 #'
@@ -7,6 +8,7 @@
 #'
 #' @export
 #' @include Resampling.R
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_repeated_cv.html)
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")

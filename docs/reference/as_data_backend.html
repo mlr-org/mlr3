@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Resample a Learner on a Task — resample • mlr3</title>
+<title>Wrap a backend around data. — as_data_backend • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Resample a Learner on a Task — resample" />
+<meta property="og:title" content="Wrap a backend around data. — as_data_backend" />
 
-<meta property="og:description" content="Runs a resampling (possibly in parallel)." />
+<meta property="og:description" content="Wraps a DataBackend around data." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -146,74 +146,59 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Resample a Learner on a Task</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/resample.R'><code>R/resample.R</code></a></small>
+    <h1>Wrap a backend around data.</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_data_backend.R'><code>R/as_data_backend.R</code></a></small>
     </div>
 
     
-    <p>Runs a resampling (possibly in parallel).</p>
+    <p>Wraps a <a href='DataBackend.html'>DataBackend</a> around data.</p>
     
 
-    <pre class="usage"><span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>())</pre>
+    <pre class="usage"><span class='fu'>as_data_backend</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>task</th>
-      <td><p>(<a href='Task.html'>Task</a>):<br />
-Object of type <a href='Task.html'>Task</a>.</p></td>
+      <th>data</th>
+      <td><p>(<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>) <br />
+Data to wrap the backend around. Typically a <code>data.frame</code>.</p></td>
     </tr>
     <tr>
-      <th>learner</th>
-      <td><p>(<a href='Learner.html'>Learner</a>):<br />
-Object of type <a href='Learner.html'>Learner</a>.</p></td>
-    </tr>
-    <tr>
-      <th>resampling</th>
-      <td><p>(<a href='Resampling.html'>Resampling</a>):<br />
-Object of type <a href='Resampling.html'>Resampling</a>.</p></td>
-    </tr>
-    <tr>
-      <th>measures</th>
-      <td><p>(<code>list</code> of <a href='Measure.html'>Measure</a>):<br />
-List of performance measures used to assess the predictive performance.
-Defaults to the measures stored in <code>task</code>.</p></td>
-    </tr>
-    <tr>
-      <th>ctrl</th>
-      <td><p>(named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>, e.g. as returned by <code><a href='mlr_control.html'>mlr_control()</a></code>):<br />
-Object to control various parts of the execution. See <code><a href='mlr_control.html'>mlr_control()</a></code>.</p></td>
+      <th>...</th>
+      <td><p>() <br />
+Additional arguments passed to the respective <a href='DataBackend.html'>DataBackend</a> method.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><a href='ResampleResult.html'>ResampleResult</a>.</p>
+    <p><a href='DataBackend.html'>DataBackend</a></p>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+
+    
+    <ul>
+<li><p><code>data</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a> / <a href='https://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble::tibble</a> / <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a>):<br />
+Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+    <p>See <code><a href='https://www.rdocumentation.org/packages/utils/topics/methods'>methods("as_data_backend")</a></code> for possible input formats.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/as_data_backend.html'>HTML help page</a></p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other DataBackend: <code><a href='DataBackendDataTable.html'>DataBackendDataTable</a></code>,
+  <code><a href='DataBackendMatrix.html'>DataBackendMatrix</a></code>,
+  <code><a href='DataBackend.html'>DataBackend</a></code></p></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)
-<span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.rpart"</span>)
-<span class='no'>resampling</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 10 iterations
-#&gt;  Measure Min.    1st Qu.     Median       Mean   3rd Qu.      Max.         Sd
-#&gt;     mmce    0 0.06666667 0.06666667 0.07333333 0.1166667 0.1333333 0.04919099</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;       mmce 
-#&gt; 0.07333333 </div><div class='input'><span class='no'>rr</span>$<span class='fu'>performance</span>(<span class='st'>"mmce"</span>)</div><div class='output co'>#&gt;  [1] 0.00000000 0.13333333 0.06666667 0.06666667 0.06666667 0.13333333
-#&gt;  [7] 0.06666667 0.06666667 0.13333333 0.00000000</div><div class='input'>
-<span class='co'># Repeat resampling with featureless learner and combine</span>
-<span class='co'># the ResampleResults into a BenchmarkResult</span>
-<span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)
-<span class='no'>rr.featureless</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)
-
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='no'>rr</span>$<span class='fu'>combine</span>(<span class='no'>rr.featureless</span>)
-<span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id          learner_id resampling_id
-#&gt; 1: 9c0dcc24754f547f &lt;ResampleResult&gt;    iris       classif.rpart            cv
-#&gt; 2: b1bf4c9778378e73 &lt;ResampleResult&gt;    iris classif.featureless            cv
-#&gt;          mmce
-#&gt; 1: 0.07333333
-#&gt; 2: 0.80666667</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -221,9 +206,15 @@ Object to control various parts of the execution. See <code><a href='mlr_control
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+
+      <li><a href="#arguments">Arguments</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

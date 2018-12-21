@@ -3,28 +3,30 @@
 \name{ResampleResult}
 \alias{ResampleResult}
 \title{Container for Results of \code{resample()}.}
+\format{\link{R6Class} object}
 \description{
 This is the object returned by \code{\link[=resample]{resample()}}.
 }
 \section{Usage}{
 \preformatted{# Construction
 rr = ResampleResult$new(data, hash = NULL)
-# Getters
+
+# Members
+rr$aggregated
 rr$data
-rr$task
+rr$errors
+rr$hash
 rr$learner
-rr$resampling
 rr$measures
-rr$performance(id)
+rr$resampling
+rr$task
+
+# Methods
+rr$combine(rr)
 rr$experiment(iter)
 rr$experiments(iters)
-rr$combine(rr)
-rr$aggregated
-rr$hash
-rr$errors
+rr$performance(id)
 rr$print()
-# S3 methods
-as.data.table(bmr)
 }
 }
 
@@ -37,29 +39,28 @@ Each row corresponds to a single experiment.
 \item \code{hash} (\code{NULL} | \code{character(1)}):\cr
 Pre-calculated hash for the combination of \code{task}, \code{learner} and \code{resampling}.
 If \code{NULL}, the checksum will be calculated on-demand.
-\item \code{id} (\code{character(1)}):\cr
-Identifier of a performance measure.
+\item \code{rr} (\code{ResampleResult}):\cr
+Second \link{ResampleResult}.
 \item \code{iter} (\code{integer(1)}):\cr
 Iteration of the experiment to retrieve.
 \item \code{iters} (\code{integer}):\cr
 Iterations of experiments to retrieve as \code{list()}.
-\item \code{rr} (\code{ResampleResult}):\cr
-Second \link{ResampleResult}.
+\item \code{id} (\code{character(1)}):\cr
+Identifier of a performance measure.
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$task}, \code{$learner}, \code{$resampling} and \code{$measure} allow access to the \link{Task}, \link{Learner}, \link{Resampling} and
-\link{Measure} used in the resampling.
-\item \code{$performance(id)} retrieves the performance values for the measure with id \code{id} as numeric vector.
+\item \code{$aggregated} (named \code{numeric()}) returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
+\item \code{$combine()} takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
+\item \code{$errors} FIXME ???
 \item \code{$experiment()} returns an \link{Experiment} for the \code{iter}-th resampling iteration.
 \item \code{$experiments()} returns a \code{list} with the slice of \link{Experiment}s for the provided \code{iters}.
-\item \code{$combine()} takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
-\item \code{$aggregated} (named \code{numeric()}) returns the aggregated performance measures. The aggregation method is part of the \link{Measure}.
 \item \code{$hash} (\code{character(1))} stores a hash for the combination of task, learner and resampling.
-\item \code{$errors} FIXME ???
+\item \code{$performance(id)} retrieves the performance values for the measure with id \code{id} as numeric vector.
+\item \code{$task}, \code{$learner}, \code{$resampling} and \code{$measure} allow access to the \link{Task}, \link{Learner}, \link{Resampling} and \link{Measure} used in the resampling.
 \item \code{as.data.table()} converts the \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }

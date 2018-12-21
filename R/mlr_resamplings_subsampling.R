@@ -1,12 +1,14 @@
 #' @title Subsampling Resampling
+#' @format [R6Class] object
 #' @name mlr_resamplings_subsampling
-#' @format [R6::R6Class()] inheriting from [Resampling].
+#' @format [R6::R6Class] inheriting from [Resampling].
 #'
 #' @description
 #' `repeats` times repeated splits into training and test set with a `ratio` ratio of training observations.
 #'
 #' @export
 #' @include Resampling.R
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_subsampling.html)
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")

@@ -1,18 +1,22 @@
 #' @title Learner Output Log
-#'
+#' @format [R6Class] object
 #' @description
 #' Object which stores the output of the `train` or `predict` step of an [Experiment].
 #'
 #' @section Usage:
+#'
 #' ```
 #' # Construction
 #' l = Log$new(log = NULL)
-#' # Getters
-#' l$log
-#' l$has_condition(cl)
-#' l$warnings
+#'
+#' # Members
 #' l$errors
+#' l$log
+#' l$warnings
+#'
+#' # Methods
 #' l$format()
+#' l$has_condition(cl)
 #' l$print()
 #' ```
 #'
@@ -23,18 +27,16 @@
 #'   Class of a condition. One of "output", "warning", or "error". #FIXME: missing "message"?
 #'
 #' @section Details:
-#' * `$new(log)` parses the object returned by [evaluate::evaluate()] and creates a new [Log].
-#'
-#' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is logged.
-#'   Possible conditions are "output", "message", "warning", and "error".
-#'
-#' * `$warnings` (`character()`) returns all lines which are warnings.
-#'
 #' * `$errors` (`character()`) returns all lines which are errors.
-#'
-#' * `format()` and `print()` are for formatting and printing via [format()] or [print()], respectively.
-#'
+#' * `$warnings` (`character()`) returns all lines which are warnings.
+#' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is
+#'   logged. Possible conditions are "output", "message", "warning", and "error".
+#' * `$new(log)` parses the object returned by [evaluate::evaluate] and creates
+#'   a new [Log].
+#' * `format()` and `print()` are for formatting and printing via [format] or
+#'   [print], respectively.
 #' @name Log
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Log.html)
 #' @examples
 #' # Create a simple experiment and extract the train log:
 #' task = mlr_tasks$get("sonar")
@@ -58,7 +60,7 @@ Log = R6Class("Log", cloneable = FALSE,
     },
 
     format = function() {
-      sprintf("[%s] %s", self$log$class, self$log$msg)
+      sprintf("<%s>", class(self)[1L])
     },
 
     print = function() {
@@ -66,8 +68,8 @@ Log = R6Class("Log", cloneable = FALSE,
       if (n == 0L) {
         catf("Empty <Log>")
       } else {
-        catf("<Log> with %i message%s:", n, if (n == 1L) "" else "s")
-        catf(strwrap(paste0(seq_len(n), ": ", format(self)), exdent = nchar(n) + 2L))
+        catf("%s with %i message%s:", format(self), n, if (n == 1L) "" else "s")
+        catf(strwrap(sprintf("%i: [%s] %s", seq_len(n), self$log$class, self$log$msg), exdent = nchar(n) + 2L))
       }
     },
 

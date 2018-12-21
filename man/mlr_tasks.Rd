@@ -13,7 +13,7 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_tasks$keys()
+mlr_tasks$ids()
 as.data.table(mlr_tasks)
 mlr_tasks$get("iris")
 head(mlr_tasks$get("iris")$data())
@@ -28,7 +28,7 @@ task = TaskClassif$new("iris.binary", b, target = "Species", positive = "1")
 mlr_tasks$add("iris.binary", task)
 
 # list available tasks
-mlr_tasks$keys()
+mlr_tasks$ids()
 
 # retrieve from dictionary
 mlr_tasks$get("iris.binary")

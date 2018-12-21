@@ -1,5 +1,5 @@
 #' @title Resampling Class
-#'
+#' @format [R6Class] object
 #' @description
 #' Abstraction for resampling strategies.
 #'
@@ -8,63 +8,58 @@
 #' @section Usage:
 #' ```
 #' # Construction
-#' r = Resampling$new(id) # FIXME: param_set, param_vals?
-#' # Getters
+#' r = Resampling$new(id, param_set, param_vals)
+#'
+#' # Members
+#' r$has_duplicates
+#' r$hash
 #' r$id
+#' r$instance
+#' r$is_instantiated
 #' r$iters
 #' r$param_set
 #' r$param_vals
-#' r$instantiate(task)
-#' r$is_instantiated
-#' r$has_duplicates
-#' r$instance
 #' r$stratify
-#' r$train_set(i)
+#'
+#' # Methods
+#' r$instantiate(task)
 #' r$test_set(i)
-#' r$hash
+#' r$train_set(i)
 #' ```
 #'
 #' @section Arguments:
 #' * `id` (`character(1)`):\cr
 #'   identifier for this object.
-#'
+#' * `param_set` ([paradox::ParamSet]):\cr
+#'   describes available parameters.
+#' * `param_vals` (`list()`):\cr
+#'   Named list of parameter values.
+#' * `task` ([Task]):\cr
+#'   Object of type [Task].
 #' * `i` (`integer(1)`):\cr
 #'   Get the `i`-th training/test set.
 #'
-#' missing: FIXME param_set param_vals
-#'
 #' @section Details:
-#' * `$new()` creates a new object of class [Resampling].
-#'
-#' * `$id` (`character(1)`) stores the identifier of the object.
-#'
-#' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `param_vals`.
-#'
-#' * `$param_set` ([paradox::ParamSet]) describes available parameters.
-#'
-#' * `$param_vals` (named `list`) stores the currently set parameter values.
-#'   You can set parameters by assigning a named list of new parameters to this slot.
-#'
-#' * `$instantiate` materializes fixed training and test splits for a given task.
-#'
-#' * `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
-#'
 #' * `$has_duplicates` FIXME ???
-#'
-#' * `$instance` stores the instantiated realization of the resampling. This is an arbitrary object, do
-#'   not work directly with it. Instead, use `$train_set()` and `$test_set()`.
-#'
-#' * `$stratify` can be set to column names of the [Task] which will be used for stratification during instantiation.
-#'
-#' * `$train_set()` returns the training set for the `i`-th iteration.
-#'
-#' * `$test_set()` returns the test set for the `i`-th iteration.
-#'
 #' * `$hash` (`character(1)`) stores a checksum calculated on the `id`, `param_vals` and the instantiation.
 #'   If the object is not instantiated yet, `NA` is returned.
+#' * `$id` (`character(1)`) stores the identifier of the object.
+#' * `$instance` stores the instantiated realization of the resampling.
+#'    This is an arbitrary object, do not work directly with it. Instead, use `$train_set()` and `$test_set()`.
+#' * `$instantiate` materializes fixed training and test splits for a given task.
+#' * `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
+#' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `param_vals`.
+#' * `$new()` creates a new object of class [Resampling].
+#' * `$param_set` ([paradox::ParamSet]) describes available parameters.
+#' * `$param_vals` (named `list`) stores the currently set parameter values.
+#'    You can set parameters by assigning a named list of new parameters to this slot.
+#' * `$stratify` can be set to column names of the [Task] which will be used for stratification during instantiation.
+#' * `$test_set()` returns the test set for the `i`-th iteration.
+#' * `$train_set()` returns the training set for the `i`-th iteration.
 #'
 #' @name Resampling
 #' @family Resampling
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Resampling.html)
 #' @examples
 #' r = mlr_resamplings$get("subsampling")
 #'
@@ -115,18 +110,18 @@ Resampling = R6Class("Resampling",
       self$stratify = character(0L)
     },
 
-    train_set = function(...) stopf("Method not implemented, should have been overloaded during construction"),
-    test_set = function(...) stopf("Method not implemented, should have been overloaded during construction"),
-    instantiate = function(...) stopf("Method not implemented, should have been overloaded during construction"),
+    format = function() {
+      sprintf("<%s>", class(self)[1L])
+    },
 
     print = function(...) {
       pv = self$param_vals
-      catf("%s<%s> with %i iterations", if (self$is_instantiated) "Instantiated " else "", class(self)[1L], self$iters)
-      catf("Parameters: %s", as_short_string(pv, 1000L))
+      catf("%s with %i iterations", format(self), self$iters)
+      catf(str_indent("Instantiated:", self$is_instantiated))
+      catf(str_indent("Parameters:", as_short_string(pv, 1000L)))
       catf(str_indent("\nPublic:", setdiff(ls(self), c("initialize", "print"))))
     }
   ),
-
 
   active = list(
     hash = function() {

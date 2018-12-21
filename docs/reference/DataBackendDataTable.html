@@ -30,7 +30,7 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="DataBackend for <code>data.table</code> — DataBackendDataTable" />
 
-<meta property="og:description" content="Abstraction for data.table::data.table() as an in-memory data base.
+<meta property="og:description" content="Abstraction for data.table::data.table as an in-memory data base.
 Returns an object of class DataBackend." />
 <meta name="twitter:card" content="summary" />
 
@@ -152,14 +152,19 @@ Returns an object of class DataBackend." />
     </div>
 
     
-    <p>Abstraction for <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> as an in-memory data base.
+    <p>Abstraction for <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a> as an in-memory data base.
 Returns an object of class <a href='DataBackend.html'>DataBackend</a>.</p>
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre># Construction
+    
+    <p>Inherits from <a href='DataBackend.html'>DataBackend</a>.</p><pre># Construction
 b = DataBackendDataTable$new(data, primary_key)
 b = as_data_backend(data, primary_key = NULL)
 </pre>
@@ -169,17 +174,21 @@ b = as_data_backend(data, primary_key = NULL)
 
     
     <ul>
-<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>).</p></li>
+<li><p><code>data</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>).</p></li>
 <li><p><code>primary_key</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
 Name of the column in <code>data</code> which represents a unique
 row identifier (as integer or character).
-If `NULL, the constructor <code><a href='DataBackend.html'>as_data_backend()</a></code> automatically creates an integer column of primary keys.</p></li>
+If `NULL, the constructor <a href='as_data_backend.html'>as_data_backend</a> automatically creates an integer column of primary keys.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://mlr3.mlr-org.com/reference/DataBackendDataTable.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other DataBackend: <code><a href='DataBackendMatrix.html'>DataBackendMatrix</a></code>,
-  <code><a href='DataBackend.html'>DataBackend</a></code></p></div>
+  <code><a href='DataBackend.html'>DataBackend</a></code>, <code><a href='as_data_backend.html'>as_data_backend</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -213,9 +222,13 @@ If `NULL, the constructor <code><a href='DataBackend.html'>as_data_backend()</a>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
@@ -227,7 +240,7 @@ If `NULL, the constructor <code><a href='DataBackend.html'>as_data_backend()</a>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

@@ -155,10 +155,14 @@
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     
-    <p>See <a href='Learner.html'>Learner</a>.</p>
+    <p>Inherits from <a href='Learner.html'>Learner</a>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -173,24 +177,44 @@
   <code><a href='Learner.html'>Learner</a></code>, <code><a href='mlr_learners.html'>mlr_learners</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># get all classification learners from mlr_learners:</span>
+<span class='no'>lrns</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='no'>mlr_learners</span>$<span class='fu'>ids</span>(<span class='st'>"^classif"</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>lrns</span>)</div><div class='output co'>#&gt; [1] "classif.debug"       "classif.featureless" "classif.rpart"      </div><div class='input'>
+<span class='co'># get a specific learner from mlr_learners:</span>
+<span class='no'>lrn</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.rpart"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>lrn</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
+#&gt; Parameters: list()
+#&gt; Packages: rpart
+#&gt; Predict Type: response
+#&gt; Feature types: logical, integer, numeric, character, factor, ordered
+#&gt; Properties: missings, multiclass, twoclass
+#&gt; 
+#&gt; Public: clone(), fallback, feature_types, hash, id, model, packages,
+#&gt;   param_set, param_vals, params_predict, params_train, predict_type,
+#&gt;   predict_types, predict(), properties, task_type, train()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

@@ -1,8 +1,6 @@
 #' @title Benchmark Multiple Learners on Multiple Tasks
-#'
 #' @description
 #' Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
-#'
 #'
 #' @param tasks (list of [Task]):\cr
 #'   List of objects of type [Task].
@@ -16,6 +14,7 @@
 #' @param ctrl (named `list` as returned by [mlr_control()]):\cr
 #'   Object to control experiment execution. See [mlr_control()].
 #' @return [BenchmarkResult].
+#' @references [HTML help page](https://mlr3.mlr-org.com/reference/benchmark.html)
 #' @export
 #' @examples
 #' \dontshow{
@@ -96,7 +95,7 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list(
       task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter, measures = measures[grid$task],
       MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE,
       remote = TRUE, future.globals = FALSE, future.packages = "mlr3"
-      )
+    )
   } else {
     log_debug("Running benchmark() sequentially", namespace = "mlr3")
     tmp = mapply(experiment_worker,

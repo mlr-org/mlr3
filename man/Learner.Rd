@@ -3,6 +3,7 @@
 \name{Learner}
 \alias{Learner}
 \title{Learner Class}
+\format{\link{R6Class} object}
 \description{
 Predefined learners are stored in \link{mlr_learners}.
 }
@@ -11,20 +12,27 @@ Predefined learners are stored in \link{mlr_learners}.
 l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-#
-l$id
-l$task_type
+
+# Members
+l$fallback
 l$feature_types
-l$predict_types
-l$predict_type
+l$hash
+l$id
+l$model
 l$packages
 l$param_set
 l$param_vals
+l$params_predict
+l$params_train
+l$predict_type
+l$predict_types
 l$properties
-l$model
+l$task_type
+
+# Methods
+l$new()
 l$train(task)
 l$predict(task)
-l$hash
 }
 }
 
@@ -55,25 +63,38 @@ Task to train/predict on.
 \section{Details}{
 
 \itemize{
-\item \code{$new()} creates a new object of class \link{Learner}.
+\item \code{$fallback} (\link{Learner} | \code{NULL}) optionally stores a fallback learner which
+is used to generate predictions if this learner fails to train or predict.
+This mechanism is disabled unless you explicitly assign a learner to this slot.
+\item \code{$feature_types} (\code{character()}) stores the feature types the learner can
+handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id} and \code{param_vals}.
+This hash is cached internally.
 \item \code{$id} (\code{character(1)}) stores the identifier of the object.
-\item \code{$task_type} (\code{character(1)}) stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
-\item \code{$feature_types} (\code{character()}) stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
-\item \code{$predict_types} (\code{character()}) stores the possible predict types the learner is capable of. For classification,
-feasible values are \code{"response"} and \code{"prob"}, for regression \code{"response"} and \code{"se"} can be specified.
-\item \code{$predict_type} (\code{character(1)}) stores the currently selected predict type.
 \item \code{$packages} (\code{character()}) stores the names of required packages.
-\item \code{$param_set()} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter and possible settings.
-\item \code{$param_vals()} (named \code{list()}) stores the list set hyperparameter values.
-\item \code{$properties} (\code{character()}) is a set of tags which describe the properties of the learner.
+\item \code{$param_set} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter
+and possible settings.
+\item \code{$param_vals} (named \code{list()}) stores the list set hyperparameter values.
+\item \code{$params_predict} (\code{list()}) stores the settings that have been used for prediction.
+\item \code{$params_train} (\code{list()}) stores the settings that have been used for training
+\item \code{$predict_type} (\code{character(1)}) stores the currently selected predict type.
+\item \code{$predict_types} (\code{character()}) stores the possible predict types the learner
+is capable of. For classification, feasible values are \code{"response"} and
+\code{"prob"}, for regression \code{"response"} and \code{"se"} can be specified.
+\item \code{$properties} (\code{character()}) is a set of tags which describe the properties
+of the learner.
+\item \code{$task_type} (\code{character(1)}) stores the type of class this learner can
+operate on, e.g. \code{"classif"} or \code{"regr"}.
+\item \code{$new()} creates a new object of class \link{Learner}.
+\item \code{$predict()} takes a \link{Task} and uses \code{self$model} (fitted during train())
+to return a \link{Prediction} object.
 \item \code{$train()} takes a \link{Task}, sets the slot \code{model} and returns \code{self}.
-\item \code{$predict()} takes a \link{Task} and uses \code{self$model} (fitted during train()) to return a \link{Prediction} object.
-\item \code{$fallback} (\link{Learner} | \code{NULL}) optionally stores a fallback learner which is used to generate predictions if this learner
-fails to train or predict. This mechanism is disabled unless you explicitly assign a learner to this slot.
-\item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id} and \code{param_vals}. This hash is cached internally.
 }
 }
 
+\references{
+\href{https://mlr3.mlr-org.com/reference/Learner.html}{HTML help page}
+}
 \seealso{
 Other Learner: \code{\link{LearnerClassif}},
   \code{\link{LearnerRegr}}, \code{\link{mlr_learners}}

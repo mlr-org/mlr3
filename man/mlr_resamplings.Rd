@@ -3,19 +3,23 @@
 \name{mlr_resamplings}
 \alias{mlr_resamplings}
 \title{Dictionary of Resampling Strategies}
+\format{\link{R6Class} object}
 \description{
 A simple \link{Dictionary} storing objects of class \link{Resampling}.
 Each resampling has an associated help page, see \code{mlr_resamplings_[id]}.
 }
 \section{Usage}{
 
-See \link{Dictionary}.
+Inherits from \link{Dictionary}.
 }
 
 \examples{
-mlr_resamplings$keys()
+mlr_resamplings$ids()
 as.data.table(mlr_resamplings)
 mlr_resamplings$get("cv")
+}
+\references{
+\href{https://mlr3.mlr-org.com/reference/mlr_resamplings.html}{HTML help page}
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
