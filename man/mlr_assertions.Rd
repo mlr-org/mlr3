@@ -5,6 +5,7 @@
 \alias{assert_backend}
 \alias{assert_experiment}
 \alias{assert_task}
+\alias{assert_task_type}
 \alias{assert_learner}
 \alias{assert_measure}
 \alias{assert_measures}
@@ -20,6 +21,8 @@ assert_backend(b)
 assert_experiment(e)
 
 assert_task(task)
+
+assert_task_type(object, task = NULL)
 
 assert_learner(learner, task = NULL)
 
@@ -47,6 +50,9 @@ An experiment to be checked.}
 \item{task}{(\link{Task}):\cr
 An task to be checked.}
 
+\item{object}{(\link{Learner} | \link{Filter}):\cr
+A filter or learner to be checked}
+
 \item{learner}{(\link{Learner}):\cr
 A learner to be checked.}
 
@@ -69,6 +75,9 @@ A param set to be checked.}
 
 \item{param_vals}{(named list):\cr
 A param vals object be checked.}
+
+\item{task}{(\link{Task}):\cr
+An task to be checked.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
