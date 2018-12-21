@@ -33,7 +33,7 @@ assert_task = function(task) {
 #' @param object ([Learner] | [Filter]):\cr
 #'   A filter or learner to be checked
 #' @param task ([Task]):\cr
-#'   An task to be checked.
+#'   A task to be checked.
 #' @rdname mlr_assertions
 assert_task_type = function (object, task = NULL) {
   if (!is.null(task)) {
@@ -46,18 +46,19 @@ assert_task_type = function (object, task = NULL) {
 }
 
 #' @export
-#' @param learner ([Learner]):\cr
-#'   A learner to be checked.
+#' @param object ([Learner] | [Filter]):\cr
+#'   A filter or learner to be checked
+#' @param task ([Task]):\cr
+#'   An task to be hecked.
 #' @rdname mlr_assertions
-assert_learner = function(learner, task = NULL) {
-  assert_class(learner, "Learner")
-  if (!is.null(task)) {
-    if (!identical(task$task_type, learner$task_type)) {
-      stopf("Learner '%s' is not compatible with type of task '%s' (type: %s)",
-        learner$id, task$id, task$task_type)
-    }
+assert_feature_types = function(task, object) {
+  features = unique(task$feature_types$type)
+  features_unsupp = setdiff(features, object$feature_types)
+
+  if (length(features_unsupp) > 0L) {
+    stopf("'%s' does not support %s features.",
+      object$id, str_collapse(features_unsupp, sep  = " and ", quote = "'"))
   }
-  invisible(learner)
 }
 
 #' @export
