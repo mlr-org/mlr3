@@ -70,7 +70,7 @@
 #' * `$backend` ([DataBackend]) stores the [DataBackend] of the task.
 #' * `$cbind` extends the task with additional columns.
 #'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
-#' * `$col_info` (`data.table`) with columns `id`, and `type` and `levels`.
+#' * `$col_info` (`data.table()`) with columns `id`, `type` and `levels`.
 #'   Stores column names of [DataBackend] in column `id`.
 #'   Column `type` stores the storage type of the variables, e.g. `integer`, `numeric` or `character`.
 #'   Column `levels` stores the levels for factor and character variables.
@@ -84,7 +84,7 @@
 #'        jointly to be either in the training set or the test set.
 #'        Returns a ([data.table::data.table]) with two columns: first column are rows ids,
 #'       second column are the group labels.
-#'   - `"weights"`: Observation weights. ([data.table::data.table]) with two columns: first column are the row ids,
+#'   - `"weights"`: Observation weights. ([data.table::data.table()]) with two columns: first column are the row ids,
 #'       second column are the observation weights.
 #'   To alter the role, use `$set_col_role()`
 #' * `$data` is used to retrieve data from the backend as `data.table`.
@@ -92,7 +92,7 @@
 #'   Columns are filtered to only contain features with `role %in% c("target", "feature")`.
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
 #' * `$feature_names` (`character()`) returns all column names with `role == "feature"`.
-#' * `$feature_types` ([data.table::data.table])returns a table with columns `id` and `type` where `id` are the column names of "active"
+#' * `$feature_types` ([data.table::data.table()]) returns a table with columns `id` and `type` where `id` are the column names of "active"
 #'   features of the task and `type` is the storage type.
 #' * `$filter` reduces the task, subsetting it to only the rows specified.
 #' * `$formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
@@ -103,7 +103,6 @@
 #' * `$measures` (`list` of [Measure]) stores the default measures for this task.
 #' * `$ncol` (`integer(1)`) provides the total number of cols with `role %in% c("target", "feature")`.
 #' * `$nrow` (`integer(1)`) provides the total number of rows with `role == "use"`.
-#' # FIXME properties missing
 #' * `$row_ids` (`data.table()`) returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
 #'    The column names of the returned `data.table` equals the primary key column in the [DataBackend].
 #' * `$row_roles` (`list`). Stores the row ids of [DataBackend] in vectors of row roles:
@@ -112,7 +111,6 @@
 #'     which are held back unless explicitly addressed.
 #'   To alter the role, use `set_row_role()`.
 #' * `$target_names` (`character()`) returns all column names with `role == "target"`.
-#' # FIXME task_type missing
 #' * `$new()` initializes a new object of class [Task].
 #' * `$levels()` (`character()`) queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
 #'   This function ignores the row roles, so you get all levels found in the [DataBackend].

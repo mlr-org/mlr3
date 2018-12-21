@@ -79,7 +79,7 @@ New data to rbind/cbind to the task.
 \item \code{$backend} (\link{DataBackend}) stores the \link{DataBackend} of the task.
 \item \code{$cbind} extends the task with additional columns.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
-\item \code{$col_info} (\code{data.table}) with columns \code{id}, and \code{type} and \code{levels}.
+\item \code{$col_info} (\code{data.table()}) with columns \code{id}, \code{type} and \code{levels}.
 Stores column names of \link{DataBackend} in column \code{id}.
 Column \code{type} stores the storage type of the variables, e.g. \code{integer}, \code{numeric} or \code{character}.
 Column \code{levels} stores the levels for factor and character variables.
@@ -94,7 +94,7 @@ listed in \code{"groups"} are marked as "belonging together". They will be assig
 jointly to be either in the training set or the test set.
 Returns a (\link[data.table:data.table]{data.table::data.table}) with two columns: first column are rows ids,
 second column are the group labels.
-\item \code{"weights"}: Observation weights. (\link[data.table:data.table]{data.table::data.table}) with two columns: first column are the row ids,
+\item \code{"weights"}: Observation weights. (\code{\link[data.table:data.table]{data.table::data.table()}}) with two columns: first column are the row ids,
 second column are the observation weights.
 To alter the role, use \code{$set_col_role()}
 }
@@ -103,7 +103,7 @@ Rows are subsetted to only contain observations with \code{role == "use"}.
 Columns are filtered to only contain features with \code{role \%in\% c("target", "feature")}.
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \item \code{$feature_names} (\code{character()}) returns all column names with \code{role == "feature"}.
-\item \code{$feature_types} (\link[data.table:data.table]{data.table::data.table})returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
+\item \code{$feature_types} (\code{\link[data.table:data.table]{data.table::data.table()}}) returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active"
 features of the task and \code{type} is the storage type.
 \item \code{$filter} reduces the task, subsetting it to only the rows specified.
 \item \code{$formula} constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}.
@@ -114,8 +114,6 @@ features of the task and \code{type} is the storage type.
 \item \code{$measures} (\code{list} of \link{Measure}) stores the default measures for this task.
 \item \code{$ncol} (\code{integer(1)}) provides the total number of cols with \code{role \%in\% c("target", "feature")}.
 \item \code{$nrow} (\code{integer(1)}) provides the total number of rows with \code{role == "use"}.
-}FIXME properties missing
-\itemize{
 \item \code{$row_ids} (\code{data.table()}) returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
 The column names of the returned \code{data.table} equals the primary key column in the \link{DataBackend}.
 \item \code{$row_roles} (\code{list}). Stores the row ids of \link{DataBackend} in vectors of row roles:
@@ -126,8 +124,6 @@ which are held back unless explicitly addressed.
 To alter the role, use \code{set_row_role()}.
 }
 \item \code{$target_names} (\code{character()}) returns all column names with \code{role == "target"}.
-}FIXME task_type missing
-\itemize{
 \item \code{$new()} initializes a new object of class \link{Task}.
 \item \code{$levels()} (\code{character()}) queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
 This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
