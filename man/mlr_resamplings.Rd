@@ -18,9 +18,6 @@ mlr_resamplings$ids()
 as.data.table(mlr_resamplings)
 mlr_resamplings$get("cv")
 }
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_resamplings.html}{HTML help page}
-}
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_learners}}, \code{\link{mlr_measures}},

@@ -3,17 +3,19 @@
 \name{DataBackendMatrix}
 \alias{DataBackendMatrix}
 \title{DataBackend for Matrix}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object inheriting from \link{DataBackend}.}
 \description{
-Abstraction for \code{\link[Matrix:Matrix]{Matrix::Matrix()}}. Data is stored as (sparse) matrix.
+\link{DataBackend} for \code{\link[Matrix:Matrix]{Matrix::Matrix()}}. Data is stored as (sparse) matrix.
+
 Supports two output formats:
 \itemize{
-\item \code{"data.table"} (default): Returns a \link[data.table:data.table]{data.table::data.table}. The primary key is returned as a regular column.
+\item \code{"data.table"} (default): Returns a \link{data.table}. The primary key is returned as a regular column.
 \item \code{"sparse"} (native): Returns a \link[Matrix:Matrix]{Matrix::Matrix}. The primary key is stored as additional attribute \code{..row_id}.
 }
+
+NB: The handling of multiple output formats is subject to change.
 }
 \section{Usage}{
-
 
 Inherits from \link{DataBackend}.\preformatted{# Construction
 b = DataBackendMatrix$new(data)
@@ -26,8 +28,7 @@ The interface is described in \link{DataBackend}.
 \section{Arguments}{
 
 \itemize{
-\item \code{data} (\link[Matrix:Matrix]{Matrix::Matrix}).\cr
-A (sparse) matrix. If \code{data} has row names, these will be used as primary key.
+\item \code{data} (\link[Matrix:Matrix]{Matrix::Matrix}): A (sparse) matrix. If \code{data} has row names, these will be used as primary key.
 Integer keys (\code{seq_len(nrow(data))}) are used otherwise.
 }
 }
@@ -41,9 +42,6 @@ rownames(data) = paste0("row_", 1:10)
 b = as_data_backend(data)
 print(b$head(n = 3, format = "data.table"))
 print(b$head(n = 3, format = "sparse"))
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/DataBackendMatrix.html}{HTML help page}
 }
 \seealso{
 Other DataBackend: \code{\link{DataBackendDataTable}},

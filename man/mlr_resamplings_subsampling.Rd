@@ -30,7 +30,4 @@ intersect(rss$train_set(1), rss$test_set(1))
 # Internal storage:
 rss$instance$train # list of bit vectors
 }
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_resamplings_subsampling.html}{HTML help page}
-}
 \keyword{datasets}

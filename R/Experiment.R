@@ -1,11 +1,11 @@
 #' @title Experiment
 #'
-#' @format [R6Class] object
+#' @name Experiment
+#' @format [R6Class] object.
 #' @description
 #' Container object for machine learning experiments.
 #'
 #' @section Usage:
-#'
 #' ```
 #' # Construction
 #' e = Experiment$new(task, learner, ...)
@@ -34,23 +34,17 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `task` ([Task]):\cr
-#'  Task to conduct experiment on
-#' * `learner` ([Learner]):\cr
-#'   Learner to conduct experiment with.
-#' * `subset` (`integer()` | `character()`):\cr
-#'   Subset of the task's row ids to work on.
-#' * `newdata` ([data.frame]):\cr
-#'   New data to predict on. Will be appended to the task.
-#' * `measures` (list of [Measure]):\cr
-#'   Performance measure to use. Defaults to the measures set in the [Task].
+#' * `task` ([Task]): Task to conduct experiment on
+#' * `learner` ([Learner]): Learner to conduct experiment with.
+#' * `subset` (`integer()` | `character()`): Subset of the task's row ids to work on.
+#' * `newdata` ([data.frame]): New data to predict on. Will be appended to the task.
+#' * `measures` (list of [Measure]): Performance measure to use. Defaults to the measures set in the [Task].
 #'
 #' @section Details:
-#' * `$new()` initializes a new machine learning experiment which can grow in a
-#'   stepwise fashion.
+#' * `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
 #' * `$predict()` uses the previously fitted model to predict new observations.
 #'   The predictions are stored internally as an [Prediction] object and can be
-#'   accessed via `e$prediction` as [data.table::data.table()].
+#'   accessed via `e$prediction` as [data.table()].
 #' * `$score()` quantifies stored predictions using the provided list of
 #'   [Measure] (or the task's [Measure] if not provided) and stores the resulting
 #'   performance values. The performance can be accessed via `e$performance`.
@@ -88,8 +82,6 @@
 #'   validation set (see [Task]).
 #'
 #' @export
-#' @name Experiment
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Experiment.html)
 #' @examples
 #' e = Experiment$new(
 #'   task = mlr_tasks$get("iris"),

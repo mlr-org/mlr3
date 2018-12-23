@@ -157,7 +157,7 @@
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object</p>
+    <p>R6Class object.</p>
     
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
@@ -189,27 +189,21 @@ e$train(subset, ctrl = list())
 
     
     <ul>
-<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
-Task to conduct experiment on</p></li>
-<li><p><code>learner</code> (<a href='Learner.html'>Learner</a>):<br />
-Learner to conduct experiment with.</p></li>
-<li><p><code>subset</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
-Subset of the task's row ids to work on.</p></li>
-<li><p><code>newdata</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>):<br />
-New data to predict on. Will be appended to the task.</p></li>
-<li><p><code>measures</code> (list of <a href='Measure.html'>Measure</a>):<br />
-Performance measure to use. Defaults to the measures set in the <a href='Task.html'>Task</a>.</p></li>
+<li><p><code>task</code> (<a href='Task.html'>Task</a>): Task to conduct experiment on</p></li>
+<li><p><code>learner</code> (<a href='Learner.html'>Learner</a>): Learner to conduct experiment with.</p></li>
+<li><p><code>subset</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Subset of the task's row ids to work on.</p></li>
+<li><p><code>newdata</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>): New data to predict on. Will be appended to the task.</p></li>
+<li><p><code>measures</code> (list of <a href='Measure.html'>Measure</a>): Performance measure to use. Defaults to the measures set in the <a href='Task.html'>Task</a>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
     <ul>
-<li><p><code>$new()</code> initializes a new machine learning experiment which can grow in a
-stepwise fashion.</p></li>
+<li><p><code>$new()</code> initializes a new machine learning experiment which can grow in a stepwise fashion.</p></li>
 <li><p><code>$predict()</code> uses the previously fitted model to predict new observations.
 The predictions are stored internally as an <a href='Prediction.html'>Prediction</a> object and can be
-accessed via <code>e$prediction</code> as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
+accessed via <code>e$prediction</code> as <code>data.table()</code>.</p></li>
 <li><p><code>$score()</code> quantifies stored predictions using the provided list of
 <a href='Measure.html'>Measure</a> (or the task's <a href='Measure.html'>Measure</a> if not provided) and stores the resulting
 performance values. The performance can be accessed via <code>e$performance</code>.</p></li>
@@ -247,10 +241,6 @@ ids of the training set or test set, respectively.</p></li>
 <li><p><code>$validation_set</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns the row ids of the
 validation set (see <a href='Task.html'>Task</a>).</p></li>
 </ul>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://mlr3.mlr-org.com/reference/Experiment.html'>HTML help page</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -340,8 +330,6 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

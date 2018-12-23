@@ -27,7 +27,4 @@ rc$instantiate(task, train_sets, test_sets)
 rc$train_set(1)
 rc$test_set(1)
 }
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_resamplings_custom.html}{HTML help page}
-}
 \keyword{datasets}

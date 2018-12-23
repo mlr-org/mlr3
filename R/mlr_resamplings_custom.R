@@ -8,9 +8,8 @@
 #' A custom resampling class where the training and test indices
 #' can be set manually.
 #'
-#' @export
 #' @include Resampling.R
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_custom.html)
+#' @export
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")

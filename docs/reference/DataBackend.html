@@ -159,7 +159,7 @@ See <a href='DataBackendDataTable.html'>DataBackendDataTable</a> for an exemplar
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object</p>
+    <p>R6Class object.</p>
     
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
@@ -182,14 +182,10 @@ print(b)
 
     
     <ul>
-<li><p><code>data</code>:<br />
-Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
-<li><p><code>rows</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
-Vector of row indices to subset rows using the primary key in the data backend.</p></li>
-<li><p><code>cols</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
-Vector of column names to select.</p></li>
-<li><p><code>n</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>):<br />
-Number of rows to return.</p></li>
+<li><p><code>data</code>: Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
+<li><p><code>rows</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Vector of row indices to subset rows using the primary key in the data backend.</p></li>
+<li><p><code>cols</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Vector of column names to select.</p></li>
+<li><p><code>n</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>): Number of rows to return.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -200,17 +196,11 @@ Number of rows to return.</p></li>
 <li><p><code>$ncol</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) returns the number of total columns, including primary key column.</p></li>
 <li><p><code>$nrow</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) returns the number of total rows.</p></li>
 <li><p><code>$rownames</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all row names of <code>data</code>.</p></li>
-<li><p><code>$data()</code> (<code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>) returns a slice of the data: rows
-are filtered using the <code>primary_key</code> column, columns are selected by name.</p></li>
+<li><p><code>$data()</code> (<code>data.table()</code>) returns a slice of the data: rows are filtered using the <code>primary_key</code> column, columns are selected by name.</p></li>
 <li><p><code>$distinct()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) returns distinct values for columns <code>cols</code>.</p></li>
-<li><p><code>$head()</code> (<a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a>) returns a table of the first <code>n</code> data rows.</p></li>
-<li><p><code>$missing()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code>) returns a named integer with the number of
-missing values per column.</p></li>
+<li><p><code>$head()</code> (data.table) returns a table of the first <code>n</code> data rows.</p></li>
+<li><p><code>$missing()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code>) returns a named integer with the number of missing values per column.</p></li>
 </ul>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://mlr3.mlr-org.com/reference/DataBackend.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -231,8 +221,6 @@ missing values per column.</p></li>
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>

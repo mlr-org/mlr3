@@ -1,9 +1,9 @@
 #' @title Resampling Class
 #'
-#' @format [R6Class] object
+#' @name Resampling
+#' @format [R6Class] object.
 #' @description
 #' Abstraction for resampling strategies.
-#'
 #' Predefined resamplings are stored in [mlr_resamplings].
 #'
 #' @section Usage:
@@ -29,19 +29,15 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `id` (`character(1)`):\cr
-#'   identifier for this object.
-#' * `param_set` ([paradox::ParamSet]):\cr
-#'   describes available parameters.
-#' * `param_vals` (`list()`):\cr
-#'   Named list of parameter values.
-#' * `task` ([Task]):\cr
-#'   Object of type [Task].
-#' * `i` (`integer(1)`):\cr
-#'   Get the `i`-th training/test set.
+#' * `id` (`character(1)`): identifier for this object.
+#' * `param_set` ([paradox::ParamSet]): describes available parameters.
+#' * `param_vals` (`list()`): Named list of parameter values.
+#' * `task` ([Task]): Object of type [Task].
+#' * `i` (`integer(1)`): Get the `i`-th training/test set.
 #'
 #' @section Details:
-#' * `$has_duplicates` FIXME ???
+#' * `$has_duplicates` is `TRUE` if the resampling allows observations to be included multiple times in the train set.
+#'   E.g., this is true for bootstraping, but not for cross validation.
 #' * `$hash` (`character(1)`) stores a checksum calculated on the `id`, `param_vals` and the instantiation.
 #'   If the object is not instantiated yet, `NA` is returned.
 #' * `$id` (`character(1)`) stores the identifier of the object.
@@ -58,9 +54,7 @@
 #' * `$test_set()` returns the test set for the `i`-th iteration.
 #' * `$train_set()` returns the training set for the `i`-th iteration.
 #'
-#' @name Resampling
 #' @family Resampling
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Resampling.html)
 #' @examples
 #' r = mlr_resamplings$get("subsampling")
 #'

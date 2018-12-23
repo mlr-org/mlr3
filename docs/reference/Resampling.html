@@ -152,14 +152,14 @@ Predefined resamplings are stored in mlr_resamplings." />
     </div>
 
     
-    <p>Abstraction for resampling strategies.</p>
-<p>Predefined resamplings are stored in <a href='mlr_resamplings.html'>mlr_resamplings</a>.</p>
+    <p>Abstraction for resampling strategies.
+Predefined resamplings are stored in <a href='mlr_resamplings.html'>mlr_resamplings</a>.</p>
     
 
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object</p>
+    <p>R6Class object.</p>
     
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
@@ -185,23 +185,19 @@ r$train_set(i)
 
     
     <ul>
-<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
-identifier for this object.</p></li>
-<li><p><code>param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>):<br />
-describes available parameters.</p></li>
-<li><p><code>param_vals</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>):<br />
-Named list of parameter values.</p></li>
-<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
-Object of type <a href='Task.html'>Task</a>.</p></li>
-<li><p><code>i</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>):<br />
-Get the <code>i</code>-th training/test set.</p></li>
+<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): identifier for this object.</p></li>
+<li><p><code>param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>): describes available parameters.</p></li>
+<li><p><code>param_vals</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>): Named list of parameter values.</p></li>
+<li><p><code>task</code> (<a href='Task.html'>Task</a>): Object of type <a href='Task.html'>Task</a>.</p></li>
+<li><p><code>i</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>): Get the <code>i</code>-th training/test set.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
     <ul>
-<li><p><code>$has_duplicates</code> FIXME ???</p></li>
+<li><p><code>$has_duplicates</code> is <code>TRUE</code> if the resampling allows observations to be included multiple times in the train set.
+E.g., this is true for bootstraping, but not for cross validation.</p></li>
 <li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>param_vals</code> and the instantiation.
 If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 <li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
@@ -218,10 +214,6 @@ You can set parameters by assigning a named list of new parameters to this slot.
 <li><p><code>$test_set()</code> returns the test set for the <code>i</code>-th iteration.</p></li>
 <li><p><code>$train_set()</code> returns the training set for the <code>i</code>-th iteration.</p></li>
 </ul>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://mlr3.mlr-org.com/reference/Resampling.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -298,8 +290,6 @@ You can set parameters by assigning a named list of new parameters to this slot.
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

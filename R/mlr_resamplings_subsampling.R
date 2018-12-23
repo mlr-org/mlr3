@@ -7,9 +7,8 @@
 #' @description
 #' `repeats` times repeated splits into training and test set with a `ratio` ratio of training observations.
 #'
-#' @export
 #' @include Resampling.R
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_subsampling.html)
+#' @export
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")

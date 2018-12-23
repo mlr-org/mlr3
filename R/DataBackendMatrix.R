@@ -1,17 +1,19 @@
 #' @title DataBackend for Matrix
 #'
-#' @format [R6Class] object
+#' @name DataBackendMatrix
+#' @format [R6Class] object inheriting from [DataBackend].
 #' @description
-#' Abstraction for [Matrix::Matrix()]. Data is stored as (sparse) matrix.
+#' [DataBackend] for [Matrix::Matrix()]. Data is stored as (sparse) matrix.
+#'
 #' Supports two output formats:
 #'
-#' * `"data.table"` (default): Returns a [data.table::data.table]. The primary key is returned as a regular column.
+#' * `"data.table"` (default): Returns a [data.table]. The primary key is returned as a regular column.
 #' * `"sparse"` (native): Returns a [Matrix::Matrix]. The primary key is stored as additional attribute `..row_id`.
 #'
+#' NB: The handling of multiple output formats is subject to change.
+#'
 #' @section Usage:
-#'
 #' Inherits from [DataBackend].
-#'
 #' ```
 #' # Construction
 #' b = DataBackendMatrix$new(data)
@@ -20,13 +22,10 @@
 #' The interface is described in [DataBackend].
 #'
 #' @section Arguments:
-#' * `data` ([Matrix::Matrix]).\cr
-#'   A (sparse) matrix. If `data` has row names, these will be used as primary key.
+#' * `data` ([Matrix::Matrix]): A (sparse) matrix. If `data` has row names, these will be used as primary key.
 #'   Integer keys (`seq_len(nrow(data))`) are used otherwise.
 #'
-#' @name DataBackendMatrix
 #' @family DataBackend
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/DataBackendMatrix.html)
 #' @examples
 #' requireNamespace("Matrix")
 #' data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)

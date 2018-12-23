@@ -1,17 +1,25 @@
 #' @title Regression Learner
 #'
-#' @format [R6Class] object
+#' @name LearnerRegr
+#' @format [R6Class] object inheriting from [Learner].
 #' @description
 #' This Learner specializes [Learner] for regression problems.
 #'
 #' @section Usage:
-#' Inherits from [Learner].
+#' See [Learner].
 #'
 #' @section Details:
-#' * `$task_type` is `"regr"`.
+#' `$task_type` is `"regr"`.
 #'
-#' @name LearnerRegr
 #' @family Learner
+#' @examples
+#' # get all regression learners from mlr_learners:
+#' lrns = mlr_learners$mget(mlr_learners$ids("^regr"))
+#' names(lrns)
+#'
+#' # get a specific learner from mlr_learners:
+#' lrn = mlr_learners$get("regr.rpart")
+#' print(lrn)
 NULL
 
 #' @export

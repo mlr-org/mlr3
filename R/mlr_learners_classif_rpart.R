@@ -1,12 +1,11 @@
 #' @title Classification Tree Learner
 #'
-#' @name mlr_learners_classif_rpart
+#' @name mlr_learners_classif.rpart
 #' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @description
-#' A learner for a classification tree implemented in [rpart::rpart].
-#' @export
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_learners_classif_rpart.html)
+#' A [LearnerClassif] for a classification tree implemented in [rpart::rpart].
 #' @include LearnerClassif.R
+#' @export
 LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
   public = list(
     initialize = function(id = "classif.rpart") {

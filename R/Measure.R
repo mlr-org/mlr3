@@ -1,6 +1,7 @@
 #' @title Measure Class
 #'
-#' @format [R6Class] object
+#' @name Measure
+#' @format [R6Class] object.
 #' @description
 #' Predefined measures are stored in [mlr_measures].
 #'
@@ -26,22 +27,14 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `id` (`character(1)`):\cr
-#'   Identifier for this object.
-#' * `range` (`numeric(2)`):\cr
-#'   Feasible range for this measure as `c(lower_bound, upper_bound)`.
-#' * `minimize` (`logical(1)`)\cr:
-#'   Set to `TRUE` if good predictions correspond to small values.
-#' * `predict_type` (`character(1)`):\cr
-#'   Required predict type of the [Learner].
-#' * `task_properties` (`character()`):\cr
-#'   Required task properties, see [Task].
-#' * `packages` (`character()`):\cr
-#'   Set of required packages.
-#' * `e` ([Experiment]):\cr
-#'   Experiment to work on.
-#' * `rr` ([ResampleResult]):\cr
-#'   Performance object returned by [resample] to be aggregated.
+#' * `id` (`character(1)`): Identifier for this object.
+#' * `range` (`numeric(2)`): Feasible range for this measure as `c(lower_bound, upper_bound)`.
+#' * `minimize` (`logical(1)`): Set to `TRUE` if good predictions correspond to small values.
+#' * `predict_type` (`character(1)`): Required predict type of the [Learner].
+#' * `task_properties` (`character()`): Required task properties, see [Task].
+#' * `packages` (`character()`): Set of required packages.
+#' * `e` ([Experiment]): Experiment to work on.
+#' * `rr` ([ResampleResult]): Performance object returned by [resample] to be aggregated.
 #'
 #' @section Details:
 #' * `$id` (`character(1)`) stores the identifier of the object.
@@ -54,9 +47,8 @@
 #' * `$aggregate()` (`function(rr)`) aggregates multiple performance measures using the `aggregate` function. Operates on a [ResampleResult] as returned by [resample].
 #' * `$calculate()` (`function(e)`) does the actual work.
 #' * `$new()` creates a new object of class [Measure].
-#' @name Measure
+#'
 #' @family Measure
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Measure.html)
 #' @examples
 #' mlr_measures$get("mmce")
 NULL

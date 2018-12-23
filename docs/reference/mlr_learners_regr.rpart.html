@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Custom Resampling — mlr_resamplings_custom • mlr3</title>
+<title>Regression Tree Learner — mlr_learners_regr.rpart • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Custom Resampling — mlr_resamplings_custom" />
+<meta property="og:title" content="Regression Tree Learner — mlr_learners_regr.rpart" />
 
-<meta property="og:description" content="A custom resampling class where the training and test indices
-can be set manually." />
+<meta property="og:description" content="A learner for a regression tree implemented in rpart::rpart." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -147,48 +146,28 @@ can be set manually." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Custom Resampling</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_resamplings_custom.R'><code>R/mlr_resamplings_custom.R</code></a></small>
+    <h1>Regression Tree Learner</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_learners_regr_rpart.R'><code>R/mlr_learners_regr_rpart.R</code></a></small>
     </div>
 
     
-    <p>A custom resampling class where the training and test indices
-can be set manually.</p>
+    <p>A learner for a regression tree implemented in <a href='https://www.rdocumentation.org/packages/rpart/topics/rpart'>rpart::rpart</a>.</p>
     
 
-    <pre class="usage"><span class='no'>ResamplingCustom</span></pre>
+    <pre class="usage"><span class='no'>LearnerRegrRpart</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object</p>
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> inheriting from <a href='LearnerRegr.html'>LearnerRegr</a>.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
-<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)
-<span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
-
-<span class='co'># Instantiate Resampling</span>
-<span class='no'>rc</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"custom"</span>)
-<span class='no'>train_sets</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>, <span class='fl'>5</span>:<span class='fl'>10</span>)
-<span class='no'>test_sets</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>5</span>:<span class='fl'>10</span>, <span class='fl'>1</span>:<span class='fl'>5</span>)
-<span class='no'>rc</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>, <span class='no'>train_sets</span>, <span class='no'>test_sets</span>)</div><div class='output co'>#&gt; &lt;ResamplingCustom&gt; with 2 iterations
-#&gt; Instantiated: TRUE
-#&gt; Parameters: list()
-#&gt; 
-#&gt; Public: clone, format, has_duplicates, hash, id, instance,
-#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
-#&gt;   test_set, train_set</div><div class='input'>
-<span class='no'>rc</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 2 3 4 5</div><div class='input'><span class='no'>rc</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  5  6  7  8  9 10</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
