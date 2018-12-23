@@ -86,3 +86,17 @@ test_that("bmr$get_best()", {
   best = bmr$get_best(measure)
   expect_resample_result(best)
 })
+
+test_that("inputs are cloned", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.featureless")
+  resampling = mlr_resamplings$get("holdout")
+  resampling$instantiate(task)
+
+  bmr = benchmark(list(task), list(learner), list(resampling))
+  e = bmr$resample_result(bmr$resample_results$hash)$experiment(1)
+
+  expect_different_address(task, e$task)
+  expect_different_address(learner, e$learner)
+  expect_different_address(resampling, e$data$resampling)
+})

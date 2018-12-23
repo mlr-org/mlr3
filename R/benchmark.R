@@ -48,7 +48,8 @@
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
 benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list()) {
-  assert_list(tasks, "Task", min.len = 1L)
+  assert_list(tasks, min.len = 1L)
+  tasks = lapply(tasks, function(x) assert_task(x)$clone(deep = TRUE))
   assert_list(learners, "Learner", min.len = 1L)
   assert_list(resamplings, "Resampling", min.len = 1L)
   ctrl = mlr_control(ctrl)
