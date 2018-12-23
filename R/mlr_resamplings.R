@@ -11,7 +11,6 @@
 #' @name mlr_resamplings
 #' @family Dictionary
 #' @family Resampling
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings.html)
 #' @examples
 #' mlr_resamplings$ids()
 #' as.data.table(mlr_resamplings)

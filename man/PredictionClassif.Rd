@@ -3,7 +3,7 @@
 \name{PredictionClassif}
 \alias{PredictionClassif}
 \title{Prediction Object for Classification}
-\format{\link[R6:R6Class]{R6::R6Class} object}
+\format{\link{R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerClassif}.
 If probabilities are provided via construction and response is missing,
@@ -11,7 +11,6 @@ the response is calculated from the probabilities: the class label with the high
 probability is chosen. In case of ties, a random class label of the tied labels picked.
 }
 \section{Usage}{
-
 
 Inherits from \link{Prediction}\preformatted{# Construction
 p = PredictionClassif$new(task, response, prob = NULL)
@@ -30,13 +29,12 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{task} (\link{Task}):\cr
+\item \code{task} (\link{Task}):
 Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
 Set to \code{NULL} to skip all argument checks during initialization.
 Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
-\item \code{response} (\code{factor()} | \code{character()}):\cr
-Vector of predicted class labels.
-\item \code{prob} (\code{matrix}):\cr
+\item \code{response} (\code{factor()} | \code{character()}): Vector of predicted class labels.
+\item \code{prob} (\code{matrix}):
 Numeric matrix of class probabilities with one column for each class in \code{task$all_classes}
 and one row for each observation in the test set.
 }
@@ -50,7 +48,7 @@ and one row for each observation in the test set.
 \item \code{row_ids} stores the row IDs.
 \item \code{$truth} stores the true values.
 \item \code{$new()} initializes a new object of class \link{Prediction}.
-\item The prediction object can be transformed to a simple \link[data.table:data.table]{data.table::data.table}
+\item The prediction object can be transformed to a simple \code{\link[=data.table]{data.table()}}
 with \link[data.table:as.data.table]{data.table::as.data.table}.
 }
 }
@@ -63,9 +61,6 @@ e = Experiment$new(task, learner)$train()$predict()
 p = e$prediction
 p$predict_types
 head(as.data.table(p))
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/PredictionClassif.html}{HTML help page}
 }
 \seealso{
 Other Prediction: \code{\link{PredictionRegr}},

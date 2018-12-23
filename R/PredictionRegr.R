@@ -1,6 +1,7 @@
 #' @title Prediction Object for Regression
 #'
-#' @format [R6::R6Class] object
+#' @name PredictionRegr
+#' @format [R6Class] object inheriting from [Prediction].
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerRegr].
 #'
@@ -24,15 +25,15 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `task` ([Task]):\cr
+#' * `task` ([Task]):
 #'   Task used for prediction. Used to extract `row_ids` and `truth`.
 #'   Set to `NULL` to skip all argument checks during initialization.
 #'   Slots `p$row_ids` and `p$truth` need to be set manually in this case
-#' * `truth` (`numeric()`):\cr
+#' * `truth` (`numeric()`):
 #'   Numeric vector of true response.
-#' * `response` (`numeric()`):\cr
+#' * `response` (`numeric()`):
 #'   Numeric vector of predictions. One element for each observation in the test set.
-#' * `se` (`numeric()`):\cr
+#' * `se` (`numeric()`):
 #'   Numeric vector of predicted standard error. One element for each observation in the test set.
 #'
 #' @section Details:
@@ -42,12 +43,10 @@
 #' * `$se` stores the predicted standard errors (if available), or is `NULL`.
 #' * `$truth` stores the true values.
 #' * `$new()` initializes a new object of class [Prediction].
-#' * The prediction object can be transformed to a simple [data.table::data.table]
+#' * The prediction object can be transformed to a simple [data.table()]
 #'   with [data.table::as.data.table].
-#' @name PredictionRegr
 #' @export
 #' @family Prediction
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/PredictionRegr.html)
 #' @examples
 #' task = mlr_tasks$get("bh")
 #' learner = mlr_learners$get("regr.featureless")

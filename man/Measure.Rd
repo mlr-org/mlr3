@@ -3,7 +3,7 @@
 \name{Measure}
 \alias{Measure}
 \title{Measure Class}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object.}
 \description{
 Predefined measures are stored in \link{mlr_measures}.
 }
@@ -31,22 +31,14 @@ m$calculate(e)
 \section{Arguments}{
 
 \itemize{
-\item \code{id} (\code{character(1)}):\cr
-Identifier for this object.
-\item \code{range} (\code{numeric(2)}):\cr
-Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
-\item \code{minimize} (\code{logical(1)})\cr:
-Set to \code{TRUE} if good predictions correspond to small values.
-\item \code{predict_type} (\code{character(1)}):\cr
-Required predict type of the \link{Learner}.
-\item \code{task_properties} (\code{character()}):\cr
-Required task properties, see \link{Task}.
-\item \code{packages} (\code{character()}):\cr
-Set of required packages.
-\item \code{e} (\link{Experiment}):\cr
-Experiment to work on.
-\item \code{rr} (\link{ResampleResult}):\cr
-Performance object returned by \link{resample} to be aggregated.
+\item \code{id} (\code{character(1)}): Identifier for this object.
+\item \code{range} (\code{numeric(2)}): Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
+\item \code{minimize} (\code{logical(1)}): Set to \code{TRUE} if good predictions correspond to small values.
+\item \code{predict_type} (\code{character(1)}): Required predict type of the \link{Learner}.
+\item \code{task_properties} (\code{character()}): Required task properties, see \link{Task}.
+\item \code{packages} (\code{character()}): Set of required packages.
+\item \code{e} (\link{Experiment}): Experiment to work on.
+\item \code{rr} (\link{ResampleResult}): Performance object returned by \link{resample} to be aggregated.
 }
 }
 
@@ -67,9 +59,6 @@ Performance object returned by \link{resample} to be aggregated.
 
 \examples{
 mlr_measures$get("mmce")
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/Measure.html}{HTML help page}
 }
 \seealso{
 Other Measure: \code{\link{MeasureClassif}},

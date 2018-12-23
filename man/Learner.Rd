@@ -3,7 +3,7 @@
 \name{Learner}
 \alias{Learner}
 \title{Learner Class}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object.}
 \description{
 Predefined learners are stored in \link{mlr_learners}.
 }
@@ -30,7 +30,6 @@ l$properties
 l$task_type
 
 # Methods
-l$new()
 l$train(task)
 l$predict(task)
 }
@@ -39,24 +38,15 @@ l$predict(task)
 \section{Arguments}{
 
 \itemize{
-\item \code{id} (\code{character(1)}):\cr
-Identifier for this object.
-\item \code{task_type} (\code{character(1)}):\cr
-Type of the task the learner can operator on. E.g., \code{"classif"} or \code{"regr"}.
-\item \code{feature_types} (\code{character()}):\cr
-Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
-\item \code{predict_types} (\code{character()}):\cr
-Supported predict types. Must be a subset of \code{mlr_reflections$predict_types}.
-\item \code{packages} (\code{character()}]:\cr
-Set of required packages.
-\item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}):\cr
-Set of required packages.
-\item \code{param_vals} (named \code{list()}):\cr
-List of hyperparameters.
-\item \code{properties} (\code{character()}):\cr
-Set of properties of the learner. Must be a subset of \code{mlr_reflections$learner_properties}.
-\item \code{task} (\link{Task}):\cr
-Task to train/predict on.
+\item \code{id} (\code{character(1)}): Identifier for this object.
+\item \code{task_type} (\code{character(1)}): Type of the task the learner can operator on. E.g., \code{"classif"} or \code{"regr"}.
+\item \code{feature_types} (\code{character()}): Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
+\item \code{predict_types} (\code{character()}): Supported predict types. Must be a subset of \code{mlr_reflections$predict_types}.
+\item \code{packages} (\code{character()}]: Set of required packages.
+\item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}): Set of required packages.
+\item \code{param_vals} (named \code{list()}): List of hyperparameters.
+\item \code{properties} (\code{character()}): Set of properties of the learner. Must be a subset of \code{mlr_reflections$learner_properties}.
+\item \code{task} (\link{Task}): Task to train/predict on.
 }
 }
 
@@ -92,9 +82,6 @@ to return a \link{Prediction} object.
 }
 }
 
-\references{
-\href{https://mlr3.mlr-org.com/reference/Learner.html}{HTML help page}
-}
 \seealso{
 Other Learner: \code{\link{LearnerClassif}},
   \code{\link{LearnerRegr}}, \code{\link{mlr_learners}}

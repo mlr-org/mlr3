@@ -1,25 +1,21 @@
 #' @title Regression Task
 #'
-#' @format [R6Class] object
+#' @name TaskRegr
+#' @format [R6Class] object inheriting from [Task]/[TaskSupervised].
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for regression problems.
 #' The target column is assumed to be numeric.
 #'
 #' @section Usage:
-#'
-#' Inherits from [TaskSupervised]
-#'
-#' In addition to the interface of [Task]/[TaskSupervised], this class implements:
+#' Inherits from [Task]/[TaskSupervised].
 #' ```
 #' t = TaskRegr$new(id, backend, target)
 #' ```
 #'
 #' @section Details:
-#' * `$task_type` is `"regr"`.
+#' `$task_type` is `"regr"`.
 #'
-#' @name TaskRegr
 #' @family Task
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/TaskRegr.html)
 #' @examples
 #' b = as_data_backend(iris)
 #' task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")

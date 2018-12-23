@@ -1,6 +1,7 @@
 #' @title Prediction Object for Classification
 #'
-#' @format [R6::R6Class] object
+#' @name PredictionClassif
+#' @format [R6Class] object inheriting from [Prediction].
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerClassif].
 #' If probabilities are provided via construction and response is missing,
@@ -8,9 +9,7 @@
 #' probability is chosen. In case of ties, a random class label of the tied labels picked.
 #'
 #' @section Usage:
-#'
 #' Inherits from [Prediction]
-#'
 #' ```
 #' # Construction
 #' p = PredictionClassif$new(task, response, prob = NULL)
@@ -26,13 +25,12 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `task` ([Task]):\cr
+#' * `task` ([Task]):
 #'   Task used for prediction. Used to extract `row_ids` and `truth`.
 #'   Set to `NULL` to skip all argument checks during initialization.
 #'   Slots `p$row_ids` and `p$truth` need to be set manually in this case
-#' * `response` (`factor()` | `character()`):\cr
-#'   Vector of predicted class labels.
-#' * `prob` (`matrix`):\cr
+#' * `response` (`factor()` | `character()`): Vector of predicted class labels.
+#' * `prob` (`matrix`):
 #'   Numeric matrix of class probabilities with one column for each class in `task$all_classes`
 #'   and one row for each observation in the test set.
 #'
@@ -42,12 +40,10 @@
 #' * `row_ids` stores the row IDs.
 #' * `$truth` stores the true values.
 #' * `$new()` initializes a new object of class [Prediction].
-#' * The prediction object can be transformed to a simple [data.table::data.table]
+#' * The prediction object can be transformed to a simple [data.table()]
 #'   with [data.table::as.data.table].
-#' @name PredictionClassif
 #' @export
 #' @family Prediction
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/PredictionClassif.html)
 #' @examples
 #' task = mlr_tasks$get("iris")
 #' learner = mlr_learners$get("classif.rpart")

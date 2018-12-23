@@ -7,7 +7,6 @@
 #' Measures the elapsed time during train, predict, or both.
 #'
 #' @export
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.html)
 #' @include Measure.R
 MeasureElapsedTime = R6Class("MeasureElapsedTime",
   inherit = Measure,

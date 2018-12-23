@@ -31,7 +31,4 @@ intersect(rrcv$train_set(1), rrcv$test_set(1))
 # Internal storage:
 rrcv$instance # table
 }
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_resamplings_repeated_cv.html}{HTML help page}
-}
 \keyword{datasets}

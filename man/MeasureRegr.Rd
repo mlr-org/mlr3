@@ -3,20 +3,18 @@
 \name{MeasureRegr}
 \alias{MeasureRegr}
 \title{Regression Measure}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object inheriting from \link{Measure}.}
 \description{
 This task specializes \link{Measure} for regression problems.
 }
 \section{Usage}{
 
-Inherits from \link{Measure}.
+See \link{Measure}.
 }
 
 \section{Details}{
 
-\itemize{
-\item \code{$task_type} is \code{"regr"}.
-}
+\code{$task_type} is \code{"regr"}.
 }
 
 \seealso{

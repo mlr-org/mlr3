@@ -3,14 +3,14 @@
 \name{TaskSupervised}
 \alias{TaskSupervised}
 \title{Supervised Task}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object inheriting from \link{Task}.}
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
 It extends \link{Task} with some handling of target columns.
 }
 \section{Usage}{
 
-Inherits from \link{Task}\preformatted{# Construction
+Inherits from \link{Task}.\preformatted{# Construction
 t = TaskSupervised$new(id, task_type, backend, targets)
 
 # Members
@@ -24,7 +24,7 @@ t$truth(subset = NULL)
 \section{Arguments}{
 
 \itemize{
-\item \code{subset} (\code{integer()} | \code{character()}):\cr
+\item \code{subset} (\code{integer()} | \code{character()}):
 Subset of row ids to subset rows from the \link{DataBackend} using its primary key.
 }
 }
@@ -40,10 +40,6 @@ Subset of row ids to subset rows from the \link{DataBackend} using its primary k
 \examples{
 b = as_data_backend(iris)
 task = TaskSupervised$new("iris", task_type = "classif", backend = b, targets = "Species")
-
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/TaskSupervised.html}{HTML help page}
 }
 \seealso{
 Other Task: \code{\link{TaskClassif}},

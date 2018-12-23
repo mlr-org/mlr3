@@ -12,7 +12,4 @@ MeasureRegrMSE
 \description{
 Calls \link[Metrics:mse]{Metrics::mse}.
 }
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_measures_mse.html}{HTML help page}
-}
 \keyword{datasets}

@@ -39,6 +39,3 @@ mlr_control()
 # get a control object, with the default of store_model switched to FALSE
 mlr_control(store_model = FALSE)
 }
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_control.html}{HTML help page}
-}

@@ -3,15 +3,14 @@
 \name{TaskClassif}
 \alias{TaskClassif}
 \title{Classification Task}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object inheriting from \link{Task}/\link{TaskSupervised}.}
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for classification problems.
 The target column is assumed to be a factor.
 }
 \section{Usage}{
 
-
-Inherits from \link{TaskSupervised}\preformatted{# Construction
+Inherits from \link{Task}/\link{TaskSupervised}.\preformatted{# Construction
 t = TaskClassif$new(id, backend, target, positive = NULL)
 
 # Members
@@ -56,9 +55,6 @@ b = as_data_backend(Sonar)
 task = TaskClassif$new("sonar", backend = b, target = "Class", positive = "M")
 task$positive
 task$negative
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/TaskClassif.html}{HTML help page}
 }
 \seealso{
 Other Task: \code{\link{TaskRegr}},

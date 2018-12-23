@@ -7,8 +7,7 @@
 test_learner(learner)
 }
 \arguments{
-\item{learner}{(\link{Learner}):\cr
-Object of type \link{Learner}.}
+\item{learner}{(\link{Learner}).}
 }
 \value{
 None.

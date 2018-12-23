@@ -3,20 +3,18 @@
 \name{LearnerClassif}
 \alias{LearnerClassif}
 \title{Classification Learner}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object inheriting from \link{Learner}.}
 \description{
 This Learner specializes \link{Learner} for classification problems.
 }
 \section{Usage}{
 
-Inherits from \link{Learner}.
+See \link{Learner}.
 }
 
 \section{Details}{
 
-\itemize{
-\item \code{$task_type} is \code{"classif"}.
-}
+\code{$task_type} is \code{"classif"}.
 }
 
 \examples{

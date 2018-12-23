@@ -1,11 +1,11 @@
 #' @title Abstract Prediction Object
 #'
+#' @name Prediction
+#' @format [R6Class] object.
 #' @description
 #' This is the abstract base class for task objects like [PredictionClassif] and [PredictionRegr].
 #'
 #' @export
-#' @name Prediction
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Prediction.html)
 #' @family Prediction
 NULL
 
