@@ -180,9 +180,9 @@ e$timings
 e$train_set
 e$validation_set
     # Methods
-e$predict(subset, newdata, ctrl = list())
+e$predict(row_ids, newdata, ctrl = list())
 e$score(measures = NULL, ctrl = list())
-e$train(subset, ctrl = list())
+e$train(row_ids, ctrl = list())
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -191,7 +191,7 @@ e$train(subset, ctrl = list())
     <ul>
 <li><p><code>task</code> (<a href='Task.html'>Task</a>): Task to conduct experiment on</p></li>
 <li><p><code>learner</code> (<a href='Learner.html'>Learner</a>): Learner to conduct experiment with.</p></li>
-<li><p><code>subset</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Subset of the task's row ids to work on.</p></li>
+<li><p><code>row_ids</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Subset of the task's row ids to work on. Invalid row ids are silently ignored.</p></li>
 <li><p><code>newdata</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>): New data to predict on. Will be appended to the task.</p></li>
 <li><p><code>measures</code> (list of <a href='Measure.html'>Measure</a>): Performance measure to use. Defaults to the measures set in the <a href='Task.html'>Task</a>.</p></li>
 </ul>
@@ -259,7 +259,7 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt;   performance, predict(), prediction, score(), state, task, test_set,
 #&gt;   timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [trained]:
+<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [trained]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]
@@ -279,7 +279,7 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt;   3) Petal.Length&gt;=2.45 70 20 versicolor (0.00000000 0.71428571 0.28571429)  
 #&gt;     6) Petal.Length&lt; 4.95 49  1 versicolor (0.00000000 0.97959184 0.02040816) *
 #&gt;     7) Petal.Length&gt;=4.95 21  2 virginica (0.00000000 0.09523810 0.90476190) *</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [mlr3] Predicting with model of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [predicted]:
+<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [mlr3] Predicting with model of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [predicted]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]
