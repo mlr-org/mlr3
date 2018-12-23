@@ -91,19 +91,19 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_learners.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif_debug.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif.debug.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif_featureless.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif.featureless.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif_rpart.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif.rpart.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_regr_featureless.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_regr.featureless.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_regr_rpart.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_regr.rpart.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures.html</loc>
