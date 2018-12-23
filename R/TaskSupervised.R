@@ -16,11 +16,11 @@
 #' t$weights
 #'
 #' # Methods
-#' t$truth(subset = NULL)
+#' t$truth(row_ids = NULL)
 #' ```
 #'
 #' @section Arguments:
-#' * `subset` (`integer()` | `character()`):
+#' * `row_ids` (`integer()` | `character()`):
 #'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
 #' @section Details:

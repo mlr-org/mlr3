@@ -3,17 +3,17 @@ context("predict")
 test_that("Simple prediction", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
-  subset = 1:120
+  row_ids = 1:120
   e = Experiment$new(task = task, learner = learner)
-  e$train(subset)
-  e$predict(subset = 101:150)
+  e$train(row_ids)
+  e$predict(row_ids = 101:150)
   e$score()
 
   expect_r6(e, "Experiment")
   expect_false(e$has_errors)
   expect_integer(e$test_set, len = 50L, unique = TRUE, any.missing = FALSE)
 
-  e$predict(subset = 101:150)
+  e$predict(row_ids = 101:150)
   expect_null(e$data$performance) # performance is reset?
 
   expect_class(e$prediction, "Prediction")

@@ -29,9 +29,9 @@ e$train_set
 e$validation_set
 
 # Methods
-e$predict(subset, newdata, ctrl = list())
+e$predict(row_ids, newdata, ctrl = list())
 e$score(measures = NULL, ctrl = list())
-e$train(subset, ctrl = list())
+e$train(row_ids, ctrl = list())
 }
 }
 
@@ -40,7 +40,7 @@ e$train(subset, ctrl = list())
 \itemize{
 \item \code{task} (\link{Task}): Task to conduct experiment on
 \item \code{learner} (\link{Learner}): Learner to conduct experiment with.
-\item \code{subset} (\code{integer()} | \code{character()}): Subset of the task's row ids to work on.
+\item \code{row_ids} (\code{integer()} | \code{character()}): Subset of the task's row ids to work on. Invalid row ids are silently ignored.
 \item \code{newdata} (\link{data.frame}): New data to predict on. Will be appended to the task.
 \item \code{measures} (list of \link{Measure}): Performance measure to use. Defaults to the measures set in the \link{Task}.
 }
@@ -101,12 +101,12 @@ e = Experiment$new(
 print(e)
 e$state
 
-e$train(subset = 1:120)
+e$train(row_ids = 1:120)
 print(e)
 e$state
 e$model
 
-e$predict(subset = 121:150)
+e$predict(row_ids = 121:150)
 print(e)
 e$state
 e$prediction

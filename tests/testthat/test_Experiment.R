@@ -17,9 +17,9 @@ test_that("Partial experiments + save/restore", {
 
   e = Experiment$new(task = mlr_tasks$get("iris"), learner = learner)
   saveRDS(e, file = fn); e = readRDS(fn); expect_experiment(e)
-  e$train(subset = 1:120)
+  e$train(row_ids = 1:120)
   saveRDS(e, file = fn); e = readRDS(fn); expect_experiment(e)
-  e$predict(subset = 121:150)
+  e$predict(row_ids = 121:150)
   saveRDS(e, file = fn); e = readRDS(fn); expect_experiment(e)
   e$score()
   saveRDS(e, file = fn); e = readRDS(fn); expect_experiment(e)

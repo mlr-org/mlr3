@@ -28,15 +28,15 @@
 #' e$validation_set
 #'
 #' # Methods
-#' e$predict(subset, newdata, ctrl = list())
+#' e$predict(row_ids, newdata, ctrl = list())
 #' e$score(measures = NULL, ctrl = list())
-#' e$train(subset, ctrl = list())
+#' e$train(row_ids, ctrl = list())
 #' ```
 #'
 #' @section Arguments:
 #' * `task` ([Task]): Task to conduct experiment on
 #' * `learner` ([Learner]): Learner to conduct experiment with.
-#' * `subset` (`integer()` | `character()`): Subset of the task's row ids to work on.
+#' * `row_ids` (`integer()` | `character()`): Subset of the task's row ids to work on. Invalid row ids are silently ignored.
 #' * `newdata` ([data.frame]): New data to predict on. Will be appended to the task.
 #' * `measures` (list of [Measure]): Performance measure to use. Defaults to the measures set in the [Task].
 #'
@@ -90,12 +90,12 @@
 #' print(e)
 #' e$state
 #'
-#' e$train(subset = 1:120)
+#' e$train(row_ids = 1:120)
 #' print(e)
 #' e$state
 #' e$model
 #'
-#' e$predict(subset = 121:150)
+#' e$predict(row_ids = 121:150)
 #' print(e)
 #' e$state
 #' e$prediction
@@ -131,25 +131,19 @@ Experiment = R6Class("Experiment",
       experiment_print(self)
     },
 
-    train = function(subset = NULL, ctrl = list()) {
+    train = function(row_ids = NULL, ctrl = list()) {
       if (! self$state >= "defined")
         stopf("Experiment needs a task and a learner")
-      ids = self$data$task$row_ids[[1L]]
-      if (!is.null(subset))
-        ids = intersect(ids, subset)
-      experiment_train(self, row_ids = ids, ctrl = ctrl)
+      experiment_train(self, row_ids = row_ids %??% self$data$task$row_ids[[1L]], ctrl = ctrl)
       invisible(self)
     },
 
-    predict = function(subset = NULL, newdata = NULL, ctrl = list()) {
+    predict = function(row_ids = NULL, newdata = NULL, ctrl = list()) {
       if (! self$state >= "trained")
         stopf("Experiment needs to be trained before predict()")
-      if (!is.null(subset) && !is.null(newdata))
-        stopf("Arguments 'subset' and 'newdata' are mutually exclusive")
-      ids = self$data$task$row_ids[[1L]]
-      if (!is.null(subset))
-        ids = intersect(ids, subset)
-      experiment_predict(self, row_ids = ids, newdata = newdata, ctrl = ctrl)
+      if (!is.null(row_ids) && !is.null(newdata))
+        stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
+      experiment_predict(self, row_ids = row_ids %??% self$data$task$row_ids[[1L]], newdata = newdata, ctrl = ctrl)
       invisible(self)
     },
 

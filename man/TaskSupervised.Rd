@@ -17,14 +17,14 @@ t = TaskSupervised$new(id, task_type, backend, targets)
 t$weights
 
 # Methods
-t$truth(subset = NULL)
+t$truth(row_ids = NULL)
 }
 }
 
 \section{Arguments}{
 
 \itemize{
-\item \code{subset} (\code{integer()} | \code{character()}):
+\item \code{row_ids} (\code{integer()} | \code{character()}):
 Subset of row ids to subset rows from the \link{DataBackend} using its primary key.
 }
 }
