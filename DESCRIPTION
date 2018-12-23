@@ -62,7 +62,7 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
-    daroczig/logger@43089e07b51b74704eae0cbfa41705af0de5a0cd,
+    daroczig/logger,
     mllg/checkmate,
     mlr-org/mlr3misc,
     mlr-org/paradox
