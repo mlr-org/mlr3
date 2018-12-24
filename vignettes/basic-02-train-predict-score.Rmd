@@ -63,7 +63,7 @@ The printer shows a summary of the state of the experiment, which is currently `
 To train the learner on the task, we need to call the train function of the experiment:
 
 ```{r}
-e$train(subset = train.set)
+e$train(row_ids = train.set)
 print(e)
 ```
 
@@ -79,7 +79,7 @@ print(rpart.model)
 After the training step, we can use the experiment to predict on observations of the task (note that you may alternatively also pass new data here as `data.frame`):
 
 ```{r}
-e$predict(subset = test.set)
+e$predict(row_ids = test.set)
 print(e)
 ```
 

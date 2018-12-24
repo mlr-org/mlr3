@@ -30,8 +30,7 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="DataBackend for <code>data.table</code> — DataBackendDataTable" />
 
-<meta property="og:description" content="Abstraction for data.table::data.table as an in-memory data base.
-Returns an object of class DataBackend." />
+<meta property="og:description" content="DataBackend for data.table() as an in-memory data base." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -152,14 +151,13 @@ Returns an object of class DataBackend." />
     </div>
 
     
-    <p>Abstraction for <a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table</a> as an in-memory data base.
-Returns an object of class <a href='DataBackend.html'>DataBackend</a>.</p>
+    <p><a href='DataBackend.html'>DataBackend</a> for <code>data.table()</code> as an in-memory data base.</p>
     
 
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object</p>
+    <p>R6Class object inheriting from <a href='DataBackend.html'>DataBackend</a>.</p>
     
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
@@ -174,16 +172,11 @@ b = as_data_backend(data, primary_key = NULL)
 
     
     <ul>
-<li><p><code>data</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>).</p></li>
-<li><p><code>primary_key</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
-Name of the column in <code>data</code> which represents a unique
-row identifier (as integer or character).
-If `NULL, the constructor <code><a href='as_data_backend.html'>as_data_backend()</a></code> automatically creates an integer column of primary keys.</p></li>
+<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>). This includes special data.frames like <code>data.table()</code> or <code>tibble()</code> from package <span class="pkg">tibble</span>.</p></li>
+<li><p><code>primary_key</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
+Name of the column in <code>data</code> which represents a unique row identifier (as integer or character).
+If <code>NULL</code>, the constructor <code><a href='as_data_backend.html'>as_data_backend()</a></code> automatically creates an integer column of primary keys.</p></li>
 </ul>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://mlr3.mlr-org.com/reference/DataBackendDataTable.html'>HTML help page</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -227,8 +220,6 @@ If `NULL, the constructor <code><a href='as_data_backend.html'>as_data_backend()
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
-
-      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

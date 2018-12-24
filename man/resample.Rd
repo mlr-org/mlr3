@@ -7,20 +7,20 @@
 resample(task, learner, resampling, measures = NULL, ctrl = list())
 }
 \arguments{
-\item{task}{(\link{Task}):\cr
+\item{task}{(\link{Task}):
 Object of type \link{Task}.}
 
-\item{learner}{(\link{Learner}):\cr
+\item{learner}{(\link{Learner}):
 Object of type \link{Learner}.}
 
-\item{resampling}{(\link{Resampling}):\cr
+\item{resampling}{(\link{Resampling}):
 Object of type \link{Resampling}.}
 
-\item{measures}{(\code{list} of \link{Measure}):\cr
+\item{measures}{(\code{list} of \link{Measure}):
 List of performance measures used to assess the predictive performance.
 Defaults to the measures stored in \code{task}.}
 
-\item{ctrl}{(named \code{list()}, e.g. as returned by \code{\link[=mlr_control]{mlr_control()}}):\cr
+\item{ctrl}{(named \code{list()}, e.g. as returned by \code{\link[=mlr_control]{mlr_control()}}):
 Object to control various parts of the execution. See \code{\link[=mlr_control]{mlr_control()}}.}
 }
 \value{

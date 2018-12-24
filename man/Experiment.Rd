@@ -3,7 +3,7 @@
 \name{Experiment}
 \alias{Experiment}
 \title{Experiment}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object.}
 \description{
 Container object for machine learning experiments.
 }
@@ -29,36 +29,30 @@ e$train_set
 e$validation_set
 
 # Methods
-e$predict(subset, newdata, ctrl = list())
+e$predict(row_ids, newdata, ctrl = list())
 e$score(measures = NULL, ctrl = list())
-e$train(subset, ctrl = list())
+e$train(row_ids, ctrl = list())
 }
 }
 
 \section{Arguments}{
 
 \itemize{
-\item \code{task} (\link{Task}):\cr
-Task to conduct experiment on
-\item \code{learner} (\link{Learner}):\cr
-Learner to conduct experiment with.
-\item \code{subset} (\code{integer()} | \code{character()}):\cr
-Subset of the task's row ids to work on.
-\item \code{newdata} (\link{data.frame}):\cr
-New data to predict on. Will be appended to the task.
-\item \code{measures} (list of \link{Measure}):\cr
-Performance measure to use. Defaults to the measures set in the \link{Task}.
+\item \code{task} (\link{Task}): Task to conduct experiment on
+\item \code{learner} (\link{Learner}): Learner to conduct experiment with.
+\item \code{row_ids} (\code{integer()} | \code{character()}): Subset of the task's row ids to work on. Invalid row ids are silently ignored.
+\item \code{newdata} (\link{data.frame}): New data to predict on. Will be appended to the task.
+\item \code{measures} (list of \link{Measure}): Performance measure to use. Defaults to the measures set in the \link{Task}.
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$new()} initializes a new machine learning experiment which can grow in a
-stepwise fashion.
+\item \code{$new()} initializes a new machine learning experiment which can grow in a stepwise fashion.
 \item \code{$predict()} uses the previously fitted model to predict new observations.
 The predictions are stored internally as an \link{Prediction} object and can be
-accessed via \code{e$prediction} as \code{\link[data.table:data.table]{data.table::data.table()}}.
+accessed via \code{e$prediction} as \code{\link[=data.table]{data.table()}}.
 \item \code{$score()} quantifies stored predictions using the provided list of
 \link{Measure} (or the task's \link{Measure} if not provided) and stores the resulting
 performance values. The performance can be accessed via \code{e$performance}.
@@ -107,12 +101,12 @@ e = Experiment$new(
 print(e)
 e$state
 
-e$train(subset = 1:120)
+e$train(row_ids = 1:120)
 print(e)
 e$state
 e$model
 
-e$predict(subset = 121:150)
+e$predict(row_ids = 121:150)
 print(e)
 e$state
 e$prediction
@@ -124,7 +118,4 @@ e$performance
 
 e$train_set
 e$test_set
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/Experiment.html}{HTML help page}
 }

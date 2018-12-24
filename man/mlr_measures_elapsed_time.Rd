@@ -21,7 +21,4 @@ MeasureTimeBoth
 \description{
 Measures the elapsed time during train, predict, or both.
 }
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.html}{HTML help page}
-}
 \keyword{datasets}

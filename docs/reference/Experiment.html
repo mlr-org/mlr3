@@ -157,7 +157,7 @@
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object</p>
+    <p>R6Class object.</p>
     
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
@@ -180,36 +180,30 @@ e$timings
 e$train_set
 e$validation_set
     # Methods
-e$predict(subset, newdata, ctrl = list())
+e$predict(row_ids, newdata, ctrl = list())
 e$score(measures = NULL, ctrl = list())
-e$train(subset, ctrl = list())
+e$train(row_ids, ctrl = list())
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
     
     <ul>
-<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
-Task to conduct experiment on</p></li>
-<li><p><code>learner</code> (<a href='Learner.html'>Learner</a>):<br />
-Learner to conduct experiment with.</p></li>
-<li><p><code>subset</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
-Subset of the task's row ids to work on.</p></li>
-<li><p><code>newdata</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>):<br />
-New data to predict on. Will be appended to the task.</p></li>
-<li><p><code>measures</code> (list of <a href='Measure.html'>Measure</a>):<br />
-Performance measure to use. Defaults to the measures set in the <a href='Task.html'>Task</a>.</p></li>
+<li><p><code>task</code> (<a href='Task.html'>Task</a>): Task to conduct experiment on</p></li>
+<li><p><code>learner</code> (<a href='Learner.html'>Learner</a>): Learner to conduct experiment with.</p></li>
+<li><p><code>row_ids</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Subset of the task's row ids to work on. Invalid row ids are silently ignored.</p></li>
+<li><p><code>newdata</code> (<a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>): New data to predict on. Will be appended to the task.</p></li>
+<li><p><code>measures</code> (list of <a href='Measure.html'>Measure</a>): Performance measure to use. Defaults to the measures set in the <a href='Task.html'>Task</a>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
     <ul>
-<li><p><code>$new()</code> initializes a new machine learning experiment which can grow in a
-stepwise fashion.</p></li>
+<li><p><code>$new()</code> initializes a new machine learning experiment which can grow in a stepwise fashion.</p></li>
 <li><p><code>$predict()</code> uses the previously fitted model to predict new observations.
 The predictions are stored internally as an <a href='Prediction.html'>Prediction</a> object and can be
-accessed via <code>e$prediction</code> as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
+accessed via <code>e$prediction</code> as <code>data.table()</code>.</p></li>
 <li><p><code>$score()</code> quantifies stored predictions using the provided list of
 <a href='Measure.html'>Measure</a> (or the task's <a href='Measure.html'>Measure</a> if not provided) and stores the resulting
 performance values. The performance can be accessed via <code>e$performance</code>.</p></li>
@@ -248,10 +242,6 @@ ids of the training set or test set, respectively.</p></li>
 validation set (see <a href='Task.html'>Task</a>).</p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://mlr3.mlr-org.com/reference/Experiment.html'>HTML help page</a></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>e</span> <span class='kw'>=</span> <span class='no'>Experiment</span>$<span class='fu'>new</span>(
@@ -268,8 +258,8 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
 #&gt;   performance, predict(), prediction, score(), state, task, test_set,
 #&gt;   timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
-#&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [trained]:
+#&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'>
+<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [trained]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]
@@ -279,7 +269,7 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
 #&gt;   performance, predict(), prediction, score(), state, task, test_set,
 #&gt;   timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] trained
-#&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>model</span></div><div class='output co'>#&gt; n= 120 
+#&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>model</span></div><div class='output co'>#&gt; n= 120 
 #&gt; 
 #&gt; node), split, n, loss, yval, (yprob)
 #&gt;       * denotes terminal node
@@ -289,7 +279,7 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt;   3) Petal.Length&gt;=2.45 70 20 versicolor (0.00000000 0.71428571 0.28571429)  
 #&gt;     6) Petal.Length&lt; 4.95 49  1 versicolor (0.00000000 0.97959184 0.02040816) *
 #&gt;     7) Petal.Length&gt;=4.95 21  2 virginica (0.00000000 0.09523810 0.90476190) *</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>subset</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [mlr3] Predicting with model of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [predicted]:
+<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [mlr3] Predicting with model of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [predicted]:
 #&gt;  + Task: iris
 #&gt;  + Learner: classif.rpart
 #&gt;  + Model: [rpart]
@@ -299,7 +289,7 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
 #&gt;   performance, predict(), prediction, score(), state, task, test_set,
 #&gt;   timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] predicted
-#&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>prediction</span></div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 30 observations:
+#&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>prediction</span></div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 30 observations:
 #&gt;     row_id   response     truth
 #&gt;  1:    121  virginica virginica
 #&gt;  2:    122 versicolor virginica
@@ -318,7 +308,7 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
 #&gt;   performance, predict(), prediction, score(), state, task, test_set,
 #&gt;   timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] scored
-#&gt; Levels: defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>performance</span></div><div class='output co'>#&gt;      mmce 
+#&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>performance</span></div><div class='output co'>#&gt;      mmce 
 #&gt; 0.1666667 </div><div class='input'>
 <span class='no'>e</span>$<span class='no'>train_set</span></div><div class='output co'>#&gt;   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
 #&gt;  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
@@ -340,8 +330,6 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

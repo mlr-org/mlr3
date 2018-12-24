@@ -7,20 +7,20 @@
 benchmark(tasks, learners, resamplings, measures = NULL, ctrl = list())
 }
 \arguments{
-\item{tasks}{(list of \link{Task}):\cr
+\item{tasks}{(list of \link{Task}):
 List of objects of type \link{Task}.}
 
-\item{learners}{(list of \link{Learner}):\cr
+\item{learners}{(list of \link{Learner}):
 List of objects of type \link{Learner}.}
 
-\item{resamplings}{(list of \link{Resampling}):\cr
+\item{resamplings}{(list of \link{Resampling}):
 List of objects of type \link{Resampling}.}
 
-\item{measures}{(list of \link{Measure}):\cr
+\item{measures}{(list of \link{Measure}):
 List of performance measures used to assess the predictive performance.
 Defaults to the respective measures stored in \code{task}.}
 
-\item{ctrl}{(named \code{list} as returned by \code{\link[=mlr_control]{mlr_control()}}):\cr
+\item{ctrl}{(named \code{list} as returned by \code{\link[=mlr_control]{mlr_control()}}):
 Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}}.}
 }
 \value{
@@ -60,7 +60,4 @@ head(as.data.table(rr$experiment(1)$prediction))
 \dontshow{
    logger::log_threshold(.threshold, namespace = "mlr3")
 }
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/benchmark.html}{HTML help page}
 }

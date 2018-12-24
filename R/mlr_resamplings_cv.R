@@ -7,9 +7,8 @@
 #' @description
 #' Cross validation with `folds` folds (default: 10).
 #'
-#' @export
 #' @include Resampling.R
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_cv.html)
+#' @export
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")

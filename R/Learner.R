@@ -1,11 +1,11 @@
 #' @title Learner Class
 #'
-#' @format [R6Class] object
+#' @name Learner
+#' @format [R6Class] object.
 #' @description
 #' Predefined learners are stored in [mlr_learners].
 #'
 #' @section Usage:
-#'
 #' ```
 #' # Construction
 #' l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
@@ -29,30 +29,20 @@
 #' l$task_type
 #'
 #' # Methods
-#' l$new()
 #' l$train(task)
 #' l$predict(task)
 #' ```
 #'
 #' @section Arguments:
-#' * `id` (`character(1)`):\cr
-#'   Identifier for this object.
-#' * `task_type` (`character(1)`):\cr
-#'   Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
-#' * `feature_types` (`character()`):\cr
-#'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
-#' * `predict_types` (`character()`):\cr
-#'   Supported predict types. Must be a subset of `mlr_reflections$predict_types`.
-#' * `packages` (`character()`]:\cr
-#'   Set of required packages.
-#' * `param_set` ([paradox::ParamSet]):\cr
-#'   Set of required packages.
-#' * `param_vals` (named `list()`):\cr
-#'   List of hyperparameters.
-#' * `properties` (`character()`):\cr
-#'   Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
-#' * `task` ([Task]):\cr
-#'   Task to train/predict on.
+#' * `id` (`character(1)`): Identifier for this object.
+#' * `task_type` (`character(1)`): Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
+#' * `feature_types` (`character()`): Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
+#' * `predict_types` (`character()`): Supported predict types. Must be a subset of `mlr_reflections$predict_types`.
+#' * `packages` (`character()`]: Set of required packages.
+#' * `param_set` ([paradox::ParamSet]): Set of required packages.
+#' * `param_vals` (named `list()`): List of hyperparameters.
+#' * `properties` (`character()`): Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
+#' * `task` ([Task]): Task to train/predict on.
 #'
 #' @section Details:
 #' * `$fallback` ([Learner] | `NULL`) optionally stores a fallback learner which
@@ -81,9 +71,8 @@
 #' * `$predict()` takes a [Task] and uses `self$model` (fitted during train())
 #'   to return a [Prediction] object.
 #' * `$train()` takes a [Task], sets the slot `model` and returns `self`.
-#' @name Learner
+#'
 #' @family Learner
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Learner.html)
 NULL
 
 #' @export

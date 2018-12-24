@@ -1,6 +1,7 @@
 #' @title Container for Results of `resample()`.
 #'
-#' @format [R6Class] object
+#' @name ResampleResult
+#' @format [R6Class] object.
 #' @description
 #' This is the object returned by [resample()].
 #'
@@ -29,34 +30,27 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `data` ([data.table::data.table()]):\cr
-#'   `data.table` with columns matching the data of an [Experiment].
+#' * `data` ([data.table()]):
+#'   [data.table()] with columns matching the data of an [Experiment].
 #'   Each row corresponds to a single experiment.
-#' * `hash` (`NULL` | `character(1)`):\cr
-#'   Pre-calculated hash for the combination of `task`, `learner` and `resampling`.
+#' * `hash` (`NULL` | `character(1)`): Pre-calculated hash for the combination of `task`, `learner` and `resampling`.
 #'   If `NULL`, the checksum will be calculated on-demand.
-#' * `rr` (`ResampleResult`):\cr
-#'   Second [ResampleResult].
-#' * `iter` (`integer(1)`):\cr
-#'   Iteration of the experiment to retrieve.
-#' * `iters` (`integer`):\cr
-#'   Iterations of experiments to retrieve as `list()`.
-#' * `id` (`character(1)`):\cr
-#'   Identifier of a performance measure.
+#' * `rr` (`ResampleResult`): Second [ResampleResult].
+#' * `iter` (`integer(1)`): Iteration of the experiment to retrieve.
+#' * `iters` (`integer`): Iterations of experiments to retrieve as `list()`.
+#' * `id` (`character(1)`): Identifier of a performance measure.
 #'
 #' @section Details:
 #'
 #' * `$aggregated` (named `numeric()`) returns the aggregated performance measures. The aggregation method is part of the [Measure].
 #' * `$combine()` takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
-#' * `$errors` FIXME ???
+#' * `$errors` (`logical()`) returns a vector with the i-th element `TRUE` if the i-th experiment had at least on error during train or predict.
 #' * `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
 #' * `$experiments()` returns a `list` with the slice of [Experiment]s for the provided `iters`.
 #' * `$hash` (`character(1))` stores a hash for the combination of task, learner and resampling.
 #' * `$performance(id)` retrieves the performance values for the measure with id `id` as numeric vector.
 #' * `$task`, `$learner`, `$resampling` and `$measure` allow access to the [Task], [Learner], [Resampling] and [Measure] used in the resampling.
-#' * `as.data.table()` converts the [BenchmarkResult] to a [data.table::data.table()].
-#'
-#' @name ResampleResult
+#' * `as.data.table()` converts the [BenchmarkResult] to a [data.table()].
 NULL
 
 ResampleResult = R6Class("ResampleResult",
@@ -92,12 +86,12 @@ ResampleResult = R6Class("ResampleResult",
 
     experiment = function(iter) {
       iter = assert_int(iter, lower = 1L, upper = nrow(self$data), coerce = TRUE)
-      pmap(self$data[get("iteration") == iter, mlr_reflections$experiment_slots$name, with = FALSE], Experiment$new)[[1L]]
+      pmap(self$data[get("iteration") == iter, mlr_reflections$experiment_slots$name, with = FALSE], as_experiment)[[1L]]
     },
 
     experiments = function(iters) {
       iters = assert_integerish(iters, lower = 1L, upper = nrow(self$data), any.missing = FALSE, coerce = TRUE)
-      pmap(self$data[get("iteration") %in% iters], Experiment$new)
+      pmap(self$data[get("iteration") %in% iters], as_experiment)
     },
 
     combine = function(rr) {

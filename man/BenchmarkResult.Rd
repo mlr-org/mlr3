@@ -3,13 +3,12 @@
 \name{BenchmarkResult}
 \alias{BenchmarkResult}
 \title{Container for Results of \code{benchmark()}}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object.}
 \description{
-This is the object returned by \code{\link[=benchmark]{benchmark()}}.
+This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
 }
 \section{Usage}{
-
-This object is returned by \code{\link[=benchmark]{benchmark()}}.\preformatted{# Construction
+\preformatted{# Construction
 bmr = benchmark(...)
 
 # Members
@@ -34,8 +33,9 @@ as.data.table(bmr)
 \section{Arguments}{
 
 \itemize{
-\item \code{data} (\link{data.table}): Data used to create the \link{BenchmarkResult}.
-\item \code{hash} (\code{character(1)}):\cr
+\item \code{data} (\code{\link[=data.table]{data.table()}}): Data to create the \link{BenchmarkResult}.
+Each line must contain data of a single \link{Experiment} (complex objects wrapped inside lists to create list columns).
+\item \code{hash} (\code{character(1)}):
 String which identifies a subgroup to extract as \link{ResampleResult}.
 \item \code{bmr} (\link{BenchmarkResult}).
 \item \code{measure} (\link{Measure}).
@@ -45,15 +45,15 @@ String which identifies a subgroup to extract as \link{ResampleResult}.
 \section{Details}{
 
 \itemize{
-\item \code{$aggregated} returns aggregated performance measures as a \link[data.table:data.table]{data.table::data.table}.
+\item \code{$aggregated} returns aggregated performance measures as a \code{\link[=data.table]{data.table()}}.
 Experiments are aggregated by their resample result group (combination of \link{Task}, \link{Learner} and \link{Resampling}).
 The actual aggregation function is defined by the respective \link{Measure}.
 \item \code{$combine()} takes a second \link{BenchmarkResult} \code{bmr} as argument and extends itself with its data.
 \item \code{$data} returns the full benchmark structure for each iteration (task, learner, resampling, etc).
-\item \code{$resample_results} returns a \link[data.table:data.table]{data.table::data.table} which gives an overview of the resample result groups in the benchmark.
+\item \code{$resample_results} returns a \code{\link[=data.table]{data.table()}} which gives an overview of the resample result groups in the benchmark.
 These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleResult} for further inspection.
 \item \code{$tasks}, \code{$learners}, \code{$resamplings} and \code{$measures} return an overview table of included objects, together with a unique hash for the respective object.
-\item \code{as.data.table()} converts a \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table::data.table()}}.
+\item \code{as.data.table()} converts a \link{BenchmarkResult} to a \code{\link[=data.table]{data.table()}}.
 \item \code{$resample_result()} creates the \link{ResampleResult} identified by the specified \code{hash} value.
 }
 }
@@ -83,7 +83,4 @@ rr$experiment(1)$model
 \dontshow{
    logger::log_threshold(.threshold, namespace = "mlr3")
 }
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/BenchmarkResult.html}{HTML help page}
 }

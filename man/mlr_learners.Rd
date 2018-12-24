@@ -19,9 +19,6 @@ mlr_learners$ids()
 as.data.table(mlr_learners)
 mlr_learners$get("classif.featureless")
 }
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_learners.html}{HTML help page}
-}
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_measures}},

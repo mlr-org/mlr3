@@ -3,22 +3,29 @@
 \name{LearnerRegr}
 \alias{LearnerRegr}
 \title{Regression Learner}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object inheriting from \link{Learner}.}
 \description{
 This Learner specializes \link{Learner} for regression problems.
 }
 \section{Usage}{
 
-Inherits from \link{Learner}.
+See \link{Learner}.
 }
 
 \section{Details}{
 
-\itemize{
-\item \code{$task_type} is \code{"regr"}.
-}
+\code{$task_type} is \code{"regr"}.
 }
 
+\examples{
+# get all regression learners from mlr_learners:
+lrns = mlr_learners$mget(mlr_learners$ids("^regr"))
+names(lrns)
+
+# get a specific learner from mlr_learners:
+lrn = mlr_learners$get("regr.rpart")
+print(lrn)
+}
 \seealso{
 Other Learner: \code{\link{LearnerClassif}},
   \code{\link{Learner}}, \code{\link{mlr_learners}}

@@ -12,7 +12,6 @@
 #' @family Dictionary
 #' @family Learner
 #' @name mlr_learners
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_learners.html)
 #' @examples
 #' mlr_learners$ids()
 #' as.data.table(mlr_learners)

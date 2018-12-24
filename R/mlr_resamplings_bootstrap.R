@@ -8,9 +8,8 @@
 #' You can control the number of bootstrap iterations (`repeats`)
 #' and the number of observations to draw per iteration (`ratio`).
 #'
-#' @export
 #' @include Resampling.R
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_bootstrap.html)
+#' @export
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")

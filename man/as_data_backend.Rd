@@ -7,20 +7,18 @@
 as_data_backend(data, ...)
 }
 \arguments{
-\item{data}{Data to wrap the backend around. For a \code{data.frame()} (this includes
-tibbles and data.tables), create a \link{DataBackendDataTable}.
+\item{data}{Data to wrap the backend around.
+For a \code{data.frame()} (this includes \code{tibble()} from \pkg{tibble} and \code{data.table()}),
+creates a \link{DataBackendDataTable}.
 See \code{methods("as_data_backend")} for possible input formats.}
 
 \item{...}{Additional arguments passed to the respective \link{DataBackend} method.}
 }
 \value{
-\link{DataBackend}
+\link{DataBackend}.
 }
 \description{
 Wraps a \link{DataBackend} around data.
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/as_data_backend.html}{HTML help page}
 }
 \seealso{
 Other DataBackend: \code{\link{DataBackendDataTable}},

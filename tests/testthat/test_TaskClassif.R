@@ -27,7 +27,7 @@ test_that("Factor levels are preserved in prediction", {
   learner = mlr_learners$get("classif.featureless")
   learner$predict_type = "prob"
   e = Experiment$new(task, learner)
-  e$train(subset = 1:100)
+  e$train(row_ids = 1:100)
 
   e$predict(1:10)
   pred = as.data.table(e$prediction)

@@ -3,10 +3,9 @@
 \name{Resampling}
 \alias{Resampling}
 \title{Resampling Class}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object.}
 \description{
 Abstraction for resampling strategies.
-
 Predefined resamplings are stored in \link{mlr_resamplings}.
 }
 \section{Usage}{
@@ -34,23 +33,19 @@ r$train_set(i)
 \section{Arguments}{
 
 \itemize{
-\item \code{id} (\code{character(1)}):\cr
-identifier for this object.
-\item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}):\cr
-describes available parameters.
-\item \code{param_vals} (\code{list()}):\cr
-Named list of parameter values.
-\item \code{task} (\link{Task}):\cr
-Object of type \link{Task}.
-\item \code{i} (\code{integer(1)}):\cr
-Get the \code{i}-th training/test set.
+\item \code{id} (\code{character(1)}): identifier for this object.
+\item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}): describes available parameters.
+\item \code{param_vals} (\code{list()}): Named list of parameter values.
+\item \code{task} (\link{Task}): Object of type \link{Task}.
+\item \code{i} (\code{integer(1)}): Get the \code{i}-th training/test set.
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$has_duplicates} FIXME ???
+\item \code{$has_duplicates} is \code{TRUE} if the resampling allows observations to be included multiple times in the train set.
+E.g., this is true for bootstraping, but not for cross validation.
 \item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{param_vals} and the instantiation.
 If the object is not instantiated yet, \code{NA} is returned.
 \item \code{$id} (\code{character(1)}) stores the identifier of the object.
@@ -101,9 +96,6 @@ r$stratify = task$target_names # stratify on target column
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/Resampling.html}{HTML help page}
 }
 \seealso{
 Other Resampling: \code{\link{mlr_resamplings}}

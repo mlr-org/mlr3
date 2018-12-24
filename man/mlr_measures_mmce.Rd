@@ -12,7 +12,4 @@ MeasureClassifMMCE
 \description{
 Calls \link[Metrics:ce]{Metrics::ce}.
 }
-\references{
-\href{https://mlr3.mlr-org.com/reference/mlr_measures_mmce.html}{HTML help page}
-}
 \keyword{datasets}

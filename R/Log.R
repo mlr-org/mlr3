@@ -1,11 +1,11 @@
 #' @title Learner Output Log
 #'
-#' @format [R6Class] object
+#' @name Log
+#' @format [R6Class] object.
 #' @description
-#' Object which stores the output of the `train` or `predict` step of an [Experiment].
+#' Object which stores the text output of the `train` or `predict` step of an [Experiment].
 #'
 #' @section Usage:
-#'
 #' ```
 #' # Construction
 #' l = Log$new(log = NULL)
@@ -22,10 +22,11 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `log` (`data.table::data.table()`):
-#'   `data.table()` with columns `class` (`character()`) and `message` (`character()`).
+#' * `log` ([data.table()]):
+#'   [data.table()] with columns `class` (`character()`) and `message` (`character()`).
+#'   Class can be one of "output", "warning", or "error".
 #' * `cl` (`character(1)`):
-#'   Class of a condition. One of "output", "warning", or "error". #FIXME: missing "message"?
+#'   Class of a condition.
 #'
 #' @section Details:
 #' * `$errors` (`character()`) returns all lines which are errors.
@@ -36,8 +37,7 @@
 #'   a new [Log].
 #' * `format()` and `print()` are for formatting and printing via [format] or
 #'   [print], respectively.
-#' @name Log
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Log.html)
+#'
 #' @examples
 #' # Create a simple experiment and extract the train log:
 #' task = mlr_tasks$get("sonar")

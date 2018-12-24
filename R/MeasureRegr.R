@@ -1,16 +1,16 @@
 #' @title Regression Measure
 #'
-#' @format [R6Class] object
+#' @name MeasureRegr
+#' @format [R6Class] object inheriting from [Measure].
 #' @description
 #' This task specializes [Measure] for regression problems.
 #'
 #' @section Usage:
-#' Inherits from [Measure].
+#' See [Measure].
 #'
 #' @section Details:
-#' * `$task_type` is `"regr"`.
+#' `$task_type` is `"regr"`.
 #'
-#' @name MeasureRegr
 #' @family Measure
 NULL
 

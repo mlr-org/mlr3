@@ -3,25 +3,20 @@
 \name{TaskRegr}
 \alias{TaskRegr}
 \title{Regression Task}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object inheriting from \link{Task}/\link{TaskSupervised}.}
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for regression problems.
 The target column is assumed to be numeric.
 }
 \section{Usage}{
 
-
-Inherits from \link{TaskSupervised}
-
-In addition to the interface of \link{Task}/\link{TaskSupervised}, this class implements:\preformatted{t = TaskRegr$new(id, backend, target)
+Inherits from \link{Task}/\link{TaskSupervised}.\preformatted{t = TaskRegr$new(id, backend, target)
 }
 }
 
 \section{Details}{
 
-\itemize{
-\item \code{$task_type} is \code{"regr"}.
-}
+\code{$task_type} is \code{"regr"}.
 }
 
 \examples{
@@ -30,9 +25,6 @@ task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
 task$task_type
 task$formula
 task$truth()
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/TaskRegr.html}{HTML help page}
 }
 \seealso{
 Other Task: \code{\link{TaskClassif}},

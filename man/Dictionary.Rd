@@ -3,14 +3,14 @@
 \name{Dictionary}
 \alias{Dictionary}
 \title{Key-Value Storage}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object.}
 \description{
 A simple key-value store for \link[R6:R6]{R6::R6} objects.
 On retrieval of an object, the following applies:
 \itemize{
+\item Functions are called (with no arguments).
 \item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized (with no arguments).
 \item \link[R6:R6Class]{R6::R6Class} objects are cloned.
-\item Functions are called (with no arguments).
 \item All other objects are returned as-is.
 }
 }
@@ -36,14 +36,10 @@ as.data.table(d)
 \section{Arguments}{
 
 \itemize{
-\item \code{pattern} (\code{character(1)}):\cr
-Restrict to ids which match the regular expression \code{pattern}.
-\item \code{id} (\code{character(1)}):\cr
-Single id as string.
-\item \code{value}:\cr
-Arbitrary value.
-\item \code{ids} (\code{character()}):\cr
-Vector of ids.
+\item \code{pattern} (\code{character(1)}): Restrict to ids which match the regular expression \code{pattern}.
+\item \code{id} (\code{character(1)}): Single id as string.
+\item \code{value}: Arbitrary value.
+\item \code{ids} (\code{character()}): Vector of ids.
 }
 }
 
@@ -57,13 +53,10 @@ Vector of ids.
 \item \code{$mget()} (named \code{list}) creates a list of objects with keys \code{keys} (or raises an exception).
 \item \code{$new()} initializes a new object of class \link{Dictionary}.
 \item \code{$remove()} removes item with key \code{key} from the Dictionary.
-\item \code{as.data.frame()} and \code{as.data.table()} give a summarizing overview as \code{data.frame} or \code{data.table}, respectively.#'
+\item \code{as.data.frame()} and \code{as.data.table()} give a summarizing overview as \code{\link[=data.frame]{data.frame()}} or \code{\link[=data.table]{data.table()}}, respectively.#'
 }
 }
 
-\references{
-\href{https://mlr3.mlr-org.com/reference/Dictionary.html}{HTML help page}
-}
 \seealso{
 Other Dictionary: \code{\link{mlr_learners}},
   \code{\link{mlr_measures}},

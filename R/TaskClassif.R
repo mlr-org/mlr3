@@ -1,14 +1,13 @@
 #' @title Classification Task
 #'
-#' @format [R6Class] object
+#' @name TaskClassif
+#' @format [R6Class] object inheriting from [Task]/[TaskSupervised].
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.
 #' The target column is assumed to be a factor.
 #'
 #' @section Usage:
-#'
-#' Inherits from [TaskSupervised]
-#'
+#' Inherits from [Task]/[TaskSupervised].
 #' ```
 #' # Construction
 #' t = TaskClassif$new(id, backend, target, positive = NULL)
@@ -32,9 +31,7 @@
 #' * `$class_names` returns all class labels of the rows which `role == "use"`.
 #' * `$task_type` is `"classif"`.
 #'
-#' @name TaskClassif
 #' @family Task
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/TaskClassif.html)
 #' @examples
 #' b = as_data_backend(iris)
 #' task = TaskClassif$new("iris", backend = b, target = "Species")

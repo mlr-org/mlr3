@@ -8,9 +8,8 @@
 #' Simple holdout: A single split into training and test.
 #' Parameter `ratio` determines the ratio of observation in the train set.
 #'
-#' @export
 #' @include Resampling.R
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_holdout.html)
+#' @export
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")

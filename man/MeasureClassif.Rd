@@ -3,20 +3,18 @@
 \name{MeasureClassif}
 \alias{MeasureClassif}
 \title{Classification Measure}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object inheriting from \link{Measure}.}
 \description{
 This task specializes \link{Measure} for classification problems.
 }
 \section{Usage}{
 
-Inherits from \link{Measure}.
+See \link{Measure}.
 }
 
 \section{Details}{
 
-\itemize{
-\item \code{$task_type} is \code{"classif"}.
-}
+\code{$task_type} is \code{"classif"}.
 }
 
 \seealso{

@@ -3,19 +3,18 @@
 #' @description
 #' Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
 #'
-#' @param tasks (list of [Task]):\cr
+#' @param tasks (list of [Task]):
 #'   List of objects of type [Task].
-#' @param learners (list of [Learner]):\cr
+#' @param learners (list of [Learner]):
 #'   List of objects of type [Learner].
-#' @param resamplings (list of [Resampling]):\cr
+#' @param resamplings (list of [Resampling]):
 #'   List of objects of type [Resampling].
-#' @param measures (list of [Measure]):\cr
+#' @param measures (list of [Measure]):
 #'   List of performance measures used to assess the predictive performance.
 #'   Defaults to the respective measures stored in `task`.
-#' @param ctrl (named `list` as returned by [mlr_control()]):\cr
+#' @param ctrl (named `list` as returned by [mlr_control()]):
 #'   Object to control experiment execution. See [mlr_control()].
 #' @return [BenchmarkResult].
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/benchmark.html)
 #' @export
 #' @examples
 #' \dontshow{
@@ -49,7 +48,8 @@
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
 benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list()) {
-  assert_list(tasks, "Task", min.len = 1L)
+  assert_list(tasks, min.len = 1L)
+  tasks = lapply(tasks, function(x) assert_task(x)$clone(deep = TRUE))
   assert_list(learners, "Learner", min.len = 1L)
   assert_list(resamplings, "Resampling", min.len = 1L)
   ctrl = mlr_control(ctrl)

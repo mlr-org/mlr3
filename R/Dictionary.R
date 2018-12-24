@@ -1,17 +1,17 @@
 #' @title Key-Value Storage
 #'
-#' @format [R6Class] object
+#' @name Dictionary
+#' @format [R6Class] object.
 #' @description
 #' A simple key-value store for [R6::R6] objects.
 #' On retrieval of an object, the following applies:
 #'
+#' * Functions are called (with no arguments).
 #' * R6 Factories (objects of class `R6ClassGenerator`) are initialized (with no arguments).
 #' * [R6::R6Class] objects are cloned.
-#' * Functions are called (with no arguments).
 #' * All other objects are returned as-is.
 #'
 #' @section Usage:
-#'
 #' ```
 #' # Construction
 #' d = Dictionary$new()
@@ -31,14 +31,10 @@
 #' ```
 #'
 #' @section Arguments:
-#' * `pattern` (`character(1)`):\cr
-#'  Restrict to ids which match the regular expression `pattern`.
-#' * `id` (`character(1)`):\cr
-#'   Single id as string.
-#' * `value`:\cr
-#'   Arbitrary value.
-#' * `ids` (`character()`):\cr
-#'   Vector of ids.
+#' * `pattern` (`character(1)`): Restrict to ids which match the regular expression `pattern`.
+#' * `id` (`character(1)`): Single id as string.
+#' * `value`: Arbitrary value.
+#' * `ids` (`character()`): Vector of ids.
 #'
 #' @section Details:
 #' * `$add()` adds item `value` with key `key` to the Dictionary.
@@ -48,11 +44,10 @@
 #' * `$mget()` (named `list`) creates a list of objects with keys `keys` (or raises an exception).
 #' * `$new()` initializes a new object of class [Dictionary].
 #' * `$remove()` removes item with key `key` from the Dictionary.
-#' * `as.data.frame()` and `as.data.table()` give a summarizing overview as `data.frame` or `data.table`, respectively.#'
+#' * `as.data.frame()` and `as.data.table()` give a summarizing overview as [data.frame()] or [data.table()], respectively.#'
+#'
 #' @keywords internal
-#' @name Dictionary
 #' @family Dictionary
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Dictionary.html)
 NULL
 
 #' @export
@@ -146,4 +141,3 @@ as.data.table.Dictionary = function(x, ...) {
 as.data.frame.Dictionary = function(x, ...) {
   setDF(as.data.table(x))[]
 }
-
