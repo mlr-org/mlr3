@@ -112,3 +112,45 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list(
 
   BenchmarkResult$new(res)
 }
+
+benchmark_design = function(design, ctrl = list()) {
+  assert_data_frame(design, min.rows = 1L)
+  design = as.data.table(design)
+  assert_names(names(design), must.include = c("task", "learner", "resampling", "measures"))
+  ctrl = mlr_control(ctrl)
+
+  # expand the design: add rows for each resampling iteration
+  grid = pmap_dtr(design, function(task, learner, resampling, measures) {
+    instance = resampling
+    if (!instance$is_instantiated)
+      instance = instance$clone()$instantiate(design$task[[i]])
+    hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
+    data.table(task = list(task), learner = list(learner), resampling = list(instance), iter = seq_len(instance$iters), measures = list(list(measures)), hash = hash)
+  })
+
+  tmp = mapply(experiment_worker,
+    task = grid$task, learner = grid$learner, resampling = grid$resampling, iteration = grid$iter, measures = grid$measures,
+    MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE
+  )
+
+  remove_named(grid, c("iter", "learner"))
+  ref_cbind(grid, combine_experiments(tmp))
+
+  BenchmarkResult$new(res)
+}
+
+  if (FALSE) {
+    design = data.table(
+      task = rep(mlr_tasks$mget(c("iris", "pima")), each = 2),
+      learner = mlr_learners$mget(c("classif.rpart", "classif.featureless")),
+      resampling = mlr_resamplings$mget("cv"),
+      measures = mlr_measures$mget("mmce")
+    )
+    ctrl = list()
+    benchmark_design(design)
+
+    design = CJ(task = mlr_tasks$mget(c("iris", "pima")), learner = mlr_learners$mget(c("classif.rpart", "classif.featureless")), sorted = FALSE)
+    design$resampling = list(mlr_resamplings$mget("cv"))
+    design$measures = list(mlr_measures$mget("mmce"))
+    benchmark_design(design)
+  }
