@@ -43,7 +43,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.instantiate(instantiate_bootstrap(task, self$param_vals$ratio, self$param_vals$repeats, self$stratify))
+      private$.instantiate(task, instantiate_bootstrap(task, self$param_vals$ratio, self$param_vals$repeats, self$stratify))
     },
 
     train_set = function(i) {

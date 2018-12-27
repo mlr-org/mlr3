@@ -42,7 +42,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.instantiate(instantiate_subsampling(task, self$param_vals$ratio, self$param_vals$repeats, stratify = self$stratify))
+      private$.instantiate(task, instantiate_subsampling(task, self$param_vals$ratio, self$param_vals$repeats, stratify = self$stratify))
     },
 
     train_set = function(i) {

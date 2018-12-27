@@ -21,6 +21,7 @@
 #' r$param_set
 #' r$param_vals
 #' r$stratify
+#' r$task_hash
 #'
 #' # Methods
 #' r$instantiate(task)
@@ -51,6 +52,7 @@
 #' * `$param_vals` (named `list`) stores the currently set parameter values.
 #'    You can set parameters by assigning a named list of new parameters to this slot.
 #' * `$stratify` can be set to column names of the [Task] which will be used for stratification during instantiation.
+#' * `$task_hash` stores the hash of the task for which the resampling has been instantiated.
 #' * `$test_set()` returns the test set for the `i`-th iteration.
 #' * `$train_set()` returns the training set for the `i`-th iteration.
 #'
@@ -96,6 +98,7 @@ Resampling = R6Class("Resampling",
     param_set = NULL,
     stratify = NULL,
     instance = NULL,
+    task_hash = NA_character_,
     has_duplicates = NA,
 
     initialize = function(id, param_set = ParamSet$new(), param_vals = list()) {
@@ -139,10 +142,11 @@ Resampling = R6Class("Resampling",
   ),
 
   private = list(
-    .hash = NA_character_,
     .param_vals = NULL,
-    .instantiate = function(instance) {
+    .hash = NA_character_,
+    .instantiate = function(task, instance) {
       self$instance = instance
+      self$task_hash = task$hash
       private$.hash = NA_character_
       self
     }

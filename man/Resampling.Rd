@@ -22,6 +22,7 @@ r$iters
 r$param_set
 r$param_vals
 r$stratify
+r$task_hash
 
 # Methods
 r$instantiate(task)
@@ -59,6 +60,7 @@ This is an arbitrary object, do not work directly with it. Instead, use \code{$t
 \item \code{$param_vals} (named \code{list}) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.
 \item \code{$stratify} can be set to column names of the \link{Task} which will be used for stratification during instantiation.
+\item \code{$task_hash} stores the hash of the task for which the resampling has been instantiated.
 \item \code{$test_set()} returns the test set for the \code{i}-th iteration.
 \item \code{$train_set()} returns the training set for the \code{i}-th iteration.
 }

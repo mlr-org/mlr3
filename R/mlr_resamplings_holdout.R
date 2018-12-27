@@ -39,7 +39,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.instantiate(instantiate_holdout(task, self$param_vals$ratio, stratify = self$stratify))
+      private$.instantiate(task, instantiate_holdout(task, self$param_vals$ratio, stratify = self$stratify))
     },
 
     train_set = function(i) {

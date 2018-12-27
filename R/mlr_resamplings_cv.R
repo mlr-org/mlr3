@@ -39,7 +39,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
 
     instantiate = function(task, ...) {
       assert_task(task)
-      private$.instantiate(instantiate_cv(task, self$param_vals$folds, self$stratify))
+      private$.instantiate(task, instantiate_cv(task, self$param_vals$folds, self$stratify))
     },
 
     train_set = function(i) {
