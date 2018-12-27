@@ -323,7 +323,7 @@ Task = R6Class("Task",
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      value
+      if (name == "col_info") copy(value) else value
     }
   )
 )

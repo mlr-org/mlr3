@@ -75,6 +75,64 @@ run_classif_tests = function(learner, task) {
   }
 }
 
+ssample = function(x, N) {
+  repeat {
+    res = sample(x, N, replace = TRUE)
+    if (all(x %in% res))
+      return(res)
+  }
+}
+
+
+generate_data = function(target) {
+  N = length(target)
+  data.table(
+    target = target,
+    logical = ssample(c(TRUE, FALSE), N),
+    integer = ssample(1:3, N),
+    numeric = runif(N),
+    character = ssample(letters[1:2], N),
+    factor = factor(ssample(c("f1", "f2"), N), levels = c("f1", "f2")),
+    ordered = ordered(ssample(c("o1", "o2"), N), levels = c("o1", "o2"))
+  )
+}
+
+generate_task = function(learner) {
+  UseMethod("generate_task")
+}
+
+
+generate_tasks.LearnerClassif = function(learner, N = 20L) {
+  learner = mlr_learners$get("classif.rpart")
+  binary = ("multiclass" %nin% learner$properties)
+  target = ssample(head(LETTERS, 2L + !binary), N)
+  data = generate_data(target)
+  task = TaskClassif$new("proto", as_data_backend(data), target = "target", positive = if (binary) "A" else NULL)
+
+  sets = c(as.list(learner$feature_types), list(learner$feature_types))
+  lapply(sets, function(x) {
+    nt = task$clone(deep = TRUE)$select(x)
+    nt$id = paste0(sort(x), collapse = "_")
+    nt
+  })
+}
+
+generate_tasks.LearnerRegr = function(learner, N = 20L) {
+  learner = mlr_learners$get("regr.rpart")
+  data = generate_features(N)
+  data$target = runif(N)
+
+  b = as_data_backend(data)
+  task = TaskRegr$new("proto", b, target = "target")
+
+  sets = c(as.list(learner$feature_types), list(learner$feature_types))
+  lapply(sets, function(x) {
+    nt = task$clone(deep = TRUE)$select(x)
+    nt$id = paste0(sort(x), collapse = "_")
+    nt
+  })
+}
+
 # Helper function which generates test data.
 # args:
 # feature_types: character(). Must be subset of mlr_reflections$task_feature_types
