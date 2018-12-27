@@ -175,6 +175,7 @@ r$iters
 r$param_set
 r$param_vals
 r$stratify
+r$task_hash
     # Methods
 r$instantiate(task)
 r$test_set(i)
@@ -211,6 +212,7 @@ This is an arbitrary object, do not work directly with it. Instead, use <code>$t
 <li><p><code>$param_vals</code> (named <code>list</code>) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.</p></li>
 <li><p><code>$stratify</code> can be set to column names of the <a href='Task.html'>Task</a> which will be used for stratification during instantiation.</p></li>
+<li><p><code>$task_hash</code> stores the hash of the task for which the resampling has been instantiated.</p></li>
 <li><p><code>$test_set()</code> returns the test set for the <code>i</code>-th iteration.</p></li>
 <li><p><code>$train_set()</code> returns the training set for the <code>i</code>-th iteration.</p></li>
 </ul>
@@ -246,7 +248,7 @@ You can set parameters by assigning a named list of new parameters to this slot.
 #&gt; 
 #&gt; Public: clone, format, has_duplicates, hash, id, instance,
 #&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
-#&gt;   test_set, train_set</div><div class='input'>
+#&gt;   task_hash, test_set, train_set</div><div class='input'>
 <span class='co'># Extract train/test sets</span>
 <span class='no'>train_set</span> <span class='kw'>=</span> <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]  19  23  30  32  35  40  49  53  55  70  79  80 112 115 140</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
@@ -273,7 +275,7 @@ You can set parameters by assigning a named list of new parameters to this slot.
 #&gt; 
 #&gt; Public: clone, format, has_duplicates, hash, id, instance,
 #&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
-#&gt;   test_set, train_set</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
+#&gt;   task_hash, test_set, train_set</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 
 #&gt; 0.6504854 0.3495146 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion # FIXME why two times?</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 
