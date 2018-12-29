@@ -170,7 +170,7 @@ However, for comparison of learners you usually want the learners to see the sam
 To overcome this issue, the resampling strategy needs to be manually instantiated before creating the design.
 
 While the interface of `benchmark()` allows full flexibility, the creation of such design tables can be tedious.
-Therefore, `mlr3` provides a helper function to quickly generate design tables and instantiate resampling strategies in an exhaustive grid fashion: `mlr3::cjoin()`.
+Therefore, `mlr3` provides a helper function to quickly generate design tables and instantiate resampling strategies in an exhaustive grid fashion: `mlr3::expand_grid()`.
 
 ```{r}
 # get some example tasks
@@ -191,7 +191,7 @@ learners$classif.rpart$predict_type = "prob"
 resamplings = mlr_resamplings$mget("cv")
 
 # create a BenchmarkResult object
-design = cjoin(tasks, learners, resamplings)
+design = expand_grid(tasks, learners, resamplings)
 print(design)
 bmr = benchmark(design)
 ```

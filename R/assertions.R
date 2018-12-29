@@ -76,8 +76,15 @@ assert_measures = function(measures, task = NULL, prediction = NULL) {
 #' @export
 #' @param resampling ([Resampling]).
 #' @rdname mlr_assertions
-assert_resampling = function(resampling) {
+assert_resampling = function(resampling, instantiated = NULL) {
   assert_class(resampling, "Resampling")
+  if (!is.null(instantiated)) {
+    if (instantiated && !resampling$is_instantiated)
+      stopf("Resampling '%s' must be instantiated", resampling$id)
+    if (!instantiated && resampling$is_instantiated)
+      stopf("Resampling '%s' may not be instantiated", resampling$id)
+  }
+  invisible(resampling)
 }
 
 #' @export
