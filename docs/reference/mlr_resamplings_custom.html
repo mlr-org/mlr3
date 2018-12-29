@@ -172,13 +172,8 @@ can be set manually.</p>
 <span class='no'>rc</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"custom"</span>)
 <span class='no'>train_sets</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>, <span class='fl'>5</span>:<span class='fl'>10</span>)
 <span class='no'>test_sets</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fl'>5</span>:<span class='fl'>10</span>, <span class='fl'>1</span>:<span class='fl'>5</span>)
-<span class='no'>rc</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>, <span class='no'>train_sets</span>, <span class='no'>test_sets</span>)</div><div class='output co'>#&gt; &lt;ResamplingCustom&gt; with 2 iterations
-#&gt; Instantiated: TRUE
-#&gt; Parameters: list()
-#&gt; 
-#&gt; Public: clone, format, has_duplicates, hash, id, instance,
-#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
-#&gt;   task_hash, test_set, train_set</div><div class='input'>
+<span class='no'>rc</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>, <span class='no'>train_sets</span>, <span class='no'>test_sets</span>)
+
 <span class='no'>rc</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 2 3 4 5</div><div class='input'><span class='no'>rc</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  5  6  7  8  9 10</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
