@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Dictionary of Resampling Strategies — mlr_resamplings • mlr3</title>
+<title>Generate Benchmark Design — expand_grid • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,11 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Dictionary of Resampling Strategies — mlr_resamplings" />
+<meta property="og:title" content="Generate Benchmark Design — expand_grid" />
 
-<meta property="og:description" content="A simple Dictionary storing objects of class Resampling.
-Each resampling has an associated help page, see mlr_resamplings_[id]." />
+<meta property="og:description" content="Takes a lists of Task, a list of Learner and a list of Resampling to
+generate a design in an expand.grid() fashion (a.k.a. cross join or Cartesian product).
+Resampling strategies must be uninstantiated, and will be instantiated per task." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -147,61 +148,48 @@ Each resampling has an associated help page, see mlr_resamplings_[id]." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Dictionary of Resampling Strategies</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_resamplings.R'><code>R/mlr_resamplings.R</code></a></small>
+    <h1>Generate Benchmark Design</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/benchmark.R'><code>R/benchmark.R</code></a></small>
     </div>
 
     
-    <p>A simple <a href='Dictionary.html'>Dictionary</a> storing objects of class <a href='Resampling.html'>Resampling</a>.
-Each resampling has an associated help page, see <code>mlr_resamplings_[id]</code>.</p>
+    <p>Takes a lists of <a href='Task.html'>Task</a>, a list of <a href='Learner.html'>Learner</a> and a list of <a href='Resampling.html'>Resampling</a> to
+generate a design in an <code><a href='https://www.rdocumentation.org/packages/base/topics/expand.grid'>expand.grid()</a></code> fashion (a.k.a. cross join or Cartesian product).</p>
+<p>Resampling strategies must be uninstantiated, and will be instantiated per task.</p>
     
 
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>R6Class object</p>
+    <pre class="usage"><span class='fu'>expand_grid</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>)</pre>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
-
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>tasks</th>
+      <td><p>(list of <a href='Task.html'>Task</a>).</p></td>
+    </tr>
+    <tr>
+      <th>learners</th>
+      <td><p>(list of <a href='Learner.html'>Learner</a>).</p></td>
+    </tr>
+    <tr>
+      <th>resamplings</th>
+      <td><p>(list of <a href='Resampling.html'>Resampling</a>).</p></td>
+    </tr>
+    </table>
     
-    <p>Inherits from <a href='Dictionary.html'>Dictionary</a>.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <div class='dont-index'><p>Other Dictionary: <code><a href='Dictionary.html'>Dictionary</a></code>,
-  <code><a href='mlr_learners.html'>mlr_learners</a></code>, <code><a href='mlr_measures.html'>mlr_measures</a></code>,
-  <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p>
-<p>Other Resampling: <code><a href='Resampling.html'>Resampling</a></code></p></div>
+    <p>(<code>data.table()</code>) with the cross product of the input vectors.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_resamplings</span>$<span class='fu'>ids</span>()</div><div class='output co'>#&gt; [1] "bootstrap"   "custom"      "cv"          "holdout"     "repeated_cv"
-#&gt; [6] "subsampling"</div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_resamplings</span>)</div><div class='output co'>#&gt;             id  hyperpars default_iters
-#&gt; 1:   bootstrap &lt;function&gt;            30
-#&gt; 2:      custom &lt;function&gt;             0
-#&gt; 3:          cv &lt;function&gt;            10
-#&gt; 4:     holdout &lt;function&gt;             1
-#&gt; 5: repeated_cv &lt;function&gt;           100
-#&gt; 6: subsampling &lt;function&gt;            30</div><div class='input'><span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)</div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 10 iterations
-#&gt; Instantiated: FALSE
-#&gt; Parameters: folds=10
-#&gt; 
-#&gt; Public: clone, format, has_duplicates, hash, id, instance,
-#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
-#&gt;   task_hash, test_set, train_set</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#usage">Usage</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>
