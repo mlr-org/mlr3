@@ -10,7 +10,7 @@ benchmark(design, ctrl = list())
 \item{design}{(\code{\link[=data.frame]{data.frame()}}):
 Data frame (or \code{\link[=data.table]{data.table()}}) with three columns: "task", "learner", and "resampling".
 Each row defines a set of resampled experiments by providing a \link{Task}, \link{Learner} and \link{Resampling} strategy.
-The helper function \code{\link[=cjoin]{cjoin()}} can assist in generating an exhaustive design (see examples).}
+The helper function \code{\link[=expand_grid]{expand_grid()}} can assist in generating an exhaustive design (see examples).}
 
 \item{ctrl}{(named \code{list} as returned by \code{\link[=mlr_control]{mlr_control()}}):
 Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}}.}
@@ -25,7 +25,7 @@ Resamplings which are not already instantiated will be instantiated automaticall
 Note that these auto-instantiated resamplings will not be synchronized per task, i.e. learners will
 see different splits of the same task.
 
-To generate exhaustive designs and automatically instantiate resampling strategies per task, see \code{\link[=cjoin]{cjoin()}}.
+To generate exhaustive designs and automatically instantiate resampling strategies per task, see \code{\link[=expand_grid]{expand_grid()}}.
 }
 \examples{
 \dontshow{
@@ -37,7 +37,7 @@ tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("holdout")
 
-design = cjoin(tasks, learners, resamplings)
+design = expand_grid(tasks, learners, resamplings)
 print(design)
 bmr = benchmark(design)
 
