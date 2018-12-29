@@ -29,6 +29,7 @@ First, we need to generate the following `mlr3` objects from the task dictionary
 
 1. The classification task
     ```{r}
+    library(mlr3)
     task = mlr_tasks$get("iris")
     ```
 2. A learner for the classification tree
@@ -86,6 +87,7 @@ print(e)
 The predictions can be retrieved as a simple `data.table`.
 
 ```{r}
+library(data.table)
 head(as.data.table(e$prediction))
 ```
 

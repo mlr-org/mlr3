@@ -27,6 +27,7 @@ set.seed(123)
 These are stored in a `mlr3::Dictionary`, which is a simple key-value store named `mlr3::mlr_tasks`:
 
 ```{r}
+library(mlr3)
 mlr_tasks
 ```
 

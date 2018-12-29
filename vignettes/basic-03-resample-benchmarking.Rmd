@@ -155,6 +155,7 @@ The interface of the `benchmark()` function accepts a design of tasks, learners,
 
 Here, we call `benchmark()` to perform a single holdout split on a single task and two learners:
 ```{r}
+library(data.table)
 design = data.table(
   task = mlr_tasks$mget("iris"),
   learner = mlr_learners$mget(c("classif.rpart", "classif.featureless")),
