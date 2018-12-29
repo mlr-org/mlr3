@@ -78,6 +78,6 @@ resamplings$subsampling$param_vals = list(ratio = 0.8, repeats = 16)
 
 future::plan("multiprocess")
 system.time(
-  benchmark(tasks, learners, resamplings)
+  benchmark(cjoin(tasks, learners, resamplings))
 )[3L]
 ```

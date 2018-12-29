@@ -14,8 +14,9 @@ test_that("mlr_measures_auc", {
   lrn = mlr_learners$get("classif.featureless")
   lrn$predict_type = "prob"
   m = mlr_measures$get("auc")
+  task$measures = list(m)
 
   e = Experiment$new(task, lrn)$train()$predict()
-  e$score(measures = list(m))
+  e$score()
   expect_equal(unname(e$performance), 0.5)
 })

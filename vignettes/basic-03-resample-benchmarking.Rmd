@@ -149,12 +149,48 @@ resampling$test_set(1)
 
 ## Benchmarking
 
-Comparing the performance of different learners on multiple tasks is a recurrent task. `mlr3` offers the `benchmark()` function for convenience.
-Internally the resampling strategies are automatically instantiated so that each learner sees the same split of the data.
+Comparing the performance of different learners on multiple tasks is a recurrent task.
+`mlr3` offers the `benchmark()` function for convenience.
+The interface of the `benchmark()` function accepts a design of tasks, learners, and resampling strategies as data frame.
+
+Here, we call `benchmark()` to perform a single holdout split on a single task and two learners:
+```{r}
+design = data.table(
+  task = mlr_tasks$mget("iris"),
+  learner = mlr_learners$mget(c("classif.rpart", "classif.featureless")),
+  resampling = mlr_resamplings$mget("holdout")
+)
+print(design)
+bmr = benchmark(design)
+```
+
+Note that the holdout splits have been automatically instantiated for each row of the design.
+As a result, the `rpart` learner used a different training set than the featureless learner.
+However, for comparison of learners you usually want the learners to see the same splits into train and test sets.
+To overcome this issue, the resampling strategy needs to be instantiated before creating the design.
+```{r}
+tasks = mlr_tasks$mget("iris")
+learners = mlr_learners$mget(c("classif.rpart", "classif.featureless"))
+resamplings = mlr_resamplings$mget("holdout")
+resamplings[[1]]$instantiate(task[[1]])
+
+design = data.table(
+  task = tasks,
+  learner = learners,
+  resampling = resamplings
+)
+```
+
+While the interface of `benchmark()` allows full flexibility, the creation of such design tables can be tedious.
+Therefore, `mlr3` provides a helper function to quickly generate design tables and instantiate resampling strategies in an exhaustive grid fashion: `mlr3::cjoin()`.
 
 ```{r}
 # get some example tasks
 tasks = mlr_tasks$mget(c("pima", "sonar", "spam"))
+
+# set measures for all tasks: accuracy (acc) and area under the curve (auc)
+measures = mlr_measures$mget(c("acc", "auc"))
+tasks = map(tasks, function(task) { task$measures = measures; task })
 
 # get a featureless learner and a classification tree
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
@@ -166,14 +202,13 @@ learners$classif.rpart$predict_type = "prob"
 # compare via 10-fold cross validation
 resamplings = mlr_resamplings$mget("cv")
 
-# measure accuracy (acc) and area under the curve (AUC)
-measures = mlr_measures$mget(c("acc", "auc"))
-
 # create a BenchmarkResult object
-bmr = benchmark(tasks, learners, resamplings, measures)
+design = cjoin(tasks, learners, resamplings)
+print(design)
+bmr = benchmark(design)
 ```
 
-The aggreated resampling results can be accessed with:
+The aggregated resampling results can be accessed with:
 
 ```{r}
 bmr$aggregated

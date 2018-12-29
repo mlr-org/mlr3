@@ -9,9 +9,6 @@
 #'   Object of type [Learner].
 #' @param resampling ([Resampling]):
 #'   Object of type [Resampling].
-#' @param measures (`list` of [Measure]):
-#'   List of performance measures used to assess the predictive performance.
-#'   Defaults to the measures stored in `task`.
 #' @param ctrl (named `list()`, e.g. as returned by [mlr_control()]):
 #'   Object to control various parts of the execution. See [mlr_control()].
 #' @return [ResampleResult].
@@ -40,13 +37,11 @@
 #' \dontshow{
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
-resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
+resample = function(task, learner, resampling, ctrl = list()) {
   task = assert_task(task)$clone(deep = TRUE)
   assert_learner(learner, task = task)
   assert_resampling(resampling)
-  if (is.null(measures))
-    measures = task$measures
-  assert_measures(measures, task = task)
+  measures = assert_measures(task$measures, task = task)
   ctrl = mlr_control(ctrl)
 
   instance = resampling$clone()
