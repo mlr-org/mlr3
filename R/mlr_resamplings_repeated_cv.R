@@ -38,18 +38,13 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       self$has_duplicates = FALSE
     },
 
-    instantiate = function(task, ...) {
-      assert_task(task)
-      private$.instantiate(task, instantiate_repeated_cv(task, self$param_vals$folds, self$param_vals$repeats, stratify = self$stratify))
-    },
-
     train_set = function(i) {
       i = assert_resampling_index(self, i) - 1L
       folds = as.integer(self$param_vals$folds)
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = setdiff(seq_len(folds), fold))
-      self$instance[ii, "row_id"][[1L]]
+      self$instance[ii, "row_id", on = names(ii)][[1L]]
     },
 
     test_set = function(i) {
@@ -58,7 +53,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = fold)
-      self$instance[ii, "row_id"][[1L]]
+      self$instance[ii, "row_id", on = names(ii)][[1L]]
     }
   ),
 
@@ -66,29 +61,23 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     iters = function() {
       self$param_vals$repeats * self$param_vals$folds
     }
+  ),
+
+  private = list(
+    .sample = function(ids) {
+      n = length(ids)
+      folds = self$param_vals$folds
+      map_dtr(seq_len(self$param_vals$repeats), function(i) {
+        data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
+      })
+    },
+
+    .combine = function(instances) {
+      rbindlist(instances)
+    }
   )
 )
 
 
 #' @include mlr_resamplings.R
 mlr_resamplings$add("repeated_cv", ResamplingRepeatedCV)
-
-
-resample_repeated_cv = function(ids, folds, repeats) {
-  n = length(ids)
-  map_dtr(seq_len(repeats), function(i) {
-    data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
-  })
-}
-
-
-instantiate_repeated_cv = function(task, folds, repeats, stratify = character(0L)) {
-  if (length(stratify) == 0L) {
-    res = resample_repeated_cv(task$row_ids[[1L]], folds, repeats)
-  } else {
-    grps = stratify_groups(task, stratify = stratify, min_group_size = folds)
-    res = map_dtr(grps$..row_id, resample_repeated_cv, folds = folds, repeats = repeats)
-  }
-
-  setkeyv(res, c("rep", "fold"))[]
-}

@@ -118,6 +118,25 @@ Resampling = R6Class("Resampling",
       catf(str_indent("Instantiated:", self$is_instantiated))
       catf(str_indent("Parameters:", as_short_string(pv, 1000L)))
       catf(str_indent("\nPublic:", setdiff(ls(self), c("initialize", "print"))))
+    },
+
+    instantiate = function(task) {
+      assert_task(task)
+
+      if (length(self$stratify) == 0L) {
+        # TODO: enable grouping
+        instance =  private$.sample(task$row_ids[[1L]])
+      } else {
+        if (!is.null(task$groups))
+          stopf("Cannot combine stratification with grouping")
+        grps = stratify(task, self$stratify)
+        instance = private$.combine(lapply(grps$..row_id, private$.sample))
+      }
+
+      self$instance = instance
+      self$task_hash = task$hash
+      private$.hash = NA_character_
+      invisible(self)
     }
   ),
 
@@ -143,29 +162,13 @@ Resampling = R6Class("Resampling",
 
   private = list(
     .param_vals = NULL,
-    .hash = NA_character_,
-    .instantiate = function(task, instance) {
-      self$instance = instance
-      self$task_hash = task$hash
-      private$.hash = NA_character_
-      self
-    }
+    .hash = NA_character_
   )
 )
 
-stratify_groups = function(task, stratify, min_group_size = 0L) {
+stratify = function(task, stratify) {
   assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)
   row_ids = task$row_ids[[1L]]
-  grps = cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
-  if (min_group_size > 0L) {
-    ii = wf(grps$..N < min_group_size)
-    if (length(ii)) {
-      tmp = as.list(grps[ii, stratify, with = FALSE])
-      stopf("Cannot stratify: combination %s has only %i observations",
-        paste0(sprintf("[%s == '%s']", names(tmp), tmp), collapse = "x"),
-        grps$..N[ii]
-      )
-    }
-  }
-  grps
+  # TODO: For CV, we could check that there are more stratification groups than folds
+  cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
 }

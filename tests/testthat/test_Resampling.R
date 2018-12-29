@@ -127,10 +127,4 @@ test_that("stratification", {
     expect_equal(task$data(r$test_set(i))[y == "a", .N],  18)
     expect_equal(task$data(r$test_set(i))[y == "b", .N],   2)
   }
-
-  # error for min group size
-  r = mlr_resamplings$get("cv")
-  r$param_vals = list(folds = 11)
-  r$stratify = "y"
-  expect_error(r$instantiate(task), "combination")
 })
