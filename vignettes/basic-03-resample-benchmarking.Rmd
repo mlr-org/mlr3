@@ -167,19 +167,7 @@ bmr = benchmark(design)
 Note that the holdout splits have been automatically instantiated for each row of the design.
 As a result, the `rpart` learner used a different training set than the featureless learner.
 However, for comparison of learners you usually want the learners to see the same splits into train and test sets.
-To overcome this issue, the resampling strategy needs to be instantiated before creating the design.
-```{r}
-tasks = mlr_tasks$mget("iris")
-learners = mlr_learners$mget(c("classif.rpart", "classif.featureless"))
-resamplings = mlr_resamplings$mget("holdout")
-resamplings[[1]]$instantiate(task[[1]])
-
-design = data.table(
-  task = tasks,
-  learner = learners,
-  resampling = resamplings
-)
-```
+To overcome this issue, the resampling strategy needs to be manually instantiated before creating the design.
 
 While the interface of `benchmark()` allows full flexibility, the creation of such design tables can be tedious.
 Therefore, `mlr3` provides a helper function to quickly generate design tables and instantiate resampling strategies in an exhaustive grid fashion: `mlr3::cjoin()`.
@@ -190,7 +178,7 @@ tasks = mlr_tasks$mget(c("pima", "sonar", "spam"))
 
 # set measures for all tasks: accuracy (acc) and area under the curve (auc)
 measures = mlr_measures$mget(c("acc", "auc"))
-tasks = map(tasks, function(task) { task$measures = measures; task })
+tasks = lapply(tasks, function(task) { task$measures = measures; task })
 
 # get a featureless learner and a classification tree
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
