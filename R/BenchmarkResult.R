@@ -54,7 +54,7 @@
 #'    .threshold = logger::log_threshold(namespace = "mlr3")
 #'    logger::log_threshold(logger::WARN, namespace = "mlr3")
 #' }
-#' bmr = benchmark(cjoin(
+#' bmr = benchmark(expand_grid(
 #'   tasks = mlr_tasks$mget("iris"),
 #'   learners = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
 #'   resamplings = mlr_resamplings$mget("cv")
