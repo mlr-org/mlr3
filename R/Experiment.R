@@ -29,7 +29,7 @@
 #'
 #' # Methods
 #' e$predict(row_ids, newdata, ctrl = list())
-#' e$score(measures = NULL, ctrl = list())
+#' e$score(ctrl = list())
 #' e$train(row_ids, ctrl = list())
 #' ```
 #'
@@ -38,23 +38,21 @@
 #' * `learner` ([Learner]): Learner to conduct experiment with.
 #' * `row_ids` (`integer()` | `character()`): Subset of the task's row ids to work on. Invalid row ids are silently ignored.
 #' * `newdata` ([data.frame]): New data to predict on. Will be appended to the task.
-#' * `measures` (list of [Measure]): Performance measure to use. Defaults to the measures set in the [Task].
 #'
 #' @section Details:
 #' * `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
 #' * `$predict()` uses the previously fitted model to predict new observations.
 #'   The predictions are stored internally as an [Prediction] object and can be
 #'   accessed via `e$prediction` as [data.table()].
-#' * `$score()` quantifies stored predictions using the provided list of
-#'   [Measure] (or the task's [Measure] if not provided) and stores the resulting
+#' * `$score()` quantifies stored predictions using the task's [Measure] and stores the resulting
 #'   performance values. The performance can be accessed via `e$performance`.
 #' * `$train()` fits the induced [Learner] on the (subset of the) `task` and'stores the model in the [Learner]. The model can be accessed via `e$model`.
 #' * `$ctrl` ([list]). List of control settings passed to `$train()`, `$predict()` and `$score()`.
 #' * `$data` stores the internal representation of an Experiment as a `named list` with the following slots:
 #'   * iteration (`integer(1)`). If the experiment is constructed manually, this is always 1.
 #'   * learner ([Learner]).
-#'   * measures (`list` of [Measure]). Actually used performance measures.
-#'   * performance (`named numeric`). Performance values are returned by the measures.
+#'   * measures (`list` of [Measure]). Measures used for performance assessment.
+#'   * performance (`named numeric`). Performance values returned by the measures.
 #'   * predict_log. [Log] for the predict step.
 #'   * predict_time (`numeric(1)`). Elapsed time in microseconds.
 #'   * prediction ([Prediction]).
@@ -147,10 +145,10 @@ Experiment = R6Class("Experiment",
       invisible(self)
     },
 
-    score = function(measures = NULL, ctrl = list()) {
+    score = function(ctrl = list()) {
       if (! self$state >= "trained")
         stopf("Experiment needs predictions before score()")
-      experiment_score(self, measures, ctrl = ctrl)
+      experiment_score(self, ctrl = ctrl)
       invisible(self)
     }
   ),
@@ -289,9 +287,9 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list(
   return(experiment_reset_state(self, "predicted"))
 }
 
-experiment_score = function(self, measures = NULL, ctrl = list()) {
+experiment_score = function(self, ctrl = list()) {
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, prediction = self$prediction)
+  self$data$measures = assert_measures(self$data$task$measures, task = self$task, prediction = self$prediction)
 
   log_info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = score_worker(self, ctrl = ctrl)

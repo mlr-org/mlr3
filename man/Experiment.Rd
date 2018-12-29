@@ -30,7 +30,7 @@ e$validation_set
 
 # Methods
 e$predict(row_ids, newdata, ctrl = list())
-e$score(measures = NULL, ctrl = list())
+e$score(ctrl = list())
 e$train(row_ids, ctrl = list())
 }
 }
@@ -42,7 +42,6 @@ e$train(row_ids, ctrl = list())
 \item \code{learner} (\link{Learner}): Learner to conduct experiment with.
 \item \code{row_ids} (\code{integer()} | \code{character()}): Subset of the task's row ids to work on. Invalid row ids are silently ignored.
 \item \code{newdata} (\link{data.frame}): New data to predict on. Will be appended to the task.
-\item \code{measures} (list of \link{Measure}): Performance measure to use. Defaults to the measures set in the \link{Task}.
 }
 }
 
@@ -53,8 +52,7 @@ e$train(row_ids, ctrl = list())
 \item \code{$predict()} uses the previously fitted model to predict new observations.
 The predictions are stored internally as an \link{Prediction} object and can be
 accessed via \code{e$prediction} as \code{\link[=data.table]{data.table()}}.
-\item \code{$score()} quantifies stored predictions using the provided list of
-\link{Measure} (or the task's \link{Measure} if not provided) and stores the resulting
+\item \code{$score()} quantifies stored predictions using the task's \link{Measure} and stores the resulting
 performance values. The performance can be accessed via \code{e$performance}.
 \item \code{$train()} fits the induced \link{Learner} on the (subset of the) \code{task} and'stores the model in the \link{Learner}. The model can be accessed via \code{e$model}.
 \item \code{$ctrl} (\link{list}). List of control settings passed to \code{$train()}, \code{$predict()} and \code{$score()}.
@@ -62,8 +60,8 @@ performance values. The performance can be accessed via \code{e$performance}.
 \itemize{
 \item iteration (\code{integer(1)}). If the experiment is constructed manually, this is always 1.
 \item learner (\link{Learner}).
-\item measures (\code{list} of \link{Measure}). Actually used performance measures.
-\item performance (\code{named numeric}). Performance values are returned by the measures.
+\item measures (\code{list} of \link{Measure}). Measures used for performance assessment.
+\item performance (\code{named numeric}). Performance values returned by the measures.
 \item predict_log. \link{Log} for the predict step.
 \item predict_time (\code{numeric(1)}). Elapsed time in microseconds.
 \item prediction (\link{Prediction}).

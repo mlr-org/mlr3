@@ -5,7 +5,7 @@ tasks$iris$measures = mlr_measures$mget("acc")
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("cv")
 resamplings$cv$param_vals = list(folds =  3)
-bmr = benchmark(tasks, learners, resamplings)
+bmr = benchmark(cjoin(tasks, learners, resamplings))
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
@@ -58,13 +58,13 @@ test_that("ResampleResult getter", {
 
 
 test_that("discarding model", {
-  bmr = benchmark(tasks[1L], learners[1L], resamplings, ctrl = mlr_control(store_prediction = FALSE, store_model = FALSE))
+  bmr = benchmark(cjoin(tasks[1L], learners[1L], resamplings), ctrl = mlr_control(store_prediction = FALSE, store_model = FALSE))
   expect_true(every(bmr$data$prediction, is.null))
   expect_true(every(bmr$data$model, is.null))
 })
 
 test_that("bmr$combine()", {
-  bmr_new = benchmark(mlr_tasks$mget("pima"), learners, resamplings)
+  bmr_new = benchmark(cjoin(mlr_tasks$mget("pima"), learners, resamplings))
   bmr_combined = bmr$clone(deep = TRUE)$combine(bmr_new)
 
   expect_benchmark_result(bmr)
@@ -93,7 +93,7 @@ test_that("inputs are cloned", {
   resampling = mlr_resamplings$get("holdout")
   resampling$instantiate(task)
 
-  bmr = benchmark(list(task), list(learner), list(resampling))
+  bmr = benchmark(cjoin(list(task), list(learner), list(resampling)))
   e = bmr$resample_result(bmr$resample_results$hash)$experiment(1)
 
   expect_different_address(task, e$task)

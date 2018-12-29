@@ -76,6 +76,13 @@ task$data(rows = c(1, 51, 101), cols = "Species")
 Note that the method `$data()` is only an accesor and does not modify the underlying data/task.
 To modify the underlying data/task, you can use the [`$filter()`](basic-01-tasks.html#filter) and [`$select()`](basic-01-tasks.html#select) methods, which are mutators.
 
+Each task comes with at least one associated performance measure, stored as list inside the task:
+```{r}
+task$measures
+```
+To change a measure for a task, simply overwrite this slot.
+
+
 ## Manual task creation
 
 To manually create a task from a `data.frame`, you must determine the task type to select the respective constructor:
@@ -150,7 +157,7 @@ The different roles are stored as as a list of column name vectors:
 task$col_roles
 ```
 
-As the output shows, the column is `"mpg"` is the target column and are three features: 
+As the output shows, the column is `"mpg"` is the target column and are three features:
 `"rn"` (row names), `"cyl"`, and `"disp"`.
 More roles are documented in the help for tasks.
 
@@ -235,7 +242,7 @@ task$ncol
 ```
 
 You might wonder why there are still two columns left even if we selected only one?
-The subsetting only applies to the columns listed as "feature" (`task$col_roles`). 
+The subsetting only applies to the columns listed as "feature" (`task$col_roles`).
 The "target" column is not touched.
 
 ### $rbind(), $cbind()
@@ -247,7 +254,7 @@ In the following example we duplicate the rows of the `iris` task (please do not
 # init a fresh task
 task = mlr_tasks$get("iris")
 
-task2 = task 
+task2 = task
 
 task$rbind(task2$data())
 

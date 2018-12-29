@@ -4,21 +4,13 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(tasks, learners, resamplings, measures = NULL, ctrl = list())
+benchmark(design, ctrl = list())
 }
 \arguments{
-\item{tasks}{(list of \link{Task}):
-List of objects of type \link{Task}.}
-
-\item{learners}{(list of \link{Learner}):
-List of objects of type \link{Learner}.}
-
-\item{resamplings}{(list of \link{Resampling}):
-List of objects of type \link{Resampling}.}
-
-\item{measures}{(list of \link{Measure}):
-List of performance measures used to assess the predictive performance.
-Defaults to the respective measures stored in \code{task}.}
+\item{design}{(\code{\link[=data.frame]{data.frame()}}):
+Data frame (or \code{\link[=data.table]{data.table()}}) with three columns: "task", "learner", and "resampling".
+Each row defines a set of resampled experiments by providing a \link{Task}, \link{Learner} and \link{Resampling} strategy.
+The helper function \code{\link[=cjoin]{cjoin()}} can assist in generating an exhaustive design (see examples).}
 
 \item{ctrl}{(named \code{list} as returned by \code{\link[=mlr_control]{mlr_control()}}):
 Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}}.}
@@ -28,6 +20,12 @@ Object to control experiment execution. See \code{\link[=mlr_control]{mlr_contro
 }
 \description{
 Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
+
+Resamplings which are not already instantiated will be instantiated automatically.
+Note that these auto-instantiated resamplings will not be synchronized per task, i.e. learners will
+see different splits of the same task.
+
+To generate exhaustive designs and automatically instantiate resampling strategies per task, see \code{\link[=cjoin]{cjoin()}}.
 }
 \examples{
 \dontshow{
@@ -37,9 +35,11 @@ Runs a benchmark of the cross-product of learners, tasks, and resampling strateg
 }
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-resamplings = mlr_resamplings$mget(c("holdout", "cv"))
-measures = mlr_measures$mget("acc")
-bmr = benchmark(tasks, learners, resamplings, measures)
+resamplings = mlr_resamplings$mget("holdout")
+
+design = cjoin(tasks, learners, resamplings)
+print(design)
+bmr = benchmark(design)
 
 # performance for all conducted experiments
 head(as.data.table(bmr))
