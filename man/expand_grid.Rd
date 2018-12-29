@@ -2,7 +2,7 @@
 % Please edit documentation in R/benchmark.R
 \name{expand_grid}
 \alias{expand_grid}
-\title{Generate Benchmark Design}
+\title{Generate a Benchmark Design}
 \usage{
 expand_grid(tasks, learners, resamplings)
 }
