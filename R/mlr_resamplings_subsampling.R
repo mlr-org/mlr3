@@ -37,22 +37,6 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
         ),
         param_vals = list(repeats = 30L, ratio = 0.67)
       )
-      self$has_duplicates = FALSE
-    },
-
-    instantiate = function(task, ...) {
-      assert_task(task)
-      private$.instantiate(task, instantiate_subsampling(task, self$param_vals$ratio, self$param_vals$repeats, stratify = self$stratify))
-    },
-
-    train_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$row_ids[bit::as.which(self$instance$train[[i]])]
-    },
-
-    test_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$row_ids[bit::as.which(!self$instance$train[[i]])]
     }
   ),
 
@@ -60,32 +44,33 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
     iters = function() {
       self$param_vals$repeats
     }
+  ),
+
+  private = list(
+    .sample = function(ids) {
+      n = length(ids)
+      nr = round(n * self$param_vals$ratio)
+
+      train = replicate(self$param_vals$repeats,
+        bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
+        simplify = FALSE)
+      list(train = train, row_ids = ids)
+    },
+
+    .get_train = function(i) {
+      self$instance$row_ids[bit::as.which(self$instance$train[[i]])]
+    },
+
+    .get_test = function(i) {
+      self$instance$row_ids[bit::as.which(!self$instance$train[[i]])]
+    },
+
+    .combine = function(instances) {
+      Reduce(function(lhs, rhs) { list(train = Map(c, lhs$train, rhs$train), row_ids = c(lhs$row_ids , rhs$row_ids)) }, instances)
+    }
   )
 )
 
 
 #' @include mlr_resamplings.R
 mlr_resamplings$add("subsampling", ResamplingSubsampling)
-
-
-
-resample_subsampling = function(ids, ratio, repeats) {
-  n = length(ids)
-  nr = round(n * ratio)
-
-  train = replicate(repeats,
-    bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
-    simplify = FALSE)
-  list(train = train, row_ids = ids)
-}
-
-instantiate_subsampling = function(task, ratio, repeats, stratify = character(0L)) {
-  if (length(stratify) == 0L) {
-    res = resample_subsampling(task$row_ids[[1L]], ratio, repeats)
-  } else {
-    grps = stratify_groups(task, stratify = stratify)
-    res = lapply(grps$..row_id, resample_subsampling, ratio = ratio, repeats = repeats)
-    res = Reduce(function(lhs, rhs) { list(train = Map(c, lhs$train, rhs$train), row_ids = c(lhs$row_ids , rhs$row_ids)) }, res)
-  }
-  res
-}

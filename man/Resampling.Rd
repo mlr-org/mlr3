@@ -13,7 +13,7 @@ Predefined resamplings are stored in \link{mlr_resamplings}.
 r = Resampling$new(id, param_set, param_vals)
 
 # Members
-r$has_duplicates
+r$duplicated_ids
 r$hash
 r$id
 r$instance
@@ -45,8 +45,8 @@ r$train_set(i)
 \section{Details}{
 
 \itemize{
-\item \code{$has_duplicates} is \code{TRUE} if the resampling allows observations to be included multiple times in the train set.
-E.g., this is true for bootstraping, but not for cross validation.
+\item \code{$duplicated_ids} is \code{TRUE} if the resampling allows observations to be included multiple times in the training set.
+E.g., this is true for bootstrapping, but not for cross validation.
 \item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{param_vals} and the instantiation.
 If the object is not instantiated yet, \code{NA} is returned.
 \item \code{$id} (\code{character(1)}) stores the identifier of the object.
