@@ -129,12 +129,6 @@ assert_set = function(x, empty = TRUE) {
   assert_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE)
 }
 
-assert_resampling_index = function(resampling, i) {
-  if (!resampling$is_instantiated)
-    stopf("Resampling %s has not been instantiated yet", resampling$id)
-  assert_int(i, lower = 1L, upper = resampling$iters, coerce = TRUE)
-}
-
 assert_range = function(range) {
   assert_numeric(range, len = 2L, any.missing = FALSE)
   if (diff(range) <= 0)
