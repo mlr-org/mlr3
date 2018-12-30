@@ -34,17 +34,6 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
         param_set = ParamSet$new(params = list(ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))),
         param_vals = list(ratio = 2/3)
       )
-      self$has_duplicates = FALSE
-    },
-
-    train_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$train
-    },
-
-    test_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$test
     },
 
     iters = 1L
@@ -56,6 +45,15 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       ii = shuffle(ids, nr)
       list(train = ii, test = setdiff(ids, ii))
     },
+
+    .get_train = function(i) {
+      self$instance$train
+    },
+
+    .get_test = function(i) {
+      self$instance$test
+    },
+
     .combine = function(instances) {
       list(train = do.call(c, map(instances, "train")), test = do.call(c, map(instances, "test")))
     }

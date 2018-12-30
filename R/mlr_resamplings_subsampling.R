@@ -37,17 +37,6 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
         ),
         param_vals = list(repeats = 30L, ratio = 0.67)
       )
-      self$has_duplicates = FALSE
-    },
-
-    train_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$row_ids[bit::as.which(self$instance$train[[i]])]
-    },
-
-    test_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$row_ids[bit::as.which(!self$instance$train[[i]])]
     }
   ),
 
@@ -66,6 +55,14 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
         bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
         simplify = FALSE)
       list(train = train, row_ids = ids)
+    },
+
+    .get_train = function(i) {
+      self$instance$row_ids[bit::as.which(self$instance$train[[i]])]
+    },
+
+    .get_test = function(i) {
+      self$instance$row_ids[bit::as.which(!self$instance$train[[i]])]
     },
 
     .combine = function(instances) {

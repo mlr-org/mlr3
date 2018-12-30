@@ -35,25 +35,6 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
         param_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamInt$new("folds", lower = 1L, tags = "required"))),
         param_vals = list(repeats = 10L, folds = 10L)
       )
-      self$has_duplicates = FALSE
-    },
-
-    train_set = function(i) {
-      i = assert_resampling_index(self, i) - 1L
-      folds = as.integer(self$param_vals$folds)
-      rep = as.integer(i %/% folds) + 1L
-      fold = as.integer(i %% folds) + 1L
-      ii = data.table(rep = rep, fold = setdiff(seq_len(folds), fold))
-      self$instance[ii, "row_id", on = names(ii)][[1L]]
-    },
-
-    test_set = function(i) {
-      i = assert_resampling_index(self, i) - 1L
-      folds = as.integer(self$param_vals$folds)
-      rep = as.integer(i %/% folds) + 1L
-      fold = as.integer(i %% folds) + 1L
-      ii = data.table(rep = rep, fold = fold)
-      self$instance[ii, "row_id", on = names(ii)][[1L]]
     }
   ),
 
@@ -70,6 +51,24 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       map_dtr(seq_len(self$param_vals$repeats), function(i) {
         data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
       })
+    },
+
+    .get_train = function(i) {
+      i = i - 1L
+      folds = as.integer(self$param_vals$folds)
+      rep = as.integer(i %/% folds) + 1L
+      fold = as.integer(i %% folds) + 1L
+      ii = data.table(rep = rep, fold = setdiff(seq_len(folds), fold))
+      self$instance[ii, "row_id", on = names(ii), nomatch = 0L][[1L]]
+    },
+
+    .get_test = function(i) {
+      i = i - 1L
+      folds = as.integer(self$param_vals$folds)
+      rep = as.integer(i %/% folds) + 1L
+      fold = as.integer(i %% folds) + 1L
+      ii = data.table(rep = rep, fold = fold)
+      self$instance[ii, "row_id", on = names(ii), nomatch = 0L][[1L]]
     },
 
     .combine = function(instances) {

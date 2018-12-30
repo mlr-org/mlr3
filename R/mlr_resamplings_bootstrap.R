@@ -36,19 +36,9 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
             ParamInt$new("repeats", lower = 1L, tags = "required"),
             ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
         ),
-        param_vals = list(ratio = 1, repeats = 30L)
+        param_vals = list(ratio = 1, repeats = 30L),
+        duplicated_ids = TRUE
       )
-      self$has_duplicates = TRUE
-    },
-
-    train_set = function(i) {
-      i = assert_resampling_index(self, i)
-      rep(self$instance$row_ids, times = self$instance$M[, i])
-    },
-
-    test_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$row_ids[self$instance$M[, i] == 0L]
     }
   ),
 
@@ -65,6 +55,14 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       M = replicate(self$param_vals$repeats, table(sample(x, nr, replace = TRUE)), simplify = "array")
       rownames(M) = NULL
       list(row_ids = ids, M = M)
+    },
+
+    .get_train = function(i) {
+      rep(self$instance$row_ids, times = self$instance$M[, i])
+    },
+
+    .get_test = function(i) {
+      self$instance$row_ids[self$instance$M[, i] == 0L]
     },
 
     .combine = function(instances) {

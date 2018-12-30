@@ -34,17 +34,6 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
         param_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L, tags = "required"))),
         param_vals = list(folds = 10L)
       )
-      self$has_duplicates = FALSE
-    },
-
-    train_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance[!list(i), "row_id", on = "fold"][[1L]]
-    },
-
-    test_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance[list(i), "row_id", on = "fold"][[1L]]
     }
   ),
 
@@ -61,6 +50,14 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
         fold = shuffle(seq_along0(ids) %% self$param_vals$folds + 1L),
         key = "fold"
       )
+    },
+
+    .get_train = function(i) {
+      self$instance[!list(i), "row_id", on = "fold"][[1L]]
+    },
+
+    .get_test = function(i) {
+      self$instance[list(i), "row_id", on = "fold"][[1L]]
     },
 
     .combine = function(instances) {
