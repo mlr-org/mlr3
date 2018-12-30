@@ -169,13 +169,8 @@
 <span class='co'># Instantiate Resampling</span>
 <span class='no'>rcv</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)
 <span class='no'>rcv</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='no'>rcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 3 iterations
-#&gt; Instantiated: TRUE
-#&gt; Parameters: folds=3
-#&gt; 
-#&gt; Public: clone, format, has_duplicates, hash, id, instance,
-#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
-#&gt;   task_hash, test_set, train_set</div><div class='input'>
+<span class='no'>rcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
+
 <span class='co'># Individual sets:</span>
 <span class='no'>rcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  5  8 10  3  7  9</div><div class='input'><span class='no'>rcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 2 4 6</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
