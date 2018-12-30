@@ -89,11 +89,10 @@ can have a specific mutually exclusive role in the learning task:
 \item \code{"feature"}: Regular feature.
 \item \code{"target"}: Column with target labels.
 \item \code{"order"}: Returned data is ordered by these column(s).
-\item \code{"groups"}: During resampling, observations with the same value of the variable
-listed in \code{"groups"} are marked as "belonging together". They will be assigned
-jointly to be either in the training set or the test set.
-Returns a (\code{\link[=data.table]{data.table()}}) with two columns: first column are rows ids,
-second column are the group labels.
+\item \code{"groups"}: During resampling, observations with the same value of the variable with role "groups"
+are marked as "belonging together". They will be exclusively assigned to be either in the training set
+or the test set.
+Returns a (\code{\link[=data.table]{data.table()}}) with two columns: first column are rows ids, second column are the group labels.
 \item \code{"weights"}: Observation weights. (\code{\link[=data.table]{data.table()}}) with two columns: first column are the row ids,
 second column are the observation weights.
 To alter the role, use \code{$set_col_role()}

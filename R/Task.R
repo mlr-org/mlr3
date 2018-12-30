@@ -80,11 +80,10 @@
 #'   - `"feature"`: Regular feature.
 #'   - `"target"`: Column with target labels.
 #'   - `"order"`: Returned data is ordered by these column(s).
-#'   - `"groups"`: During resampling, observations with the same value of the variable
-#'        listed in `"groups"` are marked as "belonging together". They will be assigned
-#'        jointly to be either in the training set or the test set.
-#'        Returns a ([data.table()]) with two columns: first column are rows ids,
-#'       second column are the group labels.
+#'   - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
+#'        are marked as "belonging together". They will be exclusively assigned to be either in the training set
+#'        or the test set.
+#'        Returns a ([data.table()]) with two columns: first column are rows ids, second column are the group labels.
 #'   - `"weights"`: Observation weights. ([data.table()]) with two columns: first column are the row ids,
 #'       second column are the observation weights.
 #'   To alter the role, use `$set_col_role()`
