@@ -166,7 +166,7 @@ Predefined resamplings are stored in <a href='mlr_resamplings.html'>mlr_resampli
     <pre># Construction
 r = Resampling$new(id, param_set, param_vals)
     # Members
-r$has_duplicates
+r$duplicated_ids
 r$hash
 r$id
 r$instance
@@ -197,8 +197,8 @@ r$train_set(i)
 
     
     <ul>
-<li><p><code>$has_duplicates</code> is <code>TRUE</code> if the resampling allows observations to be included multiple times in the train set.
-E.g., this is true for bootstraping, but not for cross validation.</p></li>
+<li><p><code>$duplicated_ids</code> is <code>TRUE</code> if the resampling allows observations to be included multiple times in the training set.
+E.g., this is true for bootstrapping, but not for cross validation.</p></li>
 <li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>param_vals</code> and the instantiation.
 If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 <li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
