@@ -1,11 +1,11 @@
 #' @title Experiment
 #'
-#' @format [R6Class] object
+#' @name Experiment
+#' @format [R6Class] object.
 #' @description
 #' Container object for machine learning experiments.
 #'
 #' @section Usage:
-#'
 #' ```
 #' # Construction
 #' e = Experiment$new(task, learner, ...)
@@ -28,39 +28,31 @@
 #' e$validation_set
 #'
 #' # Methods
-#' e$predict(subset, newdata, ctrl = list())
-#' e$score(measures = NULL, ctrl = list())
-#' e$train(subset, ctrl = list())
+#' e$predict(row_ids, newdata, ctrl = list())
+#' e$score(ctrl = list())
+#' e$train(row_ids, ctrl = list())
 #' ```
 #'
 #' @section Arguments:
-#' * `task` ([Task]):\cr
-#'  Task to conduct experiment on
-#' * `learner` ([Learner]):\cr
-#'   Learner to conduct experiment with.
-#' * `subset` (`integer()` | `character()`):\cr
-#'   Subset of the task's row ids to work on.
-#' * `newdata` ([data.frame]):\cr
-#'   New data to predict on. Will be appended to the task.
-#' * `measures` (list of [Measure]):\cr
-#'   Performance measure to use. Defaults to the measures set in the [Task].
+#' * `task` ([Task]): Task to conduct experiment on
+#' * `learner` ([Learner]): Learner to conduct experiment with.
+#' * `row_ids` (`integer()` | `character()`): Subset of the task's row ids to work on. Invalid row ids are silently ignored.
+#' * `newdata` ([data.frame]): New data to predict on. Will be appended to the task.
 #'
 #' @section Details:
-#' * `$new()` initializes a new machine learning experiment which can grow in a
-#'   stepwise fashion.
+#' * `$new()` initializes a new machine learning experiment which can grow in a stepwise fashion.
 #' * `$predict()` uses the previously fitted model to predict new observations.
 #'   The predictions are stored internally as an [Prediction] object and can be
-#'   accessed via `e$prediction` as [data.table::data.table()].
-#' * `$score()` quantifies stored predictions using the provided list of
-#'   [Measure] (or the task's [Measure] if not provided) and stores the resulting
+#'   accessed via `e$prediction` as [data.table()].
+#' * `$score()` quantifies stored predictions using the task's [Measure] and stores the resulting
 #'   performance values. The performance can be accessed via `e$performance`.
 #' * `$train()` fits the induced [Learner] on the (subset of the) `task` and'stores the model in the [Learner]. The model can be accessed via `e$model`.
 #' * `$ctrl` ([list]). List of control settings passed to `$train()`, `$predict()` and `$score()`.
 #' * `$data` stores the internal representation of an Experiment as a `named list` with the following slots:
 #'   * iteration (`integer(1)`). If the experiment is constructed manually, this is always 1.
 #'   * learner ([Learner]).
-#'   * measures (`list` of [Measure]). Actually used performance measures.
-#'   * performance (`named numeric`). Performance values are returned by the measures.
+#'   * measures (`list` of [Measure]). Measures used for performance assessment.
+#'   * performance (`named numeric`). Performance values returned by the measures.
 #'   * predict_log. [Log] for the predict step.
 #'   * predict_time (`numeric(1)`). Elapsed time in microseconds.
 #'   * prediction ([Prediction]).
@@ -88,8 +80,6 @@
 #'   validation set (see [Task]).
 #'
 #' @export
-#' @name Experiment
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/Experiment.html)
 #' @examples
 #' e = Experiment$new(
 #'   task = mlr_tasks$get("iris"),
@@ -98,12 +88,12 @@
 #' print(e)
 #' e$state
 #'
-#' e$train(subset = 1:120)
+#' e$train(row_ids = 1:120)
 #' print(e)
 #' e$state
 #' e$model
 #'
-#' e$predict(subset = 121:150)
+#' e$predict(row_ids = 121:150)
 #' print(e)
 #' e$state
 #' e$prediction
@@ -122,15 +112,12 @@ Experiment = R6Class("Experiment",
     data = NULL,
     ctrl = NULL,
 
-    initialize = function(task, learner, ..., ctrl = list()) {
+    initialize = function(task = NULL, learner = NULL, ctrl = list()) {
       self$data = named_list(mlr_reflections$experiment_slots$name)
-      self$data$task = assert_task(task)
-      self$data$learner = assert_learner(learner, task = task)
-      if (...length()) {
-        dots = list(...)
-        assert_names(names(dots), type = "unique", subset.of = names(self$data))
-        self$data = insert_named(self$data, dots)
-      }
+      if (!is.null(task))
+        self$data$task = assert_task(task)$clone(deep = TRUE)
+      if (!is.null(learner))
+        self$data$learner = assert_learner(learner, task = task)$clone(deep = TRUE)
       self$ctrl = assert_list(ctrl)
     },
 
@@ -142,37 +129,41 @@ Experiment = R6Class("Experiment",
       experiment_print(self)
     },
 
-    train = function(subset = NULL, ctrl = list()) {
-      ids = self$data$task$row_ids[[1L]]
-      if (!is.null(subset))
-        ids = intersect(ids, subset)
-      experiment_train(self, row_ids = ids, ctrl = ctrl)
+    train = function(row_ids = NULL, ctrl = list()) {
+      if (! self$state >= "defined")
+        stopf("Experiment needs a task and a learner")
+      experiment_train(self, row_ids = row_ids %??% self$data$task$row_ids[[1L]], ctrl = ctrl)
       invisible(self)
     },
 
-    predict = function(subset = NULL, newdata = NULL, ctrl = list()) {
-      if (!is.null(subset) && !is.null(newdata))
-        stopf("Arguments 'subset' and 'newdata' are mutually exclusive")
-      ids = self$data$task$row_ids[[1L]]
-      if (!is.null(subset))
-        ids = intersect(ids, subset)
-      experiment_predict(self, row_ids = ids, newdata = newdata, ctrl = ctrl)
+    predict = function(row_ids = NULL, newdata = NULL, ctrl = list()) {
+      if (! self$state >= "trained")
+        stopf("Experiment needs to be trained before predict()")
+      if (!is.null(row_ids) && !is.null(newdata))
+        stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
+      experiment_predict(self, row_ids = row_ids %??% self$data$task$row_ids[[1L]], newdata = newdata, ctrl = ctrl)
       invisible(self)
     },
 
-    score = function(measures = NULL, ctrl = list()) {
-      experiment_score(self, measures, ctrl = ctrl)
+    score = function(ctrl = list()) {
+      if (! self$state >= "trained")
+        stopf("Experiment needs predictions before score()")
+      experiment_score(self, ctrl = ctrl)
       invisible(self)
     }
   ),
 
   active = list(
-    task = function() {
-      self$data$task
+    task = function(rhs) {
+      if (missing(rhs))
+        return(self$data$task)
+      self$data$task = assert_task(rhs)$clone(deep = TRUE)
     },
 
-    learner = function() {
-      self$data$learner
+    learner = function(rhs) {
+      if (missing(rhs))
+        return(self$data$learner)
+      self$data$learner = assert_learner(rhs)$clone(deep = TRUE)
     },
 
     model = function() {
@@ -296,9 +287,9 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list(
   return(experiment_reset_state(self, "predicted"))
 }
 
-experiment_score = function(self, measures = NULL, ctrl = list()) {
+experiment_score = function(self, ctrl = list()) {
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, prediction = self$prediction)
+  self$data$measures = assert_measures(self$data$task$measures, task = self$task, prediction = self$prediction)
 
   log_info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = score_worker(self, ctrl = ctrl)
@@ -327,11 +318,23 @@ experiment_state = function(self) {
     return(as_state("predicted"))
   if (!is.null(d$train_time))
     return(as_state("trained"))
-  return(as_state("defined"))
+  if (!is.null(d$task) && !is.null(d$learner))
+    return(as_state("defined"))
+  return(as_state("undefined"))
 }
 
 experiment_reset_state = function(self, new_state) {
   slots = mlr_reflections$experiment_slots[get("state") > new_state, "name", with = FALSE][[1L]]
   self$data[slots] = list(NULL)
   self
+}
+
+# creates an experiment with the data provided via ...
+# arguments are **not** cloned
+# extra args which do not belong in an experiment are removed
+as_experiment = function(...) {
+  e = Experiment$new()
+  dots = list(...)
+  e$data[match(names(dots), names(e$data), nomatch = 0L)] = dots
+  e
 }

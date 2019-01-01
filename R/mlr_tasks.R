@@ -1,5 +1,6 @@
 #' @title Dictionary of Tasks
 #'
+#' @name mlr_tasks
 #' @description
 #' A simple [Dictionary] storing objects of class [Task].
 #' Each task has an associated help page, see `mlr_tasks_[id]`.
@@ -7,7 +8,6 @@
 #' @section Usage:
 #' See [Dictionary].
 #'
-#' @name mlr_tasks
 #' @family Dictionary
 #' @family Task
 #' @examples

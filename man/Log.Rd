@@ -3,9 +3,9 @@
 \name{Log}
 \alias{Log}
 \title{Learner Output Log}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object.}
 \description{
-Object which stores the output of the \code{train} or \code{predict} step of an \link{Experiment}.
+Object which stores the text output of the \code{train} or \code{predict} step of an \link{Experiment}.
 }
 \section{Usage}{
 \preformatted{# Construction
@@ -26,10 +26,11 @@ l$print()
 \section{Arguments}{
 
 \itemize{
-\item \code{log} (\code{data.table::data.table()}):
-\code{data.table()} with columns \code{class} (\code{character()}) and \code{message} (\code{character()}).
+\item \code{log} (\code{\link[=data.table]{data.table()}}):
+\code{\link[=data.table]{data.table()}} with columns \code{class} (\code{character()}) and \code{message} (\code{character()}).
+Class can be one of "output", "warning", or "error".
 \item \code{cl} (\code{character(1)}):
-Class of a condition. One of "output", "warning", or "error". #FIXME: missing "message"?
+Class of a condition.
 }
 }
 
@@ -59,7 +60,4 @@ l = e$logs$train
 
 l$has_condition("error")
 print(l)
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/Log.html}{HTML help page}
 }

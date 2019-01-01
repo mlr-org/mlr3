@@ -253,11 +253,15 @@ expect_resampling = function(r, task = NULL) {
     testthat::expect_identical(r$hash, NA_character_)
     if (r$id != "custom")
       checkmate::expect_count(r$iters, positive = TRUE)
+    testthat::expect_identical(r$task_hash, NA_character_)
   } else {
     testthat::expect_true(r$is_instantiated)
     expect_hash(r$hash, 1L)
-    if (!is.null(task))
+    expect_hash(r$task_hash, 1L)
+    if (!is.null(task)) {
       ids = task$row_ids[[1L]]
+      testthat::expect_equal(task$hash, r$task_hash)
+    }
     checkmate::expect_count(r$iters, positive = TRUE)
 
     for (i in seq_len(r$iters)) {

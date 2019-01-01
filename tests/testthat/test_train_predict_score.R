@@ -3,11 +3,11 @@ context("train")
 test_that("Simple train+predict+score of featureless model", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
-  subset = 1:100
+  row_ids = 1:100
   e = Experiment$new(task, learner)
 
-  e$train(subset)
-  expect_set_equal(e$train_set, subset)
+  e$train(row_ids)
+  expect_set_equal(e$train_set, row_ids)
   expect_class(e$model, "featureless")
   expect_class(e$model, "featureless")
   expect_equal(task$nrow, 150L)

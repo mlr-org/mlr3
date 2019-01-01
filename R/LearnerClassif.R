@@ -1,16 +1,16 @@
 #' @title Classification Learner
 #'
-#' @format [R6Class] object
+#' @name LearnerClassif
+#' @format [R6Class] object inheriting from [Learner].
 #' @description
 #' This Learner specializes [Learner] for classification problems.
 #'
 #' @section Usage:
-#' Inherits from [Learner].
+#' See [Learner].
 #'
 #' @section Details:
-#' * `$task_type` is `"classif"`.
+#' `$task_type` is `"classif"`.
 #'
-#' @name LearnerClassif
 #' @family Learner
 #' @examples
 #' # get all classification learners from mlr_learners:

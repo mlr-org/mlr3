@@ -1,18 +1,16 @@
 #' @title Featureless Classification Learner
 #'
-#' @name mlr_learners_classif_featureless
-#' @format [R6::R6Class] inheriting from [LearnerClassif].
+#' @name mlr_learners_classif.featureless
 #' @description
-#' A simple learner which only analyses the labels during train, ignoring all features.
+#' A simple [LearnerClassif] which only analyses the labels during train, ignoring all features.
 #' Hyperparameter `method` determines the mode of operation during prediction:
 #' \describe{
 #'   \item{mode:}{Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.}
 #'   \item{sample:}{Randomly predict a label uniformly.}
 #'   \item{weighed.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
 #' }
-#' @export
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_learners_classif_featureless.html)
 #' @include LearnerClassif.R
+#' @export
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
   public = list(
     initialize = function(id = "classif.featureless") {

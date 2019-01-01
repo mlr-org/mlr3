@@ -3,7 +3,7 @@
 \name{PredictionRegr}
 \alias{PredictionRegr}
 \title{Prediction Object for Regression}
-\format{\link[R6:R6Class]{R6::R6Class} object}
+\format{\link{R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
 }
@@ -28,15 +28,15 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{task} (\link{Task}):\cr
+\item \code{task} (\link{Task}):
 Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
 Set to \code{NULL} to skip all argument checks during initialization.
 Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
-\item \code{truth} (\code{numeric()}):\cr
+\item \code{truth} (\code{numeric()}):
 Numeric vector of true response.
-\item \code{response} (\code{numeric()}):\cr
+\item \code{response} (\code{numeric()}):
 Numeric vector of predictions. One element for each observation in the test set.
-\item \code{se} (\code{numeric()}):\cr
+\item \code{se} (\code{numeric()}):
 Numeric vector of predicted standard error. One element for each observation in the test set.
 }
 }
@@ -50,7 +50,7 @@ Numeric vector of predicted standard error. One element for each observation in 
 \item \code{$se} stores the predicted standard errors (if available), or is \code{NULL}.
 \item \code{$truth} stores the true values.
 \item \code{$new()} initializes a new object of class \link{Prediction}.
-\item The prediction object can be transformed to a simple \link[data.table:data.table]{data.table::data.table}
+\item The prediction object can be transformed to a simple \code{\link[=data.table]{data.table()}}
 with \link[data.table:as.data.table]{data.table::as.data.table}.
 }
 }
@@ -63,9 +63,6 @@ e = Experiment$new(task, learner)$train()$predict()
 p = e$prediction
 p$predict_types
 head(as.data.table(p))
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/PredictionRegr.html}{HTML help page}
 }
 \seealso{
 Other Prediction: \code{\link{PredictionClassif}},

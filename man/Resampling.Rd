@@ -3,10 +3,9 @@
 \name{Resampling}
 \alias{Resampling}
 \title{Resampling Class}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object.}
 \description{
 Abstraction for resampling strategies.
-
 Predefined resamplings are stored in \link{mlr_resamplings}.
 }
 \section{Usage}{
@@ -14,7 +13,7 @@ Predefined resamplings are stored in \link{mlr_resamplings}.
 r = Resampling$new(id, param_set, param_vals)
 
 # Members
-r$has_duplicates
+r$duplicated_ids
 r$hash
 r$id
 r$instance
@@ -23,6 +22,7 @@ r$iters
 r$param_set
 r$param_vals
 r$stratify
+r$task_hash
 
 # Methods
 r$instantiate(task)
@@ -34,23 +34,19 @@ r$train_set(i)
 \section{Arguments}{
 
 \itemize{
-\item \code{id} (\code{character(1)}):\cr
-identifier for this object.
-\item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}):\cr
-describes available parameters.
-\item \code{param_vals} (\code{list()}):\cr
-Named list of parameter values.
-\item \code{task} (\link{Task}):\cr
-Object of type \link{Task}.
-\item \code{i} (\code{integer(1)}):\cr
-Get the \code{i}-th training/test set.
+\item \code{id} (\code{character(1)}): identifier for this object.
+\item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}): describes available parameters.
+\item \code{param_vals} (\code{list()}): Named list of parameter values.
+\item \code{task} (\link{Task}): Object of type \link{Task}.
+\item \code{i} (\code{integer(1)}): Get the \code{i}-th training/test set.
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$has_duplicates} FIXME ???
+\item \code{$duplicated_ids} is \code{TRUE} if the resampling allows observations to be included multiple times in the training set.
+E.g., this is true for bootstrapping, but not for cross validation.
 \item \code{$hash} (\code{character(1)}) stores a checksum calculated on the \code{id}, \code{param_vals} and the instantiation.
 If the object is not instantiated yet, \code{NA} is returned.
 \item \code{$id} (\code{character(1)}) stores the identifier of the object.
@@ -64,6 +60,7 @@ This is an arbitrary object, do not work directly with it. Instead, use \code{$t
 \item \code{$param_vals} (named \code{list}) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.
 \item \code{$stratify} can be set to column names of the \link{Task} which will be used for stratification during instantiation.
+\item \code{$task_hash} stores the hash of the task for which the resampling has been instantiated.
 \item \code{$test_set()} returns the test set for the \code{i}-th iteration.
 \item \code{$train_set()} returns the training set for the \code{i}-th iteration.
 }
@@ -101,9 +98,6 @@ r$stratify = task$target_names # stratify on target column
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
-}
-\references{
-\href{https://mlr3.mlr-org.com/reference/Resampling.html}{HTML help page}
 }
 \seealso{
 Other Resampling: \code{\link{mlr_resamplings}}

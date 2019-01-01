@@ -3,19 +3,19 @@
 #' @description
 #' Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
 #'
-#' @param tasks (list of [Task]):\cr
-#'   List of objects of type [Task].
-#' @param learners (list of [Learner]):\cr
-#'   List of objects of type [Learner].
-#' @param resamplings (list of [Resampling]):\cr
-#'   List of objects of type [Resampling].
-#' @param measures (list of [Measure]):\cr
-#'   List of performance measures used to assess the predictive performance.
-#'   Defaults to the respective measures stored in `task`.
-#' @param ctrl (named `list` as returned by [mlr_control()]):\cr
+#' Resamplings which are not already instantiated will be instantiated automatically.
+#' Note that these auto-instantiated resamplings will not be synchronized per task, i.e. learners will
+#' see different splits of the same task.
+#'
+#' To generate exhaustive designs and automatically instantiate resampling strategies per task, see [expand_grid()].
+#'
+#' @param design ([data.frame()]):
+#'   Data frame (or [data.table()]) with three columns: "task", "learner", and "resampling".
+#'   Each row defines a set of resampled experiments by providing a [Task], [Learner] and [Resampling] strategy.
+#'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples).
+#' @param ctrl (named `list` as returned by [mlr_control()]):
 #'   Object to control experiment execution. See [mlr_control()].
 #' @return [BenchmarkResult].
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/benchmark.html)
 #' @export
 #' @examples
 #' \dontshow{
@@ -25,9 +25,11 @@
 #' }
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-#' resamplings = mlr_resamplings$mget(c("holdout", "cv"))
-#' measures = mlr_measures$mget("acc")
-#' bmr = benchmark(tasks, learners, resamplings, measures)
+#' resamplings = mlr_resamplings$mget("holdout")
+#'
+#' design = expand_grid(tasks, learners, resamplings)
+#' print(design)
+#' bmr = benchmark(design)
 #'
 #' # performance for all conducted experiments
 #' head(as.data.table(bmr))
@@ -48,41 +50,23 @@
 #' \dontshow{
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
-benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list()) {
-  assert_list(tasks, "Task", min.len = 1L)
-  assert_list(learners, "Learner", min.len = 1L)
-  assert_list(resamplings, "Resampling", min.len = 1L)
+benchmark = function(design, ctrl = list()) {
+  assert_data_frame(design, min.rows = 1L)
+  assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
+  assert_list(design$task, "Task")
+  assert_list(design$learner, "Learner")
+  assert_list(design$resampling, "Resampling")
+  design = as.data.table(design) # ensures that the table is copied
   ctrl = mlr_control(ctrl)
 
-  if (is.null(measures)) {
-    measures = unname(map(tasks, "measures"))
-  } else {
-    assert_list(measures, "Measure", min.len = 1L)
-    measures = replicate(length(tasks), unname(measures), simplify = FALSE)
-  }
-  # TODO: call assert measures on grid
-
-  # Instantiate resampling for each task
-  grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
-  instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))
-  grid$instance = seq_row(grid)
-
-  # some more validity checks
-  assert_unique_hashes(tasks)
-  assert_unique_hashes(learners)
-  assert_unique_hashes(instances)
-
-  # Cross join task x learner combinations
-  tmp = CJ(task = seq_along(tasks), learner = seq_along(learners))
-  grid = grid[tmp, on = "task", allow.cartesian = TRUE]
-
-  # Cross join resampling iterations
-  tmp = map_dtr(seq_along(instances), function(i) data.table(instance = i, iter = seq_len(instances[[i]]$iters)))
-  grid = grid[tmp, on = "instance", allow.cartesian = TRUE]
-
-  # compute hashes
-  task = learner = instance = NULL
-  grid[, "hash" := experiment_data_hash(list(task = tasks[[task]], learner = learners[[learner]], resampling = instances[[instance]])), by = c("task", "learner", "instance")]
+  # expand the design: add rows for each resampling iteration
+  grid = pmap_dtr(design, function(task, learner, resampling) {
+    instance = resampling$clone()
+    if (!instance$is_instantiated)
+      instance = instance$instantiate(task)
+    hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
+    data.table(task = list(task$clone()), learner = list(learner), resampling = list(instance), measures = list(task$measures), iter = seq_len(instance$iters), hash = hash)
+  })
 
   log_info("Benchmarking %i experiments", nrow(grid), namespace = "mlr3")
 
@@ -93,22 +77,50 @@ benchmark = function(tasks, learners, resamplings, measures = NULL, ctrl = list(
     grid = grid[sample.int(nrow(grid))]
 
     tmp = future.apply::future_mapply(experiment_worker,
-      task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter, measures = measures[grid$task],
-      MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE,
-      remote = TRUE, future.globals = FALSE, future.packages = "mlr3"
+      task = grid$task, learner = grid$learner, resampling = grid$resampling,
+      iteration = grid$iter, measures = grid$measures,
+      MoreArgs = list(ctrl = ctrl, remote = TRUE), SIMPLIFY = FALSE, USE.NAMES = FALSE,
+      future.globals = FALSE, future.packages = "mlr3"
     )
   } else {
     log_debug("Running benchmark() sequentially", namespace = "mlr3")
     tmp = mapply(experiment_worker,
-      task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance], iteration = grid$iter, measures = measures[grid$task],
-      MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE
+      task = grid$task, learner = grid$learner, resampling = grid$resampling,
+      iteration = grid$iter, measures = grid$measures,
+      MoreArgs = list(ctrl = ctrl, remote = FALSE), SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   }
 
-  res = data.table(task = tasks[grid$task], resampling = instances[grid$instance], measures = measures[grid$task], hash = grid$hash)
-  ref_cbind(res, combine_experiments(tmp))
+  remove_named(grid, c("iter", "learner"))
+  ref_cbind(grid, combine_experiments(tmp))
 
   log_info("Finished benchmark", namespace = "mlr3")
+  BenchmarkResult$new(grid)
+}
 
-  BenchmarkResult$new(res)
+#' @title Generate a Benchmark Design
+#'
+#' @description
+#' Takes a lists of [Task], a list of [Learner] and a list of [Resampling] to
+#' generate a design in an [expand.grid()] fashion (a.k.a. cross join or Cartesian product).
+#'
+#' Resampling strategies must be uninstantiated, and will be instantiated per task.
+#'
+#' @param tasks (list of [Task]).
+#' @param learners (list of [Learner]).
+#' @param resamplings (list of [Resampling]).
+#'
+#' @return ([data.table()]) with the cross product of the input vectors.
+#' @export
+expand_grid = function(tasks, learners, resamplings) {
+  assert_list(tasks, "Task")
+  assert_list(learners, "Learner")
+  map(resamplings, assert_resampling, instantiated = FALSE)
+
+  grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
+  instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))
+  grid$instance = seq_row(grid)
+  grid = grid[CJ(task = seq_along(tasks), learner = seq_along(learners)), on = "task", allow.cartesian = TRUE]
+
+  data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
 }

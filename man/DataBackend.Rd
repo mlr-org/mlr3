@@ -3,7 +3,7 @@
 \name{DataBackend}
 \alias{DataBackend}
 \title{DataBackend}
-\format{\link{R6Class} object}
+\format{\link{R6Class} object.}
 \description{
 This is the abstract base class for data backends.
 See \link{DataBackendDataTable} for an exemplary implementation of this interface.
@@ -30,14 +30,10 @@ print(b)
 \section{Arguments}{
 
 \itemize{
-\item \code{data}:\cr
-Data to wrap the backend around. Typically a \code{data.frame}.
-\item \code{rows} (\code{integer()} or \code{character()}):\cr
-Vector of row indices to subset rows using the primary key in the data backend.
-\item \code{cols} (\code{character()}):\cr
-Vector of column names to select.
-\item \code{n} (\code{integer(1)}):\cr
-Number of rows to return.
+\item \code{data}: Data to wrap the backend around. Typically a \code{data.frame}.
+\item \code{rows} (\code{integer()} or \code{character()}): Vector of row indices to subset rows using the primary key in the data backend.
+\item \code{cols} (\code{character()}): Vector of column names to select.
+\item \code{n} (\code{integer(1)}): Number of rows to return.
 }
 }
 
@@ -48,18 +44,13 @@ Number of rows to return.
 \item \code{$ncol} (\code{integer(1)}) returns the number of total columns, including primary key column.
 \item \code{$nrow} (\code{integer(1)}) returns the number of total rows.
 \item \code{$rownames} (\code{integer()} | \code{character()}) returns all row names of \code{data}.
-\item \code{$data()} (\code{\link[data.table:data.table]{data.table::data.table()}}) returns a slice of the data: rows
-are filtered using the \code{primary_key} column, columns are selected by name.
+\item \code{$data()} (\code{\link[=data.table]{data.table()}}) returns a slice of the data: rows are filtered using the \code{primary_key} column, columns are selected by name.
 \item \code{$distinct()} (named \code{list()}) returns distinct values for columns \code{cols}.
-\item \code{$head()} (\link[data.table:data.table]{data.table::data.table}) returns a table of the first \code{n} data rows.
-\item \code{$missing()} (named \code{integer()}) returns a named integer with the number of
-missing values per column.
+\item \code{$head()} (\link{data.table}) returns a table of the first \code{n} data rows.
+\item \code{$missing()} (named \code{integer()}) returns a named integer with the number of missing values per column.
 }
 }
 
-\references{
-\href{https://mlr3.mlr-org.com/reference/DataBackend.html}{HTML help page}
-}
 \seealso{
 Other DataBackend: \code{\link{DataBackendDataTable}},
   \code{\link{DataBackendMatrix}},

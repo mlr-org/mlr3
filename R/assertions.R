@@ -6,32 +6,28 @@
 NULL
 
 #' @export
-#' @param b ([DataBackend]):\cr
-#'   A data backend to be checked.
+#' @param b ([DataBackend]).
 #' @rdname mlr_assertions
 assert_backend = function(b) {
   assert_class(b, "DataBackend")
 }
 
 #' @export
-#' @param e ([Experiment]):\cr
-#'   An experiment to be checked.
+#' @param e ([Experiment]).
 #' @rdname mlr_assertions
 assert_experiment = function(e) {
   assert_class(e, "Experiment")
 }
 
 #' @export
-#' @param task ([Task]):\cr
-#'   An task to be checked.
+#' @param task ([Task]).
 #' @rdname mlr_assertions
 assert_task = function(task) {
   assert_class(task, "Task")
 }
 
 #' @export
-#' @param learner ([Learner]):\cr
-#'   A learner to be checked.
+#' @param learner ([Learner]).
 #' @rdname mlr_assertions
 assert_learner = function(learner, task = NULL) {
   assert_class(learner, "Learner")
@@ -45,8 +41,7 @@ assert_learner = function(learner, task = NULL) {
 }
 
 #' @export
-#' @param measure ([Measure]):\cr
-#'   A measure to be checked.
+#' @param measure ([Measure]).
 #' @rdname mlr_assertions
 assert_measure = function(measure, task = NULL, prediction = NULL) {
   assert_class(measure, "Measure")
@@ -79,40 +74,42 @@ assert_measures = function(measures, task = NULL, prediction = NULL) {
 }
 
 #' @export
-#' @param resampling ([Resampling]):\cr
-#'   A resampling object to be checked.
+#' @param resampling ([Resampling]).
 #' @rdname mlr_assertions
-assert_resampling = function(resampling) {
+assert_resampling = function(resampling, instantiated = NULL) {
   assert_class(resampling, "Resampling")
+  if (!is.null(instantiated)) {
+    if (instantiated && !resampling$is_instantiated)
+      stopf("Resampling '%s' must be instantiated", resampling$id)
+    if (!instantiated && resampling$is_instantiated)
+      stopf("Resampling '%s' may not be instantiated", resampling$id)
+  }
+  invisible(resampling)
 }
 
 #' @export
-#' @param resample_result ([ResampleResult]):\cr
-#'   A resample result object to be checked.
+#' @param resample_result ([ResampleResult]).
 #' @rdname mlr_assertions
 assert_resample_result = function(resample_result) {
   assert_class(resample_result, "ResampleResult")
 }
 
 #' @export
-#' @param bmr ([BenchmarkResult]):\cr
-#'   A benchmark object to be checked.
+#' @param bmr ([BenchmarkResult]).
 #' @rdname mlr_assertions
 assert_benchmark_result = function(bmr) {
   assert_class(bmr, "BenchmarkResult")
 }
 
 #' @export
-#' @param param_set ([paradox::ParamSet]):\cr
-#'   A param set to be checked.
+#' @param param_set ([paradox::ParamSet]).
 #' @rdname mlr_assertions
 assert_param_set = function(param_set) {
   assert_class(param_set, "ParamSet")
 }
 
 #' @export
-#' @param param_vals (named list):\cr
-#'   A param vals object be checked.
+#' @param param_vals (named `list()`). Its values are checked for feasibility w.r.t. the provided [paradox::ParamSet()].
 #' @rdname mlr_assertions
 assert_param_vals = function(param_vals, param_set) {
   assert_list(param_vals, names = "unique", any.missing = FALSE)
@@ -130,12 +127,6 @@ assert_id = function(id) {
 
 assert_set = function(x, empty = TRUE) {
   assert_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE)
-}
-
-assert_resampling_index = function(resampling, i) {
-  if (!resampling$is_instantiated)
-    stopf("Resampling %s has not been instantiated yet", resampling$id)
-  assert_int(i, lower = 1L, upper = resampling$iters, coerce = TRUE)
 }
 
 assert_range = function(range) {

@@ -3,16 +3,13 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task ([Task]):\cr
+#' @param task ([Task]):
 #'   Object of type [Task].
-#' @param learner ([Learner]):\cr
+#' @param learner ([Learner]):
 #'   Object of type [Learner].
-#' @param resampling ([Resampling]):\cr
+#' @param resampling ([Resampling]):
 #'   Object of type [Resampling].
-#' @param measures (`list` of [Measure]):\cr
-#'   List of performance measures used to assess the predictive performance.
-#'   Defaults to the measures stored in `task`.
-#' @param ctrl (named `list()`, e.g. as returned by [mlr_control()]):\cr
+#' @param ctrl (named `list()`, e.g. as returned by [mlr_control()]):
 #'   Object to control various parts of the execution. See [mlr_control()].
 #' @return [ResampleResult].
 #' @export
@@ -40,31 +37,27 @@
 #' \dontshow{
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
-resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
-  assert_task(task)
+resample = function(task, learner, resampling, ctrl = list()) {
+  task = assert_task(task)$clone(deep = TRUE)
   assert_learner(learner, task = task)
   assert_resampling(resampling)
-  if (is.null(measures))
-    measures = task$measures
-  assert_measures(measures, task = task)
+  measures = assert_measures(task$measures, task = task)
   ctrl = mlr_control(ctrl)
 
-  if (resampling$is_instantiated) {
-    instance = resampling$clone()
-  } else {
-    instance = resampling$instantiate(task)
-  }
+  instance = resampling$clone()
+  if (!instance$is_instantiated)
+    instance = instance$instantiate(task)
   n = instance$iters
 
   if (future_remote()) {
     log_debug("Running resample() via future with %i iterations", n, namespace = "mlr3")
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = ctrl,
+      task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl,
       remote = TRUE, future.globals = FALSE, future.packages = "mlr3")
   } else {
     log_debug("Running resample() sequentially with %i iterations", n, namespace = "mlr3")
     res = lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = resampling, measures = measures, ctrl = ctrl)
+      task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl)
   }
 
   res = combine_experiments(res)

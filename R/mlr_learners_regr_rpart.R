@@ -1,12 +1,11 @@
 #' @title Regression Tree Learner
 #'
-#' @name mlr_learners_regr_rpart
+#' @name mlr_learners_regr.rpart
 #' @format [R6::R6Class] inheriting from [LearnerRegr].
 #' @description
 #' A learner for a regression tree implemented in [rpart::rpart].
-#' @export
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_learners_regr_rpart.html)
 #' @include LearnerRegr.R
+#' @export
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(
     initialize = function(id = "regr.rpart") {

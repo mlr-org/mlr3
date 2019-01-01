@@ -1,16 +1,16 @@
 #' @title Classification Measure
 #'
-#' @format [R6Class] object
+#' @name MeasureClassif
+#' @format [R6Class] object inheriting from [Measure].
 #' @description
 #' This task specializes [Measure] for classification problems.
 #'
 #' @section Usage:
-#' Inherits from [Measure].
+#' See [Measure].
 #'
 #' @section Details:
-#' * `$task_type` is `"classif"`.
+#' `$task_type` is `"classif"`.
 #'
-#' @name MeasureClassif
 #' @family Measure
 NULL
 

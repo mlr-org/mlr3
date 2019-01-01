@@ -160,10 +160,6 @@
 
     <p>R6Class object</p>
     
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://mlr3.mlr-org.com/reference/mlr_resamplings_cv.html'>HTML help page</a></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
@@ -173,35 +169,28 @@
 <span class='co'># Instantiate Resampling</span>
 <span class='no'>rcv</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)
 <span class='no'>rcv</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='no'>rcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 3 iterations
-#&gt; Instantiated: TRUE
-#&gt; Parameters: folds=3
-#&gt; 
-#&gt; Public: clone, format, has_duplicates, hash, id, instance,
-#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
-#&gt;   test_set, train_set</div><div class='input'>
+<span class='no'>rcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
+
 <span class='co'># Individual sets:</span>
-<span class='no'>rcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  2  8  3  6 10</div><div class='input'><span class='no'>rcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 4 5 7 9</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='no'>rcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  5  8 10  3  7  9</div><div class='input'><span class='no'>rcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 2 4 6</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
 <span class='no'>rcv</span>$<span class='no'>instance</span> <span class='co'># table</span></div><div class='output co'>#&gt;     row_id fold
-#&gt;  1:      4    1
-#&gt;  2:      5    1
-#&gt;  3:      7    1
-#&gt;  4:      9    1
-#&gt;  5:      1    2
-#&gt;  6:      2    2
-#&gt;  7:      8    2
+#&gt;  1:      1    1
+#&gt;  2:      2    1
+#&gt;  3:      4    1
+#&gt;  4:      6    1
+#&gt;  5:      5    2
+#&gt;  6:      8    2
+#&gt;  7:     10    2
 #&gt;  8:      3    3
-#&gt;  9:      6    3
-#&gt; 10:     10    3</div></pre>
+#&gt;  9:      7    3
+#&gt; 10:      9    3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
-
-      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

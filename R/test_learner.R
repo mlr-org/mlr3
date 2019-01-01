@@ -3,8 +3,7 @@
 #' @description
 #' A learner is tested on many different tasks which cover the learner's specified feature types and properties.
 #'
-#' @param learner ([Learner]):\cr
-#'   Object of type [Learner].
+#' @param learner ([Learner]).
 #' @return None.
 #' @export
 #' @examples

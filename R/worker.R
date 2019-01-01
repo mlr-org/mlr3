@@ -91,9 +91,9 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
 
   # Create a new experiment
   # Results will be inserted into e$data in a piecemeal fashion
-  e = Experiment$new(task, learner, resampling = resampling, iteration = iteration, measures = measures)
+  e = as_experiment(task = task, learner = learner, resampling = resampling, iteration = iteration, measures = measures)
 
-  log_info("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
+  log_info("Running learner '%s' on task '%s' (iteration %i/%i)'", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
 
   tmp = train_worker(e, ctrl)
   e$data = insert_named(e$data, tmp)

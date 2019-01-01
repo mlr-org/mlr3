@@ -7,7 +7,6 @@
 #' Calls [Metrics::mse].
 #'
 #' @export
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_measures_mse.html)
 #' @include MeasureRegr.R
 MeasureRegrMSE = R6Class("MeasureRegrMSE",
   inherit = MeasureRegr,

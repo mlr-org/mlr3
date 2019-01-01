@@ -7,9 +7,8 @@
 #' @description
 #' Cross validation with `folds` folds (default: 10).
 #'
-#' @export
 #' @include Resampling.R
-#' @references [HTML help page](https://mlr3.mlr-org.com/reference/mlr_resamplings_cv.html)
+#' @export
 #' @examples
 #' # Create a task with 10 observations
 #' task = mlr_tasks$get("iris")
@@ -35,22 +34,6 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
         param_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L, tags = "required"))),
         param_vals = list(folds = 10L)
       )
-      self$has_duplicates = FALSE
-    },
-
-    instantiate = function(task, ...) {
-      assert_task(task)
-      private$.instantiate(instantiate_cv(task, self$param_vals$folds, self$stratify))
-    },
-
-    train_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance[!list(i), "row_id", on = "fold"][[1L]]
-    },
-
-    test_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance[list(i), "row_id", on = "fold"][[1L]]
     }
   ),
 
@@ -58,30 +41,31 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     iters = function() {
       self$param_vals$folds
     }
+  ),
+
+  private = list(
+    .sample = function(ids) {
+      data.table(
+        row_id = ids,
+        fold = shuffle(seq_along0(ids) %% self$param_vals$folds + 1L),
+        key = "fold"
+      )
+    },
+
+    .get_train = function(i) {
+      self$instance[!list(i), "row_id", on = "fold"][[1L]]
+    },
+
+    .get_test = function(i) {
+      self$instance[list(i), "row_id", on = "fold"][[1L]]
+    },
+
+    .combine = function(instances) {
+      rbindlist(instances)
+    }
   )
 )
 
 
 #' @include mlr_resamplings.R
 mlr_resamplings$add("cv", ResamplingCV)
-
-
-resample_cv = function(ids, folds) {
-  data.table(
-    row_id = ids,
-    fold = shuffle(seq_along0(ids) %% folds + 1L),
-    key = "fold"
-  )
-}
-
-
-instantiate_cv = function(task, folds, stratify = character(0L)) {
-  if (length(stratify) == 0L) {
-    res = resample_cv(task$row_ids[[1L]], folds)
-  } else {
-    grps = stratify_groups(task, stratify = stratify, min_group_size = folds)
-    res = map_dtr(grps$..row_id, resample_cv, folds = folds)
-  }
-
-  setkeyv(res, "fold")[]
-}
