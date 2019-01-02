@@ -425,19 +425,14 @@ expect_learner_fits = function(learner, task) {
   learner = learner$clone()
   learner$fallback = mlr_learners$get(sprintf("%s.featureless", task$task_type))
 
-  # we just use the last 5 obs for test
-  N = task$nrow
-  train_set = seq_len(N - 5L)
-  test_set = seq(N - 4L, N)
-
   e = Experiment$new(task, learner, ctrl = list(encapsulate_train = "evaluate", encapsulate_predict = "evaluate"))
   testthat::expect_equal(as.character(e$state), "defined", info = info)
 
-  e$train(train_set)
+  e$train()
   testthat::expect_false(e$has_errors, info = info)
   testthat::expect_equal(as.character(e$state), "trained", info = info)
 
-  e$predict(test_set)
+  e$predict()
   testthat::expect_equal(as.character(e$state), "predicted", info = info)
   checkmate::expect_class(e$prediction, "Prediction", info = info)
   testthat::expect_false(e$has_errors, info = info)
