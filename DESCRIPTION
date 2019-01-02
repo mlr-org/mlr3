@@ -41,8 +41,7 @@ Imports:
     Metrics,
     mlr3misc,
     paradox,
-    R6,
-    testthat
+    R6
 Suggests:
     callr,
     datasets,
@@ -57,6 +56,7 @@ Suggests:
     mlbench,
     rmarkdown,
     rpart,
+    testthat,
     titanic,
     withr
 VignetteBuilder:

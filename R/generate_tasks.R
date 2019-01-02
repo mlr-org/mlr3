@@ -19,6 +19,7 @@ generate_tasks = function(learner, N = 20L) {
   UseMethod("generate_tasks")
 }
 
+#' @export
 generate_tasks.LearnerClassif = function(learner, N = 20L) {
   binary = ("multiclass" %nin% learner$properties)
   target = rep_len(head(LETTERS, 2L + !binary), N)
@@ -28,6 +29,7 @@ generate_tasks.LearnerClassif = function(learner, N = 20L) {
   generate_generic_tasks(learner, task)
 }
 
+#' @export
 generate_tasks.LearnerRegr = function(learner, N = 20L) {
   target = rnorm(N)
   data = cbind(data.table(target = target), generate_data(learner, N))
