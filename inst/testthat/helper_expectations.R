@@ -416,3 +416,41 @@ expect_log = function(log) {
   checkmate::expect_character(log$warnings, any.missing = FALSE)
   checkmate::expect_character(log$errors, any.missing = FALSE)
 }
+
+expect_learner_fits = function(learner, task) {
+  assert_task(task)
+  assert_learner(learner, task = task)
+  info = sprintf("learner '%s' on task '%s'", learner$id, task$id)
+
+  learner = learner$clone()
+  learner$fallback = mlr_learners$get(sprintf("%s.featureless", task$task_type))
+
+  # we just use the last 5 obs for test
+  N = task$nrow
+  train_set = seq_len(N - 5L)
+  test_set = seq(N - 4L, N)
+
+  e = Experiment$new(task, learner, ctrl = list(encapsulate_train = "evaluate", encapsulate_predict = "evaluate"))
+  testthat::expect_equal(as.character(e$state), "defined", info = info)
+
+  e$train(train_set)
+  testthat::expect_false(e$has_errors, info = info)
+  testthat::expect_equal(as.character(e$state), "trained", info = info)
+
+  e$predict(test_set)
+  testthat::expect_equal(as.character(e$state), "predicted", info = info)
+  checkmate::expect_class(e$prediction, "Prediction", info = info)
+  testthat::expect_false(e$has_errors, info = info)
+  checkmate::expect_data_table(as.data.table(e$prediction), any.missing = FALSE, info = info)
+
+  e$score()
+  testthat::expect_equal(as.character(e$state), "scored", info = info)
+  checkmate::expect_number(e$performance, info = info)
+}
+
+expect_autotest = function(learner, exclude = character(0L)) {
+  tasks = mlr3misc::remove_named(generate_tasks(learner), exclude)
+  for (task in tasks) {
+    expect_learner_fits(learner, task)
+  }
+}

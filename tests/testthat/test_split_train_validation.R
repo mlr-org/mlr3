@@ -7,5 +7,5 @@ test_that("Simple validation", {
   e = Experiment$new(task = task, learner = learner)
   e$train()
   expect_integer(e$train_set, len = task$nrow, unique = TRUE, any.missing = FALSE)
-  # expect_integer(e$validation_set, len = 15L, unique = TRUE, any.missing = FALSE)
+  expect_integer(e$validation_set, len = 15L, unique = TRUE, any.missing = FALSE)
 })
