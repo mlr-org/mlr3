@@ -103,6 +103,7 @@ Collate:
     'assertions.R'
     'benchmark.R'
     'encapsulate.R'
+    'generate_tasks.R'
     'helper.R'
     'helper_future.R'
     'helper_print.R'
