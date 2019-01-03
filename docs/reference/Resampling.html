@@ -166,7 +166,7 @@ Predefined resamplings are stored in <a href='mlr_resamplings.html'>mlr_resampli
     <pre># Construction
 r = Resampling$new(id, param_set, param_vals)
     # Members
-r$has_duplicates
+r$duplicated_ids
 r$hash
 r$id
 r$instance
@@ -175,6 +175,7 @@ r$iters
 r$param_set
 r$param_vals
 r$stratify
+r$task_hash
     # Methods
 r$instantiate(task)
 r$test_set(i)
@@ -196,8 +197,8 @@ r$train_set(i)
 
     
     <ul>
-<li><p><code>$has_duplicates</code> is <code>TRUE</code> if the resampling allows observations to be included multiple times in the train set.
-E.g., this is true for bootstraping, but not for cross validation.</p></li>
+<li><p><code>$duplicated_ids</code> is <code>TRUE</code> if the resampling allows observations to be included multiple times in the training set.
+E.g., this is true for bootstrapping, but not for cross validation.</p></li>
 <li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>param_vals</code> and the instantiation.
 If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
 <li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
@@ -211,6 +212,7 @@ This is an arbitrary object, do not work directly with it. Instead, use <code>$t
 <li><p><code>$param_vals</code> (named <code>list</code>) stores the currently set parameter values.
 You can set parameters by assigning a named list of new parameters to this slot.</p></li>
 <li><p><code>$stratify</code> can be set to column names of the <a href='Task.html'>Task</a> which will be used for stratification during instantiation.</p></li>
+<li><p><code>$task_hash</code> stores the hash of the task for which the resampling has been instantiated.</p></li>
 <li><p><code>$test_set()</code> returns the test set for the <code>i</code>-th iteration.</p></li>
 <li><p><code>$train_set()</code> returns the training set for the <code>i</code>-th iteration.</p></li>
 </ul>
@@ -240,13 +242,8 @@ You can set parameters by assigning a named list of new parameters to this slot.
 #&gt; </div><div class='input'>
 <span class='co'># Instantiate on iris task</span>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)
-<span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;ResamplingSubsampling&gt; with 3 iterations
-#&gt; Instantiated: TRUE
-#&gt; Parameters: ratio=0.1, repeats=3
-#&gt; 
-#&gt; Public: clone, format, has_duplicates, hash, id, instance,
-#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
-#&gt;   test_set, train_set</div><div class='input'>
+<span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
+
 <span class='co'># Extract train/test sets</span>
 <span class='no'>train_set</span> <span class='kw'>=</span> <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]  19  23  30  32  35  40  49  53  55  70  79  80 112 115 140</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
@@ -267,13 +264,8 @@ You can set parameters by assigning a named list of new parameters to this slot.
 #&gt; 0.6510417 0.3489583 </div><div class='input'>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"subsampling"</span>)
 <span class='no'>r</span>$<span class='no'>stratify</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>target_names</span> <span class='co'># stratify on target column</span>
-<span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;ResamplingSubsampling&gt; with 30 iterations
-#&gt; Instantiated: TRUE
-#&gt; Parameters: repeats=30, ratio=0.67
-#&gt; 
-#&gt; Public: clone, format, has_duplicates, hash, id, instance,
-#&gt;   instantiate, is_instantiated, iters, param_set, param_vals, stratify,
-#&gt;   test_set, train_set</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
+<span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 
 #&gt; 0.6504854 0.3495146 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion # FIXME why two times?</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 

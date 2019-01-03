@@ -34,47 +34,32 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
         param_set = ParamSet$new(params = list(ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))),
         param_vals = list(ratio = 2/3)
       )
-      self$has_duplicates = FALSE
-    },
-
-    instantiate = function(task, ...) {
-      assert_task(task)
-      private$.instantiate(instantiate_holdout(task, self$param_vals$ratio, stratify = self$stratify))
-    },
-
-    train_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$train
-    },
-
-    test_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$test
     },
 
     iters = 1L
+  ),
+
+  private = list(
+    .sample = function(ids) {
+      nr = round(length(ids) * self$param_vals$ratio)
+      ii = shuffle(ids, nr)
+      list(train = ii, test = setdiff(ids, ii))
+    },
+
+    .get_train = function(i) {
+      self$instance$train
+    },
+
+    .get_test = function(i) {
+      self$instance$test
+    },
+
+    .combine = function(instances) {
+      list(train = do.call(c, map(instances, "train")), test = do.call(c, map(instances, "test")))
+    }
   )
 )
 
 
 #' @include mlr_resamplings.R
 mlr_resamplings$add("holdout", ResamplingHoldout)
-
-
-resample_holdout = function(ids, ratio) {
-  nr = round(length(ids) * ratio)
-  ii = shuffle(ids, nr)
-  list(train = ii, test = setdiff(ids, ii))
-}
-
-
-instantiate_holdout = function(task, ratio, stratify = character(0L)) {
-  if (length(stratify) == 0L) {
-    res = resample_holdout(task$row_ids[[1L]], ratio)
-  } else {
-    grps = stratify_groups(task, stratify = stratify)
-    res = lapply(grps$..row_id, resample_holdout, ratio = ratio)
-    res = list(train = do.call(c, map(res, "train")), test = do.call(c, map(res, "test")))
-  }
-  res
-}

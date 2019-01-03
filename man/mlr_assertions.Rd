@@ -27,7 +27,7 @@ assert_measure(measure, task = NULL, prediction = NULL)
 
 assert_measures(measures, task = NULL, prediction = NULL)
 
-assert_resampling(resampling)
+assert_resampling(resampling, instantiated = NULL)
 
 assert_resample_result(resample_result)
 

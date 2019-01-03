@@ -102,8 +102,15 @@ assert_measures = function(measures, task = NULL, prediction = NULL) {
 #' @export
 #' @param resampling ([Resampling]).
 #' @rdname mlr_assertions
-assert_resampling = function(resampling) {
+assert_resampling = function(resampling, instantiated = NULL) {
   assert_class(resampling, "Resampling")
+  if (!is.null(instantiated)) {
+    if (instantiated && !resampling$is_instantiated)
+      stopf("Resampling '%s' must be instantiated", resampling$id)
+    if (!instantiated && resampling$is_instantiated)
+      stopf("Resampling '%s' may not be instantiated", resampling$id)
+  }
+  invisible(resampling)
 }
 
 #' @export
@@ -146,12 +153,6 @@ assert_id = function(id) {
 
 assert_set = function(x, empty = TRUE) {
   assert_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE)
-}
-
-assert_resampling_index = function(resampling, i) {
-  if (!resampling$is_instantiated)
-    stopf("Resampling %s has not been instantiated yet", resampling$id)
-  assert_int(i, lower = 1L, upper = resampling$iters, coerce = TRUE)
 }
 
 assert_range = function(range) {

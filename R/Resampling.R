@@ -12,7 +12,7 @@
 #' r = Resampling$new(id, param_set, param_vals)
 #'
 #' # Members
-#' r$has_duplicates
+#' r$duplicated_ids
 #' r$hash
 #' r$id
 #' r$instance
@@ -21,6 +21,7 @@
 #' r$param_set
 #' r$param_vals
 #' r$stratify
+#' r$task_hash
 #'
 #' # Methods
 #' r$instantiate(task)
@@ -36,8 +37,8 @@
 #' * `i` (`integer(1)`): Get the `i`-th training/test set.
 #'
 #' @section Details:
-#' * `$has_duplicates` is `TRUE` if the resampling allows observations to be included multiple times in the train set.
-#'   E.g., this is true for bootstraping, but not for cross validation.
+#' * `$duplicated_ids` is `TRUE` if the resampling allows observations to be included multiple times in the training set.
+#'   E.g., this is true for bootstrapping, but not for cross validation.
 #' * `$hash` (`character(1)`) stores a checksum calculated on the `id`, `param_vals` and the instantiation.
 #'   If the object is not instantiated yet, `NA` is returned.
 #' * `$id` (`character(1)`) stores the identifier of the object.
@@ -51,6 +52,7 @@
 #' * `$param_vals` (named `list`) stores the currently set parameter values.
 #'    You can set parameters by assigning a named list of new parameters to this slot.
 #' * `$stratify` can be set to column names of the [Task] which will be used for stratification during instantiation.
+#' * `$task_hash` stores the hash of the task for which the resampling has been instantiated.
 #' * `$test_set()` returns the test set for the `i`-th iteration.
 #' * `$train_set()` returns the training set for the `i`-th iteration.
 #'
@@ -94,15 +96,17 @@ Resampling = R6Class("Resampling",
   public = list(
     id = NULL,
     param_set = NULL,
-    stratify = NULL,
     instance = NULL,
-    has_duplicates = NA,
+    task_hash = NA_character_,
+    stratify = NULL,
+    duplicated_ids = NULL,
 
-    initialize = function(id, param_set = ParamSet$new(), param_vals = list()) {
+    initialize = function(id, param_set = ParamSet$new(), param_vals = list(), duplicated_ids = FALSE) {
       self$id = assert_id(id)
       self$param_set = assert_param_set(param_set)
       private$.param_vals = assert_param_vals(param_vals, param_set)
       self$stratify = character(0L)
+      self$duplicated_ids = assert_flag(duplicated_ids)
     },
 
     format = function() {
@@ -115,6 +119,38 @@ Resampling = R6Class("Resampling",
       catf(str_indent("Instantiated:", self$is_instantiated))
       catf(str_indent("Parameters:", as_short_string(pv, 1000L)))
       catf(str_indent("\nPublic:", setdiff(ls(self), c("initialize", "print"))))
+    },
+
+    instantiate = function(task) {
+      assert_task(task)
+      groups = task$groups
+
+      if (length(self$stratify) == 0L) {
+        if (is.null(groups)) {
+          instance = private$.sample(task$row_ids[[1L]])
+        } else {
+          private$.groups = groups
+          instance = private$.sample(unique(groups$groups))
+        }
+      } else {
+        if (!is.null(groups))
+          stopf("Cannot combine stratification with grouping")
+        instances = stratify(task, self$stratify)
+        instance = private$.combine(lapply(instances$..row_id, private$.sample))
+      }
+
+      self$instance = instance
+      self$task_hash = task$hash
+      private$.hash = NA_character_
+      invisible(self)
+    },
+
+    train_set = function(i) {
+      private$.get_set(private$.get_train, i)
+    },
+
+    test_set = function(i) {
+      private$.get_set(private$.get_test, i)
     }
   ),
 
@@ -139,29 +175,22 @@ Resampling = R6Class("Resampling",
   ),
 
   private = list(
-    .hash = NA_character_,
     .param_vals = NULL,
-    .instantiate = function(instance) {
-      self$instance = instance
-      private$.hash = NA_character_
-      self
+    .hash = NA_character_,
+    .groups = NULL,
+    .get_set = function(getter, i) {
+      if (!self$is_instantiated)
+        stopf("Resampling '%s' has not been instantiated yet", self$id)
+      i = assert_int(i, lower = 1L, upper = self$iters, coerce = TRUE)
+      ids = getter(i)
+
+      if (is.null(private$.groups)) ids else private$.groups[ids, on = "groups"][[1L]]
     }
   )
 )
 
-stratify_groups = function(task, stratify, min_group_size = 0L) {
+stratify = function(task, stratify) {
   assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)
   row_ids = task$row_ids[[1L]]
-  grps = cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
-  if (min_group_size > 0L) {
-    ii = wf(grps$..N < min_group_size)
-    if (length(ii)) {
-      tmp = as.list(grps[ii, stratify, with = FALSE])
-      stopf("Cannot stratify: combination %s has only %i observations",
-        paste0(sprintf("[%s == '%s']", names(tmp), tmp), collapse = "x"),
-        grps$..N[ii]
-      )
-    }
-  }
-  grps
+  cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
 }

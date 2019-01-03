@@ -26,25 +26,18 @@
 ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   public = list(
     initialize = function(id = "custom") {
-      super$initialize(id = id)
-      self$has_duplicates = NA
+      super$initialize(id = id, duplicated_ids = TRUE)
     },
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
       assert_task(task)
       if (length(self$stratify))
         stopf("Cannot stratify custom resampling")
-      private$.instantiate(instantiate_custom(self$instance, train_sets, test_sets))
-    },
 
-    train_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$train[[i]]
-    },
-
-    test_set = function(i) {
-      i = assert_resampling_index(self, i)
-      self$instance$test[[i]]
+      self$instance = instantiate_custom(self$instance, train_sets, test_sets)
+      self$task_hash = task$hash
+      private$.hash = NA_character_
+      invisible(self)
     }
   ),
 
@@ -57,6 +50,16 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
       if (is.null(self$instance$test))
         return(NA_character_)
       super$hash
+    }
+  ),
+
+  private = list(
+    .get_train = function(i) {
+      self$instance$train[[i]]
+    },
+
+    .get_test = function(i) {
+      self$instance$test[[i]]
     }
   )
 )

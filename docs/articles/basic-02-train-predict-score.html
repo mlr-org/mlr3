@@ -149,7 +149,8 @@
 <ol style="list-style-type: decimal">
 <li>
 <p>The classification task</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(mlr3)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a></code></pre></div>
 </li>
 <li>
 <p>A learner for the classification tree</p>
@@ -231,14 +232,15 @@
 <a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;   model, performance, predict(), prediction, score(), state, task,</span></a>
 <a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;   test_set, timings, train_set, train(), validation_set</span></a></code></pre></div>
 <p>The predictions can be retrieved as a simple <code>data.table</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="../reference/as.data.table.html">as.data.table</a></span>(e<span class="op">$</span>prediction))</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt;    row_id response  truth</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; 1:      2   setosa setosa</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 2:      4   setosa setosa</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 3:     10   setosa setosa</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 4:     21   setosa setosa</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 5:     22   setosa setosa</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 6:     31   setosa setosa</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(data.table)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="../reference/as.data.table.html">as.data.table</a></span>(e<span class="op">$</span>prediction))</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    row_id response  truth</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 1:      2   setosa setosa</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 2:      4   setosa setosa</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 3:     10   setosa setosa</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 4:     21   setosa setosa</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 5:     22   setosa setosa</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; 6:     31   setosa setosa</span></a></code></pre></div>
 </div>
 <div id="performance-assessment" class="section level2">
 <h2 class="hasAnchor">
