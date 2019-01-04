@@ -59,7 +59,12 @@ predict_worker = function(e, ctrl) {
   enc = encapsulate(ctrl$encapsulate_predict)
   res = set_names(enc(learner$predict, list(task = task), learner$packages),
     c("prediction", "predict_log", "predict_time"))
-  assert_class(res$prediction, "Prediction")
+  if (!res$predict_log$has_condition("error")) {
+    if (!inherits(res$prediction, "Prediction")) {
+      res$predict_log$append("error", "predict() did not return a  Prediction object")
+      res["prediction"] = list(NULL)
+    }
+  }
 
   # result is list(prediction, predict_log, predict_time)
   return(res)

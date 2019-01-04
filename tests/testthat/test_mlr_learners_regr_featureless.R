@@ -27,3 +27,8 @@ test_that("Predict with se", {
   e = Experiment$new(task, learner)$train()$predict()
   expect_numeric(e$data$prediction$se, len = task$nrow, any.missing = FALSE, lower = 0)
 })
+
+test_that("autotest", {
+  learner = mlr_learners$get("regr.featureless")
+  expect_autotest(learner)
+})

@@ -321,7 +321,7 @@ Task = R6Class("Task",
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
-      value
+      if (name == "col_info") copy(value) else value
     }
   )
 )
@@ -384,7 +384,7 @@ col_info = function(x, ...) {
 }
 
 col_info.data.table = function(x, primary_key = character(0L), ...) {
-  types = map_chr(x, class)
+  types = map_chr(x, function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("character", "factor")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
