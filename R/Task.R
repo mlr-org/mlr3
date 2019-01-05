@@ -321,6 +321,7 @@ Task = R6Class("Task",
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
+      # TODO: check if we can assume col_info to be read-only
       if (name == "col_info") copy(value) else value
     }
   )
