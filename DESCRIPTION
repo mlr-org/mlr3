@@ -62,7 +62,6 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
-    daroczig/logger,
     mllg/checkmate,
     mlr-org/mlr3misc,
     mlr-org/paradox
