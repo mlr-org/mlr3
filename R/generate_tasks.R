@@ -22,7 +22,7 @@ generate_tasks = function(learner, N = 20L) {
 #' @export
 generate_tasks.LearnerClassif = function(learner, N = 20L) {
   binary = ("multiclass" %nin% learner$properties)
-  target = rep_len(head(LETTERS, 2L + !binary), N)
+  target = factor(rep_len(head(LETTERS, 2L + !binary), N))
   data = cbind(data.table(target = target), generate_data(learner, N))
   task = TaskClassif$new("proto", as_data_backend(data), target = "target", positive = if (binary) "A" else NULL)
 
