@@ -34,23 +34,31 @@ test_that("inputs are cloned", {
   expect_different_address(learner, e$learner)
 })
 
-test_that("$predict()", {
+test_that("$train() + $predict()", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
-  row_ids = 1:120
-  e = Experiment$new(task = task, learner = learner)
+  row_ids = 1:100
+  e = Experiment$new(task, learner)
+
   e$train(row_ids)
-  e$predict(row_ids = 101:150)
-  e$score()
+  expect_set_equal(e$train_set, row_ids)
+  expect_class(e$model, "featureless")
+  expect_class(e$model, "featureless")
+  expect_equal(task$nrow, 150L)
+  expect_equal(e$data$task$nrow, 150L)
 
-  expect_r6(e, "Experiment")
-  expect_false(e$has_errors)
-  expect_integer(e$test_set, len = 50L, unique = TRUE, any.missing = FALSE)
-
-  e$predict(row_ids = 101:150)
-  expect_null(e$data$performance) # performance is reset?
-
+  e$predict(1:10)
+  expect_set_equal(e$test_set, 1:10)
+  expect_data_table(as.data.table(e$prediction), nrow = 10L, any.missing = FALSE)
+  expect_data_frame(as.data.frame(e$prediction), nrow = 10L, any.missing = FALSE)
+  expect_equal(task$nrow, 150L)
+  expect_equal(e$data$task$nrow, 150L)
   expect_class(e$prediction, "Prediction")
-  expect_data_table(as.data.table(e$prediction), nrow = 50)
-  expect_data_frame(as.data.frame(e$prediction), nrow = 50)
+
+  expect_null(e$data$performance) # performance is unset?
+  e$score()
+  expect_number(e$performance)
+  e$predict(row_ids = 101:150) # performance is reset?
+
+  expect_experiment(e)
 })
