@@ -113,7 +113,13 @@ assert_param_set = function(param_set) {
 #' @rdname mlr_assertions
 assert_param_vals = function(param_vals, param_set) {
   assert_list(param_vals, names = "unique", any.missing = FALSE)
+  npv = names(param_vals)
+  i = wf(npv %nin% param_set$ids())
+  if (length(i))
+    stopf("Parameter '%s' not available.%s", npv[i], did_you_mean(npv[i], param_set$ids()))
+
   param_set$assert(param_vals, .var.name = "param_vals")
+  # FIXME: This should go into paradox?
   required = names(which(map_lgl(param_set$tags, is.element, el = "required")))
   required = setdiff(required, names(param_vals))
   if (length(required))
