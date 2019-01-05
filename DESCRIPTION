@@ -129,6 +129,5 @@ Collate:
     'mlr_tasks.R'
     'reexports.R'
     'resample.R'
-    'split_train_validation.R'
     'worker.R'
     'zzz.R'
