@@ -21,7 +21,7 @@ test_that("param_vals", {
 
   expect_error({
     r$param_vals = list(ratio = 0.5, repeats = 10L, foobar = 12)
-  }, "subset")
+  }, "foobar")
 })
 
 test_that("hashing", {
