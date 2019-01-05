@@ -379,13 +379,17 @@ task_print = function(self) {
   catf(str_indent("\nPublic:", str_r6_interface(self)))
 }
 
+# collect column information of a backend.
+# This currently includes:
+# * storage type
+# * levels (for character / factor / ordered), but not for the primary key column
 col_info = function(x, ...) {
   UseMethod("col_info")
 }
 
 col_info.data.table = function(x, primary_key = character(0L), ...) {
   types = map_chr(x, function(x) class(x)[1L])
-  discrete = setdiff(names(types)[types %in% c("character", "factor")], primary_key)
+  discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
