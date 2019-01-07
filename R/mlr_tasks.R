@@ -96,7 +96,7 @@ mlr_tasks$add("pima", function() {
 #' @description
 #' A classification task for the [mlbench::Zoo] data set.
 mlr_tasks$add("zoo", function() {
-  b = as_data_backend(load_dataset("Zoo", "mlbench", keep.rownames = TRUE))
+  b = as_data_backend(load_dataset("Zoo", "mlbench", keep_rownames = TRUE))
   TaskClassif$new("zoo", b, target = "type")
 })
 
