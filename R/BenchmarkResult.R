@@ -155,7 +155,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
           as.list(x$aggregated))
       }
       res = self$data[, list(resample_result = list(ResampleResult$new(.SD))), by = hash]
-      ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
+      res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
     }
   ),
 

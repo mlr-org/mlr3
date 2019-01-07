@@ -20,7 +20,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       tab = private$.data$b1$data(rows, cols)
 
       if (ncol(tab) < length(cols))
-        ref_cbind(tab, remove_named(private$.data$b2$data(rows, cols), self$primary_key))
+        tab = ref_cbind(tab, remove_named(private$.data$b2$data(rows, cols), self$primary_key))
       return(tab)
     },
 

@@ -19,3 +19,10 @@ test_that("DataBackendCbind", {
   x = b$missing(b$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })
+
+test_that("issue #124", {
+  task = mlr_tasks$get("iris")
+  newcols = cbind(data.table(col = 1:150), task$row_ids)
+  task$select(character(0))$cbind(newcols)
+  expect_data_table(task$data(cols = "col"), ncol = 1L, nrow = 150L)
+})

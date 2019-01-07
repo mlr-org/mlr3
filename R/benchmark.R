@@ -92,7 +92,7 @@ benchmark = function(design, ctrl = list()) {
   }
 
   remove_named(grid, c("iter", "learner"))
-  ref_cbind(grid, combine_experiments(tmp))
+  grid = ref_cbind(grid, combine_experiments(tmp))
 
   log_info("Finished benchmark", namespace = "mlr3")
   BenchmarkResult$new(grid)
