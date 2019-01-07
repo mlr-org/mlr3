@@ -319,7 +319,8 @@ expect_experiment = function(e) {
     checkmate::expect_class(e$data$predict_log, "Log")
     checkmate::expect_number(e$data$predict_time)
     checkmate::expect_class(e$data$prediction, "Prediction")
-    checkmate::expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
+    if (e$task$task_type %in% c("classif", "regr"))
+      checkmate::expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
   }
 
   if (state >= "scored") {
