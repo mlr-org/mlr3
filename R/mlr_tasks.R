@@ -53,17 +53,6 @@ as.data.table.DictionaryTask = function(x, ...) {
   }), "id")[]
 }
 
-load_dataset = function(id, package, keep.rownames = FALSE) {
-  if (!length(find.package(package, quiet = TRUE)))
-    stopf("Please install package '%s' for data set '%s'", package, id)
-  ee = new.env(parent = emptyenv())
-  data(list = id, package = package, envir = ee)
-  if (!keep.rownames)
-    rownames(ee[[id]]) = NULL
-  ee[[id]]
-}
-
-
 #' @title Iris Classification Task
 #' @name mlr_tasks_iris
 #' @description
