@@ -35,7 +35,7 @@ task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 resampling = mlr_resamplings$get("cv")
 rr = resample(task, learner, resampling)
-print(rr)
+print(rr, digits = 2)
 rr$aggregated
 rr$performance("mmce")
 
