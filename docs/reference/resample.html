@@ -192,8 +192,8 @@ Object to control various parts of the execution. See <code><a href='mlr_control
 <span class='no'>resampling</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 10 iterations
-#&gt;  Measure Min.    1st Qu.     Median       Mean   3rd Qu.      Max.         Sd
-#&gt;     mmce    0 0.06666667 0.06666667 0.07333333 0.1166667 0.1333333 0.04919099</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;       mmce 
+#&gt;  Measure Min. 1st Qu.  Median    Mean 3rd Qu.   Max.      Sd
+#&gt;     mmce    0 0.06667 0.06667 0.07333  0.1167 0.1333 0.04919</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;       mmce 
 #&gt; 0.07333333 </div><div class='input'><span class='no'>rr</span>$<span class='fu'>performance</span>(<span class='st'>"mmce"</span>)</div><div class='output co'>#&gt;  [1] 0.00000000 0.13333333 0.06666667 0.06666667 0.06666667 0.13333333
 #&gt;  [7] 0.06666667 0.06666667 0.13333333 0.00000000</div><div class='input'>
 <span class='co'># Repeat resampling with featureless learner and combine</span>

@@ -180,10 +180,8 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris' (iteration 1/1)'</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 1 iterations</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  Measure       Min.    1st Qu.     Median       Mean    3rd Qu.       Max.</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;     mmce 0.03333333 0.03333333 0.03333333 0.03333333 0.03333333 0.03333333</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  Sd</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  NA</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  Measure    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. Sd</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;     mmce 0.03333 0.03333 0.03333 0.03333 0.03333 0.03333 NA</span></a></code></pre></div>
 <p>Before we go into more detail, let’s change the resampling to a 3-fold cross-validation to better illustrate what operations are possible with a resampling result.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"cv"</span>)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">resampling<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">folds =</span> <span class="dv">3</span>)</a>
@@ -193,8 +191,8 @@
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris' (iteration 3/3)'</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 3 iterations</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  Measure Min. 1st Qu. Median Mean 3rd Qu. Max.         Sd</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;     mmce    0    0.04   0.08 0.06    0.09  0.1 0.05291503</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  Measure Min. 1st Qu. Median Mean 3rd Qu. Max.      Sd</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;     mmce    0    0.04   0.08 0.06    0.09  0.1 0.05292</span></a></code></pre></div>
 <p>We can do different things with resampling results, e.g.:</p>
 <ul>
 <li>Extract the performance for the individual resampling iterations:</li>
