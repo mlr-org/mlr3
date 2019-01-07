@@ -78,6 +78,7 @@ Collate:
     'DataBackendMatrix.R'
     'DataBackendOverwrite.R'
     'DataBackendRbind.R'
+    'DataBackendReplaceColumns.R'
     'Dictionary.R'
     'Experiment.R'
     'Learner.R'

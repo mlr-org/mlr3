@@ -90,6 +90,15 @@ test_that("overwrite works", {
   expect_true(all(data$Sepal.Length[11:150] > 0))
 })
 
+test_that("replace works", {
+  task = mlr_tasks$get("iris")
+  data = data.table(..row_id = task$row_ids[[1L]], Sepal.Length = -1, Species = "a")
+  task$replace_columns(data)
+  data = task$data()
+  expect_set_equal(distinct(data$Species), "a")
+  expect_true(all(data$Sepal.Length == -1))
+})
+
 test_that("filter works", {
   task = mlr_tasks$get("iris")
   task$filter(1:100)
@@ -137,3 +146,4 @@ test_that("ordered factors (#95)", {
   expect_set_equal(task$col_info[id == "z", levels][[1L]], c("M", "R"))
   expect_set_equal(task$col_info[id == "y", levels][[1L]], letters[1:3])
 })
+

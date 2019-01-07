@@ -40,6 +40,7 @@
 #' t$cbind(data)
 #' t$filter(rows)
 #' t$overwrite(data)
+#' t$replace_columns(data)
 #' t$rbind(data)
 #' t$select(cols)
 #' ```
@@ -115,6 +116,8 @@
 #' * `$levels()` (`character()`) queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
 #'   This function ignores the row roles, so you get all levels found in the [DataBackend].
 #' * `$overwrite()` overwrite the data in the [DataBackend] with data provided as [data.table()].
+#'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
+#' * `$replace_columns()` replaces columns in the [DataBackend] with columns provided in a [data.table()].
 #'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
 #' * `$rbind()` extends the task with additional rows.
 #' * `$select()` reduces the task, subsetting it to only the columns specified.
@@ -225,6 +228,10 @@ Task = R6Class("Task",
 
     overwrite = function(data) {
       task_overwrite(self, data)
+    },
+
+    replace_columns = function(data) {
+      task_replace_columns(self, data)
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {

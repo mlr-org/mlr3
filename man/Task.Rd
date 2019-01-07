@@ -41,6 +41,7 @@ t$set_row_role(rows, new_roles, exclusive = TRUE)
 t$cbind(data)
 t$filter(rows)
 t$overwrite(data)
+t$replace_columns(data)
 t$rbind(data)
 t$select(cols)
 }
@@ -127,6 +128,8 @@ To alter the role, use \code{set_row_role()}.
 \item \code{$levels()} (\code{character()}) queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
 This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
 \item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[=data.table]{data.table()}}.
+The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
+\item \code{$replace_columns()} replaces columns in the \link{DataBackend} with columns provided in a \code{\link[=data.table]{data.table()}}.
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
 \item \code{$rbind()} extends the task with additional rows.
 \item \code{$select()} reduces the task, subsetting it to only the columns specified.
