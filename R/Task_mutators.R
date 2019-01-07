@@ -152,14 +152,11 @@ task_replace_columns = function(self, data) {
   if (length(tmp))
     stopf("Cannot replace columns: Extra columns found: %s", str_collapse(tmp))
 
-  ## 1.3 Check that types are matching
-  data_col_info = col_info(data, primary_key = pk)
-  check_matching_types(self$col_info, data_col_info)
-
   # 2. Overwrite Task
   self$backend = DataBackendReplaceColumns$new(self$backend, DataBackendDataTable$new(data, pk))
 
   # 3. Update column info
+  data_col_info = col_info(data, primary_key = pk)
   self$col_info = setkeyv(rbind(self$col_info[!setdiff(names(data), pk), on = "id"], data_col_info[!pk, on = "id"]), "id")
 
   invisible(self)
