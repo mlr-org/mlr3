@@ -164,12 +164,12 @@ expect_task = function(task) {
 
   checkmate::expect_list(task$col_roles, names = "unique", any.missing = FALSE)
   checkmate::expect_names(names(task$col_roles), permutation.of = mlr3::mlr_reflections$task_col_roles[[task$task_type]])
-  lapply(task$col_roles, expect_character, any.missing = FALSE, unique = TRUE, min.chars = 1L)
+  lapply(task$col_roles, checkmate::expect_character, any.missing = FALSE, unique = TRUE, min.chars = 1L)
   checkmate::expect_subset(unlist(task$col_roles), task$col_info$id)
 
   checkmate::expect_list(task$row_roles, names = "unique", types = c("integer", "character"), any.missing = FALSE)
   checkmate::expect_names(names(task$row_roles), permutation.of = mlr3::mlr_reflections$task_row_roles)
-  lapply(task$row_roles, expect_atomic_vector, any.missing = FALSE, unique = TRUE)
+  lapply(task$row_roles, checkmate::expect_atomic_vector, any.missing = FALSE, unique = TRUE)
 
   types = task$feature_types
   checkmate::expect_data_table(types, ncol = 2, nrow = length(task$feature_names))
@@ -277,7 +277,7 @@ expect_resampling = function(r, task = NULL) {
     }
   }
   checkmate::expect_list(r$param_vals, names = "unique")
-  testthat::expect_true(qtestr(r$param_vals, "V1"))
+  testthat::expect_true(checkmate::qtestr(r$param_vals, "V1"))
 }
 
 expect_measure = function(m) {
