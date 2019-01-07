@@ -118,10 +118,11 @@ expect_iris_backend = function(b, n_missing = 0L) {
   checkmate::expect_set_equal(names(x), c(b$primary_key, "Species", "Sepal.Width"))
   checkmate::expect_set_equal(x[[b$primary_key]], 2:10)
 
-  if (is.factor(x$Species))
+  if (is.factor(x$Species)) {
     checkmate::expect_factor(x$Species, levels = levels(iris$Species))
-  else
+  } else {
     checkmate::expect_character(x$Species, any.missing = FALSE)
+  }
 
   testthat::expect_true(all(x$Species == "setosa"))
   checkmate::expect_numeric(x$Sepal.Width, any.missing = FALSE)
