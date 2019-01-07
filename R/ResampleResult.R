@@ -69,14 +69,14 @@ ResampleResult = R6Class("ResampleResult",
       sprintf("<%s>", class(self)[1L])
     },
 
-    print = function(...) {
+    print = function(digits = 4L, ...) {
       catf("%s of learner '%s' on task '%s' with %i iterations", format(self), self$task$id, self$learner$id, nrow(self$data))
 
       tab = map_dtr(self$measures$measure_id, function(id) {
         perf = self$performance(id)
         c(list(Measure = id), as.list(summary(perf)), list(Sd = sd(perf)))
       })
-      print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE)
+      print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = digits, ...)
     },
 
     performance = function(id) {
