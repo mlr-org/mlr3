@@ -88,16 +88,10 @@ task_cbind = function(self, data) {
   ## 1.1 Check primary key column
   check_new_row_ids(self, data, "setequal")
 
-  ## 1.2 Check that there are no duplicated column names
-  # assert_disjunct
-  tmp = setdiff(intersect(self$col_info$id, names(data)), pk)
-  if (length(tmp)) {
-    stopf("Cannot cbind task: Duplicated column names: %s", str_collapse(tmp))
-  }
-
   # 2. Overwrite self$backend with new backend
   b2 = DataBackendDataTable$new(data, pk)
-  self$backend = DataBackendCbindNew$new(self$backend, b2, unlist(task$col_roles, use.names = FALSE), colnames(data))
+  cols_self = unlist(self$col_roles, use.names = FALSE)
+  self$backend = DataBackendCbind$new(self$backend, b2, cols_self, colnames(data))
 
   # 3. Update col_info
   data_col_info = col_info(data)

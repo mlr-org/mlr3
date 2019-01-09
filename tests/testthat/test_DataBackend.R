@@ -15,7 +15,7 @@ test_that("Nested backends", {
   expect_backend(b5)
 
   b6 = as_data_backend(data[, c("id", "Sepal.Length")], primary_key = "id")
-  b7 = DataBackendCbind$new(b5, b6)
+  b7 = DataBackendCbind$new(b5, b6, b5$colnames, b6$colnames)
   expect_backend(b7)
 
   expect_iris_backend(b7, n_missing = 30L)

@@ -7,7 +7,7 @@ test_that("DataBackendCbind", {
 
   b1 = as_data_backend(data[, -"Sepal.Length"], primary_key = "id")
   b2 = as_data_backend(data[, c("id", "Sepal.Length")], primary_key = "id")
-  b = DataBackendCbind$new(b1, b2)
+  b = DataBackendCbind$new(b1, b2, b1$colnames, b2$colnames)
   expect_backend(b)
   expect_iris_backend(b, n_missing = 30L)
 
@@ -46,6 +46,6 @@ test_that("cbind backends with same columns", {
   rows = 1:10
   cols = b2$colnames
 
-  b = self = DataBackendCbindNew$new(b1, b2, cols_b1, cols_b2)
+  b = self = DataBackendCbind$new(b1, b2, cols_b1, cols_b2)
   expect_backend(b)
 })
