@@ -77,8 +77,8 @@ task_rbind = function(self, data) {
 
 # Performs the following steps to virtually cbind data to the task:
 # 1. Check that an cbind is feasible
-# 2. Update col_info
-# 3. Overwrite self$backend with new backend
+# 2. Overwrite self$backend with new backend
+# 3. Update col_info
 task_cbind = function(self, data) {
   # 1. Check that an cbind is feasible
   assert_data_frame(data, min.rows = 1L, min.cols = 1L)
@@ -95,13 +95,16 @@ task_cbind = function(self, data) {
     stopf("Cannot cbind task: Duplicated column names: %s", str_collapse(tmp))
   }
 
-  # 2. Update col_info
+  # 2. Overwrite self$backend with new backend
+  b2 = DataBackendDataTable$new(data, pk)
+  self$backend = DataBackendCbindNew$new(self$backend, b2, unlist(task$col_roles, use.names = FALSE), colnames(data))
+
+  # 3. Update col_info
   data_col_info = col_info(data)
   self$col_info = setkeyv(rbindlist(list(self$col_info, data_col_info[!list(pk)])), "id")
-  self$col_roles$feature = c(self$col_roles$feature, setdiff(names(data), pk))
-
-  # 3. Overwrite self$backend with new backend
-  self$backend = DataBackendCbind$new(self$backend, DataBackendDataTable$new(data, pk))
+  if (anyDuplicated(self$col_info, by = "id"))
+    stopf("Duplicated columns")
+  self$col_roles$feature = union(self$col_roles$feature, setdiff(names(data), pk))
 
   invisible(self)
 }
