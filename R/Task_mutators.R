@@ -52,7 +52,7 @@ task_rbind = function(self, data) {
     if (is.integer(rids)) {
       data[[pk]] = max(rids) + seq_row(data)
     } else {
-      data[[pk]] = sprintf("%s_%i", basename(tempfile(), seq_row(data)))
+      data[[pk]] = sprintf("%s_%i", basename(tempfile("rbind_")), seq_row(data))
     }
   } else {
     check_new_row_ids(self, data, "disjunct")
@@ -107,7 +107,7 @@ task_cbind = function(self, data) {
   invisible(self)
 }
 
-task_replace_data = function(self, data, target = self$target) {
+task_replace_data = function(self, data, ...) {
   assert_data_frame(data, min.rows = 1L, min.cols = 1L)
   data = as.data.table(data)
 
@@ -116,6 +116,6 @@ task_replace_data = function(self, data, target = self$target) {
   if (!all(cols %in% names(data)))
     stopf("Task contains columns with a special role (%s) which are not present in new data", str_collapse(cols))
 
-  self$reinitialize(backend = as_data_backend(data))
+  self$initialize(id = self$id, backend = as_data_backend(data), ...)
   self
 }

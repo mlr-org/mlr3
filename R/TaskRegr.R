@@ -39,10 +39,6 @@ TaskRegr = R6Class("TaskRegr",
       self$measures = list(mlr_measures$get("mse"))
     },
 
-    reinitialize = function(backend = self$backend, target = self$target_names, ...) {
-      self$initialize(id = self$id, backend = backend, target = target, ...)
-    },
-
     truth = function(row_ids = NULL) {
       self$data(row_ids, cols = self$target_names)[[1L]]
     }

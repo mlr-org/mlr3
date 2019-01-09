@@ -61,14 +61,14 @@ generate_generic_tasks = function(learner, task) {
     data = task$data()
     for (j in seq_along(features))
       set(data, rows[j], features[j], NA)
-    tasks$missings = task$clone()$replace_data(data)
+    tasks$missings = task$clone()$replace_data(data, target = task$target_names)
 
     # no row with no missing -> complete.cases() won't help
     features = sample(task$feature_names, task$nrow, replace = TRUE)
     data = task$data()
     for (i in seq_along(features))
       set(data, i = i, j = features[i], NA)
-    tasks$missings_each_row = task$clone()$replace_data(data)
+    tasks$missings_each_row = task$clone()$replace_data(data, target = task$target_names)
   }
 
   # make sure that task ids match list names

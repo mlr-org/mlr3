@@ -52,7 +52,7 @@ test_that("Target is character/factor", {
 test_that("Reinitialize", {
   task = mlr_tasks$get("iris")
   data = task$data()[1:70]
-  task$replace_data(data)
+  task$replace_data(data, target = task$target_names)
   expect_task(task)
   expect_task_classif(task)
   expect_equal(task$nrow, 70)

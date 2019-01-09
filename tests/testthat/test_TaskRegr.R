@@ -20,7 +20,7 @@ test_that("Target is numeric", {
 test_that("Reinitialize", {
   task = mlr_tasks$get("bh")
   data = task$data()[1:50]
-  task$replace_data(data)
+  task$replace_data(data, task$target_names)
   expect_task(task)
   expect_task_regr(task)
   expect_equal(task$nrow, 50)
