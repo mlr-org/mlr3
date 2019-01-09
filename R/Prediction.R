@@ -30,6 +30,8 @@ Prediction = R6Class("Prediction",
 
 #' @export
 as.data.table.Prediction = function(x, ...) {
+  if (is.null(x$row_ids))
+    return(data.table())
   data.table(row_id = x$row_ids, response = x$response, truth = x$truth)
 }
 
