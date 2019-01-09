@@ -16,3 +16,12 @@ test_that("Target is numeric", {
   b = as_data_backend(iris)
   expect_error(TaskRegr$new("iris", backend = b, target = "Species"), "Target column")
 })
+
+test_that("Reinitialize", {
+  task = mlr_tasks$get("bh")
+  data = task$data()[1:50]
+  task$replace_data(data)
+  expect_task(task)
+  expect_task_regr(task)
+  expect_equal(task$nrow, 50)
+})

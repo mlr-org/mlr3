@@ -53,8 +53,8 @@ NULL
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
-    positive = NA_character_,
-    negative = NA_character_,
+    positive = NULL,
+    negative = NULL,
 
     initialize = function(id, backend, target, positive = NULL) {
       super$initialize(id = id, task_type = "classif", backend = backend, target = target)
@@ -70,20 +70,25 @@ TaskClassif = R6Class("TaskClassif",
       if (length(levels) == 2L) {
         if (is.null(positive)) {
           self$positive = levels[1L]
-          log_info("Setting positive class to '%s'", self$positive, namespace = "mlr3")
+          log_debug("Setting positive class to '%s'", self$positive, namespace = "mlr3")
         } else {
           self$positive = assert_choice(positive, levels)
         }
         self$negative = setdiff(levels, self$positive)
         self$col_info[list(target), levels := list(list(c(self$positive, self$negative))), on = "id"][]
-        self$properties = c(self$properties, "twoclass")
+        self$properties = "twoclass"
       } else {
         if (!is.null(positive))
           stopf("Setting the positive class is only feasible for binary classification")
-        self$properties = c(self$properties, "multiclass")
+        self$positive = self$negative = NA_character_
+        self$properties = "multiclass"
       }
 
       self$measures = list(mlr_measures$get("mmce"))
+    },
+
+    reinitialize = function(backend = self$backend, target = self$target_names, ...) {
+      self$initialize(id = self$id, backend = backend, target = target, ...)
     },
 
     truth = function(row_ids = NULL) {

@@ -263,9 +263,3 @@ task$nrow
 ```
 
 The same logic applies to `$cbind()`.
-
-### $overwrite()
-
-This method can be used to overwrite the `data` slot of an **existing** task.
-This is useful if the [`DataBackend`] should be changed, for example from a database backend (via [mlr3db](https://mlr3db.mlr-org.com/articles/working-with-sql-data-bases.html)) to a `data.table` backend.
-This special use case will be explained in more detail in a designated article.
