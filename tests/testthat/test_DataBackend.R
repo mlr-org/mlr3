@@ -7,11 +7,11 @@ test_that("Nested backends", {
 
   b1 = as_data_backend(data[1:100, -"Sepal.Length"], primary_key = "id")
   b2 = as_data_backend(data[101:130, -"Sepal.Length"], primary_key = "id")
-  b3 = DataBackendRbind$new(b1, b2)
+  b3 = DataBackendRbind$new(b1, b2, b1$rownames, b2$rownames)
   expect_backend(b3)
 
   b4 = as_data_backend(data[131:150, -"Sepal.Length"], primary_key = "id")
-  b5 = DataBackendRbind$new(b3, b4)
+  b5 = DataBackendRbind$new(b3, b4, b3$rownames, b4$rownames)
   expect_backend(b5)
 
   b6 = as_data_backend(data[, c("id", "Sepal.Length")], primary_key = "id")

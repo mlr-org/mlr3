@@ -46,18 +46,20 @@ task_rbind = function(self, data) {
   data = as.data.table(data)
   pk = self$backend$primary_key
 
-  ## 1.1 Check for primary key column and auto-increment if possible
+  ## 1.1 Check for primary key column and auto-increment
   if (pk %nin% names(data)) {
     rids = self$row_ids[[1L]]
-    if (!is.integer(rids))
-      stopf("Cannot rbind to task: Missing primary key column '%s'", pk)
-    data[[pk]] = max(rids) + seq_row(data)
+    if (is.integer(rids)) {
+      data[[pk]] = max(rids) + seq_row(data)
+    } else {
+      data[[pk]] = sprintf("%s_%i", basename(tempfile(), seq_row(data)))
+    }
   } else {
     check_new_row_ids(self, data, "disjunct")
   }
 
   ## 1.2 Check for set equality of column names
-  assert_set_equal(names(data), c(self$col_roles$feature, self$col_roles$target, pk))
+  assert_set_equal(names(data), unlist(self$col_roles, use.names = FALSE), pk)
 
   ## 1.4 Check that types are matching
   data_col_info = col_info(data, primary_key = pk)
@@ -70,7 +72,8 @@ task_rbind = function(self, data) {
   self$col_info$levels = Map(union, self$col_info$levels, data_col_info$levels)
 
   # 4. Overwrite self$backend with new backend
-  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk))
+  rows_self = unlist(self$row_roles, use.names = FALSE)
+  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk), rows_self, data[[pk]])
 
   invisible(self)
 }

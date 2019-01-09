@@ -7,7 +7,7 @@ test_that("DataBackendRbind", {
 
   b1 = as_data_backend(data[1:100, ], primary_key = "id")
   b2 = as_data_backend(data[101:150, ], primary_key = "id")
-  b = DataBackendRbind$new(b1, b2)
+  b = DataBackendRbind$new(b1, b2, b1$rownames, b2$rownames)
   expect_backend(b)
   expect_iris_backend(b, n_missing = 30L)
 

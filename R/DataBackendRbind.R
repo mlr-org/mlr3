@@ -1,22 +1,36 @@
 #' @include DataBackend.R
 DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
-    initialize = function(b1, b2) {
+    rows = NULL,
+    initialize = function(b1, b2, rows_b1, rows_b2) {
       assert_backend(b1)
       assert_backend(b2)
-      if (b1$primary_key != b2$primary_key)
-        stopf("All backends to rbind must have the same primary_key")
-      super$initialize(list(b1 = b1, b2 = b2), b1$primary_key, intersect(b1$formats, b2$formats))
+      assert_subset(rows_b1, b1$rownames)
+      assert_subset(rows_b2, b2$rownames)
+      pk = b1$primary_key
+
+      formats = intersect(b1$formats, b2$formats)
+      if (length(formats) == 0L)
+        stopf("There is no common format for the backends to rbind")
+
+      if (pk != b2$primary_key)
+        stopf("All backends to rbind must have the same primary_key '%s'", pk)
+
+      self$rows = list(b1 = rows_b1, b2 = rows_b2)
+      super$initialize(list(b1 = b1, b2 = b2), b1$primary_key, "data.table")
     },
 
     data = function(rows, cols, format = self$formats[1L]) {
-      assert_choice(format, self$formats)
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
+      assert_choice(format, self$formats)
 
       query_rows = unique(rows)
       query_cols = union(cols, self$primary_key)
-      data = rbind(private$.data$b1$data(query_rows, query_cols), private$.data$b2$data(query_rows, query_cols))
+      data = rbind(
+        private$.data$b1$data(intersect(query_rows, self$rows$b1), query_cols, format = "data.table"),
+        private$.data$b2$data(intersect(query_rows, self$rows$b2), query_cols, format = "data.table")
+      )
       data[list(rows), intersect(cols, names(data)), nomatch = 0L, on = self$primary_key, with = FALSE]
     },
 
@@ -24,7 +38,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       n = assert_count(n, coerce = TRUE)
 
       data = private$.data$b1$head(n)
-      if (nrow(data) != n)
+      if (nrow(data) < n)
         data = rbind(data, private$.data$b2$head(n - nrow(data)))
       data
     },
@@ -44,7 +58,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
 
   active = list(
     rownames = function() {
-      c(private$.data$b1$rownames, private$.data$b2$rownames)
+      c(self$rows$b1, self$rows$b2)
     },
 
     colnames = function() {
@@ -52,7 +66,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     },
 
     nrow = function() {
-      private$.data$b1$nrow + private$.data$b2$nrow
+      sum(lengths(self$rows))
     },
 
     ncol = function() {
