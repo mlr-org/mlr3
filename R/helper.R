@@ -25,7 +25,8 @@ ujoin = function(x, y, key) {
 }
 
 distinct = function(x) {
-  if (is.factor(x)) levels(x) else unique(x)
+  lvls = if (is.factor(x)) as.character(unique(x)) else unique(x)
+  lvls[!is.na(lvls)]
 }
 
 filter_oob_index = function(x, lower, upper) {

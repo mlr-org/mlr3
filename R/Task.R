@@ -33,16 +33,15 @@
 #' t$data(rows = NULL, cols = NULL)
 #' t$head(n = 6)
 #' t$levels(col)
-#' t$set_col_role(cols, new_roles, exclusive = TRUE)
-#' t$set_row_role(rows, new_roles, exclusive = TRUE)
 #'
 #' # Methods: Mutators
 #' t$cbind(data)
 #' t$filter(rows)
-#' t$overwrite(data)
-#' t$replace_columns(data)
 #' t$rbind(data)
 #' t$select(cols)
+#' t$replace_data(data, ...)
+#' t$set_col_role(cols, new_roles, exclusive = TRUE)
+#' t$set_row_role(rows, new_roles, exclusive = TRUE)
 #' ```
 #'
 #' @section Arguments:
@@ -115,22 +114,19 @@
 #' * `$new()` initializes a new object of class [Task].
 #' * `$levels()` (`character()`) queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
 #'   This function ignores the row roles, so you get all levels found in the [DataBackend].
-#' * `$overwrite()` overwrite the data in the [DataBackend] with data provided as [data.table()].
-#'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
-#' * `$replace_columns()` replaces columns in the [DataBackend] with columns provided in a [data.table()].
-#'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
 #' * `$rbind()` extends the task with additional rows.
 #' * `$select()` reduces the task, subsetting it to only the columns specified.
+#' * `$replace_data()` reinitializes the task with a new `data.frame`.
 #' * `$set_col_role()` sets the role for specified columns, referenced by name.
 #'   If `exclusive` is `TRUE`, the referenced columns will be removed from all other roles.
 #' * `$set_row_role()` sets the role for specified rows, referenced by row id.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
 #'
 #' @section Task mutators:
-#' The methods `filter()`, `select()`, `rbind()`, `cbind()`, and `overwrite()` change the task in-place,
+#' The methods `filter()`, `select()`, `rbind()`, and `cbind()` change the task in-place,
 #' but without modifying the [DataBackend].
 #' `filter()` and `select()` just reduce the set of active rows or columns, providing a different view on the data.
-#' `rbind()`, `cbind()`, and `overwrite()` first create a new [DataBackendDataTable] from the provided data, and then
+#' `rbind()` and `cbind()` first create a new [DataBackendDataTable] from the provided new data, and then
 #' merge both backends into an abstract [DataBackend] which combines the results on-demand.
 #'
 #' @export
@@ -226,12 +222,8 @@ Task = R6Class("Task",
       task_cbind(self, data)
     },
 
-    overwrite = function(data) {
-      task_overwrite(self, data)
-    },
-
-    replace_columns = function(data) {
-      task_replace_columns(self, data)
+    replace_data = function(data, ...) {
+      task_replace_data(self, data, ...)
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {

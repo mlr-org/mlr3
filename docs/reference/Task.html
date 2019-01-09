@@ -190,8 +190,6 @@ t$set_row_role(rows, new_roles, exclusive = TRUE)
     # Methods: Mutators
 t$cbind(data)
 t$filter(rows)
-t$overwrite(data)
-t$replace_columns(data)
 t$rbind(data)
 t$select(cols)
 </pre>
@@ -275,10 +273,6 @@ To alter the role, use <code>set_row_role()</code>.</p></li>
 <li><p><code>$new()</code> initializes a new object of class Task.</p></li>
 <li><p><code>$levels()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) queries the distinct levels of the column <code>col</code>. Only works for <code>character</code> and <code>factor</code> columns.
 This function ignores the row roles, so you get all levels found in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>$overwrite()</code> overwrite the data in the <a href='DataBackend.html'>DataBackend</a> with data provided as <code>data.table()</code>.
-The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
-<li><p><code>$replace_columns()</code> replaces columns in the <a href='DataBackend.html'>DataBackend</a> with columns provided in a <code>data.table()</code>.
-The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
 <li><p><code>$rbind()</code> extends the task with additional rows.</p></li>
 <li><p><code>$select()</code> reduces the task, subsetting it to only the columns specified.</p></li>
 <li><p><code>$set_col_role()</code> sets the role for specified columns, referenced by name.
@@ -290,10 +284,10 @@ If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be remo
     <h2 class="hasAnchor" id="task-mutators"><a class="anchor" href="#task-mutators"></a>Task mutators</h2>
 
     
-    <p>The methods <code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code>, <code>select()</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, and <code>overwrite()</code> change the task in-place,
+    <p>The methods <code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code>, <code>select()</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code> change the task in-place,
 but without modifying the <a href='DataBackend.html'>DataBackend</a>.
 <code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code> and <code>select()</code> just reduce the set of active rows or columns, providing a different view on the data.
-<code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, and <code>overwrite()</code> first create a new <a href='DataBackendDataTable.html'>DataBackendDataTable</a> from the provided data, and then
+<code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code> first create a new <a href='DataBackendDataTable.html'>DataBackendDataTable</a> from the provided new data, and then
 merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> which combines the results on-demand.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

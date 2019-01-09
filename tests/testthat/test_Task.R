@@ -78,25 +78,12 @@ test_that("cbind/rbind works", {
   expect_task(task)
   expect_set_equal(task$row_ids[[1L]], c(1:150, 201:210))
   expect_data_table(task$data(), ncol = 6, nrow = 160, any.missing = FALSE)
-})
 
-test_that("overwrite works", {
-  task = mlr_tasks$get("iris")
-  data = data.table(..row_id = 1:10, Sepal.Length = -1, Species = "a")
-  task$overwrite(data)
-  data = task$data()
-  expect_set_equal(levels(data$Species), c(levels(iris$Species), "a"))
-  expect_true(all(data$Sepal.Length[1:10] == -1))
-  expect_true(all(data$Sepal.Length[11:150] > 0))
-})
-
-test_that("replace works", {
-  task = mlr_tasks$get("iris")
-  data = data.table(..row_id = task$row_ids[[1L]], Sepal.Length = -1, Species = "a")
-  task$replace_columns(data)
-  data = task$data()
-  expect_set_equal(distinct(data$Species), "a")
-  expect_true(all(data$Sepal.Length == -1))
+  # auto generate char ids
+  task = mlr_tasks$get("zoo")
+  newdata = task$data("wasp")
+  task$rbind(newdata)
+  expect_equal(sum(grepl("^rbind_[0-9a-z]+_1", task$row_ids[[1]])), 1L)
 })
 
 test_that("filter works", {

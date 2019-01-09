@@ -28,3 +28,23 @@ test_that("DataBackendOverwrite", {
   x = b$missing(b$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })
+
+test_that("overwrite works", {
+  task = mlr_tasks$get("iris")
+  data = data.table(..row_id = 1:10, Sepal.Length = -1, Species = "a")
+  task$overwrite(data)
+  data = task$data()
+  expect_set_equal(levels(data$Species), c(levels(iris$Species), "a"))
+  expect_true(all(data$Sepal.Length[1:10] == -1))
+  expect_true(all(data$Sepal.Length[11:150] > 0))
+})
+
+test_that("replace works", {
+  task = mlr_tasks$get("iris")
+  data = data.table(..row_id = task$row_ids[[1L]], Sepal.Length = -1, Species = "a")
+  task$replace_columns(data)
+  data = task$data()
+  expect_set_equal(distinct(data$Species), "a")
+  expect_true(all(data$Sepal.Length == -1))
+})
+

@@ -40,8 +40,6 @@ t$set_row_role(rows, new_roles, exclusive = TRUE)
 # Methods: Mutators
 t$cbind(data)
 t$filter(rows)
-t$overwrite(data)
-t$replace_columns(data)
 t$rbind(data)
 t$select(cols)
 }
@@ -127,10 +125,6 @@ To alter the role, use \code{set_row_role()}.
 \item \code{$new()} initializes a new object of class \link{Task}.
 \item \code{$levels()} (\code{character()}) queries the distinct levels of the column \code{col}. Only works for \code{character} and \code{factor} columns.
 This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
-\item \code{$overwrite()} overwrite the data in the \link{DataBackend} with data provided as \code{\link[=data.table]{data.table()}}.
-The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
-\item \code{$replace_columns()} replaces columns in the \link{DataBackend} with columns provided in a \code{\link[=data.table]{data.table()}}.
-The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
 \item \code{$rbind()} extends the task with additional rows.
 \item \code{$select()} reduces the task, subsetting it to only the columns specified.
 \item \code{$set_col_role()} sets the role for specified columns, referenced by name.
@@ -142,10 +136,10 @@ If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all
 
 \section{Task mutators}{
 
-The methods \code{filter()}, \code{select()}, \code{rbind()}, \code{cbind()}, and \code{overwrite()} change the task in-place,
+The methods \code{filter()}, \code{select()}, \code{rbind()}, and \code{cbind()} change the task in-place,
 but without modifying the \link{DataBackend}.
 \code{filter()} and \code{select()} just reduce the set of active rows or columns, providing a different view on the data.
-\code{rbind()}, \code{cbind()}, and \code{overwrite()} first create a new \link{DataBackendDataTable} from the provided data, and then
+\code{rbind()} and \code{cbind()} first create a new \link{DataBackendDataTable} from the provided new data, and then
 merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
 }
 

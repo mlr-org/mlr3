@@ -48,3 +48,14 @@ test_that("Target is character/factor", {
   b = as_data_backend(iris)
   expect_error(TaskClassif$new("iris", backend = b, target = "Sepal.Length"), "Target column")
 })
+
+test_that("Reinitialize", {
+  task = mlr_tasks$get("iris")
+  data = task$data()[1:70]
+  task$replace_data(data, target = task$target_names)
+  expect_task(task)
+  expect_task_classif(task)
+  expect_equal(task$nrow, 70)
+  expect_true("twoclass" %in% task$properties)
+  expect_true("multiclass" %nin% task$properties)
+})
