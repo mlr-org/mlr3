@@ -165,7 +165,7 @@ It extends <a href='Task.html'>Task</a> with some handling of target columns.</p
 
     
     <p>Inherits from <a href='Task.html'>Task</a>.</p><pre># Construction
-t = TaskSupervised$new(id, task_type, backend, targets)
+t = TaskSupervised$new(id, task_type, backend, target)
     # Members
 t$weights
     # Methods
@@ -197,7 +197,7 @@ Subset of row ids to subset rows from the <a href='DataBackend.html'>DataBackend
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
-<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskSupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>targets</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)</div></pre>
+<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskSupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
