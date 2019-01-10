@@ -90,7 +90,7 @@ Collate:
     'PredictionRegr.R'
     'ResampleResult.R'
     'Resampling.R'
-    'reflections.R'
+    'mlr_reflections.R'
     'Task.R'
     'TaskSupervised.R'
     'TaskClassif.R'

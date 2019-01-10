@@ -40,14 +40,12 @@ train_worker = function(e, ctrl) {
 predict_worker = function(e, ctrl) {
   data = e$data
   learner = data$learner
-  model = learner$model
 
   # no model was learnt, try fallback learner
   if (data$train_log$has_condition("error")) {
     if (is.null(learner$fallback))
       stop(sprintf("Unable to predict learner '%s' without model", learner$id))
     learner = learner$fallback
-    model = learner$fallback$model
   }
 
   # filter task
@@ -65,6 +63,8 @@ predict_worker = function(e, ctrl) {
       res["prediction"] = list(NULL)
     }
   }
+
+  assert_class(res$prediction, "Prediction")
 
   # result is list(prediction, predict_log, predict_time)
   return(res)
