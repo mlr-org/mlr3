@@ -15,6 +15,7 @@
 #'    \item{error_predict:}{Raises an exception during predict.}
 #'    \item{segfault_train:}{Provokes a segfault during train.}
 #'    \item{segfault_predict:}{Provokes a segfault during predict.}
+#'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
 #'    \item{x:}{Numeric parameter. Ignored.}
 #' }
 #' Note that segfaults may not work on your operating system.
@@ -38,6 +39,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamLgl$new("error_predict", tags = "predict"),
             ParamLgl$new("segfault_train", tags = "train"),
             ParamLgl$new("segfault_predict", tags = "predict"),
+            ParamLgl$new("save_tasks", tags = c("train", "predict")),
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),
@@ -56,8 +58,13 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$segfault_train))
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
 
-      label = sample(task$truth(), 1L)
-      self$model = set_class(as.character(label), "unittest.model")
+
+      if (isTRUE(pv$save_tasks)) {
+        self$model = list(task)
+      } else {
+        label = sample(task$truth(), 1L)
+        self$model = set_class(as.character(label), "unittest.model")
+      }
       self
     },
 
@@ -71,8 +78,13 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         stop("Error from classif.debug->predict()")
       if (isTRUE(pv$segfault_predict))
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
-
-      PredictionClassif$new(response = rep.int(unclass(self$model), task$nrow))
+      if (isTRUE(pv$save_tasks)) {
+        self$model[[2]] = task
+        label = sample(task$truth(), 1L)
+        PredictionClassif$new(response = rep.int(as.character(label), task$nrow))
+      } else {
+        PredictionClassif$new(response = rep.int(unclass(self$model), task$nrow))
+      }
     }
   )
 )
