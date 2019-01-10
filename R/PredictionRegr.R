@@ -85,7 +85,8 @@ predictionregr_initialize = function(self, task, response, se) {
 #' @export
 as.data.table.PredictionRegr = function(x, ...) {
   tab = as.data.table.Prediction(x)
-  if (!is.null(x$se))
-    tab[, "se" := x$se]
+  if (!is.null(x$se)) {
+    tab = insert_named(tab, list("se" = x$se))
+  }
   tab
 }

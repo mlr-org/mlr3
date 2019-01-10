@@ -107,7 +107,11 @@ predictionclassif_initialize = function(self, task, response, prob) {
 #' @export
 as.data.table.PredictionClassif = function(x, ...) {
   tab = as.data.table.Prediction(x)
-  if (!is.null(x$prob))
-    tab[, paste0("prob.", colnames(x$prob)) := as.data.table(x$prob)]
+  if (!is.null(x$prob)) {
+    prob = as.data.table(x$prob)
+    setnames(prob, names(prob), paste0("prob.", names(prob)))
+    tab = ref_cbind(tab, prob)
+  }
+
   tab
 }

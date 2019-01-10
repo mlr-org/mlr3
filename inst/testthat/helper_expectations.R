@@ -330,6 +330,32 @@ expect_experiment = function(e) {
   }
 }
 
+expect_prediction = function(p) {
+  expect_r6(p, "Prediction", public = c("row_ids", "response", "truth", "predict_types"))
+  expect_output(print(p), "^<Prediction")
+  expect_data_table(as.data.table(p), nrow = length(p$row_ids))
+}
+
+expect_prediction_regr = function(p) {
+  expect_r6(p, "PredictionRegr", public = c("row_ids", "response", "truth", "predict_types", "se"))
+  expect_numeric(p$truth, any.missing = TRUE, len = length(p$row_ids), null.ok = TRUE)
+  expect_numeric(p$response, any.missing = FALSE, len = length(p$row_ids), null.ok = TRUE)
+  if ("se" %in% p$predict_types) {
+    expect_numeric(p$se, any.missing = FALSE, len = length(p$row_ids), lower = 0)
+  }
+}
+
+expect_prediction_classif = function(p, task = NULL) {
+  expect_r6(p, "PredictionClassif", public = c("row_ids", "response", "truth", "predict_types", "prob"))
+  n = length(p$row_ids)
+  lvls = if (is.null(task)) NULL else task$all_classes
+  expect_factor(p$truth, len = n, levels = lvls, null.ok = TRUE)
+  expect_factor(p$response, len = n, levels = lvls, null.ok = TRUE)
+  if ("prob" %in% p$predict_types) {
+    expect_matrix(p$prob, "numeric", any.missing = FALSE, ncol = nlevels(p$response), nrow = n)
+  }
+}
+
 expect_resample_result = function(rr) {
   checkmate::expect_r6(rr, "ResampleResult")
   testthat::expect_output(print(rr), "ResampleResult")
