@@ -34,7 +34,7 @@ Depends:
 Imports:
     backports,
     bit,
-    checkmate (>= 1.8.9),
+    checkmate (>= 1.9.0),
     data.table,
     digest,
     logger,
@@ -62,7 +62,6 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
-    mllg/checkmate,
     mlr-org/mlr3misc,
     mlr-org/paradox
 Encoding: UTF-8
