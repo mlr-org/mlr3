@@ -138,5 +138,9 @@ task_replace_features = function(self, data) {
   self$backend = DataBackendCbind$new(self$backend, b, keep_cols, new_features)
   self$col_roles$feature = new_features
 
+  # 3. Update column info
+  # TODO: can be optimized
+  self$col_info = col_info(self$backend)
+
   invisible(self)
 }

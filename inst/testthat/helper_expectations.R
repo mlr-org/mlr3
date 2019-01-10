@@ -155,7 +155,6 @@ expect_task = function(task) {
   checkmate::expect_data_table(task$data())
   checkmate::expect_data_table(task$head(1), nrow = 1L)
 
-
   cols = c("id", "type", "levels")
   checkmate::expect_data_table(task$col_info, key = "id", ncol = length(cols))
   checkmate::expect_names(names(task$col_info), permutation.of = cols)

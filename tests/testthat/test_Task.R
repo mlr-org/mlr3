@@ -64,6 +64,12 @@ test_that("Task cbind", {
   expect_names(task$feature_names, must.include = "bar")
 })
 
+test_that("task$replace_features", {
+  task = mlr_tasks$get("iris")
+  data = task$data(cols = c("Petal.Length", "Petal.Width"))
+  task$replace_features(data)
+  expect_task(task)
+})
 
 test_that("cbind/rbind works", {
   task = mlr_tasks$get("iris")
