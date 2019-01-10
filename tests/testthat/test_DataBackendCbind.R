@@ -8,6 +8,7 @@ test_that("DataBackendCbind", {
   b1 = as_data_backend(data[, -"Sepal.Length"], primary_key = "id")
   b2 = as_data_backend(data[, c("id", "Sepal.Length")], primary_key = "id")
   b = DataBackendCbind$new(b1, b2, b1$colnames, b2$colnames)
+  # self = b
   expect_backend(b)
   expect_iris_backend(b, n_missing = 30L)
 
@@ -28,12 +29,6 @@ test_that("issue #124", {
 })
 
 test_that("cbind backends with same columns", {
-  # task = Task$new("iris", "classif", as_data_backend(iris))
-  # t1 = task$clone()$select(c("Sepal.Length"))
-  # t2 = task$clone()$select(c("Sepal.Width"))
-
-  # t1$cbind(t2)
-
   data = as.data.table(iris)
   data$id = 1:150
 
@@ -48,4 +43,19 @@ test_that("cbind backends with same columns", {
 
   b = self = DataBackendCbind$new(b1, b2, cols_b1, cols_b2)
   expect_backend(b)
+})
+
+test_that("Backends with different rows", {
+  data = as.data.table(iris)
+  data$id = 1:150
+
+  b1 = as_data_backend(data[1:20, -"Sepal.Length"], primary_key = "id")
+  b2 = as_data_backend(data[1:10, c("id", "Sepal.Length")], primary_key = "id")
+
+  b = DataBackendCbind$new(b1, b2, b1$colnames, b2$colnames)
+
+  expect_set_equal(b$colnames, c(names(iris), "id"))
+  expect_set_equal(b$rownames, 1:10)
+
+  expect_data_table(b$head(12), nrow = 10, ncol = 6)
 })

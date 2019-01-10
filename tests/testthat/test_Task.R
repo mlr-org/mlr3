@@ -65,7 +65,7 @@ test_that("Task cbind", {
 })
 
 test_that("task$replace_features", {
-  task = mlr_tasks$get("iris")
+  task = mlr_tasks$get("iris")$filter(1:120)
   data = task$data(cols = c("Petal.Length", "Petal.Width"))
   task$replace_features(data)
   expect_task(task)

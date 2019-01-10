@@ -2,6 +2,8 @@
 DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
     rows = NULL,
+    cols = NULL,
+
     initialize = function(b1, b2, rows_b1, rows_b2) {
       assert_backend(b1)
       assert_backend(b2)
@@ -16,7 +18,12 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       if (pk != b2$primary_key)
         stopf("All backends to rbind must have the same primary_key '%s'", pk)
 
+      i = which(rows_b1 %in% rows_b2)
+      if (length(i))
+        stopf("Ambiguous row ids: %s", str_collapse(rows_b1[i], quote = "'", n = 10L))
+
       self$rows = list(b1 = rows_b1, b2 = rows_b2)
+      self$cols = intersect(b1$colnames, b2$colnames)
       super$initialize(list(b1 = b1, b2 = b2), b1$primary_key, "data.table")
     },
 
@@ -24,6 +31,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
       assert_choice(format, self$formats)
+      cols = intersect(cols, self$cols)
 
       query_rows = unique(rows)
       query_cols = union(cols, self$primary_key)
@@ -37,19 +45,25 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     head = function(n = 6L) {
       n = assert_count(n, coerce = TRUE)
 
-      data = private$.data$b1$head(n)
-      if (nrow(data) < n)
-        data = rbind(data, private$.data$b2$head(n - nrow(data)))
-      data
+      h1 = private$.data$b1$head(n)
+      h2 = private$.data$b2$head(n)
+      cols = intersect(names(h1), names(h2))
+
+      if (nrow(h1) < n)
+        rbind(h1[, cols, with = FALSE], head(h2[, cols, with = FALSE], n - nrow(h1)))
+      else
+        h1[, cols, with = FALSE]
     },
 
     distinct = function(cols) {
+      cols = intersect(cols, self$cols)
       d1 = private$.data$b1$distinct(cols)
       d2 = private$.data$b2$distinct(cols)
       Map(function(nn) union(d1[[nn]], d2[[nn]]), names(d1))
     },
 
     missing = function(rows, cols) {
+      cols = intersect(cols, self$cols)
       m1 = private$.data$b1$missing(rows, cols)
       m2 = private$.data$b2$missing(rows, cols)
       m1 + m2[match(names(m1), names(m2))]
@@ -62,7 +76,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     },
 
     colnames = function() {
-      private$.data$b1$colnames
+      self$cols
     },
 
     nrow = function() {
@@ -70,7 +84,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     },
 
     ncol = function() {
-      private$.data$b1$ncol
+      length(self$cols)
     }
   )
 )

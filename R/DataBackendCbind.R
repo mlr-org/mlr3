@@ -1,7 +1,9 @@
 #' @include DataBackend.R
 DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
+    rows = NULL,
     cols = NULL,
+
     initialize = function(b1, b2, cols_b1, cols_b2) {
       assert_backend(b1)
       assert_backend(b2)
@@ -9,34 +11,39 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       assert_subset(cols_b2, b2$colnames)
       pk = b1$primary_key
 
+      formats = intersect(b1$formats, b2$formats)
+      if (length(formats) == 0L)
+        stopf("There is no common format for the backends to cbind")
+
       if (pk != b2$primary_key)
         stopf("All backends to rbind must have the same primary_key '%s'", pk)
 
-      if (any(cols_b1 %in% setdiff(cols_b2, pk)))
-        stopf("Ambiguous column membership")
+      i = which(cols_b1 %in% setdiff(cols_b2, pk))
+      if (length(i))
+        stopf("Ambiguous column membership: %s", str_collapse(cols_b1[i], quote = "'"))
 
+      self$rows = intersect(b1$rownames, b2$rownames)
       self$cols = list(b1 = union(pk, cols_b1), b2 = union(pk, cols_b2))
       super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
     },
 
     data = function(rows, cols, format = self$formats[1L]) {
-      assert_atomic_vector(rows)
-      assert_names(cols, type = "unique")
+      qrows = intersect(assert_atomic_vector(rows), self$rows)
+      qcols = union(assert_names(cols, type = "unique"), self$primary_key)
       assert_choice(format, self$formats)
 
-      tab = private$.data$b1$data(rows, intersect(cols, self$cols$b1), format = "data.table")
+      d1 = private$.data$b1$data(qrows, intersect(qcols, self$cols$b1), format = "data.table")
 
-      if (ncol(tab) < length(cols)) {
-        query_cols = setdiff(intersect(cols, self$cols$b2), self$primary_key)
-        tab = ref_cbind(tab, private$.data$b2$data(rows, query_cols, format = "data.table"))
+      if (ncol(d1) < length(qcols)) {
+        d2 = private$.data$b2$data(qrows, intersect(qcols, self$cols$b2), format = "data.table")
+        d1 = d1[d2, on = self$primary_key, nomatch = 0L]
       }
-      tab[, intersect(cols, names(tab)), with = FALSE]
+      d1[list(rows), intersect(cols, names(d1)), with = FALSE, on = self$primary_key, nomatch = 0L]
     },
 
     head = function(n = 6L) {
-      x = private$.data$b1$head(n)[, self$cols$b1, with = FALSE]
-      y = private$.data$b2$data(rows = x[[self$primary_key]], cols = setdiff(self$cols$b2, self$primary_key), format = "data.table")
-      ref_cbind(x, y)
+      rows = head(self$rows, n)
+      self$data(rows = rows, cols = self$colnames)
     },
 
     distinct = function(cols) {
@@ -47,6 +54,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     },
 
     missing = function(rows, cols) {
+      rows = intersect(rows, self$rows)
       c(
         private$.data$b1$missing(rows, intersect(cols, self$cols$b1)),
         private$.data$b2$missing(rows, setdiff(intersect(cols, self$cols$b2), self$primary_key))
@@ -56,7 +64,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
 
   active = list(
     rownames = function() {
-      private$.data$b1$rownames
+      self$rows
     },
 
     colnames = function() {
@@ -64,7 +72,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     },
 
     nrow = function() {
-      private$.data$b1$nrow
+      length(self$rows)
     },
 
     ncol = function() {

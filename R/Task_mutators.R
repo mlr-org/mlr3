@@ -112,7 +112,7 @@ task_cbind = function(self, data) {
 }
 
 task_replace_features = function(self, data) {
-  assert_data_frame(data, nrow = self$nrow, min.cols = 1L)
+  assert_data_frame(data, nrows = self$nrow, min.cols = 1L)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
