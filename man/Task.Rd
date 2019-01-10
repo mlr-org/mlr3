@@ -40,7 +40,7 @@ t$cbind(data)
 t$filter(rows)
 t$rbind(data)
 t$select(cols)
-t$replace_data(data, ...)
+t$replace_features(data, ...)
 t$set_col_role(cols, new_roles, exclusive = TRUE)
 t$set_row_role(rows, new_roles, exclusive = TRUE)
 }
@@ -128,7 +128,10 @@ To alter the role, use \code{set_row_role()}.
 This function ignores the row roles, so you get all levels found in the \link{DataBackend}.
 \item \code{$rbind()} extends the task with additional rows.
 \item \code{$select()} reduces the task, subsetting it to only the columns specified.
-\item \code{$replace_data()} reinitializes the task with a new \code{data.frame}.
+\item \code{$replace_features()} replaces the features of the task with new data by replacing the \link{DataBackend}.
+The new backend is always a \link{DataBackendDataTable}.
+This operation is similar to calling \code{select()} and \code{cbind()}, but allows the garbage collector to clean
+up the previous backend.
 \item \code{$set_col_role()} sets the role for specified columns, referenced by name.
 If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
 \item \code{$set_row_role()} sets the role for specified rows, referenced by row id.

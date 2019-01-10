@@ -17,11 +17,12 @@ test_that("Target is numeric", {
   expect_error(TaskRegr$new("iris", backend = b, target = "Species"), "Target column")
 })
 
-test_that("Reinitialize", {
+test_that("Replace features", {
   task = mlr_tasks$get("bh")
-  data = task$data()[1:50]
-  task$replace_data(data, task$target_names)
+  data = task$data()[, task$feature_names[1:3], with = FALSE]
+  task$replace_features(data)
   expect_task(task)
   expect_task_regr(task)
-  expect_equal(task$nrow, 50)
+  expect_equal(task$nrow, mlr_tasks$get("bh")$nrow)
+  expect_equal(task$ncol, 4L)
 })

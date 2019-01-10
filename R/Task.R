@@ -39,7 +39,7 @@
 #' t$filter(rows)
 #' t$rbind(data)
 #' t$select(cols)
-#' t$replace_data(data, ...)
+#' t$replace_features(data, ...)
 #' t$set_col_role(cols, new_roles, exclusive = TRUE)
 #' t$set_row_role(rows, new_roles, exclusive = TRUE)
 #' ```
@@ -116,7 +116,10 @@
 #'   This function ignores the row roles, so you get all levels found in the [DataBackend].
 #' * `$rbind()` extends the task with additional rows.
 #' * `$select()` reduces the task, subsetting it to only the columns specified.
-#' * `$replace_data()` reinitializes the task with a new `data.frame`.
+#' * `$replace_features()` replaces the features of the task with new data by replacing the [DataBackend].
+#'   The new backend is always a [DataBackendDataTable].
+#'   This operation is similar to calling `select()` and `cbind()`, but allows the garbage collector to clean
+#'   up the previous backend.
 #' * `$set_col_role()` sets the role for specified columns, referenced by name.
 #'   If `exclusive` is `TRUE`, the referenced columns will be removed from all other roles.
 #' * `$set_row_role()` sets the role for specified rows, referenced by row id.
@@ -222,8 +225,8 @@ Task = R6Class("Task",
       task_cbind(self, data)
     },
 
-    replace_data = function(data, ...) {
-      task_replace_data(self, data, ...)
+    replace_features = function(data) {
+      task_replace_features(self, data)
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
