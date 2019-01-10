@@ -190,7 +190,7 @@ t$cbind(data)
 t$filter(rows)
 t$rbind(data)
 t$select(cols)
-t$replace_data(data, ...)
+t$replace_features(data, ...)
 t$set_col_role(cols, new_roles, exclusive = TRUE)
 t$set_row_role(rows, new_roles, exclusive = TRUE)
 </pre>
@@ -276,7 +276,10 @@ To alter the role, use <code>set_row_role()</code>.</p></li>
 This function ignores the row roles, so you get all levels found in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 <li><p><code>$rbind()</code> extends the task with additional rows.</p></li>
 <li><p><code>$select()</code> reduces the task, subsetting it to only the columns specified.</p></li>
-<li><p><code>$replace_data()</code> reinitializes the task with a new <code>data.frame</code>.</p></li>
+<li><p><code>$replace_features()</code> replaces the features of the task with new data by replacing the <a href='DataBackend.html'>DataBackend</a>.
+The new backend is always a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.
+This operation is similar to calling <code>select()</code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, but allows the garbage collector to clean
+up the previous backend.</p></li>
 <li><p><code>$set_col_role()</code> sets the role for specified columns, referenced by name.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced columns will be removed from all other roles.</p></li>
 <li><p><code>$set_row_role()</code> sets the role for specified rows, referenced by row id.
