@@ -10,7 +10,7 @@
 #' Inherits from [Task].
 #' ```
 #' # Construction
-#' t = TaskSupervised$new(id, task_type, backend, targets)
+#' t = TaskSupervised$new(id, task_type, backend, target)
 #'
 #' # Members
 #' t$weights
@@ -31,23 +31,23 @@
 #' @keywords internal
 #' @examples
 #' b = as_data_backend(iris)
-#' task = TaskSupervised$new("iris", task_type = "classif", backend = b, targets = "Species")
+#' task = TaskSupervised$new("iris", task_type = "classif", backend = b, target = "Species")
 NULL
 
 #' @include Task.R
 #' @export
 TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
-    initialize = function(id, task_type, backend, targets) {
-      assert_character(targets, any.missing = FALSE, min.len = 1L)
+    initialize = function(id, task_type, backend, target) {
+      assert_character(target, any.missing = FALSE, min.len = 1L)
       super$initialize(id = id, task_type = task_type, backend = backend)
 
-      i = which(targets %nin% self$col_roles$feature)
+      i = which(target %nin% self$col_roles$feature)
       if (length(i))
-        stopf("Target columns %s not in DataBackend", str_collapse(targets[i], quote = "'"))
+        stopf("Target columns %s not in DataBackend", str_collapse(target[i], quote = "'"))
 
-      self$col_roles$target = targets
-      self$col_roles$feature = setdiff(self$col_roles$feature, targets)
+      self$col_roles$target = target
+      self$col_roles$feature = setdiff(self$col_roles$feature, target)
     },
 
     truth = function(row_ids = NULL) {

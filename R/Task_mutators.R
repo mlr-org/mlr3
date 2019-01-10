@@ -47,15 +47,15 @@ task_rbind = function(self, data) {
   pk = self$backend$primary_key
 
   ## 1.1 Check for primary key column and auto-increment
-  if (pk %nin% names(data)) {
+  if (pk %in% names(data)) {
+    check_new_row_ids(self, data, "disjunct")
+  } else {
     rids = self$row_ids[[1L]]
     if (is.integer(rids)) {
       data[[pk]] = max(rids) + seq_row(data)
     } else {
       data[[pk]] = sprintf("%s_%i", basename(tempfile("rbind_")), seq_row(data))
     }
-  } else {
-    check_new_row_ids(self, data, "disjunct")
   }
 
   ## 1.2 Check for set equality of column names
@@ -85,23 +85,28 @@ task_rbind = function(self, data) {
 # 3. Update col_info
 task_cbind = function(self, data) {
   # 1. Check that an cbind is feasible
-  assert_data_frame(data, min.rows = 1L, min.cols = 1L)
+  assert_data_frame(data, nrows = self$nrow, min.cols = 1L)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
   ## 1.1 Check primary key column
-  check_new_row_ids(self, data, "setequal")
+  if (pk %in% names(data)) {
+    check_new_row_ids(self, data, "setequal")
+  } else {
+    data[[pk]] = self$row_ids[[1L]]
+  }
 
   # 2. Overwrite self$backend with new backend
   b2 = DataBackendDataTable$new(data, pk)
-  cols_self = unlist(self$col_roles, use.names = FALSE)
-  self$backend = DataBackendCbind$new(self$backend, b2, cols_self, colnames(data))
+  cols_b1 = unlist(self$col_roles, use.names = FALSE)
+  cols_b2 = setdiff(colnames(data), pk)
+  self$backend = DataBackendCbind$new(self$backend, b2, cols_b1, cols_b2)
 
   # 3. Update col_info
-  data_col_info = col_info(data)
-  self$col_info = setkeyv(rbindlist(list(self$col_info, data_col_info[!list(pk)])), "id")
-  if (anyDuplicated(self$col_info, by = "id"))
-    stopf("Duplicated columns")
+  ci = col_info(data)
+  self$col_info = ujoin(self$col_info, ci, key = "id")
+  self$col_info = rbind(self$col_info, ci[!list(self$col_info$id), on = "id"])
+  setkeyv(self$col_info, "id")
   self$col_roles$feature = union(self$col_roles$feature, setdiff(names(data), pk))
 
   invisible(self)

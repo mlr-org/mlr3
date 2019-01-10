@@ -11,7 +11,7 @@ It extends \link{Task} with some handling of target columns.
 \section{Usage}{
 
 Inherits from \link{Task}.\preformatted{# Construction
-t = TaskSupervised$new(id, task_type, backend, targets)
+t = TaskSupervised$new(id, task_type, backend, target)
 
 # Members
 t$weights
@@ -39,7 +39,7 @@ Subset of row ids to subset rows from the \link{DataBackend} using its primary k
 
 \examples{
 b = as_data_backend(iris)
-task = TaskSupervised$new("iris", task_type = "classif", backend = b, targets = "Species")
+task = TaskSupervised$new("iris", task_type = "classif", backend = b, target = "Species")
 }
 \seealso{
 Other Task: \code{\link{TaskClassif}},
