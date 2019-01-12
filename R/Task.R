@@ -141,7 +141,6 @@
 #'
 #'
 #' @name Task
-#' @export
 #' @family Task
 #' @examples
 #' b = as_data_backend(iris)
@@ -165,6 +164,7 @@
 #' task$cbind(cbind(data.frame(foo = 1:150), task$row_ids))
 NULL
 
+#' @export
 #' @include reflections.R
 Task = R6Class("Task",
   cloneable = TRUE,
