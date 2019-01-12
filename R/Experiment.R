@@ -79,7 +79,6 @@
 #' * `$validation_set` (`integer()` | `character()`) returns the row ids of the
 #'   validation set (see [Task]).
 #'
-#' @export
 #' @examples
 #' e = Experiment$new(
 #'   task = mlr_tasks$get("iris"),
@@ -107,6 +106,7 @@
 #' e$test_set
 NULL
 
+#' @export
 Experiment = R6Class("Experiment",
   public = list(
     data = NULL,
