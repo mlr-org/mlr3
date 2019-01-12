@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>DataBackend for data.table — DataBackendDataTable • mlr3</title>
+<title>DataBackend for <code>data.table</code> — DataBackendDataTable • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="DataBackend for data.table — DataBackendDataTable" />
+<meta property="og:title" content="DataBackend for <code>data.table</code> — DataBackendDataTable" />
 
-<meta property="og:description" content="Abstraction for data.table::data.table() as an in-memory data base.
-Returns an object of class DataBackend." />
+<meta property="og:description" content="DataBackend for data.table() as an in-memory data base." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -87,6 +86,9 @@ Returns an object of class DataBackend." />
     </li>
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
+    </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
     </li>
   </ul>
 </li>
@@ -144,19 +146,23 @@ Returns an object of class DataBackend." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>DataBackend for data.table</h1>
+    <h1>DataBackend for <code>data.table</code></h1>
     <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/DataBackendDataTable.R'><code>R/DataBackendDataTable.R</code></a></small>
     </div>
 
     
-    <p>Abstraction for <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> as an in-memory data base.
-Returns an object of class <a href='DataBackend.html'>DataBackend</a>.</p>
+    <p><a href='DataBackend.html'>DataBackend</a> for <code>data.table()</code> as an in-memory data base.</p>
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object inheriting from <a href='DataBackend.html'>DataBackend</a>.</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre># Construction
+    
+    <p>Inherits from <a href='DataBackend.html'>DataBackend</a>.</p><pre># Construction
 b = DataBackendDataTable$new(data, primary_key)
 b = as_data_backend(data, primary_key = NULL)
 </pre>
@@ -166,24 +172,26 @@ b = as_data_backend(data, primary_key = NULL)
 
     
     <ul>
-<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>).</p></li>
-<li><p><code>primary_key</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
-Name of the column in <code>data</code> which represents a unique
-row identifier (as integer or character).
-If `NULL, the constructor <code><a href='DataBackend.html'>as_data_backend()</a></code> automatically creates an integer column of primary keys.</p></li>
+<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>). This includes special data.frames like <code>data.table()</code> or <code>tibble()</code> from package <span class="pkg">tibble</span>.</p></li>
+<li><p><code>primary_key</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
+Name of the column in <code>data</code> which represents a unique row identifier (as integer or character).
+If <code>NULL</code>, the constructor <code><a href='as_data_backend.html'>as_data_backend()</a></code> automatically creates an integer column of primary keys.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other DataBackend: <code><a href='DataBackendMatrix.html'>DataBackendMatrix</a></code>,
-  <code><a href='DataBackend.html'>DataBackend</a></code></p></div>
+  <code><a href='DataBackend.html'>DataBackend</a></code>, <code><a href='as_data_backend.html'>as_data_backend</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>data</span> <span class='kw'>=</span> <span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>iris</span>)
 <span class='no'>data</span>$<span class='no'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>iris</span>))
 <span class='no'>b</span> <span class='kw'>=</span> <span class='no'>DataBackendDataTable</span>$<span class='fu'>new</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>, <span class='kw'>primary_key</span> <span class='kw'>=</span> <span class='st'>"id"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>)</div><div class='output co'>#&gt; DataBackend &lt;DataBackendDataTable&gt; (150x6)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>)</div><div class='output co'>#&gt; &lt;DataBackendDataTable&gt; (150x6)
+#&gt; 
+#&gt; Public: colnames, compact_seq, data(), distinct(), formats, head(),
+#&gt;   missing(), ncol, nrow, primary_key, rownames
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species id
 #&gt; 1:          5.1         3.5          1.4         0.2  setosa  1
 #&gt; 2:          4.9         3.0          1.4         0.2  setosa  2
@@ -207,6 +215,8 @@ If `NULL, the constructor <code><a href='DataBackend.html'>as_data_backend()</a>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
@@ -221,7 +231,7 @@ If `NULL, the constructor <code><a href='DataBackend.html'>as_data_backend()</a>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

@@ -1,10 +1,12 @@
-#' @title DataBackend for data.table
+#' @title DataBackend for `data.table`
 #'
+#' @name DataBackendDataTable
+#' @format [R6Class] object inheriting from [DataBackend].
 #' @description
-#' Abstraction for [data.table::data.table()] as an in-memory data base.
-#' Returns an object of class [DataBackend].
+#' [DataBackend] for [data.table()] as an in-memory data base.
 #'
 #' @section Usage:
+#' Inherits from [DataBackend].
 #' ```
 #' # Construction
 #' b = DataBackendDataTable$new(data, primary_key)
@@ -13,14 +15,12 @@
 #' The interface is described in [DataBackend].
 #'
 #' @section Arguments:
-#' * `data` ([data.frame()]).
+#' * `data` ([data.frame()]). This includes special data.frames like [data.table()] or `tibble()` from package \pkg{tibble}.
 #'
-#' * `primary_key` (`character(1)`):\cr
-#'   Name of the column in `data` which represents a unique
-#'   row identifier (as integer or character).
-#'   If `NULL, the constructor [as_data_backend()] automatically creates an integer column of primary keys.
+#' * `primary_key` (`character(1)`):
+#'   Name of the column in `data` which represents a unique row identifier (as integer or character).
+#'   If `NULL`, the constructor [as_data_backend()] automatically creates an integer column of primary keys.
 #'
-#' @name DataBackendDataTable
 #' @family DataBackend
 #' @examples
 #' data = as.data.table(iris)

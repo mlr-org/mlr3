@@ -57,6 +57,9 @@
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -122,7 +125,7 @@
 <a href="#toc" class="anchor"></a>Table of Contents</h3>
       <ul>
 <li><a href="#installation">Installation</a></li>
-      <li><a href="#parallel-resampling">Parallel Resampling</a></li>
+      <li><a href="#parallel-resampling">Parallel resampling</a></li>
       </ul>
 </div>
       
@@ -145,7 +148,7 @@
 </div>
 <div id="parallel-resampling" class="section level1">
 <h1 class="hasAnchor">
-<a href="#parallel-resampling" class="anchor"></a>Parallel Resampling</h1>
+<a href="#parallel-resampling" class="anchor"></a>Parallel resampling</h1>
 <p>The most outer loop in resampling runs independent repetitions of applying a learner on a subset of a task, predict on a different subset and score the performance by comparing true and predicted labels. This loop is what is called embarrassingly parallel.</p>
 <p>In the following, we will consider the spam task and a simple classification tree (<code>"classif.rpart"</code>) to illustrate the parallelization.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"mlr3"</span>)</a>
@@ -171,7 +174,7 @@
 <a class="sourceLine" id="cb4-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">future<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/future/topics/plan">plan</a></span>(<span class="st">"multiprocess"</span>)</a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(tasks, learners, resamplings)</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(<span class="kw"><a href="../reference/expand_grid.html">expand_grid</a></span>(tasks, learners, resamplings))</a>
 <a class="sourceLine" id="cb4-9" data-line-number="9">)[3L]</a></code></pre></div>
 </div>
 </div>
@@ -183,7 +186,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#installation">Installation</a></li>
-      <li><a href="#parallel-resampling">Parallel Resampling</a></li>
+      <li><a href="#parallel-resampling">Parallel resampling</a></li>
       </ul>
 </div>
       </div>
@@ -192,7 +195,7 @@
 
 
       <footer><!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

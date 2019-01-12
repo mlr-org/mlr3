@@ -4,23 +4,15 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(tasks, learners, resamplings, measures = NULL, ctrl = list())
+benchmark(design, ctrl = list())
 }
 \arguments{
-\item{tasks}{(list of \link{Task}):\cr
-List of objects of type \link{Task}.}
+\item{design}{(\code{\link[=data.frame]{data.frame()}}):
+Data frame (or \code{\link[=data.table]{data.table()}}) with three columns: "task", "learner", and "resampling".
+Each row defines a set of resampled experiments by providing a \link{Task}, \link{Learner} and \link{Resampling} strategy.
+The helper function \code{\link[=expand_grid]{expand_grid()}} can assist in generating an exhaustive design (see examples).}
 
-\item{learners}{(list of \link{Learner}):\cr
-List of objects of type \link{Learner}.}
-
-\item{resamplings}{(list of \link{Resampling}):\cr
-List of objects of type \link{Resampling}.}
-
-\item{measures}{(list of \link{Measure}):\cr
-List of performance measures used to assess the predictive performance.
-Defaults to the respective measures stored in \code{task}.}
-
-\item{ctrl}{(named \code{list} as returned by \code{\link[=mlr_control]{mlr_control()}}):\cr
+\item{ctrl}{(named \code{list} as returned by \code{\link[=mlr_control]{mlr_control()}}):
 Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}}.}
 }
 \value{
@@ -28,15 +20,26 @@ Object to control experiment execution. See \code{\link[=mlr_control]{mlr_contro
 }
 \description{
 Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
+
+Resamplings which are not already instantiated will be instantiated automatically.
+Note that these auto-instantiated resamplings will not be synchronized per task, i.e. learners will
+see different splits of the same task.
+
+To generate exhaustive designs and automatically instantiate resampling strategies per task, see \code{\link[=expand_grid]{expand_grid()}}.
 }
 \examples{
-set.seed(123)
+\dontshow{
+   set.seed(123)
+   .threshold = logger::log_threshold(namespace = "mlr3")
+   logger::log_threshold(logger::WARN, namespace = "mlr3")
+}
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-resamplings = mlr_resamplings$mget(c("holdout", "cv"))
-measures = mlr_measures$mget("acc")
-ctrl = mlr_control(verbose = FALSE)
-bmr = benchmark(tasks, learners, resamplings, measures, ctrl = ctrl)
+resamplings = mlr_resamplings$mget("holdout")
+
+design = expand_grid(tasks, learners, resamplings)
+print(design)
+bmr = benchmark(design)
 
 # performance for all conducted experiments
 head(as.data.table(bmr))
@@ -54,4 +57,7 @@ print(rr)
 
 # Extract predictions of first experiment of this resampling
 head(as.data.table(rr$experiment(1)$prediction))
+\dontshow{
+   logger::log_threshold(.threshold, namespace = "mlr3")
+}
 }

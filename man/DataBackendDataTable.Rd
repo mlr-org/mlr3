@@ -2,13 +2,14 @@
 % Please edit documentation in R/DataBackendDataTable.R
 \name{DataBackendDataTable}
 \alias{DataBackendDataTable}
-\title{DataBackend for data.table}
+\title{DataBackend for \code{data.table}}
+\format{\link{R6Class} object inheriting from \link{DataBackend}.}
 \description{
-Abstraction for \code{\link[data.table:data.table]{data.table::data.table()}} as an in-memory data base.
-Returns an object of class \link{DataBackend}.
+\link{DataBackend} for \code{\link[=data.table]{data.table()}} as an in-memory data base.
 }
 \section{Usage}{
-\preformatted{# Construction
+
+Inherits from \link{DataBackend}.\preformatted{# Construction
 b = DataBackendDataTable$new(data, primary_key)
 b = as_data_backend(data, primary_key = NULL)
 }
@@ -19,11 +20,10 @@ The interface is described in \link{DataBackend}.
 \section{Arguments}{
 
 \itemize{
-\item \code{data} (\code{\link[=data.frame]{data.frame()}}).
-\item \code{primary_key} (\code{character(1)}):\cr
-Name of the column in \code{data} which represents a unique
-row identifier (as integer or character).
-If `NULL, the constructor \code{\link[=as_data_backend]{as_data_backend()}} automatically creates an integer column of primary keys.
+\item \code{data} (\code{\link[=data.frame]{data.frame()}}). This includes special data.frames like \code{\link[=data.table]{data.table()}} or \code{tibble()} from package \pkg{tibble}.
+\item \code{primary_key} (\code{character(1)}):
+Name of the column in \code{data} which represents a unique row identifier (as integer or character).
+If \code{NULL}, the constructor \code{\link[=as_data_backend]{as_data_backend()}} automatically creates an integer column of primary keys.
 }
 }
 
@@ -43,6 +43,6 @@ b$colnames
 }
 \seealso{
 Other DataBackend: \code{\link{DataBackendMatrix}},
-  \code{\link{DataBackend}}
+  \code{\link{DataBackend}}, \code{\link{as_data_backend}}
 }
 \concept{DataBackend}

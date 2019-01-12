@@ -2,18 +2,30 @@
 % Please edit documentation in R/BenchmarkResult.R
 \name{BenchmarkResult}
 \alias{BenchmarkResult}
-\title{Container for Results of benchmark}
+\title{Container for Results of \code{benchmark()}}
+\format{\link{R6Class} object.}
 \description{
-This is the object returned by \link{benchmark}.
+This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
 }
 \section{Usage}{
-\preformatted{bmr$tasks
-bmr$learners
-bmr$resamplings
-bmr$measures
+\preformatted{# Construction
+bmr = benchmark(...)
+
+# Members
 bmr$aggregated
+bmr$data
+bmr$learners
+bmr$measures
 bmr$resample_results
+bmr$resamplings
+bmr$tasks
+
+# Methods
+bmr$combine(bmr)
+bmr$get_best(measure)
 bmr$resample_result(hash)
+
+# S3 methods
 as.data.table(bmr)
 }
 }
@@ -21,37 +33,43 @@ as.data.table(bmr)
 \section{Arguments}{
 
 \itemize{
-\item \code{hash} (\code{character(1)}):\cr
+\item \code{data} (\code{\link[=data.table]{data.table()}}): Data to create the \link{BenchmarkResult}.
+Each line must contain data of a single \link{Experiment} (complex objects wrapped inside lists to create list columns).
+\item \code{hash} (\code{character(1)}):
 String which identifies a subgroup to extract as \link{ResampleResult}.
-\item \code{bmr} (\link{BenchmarkResult}):\cr
-String which identifies a subgroup to extract as \link{ResampleResult}.
+\item \code{bmr} (\link{BenchmarkResult}).
+\item \code{measure} (\link{Measure}).
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$tasks}, \code{$learners}, \code{$resamplings} and \code{$measures} return an overview table of involved objects.
-\item \code{$aggregated} returns aggregated performance measures as a \code{\link[data.table:data.table]{data.table::data.table()}}.
-Experiments are aggregated by their resample result group
-(combination of \link{Task}, \link{Learner} and \link{Resampling}).
+\item \code{$aggregated} returns aggregated performance measures as a \code{\link[=data.table]{data.table()}}.
+Experiments are aggregated by their resample result group (combination of \link{Task}, \link{Learner} and \link{Resampling}).
 The actual aggregation function is defined by the respective \link{Measure}.
-\item \code{$resample_results} returns a \code{\link[data.table:data.table]{data.table::data.table()}} which gives an overview of the
-resample result groups in the benchmark.
+\item \code{$combine()} takes a second \link{BenchmarkResult} \code{bmr} as argument and extends itself with its data.
+\item \code{$data} returns the full benchmark structure for each iteration (task, learner, resampling, etc).
+\item \code{$resample_results} returns a \code{\link[=data.table]{data.table()}} which gives an overview of the resample result groups in the benchmark.
 These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleResult} for further inspection.
+\item \code{$tasks}, \code{$learners}, \code{$resamplings} and \code{$measures} return an overview table of included objects, together with a unique hash for the respective object.
+\item \code{as.data.table()} converts a \link{BenchmarkResult} to a \code{\link[=data.table]{data.table()}}.
 \item \code{$resample_result()} creates the \link{ResampleResult} identified by the specified \code{hash} value.
-\item \code{as.data.table()} converts a \link{BenchmarkResult} to a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }
 
 \examples{
-bmr = benchmark(
+\dontshow{
+   set.seed(123)
+   .threshold = logger::log_threshold(namespace = "mlr3")
+   logger::log_threshold(logger::WARN, namespace = "mlr3")
+}
+bmr = benchmark(expand_grid(
   tasks = mlr_tasks$mget("iris"),
   learners = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
-  resamplings = mlr_resamplings$mget("cv"),
-  ctrl = mlr_control(verbose = FALSE)
-)
-
+  resamplings = mlr_resamplings$mget("cv")
+))
+print(bmr)
 bmr$tasks
 bmr$learners
 bmr$resamplings
@@ -62,4 +80,7 @@ print(rrs)
 rr = bmr$resample_result(rrs$hash[1])
 print(rr)
 rr$experiment(1)$model
+\dontshow{
+   logger::log_threshold(.threshold, namespace = "mlr3")
+}
 }

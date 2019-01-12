@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Regression task — TaskRegr • mlr3</title>
+<title>Regression Task — TaskRegr • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,7 +28,7 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Regression task — TaskRegr" />
+<meta property="og:title" content="Regression Task — TaskRegr" />
 
 <meta property="og:description" content="This task specializes Task and TaskSupervised for regression problems.
 The target column is assumed to be numeric." />
@@ -88,6 +88,9 @@ The target column is assumed to be numeric." />
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -144,7 +147,7 @@ The target column is assumed to be numeric." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Regression task</h1>
+    <h1>Regression Task</h1>
     <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskRegr.R'><code>R/TaskRegr.R</code></a></small>
     </div>
 
@@ -154,18 +157,20 @@ The target column is assumed to be numeric.</p>
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object inheriting from <a href='Task.html'>Task</a>/<a href='TaskSupervised.html'>TaskSupervised</a>.</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     
-    <p>In addition to the interface of <a href='Task.html'>Task</a>/<a href='TaskSupervised.html'>TaskSupervised</a>, this class implements:</p><pre>t = TaskRegr$new(id, backend, target)
+    <p>Inherits from <a href='Task.html'>Task</a>/<a href='TaskSupervised.html'>TaskSupervised</a>.</p><pre>t = TaskRegr$new(id, backend, target)
 </pre>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <ul>
-<li><p><code>$task_type</code> is <code>"regr"</code>.</p></li>
-</ul>
+    <p><code>$task_type</code> is <code>"regr"</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -175,7 +180,7 @@ The target column is assumed to be numeric.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='DataBackend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
+    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskRegr</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Sepal.Length"</span>)
 <span class='no'>task</span>$<span class='no'>task_type</span></div><div class='output co'>#&gt; [1] "regr"</div><div class='input'><span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; Sepal.Length ~ Petal.Length + Petal.Width + Sepal.Width + Species
 #&gt; NULL</div><div class='input'><span class='no'>task</span>$<span class='fu'>truth</span>()</div><div class='output co'>#&gt;   [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 4.8 4.3 5.8 5.7 5.4 5.1
@@ -192,6 +197,8 @@ The target column is assumed to be numeric.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#details">Details</a></li>
@@ -206,7 +213,7 @@ The target column is assumed to be numeric.</p>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

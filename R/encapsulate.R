@@ -7,16 +7,17 @@ encapsulate = function(method) {
   )
 }
 
-encapsulate_dummy = function(fun, args = list()) {
+encapsulate_dummy = function(fun, args = list(), pkgs = character(0L)) {
+  require_namespaces(pkgs)
   now = proc.time()[[3L]]
-  result = do.call(fun, args)
+  result = invoke(fun, .args = args)
   elapsed = proc.time()[[3L]] - now
   log = setDT(list(class = character(), msg = character()))
   list(result = result, log = Log$new(log), elapsed = elapsed)
 }
 
 
-encapsulate_evaluate = function(fun, args = list()) {
+encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L)) {
   parse_evaluate = function(log) {
     translate_class = function(x) {
       if (inherits(x, "warning"))
@@ -33,7 +34,7 @@ encapsulate_evaluate = function(fun, args = list()) {
     )
   }
 
-  require_namespaces("evaluate")
+  require_namespaces(c("evaluate", pkgs))
   now = proc.time()[[3L]]
   result = NULL
   log = evaluate::evaluate(
@@ -51,9 +52,13 @@ encapsulate_evaluate = function(fun, args = list()) {
   )
 }
 
-encapsulate_callr = function(fun, args = list()) {
-  wrapper = function(fun, args) {
+encapsulate_callr = function(fun, args = list(), pkgs = character(0L)) {
+  wrapper = function(fun, args, pkgs) {
     options(warn = 1L)
+    suppressPackageStartupMessages({
+      library("mlr3")
+      lapply(pkgs, requireNamespace)
+    })
     now = proc.time()[[3L]]
     result = withCallingHandlers(
         tryCatch(do.call(fun, args),
@@ -70,12 +75,11 @@ encapsulate_callr = function(fun, args = list()) {
     list(result = result, elapsed = proc.time()[[3L]] - now)
   }
 
-
   require_namespaces("callr")
 
   logfile = tempfile()
   now = proc.time()[3L]
-  result = try(callr::r(wrapper, list(fun = fun, args = args), stdout = logfile, stderr = logfile), silent = TRUE)
+  result = try(callr::r(wrapper, list(fun = fun, args = args, pkgs = pkgs), stdout = logfile, stderr = logfile), silent = TRUE)
   elapsed = proc.time()[3L] - now
 
   if (file.exists(logfile)) {
@@ -97,7 +101,7 @@ encapsulate_callr = function(fun, args = list()) {
   if (length(lines)) {
     msg = NULL
     log = data.table(class = "output", msg = lines)
-    parse_line = function(x) gsub("<br>", "\n", substr(x, 7L, nchar(x)))
+    parse_line = function(x) gsub("<br>", "\n", substr(x, 7L, nchar(x)), fixed = TRUE)
     log[startsWith(get("msg"), "[WRN] "), c("class", "msg") := list("warning", parse_line(msg))]
     log[startsWith(get("msg"), "[ERR] "), c("class", "msg") := list("error", parse_line(msg))]
   } else {

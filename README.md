@@ -28,17 +28,19 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * Once the API is fixed, both advanced techniques and implementations for different learners will be implemented in extra packages to reduce the maintenance burden.
 * Be light on dependencies. `mlr3` requires the following packages:
     - [`mlr3misc`](https://github.com/mlr-org/mlr3misc) Miscellaneous functions used in multiple mlr3 [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages). Developed by the `mlr` team. No extra recursive dependencies.
-    - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No extra recursive dependencies.
-    - [`backports`](https://cran.r-project.org/package=backports): Ensures backward compatibility with older R releases. Developed by members of the `mlr` team. No extra recursive dependencies.
-    - [`bit`](https://cran.r-project.org/package=bit): Efficient storage of logical vectors. No extra recursive dependencies.
+    - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No recursive dependencies.
+    - [`backports`](https://cran.r-project.org/package=backports): Ensures backward compatibility with older R releases. Developed by members of the `mlr` team. No recursive dependencies.
+    - [`bit`](https://cran.r-project.org/package=bit): Efficient storage of logical vectors. No recursive dependencies.
     - [`checkmate`](https://cran.r-project.org/package=checkmate): Fast argument checks. Developed by members of the `mlr` team. No extra recursive dependencies.
-    - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No extra recursive dependencies.
-    - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No extra recursive dependencies.
-    - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No extra recursive dependencies.
+    - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No recursive dependencies.
+    - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No recursive dependencies.
+    - [`logger`](https://github.com/daroczig/logger): Logging facility. No recursive dependencies.
+    - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No recursive dependencies.
     - [`paradox`](https://github.com/mlr-org/paradox) Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra recursive dependencies.
 * Additional functionality that comes with extra dependencies:
     - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
-    - To capture output for logging, [`evaluate`](https://cran.r-project.org/package=evaluate) is used.
+    - To capture output for logging, [`evaluate`](https://cran.r-project.org/package=evaluate) is used to capture output of third party learners.
+      Alternatively, [`callr`](https://cran.r-project.org/package=callr) starts a new R session to completely isolate the learner from the running session.
 
 
 ## State of the project
@@ -58,8 +60,9 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * Resampling via [`resample()`](https://mlr3.mlr-org.com/reference/resample.html)
 * Benchmarking via [`benchmark()`](https://mlr3.mlr-org.com/reference/benchmark.html)
 * Stratification.
+* Parallelization via [`future`](https://cran.r-project.org/package=future).
 
-THe [webpage](https://mlr3.mlr-org.com) provides, besides a short introduction, a [function reference](https://mlr3.mlr-org.com/reference/).
+The [webpage](https://mlr3.mlr-org.com) provides, besides a short introduction, a [function reference](https://mlr3.mlr-org.com/reference/).
 
 ### WiP
 

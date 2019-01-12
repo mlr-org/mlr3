@@ -3,45 +3,45 @@
 \name{Experiment}
 \alias{Experiment}
 \title{Experiment}
+\format{\link{R6Class} object.}
 \description{
 Container object for machine learning experiments.
 }
 \section{Usage}{
 \preformatted{# Construction
 e = Experiment$new(task, learner, ...)
-# Stepwise execution
-e$train(subset)
-e$predict(subset, newdata)
-e$score(measures = NULL)
-# Getters
-e$task
-e$learner
-e$model
-e$prediction
-e$performance
-e$train_set
-e$test_set
-e$validation_set
-e$timings
-e$logs
-e$state
+
+# Members
+e$ctrl
 e$data
+e$has_errors
+e$hash
+e$learner
+e$logs
+e$model
+e$performance
+e$prediction
+e$state
+e$task
+e$test_set
+e$timings
+e$train_set
+e$validation_set
+
+# Methods
+e$predict(row_ids, newdata, ctrl = list())
+e$score(ctrl = list())
+e$train(row_ids, ctrl = list())
 }
 }
 
 \section{Arguments}{
 
 \itemize{
-\item \code{task} (\link{Task}):\cr
-Task to conduct experiment on
-\item \code{learner} (\link{Learner}):\cr
-Learner to conduct experiment with.
-\item \code{subset} (\code{integer()} | \code{character()}):\cr
-Subset of the task's row ids to work on.
-\item \code{newdata} (\code{\link[=data.frame]{data.frame()}}):\cr
-New data to predict on. Will be appended to the task.
-\item \code{measures} (list of \link{Measure}):\cr
-Performance measure to use. Defaults to the measures set in the \link{Task}.
+\item \code{task} (\link{Task}): Task to conduct experiment on
+\item \code{learner} (\link{Learner}): Learner to conduct experiment with.
+\item \code{row_ids} (\code{integer()} | \code{character()}): Subset of the task's row ids to work on. Invalid row ids are silently ignored.
+\item \code{newdata} (\link{data.frame}): New data to predict on. Will be appended to the task.
 }
 }
 
@@ -49,38 +49,45 @@ Performance measure to use. Defaults to the measures set in the \link{Task}.
 
 \itemize{
 \item \code{$new()} initializes a new machine learning experiment which can grow in a stepwise fashion.
-\item \code{$task} and \code{$learner} can be used to access the \link{Task} and \link{Learner}.
-\item \code{$train()} fits the induced \code{learner} on the (subset of the) \code{task} and internally stores the model.
-The model can be accessed via \code{e$model}.
 \item \code{$predict()} uses the previously fitted model to predict new observations.
-The predictions are stored internally as an \link{Prediction} object and can be accessed via \code{e$prediction} as \code{\link[data.table:data.table]{data.table::data.table()}}.
-\item \code{$score()} quantifies stored predictions using the provided list of \link{Measure} (or the task's \link{Measure} if not provided)
-and stores the resulting performance values. The performance can be accessed via \code{e$performance}.
-\item \code{$train_set} and \code{$test_set} return the row ids of the training set or test set, respectively.
-\item \code{$validation_set} returns the row ids of the validation set (see \link{Task}).
-\item \code{$timings} holds the elapsed time for the steps \code{train}, \code{predict} and \code{score} in seconds with up to millisecond accuracy (c.f. \code{\link[=proc.time]{proc.time()}}).
-Timings are \code{NA} if the respective step has not been performed yet.
-\item \code{$logs} creates a list with names \code{train} and \code{predict}.
-Both store an object of class \link{Log} if logging of the learner has been enabled via \code{\link[=mlr_control]{mlr_control()}},
-and are \code{NULL} if logging was disabled or the respective step has not been performed yet.
-\item \code{$state} (\code{ordered(1)}) returns the state of the experiment: \code{"defined"}, \code{"trained"}, \code{"predicted"}, or \code{"scored"}.
+The predictions are stored internally as an \link{Prediction} object and can be
+accessed via \code{e$prediction} as \code{\link[=data.table]{data.table()}}.
+\item \code{$score()} quantifies stored predictions using the task's \link{Measure} and stores the resulting
+performance values. The performance can be accessed via \code{e$performance}.
+\item \code{$train()} fits the induced \link{Learner} on the (subset of the) \code{task} and'stores the model in the \link{Learner}. The model can be accessed via \code{e$model}.
+\item \code{$ctrl} (\link{list}). List of control settings passed to \code{$train()}, \code{$predict()} and \code{$score()}.
 \item \code{$data} stores the internal representation of an Experiment as a \code{named list} with the following slots:
 \itemize{
-\item task (\link{Task}).
-\item learner (\link{Learner}).
-\item resampling (\link{Resampling}). Is \code{NULL} prior to calling \code{$train()}.
-If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, a \code{ResamplingCustom} object is stored here.
 \item iteration (\code{integer(1)}). If the experiment is constructed manually, this is always 1.
-\item model: Trained model as returned by the \link{Learner}.
-\item train_log: \link{Log} for the training step.
-\item train_time (\code{numeric(1)}). Elapsed time in microseconds.
+\item learner (\link{Learner}).
+\item measures (\code{list} of \link{Measure}). Measures used for performance assessment.
+\item performance (\code{named numeric}). Performance values returned by the measures.
 \item predict_log. \link{Log} for the predict step.
 \item predict_time (\code{numeric(1)}). Elapsed time in microseconds.
 \item prediction (\link{Prediction}).
-\item measures (\code{list} of \link{Measure}). Actually used performance measures.
-\item performance (\code{named numeric}). Performance values are returned by the measures.
+\item resampling (\link{Resampling}). Is \code{NULL} prior to calling \code{$train()}. If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, a \code{ResamplingCustom} object is stored here.
 \item score_time (\code{numeric(1)}). Elapsed time in microseconds.
+\item task (\link{Task}).
+\item train_log: \link{Log} for the training step.
+\item train_time (\code{numeric(1)}). Elapsed time in microseconds.
 }
+\item \code{$has_errors} (\code{logical(1)}). Whether the Experiment showed errors either during training or prediction.
+\item \code{$hash} (\code{character(1)}). The hash of the experiment.
+\item \code{$logs} (named \code{list(2)}) returns a list with names \code{train} and \code{predict}.
+Both store an object of class \link{Log} if logging of the learner has been
+enabled via \code{\link[=mlr_control]{mlr_control()}}, and are \code{NULL} if logging was disabled or the
+respective step has not been performed yet.
+\item \code{$state} (\code{ordered(1)}) returns the state of the experiment: \code{"defined"},
+\code{"trained"}, \code{"predicted"}, or \code{"scored"}.
+\item \code{$task} and \code{$learner} can be used to access the \link{Task} and \link{Learner}.
+\item \code{$timings} (named \code{numeric(3)}) holds the elapsed time for the steps
+\code{train}, \code{predict} and \code{score} in seconds with up to millisecond accuracy
+(c.f. \code{\link[=proc.time]{proc.time()}}). Timings are \code{NA} if the respective step has not been
+performed yet.
+\item \code{$train_set} and \code{$test_set} (\code{integer()} | \code{character()}) return the row
+ids of the training set or test set, respectively.
+\item \code{$validation_set} (\code{integer()} | \code{character()}) returns the row ids of the
+validation set (see \link{Task}).
 }
 }
 
@@ -92,12 +99,12 @@ e = Experiment$new(
 print(e)
 e$state
 
-e$train(subset = 1:120)
+e$train(row_ids = 1:120)
 print(e)
 e$state
 e$model
 
-e$predict(subset = 121:150)
+e$predict(row_ids = 121:150)
 print(e)
 e$state
 e$prediction

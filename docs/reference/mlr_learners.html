@@ -30,7 +30,8 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="Dictionary of Learners — mlr_learners" />
 
-<meta property="og:description" content="A simple Dictionary storing objects of class Learner." />
+<meta property="og:description" content="A simple Dictionary storing objects of class Learner.
+Each learner has an associated help page, see mlr_learners_[id]." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -86,6 +87,9 @@
     </li>
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
+    </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
     </li>
   </ul>
 </li>
@@ -148,10 +152,15 @@
     </div>
 
     
-    <p>A simple <a href='Dictionary.html'>Dictionary</a> storing objects of class <a href='Learner.html'>Learner</a>.</p>
+    <p>A simple <a href='Dictionary.html'>Dictionary</a> storing objects of class <a href='Learner.html'>Learner</a>.
+Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p>
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     
@@ -162,20 +171,34 @@
     <div class='dont-index'><p>Other Dictionary: <code><a href='Dictionary.html'>Dictionary</a></code>,
   <code><a href='mlr_measures.html'>mlr_measures</a></code>,
   <code><a href='mlr_resamplings.html'>mlr_resamplings</a></code>, <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p>
-<p>Other Learner: <code><a href='Learner.html'>Learner</a></code></p></div>
+<p>Other Learner: <code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
+  <code><a href='LearnerRegr.html'>LearnerRegr</a></code>, <code><a href='Learner.html'>Learner</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "classif.crashtest"   "classif.featureless" "classif.rpart"      
-#&gt; [4] "regr.featureless"    "regr.rpart"         </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_learners</span>)
-<span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; Learner 'classif.featureless' for classif
-#&gt; Parameters: list()
-#&gt; Feature types: logical,integer,numeric,character,factor,ordered</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'>ids</span>()</div><div class='output co'>#&gt; [1] "classif.debug"       "classif.featureless" "classif.rpart"      
+#&gt; [4] "regr.featureless"    "regr.rpart"         </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_learners</span>)</div><div class='output co'>#&gt;                     id packages
+#&gt; 1:       classif.debug         
+#&gt; 2: classif.featureless         
+#&gt; 3:       classif.rpart    rpart
+#&gt; 4:    regr.featureless         
+#&gt; 5:          regr.rpart    rpart</div><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
+#&gt; Parameters: method=mode
+#&gt; Packages: -
+#&gt; Predict Type: response
+#&gt; Feature types: logical, integer, numeric, character, factor, ordered
+#&gt; Properties: missings, multiclass, twoclass
+#&gt; 
+#&gt; Public: clone(), fallback, feature_types, hash, id, model, packages,
+#&gt;   param_set, param_vals, params_predict, params_train, predict_type,
+#&gt;   predict_types, predict(), properties, task_type, train()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#see-also">See also</a></li>
@@ -188,7 +211,7 @@
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

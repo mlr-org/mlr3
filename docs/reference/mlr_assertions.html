@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Assertion for mlr3 objects — mlr_assertions • mlr3</title>
+<title>Assertion for mlr3 Objects — mlr_assertions • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,7 +28,7 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Assertion for mlr3 objects — mlr_assertions" />
+<meta property="og:title" content="Assertion for mlr3 Objects — mlr_assertions" />
 
 <meta property="og:description" content="Functions intended to be used in packages extending mlr3." />
 <meta name="twitter:card" content="summary" />
@@ -87,6 +87,9 @@
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -143,7 +146,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Assertion for mlr3 objects</h1>
+    <h1>Assertion for mlr3 Objects</h1>
     <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/assertions.R'><code>R/assertions.R</code></a></small>
     </div>
 
@@ -159,11 +162,11 @@
 
 <span class='fu'>assert_learner</span>(<span class='no'>learner</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>assert_measure</span>(<span class='no'>measure</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>assert_measure</span>(<span class='no'>measure</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prediction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>assert_measures</span>(<span class='no'>measures</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>assert_measures</span>(<span class='no'>measures</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prediction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>assert_resampling</span>(<span class='no'>resampling</span>)
+<span class='fu'>assert_resampling</span>(<span class='no'>resampling</span>, <span class='kw'>instantiated</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>assert_resample_result</span>(<span class='no'>resample_result</span>)
 
@@ -218,7 +221,7 @@
     </tr>
     <tr>
       <th>param_vals</th>
-      <td><p>(named list).</p></td>
+      <td><p>(named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>). Its values are checked for feasibility w.r.t. the provided <code><a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet()</a></code>.</p></td>
     </tr>
     </table>
     
@@ -235,7 +238,7 @@
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

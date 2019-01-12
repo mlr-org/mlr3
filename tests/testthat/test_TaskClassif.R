@@ -27,7 +27,7 @@ test_that("Factor levels are preserved in prediction", {
   learner = mlr_learners$get("classif.featureless")
   learner$predict_type = "prob"
   e = Experiment$new(task, learner)
-  e$train(subset = 1:100)
+  e$train(row_ids = 1:100)
 
   e$predict(1:10)
   pred = as.data.table(e$prediction)
@@ -42,4 +42,19 @@ test_that("Factor levels are preserved in prediction", {
   expect_factor(pred$response, levels = levels(iris$Species), any.missing = FALSE)
   expect_equal(levels(pred$truth), levels(pred$response))
   expect_numeric(pred$prob.virginica, lower = 0, upper = 0, any.missing = FALSE)
+})
+
+test_that("Target is character/factor", {
+  b = as_data_backend(iris)
+  expect_error(TaskClassif$new("iris", backend = b, target = "Sepal.Length"), "Target column")
+})
+
+test_that("Replace features", {
+  task = mlr_tasks$get("iris")
+  data = task$data()[, c("Sepal.Length", "Petal.Length")]
+  task$replace_features(data)
+  expect_task(task)
+  expect_task_classif(task)
+  expect_equal(task$nrow, 150)
+  expect_equal(task$ncol, 3)
 })

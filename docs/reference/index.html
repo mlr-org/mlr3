@@ -84,6 +84,9 @@
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -154,17 +157,55 @@
       <tbody>
         <tr>
           <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+            <h2 id="section-building-blocks" class="hasAnchor"><a href="#section-building-blocks" class="anchor"></a>Building Blocks</h2>
             <p class="section-desc"></p>
           </th>
         </tr>
         <tr>
           <!--  -->
           <td>
-            <p><code><a href="BenchmarkResult.html">BenchmarkResult</a></code> </p>
+            <p><code><a href="Experiment.html">Experiment</a></code> </p>
           </td>
-          <td><p>Container for Results of benchmark</p></td>
+          <td><p>Experiment</p></td>
         </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="Task.html">Task</a></code> </p>
+          </td>
+          <td><p>Supervised or Unsupervised Tasks</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="Learner.html">Learner</a></code> </p>
+          </td>
+          <td><p>Learner Class</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="Measure.html">Measure</a></code> </p>
+          </td>
+          <td><p>Measure Class</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="Resampling.html">Resampling</a></code> </p>
+          </td>
+          <td><p>Resampling Class</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="Prediction.html">Prediction</a></code> </p>
+          </td>
+          <td><p>Abstract Prediction Object</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-data-backends" class="hasAnchor"><a href="#section-data-backends" class="anchor"></a>Data Backends</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
           <!--  -->
           <td>
             <p><code><a href="DataBackend.html">DataBackend</a></code> </p>
@@ -175,7 +216,7 @@
           <td>
             <p><code><a href="DataBackendDataTable.html">DataBackendDataTable</a></code> </p>
           </td>
-          <td><p>DataBackend for data.table</p></td>
+          <td><p>DataBackend for <code>data.table</code></p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -185,118 +226,82 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="Dictionary.html">Dictionary</a></code> </p>
+            <p><code><a href="as_data_backend.html">as_data_backend()</a></code> </p>
           </td>
-          <td><p>Key-value storage</p></td>
+          <td><p>Create a Data Backend.</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-classification" class="hasAnchor"><a href="#section-classification" class="anchor"></a>Classification</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="TaskClassif.html">TaskClassif</a></code> </p>
+          </td>
+          <td><p>Classification Task</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="Experiment.html">Experiment</a></code> </p>
+            <p><code><a href="LearnerClassif.html">LearnerClassif</a></code> </p>
           </td>
-          <td><p>Experiment</p></td>
+          <td><p>Classification Learner</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="Learner.html">Learner</a></code> </p>
+            <p><code><a href="MeasureClassif.html">MeasureClassif</a></code> </p>
           </td>
-          <td><p>Learner Class</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="Log.html">Log</a></code> </p>
-          </td>
-          <td><p>Learner Output Log</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="Measure.html">Measure</a></code> </p>
-          </td>
-          <td><p>Measure Class</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="Prediction.html">Prediction</a></code> </p>
-          </td>
-          <td><p>Abstract Prediction Object</p></td>
+          <td><p>Classification Measure</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="PredictionClassif.html">PredictionClassif</a></code> </p>
           </td>
           <td><p>Prediction Object for Classification</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-regression" class="hasAnchor"><a href="#section-regression" class="anchor"></a>Regression</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="TaskRegr.html">TaskRegr</a></code> </p>
+          </td>
+          <td><p>Regression Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="LearnerRegr.html">LearnerRegr</a></code> </p>
+          </td>
+          <td><p>Regression Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="MeasureRegr.html">MeasureRegr</a></code> </p>
+          </td>
+          <td><p>Regression Measure</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="PredictionRegr.html">PredictionRegr</a></code> </p>
           </td>
           <td><p>Prediction Object for Regression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ResampleResult.html">ResampleResult</a></code> </p>
-          </td>
-          <td><p>Results of Resampling</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="Resampling.html">Resampling</a></code> </p>
-          </td>
-          <td><p>Abstract resampling class</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="Task.html">Task</a></code> </p>
-          </td>
-          <td><p>Abstract learning task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="TaskClassif.html">TaskClassif</a></code> </p>
-          </td>
-          <td><p>Classification task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="TaskRegr.html">TaskRegr</a></code> </p>
-          </td>
-          <td><p>Regression task</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="benchmark.html">benchmark()</a></code> </p>
-          </td>
-          <td><p>Benchmark Multiple Learners on Multiple Tasks</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mlr3-package.html">mlr3-package</a></code> </p>
-          </td>
-          <td><p>mlr3: Machine Learning in R - Next Generation</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mlr_control.html">mlr_control()</a></code> </p>
-          </td>
-          <td><p>Execution control object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mlr_learners.html">mlr_learners</a></code> </p>
-          </td>
-          <td><p>Dictionary of Learners</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mlr_measures.html">mlr_measures</a></code> </p>
-          </td>
-          <td><p>Dictionary of Performance Measures</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mlr_resamplings.html">mlr_resamplings</a></code> </p>
-          </td>
-          <td><p>Dictionary of Resampling Strategies</p></td>
-        </tr><tr>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-tasks" class="hasAnchor"><a href="#section-tasks" class="anchor"></a>Tasks</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
           <!--  -->
           <td>
             <p><code><a href="mlr_tasks.html">mlr_tasks</a></code> </p>
@@ -305,9 +310,243 @@
         </tr><tr>
           <!--  -->
           <td>
+            <p><code><a href="mlr_tasks_bh.html">mlr_tasks_bh</a></code> </p>
+          </td>
+          <td><p>Boston Housing Regression Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_iris.html">mlr_tasks_iris</a></code> </p>
+          </td>
+          <td><p>Iris Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_pima.html">mlr_tasks_pima</a></code> </p>
+          </td>
+          <td><p>Pima Indian Diabetes Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_sonar.html">mlr_tasks_sonar</a></code> </p>
+          </td>
+          <td><p>Sonar Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_spam.html">mlr_tasks_spam</a></code> </p>
+          </td>
+          <td><p>Spam Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_titanic.html">mlr_tasks_titanic</a></code> </p>
+          </td>
+          <td><p>Titanic Classification Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_tasks_zoo.html">mlr_tasks_zoo</a></code> </p>
+          </td>
+          <td><p>Zoo Classification Task</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-learners" class="hasAnchor"><a href="#section-learners" class="anchor"></a>Learners</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners.html">mlr_learners</a></code> </p>
+          </td>
+          <td><p>Dictionary of Learners</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners_classif.debug.html">LearnerClassifDebug</a></code> </p>
+          </td>
+          <td><p>Toy Classification Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners_classif.featureless.html">LearnerClassifFeatureless</a></code> </p>
+          </td>
+          <td><p>Featureless Classification Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners_classif.rpart.html">LearnerClassifRpart</a></code> </p>
+          </td>
+          <td><p>Classification Tree Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners_regr.featureless.html">LearnerRegrDummy</a></code> </p>
+          </td>
+          <td><p>Featureless Regression Learner</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_learners_regr.rpart.html">LearnerRegrRpart</a></code> </p>
+          </td>
+          <td><p>Regression Tree Learner</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-measures" class="hasAnchor"><a href="#section-measures" class="anchor"></a>Measures</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures.html">mlr_measures</a></code> </p>
+          </td>
+          <td><p>Dictionary of Performance Measures</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_acc.html">MeasureClassifACC</a></code> </p>
+          </td>
+          <td><p>Accuracy Classification Measure</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_auc.html">MeasureClassifAUC</a></code> </p>
+          </td>
+          <td><p>Area Under the Curve Classification Measure</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_elapsed_time.html">MeasureElapsedTime</a></code> <code><a href="mlr_measures_elapsed_time.html">MeasureTimeTrain</a></code> <code><a href="mlr_measures_elapsed_time.html">MeasureTimePredict</a></code> <code><a href="mlr_measures_elapsed_time.html">MeasureTimeBoth</a></code> </p>
+          </td>
+          <td><p>Elapsed Time Measure</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_mmce.html">MeasureClassifMMCE</a></code> </p>
+          </td>
+          <td><p>Mean Misclassification Error Measure</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_measures_mse.html">MeasureRegrMSE</a></code> </p>
+          </td>
+          <td><p>Mean Squared Error Measure</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-resampling-strategies" class="hasAnchor"><a href="#section-resampling-strategies" class="anchor"></a>Resampling Strategies</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings.html">mlr_resamplings</a></code> </p>
+          </td>
+          <td><p>Dictionary of Resampling Strategies</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_bootstrap.html">ResamplingBootstrap</a></code> </p>
+          </td>
+          <td><p>Bootstrap Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_custom.html">ResamplingCustom</a></code> </p>
+          </td>
+          <td><p>Custom Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_cv.html">ResamplingCV</a></code> </p>
+          </td>
+          <td><p>Cross Validation Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_holdout.html">ResamplingHoldout</a></code> </p>
+          </td>
+          <td><p>Holdout Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_repeated_cv.html">ResamplingRepeatedCV</a></code> </p>
+          </td>
+          <td><p>Repeated Cross Validation Resampling</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_resamplings_subsampling.html">ResamplingSubsampling</a></code> </p>
+          </td>
+          <td><p>Subsampling Resampling</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-resample" class="hasAnchor"><a href="#section-resample" class="anchor"></a>Resample</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
             <p><code><a href="resample.html">resample()</a></code> </p>
           </td>
           <td><p>Resample a Learner on a Task</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="ResampleResult.html">ResampleResult</a></code> </p>
+          </td>
+          <td><p>Container for Results of <code>resample()</code>.</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-benchmarking" class="hasAnchor"><a href="#section-benchmarking" class="anchor"></a>Benchmarking</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="benchmark.html">benchmark()</a></code> </p>
+          </td>
+          <td><p>Benchmark Multiple Learners on Multiple Tasks</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="BenchmarkResult.html">BenchmarkResult</a></code> </p>
+          </td>
+          <td><p>Container for Results of <code>benchmark()</code></p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-error-handling" class="hasAnchor"><a href="#section-error-handling" class="anchor"></a>Error Handling</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="mlr_control.html">mlr_control()</a></code> </p>
+          </td>
+          <td><p>Execution Control Object</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="Log.html">Log</a></code> </p>
+          </td>
+          <td><p>Learner Output Log</p></td>
         </tr>
       </tbody>
       </table>
@@ -317,14 +556,24 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-building-blocks">Building Blocks</a></li>
+      <li><a href="#section-data-backends">Data Backends</a></li>
+      <li><a href="#section-classification">Classification</a></li>
+      <li><a href="#section-regression">Regression</a></li>
+      <li><a href="#section-tasks">Tasks</a></li>
+      <li><a href="#section-learners">Learners</a></li>
+      <li><a href="#section-measures">Measures</a></li>
+      <li><a href="#section-resampling-strategies">Resampling Strategies</a></li>
+      <li><a href="#section-resample">Resample</a></li>
+      <li><a href="#section-benchmarking">Benchmarking</a></li>
+      <li><a href="#section-error-handling">Error Handling</a></li>
     </ul>
   </div>
 </div>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

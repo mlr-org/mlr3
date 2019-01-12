@@ -64,6 +64,12 @@ test_that("Task cbind", {
   expect_names(task$feature_names, must.include = "bar")
 })
 
+test_that("task$replace_features", {
+  task = mlr_tasks$get("iris")$filter(1:120)
+  data = task$data(cols = c("Petal.Length", "Petal.Width"))
+  task$replace_features(data)
+  expect_task(task)
+})
 
 test_that("cbind/rbind works", {
   task = mlr_tasks$get("iris")
@@ -78,16 +84,12 @@ test_that("cbind/rbind works", {
   expect_task(task)
   expect_set_equal(task$row_ids[[1L]], c(1:150, 201:210))
   expect_data_table(task$data(), ncol = 6, nrow = 160, any.missing = FALSE)
-})
 
-test_that("overwrite works", {
-  task = mlr_tasks$get("iris")
-  data = data.table(..row_id = 1:10, Sepal.Length = -1, Species = "a")
-  task$overwrite(data)
-  data = task$data()
-  expect_set_equal(levels(data$Species), c(levels(iris$Species), "a"))
-  expect_true(all(data$Sepal.Length[1:10] == -1))
-  expect_true(all(data$Sepal.Length[11:150] > 0))
+  # auto generate char ids
+  task = mlr_tasks$get("zoo")
+  newdata = task$data("wasp")
+  task$rbind(newdata)
+  expect_equal(sum(grepl("^rbind_[0-9a-z]+_1", task$row_ids[[1]])), 1L)
 })
 
 test_that("filter works", {
@@ -111,3 +113,30 @@ test_that("select works", {
 
   expect_equal(task$feature_names, "Sepal.Width")
 })
+
+test_that("groups/weights work", {
+  b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
+  task = TaskRegr$new("test", b, target = "y")
+  task$set_row_role(16:20, character(0))
+
+  expect_null(task$groups)
+  expect_null(task$weights)
+
+  task$set_col_role("w", "weights")
+  expect_data_table(task$weights, ncol = 2, nrow = 15)
+  expect_numeric(task$weights$weights, any.missing = FALSE)
+
+  task$set_col_role("g", "groups")
+  expect_data_table(task$groups, ncol = 2, nrow = 15)
+  expect_subset(task$groups$groups, c("a", "b"))
+})
+
+test_that("ordered factors (#95)", {
+  df = data.frame(x = c(1, 2, 3), y = factor(letters[1:3], ordered = TRUE), z = c("M", "R", "R"))
+  b = as_data_backend(df)
+  task = TaskClassif$new(id = "id", backend = b, target = "z")
+  expect_subset(c("numeric", "ordered", "factor"), task$col_info$type)
+  expect_set_equal(task$col_info[id == "z", levels][[1L]], c("M", "R"))
+  expect_set_equal(task$col_info[id == "y", levels][[1L]], letters[1:3])
+})
+

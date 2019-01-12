@@ -1,5 +1,17 @@
+#' @title Featureless Classification Learner
+#'
+#' @name mlr_learners_classif.featureless
+#' @description
+#' A simple [LearnerClassif] which only analyses the labels during train, ignoring all features.
+#' Hyperparameter `method` determines the mode of operation during prediction:
+#' \describe{
+#'   \item{mode:}{Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.}
+#'   \item{sample:}{Randomly predict a label uniformly.}
+#'   \item{weighed.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
+#' }
 #' @include LearnerClassif.R
-LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
+#' @export
+LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
   public = list(
     initialize = function(id = "classif.featureless") {
       super$initialize(
@@ -8,32 +20,33 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
-            ParamFct$new("method", values = c("mode", "sample", "weighted.sample"), default = "mode")
+            ParamFct$new("method", values = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")
           )
         ),
-        properties = "missings",
+        param_vals = list(method = "mode"),
+        properties = c("twoclass", "multiclass",  "missings")
       )
     },
 
-    train = function(task, ...) {
+    train = function(task) {
       tn = task$target_names
-      model = table(task$data(cols = tn))
-      class(model) = "featureless"
-      model
+      self$model = set_class(table(task$data(cols = tn)), "featureless")
+      self
     },
 
-    predict = function(model, task, method = "mode", ...) {
+    predict = function(task) {
+      model = self$model
       n = task$nrow
       response = prob = NULL
 
       if (self$predict_type == "response") {
-        response = switch(method,
+        response = switch(self$param_vals$method,
           mode = rep.int(sample(names(model[model == max(model)]), 1L), n),
           sample = sample(names(model), n, replace = TRUE),
           weighted.sample = sample(names(model), n, replace = TRUE, prob = model)
         )
       } else if (self$predict_type == "prob") {
-        prob = switch(method,
+        prob = switch(self$param_vals$method,
           mode = { tmp = (model == max(model)); tmp / sum(tmp) },
           sample = rep.int(1 / length(model), length(model)),
           weighted.sample = model / sum(model)
@@ -48,4 +61,4 @@ LearnerClassifDummy = R6Class("LearnerClassifDummy", inherit = LearnerClassif,
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("classif.featureless", LearnerClassifDummy)
+mlr_learners$add("classif.featureless", LearnerClassifFeatureless)

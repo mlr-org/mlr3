@@ -1,12 +1,9 @@
-#' @title Assertion for mlr3 objects
-#'
+#' @title Assertion for mlr3 Objects
 #' @description
 #' Functions intended to be used in packages extending \pkg{mlr3}.
-#'
 #' @name mlr_assertions
 #' @keywords internal
 NULL
-
 
 #' @export
 #' @param b ([DataBackend]).
@@ -46,7 +43,7 @@ assert_learner = function(learner, task = NULL) {
 #' @export
 #' @param measure ([Measure]).
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, learner = NULL) {
+assert_measure = function(measure, task = NULL, prediction = NULL) {
   assert_class(measure, "Measure")
 
   if (!is.null(task)) {
@@ -57,22 +54,12 @@ assert_measure = function(measure, task = NULL, learner = NULL) {
     miss = setdiff(measure$task_properties, task$properties)
     if (length(miss))
       stopf("Measure '%s' needs task properties: %s",
-        measure$id, paste0(miss, collapse = ", "))
+        measure$id, str_collapse(miss))
   }
 
-  if (!is.null(learner)) {
-    if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type)
-      stopf("Measure '%s'  is not compatible with type of learner '%s' (type: %s)",
-        measure$id, learner$id, learner$task_type)
-
-    miss = setdiff(measure$task_properties, learner$properties)
-    if (length(miss))
-      stopf("Measure '%s' needs learner '%s' to have the properties: %s",
-        measure$id, learner$id, paste0(miss, collapse = ", "))
-
-    if (!is_scalar_na(measure$predict_type) && measure$predict_type != learner$predict_type)
-      stopf("Measure '%s' needs learner '%s' to have predict_type '%s'",
-        measure$id, learner$id, measure$predict_type)
+  if (!is.null(prediction)) {
+    if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% prediction$predict_types)
+      stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
   }
 
   measure
@@ -81,16 +68,23 @@ assert_measure = function(measure, task = NULL, learner = NULL) {
 #' @export
 #' @param measures (list of [Measure]).
 #' @rdname mlr_assertions
-assert_measures = function(measures, task = NULL, learner = NULL) {
+assert_measures = function(measures, task = NULL, prediction = NULL) {
   assert_list(measures, min.len = 1L)
-  lapply(measures, assert_measure, task = task, learner = learner)
+  lapply(measures, assert_measure, task = task, prediction = prediction)
 }
 
 #' @export
 #' @param resampling ([Resampling]).
 #' @rdname mlr_assertions
-assert_resampling = function(resampling) {
+assert_resampling = function(resampling, instantiated = NULL) {
   assert_class(resampling, "Resampling")
+  if (!is.null(instantiated)) {
+    if (instantiated && !resampling$is_instantiated)
+      stopf("Resampling '%s' must be instantiated", resampling$id)
+    if (!instantiated && resampling$is_instantiated)
+      stopf("Resampling '%s' may not be instantiated", resampling$id)
+  }
+  invisible(resampling)
 }
 
 #' @export
@@ -115,11 +109,21 @@ assert_param_set = function(param_set) {
 }
 
 #' @export
-#' @param param_vals (named list).
+#' @param param_vals (named `list()`). Its values are checked for feasibility w.r.t. the provided [paradox::ParamSet()].
 #' @rdname mlr_assertions
 assert_param_vals = function(param_vals, param_set) {
   assert_list(param_vals, names = "unique", any.missing = FALSE)
-  assert_subset(names(param_vals), param_set$ids)
+  npv = names(param_vals)
+  i = wf(npv %nin% param_set$ids())
+  if (length(i))
+    stopf("Parameter '%s' not available.%s", npv[i], did_you_mean(npv[i], param_set$ids()))
+
+  param_set$assert(param_vals, .var.name = "param_vals")
+  # FIXME: This should go into paradox?
+  required = names(which(map_lgl(param_set$tags, is.element, el = "required")))
+  required = setdiff(required, names(param_vals))
+  if (length(required))
+    stopf("Missing required parameters: %s", str_collapse(required))
   param_vals
 }
 
@@ -129,12 +133,6 @@ assert_id = function(id) {
 
 assert_set = function(x, empty = TRUE) {
   assert_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE)
-}
-
-assert_resampling_index = function(resampling, i) {
-  if (!resampling$is_instantiated)
-    stopf("Resampling %s has not been instantiated yet", resampling$id)
-  assert_int(i, lower = 1L, upper = resampling$iters, coerce = TRUE)
 }
 
 assert_range = function(range) {

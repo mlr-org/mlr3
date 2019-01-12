@@ -35,7 +35,7 @@ if (!requireNamespace("future.apply"))
   install.packages("future.apply")
 ```
 
-# Parallel Resampling
+# Parallel resampling
 
 The most outer loop in resampling runs independent repetitions of applying a learner on a subset of a task, predict on a different subset and score the performance by comparing true and predicted labels.
 This loop is what is called embarrassingly parallel.
@@ -78,6 +78,6 @@ resamplings$subsampling$param_vals = list(ratio = 0.8, repeats = 16)
 
 future::plan("multiprocess")
 system.time(
-  benchmark(tasks, learners, resamplings)
+  benchmark(expand_grid(tasks, learners, resamplings))
 )[3L]
 ```

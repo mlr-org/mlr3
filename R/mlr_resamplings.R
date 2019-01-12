@@ -1,16 +1,18 @@
 #' @title Dictionary of Resampling Strategies
 #'
+#' @format [R6Class] object
 #' @description
 #' A simple [Dictionary] storing objects of class [Resampling].
+#' Each resampling has an associated help page, see `mlr_resamplings_[id]`.
 #'
 #' @section Usage:
-#' See [Dictionary].
+#' Inherits from [Dictionary].
 #'
 #' @name mlr_resamplings
 #' @family Dictionary
 #' @family Resampling
 #' @examples
-#' mlr_resamplings$keys()
+#' mlr_resamplings$ids()
 #' as.data.table(mlr_resamplings)
 #' mlr_resamplings$get("cv")
 NULL
@@ -26,8 +28,8 @@ mlr_resamplings = DictionaryResampling$new()
 
 #' @export
 as.data.table.DictionaryResampling = function(x, ...) {
-  setkeyv(map_dtr(x$keys(), function(id) {
+  setkeyv(map_dtr(x$ids(), function(id) {
     r = x$get(id)
     list(id = id, hyperpars = list(r$param_set$ids), default_iters = r$iters)
-  }), "id")
+  }), "id")[]
 }

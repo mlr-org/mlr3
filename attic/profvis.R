@@ -11,5 +11,5 @@ measures = mlr_measures$mget(c("acc", "time_train"))
 
 log_threshold(ERROR, namespace = "mlr3")
 profvis::profvis(
-  benchmark(tasks, learners, resamplings, measures, mlr_control(verbose = FALSE, disable_future = TRUE))
+  benchmark(expand_grid(tasks, learners, resamplings))
 )

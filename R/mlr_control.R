@@ -1,4 +1,4 @@
-#' @title Execution control object
+#' @title Execution Control Object
 #'
 #' @description
 #' This function creates a named list of settings which control the execution of an [Experiment].
@@ -9,14 +9,11 @@
 #' * `encapsulate_train`: How to call external code in third party packages during train.
 #'     - If set to `"none"` (default), the code is executed in the running session without error handling.
 #'       Output is not stored, just send to the console.
-#'     - If set to `"evaluate"`, the exceptions are caught using \pkg{evaluate}, and output is stored in a [Log] of the corresponding [Experiment].
+#'     - If set to `"evaluate"`, the exceptions are caught using [evaluate::evaluate()], and output is stored in a [Log] of the corresponding [Experiment].
 #'     - If set to `"callr"`, the code is executed in an independent R session. This guards your session from segfaults,
 #'       at the cost of some computational overhead. Logs are also stored in the [Experiment].
 #' * `encapsulate_predict`: How to call external code in third party packages during predict.
 #'   Same format as `encapsulate_train`.
-#' * `encapsulate_score`: How to call external code in third party packages during score
-#'   Same format as `encapsulate_train`.
-#' * `disable_future`: Set to `TRUE` to disable parallelization via \pkg{future}. This sometimes simplifies debugging.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
 #'
@@ -33,6 +30,8 @@
 #' mlr_control(store_model = FALSE)
 mlr_control = function(...) {
   ctrl = mlr_reflections$default_mlr_control
+  ctrl$log_threshold = logger::log_threshold(namespace = "mlr3")
+
   ldots = ...length()
   if (ldots == 0L)
     return(ctrl)
@@ -50,10 +49,4 @@ mlr_control = function(...) {
     stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
   ctrl[names(dots)] = dots
   ctrl
-}
-
-use_future = function(ctrl) {
-  isFALSE(ctrl$disable_future) &&
-    requireNamespace("future", quietly = TRUE) &&
-    requireNamespace("future.apply", quietly = TRUE)
 }

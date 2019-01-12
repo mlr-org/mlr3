@@ -3,17 +3,24 @@
 \name{PredictionRegr}
 \alias{PredictionRegr}
 \title{Prediction Object for Regression}
+\format{\link{R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
 }
 \section{Usage}{
-\preformatted{# Construction
+
+
+Inherits from \link{Prediction}\preformatted{# Construction
 p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
-#
-p$truth
+
+# Members
+p$predict_types
 p$response
+p$row_ids
 p$se
-#
+p$truth
+
+# S3 methods
 as.data.table(p)
 }
 }
@@ -21,15 +28,15 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{task} (\link{Task}):\cr
+\item \code{task} (\link{Task}):
 Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
 Set to \code{NULL} to skip all argument checks during initialization.
 Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
-\item \code{truth} (\code{numeric()}):\cr
+\item \code{truth} (\code{numeric()}):
 Numeric vector of true response.
-\item \code{response} (\code{numeric()}):\cr
+\item \code{response} (\code{numeric()}):
 Numeric vector of predictions. One element for each observation in the test set.
-\item \code{se} (\code{numeric()}):\cr
+\item \code{se} (\code{numeric()}):
 Numeric vector of predicted standard error. One element for each observation in the test set.
 }
 }
@@ -37,15 +44,26 @@ Numeric vector of predicted standard error. One element for each observation in 
 \section{Details}{
 
 \itemize{
-\item \code{$new()} initializes a new object of class \link{Prediction}.
-\item \code{$truth} stores the true values.
+\item \code{$predict_types} (\link{character}) stores the predict types available: a subset of \code{c("response", "se")}.
 \item \code{$response} stores the predicted values.
+\item \code{row_ids} stores the row IDs.
 \item \code{$se} stores the predicted standard errors (if available), or is \code{NULL}.
-\item The prediction object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}}
-with \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
+\item \code{$truth} stores the true values.
+\item \code{$new()} initializes a new object of class \link{Prediction}.
+\item The prediction object can be transformed to a simple \code{\link[=data.table]{data.table()}}
+with \link[data.table:as.data.table]{data.table::as.data.table}.
 }
 }
 
+\examples{
+task = mlr_tasks$get("bh")
+learner = mlr_learners$get("regr.featureless")
+learner$predict_type = "se"
+e = Experiment$new(task, learner)$train()$predict()
+p = e$prediction
+p$predict_types
+head(as.data.table(p))
+}
 \seealso{
 Other Prediction: \code{\link{PredictionClassif}},
   \code{\link{Prediction}}

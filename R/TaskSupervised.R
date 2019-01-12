@@ -1,43 +1,53 @@
-#' @title Abstract supervised task
+#' @title Supervised Task
 #'
+#' @name TaskSupervised
+#' @format [R6Class] object inheriting from [Task].
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
 #' It extends [Task] with some handling of target columns.
 #'
 #' @section Usage:
+#' Inherits from [Task].
 #' ```
 #' # Construction
-#' t = TaskSupervised$new(id, task_type, backend, targets)
-#' #
-#' t$truth(subset = NULL)
+#' t = TaskSupervised$new(id, task_type, backend, target)
+#'
+#' # Members
+#' t$weights
+#'
+#' # Methods
+#' t$truth(row_ids = NULL)
 #' ```
 #'
 #' @section Arguments:
-#' * `subset` (`integer()` | `character()`):\cr
+#' * `row_ids` (`integer()` | `character()`):
 #'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
 #'
 #' @section Details:
 #' * `$truth()` returns the true labels. The type depends on the type of the task.
+#' * `$weights` returns the weights used in the [DataBackend].
 #'
-#' @name TaskSupervised
 #' @family Task
 #' @keywords internal
+#' @examples
+#' b = as_data_backend(iris)
+#' task = TaskSupervised$new("iris", task_type = "classif", backend = b, target = "Species")
 NULL
 
 #' @include Task.R
 #' @export
 TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
-    initialize = function(id, task_type, backend, targets) {
-      assert_character(targets, any.missing = FALSE, min.len = 1L)
+    initialize = function(id, task_type, backend, target) {
+      assert_character(target, any.missing = FALSE, min.len = 1L)
       super$initialize(id = id, task_type = task_type, backend = backend)
 
-      i = which(targets %nin% self$col_roles$feature)
+      i = which(target %nin% self$col_roles$feature)
       if (length(i))
-        stopf("Target columns %s not in DataBackend", stri_head(targets[i]))
+        stopf("Target columns %s not in DataBackend", str_collapse(target[i], quote = "'"))
 
-      self$col_roles$target = targets
-      self$col_roles$feature = setdiff(self$col_roles$feature, targets)
+      self$col_roles$target = target
+      self$col_roles$feature = setdiff(self$col_roles$feature, target)
     },
 
     truth = function(row_ids = NULL) {

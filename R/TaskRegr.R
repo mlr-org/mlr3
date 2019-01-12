@@ -1,19 +1,20 @@
-#' @title Regression task
+#' @title Regression Task
 #'
+#' @name TaskRegr
+#' @format [R6Class] object inheriting from [Task]/[TaskSupervised].
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for regression problems.
 #' The target column is assumed to be numeric.
 #'
 #' @section Usage:
-#' In addition to the interface of [Task]/[TaskSupervised], this class implements:
+#' Inherits from [Task]/[TaskSupervised].
 #' ```
 #' t = TaskRegr$new(id, backend, target)
 #' ```
 #'
 #' @section Details:
-#' * `$task_type` is `"regr"`.
+#' `$task_type` is `"regr"`.
 #'
-#' @name TaskRegr
 #' @family Task
 #' @examples
 #' b = as_data_backend(iris)
@@ -32,7 +33,9 @@ TaskRegr = R6Class("TaskRegr",
       super$initialize(id = id, task_type = "regr", backend = backend, target = target)
 
       assert_string(target) # check for length 1
-      # assert_numeric(self$truth(), finite = TRUE, any.missing = FALSE, .var.name = "target column")
+      info = self$col_info[id == target]
+      if (info$type %nin% c("integer", "numeric"))
+        stopf("Target column '%s' must be numeric", target)
       self$measures = list(mlr_measures$get("mse"))
     },
 

@@ -1,92 +1,121 @@
 train_worker = function(e, ctrl) {
   data = e$data
-  learner = data$learner
-  require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
+  # we are going to change learner$model, so make sure we clone it first
+  learner = data$learner$clone(deep = TRUE)
+
+  # subset task
   task = data$task$clone(deep = TRUE)$filter(e$train_set)
-  pars = c(list(task = task), learner$param_vals)
 
-  log_info("Training learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
+  log_debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
 
+  # call train with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
-  res = set_names(enc(learner$train, pars),
-    c("model", "train_log", "train_time"))
+  res = set_names(enc(learner$train, list(task = task), learner$packages),
+    c("learner", "train_log", "train_time"))
 
-  if (!is.null(learner$fallback)) {
-    fb = assert_learner(learner$fallback)
-    log_info("Training fallback learner '%s' on task '%s' ...", fb$id, task$id, namespace = "mlr3")
-    require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
-    fb_model = try(fb$train(task))
-    if (inherits(fb_model, "try-error"))
-      stopf("Fallback learner '%s' failed during train", fb$id)
-    res$fallback = fb_model
+  # if something went wrong, res$learner is null
+  # we simply replace with the learner again (which has no model learnt)
+  if (is.null(res$learner)) {
+    res$learner = learner
+  } else {
+    assert_learner(res$learner)
   }
 
-  res
+  # if there is a fallback learner defined, also fit fallback learner
+  if (!is.null(learner$fallback)) {
+    fb = assert_learner(learner$fallback)
+    log_debug("train_worker: Training fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
+    require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
+    ok = try(fb$train(task))
+    if (inherits(ok, "try-error"))
+      stopf("Fallback learner '%s' failed during train", fb$id)
+  }
+
+  # result is list(learner, train_log, train_time)
+  return(res)
 }
+
 
 predict_worker = function(e, ctrl) {
   data = e$data
   learner = data$learner
-  model = data$model
 
+  # no model was learnt, try fallback learner
   if (data$train_log$has_condition("error")) {
     if (is.null(learner$fallback))
       stop(sprintf("Unable to predict learner '%s' without model", learner$id))
     learner = learner$fallback
-    model = data$fallback
   }
-  require_namespaces(learner$packages, sprintf("The following packages are required for learner %s: %%s", learner$id))
 
+  # filter task
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
-  pars = c(list(model = model, task = task), learner$param_vals)
 
-  log_info("Predicting model of learner '%s' on task '%s' ...", learner$id, task$id, namespace = "mlr3")
+  log_debug("predict_worker: Learner '%s' on task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
 
+  # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
-  res = set_names(enc(learner$predict, pars),
+  res = set_names(enc(learner$predict, list(task = task), learner$packages),
     c("prediction", "predict_log", "predict_time"))
+  if (!res$predict_log$has_condition("error")) {
+    if (!inherits(res$prediction, "Prediction")) {
+      res$predict_log$append("error", "predict() did not return a  Prediction object")
+      res["prediction"] = list(NULL)
+    }
+  }
+
   assert_class(res$prediction, "Prediction")
 
-  res
+  # result is list(prediction, predict_log, predict_time)
+  return(res)
 }
 
+
 score_worker = function(e, ctrl) {
-  lvl = if (ctrl$verbose) INFO else DEBUG
   data = e$data
   measures = data$measures
-  require_namespaces(unlist(map(measures, "packages")), "The following packages are required for the measures: %s")
+  pkgs = unique(unlist(map(measures, "packages")))
 
-  log_info("Scoring predictions of learner '%s' on task '%s' ...", data$learner$id, data$task$id, namespace = "mlr3")
-  calc_all_measures = function() {
-    set_names(lapply(measures, function(m) m$calculate(e)), ids(measures))
-  }
-  enc = encapsulate(ctrl$encapsulate_score)
-  res = enc(calc_all_measures, list())
+  log_debug("score_worker: Learner '%s' on task '%s' [%ix%i]", data$learner$id, data$task$id, data$task$nrow, data$task$ncol, namespace = "mlr3")
+
+  # call m$score with local encapsulation
+  score = function() { set_names(lapply(measures, function(m) m$calculate(e)), ids(measures)) }
+  enc = encapsulate("none")
+  res = enc(score, list(), pkgs)
+
   return(list(performance = res$result, score_time = res$elapsed))
 }
 
-experiment_worker = function(iteration, task, learner, resampling, measures, ctrl) {
-  e = Experiment$new(task, learner, resampling = resampling, iteration = iteration, measures = measures)
 
-  log_info("Running learner '%s' on task '%s (iteration %i/%i)' ...", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
+experiment_worker = function(iteration, task, learner, resampling, measures, ctrl, remote = FALSE) {
+  if (remote) {
+    # restore the state of the master session
+    # currently, this only affects logging as we do not use any global options
+    logger::log_threshold(ctrl$log_threshold, namespace = "mlr3")
+  }
 
-  logger::with_log_threshold(threshold = WARN, namespace = "mlr3", {
-    tmp = train_worker(e, ctrl)
-    e$data = insert_named(e$data, tmp)
+  # Create a new experiment
+  # Results will be inserted into e$data in a piecemeal fashion
+  e = as_experiment(task = task, learner = learner, resampling = resampling, iteration = iteration, measures = measures)
 
-    tmp = predict_worker(e, ctrl)
-    e$data = insert_named(e$data, tmp)
+  log_info("Running learner '%s' on task '%s' (iteration %i/%i)'", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
 
-    tmp = score_worker(e, ctrl)
-    e$data = insert_named(e$data, tmp)
-  })
+  tmp = train_worker(e, ctrl)
+  e$data = insert_named(e$data, tmp)
+
+  tmp = predict_worker(e, ctrl)
+  e$data = insert_named(e$data, tmp)
+
+  tmp = score_worker(e, ctrl)
+  e$data = insert_named(e$data, tmp)
 
   if (!ctrl$store_prediction)
     e$data["prediction"] = list(NULL)
 
-  if (!ctrl$store_model)
-    e$data["model"] = list(NULL)
+  if (!ctrl$store_model) {
+    e$data$learner$model = NULL
+  }
 
-  remove_named(e$data, c("task", "learner", "resampling", "measures"))
+  # Remove slots which are already known by the calling function and return data slot
+  remove_named(e$data, c("task", "resampling", "measures"))
 }

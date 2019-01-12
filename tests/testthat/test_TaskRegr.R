@@ -11,3 +11,18 @@ test_that("Basic ops on BostonHousing task", {
   expect_class(f, "formula")
   expect_set_equal(attr(terms(f), "term.labels"), task$feature_names)
 })
+
+test_that("Target is numeric", {
+  b = as_data_backend(iris)
+  expect_error(TaskRegr$new("iris", backend = b, target = "Species"), "Target column")
+})
+
+test_that("Replace features", {
+  task = mlr_tasks$get("bh")
+  data = task$data()[, task$feature_names[1:3], with = FALSE]
+  task$replace_features(data)
+  expect_task(task)
+  expect_task_regr(task)
+  expect_equal(task$nrow, mlr_tasks$get("bh")$nrow)
+  expect_equal(task$ncol, 4L)
+})

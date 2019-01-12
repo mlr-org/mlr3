@@ -87,6 +87,9 @@
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -144,7 +147,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Learner Class</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/Learner.R'><code>R/Learner.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerClassif.R'><code>R/LearnerClassif.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerRegr.R'><code>R/LearnerRegr.R</code></a></small>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/Learner.R'><code>R/Learner.R</code></a></small>
     </div>
 
     
@@ -152,79 +155,87 @@
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object.</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre># Construction
 l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-#
-l$id
-l$task_type
+    # Members
+l$fallback
 l$feature_types
-l$predict_types
-l$predict_type
+l$hash
+l$id
+l$model
 l$packages
 l$param_set
 l$param_vals
+l$params_predict
+l$params_train
+l$predict_type
+l$predict_types
 l$properties
+l$task_type
+    # Methods
 l$train(task)
-l$predict(task, model)
-l$hash
+l$predict(task)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
     
     <ul>
-<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
-Identifier for this object.</p></li>
-<li><p><code>task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):<br />
-Type of the task the learner can operator on. E.g., <code>"classif"</code> or <code>"regr"</code>.</p></li>
-<li><p><code>feature_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
-Feature types the learner operates on. Must be a subset of <code>mlr_reflections$task_feature_types</code>.</p></li>
-<li><p><code>predict_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
-Supported predict types. Must be a subset of <code>mlr_reflections$predict_types</code>.</p></li>
-<li><p><code>packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]:<br />
-Set of required packages.</p></li>
-<li><p><code>param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>):<br />
-Set of required packages.</p></li>
-<li><p><code>param_vals</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>):<br />
-List of hyperparameters.</p></li>
-<li><p><code>properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
-Set of properties of the learner. Must be a subset of <code>mlr_reflections$learner_properties</code>.</p></li>
-<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
-Task to train/predict on.</p></li>
-<li><p><code>model</code>:<br />
-Arbitrary fitted model as returned by <code>train()</code>.</p></li>
+<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): Identifier for this object.</p></li>
+<li><p><code>task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): Type of the task the learner can operator on. E.g., <code>"classif"</code> or <code>"regr"</code>.</p></li>
+<li><p><code>feature_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Feature types the learner operates on. Must be a subset of <code>mlr_reflections$task_feature_types</code>.</p></li>
+<li><p><code>predict_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Supported predict types. Must be a subset of <code>mlr_reflections$predict_types</code>.</p></li>
+<li><p><code>packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]: Set of required packages.</p></li>
+<li><p><code>param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>): Set of required packages.</p></li>
+<li><p><code>param_vals</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>): List of hyperparameters.</p></li>
+<li><p><code>properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Set of properties of the learner. Must be a subset of <code>mlr_reflections$learner_properties</code>.</p></li>
+<li><p><code>task</code> (<a href='Task.html'>Task</a>): Task to train/predict on.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
     <ul>
-<li><p><code>$new()</code> creates a new object of class Learner.</p></li>
+<li><p><code>$fallback</code> (Learner | <code>NULL</code>) optionally stores a fallback learner which
+is used to generate predictions if this learner fails to train or predict.
+This mechanism is disabled unless you explicitly assign a learner to this slot.</p></li>
+<li><p><code>$feature_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the feature types the learner can
+handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.</p></li>
+<li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code> and <code>param_vals</code>.
+This hash is cached internally.</p></li>
 <li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
-<li><p><code>$task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the type of class this learner can operate on, e.g. <code>"classif"</code> or <code>"regr"</code>.</p></li>
-<li><p><code>$feature_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.</p></li>
-<li><p><code>$predict_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the possible predict types the learner is capable of. For classification,
-feasible values are <code>"response"</code> and <code>"prob"</code>, for regression <code>"response"</code> and <code>"se"</code> can be specified.</p></li>
-<li><p><code>$predict_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the currently selected predict type.</p></li>
 <li><p><code>$packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the names of required packages.</p></li>
-<li><p><code>$param_set()</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>) describes the available hyperparameter and possible settings.</p></li>
-<li><p><code>$param_vals()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) stores the list set hyperparameter values.</p></li>
-<li><p><code>$properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) is a set of tags which describe the properties of the learner.</p></li>
-<li><p><code>$train()</code> takes a task and returns a model fitted on all observations.</p></li>
-<li><p><code>$predict()</code> takes a task and the model fitted in <code>$train()</code> to return predicted labels.</p></li>
-<li><p><code>$fallback</code> stores the fallback learner which is used to generate predictions if this learner
-fails to train or predict. This mechanism is disabled unless you explictly
-assign a learner to this slot.</p></li>
-<li><p><code>$hash</code> stores a checksum (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) calculated on the <code>id</code> and <code>param_vals</code>.</p></li>
+<li><p><code>$param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>) describes the available hyperparameter
+and possible settings.</p></li>
+<li><p><code>$param_vals</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) stores the list set hyperparameter values.</p></li>
+<li><p><code>$params_predict</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) stores the settings that have been used for prediction.</p></li>
+<li><p><code>$params_train</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) stores the settings that have been used for training</p></li>
+<li><p><code>$predict_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the currently selected predict type.</p></li>
+<li><p><code>$predict_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the possible predict types the learner
+is capable of. For classification, feasible values are <code>"response"</code> and
+<code>"prob"</code>, for regression <code>"response"</code> and <code>"se"</code> can be specified.</p></li>
+<li><p><code>$properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) is a set of tags which describe the properties
+of the learner.</p></li>
+<li><p><code>$task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the type of class this learner can
+operate on, e.g. <code>"classif"</code> or <code>"regr"</code>.</p></li>
+<li><p><code>$new()</code> creates a new object of class Learner.</p></li>
+<li><p><code>$predict()</code> takes a <a href='Task.html'>Task</a> and uses <code>self$model</code> (fitted during train())
+to return a <a href='Prediction.html'>Prediction</a> object.</p></li>
+<li><p><code>$train()</code> takes a <a href='Task.html'>Task</a>, sets the slot <code>model</code> and returns <code>self</code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Learner: <code><a href='mlr_learners.html'>mlr_learners</a></code></p></div>
+    <div class='dont-index'><p>Other Learner: <code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
+  <code><a href='LearnerRegr.html'>LearnerRegr</a></code>, <code><a href='mlr_learners.html'>mlr_learners</a></code></p></div>
     
 
   </div>
@@ -232,6 +243,8 @@ assign a learner to this slot.</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
@@ -246,7 +259,7 @@ assign a learner to this slot.</p></li>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

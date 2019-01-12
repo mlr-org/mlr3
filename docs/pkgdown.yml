@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   basic-01-tasks: basic-01-tasks.html
   basic-02-train-predict-score: basic-02-train-predict-score.html
-  basic-03-resample: basic-03-resample.html
+  basic-03-resample-benchmarking: basic-03-resample-benchmarking.html
   basic-04-parallelization: basic-04-parallelization.html
   basic-05-error-handling: basic-05-error-handling.html
 urls:

@@ -30,7 +30,10 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="Prediction Object for Classification — PredictionClassif" />
 
-<meta property="og:description" content="This object stores the predictions returned by a learner of class LearnerClassif." />
+<meta property="og:description" content="This object stores the predictions returned by a learner of class LearnerClassif.
+If probabilities are provided via construction and response is missing,
+the response is calculated from the probabilities: the class label with the highest
+probability is chosen. In case of ties, a random class label of the tied labels picked." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -86,6 +89,9 @@
     </li>
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
+    </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
     </li>
   </ul>
 </li>
@@ -148,19 +154,28 @@
     </div>
 
     
-    <p>This object stores the predictions returned by a learner of class <a href='Learner.html'>LearnerClassif</a>.</p>
+    <p>This object stores the predictions returned by a learner of class <a href='LearnerClassif.html'>LearnerClassif</a>.
+If probabilities are provided via construction and response is missing,
+the response is calculated from the probabilities: the class label with the highest
+probability is chosen. In case of ties, a random class label of the tied labels picked.</p>
     
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>R6Class object inheriting from <a href='Prediction.html'>Prediction</a>.</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre># Construction
+    
+    <p>Inherits from <a href='Prediction.html'>Prediction</a></p><pre># Construction
 p = PredictionClassif$new(task, response, prob = NULL)
-#
-p$truth
+    # Members
+p$predict_types
 p$response
-p$prob
-#
+p$row_ids
+p$truth
+    # S3 methods
 as.data.table(p)
 </pre>
     
@@ -168,13 +183,12 @@ as.data.table(p)
 
     
     <ul>
-<li><p><code>task</code> (<a href='Task.html'>Task</a>):<br />
+<li><p><code>task</code> (<a href='Task.html'>Task</a>):
 Task used for prediction. Used to extract <code>row_ids</code> and <code>truth</code>.
 Set to <code>NULL</code> to skip all argument checks during initialization.
 Slots <code>p$row_ids</code> and <code>p$truth</code> need to be set manually in this case</p></li>
-<li><p><code>response</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):<br />
-Vector of predicted class labels.</p></li>
-<li><p><code>prob</code> (<code>matrix</code>):<br />
+<li><p><code>response</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Vector of predicted class labels.</p></li>
+<li><p><code>prob</code> (<code>matrix</code>):
 Numeric matrix of class probabilities with one column for each class in <code>task$all_classes</code>
 and one row for each observation in the test set.</p></li>
 </ul>
@@ -183,12 +197,13 @@ and one row for each observation in the test set.</p></li>
 
     
     <ul>
+<li><p><code>$predict_types</code> (<a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a>) stores the predict types available: a subset of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("response", "se")</a></code>.</p></li>
+<li><p><code>$response</code> stores the predicted values.</p></li>
+<li><p><code>row_ids</code> stores the row IDs.</p></li>
+<li><p><code>$truth</code> stores the true values.</p></li>
 <li><p><code>$new()</code> initializes a new object of class <a href='Prediction.html'>Prediction</a>.</p></li>
-<li><p><code>$truth</code> stores the predicted class labels as factor.</p></li>
-<li><p><code>$response</code> stores the predicted class labels as factor.</p></li>
-<li><p><code>$prob</code> stores the label probabilities (if available) as matrix, or is <code>NULL</code>.</p></li>
-<li><p>The prediction object can be transformed to a simple <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>
-with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as.data.table'>data.table::as.data.table()</a></code>.</p></li>
+<li><p>The prediction object can be transformed to a simple <code>data.table()</code>
+with <a href='https://www.rdocumentation.org/packages/data.table/topics/as.data.table'>data.table::as.data.table</a>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -197,11 +212,26 @@ with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as
   <code><a href='Prediction.html'>Prediction</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)
+<span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.rpart"</span>)
+<span class='no'>learner</span>$<span class='no'>predict_type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>
+<span class='no'>e</span> <span class='kw'>=</span> <span class='no'>Experiment</span>$<span class='fu'>new</span>(<span class='no'>task</span>, <span class='no'>learner</span>)$<span class='fu'>train</span>()$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>()</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...
+#&gt; INFO [mlr3] Predicting with model of learner 'classif.rpart' on task 'iris' ...</div><div class='input'><span class='no'>p</span> <span class='kw'>=</span> <span class='no'>e</span>$<span class='no'>prediction</span>
+<span class='no'>p</span>$<span class='no'>predict_types</span></div><div class='output co'>#&gt; [1] "response" "prob"    </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>p</span>))</div><div class='output co'>#&gt;    row_id response  truth prob.setosa prob.versicolor prob.virginica
+#&gt; 1:      1   setosa setosa           1               0              0
+#&gt; 2:      2   setosa setosa           1               0              0
+#&gt; 3:      3   setosa setosa           1               0              0
+#&gt; 4:      4   setosa setosa           1               0              0
+#&gt; 5:      5   setosa setosa           1               0              0
+#&gt; 6:      6   setosa setosa           1               0              0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
+      <li><a href="#format">Format</a></li>
+
       <li><a href="#usage">Usage</a></li>
 
       <li><a href="#arguments">Arguments</a></li>
@@ -209,14 +239,16 @@ with <code><a href='https://www.rdocumentation.org/packages/data.table/topics/as
       <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

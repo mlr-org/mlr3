@@ -6,16 +6,15 @@ test_that("resample", {
   resampling = mlr_resamplings$get("cv")
   resampling$param_vals = list(folds = 3)
 
-  logger::log_threshold(WARN, namespace = "mlr3")
   rr = resample(task, learner, resampling)
 
   expect_resample_result(rr)
   expect_numeric(rr$performance(task$measures[[1]]$id), any.missing = FALSE)
   expect_number(rr$aggregated)
-  expect_same_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
+  expect_different_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
   expect_same_address(rr$data$task[[1L]], rr$data$task[[2L]])
   expect_same_address(rr$data$resampling[[1L]], rr$data$resampling[[2L]])
-  expect_different_address(rr$data$model[[1L]], rr$data$model[[2L]])
+  expect_different_address(rr$data$learner[[1L]]$model, rr$data$learner[[2L]]$model)
 })
 
 test_that("resample with multiple measures", {
@@ -57,5 +56,18 @@ test_that("discarding model", {
   resampling$param_vals = list(folds = 3)
 
   rr = resample(task, learner, resampling, ctrl = mlr_control(store_model = FALSE))
-  expect_equal(rr$data$model, vector("list", 3L))
+  expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
+})
+
+test_that("inputs are cloned", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.featureless")
+  resampling = mlr_resamplings$get("holdout")
+  resampling$instantiate(task)
+
+  rr = resample(task, learner, resampling)
+  e = rr$experiment(1L)
+  expect_different_address(task, e$task)
+  expect_different_address(learner, e$learner)
+  expect_different_address(resampling, e$data$resampling)
 })

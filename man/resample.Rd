@@ -4,23 +4,19 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, measures = NULL, ctrl = list())
+resample(task, learner, resampling, ctrl = list())
 }
 \arguments{
-\item{task}{(\link{Task}):\cr
+\item{task}{(\link{Task}):
 Object of type \link{Task}.}
 
-\item{learner}{(\link{Learner}):\cr
+\item{learner}{(\link{Learner}):
 Object of type \link{Learner}.}
 
-\item{resampling}{(\link{Resampling}):\cr
+\item{resampling}{(\link{Resampling}):
 Object of type \link{Resampling}.}
 
-\item{measures}{(\code{list} of \link{Measure}):\cr
-List of performance measures used to assess the predictive performance.
-Defaults to the measures stored in \code{task}.}
-
-\item{ctrl}{(named \code{list()}, e.g. as returned by \code{\link[=mlr_control]{mlr_control()}}):\cr
+\item{ctrl}{(named \code{list()}, e.g. as returned by \code{\link[=mlr_control]{mlr_control()}}):
 Object to control various parts of the execution. See \code{\link[=mlr_control]{mlr_control()}}.}
 }
 \value{
@@ -30,12 +26,16 @@ Object to control various parts of the execution. See \code{\link[=mlr_control]{
 Runs a resampling (possibly in parallel).
 }
 \examples{
-set.seed(123)
+\dontshow{
+   set.seed(123)
+   .threshold = logger::log_threshold(namespace = "mlr3")
+   logger::log_threshold(logger::WARN, namespace = "mlr3")
+}
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 resampling = mlr_resamplings$get("cv")
 rr = resample(task, learner, resampling)
-print(rr)
+print(rr, digits = 2)
 rr$aggregated
 rr$performance("mmce")
 
@@ -46,4 +46,7 @@ rr.featureless = resample(task, learner, resampling)
 
 bmr = rr$combine(rr.featureless)
 bmr$aggregated
+\dontshow{
+   logger::log_threshold(.threshold, namespace = "mlr3")
+}
 }

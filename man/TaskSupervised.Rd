@@ -2,23 +2,29 @@
 % Please edit documentation in R/TaskSupervised.R
 \name{TaskSupervised}
 \alias{TaskSupervised}
-\title{Abstract supervised task}
+\title{Supervised Task}
+\format{\link{R6Class} object inheriting from \link{Task}.}
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
 It extends \link{Task} with some handling of target columns.
 }
 \section{Usage}{
-\preformatted{# Construction
-t = TaskSupervised$new(id, task_type, backend, targets)
-#
-t$truth(subset = NULL)
+
+Inherits from \link{Task}.\preformatted{# Construction
+t = TaskSupervised$new(id, task_type, backend, target)
+
+# Members
+t$weights
+
+# Methods
+t$truth(row_ids = NULL)
 }
 }
 
 \section{Arguments}{
 
 \itemize{
-\item \code{subset} (\code{integer()} | \code{character()}):\cr
+\item \code{row_ids} (\code{integer()} | \code{character()}):
 Subset of row ids to subset rows from the \link{DataBackend} using its primary key.
 }
 }
@@ -27,9 +33,14 @@ Subset of row ids to subset rows from the \link{DataBackend} using its primary k
 
 \itemize{
 \item \code{$truth()} returns the true labels. The type depends on the type of the task.
+\item \code{$weights} returns the weights used in the \link{DataBackend}.
 }
 }
 
+\examples{
+b = as_data_backend(iris)
+task = TaskSupervised$new("iris", task_type = "classif", backend = b, target = "Species")
+}
 \seealso{
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskRegr}}, \code{\link{Task}},

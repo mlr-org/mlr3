@@ -1,5 +1,7 @@
 #' @title Learner Class
 #'
+#' @name Learner
+#' @format [R6Class] object.
 #' @description
 #' Predefined learners are stored in [mlr_learners].
 #'
@@ -9,63 +11,67 @@
 #' l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #' l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #' l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-#' #
-#' l$id
-#' l$task_type
+#'
+#' # Members
+#' l$fallback
 #' l$feature_types
-#' l$predict_types
-#' l$predict_type
+#' l$hash
+#' l$id
+#' l$model
 #' l$packages
 #' l$param_set
 #' l$param_vals
+#' l$params_predict
+#' l$params_train
+#' l$predict_type
+#' l$predict_types
 #' l$properties
+#' l$task_type
+#'
+#' # Methods
 #' l$train(task)
-#' l$predict(task, model)
-#' l$hash
+#' l$predict(task)
 #' ```
 #'
 #' @section Arguments:
-#' * `id` (`character(1)`):\cr
-#'   Identifier for this object.
-#' * `task_type` (`character(1)`):\cr
-#'   Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
-#' * `feature_types` (`character()`):\cr
-#'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
-#' * `predict_types` (`character()`):\cr
-#'   Supported predict types. Must be a subset of `mlr_reflections$predict_types`.
-#' * `packages` (`character()`]:\cr
-#'   Set of required packages.
-#' * `param_set` ([paradox::ParamSet]):\cr
-#'   Set of required packages.
-#' * `param_vals` (named `list()`):\cr
-#'   List of hyperparameters.
-#' * `properties` (`character()`):\cr
-#'   Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
-#' * `task` ([Task]):\cr
-#'   Task to train/predict on.
-#' * `model`:\cr
-#'   Arbitrary fitted model as returned by `train()`.
+#' * `id` (`character(1)`): Identifier for this object.
+#' * `task_type` (`character(1)`): Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
+#' * `feature_types` (`character()`): Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
+#' * `predict_types` (`character()`): Supported predict types. Must be a subset of `mlr_reflections$predict_types`.
+#' * `packages` (`character()`]: Set of required packages.
+#' * `param_set` ([paradox::ParamSet]): Set of required packages.
+#' * `param_vals` (named `list()`): List of hyperparameters.
+#' * `properties` (`character()`): Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
+#' * `task` ([Task]): Task to train/predict on.
 #'
 #' @section Details:
-#' * `$new()` creates a new object of class [Learner].
+#' * `$fallback` ([Learner] | `NULL`) optionally stores a fallback learner which
+#'   is used to generate predictions if this learner fails to train or predict.
+#'   This mechanism is disabled unless you explicitly assign a learner to this slot.
+#' * `$feature_types` (`character()`) stores the feature types the learner can
+#'   handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+#' * `$hash` (`character(1)`) stores a checksum calculated on the `id` and `param_vals`.
+#'   This hash is cached internally.
 #' * `$id` (`character(1)`) stores the identifier of the object.
-#' * `$task_type` (`character(1)`) stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
-#' * `$feature_types` (`character()`) stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
-#' * `$predict_types` (`character()`) stores the possible predict types the learner is capable of. For classification,
-#'   feasible values are `"response"` and `"prob"`, for regression `"response"` and `"se"` can be specified.
-#' * `$predict_type` (`character(1)`) stores the currently selected predict type.
 #' * `$packages` (`character()`) stores the names of required packages.
-#' * `$param_set()` ([paradox::ParamSet]) describes the available hyperparameter and possible settings.
-#' * `$param_vals()` (named `list()`) stores the list set hyperparameter values.
-#' * `$properties` (`character()`) is a set of tags which describe the properties of the learner.
-#' * `$train()` takes a task and returns a model fitted on all observations.
-#' * `$predict()` takes a task and the model fitted in `$train()` to return predicted labels.
-#' * `$fallback` stores the fallback learner which is used to generate predictions if this learner
-#'    fails to train or predict. This mechanism is disabled unless you explictly
-#'    assign a learner to this slot.
-#' * `$hash` stores a checksum (`character(1)`) calculated on the `id` and `param_vals`.
+#' * `$param_set` ([paradox::ParamSet]) describes the available hyperparameter
+#'   and possible settings.
+#' * `$param_vals` (named `list()`) stores the list set hyperparameter values.
+#' * `$params_predict` (`list()`) stores the settings that have been used for prediction.
+#' * `$params_train` (`list()`) stores the settings that have been used for training
+#' * `$predict_type` (`character(1)`) stores the currently selected predict type.
+#' * `$predict_types` (`character()`) stores the possible predict types the learner
+#'   is capable of. For classification, feasible values are `"response"` and
+#'   `"prob"`, for regression `"response"` and `"se"` can be specified.
+#' * `$properties` (`character()`) is a set of tags which describe the properties
+#'   of the learner.
+#' * `$task_type` (`character(1)`) stores the type of class this learner can
+#'   operate on, e.g. `"classif"` or `"regr"`.
+#' * `$new()` creates a new object of class [Learner].
+#' * `$predict()` takes a [Task] and uses `self$model` (fitted during train())
+#'   to return a [Prediction] object.
+#' * `$train()` takes a [Task], sets the slot `model` and returns `self`.
 #'
-#' @name Learner
 #' @family Learner
 NULL
 
@@ -79,6 +85,7 @@ Learner = R6Class("Learner",
     packages = NULL,
     properties = NULL,
     param_set = NULL,
+    model = NULL,
     fallback = NULL,
 
     initialize = function(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
@@ -87,17 +94,20 @@ Learner = R6Class("Learner",
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, mlr_reflections$predict_types[[task_type]], empty.ok = FALSE)
       self$packages = assert_set(packages)
-      self$properties = assert_set(properties)
+      self$properties = sort(assert_set(properties))
       self$param_set = assert_param_set(param_set)
       private$.param_vals = assert_param_vals(param_vals, param_set)
     },
 
     train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
     predict = function(...) stopf("Method not implemented, should have been overloaded during construction"),
-    print = function(...) {
-      catf("Learner '%s' for %s", self$id, self$task_type)
-      catf("Parameters: %s", as_short_string(self$param_vals, 1000L))
-      catf("Feature types: %s", paste0(self$feature_types, collapse = ","))
+
+    format = function() {
+      sprintf("<%s:%s>", class(self)[1L], self$id)
+    },
+
+    print = function() {
+      learner_print(self)
     }
   ),
 
@@ -122,11 +132,36 @@ Learner = R6Class("Learner",
       if (rhs %nin% self$predict_types)
         stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
+    },
+
+    params_train = function() {
+      # TODO: move some logic to paradox
+      pv = self$param_vals
+      pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = "train")]
+    },
+
+    params_predict = function() {
+      # TODO: move some logic to paradox
+      pv = self$param_vals
+      pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = "predict")]
     }
   ),
+
   private = list(
     .hash = NA_character_,
     .param_vals = NULL,
     .predict_type = NULL
   )
 )
+
+learner_print = function(self) {
+  catf(format(self))
+  catf(str_indent("Parameters:", as_short_string(self$param_vals, 1000L)))
+  catf(str_indent("Packages:", self$packages))
+  catf(str_indent("Predict Type:", self$predict_type))
+  catf(str_indent("Feature types:", self$feature_types))
+  catf(str_indent("Properties:", self$properties))
+  if (!is.null(self$fallback))
+    catf(str_indent("Fallback:", format(self$fallback)))
+  catf(str_indent("\nPublic:", str_r6_interface(self)))
+}

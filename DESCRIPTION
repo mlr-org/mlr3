@@ -14,7 +14,17 @@ Authors@R:
       person(given = "Jakob",
              family = "Richter",
              role = "aut",
-             email = "jakob1richter@gmail.com"))
+             email = "jakob1richter@gmail.com"),
+      person(given = "Giuseppe",
+             family = "Casalicchio",
+             role = "aut",
+             email = "giuseppe.casalicchio@stat.uni-muenchen.de",
+             comment = c(ORCID = "0000-0001-5324-5966")),
+      person(given = "Patrick",
+             family = "Schratz",
+             role = "aut",
+             email = "patrick.schratz@gmail.com",
+             comment = c(ORCID = "0000-0003-0748-6624")))
 Description: Machine Learning in R. Next Generation.
 License: MIT + file LICENSE
 URL: https://github.com/mlr-org/mlr3
@@ -24,7 +34,7 @@ Depends:
 Imports:
     backports,
     bit,
-    checkmate (>= 1.8.9),
+    checkmate (>= 1.9.0),
     data.table,
     digest,
     logger,
@@ -52,11 +62,8 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
-    daroczig/logger,
-    mllg/checkmate,
-    mlr-org/paradox,
-    mlr-org/mlr3misc
-ByteCompile: true
+    mlr-org/mlr3misc,
+    mlr-org/paradox
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
@@ -68,7 +75,6 @@ Collate:
     'DataBackendCbind.R'
     'DataBackendDataTable.R'
     'DataBackendMatrix.R'
-    'DataBackendOverwrite.R'
     'DataBackendRbind.R'
     'Dictionary.R'
     'Experiment.R'
@@ -84,21 +90,25 @@ Collate:
     'PredictionRegr.R'
     'ResampleResult.R'
     'Resampling.R'
-    'reflections.R'
+    'mlr_reflections.R'
     'Task.R'
     'TaskSupervised.R'
     'TaskClassif.R'
     'TaskRegr.R'
     'Task_mutators.R'
+    'as_data_backend.R'
     'assertions.R'
     'benchmark.R'
     'encapsulate.R'
+    'generate_tasks.R'
     'helper.R'
+    'helper_future.R'
+    'helper_print.R'
     'mlr_control.R'
     'mlr_learners.R'
+    'mlr_learners_classif_debug.R'
     'mlr_learners_classif_featureless.R'
     'mlr_learners_classif_rpart.R'
-    'mlr_learners_crashtest.R'
     'mlr_learners_regr_featureless.R'
     'mlr_learners_regr_rpart.R'
     'mlr_measures.R'
@@ -111,12 +121,11 @@ Collate:
     'mlr_resamplings_bootstrap.R'
     'mlr_resamplings_custom.R'
     'mlr_resamplings_cv.R'
-    'mlr_resamplings_subsampling.R'
     'mlr_resamplings_holdout.R'
     'mlr_resamplings_repeated_cv.R'
+    'mlr_resamplings_subsampling.R'
     'mlr_tasks.R'
     'reexports.R'
     'resample.R'
-    'split_train_validation.R'
     'worker.R'
     'zzz.R'

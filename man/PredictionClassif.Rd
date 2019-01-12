@@ -3,17 +3,25 @@
 \name{PredictionClassif}
 \alias{PredictionClassif}
 \title{Prediction Object for Classification}
+\format{\link{R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerClassif}.
+If probabilities are provided via construction and response is missing,
+the response is calculated from the probabilities: the class label with the highest
+probability is chosen. In case of ties, a random class label of the tied labels picked.
 }
 \section{Usage}{
-\preformatted{# Construction
+
+Inherits from \link{Prediction}\preformatted{# Construction
 p = PredictionClassif$new(task, response, prob = NULL)
-#
-p$truth
+
+# Members
+p$predict_types
 p$response
-p$prob
-#
+p$row_ids
+p$truth
+
+# S3 methods
 as.data.table(p)
 }
 }
@@ -21,13 +29,12 @@ as.data.table(p)
 \section{Arguments}{
 
 \itemize{
-\item \code{task} (\link{Task}):\cr
+\item \code{task} (\link{Task}):
 Task used for prediction. Used to extract \code{row_ids} and \code{truth}.
 Set to \code{NULL} to skip all argument checks during initialization.
 Slots \code{p$row_ids} and \code{p$truth} need to be set manually in this case
-\item \code{response} (\code{factor()} | \code{character()}):\cr
-Vector of predicted class labels.
-\item \code{prob} (\code{matrix}):\cr
+\item \code{response} (\code{factor()} | \code{character()}): Vector of predicted class labels.
+\item \code{prob} (\code{matrix}):
 Numeric matrix of class probabilities with one column for each class in \code{task$all_classes}
 and one row for each observation in the test set.
 }
@@ -36,15 +43,25 @@ and one row for each observation in the test set.
 \section{Details}{
 
 \itemize{
+\item \code{$predict_types} (\link{character}) stores the predict types available: a subset of \code{c("response", "se")}.
+\item \code{$response} stores the predicted values.
+\item \code{row_ids} stores the row IDs.
+\item \code{$truth} stores the true values.
 \item \code{$new()} initializes a new object of class \link{Prediction}.
-\item \code{$truth} stores the predicted class labels as factor.
-\item \code{$response} stores the predicted class labels as factor.
-\item \code{$prob} stores the label probabilities (if available) as matrix, or is \code{NULL}.
-\item The prediction object can be transformed to a simple \code{\link[data.table:data.table]{data.table::data.table()}}
-with \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
+\item The prediction object can be transformed to a simple \code{\link[=data.table]{data.table()}}
+with \link[data.table:as.data.table]{data.table::as.data.table}.
 }
 }
 
+\examples{
+task = mlr_tasks$get("iris")
+learner = mlr_learners$get("classif.rpart")
+learner$predict_type = "prob"
+e = Experiment$new(task, learner)$train()$predict()
+p = e$prediction
+p$predict_types
+head(as.data.table(p))
+}
 \seealso{
 Other Prediction: \code{\link{PredictionRegr}},
   \code{\link{Prediction}}

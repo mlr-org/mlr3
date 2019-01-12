@@ -1,5 +1,25 @@
+#' @title Classification Learner
+#'
 #' @name LearnerClassif
-#' @rdname Learner
+#' @format [R6Class] object inheriting from [Learner].
+#' @description
+#' This Learner specializes [Learner] for classification problems.
+#'
+#' @section Usage:
+#' See [Learner].
+#'
+#' @section Details:
+#' `$task_type` is `"classif"`.
+#'
+#' @family Learner
+#' @examples
+#' # get all classification learners from mlr_learners:
+#' lrns = mlr_learners$mget(mlr_learners$ids("^classif"))
+#' names(lrns)
+#'
+#' # get a specific learner from mlr_learners:
+#' lrn = mlr_learners$get("classif.rpart")
+#' print(lrn)
 NULL
 
 #' @export

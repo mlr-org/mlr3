@@ -2,67 +2,58 @@
 % Please edit documentation in R/Dictionary.R
 \name{Dictionary}
 \alias{Dictionary}
-\title{Key-value storage}
+\title{Key-Value Storage}
+\format{\link{R6Class} object.}
 \description{
-A simple key-value store for \pkg{R6} objects.
+A simple key-value store for \link[R6:R6]{R6::R6} objects.
 On retrieval of an object, the following applies:
 \itemize{
+\item Functions are called (with no arguments).
 \item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized (with no arguments).
 \item \link[R6:R6Class]{R6::R6Class} objects are cloned.
-\item Functions are called (with no arguments).
 \item All other objects are returned as-is.
 }
 }
 \section{Usage}{
 \preformatted{# Construction
 d = Dictionary$new()
-# Getters
-d$keys(pattern)
+
+# Methods
 d$add(value)
 d$get(key)
+d$has(keys)
+d$keys(pattern)
 d$mget(keys)
-d$has(key)
 d$remove(key, value)
 d$remove(keys)
-# S3 methods
+
+## S3 methods
 as.data.frame(d)
 as.data.table(d)
-names(d)
-length(d)
-d[[key]]
-d[keys]
 }
 }
 
 \section{Arguments}{
 
 \itemize{
-\item \code{pattern} (\code{character(1)}):\cr
-Restrict keys to keys  which match \code{pattern}.
-\item \code{key} (\code{character(1)}):\cr
-Single Key as string.
-\item \code{value}:\cr
-Arbitrary value.
-\item \code{keys} (\code{character()}):\cr
-Vector of keys.
+\item \code{pattern} (\code{character(1)}): Restrict to ids which match the regular expression \code{pattern}.
+\item \code{id} (\code{character(1)}): Single id as string.
+\item \code{value}: Arbitrary value.
+\item \code{ids} (\code{character()}): Vector of ids.
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$new()} initializes a new object of class \link{Dictionary}.
-\item \code{$keys()} (\code{character()}) returns a vector with all keys (or all keys matching \code{pattern}).
-\item \code{$get()} retrieves a single object with key \code{key} (or raises an exception).
-\item \code{$mget()} (named \code{list}) creates a list of objects with keys \code{keys} (or raises an exception).
-\item \code{$has()} (\code{logical()}) is \code{TRUE} if \code{key} is present in the Dictionary.
 \item \code{$add()} adds item \code{value} with key \code{key} to the Dictionary.
+\item \code{$get()} retrieves a single object with key \code{key} (or raises an exception).
+\item \code{$has()} (\code{logical()}) returns a named logical of the same length as \code{keys} with value \code{TRUE} if the respective key is found in the Dictionary.
+\item \code{$keys()} (\code{character()}) returns a vector with all keys (or all keys matching \code{pattern}).
+\item \code{$mget()} (named \code{list}) creates a list of objects with keys \code{keys} (or raises an exception).
+\item \code{$new()} initializes a new object of class \link{Dictionary}.
 \item \code{$remove()} removes item with key \code{key} from the Dictionary.
-\item \code{as.data.frame()} and \code{as.data.table()} give a summarizing overview as \code{data.frame} or \code{data.table}, respectively.
-\item \code{names(d)} is an alternative way to call \code{d$keys()}.
-\item \code{d[[key]]} is an alternative way to call \code{d$get(key)}.
-\item \code{d[keys]} is an alternative way to call \code{d$mget(key)}.
-\item \code{length(d)} returns the number of items stored in the Dictionary.
+\item \code{as.data.frame()} and \code{as.data.table()} give a summarizing overview as \code{\link[=data.frame]{data.frame()}} or \code{\link[=data.table]{data.table()}}, respectively.#'
 }
 }
 
@@ -72,3 +63,4 @@ Other Dictionary: \code{\link{mlr_learners}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 }
 \concept{Dictionary}
+\keyword{internal}

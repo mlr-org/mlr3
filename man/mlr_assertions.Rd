@@ -13,7 +13,7 @@
 \alias{assert_benchmark_result}
 \alias{assert_param_set}
 \alias{assert_param_vals}
-\title{Assertion for mlr3 objects}
+\title{Assertion for mlr3 Objects}
 \usage{
 assert_backend(b)
 
@@ -23,11 +23,11 @@ assert_task(task)
 
 assert_learner(learner, task = NULL)
 
-assert_measure(measure, task = NULL, learner = NULL)
+assert_measure(measure, task = NULL, prediction = NULL)
 
-assert_measures(measures, task = NULL, learner = NULL)
+assert_measures(measures, task = NULL, prediction = NULL)
 
-assert_resampling(resampling)
+assert_resampling(resampling, instantiated = NULL)
 
 assert_resample_result(resample_result)
 
@@ -58,7 +58,7 @@ assert_param_vals(param_vals, param_set)
 
 \item{param_set}{(\link[paradox:ParamSet]{paradox::ParamSet}).}
 
-\item{param_vals}{(named list).}
+\item{param_vals}{(named \code{list()}). Its values are checked for feasibility w.r.t. the provided \code{\link[paradox:ParamSet]{paradox::ParamSet()}}.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

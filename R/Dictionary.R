@@ -1,60 +1,52 @@
-#' @title Key-value storage
+#' @title Key-Value Storage
 #'
+#' @name Dictionary
+#' @format [R6Class] object.
 #' @description
-#' A simple key-value store for \pkg{R6} objects.
+#' A simple key-value store for [R6::R6] objects.
 #' On retrieval of an object, the following applies:
 #'
+#' * Functions are called (with no arguments).
 #' * R6 Factories (objects of class `R6ClassGenerator`) are initialized (with no arguments).
 #' * [R6::R6Class] objects are cloned.
-#' * Functions are called (with no arguments).
 #' * All other objects are returned as-is.
 #'
 #' @section Usage:
 #' ```
 #' # Construction
 #' d = Dictionary$new()
-#' # Getters
-#' d$keys(pattern)
+#'
+#' # Methods
 #' d$add(value)
 #' d$get(key)
+#' d$has(keys)
+#' d$keys(pattern)
 #' d$mget(keys)
-#' d$has(key)
 #' d$remove(key, value)
 #' d$remove(keys)
-#' # S3 methods
+#'
+#' ## S3 methods
 #' as.data.frame(d)
 #' as.data.table(d)
-#' names(d)
-#' length(d)
-#' d[[key]]
-#' d[keys]
 #' ```
 #'
 #' @section Arguments:
-#' * `pattern` (`character(1)`):\cr
-#'  Restrict keys to keys  which match `pattern`.
-#' * `key` (`character(1)`):\cr
-#'   Single Key as string.
-#' * `value`:\cr
-#'   Arbitrary value.
-#' * `keys` (`character()`):\cr
-#'   Vector of keys.
+#' * `pattern` (`character(1)`): Restrict to ids which match the regular expression `pattern`.
+#' * `id` (`character(1)`): Single id as string.
+#' * `value`: Arbitrary value.
+#' * `ids` (`character()`): Vector of ids.
 #'
 #' @section Details:
-#' * `$new()` initializes a new object of class [Dictionary].
-#' * `$keys()` (`character()`) returns a vector with all keys (or all keys matching `pattern`).
-#' * `$get()` retrieves a single object with key `key` (or raises an exception).
-#' * `$mget()` (named `list`) creates a list of objects with keys `keys` (or raises an exception).
-#' * `$has()` (`logical()`) is `TRUE` if `key` is present in the Dictionary.
 #' * `$add()` adds item `value` with key `key` to the Dictionary.
+#' * `$get()` retrieves a single object with key `key` (or raises an exception).
+#' * `$has()` (`logical()`) returns a named logical of the same length as `keys` with value `TRUE` if the respective key is found in the Dictionary.
+#' * `$keys()` (`character()`) returns a vector with all keys (or all keys matching `pattern`).
+#' * `$mget()` (named `list`) creates a list of objects with keys `keys` (or raises an exception).
+#' * `$new()` initializes a new object of class [Dictionary].
 #' * `$remove()` removes item with key `key` from the Dictionary.
-#' * `as.data.frame()` and `as.data.table()` give a summarizing overview as `data.frame` or `data.table`, respectively.
-#' * `names(d)` is an alternative way to call `d$keys()`.
-#' * `d[[key]]` is an alternative way to call `d$get(key)`.
-#' * `d[keys]` is an alternative way to call `d$mget(key)`.
-#' * `length(d)` returns the number of items stored in the Dictionary.
+#' * `as.data.frame()` and `as.data.table()` give a summarizing overview as [data.frame()] or [data.table()], respectively.#'
 #'
-#' @name Dictionary
+#' @keywords internal
 #' @family Dictionary
 NULL
 
@@ -69,53 +61,59 @@ Dictionary = R6Class("Dictionary",
       self$items = new.env(parent = emptyenv())
     },
 
-    print = function(...) {
-      keys = self$keys()
-      catf(stri_wrap(initial = sprintf("<%s> with %i stored values: ", class(self)[1L], length(keys)), keys))
-      catf(stri_wrap(initial = "\nPublic: ", setdiff(ls(self), c("initialize", "print"))))
+    format = function() {
+      sprintf("<%s>", class(self)[1L])
     },
 
-    keys = function(pattern = NULL) {
-      keys = ls(self$items, all.names = TRUE)
+    print = function() {
+      ids = self$ids()
+      catf(sprintf("%s with %i stored values", format(self), length(ids)))
+      catf(str_indent("Ids:", ids))
+
+      catf(str_indent("\nPublic: ", str_r6_interface(self)))
+    },
+
+    ids = function(pattern = NULL) {
+      ids = ls(self$items, all.names = TRUE)
       if (!is.null(pattern))
-        keys = keys[grepl(assert_string(pattern), keys)]
-      keys
+        ids = ids[grepl(assert_string(pattern), ids)]
+      ids
     },
 
-    has = function(key) {
-      assert_id(key)
-      exists(key, envir = self$items, inherits = FALSE)
+    has = function(ids) {
+      assert_character(ids, any.missing = FALSE)
+      set_names(map_lgl(ids, exists, envir = self$items, inherits = FALSE), ids)
     },
 
-    add = function(key, value) {
-      assert_id(key)
-      assign(x = key, value = value, envir = self$items)
+    add = function(id, value) {
+      assert_id(id)
+      assign(x = id, value = value, envir = self$items)
       invisible(self)
     },
 
-    remove = function(key) {
-      assert_keys_exist(assert_id(key), self)
-      rm(list = key, envir = self$items)
+    remove = function(id) {
+      assert_ids_exist(assert_id(id), self)
+      rm(list = id, envir = self$items)
       invisible(self)
     },
 
-    get = function(key) {
-      assert_keys_exist(assert_id(key), self)
-      dictionary_retrieve(self, key)
+    get = function(id) {
+      assert_ids_exist(assert_id(id), self)
+      dictionary_retrieve(self, id)
     },
 
-    mget = function(keys) {
-      assert_keys_exist(assert_character(keys, any.missing = FALSE), self)
-      set_names(lapply(keys, dictionary_retrieve, self = self), keys)
+    mget = function(ids) {
+      assert_ids_exist(assert_character(ids, any.missing = FALSE), self)
+      set_names(lapply(ids, dictionary_retrieve, self = self), ids)
     }
   )
 )
 
-assert_keys_exist = function(x, dict) {
-  keys = ls(dict$items, all.names = TRUE)
-  ii = wf(x %nin% keys)
+assert_ids_exist = function(x, dict) {
+  ids = ls(dict$items, all.names = TRUE)
+  ii = wf(x %nin% ids)
   if (length(ii) > 0L)
-    stopf("Element with key '%s' not found!%s", x[ii], did_you_mean(x[ii], keys))
+    stopf("Element with key '%s' not found!%s", x[ii], did_you_mean(x[ii], ids))
   x
 }
 
@@ -136,30 +134,10 @@ dictionary_retrieve = function(self, key) {
 
 #' @export
 as.data.table.Dictionary = function(x, ...) {
-  data.table(id = x$keys())
+  data.table(id = x$ids())
 }
 
 #' @export
 as.data.frame.Dictionary = function(x, ...) {
   setDF(as.data.table(x))[]
-}
-
-#' @export
-names.Dictionary = function(x) {
-  x$keys()
-}
-
-#' @export
-`[[.Dictionary` = function(x, i, ...) {
-  x$get(i)
-}
-
-#' @export
-`[.Dictionary` = function(x, i, ...) {
-  x$mget(i)
-}
-
-#' @export
-length.Dictionary = function(x) {
-  length(x$keys())
 }

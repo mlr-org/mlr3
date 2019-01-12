@@ -57,6 +57,9 @@
     <li>
       <a href="articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -137,19 +140,21 @@
 <li>
 <a href="https://github.com/mlr-org/mlr3misc"><code>mlr3misc</code></a> Miscellaneous functions used in multiple mlr3 <a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages">extension packages</a>. Developed by the <code>mlr</code> team. No extra recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=R6"><code>R6</code></a>: Reference class objects. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=R6"><code>R6</code></a>: Reference class objects. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=backports"><code>backports</code></a>: Ensures backward compatibility with older R releases. Developed by members of the <code>mlr</code> team. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=backports"><code>backports</code></a>: Ensures backward compatibility with older R releases. Developed by members of the <code>mlr</code> team. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=bit"><code>bit</code></a>: Efficient storage of logical vectors. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=bit"><code>bit</code></a>: Efficient storage of logical vectors. No recursive dependencies.</li>
 <li>
 <a href="https://cran.r-project.org/package=checkmate"><code>checkmate</code></a>: Fast argument checks. Developed by members of the <code>mlr</code> team. No extra recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a>: Extension of R’s <code>data.frame</code>. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a>: Extension of R’s <code>data.frame</code>. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=digest"><code>digest</code></a>: Hash digests. No extra recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=digest"><code>digest</code></a>: Hash digests. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=Metrics"><code>Metrics</code></a>: Package which implements performance measures. No extra recursive dependencies.</li>
+<a href="https://github.com/daroczig/logger"><code>logger</code></a>: Logging facility. No recursive dependencies.</li>
+<li>
+<a href="https://cran.r-project.org/package=Metrics"><code>Metrics</code></a>: Package which implements performance measures. No recursive dependencies.</li>
 <li>
 <a href="https://github.com/mlr-org/paradox"><code>paradox</code></a> Descriptions for parameters and parameter sets. Developed by the <code>mlr</code> team. No extra recursive dependencies.</li>
 </ul>
@@ -157,7 +162,7 @@
 <li>Additional functionality that comes with extra dependencies:
 <ul>
 <li>For parallelization, <code>mlr3</code> utilizes the <a href="https://cran.r-project.org/package=future"><code>future</code></a> and <a href="https://cran.r-project.org/package=future.apply"><code>future.apply</code></a> packages.</li>
-<li>To capture output for logging, <a href="https://cran.r-project.org/package=evaluate"><code>evaluate</code></a> is used.</li>
+<li>To capture output for logging, <a href="https://cran.r-project.org/package=evaluate"><code>evaluate</code></a> is used to capture output of third party learners. Alternatively, <a href="https://cran.r-project.org/package=callr"><code>callr</code></a> starts a new R session to completely isolate the learner from the running session.</li>
 </ul>
 </li>
 </ul>
@@ -190,8 +195,9 @@
 <li>Benchmarking via <a href="https://mlr3.mlr-org.com/reference/benchmark.html"><code><a href="reference/benchmark.html">benchmark()</a></code></a>
 </li>
 <li>Stratification.</li>
+<li>Parallelization via <a href="https://cran.r-project.org/package=future"><code>future</code></a>.</li>
 </ul>
-<p>THe <a href="https://mlr3.mlr-org.com">webpage</a> provides, besides a short introduction, a <a href="https://mlr3.mlr-org.com/reference/">function reference</a>.</p>
+<p>The <a href="https://mlr3.mlr-org.com">webpage</a> provides, besides a short introduction, a <a href="https://mlr3.mlr-org.com/reference/">function reference</a>.</p>
 </div>
 <div id="wip" class="section level3">
 <h3 class="hasAnchor">
@@ -226,6 +232,8 @@
 <li>Bernd Bischl <br><small class="roles"> Author </small>  </li>
 <li>Michel Lang <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0000-0001-9754-0393" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
 <li>Jakob Richter <br><small class="roles"> Author </small>  </li>
+<li>Giuseppe Casalicchio <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5324-5966" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>Patrick Schratz <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0748-6624" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
 </ul>
 </div>
 
@@ -234,7 +242,7 @@
 
 
       <footer><!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

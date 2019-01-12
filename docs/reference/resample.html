@@ -87,6 +87,9 @@
     <li>
       <a href="../articles/basic-04-parallelization.html">Parallelization</a>
     </li>
+    <li>
+      <a href="../articles/basic-05-error-handling.html">Error handling</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -151,35 +154,29 @@
     <p>Runs a resampling (possibly in parallel).</p>
     
 
-    <pre class="usage"><span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>())</pre>
+    <pre class="usage"><span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>, <span class='kw'>ctrl</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>task</th>
-      <td><p>(<a href='Task.html'>Task</a>):<br />
+      <td><p>(<a href='Task.html'>Task</a>):
 Object of type <a href='Task.html'>Task</a>.</p></td>
     </tr>
     <tr>
       <th>learner</th>
-      <td><p>(<a href='Learner.html'>Learner</a>):<br />
+      <td><p>(<a href='Learner.html'>Learner</a>):
 Object of type <a href='Learner.html'>Learner</a>.</p></td>
     </tr>
     <tr>
       <th>resampling</th>
-      <td><p>(<a href='Resampling.html'>Resampling</a>):<br />
+      <td><p>(<a href='Resampling.html'>Resampling</a>):
 Object of type <a href='Resampling.html'>Resampling</a>.</p></td>
     </tr>
     <tr>
-      <th>measures</th>
-      <td><p>(<code>list</code> of <a href='Measure.html'>Measure</a>):<br />
-List of performance measures used to assess the predictive performance.
-Defaults to the measures stored in <code>task</code>.</p></td>
-    </tr>
-    <tr>
       <th>ctrl</th>
-      <td><p>(named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>, e.g. as returned by <code><a href='mlr_control.html'>mlr_control()</a></code>):<br />
+      <td><p>(named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>, e.g. as returned by <code><a href='mlr_control.html'>mlr_control()</a></code>):
 Object to control various parts of the execution. See <code><a href='mlr_control.html'>mlr_control()</a></code>.</p></td>
     </tr>
     </table>
@@ -190,44 +187,27 @@ Object to control various parts of the execution. See <code><a href='mlr_control
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)
+    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.rpart"</span>)
 <span class='no'>resampling</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 1/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 2/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 3/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 4/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 5/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 6/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 7/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 8/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 9/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.rpart' on task 'iris (iteration 10/10)' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; ResampleResult of learner 'iris' on task 'classif.rpart' with 10 iterations
-#&gt;  Measure Min.    1st Qu.     Median       Mean   3rd Qu.      Max.         Sd
-#&gt;     mmce    0 0.06666667 0.06666667 0.07333333 0.1166667 0.1333333 0.04919099</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;       mmce 
+<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 10 iterations
+#&gt;  Measure Min. 1st Qu. Median  Mean 3rd Qu. Max.    Sd
+#&gt;     mmce    0   0.067  0.067 0.073    0.12 0.13 0.049</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;       mmce 
 #&gt; 0.07333333 </div><div class='input'><span class='no'>rr</span>$<span class='fu'>performance</span>(<span class='st'>"mmce"</span>)</div><div class='output co'>#&gt;  [1] 0.00000000 0.13333333 0.06666667 0.06666667 0.06666667 0.13333333
 #&gt;  [7] 0.06666667 0.06666667 0.13333333 0.00000000</div><div class='input'>
 <span class='co'># Repeat resampling with featureless learner and combine</span>
 <span class='co'># the ResampleResults into a BenchmarkResult</span>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)
-<span class='no'>rr.featureless</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 1/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 2/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 3/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 4/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 5/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 6/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 7/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 8/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 9/10)' ...
-#&gt; INFO [mlr3] Running learner 'classif.featureless' on task 'iris (iteration 10/10)' ...</div><div class='input'>
+<span class='no'>rr.featureless</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)
+
 <span class='no'>bmr</span> <span class='kw'>=</span> <span class='no'>rr</span>$<span class='fu'>combine</span>(<span class='no'>rr.featureless</span>)
 <span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id          learner_id resampling_id
-#&gt; 1: cef5f1479132535c &lt;ResampleResult&gt;    iris       classif.rpart            cv
-#&gt; 2: acf98eddfc64f2f1 &lt;ResampleResult&gt;    iris classif.featureless            cv
+#&gt; 1: 9c0dcc24754f547f &lt;ResampleResult&gt;    iris       classif.rpart            cv
+#&gt; 2: 087b7a8027828f58 &lt;ResampleResult&gt;    iris classif.featureless            cv
 #&gt;          mmce
 #&gt; 1: 0.07333333
-#&gt; 2: 0.80666667</div></pre>
+#&gt; 2: 0.75333333</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -244,7 +224,7 @@ Object to control various parts of the execution. See <code><a href='mlr_control
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
 </div>
 
 <div class="pkgdown">

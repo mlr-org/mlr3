@@ -3,6 +3,7 @@
 \name{Prediction}
 \alias{Prediction}
 \title{Abstract Prediction Object}
+\format{\link{R6Class} object.}
 \description{
 This is the abstract base class for task objects like \link{PredictionClassif} and \link{PredictionRegr}.
 }

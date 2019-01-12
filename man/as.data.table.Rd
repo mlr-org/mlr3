@@ -2,12 +2,12 @@
 % Please edit documentation in R/reexports.R
 \name{as.data.table}
 \alias{as.data.table}
-\title{Re-export of as.data.table
+\title{Re-export of \code{as.data.table}
 
-See \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.}
+See \link[data.table:as.data.table]{data.table::as.data.table}.}
 \description{
-Re-export of as.data.table
+Re-export of \code{as.data.table}
 
-See \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.
+See \link[data.table:as.data.table]{data.table::as.data.table}.
 }
 \keyword{internal}
