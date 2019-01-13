@@ -155,8 +155,8 @@
 <p><code>mlr3</code> ships with some popular machine learning toy tasks. These are stored in a <code><a href="../reference/Dictionary.html">mlr3::Dictionary</a></code>, which is a simple key-value store named <code><a href="../reference/mlr_tasks.html">mlr3::mlr_tasks</a></code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(mlr3)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">mlr_tasks</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; &lt;DictionaryTask&gt; with 7 stored values</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Ids: bh, iris, pima, sonar, spam, titanic, zoo</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; &lt;DictionaryTask&gt; with 8 stored values</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Ids: bh, iris, mtcars, pima, sonar, spam, titanic, zoo</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Public:  add(), get(), has(), ids(), items, mget(), remove()</span></a></code></pre></div>
 <p>The <code>mlr_tasks</code> object offers public member methods to modify and extend the key-value store, see also the help page in <code><a href="../reference/mlr_tasks.html">?mlr_tasks</a></code>. We can obtain an overview of all currently available tasks by</p>
@@ -164,11 +164,12 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;        id    type nrow ncol</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; 1      bh    regr  506   19</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; 2    iris classif  150    5</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 3    pima classif  768    9</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 4   sonar classif  208   61</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 5    spam classif 4601   58</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 6 titanic classif  891   12</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 7     zoo classif  101   17</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 3  mtcars    regr   32   11</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 4    pima classif  768    9</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 5   sonar classif  208   61</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 6    spam classif 4601   58</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 7 titanic classif  891   12</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 8     zoo classif  101   17</span></a></code></pre></div>
 </div>
 <div id="retrieving-tasks" class="section level1">
 <h1 class="hasAnchor">
