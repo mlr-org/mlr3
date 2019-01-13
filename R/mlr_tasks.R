@@ -81,6 +81,16 @@ mlr_tasks$add("bh",  function() {
   TaskRegr$new("boston_housing", b, target = "medv")
 })
 
+#' @title "Motor Trend" Car Road Tests Task
+#' @name mlr_tasks_mtcars
+#' @description
+#' A regression task for the [datasets::mtcars] data set.
+#' Target variable is `mpg` (Miles/(US) gallon).
+mlr_tasks$add("mtcars",  function() {
+  b = as_data_backend(load_dataset("mtcars", "datasets"))
+  TaskRegr$new("mtcars", b, target = "mpg")
+})
+
 #' @title Pima Indian Diabetes Classification Task
 #' @name mlr_tasks_pima
 #' @description
