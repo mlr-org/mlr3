@@ -188,15 +188,16 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; &lt;TaskClassif:iris&gt; (150 x 5)</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Target: Species</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Features: Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Public: all_classes, backend, cbind(), class_n, class_names,</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   clone(), col_info, col_roles, data(), feature_names,</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;   feature_types, filter(), formula, groups, hash, head(), id,</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;   levels(), measures, ncol, negative, nrow, positive, properties,</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;   rbind(), replace_features(), row_ids, row_roles, select(),</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type,</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;   truth(), weights</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Features (4):</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; * dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; Public: all_classes, backend, cbind(), class_n, class_names,</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;   clone(), col_info, col_roles, data(), feature_names,</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;   feature_types, filter(), formula, groups, hash, head(), id,</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;   levels(), measures, ncol, negative, nrow, positive, properties,</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;   rbind(), replace_features(), row_ids, row_roles, select(),</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type,</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;   truth(), weights</span></a></code></pre></div>
 <p>The <code>task</code> object is a <code><a href="../reference/Task.html">mlr3::Task</a></code>, which contains several information on the respective task. The task properties and characteristics can be queried using the task’s public member values and methods (see <code><a href="../reference/Task.html">?mlr3::Task</a></code>). Most of them should be self-explanatory, e.g.,</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># public member values</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">task<span class="op">$</span>nrow</a>
@@ -272,14 +273,15 @@
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task)</a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; &lt;TaskRegr:cars&gt; (32 x 3)</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Target: mpg</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Features: cyl, disp</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; Public: backend, cbind(), clone(), col_info, col_roles, data(),</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;   feature_names, feature_types, filter(), formula, groups, hash,</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;   head(), id, levels(), measures, ncol, nrow, properties, rbind(),</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;   replace_features(), row_ids, row_roles, select(),</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type,</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;   truth(), weights</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Features (2):</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; * dbl (2): cyl, disp</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; Public: backend, cbind(), clone(), col_info, col_roles, data(),</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;   feature_names, feature_types, filter(), formula, groups, hash,</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;   head(), id, levels(), measures, ncol, nrow, properties, rbind(),</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;   replace_features(), row_ids, row_roles, select(),</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type,</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;   truth(), weights</span></a></code></pre></div>
 <p>Note that the <code>cars</code> <code>data.frame</code> has character row names, which will automatically be used as <code>row_ids</code>. Analogous to the filtering of row ids by integers, we can also filter the row ids by the respective characters, e.g.:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># cars data set uses character row_ids</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">task<span class="op">$</span>row_ids</a>
