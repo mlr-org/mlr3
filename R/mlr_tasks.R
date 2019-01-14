@@ -49,7 +49,10 @@ mlr_tasks = DictionaryTask$new()
 as.data.table.DictionaryTask = function(x, ...) {
   setkeyv(map_dtr(x$ids(), function(id) {
     t = x$get(id)
-    data.table(id = id, type = t$task_type, nrow = t$nrow, ncol = t$ncol)
+    feats = factor(t$feature_types$type, levels = mlr_reflections$task_feature_types)
+    feats = as.list(table(feats))
+    insert_named(data.table(id = id, type = t$task_type, measures = list(ids(t$measures)),
+        nrow = t$nrow, ncol = t$ncol), feats)
   }), "id")[]
 }
 
