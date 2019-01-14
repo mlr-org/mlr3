@@ -5,10 +5,10 @@
 #' @description
 #' This is the abstract base class for task objects like [PredictionClassif] and [PredictionRegr].
 #'
-#' @export
 #' @family Prediction
 NULL
 
+#' @export
 Prediction = R6Class("Prediction",
   public = list(
     row_ids = NULL,
