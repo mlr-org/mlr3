@@ -110,6 +110,12 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     ncol = function() {
       ncol(private$.data)
     }
+  ),
+
+  private = list(
+    .calculate_hash = function() {
+      hash(list(self$compact_seq, as.data.frame(private$.data)))
+    }
   )
 )
 

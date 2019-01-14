@@ -115,6 +115,12 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     ncol = function() {
       ncol(private$.data) + 1L
     }
+  ),
+
+  private = list(
+    .calculate_hash = function() {
+      hash(private$.data)
+    }
   )
 )
 

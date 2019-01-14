@@ -265,7 +265,8 @@ Task = R6Class("Task",
   active = list(
     hash = function() {
       if (is.na(private$.hash))
-        private$.hash = digest::digest(list(self$id, self$row_roles, self$col_roles), algo = "xxhash64")
+        private$.hash = hash(list(self$id, self$backend$hash, self$row_roles,
+            self$col_roles, sort(ids(self$measures))))
       private$.hash
     },
 

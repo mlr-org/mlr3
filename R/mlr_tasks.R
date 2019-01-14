@@ -59,6 +59,7 @@ as.data.table.DictionaryTask = function(x, ...) {
 #' A classification task for the popular [datasets::iris] data set.
 mlr_tasks$add("iris", function() {
   b = as_data_backend(load_dataset("iris", "datasets"))
+  b$hash = "_mlr_tasks_iris_"
   TaskClassif$new("iris", b, target = "Species")
 })
 
@@ -69,6 +70,7 @@ mlr_tasks$add("iris", function() {
 #' Positive class is set to "M" (Mine).
 mlr_tasks$add("sonar",  function() {
   b = as_data_backend(load_dataset("Sonar", "mlbench"))
+  b$hash = "_mlr_tasks_sonar_"
   TaskClassif$new("sonar", b, target = "Class", positive = "M")
 })
 
@@ -78,6 +80,7 @@ mlr_tasks$add("sonar",  function() {
 #' A regression task for the [mlbench::BostonHousing2] data set.
 mlr_tasks$add("bh",  function() {
   b = as_data_backend(load_dataset("BostonHousing2", "mlbench"))
+  b$hash = "_mlr_tasks_bh_"
   TaskRegr$new("boston_housing", b, target = "medv")
 })
 
@@ -88,6 +91,7 @@ mlr_tasks$add("bh",  function() {
 #' Target variable is `mpg` (Miles/(US) gallon).
 mlr_tasks$add("mtcars",  function() {
   b = as_data_backend(load_dataset("mtcars", "datasets"))
+  b$hash = "_mlr_tasks_mtcars_"
   TaskRegr$new("mtcars", b, target = "mpg")
 })
 
@@ -98,6 +102,7 @@ mlr_tasks$add("mtcars",  function() {
 #' Positive class is set to "pos".
 mlr_tasks$add("pima", function() {
   b = as_data_backend(load_dataset("PimaIndiansDiabetes2", "mlbench"))
+  b$hash = "_mlr_tasks_pima_"
   TaskClassif$new("pima_indians", b, target = "diabetes", positive = "pos")
 })
 
@@ -107,6 +112,7 @@ mlr_tasks$add("pima", function() {
 #' A classification task for the [mlbench::Zoo] data set.
 mlr_tasks$add("zoo", function() {
   b = as_data_backend(load_dataset("Zoo", "mlbench", keep_rownames = TRUE))
+  b$hash = "_mlr_tasks_zoo_"
   TaskClassif$new("zoo", b, target = "type")
 })
 
@@ -117,6 +123,7 @@ mlr_tasks$add("zoo", function() {
 #' Positive class is set to "spam".
 mlr_tasks$add("spam", function() {
   b = as_data_backend(load_dataset("spam", "kernlab"))
+  b$hash = "_mlr_tasks_kernlab_"
   TaskClassif$new("spam", b, target = "type", positive = "spam")
 })
 
@@ -138,6 +145,7 @@ mlr_tasks$add("titanic", function() {
   data$Cabin = replace(data$Cabin, !nzchar(data$Cabin), NA)
   modify_if(data, is.character, factor)
   b = as_data_backend(data)
+  b$hash = "_mlr_tasks_titanic_"
   task = TaskClassif$new("titanic", b, target = "Survived", positive = "1")
   task$set_row_role(which(is.na(task$truth())), "validation")
 })

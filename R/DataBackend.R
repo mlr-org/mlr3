@@ -67,5 +67,20 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
       print(self$head(6L))
     }
   ),
-  private = list(.data = NULL)
+
+  active = list(
+    hash = function(rhs) {
+      if (missing(rhs)) {
+        if (is.na(private$.hash))
+          private$.hash = private$.calculate_hash()
+        return(private$.hash)
+      }
+      private$.hash = assert_string(rhs)
+    }
+  ),
+
+  private = list(
+    .data = NULL,
+    .hash = NA_character_
+  )
 )
