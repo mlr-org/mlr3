@@ -9,6 +9,7 @@ This is the result container object returned by \code{\link[=benchmark]{benchmar
 }
 \section{Usage}{
 \preformatted{# Construction
+# Users of mlr3 generally don't need to construct this class themselves, but rather use objects returned by [benchmark()].
 bmr = benchmark(...)
 
 # Members

@@ -42,7 +42,6 @@
 #' * `$new()` initializes a new object of class [Prediction].
 #' * The prediction object can be transformed to a simple [data.table()]
 #'   with [data.table::as.data.table].
-#' @export
 #' @family Prediction
 #' @examples
 #' task = mlr_tasks$get("iris")
@@ -54,6 +53,7 @@
 #' head(as.data.table(p))
 NULL
 
+#' @export
 #' @include Prediction.R
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
