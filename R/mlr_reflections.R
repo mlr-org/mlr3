@@ -16,7 +16,7 @@ mlr_reflections$task_types = c(
 )
 
 mlr_reflections$task_feature_types = c(
-  "logical", "integer", "numeric", "character", "factor", "ordered"
+  lgl = "logical", int = "integer", dbl = "numeric", chr = "character", fct = "factor", ord = "ordered"
 )
 
 mlr_reflections$task_row_roles = c(

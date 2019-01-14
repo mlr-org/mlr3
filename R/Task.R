@@ -384,10 +384,19 @@ task_data = function(self, rows = NULL, cols = NULL, format = NULL) {
 
 task_print = function(self) {
   catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
-  catf(str_indent("Target:", self$target_names))
-  catf(str_indent("Features:", self$feature_names, n = 100L))
+  catf(str_indent("Target:", str_collapse(self$target_names)))
+
+  types = self$feature_types
+  catf("Features (%i):", nrow(types))
+  types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, type := translate_types(type)]
+  setorderv(types, "N", order = -1L)
+  pmap(types, function(type, N, feats) catf(str_indent(sprintf("* %s (%i):", type, N), feats)))
+
   if (length(self$col_roles$order))
     catf(str_indent("Order by:", self$col_roles$order))
+  if (length(self$col_roles$weights))
+    catf(str_indent("Weights:", self$col_roles$weights))
+
   catf(str_indent("\nPublic:", str_r6_interface(self)))
 }
 
