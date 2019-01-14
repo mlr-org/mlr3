@@ -9,6 +9,7 @@ This is the object returned by \code{\link[=resample]{resample()}}.
 }
 \section{Usage}{
 \preformatted{# Construction
+# Users of mlr3 generally don't need to construct this class themselves, but rather use objects returned by [resample()].
 rr = ResampleResult$new(data, hash = NULL)
 
 # Members
