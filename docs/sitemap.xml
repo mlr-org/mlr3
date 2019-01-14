@@ -115,19 +115,19 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_acc.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif_acc.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_auc.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif_auc.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif_mmce.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_mmce.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_mse.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr_mse.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_reflections.html</loc>
