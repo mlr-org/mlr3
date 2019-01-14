@@ -86,5 +86,12 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     ncol = function() {
       length(self$cols)
     }
+  ),
+
+  private = list(
+    .calculate_hash = function() {
+      data = private$.data
+      hash(c(data$b1$hash, data$b2$hash))
+    }
   )
 )

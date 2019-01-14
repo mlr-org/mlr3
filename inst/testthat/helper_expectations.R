@@ -27,7 +27,9 @@ expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
 }
 
 expect_backend = function(b) {
-  checkmate::expect_r6(b, cloneable = FALSE, public = c("nrow", "ncol", "colnames", "rownames", "head", "data"))
+  checkmate::expect_r6(b, cloneable = FALSE,
+    public = c("nrow", "ncol", "colnames", "rownames", "head", "data", "hash"),
+    private = c(".data", ".hash", ".calculate_hash"))
   checkmate::expect_subset(b$formats, mlr3::mlr_reflections$backend_formats, empty.ok = FALSE)
   testthat::expect_output(print(b), "^<DataBackend")
 
@@ -97,6 +99,9 @@ expect_backend = function(b) {
   expect_integer(b$missing(b$rownames, "_not_existing_"), len = 0L, names = "named")
   expect_integer(b$missing(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
   expect_integer(b$missing(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")
+
+  # $hash
+  expect_string(b$hash)
 }
 
 expect_iris_backend = function(b, n_missing = 0L) {

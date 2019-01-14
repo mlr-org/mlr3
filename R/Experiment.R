@@ -233,7 +233,7 @@ Experiment = R6Class("Experiment",
 )
 
 experiment_data_hash = function(data) {
-  digest::digest(c(data$task$hash, data$learner$hash, data$resampling$hash), algo = "xxhash64")
+  hash(c(data$task$hash, data$learner$hash, data$resampling$hash))
 }
 
 experiment_print = function(self) {

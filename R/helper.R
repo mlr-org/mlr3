@@ -33,3 +33,7 @@ filter_oob_index = function(x, lower, upper) {
   x = assert_integerish(x, coerce = TRUE)
   x[!is.na(x) & x >= lower & x <= upper]
 }
+
+hash = function(...) {
+  digest::digest(list(...), algo = "xxhash64")
+}
