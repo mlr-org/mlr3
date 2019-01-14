@@ -1,31 +1,32 @@
-#' @title Accuracy Classification Measure
+#' @title Mean Misclassification Error Measure
 #'
-#' @name mlr_measures_acc
+#' @name mlr_measures_classif_mmce
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'
 #' @description
-#' Calls [Metrics::accuracy].
+#' Calls [Metrics::ce].
 #'
 #' @export
 #' @include MeasureClassif.R
-MeasureClassifACC = R6Class("MeasureClassifACC",
+MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
   inherit = MeasureClassif,
   public = list(
-    initialize = function(id = "acc") {
+    initialize = function(id = "mmce") {
       super$initialize(
         id = id,
         range = 0:1,
-        minimize = FALSE,
+        minimize = TRUE,
         packages = "Metrics"
       )
     },
 
     calculate = function(e) {
       p = e$prediction
-      Metrics::accuracy(actual = p$truth, predicted = p$response)
+      Metrics::ce(actual = p$truth, predicted = p$response)
     }
   )
 )
 
+
 #' @include mlr_measures.R
-mlr_measures$add("acc", MeasureClassifACC)
+mlr_measures$add("classif.mmce", MeasureClassifMMCE)

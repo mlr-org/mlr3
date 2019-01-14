@@ -84,7 +84,7 @@ TaskClassif = R6Class("TaskClassif",
         self$properties = "multiclass"
       }
 
-      self$measures = list(mlr_measures$get("mmce"))
+      self$measures = list(mlr_measures$get("classif.mmce"))
     },
 
     truth = function(row_ids = NULL) {

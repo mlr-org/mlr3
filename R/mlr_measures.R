@@ -14,7 +14,7 @@
 #' @examples
 #' mlr_measures$ids()
 #' as.data.table(mlr_measures)
-#' mlr_measures$get("mmce")
+#' mlr_measures$get("classif.mmce")
 NULL
 
 #' @include Dictionary.R

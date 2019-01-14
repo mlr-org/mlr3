@@ -178,7 +178,7 @@ Therefore, `mlr3` provides a helper function to quickly generate design tables a
 tasks = mlr_tasks$mget(c("pima", "sonar", "spam"))
 
 # set measures for all tasks: accuracy (acc) and area under the curve (auc)
-measures = mlr_measures$mget(c("acc", "auc"))
+measures = mlr_measures$mget(c("classif.acc", "classif.auc"))
 tasks = lapply(tasks, function(task) { task$measures = measures; task })
 
 # get a featureless learner and a classification tree

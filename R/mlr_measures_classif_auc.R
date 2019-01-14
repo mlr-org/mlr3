@@ -1,6 +1,6 @@
 #' @title Area Under the Curve Classification Measure
 #'
-#' @name mlr_measures_auc
+#' @name mlr_measures_classif_auc
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'
 #' @description
@@ -31,4 +31,4 @@ MeasureClassifAUC = R6Class("MeasureClassifAUC",
 
 
 #' @include mlr_measures.R
-mlr_measures$add("auc", MeasureClassifAUC)
+mlr_measures$add("classif.auc", MeasureClassifAUC)
