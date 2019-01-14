@@ -209,24 +209,32 @@ Task = R6Class("Task",
 
     filter = function(rows) {
       self$row_roles$use = intersect(self$row_roles$use, rows)
+      private$.hash = NA_character_
       invisible(self)
     },
 
     select = function(cols) {
       self$col_roles$feature = intersect(self$col_roles$feature, cols)
+      private$.hash = NA_character_
       invisible(self)
     },
 
     rbind = function(data) {
       task_rbind(self, data)
+      private$.hash = NA_character_
+      invisible(self)
     },
 
     cbind = function(data) {
       task_cbind(self, data)
+      private$.hash = NA_character_
+      invisible(self)
     },
 
     replace_features = function(data) {
       task_replace_features(self, data)
+      private$.hash = NA_character_
+      invisible(self)
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
