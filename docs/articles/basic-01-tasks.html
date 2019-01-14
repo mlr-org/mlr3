@@ -161,15 +161,24 @@
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Public:  add(), get(), has(), ids(), items, mget(), remove()</span></a></code></pre></div>
 <p>The <code>mlr_tasks</code> object offers public member methods to modify and extend the key-value store, see also the help page in <code><a href="../reference/mlr_tasks.html">?mlr_tasks</a></code>. We can obtain an overview of all currently available tasks by</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(mlr_tasks)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;        id    type nrow ncol</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; 1      bh    regr  506   19</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; 2    iris classif  150    5</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 3  mtcars    regr   32   11</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 4    pima classif  768    9</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 5   sonar classif  208   61</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 6    spam classif 4601   58</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 7 titanic classif  891   12</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 8     zoo classif  101   17</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;        id    type measures nrow ncol logical integer numeric character</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; 1      bh    regr      mse  506   19       0       3      13         0</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; 2    iris classif     mmce  150    5       0       0       4         0</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 3  mtcars    regr      mse   32   11       0       0      10         0</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 4    pima classif     mmce  768    9       0       0       8         0</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 5   sonar classif     mmce  208   61       0       0      60         0</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 6    spam classif     mmce 4601   58       0       0      57         0</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 7 titanic classif     mmce  891   12       0       4       2         0</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 8     zoo classif     mmce  101   17      15       1       0         0</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;   factor ordered</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 1      2       0</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; 2      0       0</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; 3      0       0</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; 4      0       0</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; 5      0       0</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; 6      0       0</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; 7      5       0</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; 8      0       0</span></a></code></pre></div>
 </div>
 <div id="retrieving-tasks" class="section level1">
 <h1 class="hasAnchor">
