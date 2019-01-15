@@ -11,9 +11,9 @@
 MeasureClassifACC = R6Class("MeasureClassifACC",
   inherit = MeasureClassif,
   public = list(
-    initialize = function(id = "acc") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "acc",
         range = 0:1,
         minimize = FALSE,
         packages = "Metrics"

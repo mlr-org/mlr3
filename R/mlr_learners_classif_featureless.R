@@ -13,9 +13,9 @@
 #' @export
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "classif.featureless") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "featureless",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(

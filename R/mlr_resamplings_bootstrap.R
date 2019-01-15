@@ -29,9 +29,9 @@
 #' rb$instance$M # Matrix of counts
 ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   public = list(
-    initialize = function(id = "bootstrap") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "bootstrap",
         param_set = ParamSet$new(params = list(
             ParamInt$new("repeats", lower = 1L, tags = "required"),
             ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
