@@ -11,9 +11,9 @@
 MeasureClassifAUC = R6Class("MeasureClassifAUC",
   inherit = MeasureClassif,
   public = list(
-    initialize = function(id = "auc") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "auc",
         range = 0:1,
         minimize = FALSE,
         predict_type = "prob",

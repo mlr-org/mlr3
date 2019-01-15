@@ -25,8 +25,8 @@
 #' rc$test_set(1)
 ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   public = list(
-    initialize = function(id = "custom") {
-      super$initialize(id = id, duplicated_ids = TRUE)
+    initialize = function() {
+      super$initialize(id = "custom", duplicated_ids = TRUE)
     },
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
