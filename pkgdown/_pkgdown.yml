@@ -100,6 +100,9 @@ reference:
     contents:
       - benchmark
       - BenchmarkResult
+  - title: Reflections
+    contents:
+      - mlr_reflections
   - title: Error Handling
     contents:
       - mlr_control
