@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Dictionary of Performance Measures — mlr_measures • mlr3</title>
+<title>Accuracy Classification Measure — mlr_measures_classif_acc • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Dictionary of Performance Measures — mlr_measures" />
+<meta property="og:title" content="Accuracy Classification Measure — mlr_measures_classif_acc" />
 
-<meta property="og:description" content="A simple Dictionary storing objects of class Measure.
-Each measure has an associated help page, see mlr_measures_[id]." />
+<meta property="og:description" content="Calls Metrics::accuracy." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -147,61 +146,28 @@ Each measure has an associated help page, see mlr_measures_[id]." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Dictionary of Performance Measures</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures.R'><code>R/mlr_measures.R</code></a></small>
+    <h1>Accuracy Classification Measure</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures_classif_acc.R'><code>R/mlr_measures_classif_acc.R</code></a></small>
     </div>
 
     
-    <p>A simple <a href='Dictionary.html'>Dictionary</a> storing objects of class <a href='Measure.html'>Measure</a>.
-Each measure has an associated help page, see <code>mlr_measures_[id]</code>.</p>
+    <p>Calls <a href='https://www.rdocumentation.org/packages/Metrics/topics/accuracy'>Metrics::accuracy</a>.</p>
     
 
+    <pre class="usage"><span class='no'>MeasureClassifACC</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object.</p>
-    
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
-
-    
-    <p>See <a href='Dictionary.html'>Dictionary</a>.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other Dictionary: <code><a href='Dictionary.html'>Dictionary</a></code>,
-  <code><a href='mlr_learners.html'>mlr_learners</a></code>,
-  <code><a href='mlr_resamplings.html'>mlr_resamplings</a></code>, <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p>
-<p>Other Measure: <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
-  <code><a href='MeasureRegr.html'>MeasureRegr</a></code>, <code><a href='Measure.html'>Measure</a></code></p></div>
+    <p><code><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class()</a></code> inheriting from <a href='MeasureClassif.html'>MeasureClassif</a>.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'>ids</span>()</div><div class='output co'>#&gt; [1] "classif.acc"  "classif.auc"  "classif.mmce" "regr.mse"     "time_both"   
-#&gt; [6] "time_predict" "time_train"  </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_measures</span>)</div><div class='output co'>#&gt;              id task_type packages
-#&gt; 1:  classif.acc   classif  Metrics
-#&gt; 2:  classif.auc   classif  Metrics
-#&gt; 3: classif.mmce   classif  Metrics
-#&gt; 4:     regr.mse      regr  Metrics
-#&gt; 5:    time_both      &lt;NA&gt;         
-#&gt; 6: time_predict      &lt;NA&gt;         
-#&gt; 7:   time_train      &lt;NA&gt;         </div><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.mmce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifMMCE:mmce&gt;
-#&gt; Packages: Metrics
-#&gt; Range: [0, 1]
-#&gt; Minimize: TRUE
-#&gt; Predict type: response</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
-
-      <li><a href="#usage">Usage</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
