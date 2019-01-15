@@ -39,8 +39,8 @@
 #' * `feature_types` (`character()`): Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
 #' * `predict_types` (`character()`): Supported predict types. Must be a subset of `mlr_reflections$predict_types`.
 #' * `packages` (`character()`]: Set of required packages.
-#' * `param_set` ([paradox::ParamSet]): Set of required packages.
-#' * `param_vals` (named `list()`): List of hyperparameters.
+#' * `param_set` ([paradox::ParamSet]): Set of hyperparameters.
+#' * `param_vals` (named `list()`): List of hyperparameter settings.
 #' * `properties` (`character()`): Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
 #' * `task` ([Task]): Task to train/predict on.
 #'
