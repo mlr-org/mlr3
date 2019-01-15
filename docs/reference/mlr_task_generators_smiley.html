@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Supervised Task — TaskSupervised • mlr3</title>
+<title>Smiley Classification Task Generator — mlr_task_generators_smiley • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Supervised Task — TaskSupervised" />
+<meta property="og:title" content="Smiley Classification Task Generator — mlr_task_generators_smiley" />
 
-<meta property="og:description" content="This is the abstract base class for task objects like TaskClassif and TaskRegr.
-It extends Task with some handling of target columns." />
+<meta property="og:description" content="A TaskGenerator for the smiley task in mlbench::mlbench.smiley()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -147,75 +146,28 @@ It extends Task with some handling of target columns." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Supervised Task</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskSupervised.R'><code>R/TaskSupervised.R</code></a></small>
+    <h1>Smiley Classification Task Generator</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_task_generators_smiley.R'><code>R/mlr_task_generators_smiley.R</code></a></small>
     </div>
 
     
-    <p>This is the abstract base class for task objects like <a href='TaskClassif.html'>TaskClassif</a> and <a href='TaskRegr.html'>TaskRegr</a>.
-It extends <a href='Task.html'>Task</a> with some handling of target columns.</p>
+    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the smiley task in <code><a href='https://www.rdocumentation.org/packages/mlbench/topics/mlbench.smiley'>mlbench::mlbench.smiley()</a></code>.</p>
     
 
+    <pre class="usage"><span class='no'>TaskGeneratorSmiley</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object inheriting from <a href='Task.html'>Task</a>.</p>
-    
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
-
-    
-    <p>Inherits from <a href='Task.html'>Task</a>.</p><pre># Construction
-t = TaskSupervised$new(id, task_type, backend, target)
-    # Members
-t$weights
-    # Methods
-t$truth(row_ids = NULL)
-</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>row_ids</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):
-Subset of row ids to subset rows from the <a href='DataBackend.html'>DataBackend</a> using its primary key.</p></li>
-</ul>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-    <ul>
-<li><p><code>$truth()</code> returns the true labels. The type depends on the type of the task.</p></li>
-<li><p><code>$weights</code> returns the weights used in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-</ul>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other Task: <code><a href='TaskClassif.html'>TaskClassif</a></code>,
-  <code><a href='TaskRegr.html'>TaskRegr</a></code>, <code><a href='Task.html'>Task</a></code>,
-  <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code>,
-  <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> inheriting from <a href='TaskGenerator.html'>TaskGenerator</a>.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
-<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskSupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
-
-      <li><a href="#usage">Usage</a></li>
-
-      <li><a href="#arguments">Arguments</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

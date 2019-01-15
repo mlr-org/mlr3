@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Supervised Task — TaskSupervised • mlr3</title>
+<title>Dictionary of Task Generators — mlr_task_generators • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Supervised Task — TaskSupervised" />
+<meta property="og:title" content="Dictionary of Task Generators — mlr_task_generators" />
 
-<meta property="og:description" content="This is the abstract base class for task objects like TaskClassif and TaskRegr.
-It extends Task with some handling of target columns." />
+<meta property="og:description" content="A simple Dictionary storing generator functions returning a Task." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -147,70 +146,62 @@ It extends Task with some handling of target columns." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Supervised Task</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskSupervised.R'><code>R/TaskSupervised.R</code></a></small>
+    <h1>Dictionary of Task Generators</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_task_generators.R'><code>R/mlr_task_generators.R</code></a></small>
     </div>
 
     
-    <p>This is the abstract base class for task objects like <a href='TaskClassif.html'>TaskClassif</a> and <a href='TaskRegr.html'>TaskRegr</a>.
-It extends <a href='Task.html'>Task</a> with some handling of target columns.</p>
+    <p>A simple <a href='Dictionary.html'>Dictionary</a> storing generator functions returning a <a href='Task.html'>Task</a>.</p>
     
 
         
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>R6Class object inheriting from <a href='Task.html'>Task</a>.</p>
-    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     
-    <p>Inherits from <a href='Task.html'>Task</a>.</p><pre># Construction
-t = TaskSupervised$new(id, task_type, backend, target)
-    # Members
-t$weights
-    # Methods
-t$truth(row_ids = NULL)
-</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>row_ids</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):
-Subset of row ids to subset rows from the <a href='DataBackend.html'>DataBackend</a> using its primary key.</p></li>
-</ul>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-    <ul>
-<li><p><code>$truth()</code> returns the true labels. The type depends on the type of the task.</p></li>
-<li><p><code>$weights</code> returns the weights used in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-</ul>
+    <p>See <a href='Dictionary.html'>Dictionary</a>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Task: <code><a href='TaskClassif.html'>TaskClassif</a></code>,
-  <code><a href='TaskRegr.html'>TaskRegr</a></code>, <code><a href='Task.html'>Task</a></code>,
-  <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code>,
-  <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
+    <div class='dont-index'><p>Other Dictionary: <code><a href='Dictionary.html'>Dictionary</a></code>,
+  <code><a href='mlr_learners.html'>mlr_learners</a></code>, <code><a href='mlr_measures.html'>mlr_measures</a></code>,
+  <code><a href='mlr_resamplings.html'>mlr_resamplings</a></code>, <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p>
+<p>Other Task: <code><a href='TaskClassif.html'>TaskClassif</a></code>,
+  <code><a href='TaskRegr.html'>TaskRegr</a></code>, <code><a href='TaskSupervised.html'>TaskSupervised</a></code>,
+  <code><a href='Task.html'>Task</a></code>, <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
-<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskSupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>g</span> <span class='kw'>=</span> <span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"smiley"</span>)
+<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>g</span>$<span class='fu'>generate</span>(<span class='fl'>10</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;TaskClassif:smiley_10&gt; (10 x 3)
+#&gt; Target: class
+#&gt; Features (2):
+#&gt; * dbl (2): V2, x4
+#&gt; 
+#&gt; Public: all_classes, backend, cbind(), class_n, class_names, clone(),
+#&gt;   col_info, col_roles, data(), feature_names, feature_types, filter(),
+#&gt;   formula, groups, hash, head(), id, levels(), measures, ncol,
+#&gt;   negative, nrow, positive, properties, rbind(), replace_features(),
+#&gt;   row_ids, row_roles, select(), set_col_role(), set_row_role(),
+#&gt;   target_names, task_type, truth(), weights</div><div class='input'><span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>()</div><div class='output co'>#&gt;     class           V2          x4
+#&gt;  1:     1  0.958069056 -0.91738022
+#&gt;  2:     1  0.814742470 -0.68211848
+#&gt;  3:     2  1.084673859  0.84859265
+#&gt;  4:     2  1.092577059  0.75280874
+#&gt;  5:     3  0.072475307 -0.04668440
+#&gt;  6:     3  0.016495286  0.05104209
+#&gt;  7:     4  0.006866667  0.98608956
+#&gt;  8:     4 -1.057040358  0.16787769
+#&gt;  9:     4 -0.627034433  0.56364613
+#&gt; 10:     4 -0.401362357  0.78379225</div><div class='input'>
+<span class='co'># some generators come with a plot method</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>g</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='img'><img src='mlr_task_generators-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#format">Format</a></li>
-
       <li><a href="#usage">Usage</a></li>
-
-      <li><a href="#arguments">Arguments</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
