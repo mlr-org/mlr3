@@ -43,8 +43,8 @@ l$predict(task)
 \item \code{feature_types} (\code{character()}): Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
 \item \code{predict_types} (\code{character()}): Supported predict types. Must be a subset of \code{mlr_reflections$predict_types}.
 \item \code{packages} (\code{character()}]: Set of required packages.
-\item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}): Set of required packages.
-\item \code{param_vals} (named \code{list()}): List of hyperparameters.
+\item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}): Set of hyperparameters.
+\item \code{param_vals} (named \code{list()}): List of hyperparameter settings.
 \item \code{properties} (\code{character()}): Set of properties of the learner. Must be a subset of \code{mlr_reflections$learner_properties}.
 \item \code{task} (\link{Task}): Task to train/predict on.
 }

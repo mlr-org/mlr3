@@ -172,6 +172,7 @@ task$cbind(cbind(data.frame(foo = 1:150), task$row_ids))
 \seealso{
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskRegr}}, \code{\link{TaskSupervised}},
+  \code{\link{mlr_task_generators}},
   \code{\link{mlr_tasks}}
 }
 \concept{Task}
