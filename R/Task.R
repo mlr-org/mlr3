@@ -160,7 +160,6 @@ NULL
 Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
-    id = NULL,
     task_type = NULL,
     backend = NULL,
     properties = character(0L),
@@ -170,7 +169,7 @@ Task = R6Class("Task",
     measures = list(),
 
     initialize = function(id, task_type, backend) {
-      self$id = assert_id(id)
+      private$.id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$backend = assert_backend(backend)
       self$col_info = col_info(backend)
@@ -271,9 +270,16 @@ Task = R6Class("Task",
   ),
 
   active = list(
+    id = function(rhs) {
+      if (missing(rhs))
+        return(private$.id)
+      private$.hash = NA_character_
+      private$.id = assert_id(rhs)
+    },
+
     hash = function() {
       if (is.na(private$.hash))
-        private$.hash = hash(list(self$id, self$backend$hash, self$row_roles,
+        private$.hash = hash(list(private$.id, self$backend$hash, self$row_roles,
             self$col_roles, sort(ids(self$measures))))
       private$.hash
     },
@@ -328,6 +334,7 @@ Task = R6Class("Task",
   ),
 
   private = list(
+    .id = NULL,
     .hash = NA_character_,
 
     deep_clone = function(name, value) {
