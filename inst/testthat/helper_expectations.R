@@ -485,6 +485,18 @@ expect_learner_fits = function(learner, task) {
     testthat::expect_true(!is.null(e$prediction$se))
     testthat::expect_true(all(e$prediction$se >= 0))
   }
+
+  #test sanity classif
+  if (task$id == "sanity" & learner$task_type == "classif" & learner$id != "featureless") {
+    rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
+    expect_lt(rr$aggregated, 0.3)
+  }
+
+  #test sanity regr
+  if (task$id == "sanity" & learner$task_type == "regr" & learner$id != "featureless") {
+    rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
+    expect_lt(rr$aggregated, 0.3)
+  }
 }
 
 expect_autotest = function(learner, exclude = character(0L)) {

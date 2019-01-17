@@ -47,6 +47,12 @@ generate_tasks.LearnerClassif = function(learner, N = 20L) {
     tasks = c(tasks, gen_tasks)
   }
 
+  # generate sanity task
+  set.seed(100)
+  data = data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rep(c("A", "B"), each = 100))
+  task = set_names(list(TaskClassif$new("sanity", as_data_backend(data), target = "y")), "sanity")
+  tasks = c(tasks, task)
+
   tasks
 }
 
@@ -56,7 +62,13 @@ generate_tasks.LearnerRegr = function(learner, N = 20L) {
   data = cbind(data.table(target = target), generate_data(learner, N))
   task = TaskRegr$new("proto", as_data_backend(data), target = "target")
 
-  generate_generic_tasks(learner, task)
+  tasks = generate_generic_tasks(learner, task)
+
+  # generate sanity task
+  set.seed(100)
+  data = data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = 1)
+  task = set_names(list(TaskRegr$new("sanity", as_data_backend(data), target = "y")), "sanity")
+  tasks = c(tasks, task)
 }
 
 generate_generic_tasks = function(learner, task) {
@@ -110,3 +122,4 @@ generate_data = function(learner, N) {
   types = unique(learner$feature_types)
   do.call(data.table, set_names(map(types, generate_feature), types))
 }
+
