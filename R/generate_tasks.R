@@ -49,7 +49,7 @@ generate_tasks.LearnerClassif = function(learner, N = 20L) {
 
   # generate sanity task
   set.seed(100)
-  data = data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rep(c("A", "B"), each = 100))
+  data = data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rep(as.factor(c("A", "B")), each = 100))
   task = set_names(list(TaskClassif$new("sanity", as_data_backend(data), target = "y")), "sanity")
   tasks = c(tasks, task)
 
