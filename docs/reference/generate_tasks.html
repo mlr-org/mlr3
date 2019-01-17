@@ -180,7 +180,7 @@ writing custom learners.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>tasks</span> <span class='kw'>=</span> <span class='fu'>generate_tasks</span>(<span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.rpart"</span>))
-<span class='no'>tasks</span>$<span class='no'>missings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>()</div><div class='output co'>#&gt;     target character factor integer logical    numeric ordered
+<span class='no'>tasks</span>$<span class='no'>missings_binary</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>()</div><div class='output co'>#&gt;     target character factor integer logical    numeric ordered
 #&gt;  1:      A         a     f1       1    TRUE 0.21516649      o1
 #&gt;  2:      B         b     f2       2      NA 0.81393372      o2
 #&gt;  3:      A         a     f1       3    TRUE 0.30776387    &lt;NA&gt;
