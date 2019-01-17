@@ -8,9 +8,9 @@
 #' @export
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(
-    initialize = function(id = "regr.rpart") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "rpart",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = "response",
         packages = "rpart",

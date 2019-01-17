@@ -28,9 +28,9 @@
 #' rss$instance$train # list of bit vectors
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
-    initialize = function(id = "subsampling") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "subsampling",
         param_set = ParamSet$new(params = list(
             ParamInt$new("repeats", lower = 1, tags = "required"),
             ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))

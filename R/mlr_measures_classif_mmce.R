@@ -11,9 +11,9 @@
 MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
   inherit = MeasureClassif,
   public = list(
-    initialize = function(id = "mmce") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "mmce",
         range = 0:1,
         minimize = TRUE,
         packages = "Metrics"

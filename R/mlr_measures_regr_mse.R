@@ -11,9 +11,9 @@
 MeasureRegrMSE = R6Class("MeasureRegrMSE",
   inherit = MeasureRegr,
   public = list(
-    initialize = function(id = "mse") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "mse",
         range = c(0, Inf),
         minimize = TRUE,
         packages = "Metrics"
