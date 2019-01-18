@@ -25,6 +25,8 @@ Authors:
   \item Jakob Richter \email{jakob1richter@gmail.com}
   \item Giuseppe Casalicchio \email{giuseppe.casalicchio@stat.uni-muenchen.de} (0000-0001-5324-5966)
   \item Patrick Schratz \email{patrick.schratz@gmail.com} (0000-0003-0748-6624)
+  \item Stefan Coors \email{mail@stefancoors.de} (0000-0002-7465-2146)
+  \item Quay Au \email{quayau@gmail.com} (0000-0002-5252-8902)
 }
 
 }
