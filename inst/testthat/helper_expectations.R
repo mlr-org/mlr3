@@ -469,38 +469,38 @@ expect_learner_fits = function(learner, task) {
   testthat::expect_equal(as.character(e$state), "defined", info = info)
 
   e$train()
-  testthat::expect_false(e$has_errors, info = info)
+  testthat::expect_false(e$has_errors, info = paste(info, e$logs$train$errors, sep = ": "))
   testthat::expect_equal(as.character(e$state), "trained", info = info)
 
   e$predict()
   testthat::expect_equal(as.character(e$state), "predicted", info = info)
   checkmate::expect_class(e$prediction, "Prediction", info = info)
-  testthat::expect_false(e$has_errors, info = info)
+  testthat::expect_false(e$has_errors, info = paste(info, e$logs$predict$errors, sep = ": "))
   checkmate::expect_data_table(as.data.table(e$prediction), any.missing = FALSE, info = info)
 
   e$score()
   testthat::expect_equal(as.character(e$state), "scored", info = info)
   checkmate::expect_number(e$performance, info = info)
 
-  #test predict type "prob"
+  # test predict type "prob"
   if (learner$predict_type == "prob") {
     testthat::expect_true(!is.null(e$prediction$prob))
     testthat::expect_true(all(e$prediction$prob <= 1 & e$prediction$prob >= 0))
   }
 
-  #test predict type "se"
+  # test predict type "se"
   if (learner$predict_type == "se") {
     testthat::expect_true(!is.null(e$prediction$se))
     testthat::expect_true(all(e$prediction$se >= 0))
   }
 
-  #test sanity classif
+  # test sanity classif
   if (task$id == "sanity" & learner$task_type == "classif" & learner$id != "featureless") {
     rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
     expect_lt(rr$aggregated, 0.3)
   }
 
-  #test sanity regr
+  # test sanity regr
   if (task$id == "sanity" & learner$task_type == "regr" & learner$id != "featureless") {
     rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
     expect_lt(rr$aggregated, 0.3)
