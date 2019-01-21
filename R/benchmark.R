@@ -73,14 +73,12 @@ benchmark = function(design, ctrl = list()) {
   if (future_remote()) {
     log_debug("Running benchmark() via future", namespace = "mlr3")
 
-    # randomize order for parallelization
-    grid = grid[sample.int(nrow(grid))]
-
     tmp = future.apply::future_mapply(experiment_worker,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
       iteration = grid$iter, measures = grid$measures,
       MoreArgs = list(ctrl = ctrl, remote = TRUE), SIMPLIFY = FALSE, USE.NAMES = FALSE,
-      future.globals = FALSE, future.packages = "mlr3"
+      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+      future.packages = "mlr3"
     )
   } else {
     log_debug("Running benchmark() sequentially", namespace = "mlr3")

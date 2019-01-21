@@ -56,7 +56,7 @@ TaskGenerator = R6Class("TaskGenerator",
     generate = function(n) {
       n = assert_count(n, coerce = TRUE)
       require_namespaces(self$packages)
-      private$.generate_task(n)
+      private$.generate(n)
     }
   )
 )

@@ -39,45 +39,45 @@ expect_backend = function(b) {
   rn = checkmate::expect_atomic_vector(b$rownames, any.missing = FALSE, len = n, unique = TRUE)
   pk = b$primary_key
 
-  x = b$data(rows = rn, cols = pk)
+  x = b$data(rows = rn, cols = pk, format = "data.table")
   checkmate::expect_data_table(x, ncol = 1L, nrow = n, col.names = "unique")
   x = x[[1L]]
   checkmate::expect_atomic_vector(x, len = n, unique = TRUE)
 
-  x = b$data(rows = rn, cols = setdiff(cn, pk)[1L])
+  x = b$data(rows = rn, cols = setdiff(cn, pk)[1L], format = "data.table")
   checkmate::expect_data_table(x, ncol = 1L, nrow = n, col.names = "unique")
   x = x[[1L]]
   checkmate::expect_atomic_vector(x, len = n)
 
   # extra cols are ignored
-  x = b$data(rows = rn[1L], cols = c(cn[1L], "_not_existing_"))
+  x = b$data(rows = rn[1L], cols = c(cn[1L], "_not_existing_"), format = "data.table")
   checkmate::expect_data_table(x, nrow = 1L, ncol = 1L)
 
   # zero cols matching
-  x = b$data(rows = rn[1L], cols = "_not_existing_")
+  x = b$data(rows = rn[1L], cols = "_not_existing_", format = "data.table")
   checkmate::expect_data_table(x, nrow = 0L, ncol = 0L)
 
   # extra rows are ignored
   query_rows = c(rn[1L], if (is.integer(rn)) -1L else "_not_existing_")
-  x = b$data(query_rows, cols = cn[1L])
+  x = b$data(query_rows, cols = cn[1L], format = "data.table")
   checkmate::expect_data_table(x, nrow = 1L, ncol = 1L)
 
   # zero rows matching
   query_rows = if (is.integer(rn)) -1L else "_not_existing_"
-  x = b$data(rows = query_rows, cols = cn[1L])
+  x = b$data(rows = query_rows, cols = cn[1L], format = "data.table")
   checkmate::expect_data_table(x, nrow = 0L, ncol = 1L)
 
   # rows are duplicated
-  x = b$data(rows = rep(rn[1L], 2L), cols = b$colnames)
+  x = b$data(rows = rep(rn[1L], 2L), cols = b$colnames, format = "data.table")
   checkmate::expect_data_table(x, nrow = 2L, ncol = p)
 
   # rows are returned in the right order
   i = sample(rn, min(n, 10L))
-  x = b$data(rows = i, cols = b$primary_key)
+  x = b$data(rows = i, cols = b$primary_key, format = "data.table")
   testthat::expect_equal(i, x[[1L]])
 
   # duplicated cols raise exception
-  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L)), "uniquely")
+  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L), format = "data.table"), "uniquely")
 
   # $head()
   checkmate::expect_data_table(b$head(9999L), nrow = n, ncol = p)
@@ -118,7 +118,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
   checkmate::expect_list(x, "character", len = 1)
   checkmate::expect_set_equal(x$Species, levels(iris$Species))
 
-  x = b$data(rows = 2:10, cols = c(b$primary_key, "Species", "Sepal.Width"))
+  x = b$data(rows = 2:10, cols = c(b$primary_key, "Species", "Sepal.Width"), format = "data.table")
   checkmate::expect_data_table(x, nrow = 9L, ncol = 3L)
   checkmate::expect_set_equal(names(x), c(b$primary_key, "Species", "Sepal.Width"))
   checkmate::expect_set_equal(x[[b$primary_key]], 2:10)
@@ -133,13 +133,13 @@ expect_iris_backend = function(b, n_missing = 0L) {
   checkmate::expect_numeric(x$Sepal.Width, any.missing = FALSE)
 
   # invalid row ids
-  x = b$data(rows = 150:151, cols = c(b$primary_key, "Species"))
+  x = b$data(rows = 150:151, cols = c(b$primary_key, "Species"), format = "data.table")
   checkmate::expect_data_table(x, nrow = 1L, ncol = 2L)
   testthat::expect_equal(x[[b$primary_key]], 150L)
   testthat::expect_equal(as.character(x[["Species"]]), "virginica")
 
   # duplicated row ids
-  x = b$data(rows = c(1L, 1L), cols = c(b$primary_key, "Species"))
+  x = b$data(rows = c(1L, 1L), cols = c(b$primary_key, "Species"), format = "data.table")
   checkmate::expect_data_table(x, nrow = 2L, ncol = 2L)
   testthat::expect_equal(x[[b$primary_key]], c(1L, 1L))
   testthat::expect_equal(as.character(x[["Species"]]), c("setosa", "setosa"))
@@ -157,7 +157,7 @@ expect_task = function(task) {
   expect_id(task$id)
   checkmate::expect_count(task$nrow)
   checkmate::expect_count(task$ncol)
-  checkmate::expect_data_table(task$data())
+  checkmate::expect_data_table(task$data(format = "data.table"))
   checkmate::expect_data_table(task$head(1), nrow = 1L)
 
   cols = c("id", "type", "levels")
@@ -185,6 +185,14 @@ expect_task = function(task) {
   checkmate::expect_subset(properties, mlr3::mlr_reflections$task_properties[[task$task_type]])
 
   expect_hash(task$hash, 1L)
+
+  # query zero columns
+  data = task$data(cols = character(0L), format = "data.table")
+  expect_data_table(data, ncol = 0L)
+
+  # query zero rows
+  data = task$data(rows = task$row_ids[[1L]][0L], format = "data.table")
+  expect_data_table(data, nrow = 0L)
 }
 
 expect_task_supervised = function(task) {
