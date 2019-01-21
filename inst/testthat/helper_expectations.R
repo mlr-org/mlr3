@@ -517,7 +517,7 @@ expect_autotest = function(learner, exclude = NULL) {
 
     #test predict type "prob"
     if ("prob" %in% learner$predict_types & "prob" != learner$predict_type) {
-      print("Testing predict type 'prob'")
+      # print("Testing predict type 'prob'")
       learner_prob = learner$clone()
       learner_prob$predict_type = "prob"
       expect_learner_fits(learner_prob, task)
@@ -525,7 +525,7 @@ expect_autotest = function(learner, exclude = NULL) {
 
     #test predict type "se"
     if ("se" %in% learner$predict_types & "se" != learner$predict_type) {
-      print("Testing predict type 'se'")
+      # print("Testing predict type 'se'")
       learner_se = learner$clone()
       learner_se$predict_type = "se"
       expect_learner_fits(learner_se, task)
