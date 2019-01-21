@@ -16,9 +16,6 @@ g = mlr_task_generators$get("smiley")
 task = g$generate(10)
 print(task)
 task$data()
-
-# some generators come with a plot method
-plot(g, n = 100)
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},

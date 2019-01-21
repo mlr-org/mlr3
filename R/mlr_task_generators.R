@@ -15,9 +15,6 @@
 #' task = g$generate(10)
 #' print(task)
 #' task$data()
-#'
-#' # some generators come with a plot method
-#' plot(g, n = 100)
 NULL
 
 #' @include Dictionary.R
