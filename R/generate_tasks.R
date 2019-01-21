@@ -76,15 +76,17 @@ generate_generic_tasks = function(learner, task) {
 
   # task with all supported feature types
   sel = task$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
-  tasks$feat_all = task$clone()$select(sel)
 
   if (length(task$feature_names) > 1L) {
     # individual tasks with each supported feature type
     for (type in learner$feature_types) {
       sel = task$feature_types[type, "id", on = "type", with = FALSE][[1L]]
-      tasks[[sprintf("feat_%s", type)]] = task$clone()$select(sel)
+      tasks[[sprintf("feat_single_%s", type)]] = task$clone()$select(sel)
     }
   }
+
+  # task with all supported features types
+  tasks$feat_all = task$clone()$select(sel)
 
   # task with missing values
   if ("missings" %in% learner$properties) {
