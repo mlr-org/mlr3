@@ -146,7 +146,7 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.debug"</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(learner)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; &lt;LearnerClassifDebug:classif.debug&gt;</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; &lt;LearnerClassifDebug:debug&gt;</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Parameters: list()</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Packages: -</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Predict Type: response</span></a>
@@ -169,7 +169,7 @@
 <a class="sourceLine" id="cb2-3" data-line-number="3">learner<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">error_train =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">e<span class="op">$</span><span class="kw">train</span>()</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; INFO [mlr3] Training learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Error in fun(task = &lt;environment&gt;): Error from classif.debug-&gt;train()</span></a></code></pre></div>
 </div>
 <div id="encapsulation" class="section level1">
@@ -183,7 +183,7 @@
 <a class="sourceLine" id="cb3-5" data-line-number="5">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">encapsulate_train =</span> <span class="st">"evaluate"</span>)</a>
 <a class="sourceLine" id="cb3-6" data-line-number="6">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner, <span class="dt">ctrl =</span> ctrl)</a>
 <a class="sourceLine" id="cb3-7" data-line-number="7">e<span class="op">$</span><span class="kw">train</span>()</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; INFO [mlr3] Training learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9">e<span class="op">$</span>has_errors <span class="co"># any errors recorded?</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb3-11" data-line-number="11">e<span class="op">$</span>logs<span class="op">$</span>train <span class="co"># print train log</span></a>
@@ -199,7 +199,7 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">encapsulate_train =</span> <span class="st">"callr"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; INFO [mlr3] Training learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">e<span class="op">$</span>logs<span class="op">$</span>train</a>
@@ -212,15 +212,15 @@
 <a class="sourceLine" id="cb5-4" data-line-number="4">learner<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">segfault_train =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(task, learner)</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">ctrl =</span> ctrl)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; INFO [mlr3] Training learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb5-10" data-line-number="10">e<span class="op">$</span>logs<span class="op">$</span>train<span class="op">$</span>errors</a>
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [1] "callr exited with status -11"</span></a></code></pre></div>
 <p>Note that, although no exception has been raised with encapsulation, it is impossible to perform the predict step without a model:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>()</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'classif.debug' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; Error in predict_worker(self, ctrl = ctrl): Unable to predict learner 'classif.debug' without model</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; Error in predict_worker(self, ctrl = ctrl): Unable to predict learner 'debug' without model</span></a></code></pre></div>
 <p>As a workaround, we define a learner in the next section which is used as a surrogate to create predictions.</p>
 </div>
 <div id="fallback-learners" class="section level1">
@@ -235,7 +235,7 @@
 <a class="sourceLine" id="cb7-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7">e =<span class="st"> </span>Experiment<span class="op">$</span><span class="kw">new</span>(<span class="dt">task =</span> task, <span class="dt">learner =</span> learner, <span class="dt">ctrl =</span> ctrl)</a>
 <a class="sourceLine" id="cb7-8" data-line-number="8">e<span class="op">$</span><span class="kw">train</span>()</a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; INFO [mlr3] Training learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb7-10" data-line-number="10">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb7-12" data-line-number="12">e<span class="op">$</span>logs<span class="op">$</span>train</a>
@@ -243,9 +243,9 @@
 <a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 1: [error] Error from classif.debug-&gt;train()</span></a>
 <a class="sourceLine" id="cb7-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb7-16" data-line-number="16">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>()</a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'classif.debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb7-18" data-line-number="18">e<span class="op">$</span><span class="kw">score</span>()</a>
-<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; INFO [mlr3] Scoring predictions of learner 'classif.debug' on task 'spam' ...</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; INFO [mlr3] Scoring predictions of learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb7-20" data-line-number="20">e<span class="op">$</span>prediction</a>
 <a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; &lt;PredictionClassif&gt; for 4601 observations:</span></a>
 <a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt;       row_id response   truth</span></a>
@@ -281,7 +281,7 @@
 
 
       <footer><!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz, Stefan Coors, Quay Au.</p>
 </div>
 
 <div class="pkgdown">

@@ -1,6 +1,6 @@
 #' @title Mean Squared Error Measure
 #'
-#' @name mlr_measures_mse
+#' @name mlr_measures_regr_mse
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'
 #' @description
@@ -11,9 +11,9 @@
 MeasureRegrMSE = R6Class("MeasureRegrMSE",
   inherit = MeasureRegr,
   public = list(
-    initialize = function(id = "mse") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "mse",
         range = c(0, Inf),
         minimize = TRUE,
         packages = "Metrics"
@@ -29,4 +29,4 @@ MeasureRegrMSE = R6Class("MeasureRegrMSE",
 
 
 #' @include mlr_measures.R
-mlr_measures$add("mse", MeasureRegrMSE)
+mlr_measures$add("regr.mse", MeasureRegrMSE)

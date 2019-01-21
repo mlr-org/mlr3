@@ -50,7 +50,7 @@
 #'
 #' @family Measure
 #' @examples
-#' mlr_measures$get("mmce")
+#' mlr_measures$get("classif.mmce")
 NULL
 
 #' @export

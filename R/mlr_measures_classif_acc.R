@@ -1,6 +1,6 @@
 #' @title Accuracy Classification Measure
 #'
-#' @name mlr_measures_acc
+#' @name mlr_measures_classif_acc
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'
 #' @description
@@ -11,9 +11,9 @@
 MeasureClassifACC = R6Class("MeasureClassifACC",
   inherit = MeasureClassif,
   public = list(
-    initialize = function(id = "acc") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "acc",
         range = 0:1,
         minimize = FALSE,
         packages = "Metrics"
@@ -28,4 +28,4 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("acc", MeasureClassifACC)
+mlr_measures$add("classif.acc", MeasureClassifACC)

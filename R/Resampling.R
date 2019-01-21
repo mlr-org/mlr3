@@ -94,7 +94,6 @@ NULL
 #' @export
 Resampling = R6Class("Resampling",
   public = list(
-    id = NULL,
     param_set = NULL,
     instance = NULL,
     task_hash = NA_character_,
@@ -102,7 +101,7 @@ Resampling = R6Class("Resampling",
     duplicated_ids = NULL,
 
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(), duplicated_ids = FALSE) {
-      self$id = assert_id(id)
+      private$.id = assert_id(id)
       self$param_set = assert_param_set(param_set)
       private$.param_vals = assert_param_vals(param_vals, param_set)
       self$stratify = character(0L)
@@ -155,11 +154,18 @@ Resampling = R6Class("Resampling",
   ),
 
   active = list(
+    id = function(rhs) {
+      if (missing(rhs))
+        return(private$.id)
+      private$.hash = NA_character_
+      private$.id = assert_id(rhs)
+    },
+
     hash = function() {
       if (is.null(self$instance))
         return(NA_character_)
       if (is.na(private$.hash))
-        private$.hash = hash(list(self$id, self$param_vals, self$instance))
+        private$.hash = hash(list(private$.id, self$param_vals, self$instance))
       private$.hash
     },
 
@@ -175,12 +181,13 @@ Resampling = R6Class("Resampling",
   ),
 
   private = list(
+    .id = NULL,
     .param_vals = NULL,
     .hash = NA_character_,
     .groups = NULL,
     .get_set = function(getter, i) {
       if (!self$is_instantiated)
-        stopf("Resampling '%s' has not been instantiated yet", self$id)
+        stopf("Resampling '%s' has not been instantiated yet", private$.id)
       i = assert_int(i, lower = 1L, upper = self$iters, coerce = TRUE)
       ids = getter(i)
 

@@ -191,7 +191,7 @@ Object to control various parts of the execution. See <code><a href='mlr_control
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.rpart"</span>)
 <span class='no'>resampling</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 10 iterations
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'rpart' with 10 iterations
 #&gt;  Measure Min. 1st Qu. Median  Mean 3rd Qu. Max.    Sd
 #&gt;     mmce    0   0.067  0.067 0.073    0.12 0.13 0.049</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;       mmce 
 #&gt; 0.07333333 </div><div class='input'><span class='no'>rr</span>$<span class='fu'>performance</span>(<span class='st'>"mmce"</span>)</div><div class='output co'>#&gt;  [1] 0.00000000 0.13333333 0.06666667 0.06666667 0.06666667 0.13333333
@@ -202,9 +202,9 @@ Object to control various parts of the execution. See <code><a href='mlr_control
 <span class='no'>rr.featureless</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)
 
 <span class='no'>bmr</span> <span class='kw'>=</span> <span class='no'>rr</span>$<span class='fu'>combine</span>(<span class='no'>rr.featureless</span>)
-<span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id          learner_id resampling_id
-#&gt; 1: 8e2345834719e8b3 &lt;ResampleResult&gt;    iris       classif.rpart            cv
-#&gt; 2: f8c76f66a8aac915 &lt;ResampleResult&gt;    iris classif.featureless            cv
+<span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id  learner_id resampling_id
+#&gt; 1: 85b74643783cc286 &lt;ResampleResult&gt;    iris       rpart            cv
+#&gt; 2: 8659e574511148b5 &lt;ResampleResult&gt;    iris featureless            cv
 #&gt;          mmce
 #&gt; 1: 0.07333333
 #&gt; 2: 0.75333333</div></pre>
@@ -224,7 +224,7 @@ Object to control various parts of the execution. See <code><a href='mlr_control
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz, Stefan Coors, Quay Au.</p>
 </div>
 
 <div class="pkgdown">

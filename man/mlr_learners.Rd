@@ -22,7 +22,9 @@ mlr_learners$get("classif.featureless")
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_measures}},
-  \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
+  \code{\link{mlr_resamplings}},
+  \code{\link{mlr_task_generators}},
+  \code{\link{mlr_tasks}}
 
 Other Learner: \code{\link{LearnerClassif}},
   \code{\link{LearnerRegr}}, \code{\link{Learner}}

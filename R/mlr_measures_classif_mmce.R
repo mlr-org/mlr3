@@ -1,6 +1,6 @@
 #' @title Mean Misclassification Error Measure
 #'
-#' @name mlr_measures_mmce
+#' @name mlr_measures_classif_mmce
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #'
 #' @description
@@ -11,9 +11,9 @@
 MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
   inherit = MeasureClassif,
   public = list(
-    initialize = function(id = "mmce") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "mmce",
         range = 0:1,
         minimize = TRUE,
         packages = "Metrics"
@@ -29,4 +29,4 @@ MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
 
 
 #' @include mlr_measures.R
-mlr_measures$add("mmce", MeasureClassifMMCE)
+mlr_measures$add("classif.mmce", MeasureClassifMMCE)

@@ -28,9 +28,9 @@
 #' rcv$instance # table
 ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
-    initialize = function(id = "cv") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "cv",
         param_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L, tags = "required"))),
         param_vals = list(folds = 10L)
       )

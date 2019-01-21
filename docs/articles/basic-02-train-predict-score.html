@@ -173,7 +173,7 @@
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; &lt;Experiment&gt; [defined]:</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;  + Task: iris</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;  + Learner: classif.rpart</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;  + Learner: rpart</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;  - Model: [missing]</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;  - Predictions: [missing]</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;  - Performance: [missing]</span></a>
@@ -188,11 +188,11 @@
 <a href="#training" class="anchor"></a>Training</h2>
 <p>To train the learner on the task, we need to call the train function of the experiment:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">e<span class="op">$</span><span class="kw">train</span>(<span class="dt">row_ids =</span> train.set)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Training learner 'rpart' on task 'iris' ...</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; &lt;Experiment&gt; [trained]:</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;  + Task: iris</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  + Learner: classif.rpart</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  + Learner: rpart</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  + Model: [rpart]</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  - Predictions: [missing]</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  - Performance: [missing]</span></a>
@@ -219,11 +219,11 @@
 <a href="#predicting" class="anchor"></a>Predicting</h2>
 <p>After the training step, we can use the experiment to predict on observations of the task (note that you may alternatively also pass new data here as <code>data.frame</code>):</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(<span class="dt">row_ids =</span> test.set)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'classif.rpart' on task 'iris' ...</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'rpart' on task 'iris' ...</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; &lt;Experiment&gt; [predicted]:</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;  + Task: iris</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;  + Learner: classif.rpart</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;  + Learner: rpart</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;  + Model: [rpart]</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;  + Predictions: [PredictionClassif]</span></a>
 <a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;  - Performance: [missing]</span></a>
@@ -249,11 +249,11 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">task<span class="op">$</span>measures[[1L]]<span class="op">$</span>id</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] "mmce"</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">e<span class="op">$</span><span class="kw">score</span>()</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; INFO [mlr3] Scoring predictions of learner 'classif.rpart' on task 'iris' ...</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; INFO [mlr3] Scoring predictions of learner 'rpart' on task 'iris' ...</span></a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; &lt;Experiment&gt; [scored]:</span></a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;  + Task: iris</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  + Learner: classif.rpart</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt;  + Learner: rpart</span></a>
 <a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  + Model: [rpart]</span></a>
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  + Predictions: [PredictionClassif]</span></a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  + Performance: mmce=0.03333333</span></a>
@@ -271,9 +271,9 @@
 <a href="#chaining-methods" class="anchor"></a>Chaining methods</h2>
 <p>Instead of calling the methods <code>$train()</code>, <code>$predict()</code> and <code>$score()</code> one after each other, it is also possible to chain these commands:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">Experiment<span class="op">$</span><span class="kw">new</span>(<span class="dt">task =</span> task, <span class="dt">learner =</span> learner)<span class="op">$</span><span class="kw">train</span>(train.set)<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(test.set)<span class="op">$</span><span class="kw">score</span>()</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Training learner 'classif.rpart' on task 'iris' ...</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'classif.rpart' on task 'iris' ...</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; INFO [mlr3] Scoring predictions of learner 'classif.rpart' on task 'iris' ...</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Training learner 'rpart' on task 'iris' ...</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'rpart' on task 'iris' ...</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; INFO [mlr3] Scoring predictions of learner 'rpart' on task 'iris' ...</span></a></code></pre></div>
 </div>
 </div>
   </div>
@@ -298,7 +298,7 @@
 
 
       <footer><!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz.</p>
+  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz, Stefan Coors, Quay Au.</p>
 </div>
 
 <div class="pkgdown">

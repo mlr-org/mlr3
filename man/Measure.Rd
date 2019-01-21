@@ -58,7 +58,7 @@ m$calculate(e)
 }
 
 \examples{
-mlr_measures$get("mmce")
+mlr_measures$get("classif.mmce")
 }
 \seealso{
 Other Measure: \code{\link{MeasureClassif}},

@@ -12,9 +12,9 @@
 #' @export
 LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
   public = list(
-    initialize = function(id = "regr.featureless") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "featureless",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "se"),
         param_set = ParamSet$new(
