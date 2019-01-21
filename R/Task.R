@@ -191,7 +191,7 @@ Task = R6Class("Task",
     },
 
     data = function(rows = NULL, cols = NULL, format = NULL) {
-      task_data(self, rows, cols, format)
+      task_data(self, rows, cols, format %??% self$backend$formats[1L])
     },
 
     head = function(n = 6L) {
@@ -345,7 +345,7 @@ Task = R6Class("Task",
   )
 )
 
-task_data = function(self, rows = NULL, cols = NULL, format = NULL) {
+task_data = function(self, rows = NULL, cols = NULL, format) {
   order = self$col_roles$order
 
   if (is.null(rows)) {
@@ -370,23 +370,25 @@ task_data = function(self, rows = NULL, cols = NULL, format = NULL) {
 
   data = self$backend$data(rows = selected_rows, cols = selected_cols, format = format %??% self$backend$formats[1L])
 
-  if (nrow(data) != length(selected_rows)) {
+  if (length(selected_cols) && nrow(data) != length(selected_rows)) {
     stopf("DataBackend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
   }
 
-  if (ncol(data) != length(selected_cols)) {
+  if (length(selected_rows) && ncol(data) != length(selected_cols)) {
     stopf("DataBackend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
   }
 
-  if (length(order)) {
-    setorderv(data, order)
+  if (format == "data.table") {
+    if (length(order)) {
+      setorderv(data, order)[]
+    }
+
+    if (length(extra_cols)) {
+      data[, (extra_cols) := NULL][]
+    }
   }
 
-  if (length(extra_cols)) {
-    data[, (extra_cols) := NULL]
-  }
-
-  return(data[])
+  return(data)
 }
 
 task_print = function(self) {
