@@ -507,8 +507,11 @@ expect_learner_fits = function(learner, task) {
   }
 }
 
-expect_autotest = function(learner, exclude = character(0L)) {
-  tasks = mlr3misc::remove_named(generate_tasks(learner), exclude)
+expect_autotest = function(learner, exclude = NULL) {
+  tasks = generate_tasks(learner)
+  if (!is.null(exclude))
+    tasks = tasks[!grepl(exclude, names(tasks))]
+
   for (task in tasks) {
     expect_learner_fits(learner, task)
 
