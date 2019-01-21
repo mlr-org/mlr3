@@ -481,11 +481,51 @@ expect_learner_fits = function(learner, task) {
   e$score()
   testthat::expect_equal(as.character(e$state), "scored", info = info)
   checkmate::expect_number(e$performance, info = info)
+
+  #test predict type "prob"
+  if (learner$predict_type == "prob") {
+    testthat::expect_true(!is.null(e$prediction$prob))
+    testthat::expect_true(all(e$prediction$prob <= 1 & e$prediction$prob >= 0))
+  }
+
+  #test predict type "se"
+  if (learner$predict_type == "se") {
+    testthat::expect_true(!is.null(e$prediction$se))
+    testthat::expect_true(all(e$prediction$se >= 0))
+  }
+
+  #test sanity classif
+  if (task$id == "sanity" & learner$task_type == "classif" & learner$id != "featureless") {
+    rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
+    expect_lt(rr$aggregated, 0.3)
+  }
+
+  #test sanity regr
+  if (task$id == "sanity" & learner$task_type == "regr" & learner$id != "featureless") {
+    rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
+    expect_lt(rr$aggregated, 0.3)
+  }
 }
 
 expect_autotest = function(learner, exclude = character(0L)) {
   tasks = mlr3misc::remove_named(generate_tasks(learner), exclude)
   for (task in tasks) {
     expect_learner_fits(learner, task)
+
+    #test predict type "prob"
+    if ("prob" %in% learner$predict_types & "prob" != learner$predict_type) {
+      print("Testing predict type 'prob'")
+      learner_prob = learner$clone()
+      learner_prob$predict_type = "prob"
+      expect_learner_fits(learner_prob, task)
+    }
+
+    #test predict type "se"
+    if ("se" %in% learner$predict_types & "se" != learner$predict_type) {
+      print("Testing predict type 'se'")
+      learner_se = learner$clone()
+      learner_se$predict_type = "se"
+      expect_learner_fits(learner_se, task)
+    }
   }
 }

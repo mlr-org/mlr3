@@ -21,6 +21,6 @@ writing custom learners.
 }
 \examples{
 tasks = generate_tasks(mlr_learners$get("classif.rpart"))
-tasks$missings$data()
+tasks$missings_binary$data()
 }
 \keyword{internal}

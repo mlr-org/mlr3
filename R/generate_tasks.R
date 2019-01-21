@@ -13,7 +13,7 @@
 #' @export
 #' @examples
 #' tasks = generate_tasks(mlr_learners$get("classif.rpart"))
-#' tasks$missings$data()
+#' tasks$missings_binary$data()
 generate_tasks = function(learner, N = 20L) {
   N = assert_int(N, lower = 10L, coerce = TRUE)
   UseMethod("generate_tasks")
@@ -21,12 +21,39 @@ generate_tasks = function(learner, N = 20L) {
 
 #' @export
 generate_tasks.LearnerClassif = function(learner, N = 20L) {
-  binary = ("twoclass" %in% learner$properties)
-  target = factor(rep_len(head(LETTERS, 2L + !binary), N))
-  data = cbind(data.table(target = target), generate_data(learner, N))
-  task = TaskClassif$new("proto", as_data_backend(data), target = "target", positive = if (binary) "A" else NULL)
+  tasks = list()
 
-  generate_generic_tasks(learner, task)
+  # generate binary tasks
+  if ("twoclass" %in% learner$properties) {
+    target = factor(rep_len(head(LETTERS, 2L), N))
+    data = cbind(data.table(target = target), generate_data(learner, N))
+    task = TaskClassif$new("proto", as_data_backend(data), target = "target", positive = "A")
+    gen_tasks = generate_generic_tasks(learner, task)
+    #set names
+    lapply(gen_tasks, function(x) x$id = paste0(x$id, "_binary"))
+    gen_tasks = set_names(gen_tasks, paste0(names(gen_tasks), "_binary"))
+    tasks = c(tasks, gen_tasks)
+  }
+
+  # generate multiclass tasks
+  if ("multiclass" %in% learner$properties) {
+    target = factor(rep_len(head(LETTERS, 3L), N))
+    data = cbind(data.table(target = target), generate_data(learner, N))
+    task = TaskClassif$new("proto", as_data_backend(data), target = "target")
+    gen_tasks = generate_generic_tasks(learner, task)
+    #set names
+    lapply(gen_tasks, function(x) x$id = paste0(x$id, "_multiclass"))
+    gen_tasks = set_names(gen_tasks, paste0(names(gen_tasks), "_multiclass"))
+    tasks = c(tasks, gen_tasks)
+  }
+
+  # generate sanity task
+  set.seed(100)
+  data = data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rep(as.factor(c("A", "B")), each = 100))
+  task = set_names(list(TaskClassif$new("sanity", as_data_backend(data), target = "y")), "sanity")
+  tasks = c(tasks, task)
+
+  tasks
 }
 
 #' @export
@@ -35,7 +62,13 @@ generate_tasks.LearnerRegr = function(learner, N = 20L) {
   data = cbind(data.table(target = target), generate_data(learner, N))
   task = TaskRegr$new("proto", as_data_backend(data), target = "target")
 
-  generate_generic_tasks(learner, task)
+  tasks = generate_generic_tasks(learner, task)
+
+  # generate sanity task
+  set.seed(100)
+  data = data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = 1)
+  task = set_names(list(TaskRegr$new("sanity", as_data_backend(data), target = "y")), "sanity")
+  tasks = c(tasks, task)
 }
 
 generate_generic_tasks = function(learner, task) {
@@ -89,3 +122,4 @@ generate_data = function(learner, N) {
   types = unique(learner$feature_types)
   do.call(data.table, set_names(map(types, generate_feature), types))
 }
+
