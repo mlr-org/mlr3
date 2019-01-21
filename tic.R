@@ -1,6 +1,15 @@
-get_stage("script") %>%
-  add_code_step(devtools::document()) %>%
-  add_step(step_rcmdcheck(args = "--as-cran", error_on = "error"))
+if (inherits(ci(), "TravisCI")) {
+
+  get_stage("script") %>%
+    add_code_step(devtools::document()) %>%
+    add_step(step_rcmdcheck(args = "--as-cran", error_on = "error"))
+}
+
+if (inherits(ci(), "AppVeyorCI")) {
+  get_stage("script") %>%
+    add_code_step(devtools::document()) %>%
+    add_step(step_rcmdcheck(args = c("--as-cran", "--no-manual"), error_on = "error"))
+}
 
 if (Sys.getenv("id_rsa") != "") {
   # pkgdown documentation can be built optionally. Other example criteria:
