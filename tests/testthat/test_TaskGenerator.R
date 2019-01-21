@@ -6,7 +6,7 @@ test_that("TaskGenerators", {
 
   for (id in ids) {
     gen = mlr_task_generators$get(id)
-    expect_r6(gen, "TaskGenerator", private = ".generate_task")
+    expect_r6(gen, "TaskGenerator", private = ".generate")
     expect_choice(gen$task_type, mlr_reflections$task_types)
     expect_function(gen$generate, args = "n")
     expect_class(gen$param_set, "ParamSet")
