@@ -156,8 +156,9 @@
 NULL
 
 #' @export
+#' @include Mlr3Object
 #' @include mlr_reflections.R
-Task = R6Class("Task",
+Task = R6Class("Task", inherit = Mlr3Object,
   cloneable = TRUE,
   public = list(
     task_type = NULL,
@@ -169,7 +170,7 @@ Task = R6Class("Task",
     measures = list(),
 
     initialize = function(id, task_type, backend) {
-      private$.id = assert_id(id)
+      super$initialize(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$backend = assert_backend(backend)
       self$col_info = col_info(backend)
@@ -270,20 +271,6 @@ Task = R6Class("Task",
   ),
 
   active = list(
-    id = function(rhs) {
-      if (missing(rhs))
-        return(private$.id)
-      private$.hash = NA_character_
-      private$.id = assert_id(rhs)
-    },
-
-    hash = function() {
-      if (is.na(private$.hash))
-        private$.hash = hash(list(private$.id, self$backend$hash, self$row_roles,
-            self$col_roles, sort(ids(self$measures))))
-      private$.hash
-    },
-
     row_ids = function() {
       res = data.table(..row_id = self$row_roles$use)
       setnames(res, "..row_id", self$backend$primary_key)
@@ -334,8 +321,10 @@ Task = R6Class("Task",
   ),
 
   private = list(
-    .id = NULL,
-    .hash = NA_character_,
+    .calculate_hash = function() {
+      hash(list(private$.id, self$backend$hash, self$row_roles,
+          self$col_roles, sort(ids(self$measures))))
+    },
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!

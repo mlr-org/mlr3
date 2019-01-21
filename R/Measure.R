@@ -53,10 +53,11 @@
 #' mlr_measures$get("classif.mmce")
 NULL
 
+#' @include Mlr3Object.R
 #' @export
-Measure = R6Class("Measure", cloneable = FALSE,
+Measure = R6Class("Measure", inherit = Mlr3Object,
+  cloneable = FALSE,
   public = list(
-    id = NULL,
     task_type = NULL,
     predict_type = NULL,
     task_properties = NULL,
@@ -66,7 +67,7 @@ Measure = R6Class("Measure", cloneable = FALSE,
     aggregate = function(rr) mean(rr$performance(self$id)),
 
     initialize = function(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L)) {
-      self$id = assert_id(id)
+      super$initialize(id)
       self$task_type = task_type
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize)
@@ -90,8 +91,12 @@ Measure = R6Class("Measure", cloneable = FALSE,
       catf(str_indent("Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catf(str_indent("Minimize:", self$minimize))
       catf(str_indent("Predict type:", self$predict_type))
-    },
+    }
+  ),
 
-    calculate = function(...) stopf("Method not implemented, should have been overloaded during construction")
+  private = list(
+    .calculate_hash = function() {
+      hash(list(private$.id, body(self$calculate)))
+    }
   )
 )

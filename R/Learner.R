@@ -75,8 +75,9 @@
 #' @family Learner
 NULL
 
+#' @include Mlr3Object.R
 #' @export
-Learner = R6Class("Learner",
+Learner = R6Class("Learner", inherit = Mlr3Object,
   public = list(
     task_type = NULL,
     feature_types = NULL,
@@ -88,7 +89,7 @@ Learner = R6Class("Learner",
     fallback = NULL,
 
     initialize = function(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
-      private$.id = assert_id(id)
+      super$initialize(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, mlr_reflections$predict_types[[task_type]], empty.ok = FALSE)
@@ -111,19 +112,6 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
-    id = function(rhs) {
-      if (missing(rhs))
-        return(private$.id)
-      private$.hash = NA_character_
-      private$.id = assert_id(rhs)
-    },
-
-    hash = function() {
-      if (is.na(private$.hash))
-        private$.hash = hash(list(private$.id, self$param_vals))
-      private$.hash
-    },
-
     param_vals = function(rhs) {
       if (missing(rhs))
         return(private$.param_vals)
@@ -154,8 +142,9 @@ Learner = R6Class("Learner",
   ),
 
   private = list(
-    .id = NULL,
-    .hash = NA_character_,
+    .calculate_hash = function() {
+      hash(list(private$.id, self$param_vals))
+    },
     .param_vals = NULL,
     .predict_type = NULL
   )
