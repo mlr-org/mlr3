@@ -156,7 +156,7 @@
 NULL
 
 #' @export
-#' @include Mlr3Object
+#' @include Mlr3Object.R
 #' @include mlr_reflections.R
 Task = R6Class("Task", inherit = Mlr3Object,
   cloneable = TRUE,

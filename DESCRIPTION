@@ -88,6 +88,7 @@ Collate:
     'DataBackendRbind.R'
     'Dictionary.R'
     'Experiment.R'
+    'Mlr3Object.R'
     'Learner.R'
     'LearnerClassif.R'
     'LearnerRegr.R'
