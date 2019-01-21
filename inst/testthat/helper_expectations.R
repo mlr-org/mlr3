@@ -508,12 +508,28 @@ expect_learner_fits = function(learner, task) {
 }
 
 expect_autotest = function(learner, exclude = NULL) {
+  result = autotest_learner(learner, exclude = exclude)
+  expect_true(all(result$status), info = sprintf("learner %s: %s", learner$id, result$message))
+
+}
+
+autotest_learner = function(learner, exclude = NULL) {
   tasks = generate_tasks(learner)
   if (!is.null(exclude))
     tasks = tasks[!grepl(exclude, names(tasks))]
 
+  experiments = messages = status = list()
   for (task in tasks) {
-    expect_learner_fits(learner, task)
+
+    error = try(expect_learner_fits(learner, task), silent = TRUE)
+    if (inherits(error, "try-error")) {
+      status[[task]] = FALSE
+      experiments[[task]] = Experiment$new(task, learner)
+      messages[[task]] = sprintf("failed on task %s", task$id)
+    } else {
+      status[[task]] = TRUE
+      experiments[[task]] = messages[[task]] = NA
+    }
 
     #test predict type "prob"
     if ("prob" %in% learner$predict_types & "prob" != learner$predict_type) {
@@ -531,4 +547,9 @@ expect_autotest = function(learner, exclude = NULL) {
       expect_learner_fits(learner_se, task)
     }
   }
+
+  return(status, experiments, messages)
 }
+
+
+
