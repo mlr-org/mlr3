@@ -74,9 +74,6 @@ generate_tasks.LearnerRegr = function(learner, N = 20L) {
 generate_generic_tasks = function(learner, task) {
   tasks = list()
 
-  # task with all supported feature types
-  sel = task$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
-
   if (length(task$feature_names) > 1L) {
     # individual tasks with each supported feature type
     for (type in learner$feature_types) {
@@ -86,6 +83,7 @@ generate_generic_tasks = function(learner, task) {
   }
 
   # task with all supported features types
+  sel = task$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
   tasks$feat_all = task$clone()$select(sel)
 
   # task with missing values
@@ -124,4 +122,3 @@ generate_data = function(learner, N) {
   types = unique(learner$feature_types)
   do.call(data.table, set_names(map(types, generate_feature), types))
 }
-

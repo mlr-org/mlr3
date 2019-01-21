@@ -73,8 +73,11 @@ predictionclassif_initialize = function(self, task, response, prob) {
     classes = task$all_classes
 
     if (!is.null(response)) {
-      if (is.character(response))
+      if (is.character(response)) {
         response = factor(response, levels = classes)
+      } else if (is.factor(response)) {
+        levels(response) = classes
+      }
       assert_factor(response, len = n, levels = classes, any.missing = FALSE)
     }
 
