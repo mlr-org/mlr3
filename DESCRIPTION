@@ -58,7 +58,7 @@ Suggests:
     devtools,
     evaluate,
     future (>= 1.9.0),
-    future.apply,
+    future.apply (>= 1.1.0),
     future.callr,
     kernlab,
     knitr,
