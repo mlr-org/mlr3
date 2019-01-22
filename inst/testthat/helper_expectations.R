@@ -191,7 +191,7 @@ expect_task = function(task) {
   expect_data_table(data, ncol = 0L)
 
   # query zero rows
-  data = task$data(rows = task$row_ids[[1L]][0L], format = "data.table")
+  data = task$data(rows = task$row_ids[0L], format = "data.table")
   expect_data_table(data, nrow = 0L)
 }
 
@@ -272,7 +272,7 @@ expect_resampling = function(r, task = NULL) {
     expect_hash(r$hash, 1L)
     expect_hash(r$task_hash, 1L)
     if (!is.null(task)) {
-      ids = task$row_ids[[1L]]
+      ids = task$row_ids
       testthat::expect_equal(task$hash, r$task_hash)
     }
     checkmate::expect_count(r$iters, positive = TRUE)

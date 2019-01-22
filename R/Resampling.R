@@ -126,7 +126,7 @@ Resampling = R6Class("Resampling",
 
       if (length(self$stratify) == 0L) {
         if (is.null(groups)) {
-          instance = private$.sample(task$row_ids[[1L]])
+          instance = private$.sample(task$row_ids)
         } else {
           private$.groups = groups
           instance = private$.sample(unique(groups$groups))
@@ -190,6 +190,6 @@ Resampling = add_id_hash(Resampling)
 
 stratify = function(task, stratify) {
   assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)
-  row_ids = task$row_ids[[1L]]
+  row_ids = task$row_ids
   cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
 }

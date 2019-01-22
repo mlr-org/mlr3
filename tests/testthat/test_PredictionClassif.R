@@ -17,7 +17,7 @@ test_that("partial results", {
   p = PredictionClassif$new()
   expect_prediction(p)
   expect_prediction_classif(p)
-  p$row_ids = task$row_ids[[1L]]
+  p$row_ids = task$row_ids
   expect_error(as.data.table(p))
 
   p$truth = task$truth()

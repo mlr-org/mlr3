@@ -113,8 +113,7 @@ features of the task and \code{type} is the storage type.
 \item \code{$measures} (\code{list} of \link{Measure}) stores the default measures for this task.
 \item \code{$ncol} (\code{integer(1)}) provides the total number of cols with \code{role \%in\% c("target", "feature")}.
 \item \code{$nrow} (\code{integer(1)}) provides the total number of rows with \code{role == "use"}.
-\item \code{$row_ids} (\code{\link[=data.table]{data.table()}}) returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
-The column names of the returned \code{\link[=data.table]{data.table()}} equals the primary key column in the \link{DataBackend}.
+\item \code{$row_ids} (\code{vector()}) returns the active row ids used in the backend, i.e. subsetted to observations with \code{role == "use"}.
 \item \code{$row_roles} (\code{list}). Stores the row ids of \link{DataBackend} in vectors of row roles:
 \itemize{
 \item \code{"use"}: Use in training.
@@ -167,7 +166,7 @@ task$select(setdiff(task$feature_names, "Petal.Width"))
 task$feature_names
 
 # Add new column "foo"
-task$cbind(cbind(data.frame(foo = 1:150), task$row_ids))
+task$cbind(data.frame(foo = 1:150))
 }
 \seealso{
 Other Task: \code{\link{TaskClassif}},
