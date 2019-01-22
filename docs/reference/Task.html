@@ -262,8 +262,7 @@ features of the task and <code>type</code> is the storage type.</p></li>
 <li><p><code>$measures</code> (<code>list</code> of <a href='Measure.html'>Measure</a>) stores the default measures for this task.</p></li>
 <li><p><code>$ncol</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) provides the total number of cols with <code>role %in% c("target", "feature")</code>.</p></li>
 <li><p><code>$nrow</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) provides the total number of rows with <code>role == "use"</code>.</p></li>
-<li><p><code>$row_ids</code> (<code>data.table()</code>) returns the active row ids used in the backend, i.e. subsetted to observations with <code>role == "use"</code>.
-The column names of the returned <code>data.table()</code> equals the primary key column in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
+<li><p><code>$row_ids</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector()</a></code>) returns the active row ids used in the backend, i.e. subsetted to observations with <code>role == "use"</code>.</p></li>
 <li><p><code>$row_roles</code> (<code>list</code>). Stores the row ids of <a href='DataBackend.html'>DataBackend</a> in vectors of row roles:</p><ul>
 <li><p><code>"use"</code>: Use in training.</p></li>
 <li><p><code>"validation"</code>: Do not use in training, this are (possibly unlabeled) observations
@@ -323,7 +322,7 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
 
 <span class='no'>task</span>$<span class='no'>feature_names</span></div><div class='output co'>#&gt; [1] "Sepal.Length" "Sepal.Width"  "Species"     </div><div class='input'>
 <span class='co'># Add new column "foo"</span>
-<span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>foo</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>150</span>), <span class='no'>task</span>$<span class='no'>row_ids</span>))</div></pre>
+<span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>foo</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>150</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
