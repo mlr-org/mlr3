@@ -70,7 +70,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 
 predictionregr_initialize = function(self, task, response, se) {
   if (!is.null(task)) {
-    self$row_ids = row_ids = task$row_ids[[1L]]
+    self$row_ids = row_ids = task$row_ids
     self$truth = task$truth()
     n = length(row_ids)
   } else {

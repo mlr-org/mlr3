@@ -103,8 +103,7 @@
 #' * `$measures` (`list` of [Measure]) stores the default measures for this task.
 #' * `$ncol` (`integer(1)`) provides the total number of cols with `role %in% c("target", "feature")`.
 #' * `$nrow` (`integer(1)`) provides the total number of rows with `role == "use"`.
-#' * `$row_ids` ([data.table()]) returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
-#'    The column names of the returned [data.table()] equals the primary key column in the [DataBackend].
+#' * `$row_ids` (`vector()`) returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
 #' * `$row_roles` (`list`). Stores the row ids of [DataBackend] in vectors of row roles:
 #'   - `"use"`: Use in training.
 #'   - `"validation"`: Do not use in training, this are (possibly unlabeled) observations
@@ -152,7 +151,7 @@
 #' task$feature_names
 #'
 #' # Add new column "foo"
-#' task$cbind(cbind(data.frame(foo = 1:150), task$row_ids))
+#' task$cbind(data.frame(foo = 1:150))
 NULL
 
 #' @include mlr_reflections.R
@@ -271,8 +270,7 @@ Task = R6Class("Task",
 
   active = list(
     row_ids = function() {
-      res = data.table(..row_id = self$row_roles$use)
-      setnames(res, "..row_id", self$backend$primary_key)
+      self$row_roles$use
     },
 
     feature_names = function() {

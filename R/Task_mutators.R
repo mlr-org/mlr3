@@ -50,7 +50,7 @@ task_rbind = function(self, data) {
   if (pk %in% names(data)) {
     check_new_row_ids(self, data, "disjunct")
   } else {
-    rids = self$row_ids[[1L]]
+    rids = self$row_ids
     if (is.integer(rids)) {
       data[[pk]] = max(rids) + seq_row(data)
     } else {
@@ -92,7 +92,7 @@ task_cbind = function(self, data) {
   if (pk %in% names(data)) {
     check_new_row_ids(self, data, "setequal")
   } else {
-    data[[pk]] = self$row_ids[[1L]]
+    data[[pk]] = self$row_ids
   }
 
   # 2. Overwrite self$backend with new backend
@@ -120,7 +120,7 @@ task_replace_features = function(self, data) {
   if (pk %in% names(data)) {
     check_new_row_ids(self, data, "setequal")
   } else {
-    data[[pk]] = self$row_ids[[1L]]
+    data[[pk]] = self$row_ids
   }
 
   # 1.2 Check for target column
