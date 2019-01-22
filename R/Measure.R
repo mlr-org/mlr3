@@ -54,7 +54,8 @@
 NULL
 
 #' @export
-Measure = R6Class("Measure", cloneable = FALSE,
+Measure = R6Class("Measure",
+  cloneable = FALSE,
   public = list(
     id = NULL,
     task_type = NULL,
@@ -90,8 +91,6 @@ Measure = R6Class("Measure", cloneable = FALSE,
       catf(str_indent("Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catf(str_indent("Minimize:", self$minimize))
       catf(str_indent("Predict type:", self$predict_type))
-    },
-
-    calculate = function(...) stopf("Method not implemented, should have been overloaded during construction")
+    }
   )
 )

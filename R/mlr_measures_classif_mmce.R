@@ -10,6 +10,7 @@
 #' @include MeasureClassif.R
 MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
   inherit = MeasureClassif,
+  cloneable = FALSE,
   public = list(
     initialize = function() {
       super$initialize(
