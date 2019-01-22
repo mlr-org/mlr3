@@ -91,9 +91,8 @@
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
 NULL
 
-#' @include Mlr3Object.R
 #' @export
-Resampling = R6Class("Resampling", inherit = Mlr3Object,
+Resampling = R6Class("Resampling",
   public = list(
     param_set = NULL,
     instance = NULL,
@@ -102,7 +101,7 @@ Resampling = R6Class("Resampling", inherit = Mlr3Object,
     duplicated_ids = NULL,
 
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(), duplicated_ids = FALSE) {
-      super$initialize(id)
+      private$.id = id
       self$param_set = assert_param_set(param_set)
       private$.param_vals = assert_param_vals(param_vals, param_set)
       self$stratify = character(0L)
@@ -186,6 +185,8 @@ Resampling = R6Class("Resampling", inherit = Mlr3Object,
     }
   )
 )
+
+Resampling = add_id_hash(Resampling)
 
 stratify = function(task, stratify) {
   assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)

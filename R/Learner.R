@@ -75,9 +75,8 @@
 #' @family Learner
 NULL
 
-#' @include Mlr3Object.R
 #' @export
-Learner = R6Class("Learner", inherit = Mlr3Object,
+Learner = R6Class("Learner",
   public = list(
     task_type = NULL,
     feature_types = NULL,
@@ -89,7 +88,7 @@ Learner = R6Class("Learner", inherit = Mlr3Object,
     fallback = NULL,
 
     initialize = function(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
-      super$initialize(id)
+      private$.id = id
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, mlr_reflections$predict_types[[task_type]], empty.ok = FALSE)
@@ -149,6 +148,8 @@ Learner = R6Class("Learner", inherit = Mlr3Object,
     .predict_type = NULL
   )
 )
+
+Learner = add_id_hash(Learner)
 
 learner_print = function(self) {
   catf(format(self))

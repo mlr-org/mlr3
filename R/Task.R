@@ -155,10 +155,9 @@
 #' task$cbind(cbind(data.frame(foo = 1:150), task$row_ids))
 NULL
 
-#' @export
-#' @include Mlr3Object.R
 #' @include mlr_reflections.R
-Task = R6Class("Task", inherit = Mlr3Object,
+#' @export
+Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
     task_type = NULL,
@@ -170,7 +169,7 @@ Task = R6Class("Task", inherit = Mlr3Object,
     measures = list(),
 
     initialize = function(id, task_type, backend) {
-      super$initialize(id)
+      private$.id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$backend = assert_backend(backend)
       self$col_info = col_info(backend)
@@ -333,6 +332,8 @@ Task = R6Class("Task", inherit = Mlr3Object,
     }
   )
 )
+
+Task = add_id_hash(Task)
 
 task_data = function(self, rows = NULL, cols = NULL, format) {
   order = self$col_roles$order

@@ -53,9 +53,8 @@
 #' mlr_measures$get("classif.mmce")
 NULL
 
-#' @include Mlr3Object.R
 #' @export
-Measure = R6Class("Measure", inherit = Mlr3Object,
+Measure = R6Class("Measure",
   cloneable = FALSE,
   public = list(
     task_type = NULL,
@@ -67,7 +66,7 @@ Measure = R6Class("Measure", inherit = Mlr3Object,
     aggregate = function(rr) mean(rr$performance(self$id)),
 
     initialize = function(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L)) {
-      super$initialize(id)
+      private$.id = id
       self$task_type = task_type
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize)
@@ -100,3 +99,5 @@ Measure = R6Class("Measure", inherit = Mlr3Object,
     }
   )
 )
+
+Measure = add_id_hash(Measure)
