@@ -92,7 +92,8 @@ predictionclassif_initialize = function(self, task, response, prob) {
 
     if (is.null(response) && !is.null(prob)) {
       # calculate response from prob
-      response = factor(colnames(prob)[unname(apply(prob, 1L, which_max))], levels = classes)
+      i = max.col(prob, ties.method = "random")
+      response = factor(colnames(prob)[i], levels = classes)
     }
   } else {
     if (!is.null(response) && is.character(response))
