@@ -90,18 +90,18 @@ expect_backend = function(b) {
   checkmate::expect_list(b$distinct("_not_existing_"), len = 0L, names = "named")
   d = b$distinct(rev(cn))
   checkmate::expect_list(d, names = "unique")
-  expect_names(names(d), permutation.of = rev(cn))
+  checkmate::expect_names(names(d), permutation.of = rev(cn))
 
   # $missing()
   x = b$missing(b$rownames, b$colnames)
-  expect_integer(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
-  expect_names(names(x), permutation.of = b$colnames)
-  expect_integer(b$missing(b$rownames, "_not_existing_"), len = 0L, names = "named")
-  expect_integer(b$missing(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
-  expect_integer(b$missing(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")
+  checkmate::expect_integer(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
+  checkmate::expect_names(names(x), permutation.of = b$colnames)
+  checkmate::expect_integer(b$missing(b$rownames, "_not_existing_"), len = 0L, names = "named")
+  checkmate::expect_integer(b$missing(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
+  checkmate::expect_integer(b$missing(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")
 
   # $hash
-  expect_string(b$hash)
+  checkmate::expect_string(b$hash)
 }
 
 expect_iris_backend = function(b, n_missing = 0L) {
@@ -146,9 +146,9 @@ expect_iris_backend = function(b, n_missing = 0L) {
 
   # no missing values
   x = b$missing(b$rownames, b$colnames)
-  expect_integer(x, names = "unique", lower = 0L, upper = b$nrow, any.missing = FALSE)
-  expect_names(names(x), permutation.of = b$colnames)
-  expect_identical(sum(x), as.integer(n_missing))
+  checkmate::expect_integer(x, names = "unique", lower = 0L, upper = b$nrow, any.missing = FALSE)
+  checkmate::expect_names(names(x), permutation.of = b$colnames)
+  testthat::expect_identical(sum(x), as.integer(n_missing))
 }
 
 expect_task = function(task) {
@@ -188,11 +188,11 @@ expect_task = function(task) {
 
   # query zero columns
   data = task$data(cols = character(0L), format = "data.table")
-  expect_data_table(data, ncol = 0L)
+  checkmate::expect_data_table(data, ncol = 0L)
 
   # query zero rows
   data = task$data(rows = task$row_ids[0L], format = "data.table")
-  expect_data_table(data, nrow = 0L)
+  checkmate::expect_data_table(data, nrow = 0L)
 }
 
 expect_task_supervised = function(task) {
@@ -343,28 +343,28 @@ expect_experiment = function(e) {
 }
 
 expect_prediction = function(p) {
-  expect_r6(p, "Prediction", public = c("row_ids", "response", "truth", "predict_types"))
-  expect_output(print(p), "^<Prediction")
-  expect_data_table(as.data.table(p), nrow = length(p$row_ids))
+  checkmate::expect_r6(p, "Prediction", public = c("row_ids", "response", "truth", "predict_types"))
+  testthat::expect_output(print(p), "^<Prediction")
+  checkmate::expect_data_table(as.data.table(p), nrow = length(p$row_ids))
 }
 
 expect_prediction_regr = function(p) {
-  expect_r6(p, "PredictionRegr", public = c("row_ids", "response", "truth", "predict_types", "se"))
-  expect_numeric(p$truth, any.missing = TRUE, len = length(p$row_ids), null.ok = TRUE)
-  expect_numeric(p$response, any.missing = FALSE, len = length(p$row_ids), null.ok = TRUE)
+  checkmate::expect_r6(p, "PredictionRegr", public = c("row_ids", "response", "truth", "predict_types", "se"))
+  checkmate::expect_numeric(p$truth, any.missing = TRUE, len = length(p$row_ids), null.ok = TRUE)
+  checkmate::expect_numeric(p$response, any.missing = FALSE, len = length(p$row_ids), null.ok = TRUE)
   if ("se" %in% p$predict_types) {
-    expect_numeric(p$se, any.missing = FALSE, len = length(p$row_ids), lower = 0)
+    checkmate::expect_numeric(p$se, any.missing = FALSE, len = length(p$row_ids), lower = 0)
   }
 }
 
 expect_prediction_classif = function(p, task = NULL) {
-  expect_r6(p, "PredictionClassif", public = c("row_ids", "response", "truth", "predict_types", "prob"))
+  checkmate::expect_r6(p, "PredictionClassif", public = c("row_ids", "response", "truth", "predict_types", "prob"))
   n = length(p$row_ids)
   lvls = if (is.null(task)) NULL else task$all_classes
-  expect_factor(p$truth, len = n, levels = lvls, null.ok = TRUE)
-  expect_factor(p$response, len = n, levels = lvls, null.ok = TRUE)
+  checkmate::expect_factor(p$truth, len = n, levels = lvls, null.ok = TRUE)
+  checkmate::expect_factor(p$response, len = n, levels = lvls, null.ok = TRUE)
   if ("prob" %in% p$predict_types) {
-    expect_matrix(p$prob, "numeric", any.missing = FALSE, ncol = nlevels(p$response), nrow = n)
+    checkmate::expect_matrix(p$prob, "numeric", any.missing = FALSE, ncol = nlevels(p$response), nrow = n)
   }
 }
 
@@ -435,7 +435,7 @@ expect_benchmark_result = function(bmr) {
   expect_id(tab$learner_id)
   expect_id(tab$resampling_id)
   for (m in bmr$measures$measure)
-    expect_numeric(tab[[m$id]])
+    checkmate::expect_numeric(tab[[m$id]])
 
   tab = bmr$resample_results
   checkmate::expect_data_table(tab, ncol = 5L)
@@ -497,13 +497,13 @@ expect_learner_fits = function(learner, task) {
   # test sanity classif
   if (task$id == "sanity" & learner$task_type == "classif" & learner$id != "featureless") {
     rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
-    expect_lt(rr$aggregated, 0.3)
+    testthat::expect_lt(rr$aggregated, 0.3)
   }
 
   # test sanity regr
   if (task$id == "sanity" & learner$task_type == "regr" & learner$id != "featureless") {
     rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
-    expect_lt(rr$aggregated, 0.3)
+    testthat::expect_lt(rr$aggregated, 0.3)
   }
 }
 
