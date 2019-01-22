@@ -57,6 +57,7 @@ NULL
 Measure = R6Class("Measure",
   cloneable = FALSE,
   public = list(
+    id = NULL,
     task_type = NULL,
     predict_type = NULL,
     task_properties = NULL,
@@ -66,7 +67,7 @@ Measure = R6Class("Measure",
     aggregate = function(rr) mean(rr$performance(self$id)),
 
     initialize = function(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L)) {
-      private$.id = id
+      self$id = assert_id(id)
       self$task_type = task_type
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize)
@@ -91,13 +92,5 @@ Measure = R6Class("Measure",
       catf(str_indent("Minimize:", self$minimize))
       catf(str_indent("Predict type:", self$predict_type))
     }
-  ),
-
-  private = list(
-    .calculate_hash = function() {
-      hash(list(private$.id, body(self$calculate)))
-    }
   )
 )
-
-Measure = add_id_hash(Measure)

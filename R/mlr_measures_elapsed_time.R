@@ -10,6 +10,7 @@
 #' @include Measure.R
 MeasureElapsedTime = R6Class("MeasureElapsedTime",
   inherit = Measure,
+  cloneable = FALSE,
   public = list(
     parts = NULL,
 

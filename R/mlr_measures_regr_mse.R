@@ -10,6 +10,7 @@
 #' @include MeasureRegr.R
 MeasureRegrMSE = R6Class("MeasureRegrMSE",
   inherit = MeasureRegr,
+  cloneable = FALSE,
   public = list(
     initialize = function() {
       super$initialize(
