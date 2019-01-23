@@ -530,23 +530,16 @@ autotest_learner = function(learner, exclude = NULL) {
 
     r = test_experiment(learner, task)
     if (!is.null(r))
-      result[[task]] = r
-
-    if (inherits(error, "try-error")) {
-      status[[task]] = FALSE
-      experiments[[task]] = Experiment$new(task, learner)
-      messages[[task]] = sprintf("failed on task %s", task$id)
-    } else {
-      status[[task]] = TRUE
-      experiments[[task]] = messages[[task]] = NA
-    }
+      result = append(result, r)
 
     #test predict type "prob"
     if ("prob" %in% learner$predict_types & "prob" != learner$predict_type) {
       # print("Testing predict type 'prob'")
       learner_prob = learner$clone()
       learner_prob$predict_type = "prob"
-      expect_learner_fits(learner_prob, task)
+      r = test_experiment(learner_prob, task)
+      if (!is.null(r))
+        result = append(result, r)
     }
 
     #test predict type "se"
@@ -554,11 +547,12 @@ autotest_learner = function(learner, exclude = NULL) {
       # print("Testing predict type 'se'")
       learner_se = learner$clone()
       learner_se$predict_type = "se"
-      expect_learner_fits(learner_se, task)
+      r = test_experiment(learner_se, task)
+      if (!is.null(r))
+        result = append(result, r)
     }
   }
-
-  return(status, experiments, messages)
+  return(result)
 }
 
 
