@@ -24,7 +24,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
             ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
           )
         ),
-        properties = c("twoclass", "multiclass", "missings")
+        properties = c("twoclass", "multiclass", "missings", "importance")
       )
     },
 
@@ -45,6 +45,12 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       }
 
       PredictionClassif$new(task, response, prob)
+    },
+
+    importance = function() {
+      if (is.null(self$model))
+        stopf("No model stored")
+      setorderv(enframe(self$model$variable.importance, value = "importance"), "importance", order = -1L)[]
     }
   )
 )

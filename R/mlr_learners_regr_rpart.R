@@ -24,7 +24,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
             ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
           )
         ),
-        properties = "missings"
+        properties = c("missings", "importance")
       )
     },
 
@@ -38,6 +38,12 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       newdata = task$data()
       response = predict(self$model, newdata = newdata)
       PredictionRegr$new(task, response = response)
+    },
+
+    importance = function() {
+      if (is.null(self$model))
+        stopf("No model stored")
+      setorderv(enframe(self$model$variable.importance, value = "importance"), "importance", order = -1L)[]
     }
   )
 )
