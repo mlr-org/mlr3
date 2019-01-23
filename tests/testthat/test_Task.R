@@ -53,7 +53,7 @@ test_that("Task rbind", {
 
 test_that("Task cbind", {
   task = mlr_tasks$get("iris")
-  data = cbind(data.frame(foo = 150:1), task$row_ids)
+  data = cbind(data.frame(foo = 150:1), data.frame(..row_id = task$row_ids))
   task$cbind(data)
   expect_task(task)
   expect_names(task$feature_names, must.include = "foo")
@@ -82,14 +82,14 @@ test_that("cbind/rbind works", {
 
   task$rbind(cbind(data.table(..row_id = 201:210, foo = 99L), iris[1:10, ]))
   expect_task(task)
-  expect_set_equal(task$row_ids[[1L]], c(1:150, 201:210))
+  expect_set_equal(task$row_ids, c(1:150, 201:210))
   expect_data_table(task$data(), ncol = 6, nrow = 160, any.missing = FALSE)
 
   # auto generate char ids
   task = mlr_tasks$get("zoo")
   newdata = task$data("wasp")
   task$rbind(newdata)
-  expect_equal(sum(grepl("^rbind_[0-9a-z]+_1", task$row_ids[[1]])), 1L)
+  expect_equal(sum(grepl("^rbind_[0-9a-z]+_1", task$row_ids)), 1L)
 })
 
 test_that("filter works", {
@@ -100,7 +100,7 @@ test_that("filter works", {
   task$filter(91:150)
   expect_equal(task$nrow, 10L)
 
-  expect_equal(task$row_ids[[1L]], 91:100)
+  expect_equal(task$row_ids, 91:100)
 })
 
 test_that("select works", {

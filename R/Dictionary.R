@@ -120,12 +120,13 @@ assert_ids_exist = function(x, dict) {
 dictionary_retrieve = function(self, key) {
   value = get(key, envir = self$items, inherits = FALSE)
   if (inherits(value, "R6ClassGenerator")) {
-    instance = value$new()
-    assign(key, instance, envir = self$items)
-    value = instance$clone()
-    return(instance$clone())
+    value = value$new()
+    # assign(key, value, envir = self$items)
+    if (exists("clone", envir = value))
+      value = value$clone(deep = TRUE)
   } else if (inherits(value, "R6")) {
-    value = value$clone()
+    if (exists("clone", envir = value))
+      value = value$clone(deep = TRUE)
   } else if (is.function(value)) {
     value = value()
   }

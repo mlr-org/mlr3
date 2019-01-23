@@ -132,7 +132,7 @@ Experiment = R6Class("Experiment",
     train = function(row_ids = NULL, ctrl = list()) {
       if (! self$state >= "defined")
         stopf("Experiment needs a task and a learner")
-      experiment_train(self, row_ids = row_ids %??% self$data$task$row_ids[[1L]], ctrl = ctrl)
+      experiment_train(self, row_ids = row_ids %??% self$data$task$row_ids, ctrl = ctrl)
       invisible(self)
     },
 
@@ -141,7 +141,7 @@ Experiment = R6Class("Experiment",
         stopf("Experiment needs to be trained before predict()")
       if (!is.null(row_ids) && !is.null(newdata))
         stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
-      experiment_predict(self, row_ids = row_ids %??% self$data$task$row_ids[[1L]], newdata = newdata, ctrl = ctrl)
+      experiment_predict(self, row_ids = row_ids %??% self$data$task$row_ids, newdata = newdata, ctrl = ctrl)
       invisible(self)
     },
 

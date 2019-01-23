@@ -103,8 +103,7 @@
 #' * `$measures` (`list` of [Measure]) stores the default measures for this task.
 #' * `$ncol` (`integer(1)`) provides the total number of cols with `role %in% c("target", "feature")`.
 #' * `$nrow` (`integer(1)`) provides the total number of rows with `role == "use"`.
-#' * `$row_ids` ([data.table()]) returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
-#'    The column names of the returned [data.table()] equals the primary key column in the [DataBackend].
+#' * `$row_ids` (`vector()`) returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
 #' * `$row_roles` (`list`). Stores the row ids of [DataBackend] in vectors of row roles:
 #'   - `"use"`: Use in training.
 #'   - `"validation"`: Do not use in training, this are (possibly unlabeled) observations
@@ -152,11 +151,11 @@
 #' task$feature_names
 #'
 #' # Add new column "foo"
-#' task$cbind(cbind(data.frame(foo = 1:150), task$row_ids))
+#' task$cbind(data.frame(foo = 1:150))
 NULL
 
-#' @export
 #' @include mlr_reflections.R
+#' @export
 Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
@@ -270,23 +269,8 @@ Task = R6Class("Task",
   ),
 
   active = list(
-    id = function(rhs) {
-      if (missing(rhs))
-        return(private$.id)
-      private$.hash = NA_character_
-      private$.id = assert_id(rhs)
-    },
-
-    hash = function() {
-      if (is.na(private$.hash))
-        private$.hash = hash(list(private$.id, self$backend$hash, self$row_roles,
-            self$col_roles, sort(ids(self$measures))))
-      private$.hash
-    },
-
     row_ids = function() {
-      res = data.table(..row_id = self$row_roles$use)
-      setnames(res, "..row_id", self$backend$primary_key)
+      self$row_roles$use
     },
 
     feature_names = function() {
@@ -334,8 +318,10 @@ Task = R6Class("Task",
   ),
 
   private = list(
-    .id = NULL,
-    .hash = NA_character_,
+    .calculate_hash = function() {
+      hash(list(private$.id, self$backend$hash, self$row_roles,
+          self$col_roles, sort(ids(self$measures))))
+    },
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
@@ -344,6 +330,8 @@ Task = R6Class("Task",
     }
   )
 )
+
+Task = add_id_hash(Task)
 
 task_data = function(self, rows = NULL, cols = NULL, format) {
   order = self$col_roles$order
