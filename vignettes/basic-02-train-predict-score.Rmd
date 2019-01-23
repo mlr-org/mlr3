@@ -100,7 +100,7 @@ The default measure for the iris classification task is the mean misclassificati
 task$measures[[1L]]$id
 e$score()
 print(e)
-e$performance["mmce"]
+e$performance["classif.mmce"]
 ```
 
 The experiment is now "complete" which means we can access all of its methods.

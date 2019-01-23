@@ -79,7 +79,7 @@ We can do different things with resampling results, e.g.:
 * Extract the performance for the individual resampling iterations:
 
 ```{r}
-rr$performance("mmce")
+rr$performance("classif.mmce")
 ```
 
 * Extract and inspect the now created resampling:
@@ -205,7 +205,7 @@ bmr$aggregated
 We can aggregate it further, i.e. if we are interested which learner performed best over all tasks:
 
 ```{r}
-bmr$aggregated[, list(acc = mean(acc), auc = mean(auc)), by = "learner_id"]
+bmr$aggregated[, list(acc = mean(classif.acc), auc = mean(classif.auc)), by = "learner_id"]
 ```
 
 Unsurprisingly, the classification tree outperformed the featureless learner.
@@ -219,6 +219,7 @@ tab = bmr$aggregated[task_id == "spam" & learner_id == "rpart"]
 print(tab)
 
 rr = bmr$resample_result(tab$hash)
+print(rr)
 ```
 
 We can now investigate this resampling and even single experiments using the previously introduced API:
@@ -227,9 +228,10 @@ We can now investigate this resampling and even single experiments using the pre
 rr$aggregated
 
 # get the iteration with worst AUC
-worst = as.data.table(rr)[which.min(auc), c("iteration", "auc")]
+worst = as.data.table(rr)[which.min(classif.auc), c("iteration", "classif.auc")]
 print(worst)
 
 # get the corresponding experiment
 e = rr$experiment(worst$iteration)
+print(e)
 ```
