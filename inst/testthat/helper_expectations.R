@@ -513,15 +513,25 @@ expect_autotest = function(learner, exclude = NULL) {
 
 }
 
+test_experiment = function(learner, task) {
+  error = try(expect_learner_fits(learner, task), silent = TRUE)
+  if (!is.null(error))
+    return(list(status = FALSE, experiment = Experiment$new(task, learner), message = attr(error, "condition")))
+  NULL
+}
+
 autotest_learner = function(learner, exclude = NULL) {
   tasks = generate_tasks(learner)
   if (!is.null(exclude))
     tasks = tasks[!grepl(exclude, names(tasks))]
 
-  experiments = messages = status = list()
+  result = list()
   for (task in tasks) {
 
-    error = try(expect_learner_fits(learner, task), silent = TRUE)
+    r = test_experiment(learner, task)
+    if (!is.null(r))
+      result[[task]] = r
+
     if (inherits(error, "try-error")) {
       status[[task]] = FALSE
       experiments[[task]] = Experiment$new(task, learner)
