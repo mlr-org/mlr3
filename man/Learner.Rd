@@ -82,6 +82,25 @@ to return a \link{Prediction} object.
 }
 }
 
+\section{Optional Extractors}{
+
+
+Specific learner implementations are free to implement additional getters to ease the access of certain parts
+of the model in the inherited subclasses.
+
+For the following operations, extractors are standardized:
+\itemize{
+\item \code{importance(...)}: Returns a feature importance score as \code{numeric()}.
+The learner must be tagged with property "importance".
+
+The higher the score, the more important the variable.
+The returned vector is named with feature names and sorted in decreasing order.
+Note that the model might omit features it has not used at all.
+\item \code{selected_features(...)}: Returns a subset of selected features as \code{character()}.
+The learner must be tagged with property "selected_features".
+}
+}
+
 \seealso{
 Other Learner: \code{\link{LearnerClassif}},
   \code{\link{LearnerRegr}}, \code{\link{mlr_learners}}

@@ -11,6 +11,7 @@ test_that("variable importance", {
   e = Experiment$new(task, learner)
   e$train()
   imp = e$learner$importance()
-  expect_numeric(imp, len = 5L, any.missing = FALSE)
+  expect_numeric(imp, min.len = 1L, any.missing = FALSE)
+  expect_names(names(imp), subset.of = task$feature_names)
   expect_false(is.unsorted(rev(imp)))
 })
