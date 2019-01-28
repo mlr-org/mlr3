@@ -50,7 +50,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     importance = function() {
       if (is.null(self$model))
         stopf("No model stored")
-      setorderv(enframe(self$model$variable.importance, value = "importance"), "importance", order = -1L)[]
+      sort(self$model$variable.importance, decreasing = TRUE)
     }
   )
 )

@@ -57,6 +57,7 @@ TaskClassif = R6Class("TaskClassif",
     negative = NULL,
 
     initialize = function(id, backend, target, positive = NULL) {
+      assert_string(target)
       super$initialize(id = id, task_type = "classif", backend = backend, target = target)
 
       info = self$col_info[id == target]

@@ -294,12 +294,7 @@ Task = R6Class("Task",
     },
 
     formula = function() {
-      tn = self$target_names
-      if (length(tn) == 0L)
-        tn = NULL
-      f = reformulate(self$feature_names, response = tn)
-      environment(f) = NULL
-      f
+      generate_formula(self$target_names, self$feature_names)
     },
 
      groups = function() {
@@ -384,10 +379,12 @@ task_print = function(self) {
   catf(str_indent("Target:", str_collapse(self$target_names)))
 
   types = self$feature_types
-  catf("Features (%i):", nrow(types))
-  types = types[, list(N = .N, feats = str_collapse(get("id"), n = 100L)), by = "type"][, "type" := translate_types(get("type"))]
-  setorderv(types, "N", order = -1L)
-  pmap(types, function(type, N, feats) catf(str_indent(sprintf("* %s (%i):", type, N), feats)))
+  if (nrow(types)) {
+    catf("Features (%i):", nrow(types))
+    types = types[, list(N = .N, feats = str_collapse(get("id"), n = 100L)), by = "type"][, "type" := translate_types(get("type"))]
+    setorderv(types, "N", order = -1L)
+    pmap(types, function(type, N, feats) catf(str_indent(sprintf("* %s (%i):", type, N), feats)))
+  }
 
   if (length(self$col_roles$order))
     catf(str_indent("Order by:", self$col_roles$order))

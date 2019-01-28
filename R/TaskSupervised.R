@@ -39,13 +39,8 @@ NULL
 TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
     initialize = function(id, task_type, backend, target) {
-      assert_character(target, any.missing = FALSE, min.len = 1L)
       super$initialize(id = id, task_type = task_type, backend = backend)
-
-      i = which(target %nin% self$col_roles$feature)
-      if (length(i))
-        stopf("Target columns %s not in DataBackend", str_collapse(target[i], quote = "'"))
-
+      assert_subset(target, self$col_roles$feature)
       self$col_roles$target = target
       self$col_roles$feature = setdiff(self$col_roles$feature, target)
     },
@@ -53,5 +48,9 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
     truth = function(row_ids = NULL) {
       self$data(row_ids, cols = self$target_names)
     }
+  ),
+
+  active = list(
+
   )
 )

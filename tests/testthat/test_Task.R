@@ -139,4 +139,3 @@ test_that("ordered factors (#95)", {
   expect_set_equal(task$col_info[id == "z", levels][[1L]], c("M", "R"))
   expect_set_equal(task$col_info[id == "y", levels][[1L]], letters[1:3])
 })
-

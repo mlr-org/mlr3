@@ -31,6 +31,12 @@ mlr_learners = DictionaryLearner$new()
 as.data.table.DictionaryLearner = function(x, ...) {
   setkeyv(map_dtr(x$ids(), function(id) {
     l = x$get(id)
-    list(id = id, packages = list(l$packages))
+    list(
+      id = id,
+      feature_types = list(l$feature_types),
+      packages = list(l$packages),
+      properties = list(l$properties),
+      predict_types = list(l$predict_types)
+    )
   }), "id")[]
 }

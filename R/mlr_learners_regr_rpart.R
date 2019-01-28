@@ -35,7 +35,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     },
 
     predict = function(task) {
-      newdata = task$data()
+      newdata = task$data(cols = task$feature_names)
       response = predict(self$model, newdata = newdata)
       PredictionRegr$new(task, response = response)
     },
@@ -43,7 +43,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     importance = function() {
       if (is.null(self$model))
         stopf("No model stored")
-      setorderv(enframe(self$model$variable.importance, value = "importance"), "importance", order = -1L)[]
+      sort(self$model$variable.importance, decreasing = TRUE)
     }
   )
 )
