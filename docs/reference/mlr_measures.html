@@ -179,14 +179,14 @@ Each measure has an associated help page, see <code>mlr_measures_[id]</code>.</p
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'>ids</span>()</div><div class='output co'>#&gt; [1] "classif.acc"  "classif.auc"  "classif.mmce" "regr.mse"     "time_both"   
-#&gt; [6] "time_predict" "time_train"  </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_measures</span>)</div><div class='output co'>#&gt;              id task_type packages
-#&gt; 1:  classif.acc   classif  Metrics
-#&gt; 2:  classif.auc   classif  Metrics
-#&gt; 3: classif.mmce   classif  Metrics
-#&gt; 4:     regr.mse      regr  Metrics
-#&gt; 5:    time_both      &lt;NA&gt;         
-#&gt; 6: time_predict      &lt;NA&gt;         
-#&gt; 7:   time_train      &lt;NA&gt;         </div><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.mmce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifMMCE:classif.mmce&gt;
+#&gt; [6] "time_predict" "time_train"  </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_measures</span>)</div><div class='output co'>#&gt;              id task_type predict_type packages
+#&gt; 1:  classif.acc   classif     response  Metrics
+#&gt; 2:  classif.auc   classif         prob  Metrics
+#&gt; 3: classif.mmce   classif     response  Metrics
+#&gt; 4:     regr.mse      regr     response  Metrics
+#&gt; 5:    time_both      &lt;NA&gt;     response         
+#&gt; 6: time_predict      &lt;NA&gt;     response         
+#&gt; 7:   time_train      &lt;NA&gt;     response         </div><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.mmce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifMMCE:classif.mmce&gt;
 #&gt; Packages: Metrics
 #&gt; Range: [0, 1]
 #&gt; Minimize: TRUE

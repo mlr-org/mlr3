@@ -165,7 +165,6 @@ Task = R6Class("Task",
     row_roles = NULL,
     col_roles = NULL,
     col_info = NULL,
-    measures = list(),
 
     initialize = function(id, task_type, backend) {
       private$.id = assert_id(id)
@@ -269,6 +268,13 @@ Task = R6Class("Task",
   ),
 
   active = list(
+    measures = function(rhs) {
+      if (missing(rhs))
+        return(private$.measures)
+      private$.hash = NA_character_
+      private$.measures = assert_measures(rhs, task = self)
+    },
+
     row_ids = function() {
       self$row_roles$use
     },
@@ -313,9 +319,11 @@ Task = R6Class("Task",
   ),
 
   private = list(
+    .measures = list(),
+
     .calculate_hash = function() {
       hash(list(private$.id, self$backend$hash, self$row_roles,
-          self$col_roles, sort(ids(self$measures))))
+          self$col_roles, sort(hashes(self$measures))))
     },
 
     deep_clone = function(name, value) {
