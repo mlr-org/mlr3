@@ -30,11 +30,11 @@ TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
     initialize = function(id, backend, target) {
+      assert_string(target)
       super$initialize(id = id, task_type = "regr", backend = backend, target = target)
 
-      assert_string(target) # check for length 1
-      info = self$col_info[id == target]
-      if (info$type %nin% c("integer", "numeric"))
+      type = self$col_info[id == target]$type
+      if (type %nin% c("integer", "numeric"))
         stopf("Target column '%s' must be numeric", target)
       self$measures = list(mlr_measures$get("regr.mse"))
     },

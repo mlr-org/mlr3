@@ -8,3 +8,4 @@ test_that("TaskSupervised Construction", {
   expect_task(task)
   expect_task_supervised(task)
 })
+

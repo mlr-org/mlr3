@@ -4,4 +4,3 @@ test_that("autotest", {
   learner = mlr_learners$get("regr.featureless")
   expect_autotest(learner)
 })
-

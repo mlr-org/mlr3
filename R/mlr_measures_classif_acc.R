@@ -14,7 +14,7 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
   public = list(
     initialize = function() {
       super$initialize(
-        id = "acc",
+        id = "classif.acc",
         range = 0:1,
         minimize = FALSE,
         packages = "Metrics"

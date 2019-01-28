@@ -22,8 +22,6 @@ l$model
 l$packages
 l$param_set
 l$param_vals
-l$params_predict
-l$params_train
 l$predict_type
 l$predict_types
 l$properties
@@ -32,6 +30,7 @@ l$task_type
 # Methods
 l$train(task)
 l$predict(task)
+l$params(tag)
 }
 }
 
@@ -47,6 +46,7 @@ l$predict(task)
 \item \code{param_vals} (named \code{list()}): List of hyperparameter settings.
 \item \code{properties} (\code{character()}): Set of properties of the learner. Must be a subset of \code{mlr_reflections$learner_properties}.
 \item \code{task} (\link{Task}): Task to train/predict on.
+\item \code{tag} (\code{character(1)}): Tag of parameters.
 }
 }
 
@@ -65,8 +65,8 @@ This hash is cached internally.
 \item \code{$param_set} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter
 and possible settings.
 \item \code{$param_vals} (named \code{list()}) stores the list set hyperparameter values.
-\item \code{$params_predict} (\code{list()}) stores the settings that have been used for prediction.
-\item \code{$params_train} (\code{list()}) stores the settings that have been used for training
+\item \code{$params()} returns a list of hyperparameter settings from \code{param_vals} where the corresponding parameters in \code{param_set} are tagged
+with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters used in the training step.
 \item \code{$predict_type} (\code{character(1)}) stores the currently selected predict type.
 \item \code{$predict_types} (\code{character()}) stores the possible predict types the learner
 is capable of. For classification, feasible values are \code{"response"} and
@@ -79,6 +79,25 @@ operate on, e.g. \code{"classif"} or \code{"regr"}.
 \item \code{$predict()} takes a \link{Task} and uses \code{self$model} (fitted during train())
 to return a \link{Prediction} object.
 \item \code{$train()} takes a \link{Task}, sets the slot \code{model} and returns \code{self}.
+}
+}
+
+\section{Optional Extractors}{
+
+
+Specific learner implementations are free to implement additional getters to ease the access of certain parts
+of the model in the inherited subclasses.
+
+For the following operations, extractors are standardized:
+\itemize{
+\item \code{importance(...)}: Returns a feature importance score as \code{numeric()}.
+The learner must be tagged with property "importance".
+
+The higher the score, the more important the variable.
+The returned vector is named with feature names and sorted in decreasing order.
+Note that the model might omit features it has not used at all.
+\item \code{selected_features(...)}: Returns a subset of selected features as \code{character()}.
+The learner must be tagged with property "selected_features".
 }
 }
 

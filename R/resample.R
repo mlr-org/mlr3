@@ -25,7 +25,7 @@
 #' rr = resample(task, learner, resampling)
 #' print(rr, digits = 2)
 #' rr$aggregated
-#' rr$performance("mmce")
+#' rr$performance("classif.mmce")
 #'
 #' # Repeat resampling with featureless learner and combine
 #' # the ResampleResults into a BenchmarkResult

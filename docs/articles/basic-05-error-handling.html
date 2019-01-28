@@ -155,9 +155,8 @@
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; Properties: missings</span></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; Public: clone(), fallback, feature_types, hash, id, model,</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;   packages, param_set, param_vals, params_predict, params_train,</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt;   predict_type, predict_types, predict(), properties, task_type,</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt;   train()</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;   packages, param_set, param_vals, params(), predict_type,</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt;   predict_types, predict(), properties, task_type, train()</span></a></code></pre></div>
 <p>The hyperparameters let us control (a) what conditions should be signaled (message, warning, error), and (b) during which stage (train or predict). Additionally, we can tell the learner to provoke a segfault which tears down the complete R session. With its default settings, it will do nothing special: it learns a random label and which is used to create constant predictions.</p>
 </div>
 <div id="no-error-handling" class="section level1">
@@ -257,8 +256,8 @@
 <a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; 4600:   4600  nonspam nonspam</span></a>
 <a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">#&gt; 4601:   4601  nonspam nonspam</span></a>
 <a class="sourceLine" id="cb7-30" data-line-number="30">e<span class="op">$</span>performance</a>
-<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt;      mmce </span></a>
-<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt; 0.3940448</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt; classif.mmce </span></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt;    0.3940448</span></a></code></pre></div>
 <p>Note that the logs and timings are tracked for the original learner (until it errored), not the fallback learner.</p>
 </div>
 </div>

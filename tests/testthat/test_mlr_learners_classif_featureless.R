@@ -8,7 +8,7 @@ test_that("Simple training/predict", {
   e = Experiment$new(task, learner)
   e$train()
   expect_class(e$model, "featureless")
-  expect_numeric(e$model, len = 3L, any.missing = FALSE)
+  expect_numeric(e$model$tab, len = 3L, any.missing = FALSE)
   e$predict()
   e$data$prediction
   e$prediction

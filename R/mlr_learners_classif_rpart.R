@@ -24,12 +24,12 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
             ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
           )
         ),
-        properties = c("twoclass", "multiclass", "missings")
+        properties = c("twoclass", "multiclass", "missings", "importance")
       )
     },
 
     train = function(task) {
-      pars = self$params_train
+      pars = self$params("train")
       self$model = invoke(rpart::rpart, formula = task$formula, data = task$data(), .args = pars)
       self
     },
@@ -45,6 +45,18 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       }
 
       PredictionClassif$new(task, response, prob)
+    },
+
+    importance = function() {
+      if (is.null(self$model))
+        stopf("No model stored")
+      sort(self$model$variable.importance, decreasing = TRUE)
+    },
+
+    selected_features = function() {
+      if (is.null(self$model))
+        stopf("No model stored")
+      unique(setdiff(self$model$frame$var, "<leaf>"))
     }
   )
 )

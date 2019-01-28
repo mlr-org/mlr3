@@ -77,7 +77,7 @@ Measure = R6Class("Measure",
         assert_choice(predict_type, mlr_reflections$predict_types[[task_type]])
       }
       self$predict_type = predict_type
-      self$task_properties = assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
+      self$task_properties = assert_sorted_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       self$packages = assert_set(packages)
     },
 

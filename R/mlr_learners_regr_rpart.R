@@ -24,20 +24,32 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
             ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
           )
         ),
-        properties = "missings"
+        properties = c("missings", "importance")
       )
     },
 
     train = function(task) {
-      pars = self$params_train
+      pars = self$params("train")
       self$model = invoke(rpart::rpart, formula = task$formula, data = task$data(), .args = pars)
       self
     },
 
     predict = function(task) {
-      newdata = task$data()
+      newdata = task$data(cols = task$feature_names)
       response = predict(self$model, newdata = newdata)
       PredictionRegr$new(task, response = response)
+    },
+
+    importance = function() {
+      if (is.null(self$model))
+        stopf("No model stored")
+      sort(self$model$variable.importance, decreasing = TRUE)
+    },
+
+    selected_features = function() {
+      if (is.null(self$model))
+        stopf("No model stored")
+      unique(setdiff(self$model$frame$var, "<leaf>"))
     }
   )
 )
