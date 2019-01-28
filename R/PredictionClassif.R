@@ -15,6 +15,7 @@
 #' p = PredictionClassif$new(task, response, prob = NULL)
 #'
 #' # Members
+#' p$task_type
 #' p$predict_types
 #' p$response
 #' p$row_ids
@@ -35,6 +36,7 @@
 #'   and one row for each observation in the test set.
 #'
 #' @section Details:
+#' * `$task_type` (`character(1)`) stores the task type this prediction object is intended for: `"classif"`.
 #' * `$predict_types` ([character]) stores the predict types available: a subset of `c("response", "se")`.
 #' * `$response` stores the predicted values.
 #' * `row_ids` stores the row IDs.
@@ -66,6 +68,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 )
 
 predictionclassif_initialize = function(self, task, response, prob) {
+  self$task_type = "classif"
   if (!is.null(task)) {
     self$row_ids = row_ids = task$row_ids
     self$truth = task$truth()

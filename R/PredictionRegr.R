@@ -14,6 +14,7 @@
 #' p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 #'
 #' # Members
+#' p$task_type
 #' p$predict_types
 #' p$response
 #' p$row_ids
@@ -37,6 +38,7 @@
 #'   Numeric vector of predicted standard error. One element for each observation in the test set.
 #'
 #' @section Details:
+#' * `$task_type` (`character(1)`) stores the task type this prediction object is intended for: `"regr"`.
 #' * `$predict_types` ([character]) stores the predict types available: a subset of `c("response", "se")`.
 #' * `$response` stores the predicted values.
 #' * `row_ids` stores the row IDs.
@@ -69,6 +71,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 )
 
 predictionregr_initialize = function(self, task, response, se) {
+  self$task_type = "regr"
   if (!is.null(task)) {
     self$row_ids = row_ids = task$row_ids
     self$truth = task$truth()

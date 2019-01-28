@@ -165,6 +165,7 @@
     <p>Inherits from <a href='Prediction.html'>Prediction</a></p><pre># Construction
 p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
     # Members
+p$task_type
 p$predict_types
 p$response
 p$row_ids
@@ -194,6 +195,7 @@ Numeric vector of predicted standard error. One element for each observation in 
 
     
     <ul>
+<li><p><code>$task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the task type this prediction object is intended for: <code>"regr"</code>.</p></li>
 <li><p><code>$predict_types</code> (<a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a>) stores the predict types available: a subset of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("response", "se")</a></code>.</p></li>
 <li><p><code>$response</code> stores the predicted values.</p></li>
 <li><p><code>row_ids</code> stores the row IDs.</p></li>

@@ -14,6 +14,7 @@ Prediction = R6Class("Prediction",
     row_ids = NULL,
     truth = NULL,
     response = NULL,
+    task_type = NULL,
     predict_types = NULL,
 
     format = function() {

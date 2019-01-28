@@ -1,5 +1,11 @@
 context("mlr_learners_regr_featureless")
 
+test_that("autotest", {
+  learner = mlr_learners$get("classif.featureless")
+  result = run_autotest(learner)
+  expect_true(result, info = result$error)
+})
+
 test_that("Simple training/predict", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
@@ -29,7 +35,3 @@ test_that("Predict with prob", {
   expect_names(colnames(e$data$prediction$prob), permutation.of = levels(iris$Species))
 })
 
-test_that("autotest", {
-  learner = mlr_learners$get("classif.featureless")
-  expect_autotest(learner)
-})
