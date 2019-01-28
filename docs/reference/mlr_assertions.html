@@ -162,9 +162,9 @@
 
 <span class='fu'>assert_learner</span>(<span class='no'>learner</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>assert_measure</span>(<span class='no'>measure</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prediction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>assert_measure</span>(<span class='no'>measure</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>assert_measures</span>(<span class='no'>measures</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prediction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>assert_measures</span>(<span class='no'>measures</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>assert_resampling</span>(<span class='no'>resampling</span>, <span class='kw'>instantiated</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
@@ -198,6 +198,10 @@
     <tr>
       <th>measure</th>
       <td><p>(<a href='Measure.html'>Measure</a>).</p></td>
+    </tr>
+    <tr>
+      <th>predict_types</th>
+      <td><p>(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>). Vector of predict types provided by the experiment/learner.</p></td>
     </tr>
     <tr>
       <th>measures</th>
