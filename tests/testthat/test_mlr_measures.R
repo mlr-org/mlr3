@@ -17,6 +17,7 @@ test_that("mlr_measures_auc", {
   task$measures = list(m)
 
   e = Experiment$new(task, lrn)$train()$predict()
+  e$prediction$predict_types
   e$score()
   expect_equal(unname(e$performance), 0.5)
 })

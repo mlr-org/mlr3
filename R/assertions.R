@@ -43,7 +43,7 @@ assert_learner = function(learner, task = NULL) {
 #' @export
 #' @param measure ([Measure]).
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, prediction = NULL) {
+assert_measure = function(measure, task = NULL, predict_types = NULL) {
   assert_class(measure, "Measure")
 
   if (!is.null(task)) {
@@ -57,8 +57,8 @@ assert_measure = function(measure, task = NULL, prediction = NULL) {
         measure$id, str_collapse(miss))
   }
 
-  if (!is.null(prediction)) {
-    if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% prediction$predict_types)
+  if (!is.null(predict_types)) {
+    if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% predict_types)
       stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
   }
 
@@ -68,9 +68,9 @@ assert_measure = function(measure, task = NULL, prediction = NULL) {
 #' @export
 #' @param measures (list of [Measure]).
 #' @rdname mlr_assertions
-assert_measures = function(measures, task = NULL, prediction = NULL) {
+assert_measures = function(measures, task = NULL, predict_types = NULL) {
   assert_list(measures, min.len = 1L)
-  lapply(measures, assert_measure, task = task, prediction = prediction)
+  lapply(measures, assert_measure, task = task, predict_types = predict_types)
 }
 
 #' @export

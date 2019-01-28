@@ -30,6 +30,9 @@ mlr_measures = DictionaryMeasure$new()
 as.data.table.DictionaryMeasure = function(x, ...) {
   setkeyv(map_dtr(x$ids(), function(id) {
     m = x$get(id)
-    list(id = id, task_type = m$task_type, packages = list(m$packages))
+    list(id = id,
+      task_type = m$task_type,
+      predict_type = m$predict_type,
+      packages = list(m$packages))
   }), "id")[]
 }
