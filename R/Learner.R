@@ -21,8 +21,6 @@
 #' l$packages
 #' l$param_set
 #' l$param_vals
-#' l$params_predict
-#' l$params_train
 #' l$predict_type
 #' l$predict_types
 #' l$properties
@@ -31,6 +29,7 @@
 #' # Methods
 #' l$train(task)
 #' l$predict(task)
+#' l$params(tag)
 #' ```
 #'
 #' @section Arguments:
@@ -43,6 +42,7 @@
 #' * `param_vals` (named `list()`): List of hyperparameter settings.
 #' * `properties` (`character()`): Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
 #' * `task` ([Task]): Task to train/predict on.
+#' * `tag` (`character(1)`): Tag of parameters.
 #'
 #' @section Details:
 #' * `$fallback` ([Learner] | `NULL`) optionally stores a fallback learner which
@@ -57,8 +57,8 @@
 #' * `$param_set` ([paradox::ParamSet]) describes the available hyperparameter
 #'   and possible settings.
 #' * `$param_vals` (named `list()`) stores the list set hyperparameter values.
-#' * `$params_predict` (`list()`) stores the settings that have been used for prediction.
-#' * `$params_train` (`list()`) stores the settings that have been used for training
+#' * `$params()` returns a list of hyperparameter settings from `param_vals` where the corresponding parameters in `param_set` are tagged
+#'    with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters used in the training step.
 #' * `$predict_type` (`character(1)`) stores the currently selected predict type.
 #' * `$predict_types` (`character()`) stores the possible predict types the learner
 #'   is capable of. For classification, feasible values are `"response"` and
@@ -125,6 +125,12 @@ Learner = R6Class("Learner",
 
     print = function() {
       learner_print(self)
+    },
+
+    params = function(tag) {
+      assert_string(tag)
+      pv = self$param_vals
+      pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = tag)]
     }
   ),
 
@@ -143,18 +149,6 @@ Learner = R6Class("Learner",
       if (rhs %nin% self$predict_types)
         stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
-    },
-
-    params_train = function() {
-      # TODO: move some logic to paradox
-      pv = self$param_vals
-      pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = "train")]
-    },
-
-    params_predict = function() {
-      # TODO: move some logic to paradox
-      pv = self$param_vals
-      pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = "predict")]
     }
   ),
 

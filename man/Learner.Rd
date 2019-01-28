@@ -22,8 +22,6 @@ l$model
 l$packages
 l$param_set
 l$param_vals
-l$params_predict
-l$params_train
 l$predict_type
 l$predict_types
 l$properties
@@ -32,6 +30,7 @@ l$task_type
 # Methods
 l$train(task)
 l$predict(task)
+l$params(tag)
 }
 }
 
@@ -47,6 +46,7 @@ l$predict(task)
 \item \code{param_vals} (named \code{list()}): List of hyperparameter settings.
 \item \code{properties} (\code{character()}): Set of properties of the learner. Must be a subset of \code{mlr_reflections$learner_properties}.
 \item \code{task} (\link{Task}): Task to train/predict on.
+\item \code{tag} (\code{character(1)}): Tag of parameters.
 }
 }
 
@@ -65,8 +65,8 @@ This hash is cached internally.
 \item \code{$param_set} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter
 and possible settings.
 \item \code{$param_vals} (named \code{list()}) stores the list set hyperparameter values.
-\item \code{$params_predict} (\code{list()}) stores the settings that have been used for prediction.
-\item \code{$params_train} (\code{list()}) stores the settings that have been used for training
+\item \code{$params()} returns a list of hyperparameter settings from \code{param_vals} where the corresponding parameters in \code{param_set} are tagged
+with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters used in the training step.
 \item \code{$predict_type} (\code{character(1)}) stores the currently selected predict type.
 \item \code{$predict_types} (\code{character()}) stores the possible predict types the learner
 is capable of. For classification, feasible values are \code{"response"} and
