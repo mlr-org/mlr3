@@ -123,6 +123,7 @@ generate_tasks.LearnerClassif = function(learner, N = 20L) {
 
   tasks
 }
+registerS3method("generate_tasks", "LearnerClassif", generate_tasks.LearnerClassif)
 
 #' @export
 generate_tasks.LearnerRegr = function(learner, N = 20L) {
@@ -139,22 +140,22 @@ generate_tasks.LearnerRegr = function(learner, N = 20L) {
   task = mlr3misc::set_names(list(mlr3::TaskRegr$new("sanity", mlr3::as_data_backend(data), target = "y")), "sanity")
   tasks = c(tasks, task)
 }
+registerS3method("generate_tasks", "LearnerRegr", generate_tasks.LearnerRegr)
 
 sanity_check = function(e) {
   UseMethod("sanity_check", e$learner)
 }
 
-sanity_check.default = function(e) {
-  TRUE
-}
-
 sanity_check.LearnerClassif = function(e) {
   e$performance <= 0.3
 }
+registerS3method("sanity_check", "LearnerClassif", sanity_check.LearnerClassif)
+
 
 sanity_check.LearnerRegr = function(e) {
   e$performance <= 1
 }
+registerS3method("sanity_check", "LearnerRegr", sanity_check.LearnerRegr)
 
 run_experiment = function(task, learner) {
   err = function(info) {

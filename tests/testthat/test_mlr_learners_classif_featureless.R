@@ -2,7 +2,7 @@ context("mlr_learners_regr_featureless")
 
 test_that("autotest", {
   learner = mlr_learners$get("classif.featureless")
-  result = run_autotest(learner)
+  result = run_autotest(learner, exclude = "sanity")
   expect_true(result, info = result$error)
 })
 
