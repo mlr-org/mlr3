@@ -461,100 +461,111 @@ expect_log = function(log) {
 expect_learner_fits = function(learner, task) {
   assert_task(task)
   assert_learner(learner, task = task)
-  info = sprintf("learner '%s' on task '%s'", learner$id, task$id)
-
+  info = sprintf("learner '%s' on task '%s' failed:", learner$id, task$id)
   learner = learner$clone()
   learner$fallback = mlr_learners$get(sprintf("%s.featureless", task$task_type))
 
   e = Experiment$new(task, learner, ctrl = list(encapsulate_train = "evaluate", encapsulate_predict = "evaluate"))
-  testthat::expect_equal(as.character(e$state), "defined", info = info)
-
+  if (as.character(e$state) != "defined") {
+    return(list(Experiment = e, Error = paste(info, "experiment state is not 'defined'!")))
+  }
+  
   e$train()
-  testthat::expect_false(e$has_errors, info = paste(info, e$logs$train$errors, sep = ": "))
-  testthat::expect_equal(as.character(e$state), "trained", info = info)
+  if (e$has_errors) {
+    return(list(Experiment = e, Error = paste(info, e$logs$train$errors)))
+  }
+  if (as.character(e$state) != "trained") {
+    return(list(Experiment = e, Error = paste(info, "experiment state is not 'trained'!")))
+  }
 
   e$predict()
-  testthat::expect_equal(as.character(e$state), "predicted", info = info)
-  checkmate::expect_class(e$prediction, "Prediction", info = info)
-  testthat::expect_false(e$has_errors, info = paste(info, e$logs$predict$errors, sep = ": "))
-  checkmate::expect_data_table(as.data.table(e$prediction), any.missing = FALSE, info = info)
+  if (as.character(e$state) != "predicted") {
+    return(list(Experiment = e, Error = paste(info, "experiment state is not 'predicted'!")))
+    }
+  if ("Prediction" %nin% class(e$prediction)) {
+    return(list(Experiment = e, Error = paste(info, "class of prediction is not of type 'Prediction'!")))
+  }
+  if (e$has_errors) {
+    return(list(Experiment = e, Error = paste(info, e$logs$predict$errors)))
+  }
+  if ("data.table" %nin% class(e$prediction$print())) {
+    return(list(Experiment = e, Error = paste(info, "class of prediction is not of type 'data.table'!")))
+  }
 
   e$score()
-  testthat::expect_equal(as.character(e$state), "scored", info = info)
-  checkmate::expect_number(e$performance, info = info)
+  if (as.character(e$state) != "scored") {
+    return(list(Experiment = e, Error = paste(info, "experiment state is not 'scored'!")))
+  }
+  if (!is.numeric(e$performance)) {
+    return(list(Experiment = e, Error = paste(info, "score is not a numeric value!")))
+  }
 
   # test predict type "prob"
   if (learner$predict_type == "prob") {
-    testthat::expect_true(!is.null(e$prediction$prob))
-    testthat::expect_true(all(e$prediction$prob <= 1 & e$prediction$prob >= 0))
+    if (is.null(e$prediction$prob)) {
+      return(list(Experiment = e, Error = paste(info, "'prediction$prob' is empty!")))
+    }
+    if (!all(e$prediction$prob <= 1 & e$prediction$prob >= 0)) {
+      return(list(Experiment = e, Error = paste(info, "'prediction$prob' has values below 0 or above 1!")))
+    }
   }
 
   # test predict type "se"
   if (learner$predict_type == "se") {
-    testthat::expect_true(!is.null(e$prediction$se))
-    testthat::expect_true(all(e$prediction$se >= 0))
+    if (is.null(e$prediction$se)) {
+      return(list(Experiment = e, Error = paste(info, "'prediction$se' is empty!")))
+    }
+    if (!all(e$prediction$se >= 0)) {
+      return(list(Experiment = e, Error = paste(info, "'prediction$se' has values below 0!")))
+    }
   }
 
   # test sanity classif
   if (task$id == "sanity" & learner$task_type == "classif" & learner$id != "featureless") {
     rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
-    testthat::expect_lt(rr$aggregated, 0.3)
+    if (rr$aggregated <= 0.3) {
+      return(list(Experiment = e, Error = paste(info, "performance is above 0.3!")))
+    }
   }
 
   # test sanity regr
   if (task$id == "sanity" & learner$task_type == "regr" & learner$id != "featureless") {
     rr = resample(task, learner, resampling = mlr_resamplings$get("holdout"))
-    testthat::expect_lt(rr$aggregated, 0.3)
+    if (rr$aggregated <= 0.3) {
+      return(list(Experiment = e, Error = paste(info, "performance is above 0.3!")))
+    }
   }
 }
 
 expect_autotest = function(learner, exclude = NULL) {
-  result = autotest_learner(learner, exclude = exclude)
-  expect_true(all(result$status), info = sprintf("learner %s: %s", learner$id, result$message))
-
-}
-
-test_experiment = function(learner, task) {
-  error = try(expect_learner_fits(learner, task), silent = TRUE)
-  if (!is.null(error))
-    return(list(status = FALSE, experiment = Experiment$new(task, learner), message = attr(error, "condition")))
-  NULL
-}
-
-autotest_learner = function(learner, exclude = NULL) {
   tasks = generate_tasks(learner)
   if (!is.null(exclude))
     tasks = tasks[!grepl(exclude, names(tasks))]
-
-  result = list()
+  
   for (task in tasks) {
-
-    r = test_experiment(learner, task)
-    if (!is.null(r))
-      result = append(result, r)
-
+    e = expect_learner_fits(learner, task)
+    if (!is.null(e)) 
+      return(e)
     #test predict type "prob"
     if ("prob" %in% learner$predict_types & "prob" != learner$predict_type) {
       # print("Testing predict type 'prob'")
       learner_prob = learner$clone()
       learner_prob$predict_type = "prob"
-      r = test_experiment(learner_prob, task)
-      if (!is.null(r))
-        result = append(result, r)
+      e = expect_learner_fits(learner_prob, task)
+      if (!is.null(e)) 
+        return(e)
     }
-
+    
     #test predict type "se"
     if ("se" %in% learner$predict_types & "se" != learner$predict_type) {
       # print("Testing predict type 'se'")
       learner_se = learner$clone()
       learner_se$predict_type = "se"
-      r = test_experiment(learner_se, task)
-      if (!is.null(r))
-        result = append(result, r)
+      e = expect_learner_fits(learner_se, task)
+      if (!is.null(e)) 
+        return(e)
     }
   }
-  return(result)
 }
-
 
 
