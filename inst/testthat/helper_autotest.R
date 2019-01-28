@@ -141,7 +141,7 @@ generate_tasks.LearnerRegr = function(learner, N = 20L) {
 }
 
 sanity_check = function(e) {
-  UseMethod("sanity_check")
+  UseMethod("sanity_check", e$learner)
 }
 
 sanity_check.default = function(e) {
