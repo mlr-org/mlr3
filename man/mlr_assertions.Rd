@@ -23,9 +23,9 @@ assert_task(task)
 
 assert_learner(learner, task = NULL)
 
-assert_measure(measure, task = NULL, prediction = NULL)
+assert_measure(measure, task = NULL, predict_types = NULL)
 
-assert_measures(measures, task = NULL, prediction = NULL)
+assert_measures(measures, task = NULL, predict_types = NULL)
 
 assert_resampling(resampling, instantiated = NULL)
 
@@ -47,6 +47,8 @@ assert_param_vals(param_vals, param_set)
 \item{learner}{(\link{Learner}).}
 
 \item{measure}{(\link{Measure}).}
+
+\item{predict_types}{(\code{character()}). Vector of predict types provided by the experiment/learner.}
 
 \item{measures}{(list of \link{Measure}).}
 

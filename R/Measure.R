@@ -57,7 +57,6 @@ NULL
 Measure = R6Class("Measure",
   cloneable = FALSE,
   public = list(
-    id = NULL,
     task_type = NULL,
     predict_type = NULL,
     task_properties = NULL,
@@ -92,5 +91,13 @@ Measure = R6Class("Measure",
       catf(str_indent("Minimize:", self$minimize))
       catf(str_indent("Predict type:", self$predict_type))
     }
+  ),
+
+  private = list(
+    .calculate_hash = function() {
+      hash(list(private$.id, body(self$calculate)))
+    }
   )
 )
+
+add_id_hash(Measure)
