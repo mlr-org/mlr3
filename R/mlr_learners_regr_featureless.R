@@ -10,7 +10,7 @@
 #' respectively.
 #' @include LearnerRegr.R
 #' @export
-LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
+LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(
     initialize = function() {
       super$initialize(
@@ -22,24 +22,41 @@ LearnerRegrDummy = R6Class("LearnerRegrDummy", inherit = LearnerRegr,
             ParamLgl$new("robust", default = TRUE, tags = "train")
           )
         ),
-        param_vals = list(robust = TRUE),
+        param_vals = list(robust = FALSE),
         properties = "missings",
       )
     },
 
     train = function(task) {
-      tn = unlist(task$data(cols = task$target_names))
-      mod = if (isTRUE(self$param_vals$robust)) c(mean(tn), sd(tn)) else c(median(tn), madn(tn))
-      self$model = set_class(mod, "featureless")
+      x = task$data(cols = task$target_names)[[1L]]
+      if (isFALSE(self$param_vals$robust)) {
+        location = mean(x)
+        dispersion = sd(x)
+      } else {
+        location = median(x)
+        dispersion = mad(x, center = location)
+      }
+      self$model = set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "featureless")
       self
     },
 
     predict = function(task) {
       n = task$nrow
-      PredictionRegr$new(task, response = rep(self$model[1L], n), se = rep(self$model[2L], n))
+      PredictionRegr$new(task, response = rep(self$model$location, n), se = rep(self$model$dispersion, n))
+    },
+
+    importance = function() {
+      if (is.null(self$model))
+        stopf("No model stored")
+      fn = self$model$features
+      set_names(double(length(fn)), fn)
+    },
+
+    selected_features = function() {
+      character(0L)
     }
   )
 )
 
 #' @include mlr_learners.R
-mlr_learners$add("regr.featureless", LearnerRegrDummy)
+mlr_learners$add("regr.featureless", LearnerRegrFeatureless)

@@ -44,6 +44,12 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       if (is.null(self$model))
         stopf("No model stored")
       sort(self$model$variable.importance, decreasing = TRUE)
+    },
+
+    selected_features = function() {
+      if (is.null(self$model))
+        stopf("No model stored")
+      unique(setdiff(self$model$frame$var, "<leaf>"))
     }
   )
 )

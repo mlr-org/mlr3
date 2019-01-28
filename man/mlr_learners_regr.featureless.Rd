@@ -3,11 +3,11 @@
 \docType{data}
 \name{mlr_learners_regr.featureless}
 \alias{mlr_learners_regr.featureless}
-\alias{LearnerRegrDummy}
+\alias{LearnerRegrFeatureless}
 \title{Featureless Regression Learner}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerRegr}.}
 \usage{
-LearnerRegrDummy
+LearnerRegrFeatureless
 }
 \description{
 A simple \link{LearnerRegr} which only analyses the response during train, ignoring all features.
