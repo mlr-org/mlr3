@@ -232,6 +232,21 @@ to return a <a href='Prediction.html'>Prediction</a> object.</p></li>
 <li><p><code>$train()</code> takes a <a href='Task.html'>Task</a>, sets the slot <code>model</code> and returns <code>self</code>.</p></li>
 </ul>
     
+    <h2 class="hasAnchor" id="optional-extractors"><a class="anchor" href="#optional-extractors"></a>Optional Extractors</h2>
+
+    
+    <p>Specific learner implementations are free to implement additional getters to ease the access of certain parts
+of the model in the inherited subclasses.</p>
+<p>For the following operations, extractors are standardized:</p><ul>
+<li><p><code>importance(...)</code>: Returns a feature importance score as <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric()</a></code>.
+The learner must be tagged with property "importance".</p>
+<p>The higher the score, the more important the variable.
+The returned vector is named with feature names and sorted in decreasing order.
+Note that the model might omit features it has not used at all.</p></li>
+<li><p><code>selected_features(...)</code>: Returns a subset of selected features as <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>.
+The learner must be tagged with property "selected_features".</p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Learner: <code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
@@ -250,6 +265,8 @@ to return a <a href='Prediction.html'>Prediction</a> object.</p></li>
       <li><a href="#arguments">Arguments</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#optional-extractors">Optional Extractors</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>
