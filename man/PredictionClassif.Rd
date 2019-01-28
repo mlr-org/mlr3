@@ -16,6 +16,7 @@ Inherits from \link{Prediction}\preformatted{# Construction
 p = PredictionClassif$new(task, response, prob = NULL)
 
 # Members
+p$task_type
 p$predict_types
 p$response
 p$row_ids
@@ -43,6 +44,7 @@ and one row for each observation in the test set.
 \section{Details}{
 
 \itemize{
+\item \code{$task_type} (\code{character(1)}) stores the task type this prediction object is intended for: \code{"classif"}.
 \item \code{$predict_types} (\link{character}) stores the predict types available: a subset of \code{c("response", "se")}.
 \item \code{$response} stores the predicted values.
 \item \code{row_ids} stores the row IDs.

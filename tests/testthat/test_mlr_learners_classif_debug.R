@@ -26,8 +26,3 @@ test_that("Simple training/predict", {
 
   expect_equal(hashes(model), hashes(list(itrain, ipredict)))
 })
-
-test_that("autotest", {
-  learner = mlr_learners$get("classif.featureless")
-  expect_autotest(learner)
-})
