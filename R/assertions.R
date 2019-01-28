@@ -42,6 +42,7 @@ assert_learner = function(learner, task = NULL) {
 
 #' @export
 #' @param measure ([Measure]).
+#' @param predict_types (`character()`). Vector of predict types provided by the experiment/learner.
 #' @rdname mlr_assertions
 assert_measure = function(measure, task = NULL, predict_types = NULL) {
   assert_class(measure, "Measure")
