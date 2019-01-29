@@ -170,7 +170,9 @@ Task = R6Class("Task",
       private$.id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$backend = assert_backend(backend)
+
       self$col_info = col_info(backend)
+      assert_names(self$col_info$id, "strict", .var.name = "feature names")
 
       rn = backend$rownames
       cn = self$col_info$id

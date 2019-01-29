@@ -73,7 +73,10 @@ task_rbind = function(self, data) {
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
 
   # 4. Update col_info
-  self$col_info$levels = Map(union, self$col_info$levels, data_col_info$levels)
+  vunion = function(x, y) Map(union, x, y)
+  self$col_info = self$col_info[data_col_info[, c("id", "levels"), with = FALSE], on = "id", nomatch = 0L]
+  self$col_info[get("type") %in% c("factor", "ordered", "character"), "levels" := vunion(get("levels"), get("i.levels"))]
+  self$col_info[, "i.levels" := NULL]
 
   invisible(self)
 }
