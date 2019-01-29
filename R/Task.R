@@ -325,7 +325,7 @@ Task = R6Class("Task",
 
     .calculate_hash = function() {
       hash(list(private$.id, self$backend$hash, self$row_roles,
-          self$col_roles, sort(hashes(self$measures))))
+          self$col_roles, sort(ids(self$measures))))
     },
 
     deep_clone = function(name, value) {
