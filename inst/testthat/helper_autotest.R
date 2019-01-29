@@ -115,9 +115,10 @@ generate_tasks.LearnerClassif = function(learner, N = 20L) {
   }
 
   # generate sanity task
-  set.seed(100)
-  data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rep(as.factor(c("A", "B")), each = 100))
-  data$unimportant = runif(nrow(data))
+  withr::with_seed(100, {
+    data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rep(as.factor(c("A", "B")), each = 100))
+    data$unimportant = runif(nrow(data))
+  })
   task = mlr3misc::set_names(list(mlr3::TaskClassif$new("sanity", mlr3::as_data_backend(data), target = "y")), "sanity")
   tasks = c(tasks, task)
 
@@ -134,9 +135,10 @@ generate_tasks.LearnerRegr = function(learner, N = 20L) {
   tasks = generate_generic_tasks(learner, task)
 
   # generate sanity task
-  set.seed(100)
-  data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = 1)
-  data$unimportant = runif(nrow(data))
+  withr::with_seed(100, {
+    data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = 1)
+    data$unimportant = runif(nrow(data))
+  })
   task = mlr3misc::set_names(list(mlr3::TaskRegr$new("sanity", mlr3::as_data_backend(data), target = "y")), "sanity")
   tasks = c(tasks, task)
 }

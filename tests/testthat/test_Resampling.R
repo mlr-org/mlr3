@@ -35,7 +35,6 @@ test_that("hashing", {
     expect_identical(private(r)$.hash, NA_character_)
     chk = r$hash
     expect_string(chk, pattern = "^[a-z0-9]+$")
-    expect_identical(r$hash, chk)
     expect_identical(private(r)$.hash, chk)
 
     withr::with_seed(123L, r$instantiate(task))
