@@ -173,6 +173,7 @@ e$logs
 e$model
 e$performance
 e$prediction
+e$seeds
 e$state
 e$task
 e$test_set
@@ -227,6 +228,8 @@ performance values. The performance can be accessed via <code>e$performance</cod
 Both store an object of class <a href='Log.html'>Log</a> if logging of the learner has been
 enabled via <code><a href='mlr_control.html'>mlr_control()</a></code>, and are <code>NULL</code> if logging was disabled or the
 respective step has not been performed yet.</p></li>
+<li><p><code>$seeds</code> (<code>named numeric(3)</code>) stores seeds which are set prior to calling external code in train/predict/score.
+Names must match <code>"train"</code>, <code>"predict"</code> and <code>"score"</code>. Set to <code>NA</code> to not set a specific seed (default).</p></li>
 <li><p><code>$state</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/factor'>ordered(1)</a></code>) returns the state of the experiment: <code>"defined"</code>,
 <code>"trained"</code>, <code>"predicted"</code>, or <code>"scored"</code>.</p></li>
 <li><p><code>$task</code> and <code>$learner</code> can be used to access the <a href='Task.html'>Task</a> and <a href='Learner.html'>Learner</a>.</p></li>
@@ -254,8 +257,8 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt;  - Performance: [missing]
 #&gt; 
 #&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
-#&gt;   performance, predict(), prediction, score(), state, task, test_set,
-#&gt;   timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
+#&gt;   performance, predict(), prediction, score(), seeds, state, task,
+#&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'>
 <span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [trained]:
 #&gt;  + Task: iris
@@ -265,8 +268,8 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt;  - Performance: [missing]
 #&gt; 
 #&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
-#&gt;   performance, predict(), prediction, score(), state, task, test_set,
-#&gt;   timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] trained
+#&gt;   performance, predict(), prediction, score(), seeds, state, task,
+#&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] trained
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>model</span></div><div class='output co'>#&gt; n= 120 
 #&gt; 
 #&gt; node), split, n, loss, yval, (yprob)
@@ -285,8 +288,8 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt;  - Performance: [missing]
 #&gt; 
 #&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
-#&gt;   performance, predict(), prediction, score(), state, task, test_set,
-#&gt;   timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] predicted
+#&gt;   performance, predict(), prediction, score(), seeds, state, task,
+#&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] predicted
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>prediction</span></div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 30 observations:
 #&gt;     row_id   response     truth
 #&gt;  1:    121  virginica virginica
@@ -304,8 +307,8 @@ validation set (see <a href='Task.html'>Task</a>).</p></li>
 #&gt;  + Performance: classif.mmce=0.1666667
 #&gt; 
 #&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
-#&gt;   performance, predict(), prediction, score(), state, task, test_set,
-#&gt;   timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] scored
+#&gt;   performance, predict(), prediction, score(), seeds, state, task,
+#&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] scored
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>performance</span></div><div class='output co'>#&gt; classif.mmce 
 #&gt;    0.1666667 </div><div class='input'>
 <span class='no'>e</span>$<span class='no'>train_set</span></div><div class='output co'>#&gt;   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
