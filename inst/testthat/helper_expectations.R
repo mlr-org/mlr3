@@ -315,6 +315,8 @@ expect_experiment = function(e) {
   checkmate::expect_subset(as.character(state), mlr3::mlr_reflections$experiment_states)
   checkmate::expect_list(e$data, len = nrow(mlr3::mlr_reflections$experiment_slots))
   checkmate::expect_names(names(e$data), permutation.of = mlr3::mlr_reflections$experiment_slots$name)
+  checkmate::expect_integer(e$seeds, len = 3L, names = "unique")
+  checkmate::expect_names(names(e$seeds), permutation.of = c("train", "predict", "score"))
 
 
   checkmate::expect_class(e$task, "Task")

@@ -20,6 +20,7 @@
 #' e$model
 #' e$performance
 #' e$prediction
+#' e$seeds
 #' e$state
 #' e$task
 #' e$test_set
@@ -67,6 +68,8 @@
 #'   Both store an object of class [Log] if logging of the learner has been
 #'   enabled via [mlr_control()], and are `NULL` if logging was disabled or the
 #'   respective step has not been performed yet.
+#' * `$seeds` (`named numeric(3)`) stores seeds which are set prior to calling external code in train/predict/score.
+#'   Names must match `"train"`, `"predict"` and `"score"`. Set to `NA` to not set a specific seed (default).
 #' * `$state` (`ordered(1)`) returns the state of the experiment: `"defined"`,
 #'   `"trained"`, `"predicted"`, or `"scored"`.
 #' * `$task` and `$learner` can be used to access the [Task] and [Learner].
@@ -111,6 +114,7 @@ Experiment = R6Class("Experiment",
   public = list(
     data = NULL,
     ctrl = NULL,
+    seeds = NULL,
 
     initialize = function(task = NULL, learner = NULL, ctrl = list()) {
       self$data = named_list(mlr_reflections$experiment_slots$name)
@@ -119,6 +123,7 @@ Experiment = R6Class("Experiment",
       if (!is.null(learner))
         self$data$learner = assert_learner(learner, task = task)$clone(deep = TRUE)
       self$ctrl = assert_list(ctrl)
+      self$seeds = set_names(rep.int(NA_integer_, 3L), c("train", "predict", "score"))
     },
 
     format = function() {

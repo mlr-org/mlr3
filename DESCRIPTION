@@ -52,7 +52,6 @@ Imports:
     mlr3misc,
     paradox,
     R6,
-    withr
 Suggests:
     callr,
     datasets,

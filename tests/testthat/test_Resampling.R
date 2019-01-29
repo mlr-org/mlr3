@@ -31,17 +31,17 @@ test_that("hashing", {
   for (id in ids) {
     r = mlr_resamplings$get(id)
 
-    withr::with_seed(123L, r$instantiate(task))
+    with_seed(123L, r$instantiate(task))
     expect_identical(private(r)$.hash, NA_character_)
     chk = r$hash
     expect_string(chk, pattern = "^[a-z0-9]+$")
     expect_identical(private(r)$.hash, chk)
 
-    withr::with_seed(123L, r$instantiate(task))
+    with_seed(123L, r$instantiate(task))
     expect_identical(private(r)$.hash, NA_character_)
     expect_identical(r$hash, chk)
 
-    withr::with_seed(124L, r$instantiate(task))
+    with_seed(124L, r$instantiate(task))
     expect_false(r$hash == chk)
   }
 })

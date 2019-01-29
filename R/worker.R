@@ -11,7 +11,7 @@ train_worker = function(e, ctrl) {
 
   # call train with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
-  res = set_names(enc(learner$train, list(task = task), learner$packages),
+  res = set_names(enc(learner$train, list(task = task), learner$packages, seed = e$seeds[["train"]]),
     c("learner", "train_log", "train_time"))
 
   # if something went wrong, res$learner is null
@@ -55,7 +55,7 @@ predict_worker = function(e, ctrl) {
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
-  res = set_names(enc(learner$predict, list(task = task), learner$packages),
+  res = set_names(enc(learner$predict, list(task = task), learner$packages, seed = e$seeds[["predict"]]),
     c("prediction", "predict_log", "predict_time"))
   if (!res$predict_log$has_condition("error")) {
     if (!inherits(res$prediction, "Prediction")) {
@@ -81,7 +81,7 @@ score_worker = function(e, ctrl) {
   # call m$score with local encapsulation
   score = function() { set_names(lapply(measures, function(m) m$calculate(e)), ids(measures)) }
   enc = encapsulate("none")
-  res = enc(score, list(), pkgs)
+  res = enc(score, list(), pkgs, seed = e$seeds[["score"]])
 
   return(list(performance = res$result, score_time = res$elapsed))
 }
