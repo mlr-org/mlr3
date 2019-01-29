@@ -62,6 +62,10 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
 
     .combine = function(instances) {
       rbindlist(instances)
+    },
+
+    deep_clone = function(name, value) {
+      if (name == "instance") copy(value) else value
     }
   )
 )

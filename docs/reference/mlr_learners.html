@@ -185,17 +185,24 @@ Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p
 #&gt; 3:       classif.rpart logical,integer,numeric,character,factor,ordered
 #&gt; 4:    regr.featureless logical,integer,numeric,character,factor,ordered
 #&gt; 5:          regr.rpart logical,integer,numeric,character,factor,ordered
-#&gt;    packages                              properties predict_types
-#&gt; 1:                                         missings response,prob
-#&gt; 2:                     missings,multiclass,twoclass response,prob
-#&gt; 3:    rpart importance,missings,multiclass,twoclass response,prob
-#&gt; 4:                                         missings   response,se
-#&gt; 5:    rpart                     importance,missings      response</div><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:featureless&gt;
+#&gt;    packages                                                properties
+#&gt; 1:                                                           missings
+#&gt; 2:          importance,missings,multiclass,selected_features,twoclass
+#&gt; 3:    rpart importance,missings,multiclass,selected_features,twoclass
+#&gt; 4:                              importance,missings,selected_features
+#&gt; 5:    rpart                     importance,missings,selected_features
+#&gt;    predict_types
+#&gt; 1: response,prob
+#&gt; 2: response,prob
+#&gt; 3: response,prob
+#&gt; 4:   response,se
+#&gt; 5:      response</div><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:featureless&gt;
 #&gt; Parameters: method=mode
 #&gt; Packages: -
 #&gt; Predict Type: response
 #&gt; Feature types: logical, integer, numeric, character, factor, ordered
-#&gt; Properties: missings, multiclass, twoclass
+#&gt; Properties: importance, missings, multiclass, selected_features,
+#&gt;   twoclass
 #&gt; 
 #&gt; Public: clone(), fallback, feature_types, hash, id, importance(),
 #&gt;   model, packages, param_set, param_vals, params(), predict_type,

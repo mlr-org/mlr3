@@ -30,10 +30,14 @@ Runs a resampling (possibly in parallel).
    .threshold = logger::log_threshold(namespace = "mlr3")
    logger::log_threshold(logger::WARN, namespace = "mlr3")
 }
-set.seed(123)
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 resampling = mlr_resamplings$get("cv")
+
+# explicitly instantiate the resampling for this task for reproduciblity
+set.seed(123)
+resampling$instantiate(task)
+
 rr = resample(task, learner, resampling)
 print(rr, digits = 2)
 rr$aggregated
@@ -46,6 +50,8 @@ rr.featureless = resample(task, learner, resampling)
 
 bmr = rr$combine(rr.featureless)
 bmr$aggregated
+
+
 \dontshow{
    logger::log_threshold(.threshold, namespace = "mlr3")
 }

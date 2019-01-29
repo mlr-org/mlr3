@@ -187,8 +187,7 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='no'>tasks</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"iris"</span>, <span class='st'>"sonar"</span>))
+    <pre class="examples"><div class='input'><span class='no'>tasks</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"iris"</span>, <span class='st'>"sonar"</span>))
 <span class='no'>learners</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>))
 <span class='no'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='st'>"holdout"</span>)
 
@@ -197,50 +196,52 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 #&gt; 1: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingHoldout&gt;
 #&gt; 2: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingHoldout&gt;
 #&gt; 3: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingHoldout&gt;
-#&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingHoldout&gt;</div><div class='input'><span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)
+#&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingHoldout&gt;</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
+<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)
 
 <span class='co'># performance for all conducted experiments</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                hash          task task_id                     learner
-#&gt; 1: 7685c11e6774a08c &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;
-#&gt; 2: f925d8fa08aaba51 &lt;TaskClassif&gt;    iris       &lt;LearnerClassifRpart&gt;
-#&gt; 3: 40b76c090fd98ecb &lt;TaskClassif&gt;   sonar &lt;LearnerClassifFeatureless&gt;
-#&gt; 4: e7b9e395c143a6a5 &lt;TaskClassif&gt;   sonar       &lt;LearnerClassifRpart&gt;
+#&gt; 1: 1883aed2677a4fa1 &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;
+#&gt; 2: 02f378c3b6e54339 &lt;TaskClassif&gt;    iris       &lt;LearnerClassifRpart&gt;
+#&gt; 3: cdaafed4a52f6b67 &lt;TaskClassif&gt;   sonar &lt;LearnerClassifFeatureless&gt;
+#&gt; 4: 859eb65b5e02430c &lt;TaskClassif&gt;   sonar       &lt;LearnerClassifRpart&gt;
 #&gt;     learner_id          resampling resampling_id classif.mmce
-#&gt; 1: featureless &lt;ResamplingHoldout&gt;       holdout    0.7200000
-#&gt; 2:       rpart &lt;ResamplingHoldout&gt;       holdout    0.0800000
-#&gt; 3: featureless &lt;ResamplingHoldout&gt;       holdout    0.5072464
-#&gt; 4:       rpart &lt;ResamplingHoldout&gt;       holdout    0.3043478</div><div class='input'>
+#&gt; 1: featureless &lt;ResamplingHoldout&gt;       holdout    0.6800000
+#&gt; 2:       rpart &lt;ResamplingHoldout&gt;       holdout    0.0400000
+#&gt; 3: featureless &lt;ResamplingHoldout&gt;       holdout    0.5942029
+#&gt; 4:       rpart &lt;ResamplingHoldout&gt;       holdout    0.3188406</div><div class='input'>
 <span class='co'># aggregated performance values</span>
 <span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id  learner_id resampling_id
-#&gt; 1: 7685c11e6774a08c &lt;ResampleResult&gt;    iris featureless       holdout
-#&gt; 2: f925d8fa08aaba51 &lt;ResampleResult&gt;    iris       rpart       holdout
-#&gt; 3: 40b76c090fd98ecb &lt;ResampleResult&gt;   sonar featureless       holdout
-#&gt; 4: e7b9e395c143a6a5 &lt;ResampleResult&gt;   sonar       rpart       holdout
+#&gt; 1: 1883aed2677a4fa1 &lt;ResampleResult&gt;    iris featureless       holdout
+#&gt; 2: 02f378c3b6e54339 &lt;ResampleResult&gt;    iris       rpart       holdout
+#&gt; 3: cdaafed4a52f6b67 &lt;ResampleResult&gt;   sonar featureless       holdout
+#&gt; 4: 859eb65b5e02430c &lt;ResampleResult&gt;   sonar       rpart       holdout
 #&gt;    classif.mmce
-#&gt; 1:    0.7200000
-#&gt; 2:    0.0800000
-#&gt; 3:    0.5072464
-#&gt; 4:    0.3043478</div><div class='input'>
+#&gt; 1:    0.6800000
+#&gt; 2:    0.0400000
+#&gt; 3:    0.5942029
+#&gt; 4:    0.3188406</div><div class='input'>
 <span class='co'># Overview of of resamplings that were conducted internally</span>
 <span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id  learner_id resampling_id N
-#&gt; 1: 7685c11e6774a08c    iris featureless       holdout 1
-#&gt; 2: f925d8fa08aaba51    iris       rpart       holdout 1
-#&gt; 3: 40b76c090fd98ecb   sonar featureless       holdout 1
-#&gt; 4: e7b9e395c143a6a5   sonar       rpart       holdout 1</div><div class='input'>
+#&gt; 1: 1883aed2677a4fa1    iris featureless       holdout 1
+#&gt; 2: 02f378c3b6e54339    iris       rpart       holdout 1
+#&gt; 3: cdaafed4a52f6b67   sonar featureless       holdout 1
+#&gt; 4: 859eb65b5e02430c   sonar       rpart       holdout 1</div><div class='input'>
 <span class='co'># Extract first ResampleResult</span>
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='kw'>hash</span> <span class='kw'>=</span> <span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'featureless' with 1 iterations
 #&gt;       Measure Min. 1st Qu. Median Mean 3rd Qu. Max. Sd
-#&gt;  classif.mmce 0.72    0.72   0.72 0.72    0.72 0.72 NA</div><div class='input'>
+#&gt;  classif.mmce 0.68    0.68   0.68 0.68    0.68 0.68 NA</div><div class='input'>
 <span class='co'># Extract predictions of first experiment of this resampling</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>prediction</span>))</div><div class='output co'>#&gt;    row_id response  truth
-#&gt; 1:      2   setosa setosa
-#&gt; 2:      4   setosa setosa
+#&gt; 1:      4   setosa setosa
+#&gt; 2:      5   setosa setosa
 #&gt; 3:     10   setosa setosa
-#&gt; 4:     13   setosa setosa
-#&gt; 5:     19   setosa setosa
-#&gt; 6:     21   setosa setosa</div></pre>
+#&gt; 4:     11   setosa setosa
+#&gt; 5:     16   setosa setosa
+#&gt; 6:     17   setosa setosa</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

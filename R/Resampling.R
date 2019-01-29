@@ -170,9 +170,9 @@ Resampling = R6Class("Resampling",
     .groups = NULL,
 
     .calculate_hash = function() {
-      if (is.null(self$instance))
-        return(NA_character_)
-      hash(list(private$.id, self$param_vals, self$instance))
+      # if (is.null(self$instance))
+      #   return(NA_character_)
+      hash(list(class(self)[1L], private$.id, self$param_vals, self$instance))
     },
 
     .get_set = function(getter, i) {

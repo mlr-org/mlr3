@@ -277,14 +277,14 @@ experiment_train = function(self, row_ids, ctrl = list()) {
 experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list()) {
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
 
-  if (is.null(newdata)) {
-    self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
-  } else {
-    self$data$task = self$data$task$clone()$rbind(newdata)
-    row_ids = self$validation_set
+  # TODO: we could allow new_data to be a backend / task to avoid duplication
+  if (!is.null(newdata)) {
+    old_row_ids = self$data$task$row_ids
+    self$data$task = self$data$task$clone(deep = TRUE)$rbind(newdata)
+    row_ids = setdiff(self$data$task$row_ids, old_row_ids)
   }
+  self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
 
-  # FIXME: learner id
   log_info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = predict_worker(self, ctrl = ctrl)
 

@@ -32,13 +32,14 @@ To generate exhaustive designs and automatically instantiate resampling strategi
    .threshold = logger::log_threshold(namespace = "mlr3")
    logger::log_threshold(logger::WARN, namespace = "mlr3")
 }
-set.seed(123)
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("holdout")
 
 design = expand_grid(tasks, learners, resamplings)
 print(design)
+
+set.seed(123)
 bmr = benchmark(design)
 
 # performance for all conducted experiments
