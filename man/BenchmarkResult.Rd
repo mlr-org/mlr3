@@ -61,10 +61,10 @@ These groups in the \link{BenchmarkResult} can be extracted as \link{ResampleRes
 
 \examples{
 \dontshow{
-   set.seed(123)
    .threshold = logger::log_threshold(namespace = "mlr3")
    logger::log_threshold(logger::WARN, namespace = "mlr3")
 }
+set.seed(123)
 bmr = benchmark(expand_grid(
   tasks = mlr_tasks$mget("iris"),
   learners = mlr_learners$mget(c("classif.featureless", "classif.rpart")),

@@ -51,7 +51,8 @@ Imports:
     Metrics,
     mlr3misc,
     paradox,
-    R6
+    R6,
+    withr
 Suggests:
     callr,
     datasets,
@@ -67,8 +68,7 @@ Suggests:
     rmarkdown,
     rpart,
     testthat,
-    titanic,
-    withr
+    titanic
 VignetteBuilder:
     knitr
 Remotes:
