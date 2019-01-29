@@ -197,7 +197,7 @@ run_experiment = function(task, learner) {
   ok = try(e$score(), silent = TRUE)
   if (inherits(ok, "try-error"))
     return(err(as.character(ok)))
-  if (!test_numeric(e$performance, any.missing = FALSE))
+  if (!checkmate::test_numeric(e$performance, any.missing = FALSE))
     return(err("score is not a numeric value"))
 
   # run sanity check on sanity task
@@ -206,7 +206,7 @@ run_experiment = function(task, learner) {
 
     if ("importance" %in% learner$properties) {
       imp = e$learner$importance()
-      if (!test_numeric(imp, any.missing = FALSE, min.len = 1L))
+      if (!checkmate::test_numeric(imp, any.missing = FALSE, min.len = 1L))
         return(err("importance is not numeric"))
       if (!test_names(names(imp), subset.of = task$feature_names))
         return(err("importance is not properly named"))
