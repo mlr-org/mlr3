@@ -174,16 +174,14 @@ Each task has an associated help page, see <code>mlr_tasks_[id]</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'>ids</span>()</div><div class='output co'>#&gt; [1] "bh"      "iris"    "mtcars"  "pima"    "sonar"   "spam"    "titanic"
-#&gt; [8] "zoo"    </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_tasks</span>)</div><div class='output co'>#&gt;         id    type     measures nrow ncol logical integer numeric character
-#&gt; 1:      bh    regr     regr.mse  506   19       0       3      13         0
-#&gt; 2:    iris classif classif.mmce  150    5       0       0       4         0
-#&gt; 3:  mtcars    regr     regr.mse   32   11       0       0      10         0
-#&gt; 4:    pima classif classif.mmce  768    9       0       0       8         0
-#&gt; 5:   sonar classif classif.mmce  208   61       0       0      60         0
-#&gt; 6:    spam classif classif.mmce 4601   58       0       0      57         0
-#&gt; 7: titanic classif classif.mmce  891   12       0       4       2         0
-#&gt; 8:     zoo classif classif.mmce  101   17      15       1       0         0
+    <pre class="examples"><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'>ids</span>()</div><div class='output co'>#&gt; [1] "bh"     "iris"   "mtcars" "pima"   "sonar"  "spam"   "zoo"   </div><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_tasks</span>)</div><div class='output co'>#&gt;        id    type     measures nrow ncol logical integer numeric character
+#&gt; 1:     bh    regr     regr.mse  506   19       0       3      13         0
+#&gt; 2:   iris classif classif.mmce  150    5       0       0       4         0
+#&gt; 3: mtcars    regr     regr.mse   32   11       0       0      10         0
+#&gt; 4:   pima classif classif.mmce  768    9       0       0       8         0
+#&gt; 5:  sonar classif classif.mmce  208   61       0       0      60         0
+#&gt; 6:   spam classif classif.mmce 4601   58       0       0      57         0
+#&gt; 7:    zoo classif classif.mmce  101   17      15       1       0         0
 #&gt;    factor ordered
 #&gt; 1:      2       0
 #&gt; 2:      0       0
@@ -191,8 +189,7 @@ Each task has an associated help page, see <code>mlr_tasks_[id]</code>.</p>
 #&gt; 4:      0       0
 #&gt; 5:      0       0
 #&gt; 6:      0       0
-#&gt; 7:      5       0
-#&gt; 8:      0       0</div><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)</div><div class='output co'>#&gt; &lt;TaskClassif:iris&gt; (150 x 5)
+#&gt; 7:      0       0</div><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)</div><div class='output co'>#&gt; &lt;TaskClassif:iris&gt; (150 x 5)
 #&gt; Target: Species
 #&gt; Features (4):
 #&gt; * dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
@@ -220,7 +217,7 @@ Each task has an associated help page, see <code>mlr_tasks_[id]</code>.</p>
 
 <span class='co'># list available tasks</span>
 <span class='no'>mlr_tasks</span>$<span class='fu'>ids</span>()</div><div class='output co'>#&gt; [1] "bh"          "iris"        "iris.binary" "mtcars"      "pima"       
-#&gt; [6] "sonar"       "spam"        "titanic"     "zoo"        </div><div class='input'>
+#&gt; [6] "sonar"       "spam"        "zoo"        </div><div class='input'>
 <span class='co'># retrieve from dictionary</span>
 <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris.binary"</span>)</div><div class='output co'>#&gt; &lt;TaskClassif:iris.binary&gt; (150 x 5)
 #&gt; Target: Species
@@ -252,7 +249,7 @@ Each task has an associated help page, see <code>mlr_tasks_[id]</code>.</p>
 
       <footer>
       <!--<div class="copyright">
-  <p>Developed by Bernd Bischl, Michel Lang, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz, Stefan Coors, Quay Au.</p>
+  <p>Developed by Michel Lang, Bernd Bischl, Jakob Richter, Giuseppe Casalicchio, Patrick Schratz, Stefan Coors, Quay Au.</p>
 </div>
 
 <div class="pkgdown">
