@@ -24,7 +24,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
             ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
           )
         ),
-        properties = c("missings", "importance")
+        properties = c("missings", "importance", "selected_features")
       )
     },
 

@@ -34,8 +34,8 @@ mlr_reflections$task_properties = list(
 )
 
 mlr_reflections$learner_properties = list(
-  classif = c("missings", "weights", "parallel", "twoclass", "multiclass", "importance"),
-  regr    = c("missings", "weights", "parallel", "importance")
+  classif = c("missings", "weights", "parallel", "twoclass", "multiclass", "importance", "selected_features"),
+  regr    = c("missings", "weights", "parallel", "importance", "selected_features")
 )
 
 mlr_reflections$predict_types = list(

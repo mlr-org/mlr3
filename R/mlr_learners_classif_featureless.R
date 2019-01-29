@@ -24,7 +24,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
           )
         ),
         param_vals = list(method = "mode"),
-        properties = c("twoclass", "multiclass",  "missings")
+        properties = c("twoclass", "multiclass",  "missings", "importance", "selected_features")
       )
     },
 

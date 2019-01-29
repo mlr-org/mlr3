@@ -24,7 +24,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
             ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
           )
         ),
-        properties = c("twoclass", "multiclass", "missings", "importance")
+        properties = c("twoclass", "multiclass", "missings", "importance", "selected_features")
       )
     },
 

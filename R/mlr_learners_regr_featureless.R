@@ -23,7 +23,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
           )
         ),
         param_vals = list(robust = FALSE),
-        properties = "missings",
+        properties = c("missings", "importance", "selected_features")
       )
     },
 
