@@ -429,9 +429,27 @@
 <a class="sourceLine" id="cb16-4" data-line-number="4">task2 =<span class="st"> </span>task</a>
 <a class="sourceLine" id="cb16-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb16-6" data-line-number="6">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/rbindlist">rbind</a></span>(task2<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>())</a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8">task<span class="op">$</span>nrow</a>
-<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; [1] 300</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; Warning in `[.data.table`(self$col_info, get("type") %in% c("factor",</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; "ordered", : Supplied 3 items to be assigned to 1 items of column</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 'levels' (2 unused)</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; Warning in `[.data.table`(self$col_info, get("type") %in% c("factor",</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; "ordered", : Coerced character RHS to list to match the type of the target</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; column (column 3 named 'levels'). If the target column's type list is</span></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; correct, it's best for efficiency to avoid the coercion and create the</span></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; RHS as type list. To achieve that consider R's type postfix: typeof(0L)</span></a>
+<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt; vs typeof(0), and typeof(NA) vs typeof(NA_integer_) vs typeof(NA_real_).</span></a>
+<a class="sourceLine" id="cb16-16" data-line-number="16"><span class="co">#&gt; You can wrap the RHS with as.list() to avoid this warning, but that will</span></a>
+<a class="sourceLine" id="cb16-17" data-line-number="17"><span class="co">#&gt; still perform the coercion. If the target column's type is not correct,</span></a>
+<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="co">#&gt; it's best to revisit where the DT was created and fix the column type</span></a>
+<a class="sourceLine" id="cb16-19" data-line-number="19"><span class="co">#&gt; there; e.g., by using colClasses= in fread(). Otherwise, you can change</span></a>
+<a class="sourceLine" id="cb16-20" data-line-number="20"><span class="co">#&gt; the column type now by plonking a new column (of the desired type) over</span></a>
+<a class="sourceLine" id="cb16-21" data-line-number="21"><span class="co">#&gt; the top of it; e.g. DT[, `levels`:=as.character(`levels`)]. If the RHS</span></a>
+<a class="sourceLine" id="cb16-22" data-line-number="22"><span class="co">#&gt; of := has nrow(DT) elements then the assignment is called a column plonk</span></a>
+<a class="sourceLine" id="cb16-23" data-line-number="23"><span class="co">#&gt; and is the way to change a column's type. Column types can be observed with</span></a>
+<a class="sourceLine" id="cb16-24" data-line-number="24"><span class="co">#&gt; sapply(DT,typeof).</span></a>
+<a class="sourceLine" id="cb16-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb16-26" data-line-number="26">task<span class="op">$</span>nrow</a>
+<a class="sourceLine" id="cb16-27" data-line-number="27"><span class="co">#&gt; [1] 300</span></a></code></pre></div>
 <p>The same logic applies to <code>$cbind()</code>.</p>
 </div>
 </div>
