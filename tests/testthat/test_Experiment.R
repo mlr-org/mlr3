@@ -62,3 +62,24 @@ test_that("$train() + $predict()", {
 
   expect_experiment(e)
 })
+
+test_that("Seeting seeds", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.featureless")
+  learner$param_vals = list(method = "sample")
+
+  e = Experiment$new(task, learner)
+  with_seed(1, {
+    p1 = e$train()$predict()$prediction$response
+    p2 = e$train()$predict()$prediction$response
+  })
+  expect_false(identical(p1, p2))
+
+  e$seeds[] = 1:3
+  for (enc in c("none", "evaluate", "callr")) {
+    e$ctrl = mlr_control(encapsulate_train = enc, encapsulate_predict = enc)
+    p1 = e$train()$predict()$prediction$response
+    p2 = e$train()$predict()$prediction$response
+    expect_true(identical(p1, p2))
+  }
+})

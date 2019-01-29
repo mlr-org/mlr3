@@ -7,8 +7,13 @@ encapsulate = function(method) {
   )
 }
 
-encapsulate_dummy = function(fun, args = list(), pkgs = character(0L)) {
+encapsulate_dummy = function(fun, args = list(), pkgs = character(0L), seed = NA_integer_) {
   require_namespaces(pkgs)
+  if (!is.na(seed)) {
+    seed = get_seed()
+    set.seed(seed)
+    on.exit(assign(".Random.seed", seed, globalenv()), add = TRUE)
+  }
   now = proc.time()[[3L]]
   result = invoke(fun, .args = args)
   elapsed = proc.time()[[3L]] - now
@@ -17,7 +22,7 @@ encapsulate_dummy = function(fun, args = list(), pkgs = character(0L)) {
 }
 
 
-encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L)) {
+encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L), seed = NA_integer_) {
   parse_evaluate = function(log) {
     translate_class = function(x) {
       if (inherits(x, "warning"))
@@ -37,6 +42,11 @@ encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L)) {
   require_namespaces(c("evaluate", pkgs))
   now = proc.time()[[3L]]
   result = NULL
+  if (!is.na(seed)) {
+    seed = get_seed()
+    set.seed(seed)
+    on.exit(assign(".Random.seed", seed, globalenv()), add = TRUE)
+  }
   log = evaluate::evaluate(
     "result <- do.call(fun, args)",
     stop_on_error = 1L,
@@ -52,13 +62,15 @@ encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L)) {
   )
 }
 
-encapsulate_callr = function(fun, args = list(), pkgs = character(0L)) {
-  wrapper = function(fun, args, pkgs) {
+encapsulate_callr = function(fun, args = list(), pkgs = character(0L), seed = NA_integer_) {
+  wrapper = function(fun, args, pkgs, seed) {
     options(warn = 1L)
     suppressPackageStartupMessages({
       library("mlr3")
       lapply(pkgs, requireNamespace)
     })
+    if (!is.na(seed))
+      set.seed(seed)
     now = proc.time()[[3L]]
     result = withCallingHandlers(
         tryCatch(do.call(fun, args),
@@ -79,7 +91,7 @@ encapsulate_callr = function(fun, args = list(), pkgs = character(0L)) {
 
   logfile = tempfile()
   now = proc.time()[3L]
-  result = try(callr::r(wrapper, list(fun = fun, args = args, pkgs = pkgs), stdout = logfile, stderr = logfile), silent = TRUE)
+  result = try(callr::r(wrapper, list(fun = fun, args = args, pkgs = pkgs, seed = seed), stdout = logfile, stderr = logfile), silent = TRUE)
   elapsed = proc.time()[3L] - now
 
   if (file.exists(logfile)) {

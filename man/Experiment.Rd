@@ -21,6 +21,7 @@ e$logs
 e$model
 e$performance
 e$prediction
+e$seeds
 e$state
 e$task
 e$test_set
@@ -77,6 +78,8 @@ performance values. The performance can be accessed via \code{e$performance}.
 Both store an object of class \link{Log} if logging of the learner has been
 enabled via \code{\link[=mlr_control]{mlr_control()}}, and are \code{NULL} if logging was disabled or the
 respective step has not been performed yet.
+\item \code{$seeds} (\code{named numeric(3)}) stores seeds which are set prior to calling external code in train/predict/score.
+Names must match \code{"train"}, \code{"predict"} and \code{"score"}. Set to \code{NA} to not set a specific seed (default).
 \item \code{$state} (\code{ordered(1)}) returns the state of the experiment: \code{"defined"},
 \code{"trained"}, \code{"predicted"}, or \code{"scored"}.
 \item \code{$task} and \code{$learner} can be used to access the \link{Task} and \link{Learner}.
