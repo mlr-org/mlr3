@@ -2,19 +2,22 @@ Package: mlr3
 Title: Machine Learning in R - Next Generation
 Version: 0.1.0-9000
 Authors@R:
-    c(person(given = "Bernd",
-             family = "Bischl",
-             role = "aut",
-             email = "bernd_bischl@gmx.de"),
+    c(
       person(given = "Michel",
              family = "Lang",
              role = c("cre", "aut"),
              email = "michellang@gmail.com",
              comment = c(ORCID = "0000-0001-9754-0393")),
+      person(given = "Bernd",
+             family = "Bischl",
+             role = "aut",
+             email = "bernd_bischl@gmx.de",
+             comment = c(ORCID = "0000-0001-6002-6980")),
       person(given = "Jakob",
              family = "Richter",
              role = "aut",
-             email = "jakob1richter@gmail.com"),
+             email = "jakob1richter@gmail.com",
+             comment = c(ORCID = "0000-0003-4481-5554")),
       person(given = "Giuseppe",
              family = "Casalicchio",
              role = "aut",
@@ -51,7 +54,7 @@ Imports:
     Metrics,
     mlr3misc,
     paradox,
-    R6,
+    R6
 Suggests:
     callr,
     datasets,
@@ -66,8 +69,7 @@ Suggests:
     mlbench,
     rmarkdown,
     rpart,
-    testthat,
-    titanic
+    testthat
 VignetteBuilder:
     knitr
 Remotes:
@@ -138,6 +140,13 @@ Collate:
     'mlr_task_generators_smiley.R'
     'mlr_task_generators_xor.R'
     'mlr_tasks.R'
+    'mlr_tasks_bh.R'
+    'mlr_tasks_iris.R'
+    'mlr_tasks_mtcars.R'
+    'mlr_tasks_pima.R'
+    'mlr_tasks_sonar.R'
+    'mlr_tasks_spam.R'
+    'mlr_tasks_zoo.R'
     'reexports.R'
     'resample.R'
     'worker.R'

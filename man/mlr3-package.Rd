@@ -21,8 +21,8 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Bernd Bischl \email{bernd_bischl@gmx.de}
-  \item Jakob Richter \email{jakob1richter@gmail.com}
+  \item Bernd Bischl \email{bernd_bischl@gmx.de} (0000-0001-6002-6980)
+  \item Jakob Richter \email{jakob1richter@gmail.com} (0000-0003-4481-5554)
   \item Giuseppe Casalicchio \email{giuseppe.casalicchio@stat.uni-muenchen.de} (0000-0001-5324-5966)
   \item Patrick Schratz \email{patrick.schratz@gmail.com} (0000-0003-0748-6624)
   \item Stefan Coors \email{mail@stefancoors.de} (0000-0002-7465-2146)
