@@ -95,7 +95,7 @@ Measure = R6Class("Measure",
 
   private = list(
     .calculate_hash = function() {
-      hash(list(private$.id, body(self$calculate)))
+      hash(list(private$.id))#, body(self$calculate)))
     }
   )
 )
