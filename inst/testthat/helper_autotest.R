@@ -180,7 +180,7 @@ sanity_check.LearnerRegr = function(e) {
 registerS3method("sanity_check", "LearnerRegr", sanity_check.LearnerRegr)
 
 sanity_check.LearnerOrdinal = function(e) {
-  e$performance <= 1
+  e$performance <= 0.3
 }
 registerS3method("sanity_check", "LearnerOrdinal", sanity_check.LearnerOrdinal)
 
