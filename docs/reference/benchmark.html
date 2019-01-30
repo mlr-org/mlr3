@@ -201,10 +201,10 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 
 <span class='co'># performance for all conducted experiments</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                hash          task task_id                     learner
-#&gt; 1: 8cbbbc80b8d698c0 &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;
-#&gt; 2: 54c5f4d741dca7a4 &lt;TaskClassif&gt;    iris       &lt;LearnerClassifRpart&gt;
-#&gt; 3: 274156a9a7850714 &lt;TaskClassif&gt;   sonar &lt;LearnerClassifFeatureless&gt;
-#&gt; 4: b588e21707f86d50 &lt;TaskClassif&gt;   sonar       &lt;LearnerClassifRpart&gt;
+#&gt; 1: 0cc07c7075b33dcf &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;
+#&gt; 2: a89e5a64eb41f524 &lt;TaskClassif&gt;    iris       &lt;LearnerClassifRpart&gt;
+#&gt; 3: 73ad82195fa0fd90 &lt;TaskClassif&gt;   sonar &lt;LearnerClassifFeatureless&gt;
+#&gt; 4: 3abc79753a09a6e1 &lt;TaskClassif&gt;   sonar       &lt;LearnerClassifRpart&gt;
 #&gt;     learner_id          resampling resampling_id classif.mmce
 #&gt; 1: featureless &lt;ResamplingHoldout&gt;       holdout    0.7200000
 #&gt; 2:       rpart &lt;ResamplingHoldout&gt;       holdout    0.0800000
@@ -212,10 +212,10 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 #&gt; 4:       rpart &lt;ResamplingHoldout&gt;       holdout    0.3043478</div><div class='input'>
 <span class='co'># aggregated performance values</span>
 <span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id  learner_id resampling_id
-#&gt; 1: 8cbbbc80b8d698c0 &lt;ResampleResult&gt;    iris featureless       holdout
-#&gt; 2: 54c5f4d741dca7a4 &lt;ResampleResult&gt;    iris       rpart       holdout
-#&gt; 3: 274156a9a7850714 &lt;ResampleResult&gt;   sonar featureless       holdout
-#&gt; 4: b588e21707f86d50 &lt;ResampleResult&gt;   sonar       rpart       holdout
+#&gt; 1: 0cc07c7075b33dcf &lt;ResampleResult&gt;    iris featureless       holdout
+#&gt; 2: a89e5a64eb41f524 &lt;ResampleResult&gt;    iris       rpart       holdout
+#&gt; 3: 73ad82195fa0fd90 &lt;ResampleResult&gt;   sonar featureless       holdout
+#&gt; 4: 3abc79753a09a6e1 &lt;ResampleResult&gt;   sonar       rpart       holdout
 #&gt;    classif.mmce
 #&gt; 1:    0.7200000
 #&gt; 2:    0.0800000
@@ -224,10 +224,10 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 <span class='co'># Overview of of resamplings that were conducted internally</span>
 <span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id  learner_id resampling_id N
-#&gt; 1: 8cbbbc80b8d698c0    iris featureless       holdout 1
-#&gt; 2: 54c5f4d741dca7a4    iris       rpart       holdout 1
-#&gt; 3: 274156a9a7850714   sonar featureless       holdout 1
-#&gt; 4: b588e21707f86d50   sonar       rpart       holdout 1</div><div class='input'>
+#&gt; 1: 0cc07c7075b33dcf    iris featureless       holdout 1
+#&gt; 2: a89e5a64eb41f524    iris       rpart       holdout 1
+#&gt; 3: 73ad82195fa0fd90   sonar featureless       holdout 1
+#&gt; 4: 3abc79753a09a6e1   sonar       rpart       holdout 1</div><div class='input'>
 <span class='co'># Extract first ResampleResult</span>
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='kw'>hash</span> <span class='kw'>=</span> <span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'featureless' with 1 iterations
