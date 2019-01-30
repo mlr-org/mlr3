@@ -34,6 +34,11 @@
 #'
 #' bmr = rr$combine(rr.featureless)
 #' bmr$aggregated
+#'
+#' print(mlr3:::hashes(bmr$data$task))
+#' print(mlr3:::hashes(bmr$data$learner))
+#' print(mlr3:::hashes(bmr$data$resampling))
+#' print(sapply(bmr$data$measures, mlr3::hashes))
 #' \dontshow{
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
