@@ -21,7 +21,7 @@ install:
   - cmd: R -q -e "tic::before_install()"
 
 cache:
-  - c:\RLibrary
+  - C:\RLibrary\
   - C:\Program Files\Pandoc\
 
 before_build: Rscript -e "tic::before_install()"
@@ -49,3 +49,4 @@ image: Visual Studio 2017
 environment:
   global:
     USE_RTOOLS: true
+    R_ARCH: x64
