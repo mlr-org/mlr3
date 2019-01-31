@@ -7,8 +7,6 @@ if (inherits(ci(), "TravisCI")) {
 
 if (inherits(ci(), "AppVeyorCI")) {
   get_stage("script") %>%
-    add_step(step_install_cran("roxygen2")) %>%
-    add_code_step(devtools::document()) %>%
     add_step(step_rcmdcheck(args = c("--as-cran", "--no-manual"), error_on = "error"))
 }
 
