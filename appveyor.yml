@@ -9,17 +9,30 @@ init:
 
 install:
   - ps: Bootstrap
-  - cmd: Rscript -e "writeLines('options(repos = \'https://cloud.r-project.org\')', '~/.Rprofile')"
-  - cmd: Rscript -e "getOption('repos')"
-  - cmd: Rscript -e "if (!requireNamespace('remotes')) install.packages('remotes'); if (!requireNamespace('curl')) install.packages('curl'); remotes::install_github('ropenscilabs/tic'); tic::prepare_all_stages(); tic::before_install()""
+  - cmd: R -q -e "writeLines('options(repos = \'https://cloud.r-project.org\')', '~/.Rprofile')"
+  - cmd: R -q -e "getOption('repos')"
+  - cmd: rm -rf C:\RLibrary\00LOCK-*
+  - cmd: R -q -e "if (!requireNamespace('remotes')) install.packages('remotes')"
+  - cmd: R -q -e "if (!requireNamespace('curl')) install.packages('curl')"
+  - cmd: R -q -e "if (!requireNamespace('BiocManager')) install.packages('BiocManager')"
+  - cmd: R -q -e "if (!requireNamespace('genefilter')) BiocManager::install('genefilter')"
+  - cmd: R -q -e 'if (!requireNamespace("remotes")) install.packages("remotes"); if (!requireNamespace("curl")) install.packages("curl"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 
 cache:
-- C:\RLibrary
+  - C:\RLibrary
+  - C:\Program Files\Pandoc\
 
 before_build: Rscript -e "tic::before_install()"
 build_script: Rscript -e "tic::install()"
 after_build: Rscript -e "tic::after_install()"
-before_test: Rscript -e "tic::before_script()"
+before_test:
+ - ps: >-
+      if (-Not (Test-Path "C:\Program Files\Pandoc\")) {
+        cinst pandoc
+      }
+ - ps: $env:Path += ";C:\Program Files\Pandoc\"
+ - pandoc -v
+ - R -q -e "tic::before_script()"
 test_script: Rscript -e "tic::script()"
 on_success: Rscript -e "try(tic::after_success(), silent = TRUE)"
 on_failure: Rscript -e "tic::after_failure()"
@@ -33,6 +46,9 @@ on_finish: Rscript -e "tic::after_script()"
 #on_failure:
 #  - 7z a failure.zip *.Rcheck\*
 #  - appveyor PushArtifact failure.zip
+
+platform: x64
+image: Visual Studio 2017
 
 environment:
   global:
