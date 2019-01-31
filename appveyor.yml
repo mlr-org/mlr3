@@ -22,7 +22,7 @@ install:
 
 cache:
   - C:\RLibrary\
-  # - C:\Program Files\Pandoc\
+  - C:\Program Files\Pandoc\
 
 before_build: Rscript -e "tic::before_install()"
 build_script: Rscript -e "tic::install()"
