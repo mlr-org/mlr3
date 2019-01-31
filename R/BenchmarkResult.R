@@ -100,7 +100,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       catf("%s of %i experiments in %i resamplings:",
         format(self), nrow(self$data), uniqueN(self$data$hash))
       measure = self$measures$measure[[1L]]
-      aggr = self$aggregated(objects = FALSE, ids = TRUE, params = FALSE)
+      aggr = remove_named(self$aggregated(objects = FALSE, ids = TRUE, params = FALSE), "hash")
       setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
       setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
       print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
