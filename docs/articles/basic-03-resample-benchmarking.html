@@ -272,13 +272,10 @@
 <a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 <p>We can also combine the created result objects into a <code>BenchmarkResult</code> (see below for an introduction to simple benchmarking):</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">bmr =<span class="st"> </span>rr1<span class="op">$</span><span class="kw">combine</span>(rr2)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">bmr<span class="op">$</span>aggregated</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;                hash  resample_result task_id  learner_id resampling_id</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: 5fe420d412a241ab &lt;ResampleResult&gt;    iris       rpart            cv</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: a4fdb274e29a7f25 &lt;ResampleResult&gt;    iris featureless            cv</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;    classif.mmce</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 1:   0.04666667</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; 2:   0.70666667</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-2" data-line-number="2">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;                hash resampling_id task_id  learner_id classif.mmce</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: 5fe420d412a241ab            cv    iris       rpart   0.04666667</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: a4fdb274e29a7f25            cv    iris featureless   0.70666667</span></a></code></pre></div>
 </div>
 <div id="custom-resampling" class="section level2">
 <h2 class="hasAnchor">
@@ -411,23 +408,23 @@
 <a class="sourceLine" id="cb15-89" data-line-number="89"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 10/10)'</span></a>
 <a class="sourceLine" id="cb15-90" data-line-number="90"><span class="co">#&gt; INFO [mlr3] Finished benchmark</span></a></code></pre></div>
 <p>The aggregated resampling results can be accessed with:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">bmr<span class="op">$</span>aggregated</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt;                hash  resample_result      task_id  learner_id</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1: 7acb7f4c463dac24 &lt;ResampleResult&gt; pima_indians featureless</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2: c368fe2a096cf895 &lt;ResampleResult&gt; pima_indians       rpart</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3: cd0e93fbcea10c0b &lt;ResampleResult&gt;        sonar featureless</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4: 212544551900e132 &lt;ResampleResult&gt;        sonar       rpart</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5: 0da9255b54741eb7 &lt;ResampleResult&gt;         spam featureless</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6: f5cc8b51d60d5340 &lt;ResampleResult&gt;         spam       rpart</span></a>
-<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt;    resampling_id classif.acc classif.auc</span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; 1:            cv   0.6509569   0.5000000</span></a>
-<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; 2:            cv   0.7540328   0.7927332</span></a>
-<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; 3:            cv   0.5347619   0.5000000</span></a>
-<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; 4:            cv   0.7592857   0.7948329</span></a>
-<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; 5:            cv   0.6059521   0.5000000</span></a>
-<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt; 6:            cv   0.8919858   0.8927645</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt;                hash resampling_id      task_id  learner_id classif.acc</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1: 7acb7f4c463dac24            cv pima_indians featureless   0.6509569</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2: c368fe2a096cf895            cv pima_indians       rpart   0.7540328</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3: cd0e93fbcea10c0b            cv        sonar featureless   0.5347619</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4: 212544551900e132            cv        sonar       rpart   0.7592857</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5: 0da9255b54741eb7            cv         spam featureless   0.6059521</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6: f5cc8b51d60d5340            cv         spam       rpart   0.8919858</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt;    classif.auc</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; 1:   0.5000000</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; 2:   0.7927332</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; 3:   0.5000000</span></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; 4:   0.7948329</span></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; 5:   0.5000000</span></a>
+<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt; 6:   0.8927645</span></a></code></pre></div>
 <p>We can aggregate it further, i.e. if we are interested which learner performed best over all tasks:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">bmr<span class="op">$</span>aggregated[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">acc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(classif.acc), <span class="dt">auc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(classif.auc)), by =<span class="st"> "learner_id"</span>]</a>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">acc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(classif.acc), <span class="dt">auc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(classif.auc)), by =<span class="st"> "learner_id"</span>]</a>
 <a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co">#&gt;     learner_id       acc       auc</span></a>
 <a class="sourceLine" id="cb17-3" data-line-number="3"><span class="co">#&gt; 1: featureless 0.5972236 0.5000000</span></a>
 <a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co">#&gt; 2:       rpart 0.8017681 0.8267769</span></a></code></pre></div>
@@ -436,12 +433,12 @@
 <h3 class="hasAnchor">
 <a href="#converting-specific-benchmark-objects-to-resample-objects" class="anchor"></a>Converting specific benchmark objects to resample objects</h3>
 <p>As a <code>BenchmarkResult</code> object is basically a collection of multiple <code>ResampleResult</code> objects, we can extract specific <code>ResampleResult</code> objects using the stored hashes:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">tab =<span class="st"> </span>bmr<span class="op">$</span>aggregated[task_id <span class="op">==</span><span class="st"> "spam"</span> <span class="op">&amp;</span><span class="st"> </span>learner_id <span class="op">==</span><span class="st"> "rpart"</span>]</a>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">tab =<span class="st"> </span>bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)[task_id <span class="op">==</span><span class="st"> "spam"</span> <span class="op">&amp;</span><span class="st"> </span>learner_id <span class="op">==</span><span class="st"> "rpart"</span>]</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(tab)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt;                hash  resample_result task_id learner_id resampling_id</span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt; 1: f5cc8b51d60d5340 &lt;ResampleResult&gt;    spam      rpart            cv</span></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt;    classif.acc classif.auc</span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; 1:   0.8919858   0.8927645</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt;                hash resampling_id task_id learner_id classif.acc</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt; 1: f5cc8b51d60d5340            cv    spam      rpart   0.8919858</span></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt;    classif.auc</span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; 1:   0.8927645</span></a>
 <a class="sourceLine" id="cb18-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb18-8" data-line-number="8">rr =<span class="st"> </span>bmr<span class="op">$</span><span class="kw">resample_result</span>(tab<span class="op">$</span>hash)</a>
 <a class="sourceLine" id="cb18-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
