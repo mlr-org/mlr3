@@ -43,12 +43,6 @@ deploy_script: Rscript -e "tic::deploy()"
 after_deploy: Rscript -e "tic::after_deploy()"
 on_finish: Rscript -e "tic::after_script()"
 
-# Adapt as necessary starting from here
-
-#on_failure:
-#  - 7z a failure.zip *.Rcheck\*
-#  - appveyor PushArtifact failure.zip
-
 platform: x64
 image: Visual Studio 2017
 
