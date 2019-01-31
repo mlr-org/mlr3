@@ -221,9 +221,9 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
   <span class='kw'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='st'>"cv"</span>)
 ))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 20 experiments in 2 resamplings:
-#&gt;              hash resampling task     learner classif.mmce
-#&gt;  70963467fec34b8a         cv iris       rpart   0.07333333
-#&gt;  82cde17d44da0258         cv iris featureless   0.80666667
+#&gt;  resampling task     learner classif.mmce
+#&gt;          cv iris       rpart   0.07333333
+#&gt;          cv iris featureless   0.80666667
 #&gt; 
 #&gt; Public: aggregated(), clone(), combine(), data, get_best(), learners,
 #&gt;   measures, resample_result(), resample_results, resamplings, tasks</div><div class='input'><span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
