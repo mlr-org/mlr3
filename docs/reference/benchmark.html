@@ -212,16 +212,11 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 #&gt; 3: featureless &lt;ResamplingHoldout&gt;       holdout    0.5942029
 #&gt; 4:       rpart &lt;ResamplingHoldout&gt;       holdout    0.3188406</div><div class='input'>
 <span class='co'># aggregated performance values</span>
-<span class='no'>bmr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt;                hash  resample_result task_id  learner_id resampling_id
-#&gt; 1: 1883aed2677a4fa1 &lt;ResampleResult&gt;    iris featureless       holdout
-#&gt; 2: 02f378c3b6e54339 &lt;ResampleResult&gt;    iris       rpart       holdout
-#&gt; 3: cdaafed4a52f6b67 &lt;ResampleResult&gt;   sonar featureless       holdout
-#&gt; 4: 859eb65b5e02430c &lt;ResampleResult&gt;   sonar       rpart       holdout
-#&gt;    classif.mmce
-#&gt; 1:    0.6800000
-#&gt; 2:    0.0400000
-#&gt; 3:    0.5942029
-#&gt; 4:    0.3188406</div><div class='input'>
+<span class='no'>bmr</span>$<span class='fu'>aggregated</span>(<span class='kw'>objects</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                hash resampling_id task_id  learner_id classif.mmce
+#&gt; 1: 1883aed2677a4fa1       holdout    iris featureless    0.6800000
+#&gt; 2: 02f378c3b6e54339       holdout    iris       rpart    0.0400000
+#&gt; 3: cdaafed4a52f6b67       holdout   sonar featureless    0.5942029
+#&gt; 4: 859eb65b5e02430c       holdout   sonar       rpart    0.3188406</div><div class='input'>
 <span class='co'># Overview of of resamplings that were conducted internally</span>
 <span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id  learner_id resampling_id N
