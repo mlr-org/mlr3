@@ -128,7 +128,7 @@ We can also combine the created result objects into a `BenchmarkResult` (see bel
 
 ```{r}
 bmr = rr1$combine(rr2)
-bmr$aggregated
+bmr$aggregated(objects = FALSE)
 ```
 
 ## Custom resampling
@@ -200,12 +200,12 @@ bmr = benchmark(design)
 The aggregated resampling results can be accessed with:
 
 ```{r}
-bmr$aggregated
+bmr$aggregated(objects = FALSE)
 ```
 We can aggregate it further, i.e. if we are interested which learner performed best over all tasks:
 
 ```{r}
-bmr$aggregated[, list(acc = mean(classif.acc), auc = mean(classif.auc)), by = "learner_id"]
+bmr$aggregated(objects = FALSE)[, list(acc = mean(classif.acc), auc = mean(classif.auc)), by = "learner_id"]
 ```
 
 Unsurprisingly, the classification tree outperformed the featureless learner.
@@ -215,7 +215,7 @@ Unsurprisingly, the classification tree outperformed the featureless learner.
 As a `BenchmarkResult` object is basically a collection of multiple `ResampleResult` objects, we can extract specific `ResampleResult` objects using the stored hashes:
 
 ```{r}
-tab = bmr$aggregated[task_id == "spam" & learner_id == "rpart"]
+tab = bmr$aggregated(objects = FALSE)[task_id == "spam" & learner_id == "rpart"]
 print(tab)
 
 rr = bmr$resample_result(tab$hash)

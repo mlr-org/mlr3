@@ -12,7 +12,6 @@
 #' bmr = benchmark(...)
 #'
 #' # Members
-#' bmr$aggregated
 #' bmr$data
 #' bmr$learners
 #' bmr$measures
@@ -21,6 +20,7 @@
 #' bmr$tasks
 #'
 #' # Methods
+#' bmr$aggregated(objects = TRUE, ids = TRUE, params = FALSE)
 #' bmr$combine(bmr)
 #' bmr$get_best(measure)
 #' bmr$resample_result(hash)
@@ -36,11 +36,15 @@
 #'   String which identifies a subgroup to extract as [ResampleResult].
 #' * `bmr` ([BenchmarkResult]).
 #' * `measure` ([Measure]).
+#' * `objects` (`logical(1)`): Return objects as columns in the result `data.table()`.
+#' * `ids` (`logical(1)`): Return object ids as columns in the result `data.table()`.
+#' * `params` (`logical(1)`): Return learner hyperparameter values as columns in the result `data.table()`.
 #'
 #' @section Details:
-#' * `$aggregated` returns aggregated performance measures as a [data.table()].
+#' * `$aggregated()` returns aggregated performance measures as a [data.table()].
 #'   Experiments are aggregated by their resample result group (combination of [Task], [Learner] and [Resampling]).
-#'   The actual aggregation function is defined by the respective [Measure].
+#'   The actual aggregation function of the performance values is defined by the respective [Measure].
+#'   For an unaggregated table of the results, use `as.data.table(bmr)`.
 #' * `$combine()` takes a second [BenchmarkResult] `bmr` as argument and extends itself with its data.
 #' * `$data` returns the full benchmark structure for each iteration (task, learner, resampling, etc).
 #' * `$resample_results` returns a [data.table()] which gives an overview of the resample result groups in the benchmark.
@@ -65,7 +69,7 @@
 #' bmr$learners
 #' bmr$resamplings
 #' bmr$measures
-#' bmr$aggregated
+#' bmr$aggregated(objects = FALSE)
 #' rrs = bmr$resample_results
 #' print(rrs)
 #' rr = bmr$resample_result(rrs$hash[1])
@@ -96,10 +100,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
       catf("%s of %i experiments in %i resamplings:",
         format(self), nrow(self$data), uniqueN(self$data$hash))
       measure = self$measures$measure[[1L]]
-
-      aggr = self$aggregated[, !c("hash", "resample_result"), with = FALSE]
-      setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
+      aggr = self$aggregated(objects = FALSE, ids = TRUE, params = FALSE)
       setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
+      setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
       print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
 
       catf(str_indent("\nPublic:", str_r6_interface(self)))
@@ -121,11 +124,37 @@ BenchmarkResult = R6Class("BenchmarkResult",
     get_best = function(measure) {
       assert_measure(measure)
       id = measure$id
-      aggr = self$aggregated
+      aggr = self$aggregated(ids = FALSE)
       if (id %nin% names(aggr))
         stopf("Measure with id '%s' not in BenchmarkResult", id)
       best = if (measure$minimize) which_min(aggr[[id]]) else which_max(aggr[[id]])
       aggr$resample_result[[best]]
+    },
+
+    aggregated = function(ids = TRUE, objects = TRUE, params = FALSE) {
+      res = self$data[, list(resample_result = list(ResampleResult$new(.SD))), by = hash]
+
+      if (assert_flag(objects)) {
+        extract = function(x) list(task = list(x$task), learner = list(x$learner))
+        res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
+      }
+
+      if (assert_flag(ids)) {
+        extract = function(x) list(resampling_id = x$resampling$id, task_id = x$task$id, learner_id = x$learner$id)
+        res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
+      }
+
+      if (assert_flag(params)) {
+        res$params = map(res$resample_result, function(x) x$learner$param_vals)
+        res = unnest(res, "params")
+      }
+
+      extract = function(x) as.list(x$aggregated)
+      res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
+
+      if (!objects)
+        remove_named(res, "resample_result")
+      res[]
     }
   ),
 
@@ -148,16 +177,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     resample_results = function() {
       self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, .N), by = "hash"]
-    },
-
-    aggregated = function() {
-      extract = function(x) {
-        c(list(task_id = x$task$id, learner_id = x$learner$id, resampling_id = x$resampling$id),
-          as.list(x$aggregated))
-      }
-      res = self$data[, list(resample_result = list(ResampleResult$new(.SD))), by = hash]
-      res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
     }
+
   ),
 
   private = list(

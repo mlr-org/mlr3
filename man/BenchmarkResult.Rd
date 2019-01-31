@@ -13,7 +13,6 @@ This is the result container object returned by \code{\link[=benchmark]{benchmar
 bmr = benchmark(...)
 
 # Members
-bmr$aggregated
 bmr$data
 bmr$learners
 bmr$measures
@@ -22,6 +21,7 @@ bmr$resamplings
 bmr$tasks
 
 # Methods
+bmr$aggregated(objects = TRUE, ids = TRUE, params = FALSE)
 bmr$combine(bmr)
 bmr$get_best(measure)
 bmr$resample_result(hash)
@@ -40,15 +40,19 @@ Each line must contain data of a single \link{Experiment} (complex objects wrapp
 String which identifies a subgroup to extract as \link{ResampleResult}.
 \item \code{bmr} (\link{BenchmarkResult}).
 \item \code{measure} (\link{Measure}).
+\item \code{objects} (\code{logical(1)}): Return objects as columns in the result \code{data.table()}.
+\item \code{ids} (\code{logical(1)}): Return object ids as columns in the result \code{data.table()}.
+\item \code{params} (\code{logical(1)}): Return learner hyperparameter values as columns in the result \code{data.table()}.
 }
 }
 
 \section{Details}{
 
 \itemize{
-\item \code{$aggregated} returns aggregated performance measures as a \code{\link[=data.table]{data.table()}}.
+\item \code{$aggregated()} returns aggregated performance measures as a \code{\link[=data.table]{data.table()}}.
 Experiments are aggregated by their resample result group (combination of \link{Task}, \link{Learner} and \link{Resampling}).
-The actual aggregation function is defined by the respective \link{Measure}.
+The actual aggregation function of the performance values is defined by the respective \link{Measure}.
+For an unaggregated table of the results, use \code{as.data.table(bmr)}.
 \item \code{$combine()} takes a second \link{BenchmarkResult} \code{bmr} as argument and extends itself with its data.
 \item \code{$data} returns the full benchmark structure for each iteration (task, learner, resampling, etc).
 \item \code{$resample_results} returns a \code{\link[=data.table]{data.table()}} which gives an overview of the resample result groups in the benchmark.
@@ -75,7 +79,7 @@ bmr$tasks
 bmr$learners
 bmr$resamplings
 bmr$measures
-bmr$aggregated
+bmr$aggregated(objects = FALSE)
 rrs = bmr$resample_results
 print(rrs)
 rr = bmr$resample_result(rrs$hash[1])
