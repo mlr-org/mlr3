@@ -38,7 +38,7 @@
 #' * `measure` ([Measure]).
 #' * `objects` (`logical(1)`): Return objects as columns in the result `data.table()`.
 #' * `ids` (`logical(1)`): Return object ids as columns in the result `data.table()`.
-#' * `params` (`logical(1)`): Return learner hyperparameter values as columns in the result `data.table()`.
+#' * `params` (`logical(1)`): Return learner hyperparameter values as list column `params` in the result `data.table()`.
 #'
 #' @section Details:
 #' * `$aggregated()` returns aggregated performance measures as a [data.table()].
@@ -146,7 +146,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       if (assert_flag(params)) {
         res$params = map(res$resample_result, function(x) x$learner$param_vals)
-        res = unnest(res, "params")
       }
 
       extract = function(x) as.list(x$aggregated)

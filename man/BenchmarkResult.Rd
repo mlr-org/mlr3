@@ -42,7 +42,7 @@ String which identifies a subgroup to extract as \link{ResampleResult}.
 \item \code{measure} (\link{Measure}).
 \item \code{objects} (\code{logical(1)}): Return objects as columns in the result \code{data.table()}.
 \item \code{ids} (\code{logical(1)}): Return object ids as columns in the result \code{data.table()}.
-\item \code{params} (\code{logical(1)}): Return learner hyperparameter values as columns in the result \code{data.table()}.
+\item \code{params} (\code{logical(1)}): Return learner hyperparameter values as list column \code{params} in the result \code{data.table()}.
 }
 }
 
