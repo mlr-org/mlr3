@@ -154,7 +154,7 @@ Learner = R6Class("Learner",
 
   private = list(
     .calculate_hash = function() {
-      hash(list(private$.id, self$param_vals))
+      hash(list(class(self), private$.id, self$param_vals))
     },
     .param_vals = NULL,
     .predict_type = NULL

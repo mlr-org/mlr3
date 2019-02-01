@@ -324,7 +324,7 @@ Task = R6Class("Task",
     .measures = list(),
 
     .calculate_hash = function() {
-      hash(list(private$.id, self$backend$hash, self$row_roles,
+      hash(list(class(self), private$.id, self$backend$hash, self$row_roles,
           self$col_roles, sort(hashes(self$measures))))
     },
 
