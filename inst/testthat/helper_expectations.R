@@ -429,9 +429,9 @@ expect_benchmark_result = function(bmr) {
   expect_id(tab$measure_id)
   checkmate::expect_list(tab$measure, "Measure")
 
-  tab = bmr$aggregated
-  checkmate::expect_data_table(tab, ncol = 5L + nrow(bmr$measures))
-  checkmate::expect_names(names(tab), identical.to = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", bmr$measures$measure_id))
+  tab = bmr$aggregated()
+  checkmate::expect_data_table(tab, ncol = 7L + nrow(bmr$measures))
+  checkmate::expect_names(names(tab), permutation.of = c("hash", "resample_result", "resampling_id", "task", "task_id", "learner", "learner_id", "resampling_id", bmr$measures$measure_id))
   expect_hash(tab$hash)
   expect_list(tab$resample_result, "ResampleResult")
   expect_id(tab$task_id)

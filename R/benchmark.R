@@ -36,7 +36,7 @@
 #' head(as.data.table(bmr))
 #'
 #' # aggregated performance values
-#' bmr$aggregated
+#' bmr$aggregated(objects = FALSE)
 #'
 #' # Overview of of resamplings that were conducted internally
 #' rrs = bmr$resample_results

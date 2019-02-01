@@ -49,7 +49,7 @@ learner = mlr_learners$get("classif.featureless")
 rr.featureless = resample(task, learner, resampling)
 
 bmr = rr$combine(rr.featureless)
-bmr$aggregated
+bmr$aggregated(objects = FALSE)
 
 
 \dontshow{
