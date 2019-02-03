@@ -24,19 +24,20 @@ encapsulate_dummy = function(fun, args = list(), pkgs = character(0L), seed = NA
 
 encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L), seed = NA_integer_) {
   parse_evaluate = function(log) {
-    translate_class = function(x) {
+    extract = function(x) {
+      if (inherits(x, "message"))
+        return(list(class = "output", msg = x$message))
       if (inherits(x, "warning"))
-        return("warning")
+        return(list(class = "warning", msg = x$message))
       if (inherits(x, "error"))
-        return("error")
-      return("output")
+        return(list(class = "error", msg = x$message))
+      if (inherits(x, "recordedplot"))
+        return(NULL)
+      return(list(class = "output", msg = x))
     }
 
-    log = log[-1L] # remove $src
-    data.table(
-      class = map_chr(log, translate_class),
-      msg = map_chr(log, function(x) trimws(if (is.character(x)) x else x$message))
-    )
+    log = map_dtr(log[-1L], extract)
+    if (ncol(log) == 0L) data.table(class = character(), msg = character()) else log
   }
 
   require_namespaces(c("evaluate", pkgs))
