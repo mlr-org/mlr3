@@ -7,8 +7,8 @@ if (inherits(ci(), "TravisCI")) {
 
 if (inherits(ci(), "AppVeyorCI")) {
   get_stage("script") %>%
-    add_code_step(devtools::document()) %>%
-    add_step(step_rcmdcheck(args = c("--as-cran", "--no-manual"), error_on = "error"))
+    add_step(step_rcmdcheck(args = c("--as-cran", "--no-manual", "--no-vignettes",
+      "--no-build-vignettes"), build_args = c("--no-build-vignettes"), error_on = "error"))
 }
 
 if (Sys.getenv("id_rsa") != "") {

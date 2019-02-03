@@ -9,12 +9,19 @@ init:
 
 install:
   - ps: Bootstrap
-  - cmd: Rscript -e "writeLines('options(repos = \'https://cloud.r-project.org\')', '~/.Rprofile')"
-  - cmd: Rscript -e "getOption('repos')"
-  - cmd: Rscript -e "if (!requireNamespace('remotes')) install.packages('remotes'); if (!requireNamespace('curl')) install.packages('curl'); remotes::install_github('ropenscilabs/tic'); tic::prepare_all_stages(); tic::before_install()""
+  - cmd: R -q -e "writeLines('options(repos = \'https://cloud.r-project.org\')', '~/.Rprofile')"
+  - cmd: R -q -e "getOption('repos')"
+  - cmd: rm -rf C:\RLibrary\00LOCK-*
+  - cmd: R -q -e "if (!requireNamespace('remotes')) install.packages('remotes')"
+  - cmd: R -q -e "if (!requireNamespace('curl')) install.packages('curl')"
+  - cmd: R -q -e "if (!requireNamespace('BiocManager')) install.packages('BiocManager')"
+  - cmd: R -q -e "if (!requireNamespace('genefilter')) BiocManager::install('genefilter')"
+  - cmd: R -q -e "if (!requireNamespace('tic')) remotes::install_github('ropenscilabs/tic')"
+  - cmd: R -q -e "tic::prepare_all_stages()"
+  - cmd: R -q -e "tic::before_install()"
 
 cache:
-- C:\RLibrary
+  - C:\RLibrary\
 
 before_build: Rscript -e "tic::before_install()"
 build_script: Rscript -e "tic::install()"
@@ -28,31 +35,10 @@ deploy_script: Rscript -e "tic::deploy()"
 after_deploy: Rscript -e "tic::after_deploy()"
 on_finish: Rscript -e "tic::after_script()"
 
-# Adapt as necessary starting from here
-
-#on_failure:
-#  - 7z a failure.zip *.Rcheck\*
-#  - appveyor PushArtifact failure.zip
+platform: x64
+image: Visual Studio 2017
 
 environment:
   global:
     USE_RTOOLS: true
-
-artifacts:
-  - path: '*.Rcheck\**\*.log'
-    name: Logs
-
-  - path: '*.Rcheck\**\*.out'
-    name: Logs
-
-  - path: '*.Rcheck\**\*.fail'
-    name: Logs
-
-  - path: '*.Rcheck\**\*.Rout'
-    name: Logs
-
-  - path: '\*_*.tar.gz'
-    name: Bits
-
-  - path: '\*_*.zip'
-    name: Bits
+    R_ARCH: x64
