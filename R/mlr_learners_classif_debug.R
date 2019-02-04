@@ -63,7 +63,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         self$model = list(task)
       } else {
         label = sample(task$truth(), 1L)
-        self$model = set_class(as.character(label), "unittest.model")
+        self$model = set_class(as.character(label), "unittest")
       }
       self
     },

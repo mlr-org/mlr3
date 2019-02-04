@@ -7,7 +7,7 @@ test_that("Simple training/predict", {
 
   e = Experiment$new(task, learner)
   e$train()
-  expect_class(e$model, "unittest.model")
+  expect_class(e$model, "unittest")
   expect_character(e$model, len = 1L, any.missing = FALSE)
   e$predict()
   e$data$prediction
