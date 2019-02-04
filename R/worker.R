@@ -14,22 +14,28 @@ train_worker = function(e, ctrl) {
   res = set_names(enc(learner$train, list(task = task), learner$packages, seed = e$seeds[["train"]]),
     c("learner", "train_log", "train_time"))
 
-  # if something went wrong, res$learner is null
-  # we simply replace with the learner again (which has no model learnt)
-  if (is.null(res$learner)) {
-    res$learner = learner
-  } else {
-    assert_learner(res$learner)
+  # if something went wrong, res$learner or res$learner$model is null
+  if (is.null(res$learner$model)) {
+    res$learner = data$learner
+  } else if (!inherits(res$learner, "Learner")) {
+    stopf("Learner '%s' returned '%s' during train(), but needs to return a Learner",
+      learner$id, as_short_string(res$learner))
   }
 
   # if there is a fallback learner defined, also fit fallback learner
-  if (!is.null(learner$fallback)) {
-    fb = assert_learner(learner$fallback)
+  fb = learner$fallback
+  if (!is.null(fb)) {
     log_debug("train_worker: Training fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
-    require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", learner$id))
+    require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", fb$id))
+
     ok = try(fb$train(task))
     if (inherits(ok, "try-error"))
-      stopf("Fallback learner '%s' failed during train", fb$id)
+      stopf("Fallback learner '%s' failed during train with error: %s", fb$id, as.character(ok))
+    if (!inherits(ok, "Learner"))
+      stopf("Fallback-Learner '%s' returned '%s' during train(), but needs to return a Learner",
+        fb$id, as_short_string(res))
+
+    res$learner$fallback = ok
   }
 
   # result is list(learner, train_log, train_time)
@@ -39,32 +45,41 @@ train_worker = function(e, ctrl) {
 
 predict_worker = function(e, ctrl) {
   data = e$data
+  task = data$task$clone(deep = TRUE)$filter(e$test_set)
   learner = data$learner
 
-  # no model was learnt, try fallback learner
-  if (data$train_log$has_condition("error")) {
-    if (is.null(learner$fallback))
-      stop(sprintf("Unable to predict learner '%s' without model", learner$id))
-    learner = learner$fallback
+  if (is.null(learner$model)) {
+    log_debug("predict_worker: Skipping prediction of Learner '%s' on task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
+    res = list(
+      prediction = NULL,
+      predict_log = Log$new(data.table(class = "error", msg = "No model available")),
+      predict_time = 0
+    )
+  } else {
+    log_debug("predict_worker: Learner '%s' on task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
+    # call predict with encapsulation
+    enc = encapsulate(ctrl$encapsulate_predict)
+    res = set_names(enc(learner$predict, list(task = task), learner$packages, seed = e$seeds[["predict"]]),
+      c("prediction", "predict_log", "predict_time"))
   }
 
-  # filter task
-  task = data$task$clone(deep = TRUE)$filter(e$test_set)
-
-  log_debug("predict_worker: Learner '%s' on task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
-
-  # call predict with encapsulation
-  enc = encapsulate(ctrl$encapsulate_predict)
-  res = set_names(enc(learner$predict, list(task = task), learner$packages, seed = e$seeds[["predict"]]),
-    c("prediction", "predict_log", "predict_time"))
-  if (!res$predict_log$has_condition("error")) {
-    if (!inherits(res$prediction, "Prediction")) {
-      res$predict_log$append("error", "predict() did not return a  Prediction object")
-      res["prediction"] = list(NULL)
+  if (is.null(res$prediction) || res$predict_log$has_condition("error")) {
+    fb = learner$fallback
+    if (!is.null(fb)) {
+      log_debug("predict_worker: Predicting fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
+      require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", fb$id))
+      ok = try(fb$predict(task))
+      if (inherits(ok, "try-error"))
+        stopf("Fallback learner '%s' failed during predict with error: %s", fb$id, as.character(ok))
+      if (!inherits(ok, "Prediction"))
+        stopf("Fallback-Learner '%s' returned '%s' during train(), but needs to return a Prediction",
+          fb$id, as_short_string(res))
+      res$prediction = ok
     }
+  } else if (!inherits(res$prediction, "Prediction")) {
+    stopf("Learner '%s' returned '%s' during predict(), but needs to return a Prediction",
+      learner$id, as_short_string(res$prediction))
   }
-
-  assert_class(res$prediction, "Prediction")
 
   # result is list(prediction, predict_log, predict_time)
   return(res)
