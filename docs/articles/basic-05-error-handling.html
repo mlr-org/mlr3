@@ -218,8 +218,7 @@
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [1] "callr exited with status -11"</span></a></code></pre></div>
 <p>Note that, although no exception has been raised with encapsulation, it is impossible to perform the predict step without a model:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>()</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'debug' on task 'spam' ...</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; Error in predict_worker(self, ctrl = ctrl): Unable to predict learner 'debug' without model</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'debug' on task 'spam' ...</span></a></code></pre></div>
 <p>As a workaround, we define a learner in the next section which is used as a surrogate to create predictions.</p>
 </div>
 <div id="fallback-learners" class="section level1">
