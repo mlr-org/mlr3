@@ -6,16 +6,6 @@ hashes = function(x) {
   map_chr(unname(x), "hash")
 }
 
-did_you_mean = function(str, candidates) {
-  candidates = unique(candidates)
-  D = set_names(adist(str, candidates, ignore.case = TRUE, partial = TRUE)[1L, ], candidates)
-  suggested = names(head(sort(D[D <= ceiling(0.2 * nchar(str))]), 3L))
-
-  if (!length(suggested))
-    return("")
-  sprintf(" Did you mean %s?", str_collapse(suggested, quote = "'", sep = " / "))
-}
-
 # updating join:
 # replaces values in x with values in y
 ujoin = function(x, y, key) {
