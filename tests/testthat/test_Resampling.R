@@ -14,14 +14,6 @@ test_that("param_vals", {
   expect_vector(r$train_set(100), len = task$nrow)
 
   expect_resampling(r)
-
-  expect_error({
-    r$param_vals = list(repeats = 10L)
-  }, "ratio")
-
-  expect_error({
-    r$param_vals = list(ratio = 0.5, repeats = 10L, foobar = 12)
-  }, "foobar")
 })
 
 test_that("hashing", {
