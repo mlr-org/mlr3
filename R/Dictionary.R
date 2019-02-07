@@ -97,14 +97,14 @@ Dictionary = R6Class("Dictionary",
       invisible(self)
     },
 
-    get = function(id) {
+    get = function(id, ...) {
       assert_ids_exist(assert_id(id), self)
-      dictionary_retrieve(self, id)
+      dictionary_retrieve(self, id, ...)
     },
 
-    mget = function(ids) {
+    mget = function(ids, ...) {
       assert_ids_exist(assert_character(ids, any.missing = FALSE), self)
-      set_names(lapply(ids, dictionary_retrieve, self = self), ids)
+      set_names(lapply(ids, dictionary_retrieve, self = self, ...), ids)
     }
   )
 )
@@ -117,18 +117,15 @@ assert_ids_exist = function(x, dict) {
   x
 }
 
-dictionary_retrieve = function(self, key) {
+dictionary_retrieve = function(self, key, ...) {
   value = get(key, envir = self$items, inherits = FALSE)
   if (inherits(value, "R6ClassGenerator")) {
-    value = value$new()
-    # assign(key, value, envir = self$items)
-    if (exists("clone", envir = value))
-      value = value$clone(deep = TRUE)
+    value = value$new(...)
   } else if (inherits(value, "R6")) {
     if (exists("clone", envir = value))
       value = value$clone(deep = TRUE)
   } else if (is.function(value)) {
-    value = value()
+    value = value(...)
   }
   return(value)
 }

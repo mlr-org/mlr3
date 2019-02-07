@@ -24,9 +24,9 @@
 #' @export
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
-    initialize = function() {
+    initialize = function(id = "debug", param_vals = list()) {
       super$initialize(
-        id = "debug",
+        id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
@@ -43,12 +43,13 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),
+        param_vals = param_vals,
         properties = "missings"
       )
     },
 
     train = function(task) {
-      pv = self$param_vals
+      pv = self$params("train")
       if (isTRUE(pv$message_train))
         message("Message from classif.debug->train()")
       if (isTRUE(pv$warning_train))
@@ -69,7 +70,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     predict = function(task) {
-      pv = self$param_vals
+      pv = self$params("test")
       if (isTRUE(pv$message_predict))
         message("Message from classif.debug->predict()")
       if (isTRUE(pv$warning_predict))
