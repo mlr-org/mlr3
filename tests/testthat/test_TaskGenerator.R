@@ -2,7 +2,7 @@ context("TaskGenerator")
 
 test_that("TaskGenerators", {
   ids = mlr_task_generators$ids()
-  n = 10L
+  n = 50L
 
   for (id in ids) {
     gen = mlr_task_generators$get(id)
