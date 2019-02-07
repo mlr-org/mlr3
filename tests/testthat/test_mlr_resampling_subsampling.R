@@ -11,7 +11,7 @@ test_that("stratification", {
   task = TaskClassif$new("stratify_data", b, target = "y")
 
   r = mlr_resamplings$get("subsampling")
-  r$param_vals = list(ratio = 0.5, repeats = 3)
+  r$param_set$param_vals = list(ratio = 0.5, repeats = 3)
   r$stratify = "y"
   r$instantiate(task)
 
@@ -25,6 +25,6 @@ test_that("stratification", {
 
 test_that("grouping", {
   r = mlr_resamplings$get("subsampling")
-  r$param_vals = list(ratio = 0.5, repeats = 3)
+  r$param_set$param_vals = list(ratio = 0.5, repeats = 3)
   expect_grouping_works(r)
 })

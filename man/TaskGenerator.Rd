@@ -15,7 +15,6 @@ g = TaskGenerator$new(id, task_type, packages = character(0L), param_set = Param
 g$id
 g$task_type
 g$param_set
-g$param_vals
 g$generate(n)
 }
 }
@@ -39,7 +38,6 @@ g$generate(n)
 \item \code{$task_type} (\code{character()}) stores the type of generated task.
 \item \code{$packages} (\code{character()}) stores the names of required packages.
 \item \code{$param_set} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter and possible settings.
-\item \code{$param_vals} (named \code{list()}) stores the list set hyperparameter values.
 \item \code{$generate(n)} creates a task of type \code{task_type} with \code{n} observations.
 }
 }

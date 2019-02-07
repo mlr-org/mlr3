@@ -4,7 +4,7 @@ tasks = mlr_tasks$mget(c("iris", "sonar"))
 tasks$iris$measures = mlr_measures$mget("classif.acc")
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("cv")
-resamplings$cv$param_vals = list(folds =  3)
+resamplings$cv$param_set$param_vals = list(folds =  3)
 bmr = benchmark(expand_grid(tasks, learners, resamplings))
 
 test_that("Basic benchmarking", {
@@ -75,9 +75,9 @@ test_that("bmr$combine()", {
   expect_data_table(bmr_new$data, nrow = 6)
   expect_data_table(bmr_combined$data, nrow = 18)
 
-  expect_false("pima_indians" %in% bmr$tasks$task_id)
-  expect_true("pima_indians" %in% bmr_new$tasks$task_id)
-  expect_true("pima_indians" %in% bmr_combined$tasks$task_id)
+  expect_false("pima" %in% bmr$tasks$task_id)
+  expect_true("pima" %in% bmr_new$tasks$task_id)
+  expect_true("pima" %in% bmr_combined$tasks$task_id)
 })
 
 

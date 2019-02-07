@@ -21,7 +21,6 @@ l$id
 l$model
 l$packages
 l$param_set
-l$param_vals
 l$predict_type
 l$predict_types
 l$properties
@@ -64,7 +63,6 @@ This hash is cached internally.
 \item \code{$packages} (\code{character()}) stores the names of required packages.
 \item \code{$param_set} (\link[paradox:ParamSet]{paradox::ParamSet}) describes the available hyperparameter
 and possible settings.
-\item \code{$param_vals} (named \code{list()}) stores the list set hyperparameter values.
 \item \code{$params()} returns a list of hyperparameter settings from \code{param_vals} where the corresponding parameters in \code{param_set} are tagged
 with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters used in the training step.
 \item \code{$predict_type} (\code{character(1)}) stores the currently selected predict type.

@@ -290,8 +290,8 @@ expect_resampling = function(r, task = NULL) {
       }
     }
   }
-  checkmate::expect_list(r$param_vals, names = "unique")
-  testthat::expect_true(checkmate::qtestr(r$param_vals, "V1"))
+  checkmate::expect_list(r$param_set$param_vals, names = "unique")
+  testthat::expect_true(checkmate::qtestr(r$param_set$param_vals, "V1"))
 }
 
 expect_measure = function(m) {

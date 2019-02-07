@@ -20,7 +20,6 @@ r$instance
 r$is_instantiated
 r$iters
 r$param_set
-r$param_vals
 r$stratify
 r$task_hash
 
@@ -57,8 +56,6 @@ This is an arbitrary object, do not work directly with it. Instead, use \code{$t
 \item \code{$iters} (\code{integer(1)}) calculates the resulting number of iterations, given the current \code{param_vals}.
 \item \code{$new()} creates a new object of class \link{Resampling}.
 \item \code{$param_set} (\link[paradox:ParamSet]{paradox::ParamSet}) describes available parameters.
-\item \code{$param_vals} (named \code{list}) stores the currently set parameter values.
-You can set parameters by assigning a named list of new parameters to this slot.
 \item \code{$stratify} can be set to column names of the \link{Task} which will be used for stratification during instantiation.
 \item \code{$task_hash} stores the hash of the task for which the resampling has been instantiated.
 \item \code{$test_set()} returns the test set for the \code{i}-th iteration.
@@ -70,11 +67,11 @@ You can set parameters by assigning a named list of new parameters to this slot.
 r = mlr_resamplings$get("subsampling")
 
 # Default parametrization
-r$param_vals
+r$param_set$param_vals
 
 # Do only 3 repeats on 10\% of the data
-r$param_vals = list(ratio = 0.1, repeats = 3)
-r$param_vals
+r$param_set$param_vals = list(ratio = 0.1, repeats = 3)
+r$param_set$param_vals
 
 # Instantiate on iris task
 task = mlr_tasks$get("iris")

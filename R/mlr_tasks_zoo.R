@@ -3,8 +3,8 @@
 #' @description
 #' A classification task for the [mlbench::Zoo] data set.
 #' @include mlr_tasks.R
-mlr_tasks$add("zoo", function() {
+mlr_tasks$add("zoo", function(id = "zoo") {
   b = as_data_backend(load_dataset("Zoo", "mlbench", keep_rownames = TRUE))
   b$hash = "_mlr_tasks_zoo_"
-  TaskClassif$new("zoo", b, target = "type")
+  TaskClassif$new(id, b, target = "type")
 })

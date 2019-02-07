@@ -5,11 +5,11 @@ test_that("no fallback_learner, no encapsulation", {
   learner = mlr_learners$get("classif.debug")
   ctrl = mlr_control(encapsulate_train = "none", encapsulate_predict = "none")
 
-  learner$param_vals = list(error_train = TRUE)
+  learner$param_set$param_vals = list(error_train = TRUE)
   e = Experiment$new(task = task, learner = learner)
   expect_error(e$train(ctrl = ctrl), "classif.debug->train")
 
-  learner$param_vals = list(error_predict = TRUE)
+  learner$param_set$param_vals = list(error_predict = TRUE)
   e = Experiment$new(task = task, learner = learner)
   e$train(ctrl = ctrl)
   expect_error(e$predict(ctrl = ctrl), "classif.debug->predict")
@@ -19,7 +19,7 @@ test_that("no fallback_learner, no encapsulation", {
 test_that("fallback_learner; fail during train", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.debug")
-  learner$param_vals = list(error_train = TRUE)
+  learner$param_set$param_vals = list(error_train = TRUE)
   learner$fallback = mlr_learners$get("classif.featureless")
   ctrl = mlr_control(encapsulate_train = "evaluate")
 
@@ -42,9 +42,9 @@ test_that("fallback_learner; fail during train", {
 test_that("fallback_learner; fail during predict", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.debug")
-  learner$param_vals = list(error_predict = TRUE)
+  learner$param_set$param_vals = list(error_predict = TRUE)
   learner$fallback = mlr_learners$get("classif.featureless")
-  learner$fallback$param_vals = list(method = "sample")
+  learner$fallback$param_set$param_vals = list(method = "sample")
   ctrl = mlr_control(encapsulate_predict = "evaluate")
 
   e = Experiment$new(task = task, learner = learner, ctrl = ctrl)
@@ -72,10 +72,10 @@ test_that("fallback_learner; fail during predict", {
 test_that("fallback_learner, resampling", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.debug")
-  learner$param_vals = list(error_train = TRUE)
+  learner$param_set$param_vals = list(error_train = TRUE)
   learner$fallback = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv")
-  resampling$param_vals = list(folds = 3L)
+  resampling$param_set$param_vals = list(folds = 3L)
 
   ctrl = mlr_control(encapsulate_train = "evaluate")
   rr = resample(task, learner, resampling, ctrl = ctrl)

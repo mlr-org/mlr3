@@ -11,7 +11,7 @@ test_that("parallel resample", {
     task = mlr_tasks$get("iris")
     learner = mlr_learners$get("classif.rpart")
     resampling = mlr_resamplings$get("cv")
-    resampling$param_vals = list(folds = 3)
+    resampling$param_set$param_vals = list(folds = 3)
 
     rr = resample(task, learner, resampling)
     expect_resample_result(rr)
@@ -29,7 +29,7 @@ test_that("parallel benchmark", {
     task = mlr_tasks$get("iris")
     learner = mlr_learners$get("classif.rpart")
     resampling = mlr_resamplings$get("cv")
-    resampling$param_vals = list(folds = 3)
+    resampling$param_set$param_vals = list(folds = 3)
 
     bmr = benchmark(expand_grid(list(task), list(learner), list(resampling)))
     expect_benchmark_result(bmr)

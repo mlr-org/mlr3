@@ -19,7 +19,6 @@
 #' r$is_instantiated
 #' r$iters
 #' r$param_set
-#' r$param_vals
 #' r$stratify
 #' r$task_hash
 #'
@@ -49,8 +48,6 @@
 #' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `param_vals`.
 #' * `$new()` creates a new object of class [Resampling].
 #' * `$param_set` ([paradox::ParamSet]) describes available parameters.
-#' * `$param_vals` (named `list`) stores the currently set parameter values.
-#'    You can set parameters by assigning a named list of new parameters to this slot.
 #' * `$stratify` can be set to column names of the [Task] which will be used for stratification during instantiation.
 #' * `$task_hash` stores the hash of the task for which the resampling has been instantiated.
 #' * `$test_set()` returns the test set for the `i`-th iteration.
@@ -61,11 +58,11 @@
 #' r = mlr_resamplings$get("subsampling")
 #'
 #' # Default parametrization
-#' r$param_vals
+#' r$param_set$param_vals
 #'
 #' # Do only 3 repeats on 10% of the data
-#' r$param_vals = list(ratio = 0.1, repeats = 3)
-#' r$param_vals
+#' r$param_set$param_vals = list(ratio = 0.1, repeats = 3)
+#' r$param_set$param_vals
 #'
 #' # Instantiate on iris task
 #' task = mlr_tasks$get("iris")
@@ -103,7 +100,7 @@ Resampling = R6Class("Resampling",
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(), duplicated_ids = FALSE) {
       private$.id = id
       self$param_set = assert_param_set(param_set)
-      private$.param_vals = assert_param_vals(param_vals, param_set)
+      self$param_set$param_vals = param_vals
       self$stratify = character(0L)
       self$duplicated_ids = assert_flag(duplicated_ids)
     },
@@ -113,7 +110,7 @@ Resampling = R6Class("Resampling",
     },
 
     print = function(...) {
-      pv = self$param_vals
+      pv = self$param_set$param_vals
       catf("%s with %i iterations", format(self), self$iters)
       catf(str_indent("Instantiated:", self$is_instantiated))
       catf(str_indent("Parameters:", as_short_string(pv, 1000L)))
@@ -154,25 +151,18 @@ Resampling = R6Class("Resampling",
   ),
 
   active = list(
-    param_vals = function(rhs) {
-      if (missing(rhs))
-        return(private$.param_vals)
-      private$.param_vals = assert_param_vals(rhs, self$param_set)
-    },
-
     is_instantiated = function() {
       !is.null(self$instance)
     }
   ),
 
   private = list(
-    .param_vals = NULL,
     .groups = NULL,
 
     .calculate_hash = function() {
       # if (is.null(self$instance))
       #   return(NA_character_)
-      hash(list(class(self), private$.id, self$param_vals, self$instance))
+      hash(list(class(self), private$.id, self$param_set$param_vals, self$instance))
     },
 
     .get_set = function(getter, i) {

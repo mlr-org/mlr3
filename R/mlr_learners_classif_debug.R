@@ -59,7 +59,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$segfault_train))
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
 
-
       if (isTRUE(pv$save_tasks)) {
         self$model = list(task)
       } else {
@@ -70,7 +69,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     predict = function(task) {
-      pv = self$params("test")
+      pv = self$params("predict")
       if (isTRUE(pv$message_predict))
         message("Message from classif.debug->predict()")
       if (isTRUE(pv$warning_predict))

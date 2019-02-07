@@ -19,7 +19,7 @@ TaskGeneratorXor = R6Class("TaskGeneratorXor",
 
   private = list(
     .generate = function(n) {
-      data = invoke(mlbench::mlbench.xor, n = n, .args = self$param_vals)
+      data = invoke(mlbench::mlbench.xor, n = n, .args = self$param_set$param_vals)
       data = insert_named(as.data.table(data$x), list(class = data$classes))
       TaskClassif$new(sprintf("%s_%i", self$id, n), as_data_backend(data), target = "class")
     }

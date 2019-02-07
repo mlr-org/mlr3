@@ -39,7 +39,7 @@ disabled = mlr_control(encapsulate_train = "none")
 enabled = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.debug")
-learner$param_vals = list(message_train = TRUE, warning_train = TRUE, message_predict = TRUE, warning_predict = TRUE)
+learner$param_set$param_vals = list(message_train = TRUE, warning_train = TRUE, message_predict = TRUE, warning_predict = TRUE)
 
 test_that("evaluate / experiment", {
   row_ids = 1:120
@@ -79,7 +79,7 @@ test_that("evaluate / experiment", {
 
 test_that("evaluate / resample", {
   resampling = mlr_resamplings$get("cv")
-  resampling$param_vals = list(folds = 3)
+  resampling$param_set$param_vals = list(folds = 3)
 
   rr = expect_warning(resample(task, learner, resampling, ctrl = disabled))
   expect_true(every(rr$data$train_log$log, is_empty_log))
