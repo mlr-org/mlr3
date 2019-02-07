@@ -168,7 +168,7 @@
 
 <span class='co'># Instantiate Resampling</span>
 <span class='no'>rcv</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)
-<span class='no'>rcv</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='no'>rcv</span>$<span class='no'>param_set</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 <span class='no'>rcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
 
 <span class='co'># Individual sets:</span>
