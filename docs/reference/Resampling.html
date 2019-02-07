@@ -173,7 +173,6 @@ r$instance
 r$is_instantiated
 r$iters
 r$param_set
-r$param_vals
 r$stratify
 r$task_hash
     # Methods
@@ -209,8 +208,6 @@ This is an arbitrary object, do not work directly with it. Instead, use <code>$t
 <li><p><code>$iters</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) calculates the resulting number of iterations, given the current <code>param_vals</code>.</p></li>
 <li><p><code>$new()</code> creates a new object of class Resampling.</p></li>
 <li><p><code>$param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>) describes available parameters.</p></li>
-<li><p><code>$param_vals</code> (named <code>list</code>) stores the currently set parameter values.
-You can set parameters by assigning a named list of new parameters to this slot.</p></li>
 <li><p><code>$stratify</code> can be set to column names of the <a href='Task.html'>Task</a> which will be used for stratification during instantiation.</p></li>
 <li><p><code>$task_hash</code> stores the hash of the task for which the resampling has been instantiated.</p></li>
 <li><p><code>$test_set()</code> returns the test set for the <code>i</code>-th iteration.</p></li>
@@ -226,15 +223,15 @@ You can set parameters by assigning a named list of new parameters to this slot.
     <pre class="examples"><div class='input'><span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"subsampling"</span>)
 
 <span class='co'># Default parametrization</span>
-<span class='no'>r</span>$<span class='no'>param_vals</span></div><div class='output co'>#&gt; $repeats
+<span class='no'>r</span>$<span class='no'>param_set</span>$<span class='no'>param_vals</span></div><div class='output co'>#&gt; $repeats
 #&gt; [1] 30
 #&gt; 
 #&gt; $ratio
 #&gt; [1] 0.67
 #&gt; </div><div class='input'>
 <span class='co'># Do only 3 repeats on 10% of the data</span>
-<span class='no'>r</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='no'>r</span>$<span class='no'>param_vals</span></div><div class='output co'>#&gt; $ratio
+<span class='no'>r</span>$<span class='no'>param_set</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='no'>r</span>$<span class='no'>param_set</span>$<span class='no'>param_vals</span></div><div class='output co'>#&gt; $ratio
 #&gt; [1] 0.1
 #&gt; 
 #&gt; $repeats

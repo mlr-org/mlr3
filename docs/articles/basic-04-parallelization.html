@@ -169,13 +169,12 @@
 <p>Benchmarking is also parallelized. The following code sends 64 jobs (4 tasks * 16 resampling repeats) to the future backend:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">tasks =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"iris"</span>, <span class="st">"spam"</span>, <span class="st">"pima"</span>))</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">learners =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"classif.rpart"</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">resamplings =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"subsampling"</span>)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">resamplings<span class="op">$</span>subsampling<span class="op">$</span>param_vals =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>, <span class="dt">repeats =</span> <span class="dv">16</span>)</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">future<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/future/topics/plan">plan</a></span>(<span class="st">"multiprocess"</span>)</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(<span class="kw"><a href="../reference/expand_grid.html">expand_grid</a></span>(tasks, learners, resamplings))</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">)[3L]</a></code></pre></div>
+<a class="sourceLine" id="cb4-3" data-line-number="3">resamplings =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"subsampling"</span>, <span class="dt">param_vals =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>, <span class="dt">repeats =</span> <span class="dv">16</span>))</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">future<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/future/topics/plan">plan</a></span>(<span class="st">"multiprocess"</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(<span class="kw"><a href="../reference/expand_grid.html">expand_grid</a></span>(tasks, learners, resamplings))</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">)[3L]</a></code></pre></div>
 </div>
 </div>
   </div>
