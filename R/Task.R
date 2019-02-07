@@ -213,10 +213,7 @@ Task = R6Class("Task",
     },
 
     select = function(cols) {
-      keep = intersect(self$col_roles$feature, cols)
-      remove = setdiff(self$col_roles$feature, keep)
-      self$col_roles$feature = keep
-      self$col_info = self$col_info[!list(remove), on = "id"]
+      self$col_roles$feature = intersect(self$col_roles$feature, cols)
       private$.hash = NA_character_
       invisible(self)
     },

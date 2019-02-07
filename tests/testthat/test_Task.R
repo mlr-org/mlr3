@@ -110,8 +110,6 @@ test_that("select works", {
 
   task$select(c("Sepal.Width", "foobar"))
   expect_equal(task$ncol, 2L)
-  expect_set_equal(task$feature_names, "Sepal.Width")
-  expect_set_equal(task$col_info$id, c(task$backend$primary_key, task$target_names, task$feature_names))
 
   expect_equal(task$feature_names, "Sepal.Width")
 })
