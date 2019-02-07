@@ -113,7 +113,7 @@ Learner = R6Class("Learner",
       self$packages = assert_set(packages)
       self$properties = sort(assert_set(properties))
       self$param_set = assert_param_set(param_set)
-      private$.param_vals = assert_param_vals(param_vals, param_set)
+      self$param_set$param_vals = param_vals
     },
 
     train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
@@ -137,8 +137,8 @@ Learner = R6Class("Learner",
   active = list(
     param_vals = function(rhs) {
       if (missing(rhs))
-        return(private$.param_vals)
-      private$.param_vals = assert_param_vals(rhs, self$param_set)
+        return(self$param_set$param_vals)
+      self$param_set$param_vals = rhs
       private$.hash = NA_character_
     },
 
@@ -156,7 +156,6 @@ Learner = R6Class("Learner",
     .calculate_hash = function() {
       hash(list(class(self), private$.id, self$param_vals))
     },
-    .param_vals = NULL,
     .predict_type = NULL
   )
 )
