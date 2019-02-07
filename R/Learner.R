@@ -103,11 +103,12 @@ Learner = R6Class("Learner",
     model = NULL,
     fallback = NULL,
 
-    initialize = function(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
+    initialize = function(id, task_type, feature_types = character(0L), predict_type = character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
       private$.id = id
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_sorted_subset(predict_types, mlr_reflections$predict_types[[task_type]], empty.ok = FALSE)
+      self$predict_type = assert_choice(predict_type, self$predict_types)
       self$packages = assert_set(packages)
       self$properties = sort(assert_set(properties))
       self$param_set = assert_param_set(param_set)

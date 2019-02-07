@@ -8,11 +8,12 @@
 #' @export
 LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "rpart", param_vals = list()) {
+    initialize = function(id = "rpart", param_vals = list(), predict_type = "response") {
       super$initialize(
         id = id,
         packages = "rpart",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_type = predict_type,
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
