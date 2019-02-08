@@ -67,11 +67,11 @@ This is an arbitrary object, do not work directly with it. Instead, use \code{$t
 r = mlr_resamplings$get("subsampling")
 
 # Default parametrization
-r$param_set$param_vals
+r$param_set$values
 
 # Do only 3 repeats on 10\% of the data
-r$param_set$param_vals = list(ratio = 0.1, repeats = 3)
-r$param_set$param_vals
+r$param_set$values = list(ratio = 0.1, repeats = 3)
+r$param_set$values
 
 # Instantiate on iris task
 task = mlr_tasks$get("iris")
