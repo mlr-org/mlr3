@@ -16,7 +16,7 @@
 #'
 #' # Instantiate Resampling
 #' rrcv = mlr_resamplings$get("repeated_cv")
-#' rrcv$param_set$param_vals = list(repeats = 2, folds = 3)
+#' rrcv$param_set$values = list(repeats = 2, folds = 3)
 #' rrcv$instantiate(task)
 #' rrcv$iters
 #'
@@ -40,14 +40,14 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
   active = list(
     iters = function() {
-      pv = self$param_set$param_vals
+      pv = self$param_set$values
       pv$repeats * pv$folds
     }
   ),
 
   private = list(
     .sample = function(ids) {
-      pv = self$param_set$param_vals
+      pv = self$param_set$values
       n = length(ids)
       folds = pv$folds
       map_dtr(seq_len(pv$repeats), function(i) {
@@ -57,7 +57,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
     .get_train = function(i) {
       i = i - 1L
-      folds = as.integer(self$param_set$param_vals$folds)
+      folds = as.integer(self$param_set$values$folds)
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = setdiff(seq_len(folds), fold))
@@ -66,7 +66,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
     .get_test = function(i) {
       i = i - 1L
-      folds = as.integer(self$param_set$param_vals$folds)
+      folds = as.integer(self$param_set$values$folds)
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = fold)

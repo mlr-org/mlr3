@@ -4,9 +4,9 @@ test_that("param_vals", {
   r = mlr_resamplings$get("bootstrap")
   task = mlr_tasks$get("iris")
 
-  r$param_set$param_vals = insert_named(r$param_set$param_vals, list(repeats = 100L))
-  expect_identical(r$param_set$param_vals$ratio, 1)
-  expect_identical(r$param_set$param_vals$repeats, 100L)
+  r$param_set$values = insert_named(r$param_set$values, list(repeats = 100L))
+  expect_identical(r$param_set$values$ratio, 1)
+  expect_identical(r$param_set$values$repeats, 100L)
 
   r$instantiate(task)
   expect_true(r$is_instantiated)
@@ -16,11 +16,11 @@ test_that("param_vals", {
   expect_resampling(r)
 
   expect_error({
-    r$param_set$param_vals = list(repeats = 10L)
+    r$param_set$values = list(repeats = 10L)
   }, "ratio")
 
   expect_error({
-    r$param_set$param_vals = list(ratio = 0.5, repeats = 10L, foobar = 12)
+    r$param_set$values = list(ratio = 0.5, repeats = 10L, foobar = 12)
   }, "foobar")
 })
 

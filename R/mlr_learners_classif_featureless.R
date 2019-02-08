@@ -21,7 +21,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
-            ParamFct$new("method", values = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")
+            ParamFct$new("method", levels = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")
           )
         ),
         param_vals = param_vals,

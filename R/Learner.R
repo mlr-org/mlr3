@@ -112,7 +112,7 @@ Learner = R6Class("Learner",
       self$packages = assert_set(packages)
       self$properties = sort(assert_set(properties))
       self$param_set = assert_param_set(param_set)
-      self$param_set$param_vals = param_vals
+      self$param_set$values = param_vals
     },
 
     train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
@@ -128,7 +128,7 @@ Learner = R6Class("Learner",
 
     params = function(tag) {
       assert_string(tag)
-      pv = self$param_set$param_vals
+      pv = self$param_set$values
       pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = tag)]
     }
   ),
@@ -146,7 +146,7 @@ Learner = R6Class("Learner",
 
   private = list(
     .calculate_hash = function() {
-      hash(list(class(self), private$.id, self$param_set$param_vals))
+      hash(list(class(self), private$.id, self$param_set$values))
     },
     .predict_type = NULL
   )
@@ -156,7 +156,7 @@ Learner = add_id_hash(Learner)
 
 learner_print = function(self) {
   catf(format(self))
-  catf(str_indent("Parameters:", as_short_string(self$param_set$param_vals, 1000L)))
+  catf(str_indent("Parameters:", as_short_string(self$param_set$values, 1000L)))
   catf(str_indent("Packages:", self$packages))
   catf(str_indent("Predict Type:", self$predict_type))
   catf(str_indent("Feature types:", self$feature_types))

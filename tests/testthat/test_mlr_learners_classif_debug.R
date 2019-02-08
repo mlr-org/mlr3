@@ -16,7 +16,7 @@ test_that("Simple training/predict", {
   expect_factor(e$prediction$response, any.missing = FALSE, levels = levels(e$model))
   e$score()
 
-  e$learner$param_set$param_vals$save_tasks = TRUE
+  e$learner$param_set$values$save_tasks = TRUE
   e$train(row_ids = 1:10)
   e$predict(row_ids = 11:20)
   model = e$model

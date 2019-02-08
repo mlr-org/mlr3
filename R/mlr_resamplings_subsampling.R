@@ -42,13 +42,13 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
 
   active = list(
     iters = function() {
-      self$param_set$param_vals$repeats
+      self$param_set$values$repeats
     }
   ),
 
   private = list(
     .sample = function(ids) {
-      pv = self$param_set$param_vals
+      pv = self$param_set$values
       n = length(ids)
       nr = round(n * pv$ratio)
 

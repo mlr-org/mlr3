@@ -4,7 +4,7 @@ tasks = mlr_tasks$mget(c("iris", "sonar"))
 tasks$iris$measures = mlr_measures$mget("classif.acc")
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("cv")
-resamplings$cv$param_set$param_vals = list(folds =  3)
+resamplings$cv$param_set$values = list(folds =  3)
 bmr = benchmark(expand_grid(tasks, learners, resamplings))
 
 test_that("Basic benchmarking", {

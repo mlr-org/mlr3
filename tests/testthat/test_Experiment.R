@@ -66,7 +66,7 @@ test_that("$train() + $predict()", {
 test_that("Seeting seeds", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
-  learner$param_set$param_vals = list(method = "sample")
+  learner$param_set$values = list(method = "sample")
 
   e = Experiment$new(task, learner)
   with_seed(1, {

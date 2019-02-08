@@ -47,7 +47,7 @@ Thus, the exception raised by the unittest learner stops the execution and can b
 ```{r, error = TRUE}
 task = mlr_tasks$get("spam")
 learner = mlr_learners$get("classif.debug")
-learner$param_set$param_vals = list(error_train = TRUE)
+learner$param_set$values = list(error_train = TRUE)
 e = Experiment$new(task, learner)
 e$train()
 ```
@@ -59,7 +59,7 @@ The learner execution can be encapsulated, so its output is logged to the experi
 ```{r}
 task = mlr_tasks$get("spam")
 learner = mlr_learners$get("classif.debug")
-learner$param_set$param_vals = list(warning_train = TRUE, error_train = TRUE)
+learner$param_set$values = list(warning_train = TRUE, error_train = TRUE)
 
 ctrl = mlr_control(encapsulate_train = "evaluate")
 e = Experiment$new(task, learner, ctrl = ctrl)
@@ -86,7 +86,7 @@ e$logs$train
 ctrl = mlr_control(encapsulate_train = "callr")
 task = mlr_tasks$get("spam")
 learner = mlr_learners$get("classif.debug")
-learner$param_set$param_vals = list(segfault_train = TRUE)
+learner$param_set$values = list(segfault_train = TRUE)
 e = Experiment$new(task, learner)
 e$train(ctrl = ctrl)
 e$has_errors
@@ -109,7 +109,7 @@ Here, we simply fallback to the predictions of a featureless learner (predicting
 ```{r}
 task = mlr_tasks$get("spam")
 learner = mlr_learners$get("classif.debug")
-learner$param_set$param_vals = list(error_train = TRUE)
+learner$param_set$values = list(error_train = TRUE)
 learner$fallback = mlr_learners$get("classif.featureless")
 ctrl = mlr_control(encapsulate_train = "evaluate")
 

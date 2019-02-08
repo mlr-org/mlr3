@@ -17,7 +17,7 @@
 #'
 #' # Instantiate Resampling
 #' rb = mlr_resamplings$get("bootstrap")
-#' rb$param_set$param_vals = list(repeats = 2, ratio = 1)
+#' rb$param_set$values = list(repeats = 2, ratio = 1)
 #' rb$instantiate(task)
 #'
 #' # Individual sets:
@@ -44,13 +44,13 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
   active = list(
     iters = function() {
-      self$param_set$param_vals$repeats
+      self$param_set$values$repeats
     }
   ),
 
   private = list(
     .sample = function(ids) {
-      pv = self$param_set$param_vals
+      pv = self$param_set$values
       nr = round(length(ids) * pv$ratio)
       x = factor(seq_along(ids))
       M = replicate(pv$repeats, table(sample(x, nr, replace = TRUE)), simplify = "array")
