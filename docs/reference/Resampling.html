@@ -223,31 +223,37 @@ This is an arbitrary object, do not work directly with it. Instead, use <code>$t
     <pre class="examples"><div class='input'><span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"subsampling"</span>)
 
 <span class='co'># Default parametrization</span>
-<span class='no'>r</span>$<span class='no'>param_set</span>$<span class='no'>param_vals</span></div><div class='output co'>#&gt; NULL</div><div class='input'>
+<span class='no'>r</span>$<span class='no'>param_set</span>$<span class='no'>values</span></div><div class='output co'>#&gt; $repeats
+#&gt; [1] 30
+#&gt; 
+#&gt; $ratio
+#&gt; [1] 0.67
+#&gt; </div><div class='input'>
 <span class='co'># Do only 3 repeats on 10% of the data</span>
-<span class='no'>r</span>$<span class='no'>param_set</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; <span class='error'>Error in r$param_set$param_vals = list(ratio = 0.1, repeats = 3): cannot add bindings to a locked environment</span></div><div class='input'><span class='no'>r</span>$<span class='no'>param_set</span>$<span class='no'>param_vals</span></div><div class='output co'>#&gt; NULL</div><div class='input'>
+<span class='no'>r</span>$<span class='no'>param_set</span>$<span class='no'>values</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='no'>r</span>$<span class='no'>param_set</span>$<span class='no'>values</span></div><div class='output co'>#&gt; $ratio
+#&gt; [1] 0.1
+#&gt; 
+#&gt; $repeats
+#&gt; [1] 3
+#&gt; </div><div class='input'>
 <span class='co'># Instantiate on iris task</span>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)
 <span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
 
 <span class='co'># Extract train/test sets</span>
 <span class='no'>train_set</span> <span class='kw'>=</span> <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;   [1]   1   2   4   5   6   7   8  10  11  13  15  16  17  19  20  21  22  23
-#&gt;  [19]  25  26  28  29  31  32  34  36  37  38  42  43  44  45  46  52  53  56
-#&gt;  [37]  57  60  61  63  64  66  67  68  69  72  74  75  76  77  81  82  84  86
-#&gt;  [55]  87  88  89  91  92  93  94  95  96 100 103 104 105 107 108 109 110 111
-#&gt;  [73] 112 113 114 115 117 118 119 120 122 124 127 128 130 131 133 134 135 137
-#&gt;  [91] 138 139 140 141 143 144 145 146 148 149</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]   8  32  38  64  66  74  84  91  96 100 111 124 127 138 144</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Another example: 10-fold CV</span>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]   1  20  31  55  58  59  70  86 107 116 123 124 133 137 147   7  30  36
-#&gt;  [19]  38  51  52  60  65  84  99 104 111 113 127 138   9  23  28  37  49  53
-#&gt;  [37]  54  76  77  82  85  87 100 103 136   2  10  11  12  18  24  34  47  66
-#&gt;  [55]  75  78  88 117 131 135  13  40  61  71  80  83  92  93 110 112 119 129
-#&gt;  [73] 130 143 144   5  16  21  22  26  32  35  41  64  69  74  79  81 102 121
-#&gt;  [91]   3  15  17  25  48  50  73  91  94 101 106 118 145 149 150   8  14  29
-#&gt; [109]  33  39  42  46  62  72  98 105 122 125 126 142   6  19  27  43  45  57
-#&gt; [127]  68  89  90  95 108 120 128 134 148</div><div class='input'>
+<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]  10  41  53  54  82  86  91 103 115 122 128 131 134 135 150   5   9  13
+#&gt;  [19]  17  26  42  68  81  87  89 102 109 132 144 145   4   6  16  19  21  23
+#&gt;  [37]  30  56  77  99 104 105 130 141 143   2  22  44  46  57  65  72  78  80
+#&gt;  [55] 111 112 133 137 139 148  18  24  25  28  39  48  58  96  98 100 106 124
+#&gt;  [73] 142 147 149   1   7  12  32  37  47  50  62  70  76  93  94 108 117 146
+#&gt;  [91]  33  38  40  45  74  84  85  88  92 118 120 121 125 126 129  14  15  29
+#&gt; [109]  35  36  43  55  66  73 114 116 119 127 136 138  11  20  31  49  51  59
+#&gt; [127]  61  64  67  75  83  90 101 110 113</div><div class='input'>
 <span class='co'># Stratification</span>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"pima"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>())) <span class='co'># moderately unbalanced</span></div><div class='output co'>#&gt; 

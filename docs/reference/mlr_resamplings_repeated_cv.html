@@ -168,113 +168,33 @@
 
 <span class='co'># Instantiate Resampling</span>
 <span class='no'>rrcv</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"repeated_cv"</span>)
-<span class='no'>rrcv</span>$<span class='no'>param_set</span>$<span class='no'>param_vals</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; <span class='error'>Error in rrcv$param_set$param_vals = list(repeats = 2, folds = 3): cannot add bindings to a locked environment</span></div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-<span class='no'>rrcv</span>$<span class='no'>iters</span></div><div class='output co'>#&gt; [1] 100</div><div class='input'>
+<span class='no'>rrcv</span>$<span class='no'>param_set</span>$<span class='no'>values</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='no'>rrcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
+<span class='no'>rrcv</span>$<span class='no'>iters</span></div><div class='output co'>#&gt; [1] 6</div><div class='input'>
 <span class='co'># Individual sets:</span>
-<span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  6  7 10  5  1  4  9  3  8</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  6  7  8  2  5 10</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 3 4 9</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
-<span class='no'>rrcv</span>$<span class='no'>instance</span> <span class='co'># table</span></div><div class='output co'>#&gt;      row_id rep fold
-#&gt;   1:      1   1    6
-#&gt;   2:      2   1    1
-#&gt;   3:      3   1    9
-#&gt;   4:      4   1    7
-#&gt;   5:      5   1    5
-#&gt;   6:      6   1    2
-#&gt;   7:      7   1    3
-#&gt;   8:      8   1   10
-#&gt;   9:      9   1    8
-#&gt;  10:     10   1    4
-#&gt;  11:      1   2    6
-#&gt;  12:      2   2    8
-#&gt;  13:      3   2    5
-#&gt;  14:      4   2    7
-#&gt;  15:      5   2    4
-#&gt;  16:      6   2    3
-#&gt;  17:      7   2   10
-#&gt;  18:      8   2    9
-#&gt;  19:      9   2    1
-#&gt;  20:     10   2    2
-#&gt;  21:      1   3    6
-#&gt;  22:      2   3    5
-#&gt;  23:      3   3    8
-#&gt;  24:      4   3   10
-#&gt;  25:      5   3    7
-#&gt;  26:      6   3    2
-#&gt;  27:      7   3    4
-#&gt;  28:      8   3    1
-#&gt;  29:      9   3    3
-#&gt;  30:     10   3    9
-#&gt;  31:      1   4   10
-#&gt;  32:      2   4    6
-#&gt;  33:      3   4    5
-#&gt;  34:      4   4    1
-#&gt;  35:      5   4    9
-#&gt;  36:      6   4    7
-#&gt;  37:      7   4    8
-#&gt;  38:      8   4    3
-#&gt;  39:      9   4    2
-#&gt;  40:     10   4    4
-#&gt;  41:      1   5    9
-#&gt;  42:      2   5    1
-#&gt;  43:      3   5    2
-#&gt;  44:      4   5    5
-#&gt;  45:      5   5    8
-#&gt;  46:      6   5    6
-#&gt;  47:      7   5   10
-#&gt;  48:      8   5    3
-#&gt;  49:      9   5    4
-#&gt;  50:     10   5    7
-#&gt;  51:      1   6    4
-#&gt;  52:      2   6   10
-#&gt;  53:      3   6    6
-#&gt;  54:      4   6    1
-#&gt;  55:      5   6    7
-#&gt;  56:      6   6    5
-#&gt;  57:      7   6    3
-#&gt;  58:      8   6    9
-#&gt;  59:      9   6    2
-#&gt;  60:     10   6    8
-#&gt;  61:      1   7   10
-#&gt;  62:      2   7    1
-#&gt;  63:      3   7    8
-#&gt;  64:      4   7    7
-#&gt;  65:      5   7    5
-#&gt;  66:      6   7    2
-#&gt;  67:      7   7    9
-#&gt;  68:      8   7    6
-#&gt;  69:      9   7    4
-#&gt;  70:     10   7    3
-#&gt;  71:      1   8    4
-#&gt;  72:      2   8    3
-#&gt;  73:      3   8    7
-#&gt;  74:      4   8    6
-#&gt;  75:      5   8    9
-#&gt;  76:      6   8   10
-#&gt;  77:      7   8    1
-#&gt;  78:      8   8    5
-#&gt;  79:      9   8    2
-#&gt;  80:     10   8    8
-#&gt;  81:      1   9    9
-#&gt;  82:      2   9    4
-#&gt;  83:      3   9    5
-#&gt;  84:      4   9    6
-#&gt;  85:      5   9    7
-#&gt;  86:      6   9    2
-#&gt;  87:      7   9    1
-#&gt;  88:      8   9    8
-#&gt;  89:      9   9    3
-#&gt;  90:     10   9   10
-#&gt;  91:      1  10    4
-#&gt;  92:      2  10    6
-#&gt;  93:      3  10    7
-#&gt;  94:      4  10    8
-#&gt;  95:      5  10    3
-#&gt;  96:      6  10    9
-#&gt;  97:      7  10    5
-#&gt;  98:      8  10   10
-#&gt;  99:      9  10    2
-#&gt; 100:     10  10    1
-#&gt;      row_id rep fold</div></pre>
+<span class='no'>rrcv</span>$<span class='no'>instance</span> <span class='co'># table</span></div><div class='output co'>#&gt;     row_id rep fold
+#&gt;  1:      1   1    1
+#&gt;  2:      2   1    3
+#&gt;  3:      3   1    1
+#&gt;  4:      4   1    1
+#&gt;  5:      5   1    3
+#&gt;  6:      6   1    2
+#&gt;  7:      7   1    2
+#&gt;  8:      8   1    2
+#&gt;  9:      9   1    1
+#&gt; 10:     10   1    3
+#&gt; 11:      1   2    1
+#&gt; 12:      2   2    1
+#&gt; 13:      3   2    3
+#&gt; 14:      4   2    1
+#&gt; 15:      5   2    3
+#&gt; 16:      6   2    2
+#&gt; 17:      7   2    1
+#&gt; 18:      8   2    2
+#&gt; 19:      9   2    2
+#&gt; 20:     10   2    3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

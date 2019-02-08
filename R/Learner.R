@@ -99,7 +99,6 @@ Learner = R6Class("Learner",
     predict_types = NULL,
     packages = NULL,
     properties = NULL,
-    param_set = NULL,
     model = NULL,
     fallback = NULL,
 
@@ -111,8 +110,8 @@ Learner = R6Class("Learner",
       private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
-      self$param_set = assert_param_set(param_set)
-      self$param_set$values = param_vals
+      private$.param_set = assert_param_set(param_set)
+      private$.param_set$values = param_vals
     },
 
     train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
@@ -141,6 +140,12 @@ Learner = R6Class("Learner",
       if (rhs %nin% self$predict_types)
         stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
+    },
+    param_set = function(rhs) {
+      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
+        stop("param_set is read-only.")
+      }
+      private$.param_set
     }
   ),
 
@@ -148,7 +153,8 @@ Learner = R6Class("Learner",
     .calculate_hash = function() {
       hash(list(class(self), private$.id, self$param_set$values, private$.predict_type))
     },
-    .predict_type = NULL
+    .predict_type = NULL,
+    .param_set = NULL
   )
 )
 
