@@ -103,14 +103,14 @@ Learner = R6Class("Learner",
     model = NULL,
     fallback = NULL,
 
-    initialize = function(id, task_type, feature_types = character(0L), predict_type = character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
+    initialize = function(id, task_type, feature_types = character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
       private$.id = id
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_sorted_subset(predict_types, mlr_reflections$predict_types[[task_type]], empty.ok = FALSE)
-      self$predict_type = assert_choice(predict_type, self$predict_types)
+      private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
-      self$properties = sort(assert_set(properties))
+      self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
     },
@@ -146,7 +146,7 @@ Learner = R6Class("Learner",
 
   private = list(
     .calculate_hash = function() {
-      hash(list(class(self), private$.id, self$param_set$values))
+      hash(list(class(self), private$.id, self$param_set$values, private$.predict_type))
     },
     .predict_type = NULL
   )

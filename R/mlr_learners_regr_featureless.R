@@ -12,18 +12,17 @@
 #' @export
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(
-    initialize = function(id = "featureless", param_vals = list(robust = FALSE), predict_type = "response") {
+    initialize = function(id = "featureless") {
       super$initialize(
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        predict_type = predict_type,
         predict_types = c("response", "se"),
         param_set = ParamSet$new(
           params = list(
             ParamLgl$new("robust", default = TRUE, tags = "train")
           )
         ),
-        param_vals = param_vals,
+        param_vals = list(robust = FALSE),
         properties = c("missings", "importance", "selected_features")
       )
     },

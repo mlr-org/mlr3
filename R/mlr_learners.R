@@ -21,7 +21,17 @@ NULL
 #' @include Dictionary.R
 DictionaryLearner = R6Class("DictionaryLearner",
   inherit = Dictionary,
-  cloneable = FALSE
+  cloneable = FALSE,
+
+  public = list(
+    get = function(key, param_vals = list(), ...) {
+      assert_ids_exist(assert_id(key), self)
+      obj = dictionary_retrieve(self, key, ...)
+      if (length(param_vals))
+        obj$param_set$values = insert_named(obj$param_set$values, param_vals)
+      obj
+    }
+  )
 )
 
 #' @export

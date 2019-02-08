@@ -13,18 +13,17 @@
 #' @export
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "featureless", param_vals = list(method = "mode"), predict_type = "response") {
+    initialize = function(id = "featureless") {
       super$initialize(
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        predict_type = predict_type,
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
             ParamFct$new("method", levels = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")
           )
         ),
-        param_vals = param_vals,
+        param_vals = list(method = "mode"),
         properties = c("twoclass", "multiclass",  "missings", "importance", "selected_features")
       )
     },

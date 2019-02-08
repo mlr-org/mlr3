@@ -24,11 +24,10 @@
 #' @export
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "debug", param_vals = list(), predict_type = "response") {
+    initialize = function(id = "debug") {
       super$initialize(
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        predict_type = predict_type,
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
@@ -44,7 +43,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),
-        param_vals = param_vals,
         properties = "missings"
       )
     },
