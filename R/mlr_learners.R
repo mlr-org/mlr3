@@ -24,11 +24,14 @@ DictionaryLearner = R6Class("DictionaryLearner",
   cloneable = FALSE,
 
   public = list(
-    get = function(key, param_vals = list(), ...) {
-      assert_ids_exist(assert_id(key), self)
-      obj = dictionary_retrieve(self, key, ...)
-      if (length(param_vals))
+    get = function(key, id = NULL, param_vals = NULL, predict_type = NULL) {
+      obj = dictionary_retrieve(self, key)
+      if (!is.null(id))
+        obj$id = id
+      if (!is.null(param_vals))
         obj$param_set$values = insert_named(obj$param_set$values, param_vals)
+      if (!is.null(predict_type))
+        obj$predict_type = predict_type
       obj
     }
   )

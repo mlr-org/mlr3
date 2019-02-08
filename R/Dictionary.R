@@ -3,13 +3,11 @@
 #' @name Dictionary
 #' @format [R6Class] object.
 #' @description
-#' A simple key-value store for [R6::R6] objects.
+#' A simple key-value store for [R6::R6] generator objects.
 #' On retrieval of an object, the following applies:
 #'
-#' * Functions are called (with no arguments).
-#' * R6 Factories (objects of class `R6ClassGenerator`) are initialized (with no arguments).
-#' * [R6::R6Class] objects are cloned.
-#' * All other objects are returned as-is.
+#' * R6 Factories (objects of class `R6ClassGenerator`) are initialized (with additional arguments).
+#' * Functions are called (with additional arguments) and must return an instance of a [R6::R6] object.
 #'
 #' @section Usage:
 #' ```
@@ -18,10 +16,10 @@
 #'
 #' # Methods
 #' d$add(value)
-#' d$get(key)
+#' d$get(key, ...)
 #' d$has(keys)
 #' d$keys(pattern)
-#' d$mget(keys)
+#' d$mget(keys, ...)
 #' d$remove(key, value)
 #' d$remove(keys)
 #'
@@ -92,40 +90,31 @@ Dictionary = R6Class("Dictionary",
     },
 
     remove = function(id) {
-      assert_ids_exist(assert_id(id), self)
+      if (id %nin% self$ids())
+        stopf("Element with key '%s' not found!%s", id, did_you_mean(id, self$ids()))
       rm(list = id, envir = self$items)
       invisible(self)
     },
 
     get = function(key, ...) {
-      assert_ids_exist(assert_id(key), self)
       dictionary_retrieve(self, key, ...)
     },
 
     mget = function(keys, ...) {
-      assert_ids_exist(assert_character(keys, any.missing = FALSE), self)
-      set_names(lapply(keys, dictionary_retrieve, self = self, ...), keys)
+      set_names(lapply(keys, self$get, ...), keys)
     }
   )
 )
 
-assert_ids_exist = function(x, dict) {
-  ids = ls(dict$items, all.names = TRUE)
-  ii = wf(x %nin% ids)
-  if (length(ii) > 0L)
-    stopf("Element with key '%s' not found!%s", x[ii], did_you_mean(x[ii], ids))
-  x
-}
-
 dictionary_retrieve = function(self, key, ...) {
-  value = get(key, envir = self$items, inherits = FALSE)
+  value = get0(key, envir = self$items, inherits = FALSE, ifnotfound = NULL)
+  if (is.null(value))
+    stopf("Element with key '%s' not found!%s", key, did_you_mean(key, self$ids()))
+
   if (inherits(value, "R6ClassGenerator")) {
     value = value$new(...)
-  } else if (inherits(value, "R6")) {
-    if (exists("clone", envir = value))
-      value = value$clone(deep = TRUE)
   } else if (is.function(value)) {
-    value = value(...)
+    value = assert_r6(value(...))
   }
   return(value)
 }

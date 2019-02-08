@@ -5,13 +5,11 @@
 \title{Key-Value Storage}
 \format{\link{R6Class} object.}
 \description{
-A simple key-value store for \link[R6:R6]{R6::R6} objects.
+A simple key-value store for \link[R6:R6]{R6::R6} generator objects.
 On retrieval of an object, the following applies:
 \itemize{
-\item Functions are called (with no arguments).
-\item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized (with no arguments).
-\item \link[R6:R6Class]{R6::R6Class} objects are cloned.
-\item All other objects are returned as-is.
+\item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized (with additional arguments).
+\item Functions are called (with additional arguments) and must return an instance of a \link[R6:R6]{R6::R6} object.
 }
 }
 \section{Usage}{
@@ -20,10 +18,10 @@ d = Dictionary$new()
 
 # Methods
 d$add(value)
-d$get(key)
+d$get(key, ...)
 d$has(keys)
 d$keys(pattern)
-d$mget(keys)
+d$mget(keys, ...)
 d$remove(key, value)
 d$remove(keys)
 
