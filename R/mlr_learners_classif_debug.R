@@ -24,10 +24,11 @@
 #' @export
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
-    initialize = function() {
+    initialize = function(id = "debug", param_vals = list(), predict_type = "response") {
       super$initialize(
-        id = "debug",
+        id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_type = predict_type,
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
@@ -43,12 +44,13 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),
+        param_vals = param_vals,
         properties = "missings"
       )
     },
 
     train = function(task) {
-      pv = self$param_vals
+      pv = self$params("train")
       if (isTRUE(pv$message_train))
         message("Message from classif.debug->train()")
       if (isTRUE(pv$warning_train))
@@ -57,7 +59,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         stop("Error from classif.debug->train()")
       if (isTRUE(pv$segfault_train))
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
-
 
       if (isTRUE(pv$save_tasks)) {
         self$model = list(task)
@@ -69,7 +70,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     predict = function(task) {
-      pv = self$param_vals
+      pv = self$params("predict")
       if (isTRUE(pv$message_predict))
         message("Message from classif.debug->predict()")
       if (isTRUE(pv$warning_predict))

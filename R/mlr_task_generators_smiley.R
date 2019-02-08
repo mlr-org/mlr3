@@ -20,7 +20,7 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
 
   private = list(
     .generate = function(n) {
-      data = invoke(mlbench::mlbench.smiley, n = n, .args = self$param_vals)
+      data = invoke(mlbench::mlbench.smiley, n = n, .args = self$param_set$values)
       data = insert_named(as.data.table(data$x), list(class = data$classes))
       TaskClassif$new(sprintf("%s_%i", self$id, n), as_data_backend(data), target = "class")
     }

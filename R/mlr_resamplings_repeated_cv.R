@@ -16,7 +16,7 @@
 #'
 #' # Instantiate Resampling
 #' rrcv = mlr_resamplings$get("repeated_cv")
-#' rrcv$param_vals = list(repeats = 2, folds = 3)
+#' rrcv$param_set$values = list(repeats = 2, folds = 3)
 #' rrcv$instantiate(task)
 #' rrcv$iters
 #'
@@ -29,33 +29,35 @@
 #' rrcv$instance # table
 ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
   public = list(
-    initialize = function() {
+    initialize = function(id = "repeated_cv", param_vals = list(repeats = 10L, folds = 10L)) {
       super$initialize(
-        id = "repeated_cv",
+        id = id,
         param_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamInt$new("folds", lower = 1L, tags = "required"))),
-        param_vals = list(repeats = 10L, folds = 10L)
+        param_vals = param_vals
       )
     }
   ),
 
   active = list(
     iters = function() {
-      self$param_vals$repeats * self$param_vals$folds
+      pv = self$param_set$values
+      pv$repeats * pv$folds
     }
   ),
 
   private = list(
     .sample = function(ids) {
+      pv = self$param_set$values
       n = length(ids)
-      folds = self$param_vals$folds
-      map_dtr(seq_len(self$param_vals$repeats), function(i) {
+      folds = pv$folds
+      map_dtr(seq_len(pv$repeats), function(i) {
         data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
       })
     },
 
     .get_train = function(i) {
       i = i - 1L
-      folds = as.integer(self$param_vals$folds)
+      folds = as.integer(self$param_set$values$folds)
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = setdiff(seq_len(folds), fold))
@@ -64,7 +66,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
     .get_test = function(i) {
       i = i - 1L
-      folds = as.integer(self$param_vals$folds)
+      folds = as.integer(self$param_set$values$folds)
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
       ii = data.table(rep = rep, fold = fold)

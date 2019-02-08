@@ -14,7 +14,6 @@
 #' g$id
 #' g$task_type
 #' g$param_set
-#' g$param_vals
 #' g$generate(n)
 #' ```
 #'
@@ -31,7 +30,6 @@
 #' * `$task_type` (`character()`) stores the type of generated task.
 #' * `$packages` (`character()`) stores the names of required packages.
 #' * `$param_set` ([paradox::ParamSet]) describes the available hyperparameter and possible settings.
-#' * `$param_vals` (named `list()`) stores the list set hyperparameter values.
 #' * `$generate(n)` creates a task of type `task_type` with `n` observations.
 #'
 #' @family TaskGenerators
@@ -43,12 +41,11 @@ TaskGenerator = R6Class("TaskGenerator",
     id = NULL,
     task_type = NULL,
     param_set = NULL,
-    param_vals = NULL,
     packages = NULL,
     initialize = function(id, task_type, packages = character(0L), param_set = ParamSet$new(), param_vals = list()) {
       self$id = assert_id(id)
       self$param_set = assert_param_set(param_set)
-      self$param_vals = assert_param_vals(param_vals, param_set)
+      self$param_set$values = param_vals
       self$packages = assert_set(packages)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
     },

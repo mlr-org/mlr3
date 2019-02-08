@@ -12,24 +12,26 @@
 #' @export
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(
-    initialize = function() {
+    initialize = function(id = "featureless", param_vals = list(robust = FALSE), predict_type = "response") {
       super$initialize(
-        id = "featureless",
+        id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_type = predict_type,
         predict_types = c("response", "se"),
         param_set = ParamSet$new(
           params = list(
             ParamLgl$new("robust", default = TRUE, tags = "train")
           )
         ),
-        param_vals = list(robust = FALSE),
+        param_vals = param_vals,
         properties = c("missings", "importance", "selected_features")
       )
     },
 
     train = function(task) {
+      pv = self$params("train")
       x = task$data(cols = task$target_names)[[1L]]
-      if (isFALSE(self$param_vals$robust)) {
+      if (isFALSE(pv$robust)) {
         location = mean(x)
         dispersion = sd(x)
       } else {

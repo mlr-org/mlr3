@@ -16,7 +16,7 @@
 #'
 #' # Instantiate Resampling
 #' rcv = mlr_resamplings$get("cv")
-#' rcv$param_vals = list(folds = 3)
+#' rcv$param_set$values = list(folds = 3)
 #' rcv$instantiate(task)
 #'
 #' # Individual sets:
@@ -28,18 +28,18 @@
 #' rcv$instance # table
 ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
-    initialize = function() {
+    initialize = function(id = "cv", param_vals = list(folds = 10L)) {
       super$initialize(
-        id = "cv",
+        id = id,
         param_set = ParamSet$new(params = list(ParamInt$new("folds", lower = 1L, tags = "required"))),
-        param_vals = list(folds = 10L)
+        param_vals = param_vals
       )
     }
   ),
 
   active = list(
     iters = function() {
-      self$param_vals$folds
+      self$param_set$values$folds
     }
   ),
 
@@ -47,7 +47,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     .sample = function(ids) {
       data.table(
         row_id = ids,
-        fold = shuffle(seq_along0(ids) %% self$param_vals$folds + 1L),
+        fold = shuffle(seq_along0(ids) %% self$param_set$values$folds + 1L),
         key = "fold"
       )
     },

@@ -168,7 +168,6 @@ g = TaskGenerator$new(id, task_type, packages = character(0L), param_set = Param
     g$id
 g$task_type
 g$param_set
-g$param_vals
 g$generate(n)
 </pre>
     
@@ -192,7 +191,6 @@ g$generate(n)
 <li><p><code>$task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the type of generated task.</p></li>
 <li><p><code>$packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the names of required packages.</p></li>
 <li><p><code>$param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>) describes the available hyperparameter and possible settings.</p></li>
-<li><p><code>$param_vals</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) stores the list set hyperparameter values.</p></li>
 <li><p><code>$generate(n)</code> creates a task of type <code>task_type</code> with <code>n</code> observations.</p></li>
 </ul>
     

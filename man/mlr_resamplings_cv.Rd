@@ -19,7 +19,7 @@ task$filter(1:10)
 
 # Instantiate Resampling
 rcv = mlr_resamplings$get("cv")
-rcv$param_vals = list(folds = 3)
+rcv$param_set$param_vals = list(folds = 3)
 rcv$instantiate(task)
 
 # Individual sets:

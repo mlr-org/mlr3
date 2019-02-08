@@ -20,7 +20,7 @@ test_that("variable importance", {
 test_that("selected_features", {
   task = TaskClassif$new("foo", as_data_backend(cbind(iris, data.frame(unimportant = runif(150)))), target = "Species")
   learner = mlr_learners$get("classif.rpart")
-  learner$param_vals = insert_named(learner$param_vals, list(maxdepth = 2))
+  learner$param_set$values = insert_named(learner$param_set$values, list(maxdepth = 2))
   sf = Experiment$new(task, learner)$train()$learner$selected_features()
   expect_subset(sf, task$feature_names, empty.ok = FALSE)
 })

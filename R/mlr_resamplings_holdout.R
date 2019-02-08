@@ -28,11 +28,11 @@
 #' rho$instance # simple list
 ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
   public = list(
-    initialize = function() {
+    initialize = function(id = "holdout", param_vals = list(ratio = 2/3)) {
       super$initialize(
-        id = "holdout",
+        id = id,
         param_set = ParamSet$new(params = list(ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))),
-        param_vals = list(ratio = 2/3)
+        param_vals = param_vals
       )
     },
 
@@ -41,7 +41,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 
   private = list(
     .sample = function(ids) {
-      nr = round(length(ids) * self$param_vals$ratio)
+      nr = round(length(ids) * self$param_set$values$ratio)
       ii = shuffle(ids, nr)
       list(train = ii, test = setdiff(ids, ii))
     },

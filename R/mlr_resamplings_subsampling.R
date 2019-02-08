@@ -15,8 +15,8 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rss = mlr_resamplings$get("subsampling")
-#' rss$param_vals = list(repeats = 2, ratio = 0.5)
+#' rss = mlr_resamplings$get("subsampling",
+#'   param_vals = list(repeats = 2, ratio = 0.5))
 #' rss$instantiate(task)
 #'
 #' # Individual sets:
@@ -28,30 +28,31 @@
 #' rss$instance$train # list of bit vectors
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
-    initialize = function() {
+    initialize = function(id = "subsampling", param_vals = list(repeats = 30L, ratio = 0.67)) {
       super$initialize(
-        id = "subsampling",
+        id = id,
         param_set = ParamSet$new(params = list(
             ParamInt$new("repeats", lower = 1, tags = "required"),
             ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
         ),
-        param_vals = list(repeats = 30L, ratio = 0.67)
+        param_vals = param_vals
       )
     }
   ),
 
   active = list(
     iters = function() {
-      self$param_vals$repeats
+      self$param_set$values$repeats
     }
   ),
 
   private = list(
     .sample = function(ids) {
+      pv = self$param_set$values
       n = length(ids)
-      nr = round(n * self$param_vals$ratio)
+      nr = round(n * pv$ratio)
 
-      train = replicate(self$param_vals$repeats,
+      train = replicate(pv$repeats,
         bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
         simplify = FALSE)
       list(train = train, row_ids = ids)

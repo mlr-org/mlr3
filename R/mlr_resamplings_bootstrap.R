@@ -17,7 +17,7 @@
 #'
 #' # Instantiate Resampling
 #' rb = mlr_resamplings$get("bootstrap")
-#' rb$param_vals = list(repeats = 2, ratio = 1)
+#' rb$param_set$values = list(repeats = 2, ratio = 1)
 #' rb$instantiate(task)
 #'
 #' # Individual sets:
@@ -29,14 +29,14 @@
 #' rb$instance$M # Matrix of counts
 ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   public = list(
-    initialize = function() {
+    initialize = function(id = "bootstrap", param_vals = list(ratio = 1, repeats = 30L)) {
       super$initialize(
-        id = "bootstrap",
+        id = id,
         param_set = ParamSet$new(params = list(
             ParamInt$new("repeats", lower = 1L, tags = "required"),
             ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
         ),
-        param_vals = list(ratio = 1, repeats = 30L),
+        param_vals = param_vals,
         duplicated_ids = TRUE
       )
     }
@@ -44,15 +44,16 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
   active = list(
     iters = function() {
-      self$param_vals$repeats
+      self$param_set$values$repeats
     }
   ),
 
   private = list(
     .sample = function(ids) {
-      nr = round(length(ids) * self$param_vals$ratio)
+      pv = self$param_set$values
+      nr = round(length(ids) * pv$ratio)
       x = factor(seq_along(ids))
-      M = replicate(self$param_vals$repeats, table(sample(x, nr, replace = TRUE)), simplify = "array")
+      M = replicate(pv$repeats, table(sample(x, nr, replace = TRUE)), simplify = "array")
       rownames(M) = NULL
       list(row_ids = ids, M = M)
     },

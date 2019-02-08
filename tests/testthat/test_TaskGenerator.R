@@ -10,7 +10,7 @@ test_that("TaskGenerators", {
     expect_choice(gen$task_type, mlr_reflections$task_types)
     expect_function(gen$generate, args = "n")
     expect_class(gen$param_set, "ParamSet")
-    expect_list(gen$param_vals, names = "unique")
+    expect_list(gen$param_set$values, names = "unique")
 
     task = gen$generate(n)
     expect_task(task)

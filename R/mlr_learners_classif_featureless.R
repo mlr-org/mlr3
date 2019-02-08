@@ -13,17 +13,18 @@
 #' @export
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
   public = list(
-    initialize = function() {
+    initialize = function(id = "featureless", param_vals = list(method = "mode"), predict_type = "response") {
       super$initialize(
-        id = "featureless",
+        id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        predict_type = predict_type,
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
-            ParamFct$new("method", values = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")
+            ParamFct$new("method", levels = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")
           )
         ),
-        param_vals = list(method = "mode"),
+        param_vals = param_vals,
         properties = c("twoclass", "multiclass",  "missings", "importance", "selected_features")
       )
     },
@@ -35,18 +36,19 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
     },
 
     predict = function(task) {
+      pv = self$params("predict")
       tab = self$model$tab
       n = task$nrow
       response = prob = NULL
 
       if (self$predict_type == "response") {
-        response = switch(self$param_vals$method,
+        response = switch(pv$method,
           mode = rep.int(sample(names(tab[tab == max(tab)]), 1L), n),
           sample = sample(names(tab), n, replace = TRUE),
           weighted.sample = sample(names(tab), n, replace = TRUE, prob = tab)
         )
       } else if (self$predict_type == "prob") {
-        prob = switch(self$param_vals$method,
+        prob = switch(pv$method,
           mode = { tmp = (tab == max(tab)); tmp / sum(tmp) },
           sample = rep.int(1 / length(tab), length(tab)),
           weighted.sample = tab / sum(tab)

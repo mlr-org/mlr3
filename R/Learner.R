@@ -20,7 +20,6 @@
 #' l$model
 #' l$packages
 #' l$param_set
-#' l$param_vals
 #' l$predict_type
 #' l$predict_types
 #' l$properties
@@ -56,7 +55,6 @@
 #' * `$packages` (`character()`) stores the names of required packages.
 #' * `$param_set` ([paradox::ParamSet]) describes the available hyperparameter
 #'   and possible settings.
-#' * `$param_vals` (named `list()`) stores the list set hyperparameter values.
 #' * `$params()` returns a list of hyperparameter settings from `param_vals` where the corresponding parameters in `param_set` are tagged
 #'    with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters used in the training step.
 #' * `$predict_type` (`character(1)`) stores the currently selected predict type.
@@ -105,15 +103,16 @@ Learner = R6Class("Learner",
     model = NULL,
     fallback = NULL,
 
-    initialize = function(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
+    initialize = function(id, task_type, feature_types = character(0L), predict_type = character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
       private$.id = id
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_sorted_subset(predict_types, mlr_reflections$predict_types[[task_type]], empty.ok = FALSE)
+      self$predict_type = assert_choice(predict_type, self$predict_types)
       self$packages = assert_set(packages)
       self$properties = sort(assert_set(properties))
       self$param_set = assert_param_set(param_set)
-      private$.param_vals = assert_param_vals(param_vals, param_set)
+      self$param_set$values = param_vals
     },
 
     train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
@@ -129,19 +128,12 @@ Learner = R6Class("Learner",
 
     params = function(tag) {
       assert_string(tag)
-      pv = self$param_vals
+      pv = self$param_set$values
       pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = tag)]
     }
   ),
 
   active = list(
-    param_vals = function(rhs) {
-      if (missing(rhs))
-        return(private$.param_vals)
-      private$.param_vals = assert_param_vals(rhs, self$param_set)
-      private$.hash = NA_character_
-    },
-
     predict_type = function(rhs) {
       if (missing(rhs))
         return(private$.predict_type)
@@ -154,9 +146,8 @@ Learner = R6Class("Learner",
 
   private = list(
     .calculate_hash = function() {
-      hash(list(class(self), private$.id, self$param_vals))
+      hash(list(class(self), private$.id, self$param_set$values))
     },
-    .param_vals = NULL,
     .predict_type = NULL
   )
 )
@@ -165,7 +156,7 @@ Learner = add_id_hash(Learner)
 
 learner_print = function(self) {
   catf(format(self))
-  catf(str_indent("Parameters:", as_short_string(self$param_vals, 1000L)))
+  catf(str_indent("Parameters:", as_short_string(self$param_set$values, 1000L)))
   catf(str_indent("Packages:", self$packages))
   catf(str_indent("Predict Type:", self$predict_type))
   catf(str_indent("Feature types:", self$feature_types))

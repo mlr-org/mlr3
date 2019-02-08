@@ -145,7 +145,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (assert_flag(params)) {
-        res$params = map(res$resample_result, function(x) x$learner$param_vals)
+        res$params = map(res$resample_result, function(x) x$learner$param_set$values)
       }
 
       extract = function(x) as.list(x$aggregated)

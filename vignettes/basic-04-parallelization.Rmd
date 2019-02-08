@@ -73,8 +73,7 @@ Benchmarking is also parallelized. The following code sends 64 jobs (4 tasks * 1
 ```{r, eval = FALSE}
 tasks = mlr_tasks$mget(c("iris", "spam", "pima"))
 learners = mlr_learners$mget("classif.rpart")
-resamplings = mlr_resamplings$mget("subsampling")
-resamplings$subsampling$param_vals = list(ratio = 0.8, repeats = 16)
+resamplings = mlr_resamplings$mget("subsampling", param_vals = list(ratio = 0.8, repeats = 16))
 
 future::plan("multiprocess")
 system.time(
