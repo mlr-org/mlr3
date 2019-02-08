@@ -99,7 +99,6 @@ Learner = R6Class("Learner",
     predict_types = NULL,
     packages = NULL,
     properties = NULL,
-    param_set = NULL,
     model = NULL,
     fallback = NULL,
 
@@ -111,7 +110,7 @@ Learner = R6Class("Learner",
       self$predict_type = assert_choice(predict_type, self$predict_types)
       self$packages = assert_set(packages)
       self$properties = sort(assert_set(properties))
-      self$param_set = assert_param_set(param_set)
+      private$.param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
     },
 
@@ -141,6 +140,12 @@ Learner = R6Class("Learner",
       if (rhs %nin% self$predict_types)
         stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
+    },
+    param_set = function(rhs) {
+      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
+        stop("param_set is read-only.")
+      }
+      private$.param_set
     }
   ),
 
@@ -148,7 +153,8 @@ Learner = R6Class("Learner",
     .calculate_hash = function() {
       hash(list(class(self), private$.id, self$param_set$values))
     },
-    .predict_type = NULL
+    .predict_type = NULL,
+    .param_set = NULL
   )
 )
 
