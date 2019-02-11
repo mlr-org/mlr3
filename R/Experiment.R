@@ -35,7 +35,7 @@
 #'     Prediction object as returned by the [Learner]'s `predict()` call.
 #'   * `resampling` :: [Resampling]\cr
 #'     Is `NULL` prior to calling `$train()`.
-#'     If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()], a [ResamplingCustom] object is stored here.
+#'     If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()]), a [ResamplingCustom] object is stored.
 #'   * `task` :: [Task]\cr
 #'     A clone of the [Task] provided during construction.
 #'   * `train_log` :: [Log]
@@ -83,7 +83,7 @@
 #'   Access the individual predictions of the model stored in the [Learner].
 #'
 #' * `seeds` :: `integer(3)`\cr
-#'   Named integer of random number generator seeds passed to [set.seed()] prior to calling external code in `train()`, `predict()` or `score().
+#'   Named integer of random number generator seeds passed to [set.seed()] prior to calling external code in `train()`, `predict()` or `score()`.
 #'   Names must match "train", "predict" and "score". Set to `NA` to disable seeding (default).
 #'
 #' * `task` :: [Task]\cr
@@ -98,7 +98,7 @@
 #'
 #' @section Methods:
 #' * `train(row_ids = NULL, ctrl = list())` \cr
-#'   (`integer()` | `character()`), `list()`) -> `self`\cr
+#'   (`integer()` | `character()`, `list()`) -> `self`\cr
 #'   Fits the induced [Learner] on the `row_ids` of the [Task] and stores the model inside the [Learner] object.
 #'   The model can be accessed via `$model`.
 #'

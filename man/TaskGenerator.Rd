@@ -24,7 +24,7 @@ g$generate(n)
 \itemize{
 \item \code{id} (\code{character(1)}): Identifier for this object.
 \item \code{task_type} (\code{character(1)}): Type of the task generated. E.g., \code{"classif"} or \code{"regr"}.
-\item \code{packages} (\code{character()}]: Set of required packages.
+\item \code{packages} (\code{character()}): Set of required packages.
 \item \code{param_set} (\link[paradox:ParamSet]{paradox::ParamSet}): Set of hyperparameters.
 \item \code{param_vals} (named \code{list()}): List of hyperparameter settings.
 \item \code{n} (\code{integer(1)}): Number of observations to generate.

@@ -55,7 +55,7 @@ If this column is missing, new row ids are constructed automatically.
 (\code{integer()} | \code{character()}) -> \code{self}\cr
 Subsets the task, reducing it to only keep the rows specified.
 \item \code{select(cols)}\cr
-\code{character()} -> ``self`\cr
+\code{character()} -> \code{self}\cr
 Subsets the task, reducing it to only keep the columns specified.
 \item \code{levels(col)}\cr
 \code{character()} -> named \code{list()}\cr

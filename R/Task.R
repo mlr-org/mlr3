@@ -112,7 +112,7 @@
 #'  Subsets the task, reducing it to only keep the rows specified.
 #'
 #' * `select(cols)`\cr
-#'   `character()` -> ``self`\cr
+#'   `character()` -> `self`\cr
 #'   Subsets the task, reducing it to only keep the columns specified.
 #'
 #' * `levels(col)`\cr

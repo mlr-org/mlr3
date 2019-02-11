@@ -40,7 +40,7 @@ Aggregated scores returned by the measures, named with measure ids.
 Prediction object as returned by the \link{Learner}'s \code{predict()} call.
 \item \code{resampling} :: \link{Resampling}\cr
 Is \code{NULL} prior to calling \code{$train()}.
-If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, a \link{ResamplingCustom} object is stored here.
+If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}), a \link{ResamplingCustom} object is stored.
 \item \code{task} :: \link{Task}\cr
 A clone of the \link{Task} provided during construction.
 \item \code{train_log} :: \link{Log}
@@ -77,7 +77,8 @@ Access the scored performance scores as returned by the \link{Measure} stored in
 \item \code{prediction} :: \link{Prediction}\cr
 Access the individual predictions of the model stored in the \link{Learner}.
 \item \code{seeds} :: \code{integer(3)}\cr
-Named integer of random number generator seeds passed to \code{\link[=set.seed]{set.seed()}} prior to calling external code in \code{train()}, \code{predict()} or \code{score(). Names must match "train", "predict" and "score". Set to }NA` to disable seeding (default).
+Named integer of random number generator seeds passed to \code{\link[=set.seed]{set.seed()}} prior to calling external code in \code{train()}, \code{predict()} or \code{score()}.
+Names must match "train", "predict" and "score". Set to \code{NA} to disable seeding (default).
 \item \code{task} :: \link{Task}\cr
 Access to the stored \link{Task}.
 \item \code{timings} :: \code{numeric(3)}\cr
@@ -92,7 +93,7 @@ The row ids of the validation set of the \link{Task}.
 
 \itemize{
 \item \code{train(row_ids = NULL, ctrl = list())} \cr
-(\code{integer()} | \code{character()}), \code{list()}) -> \code{self}\cr
+(\code{integer()} | \code{character()}, \code{list()}) -> \code{self}\cr
 Fits the induced \link{Learner} on the \code{row_ids} of the \link{Task} and stores the model inside the \link{Learner} object.
 The model can be accessed via \code{$model}.
 \item \code{predict(row_ids = NULL, newdata = NULL, ctrl = list())}\cr

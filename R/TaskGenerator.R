@@ -20,7 +20,7 @@
 #' @section Arguments:
 #' * `id` (`character(1)`): Identifier for this object.
 #' * `task_type` (`character(1)`): Type of the task generated. E.g., `"classif"` or `"regr"`.
-#' * `packages` (`character()`]: Set of required packages.
+#' * `packages` (`character()`): Set of required packages.
 #' * `param_set` ([paradox::ParamSet]): Set of hyperparameters.
 #' * `param_vals` (named `list()`): List of hyperparameter settings.
 #' * `n` (`integer(1)`): Number of observations to generate.
