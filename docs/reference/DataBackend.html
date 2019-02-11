@@ -246,7 +246,8 @@ Non-existing rows and columns are silently ignored.</p></li>
 #&gt; 1: 0.9566087
 #&gt; 2: 0.8444304</div><div class='input'><span class='no'>b</span>$<span class='fu'>distinct</span>(<span class='st'>"y"</span>)</div><div class='output co'>#&gt; $y
 #&gt; [1] "a" "b" "c"
-#&gt; </div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/missing'>missing</a></span>(<span class='fl'>1</span>:<span class='no'>n</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>data</span>))</div><div class='output co'>#&gt; <span class='error'>Error in assert_atomic_vector(rows): object 'n' not found</span></div></pre>
+#&gt; </div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/missing'>missing</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='no'>b</span>$<span class='no'>rownames</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>data</span>))</div><div class='output co'>#&gt; id  x  y 
+#&gt;  0  0  0 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
