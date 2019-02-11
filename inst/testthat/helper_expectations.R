@@ -424,8 +424,8 @@ expect_benchmark_result = function(bmr) {
   checkmate::expect_list(tab$resampling, "Resampling")
 
   tab = bmr$measures
-  checkmate::expect_data_table(tab, ncol = 2L)
-  checkmate::expect_names(names(tab), identical.to = c("measure_id", "measure"))
+  checkmate::expect_data_table(tab, ncol = 3L)
+  checkmate::expect_names(names(tab), identical.to = c("measure_hash", "measure_id", "measure"))
   expect_id(tab$measure_id)
   checkmate::expect_list(tab$measure, "Measure")
 
