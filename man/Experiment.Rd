@@ -51,7 +51,7 @@ Hash (unique identifier) of the experiment.
 Returns the state of the experiment as ordered factor: "defined", "trained", "predicted", or "scored".
 \item \code{train_set} :: (\code{integer()} | \code{character()})\cr
 The row ids of the training set for \code{$train()}.
-\item \code{predict_set} :: (\code{integer()} | \code{character()})\cr
+\item \code{test_set} :: (\code{integer()} | \code{character()})\cr
 The row ids of the test set for \code{$predict()}
 \item \code{learner} :: \link{Learner}\cr
 Access the stored \link{Learner}.
@@ -122,6 +122,6 @@ e$state
 e$performance
 
 e$train_set
-e$predict_set
+e$test_set
 }
 \keyword{datasets}
