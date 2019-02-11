@@ -6,7 +6,7 @@
 #' Container object for a machine learning experiment.
 #'
 #' @section Construction:
-#' * `$new(task = NULL, learner = NULL, ctrl = list())`\cr
+#' * $new(task = NULL, learner = NULL, ctrl = list())`\cr
 #'   ([Task], [Learner], `list()`) -> `self`\cr
 #'   The [Task] and [Learner] may be `NULL` during initialization, but are mandatory to train the Experiment.
 #'   To construct the control object `ctrl`, see [mlr_control()].
@@ -61,11 +61,11 @@
 #'   The row ids of the validation set of the [Task].
 #'
 #' @section Methods:
-#' * `$train(row_ids = NULL, ctrl = list())` \cr
+#' * `train(row_ids = NULL, ctrl = list())` \cr
 #'   (`integer` | `character`), `list`) -> `self`\cr
 #'   Fits the induced [Learner] on the `row_ids` of the [Task] and stores the model inside the [Learner] object.
 #'   The model can be accessed via `$model`.
-#' * `$predict(row_ids = NULL, newdata = NULL, ctrl = list())`\cr
+#' * `predict(row_ids = NULL, newdata = NULL, ctrl = list())`\cr
 #'   (`integer` | `character`, `data.frame()`, `list`) -> `self`\cr
 #'   Uses the previously trained model to predict new observations.
 #'   New observations are either addressed as `row_ids` of the stored task, or
@@ -74,11 +74,12 @@
 #'   mutates the Experiment. To avoid any side effects, it is advised to clone the Experiment first.
 #'   The resulting predictions are stored internally as an [Prediction] object and can be
 #'   accessed via `$prediction`.
-#' * `$score(ctrl = list())` \cr
+#' * `score(ctrl = list())` \cr
 #'   (`list`) -> `self`\cr
 #'   Quantifies stored predictions using the [Measure] defined in the [Task].
 #'   The performance is stored internally and can be accessed via `$performance`.
 #'
+#' @export
 #' @examples
 #' e = Experiment$new(
 #'   task = mlr_tasks$get("iris"),
@@ -104,7 +105,6 @@
 #'
 #' e$train_set
 #' e$test_set
-#' @export
 Experiment = R6Class("Experiment",
   public = list(
     data = NULL,

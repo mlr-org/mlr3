@@ -45,7 +45,8 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     compact_seq = FALSE,
 
     initialize = function(data, primary_key) {
-      assert_data_table(data)
+      assert_data_frame(data)
+      data = if (is.data.frame(data)) as.data.table(data) else copy(data)
       super$initialize(setkeyv(data, primary_key), primary_key)
       assert_choice(primary_key, names(data))
     },

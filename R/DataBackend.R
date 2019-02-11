@@ -1,51 +1,72 @@
 #' @title DataBackend
 #'
-#' @name DataBackend
-#' @format [R6Class] object.
+#' @format [`R6Class`] object.
+#'
 #' @description
 #' This is the abstract base class for data backends.
-#' See [DataBackendDataTable] for an exemplary implementation of this interface.
+#' See [DataBackendDataTable] or [DataBackendMatrix] for exemplary implementations of this interface.
 #'
-#' @section Usage:
+#' Data Backends provide a layer of abstraction for various data storage systems.
+#' The required set of operations to implement is listed in the Methods section.
 #'
-#' ```
-#' # Construction
-#' b = as_data_backend(data, primary_key = NULL)
+#' Note that all data access is handled transparently via the [Task].
+#' It is not recommended to work directly with the DataBackend.
 #'
-#' # Members
-#' b$colnames
-#' b$ncol
-#' b$nrow
-#' b$rownames
 #'
-#' # Methods
-#' b$data(rows, cols)
-#' b$distinct(cols)
-#' b$head(n = 6)
-#' b$missing(rows, cols)
-#' print(b)
-#' ```
+#' @section Construction:
+#' * `new(data, primary_key = NULL)`\cr
+#'   (`any`, `character(1)`) -> `self`\cr
+#'   The format of the input data depends on the specialization.
+#'   E.g., [DataBackendDataTable] expects a [data.table()] and [DataBackendMatrix] expects a matrix
+#'   constructed with the \pkg{Matrix} package.
+#'   Each backend needs a way to distinctly address rows, which is handled via a `primary_key` column here.
 #'
-#' @section Arguments:
-#' * `data`: Data to wrap the backend around. Typically a `data.frame`.
-#' * `rows` (`integer()` or `character()`): Vector of row indices to subset rows using the primary key in the data backend.
-#' * `cols` (`character()`): Vector of column names to select.
-#' * `n` (`integer(1)`): Number of rows to return.
+#' @section Public:
+#' * `nrow` :: `integer(1)`\cr
+#'   Number of rows (observations).
 #'
-#' @section Details:
-#' * `$colnames` (`character()`) returns all column names of `data`.
-#' * `$ncol` (`integer(1)`) returns the number of total columns, including primary key column.
-#' * `$nrow` (`integer(1)`) returns the number of total rows.
-#' * `$rownames` (`integer()` | `character()`) returns all row names of `data`.
-#' * `$data()` ([data.table()]) returns a slice of the data: rows are filtered using the `primary_key` column, columns are selected by name.
-#' * `$distinct()` (named `list()`) returns distinct values for columns `cols`.
-#' * `$head()` ([data.table]) returns a table of the first `n` data rows.
-#' * `$missing()` (named `integer()`) returns a named integer with the number of missing values per column.
+#' * `ncol` :: `integer(1)`\cr
+#'   Number of columns (variables), including the primary key column.
+#'
+#' * `colnames` :: `character()`\cr
+#'   Returns vector of all column names, including the primary key column.
+#'
+#' * `rownames` :: `integer()` | `character()`\cr
+#'   Returns vector of all distinct row identifiers, i.e. the primary key column.
+#'
+#' @section Methods:
+#' * `data(rows = NULL, cols = NULL, format = "data.table")`\cr
+#'   (`integer()` | `character()`), `character()`) -> `any`\cr
+#'   Returns a slice of the data in a specific format.
+#'   Currently, the only supported format is "data.table".
+#'   The rows must be addressed as vector of primary key values, columns must be referred to via column names.
+#'   Non-existing rows and columns are silently ignored.
+#'
+#' * `distinct(cols)`\cr
+#'   (`character()`) -> named `list()`\cr
+#'   Returns a named list of vectors of distinct values for each column specified.
+#'   Non-existing columns are silently ignored.
+#'
+#' * `head(n = 6)`\cr
+#'   (`integer(1)`) -> `data.table()`\cr
+#'   Returns the first up-to `n` rows of the data as `data.table()`.
+#'
+#' * `missing(rows, cols)`\cr
+#'   (`integer()` | `character()`), `character()`) -> named `integer()`\cr
+#'   Returns the number of missing values per column in the specified slice of data.
+#'   Non-existing rows and columns are silently ignored.
 #'
 #' @family DataBackend
-NULL
-
 #' @export
+#' @examples
+#' data = data.table(id = 1:5, x = runif(5), y = sample(letters[1:3], 5, replace = TRUE))
+#'
+#' b = DataBackendDataTable$new(data, primary_key = "id")
+#' print(b)
+#' b$head(2)
+#' b$data(rows = 1:2, cols = "x")
+#' b$distinct("y")
+#' b$missing(1:n, names(data))
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     primary_key = NULL,

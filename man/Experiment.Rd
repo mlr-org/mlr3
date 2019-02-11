@@ -14,10 +14,7 @@ Container object for a machine learning experiment.
 \section{Construction}{
 
 \itemize{
-\item \code{$new(task = NULL, learner = NULL, ctrl = list())}\cr
-(\link{Task}, \link{Learner}, \code{list()}) -> \code{self}\cr
-The \link{Task} and \link{Learner} may be \code{NULL} during initialization, but are mandatory to train the Experiment.
-To construct the control object \code{ctrl}, see \code{\link[=mlr_control]{mlr_control()}}.
+\item $new(task = NULL, learner = NULL, ctrl = list())\code{\cr ([Task], [Learner], }list()\code{) -> }self\code{\cr The [Task] and [Learner] may be }NULL\code{during initialization, but are mandatory to train the Experiment. To construct the control object}ctrl`, see \code{\link[=mlr_control]{mlr_control()}}.
 }
 }
 
@@ -78,11 +75,11 @@ The row ids of the validation set of the \link{Task}.
 \section{Methods}{
 
 \itemize{
-\item \code{$train(row_ids = NULL, ctrl = list())} \cr
+\item \code{train(row_ids = NULL, ctrl = list())} \cr
 (\code{integer} | \code{character}), \code{list}) -> \code{self}\cr
 Fits the induced \link{Learner} on the \code{row_ids} of the \link{Task} and stores the model inside the \link{Learner} object.
 The model can be accessed via \code{$model}.
-\item \code{$predict(row_ids = NULL, newdata = NULL, ctrl = list())}\cr
+\item \code{predict(row_ids = NULL, newdata = NULL, ctrl = list())}\cr
 (\code{integer} | \code{character}, \code{data.frame()}, \code{list}) -> \code{self}\cr
 Uses the previously trained model to predict new observations.
 New observations are either addressed as \code{row_ids} of the stored task, or
@@ -91,7 +88,7 @@ Note predicting on new data fuses the new observations into the \link{Task} firs
 mutates the Experiment. To avoid any side effects, it is advised to clone the Experiment first.
 The resulting predictions are stored internally as an \link{Prediction} object and can be
 accessed via \code{$prediction}.
-\item \code{$score(ctrl = list())} \cr
+\item \code{score(ctrl = list())} \cr
 (\code{list}) -> \code{self}\cr
 Quantifies stored predictions using the \link{Measure} defined in the \link{Task}.
 The performance is stored internally and can be accessed via \code{$performance}.
