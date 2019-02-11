@@ -191,7 +191,7 @@ Aggregated scores returned by the measures, named with measure ids.</p></li>
 Prediction object as returned by the <a href='Learner.html'>Learner</a>'s <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code> call.</p></li>
 <li><p><code>resampling</code> :: <a href='Resampling.html'>Resampling</a><br />
 Is <code>NULL</code> prior to calling <code>$train()</code>.
-If the experiment is constructed manually (i.e., not via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>, a <a href='mlr_resamplings_custom.html'>ResamplingCustom</a> object is stored here.</p></li>
+If the experiment is constructed manually (i.e., not via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>), a <a href='mlr_resamplings_custom.html'>ResamplingCustom</a> object is stored.</p></li>
 <li><p><code>task</code> :: <a href='Task.html'>Task</a><br />
 A clone of the <a href='Task.html'>Task</a> provided during construction.</p></li>
 <li><p><code>train_log</code> :: <a href='Log.html'>Log</a>
@@ -228,7 +228,8 @@ Access the scored performance scores as returned by the <a href='Measure.html'>M
 <li><p><code>prediction</code> :: <a href='Prediction.html'>Prediction</a><br />
 Access the individual predictions of the model stored in the <a href='Learner.html'>Learner</a>.</p></li>
 <li><p><code>seeds</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(3)</a></code><br />
-Named integer of random number generator seeds passed to <code><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed()</a></code> prior to calling external code in <code>train()</code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code> or <code>score(). Names must match "train", "predict" and "score". Set to </code>NA` to disable seeding (default).</p></li>
+Named integer of random number generator seeds passed to <code><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed()</a></code> prior to calling external code in <code>train()</code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code> or <code>score()</code>.
+Names must match "train", "predict" and "score". Set to <code>NA</code> to disable seeding (default).</p></li>
 <li><p><code>task</code> :: <a href='Task.html'>Task</a><br />
 Access to the stored <a href='Task.html'>Task</a>.</p></li>
 <li><p><code>timings</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(3)</a></code><br />
@@ -243,7 +244,7 @@ The row ids of the validation set of the <a href='Task.html'>Task</a>.</p></li>
     
     <ul>
 <li><p><code>train(row_ids = NULL, ctrl = list())</code> <br />
-(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>), <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) -&gt; <code>self</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) -&gt; <code>self</code><br />
 Fits the induced <a href='Learner.html'>Learner</a> on the <code>row_ids</code> of the <a href='Task.html'>Task</a> and stores the model inside the <a href='Learner.html'>Learner</a> object.
 The model can be accessed via <code>$model</code>.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(row_ids = NULL, newdata = NULL, ctrl = list())</a></code><br />

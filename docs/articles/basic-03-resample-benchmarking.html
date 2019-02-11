@@ -148,327 +148,327 @@
 <h2 class="hasAnchor">
 <a href="#objects" class="anchor"></a>Objects</h2>
 <p>Again, we consider the iris task and a simple classification tree here.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(mlr3)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(mlr3)</a>
+<a class="sourceLine" id="cb1-2" title="2">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>)</a></code></pre></div>
 <p>Additionally, we need to define <strong>how</strong> we want to resample. <code>mlr3</code> comes with the following resampling strategies implemented:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">mlr_resamplings<span class="op">$</span><span class="kw">keys</span>()</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] "bootstrap"   "custom"      "cv"          "holdout"     "repeated_cv"</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; [6] "subsampling"</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">mlr_resamplings<span class="op">$</span><span class="kw">keys</span>()</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; [1] "bootstrap"   "custom"      "cv"          "holdout"     "repeated_cv"</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; [6] "subsampling"</span></a></code></pre></div>
 <p>Additional resampling methods for special use cases will be available via extension packages, such as <a href="https://github.com/mlr-org/mlr3spatiotemporal">mlr3spatiotemporal</a> for spatial data (still in development).</p>
 <p>The experiment conducted in the introduction on train/predict/score is equivalent to a simple “holdout”, so let’s consider this one first.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"holdout"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; &lt;ResamplingHoldout&gt; with 1 iterations</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Instantiated: FALSE</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Parameters: ratio=0.6667</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Public: clone, duplicated_ids, format, hash, id, instance,</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   instantiate, is_instantiated, iters, param_set, stratify,</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;   task_hash, test_set, train_set</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling<span class="op">$</span>param_set<span class="op">$</span>values)</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; $ratio</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; [1] 0.6666667</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"holdout"</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling)</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; &lt;ResamplingHoldout&gt; with 1 iterations</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; Instantiated: FALSE</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; Parameters: ratio=0.6667</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; Public: clone, duplicated_ids, format, hash, id, instance,</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt;   instantiate, is_instantiated, iters, param_set, stratify,</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;   task_hash, test_set, train_set</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(resampling<span class="op">$</span>param_set<span class="op">$</span>values)</a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; $ratio</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt; [1] 0.6666667</span></a></code></pre></div>
 <p>To change the ratio to <span class="math inline">\(0.8\)</span>, we simply overwrite the slot:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">resampling<span class="op">$</span>param_set<span class="op">$</span>values =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">resampling<span class="op">$</span>param_set<span class="op">$</span>values =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">ratio =</span> <span class="fl">0.8</span>)</a></code></pre></div>
 </div>
 <div id="resampling" class="section level2">
 <h2 class="hasAnchor">
 <a href="#resampling" class="anchor"></a>Resampling</h2>
 <p>Now, we can pass all created objects to the <code><a href="../reference/resample.html">resample()</a></code> function to get an object of class <code>ResampleResult</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">rr =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner, resampling)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 1/1)'</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'rpart' with 1 iterations</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;       Measure    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. Sd</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  classif.mmce 0.03333 0.03333 0.03333 0.03333 0.03333 0.03333 NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">rr =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner, resampling)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 1/1)'</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'rpart' with 1 iterations</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt;       Measure    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. Sd</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt;  classif.mmce 0.03333 0.03333 0.03333 0.03333 0.03333 0.03333 NA</span></a></code></pre></div>
 <p>Before we go into more detail, let’s change the resampling to a 3-fold cross-validation to better illustrate what operations are possible with a resampling result.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"cv"</span>, <span class="dt">param_vals =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">folds =</span> 3L))</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">rr =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner, resampling)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 1/3)'</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 2/3)'</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 3/3)'</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'rpart' with 3 iterations</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;       Measure Min. 1st Qu. Median Mean 3rd Qu. Max.      Sd</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;  classif.mmce    0    0.04   0.08 0.06    0.09  0.1 0.05292</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"cv"</span>, <span class="dt">param_vals =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">folds =</span> 3L))</a>
+<a class="sourceLine" id="cb6-2" title="2">rr =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner, resampling)</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 1/3)'</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 2/3)'</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 3/3)'</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'rpart' with 3 iterations</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;       Measure Min. 1st Qu. Median Mean 3rd Qu. Max.      Sd</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;  classif.mmce    0    0.04   0.08 0.06    0.09  0.1 0.05292</span></a></code></pre></div>
 <p>We can do different things with resampling results, e.g.:</p>
 <ul>
 <li>Extract the performance for the individual resampling iterations:</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">rr<span class="op">$</span><span class="kw">performance</span>(<span class="st">"classif.mmce"</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; [1] 0.00 0.10 0.08</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">rr<span class="op">$</span><span class="kw">performance</span>(<span class="st">"classif.mmce"</span>)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; [1] 0.00 0.10 0.08</span></a></code></pre></div>
 <ul>
 <li>Extract and inspect the now created resampling:</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">rr<span class="op">$</span>resampling</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; &lt;ResamplingCV&gt; with 3 iterations</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Instantiated: TRUE</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Parameters: folds=3</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Public: clone, duplicated_ids, format, hash, id, instance,</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;   instantiate, is_instantiated, iters, param_set, stratify,</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;   task_hash, test_set, train_set</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">rr<span class="op">$</span>resampling<span class="op">$</span>iters</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; [1] 3</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  [1]   1   3   4   5   6   8  10  14  17  19  26  31  34  36  40  41  42</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; [18]  43  44  46  50  55  56  57  59  62  65  74  76  79  80  86  87  88</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; [35]  92  93 101 102 113 114 121 125 133 137 139 140 142 143 148 150</span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;  [1]   2   7   9  11  12  15  16  20  23  25  27  29  30  33  35  38  51</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; [18]  52  54  58  63  64  66  68  69  71  73  75  78  90  91  95  97 110</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; [35] 111 112 118 119 123 124 126 128 130 131 132 134 135 144 146 147</span></a>
-<a class="sourceLine" id="cb8-19" data-line-number="19">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt;  [1]  13  18  21  22  24  28  32  37  39  45  47  48  49  53  60  61  67</span></a>
-<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; [18]  70  72  77  81  82  83  84  85  89  94  96  98  99 100 103 104 105</span></a>
-<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; [35] 106 107 108 109 115 116 117 120 122 127 129 136 138 141 145 149</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">rr<span class="op">$</span>resampling</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; &lt;ResamplingCV&gt; with 3 iterations</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; Instantiated: TRUE</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; Parameters: folds=3</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; Public: clone, duplicated_ids, format, hash, id, instance,</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt;   instantiate, is_instantiated, iters, param_set, stratify,</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;   task_hash, test_set, train_set</span></a>
+<a class="sourceLine" id="cb8-9" title="9">rr<span class="op">$</span>resampling<span class="op">$</span>iters</a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb8-11" title="11">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;  [1]   1   3   4   5   6   8  10  14  17  19  26  31  34  36  40  41  42</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt; [18]  43  44  46  50  55  56  57  59  62  65  74  76  79  80  86  87  88</span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt; [35]  92  93 101 102 113 114 121 125 133 137 139 140 142 143 148 150</span></a>
+<a class="sourceLine" id="cb8-15" title="15">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt;  [1]   2   7   9  11  12  15  16  20  23  25  27  29  30  33  35  38  51</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="co">#&gt; [18]  52  54  58  63  64  66  68  69  71  73  75  78  90  91  95  97 110</span></a>
+<a class="sourceLine" id="cb8-18" title="18"><span class="co">#&gt; [35] 111 112 118 119 123 124 126 128 130 131 132 134 135 144 146 147</span></a>
+<a class="sourceLine" id="cb8-19" title="19">rr<span class="op">$</span>resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb8-20" title="20"><span class="co">#&gt;  [1]  13  18  21  22  24  28  32  37  39  45  47  48  49  53  60  61  67</span></a>
+<a class="sourceLine" id="cb8-21" title="21"><span class="co">#&gt; [18]  70  72  77  81  82  83  84  85  89  94  96  98  99 100 103 104 105</span></a>
+<a class="sourceLine" id="cb8-22" title="22"><span class="co">#&gt; [35] 106 107 108 109 115 116 117 120 122 127 129 136 138 141 145 149</span></a></code></pre></div>
 <ul>
 <li>Retrieve the experiment of a specific iteration and inspect it:</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">e =<span class="st"> </span>rr<span class="op">$</span><span class="kw">experiment</span>(<span class="dt">iter =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">e<span class="op">$</span>model</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; n= 100 </span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; node), split, n, loss, yval, (yprob)</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;       * denotes terminal node</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 1) root 100 64 virginica (0.2900000 0.3500000 0.3600000)  </span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;   2) Petal.Length&lt; 2.45 29  0 setosa (1.0000000 0.0000000 0.0000000) *</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;   3) Petal.Length&gt;=2.45 71 35 virginica (0.0000000 0.4929577 0.5070423)  </span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;     6) Petal.Width&lt; 1.75 39  5 versicolor (0.0000000 0.8717949 0.1282051) *</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;     7) Petal.Width&gt;=1.75 32  1 virginica (0.0000000 0.0312500 0.9687500) *</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">e =<span class="st"> </span>rr<span class="op">$</span><span class="kw">experiment</span>(<span class="dt">iter =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2">e<span class="op">$</span>model</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; n= 100 </span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; node), split, n, loss, yval, (yprob)</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt;       * denotes terminal node</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt; 1) root 100 64 virginica (0.2900000 0.3500000 0.3600000)  </span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt;   2) Petal.Length&lt; 2.45 29  0 setosa (1.0000000 0.0000000 0.0000000) *</span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt;   3) Petal.Length&gt;=2.45 71 35 virginica (0.0000000 0.4929577 0.5070423)  </span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt;     6) Petal.Width&lt; 1.75 39  5 versicolor (0.0000000 0.8717949 0.1282051) *</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt;     7) Petal.Width&gt;=1.75 32  1 virginica (0.0000000 0.0312500 0.9687500) *</span></a></code></pre></div>
 </div>
 <div id="manual-instantiation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#manual-instantiation" class="anchor"></a>Manual instantiation</h2>
 <p>If you want to compare multiple learners, you should use the same resampling per task to reduce the variance of the performance estimation. Until now, we have just passed a resampling strategy to <code><a href="../reference/resample.html">resample()</a></code>, without specifying the actual splits into training and test. Here, we manually instantiate the resampling:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"cv"</span>, <span class="dt">param_vals =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">folds =</span> 3L))</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">resampling<span class="op">$</span><span class="kw">instantiate</span>(task)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">resampling<span class="op">$</span>iters</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; [1] 3</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;   [1]   5   7   8  15  16  20  21  24  27  30  32  36  40  42  50  52  53</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;  [18]  54  58  59  60  61  63  69  71  72  73  74  75  76  78  88  97 105</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;  [35] 108 110 111 115 122 125 126 127 128 129 131 134 140 142 146 148   1</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;  [52]   2   3   4   6   9  10  13  19  28  29  31  34  38  39  51  62  64</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt;  [69]  66  67  70  79  80  81  82  84  87  89  92  93  94  96  99 102 106</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt;  [86] 109 112 113 116 119 120 123 124 133 135 136 138 141 143 150</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"cv"</span>, <span class="dt">param_vals =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">folds =</span> 3L))</a>
+<a class="sourceLine" id="cb10-2" title="2">resampling<span class="op">$</span><span class="kw">instantiate</span>(task)</a>
+<a class="sourceLine" id="cb10-3" title="3">resampling<span class="op">$</span>iters</a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb10-5" title="5">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt;   [1]   5   7   8  15  16  20  21  24  27  30  32  36  40  42  50  52  53</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt;  [18]  54  58  59  60  61  63  69  71  72  73  74  75  76  78  88  97 105</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="co">#&gt;  [35] 108 110 111 115 122 125 126 127 128 129 131 134 140 142 146 148   1</span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="co">#&gt;  [52]   2   3   4   6   9  10  13  19  28  29  31  34  38  39  51  62  64</span></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="co">#&gt;  [69]  66  67  70  79  80  81  82  84  87  89  92  93  94  96  99 102 106</span></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="co">#&gt;  [86] 109 112 113 116 119 120 123 124 133 135 136 138 141 143 150</span></a></code></pre></div>
 <p>If we now pass this instantiated object to resample, the pre-calculated training and test splits will be used for both learners:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">learner1 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>) <span class="co"># simple classification tree</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">learner2 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.featureless"</span>) <span class="co"># featureless learner, prediction majority class</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">rr1 =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner1, resampling)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 1/3)'</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 2/3)'</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 3/3)'</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">rr2 =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner2, resampling)</a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'iris' (iteration 1/3)'</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'iris' (iteration 2/3)'</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'iris' (iteration 3/3)'</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setequal</a></span>(rr1<span class="op">$</span><span class="kw">experiment</span>(<span class="dv">1</span>)<span class="op">$</span>train_set, rr2<span class="op">$</span><span class="kw">experiment</span>(<span class="dv">1</span>)<span class="op">$</span>train_set)</a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">learner1 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>) <span class="co"># simple classification tree</span></a>
+<a class="sourceLine" id="cb11-2" title="2">learner2 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.featureless"</span>) <span class="co"># featureless learner, prediction majority class</span></a>
+<a class="sourceLine" id="cb11-3" title="3">rr1 =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner1, resampling)</a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 1/3)'</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 2/3)'</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 3/3)'</span></a>
+<a class="sourceLine" id="cb11-7" title="7">rr2 =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner2, resampling)</a>
+<a class="sourceLine" id="cb11-8" title="8"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'iris' (iteration 1/3)'</span></a>
+<a class="sourceLine" id="cb11-9" title="9"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'iris' (iteration 2/3)'</span></a>
+<a class="sourceLine" id="cb11-10" title="10"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'iris' (iteration 3/3)'</span></a>
+<a class="sourceLine" id="cb11-11" title="11"></a>
+<a class="sourceLine" id="cb11-12" title="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setequal</a></span>(rr1<span class="op">$</span><span class="kw">experiment</span>(<span class="dv">1</span>)<span class="op">$</span>train_set, rr2<span class="op">$</span><span class="kw">experiment</span>(<span class="dv">1</span>)<span class="op">$</span>train_set)</a>
+<a class="sourceLine" id="cb11-13" title="13"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 <p>We can also combine the created result objects into a <code>BenchmarkResult</code> (see below for an introduction to simple benchmarking):</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">bmr =<span class="st"> </span>rr1<span class="op">$</span><span class="kw">combine</span>(rr2)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;                hash resampling_id task_id  learner_id classif.mmce</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: 3e03282e1d46c6b8            cv    iris       rpart   0.04666667</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: bb0903af7c548228            cv    iris featureless   0.70666667</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">bmr =<span class="st"> </span>rr1<span class="op">$</span><span class="kw">combine</span>(rr2)</a>
+<a class="sourceLine" id="cb12-2" title="2">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="co">#&gt;                hash resampling_id task_id  learner_id classif.mmce</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="co">#&gt; 1: 3e03282e1d46c6b8            cv    iris       rpart   0.04666667</span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="co">#&gt; 2: bb0903af7c548228            cv    iris featureless   0.70666667</span></a></code></pre></div>
 </div>
 <div id="custom-resampling" class="section level2">
 <h2 class="hasAnchor">
 <a href="#custom-resampling" class="anchor"></a>Custom resampling</h2>
 <p>Sometimes it is necessary to perform resampling with custom splits, e.g. to reproduce a study. For this purpose, splits can be manually set for <code>ResamplingCustom</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"custom"</span>)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">resampling<span class="op">$</span><span class="kw">instantiate</span>(task,</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">51</span><span class="op">:</span><span class="dv">60</span>, <span class="dv">101</span><span class="op">:</span><span class="dv">110</span>)),</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">11</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">61</span><span class="op">:</span><span class="dv">70</span>, <span class="dv">111</span><span class="op">:</span><span class="dv">120</span>))</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">resampling<span class="op">$</span>iters</a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; [1] 1</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;  [1]   1   2   3   4   5   6   7   8   9  10  51  52  53  54  55  56  57</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; [18]  58  59  60 101 102 103 104 105 106 107 108 109 110</span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11">resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt;  [1]  11  12  13  14  15  16  17  18  19  20  61  62  63  64  65  66  67</span></a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt; [18]  68  69  70 111 112 113 114 115 116 117 118 119 120</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"custom"</span>)</a>
+<a class="sourceLine" id="cb13-2" title="2">resampling<span class="op">$</span><span class="kw">instantiate</span>(task,</a>
+<a class="sourceLine" id="cb13-3" title="3">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">51</span><span class="op">:</span><span class="dv">60</span>, <span class="dv">101</span><span class="op">:</span><span class="dv">110</span>)),</a>
+<a class="sourceLine" id="cb13-4" title="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">11</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">61</span><span class="op">:</span><span class="dv">70</span>, <span class="dv">111</span><span class="op">:</span><span class="dv">120</span>))</a>
+<a class="sourceLine" id="cb13-5" title="5">)</a>
+<a class="sourceLine" id="cb13-6" title="6">resampling<span class="op">$</span>iters</a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; [1] 1</span></a>
+<a class="sourceLine" id="cb13-8" title="8">resampling<span class="op">$</span><span class="kw">train_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt;  [1]   1   2   3   4   5   6   7   8   9  10  51  52  53  54  55  56  57</span></a>
+<a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt; [18]  58  59  60 101 102 103 104 105 106 107 108 109 110</span></a>
+<a class="sourceLine" id="cb13-11" title="11">resampling<span class="op">$</span><span class="kw">test_set</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt;  [1]  11  12  13  14  15  16  17  18  19  20  61  62  63  64  65  66  67</span></a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt; [18]  68  69  70 111 112 113 114 115 116 117 118 119 120</span></a></code></pre></div>
 </div>
 <div id="benchmarking" class="section level2">
 <h2 class="hasAnchor">
 <a href="#benchmarking" class="anchor"></a>Benchmarking</h2>
 <p>Comparing the performance of different learners on multiple tasks is a recurrent task. <code>mlr3</code> offers the <code><a href="../reference/benchmark.html">benchmark()</a></code> function for convenience. The interface of the <code><a href="../reference/benchmark.html">benchmark()</a></code> function accepts a design of tasks, learners, and resampling strategies as data frame.</p>
 <p>Here, we call <code><a href="../reference/benchmark.html">benchmark()</a></code> to perform a single holdout split on a single task and two learners:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(data.table)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">design =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/data.table">data.table</a></span>(</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">task =</span> mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"iris"</span>),</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">learner =</span> mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"classif.rpart"</span>, <span class="st">"classif.featureless"</span>)),</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="dt">resampling =</span> mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"holdout"</span>)</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(design)</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt;             task                     learner          resampling</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; 1: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingHoldout&gt;</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; 2: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingHoldout&gt;</span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11">bmr =<span class="st"> </span><span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(design)</a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; INFO [mlr3] Benchmarking 2 experiments</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 1/1)'</span></a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'iris' (iteration 1/1)'</span></a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; INFO [mlr3] Finished benchmark</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(data.table)</a>
+<a class="sourceLine" id="cb14-2" title="2">design =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/data.table">data.table</a></span>(</a>
+<a class="sourceLine" id="cb14-3" title="3">  <span class="dt">task =</span> mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"iris"</span>),</a>
+<a class="sourceLine" id="cb14-4" title="4">  <span class="dt">learner =</span> mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"classif.rpart"</span>, <span class="st">"classif.featureless"</span>)),</a>
+<a class="sourceLine" id="cb14-5" title="5">  <span class="dt">resampling =</span> mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"holdout"</span>)</a>
+<a class="sourceLine" id="cb14-6" title="6">)</a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(design)</a>
+<a class="sourceLine" id="cb14-8" title="8"><span class="co">#&gt;             task                     learner          resampling</span></a>
+<a class="sourceLine" id="cb14-9" title="9"><span class="co">#&gt; 1: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingHoldout&gt;</span></a>
+<a class="sourceLine" id="cb14-10" title="10"><span class="co">#&gt; 2: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingHoldout&gt;</span></a>
+<a class="sourceLine" id="cb14-11" title="11">bmr =<span class="st"> </span><span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(design)</a>
+<a class="sourceLine" id="cb14-12" title="12"><span class="co">#&gt; INFO [mlr3] Benchmarking 2 experiments</span></a>
+<a class="sourceLine" id="cb14-13" title="13"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'iris' (iteration 1/1)'</span></a>
+<a class="sourceLine" id="cb14-14" title="14"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'iris' (iteration 1/1)'</span></a>
+<a class="sourceLine" id="cb14-15" title="15"><span class="co">#&gt; INFO [mlr3] Finished benchmark</span></a></code></pre></div>
 <p>Note that the holdout splits have been automatically instantiated for each row of the design. As a result, the <code>rpart</code> learner used a different training set than the featureless learner. However, for comparison of learners you usually want the learners to see the same splits into train and test sets. To overcome this issue, the resampling strategy needs to be manually instantiated before creating the design.</p>
 <p>While the interface of <code><a href="../reference/benchmark.html">benchmark()</a></code> allows full flexibility, the creation of such design tables can be tedious. Therefore, <code>mlr3</code> provides a helper function to quickly generate design tables and instantiate resampling strategies in an exhaustive grid fashion: <code><a href="../reference/expand_grid.html">mlr3::expand_grid()</a></code>.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># get some example tasks</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">tasks =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"pima"</span>, <span class="st">"sonar"</span>, <span class="st">"spam"</span>))</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co"># set measures for all tasks: accuracy (acc) and area under the curve (auc)</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">measures =<span class="st"> </span>mlr_measures<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span>))</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">tasks =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(tasks, <span class="cf">function</span>(task) { task<span class="op">$</span>measures =<span class="st"> </span>measures; task })</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co"># get a featureless learner and a classification tree</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">learners =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"classif.featureless"</span>, <span class="st">"classif.rpart"</span>))</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co"># let the learners predict probabilities instead of class labels (required for AUC measure)</span></a>
-<a class="sourceLine" id="cb15-12" data-line-number="12">learners<span class="op">$</span>classif.featureless<span class="op">$</span>predict_type =<span class="st"> "prob"</span></a>
-<a class="sourceLine" id="cb15-13" data-line-number="13">learners<span class="op">$</span>classif.rpart<span class="op">$</span>predict_type =<span class="st"> "prob"</span></a>
-<a class="sourceLine" id="cb15-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co"># compare via 10-fold cross validation</span></a>
-<a class="sourceLine" id="cb15-16" data-line-number="16">resamplings =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"cv"</span>)</a>
-<a class="sourceLine" id="cb15-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb15-18" data-line-number="18"><span class="co"># create a BenchmarkResult object</span></a>
-<a class="sourceLine" id="cb15-19" data-line-number="19">design =<span class="st"> </span><span class="kw"><a href="../reference/expand_grid.html">expand_grid</a></span>(tasks, learners, resamplings)</a>
-<a class="sourceLine" id="cb15-20" data-line-number="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(design)</a>
-<a class="sourceLine" id="cb15-21" data-line-number="21"><span class="co">#&gt;             task                     learner     resampling</span></a>
-<a class="sourceLine" id="cb15-22" data-line-number="22"><span class="co">#&gt; 1: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;</span></a>
-<a class="sourceLine" id="cb15-23" data-line-number="23"><span class="co">#&gt; 2: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</span></a>
-<a class="sourceLine" id="cb15-24" data-line-number="24"><span class="co">#&gt; 3: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;</span></a>
-<a class="sourceLine" id="cb15-25" data-line-number="25"><span class="co">#&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</span></a>
-<a class="sourceLine" id="cb15-26" data-line-number="26"><span class="co">#&gt; 5: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;</span></a>
-<a class="sourceLine" id="cb15-27" data-line-number="27"><span class="co">#&gt; 6: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</span></a>
-<a class="sourceLine" id="cb15-28" data-line-number="28">bmr =<span class="st"> </span><span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(design)</a>
-<a class="sourceLine" id="cb15-29" data-line-number="29"><span class="co">#&gt; INFO [mlr3] Benchmarking 60 experiments</span></a>
-<a class="sourceLine" id="cb15-30" data-line-number="30"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 1/10)'</span></a>
-<a class="sourceLine" id="cb15-31" data-line-number="31"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 2/10)'</span></a>
-<a class="sourceLine" id="cb15-32" data-line-number="32"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 3/10)'</span></a>
-<a class="sourceLine" id="cb15-33" data-line-number="33"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 4/10)'</span></a>
-<a class="sourceLine" id="cb15-34" data-line-number="34"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 5/10)'</span></a>
-<a class="sourceLine" id="cb15-35" data-line-number="35"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 6/10)'</span></a>
-<a class="sourceLine" id="cb15-36" data-line-number="36"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 7/10)'</span></a>
-<a class="sourceLine" id="cb15-37" data-line-number="37"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 8/10)'</span></a>
-<a class="sourceLine" id="cb15-38" data-line-number="38"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 9/10)'</span></a>
-<a class="sourceLine" id="cb15-39" data-line-number="39"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 10/10)'</span></a>
-<a class="sourceLine" id="cb15-40" data-line-number="40"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 1/10)'</span></a>
-<a class="sourceLine" id="cb15-41" data-line-number="41"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 2/10)'</span></a>
-<a class="sourceLine" id="cb15-42" data-line-number="42"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 3/10)'</span></a>
-<a class="sourceLine" id="cb15-43" data-line-number="43"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 4/10)'</span></a>
-<a class="sourceLine" id="cb15-44" data-line-number="44"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 5/10)'</span></a>
-<a class="sourceLine" id="cb15-45" data-line-number="45"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 6/10)'</span></a>
-<a class="sourceLine" id="cb15-46" data-line-number="46"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 7/10)'</span></a>
-<a class="sourceLine" id="cb15-47" data-line-number="47"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 8/10)'</span></a>
-<a class="sourceLine" id="cb15-48" data-line-number="48"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 9/10)'</span></a>
-<a class="sourceLine" id="cb15-49" data-line-number="49"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 10/10)'</span></a>
-<a class="sourceLine" id="cb15-50" data-line-number="50"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 1/10)'</span></a>
-<a class="sourceLine" id="cb15-51" data-line-number="51"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 2/10)'</span></a>
-<a class="sourceLine" id="cb15-52" data-line-number="52"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 3/10)'</span></a>
-<a class="sourceLine" id="cb15-53" data-line-number="53"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 4/10)'</span></a>
-<a class="sourceLine" id="cb15-54" data-line-number="54"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 5/10)'</span></a>
-<a class="sourceLine" id="cb15-55" data-line-number="55"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 6/10)'</span></a>
-<a class="sourceLine" id="cb15-56" data-line-number="56"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 7/10)'</span></a>
-<a class="sourceLine" id="cb15-57" data-line-number="57"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 8/10)'</span></a>
-<a class="sourceLine" id="cb15-58" data-line-number="58"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 9/10)'</span></a>
-<a class="sourceLine" id="cb15-59" data-line-number="59"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 10/10)'</span></a>
-<a class="sourceLine" id="cb15-60" data-line-number="60"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 1/10)'</span></a>
-<a class="sourceLine" id="cb15-61" data-line-number="61"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 2/10)'</span></a>
-<a class="sourceLine" id="cb15-62" data-line-number="62"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 3/10)'</span></a>
-<a class="sourceLine" id="cb15-63" data-line-number="63"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 4/10)'</span></a>
-<a class="sourceLine" id="cb15-64" data-line-number="64"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 5/10)'</span></a>
-<a class="sourceLine" id="cb15-65" data-line-number="65"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 6/10)'</span></a>
-<a class="sourceLine" id="cb15-66" data-line-number="66"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 7/10)'</span></a>
-<a class="sourceLine" id="cb15-67" data-line-number="67"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 8/10)'</span></a>
-<a class="sourceLine" id="cb15-68" data-line-number="68"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 9/10)'</span></a>
-<a class="sourceLine" id="cb15-69" data-line-number="69"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 10/10)'</span></a>
-<a class="sourceLine" id="cb15-70" data-line-number="70"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 1/10)'</span></a>
-<a class="sourceLine" id="cb15-71" data-line-number="71"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 2/10)'</span></a>
-<a class="sourceLine" id="cb15-72" data-line-number="72"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 3/10)'</span></a>
-<a class="sourceLine" id="cb15-73" data-line-number="73"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 4/10)'</span></a>
-<a class="sourceLine" id="cb15-74" data-line-number="74"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 5/10)'</span></a>
-<a class="sourceLine" id="cb15-75" data-line-number="75"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 6/10)'</span></a>
-<a class="sourceLine" id="cb15-76" data-line-number="76"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 7/10)'</span></a>
-<a class="sourceLine" id="cb15-77" data-line-number="77"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 8/10)'</span></a>
-<a class="sourceLine" id="cb15-78" data-line-number="78"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 9/10)'</span></a>
-<a class="sourceLine" id="cb15-79" data-line-number="79"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 10/10)'</span></a>
-<a class="sourceLine" id="cb15-80" data-line-number="80"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 1/10)'</span></a>
-<a class="sourceLine" id="cb15-81" data-line-number="81"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 2/10)'</span></a>
-<a class="sourceLine" id="cb15-82" data-line-number="82"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 3/10)'</span></a>
-<a class="sourceLine" id="cb15-83" data-line-number="83"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 4/10)'</span></a>
-<a class="sourceLine" id="cb15-84" data-line-number="84"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 5/10)'</span></a>
-<a class="sourceLine" id="cb15-85" data-line-number="85"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 6/10)'</span></a>
-<a class="sourceLine" id="cb15-86" data-line-number="86"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 7/10)'</span></a>
-<a class="sourceLine" id="cb15-87" data-line-number="87"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 8/10)'</span></a>
-<a class="sourceLine" id="cb15-88" data-line-number="88"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 9/10)'</span></a>
-<a class="sourceLine" id="cb15-89" data-line-number="89"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 10/10)'</span></a>
-<a class="sourceLine" id="cb15-90" data-line-number="90"><span class="co">#&gt; INFO [mlr3] Finished benchmark</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co"># get some example tasks</span></a>
+<a class="sourceLine" id="cb15-2" title="2">tasks =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"pima"</span>, <span class="st">"sonar"</span>, <span class="st">"spam"</span>))</a>
+<a class="sourceLine" id="cb15-3" title="3"></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="co"># set measures for all tasks: accuracy (acc) and area under the curve (auc)</span></a>
+<a class="sourceLine" id="cb15-5" title="5">measures =<span class="st"> </span>mlr_measures<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"classif.acc"</span>, <span class="st">"classif.auc"</span>))</a>
+<a class="sourceLine" id="cb15-6" title="6">tasks =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(tasks, <span class="cf">function</span>(task) { task<span class="op">$</span>measures =<span class="st"> </span>measures; task })</a>
+<a class="sourceLine" id="cb15-7" title="7"></a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="co"># get a featureless learner and a classification tree</span></a>
+<a class="sourceLine" id="cb15-9" title="9">learners =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"classif.featureless"</span>, <span class="st">"classif.rpart"</span>))</a>
+<a class="sourceLine" id="cb15-10" title="10"></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="co"># let the learners predict probabilities instead of class labels (required for AUC measure)</span></a>
+<a class="sourceLine" id="cb15-12" title="12">learners<span class="op">$</span>classif.featureless<span class="op">$</span>predict_type =<span class="st"> "prob"</span></a>
+<a class="sourceLine" id="cb15-13" title="13">learners<span class="op">$</span>classif.rpart<span class="op">$</span>predict_type =<span class="st"> "prob"</span></a>
+<a class="sourceLine" id="cb15-14" title="14"></a>
+<a class="sourceLine" id="cb15-15" title="15"><span class="co"># compare via 10-fold cross validation</span></a>
+<a class="sourceLine" id="cb15-16" title="16">resamplings =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">mget</a></span>(<span class="st">"cv"</span>)</a>
+<a class="sourceLine" id="cb15-17" title="17"></a>
+<a class="sourceLine" id="cb15-18" title="18"><span class="co"># create a BenchmarkResult object</span></a>
+<a class="sourceLine" id="cb15-19" title="19">design =<span class="st"> </span><span class="kw"><a href="../reference/expand_grid.html">expand_grid</a></span>(tasks, learners, resamplings)</a>
+<a class="sourceLine" id="cb15-20" title="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(design)</a>
+<a class="sourceLine" id="cb15-21" title="21"><span class="co">#&gt;             task                     learner     resampling</span></a>
+<a class="sourceLine" id="cb15-22" title="22"><span class="co">#&gt; 1: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;</span></a>
+<a class="sourceLine" id="cb15-23" title="23"><span class="co">#&gt; 2: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</span></a>
+<a class="sourceLine" id="cb15-24" title="24"><span class="co">#&gt; 3: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;</span></a>
+<a class="sourceLine" id="cb15-25" title="25"><span class="co">#&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</span></a>
+<a class="sourceLine" id="cb15-26" title="26"><span class="co">#&gt; 5: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;</span></a>
+<a class="sourceLine" id="cb15-27" title="27"><span class="co">#&gt; 6: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</span></a>
+<a class="sourceLine" id="cb15-28" title="28">bmr =<span class="st"> </span><span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(design)</a>
+<a class="sourceLine" id="cb15-29" title="29"><span class="co">#&gt; INFO [mlr3] Benchmarking 60 experiments</span></a>
+<a class="sourceLine" id="cb15-30" title="30"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 1/10)'</span></a>
+<a class="sourceLine" id="cb15-31" title="31"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 2/10)'</span></a>
+<a class="sourceLine" id="cb15-32" title="32"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 3/10)'</span></a>
+<a class="sourceLine" id="cb15-33" title="33"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 4/10)'</span></a>
+<a class="sourceLine" id="cb15-34" title="34"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 5/10)'</span></a>
+<a class="sourceLine" id="cb15-35" title="35"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 6/10)'</span></a>
+<a class="sourceLine" id="cb15-36" title="36"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 7/10)'</span></a>
+<a class="sourceLine" id="cb15-37" title="37"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 8/10)'</span></a>
+<a class="sourceLine" id="cb15-38" title="38"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 9/10)'</span></a>
+<a class="sourceLine" id="cb15-39" title="39"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'pima' (iteration 10/10)'</span></a>
+<a class="sourceLine" id="cb15-40" title="40"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 1/10)'</span></a>
+<a class="sourceLine" id="cb15-41" title="41"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 2/10)'</span></a>
+<a class="sourceLine" id="cb15-42" title="42"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 3/10)'</span></a>
+<a class="sourceLine" id="cb15-43" title="43"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 4/10)'</span></a>
+<a class="sourceLine" id="cb15-44" title="44"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 5/10)'</span></a>
+<a class="sourceLine" id="cb15-45" title="45"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 6/10)'</span></a>
+<a class="sourceLine" id="cb15-46" title="46"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 7/10)'</span></a>
+<a class="sourceLine" id="cb15-47" title="47"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 8/10)'</span></a>
+<a class="sourceLine" id="cb15-48" title="48"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 9/10)'</span></a>
+<a class="sourceLine" id="cb15-49" title="49"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'pima' (iteration 10/10)'</span></a>
+<a class="sourceLine" id="cb15-50" title="50"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 1/10)'</span></a>
+<a class="sourceLine" id="cb15-51" title="51"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 2/10)'</span></a>
+<a class="sourceLine" id="cb15-52" title="52"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 3/10)'</span></a>
+<a class="sourceLine" id="cb15-53" title="53"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 4/10)'</span></a>
+<a class="sourceLine" id="cb15-54" title="54"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 5/10)'</span></a>
+<a class="sourceLine" id="cb15-55" title="55"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 6/10)'</span></a>
+<a class="sourceLine" id="cb15-56" title="56"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 7/10)'</span></a>
+<a class="sourceLine" id="cb15-57" title="57"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 8/10)'</span></a>
+<a class="sourceLine" id="cb15-58" title="58"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 9/10)'</span></a>
+<a class="sourceLine" id="cb15-59" title="59"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'sonar' (iteration 10/10)'</span></a>
+<a class="sourceLine" id="cb15-60" title="60"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 1/10)'</span></a>
+<a class="sourceLine" id="cb15-61" title="61"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 2/10)'</span></a>
+<a class="sourceLine" id="cb15-62" title="62"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 3/10)'</span></a>
+<a class="sourceLine" id="cb15-63" title="63"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 4/10)'</span></a>
+<a class="sourceLine" id="cb15-64" title="64"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 5/10)'</span></a>
+<a class="sourceLine" id="cb15-65" title="65"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 6/10)'</span></a>
+<a class="sourceLine" id="cb15-66" title="66"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 7/10)'</span></a>
+<a class="sourceLine" id="cb15-67" title="67"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 8/10)'</span></a>
+<a class="sourceLine" id="cb15-68" title="68"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 9/10)'</span></a>
+<a class="sourceLine" id="cb15-69" title="69"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'sonar' (iteration 10/10)'</span></a>
+<a class="sourceLine" id="cb15-70" title="70"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 1/10)'</span></a>
+<a class="sourceLine" id="cb15-71" title="71"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 2/10)'</span></a>
+<a class="sourceLine" id="cb15-72" title="72"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 3/10)'</span></a>
+<a class="sourceLine" id="cb15-73" title="73"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 4/10)'</span></a>
+<a class="sourceLine" id="cb15-74" title="74"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 5/10)'</span></a>
+<a class="sourceLine" id="cb15-75" title="75"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 6/10)'</span></a>
+<a class="sourceLine" id="cb15-76" title="76"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 7/10)'</span></a>
+<a class="sourceLine" id="cb15-77" title="77"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 8/10)'</span></a>
+<a class="sourceLine" id="cb15-78" title="78"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 9/10)'</span></a>
+<a class="sourceLine" id="cb15-79" title="79"><span class="co">#&gt; INFO [mlr3] Running learner 'featureless' on task 'spam' (iteration 10/10)'</span></a>
+<a class="sourceLine" id="cb15-80" title="80"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 1/10)'</span></a>
+<a class="sourceLine" id="cb15-81" title="81"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 2/10)'</span></a>
+<a class="sourceLine" id="cb15-82" title="82"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 3/10)'</span></a>
+<a class="sourceLine" id="cb15-83" title="83"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 4/10)'</span></a>
+<a class="sourceLine" id="cb15-84" title="84"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 5/10)'</span></a>
+<a class="sourceLine" id="cb15-85" title="85"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 6/10)'</span></a>
+<a class="sourceLine" id="cb15-86" title="86"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 7/10)'</span></a>
+<a class="sourceLine" id="cb15-87" title="87"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 8/10)'</span></a>
+<a class="sourceLine" id="cb15-88" title="88"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 9/10)'</span></a>
+<a class="sourceLine" id="cb15-89" title="89"><span class="co">#&gt; INFO [mlr3] Running learner 'rpart' on task 'spam' (iteration 10/10)'</span></a>
+<a class="sourceLine" id="cb15-90" title="90"><span class="co">#&gt; INFO [mlr3] Finished benchmark</span></a></code></pre></div>
 <p>The aggregated resampling results can be accessed with:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt;                hash resampling_id task_id  learner_id classif.acc</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1: e37f7fd193534985            cv    pima featureless   0.6509569</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2: cfb36ef1e18b498b            cv    pima       rpart   0.7540328</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3: eac5548f79ca7992            cv   sonar featureless   0.5347619</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4: 12232e751688d2e5            cv   sonar       rpart   0.7592857</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5: 106dc83008675427            cv    spam featureless   0.6059521</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6: 9fec56624fb9a279            cv    spam       rpart   0.8919858</span></a>
-<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt;    classif.auc</span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; 1:   0.5000000</span></a>
-<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; 2:   0.7927332</span></a>
-<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; 3:   0.5000000</span></a>
-<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; 4:   0.7948329</span></a>
-<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; 5:   0.5000000</span></a>
-<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt; 6:   0.8927645</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="co">#&gt;                hash resampling_id task_id  learner_id classif.acc</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="co">#&gt; 1: e37f7fd193534985            cv    pima featureless   0.6509569</span></a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="co">#&gt; 2: cfb36ef1e18b498b            cv    pima       rpart   0.7540328</span></a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="co">#&gt; 3: eac5548f79ca7992            cv   sonar featureless   0.5347619</span></a>
+<a class="sourceLine" id="cb16-6" title="6"><span class="co">#&gt; 4: 12232e751688d2e5            cv   sonar       rpart   0.7592857</span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt; 5: 106dc83008675427            cv    spam featureless   0.6059521</span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="co">#&gt; 6: 9fec56624fb9a279            cv    spam       rpart   0.8919858</span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="co">#&gt;    classif.auc</span></a>
+<a class="sourceLine" id="cb16-10" title="10"><span class="co">#&gt; 1:   0.5000000</span></a>
+<a class="sourceLine" id="cb16-11" title="11"><span class="co">#&gt; 2:   0.7927332</span></a>
+<a class="sourceLine" id="cb16-12" title="12"><span class="co">#&gt; 3:   0.5000000</span></a>
+<a class="sourceLine" id="cb16-13" title="13"><span class="co">#&gt; 4:   0.7948329</span></a>
+<a class="sourceLine" id="cb16-14" title="14"><span class="co">#&gt; 5:   0.5000000</span></a>
+<a class="sourceLine" id="cb16-15" title="15"><span class="co">#&gt; 6:   0.8927645</span></a></code></pre></div>
 <p>We can aggregate it further, i.e. if we are interested which learner performed best over all tasks:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">acc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(classif.acc), <span class="dt">auc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(classif.auc)), by =<span class="st"> "learner_id"</span>]</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co">#&gt;     learner_id       acc       auc</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="co">#&gt; 1: featureless 0.5972236 0.5000000</span></a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co">#&gt; 2:       rpart 0.8017681 0.8267769</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">acc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(classif.acc), <span class="dt">auc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(classif.auc)), by =<span class="st"> "learner_id"</span>]</a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="co">#&gt;     learner_id       acc       auc</span></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="co">#&gt; 1: featureless 0.5972236 0.5000000</span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="co">#&gt; 2:       rpart 0.8017681 0.8267769</span></a></code></pre></div>
 <p>Unsurprisingly, the classification tree outperformed the featureless learner.</p>
 <div id="converting-specific-benchmark-objects-to-resample-objects" class="section level3">
 <h3 class="hasAnchor">
 <a href="#converting-specific-benchmark-objects-to-resample-objects" class="anchor"></a>Converting specific benchmark objects to resample objects</h3>
 <p>As a <code>BenchmarkResult</code> object is basically a collection of multiple <code>ResampleResult</code> objects, we can extract specific <code>ResampleResult</code> objects using the stored hashes:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">tab =<span class="st"> </span>bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)[task_id <span class="op">==</span><span class="st"> "spam"</span> <span class="op">&amp;</span><span class="st"> </span>learner_id <span class="op">==</span><span class="st"> "rpart"</span>]</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(tab)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt;                hash resampling_id task_id learner_id classif.acc</span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt; 1: 9fec56624fb9a279            cv    spam      rpart   0.8919858</span></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt;    classif.auc</span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; 1:   0.8927645</span></a>
-<a class="sourceLine" id="cb18-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb18-8" data-line-number="8">rr =<span class="st"> </span>bmr<span class="op">$</span><span class="kw">resample_result</span>(tab<span class="op">$</span>hash)</a>
-<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
-<a class="sourceLine" id="cb18-10" data-line-number="10"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'spam' on task 'rpart' with 10 iterations</span></a>
-<a class="sourceLine" id="cb18-11" data-line-number="11"><span class="co">#&gt;      Measure   Min. 1st Qu. Median   Mean 3rd Qu.   Max.      Sd</span></a>
-<a class="sourceLine" id="cb18-12" data-line-number="12"><span class="co">#&gt;  classif.acc 0.8655  0.8777 0.8924 0.8920  0.9033 0.9261 0.01970</span></a>
-<a class="sourceLine" id="cb18-13" data-line-number="13"><span class="co">#&gt;  classif.auc 0.8519  0.8870 0.8901 0.8928  0.9055 0.9283 0.02278</span></a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">tab =<span class="st"> </span>bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)[task_id <span class="op">==</span><span class="st"> "spam"</span> <span class="op">&amp;</span><span class="st"> </span>learner_id <span class="op">==</span><span class="st"> "rpart"</span>]</a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(tab)</a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="co">#&gt;                hash resampling_id task_id learner_id classif.acc</span></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="co">#&gt; 1: 9fec56624fb9a279            cv    spam      rpart   0.8919858</span></a>
+<a class="sourceLine" id="cb18-5" title="5"><span class="co">#&gt;    classif.auc</span></a>
+<a class="sourceLine" id="cb18-6" title="6"><span class="co">#&gt; 1:   0.8927645</span></a>
+<a class="sourceLine" id="cb18-7" title="7"></a>
+<a class="sourceLine" id="cb18-8" title="8">rr =<span class="st"> </span>bmr<span class="op">$</span><span class="kw">resample_result</span>(tab<span class="op">$</span>hash)</a>
+<a class="sourceLine" id="cb18-9" title="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
+<a class="sourceLine" id="cb18-10" title="10"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'spam' on task 'rpart' with 10 iterations</span></a>
+<a class="sourceLine" id="cb18-11" title="11"><span class="co">#&gt;      Measure   Min. 1st Qu. Median   Mean 3rd Qu.   Max.      Sd</span></a>
+<a class="sourceLine" id="cb18-12" title="12"><span class="co">#&gt;  classif.acc 0.8655  0.8777 0.8924 0.8920  0.9033 0.9261 0.01970</span></a>
+<a class="sourceLine" id="cb18-13" title="13"><span class="co">#&gt;  classif.auc 0.8519  0.8870 0.8901 0.8928  0.9055 0.9283 0.02278</span></a></code></pre></div>
 <p>We can now investigate this resampling and even single experiments using the previously introduced API:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">rr<span class="op">$</span>aggregated</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#&gt; classif.acc classif.auc </span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt;   0.8919858   0.8927645</span></a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co"># get the iteration with worst AUC</span></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6">worst =<span class="st"> </span><span class="kw"><a href="../reference/as.data.table.html">as.data.table</a></span>(rr)[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which.min">which.min</a></span>(classif.auc), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"iteration"</span>, <span class="st">"classif.auc"</span>)]</a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(worst)</a>
-<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#&gt;    iteration classif.auc</span></a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co">#&gt; 1:         1   0.8518681</span></a>
-<a class="sourceLine" id="cb19-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co"># get the corresponding experiment</span></a>
-<a class="sourceLine" id="cb19-12" data-line-number="12">e =<span class="st"> </span>rr<span class="op">$</span><span class="kw">experiment</span>(worst<span class="op">$</span>iteration)</a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
-<a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; &lt;Experiment&gt; [scored]:</span></a>
-<a class="sourceLine" id="cb19-15" data-line-number="15"><span class="co">#&gt;  + Task: spam</span></a>
-<a class="sourceLine" id="cb19-16" data-line-number="16"><span class="co">#&gt;  + Learner: rpart</span></a>
-<a class="sourceLine" id="cb19-17" data-line-number="17"><span class="co">#&gt;  + Model: [rpart]</span></a>
-<a class="sourceLine" id="cb19-18" data-line-number="18"><span class="co">#&gt;  + Predictions: [PredictionClassif]</span></a>
-<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#&gt;  + Performance: classif.acc=0.8655098, classif.auc=0.8518681</span></a>
-<a class="sourceLine" id="cb19-20" data-line-number="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb19-21" data-line-number="21"><span class="co">#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs,</span></a>
-<a class="sourceLine" id="cb19-22" data-line-number="22"><span class="co">#&gt;   model, performance, predict(), prediction, score(), seeds,</span></a>
-<a class="sourceLine" id="cb19-23" data-line-number="23"><span class="co">#&gt;   state, task, test_set, timings, train_set, train(),</span></a>
-<a class="sourceLine" id="cb19-24" data-line-number="24"><span class="co">#&gt;   validation_set</span></a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">rr<span class="op">$</span>aggregated</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="co">#&gt; classif.acc classif.auc </span></a>
+<a class="sourceLine" id="cb19-3" title="3"><span class="co">#&gt;   0.8919858   0.8927645</span></a>
+<a class="sourceLine" id="cb19-4" title="4"></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="co"># get the iteration with worst AUC</span></a>
+<a class="sourceLine" id="cb19-6" title="6">worst =<span class="st"> </span><span class="kw"><a href="../reference/as.data.table.html">as.data.table</a></span>(rr)[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which.min">which.min</a></span>(classif.auc), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"iteration"</span>, <span class="st">"classif.auc"</span>)]</a>
+<a class="sourceLine" id="cb19-7" title="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(worst)</a>
+<a class="sourceLine" id="cb19-8" title="8"><span class="co">#&gt;    iteration classif.auc</span></a>
+<a class="sourceLine" id="cb19-9" title="9"><span class="co">#&gt; 1:         1   0.8518681</span></a>
+<a class="sourceLine" id="cb19-10" title="10"></a>
+<a class="sourceLine" id="cb19-11" title="11"><span class="co"># get the corresponding experiment</span></a>
+<a class="sourceLine" id="cb19-12" title="12">e =<span class="st"> </span>rr<span class="op">$</span><span class="kw">experiment</span>(worst<span class="op">$</span>iteration)</a>
+<a class="sourceLine" id="cb19-13" title="13"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(e)</a>
+<a class="sourceLine" id="cb19-14" title="14"><span class="co">#&gt; &lt;Experiment&gt; [scored]:</span></a>
+<a class="sourceLine" id="cb19-15" title="15"><span class="co">#&gt;  + Task: spam</span></a>
+<a class="sourceLine" id="cb19-16" title="16"><span class="co">#&gt;  + Learner: rpart</span></a>
+<a class="sourceLine" id="cb19-17" title="17"><span class="co">#&gt;  + Model: [rpart]</span></a>
+<a class="sourceLine" id="cb19-18" title="18"><span class="co">#&gt;  + Predictions: [PredictionClassif]</span></a>
+<a class="sourceLine" id="cb19-19" title="19"><span class="co">#&gt;  + Performance: classif.acc=0.8655098, classif.auc=0.8518681</span></a>
+<a class="sourceLine" id="cb19-20" title="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb19-21" title="21"><span class="co">#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs,</span></a>
+<a class="sourceLine" id="cb19-22" title="22"><span class="co">#&gt;   model, performance, predict(), prediction, score(), seeds,</span></a>
+<a class="sourceLine" id="cb19-23" title="23"><span class="co">#&gt;   state, task, test_set, timings, train_set, train(),</span></a>
+<a class="sourceLine" id="cb19-24" title="24"><span class="co">#&gt;   validation_set</span></a></code></pre></div>
 </div>
 </div>
 </div>

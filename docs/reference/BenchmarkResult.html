@@ -159,57 +159,65 @@
 
     <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object.</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
-    <pre># Construction
-# Users of mlr3 generally don't need to construct this class themselves, but rather use objects returned by [benchmark()].
-bmr = benchmark(...)
-    # Members
-bmr$data
-bmr$learners
-bmr$measures
-bmr$resample_results
-bmr$resamplings
-bmr$tasks
-    # Methods
-bmr$aggregated(objects = TRUE, ids = TRUE, params = FALSE)
-bmr$combine(bmr)
-bmr$get_best(measure)
-bmr$resample_result(hash)
-    # S3 methods
-as.data.table(bmr)
+    <pre>bmr = BenchmarkResult$new(data)
 </pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>data</code> (<code>data.table()</code>): Data to create the BenchmarkResult.
-Each line must contain data of a single <a href='Experiment.html'>Experiment</a> (complex objects wrapped inside lists to create list columns).</p></li>
-<li><p><code>hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
-String which identifies a subgroup to extract as <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
-<li><p><code>bmr</code> (BenchmarkResult).</p></li>
-<li><p><code>measure</code> (<a href='Measure.html'>Measure</a>).</p></li>
-<li><p><code>objects</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>): Return objects as columns in the result <code>data.table()</code>.</p></li>
-<li><p><code>ids</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>): Return object ids as columns in the result <code>data.table()</code>.</p></li>
-<li><p><code>params</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>): Return learner hyperparameter values as list column <code>params</code> in the result <code>data.table()</code>.</p></li>
+<ul>
+<li><p><code>data</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Table with the data of one <a href='Experiment.html'>Experiment</a> per row.
+See description of in <a href='Experiment.html'>Experiment</a> for the exact structure.
+Usually, this object is constructed via <code><a href='benchmark.html'>benchmark()</a></code>.</p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="public"><a class="anchor" href="#public"></a>Public</h2>
 
     
     <ul>
-<li><p><code>$aggregated()</code> returns aggregated performance measures as a <code>data.table()</code>.
-Experiments are aggregated by their resample result group (combination of <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a> and <a href='Resampling.html'>Resampling</a>).
-The actual aggregation function of the performance values is defined by the respective <a href='Measure.html'>Measure</a>.
-For an unaggregated table of the results, use <code><a href='as.data.table.html'>as.data.table(bmr)</a></code>.</p></li>
-<li><p><code>$combine()</code> takes a second BenchmarkResult <code>bmr</code> as argument and extends itself with its data.</p></li>
-<li><p><code>$data</code> returns the full benchmark structure for each iteration (task, learner, resampling, etc).</p></li>
-<li><p><code>$resample_results</code> returns a <code>data.table()</code> which gives an overview of the resample result groups in the benchmark.
-These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.html'>ResampleResult</a> for further inspection.</p></li>
-<li><p><code>$tasks</code>, <code>$learners</code>, <code>$resamplings</code> and <code>$measures</code> return an overview table of included objects, together with a unique hash for the respective object.</p></li>
-<li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts a BenchmarkResult to a <code>data.table()</code>.</p></li>
-<li><p><code>$resample_result()</code> creates the <a href='ResampleResult.html'>ResampleResult</a> identified by the specified <code>hash</code> value.</p></li>
+<li><p><code>data</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Experiment data with one <a href='Experiment.html'>Experiment</a> per line.</p></li>
+<li><p><code>tasks</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Table of used tasks with three columns:
+"task_hash" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>), "task_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) and "task" (<a href='Task.html'>Task</a>).</p></li>
+<li><p><code>learners</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Table of used learners with three columns:
+"learner_hash" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>), "learner_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) and "learner" (<a href='Learner.html'>Learner</a>).</p></li>
+<li><p><code>resamplings</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Table of used resamplings with three columns:
+"resampling_hash" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>), "resampling_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) and "resampling" (<a href='Resampling.html'>Resampling</a>).</p></li>
+<li><p><code>measures</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Table of used measures with three columns:
+"measure_hash" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>), "measure_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) and "measure" (<a href='Measure.html'>Measure</a>).</p></li>
+<li><p><code>resample_results</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Table of <a href='ResampleResult.html'>ResampleResult</a> groups with 5 columns:
+"hash" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>), "task_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>), "learner_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>), "resamping_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) and "N" (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>).
+The last column ("N") is the number of <a href='Experiment.html'>Experiment</a>s in the <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <ul>
+<li><p><code>aggregated(objects = TRUE, ids = TRUE, params = FALSE)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Returns a result table where experiments are aggregated per <a href='ResampleResult.html'>ResampleResult</a>.
+Arguments control the number of additional columns:</p><ul>
+<li><p><code>objects</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code><br />
+Return objects as columns in the result <code>data.table()</code>.</p></li>
+<li><p><code>ids</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code><br />
+Return object ids as columns in the result <code>data.table()</code>.</p></li>
+<li><p><code>params</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code><br />
+Return learner hyperparameter values as list column <code>params</code> in the result <code>data.table()</code>.</p></li>
+</ul></li>
+<li><p><code>combine(bmr)</code><br />
+BenchmarkResult -&gt; <code>self</code><br />
+Fuses a second BenchmarkResult into itself.</p></li>
+<li><p><code>get_best(measure)</code><br />
+<a href='Measure.html'>Measure</a> -&gt; <a href='ResampleResult.html'>ResampleResult</a><br />
+Returns the <a href='ResampleResult.html'>ResampleResult</a> with best performance according to the provided <a href='Measure.html'>Measure</a>.</p></li>
+<li><p><code>resample_result(hash)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> -&gt; <a href='ResampleResult.html'>ResampleResult</a><br />
+Retrieves the <a href='ResampleResult.html'>ResampleResult</a> with provided <code>hash</code>.</p></li>
 </ul>
     
 
@@ -230,8 +238,8 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
 #&gt; 1: 118778cfb7b5918f    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash  learner_id                     learner
 #&gt; 1: a3aea4ed7bc571d2 featureless &lt;LearnerClassifFeatureless&gt;
 #&gt; 2: d64806633203a6d5       rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>resamplings</span></div><div class='output co'>#&gt;     resampling_hash resampling_id     resampling
-#&gt; 1: e740f22253d1c2ee            cv &lt;ResamplingCV&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>measures</span></div><div class='output co'>#&gt;      measure_id              measure
-#&gt; 1: classif.mmce &lt;MeasureClassifMMCE&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='fu'>aggregated</span>(<span class='kw'>objects</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                hash resampling_id task_id  learner_id classif.mmce
+#&gt; 1: e740f22253d1c2ee            cv &lt;ResamplingCV&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>measures</span></div><div class='output co'>#&gt;        measure_hash   measure_id              measure
+#&gt; 1: c7a66ec863ba061f classif.mmce &lt;MeasureClassifMMCE&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='fu'>aggregated</span>(<span class='kw'>objects</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                hash resampling_id task_id  learner_id classif.mmce
 #&gt; 1: 78f08b3ec3175f45            cv    iris featureless   0.80666667
 #&gt; 2: 24cf82fe4fa281f5            cv    iris       rpart   0.07333333</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id  learner_id resampling_id  N
@@ -256,11 +264,11 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#construction">Construction</a></li>
 
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#public">Public</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#methods">Methods</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
