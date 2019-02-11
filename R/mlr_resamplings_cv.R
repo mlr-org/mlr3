@@ -1,6 +1,6 @@
 #' @title Cross Validation Resampling
 #'
-#' @format [R6Class] object
+#' @format [R6::R6Class] object
 #' @name mlr_resamplings_cv
 #' @format [R6::R6Class] inheriting from [Resampling].
 #'

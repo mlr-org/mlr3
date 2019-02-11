@@ -1,74 +1,87 @@
 #' @title Learner Class
 #'
-#' @name Learner
-#' @format [R6Class] object.
+#' @usage NULL
+#' @format [R6::R6Class] object.
+#'
 #' @description
-#' Predefined learners are stored in [mlr_learners].
+#' This is the abstract base class for learner objects like [LearnerClassif] and [LearnerRegr].
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
-#' # Construction
-#' l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-#' l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-#' l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-#'
-#' # Members
-#' l$fallback
-#' l$feature_types
-#' l$hash
-#' l$id
-#' l$model
-#' l$packages
-#' l$param_set
-#' l$predict_type
-#' l$predict_types
-#' l$properties
-#' l$task_type
-#'
-#' # Methods
-#' l$train(task)
-#' l$predict(task)
-#' l$params(tag)
+#' l = Learner$new(id, task_type, feature_types = character(0L), predict_types = character(0L),
+#'   packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #' ```
+#' * `id` :: `character(1)`\cr
+#'   Identifier for the learner.
+#' * `task_type` :: `character(1)`\cr
+#'   Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
+#' * `feature_types` :: `character()`\cr
+#'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
+#' * `predict_types` :: `character()`\cr
+#'   Supported predict types. Must be a subset of [`mlr_reflections$predict_types`][mlr_reflections].
+#' * `packages` :: `character()`\cr
+#'   Set of required packages.
+#' * `param_set` :: [paradox::ParamSet]\cr
+#'   Set of hyperparameters.
+#' * `param_vals` :: named `list()`\cr
+#'   List of hyperparameter settings.
+#' * `properties` :: `character()`\cr
+#'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
 #'
-#' @section Arguments:
-#' * `id` (`character(1)`): Identifier for this object.
-#' * `task_type` (`character(1)`): Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
-#' * `feature_types` (`character()`): Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
-#' * `predict_types` (`character()`): Supported predict types. Must be a subset of `mlr_reflections$predict_types`.
-#' * `packages` (`character()`]: Set of required packages.
-#' * `param_set` ([paradox::ParamSet]): Set of hyperparameters.
-#' * `param_vals` (named `list()`): List of hyperparameter settings.
-#' * `properties` (`character()`): Set of properties of the learner. Must be a subset of `mlr_reflections$learner_properties`.
-#' * `task` ([Task]): Task to train/predict on.
-#' * `tag` (`character(1)`): Tag of parameters.
-#'
-#' @section Details:
-#' * `$fallback` ([Learner] | `NULL`) optionally stores a fallback learner which
-#'   is used to generate predictions if this learner fails to train or predict.
+#' @section Public:
+#' * `fallback` :: ([Learner] | `NULL`)\cr
+#'   Optionally stores a second [Learner] which is activated as fallback if this first [Learner] fails during
+#'   train or predict.
 #'   This mechanism is disabled unless you explicitly assign a learner to this slot.
-#' * `$feature_types` (`character()`) stores the feature types the learner can
-#'   handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
-#' * `$hash` (`character(1)`) stores a checksum calculated on the `id` and `param_vals`.
-#'   This hash is cached internally.
-#' * `$id` (`character(1)`) stores the identifier of the object.
-#' * `$packages` (`character()`) stores the names of required packages.
-#' * `$param_set` ([paradox::ParamSet]) describes the available hyperparameter
-#'   and possible settings.
-#' * `$params()` returns a list of hyperparameter settings from `param_vals` where the corresponding parameters in `param_set` are tagged
-#'    with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters used in the training step.
-#' * `$predict_type` (`character(1)`) stores the currently selected predict type.
-#' * `$predict_types` (`character()`) stores the possible predict types the learner
-#'   is capable of. For classification, feasible values are `"response"` and
-#'   `"prob"`, for regression `"response"` and `"se"` can be specified.
-#' * `$properties` (`character()`) is a set of tags which describe the properties
-#'   of the learner.
-#' * `$task_type` (`character(1)`) stores the type of class this learner can
-#'   operate on, e.g. `"classif"` or `"regr"`.
-#' * `$new()` creates a new object of class [Learner].
-#' * `$predict()` takes a [Task] and uses `self$model` (fitted during train())
-#'   to return a [Prediction] object.
-#' * `$train()` takes a [Task], sets the slot `model` and returns `self`.
+#'   Additionally, you need to catch raised exceptions via encapsulation, see [mlr_control()].
+#'
+#' * `feature_types` :: `character()`\cr
+#'   Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+#'   A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
+#'
+#' * `hash` :: `character(1)`\cr
+#'   Hash (unique identifier) of the Learner.
+#'
+#' * `id` :: `character(1)`\cr
+#'   Stores the identifier of the object.
+#'
+#' * `packages` :: `character()`\cr
+#'   Stores the names of required packages. Note that these packages will be loaded via [requireNamespace()],
+#'   and are not attached.
+#'
+#' * `param_set` :: [paradox::ParamSet]\cr
+#'   Description of available hyperparameters and hyperparameter settings.
+#'
+#' * `predict_type` :: `character(1)`\cr
+#'   Stores the currently selected predict type. Must be an element of `l$predict_types`.
+#'
+#' * `predict_types` :: `character()`\cr
+#'   Stores the possible predict types the learner is capable of.
+#'   A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$predict_types`][mlr_reflections].
+#'
+#' * `properties` :: `character()`\cr
+#'   Stores a set of properties/capabilities the learner has.
+#'   A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
+#'
+#' * `task_type` :: `character(1)`\cr
+#'   Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
+#'   A complete list of task types is stored in `mlr_reflections$task_types`.
+#'
+#'
+#'
+#' @section Methods:
+#' * `params(tag)`\cr
+#'   `character(1)` -> named `list()`\cr
+#'   Returns a list of hyperparameter settings from `param_set` where the corresponding parameters in `param_set` are tagged
+#'   with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters used in the training step.
+#'
+#' * `train(task)`\cr
+#'   [Task] -> `self`\cr
+#'   Train the learner on the complete [Task]. The resulting model is stored in `l$model`.
+#'
+#' * `predict(task)`\cr
+#'   [Task] -> [Prediction]\cr
+#'   Uses `l$model` (fitted during `train()`) to return a [Prediction] object.
 #'
 #'
 #' @section Optional Extractors:
@@ -89,8 +102,6 @@
 #'   The learner must be tagged with property "selected_features".
 #'
 #' @family Learner
-NULL
-
 #' @export
 Learner = R6Class("Learner",
   public = list(

@@ -3,7 +3,7 @@
 \name{TaskGenerator}
 \alias{TaskGenerator}
 \title{Task Generators}
-\format{\link{R6Class} object.}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 Creates a \link{Task} of arbitrary size.
 Predefined task generators are stored in \link{mlr_task_generators}.

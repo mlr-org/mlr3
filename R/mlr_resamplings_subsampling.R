@@ -1,6 +1,6 @@
 #' @title Subsampling Resampling
 #'
-#' @format [R6Class] object
+#' @format [R6::R6Class] object
 #' @name mlr_resamplings_subsampling
 #' @format [R6::R6Class] inheriting from [Resampling].
 #'

@@ -5,7 +5,7 @@
 \alias{mlr_measures_regr_mse}
 \alias{MeasureRegrMSE}
 \title{Mean Squared Error Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
+\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{MeasureClassif}.}
 \usage{
 MeasureRegrMSE
 }

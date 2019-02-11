@@ -1,7 +1,7 @@
 #' @title Abstract Prediction Object
 #'
 #' @name Prediction
-#' @format [R6Class] object.
+#' @format [R6::R6Class] object.
 #' @description
 #' This is the abstract base class for task objects like [PredictionClassif] and [PredictionRegr].
 #'

@@ -3,7 +3,7 @@
 \name{PredictionClassif}
 \alias{PredictionClassif}
 \title{Prediction Object for Classification}
-\format{\link{R6Class} object inheriting from \link{Prediction}.}
+\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerClassif}.
 If probabilities are provided via construction and response is missing,

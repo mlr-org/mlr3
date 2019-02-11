@@ -3,7 +3,7 @@
 \name{PredictionRegr}
 \alias{PredictionRegr}
 \title{Prediction Object for Regression}
-\format{\link{R6Class} object inheriting from \link{Prediction}.}
+\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
 }

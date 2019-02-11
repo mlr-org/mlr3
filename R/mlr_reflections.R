@@ -24,8 +24,8 @@ mlr_reflections$task_row_roles = c(
 )
 
 mlr_reflections$task_col_roles = list(
-  regr = c("feature", "target", "order", "groups", "weights"),
-  classif = c("feature", "target", "order", "groups", "weights")
+  regr = c("feature", "target", "order", "group", "weights"),
+  classif = c("feature", "target", "order", "group", "weights")
 )
 
 mlr_reflections$task_properties = list(

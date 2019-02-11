@@ -3,7 +3,7 @@
 \name{Measure}
 \alias{Measure}
 \title{Measure Class}
-\format{\link{R6Class} object.}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 Predefined measures are stored in \link{mlr_measures}.
 }

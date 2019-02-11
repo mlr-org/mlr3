@@ -3,7 +3,7 @@
 \name{Resampling}
 \alias{Resampling}
 \title{Resampling Class}
-\format{\link{R6Class} object.}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 Abstraction for resampling strategies.
 Predefined resamplings are stored in \link{mlr_resamplings}.

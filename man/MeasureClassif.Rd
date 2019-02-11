@@ -3,7 +3,7 @@
 \name{MeasureClassif}
 \alias{MeasureClassif}
 \title{Classification Measure}
-\format{\link{R6Class} object inheriting from \link{Measure}.}
+\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Measure}.}
 \description{
 This task specializes \link{Measure} for classification problems.
 }

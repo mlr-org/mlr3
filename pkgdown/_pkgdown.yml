@@ -99,6 +99,7 @@ reference:
   - title: Benchmarking
     contents:
       - benchmark
+      - expand_grid
       - BenchmarkResult
   - title: Reflections
     contents:

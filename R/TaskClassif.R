@@ -1,37 +1,46 @@
 #' @title Classification Task
 #'
-#' @name TaskClassif
-#' @format [R6Class] object inheriting from [Task]/[TaskSupervised].
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [Task]/[TaskSupervised].
+#' @include TaskSupervised.R
+#'
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.
+#' The slot `$task_type` is set to "classif".
 #' The target column is assumed to be a factor.
 #'
-#' @section Usage:
-#' Inherits from [Task]/[TaskSupervised].
+#' @section Construction:
 #' ```
-#' # Construction
 #' t = TaskClassif$new(id, backend, target, positive = NULL)
-#'
-#' # Members
-#' t$all_classes
-#' t$class_n
-#' t$class_names
-#' t$negative
-#' t$positive
 #' ```
+#' * `id` :: `character(1)`\cr
+#'   Name of the task.
 #'
-#' @section Arguments:
-#' * `positive` (`character(1)`):
-#'   Name of the "positive" class, only required for binary classification problems.
+#' * `backend` :: [DataBackend]
 #'
-#' @section Details:
-#' * `$all_classes` returns all class labels for the target column in the [DataBackend].
-#'   In contrast to `$class_names`, this is not restricted to the currently active rows.
-#' * `$class_n` returns the number of class labels of the rows which `role == "use"`.
-#' * `$class_names` returns all class labels of the rows which `role == "use"`.
-#' * `$task_type` is `"classif"`.
+#' * `target` :: `character(1)`\cr
+#'   Name of the target column.
+#'
+#' * `positive` :: `character(1)`\cr
+#'   Only for binary classification: Name of the positive class.
+#'
+#' @section Public:
+#' * `all_classes` :: `character()`\cr
+#'   Returns all class labels of the task, regardless of the number of active rows.
+#' * `class_names` :: `character()`\cr
+#'   Returns all class labels of the task w.r.t. the active rows.
+#' * `class_n` :: `integer(1)`\cr
+#'   Returns the number of classes.
+#' * `negative` :: `character(1)`\cr
+#'   Stores the negative class for binary classification tasks, and `NA` for multiclass tasks.
+#' * `positive` :: `character(1)`\cr
+#'   Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
+#'
+#' @inheritSection TaskSupervised Public
+#' @inheritSection TaskSupervised Methods
 #'
 #' @family Task
+#' @export
 #' @examples
 #' b = as_data_backend(iris)
 #' task = TaskClassif$new("iris", backend = b, target = "Species")
@@ -46,10 +55,6 @@
 #' task = TaskClassif$new("sonar", backend = b, target = "Class", positive = "M")
 #' task$positive
 #' task$negative
-NULL
-
-#' @include TaskSupervised.R
-#' @export
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(

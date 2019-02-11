@@ -3,7 +3,7 @@
 \name{Dictionary}
 \alias{Dictionary}
 \title{Key-Value Storage}
-\format{\link{R6Class} object.}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 A simple key-value store for \link[R6:R6]{R6::R6} generator objects.
 On retrieval of an object, the following applies:

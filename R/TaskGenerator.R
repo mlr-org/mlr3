@@ -1,7 +1,7 @@
 #' @title Task Generators
 #'
 #' @name TaskGenerator
-#' @format [R6Class] object.
+#' @format [R6::R6Class] object.
 #' @description
 #' Creates a [Task] of arbitrary size.
 #' Predefined task generators are stored in [mlr_task_generators].

@@ -1,127 +1,143 @@
-#' @title Supervised or Unsupervised Tasks
+#' @title Task Class
 #'
-#' @name Task
-#' @format [R6Class] object.
+#' @usage NULL
+#' @format [R6::R6Class] object.
+#'
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
-#' # Construction
-#' t = Task$new(id, backend, task_type)
-#'
-#' # Members
-#' t$backend
-#' t$col_info
-#' t$col_roles
-#' t$features_names
-#' t$feature_types
-#' t$formula
-#' t$groups
-#' t$hash
-#' t$id
-#' t$measures
-#' t$ncol
-#' t$nrow
-#' t$properties
-#' t$row_ids
-#' t$row_roles
-#' t$target_names
-#' t$task_type
-#'
-#' # Methods: Accessors
-#' t$data(rows = NULL, cols = NULL)
-#' t$head(n = 6)
-#' t$levels(col)
-#'
-#' # Methods: Mutators
-#' t$cbind(data)
-#' t$filter(rows)
-#' t$rbind(data)
-#' t$select(cols)
-#' t$replace_features(data, ...)
-#' t$set_col_role(cols, new_roles, exclusive = TRUE)
-#' t$set_row_role(rows, new_roles, exclusive = TRUE)
+#' t = Task$new(id, task_type, backend)
 #' ```
-#'
-#' @section Arguments:
-#' * `id` (`character(1)`):
+#' * `id` :: `character(1)`\cr
 #'   Name of the task.
-#' * `backend` ([DataBackend]):
-#'   [DataBackend] which stores the data.
-#' * `task_type` (`character(1)`):
-#'   Task type. Set via class which inherits from [Task].
-#' * `rows` (`integer()` | `character()`):
-#'   Vector of row ids specifying rows from the [DataBackend] using its primary key.
-#'   Can be `character()` or `integer`, depending on the [DataBackend].
-#' * `cols` (`character()`):
-#'   Character vector to specify columns from the [DataBackend].
-#' * `n` (`integer(1)`):
-#'   Number of rows to retrieve from the [DataBackend].
-#' * `col` (`character(1)`):
-#'   Character vector to specify a single column from the [DataBackend].
-#' * `new_roles` (`character(1)`):
-#'   New roles to assign for specified rows/columns.
-#' * `exclusive` (`logical(1)`):
-#'   If `TRUE`, the cols/rows will be removed from all roles except `new_roles`.
-#' * `data` ([data.frame()]):
-#'   New data to rbind/cbind to the task.
 #'
-#' @section Details:
-#' * `$backend` ([DataBackend]) stores the [DataBackend] of the task.
-#' * `$cbind` extends the task with additional columns.
-#'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
-#' * `$col_info` ([data.table()]) with columns `id`, `type` and `levels`.
-#'   Stores column names of [DataBackend] in column `id`.
-#'   Column `type` stores the storage type of the variables, e.g. `integer`, `numeric` or `character`.
-#'   Column `levels` stores the levels for factor and character variables.
-#' * `$col_roles` (`list`). Each column (feature)
-#'   can have a specific mutually exclusive role in the learning task:
-#'   - `"feature"`: Regular feature.
-#'   - `"target"`: Column with target labels.
-#'   - `"order"`: Returned data is ordered by these column(s).
-#'   - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
-#'        are marked as "belonging together". They will be exclusively assigned to be either in the training set
-#'        or the test set.
-#'        Returns a ([data.table()]) with two columns: first column are rows ids, second column are the group labels.
-#'   - `"weights"`: Observation weights. ([data.table()]) with two columns: first column are the row ids,
-#'       second column are the observation weights.
-#'   To alter the role, use `$set_col_role()`
-#' * `$data` is used to retrieve data from the backend as [data.table()].
-#'   Rows are subsetted to only contain observations with `role == "use"`.
-#'   Columns are filtered to only contain features with `role %in% c("target", "feature")`.
-#'   If invalid `rows` or `cols` are specified, an exception is raised.
-#' * `$feature_names` (`character()`) returns all column names with `role == "feature"`.
-#' * `$feature_types` ([data.table()]) returns a table with columns `id` and `type` where `id` are the column names of "active"
-#'   features of the task and `type` is the storage type.
-#' * `$filter` reduces the task, subsetting it to only the rows specified.
-#' * `$formula` constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`.
-#' * `$groups` returns a ([data.table()]) with two columns: the row ids and the grouping / blocking information.
-#' * `$hash` (`character(1)`) stores a checksum calculated on the `id`, `row_roles` and `col_roles`.
-#' * `$head` ([data.table()]) can be used to peek into the first `n` observations with `role == "use"`.
-#' * `$id` (`character(1)`) stores the name of the task.
-#' * `$measures` (`list` of [Measure]) stores the default measures for this task.
-#' * `$ncol` (`integer(1)`) provides the total number of cols with `role %in% c("target", "feature")`.
-#' * `$nrow` (`integer(1)`) provides the total number of rows with `role == "use"`.
-#' * `$row_ids` (`vector()`) returns the active row ids used in the backend, i.e. subsetted to observations with `role == "use"`.
-#' * `$row_roles` (`list`). Stores the row ids of [DataBackend] in vectors of row roles:
-#'   - `"use"`: Use in training.
-#'   - `"validation"`: Do not use in training, this are (possibly unlabeled) observations
-#'     which are held back unless explicitly addressed.
+#' * `task_type` :: `character(1)`\cr
+#'   Set in the classes which inherit from this class.
+#'   Must be an element of [mlr_reflections$task_types][mlr_reflections].
+#'
+#' * `backend` :: [DataBackend]
+#'
+#'
+#' @section Public:
+#' * `backend` :: [DataBackend].
+#'
+#' * `col_info` :: [data.table::data.table()]\cr
+#'   Table with with 3 columns:
+#'   Column names of [DataBackend] are stored in column`id`.
+#'   Column `type` holds the storage type of the variables, e.g. `integer`, `numeric` or `character`.
+#'   Column `levels` keeps a list of possible levels for factor and character variables.
+#'
+#' * `col_roles` :: named `list()`\cr
+#'   Each column (feature) can have an arbitrary number of roles in the learning task:
+#'     - `"target"`: Labels to predict.
+#'     - `"feature"`: Regular feature.
+#'     - `"order"`: Data returned by `data()` is ordered by this column (or these columns).
+#'     - `"group"`: During resampling, observations with the same value of the variable with role "group"
+#'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
+#'          or the test set for each resampling iteration.
+#'     - `"weights"`: Observation weights.
+#'   `col_roles` keeps track of the roles with a named list of vectors of feature names.
+#'   To alter the roles, use `t$set_col_role()`.
+#'
+#' * `row_roles` :: named `list()`\cr
+#'   Each row (observation) can have an arbitrary number of roles in the learning task:
+#'     - `"use"`: Use in train / predict / resampling.
+#'     - `"validation"`: Hold the observations back unless explicitly requested.
+#'   `row_roles` keeps track of the roles with a named list of vectors of feature names.
 #'   To alter the role, use `set_row_role()`.
-#' * `$target_names` (`character()`) returns all column names with `role == "target"`.
-#' * `$new()` initializes a new object of class [Task].
-#' * `$levels()` (`character()`) queries the distinct levels of the column `col`. Only works for `character` and `factor` columns.
-#'   This function ignores the row roles, so you get all levels found in the [DataBackend].
-#' * `$rbind()` extends the task with additional rows.
-#' * `$select()` reduces the task, subsetting it to only the columns specified.
-#' * `$replace_features()` replaces the features of the task with new data by replacing the [DataBackend].
-#'   The new backend is always a [DataBackendDataTable].
-#'   This operation is similar to calling `select()` and `cbind()`, but allows the garbage collector to clean
-#'   up the previous backend.
-#' * `$set_col_role()` sets the role for specified columns, referenced by name.
+#'
+#' * `feature_names` :: `character()`\cr
+#'   Returns all column names with `role == "feature"`.
+#'
+#' * `feature_types` :: [data.table::data.table()]\cr
+#'   Returns a table with columns `id` and `type` where `id` are the column names of "active" features of the task
+#'   and `type` is the storage type.
+#'
+#'
+#' * `formula` :: `formula()`\cr
+#'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
+#'   the active features of the task.
+#'
+#' * `group` :: [data.table::data.table()]\cr
+#'   Returns a table with columns `row_id` and `group` where `row_id` are the row ids and group is the value of the
+#'   grouping variable. Returns `NULL` if there is no grouping.
+#'
+#' * `hash` :: `character(1)`\cr
+#'   Hash (unique identifier) of the task.
+#'
+#' * `id` :: `character(1)`\cr
+#'   Stores the identifier of the Task.
+#'
+#' * `measures` :: `list()` of [Measure]\cr
+#'   Stores the measures to use for this task.
+#'
+#' * `ncol` :: `integer(1)`\cr
+#'   Returns the total number of cols with role "target" or "feature".
+#'
+#' * `nrow` :: `integer(1)`\cr
+#'   Return the total number of rows with role "use".
+#'
+#' * `row_ids` :: (`integer()` | `character()`)\cr
+#'   Returns the row ids of the [DataBackend] for observations with with role "use".
+#'
+#' * `target_names` :: `character()`\cr
+#'   Returns all column names with role "target".
+#'
+#'
+#' @section Methods:
+#' * `data(rows = NULL, cols = NULL, format = NULL)`\cr
+#'   (`integer()` | `character()`, `character()`, `character(1)`) -> `any`\cr
+#'   Returns a slice of the data from the [DataBackend] in the format specified by `format`
+#'   (depending on the [DataBackend], but usually a [data.table::data.table()]).
+#'   Rows are subsetted to only contain observations with role "use".
+#'   Columns are filtered to only contain features with roles "target" and "feature".
+#'   If invalid `rows` or `cols` are specified, an exception is raised.
+#'
+#' * `cbind(data)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Extends the [DataBackend] with additional columns.
+#'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]). If this column is missing, it is assumed that the rows are exactly in the order of
+#'   `t$row_ids`.
+#'
+#' * `rbind(data)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Extends the [DataBackend] with additional rows.
+#'   The new row ids must be provided as column in `data`.
+#'   If this column is missing, new row ids are constructed automatically.
+#'
+#' * `filter(rows)`\cr
+#'   (`integer()` | `character()`) -> `self`\cr
+#'  Subsets the task, reducing it to only keep the rows specified.
+#'
+#' * `select(cols)`\cr
+#'   `character()` -> ``self`\cr
+#'   Subsets the task, reducing it to only keep the columns specified.
+#'
+#' * `levels(col)`\cr
+#'   `character()` -> named `list()`\cr
+#'   Returns  the distinct levels of the column `col`.
+#'   Only applicable for features with type "character",  "factor" or "ordered".
+#'   This function ignores the row roles, it returns all levels available in the [DataBackend].
+#'
+#' * `head(n = 6)`\cr
+#'   `integer()` -> [data.table::data.table()]\cr
+#'   Get the first `n` observations with role "use".
+#'
+#' * `replace_features(data)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Replaces some features of the task by constructing a completely new [DataBackendDataTable].
+#'   This operation is similar to calling `select()` and `cbind()`, but explicitly copies the data.
+#'
+#' * `set_col_role(cols, new_roles, exclusive = TRUE)`
+#'   (`character()`, `character()`, `logical(1)`) -> `self`.
+#'   Adds the roles `new_roles` to columns referred to by `cols`.
 #'   If `exclusive` is `TRUE`, the referenced columns will be removed from all other roles.
-#' * `$set_row_role()` sets the role for specified rows, referenced by row id.
+#'
+#' * `set_row_role(rows, new_roles, exclusive = TRUE)`
+#'   (`character()`, `character()`, `logical(1)`) -> `self`.
+#'   Adds the roles `new_roles` to rows referred to by `rows`.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
 #'
 #' @section Task mutators:
@@ -132,6 +148,7 @@
 #' merge both backends into an abstract [DataBackend] which combines the results on-demand.
 #'
 #' @family Task
+#' @export
 #' @examples
 #' b = as_data_backend(iris)
 #' task = Task$new("iris", task_type = "classif", backend = b)
@@ -152,10 +169,6 @@
 #'
 #' # Add new column "foo"
 #' task$cbind(data.frame(foo = 1:150))
-NULL
-
-#' @include mlr_reflections.R
-#' @export
 Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
@@ -305,11 +318,12 @@ Task = R6Class("Task",
       generate_formula(self$target_names, self$feature_names)
     },
 
-     groups = function() {
-       groups = self$col_roles$group
-       if (length(groups) == 0L)
+     group = function() {
+       group = self$col_roles$group
+       if (length(group) == 0L)
          return(NULL)
-       setnames(self$backend$data(self$row_roles$use, c(self$backend$primary_key, groups)), groups, "groups")
+       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, group))
+       setnames(data, names(data), c("row_id", "group"))[]
      },
 
      weights = function() {

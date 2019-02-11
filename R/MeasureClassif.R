@@ -1,7 +1,7 @@
 #' @title Classification Measure
 #'
 #' @name MeasureClassif
-#' @format [R6Class] object inheriting from [Measure].
+#' @format [R6::R6Class] object inheriting from [Measure].
 #' @description
 #' This task specializes [Measure] for classification problems.
 #'

@@ -1,7 +1,7 @@
 #' @title Container for Results of `resample()`.
 #'
 #' @name ResampleResult
-#' @format [R6Class] object.
+#' @format [R6::R6Class] object.
 #' @description
 #' This is the object returned by [resample()].
 #'

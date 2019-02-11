@@ -157,7 +157,7 @@
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object.</p>
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object.</p>
     
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
@@ -227,16 +227,16 @@ These groups in the BenchmarkResult can be extracted as <a href='ResampleResult.
 #&gt; 
 #&gt; Public: aggregated(), clone(), combine(), data, get_best(), learners,
 #&gt;   measures, resample_result(), resample_results, resamplings, tasks</div><div class='input'><span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
-#&gt; 1: e77c740a9b5a27f3    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash  learner_id                     learner
+#&gt; 1: 118778cfb7b5918f    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash  learner_id                     learner
 #&gt; 1: a3aea4ed7bc571d2 featureless &lt;LearnerClassifFeatureless&gt;
 #&gt; 2: d64806633203a6d5       rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>resamplings</span></div><div class='output co'>#&gt;     resampling_hash resampling_id     resampling
 #&gt; 1: e740f22253d1c2ee            cv &lt;ResamplingCV&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>measures</span></div><div class='output co'>#&gt;      measure_id              measure
 #&gt; 1: classif.mmce &lt;MeasureClassifMMCE&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='fu'>aggregated</span>(<span class='kw'>objects</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                hash resampling_id task_id  learner_id classif.mmce
-#&gt; 1: 860bec9d9b0db394            cv    iris featureless   0.80666667
-#&gt; 2: b392da9e6f2b5fef            cv    iris       rpart   0.07333333</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
+#&gt; 1: 78f08b3ec3175f45            cv    iris featureless   0.80666667
+#&gt; 2: 24cf82fe4fa281f5            cv    iris       rpart   0.07333333</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id  learner_id resampling_id  N
-#&gt; 1: 860bec9d9b0db394    iris featureless            cv 10
-#&gt; 2: b392da9e6f2b5fef    iris       rpart            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
+#&gt; 1: 78f08b3ec3175f45    iris featureless            cv 10
+#&gt; 2: 24cf82fe4fa281f5    iris       rpart            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'featureless' with 10 iterations
 #&gt;       Measure   Min. 1st Qu. Median   Mean 3rd Qu.   Max.      Sd
 #&gt;  classif.mmce 0.7333     0.8    0.8 0.8067     0.8 0.9333 0.05837</div><div class='input'><span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>model</span></div><div class='output co'>#&gt; $tab

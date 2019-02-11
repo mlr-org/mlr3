@@ -1,7 +1,7 @@
 #' @title Container for Results of `benchmark()`
 #'
 #' @name BenchmarkResult
-#' @format [R6Class] object.
+#' @format [R6::R6Class] object.
 #' @description
 #' This is the result container object returned by [benchmark()].
 #'

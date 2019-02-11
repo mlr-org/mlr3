@@ -5,7 +5,7 @@
 \alias{mlr_resamplings_repeated_cv}
 \alias{ResamplingRepeatedCV}
 \title{Repeated Cross Validation Resampling}
-\format{\link{R6Class} object}
+\format{\link[R6:R6Class]{R6::R6Class} object}
 \usage{
 ResamplingRepeatedCV
 }

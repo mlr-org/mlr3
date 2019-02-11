@@ -1,6 +1,7 @@
 #' @title DataBackend
 #'
-#' @format [`R6Class`] object.
+#' @usage NULL
+#' @format [R6::R6Class] object.
 #'
 #' @description
 #' This is the abstract base class for data backends.
@@ -14,12 +15,16 @@
 #'
 #'
 #' @section Construction:
-#' * `new(data, primary_key = NULL)`\cr
-#'   (`any`, `character(1)`) -> `self`\cr
+#' ```
+#' DataBackend$new(data, primary_key = NULL)
+#' ```
+#' * `data` :: `any`\cr
 #'   The format of the input data depends on the specialization.
-#'   E.g., [DataBackendDataTable] expects a [data.table()] and [DataBackendMatrix] expects a matrix
-#'   constructed with the \pkg{Matrix} package.
-#'   Each backend needs a way to distinctly address rows, which is handled via a `primary_key` column here.
+#'   E.g., [DataBackendDataTable] expects a [data.table::data.table()] and [DataBackendMatrix] expects a [Matrix::Matrix()]
+#'   constructed with the \CRANpkg{Matrix} package.
+#' * `primary_key` :: `character(1)`\cr
+#'   Each DataBackend needs a way to address rows, which is typically handled by a `primary_key` column of unique values.
+#'   The use of this variable may differ between backends.
 #'
 #' @section Public:
 #' * `nrow` :: `integer(1)`\cr
@@ -43,16 +48,16 @@
 #'   Non-existing rows and columns are silently ignored.
 #'
 #' * `distinct(cols)`\cr
-#'   (`character()`) -> named `list()`\cr
+#'   `character()` -> named `list()`\cr
 #'   Returns a named list of vectors of distinct values for each column specified.
 #'   Non-existing columns are silently ignored.
 #'
 #' * `head(n = 6)`\cr
-#'   (`integer(1)`) -> `data.table()`\cr
-#'   Returns the first up-to `n` rows of the data as `data.table()`.
+#'   `integer(1)` -> [data.table::data.table()]\cr
+#'   Returns the first up-to `n` rows of the data as [data.table::data.table()].
 #'
 #' * `missing(rows, cols)`\cr
-#'   (`integer()` | `character()`), `character()`) -> named `integer()`\cr
+#'   (`integer()` | `character()`, `character()`) -> named `integer()`\cr
 #'   Returns the number of missing values per column in the specified slice of data.
 #'   Non-existing rows and columns are silently ignored.
 #'

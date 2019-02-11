@@ -31,7 +31,11 @@
 <meta property="og:title" content="DataBackend — DataBackend" />
 
 <meta property="og:description" content="This is the abstract base class for data backends.
-See DataBackendDataTable for an exemplary implementation of this interface." />
+See DataBackendDataTable or DataBackendMatrix for exemplary implementations of this interface.
+Data Backends provide a layer of abstraction for various data storage systems.
+The required set of operations to implement is listed in the Methods section.
+Note that all data access is handled transparently via the Task.
+It is not recommended to work directly with the DataBackend." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -153,53 +157,67 @@ See DataBackendDataTable for an exemplary implementation of this interface." />
 
     
     <p>This is the abstract base class for data backends.
-See <a href='DataBackendDataTable.html'>DataBackendDataTable</a> for an exemplary implementation of this interface.</p>
+See <a href='DataBackendDataTable.html'>DataBackendDataTable</a> or <a href='DataBackendMatrix.html'>DataBackendMatrix</a> for exemplary implementations of this interface.</p>
+<p>Data Backends provide a layer of abstraction for various data storage systems.
+The required set of operations to implement is listed in the Methods section.</p>
+<p>Note that all data access is handled transparently via the <a href='Task.html'>Task</a>.
+It is not recommended to work directly with the DataBackend.</p>
     
 
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object.</p>
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object.</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
-    <pre># Construction
-b = as_data_backend(data, primary_key = NULL)
-    # Members
-b$colnames
-b$ncol
-b$nrow
-b$rownames
-    # Methods
-b$data(rows, cols)
-b$distinct(cols)
-b$head(n = 6)
-b$missing(rows, cols)
-print(b)
+    <pre>DataBackend$new(data, primary_key = NULL)
 </pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>data</code>: Data to wrap the backend around. Typically a <code>data.frame</code>.</p></li>
-<li><p><code>rows</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Vector of row indices to subset rows using the primary key in the data backend.</p></li>
-<li><p><code>cols</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Vector of column names to select.</p></li>
-<li><p><code>n</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>): Number of rows to return.</p></li>
+<ul>
+<li><p><code>data</code> :: <code>any</code><br />
+The format of the input data depends on the specialization.
+E.g., <a href='DataBackendDataTable.html'>DataBackendDataTable</a> expects a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code> and <a href='DataBackendMatrix.html'>DataBackendMatrix</a> expects a <code><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>
+constructed with the <a href='https://CRAN.R-project.org/package=Matrix'><span class="pkg">Matrix</span></a> package.</p></li>
+<li><p><code>primary_key</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Each DataBackend needs a way to address rows, which is typically handled by a <code>primary_key</code> column of unique values.
+The use of this variable may differ between backends.</p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="public"><a class="anchor" href="#public"></a>Public</h2>
 
     
     <ul>
-<li><p><code>$colnames</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all column names of <code>data</code>.</p></li>
-<li><p><code>$ncol</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) returns the number of total columns, including primary key column.</p></li>
-<li><p><code>$nrow</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) returns the number of total rows.</p></li>
-<li><p><code>$rownames</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all row names of <code>data</code>.</p></li>
-<li><p><code>$data()</code> (<code>data.table()</code>) returns a slice of the data: rows are filtered using the <code>primary_key</code> column, columns are selected by name.</p></li>
-<li><p><code>$distinct()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) returns distinct values for columns <code>cols</code>.</p></li>
-<li><p><code>$head()</code> (data.table) returns a table of the first <code>n</code> data rows.</p></li>
-<li><p><code>$missing()</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code>) returns a named integer with the number of missing values per column.</p></li>
+<li><p><code>nrow</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code><br />
+Number of rows (observations).</p></li>
+<li><p><code>ncol</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code><br />
+Number of columns (variables), including the primary key column.</p></li>
+<li><p><code>colnames</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Returns vector of all column names, including the primary key column.</p></li>
+<li><p><code>rownames</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Returns vector of all distinct row identifiers, i.e. the primary key column.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <ul>
+<li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data(rows = NULL, cols = NULL, format = "data.table")</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>), <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; <code>any</code><br />
+Returns a slice of the data in a specific format.
+Currently, the only supported format is "data.table".
+The rows must be addressed as vector of primary key values, columns must be referred to via column names.
+Non-existing rows and columns are silently ignored.</p></li>
+<li><p><code>distinct(cols)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+Returns a named list of vectors of distinct values for each column specified.
+Non-existing columns are silently ignored.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head(n = 6)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Returns the first up-to <code>n</code> rows of the data as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/missing'>missing(rows, cols)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code><br />
+Returns the number of missing values per column in the specified slice of data.
+Non-existing rows and columns are silently ignored.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -209,6 +227,26 @@ print(b)
   <code><a href='as_data_backend.html'>as_data_backend</a></code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>data</span> <span class='kw'>=</span> <span class='kw pkg'>data.table</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table</a></span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fl'>5</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='fl'>5</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+
+<span class='no'>b</span> <span class='kw'>=</span> <span class='no'>DataBackendDataTable</span>$<span class='fu'>new</span>(<span class='no'>data</span>, <span class='kw'>primary_key</span> <span class='kw'>=</span> <span class='st'>"id"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>)</div><div class='output co'>#&gt; &lt;DataBackendDataTable&gt; (5x3)
+#&gt; 
+#&gt; Public: colnames, compact_seq, data(), distinct(), formats, hash,
+#&gt;   head(), missing(), ncol, nrow, primary_key, rownames
+#&gt;    id         x y
+#&gt; 1:  1 0.9566087 a
+#&gt; 2:  2 0.8444304 b
+#&gt; 3:  3 0.2227686 b
+#&gt; 4:  4 0.4201702 a
+#&gt; 5:  5 0.4199829 c</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt;    id         x y
+#&gt; 1:  1 0.9566087 a
+#&gt; 2:  2 0.8444304 b</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='st'>"x"</span>)</div><div class='output co'>#&gt;            x
+#&gt; 1: 0.9566087
+#&gt; 2: 0.8444304</div><div class='input'><span class='no'>b</span>$<span class='fu'>distinct</span>(<span class='st'>"y"</span>)</div><div class='output co'>#&gt; $y
+#&gt; [1] "a" "b" "c"
+#&gt; </div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/missing'>missing</a></span>(<span class='fl'>1</span>:<span class='no'>n</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>data</span>))</div><div class='output co'>#&gt; <span class='error'>Error in assert_atomic_vector(rows): object 'n' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -216,14 +254,16 @@ print(b)
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#construction">Construction</a></li>
 
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#public">Public</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#methods">Methods</a></li>
 
       <li><a href="#see-also">See also</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

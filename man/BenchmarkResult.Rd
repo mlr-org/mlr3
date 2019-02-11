@@ -3,7 +3,7 @@
 \name{BenchmarkResult}
 \alias{BenchmarkResult}
 \title{Container for Results of \code{benchmark()}}
-\format{\link{R6Class} object.}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
 }

@@ -1,7 +1,7 @@
 #' @title Prediction Object for Regression
 #'
 #' @name PredictionRegr
-#' @format [R6Class] object inheriting from [Prediction].
+#' @format [R6::R6Class] object inheriting from [Prediction].
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerRegr].
 #'

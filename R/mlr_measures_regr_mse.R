@@ -1,7 +1,7 @@
 #' @title Mean Squared Error Measure
 #'
 #' @name mlr_measures_regr_mse
-#' @format [R6::R6Class()] inheriting from [MeasureClassif].
+#' @format [R6::R6Class] inheriting from [MeasureClassif].
 #'
 #' @description
 #' Calls [Metrics::mse].

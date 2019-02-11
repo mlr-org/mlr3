@@ -3,7 +3,7 @@
 \name{mlr_resamplings}
 \alias{mlr_resamplings}
 \title{Dictionary of Resampling Strategies}
-\format{\link{R6Class} object}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 A simple \link{Dictionary} storing objects of class \link{Resampling}.
 Each resampling has an associated help page, see \code{mlr_resamplings_[id]}.

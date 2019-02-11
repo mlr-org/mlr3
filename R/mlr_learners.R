@@ -1,6 +1,6 @@
 #' @title Dictionary of Learners
 #'
-#' @format [R6Class] object
+#' @format [R6::R6Class] object
 #' @description
 #' A simple [Dictionary] storing objects of class [Learner].
 #' Each learner has an associated help page, see `mlr_learners_[id]`.

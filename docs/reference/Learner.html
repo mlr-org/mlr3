@@ -30,7 +30,7 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="Learner Class — Learner" />
 
-<meta property="og:description" content="Predefined learners are stored in mlr_learners." />
+<meta property="og:description" content="This is the abstract base class for learner objects like LearnerClassif and LearnerRegr." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -151,83 +151,86 @@
     </div>
 
     
-    <p>Predefined learners are stored in <a href='mlr_learners.html'>mlr_learners</a>.</p>
+    <p>This is the abstract base class for learner objects like <a href='LearnerClassif.html'>LearnerClassif</a> and <a href='LearnerRegr.html'>LearnerRegr</a>.</p>
     
 
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object.</p>
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object.</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
-    <pre># Construction
-l = Learner$new(id, task_type, feature_types= character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-l = LearnerClassif$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-l = LearnerRegr$new(id, feature_types = character(0L), predict_types = "response", packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
-    # Members
-l$fallback
-l$feature_types
-l$hash
-l$id
-l$model
-l$packages
-l$param_set
-l$predict_type
-l$predict_types
-l$properties
-l$task_type
-    # Methods
-l$train(task)
-l$predict(task)
-l$params(tag)
+    <pre>l = Learner$new(id, task_type, feature_types = character(0L), predict_types = character(0L),
+  packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 </pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): Identifier for this object.</p></li>
-<li><p><code>task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): Type of the task the learner can operator on. E.g., <code>"classif"</code> or <code>"regr"</code>.</p></li>
-<li><p><code>feature_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Feature types the learner operates on. Must be a subset of <code>mlr_reflections$task_feature_types</code>.</p></li>
-<li><p><code>predict_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Supported predict types. Must be a subset of <code>mlr_reflections$predict_types</code>.</p></li>
-<li><p><code>packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>]: Set of required packages.</p></li>
-<li><p><code>param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>): Set of hyperparameters.</p></li>
-<li><p><code>param_vals</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>): List of hyperparameter settings.</p></li>
-<li><p><code>properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Set of properties of the learner. Must be a subset of <code>mlr_reflections$learner_properties</code>.</p></li>
-<li><p><code>task</code> (<a href='Task.html'>Task</a>): Task to train/predict on.</p></li>
-<li><p><code>tag</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): Tag of parameters.</p></li>
+<ul>
+<li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Identifier for the learner.</p></li>
+<li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Type of the task the learner can operator on. E.g., <code>"classif"</code> or <code>"regr"</code>.</p></li>
+<li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Feature types the learner operates on. Must be a subset of <code>mlr_reflections$task_feature_types</code>.</p></li>
+<li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Supported predict types. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$predict_types</a></code>.</p></li>
+<li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Set of required packages.</p></li>
+<li><p><code>param_set</code> :: <a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a><br />
+Set of hyperparameters.</p></li>
+<li><p><code>param_vals</code> :: named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+List of hyperparameter settings.</p></li>
+<li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Set of properties of the learner. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$learner_properties</a></code>.</p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="public"><a class="anchor" href="#public"></a>Public</h2>
 
     
     <ul>
-<li><p><code>$fallback</code> (Learner | <code>NULL</code>) optionally stores a fallback learner which
-is used to generate predictions if this learner fails to train or predict.
-This mechanism is disabled unless you explicitly assign a learner to this slot.</p></li>
-<li><p><code>$feature_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the feature types the learner can
-handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.</p></li>
-<li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code> and <code>param_vals</code>.
-This hash is cached internally.</p></li>
-<li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
-<li><p><code>$packages</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the names of required packages.</p></li>
-<li><p><code>$param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>) describes the available hyperparameter
-and possible settings.</p></li>
-<li><p><code>$params()</code> returns a list of hyperparameter settings from <code>param_vals</code> where the corresponding parameters in <code>param_set</code> are tagged
+<li><p><code>fallback</code> :: (Learner | <code>NULL</code>)<br />
+Optionally stores a second Learner which is activated as fallback if this first Learner fails during
+train or predict.
+This mechanism is disabled unless you explicitly assign a learner to this slot.
+Additionally, you need to catch raised exceptions via encapsulation, see <code><a href='mlr_control.html'>mlr_control()</a></code>.</p></li>
+<li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
+A complete list of candidate feature types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a></code>.</p></li>
+<li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Hash (unique identifier) of the Learner.</p></li>
+<li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the identifier of the object.</p></li>
+<li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores the names of required packages. Note that these packages will be loaded via <code><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace()</a></code>,
+and are not attached.</p></li>
+<li><p><code>param_set</code> :: <a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a><br />
+Description of available hyperparameters and hyperparameter settings.</p></li>
+<li><p><code>predict_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the currently selected predict type. Must be an element of <code>l$predict_types</code>.</p></li>
+<li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$predict_types</a></code>.</p></li>
+<li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$learner_properties</a></code>.</p></li>
+<li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the type of class this learner can operate on, e.g. <code>"classif"</code> or <code>"regr"</code>.
+A complete list of task types is stored in <code>mlr_reflections$task_types</code>.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <ul>
+<li><p><code>params(tag)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+Returns a list of hyperparameter settings from <code>param_set</code> where the corresponding parameters in <code>param_set</code> are tagged
 with <code>tag</code>. I.e., <code>l$params("train")</code> returns all settings of hyperparameters used in the training step.</p></li>
-<li><p><code>$predict_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the currently selected predict type.</p></li>
-<li><p><code>$predict_types</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) stores the possible predict types the learner
-is capable of. For classification, feasible values are <code>"response"</code> and
-<code>"prob"</code>, for regression <code>"response"</code> and <code>"se"</code> can be specified.</p></li>
-<li><p><code>$properties</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) is a set of tags which describe the properties
-of the learner.</p></li>
-<li><p><code>$task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the type of class this learner can
-operate on, e.g. <code>"classif"</code> or <code>"regr"</code>.</p></li>
-<li><p><code>$new()</code> creates a new object of class Learner.</p></li>
-<li><p><code>$predict()</code> takes a <a href='Task.html'>Task</a> and uses <code>self$model</code> (fitted during train())
-to return a <a href='Prediction.html'>Prediction</a> object.</p></li>
-<li><p><code>$train()</code> takes a <a href='Task.html'>Task</a>, sets the slot <code>model</code> and returns <code>self</code>.</p></li>
+<li><p><code>train(task)</code><br />
+<a href='Task.html'>Task</a> -&gt; <code>self</code><br />
+Train the learner on the complete <a href='Task.html'>Task</a>. The resulting model is stored in <code>l$model</code>.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(task)</a></code><br />
+<a href='Task.html'>Task</a> -&gt; <a href='Prediction.html'>Prediction</a><br />
+Uses <code>l$model</code> (fitted during <code>train()</code>) to return a <a href='Prediction.html'>Prediction</a> object.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="optional-extractors"><a class="anchor" href="#optional-extractors"></a>Optional Extractors</h2>
@@ -258,11 +261,11 @@ The learner must be tagged with property "selected_features".</p></li>
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#construction">Construction</a></li>
 
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#public">Public</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#methods">Methods</a></li>
 
       <li><a href="#optional-extractors">Optional Extractors</a></li>
 

@@ -1,19 +1,24 @@
 #' @title DataBackend for `data.table`
 #'
-#' @format [R6Class] object inheriting from [DataBackend].
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [DataBackend].
 #' @include DataBackend.R
 #'
 #' @description
-#' [DataBackend] for [data.table()] as an in-memory data base.
+#' [DataBackend] for \CRANpkg{data.table} as an in-memory data base.
 #'
 #' @section Construction:
-#' * `new(data, primary_key = NULL, format = )`\cr
-#'   (`data.table()`, `character(1)`) -> `self`\cr
-#'   The input `data.table()` is not copied, and argument `primary_key` must be column of the `data`.
-#' * `as_data_backend(data, primary_key = NULL)`\cr
-#'   `data.frame()` -> `self`\cr
-#'   Converts `data` to `data.table()` (or copies it), and automatically creates a primary key column
-#'   if `primary_key` is `NULL.
+#' ```
+#' DataBackendDataTable$new(data, primary_key = NULL)
+#' ```
+#' * `data` :: [data.table::data.table()]\cr
+#'   The input [data.table::data.table()] (as reference).
+#' * `primary_key` :: `character(1)`\cr
+#'   Name of the primary key column.
+#'
+#' Alternatively, use [as_data_backend] on a [data.table::data.table()] which will
+#' construct a [DataBackend] with a copy of the data, and automatically
+#' creates a primary key column if required.
 #'
 #' @inheritSection DataBackend Public
 #' @inheritSection DataBackend Methods

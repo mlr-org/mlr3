@@ -1,7 +1,7 @@
 #' @title Prediction Object for Classification
 #'
 #' @name PredictionClassif
-#' @format [R6Class] object inheriting from [Prediction].
+#' @format [R6::R6Class] object inheriting from [Prediction].
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerClassif].
 #' If probabilities are provided via construction and response is missing,

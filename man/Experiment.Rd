@@ -4,41 +4,57 @@
 \name{Experiment}
 \alias{Experiment}
 \title{Experiment}
-\format{\code{\link{R6Class}} object.}
-\usage{
-Experiment
-}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 Container object for a machine learning experiment.
 }
 \section{Construction}{
-
+\preformatted{Experiment$new(task = NULL, learner = NULL, ctrl = list())
+}
 \itemize{
-\item $new(task = NULL, learner = NULL, ctrl = list())\code{\cr ([Task], [Learner], }list()\code{) -> }self\code{\cr The [Task] and [Learner] may be }NULL\code{during initialization, but are mandatory to train the Experiment. To construct the control object}ctrl`, see \code{\link[=mlr_control]{mlr_control()}}.
+\item \code{task} :: \link{Task}\cr
+May be \code{NULL} during initialization, but is mandatory to train the Experiment.
+\item \code{learner} :: \link{Learner}\cr
+May be \code{NULL} during initialization, but is mandatory to train the Experiment.
+\item \code{ctrl} :: named \code{list()}\cr
+Control object, see \code{\link[=mlr_control]{mlr_control()}}.
 }
 }
 
 \section{Public}{
 
 \itemize{
-\item \code{data} :: named \code{list} \cr
+\item \code{data} :: named \code{list()}\cr
 Internal data storage as a \code{named list} with the following slots:
 \itemize{
-\item iteration (\code{integer(1)}): Refers to the iteration number of the stored \link{Resampling} object.
+\item \code{iteration} :: \code{integer(1)}\cr
+Refers to the iteration number of the stored \link{Resampling} object.
 If the experiment is constructed manually, this is always \code{1}, as there is only one training-test split.
-\item learner (\link{Learner}).
-\item measures (\code{list} of \link{Measure}): Measures used for performance assessment.
-\item performance (\code{named numeric}): Performance values returned by the measures.
-\item predict_log (\link{Log}): for the predict step.
-\item predict_time (\code{numeric(1)}): Elapsed time in microseconds.
-\item prediction (\link{Prediction}):
-\item resampling (\link{Resampling}): Is \code{NULL} prior to calling \code{$train()}. If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, a \code{ResamplingCustom} object is stored here.
-\item score_time (\code{numeric(1)}): Elapsed time in microseconds.
-\item task (\link{Task}):
-\item train_log (\link{Log}): Log for the training step.
-\item train_time (\code{numeric(1)}). Elapsed time in microseconds.
+\item \code{learner} :: \link{Learner}\cr
+A clone of the \link{Learner} provided during construction.
+\item \code{measures} :: \code{list()} of \link{Measure}\cr
+Measures for performance assessment.
+\item \code{performance} :: named \code{numeric()}\cr
+Aggregated scores returned by the measures, named with measure ids.
+\item \code{prediction} :: \link{Prediction}\cr
+Prediction object as returned by the \link{Learner}'s \code{predict()} call.
+\item \code{resampling} :: \link{Resampling}\cr
+Is \code{NULL} prior to calling \code{$train()}.
+If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, a \link{ResamplingCustom} object is stored here.
+\item \code{task} :: \link{Task}\cr
+A clone of the \link{Task} provided during construction.
+\item \code{train_log} :: \link{Log}
+: Log for the training step.
+\item \code{predict_log} :: \link{Log}\cr
+Log of the predict step.
+\item \code{train_time} :: \code{numeric(1)}\cr
+Elapsed time during train in seconds.
+\item \code{predict_time} :: \code{numeric(1)}\cr
+Elapsed time during predict in seconds.
+\item \code{score_time} :: \code{numeric(1)}\cr
+Elapsed time during score in seconds.
 }
-\item \code{ctrl} :: \code{list}\cr
+\item \code{ctrl} :: \code{list()}\cr
 Control settings passed during initialization.
 \item \code{has_errors} :: \code{logical(1)}\cr
 Flag which is \code{TRUE} if any error has been recorded during \code{$train()} or \code{$predict()}.
@@ -52,13 +68,13 @@ The row ids of the training set for \code{$train()}.
 The row ids of the test set for \code{$predict()}
 \item \code{learner} :: \link{Learner}\cr
 Access the stored \link{Learner}.
-\item \code{logs} :: named \code{list}\cr
+\item \code{logs} :: named \code{list()}\cr
 Access to the stored \link{Log} objects.
 \item \code{model} :: \code{any}\cr
 Access the trained model of the \link{Learner}.
 \item \code{performance} :: \code{numeric()}\cr
 Access the scored performance scores as returned by the \link{Measure} stored in the \link{Task}.
-\item prediction` :: \link{Prediction}\cr
+\item \code{prediction} :: \link{Prediction}\cr
 Access the individual predictions of the model stored in the \link{Learner}.
 \item \code{seeds} :: \code{integer(3)}\cr
 Named integer of random number generator seeds passed to \code{\link[=set.seed]{set.seed()}} prior to calling external code in \code{train()}, \code{predict()} or \code{score(). Names must match "train", "predict" and "score". Set to }NA` to disable seeding (default).
@@ -76,20 +92,20 @@ The row ids of the validation set of the \link{Task}.
 
 \itemize{
 \item \code{train(row_ids = NULL, ctrl = list())} \cr
-(\code{integer} | \code{character}), \code{list}) -> \code{self}\cr
+(\code{integer()} | \code{character()}), \code{list()}) -> \code{self}\cr
 Fits the induced \link{Learner} on the \code{row_ids} of the \link{Task} and stores the model inside the \link{Learner} object.
 The model can be accessed via \code{$model}.
 \item \code{predict(row_ids = NULL, newdata = NULL, ctrl = list())}\cr
-(\code{integer} | \code{character}, \code{data.frame()}, \code{list}) -> \code{self}\cr
+(\code{integer()} | \code{character()}, \code{data.frame()}, \code{list()}) -> \code{self}\cr
 Uses the previously trained model to predict new observations.
 New observations are either addressed as \code{row_ids} of the stored task, or
 you can pass new observations as \code{data.frame()}.
-Note predicting on new data fuses the new observations into the \link{Task} first, and thereby
-mutates the Experiment. To avoid any side effects, it is advised to clone the Experiment first.
+Note that predicting on new data fuses the new observations into the \link{Task} first, and thereby
+mutates the Experiment. To avoid any side effects, it is advised to clone the experiment first.
 The resulting predictions are stored internally as an \link{Prediction} object and can be
 accessed via \code{$prediction}.
 \item \code{score(ctrl = list())} \cr
-(\code{list}) -> \code{self}\cr
+\code{list()} -> \code{self}\cr
 Quantifies stored predictions using the \link{Measure} defined in the \link{Task}.
 The performance is stored internally and can be accessed via \code{$performance}.
 }

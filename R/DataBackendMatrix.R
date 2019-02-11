@@ -1,19 +1,22 @@
 #' @title DataBackend for Matrix
 #'
-#' @format [R6Class] object inheriting from [DataBackend].
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [DataBackend].
 #' @include DataBackend.R
 #'
 #' @description
-#' [DataBackend] for [Matrix::Matrix()]. Data is stored as (sparse) matrix.
+#' [DataBackend] for \CRANpkg{Matrix}. Data is stored as (sparse) matrix.
 #'
 #' @section Construction:
-#' * `new(data, primary_key = NULL)`\cr
-#'   [Matrix::Matrix()] -> `self`\cr
-#'   Primary key columns are not supported. Rows are addresses by their rownames.
-#'   If the matrix does not have row names, row indices are used.
-#' * `as_data_backend(data, ...)`\cr
-#'   [Matrix::Matrix()] -> `self`\cr
-#'   Constructs the DataBackend, and possibly performs some sanity checks.
+#' ```
+#' DataBackendMatrix$new(data, primary_key = NULL)
+#' ```
+#' * `data` :: [Matrix::Matrix()].
+#' * `primary_key` :: `character(1)`\cr
+#'   Not supported by this backend. Rows are addresses by their [rownames()].
+#'   If the matrix does not have row names, integer row indices are used.
+#'
+#' Alternatively, use [as_data_backend] on a [Matrix::Matrix()].
 #'
 #' @inheritSection DataBackend Public
 #' @inheritSection DataBackend Methods

@@ -3,7 +3,7 @@
 \name{Log}
 \alias{Log}
 \title{Learner Output Log}
-\format{\link{R6Class} object.}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 Object which stores the text output of the \code{train} or \code{predict} step of an \link{Experiment}.
 }

@@ -1,6 +1,6 @@
 #' @title Dictionary of Performance Measures
 #'
-#' @format [R6Class] object.
+#' @format [R6::R6Class] object.
 #' @description
 #' A simple [Dictionary] storing objects of class [Measure].
 #' Each measure has an associated help page, see `mlr_measures_[id]`.

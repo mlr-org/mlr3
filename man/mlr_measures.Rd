@@ -3,7 +3,7 @@
 \name{mlr_measures}
 \alias{mlr_measures}
 \title{Dictionary of Performance Measures}
-\format{\link{R6Class} object.}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 A simple \link{Dictionary} storing objects of class \link{Measure}.
 Each measure has an associated help page, see \code{mlr_measures_[id]}.

@@ -1,7 +1,7 @@
 #' @title Key-Value Storage
 #'
 #' @name Dictionary
-#' @format [R6Class] object.
+#' @format [R6::R6Class] object.
 #' @description
 #' A simple key-value store for [R6::R6] generator objects.
 #' On retrieval of an object, the following applies:

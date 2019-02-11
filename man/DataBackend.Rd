@@ -4,10 +4,7 @@
 \name{DataBackend}
 \alias{DataBackend}
 \title{DataBackend}
-\format{\code{\link{R6Class}} object.}
-\usage{
-DataBackend
-}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for data backends.
 See \link{DataBackendDataTable} or \link{DataBackendMatrix} for exemplary implementations of this interface.
@@ -19,14 +16,16 @@ Note that all data access is handled transparently via the \link{Task}.
 It is not recommended to work directly with the DataBackend.
 }
 \section{Construction}{
-
+\preformatted{DataBackend$new(data, primary_key = NULL)
+}
 \itemize{
-\item \code{new(data, primary_key = NULL)}\cr
-(\code{any}, \code{character(1)}) -> \code{self}\cr
+\item \code{data} :: \code{any}\cr
 The format of the input data depends on the specialization.
-E.g., \link{DataBackendDataTable} expects a \code{\link[=data.table]{data.table()}} and \link{DataBackendMatrix} expects a matrix
-constructed with the \pkg{Matrix} package.
-Each backend needs a way to distinctly address rows, which is handled via a \code{primary_key} column here.
+E.g., \link{DataBackendDataTable} expects a \code{\link[data.table:data.table]{data.table::data.table()}} and \link{DataBackendMatrix} expects a \code{\link[Matrix:Matrix]{Matrix::Matrix()}}
+constructed with the \CRANpkg{Matrix} package.
+\item \code{primary_key} :: \code{character(1)}\cr
+Each DataBackend needs a way to address rows, which is typically handled by a \code{primary_key} column of unique values.
+The use of this variable may differ between backends.
 }
 }
 
@@ -54,14 +53,14 @@ Currently, the only supported format is "data.table".
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Non-existing rows and columns are silently ignored.
 \item \code{distinct(cols)}\cr
-(\code{character()}) -> named \code{list()}\cr
+\code{character()} -> named \code{list()}\cr
 Returns a named list of vectors of distinct values for each column specified.
 Non-existing columns are silently ignored.
 \item \code{head(n = 6)}\cr
-(\code{integer(1)}) -> \code{data.table()}\cr
-Returns the first up-to \code{n} rows of the data as \code{data.table()}.
+\code{integer(1)} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Returns the first up-to \code{n} rows of the data as \code{\link[data.table:data.table]{data.table::data.table()}}.
 \item \code{missing(rows, cols)}\cr
-(\code{integer()} | \code{character()}), \code{character()}) -> named \code{integer()}\cr
+(\code{integer()} | \code{character()}, \code{character()}) -> named \code{integer()}\cr
 Returns the number of missing values per column in the specified slice of data.
 Non-existing rows and columns are silently ignored.
 }

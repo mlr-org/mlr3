@@ -1,7 +1,7 @@
 #' @title Learner Output Log
 #'
 #' @name Log
-#' @format [R6Class] object.
+#' @format [R6::R6Class] object.
 #' @description
 #' Object which stores the text output of the `train` or `predict` step of an [Experiment].
 #'

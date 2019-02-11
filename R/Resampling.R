@@ -1,7 +1,7 @@
 #' @title Resampling Class
 #'
 #' @name Resampling
-#' @format [R6Class] object.
+#' @format [R6::R6Class] object.
 #' @description
 #' Abstraction for resampling strategies.
 #' Predefined resamplings are stored in [mlr_resamplings].
@@ -119,17 +119,17 @@ Resampling = R6Class("Resampling",
 
     instantiate = function(task) {
       assert_task(task)
-      groups = task$groups
+      group = task$group
 
       if (length(self$stratify) == 0L) {
-        if (is.null(groups)) {
+        if (is.null(group)) {
           instance = private$.sample(task$row_ids)
         } else {
-          private$.groups = groups
-          instance = private$.sample(unique(groups$groups))
+          private$.group = group
+          instance = private$.sample(unique(group$group))
         }
       } else {
-        if (!is.null(groups))
+        if (!is.null(group))
           stopf("Cannot combine stratification with grouping")
         instances = stratify(task, self$stratify)
         instance = private$.combine(lapply(instances$..row_id, private$.sample))
@@ -157,7 +157,7 @@ Resampling = R6Class("Resampling",
   ),
 
   private = list(
-    .groups = NULL,
+    .group = NULL,
 
     .calculate_hash = function() {
       # if (is.null(self$instance))
@@ -171,7 +171,7 @@ Resampling = R6Class("Resampling",
       i = assert_int(i, lower = 1L, upper = self$iters, coerce = TRUE)
       ids = getter(i)
 
-      if (is.null(private$.groups)) ids else private$.groups[ids, on = "groups"][[1L]]
+      if (is.null(private$.group)) ids else private$.group[ids, on = "group"][[1L]]
     }
   )
 )

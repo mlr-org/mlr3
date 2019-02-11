@@ -1,6 +1,6 @@
 #' @title Holdout Resampling
 #'
-#' @format [R6Class] object
+#' @format [R6::R6Class] object
 #' @name mlr_resamplings_holdout
 #' @format [R6::R6Class] inheriting from [Resampling].
 #'
