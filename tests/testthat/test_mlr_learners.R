@@ -1,9 +1,9 @@
 context("mlr_learners")
 
 test_that("mlr_learners", {
-  ids = mlr_learners$ids()
+  keys = mlr_learners$keys()
 
-  for (key in ids) {
+  for (key in keys) {
     m = mlr_learners$get(key)
     expect_learner(m)
   }

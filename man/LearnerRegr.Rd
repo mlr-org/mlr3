@@ -84,7 +84,7 @@ Uses \code{l$model} (fitted during \code{train()}) to return a \link{Prediction}
 
 \examples{
 # get all regression learners from mlr_learners:
-lrns = mlr_learners$mget(mlr_learners$ids("^regr"))
+lrns = mlr_learners$mget(mlr_learners$keys("^regr"))
 names(lrns)
 
 # get a specific learner from mlr_learners:

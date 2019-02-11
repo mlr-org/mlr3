@@ -14,7 +14,6 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_measures$ids()
 as.data.table(mlr_measures)
 mlr_measures$get("classif.mmce")
 }

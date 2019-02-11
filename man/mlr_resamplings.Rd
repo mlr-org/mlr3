@@ -14,7 +14,6 @@ Inherits from \link{Dictionary}.
 }
 
 \examples{
-mlr_resamplings$ids()
 as.data.table(mlr_resamplings)
 mlr_resamplings$get("cv")
 }

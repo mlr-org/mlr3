@@ -1,7 +1,9 @@
 #' @title Key-Value Storage
 #'
+#' @usage NULL
 #' @name Dictionary
 #' @format [R6::R6Class] object.
+#'
 #' @description
 #' A simple key-value store for [R6::R6] generator objects.
 #' On retrieval of an object, the following applies:
@@ -9,45 +11,33 @@
 #' * R6 Factories (objects of class `R6ClassGenerator`) are initialized (with additional arguments).
 #' * Functions are called (with additional arguments) and must return an instance of a [R6::R6] object.
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
-#' # Construction
 #' d = Dictionary$new()
-#'
-#' # Methods
-#' d$add(value)
-#' d$get(key, ...)
-#' d$has(keys)
-#' d$keys(pattern)
-#' d$mget(keys, ...)
-#' d$remove(key, value)
-#' d$remove(keys)
-#'
-#' ## S3 methods
-#' as.data.frame(d)
-#' as.data.table(d)
 #' ```
 #'
-#' @section Arguments:
-#' * `pattern` (`character(1)`): Restrict to ids which match the regular expression `pattern`.
-#' * `id` (`character(1)`): Single id as string.
-#' * `value`: Arbitrary value.
-#' * `ids` (`character()`): Vector of ids.
+#' @section Methods:
+#' * `get(key, ...)`\cr
+#'   (`character(1)`, ...) -> `any`
+#'   Retrieves object with key `key` from the dictionary.
+#' * `mget(keys, ...)`\cr
+#'   (`character()`, ...) -> named `list()`
+#'   Retrieves objects with keys `keys` from the dictionary, returns them in a list named with `keys`.
+#' * `has(keys)`\cr
+#'   `character()` -> `logical()`
+#'   Returns a logical vector with `TRUE` at its i-th position, if the i-th key exists.
+#' * `keys(pattern)`\cr
+#'   `character(1)` -> `character()`
+#'   Returns all keys which comply to the regular expression `pattern`.
+#' * `add(key, value)`\cr
+#'   (`character(1)`, `any`) -> `self`
+#'   Adds object `value` to the dictionary with key `key`, potentially overwriting a
+#'   previously stored value.
+#' * `remove(key)`\cr
+#'   `character()` -> `self`
+#'   Removes object with key `key` from the dictionary.
 #'
-#' @section Details:
-#' * `$add()` adds item `value` with key `key` to the Dictionary.
-#' * `$get()` retrieves a single object with key `key` (or raises an exception).
-#' * `$has()` (`logical()`) returns a named logical of the same length as `keys` with value `TRUE` if the respective key is found in the Dictionary.
-#' * `$keys()` (`character()`) returns a vector with all keys (or all keys matching `pattern`).
-#' * `$mget()` (named `list`) creates a list of objects with keys `keys` (or raises an exception).
-#' * `$new()` initializes a new object of class [Dictionary].
-#' * `$remove()` removes item with key `key` from the Dictionary.
-#' * `as.data.frame()` and `as.data.table()` give a summarizing overview as [data.frame()] or [data.table()], respectively.#'
-#'
-#' @keywords internal
 #' @family Dictionary
-NULL
-
 #' @export
 Dictionary = R6Class("Dictionary",
   cloneable = FALSE,
@@ -64,36 +54,23 @@ Dictionary = R6Class("Dictionary",
     },
 
     print = function() {
-      ids = self$ids()
-      catf(sprintf("%s with %i stored values", format(self), length(ids)))
-      catf(str_indent("Ids:", ids))
+      keys = self$keys()
+      catf(sprintf("%s with %i stored values", format(self), length(keys)))
+      catf(str_indent("Keys:", keys))
 
       catf(str_indent("\nPublic: ", str_r6_interface(self)))
     },
 
-    ids = function(pattern = NULL) {
-      ids = ls(self$items, all.names = TRUE)
+    keys = function(pattern = NULL) {
+      keys = ls(self$items, all.names = TRUE)
       if (!is.null(pattern))
-        ids = ids[grepl(assert_string(pattern), ids)]
-      ids
+        keys = keys[grepl(assert_string(pattern), keys)]
+      keys
     },
 
-    has = function(ids) {
-      assert_character(ids, any.missing = FALSE)
-      set_names(map_lgl(ids, exists, envir = self$items, inherits = FALSE), ids)
-    },
-
-    add = function(id, value) {
-      assert_id(id)
-      assign(x = id, value = value, envir = self$items)
-      invisible(self)
-    },
-
-    remove = function(id) {
-      if (id %nin% self$ids())
-        stopf("Element with key '%s' not found!%s", id, did_you_mean(id, self$ids()))
-      rm(list = id, envir = self$items)
-      invisible(self)
+    has = function(keys) {
+      assert_character(keys, any.missing = FALSE)
+      set_names(map_lgl(keys, exists, envir = self$items, inherits = FALSE), keys)
     },
 
     get = function(key, ...) {
@@ -102,6 +79,19 @@ Dictionary = R6Class("Dictionary",
 
     mget = function(keys, ...) {
       set_names(lapply(keys, self$get, ...), keys)
+    },
+
+    add = function(key, value) {
+      assert_id(key)
+      assign(x = key, value = value, envir = self$items)
+      invisible(self)
+    },
+
+    remove = function(key) {
+      if (!self$has(key))
+        stopf("Element with key '%s' not found!%s", key, did_you_mean(key, self$keys()))
+      rm(list = key, envir = self$items)
+      invisible(self)
     }
   )
 )
@@ -109,7 +99,7 @@ Dictionary = R6Class("Dictionary",
 dictionary_retrieve = function(self, key, ...) {
   value = get0(key, envir = self$items, inherits = FALSE, ifnotfound = NULL)
   if (is.null(value))
-    stopf("Element with key '%s' not found!%s", key, did_you_mean(key, self$ids()))
+    stopf("Element with key '%s' not found!%s", key, did_you_mean(key, self$keys()))
 
   if (inherits(value, "R6ClassGenerator")) {
     value = value$new(...)
@@ -121,7 +111,7 @@ dictionary_retrieve = function(self, key, ...) {
 
 #' @export
 as.data.table.Dictionary = function(x, ...) {
-  data.table(id = x$ids())
+  data.table(id = x$keys())
 }
 
 #' @export

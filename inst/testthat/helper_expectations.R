@@ -20,9 +20,9 @@ expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
   checkmate::expect_r6(d, "Dictionary")
   testthat::expect_output(print(d), "Dictionary")
   checkmate::expect_environment(d$items)
-  checkmate::expect_character(d$ids(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
+  checkmate::expect_character(d$keys(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
   if (!is.na(contains)) {
-    checkmate::expect_list(d$mget(d$ids()), types = contains, names = "unique")
+    checkmate::expect_list(d$mget(d$keys()), types = contains, names = "unique")
   }
 }
 

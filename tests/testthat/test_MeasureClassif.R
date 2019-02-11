@@ -1,7 +1,7 @@
 context("MeasureClassif")
 
 test_that("Classification measures", {
-  ids = mlr_measures$ids()
+  keys = mlr_measures$keys()
   lrn = mlr_learners$get("classif.featureless")
   lrn$predict_type = "prob"
   e = Experiment$new(
@@ -11,7 +11,7 @@ test_that("Classification measures", {
   # e$train()$predict()$score()
   e$train()$predict()
 
-  for (key in ids) {
+  for (key in keys) {
     m = mlr_measures$get(key)
     if (is.na(m$task_type) || m$task_type == "classif") {
       perf = m$calculate(e)

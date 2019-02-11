@@ -15,7 +15,6 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_learners$ids()
 as.data.table(mlr_learners)
 mlr_learners$get("classif.featureless")
 }

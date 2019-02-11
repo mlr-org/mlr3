@@ -1,11 +1,11 @@
 context("TaskGenerator")
 
 test_that("TaskGenerators", {
-  ids = mlr_task_generators$ids()
+  keys = mlr_task_generators$keys()
   n = 10L
 
-  for (id in ids) {
-    gen = mlr_task_generators$get(id)
+  for (key in keys) {
+    gen = mlr_task_generators$get(key)
     expect_r6(gen, "TaskGenerator", private = ".generate")
     expect_choice(gen$task_type, mlr_reflections$task_types)
     expect_function(gen$generate, args = "n")

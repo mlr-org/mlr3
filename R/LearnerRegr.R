@@ -36,7 +36,7 @@
 #' @export
 #' @examples
 #' # get all regression learners from mlr_learners:
-#' lrns = mlr_learners$mget(mlr_learners$ids("^regr"))
+#' lrns = mlr_learners$mget(mlr_learners$keys("^regr"))
 #' names(lrns)
 #'
 #' # get a specific learner from mlr_learners:

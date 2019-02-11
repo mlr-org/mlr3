@@ -36,7 +36,7 @@
 #' @export
 #' @examples
 #' # get all classification learners from mlr_learners:
-#' lrns = mlr_learners$mget(mlr_learners$ids("^classif"))
+#' lrns = mlr_learners$mget(mlr_learners$keys("^classif"))
 #' names(lrns)
 #'
 #' # get a specific learner from mlr_learners:

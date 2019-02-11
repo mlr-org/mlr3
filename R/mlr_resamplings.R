@@ -12,7 +12,6 @@
 #' @family Dictionary
 #' @family Resampling
 #' @examples
-#' mlr_resamplings$ids()
 #' as.data.table(mlr_resamplings)
 #' mlr_resamplings$get("cv")
 NULL
@@ -39,8 +38,8 @@ mlr_resamplings = DictionaryResampling$new()
 
 #' @export
 as.data.table.DictionaryResampling = function(x, ...) {
-  setkeyv(map_dtr(x$ids(), function(id) {
-    r = x$get(id)
-    list(id = id, hyperpars = list(r$param_set$ids), default_iters = r$iters)
+  setkeyv(map_dtr(x$keys(), function(key) {
+    r = x$get(key)
+    list(id = key, hyperpars = list(r$param_set$ids), default_iters = r$iters)
   }), "id")[]
 }
