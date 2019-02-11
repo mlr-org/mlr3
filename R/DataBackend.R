@@ -59,7 +59,7 @@
 #' @family DataBackend
 #' @export
 #' @examples
-#' data = data.table(id = 1:5, x = runif(5), y = sample(letters[1:3], 5, replace = TRUE))
+#' data = data.table::data.table(id = 1:5, x = runif(5), y = sample(letters[1:3], 5, replace = TRUE))
 #'
 #' b = DataBackendDataTable$new(data, primary_key = "id")
 #' print(b)

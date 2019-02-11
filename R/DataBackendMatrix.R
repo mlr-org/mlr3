@@ -1,31 +1,25 @@
 #' @title DataBackend for Matrix
 #'
-#' @name DataBackendMatrix
 #' @format [R6Class] object inheriting from [DataBackend].
+#' @include DataBackend.R
+#'
 #' @description
 #' [DataBackend] for [Matrix::Matrix()]. Data is stored as (sparse) matrix.
 #'
-#' Supports two output formats:
+#' @section Construction:
+#' * `new(data, primary_key = NULL)`\cr
+#'   [Matrix::Matrix()] -> `self`\cr
+#'   Primary key columns are not supported. Rows are addresses by their rownames.
+#'   If the matrix does not have row names, row indices are used.
+#' * `as_data_backend(data, ...)`\cr
+#'   [Matrix::Matrix()] -> `self`\cr
+#'   Constructs the DataBackend, and possibly performs some sanity checks.
 #'
-#' * `"data.table"` (default): Returns a [data.table]. The primary key is returned as a regular column.
-#' * `"sparse"` (native): Returns a [Matrix::Matrix]. The primary key is stored as additional attribute `..row_id`.
-#'
-#' NB: The handling of multiple output formats is subject to change.
-#'
-#' @section Usage:
-#' Inherits from [DataBackend].
-#' ```
-#' # Construction
-#' b = DataBackendMatrix$new(data)
-#' b = as_data_backend(data)
-#' ```
-#' The interface is described in [DataBackend].
-#'
-#' @section Arguments:
-#' * `data` ([Matrix::Matrix]): A (sparse) matrix. If `data` has row names, these will be used as primary key.
-#'   Integer keys (`seq_len(nrow(data))`) are used otherwise.
+#' @inheritSection DataBackend Public
+#' @inheritSection DataBackend Methods
 #'
 #' @family DataBackend
+#' @export
 #' @examples
 #' requireNamespace("Matrix")
 #' data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)
@@ -35,18 +29,18 @@
 #' b = as_data_backend(data)
 #' print(b$head(n = 3, format = "data.table"))
 #' print(b$head(n = 3, format = "sparse"))
-NULL
-
-#' @include DataBackend.R
-#' @export
 DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneable = FALSE,
   public = list(
-    initialize = function(data) {
+    initialize = function(data, primary_key = NULL) {
       require_namespaces("Matrix")
       assert_class(data, "Matrix")
       assert_names(colnames(data), type = "unique")
       if (!is.null(rownames(data)))
         assert_names(rownames(data), type = "unique")
+      if (any(dim(data) == 0L))
+        stopf("No data in Matrix")
+      if (!is.null(primary_key))
+        stopf("Primary key column not supported by DataBackendMatrix")
       super$initialize(data, "..row_id", c("data.table", "sparse"))
     },
 
@@ -124,12 +118,6 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
   )
 )
 
-
-#' @export
-as_data_backend.Matrix = function(data, ...) {
-  DataBackendMatrix$new(data)
-}
-
 DataBackendMatrix_query_rows = function(M, rows) {
   rn = rownames(M)
   if (is.null(rn))
@@ -137,4 +125,9 @@ DataBackendMatrix_query_rows = function(M, rows) {
 
   assert_character(rows)
   intersect(rows, rn)
+}
+
+#' @export
+as_data_backend.Matrix = function(data, ...) {
+  DataBackendMatrix$new(data)
 }

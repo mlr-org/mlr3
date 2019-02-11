@@ -1,27 +1,26 @@
 #' @title DataBackend for `data.table`
 #'
-#' @name DataBackendDataTable
 #' @format [R6Class] object inheriting from [DataBackend].
+#' @include DataBackend.R
+#'
 #' @description
 #' [DataBackend] for [data.table()] as an in-memory data base.
 #'
-#' @section Usage:
-#' Inherits from [DataBackend].
-#' ```
-#' # Construction
-#' b = DataBackendDataTable$new(data, primary_key)
-#' b = as_data_backend(data, primary_key = NULL)
-#' ```
-#' The interface is described in [DataBackend].
+#' @section Construction:
+#' * `new(data, primary_key = NULL, format = )`\cr
+#'   (`data.table()`, `character(1)`) -> `self`\cr
+#'   The input `data.table()` is not copied, and argument `primary_key` must be column of the `data`.
+#' * `as_data_backend(data, primary_key = NULL)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Converts `data` to `data.table()` (or copies it), and automatically creates a primary key column
+#'   if `primary_key` is `NULL.
 #'
-#' @section Arguments:
-#' * `data` ([data.frame()]). This includes special data.frames like [data.table()] or `tibble()` from package \pkg{tibble}.
-#'
-#' * `primary_key` (`character(1)`):
-#'   Name of the column in `data` which represents a unique row identifier (as integer or character).
-#'   If `NULL`, the constructor [as_data_backend()] automatically creates an integer column of primary keys.
+#' @inheritSection DataBackend Public
+#' @inheritSection DataBackend Methods
 #'
 #' @family DataBackend
+#' @export
+#'
 #' @examples
 #' data = as.data.table(iris)
 #' data$id = seq_len(nrow(iris))
@@ -35,18 +34,13 @@
 #'
 #' b$ncol
 #' b$colnames
-NULL
-
-#' @include DataBackend.R
-#' @export
 DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   cloneable = FALSE,
   public = list(
     compact_seq = FALSE,
 
     initialize = function(data, primary_key) {
-      assert_data_frame(data)
-      data = if (is.data.frame(data)) as.data.table(data) else copy(data)
+      assert_data_table(data)
       super$initialize(setkeyv(data, primary_key), primary_key)
       assert_choice(primary_key, names(data))
     },
