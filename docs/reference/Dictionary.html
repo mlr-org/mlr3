@@ -167,45 +167,34 @@ On retrieval of an object, the following applies:</p><ul>
 
     <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object.</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
-    <pre># Construction
-d = Dictionary$new()
-    # Methods
-d$add(value)
-d$get(key, ...)
-d$has(keys)
-d$keys(pattern)
-d$mget(keys, ...)
-d$remove(key, value)
-d$remove(keys)
-    ## S3 methods
-as.data.frame(d)
-as.data.table(d)
+    <pre>d = Dictionary$new()
 </pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
     <ul>
-<li><p><code>pattern</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): Restrict to ids which match the regular expression <code>pattern</code>.</p></li>
-<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): Single id as string.</p></li>
-<li><p><code>value</code>: Arbitrary value.</p></li>
-<li><p><code>ids</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>): Vector of ids.</p></li>
-</ul>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-    <ul>
-<li><p><code>$add()</code> adds item <code>value</code> with key <code>key</code> to the Dictionary.</p></li>
-<li><p><code>$get()</code> retrieves a single object with key <code>key</code> (or raises an exception).</p></li>
-<li><p><code>$has()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code>) returns a named logical of the same length as <code>keys</code> with value <code>TRUE</code> if the respective key is found in the Dictionary.</p></li>
-<li><p><code>$keys()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns a vector with all keys (or all keys matching <code>pattern</code>).</p></li>
-<li><p><code>$mget()</code> (named <code>list</code>) creates a list of objects with keys <code>keys</code> (or raises an exception).</p></li>
-<li><p><code>$new()</code> initializes a new object of class Dictionary.</p></li>
-<li><p><code>$remove()</code> removes item with key <code>key</code> from the Dictionary.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame()</a></code> and <code><a href='as.data.table.html'>as.data.table()</a></code> give a summarizing overview as <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> or <code>data.table()</code>, respectively.#'</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/get'>get(key, ...)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>, ...) -&gt; <code>any</code>
+Retrieves object with key <code>key</code> from the dictionary.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget(keys, ...)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, ...) -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>
+Retrieves objects with keys <code>keys</code> from the dictionary, returns them in a list named with <code>keys</code>.</p></li>
+<li><p><code>has(keys)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code>
+Returns a logical vector with <code>TRUE</code> at its i-th position, if the i-th key exists.</p></li>
+<li><p><code>keys(pattern)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>
+Returns all keys which comply to the regular expression <code>pattern</code>.</p></li>
+<li><p><code>add(key, value)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>, <code>any</code>) -&gt; <code>self</code>
+Adds object <code>value</code> to the dictionary with key <code>key</code>, potentially overwriting a
+previously stored value.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/rm'>remove(key)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code>self</code>
+Removes object with key <code>key</code> from the dictionary.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -224,11 +213,9 @@ as.data.table(d)
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#construction">Construction</a></li>
 
-      <li><a href="#arguments">Arguments</a></li>
-
-      <li><a href="#details">Details</a></li>
+      <li><a href="#methods">Methods</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>
