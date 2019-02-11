@@ -74,7 +74,7 @@ print(b)
 b$head(2)
 b$data(rows = 1:2, cols = "x")
 b$distinct("y")
-b$missing(1:n, names(data))
+b$missing(rows = b$rownames, cols = names(data))
 }
 \seealso{
 Other DataBackend: \code{\link{DataBackendDataTable}},

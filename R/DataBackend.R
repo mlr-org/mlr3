@@ -71,7 +71,7 @@
 #' b$head(2)
 #' b$data(rows = 1:2, cols = "x")
 #' b$distinct("y")
-#' b$missing(1:n, names(data))
+#' b$missing(rows = b$rownames, cols = names(data))
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     primary_key = NULL,
