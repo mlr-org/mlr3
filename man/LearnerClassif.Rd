@@ -44,12 +44,11 @@ Additionally, you need to catch raised exceptions via encapsulation, see \code{\
 Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
 A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
 \item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) of the Learner.
+Hash (unique identifier) of the learner.
 \item \code{id} :: \code{character(1)}\cr
-Stores the identifier of the object.
+Stores the identifier of the learner.
 \item \code{packages} :: \code{character()}\cr
-Stores the names of required packages. Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}},
-and are not attached.
+Stores the names of required packages.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Description of available hyperparameters and hyperparameter settings.
 \item \code{predict_type} :: \code{character(1)}\cr

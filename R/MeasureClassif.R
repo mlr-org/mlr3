@@ -1,25 +1,46 @@
 #' @title Classification Measure
 #'
-#' @name MeasureClassif
+#' @usage NULL
 #' @format [R6::R6Class] object inheriting from [Measure].
+#' @include Measure.R
+#'
 #' @description
-#' This task specializes [Measure] for classification problems.
+#' This measure specializes [Measure] for classification problems.
+#' The slot `task_type` is set to `"classif"`.
+#' Predefined measures can be found in the [Dictionary] [mlr_measures].
 #'
-#' @section Usage:
-#' See [Measure].
+#' @section Construction:
+#' ```
+#' m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
+#' ```
+#' * `id` :: `character(1)\cr
+#'   Identifier for the measure.
 #'
-#' @section Details:
-#' `$task_type` is `"classif"`.
+#' * `range` :: `numeric(2)`\cr
+#'   Feasible range for this measure as `c(lower_bound, upper_bound)`.
+#'
+#' * `minimize` :: `logical(1)`\cr
+#'   Set to `TRUE` if good predictions correspond to small values.
+#'
+#' * `predict_type` :: `character(1)`\cr
+#'   Required predict type of the [Learner].
+#'
+#' * `task_properties` :: `character()`\cr
+#'   Required task properties, see [Task].
+#'
+#' * `packages` :: `character()`\cr
+#'   Set of required packages.
+#'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
+#'
+#' @inheritSection Measure Public
+#' @inheritSection Measure Methods
 #'
 #' @family Measure
-NULL
-
-#' @include Measure.R
 #' @export
 MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
   public = list(
     initialize = function(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L)) {
-      super$initialize(id, task_type = "classif",  range = range, minimize = minimize,
+      super$initialize(id, task_type = "classif", range = range, minimize = minimize,
         predict_type = predict_type, task_properties = task_properties, packages = packages)
     }
   )

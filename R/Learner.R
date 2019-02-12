@@ -5,6 +5,7 @@
 #'
 #' @description
 #' This is the abstract base class for learner objects like [LearnerClassif] and [LearnerRegr].
+#' Predefined learners are stored in [mlr_learners].
 #'
 #' @section Construction:
 #' ```
@@ -13,18 +14,26 @@
 #' ```
 #' * `id` :: `character(1)`\cr
 #'   Identifier for the learner.
+#'
 #' * `task_type` :: `character(1)`\cr
 #'   Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
+#'
 #' * `feature_types` :: `character()`\cr
 #'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
+#'
 #' * `predict_types` :: `character()`\cr
 #'   Supported predict types. Must be a subset of [`mlr_reflections$predict_types`][mlr_reflections].
+#'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
+#'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
+#'
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Set of hyperparameters.
+#'
 #' * `param_vals` :: named `list()`\cr
 #'   List of hyperparameter settings.
+#'
 #' * `properties` :: `character()`\cr
 #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
 #'
@@ -40,14 +49,13 @@
 #'   A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
 #'
 #' * `hash` :: `character(1)`\cr
-#'   Hash (unique identifier) of the Learner.
+#'   Hash (unique identifier) of the learner.
 #'
 #' * `id` :: `character(1)`\cr
-#'   Stores the identifier of the object.
+#'   Stores the identifier of the learner.
 #'
 #' * `packages` :: `character()`\cr
-#'   Stores the names of required packages. Note that these packages will be loaded via [requireNamespace()],
-#'   and are not attached.
+#'   Stores the names of required packages.
 #'
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Description of available hyperparameters and hyperparameter settings.

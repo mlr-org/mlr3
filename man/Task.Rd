@@ -7,6 +7,7 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
+Predefined tasks are stored in \link{mlr_tasks}.
 }
 \section{Construction}{
 \preformatted{t = Task$new(id, task_type, backend)

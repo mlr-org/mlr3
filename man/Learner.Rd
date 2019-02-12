@@ -7,6 +7,7 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for learner objects like \link{LearnerClassif} and \link{LearnerRegr}.
+Predefined learners are stored in \link{mlr_learners}.
 }
 \section{Construction}{
 \preformatted{l = Learner$new(id, task_type, feature_types = character(0L), predict_types = character(0L),
@@ -23,6 +24,7 @@ Feature types the learner operates on. Must be a subset of \code{mlr_reflections
 Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$predict_types}}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
+Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Set of hyperparameters.
 \item \code{param_vals} :: named \code{list()}\cr
@@ -44,12 +46,11 @@ Additionally, you need to catch raised exceptions via encapsulation, see \code{\
 Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
 A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
 \item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) of the Learner.
+Hash (unique identifier) of the learner.
 \item \code{id} :: \code{character(1)}\cr
-Stores the identifier of the object.
+Stores the identifier of the learner.
 \item \code{packages} :: \code{character()}\cr
-Stores the names of required packages. Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}},
-and are not attached.
+Stores the names of required packages.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Description of available hyperparameters and hyperparameter settings.
 \item \code{predict_type} :: \code{character(1)}\cr

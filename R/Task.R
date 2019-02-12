@@ -5,6 +5,7 @@
 #'
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
+#' Predefined tasks are stored in [mlr_tasks].
 #'
 #' @section Construction:
 #' ```
