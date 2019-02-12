@@ -31,7 +31,8 @@
 <meta property="og:title" content="Classification Measure — MeasureClassif" />
 
 <meta property="og:description" content="This measure specializes Measure for classification problems.
-Predefined measures can be found in the Dictionary mlr_measures." />
+Predefined measures can be found in the Dictionary mlr_measures.
+The task_type is set to "classif"." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -154,6 +155,7 @@ Predefined measures can be found in the Dictionary mlr_measures." />
     
     <p>This measure specializes <a href='Measure.html'>Measure</a> for classification problems.
 Predefined measures can be found in the <a href='Dictionary.html'>Dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>.</p>
+<p>The <code>task_type</code> is set to <code>"classif"</code>.</p>
     
 
         
@@ -195,7 +197,7 @@ Stores the names of required packages.</p></li>
 <li><p><code>range</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(2)</a></code><br />
 Stores the feasible range of the measure.</p></li>
 <li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
-Set to " classif " for this class.</p></li>
+&lt;<!-- %= if (MeasureClass == "Base") "Stores the required type of the \link{Task}." else paste("Set to "", tolower(MeasureClass), "" for this class.") %&gt; --></p></li>
 <li><p><code>task_properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
 Stores required properties of the <a href='Task.html'>Task</a>.</p></li>
 </ul>
