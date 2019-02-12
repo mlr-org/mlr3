@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Pima Indian Diabetes Classification Task — mlr_tasks_pima • mlr3</title>
+<title>Featureless Regression Learner — LearnerRegrFeatureless • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,13 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Pima Indian Diabetes Classification Task — mlr_tasks_pima" />
+<meta property="og:title" content="Featureless Regression Learner — LearnerRegrFeatureless" />
 
-<meta property="og:description" content="A classification task for the mlbench::PimaIndiansDiabetes2 data set.
-Positive class is set to "pos"." />
+<meta property="og:description" content="A simple LearnerRegr which only analyses the response during train, ignoring all features.
+If hyperparameter robust is FALSE (default), constantly predicts mean(y) as response
+and sd(y) as standard error.
+If robust is TRUE, median() and madn() are used instead of mean() and sd(),
+respectively." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -147,19 +150,23 @@ Positive class is set to "pos"." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pima Indian Diabetes Classification Task</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_tasks_pima.R'><code>R/mlr_tasks_pima.R</code></a></small>
+    <h1>Featureless Regression Learner</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_learners_regr_featureless.R'><code>R/mlr_learners_regr_featureless.R</code></a></small>
     </div>
 
     
-    <p>A classification task for the <a href='https://www.rdocumentation.org/packages/mlbench/topics/PimaIndiansDiabetes'>mlbench::PimaIndiansDiabetes2</a> data set.
-Positive class is set to "pos".</p>
+    <p>A simple <a href='LearnerRegr.html'>LearnerRegr</a> which only analyses the response during train, ignoring all features.
+If hyperparameter <code>robust</code> is <code>FALSE</code> (default), constantly predicts <code><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean(y)</a></code> as response
+and <code><a href='https://www.rdocumentation.org/packages/stats/topics/sd'>sd(y)</a></code> as standard error.
+If <code>robust</code> is <code>TRUE</code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/median'>median()</a></code> and <code>madn()</code> are used instead of <code><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean()</a></code> and <code><a href='https://www.rdocumentation.org/packages/stats/topics/sd'>sd()</a></code>,
+respectively.</p>
     
 
+    <pre class="usage"><span class='no'>LearnerRegrFeatureless</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> inheriting from <a href='TaskClassif.html'>TaskClassif</a>.</p>
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> inheriting from <a href='LearnerRegr.html'>LearnerRegr</a>.</p>
     
 
   </div>
