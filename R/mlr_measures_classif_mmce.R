@@ -1,6 +1,6 @@
 #' @title Mean Misclassification Error Measure
 #'
-#' @aliases mlr_measures_classif.mmce
+#' @name mlr_measures_classif.mmce
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'

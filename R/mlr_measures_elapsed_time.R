@@ -1,6 +1,6 @@
 #' @title Elapsed Time Measure
 #'
-#' @aliases mlr_measures_elapsed_time
+#' @name mlr_measures_elapsed_time
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'

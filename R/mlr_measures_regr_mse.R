@@ -1,6 +1,6 @@
 #' @title Mean Squared Error Measure
 #'
-#' @aliases mlr_measures_regr.mse
+#' @name mlr_measures_regr.mse
 #' @format [R6::R6Class] inheriting from [MeasureClassif].
 #' @include MeasureRegr.R
 #'
