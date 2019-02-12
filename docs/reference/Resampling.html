@@ -161,57 +161,58 @@ Predefined resamplings are stored in <a href='mlr_resamplings.html'>mlr_resampli
 
     <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object.</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
-    <pre># Construction
-r = Resampling$new(id, param_set, param_vals)
-    # Members
-r$duplicated_ids
-r$hash
-r$id
-r$instance
-r$is_instantiated
-r$iters
-r$param_set
-r$stratify
-r$task_hash
-    # Methods
-r$instantiate(task)
-r$test_set(i)
-r$train_set(i)
+    <pre>r = Resampling$new(id, param_set, param_vals)
 </pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): identifier for this object.</p></li>
-<li><p><code>param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>): describes available parameters.</p></li>
-<li><p><code>param_vals</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>): Named list of parameter values.</p></li>
-<li><p><code>task</code> (<a href='Task.html'>Task</a>): Object of type <a href='Task.html'>Task</a>.</p></li>
-<li><p><code>i</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>): Get the <code>i</code>-th training/test set.</p></li>
+<ul>
+<li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Name of the resampling strategy.</p></li>
+<li><p><code>param_set</code> :: <a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a><br />
+Set of hyperparameters.</p></li>
+<li><p><code>param_vals</code> :: named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+List of hyperparameter settings.</p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
     
     <ul>
-<li><p><code>$duplicated_ids</code> is <code>TRUE</code> if the resampling allows observations to be included multiple times in the training set.
-E.g., this is true for bootstrapping, but not for cross validation.</p></li>
-<li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>param_vals</code> and the instantiation.
-If the object is not instantiated yet, <code>NA</code> is returned.</p></li>
-<li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the identifier of the object.</p></li>
-<li><p><code>$instance</code> stores the instantiated realization of the resampling.
-This is an arbitrary object, do not work directly with it. Instead, use <code>$train_set()</code> and <code>$test_set()</code>.</p></li>
-<li><p><code>$instantiate</code> materializes fixed training and test splits for a given task.</p></li>
-<li><p><code>$is_instantiated</code> returns <code>TRUE</code> if the resampling has been instantiated, and <code>FALSE</code> otherwise.</p></li>
-<li><p><code>$iters</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) calculates the resulting number of iterations, given the current <code>param_vals</code>.</p></li>
-<li><p><code>$new()</code> creates a new object of class Resampling.</p></li>
-<li><p><code>$param_set</code> (<a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a>) describes available parameters.</p></li>
-<li><p><code>$stratify</code> can be set to column names of the <a href='Task.html'>Task</a> which will be used for stratification during instantiation.</p></li>
-<li><p><code>$task_hash</code> stores the hash of the task for which the resampling has been instantiated.</p></li>
-<li><p><code>$test_set()</code> returns the test set for the <code>i</code>-th iteration.</p></li>
-<li><p><code>$train_set()</code> returns the training set for the <code>i</code>-th iteration.</p></li>
+<li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the identifier of the learner.</p></li>
+<li><p><code>param_set</code> :: <a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a><br />
+Description of available hyperparameters and hyperparameter settings.</p></li>
+<li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Hash (unique identifier) for this object.</p></li>
+<li><p><code>instance</code> :: <code>any</code><br />
+During <code>instantiate()</code>, the instance is stored in this slot.
+Types vary from resampling strategy to resampling strategy.</p></li>
+<li><p><code>is_instantiated</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code><br />
+Is <code>TRUE</code>, if the resampling has been instantiated.</p></li>
+<li><p><code>duplicated_ids</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code><br />
+Is <code>TRUE</code> if this resampling strategy may have duplicated row ids in a single training set or test set.
+E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross validation.</p></li>
+<li><p><code>iters</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code><br />
+Return the number of resampling iterations, depending on the values stored in the <code>param_set</code>.</p></li>
+<li><p><code>stratify</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Subset of target and feature names of the <a href='Task.html'>Task</a>. Used to stratify during <code>r$instantiate()</code>.</p></li>
+<li><p><code>task_hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+The hash of the task which was passed to <code>r$instantiate()</code>.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <ul>
+<li><p><code>instantiate(task)</code><br />
+<a href='Task.html'>Task</a> -&gt; <code>self</code><br />
+Materializes fixed training and test splits for a given task and stores them in <code>r$instance</code>.</p></li>
+<li><p><code>train_set(i)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code> -&gt; (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>)<br />
+Returns the row ids of the i-th training set.</p></li>
+<li><p><code>test_set(i)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code> -&gt; (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>)<br />
+Returns the row ids of the i-th test set.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -274,11 +275,11 @@ This is an arbitrary object, do not work directly with it. Instead, use <code>$t
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#construction">Construction</a></li>
 
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#fields">Fields</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#methods">Methods</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
