@@ -274,12 +274,12 @@ Get the first <code>n</code> observations with role "use".</p></li>
 <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
 Replaces some features of the task by constructing a completely new <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.
 This operation is similar to calling <code>select()</code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, but explicitly copies the data.</p></li>
-<li><p><code>set_col_role(cols, new_roles, exclusive = TRUE)</code>
-(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code>self</code>.
+<li><p><code>set_col_role(cols, new_roles, exclusive = TRUE)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code>self</code><br />
 Adds the roles <code>new_roles</code> to columns referred to by <code>cols</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced columns will be removed from all other roles.</p></li>
-<li><p><code>set_row_role(rows, new_roles, exclusive = TRUE)</code>
-(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code>self</code>.
+<li><p><code>set_row_role(rows, new_roles, exclusive = TRUE)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code>self</code><br />
 Adds the roles <code>new_roles</code> to rows referred to by <code>rows</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p></li>
 </ul>
