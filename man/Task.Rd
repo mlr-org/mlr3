@@ -77,6 +77,8 @@ Return the total number of rows with role "use".
 Returns the row ids of the \link{DataBackend} for observations with with role "use".
 \item \code{target_names} :: \code{character()}\cr
 Returns all column names with role "target".
+\item \code{task_type} :: \code{character(1)}\cr
+Stores the type of the \link{Task}.
 }
 }
 

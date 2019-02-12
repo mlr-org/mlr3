@@ -7,7 +7,6 @@
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Task}/\link{TaskSupervised}.}
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for classification problems.
-The slot \code{$task_type} is set to "classif".
 The target column is assumed to be a factor.
 }
 \section{Construction}{
@@ -25,20 +24,6 @@ Only for binary classification: Name of the positive class.
 }
 
 \section{Public}{
-
-\itemize{
-\item \code{all_classes} :: \code{character()}\cr
-Returns all class labels of the task, regardless of the number of active rows.
-\item \code{class_names} :: \code{character()}\cr
-Returns all class labels of the task w.r.t. the active rows.
-\item \code{class_n} :: \code{integer(1)}\cr
-Returns the number of classes.
-\item \code{negative} :: \code{character(1)}\cr
-Stores the negative class for binary classification tasks, and \code{NA} for multiclass tasks.
-\item \code{positive} :: \code{character(1)}\cr
-Stores the positive class for binary classification tasks, and \code{NA} for multiclass tasks.
-}
-
 
 \itemize{
 \item \code{backend} :: \link{DataBackend}.
@@ -93,17 +78,26 @@ Return the total number of rows with role "use".
 Returns the row ids of the \link{DataBackend} for observations with with role "use".
 \item \code{target_names} :: \code{character()}\cr
 Returns all column names with role "target".
+\item \code{task_type} :: \code{character(1)}\cr
+Set to " classif " for this class.
+}
+
+
+\itemize{
+\item \code{all_classes} :: \code{character()}\cr
+Returns all class labels of the task, regardless of the number of active rows.
+\item \code{class_names} :: \code{character()}\cr
+Returns all class labels of the task w.r.t. the active rows.
+\item \code{class_n} :: \code{integer(1)}\cr
+Returns the number of classes.
+\item \code{negative} :: \code{character(1)}\cr
+Stores the negative class for binary classification tasks, and \code{NA} for multiclass tasks.
+\item \code{positive} :: \code{character(1)}\cr
+Stores the positive class for binary classification tasks, and \code{NA} for multiclass tasks.
 }
 }
 
 \section{Methods}{
-
-\itemize{
-\item \code{truth(row_ids = NULL)} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with true  labels for specified \code{row_ids}.
-Defaults to all rows in use.
-}
-
 
 \itemize{
 \item \code{data(rows = NULL, cols = NULL, format = NULL)}\cr
@@ -150,6 +144,15 @@ If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from 
 Adds the roles \code{new_roles} to rows referred to by \code{rows}.
 If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
 }
+}
+
+\section{Task mutators}{
+
+The methods \code{filter()}, \code{select()}, \code{rbind()}, and \code{cbind()} change the task in-place,
+but without modifying the \link{DataBackend}.
+\code{filter()} and \code{select()} just reduce the set of active rows or columns, providing a different view on the data.
+\code{rbind()} and \code{cbind()} first create a new \link{DataBackendDataTable} from the provided new data, and then
+merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
 }
 
 \examples{

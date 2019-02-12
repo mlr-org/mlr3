@@ -6,7 +6,6 @@
 #'
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.
-#' The slot `$task_type` is set to "classif".
 #' The target column is assumed to be a factor.
 #'
 #' @section Construction:
@@ -24,6 +23,9 @@
 #' * `positive` :: `character(1)`\cr
 #'   Only for binary classification: Name of the positive class.
 #'
+#' @templateVar TaskClass Classif
+#' @template Task
+#'
 #' @section Public:
 #' * `all_classes` :: `character()`\cr
 #'   Returns all class labels of the task, regardless of the number of active rows.
@@ -35,9 +37,6 @@
 #'   Stores the negative class for binary classification tasks, and `NA` for multiclass tasks.
 #' * `positive` :: `character(1)`\cr
 #'   Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
-#'
-#' @inheritSection TaskSupervised Public
-#' @inheritSection TaskSupervised Methods
 #'
 #' @family Task
 #' @export

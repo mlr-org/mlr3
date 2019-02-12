@@ -6,7 +6,6 @@
 #'
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for regression problems.
-#' The slot `$task_type` is set to "regr".
 #' The target column is assumed to be numeric.
 #'
 #' @section Construction:
@@ -21,9 +20,8 @@
 #' * `target` :: `character(1)`\cr
 #'   Name of the target column.
 #'
-#' @inheritSection TaskSupervised Public
-#' @inheritSection TaskSupervised Methods
-#'
+#' @templateVar TaskClass Classif
+#' @template Task
 #' @family Task
 #' @export
 #' @examples
