@@ -33,7 +33,8 @@
 <meta property="og:description" content="This object stores the predictions returned by a learner of class LearnerClassif.
 If probabilities are provided via construction and response is missing,
 the response is calculated from the probabilities: the class label with the highest
-probability is chosen. In case of ties, a random class label of the tied labels picked." />
+probability is chosen. In case of ties, a random class label of the tied labels picked.
+The task_type is set to "classif"." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -158,6 +159,7 @@ probability is chosen. In case of ties, a random class label of the tied labels 
 If probabilities are provided via construction and response is missing,
 the response is calculated from the probabilities: the class label with the highest
 probability is chosen. In case of ties, a random class label of the tied labels picked.</p>
+<p>The <code>task_type</code> is set to <code>"classif"</code>.</p>
     
 
         
@@ -174,7 +176,8 @@ probability is chosen. In case of ties, a random class label of the tied labels 
 Task for which the predictions are made. Used to extract the row ids and the true
 labels. Must be subsetted to test set.</p></li>
 <li><p><code>response</code> :: (<code><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>)<br />
-Vector of predicted class labels.</p></li>
+Vector of predicted class labels.
+One element for each observation in the test set.</p></li>
 <li><p><code>prob</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix()</a></code><br />
 Numeric matrix of class probabilities with one column for each class
 and one row for each observation in the test set.</p></li>
@@ -183,6 +186,22 @@ and one row for each observation in the test set.</p></li>
 to allow to manually construct <a href='Prediction.html'>Prediction</a> objects in a piecemeal fashion.
 Required are "row_ids", "truth", and "predict_type". Depending on the value of
 "predict_types", also "response" and "prob" must be set.</p>
+    
+    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
+
+    
+    <ul>
+<li><p><code>row_ids</code> :: (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>)<br />
+Vector of row ids for which predictions are stored.</p></li>
+<li><p><code>truth</code> :: <code>any</code><br />
+Vector of true labels.</p></li>
+<li><p><code>response</code> :: <code>any</code><br />
+Vector of predicted labels.</p></li>
+<li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the type of the <a href='Task.html'>Task</a>.</p></li>
+<li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Vector of predict types this object stores.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -211,6 +230,8 @@ Required are "row_ids", "truth", and "predict_type". Depending on the value of
       <li><a href="#format">Format</a></li>
 
       <li><a href="#construction">Construction</a></li>
+
+      <li><a href="#fields">Fields</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
