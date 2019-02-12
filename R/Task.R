@@ -132,13 +132,13 @@
 #'   Replaces some features of the task by constructing a completely new [DataBackendDataTable].
 #'   This operation is similar to calling `select()` and `cbind()`, but explicitly copies the data.
 #'
-#' * `set_col_role(cols, new_roles, exclusive = TRUE)`
-#'   (`character()`, `character()`, `logical(1)`) -> `self`.
+#' * `set_col_role(cols, new_roles, exclusive = TRUE)`\cr
+#'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
 #'   Adds the roles `new_roles` to columns referred to by `cols`.
 #'   If `exclusive` is `TRUE`, the referenced columns will be removed from all other roles.
 #'
-#' * `set_row_role(rows, new_roles, exclusive = TRUE)`
-#'   (`character()`, `character()`, `logical(1)`) -> `self`.
+#' * `set_row_role(rows, new_roles, exclusive = TRUE)`\cr
+#'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
 #'   Adds the roles `new_roles` to rows referred to by `rows`.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
 #'

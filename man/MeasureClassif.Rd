@@ -16,7 +16,7 @@ The \code{task_type} is set to \code{"classif"}.
      task_properties = character(0L), packages = character(0L))
 }
 \itemize{
-\item \code{id} :: `character(1)\cr
+\item \code{id} :: \code{character(1)}\cr
 Identifier for the measure.
 \item \code{range} :: \code{numeric(2)}\cr
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
@@ -44,7 +44,7 @@ Stores the names of required packages.
 \item \code{range} :: \code{numeric(2)}\cr
 Stores the feasible range of the measure.
 \item \code{task_type} :: \code{character(1)}\cr
-<%= if (MeasureClass == "Base") "Stores the required type of the \link{Task}." else paste("Set to "", tolower(MeasureClass), "" for this class.") %>
+Stores the required type of the \link{Task}.
 \item \code{task_properties} :: \code{character()}\cr
 Stores required properties of the \link{Task}.
 }

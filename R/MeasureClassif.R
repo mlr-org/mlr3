@@ -15,7 +15,7 @@
 #' m = MeasureClassif$new(id, range, minimize, predict_type = "response",
 #'      task_properties = character(0L), packages = character(0L))
 #' ```
-#' * `id` :: `character(1)\cr
+#' * `id` :: `character(1)`\cr
 #'   Identifier for the measure.
 #'
 #' * `range` :: `numeric(2)`\cr

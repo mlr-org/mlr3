@@ -138,12 +138,12 @@ Get the first \code{n} observations with role "use".
 \code{data.frame()} -> \code{self}\cr
 Replaces some features of the task by constructing a completely new \link{DataBackendDataTable}.
 This operation is similar to calling \code{select()} and \code{cbind()}, but explicitly copies the data.
-\item \code{set_col_role(cols, new_roles, exclusive = TRUE)}
-(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}.
+\item \code{set_col_role(cols, new_roles, exclusive = TRUE)}\cr
+(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}\cr
 Adds the roles \code{new_roles} to columns referred to by \code{cols}.
 If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
-\item \code{set_row_role(rows, new_roles, exclusive = TRUE)}
-(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}.
+\item \code{set_row_role(rows, new_roles, exclusive = TRUE)}\cr
+(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}\cr
 Adds the roles \code{new_roles} to rows referred to by \code{rows}.
 If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
 }

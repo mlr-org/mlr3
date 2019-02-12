@@ -12,7 +12,7 @@
 #' m = Measure$new(id, task_type, range, minimize, predict_type = "response",
 #'      task_properties = character(0L), packages = character(0L))
 #' ```
-#' * `id` :: `character(1)\cr
+#' * `id` :: `character(1)`\cr
 #'   Identifier for the measure.
 #'
 #' * `task_type` :: `character(1)`\\cr
@@ -49,7 +49,7 @@
 #'   Stores the feasible range of the measure.
 #'
 #' * `task_type` :: `character(1)`\cr
-#'   <%= if (MeasureClass == "Base") "Stores the required type of the [Task]." else paste("Set to \"", tolower(MeasureClass), "\" for this class.") %>
+#'   Stores the required type of the [Task].
 #'
 #' * `task_properties` :: `character()`\cr
 #'   Stores required properties of the [Task].

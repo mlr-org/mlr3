@@ -32,19 +32,19 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 )
 
 #' @export
-#' @rdname MeasureElapsedTime
+#' @rdname mlr_measures_elapsed_time
 MeasureTimeTrain = R6Class("MeasureTimeTrain", inherit = MeasureElapsedTime,
   public = list(initialize = function(id = "time_train") super$initialize(id, "train"))
 )
 
 #' @export
-#' @rdname MeasureElapsedTime
+#' @rdname mlr_measures_elapsed_time
 MeasureTimePredict = R6Class("MeasureTimePredict", inherit = MeasureElapsedTime,
   public = list(initialize = function(id = "time_predict") super$initialize(id, "predict"))
 )
 
 #' @export
-#' @rdname MeasureElapsedTime
+#' @rdname mlr_measures_elapsed_time
 MeasureTimeBoth = R6Class("MeasureTimeBoth", inherit = MeasureElapsedTime,
   public = list(initialize = function(id = "time_both") super$initialize(id, c("train", "predict")))
 )

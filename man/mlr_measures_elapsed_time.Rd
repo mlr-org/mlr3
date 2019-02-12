@@ -4,10 +4,19 @@
 \name{mlr_measures_elapsed_time}
 \alias{mlr_measures_elapsed_time}
 \alias{MeasureElapsedTime}
+\alias{MeasureTimeTrain}
+\alias{MeasureTimePredict}
+\alias{MeasureTimeBoth}
 \title{Elapsed Time Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \usage{
 MeasureElapsedTime
+
+MeasureTimeTrain
+
+MeasureTimePredict
+
+MeasureTimeBoth
 }
 \description{
 Measures the elapsed time during train, predict, or both.
