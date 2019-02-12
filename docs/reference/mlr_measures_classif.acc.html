@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Elapsed Time Measure — mlr_measures_elapsed_time • mlr3</title>
+<title>Accuracy Classification Measure — mlr_measures_classif.acc • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Elapsed Time Measure — mlr_measures_elapsed_time" />
+<meta property="og:title" content="Accuracy Classification Measure — mlr_measures_classif.acc" />
 
-<meta property="og:description" content="Measures the elapsed time during train, predict, or both." />
+<meta property="og:description" content="Calls Metrics::accuracy." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -146,19 +146,19 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Elapsed Time Measure</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures_elapsed_time.R'><code>R/mlr_measures_elapsed_time.R</code></a></small>
+    <h1>Accuracy Classification Measure</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures_classif_acc.R'><code>R/mlr_measures_classif_acc.R</code></a></small>
     </div>
 
     
-    <p>Measures the elapsed time during train, predict, or both.</p>
+    <p>Calls <a href='https://www.rdocumentation.org/packages/Metrics/topics/accuracy'>Metrics::accuracy</a>.</p>
     
 
-    <pre class="usage"><span class='no'>MeasureElapsedTime</span></pre>
+    <pre class="usage"><span class='no'>MeasureClassifACC</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><code><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class()</a></code> inheriting from <a href='Measure.html'>Measure</a>.</p>
+    <p><code><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class()</a></code> inheriting from <a href='MeasureClassif.html'>MeasureClassif</a>.</p>
     
 
   </div>
