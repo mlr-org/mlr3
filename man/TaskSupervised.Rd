@@ -24,6 +24,62 @@ Name of the target column.
 }
 }
 
+\section{Methods}{
+
+\itemize{
+\item \code{truth(row_ids = NULL)} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Table with true  labels for specified \code{row_ids}.
+Defaults to all rows in use.
+}
+
+
+\itemize{
+\item \code{data(rows = NULL, cols = NULL, format = NULL)}\cr
+(\code{integer()} | \code{character()}, \code{character()}, \code{character(1)}) -> \code{any}\cr
+Returns a slice of the data from the \link{DataBackend} in the format specified by \code{format}
+(depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.table]{data.table::data.table()}}).
+Rows are subsetted to only contain observations with role "use".
+Columns are filtered to only contain features with roles "target" and "feature".
+If invalid \code{rows} or \code{cols} are specified, an exception is raised.
+\item \code{cbind(data)}\cr
+\code{data.frame()} -> \code{self}\cr
+Extends the \link{DataBackend} with additional columns.
+The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}). If this column is missing, it is assumed that the rows are exactly in the order of
+\code{t$row_ids}.
+\item \code{rbind(data)}\cr
+\code{data.frame()} -> \code{self}\cr
+Extends the \link{DataBackend} with additional rows.
+The new row ids must be provided as column in \code{data}.
+If this column is missing, new row ids are constructed automatically.
+\item \code{filter(rows)}\cr
+(\code{integer()} | \code{character()}) -> \code{self}\cr
+Subsets the task, reducing it to only keep the rows specified.
+\item \code{select(cols)}\cr
+\code{character()} -> \code{self}\cr
+Subsets the task, reducing it to only keep the columns specified.
+\item \code{levels(col)}\cr
+\code{character()} -> named \code{list()}\cr
+Returns  the distinct levels of the column \code{col}.
+Only applicable for features with type "character",  "factor" or "ordered".
+This function ignores the row roles, it returns all levels available in the \link{DataBackend}.
+\item \code{head(n = 6)}\cr
+\code{integer()} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Get the first \code{n} observations with role "use".
+\item \code{replace_features(data)}\cr
+\code{data.frame()} -> \code{self}\cr
+Replaces some features of the task by constructing a completely new \link{DataBackendDataTable}.
+This operation is similar to calling \code{select()} and \code{cbind()}, but explicitly copies the data.
+\item \code{set_col_role(cols, new_roles, exclusive = TRUE)}
+(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}.
+Adds the roles \code{new_roles} to columns referred to by \code{cols}.
+If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
+\item \code{set_row_role(rows, new_roles, exclusive = TRUE)}
+(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}.
+Adds the roles \code{new_roles} to rows referred to by \code{rows}.
+If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
+}
+}
+
 \section{Fields}{
 
 \itemize{
@@ -82,71 +138,6 @@ Returns all column names with role "target".
 \item \code{task_type} :: \code{character(1)}\cr
 Stores the type of the \link{Task}.
 }
-}
-
-\section{Methods}{
-
-\itemize{
-\item \code{data(rows = NULL, cols = NULL, format = NULL)}\cr
-(\code{integer()} | \code{character()}, \code{character()}, \code{character(1)}) -> \code{any}\cr
-Returns a slice of the data from the \link{DataBackend} in the format specified by \code{format}
-(depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.table]{data.table::data.table()}}).
-Rows are subsetted to only contain observations with role "use".
-Columns are filtered to only contain features with roles "target" and "feature".
-If invalid \code{rows} or \code{cols} are specified, an exception is raised.
-\item \code{cbind(data)}\cr
-\code{data.frame()} -> \code{self}\cr
-Extends the \link{DataBackend} with additional columns.
-The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}). If this column is missing, it is assumed that the rows are exactly in the order of
-\code{t$row_ids}.
-\item \code{rbind(data)}\cr
-\code{data.frame()} -> \code{self}\cr
-Extends the \link{DataBackend} with additional rows.
-The new row ids must be provided as column in \code{data}.
-If this column is missing, new row ids are constructed automatically.
-\item \code{filter(rows)}\cr
-(\code{integer()} | \code{character()}) -> \code{self}\cr
-Subsets the task, reducing it to only keep the rows specified.
-\item \code{select(cols)}\cr
-\code{character()} -> \code{self}\cr
-Subsets the task, reducing it to only keep the columns specified.
-\item \code{levels(col)}\cr
-\code{character()} -> named \code{list()}\cr
-Returns  the distinct levels of the column \code{col}.
-Only applicable for features with type "character",  "factor" or "ordered".
-This function ignores the row roles, it returns all levels available in the \link{DataBackend}.
-\item \code{head(n = 6)}\cr
-\code{integer()} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Get the first \code{n} observations with role "use".
-\item \code{replace_features(data)}\cr
-\code{data.frame()} -> \code{self}\cr
-Replaces some features of the task by constructing a completely new \link{DataBackendDataTable}.
-This operation is similar to calling \code{select()} and \code{cbind()}, but explicitly copies the data.
-\item \code{set_col_role(cols, new_roles, exclusive = TRUE)}
-(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}.
-Adds the roles \code{new_roles} to columns referred to by \code{cols}.
-If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
-\item \code{set_row_role(rows, new_roles, exclusive = TRUE)}
-(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}.
-Adds the roles \code{new_roles} to rows referred to by \code{rows}.
-If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
-}
-
-
-\itemize{
-\item \code{truth(row_ids = NULL)} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with true  labels for specified \code{row_ids}.
-Defaults to all rows in use.
-}
-}
-
-\section{Task mutators}{
-
-The methods \code{filter()}, \code{select()}, \code{rbind()}, and \code{cbind()} change the task in-place,
-but without modifying the \link{DataBackend}.
-\code{filter()} and \code{select()} just reduce the set of active rows or columns, providing a different view on the data.
-\code{rbind()} and \code{cbind()} first create a new \link{DataBackendDataTable} from the provided new data, and then
-merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
 }
 
 \examples{

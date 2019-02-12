@@ -7,6 +7,9 @@
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for regression problems.
 #' The target column is assumed to be numeric.
+#' Predefined tasks are stored in [mlr_tasks].
+#'
+#' The `task_type` is set to `"classif"`.
 #'
 #' @section Construction:
 #' ```
@@ -20,8 +23,9 @@
 #' * `target` :: `character(1)`\cr
 #'   Name of the target column.
 #'
-#' @templateVar TaskClass Classif
-#' @template Task
+#' @inheritSection Task Fields
+#' @inheritSection Task Methods
+#'
 #' @family Task
 #' @export
 #' @examples

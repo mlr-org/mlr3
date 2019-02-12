@@ -24,8 +24,8 @@
 #' * `target` :: `character(1)`\cr
 #'   Name of the target column.
 #'
-#' @templateVar TaskClass Supervised
-#' @template Task
+#' @inheritSection Task Fields
+#' @inheritSection Task Methods
 #'
 #' @section Methods:
 #' * `truth(row_ids = NULL)` :: [data.table::data.table()]\cr

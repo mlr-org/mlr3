@@ -8,6 +8,9 @@
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for regression problems.
 The target column is assumed to be numeric.
+Predefined tasks are stored in \link{mlr_tasks}.
+
+The \code{task_type} is set to \code{"classif"}.
 }
 \section{Construction}{
 \preformatted{t = TaskRegr$new(id, backend, target)
@@ -77,7 +80,7 @@ Returns the row ids of the \link{DataBackend} for observations with with role "u
 \item \code{target_names} :: \code{character()}\cr
 Returns all column names with role "target".
 \item \code{task_type} :: \code{character(1)}\cr
-Set to " classif " for this class.
+Stores the type of the \link{Task}.
 }
 }
 
@@ -128,15 +131,6 @@ If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from 
 Adds the roles \code{new_roles} to rows referred to by \code{rows}.
 If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
 }
-}
-
-\section{Task mutators}{
-
-The methods \code{filter()}, \code{select()}, \code{rbind()}, and \code{cbind()} change the task in-place,
-but without modifying the \link{DataBackend}.
-\code{filter()} and \code{select()} just reduce the set of active rows or columns, providing a different view on the data.
-\code{rbind()} and \code{cbind()} first create a new \link{DataBackendDataTable} from the provided new data, and then
-merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
 }
 
 \examples{

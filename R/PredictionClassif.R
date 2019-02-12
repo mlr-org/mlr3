@@ -10,6 +10,8 @@
 #' the response is calculated from the probabilities: the class label with the highest
 #' probability is chosen. In case of ties, a random class label of the tied labels picked.
 #'
+#' The `task_type` is set to `"classif"`.
+#'
 #' @section Construction:
 #' ```
 #' p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL)
@@ -20,6 +22,7 @@
 #'
 #' * `response` :: (`factor()` | `character()`)\cr
 #'   Vector of predicted class labels.
+#'   One element for each observation in the test set.
 #'
 #' * `prob` :: `matrix()`\cr
 #'   Numeric matrix of class probabilities with one column for each class
@@ -29,6 +32,8 @@
 #' to allow to manually construct [Prediction] objects in a piecemeal fashion.
 #' Required are "row_ids", "truth", and "predict_type". Depending on the value of
 #' "predict_types", also "response" and "prob" must be set.
+#'
+#' @inheritSection Prediction Fields
 #'
 #' @family Prediction
 #' @export

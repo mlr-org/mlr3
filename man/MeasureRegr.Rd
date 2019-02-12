@@ -8,6 +8,8 @@
 \description{
 This measure specializes \link{Measure} for regression problems.
 Predefined measures can be found in the \link{Dictionary} \link{mlr_measures}.
+
+The \code{task_type} is set to \code{"regr"}.
 }
 \section{Construction}{
 \preformatted{m = MeasureRegr$new(id, range, minimize, predict_type = "response",
@@ -42,7 +44,7 @@ Stores the names of required packages.
 \item \code{range} :: \code{numeric(2)}\cr
 Stores the feasible range of the measure.
 \item \code{task_type} :: \code{character(1)}\cr
-Set to " regr " for this class.
+<%= if (MeasureClass == "Base") "Stores the required type of the \link{Task}." else paste("Set to "", tolower(MeasureClass), "" for this class.") %>
 \item \code{task_properties} :: \code{character()}\cr
 Stores required properties of the \link{Task}.
 }

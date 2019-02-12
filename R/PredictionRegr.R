@@ -1,53 +1,39 @@
 #' @title Prediction Object for Regression
 #'
-#' @name PredictionRegr
+#' @usage NULL
 #' @format [R6::R6Class] object inheriting from [Prediction].
+#' @include Prediction.R
+#'
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerRegr].
 #'
-#' @section Usage:
+#' The `task_type` is set to `"classif"`.
 #'
-#' Inherits from [Prediction]
-#'
+#' @section Construction:
 #' ```
-#' # Construction
 #' p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
-#'
-#' # Members
-#' p$task_type
-#' p$predict_types
-#' p$response
-#' p$row_ids
-#' p$se
-#' p$truth
-#'
-#' # S3 methods
-#' as.data.table(p)
 #' ```
+#' * `task` :: [TaskRegr]\cr
+#'   Task for which the predictions are made. Used to extract the row ids and the true
+#'   response. Must be subsetted to test set.
 #'
-#' @section Arguments:
-#' * `task` ([Task]):
-#'   Task used for prediction. Used to extract `row_ids` and `truth`.
-#'   Set to `NULL` to skip all argument checks during initialization.
-#'   Slots `p$row_ids` and `p$truth` need to be set manually in this case
-#' * `truth` (`numeric()`):
-#'   Numeric vector of true response.
-#' * `response` (`numeric()`):
-#'   Numeric vector of predictions. One element for each observation in the test set.
-#' * `se` (`numeric()`):
-#'   Numeric vector of predicted standard error. One element for each observation in the test set.
+#' * `response` :: `numeric()`\cr
+#'   Vector of numeric response values.
+#'   One element for each observation in the test set.
 #'
-#' @section Details:
-#' * `$task_type` (`character(1)`) stores the task type this prediction object is intended for: `"regr"`.
-#' * `$predict_types` ([character]) stores the predict types available: a subset of `c("response", "se")`.
-#' * `$response` stores the predicted values.
-#' * `row_ids` stores the row IDs.
-#' * `$se` stores the predicted standard errors (if available), or is `NULL`.
-#' * `$truth` stores the true values.
-#' * `$new()` initializes a new object of class [Prediction].
-#' * The prediction object can be transformed to a simple [data.table()]
-#'   with [data.table::as.data.table].
+#' * `se` :: `numeric()`\cr
+#'   Numeric vector of predicted standard error.
+#'   One element for each observation in the test set.
+#'
+#' Note that it is allowed to initialize this object without any arguments in order
+#' to allow to manually construct [Prediction] objects in a piecemeal fashion.
+#' Required are "row_ids", "truth", and "predict_type". Depending on the value of
+#' "predict_types", also "response" and "se" must be set.
+#'
+#' @inheritSection Prediction Fields
+#'
 #' @family Prediction
+#' @export
 #' @examples
 #' task = mlr_tasks$get("bh")
 #' learner = mlr_learners$get("regr.featureless")
@@ -56,10 +42,6 @@
 #' p = e$prediction
 #' p$predict_types
 #' head(as.data.table(p))
-NULL
-
-#' @export
-#' @include Prediction.R
 PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(

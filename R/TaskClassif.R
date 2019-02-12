@@ -7,6 +7,9 @@
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.
 #' The target column is assumed to be a factor.
+#' Predefined tasks are stored in [mlr_tasks].
+#'
+#' The `task_type` is set to `"classif"`.
 #'
 #' @section Construction:
 #' ```
@@ -23,8 +26,8 @@
 #' * `positive` :: `character(1)`\cr
 #'   Only for binary classification: Name of the positive class.
 #'
-#' @templateVar TaskClass Classif
-#' @template Task
+#' @inheritSection Task Fields
+#' @inheritSection Task Methods
 #'
 #' @section Fields:
 #' * `all_classes` :: `character()`\cr

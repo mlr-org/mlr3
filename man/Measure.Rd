@@ -17,7 +17,7 @@ Predefined measures are stored in \link{mlr_measures}.
 \item \code{id} :: `character(1)\cr
 Identifier for the measure.
 \item \code{task_type} :: \code{character(1)}\cr
-Type of the task the measure can operator on. E.g., \code{"classif"} or \code{"regr"}.
+Type of the task the measure can operator on. E.g., \code{\"classif\"} or \code{\"regr\"}.
 \item \code{range} :: \code{numeric(2)}\cr
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
 \item \code{minimize} :: \code{logical(1)}\cr
@@ -44,7 +44,7 @@ Stores the names of required packages.
 \item \code{range} :: \code{numeric(2)}\cr
 Stores the feasible range of the measure.
 \item \code{task_type} :: \code{character(1)}\cr
-Stores the required type of the \link{Task}.
+<%= if (MeasureClass == "Base") "Stores the required type of the \link{Task}." else paste("Set to "", tolower(MeasureClass), "" for this class.") %>
 \item \code{task_properties} :: \code{character()}\cr
 Stores required properties of the \link{Task}.
 }

@@ -10,6 +10,8 @@ This object stores the predictions returned by a learner of class \link{LearnerC
 If probabilities are provided via construction and response is missing,
 the response is calculated from the probabilities: the class label with the highest
 probability is chosen. In case of ties, a random class label of the tied labels picked.
+
+The \code{task_type} is set to \code{"classif"}.
 }
 \section{Construction}{
 \preformatted{p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL)
@@ -20,6 +22,7 @@ Task for which the predictions are made. Used to extract the row ids and the tru
 labels. Must be subsetted to test set.
 \item \code{response} :: (\code{factor()} | \code{character()})\cr
 Vector of predicted class labels.
+One element for each observation in the test set.
 \item \code{prob} :: \code{matrix()}\cr
 Numeric matrix of class probabilities with one column for each class
 and one row for each observation in the test set.
@@ -29,6 +32,22 @@ Note that it is allowed to initialize this object without any arguments in order
 to allow to manually construct \link{Prediction} objects in a piecemeal fashion.
 Required are "row_ids", "truth", and "predict_type". Depending on the value of
 "predict_types", also "response" and "prob" must be set.
+}
+
+\section{Fields}{
+
+\itemize{
+\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
+Vector of row ids for which predictions are stored.
+\item \code{truth} :: \code{any}\cr
+Vector of true labels.
+\item \code{response} :: \code{any}\cr
+Vector of predicted labels.
+\item \code{task_type} :: \code{character(1)}\cr
+Stores the type of the \link{Task}.
+\item \code{predict_types} :: \code{character()}\cr
+Vector of predict types this object stores.
+}
 }
 
 \examples{
