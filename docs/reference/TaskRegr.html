@@ -31,7 +31,6 @@
 <meta property="og:title" content="Regression Task — TaskRegr" />
 
 <meta property="og:description" content="This task specializes Task and TaskSupervised for regression problems.
-The slot $task_type is set to "regr".
 The target column is assumed to be numeric." />
 <meta name="twitter:card" content="summary" />
 
@@ -154,7 +153,6 @@ The target column is assumed to be numeric." />
 
     
     <p>This task specializes <a href='Task.html'>Task</a> and <a href='TaskSupervised.html'>TaskSupervised</a> for regression problems.
-The slot <code>$task_type</code> is set to "regr".
 The target column is assumed to be numeric.</p>
     
 
@@ -229,16 +227,13 @@ Return the total number of rows with role "use".</p></li>
 Returns the row ids of the <a href='DataBackend.html'>DataBackend</a> for observations with with role "use".</p></li>
 <li><p><code>target_names</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
 Returns all column names with role "target".</p></li>
+<li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Set to " classif " for this class.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <ul>
-<li><p><code>truth(row_ids = NULL)</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
-Table with true  labels for specified <code>row_ids</code>.
-Defaults to all rows in use.</p></li>
-</ul>
     <ul>
 <li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data(rows = NULL, cols = NULL, format = NULL)</a></code><br />
 (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) -&gt; <code>any</code><br />
@@ -285,6 +280,15 @@ Adds the roles <code>new_roles</code> to rows referred to by <code>rows</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p></li>
 </ul>
     
+    <h2 class="hasAnchor" id="task-mutators"><a class="anchor" href="#task-mutators"></a>Task mutators</h2>
+
+    
+    <p>The methods <code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code>, <code>select()</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code> change the task in-place,
+but without modifying the <a href='DataBackend.html'>DataBackend</a>.
+<code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code> and <code>select()</code> just reduce the set of active rows or columns, providing a different view on the data.
+<code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code> first create a new <a href='DataBackendDataTable.html'>DataBackendDataTable</a> from the provided new data, and then
+merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> which combines the results on-demand.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Task: <code><a href='TaskClassif.html'>TaskClassif</a></code>,
@@ -318,6 +322,8 @@ If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be remo
       <li><a href="#public">Public</a></li>
 
       <li><a href="#methods">Methods</a></li>
+
+      <li><a href="#task-mutators">Task mutators</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
