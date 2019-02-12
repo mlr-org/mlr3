@@ -198,12 +198,11 @@ Additionally, you need to catch raised exceptions via encapsulation, see <code><
 Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
 A complete list of candidate feature types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a></code>.</p></li>
 <li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
-Hash (unique identifier) of the Learner.</p></li>
+Hash (unique identifier) of the learner.</p></li>
 <li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
-Stores the identifier of the object.</p></li>
+Stores the identifier of the learner.</p></li>
 <li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Stores the names of required packages. Note that these packages will be loaded via <code><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace()</a></code>,
-and are not attached.</p></li>
+Stores the names of required packages.</p></li>
 <li><p><code>param_set</code> :: <a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a><br />
 Description of available hyperparameters and hyperparameter settings.</p></li>
 <li><p><code>predict_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
