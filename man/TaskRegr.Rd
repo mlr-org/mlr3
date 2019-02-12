@@ -21,7 +21,7 @@ Name of the target column.
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{backend} :: \link{DataBackend}.

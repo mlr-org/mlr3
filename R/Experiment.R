@@ -19,7 +19,7 @@
 #' * `ctrl` :: named `list()`\cr
 #'   Control object, see [mlr_control()].
 #'
-#' @section Public:
+#' @section Fields:
 #' * `data` :: named `list()`\cr
 #'   Internal data storage as a `named list` with the following slots:
 #'   * `iteration` :: `integer(1)`\cr

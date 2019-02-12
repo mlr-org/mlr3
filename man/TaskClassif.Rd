@@ -23,7 +23,7 @@ Only for binary classification: Name of the positive class.
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{backend} :: \link{DataBackend}.

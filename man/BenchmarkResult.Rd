@@ -19,7 +19,7 @@ Usually, this object is constructed via \code{\link[=benchmark]{benchmark()}}.
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr

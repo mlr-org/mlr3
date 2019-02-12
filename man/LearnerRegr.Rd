@@ -32,7 +32,7 @@ Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflectio
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{fallback} :: (\link{Learner} | \code{NULL})\cr

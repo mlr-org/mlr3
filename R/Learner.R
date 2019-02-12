@@ -37,7 +37,7 @@
 #' * `properties` :: `character()`\cr
 #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
 #'
-#' @section Public:
+#' @section Fields:
 #' * `fallback` :: ([Learner] | `NULL`)\cr
 #'   Optionally stores a second [Learner] which is activated as fallback if this first [Learner] fails during
 #'   train or predict.

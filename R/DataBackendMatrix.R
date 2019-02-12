@@ -18,7 +18,7 @@
 #'
 #' Alternatively, use [as_data_backend] on a [Matrix::Matrix()].
 #'
-#' @inheritSection DataBackend Public
+#' @inheritSection DataBackend Fields
 #' @inheritSection DataBackend Methods
 #'
 #' @family DataBackend

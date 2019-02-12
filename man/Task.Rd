@@ -22,7 +22,7 @@ Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types}.
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{backend} :: \link{DataBackend}.

@@ -23,7 +23,7 @@ construct a \link{DataBackend} with a copy of the data, and automatically
 creates a primary key column if required.
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{nrow} :: \code{integer(1)}\cr

@@ -14,7 +14,7 @@
 #'   Table with columns "class" (allowed values are "output", "warning", and "error")
 #'   and "message".
 #'
-#' @section Public:
+#' @section Fields:
 #' * `warnings` :: `character(1)`\cr
 #'   Vector of all messages of class "warning".
 #' * `errors` :: `character(1)`\cr

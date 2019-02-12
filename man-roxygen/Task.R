@@ -1,4 +1,4 @@
-#' @section Public:
+#' @section Fields:
 #' * `backend` :: [DataBackend].
 #'
 #' * `col_info` :: [data.table::data.table()]\cr

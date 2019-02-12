@@ -1,4 +1,4 @@
-#' @section Public:
+#' @section Fields:
 #' * `row_ids` :: (`integer()` | `character()`)\cr
 #'   Vector of row ids for which predictions are stored.
 #'

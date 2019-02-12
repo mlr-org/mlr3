@@ -15,7 +15,7 @@
 #'   See description of in [Experiment] for the exact structure.
 #'   Usually, this object is constructed via [benchmark()].
 #'
-#' @section Public:
+#' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
 #'   Experiment data with one [Experiment] per line.
 #' * `tasks` :: [data.table::data.table()]\cr

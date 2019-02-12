@@ -13,7 +13,7 @@ This is the abstract base class for task objects like \link{PredictionClassif} a
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{row_ids} :: (\code{integer()} | \code{character()})\cr

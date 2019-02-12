@@ -18,7 +18,7 @@ and "message".
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{warnings} :: \code{character(1)}\cr

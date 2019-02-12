@@ -29,7 +29,7 @@
 #' * `properties` :: `character()`\cr
 #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
 #'
-#' @inheritSection Learner Public
+#' @inheritSection Learner Fields
 #' @inheritSection Learner Methods
 #'
 #' @family Learner

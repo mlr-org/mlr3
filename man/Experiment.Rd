@@ -21,7 +21,7 @@ Control object, see \code{\link[=mlr_control]{mlr_control()}}.
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{data} :: named \code{list()}\cr

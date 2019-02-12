@@ -20,7 +20,7 @@
 #' construct a [DataBackend] with a copy of the data, and automatically
 #' creates a primary key column if required.
 #'
-#' @inheritSection DataBackend Public
+#' @inheritSection DataBackend Fields
 #' @inheritSection DataBackend Methods
 #'
 #' @family DataBackend

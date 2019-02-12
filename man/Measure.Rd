@@ -32,7 +32,7 @@ Note that these packages will be loaded via \code{\link[=requireNamespace]{requi
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{id} :: \code{character(1)}\cr

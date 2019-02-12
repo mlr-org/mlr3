@@ -21,7 +21,7 @@ If the matrix does not have row names, integer row indices are used.
 Alternatively, use \link{as_data_backend} on a \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{nrow} :: \code{integer(1)}\cr

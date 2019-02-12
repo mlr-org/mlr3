@@ -26,7 +26,7 @@
 #' @templateVar TaskClass Classif
 #' @template Task
 #'
-#' @section Public:
+#' @section Fields:
 #' * `all_classes` :: `character()`\cr
 #'   Returns all class labels of the task, regardless of the number of active rows.
 #' * `class_names` :: `character()`\cr

@@ -26,7 +26,7 @@
 #'   Each DataBackend needs a way to address rows, which is typically handled by a `primary_key` column of unique values.
 #'   The use of this variable may differ between backends.
 #'
-#' @section Public:
+#' @section Fields:
 #' * `nrow` :: `integer(1)`\cr
 #'   Number of rows (observations).
 #'

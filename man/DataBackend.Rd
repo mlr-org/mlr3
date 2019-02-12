@@ -29,7 +29,7 @@ The use of this variable may differ between backends.
 }
 }
 
-\section{Public}{
+\section{Fields}{
 
 \itemize{
 \item \code{nrow} :: \code{integer(1)}\cr
