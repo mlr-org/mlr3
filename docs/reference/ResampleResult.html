@@ -30,7 +30,7 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="Container for Results of <code>resample()</code>. — ResampleResult" />
 
-<meta property="og:description" content="This is the object returned by resample()." />
+<meta property="og:description" content="This is the result container object returned by resample()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -151,7 +151,7 @@
     </div>
 
     
-    <p>This is the object returned by <code><a href='resample.html'>resample()</a></code>.</p>
+    <p>This is the result container object returned by <code><a href='resample.html'>resample()</a></code>.</p>
     
 
         
@@ -159,56 +159,66 @@
 
     <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object.</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
-    <pre># Construction
-# Users of mlr3 generally don't need to construct this class themselves, but rather use objects returned by [resample()].
-rr = ResampleResult$new(data, hash = NULL)
-    # Members
-rr$aggregated
-rr$data
-rr$errors
-rr$hash
-rr$learner
-rr$measures
-rr$resampling
-rr$task
-    # Methods
-rr$combine(rr)
-rr$experiment(iter)
-rr$experiments(iters)
-rr$performance(id)
-rr$print()
+    <pre>rr = ResampleResult$new(data)
 </pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>data</code> (<code>data.table()</code>):
-<code>data.table()</code> with columns matching the data of an <a href='Experiment.html'>Experiment</a>.
-Each row corresponds to a single experiment.</p></li>
-<li><p><code>hash</code> (<code>NULL</code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): Pre-calculated hash for the combination of <code>task</code>, <code>learner</code> and <code>resampling</code>.
-If <code>NULL</code>, the checksum will be calculated on-demand.</p></li>
-<li><p><code>rr</code> (<code>ResampleResult</code>): Second ResampleResult.</p></li>
-<li><p><code>iter</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>): Iteration of the experiment to retrieve.</p></li>
-<li><p><code>iters</code> (<code>integer</code>): Iterations of experiments to retrieve as <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>.</p></li>
-<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>): Identifier of a performance measure.</p></li>
+<ul>
+<li><p><code>data</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Table with the data of one <a href='Experiment.html'>Experiment</a> per row.
+See description of in <a href='Experiment.html'>Experiment</a> for the exact structure.</p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
     
     <ul>
-<li><p><code>$aggregated</code> (named <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric()</a></code>) returns the aggregated performance measures. The aggregation method is part of the <a href='Measure.html'>Measure</a>.</p></li>
-<li><p><code>$combine()</code> takes a second ResampleResult and combines both ResampleResults to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
-<li><p><code>$errors</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code>) returns a vector with the i-th element <code>TRUE</code> if the i-th experiment had at least on error during train or predict.</p></li>
-<li><p><code>$experiment()</code> returns an <a href='Experiment.html'>Experiment</a> for the <code>iter</code>-th resampling iteration.</p></li>
-<li><p><code>$experiments()</code> returns a <code>list</code> with the slice of <a href='Experiment.html'>Experiment</a>s for the provided <code>iters</code>.</p></li>
-<li><p><code>$hash</code> (<code>character(1))</code> stores a hash for the combination of task, learner and resampling.</p></li>
-<li><p><code>$performance(id)</code> retrieves the performance values for the measure with id <code>id</code> as numeric vector.</p></li>
-<li><p><code>$task</code>, <code>$learner</code>, <code>$resampling</code> and <code>$measure</code> allow access to the <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a> and <a href='Measure.html'>Measure</a> used in the resampling.</p></li>
-<li><p><code><a href='as.data.table.html'>as.data.table()</a></code> converts the <a href='BenchmarkResult.html'>BenchmarkResult</a> to a <code>data.table()</code>.</p></li>
+<li><p><code>data</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Experiment data with one <a href='Experiment.html'>Experiment</a> per line.</p></li>
+<li><p><code>task</code> :: <a href='Task.html'>Task</a><br />
+The task <code><a href='resample.html'>resample()</a></code> operated on.</p></li>
+<li><p><code>learner</code> :: <a href='Learner.html'>Learner</a><br />
+The learner <code><a href='resample.html'>resample()</a></code> operated on.</p></li>
+<li><p><code>resampling</code> :: <a href='Resampling.html'>Resampling</a><br />
+The resampling object <code><a href='resample.html'>resample()</a></code> operated on.</p></li>
+<li><p><code>measures</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code> of <a href='Measure.html'>Measure</a><br />
+The performance measures <code><a href='resample.html'>resample()</a></code> operated on.</p></li>
+<li><p><code>errors</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code><br />
+Logical vector where the i-th element is <code>TRUE</code> if an error for the i-th resampling iteration has been captured.</p></li>
+<li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Hash (unique identifier) for this object.</p></li>
+<li><p><code>aggregated</code> :: named <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric()</a></code><br />
+Returns a single score for each measure, named with measure ids.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <ul>
+<li><p><code>combine(rr)</code><br />
+ResampleResult -&gt; <a href='BenchmarkResult.html'>BenchmarkResult</a><br />
+Takes a second ResampleResult and combines both ResampleResults to a <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
+<li><p><code>experiment(iter)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code> -&gt; <a href='Experiment.html'>Experiment</a><br />
+Returns the <code>iter</code>-th <a href='Experiment.html'>Experiment</a>.</p></li>
+<li><p><code>experiments(iters)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code> of <a href='Experiment.html'>Experiment</a>.
+Returns a slice of <a href='Experiment.html'>Experiment</a>s, referred to by resampling iterations <code>iters</code>.</p></li>
+<li><p><code>performance(id)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code><br />
+Retrieves the performance values for the measure with id <code>id</code> as numeric vector.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 Methods</h2>
+
+    
+    <ul>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame(rr)</a></code><br />
+ResampleResult -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code><br />
+Converts to a flat <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>.</p></li>
+<li><p><code><a href='as.data.table.html'>as.data.table(rr)</a></code><br />
+ResampleResult -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Converts to a flat <code>data.table()</code>.</p></li>
 </ul>
     
 
@@ -219,11 +229,13 @@ If <code>NULL</code>, the checksum will be calculated on-demand.</p></li>
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#construction">Construction</a></li>
 
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#fields">Fields</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#methods">Methods</a></li>
+
+      <li><a href="#s-methods">S3 Methods</a></li>
           </ul>
 
   </div>
