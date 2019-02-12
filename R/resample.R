@@ -45,7 +45,7 @@
 #' }
 resample = function(task, learner, resampling, ctrl = list()) {
   task = assert_task(task)$clone(deep = TRUE)
-  assert_learner(learner, task = task)
+  learner = assert_learner(learner, task = task)$clone(deep = TRUE)
   assert_resampling(resampling)
   measures = assert_measures(task$measures, task = task)
   ctrl = mlr_control(ctrl)
