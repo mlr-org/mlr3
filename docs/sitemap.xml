@@ -25,37 +25,13 @@
     <loc>https://mlr3.mlr-org.com/reference/Generator.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/Generator2DNormals.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/GeneratorSmiley.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/GeneratorXor.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/Learner.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/LearnerClassif.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerClassifDebug.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerClassifFeatureless.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerClassifRpart.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/LearnerRegr.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerRegrFeatureless.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerRegrRpart.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/Log.html</loc>
@@ -67,22 +43,7 @@
     <loc>https://mlr3.mlr-org.com/reference/MeasureClassif.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifACC.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifAUC.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifMMCE.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureElapsedTime.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/MeasureRegr.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureRegrMSE.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/Prediction.html</loc>
@@ -98,24 +59,6 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/Resampling.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingBootstrap.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingCV.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingCustom.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingHoldout.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingRepeatedCV.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingSubsampling.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/Task.html</loc>
@@ -154,16 +97,73 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_generators.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_generators_2dnormals.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_generators_smiley.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_generators_xor.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_learners.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif.debug.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif.featureless.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif.rpart.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_regr.featureless.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_regr.rpart.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.acc.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.auc.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mmce.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.mse.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_reflections.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_bootstrap.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_custom.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_cv.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_holdout.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_repeated_cv.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_subsampling.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_tasks.html</loc>
