@@ -11,7 +11,6 @@
 #'   Type of the task the measure can operator on. E.g., `\"classif\"` or `\"regr\"`.
 #' " %>
 #'
-#'
 #' * `range` :: `numeric(2)`\cr
 #'   Feasible range for this measure as `c(lower_bound, upper_bound)`.
 #'

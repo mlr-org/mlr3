@@ -1,14 +1,20 @@
 #' @title Abstract Prediction Object
 #'
-#' @name Prediction
+#' @usage NULL
 #' @format [R6::R6Class] object.
+#'
 #' @description
 #' This is the abstract base class for task objects like [PredictionClassif] and [PredictionRegr].
 #'
-#' @family Prediction
-NULL
-
+#' @section Construction:
+#' ```
+#' Prediction$new()
+#' ```
+#' @templateVar PredictionClass Base
+#' @template Prediction
+#'
 #' @export
+#' @family Prediction
 Prediction = R6Class("Prediction",
   public = list(
     row_ids = NULL,
