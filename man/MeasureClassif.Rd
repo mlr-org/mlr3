@@ -7,11 +7,11 @@
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Measure}.}
 \description{
 This measure specializes \link{Measure} for classification problems.
-The slot \code{task_type} is set to \code{"classif"}.
 Predefined measures can be found in the \link{Dictionary} \link{mlr_measures}.
 }
 \section{Construction}{
-\preformatted{m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
+\preformatted{m = MeasureClassif$new(id, range, minimize, predict_type = "response",
+     task_properties = character(0L), packages = character(0L))
 }
 \itemize{
 \item \code{id} :: `character(1)\cr
@@ -42,7 +42,7 @@ Stores the names of required packages.
 \item \code{range} :: \code{numeric(2)}\cr
 Stores the feasible range of the measure.
 \item \code{task_type} :: \code{character(1)}\cr
-Stores the required type of the \link{Task}.
+Set to " classif " for this class.
 \item \code{task_properties} :: \code{character()}\cr
 Stores required properties of the \link{Task}.
 }

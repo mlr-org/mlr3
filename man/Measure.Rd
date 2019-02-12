@@ -10,7 +10,8 @@ This is the abstract base class for measures like \link{MeasureClassif} and \lin
 Predefined measures are stored in \link{mlr_measures}.
 }
 \section{Construction}{
-\preformatted{m = Measure$new(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
+\preformatted{m = Measure$new(id, task_type, range, minimize, predict_type = "response",
+     task_properties = character(0L), packages = character(0L))
 }
 \itemize{
 \item \code{id} :: `character(1)\cr
