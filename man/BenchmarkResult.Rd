@@ -15,7 +15,6 @@ This is the result container object returned by \code{\link[=benchmark]{benchmar
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table with the data of one \link{Experiment} per row.
 See description of in \link{Experiment} for the exact structure.
-Usually, this object is constructed via \code{\link[=benchmark]{benchmark()}}.
 }
 }
 
@@ -67,6 +66,18 @@ Returns the \link{ResampleResult} with best performance according to the provide
 \item \code{resample_result(hash)}\cr
 \code{character(1)} -> \link{ResampleResult}\cr
 Retrieves the \link{ResampleResult} with provided \code{hash}.
+}
+}
+
+\section{S3 Methods}{
+
+\itemize{
+\item \code{as.data.frame(rr)}\cr
+\link{BenchmarkResult} -> \code{data.frame()}\cr
+Converts to a flat \code{data.frame()}.
+\item \code{as.data.table(rr)}\cr
+\link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Converts to a flat \code{data.table()}.
 }
 }
 

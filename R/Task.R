@@ -64,7 +64,7 @@
 #'   grouping variable. Returns `NULL` if there is no grouping.
 #'
 #' * `hash` :: `character(1)`\cr
-#'   Hash (unique identifier) of the task.
+#'   Hash (unique identifier) for this object.
 #'
 #' * `id` :: `character(1)`\cr
 #'   Stores the identifier of the Task.

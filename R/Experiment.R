@@ -56,7 +56,7 @@
 #'   Flag which is `TRUE` if any error has been recorded during `$train()` or `$predict()`.
 #'
 #' * `hash` :: `character(1)`\cr
-#'   Hash (unique identifier) of the experiment.
+#'   Hash (unique identifier) for this object.
 #'
 #' * `state` :: `ordered(1)`\cr
 #'   Returns the state of the experiment as ordered factor: "defined", "trained", "predicted", or "scored".

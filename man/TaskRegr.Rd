@@ -66,7 +66,7 @@ the active features of the task.
 Returns a table with columns \code{row_id} and \code{group} where \code{row_id} are the row ids and group is the value of the
 grouping variable. Returns \code{NULL} if there is no grouping.
 \item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) of the task.
+Hash (unique identifier) for this object.
 \item \code{id} :: \code{character(1)}\cr
 Stores the identifier of the Task.
 \item \code{measures} :: \code{list()} of \link{Measure}\cr

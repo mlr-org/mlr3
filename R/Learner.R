@@ -49,7 +49,7 @@
 #'   A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
 #'
 #' * `hash` :: `character(1)`\cr
-#'   Hash (unique identifier) of the learner.
+#'   Hash (unique identifier) for this object.
 #'
 #' * `id` :: `character(1)`\cr
 #'   Stores the identifier of the learner.

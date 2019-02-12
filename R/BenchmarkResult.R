@@ -13,7 +13,6 @@
 #' * `data` :: [data.table::data.table()]\cr
 #'   Table with the data of one [Experiment] per row.
 #'   See description of in [Experiment] for the exact structure.
-#'   Usually, this object is constructed via [benchmark()].
 #'
 #' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
@@ -55,6 +54,14 @@
 #' * `resample_result(hash)`\cr
 #'   `character(1)` -> [ResampleResult]\cr
 #'   Retrieves the [ResampleResult] with provided `hash`.
+#'
+#' @section S3 Methods:
+#' * `as.data.frame(rr)`\cr
+#'   [BenchmarkResult] -> `data.frame()`\cr
+#'   Converts to a flat `data.frame()`.
+#' * `as.data.table(rr)`\cr
+#'   [BenchmarkResult] -> [data.table::data.table()]\cr
+#'   Converts to a flat `data.table()`.
 #'
 #' @export
 #' @examples

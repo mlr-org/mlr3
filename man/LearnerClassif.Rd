@@ -44,7 +44,7 @@ Additionally, you need to catch raised exceptions via encapsulation, see \code{\
 Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
 A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
 \item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) of the learner.
+Hash (unique identifier) for this object.
 \item \code{id} :: \code{character(1)}\cr
 Stores the identifier of the learner.
 \item \code{packages} :: \code{character()}\cr

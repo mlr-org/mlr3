@@ -1,58 +1,68 @@
 #' @title Resampling Class
 #'
-#' @name Resampling
+#' @usage NULL
 #' @format [R6::R6Class] object.
+#'
 #' @description
 #' Abstraction for resampling strategies.
 #' Predefined resamplings are stored in [mlr_resamplings].
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
-#' # Construction
 #' r = Resampling$new(id, param_set, param_vals)
-#'
-#' # Members
-#' r$duplicated_ids
-#' r$hash
-#' r$id
-#' r$instance
-#' r$is_instantiated
-#' r$iters
-#' r$param_set
-#' r$stratify
-#' r$task_hash
-#'
-#' # Methods
-#' r$instantiate(task)
-#' r$test_set(i)
-#' r$train_set(i)
 #' ```
+#' * `id` :: `character(1)`\cr
+#'   Name of the resampling strategy.
 #'
-#' @section Arguments:
-#' * `id` (`character(1)`): identifier for this object.
-#' * `param_set` ([paradox::ParamSet]): describes available parameters.
-#' * `param_vals` (`list()`): Named list of parameter values.
-#' * `task` ([Task]): Object of type [Task].
-#' * `i` (`integer(1)`): Get the `i`-th training/test set.
+#' * `param_set` :: [paradox::ParamSet]\cr
+#'   Set of hyperparameters.
 #'
-#' @section Details:
-#' * `$duplicated_ids` is `TRUE` if the resampling allows observations to be included multiple times in the training set.
-#'   E.g., this is true for bootstrapping, but not for cross validation.
-#' * `$hash` (`character(1)`) stores a checksum calculated on the `id`, `param_vals` and the instantiation.
-#'   If the object is not instantiated yet, `NA` is returned.
-#' * `$id` (`character(1)`) stores the identifier of the object.
-#' * `$instance` stores the instantiated realization of the resampling.
-#'    This is an arbitrary object, do not work directly with it. Instead, use `$train_set()` and `$test_set()`.
-#' * `$instantiate` materializes fixed training and test splits for a given task.
-#' * `$is_instantiated` returns `TRUE` if the resampling has been instantiated, and `FALSE` otherwise.
-#' * `$iters` (`integer(1)`) calculates the resulting number of iterations, given the current `param_vals`.
-#' * `$new()` creates a new object of class [Resampling].
-#' * `$param_set` ([paradox::ParamSet]) describes available parameters.
-#' * `$stratify` can be set to column names of the [Task] which will be used for stratification during instantiation.
-#' * `$task_hash` stores the hash of the task for which the resampling has been instantiated.
-#' * `$test_set()` returns the test set for the `i`-th iteration.
-#' * `$train_set()` returns the training set for the `i`-th iteration.
+#' * `param_vals` :: named `list()`\cr
+#'   List of hyperparameter settings.
 #'
+#' @section Fields:
+#' * `id` :: `character(1)`\cr
+#'   Stores the identifier of the learner.
+#'
+#' * `param_set` :: [paradox::ParamSet]\cr
+#'   Description of available hyperparameters and hyperparameter settings.
+#'
+#' * `hash` :: `character(1)`\cr
+#'   Hash (unique identifier) for this object.
+#'
+#' * `instance` :: `any`\cr
+#'   During `instantiate()`, the instance is stored in this slot.
+#'   Types vary from resampling strategy to resampling strategy.
+#'
+#' * `is_instantiated` :: `logical(1)`\cr
+#'   Is `TRUE`, if the resampling has been instantiated.
+#'
+#' * `duplicated_ids` :: `logical(1)`\cr
+#'   Is `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
+#'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross validation.
+#'
+#' * `iters` :: `integer(1)`\cr
+#'   Return the number of resampling iterations, depending on the values stored in the `param_set`.
+#'
+#' * `stratify` :: `character()`\cr
+#'   Subset of target and feature names of the [Task]. Used to stratify during `r$instantiate()`.
+#'
+#' * `task_hash` :: `character(1)`\cr
+#'   The hash of the task which was passed to `r$instantiate()`.
+#'
+#' @section Methods:
+#' * `instantiate(task)`\cr
+#'   [Task] -> `self`\cr
+#'   Materializes fixed training and test splits for a given task and stores them in `r$instance`.
+#'
+#' * `train_set(i)`\cr
+#'   `integer(1)` -> (`integer()` | `character()`)\cr
+#'   Returns the row ids of the i-th training set.
+#' * `test_set(i)`\cr
+#'   `integer(1)` -> (`integer()` | `character()`)\cr
+#'   Returns the row ids of the i-th test set.
+#'
+#' @export
 #' @family Resampling
 #' @examples
 #' r = mlr_resamplings$get("subsampling")
@@ -86,9 +96,6 @@
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
-NULL
-
-#' @export
 Resampling = R6Class("Resampling",
   public = list(
     param_set = NULL,
