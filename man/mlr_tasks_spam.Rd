@@ -3,6 +3,7 @@
 \name{mlr_tasks_spam}
 \alias{mlr_tasks_spam}
 \title{Spam Classification Task}
+\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
 \description{
 A classification task for the \link[kernlab:spam]{kernlab::spam} data set.
 Positive class is set to "spam".

@@ -1,13 +1,13 @@
 #' @title Mean Misclassification Error Measure
 #'
-#' @name mlr_measures_classif_mmce
+#' @aliases mlr_measures_classif.mmce
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
+#' @include MeasureClassif.R
 #'
 #' @description
 #' Calls [Metrics::ce].
 #'
 #' @export
-#' @include MeasureClassif.R
 MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
   inherit = MeasureClassif,
   cloneable = FALSE,

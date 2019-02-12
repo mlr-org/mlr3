@@ -1,6 +1,7 @@
 #' @title Dictionary of Resampling Strategies
 #'
 #' @format [R6::R6Class] object.
+#'
 #' @description
 #' A simple [Dictionary] storing objects of class [Resampling].
 #' Each resampling has an associated help page, see `mlr_resamplings_[id]`.

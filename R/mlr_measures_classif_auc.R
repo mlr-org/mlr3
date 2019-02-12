@@ -1,13 +1,13 @@
 #' @title Area Under the Curve Classification Measure
 #'
-#' @name mlr_measures_classif_auc
+#' @aliases mlr_measures_classif.auc
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
+#' @include MeasureClassif.R
 #'
 #' @description
 #' Calls [Metrics::auc].
 #'
 #' @export
-#' @include MeasureClassif.R
 MeasureClassifAUC = R6Class("MeasureClassifAUC",
   inherit = MeasureClassif,
   cloneable = FALSE,

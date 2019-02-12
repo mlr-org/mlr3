@@ -1,13 +1,12 @@
 #' @title Repeated Cross Validation Resampling
 #'
-#' @format [R6::R6Class] object
-#' @name mlr_resamplings_repeated_cv
+#' @aliases mlr_resamplings_repeated_cv
 #' @format [R6::R6Class()] inheriting from [Resampling].
+#' @include Resampling.R
 #'
 #' @description
 #' `repeats` times repeated `folds`-fold cross validation.
 #'
-#' @include Resampling.R
 #' @export
 #' @examples
 #' # Create a task with 10 observations

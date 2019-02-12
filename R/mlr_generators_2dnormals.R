@@ -1,10 +1,11 @@
 #' @title 2d Normals Classification Task Generator
 #'
-#' @name mlr_generators_2dnormals
+#' @aliases mlr_generators_2dnormals
 #' @format [R6::R6Class] inheriting from [Generator].
+#' @include Generator.R
+#'
 #' @description
 #' A [Generator] for the 2d normals task in [mlbench::mlbench.2dnormals()].
-#' @include Generator.R
 #' @export
 Generator2DNormals = R6Class("Generator2DNormals",
   inherit = Generator,

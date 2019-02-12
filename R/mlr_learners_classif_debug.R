@@ -1,7 +1,9 @@
 #' @title Toy Classification Learner
 #'
-#' @name mlr_learners_classif.debug
+#' @aliases mlr_learners_classif.debug
 #' @format [R6::R6Class] inheriting from [LearnerClassif].
+#' @include LearnerClassif.R
+#'
 #' @description
 #' A simple [LearnerClassif] used primarily in the unit tests and for debugging purposes.
 #' If no hyperparameter is set, it simply constantly predicts a randomly selected label.
@@ -20,7 +22,6 @@
 #' }
 #' Note that segfaults may not work on your operating system.
 #' Also note that if they work, they will tear down your R session immediately!
-#' @include LearnerClassif.R
 #' @export
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(

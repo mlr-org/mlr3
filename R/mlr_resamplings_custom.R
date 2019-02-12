@@ -1,14 +1,13 @@
 #' @title Custom Resampling
 #'
-#' @format [R6::R6Class] object
-#' @name mlr_resamplings_custom
+#' @aliases mlr_resamplings_custom
 #' @format [R6::R6Class] inheriting from [Resampling].
+#' @include Resampling.R
 #'
 #' @description
 #' A custom resampling class where the training and test indices
 #' can be set manually.
 #'
-#' @include Resampling.R
 #' @export
 #' @examples
 #' # Create a task with 10 observations

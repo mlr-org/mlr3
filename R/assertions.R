@@ -124,14 +124,6 @@ assert_range = function(range) {
   range
 }
 
-assert_unique_hashes = function(x) {
-  assert_list(x)
-  hashes = hashes(x)
-  if (anyDuplicated(hashes))
-    stopf("Duplicated elements found in '%s'", deparse(substitute(x)))
-  invisible(x)
-}
-
 assert_sorted_subset = function(x, choices, ...) {
   assert_subset(x, choices, ...)
   x[match(choices, x, nomatch = 0L)]

@@ -1,10 +1,11 @@
 #' @title Smiley Classification Task Generator
 #'
-#' @name mlr_generators_smiley
+#' @aliases mlr_generators_smiley
 #' @format [R6::R6Class] inheriting from [Generator].
+#' @include Generator.R
+#'
 #' @description
 #' A [Generator] for the smiley task in [mlbench::mlbench.smiley()].
-#' @include Generator.R
 #' @export
 GeneratorSmiley = R6Class("GeneratorSmiley",
   inherit = Generator,

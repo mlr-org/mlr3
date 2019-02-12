@@ -1,8 +1,11 @@
 #' @title Zoo Classification Task
+#'
 #' @name mlr_tasks_zoo
+#' @format [R6::R6Class] inheriting from [TaskClassif].
+#' @include mlr_tasks.R
+#'
 #' @description
 #' A classification task for the [mlbench::Zoo] data set.
-#' @include mlr_tasks.R
 mlr_tasks$add("zoo", function(id = "zoo") {
   b = as_data_backend(load_dataset("Zoo", "mlbench", keep_rownames = TRUE))
   b$hash = "_mlr_tasks_zoo_"
