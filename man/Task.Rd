@@ -164,8 +164,7 @@ task$cbind(data.frame(foo = 1:150))
 \seealso{
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskRegr}}, \code{\link{TaskSupervised}},
-  \code{\link{mlr_task_generators}},
-  \code{\link{mlr_tasks}}
+  \code{\link{mlr_generators}}, \code{\link{mlr_tasks}}
 }
 \concept{Task}
 \keyword{datasets}

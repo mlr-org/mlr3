@@ -143,8 +143,7 @@ task$truth()
 \seealso{
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskSupervised}}, \code{\link{Task}},
-  \code{\link{mlr_task_generators}},
-  \code{\link{mlr_tasks}}
+  \code{\link{mlr_generators}}, \code{\link{mlr_tasks}}
 }
 \concept{Task}
 \keyword{datasets}

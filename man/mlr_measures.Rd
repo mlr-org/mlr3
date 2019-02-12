@@ -19,10 +19,8 @@ mlr_measures$get("classif.mmce")
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
-  \code{\link{mlr_learners}},
-  \code{\link{mlr_resamplings}},
-  \code{\link{mlr_task_generators}},
-  \code{\link{mlr_tasks}}
+  \code{\link{mlr_generators}}, \code{\link{mlr_learners}},
+  \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 
 Other Measure: \code{\link{MeasureClassif}},
   \code{\link{MeasureRegr}}, \code{\link{Measure}}

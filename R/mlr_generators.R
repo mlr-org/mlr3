@@ -1,6 +1,6 @@
 #' @title Dictionary of Task Generators
 #'
-#' @name mlr_task_generators
+#' @name mlr_generators
 #' @description
 #' A simple [Dictionary] storing generator functions returning a [Task].
 #'
@@ -11,17 +11,17 @@
 #' @family Task
 #' @family Generator
 #' @examples
-#' g = mlr_task_generators$get("smiley")
+#' g = mlr_generators$get("smiley")
 #' task = g$generate(10)
 #' print(task)
 #' task$data()
 NULL
 
 #' @include Dictionary.R
-DictionaryTaskGenerators = R6Class("DictionaryTaskGenerators",
+DictionaryGenerators = R6Class("DictionaryGenerators",
   inherit = Dictionary,
   cloneable = FALSE
 )
 
 #' @export
-mlr_task_generators = DictionaryTaskGenerators$new()
+mlr_generators = DictionaryGenerators$new()
