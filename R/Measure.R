@@ -12,6 +12,7 @@
 #' m = Measure$new(id, task_type, range, minimize, predict_type = "response",
 #'      task_properties = character(0L), packages = character(0L))
 #' ```
+#'
 #' * `id` :: `character(1)`\cr
 #'   Identifier for the measure.
 #'

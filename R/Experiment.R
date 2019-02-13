@@ -10,6 +10,7 @@
 #' ```
 #' Experiment$new(task = NULL, learner = NULL, ctrl = list())
 #' ```
+#'
 #' * `task` :: [Task]\cr
 #'   May be `NULL` during initialization, but is mandatory to train the Experiment.
 #'

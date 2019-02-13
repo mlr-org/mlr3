@@ -12,6 +12,7 @@
 #' ```
 #' t = TaskSupervised$new(id, task_type, backend, target)
 #' ```
+#'
 #' * `id` :: `character(1)`\cr
 #'   Name of the task.
 #'

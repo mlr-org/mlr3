@@ -11,6 +11,7 @@
 #' ```
 #' r = Resampling$new(id, param_set, param_vals)
 #' ```
+#'
 #' * `id` :: `character(1)`\cr
 #'   Name of the resampling strategy.
 #'

@@ -18,6 +18,7 @@
 #' ```
 #' DataBackend$new(data, primary_key = NULL)
 #' ```
+#'
 #' * `data` :: `any`\cr
 #'   The format of the input data depends on the specialization.
 #'   E.g., [DataBackendDataTable] expects a [data.table::data.table()] and [DataBackendMatrix] expects a [Matrix::Matrix()]

@@ -109,6 +109,9 @@ assert_param_set = function(param_set) {
   assert_class(param_set, "ParamSet")
 }
 
+#' @export
+#' @param id (`character(1)`).
+#' @rdname mlr_assertions
 assert_id = function(id) {
   assert_string(id, min.chars = 1L)
 }

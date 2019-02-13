@@ -20,19 +20,24 @@
 #' * `get(key, ...)`\cr
 #'   (`character(1)`, ...) -> `any`
 #'   Retrieves object with key `key` from the dictionary.
+#'
 #' * `mget(keys, ...)`\cr
 #'   (`character()`, ...) -> named `list()`
 #'   Retrieves objects with keys `keys` from the dictionary, returns them in a list named with `keys`.
+#'
 #' * `has(keys)`\cr
 #'   `character()` -> `logical()`
 #'   Returns a logical vector with `TRUE` at its i-th position, if the i-th key exists.
+#'
 #' * `keys(pattern)`\cr
 #'   `character(1)` -> `character()`
 #'   Returns all keys which comply to the regular expression `pattern`.
+#'
 #' * `add(key, value)`\cr
 #'   (`character(1)`, `any`) -> `self`
 #'   Adds object `value` to the dictionary with key `key`, potentially overwriting a
 #'   previously stored value.
+#'
 #' * `remove(key)`\cr
 #'   `character()` -> `self`
 #'   Removes object with key `key` from the dictionary.

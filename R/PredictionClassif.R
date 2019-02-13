@@ -16,6 +16,7 @@
 #' ```
 #' p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL)
 #' ```
+#'
 #' * `task` :: [TaskClassif]\cr
 #'   Task for which the predictions are made. Used to extract the row ids and the true
 #'   labels. Must be subsetted to test set.

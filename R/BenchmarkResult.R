@@ -10,6 +10,7 @@
 #' ```
 #' bmr = BenchmarkResult$new(data)
 #' ```
+#'
 #' * `data` :: [data.table::data.table()]\cr
 #'   Table with the data of one [Experiment] per row.
 #'   See description of in [Experiment] for the exact structure.
@@ -17,18 +18,24 @@
 #' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
 #'   Experiment data with one [Experiment] per line.
+#'
 #' * `tasks` :: [data.table::data.table()]\cr
 #'   Table of used tasks with three columns:
 #'   "task_hash" (`character(1)`), "task_id" (`character(1)`) and "task" ([Task]).
+#'
 #' * `learners` :: [data.table::data.table()]\cr
 #'   Table of used learners with three columns:
 #'   "learner_hash" (`character(1)`), "learner_id" (`character(1)`) and "learner" ([Learner]).
+#'
+#'
 #' * `resamplings` :: [data.table::data.table()]\cr
 #'   Table of used resamplings with three columns:
 #'   "resampling_hash" (`character(1)`), "resampling_id" (`character(1)`) and "resampling" ([Resampling]).
+#'
 #' * `measures` :: [data.table::data.table()]\cr
 #'   Table of used measures with three columns:
 #'   "measure_hash" (`character(1)`), "measure_id" (`character(1)`) and "measure" ([Measure]).
+#'
 #' * `resample_results` :: [data.table::data.table()]\cr
 #'   Table of [ResampleResult] groups with 5 columns:
 #'   "hash" (`character(1)`), "task_id" (`character(1)`), "learner_id" (`character(1)`), "resamping_id" (`character(1)`) and "N" (`integer(1)`).
@@ -45,12 +52,15 @@
 #'       Return object ids as columns in the result `data.table()`.
 #'     * `params` :: `logical(1)`\cr
 #'       Return learner hyperparameter values as list column `params` in the result `data.table()`.
+#'
 #' * `combine(bmr)`\cr
 #'   [BenchmarkResult] -> `self`\cr
 #'   Fuses a second [BenchmarkResult] into itself.
+#'
 #' * `get_best(measure)`\cr
 #'   [Measure] -> [ResampleResult]\cr
 #'   Returns the [ResampleResult] with best performance according to the provided [Measure].
+#'
 #' * `resample_result(hash)`\cr
 #'   `character(1)` -> [ResampleResult]\cr
 #'   Retrieves the [ResampleResult] with provided `hash`.
@@ -59,6 +69,7 @@
 #' * `as.data.frame(rr)`\cr
 #'   [BenchmarkResult] -> `data.frame()`\cr
 #'   Converts to a flat `data.frame()`.
+#'
 #' * `as.data.table(rr)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Converts to a flat `data.table()`.

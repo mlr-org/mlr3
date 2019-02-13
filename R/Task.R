@@ -11,6 +11,7 @@
 #' ```
 #' t = Task$new(id, task_type, backend)
 #' ```
+#'
 #' * `id` :: `character(1)`\cr
 #'   Name of the task.
 #'

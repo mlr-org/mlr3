@@ -13,6 +13,7 @@
 #' ```
 #' p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 #' ```
+#'
 #' * `task` :: [TaskRegr]\cr
 #'   Task for which the predictions are made. Used to extract the row ids and the true
 #'   response. Must be subsetted to test set.

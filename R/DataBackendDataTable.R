@@ -11,8 +11,10 @@
 #' ```
 #' DataBackendDataTable$new(data, primary_key = NULL)
 #' ```
+#'
 #' * `data` :: [data.table::data.table()]\cr
 #'   The input [data.table::data.table()] (as reference).
+#'
 #' * `primary_key` :: `character(1)`\cr
 #'   Name of the primary key column.
 #'

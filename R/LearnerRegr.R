@@ -14,18 +14,25 @@
 #' l = LearnerRegr$new(id, feature_types = character(0L), predict_types = character(0L),
 #'   packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #' ```
+#'
 #' * `id` :: `character(1)`\cr
 #'   Identifier for the learner.
+#'
 #' * `feature_types` :: `character()`\cr
 #'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
+#'
 #' * `predict_types` :: `character()`\cr
 #'   Supported predict types. Must be a subset of [`mlr_reflections$predict_types`][mlr_reflections].
+#'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
+#'
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Set of hyperparameters.
+#'
 #' * `param_vals` :: named `list()`\cr
 #'   List of hyperparameter settings.
+#'
 #' * `properties` :: `character()`\cr
 #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
 #'

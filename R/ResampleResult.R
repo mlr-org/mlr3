@@ -10,6 +10,7 @@
 #' ```
 #' rr = ResampleResult$new(data)
 #' ```
+#'
 #' * `data` :: [data.table::data.table()]\cr
 #'   Table with the data of one [Experiment] per row.
 #'   See description of in [Experiment] for the exact structure.

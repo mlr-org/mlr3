@@ -15,6 +15,7 @@
 #' ```
 #' t = TaskClassif$new(id, backend, target, positive = NULL)
 #' ```
+#'
 #' * `id` :: `character(1)`\cr
 #'   Name of the task.
 #'
@@ -32,12 +33,16 @@
 #' @section Fields:
 #' * `all_classes` :: `character()`\cr
 #'   Returns all class labels of the task, regardless of the number of active rows.
+#'
 #' * `class_names` :: `character()`\cr
 #'   Returns all class labels of the task w.r.t. the active rows.
+#'
 #' * `class_n` :: `integer(1)`\cr
 #'   Returns the number of classes.
+#'
 #' * `negative` :: `character(1)`\cr
 #'   Stores the negative class for binary classification tasks, and `NA` for multiclass tasks.
+#'
 #' * `positive` :: `character(1)`\cr
 #'   Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
 #'

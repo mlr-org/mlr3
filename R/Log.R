@@ -10,6 +10,7 @@
 #' ```
 #' l = Log$new(log = NULL)
 #' ```
+#'
 #' * `log` :: [data.table::data.table()]\cr
 #'   Table with columns "class" (allowed values are "output", "warning", and "error")
 #'   and "message".

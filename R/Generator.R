@@ -11,6 +11,7 @@
 #' ```
 #' g = Generator$new(id, task_type, packages = character(0L), param_set = ParamSet$new(), param_vals = list())
 #' ```
+#'
 #' * `id` :: `character(1)`\cr
 #'   Identifier for the learner.
 #'

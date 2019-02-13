@@ -12,6 +12,7 @@
 #' l = Learner$new(id, task_type, feature_types = character(0L), predict_types = character(0L),
 #'   packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
 #' ```
+#'
 #' * `id` :: `character(1)`\cr
 #'   Identifier for the learner.
 #'
