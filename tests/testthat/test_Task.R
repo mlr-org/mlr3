@@ -59,12 +59,21 @@ test_that("Task cbind", {
   data = cbind(data.frame(foo = 150:1), data.frame(..row_id = task$row_ids))
   task$cbind(data)
   expect_task(task)
+  expect_equal(task$ncol, 6L)
   expect_names(task$feature_names, must.include = "foo")
 
   data = data.frame(bar = runif(150))
-  task$cbind(cbind(data, task$row_ids))
+  task$cbind(data)
   expect_task(task)
+  expect_equal(task$ncol, 7L)
   expect_names(task$feature_names, must.include = "bar")
+
+  data = data.frame(..row_id = task$row_ids)
+  task$cbind(data)
+  expect_equal(task$ncol, 7L)
+
+  task$cbind(iris[, character(0)])
+  expect_equal(task$ncol, 7L)
 })
 
 test_that("task$replace_features", {

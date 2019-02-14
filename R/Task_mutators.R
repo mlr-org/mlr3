@@ -58,6 +58,10 @@ task_rbind = function(self, data) {
     }
   }
 
+  # nothing to rbind
+  if (ncol(data) == 1L)
+    return(invisible(self))
+
   ## 1.2 Check for set equality of column names
   assert_set_equal(names(data), c(unlist(self$col_roles, use.names = FALSE), pk))
 
@@ -87,7 +91,7 @@ task_rbind = function(self, data) {
 # 3. Update col_info
 task_cbind = function(self, data) {
   # 1. Check that an cbind is feasible
-  assert_data_frame(data, nrows = self$nrow, min.cols = 1L)
+  assert_data_frame(data, nrows = self$nrow)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
@@ -97,6 +101,10 @@ task_cbind = function(self, data) {
   } else {
     data[[pk]] = self$row_ids
   }
+
+  # nothing to cbind
+  if (ncol(data) == 1L)
+    return(invisible(self))
 
   # 2. Overwrite self$backend with new backend
   b2 = DataBackendDataTable$new(data, pk)
