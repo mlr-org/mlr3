@@ -26,10 +26,10 @@ test_that("param_vals", {
 
 test_that("hashing", {
   task = mlr_tasks$get("iris")
-  ids = setdiff(mlr_resamplings$ids(), "custom")
+  keys = setdiff(mlr_resamplings$keys(), "custom")
 
-  for (id in ids) {
-    r = mlr_resamplings$get(id)
+  for (key in keys) {
+    r = mlr_resamplings$get(key)
 
     with_seed(123L, r$instantiate(task))
     expect_identical(private(r)$.hash, NA_character_)

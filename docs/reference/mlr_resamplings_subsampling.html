@@ -158,7 +158,7 @@
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object</p>
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> inheriting from <a href='Resampling.html'>Resampling</a>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -172,17 +172,17 @@
 <span class='no'>rss</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
 
 <span class='co'># Individual sets:</span>
-<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  5  7  8 10</div><div class='input'><span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 2 3 4 6 9</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 2 3 6 7 8</div><div class='input'><span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  4  5  9 10</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
 <span class='no'>rss</span>$<span class='no'>instance</span>$<span class='no'>train</span> <span class='co'># list of bit vectors</span></div><div class='output co'>#&gt; [[1]]
 #&gt; bit length=10 occupying only 1 integers
 #&gt;     1     2     3     4     5     6     7     8     9    10 
-#&gt;  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE  TRUE 
+#&gt; FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE 
 #&gt; 
 #&gt; [[2]]
 #&gt; bit length=10 occupying only 1 integers
 #&gt;     1     2     3     4     5     6     7     8     9    10 
-#&gt;  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE 
+#&gt; FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

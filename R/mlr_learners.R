@@ -1,6 +1,6 @@
 #' @title Dictionary of Learners
 #'
-#' @format [R6Class] object
+#' @format [R6::R6Class] object
 #' @description
 #' A simple [Dictionary] storing objects of class [Learner].
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
@@ -13,7 +13,6 @@
 #' @family Learner
 #' @name mlr_learners
 #' @examples
-#' mlr_learners$ids()
 #' as.data.table(mlr_learners)
 #' mlr_learners$get("classif.featureless")
 NULL
@@ -42,10 +41,10 @@ mlr_learners = DictionaryLearner$new()
 
 #' @export
 as.data.table.DictionaryLearner = function(x, ...) {
-  setkeyv(map_dtr(x$ids(), function(id) {
-    l = x$get(id)
+  setkeyv(map_dtr(x$keys(), function(key) {
+    l = x$get(key)
     list(
-      id = id,
+      id = key,
       feature_types = list(l$feature_types),
       packages = list(l$packages),
       properties = list(l$properties),

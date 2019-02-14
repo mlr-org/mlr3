@@ -1,58 +1,80 @@
 #' @title Container for Results of `benchmark()`
 #'
-#' @name BenchmarkResult
-#' @format [R6Class] object.
+#' @usage NULL
+#' @format [R6::R6Class] object.
+#'
 #' @description
 #' This is the result container object returned by [benchmark()].
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
-#' # Construction
-#' # Users of mlr3 generally don't need to construct this class themselves, but rather use objects returned by [benchmark()].
-#' bmr = benchmark(...)
-#'
-#' # Members
-#' bmr$data
-#' bmr$learners
-#' bmr$measures
-#' bmr$resample_results
-#' bmr$resamplings
-#' bmr$tasks
-#'
-#' # Methods
-#' bmr$aggregated(objects = TRUE, ids = TRUE, params = FALSE)
-#' bmr$combine(bmr)
-#' bmr$get_best(measure)
-#' bmr$resample_result(hash)
-#'
-#' # S3 methods
-#' as.data.table(bmr)
+#' bmr = BenchmarkResult$new(data)
 #' ```
 #'
-#' @section Arguments:
-#' * `data` ([data.table()]): Data to create the [BenchmarkResult].
-#'   Each line must contain data of a single [Experiment] (complex objects wrapped inside lists to create list columns).
-#' * `hash` (`character(1)`):
-#'   String which identifies a subgroup to extract as [ResampleResult].
-#' * `bmr` ([BenchmarkResult]).
-#' * `measure` ([Measure]).
-#' * `objects` (`logical(1)`): Return objects as columns in the result `data.table()`.
-#' * `ids` (`logical(1)`): Return object ids as columns in the result `data.table()`.
-#' * `params` (`logical(1)`): Return learner hyperparameter values as list column `params` in the result `data.table()`.
+#' * `data` :: [data.table::data.table()]\cr
+#'   Table with the data of one [Experiment] per row.
+#'   See description of in [Experiment] for the exact structure.
 #'
-#' @section Details:
-#' * `$aggregated()` returns aggregated performance measures as a [data.table()].
-#'   Experiments are aggregated by their resample result group (combination of [Task], [Learner] and [Resampling]).
-#'   The actual aggregation function of the performance values is defined by the respective [Measure].
-#'   For an unaggregated table of the results, use `as.data.table(bmr)`.
-#' * `$combine()` takes a second [BenchmarkResult] `bmr` as argument and extends itself with its data.
-#' * `$data` returns the full benchmark structure for each iteration (task, learner, resampling, etc).
-#' * `$resample_results` returns a [data.table()] which gives an overview of the resample result groups in the benchmark.
-#'    These groups in the [BenchmarkResult] can be extracted as [ResampleResult] for further inspection.
-#' * `$tasks`, `$learners`, `$resamplings` and `$measures` return an overview table of included objects, together with a unique hash for the respective object.
-#' * `as.data.table()` converts a [BenchmarkResult] to a [data.table()].
-#' * `$resample_result()` creates the [ResampleResult] identified by the specified `hash` value.
+#' @section Fields:
+#' * `data` :: [data.table::data.table()]\cr
+#'   Experiment data with one [Experiment] per line.
 #'
+#' * `tasks` :: [data.table::data.table()]\cr
+#'   Table of used tasks with three columns:
+#'   "task_hash" (`character(1)`), "task_id" (`character(1)`) and "task" ([Task]).
+#'
+#' * `learners` :: [data.table::data.table()]\cr
+#'   Table of used learners with three columns:
+#'   "learner_hash" (`character(1)`), "learner_id" (`character(1)`) and "learner" ([Learner]).
+#'
+#'
+#' * `resamplings` :: [data.table::data.table()]\cr
+#'   Table of used resamplings with three columns:
+#'   "resampling_hash" (`character(1)`), "resampling_id" (`character(1)`) and "resampling" ([Resampling]).
+#'
+#' * `measures` :: [data.table::data.table()]\cr
+#'   Table of used measures with three columns:
+#'   "measure_hash" (`character(1)`), "measure_id" (`character(1)`) and "measure" ([Measure]).
+#'
+#' * `resample_results` :: [data.table::data.table()]\cr
+#'   Table of [ResampleResult] groups with 5 columns:
+#'   "hash" (`character(1)`), "task_id" (`character(1)`), "learner_id" (`character(1)`), "resamping_id" (`character(1)`) and "N" (`integer(1)`).
+#'   The last column ("N") is the number of [Experiment]s in the [ResampleResult].
+#'
+#' @section Methods:
+#' * `aggregated(objects = TRUE, ids = TRUE, params = FALSE)`\cr
+#'   (`logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
+#'   Returns a result table where experiments are aggregated per [ResampleResult].
+#'   Arguments control the number of additional columns:
+#'     * `objects` :: `logical(1)`\cr
+#'       Return objects as columns in the result `data.table()`.
+#'     * `ids` :: `logical(1)`\cr
+#'       Return object ids as columns in the result `data.table()`.
+#'     * `params` :: `logical(1)`\cr
+#'       Return learner hyperparameter values as list column `params` in the result `data.table()`.
+#'
+#' * `combine(bmr)`\cr
+#'   [BenchmarkResult] -> `self`\cr
+#'   Fuses a second [BenchmarkResult] into itself.
+#'
+#' * `get_best(measure)`\cr
+#'   [Measure] -> [ResampleResult]\cr
+#'   Returns the [ResampleResult] with best performance according to the provided [Measure].
+#'
+#' * `resample_result(hash)`\cr
+#'   `character(1)` -> [ResampleResult]\cr
+#'   Retrieves the [ResampleResult] with provided `hash`.
+#'
+#' @section S3 Methods:
+#' * `as.data.frame(rr)`\cr
+#'   [BenchmarkResult] -> `data.frame()`\cr
+#'   Converts to a flat `data.frame()`.
+#'
+#' * `as.data.table(rr)`\cr
+#'   [BenchmarkResult] -> [data.table::data.table()]\cr
+#'   Converts to a flat `data.table()`.
+#'
+#' @export
 #' @examples
 #' \dontshow{
 #'    .threshold = logger::log_threshold(namespace = "mlr3")
@@ -78,9 +100,6 @@
 #' \dontshow{
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
-NULL
-
-#' @export
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
     data = NULL,
@@ -171,7 +190,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     measures = function() {
-      unique(map_dtr(self$data$measures, function(m) data.table(measure_id = ids(m), measure = m)), by = "measure_id")
+      unique(map_dtr(self$data$measures, function(m) data.table(measure_hash = hashes(m), measure_id = ids(m), measure = m)), by = "measure_id")
     },
 
     resample_results = function() {

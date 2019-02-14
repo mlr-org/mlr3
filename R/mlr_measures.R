@@ -1,6 +1,6 @@
 #' @title Dictionary of Performance Measures
 #'
-#' @format [R6Class] object.
+#' @format [R6::R6Class] object.
 #' @description
 #' A simple [Dictionary] storing objects of class [Measure].
 #' Each measure has an associated help page, see `mlr_measures_[id]`.
@@ -12,7 +12,6 @@
 #' @family Measure
 #' @name mlr_measures
 #' @examples
-#' mlr_measures$ids()
 #' as.data.table(mlr_measures)
 #' mlr_measures$get("classif.mmce")
 NULL
@@ -28,9 +27,9 @@ mlr_measures = DictionaryMeasure$new()
 
 #' @export
 as.data.table.DictionaryMeasure = function(x, ...) {
-  setkeyv(map_dtr(x$ids(), function(id) {
-    m = x$get(id)
-    list(id = id,
+  setkeyv(map_dtr(x$keys(), function(key) {
+    m = x$get(key)
+    list(id = key,
       task_type = m$task_type,
       predict_type = m$predict_type,
       packages = list(m$packages))

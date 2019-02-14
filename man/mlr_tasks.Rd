@@ -13,7 +13,6 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_tasks$ids()
 as.data.table(mlr_tasks)
 mlr_tasks$get("iris")
 head(mlr_tasks$get("iris")$data())
@@ -28,7 +27,7 @@ task = TaskClassif$new("iris.binary", b, target = "Species", positive = "1")
 mlr_tasks$add("iris.binary", task)
 
 # list available tasks
-mlr_tasks$ids()
+mlr_tasks$keys()
 
 # retrieve from dictionary
 mlr_tasks$get("iris.binary")
@@ -38,13 +37,12 @@ mlr_tasks$remove("iris.binary")
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
-  \code{\link{mlr_learners}}, \code{\link{mlr_measures}},
-  \code{\link{mlr_resamplings}},
-  \code{\link{mlr_task_generators}}
+  \code{\link{mlr_generators}}, \code{\link{mlr_learners}},
+  \code{\link{mlr_measures}}, \code{\link{mlr_resamplings}}
 
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskRegr}}, \code{\link{TaskSupervised}},
-  \code{\link{Task}}, \code{\link{mlr_task_generators}}
+  \code{\link{Task}}, \code{\link{mlr_generators}}
 }
 \concept{Dictionary}
 \concept{Task}

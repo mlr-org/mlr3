@@ -1,9 +1,9 @@
 context("mlr_tasks")
 
 test_that("mlr_tasks", {
-  ids = mlr_tasks$ids()
+  keys = mlr_tasks$keys()
 
-  for (key in ids) {
+  for (key in keys) {
     t = mlr_tasks$get(key)
     expect_task_supervised(t)
   }

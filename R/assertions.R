@@ -109,6 +109,9 @@ assert_param_set = function(param_set) {
   assert_class(param_set, "ParamSet")
 }
 
+#' @export
+#' @param id (`character(1)`).
+#' @rdname mlr_assertions
 assert_id = function(id) {
   assert_string(id, min.chars = 1L)
 }
@@ -122,14 +125,6 @@ assert_range = function(range) {
   if (diff(range) <= 0)
     stopf("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
   range
-}
-
-assert_unique_hashes = function(x) {
-  assert_list(x)
-  hashes = hashes(x)
-  if (anyDuplicated(hashes))
-    stopf("Duplicated elements found in '%s'", deparse(substitute(x)))
-  invisible(x)
 }
 
 assert_sorted_subset = function(x, choices, ...) {

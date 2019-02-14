@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Supervised or Unsupervised Tasks — Task • mlr3</title>
+<title>Task Class — Task • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,10 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Supervised or Unsupervised Tasks — Task" />
+<meta property="og:title" content="Task Class — Task" />
 
-<meta property="og:description" content="This is the abstract base class for task objects like TaskClassif and TaskRegr." />
+<meta property="og:description" content="This is the abstract base class for task objects like TaskClassif and TaskRegr.
+Predefined tasks are stored in mlr_tasks." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -146,142 +147,137 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Supervised or Unsupervised Tasks</h1>
+    <h1>Task Class</h1>
     <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/Task.R'><code>R/Task.R</code></a></small>
     </div>
 
     
-    <p>This is the abstract base class for task objects like <a href='TaskClassif.html'>TaskClassif</a> and <a href='TaskRegr.html'>TaskRegr</a>.</p>
+    <p>This is the abstract base class for task objects like <a href='TaskClassif.html'>TaskClassif</a> and <a href='TaskRegr.html'>TaskRegr</a>.
+Predefined tasks are stored in <a href='mlr_tasks.html'>mlr_tasks</a>.</p>
     
 
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object.</p>
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object.</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
-    <pre># Construction
-t = Task$new(id, backend, task_type)
-    # Members
-t$backend
-t$col_info
-t$col_roles
-t$features_names
-t$feature_types
-t$formula
-t$groups
-t$hash
-t$id
-t$measures
-t$ncol
-t$nrow
-t$properties
-t$row_ids
-t$row_roles
-t$target_names
-t$task_type
-    # Methods: Accessors
-t$data(rows = NULL, cols = NULL)
-t$head(n = 6)
-t$levels(col)
-    # Methods: Mutators
-t$cbind(data)
-t$filter(rows)
-t$rbind(data)
-t$select(cols)
-t$replace_features(data, ...)
-t$set_col_role(cols, new_roles, exclusive = TRUE)
-t$set_row_role(rows, new_roles, exclusive = TRUE)
+    <pre>t = Task$new(id, task_type, backend)
 </pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-
-    
-    <ul>
-<li><p><code>id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
+<ul>
+<li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Name of the task.</p></li>
-<li><p><code>backend</code> (<a href='DataBackend.html'>DataBackend</a>):
-<a href='DataBackend.html'>DataBackend</a> which stores the data.</p></li>
-<li><p><code>task_type</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
-Task type. Set via class which inherits from Task.</p></li>
-<li><p><code>rows</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):
-Vector of row ids specifying rows from the <a href='DataBackend.html'>DataBackend</a> using its primary key.
-Can be <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> or <code>integer</code>, depending on the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>cols</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>):
-Character vector to specify columns from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>n</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>):
-Number of rows to retrieve from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>col</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
-Character vector to specify a single column from the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>new_roles</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>):
-New roles to assign for specified rows/columns.</p></li>
-<li><p><code>exclusive</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>):
-If <code>TRUE</code>, the cols/rows will be removed from all roles except <code>new_roles</code>.</p></li>
-<li><p><code>data</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>):
-New data to rbind/cbind to the task.</p></li>
+<li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Set in the classes which inherit from this class.
+Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types</a>.</p></li>
+<li><p><code>backend</code> :: <a href='DataBackend.html'>DataBackend</a></p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
     
     <ul>
-<li><p><code>$backend</code> (<a href='DataBackend.html'>DataBackend</a>) stores the <a href='DataBackend.html'>DataBackend</a> of the task.</p></li>
-<li><p><code>$cbind</code> extends the task with additional columns.
-The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).</p></li>
-<li><p><code>$col_info</code> (<code>data.table()</code>) with columns <code>id</code>, <code>type</code> and <code>levels</code>.
-Stores column names of <a href='DataBackend.html'>DataBackend</a> in column <code>id</code>.
-Column <code>type</code> stores the storage type of the variables, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
-Column <code>levels</code> stores the levels for factor and character variables.</p></li>
-<li><p><code>$col_roles</code> (<code>list</code>). Each column (feature)
-can have a specific mutually exclusive role in the learning task:</p><ul>
+<li><p><code>backend</code> :: <a href='DataBackend.html'>DataBackend</a>.</p></li>
+<li><p><code>col_info</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Table with with 3 columns:
+Column names of <a href='DataBackend.html'>DataBackend</a> are stored in column<code>id</code>.
+Column <code>type</code> holds the storage type of the variables, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.
+Column <code>levels</code> keeps a list of possible levels for factor and character variables.</p></li>
+<li><p><code>col_roles</code> :: named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+Each column (feature) can have an arbitrary number of roles in the learning task:</p><ul>
+<li><p><code>"target"</code>: Labels to predict.</p></li>
 <li><p><code>"feature"</code>: Regular feature.</p></li>
-<li><p><code>"target"</code>: Column with target labels.</p></li>
-<li><p><code>"order"</code>: Returned data is ordered by these column(s).</p></li>
-<li><p><code>"groups"</code>: During resampling, observations with the same value of the variable with role "groups"
+<li><p><code>"order"</code>: Data returned by <code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data()</a></code> is ordered by this column (or these columns).</p></li>
+<li><p><code>"group"</code>: During resampling, observations with the same value of the variable with role "group"
 are marked as "belonging together". They will be exclusively assigned to be either in the training set
-or the test set.
-Returns a (<code>data.table()</code>) with two columns: first column are rows ids, second column are the group labels.</p></li>
-<li><p><code>"weights"</code>: Observation weights. (<code>data.table()</code>) with two columns: first column are the row ids,
-second column are the observation weights.
-To alter the role, use <code>$set_col_role()</code></p></li>
+or the test set for each resampling iteration.</p></li>
+<li><p><code>"weights"</code>: Observation weights.
+<code>col_roles</code> keeps track of the roles with a named list of vectors of feature names.
+To alter the roles, use <code>t$set_col_role()</code>.</p></li>
 </ul></li>
-<li><p><code>$data</code> is used to retrieve data from the backend as <code>data.table()</code>.
-Rows are subsetted to only contain observations with <code>role == "use"</code>.
-Columns are filtered to only contain features with <code>role %in% c("target", "feature")</code>.
-If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p></li>
-<li><p><code>$feature_names</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all column names with <code>role == "feature"</code>.</p></li>
-<li><p><code>$feature_types</code> (<code>data.table()</code>) returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
-features of the task and <code>type</code> is the storage type.</p></li>
-<li><p><code>$filter</code> reduces the task, subsetting it to only the rows specified.</p></li>
-<li><p><code>$formula</code> constructs a <a href='https://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>.</p></li>
-<li><p><code>$groups</code> returns a (<code>data.table()</code>) with two columns: the row ids and the grouping / blocking information.</p></li>
-<li><p><code>$hash</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores a checksum calculated on the <code>id</code>, <code>row_roles</code> and <code>col_roles</code>.</p></li>
-<li><p><code>$head</code> (<code>data.table()</code>) can be used to peek into the first <code>n</code> observations with <code>role == "use"</code>.</p></li>
-<li><p><code>$id</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) stores the name of the task.</p></li>
-<li><p><code>$measures</code> (<code>list</code> of <a href='Measure.html'>Measure</a>) stores the default measures for this task.</p></li>
-<li><p><code>$ncol</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) provides the total number of cols with <code>role %in% c("target", "feature")</code>.</p></li>
-<li><p><code>$nrow</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>) provides the total number of rows with <code>role == "use"</code>.</p></li>
-<li><p><code>$row_ids</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector()</a></code>) returns the active row ids used in the backend, i.e. subsetted to observations with <code>role == "use"</code>.</p></li>
-<li><p><code>$row_roles</code> (<code>list</code>). Stores the row ids of <a href='DataBackend.html'>DataBackend</a> in vectors of row roles:</p><ul>
-<li><p><code>"use"</code>: Use in training.</p></li>
-<li><p><code>"validation"</code>: Do not use in training, this are (possibly unlabeled) observations
-which are held back unless explicitly addressed.
+<li><p><code>row_roles</code> :: named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+Each row (observation) can have an arbitrary number of roles in the learning task:</p><ul>
+<li><p><code>"use"</code>: Use in train / predict / resampling.</p></li>
+<li><p><code>"validation"</code>: Hold the observations back unless explicitly requested.
+<code>row_roles</code> keeps track of the roles with a named list of vectors of feature names.
 To alter the role, use <code>set_row_role()</code>.</p></li>
 </ul></li>
-<li><p><code>$target_names</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) returns all column names with <code>role == "target"</code>.</p></li>
-<li><p><code>$new()</code> initializes a new object of class Task.</p></li>
-<li><p><code>$levels()</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) queries the distinct levels of the column <code>col</code>. Only works for <code>character</code> and <code>factor</code> columns.
-This function ignores the row roles, so you get all levels found in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>$rbind()</code> extends the task with additional rows.</p></li>
-<li><p><code>$select()</code> reduces the task, subsetting it to only the columns specified.</p></li>
-<li><p><code>$replace_features()</code> replaces the features of the task with new data by replacing the <a href='DataBackend.html'>DataBackend</a>.
-The new backend is always a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.
-This operation is similar to calling <code>select()</code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, but allows the garbage collector to clean
-up the previous backend.</p></li>
-<li><p><code>$set_col_role()</code> sets the role for specified columns, referenced by name.
+<li><p><code>feature_names</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Returns all column names with <code>role == "feature"</code>.</p></li>
+<li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active" features of the task
+and <code>type</code> is the storage type.</p></li>
+<li><p><code>formula</code> :: <code><a href='https://www.rdocumentation.org/packages/stats/topics/formula'>formula()</a></code><br />
+Constructs a <a href='https://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>, using
+the active features of the task.</p></li>
+<li><p><code>group</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Returns a table with columns <code>row_id</code> and <code>group</code> where <code>row_id</code> are the row ids and group is the value of the
+grouping variable. Returns <code>NULL</code> if there is no grouping.</p></li>
+<li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Hash (unique identifier) for this object.</p></li>
+<li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the identifier of the Task.</p></li>
+<li><p><code>measures</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code> of <a href='Measure.html'>Measure</a><br />
+Stores the measures to use for this task.</p></li>
+<li><p><code>ncol</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code><br />
+Returns the total number of cols with role "target" or "feature".</p></li>
+<li><p><code>nrow</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code><br />
+Return the total number of rows with role "use".</p></li>
+<li><p><code>row_ids</code> :: (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>)<br />
+Returns the row ids of the <a href='DataBackend.html'>DataBackend</a> for observations with with role "use".</p></li>
+<li><p><code>target_names</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Returns all column names with role "target".</p></li>
+<li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the type of the Task.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <ul>
+<li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data(rows = NULL, cols = NULL, format = NULL)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) -&gt; <code>any</code><br />
+Returns a slice of the data from the <a href='DataBackend.html'>DataBackend</a> in the format specified by <code>format</code>
+(depending on the <a href='DataBackend.html'>DataBackend</a>, but usually a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>).
+Rows are subsetted to only contain observations with role "use".
+Columns are filtered to only contain features with roles "target" and "feature".
+If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind(data)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
+Extends the <a href='DataBackend.html'>DataBackend</a> with additional columns.
+The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>). If this column is missing, it is assumed that the rows are exactly in the order of
+<code>t$row_ids</code>.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind(data)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
+Extends the <a href='DataBackend.html'>DataBackend</a> with additional rows.
+The new row ids must be provided as column in <code>data</code>.
+If this column is missing, new row ids are constructed automatically.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter(rows)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; <code>self</code><br />
+Subsets the task, reducing it to only keep the rows specified.</p></li>
+<li><p><code>select(cols)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code>self</code><br />
+Subsets the task, reducing it to only keep the columns specified.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels(col)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+Returns  the distinct levels of the column <code>col</code>.
+Only applicable for features with type "character",  "factor" or "ordered".
+This function ignores the row roles, it returns all levels available in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head(n = 6)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Get the first <code>n</code> observations with role "use".</p></li>
+<li><p><code>replace_features(data)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
+Replaces some features of the task by constructing a completely new <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.
+This operation is similar to calling <code>select()</code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, but explicitly copies the data.</p></li>
+<li><p><code>set_col_role(cols, new_roles, exclusive = TRUE)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code>self</code><br />
+Adds the roles <code>new_roles</code> to columns referred to by <code>cols</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced columns will be removed from all other roles.</p></li>
-<li><p><code>$set_row_role()</code> sets the role for specified rows, referenced by row id.
+<li><p><code>set_row_role(rows, new_roles, exclusive = TRUE)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code>self</code><br />
+Adds the roles <code>new_roles</code> to rows referred to by <code>rows</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p></li>
 </ul>
     
@@ -298,8 +294,7 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
 
     <div class='dont-index'><p>Other Task: <code><a href='TaskClassif.html'>TaskClassif</a></code>,
   <code><a href='TaskRegr.html'>TaskRegr</a></code>, <code><a href='TaskSupervised.html'>TaskSupervised</a></code>,
-  <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code>,
-  <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
+  <code><a href='mlr_generators.html'>mlr_generators</a></code>, <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -330,11 +325,11 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#construction">Construction</a></li>
 
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#fields">Fields</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#methods">Methods</a></li>
 
       <li><a href="#task-mutators">Task mutators</a></li>
 

@@ -15,6 +15,7 @@
 #'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples).
 #' @param ctrl (named `list` as returned by [mlr_control()]):
 #'   Object to control experiment execution. See [mlr_control()].
+#'
 #' @return [BenchmarkResult].
 #' @export
 #' @examples

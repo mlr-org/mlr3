@@ -1,14 +1,34 @@
 #' @title Abstract Prediction Object
 #'
-#' @name Prediction
-#' @format [R6Class] object.
+#' @usage NULL
+#' @format [R6::R6Class] object.
+#'
 #' @description
 #' This is the abstract base class for task objects like [PredictionClassif] and [PredictionRegr].
 #'
-#' @family Prediction
-NULL
-
+#' @section Construction:
+#' ```
+#' Prediction$new()
+#' ```
+#'
+#' @section Fields:
+#' * `row_ids` :: (`integer()` | `character()`)\cr
+#'   Vector of row ids for which predictions are stored.
+#'
+#' * `truth` :: `any`\cr
+#'   Vector of true labels.
+#'
+#' * `response` :: `any`\cr
+#'   Vector of predicted labels.
+#'
+#' * `task_type` :: `character(1)`\cr
+#'    Stores the type of the [Task].
+#'
+#' * `predict_types` :: `character()`\cr
+#'   Vector of predict types this object stores.
+#'
 #' @export
+#' @family Prediction
 Prediction = R6Class("Prediction",
   public = list(
     row_ids = NULL,

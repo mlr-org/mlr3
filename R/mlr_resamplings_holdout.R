@@ -1,14 +1,13 @@
 #' @title Holdout Resampling
 #'
-#' @format [R6Class] object
 #' @name mlr_resamplings_holdout
 #' @format [R6::R6Class] inheriting from [Resampling].
+#' @include Resampling.R
 #'
 #' @description
 #' Simple holdout: A single split into training and test.
 #' Parameter `ratio` determines the ratio of observation in the train set.
 #'
-#' @include Resampling.R
 #' @export
 #' @examples
 #' # Create a task with 10 observations

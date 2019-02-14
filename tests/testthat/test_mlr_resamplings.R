@@ -2,9 +2,9 @@ context("mlr_resamplings")
 
 
 test_that("mlr_resamplings", {
-  ids = mlr_resamplings$ids()
+  keys = mlr_resamplings$keys()
   task = mlr_tasks$get("iris")
-  for (key in ids) {
+  for (key in keys) {
     r = mlr_resamplings$get(key)
     expect_resampling(r) # construction works
     expect_false(r$is_instantiated)

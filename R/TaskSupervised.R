@@ -1,41 +1,45 @@
 #' @title Supervised Task
 #'
-#' @name TaskSupervised
-#' @format [R6Class] object inheriting from [Task].
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [Task].
+#' @include Task.R
+#'
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
-#' It extends [Task] with some handling of target columns.
+#' It extends [Task] with methods to handle a target columns.
 #'
-#' @section Usage:
-#' Inherits from [Task].
+#' @section Construction:
 #' ```
-#' # Construction
 #' t = TaskSupervised$new(id, task_type, backend, target)
-#'
-#' # Members
-#' t$weights
-#'
-#' # Methods
-#' t$truth(row_ids = NULL)
 #' ```
 #'
-#' @section Arguments:
-#' * `row_ids` (`integer()` | `character()`):
-#'   Subset of row ids to subset rows from the [DataBackend] using its primary key.
+#' * `id` :: `character(1)`\cr
+#'   Name of the task.
 #'
-#' @section Details:
-#' * `$truth()` returns the true labels. The type depends on the type of the task.
-#' * `$weights` returns the weights used in the [DataBackend].
+#' * `backend` :: [DataBackend]
+#'
+#' * `task_type` :: `character(1)`\cr
+#'   Set in the classes which inherit from this class.
+#'   Must be an element of [mlr_reflections$task_types][mlr_reflections].
+#'
+#' * `target` :: `character(1)`\cr
+#'   Name of the target column.
+#'
+#' @inheritSection Task Fields
+#' @inheritSection Task Methods
+#'
+#' @section Methods:
+#' * `truth(row_ids = NULL)` :: [data.table::data.table()]\cr
+#'   Table with true  labels for specified `row_ids`.
+#'   Defaults to all rows in use.
+#'
 #'
 #' @family Task
 #' @keywords internal
+#' @export
 #' @examples
 #' b = as_data_backend(iris)
 #' task = TaskSupervised$new("iris", task_type = "classif", backend = b, target = "Species")
-NULL
-
-#' @include Task.R
-#' @export
 TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
     initialize = function(id, task_type, backend, target) {
@@ -48,9 +52,5 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
     truth = function(row_ids = NULL) {
       self$data(row_ids, cols = self$target_names)
     }
-  ),
-
-  active = list(
-
   )
 )

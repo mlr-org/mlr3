@@ -11,7 +11,6 @@
 #' @family Dictionary
 #' @family Task
 #' @examples
-#' mlr_tasks$ids()
 #' as.data.table(mlr_tasks)
 #' mlr_tasks$get("iris")
 #' head(mlr_tasks$get("iris")$data())
@@ -26,7 +25,7 @@
 #' mlr_tasks$add("iris.binary", task)
 #'
 #' # list available tasks
-#' mlr_tasks$ids()
+#' mlr_tasks$keys()
 #'
 #' # retrieve from dictionary
 #' mlr_tasks$get("iris.binary")
@@ -47,11 +46,11 @@ mlr_tasks = DictionaryTask$new()
 
 #' @export
 as.data.table.DictionaryTask = function(x, ...) {
-  setkeyv(map_dtr(x$ids(), function(id) {
-    t = x$get(id)
+  setkeyv(map_dtr(x$keys(), function(key) {
+    t = x$get(key)
     feats = factor(t$feature_types$type, levels = mlr_reflections$task_feature_types)
     feats = as.list(table(feats))
-    insert_named(data.table(id = id, type = t$task_type, measures = list(ids(t$measures)),
+    insert_named(data.table(id = key, type = t$task_type, measures = list(ids(t$measures)),
         nrow = t$nrow, ncol = t$ncol), feats)
   }), "id")[]
 }

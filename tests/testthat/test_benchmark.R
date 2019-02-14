@@ -38,7 +38,7 @@ test_that("Basic benchmarking", {
 
   tab = bmr$measures
   expect_data_table(tab, nrow = 2, any.missing = FALSE)
-  expect_names(names(tab), permutation.of = c("measure_id", "measure"))
+  expect_names(names(tab), permutation.of = c("measure_hash", "measure_id", "measure"))
   expect_character(tab$measure_id, len = 2L, unique = TRUE, any.missing = FALSE)
 
   tab = bmr$aggregated(objects = FALSE)

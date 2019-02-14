@@ -1,43 +1,32 @@
 #' @title Learner Output Log
 #'
-#' @name Log
-#' @format [R6Class] object.
+#' @usage NULL
+#' @format [R6::R6Class] object.
+#'
 #' @description
 #' Object which stores the text output of the `train` or `predict` step of an [Experiment].
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
-#' # Construction
 #' l = Log$new(log = NULL)
-#'
-#' # Members
-#' l$errors
-#' l$log
-#' l$warnings
-#'
-#' # Methods
-#' l$format()
-#' l$has_condition(cl)
-#' l$print()
 #' ```
 #'
-#' @section Arguments:
-#' * `log` ([data.table()]):
-#'   [data.table()] with columns `class` (`character()`) and `message` (`character()`).
-#'   Class can be one of "output", "warning", or "error".
-#' * `cl` (`character(1)`):
-#'   Class of a condition.
+#' * `log` :: [data.table::data.table()]\cr
+#'   Table with columns "class" (allowed values are "output", "warning", and "error")
+#'   and "message".
 #'
-#' @section Details:
-#' * `$errors` (`character()`) returns all lines which are errors.
-#' * `$warnings` (`character()`) returns all lines which are warnings.
-#' * `$has_condition(cl)` returns `TRUE` if at least on message of class `cl` is
-#'   logged. Possible conditions are "output", "message", "warning", and "error".
-#' * `$new(log)` parses the object returned by [evaluate::evaluate] and creates
-#'   a new [Log].
-#' * `format()` and `print()` are for formatting and printing via [format] or
-#'   [print], respectively.
+#' @section Fields:
+#' * `warnings` :: `character(1)`\cr
+#'   Vector of all messages of class "warning".
+#' * `errors` :: `character(1)`\cr
+#'   Vector of all messages of class "error".
 #'
+#' @section Methods:
+#' * `has_condition(cl)`\cr
+#'   `character(1)` -> `logical(1)`\cr
+#'   Returns `TRUE` if at least one message with condition `cl` has been recorded.
+#'
+#' @export
 #' @examples
 #' # Create a simple experiment and extract the train log:
 #' task = mlr_tasks$get("sonar")
@@ -50,9 +39,6 @@
 #'
 #' l$has_condition("error")
 #' print(l)
-NULL
-
-#' @export
 Log = R6Class("Log", cloneable = FALSE,
   public = list(
     log = NULL,

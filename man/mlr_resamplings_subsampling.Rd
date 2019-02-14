@@ -5,7 +5,7 @@
 \alias{mlr_resamplings_subsampling}
 \alias{ResamplingSubsampling}
 \title{Subsampling Resampling}
-\format{\link{R6Class} object}
+\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \usage{
 ResamplingSubsampling
 }

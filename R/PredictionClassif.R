@@ -1,50 +1,43 @@
 #' @title Prediction Object for Classification
 #'
-#' @name PredictionClassif
-#' @format [R6Class] object inheriting from [Prediction].
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [Prediction].
+#' @include Prediction.R
+#'
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerClassif].
 #' If probabilities are provided via construction and response is missing,
 #' the response is calculated from the probabilities: the class label with the highest
 #' probability is chosen. In case of ties, a random class label of the tied labels picked.
 #'
-#' @section Usage:
-#' Inherits from [Prediction]
+#' The `task_type` is set to `"classif"`.
+#'
+#' @section Construction:
 #' ```
-#' # Construction
-#' p = PredictionClassif$new(task, response, prob = NULL)
-#'
-#' # Members
-#' p$task_type
-#' p$predict_types
-#' p$response
-#' p$row_ids
-#' p$truth
-#'
-#' # S3 methods
-#' as.data.table(p)
+#' p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL)
 #' ```
 #'
-#' @section Arguments:
-#' * `task` ([Task]):
-#'   Task used for prediction. Used to extract `row_ids` and `truth`.
-#'   Set to `NULL` to skip all argument checks during initialization.
-#'   Slots `p$row_ids` and `p$truth` need to be set manually in this case
-#' * `response` (`factor()` | `character()`): Vector of predicted class labels.
-#' * `prob` (`matrix`):
-#'   Numeric matrix of class probabilities with one column for each class in `task$all_classes`
+#' * `task` :: [TaskClassif]\cr
+#'   Task for which the predictions are made. Used to extract the row ids and the true
+#'   labels. Must be subsetted to test set.
+#'
+#' * `response` :: (`factor()` | `character()`)\cr
+#'   Vector of predicted class labels.
+#'   One element for each observation in the test set.
+#'
+#' * `prob` :: `matrix()`\cr
+#'   Numeric matrix of class probabilities with one column for each class
 #'   and one row for each observation in the test set.
 #'
-#' @section Details:
-#' * `$task_type` (`character(1)`) stores the task type this prediction object is intended for: `"classif"`.
-#' * `$predict_types` ([character]) stores the predict types available: a subset of `c("response", "se")`.
-#' * `$response` stores the predicted values.
-#' * `row_ids` stores the row IDs.
-#' * `$truth` stores the true values.
-#' * `$new()` initializes a new object of class [Prediction].
-#' * The prediction object can be transformed to a simple [data.table()]
-#'   with [data.table::as.data.table].
+#' Note that it is allowed to initialize this object without any arguments in order
+#' to allow to manually construct [Prediction] objects in a piecemeal fashion.
+#' Required are "row_ids", "truth", and "predict_type". Depending on the value of
+#' "predict_types", also "response" and "prob" must be set.
+#'
+#' @inheritSection Prediction Fields
+#'
 #' @family Prediction
+#' @export
 #' @examples
 #' task = mlr_tasks$get("iris")
 #' learner = mlr_learners$get("classif.rpart")
@@ -53,10 +46,6 @@
 #' p = e$prediction
 #' p$predict_types
 #' head(as.data.table(p))
-NULL
-
-#' @export
-#' @include Prediction.R
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(

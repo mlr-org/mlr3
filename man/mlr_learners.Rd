@@ -3,7 +3,7 @@
 \name{mlr_learners}
 \alias{mlr_learners}
 \title{Dictionary of Learners}
-\format{\link{R6Class} object}
+\format{\link[R6:R6Class]{R6::R6Class} object}
 \description{
 A simple \link{Dictionary} storing objects of class \link{Learner}.
 Each learner has an associated help page, see \code{mlr_learners_[id]}.
@@ -15,16 +15,13 @@ See \link{Dictionary}.
 }
 
 \examples{
-mlr_learners$ids()
 as.data.table(mlr_learners)
 mlr_learners$get("classif.featureless")
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
-  \code{\link{mlr_measures}},
-  \code{\link{mlr_resamplings}},
-  \code{\link{mlr_task_generators}},
-  \code{\link{mlr_tasks}}
+  \code{\link{mlr_generators}}, \code{\link{mlr_measures}},
+  \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 
 Other Learner: \code{\link{LearnerClassif}},
   \code{\link{LearnerRegr}}, \code{\link{Learner}}

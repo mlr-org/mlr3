@@ -1,27 +1,33 @@
 #' @title DataBackend for `data.table`
 #'
-#' @name DataBackendDataTable
-#' @format [R6Class] object inheriting from [DataBackend].
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [DataBackend].
+#' @include DataBackend.R
+#'
 #' @description
-#' [DataBackend] for [data.table()] as an in-memory data base.
+#' [DataBackend] for \CRANpkg{data.table} as an in-memory data base.
 #'
-#' @section Usage:
-#' Inherits from [DataBackend].
+#' @section Construction:
 #' ```
-#' # Construction
-#' b = DataBackendDataTable$new(data, primary_key)
-#' b = as_data_backend(data, primary_key = NULL)
+#' DataBackendDataTable$new(data, primary_key = NULL)
 #' ```
-#' The interface is described in [DataBackend].
 #'
-#' @section Arguments:
-#' * `data` ([data.frame()]). This includes special data.frames like [data.table()] or `tibble()` from package \pkg{tibble}.
+#' * `data` :: [data.table::data.table()]\cr
+#'   The input [data.table::data.table()] (as reference).
 #'
-#' * `primary_key` (`character(1)`):
-#'   Name of the column in `data` which represents a unique row identifier (as integer or character).
-#'   If `NULL`, the constructor [as_data_backend()] automatically creates an integer column of primary keys.
+#' * `primary_key` :: `character(1)`\cr
+#'   Name of the primary key column.
+#'
+#' Alternatively, use [as_data_backend] on a [data.table::data.table()] which will
+#' construct a [DataBackend] with a copy of the data, and automatically
+#' creates a primary key column if required.
+#'
+#' @inheritSection DataBackend Fields
+#' @inheritSection DataBackend Methods
 #'
 #' @family DataBackend
+#' @export
+#'
 #' @examples
 #' data = as.data.table(iris)
 #' data$id = seq_len(nrow(iris))
@@ -35,10 +41,6 @@
 #'
 #' b$ncol
 #' b$colnames
-NULL
-
-#' @include DataBackend.R
-#' @export
 DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   cloneable = FALSE,
   public = list(

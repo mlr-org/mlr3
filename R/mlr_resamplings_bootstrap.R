@@ -2,13 +2,13 @@
 #'
 #' @name mlr_resamplings_bootstrap
 #' @format [R6::R6Class] inheriting from [Resampling].
+#' @include Resampling.R
 #'
 #' @description
 #' Simple Bootstrap sampling.
 #' You can control the number of bootstrap iterations (`repeats`)
 #' and the number of observations to draw per iteration (`ratio`).
 #'
-#' @include Resampling.R
 #' @export
 #' @examples
 #' # Create a task with 10 observations

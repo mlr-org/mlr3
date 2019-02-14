@@ -1,58 +1,73 @@
 #' @title Measure Class
 #'
-#' @name Measure
-#' @format [R6Class] object.
+#' @usage NULL
+#' @format [R6::R6Class] object.
+#'
 #' @description
+#' This is the abstract base class for measures like [MeasureClassif] and [MeasureRegr].
 #' Predefined measures are stored in [mlr_measures].
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
-#' # Construction
-#' m = Measure$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
-#' m = MeasureClassif$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
-#' m = MeasureRegr$new(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L))
-#'
-#' # Members
-#' m$id
-#' m$minimize
-#' m$packages
-#' m$predict_type
-#' m$range
-#' m$task_properties
-#' m$task_type
-#'
-#' # Methods
-#' m$aggregate(rr)
-#' m$calculate(e)
+#' m = Measure$new(id, task_type, range, minimize, predict_type = "response",
+#'      task_properties = character(0L), packages = character(0L))
 #' ```
 #'
-#' @section Arguments:
-#' * `id` (`character(1)`): Identifier for this object.
-#' * `range` (`numeric(2)`): Feasible range for this measure as `c(lower_bound, upper_bound)`.
-#' * `minimize` (`logical(1)`): Set to `TRUE` if good predictions correspond to small values.
-#' * `predict_type` (`character(1)`): Required predict type of the [Learner].
-#' * `task_properties` (`character()`): Required task properties, see [Task].
-#' * `packages` (`character()`): Set of required packages.
-#' * `e` ([Experiment]): Experiment to work on.
-#' * `rr` ([ResampleResult]): Performance object returned by [resample] to be aggregated.
+#' * `id` :: `character(1)`\cr
+#'   Identifier for the measure.
 #'
-#' @section Details:
-#' * `$id` (`character(1)`) stores the identifier of the object.
-#' * `$minimize` (`logical(1)`) indicates if the good values are reached via minimization.
-#' * `$packages` (`character()`) stores the set of required packages.
-#' * `$range` (`numeric(2)`) stores the numeric range of feasible measure values.
-#' * `$task_properties` (`character()`) defines a set of required task properties.
-#' * `$task_type` (`character()`) stores the class names of tasks this measure can operate on.
+#' * `task_type` :: `character(1)`\\cr
+#'   Type of the task the measure can operator on. E.g., `\"classif\"` or `\"regr\"`.
 #'
-#' * `$aggregate()` (`function(rr)`) aggregates multiple performance measures using the `aggregate` function. Operates on a [ResampleResult] as returned by [resample].
-#' * `$calculate()` (`function(e)`) does the actual work.
-#' * `$new()` creates a new object of class [Measure].
+#' * `range` :: `numeric(2)`\cr
+#'   Feasible range for this measure as `c(lower_bound, upper_bound)`.
+#'
+#' * `minimize` :: `logical(1)`\cr
+#'   Set to `TRUE` if good predictions correspond to small values.
+#'
+#' * `predict_type` :: `character(1)`\cr
+#'   Required predict type of the [Learner].
+#'
+#' * `task_properties` :: `character()`\cr
+#'   Required task properties, see [Task].
+#'
+#' * `packages` :: `character()`\cr
+#'   Set of required packages.
+#'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
+#'
+#'
+#' @section Fields:
+#' * `id` :: `character(1)`\cr
+#'   Stores the identifier of the measure.
+#'
+#' * `minimize` :: `logical(1)`\cr
+#'   Is `TRUE` if the best value is reached via minimization and `FALSE` by maximization.
+#'
+#' * `packages` :: `character()`\cr
+#'   Stores the names of required packages.
+#'
+#' * `range` :: `numeric(2)`\cr
+#'   Stores the feasible range of the measure.
+#'
+#' * `task_type` :: `character(1)`\cr
+#'   Stores the required type of the [Task].
+#'
+#' * `task_properties` :: `character()`\cr
+#'   Stores required properties of the [Task].
+#'
+#'
+#' @section Methods:
+#' * `aggregate(rr)`\cr
+#'   [ResampleResult] -> `numeric(1)`\cr
+#'   Aggregates multiple performance scores into a single score using the `aggregate` function of the measure.
+#'   Operates on a [ResampleResult] as returned by [resample].
+#'
+#' * `calculate(e)`\cr
+#'   [Experiment] -> `numeric(1)`\cr
+#'   Takes an [Experiment], extracts the predictions (as well as other possibly needed objects), and calculates
+#'   a score.
 #'
 #' @family Measure
-#' @examples
-#' mlr_measures$get("classif.mmce")
-NULL
-
 #' @export
 Measure = R6Class("Measure",
   cloneable = FALSE,

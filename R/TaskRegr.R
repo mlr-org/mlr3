@@ -1,31 +1,40 @@
 #' @title Regression Task
 #'
-#' @name TaskRegr
-#' @format [R6Class] object inheriting from [Task]/[TaskSupervised].
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [Task]/[TaskSupervised].
+#' @include TaskSupervised.R
+#'
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for regression problems.
 #' The target column is assumed to be numeric.
+#' Predefined tasks are stored in [mlr_tasks].
 #'
-#' @section Usage:
-#' Inherits from [Task]/[TaskSupervised].
+#' The `task_type` is set to `"classif"`.
+#'
+#' @section Construction:
 #' ```
 #' t = TaskRegr$new(id, backend, target)
 #' ```
 #'
-#' @section Details:
-#' `$task_type` is `"regr"`.
+#' * `id` :: `character(1)`\cr
+#'   Name of the task.
+#'
+#' * `backend` :: [DataBackend]
+#'
+#' * `target` :: `character(1)`\cr
+#'   Name of the target column.
+#'
+#' @inheritSection Task Fields
+#' @inheritSection Task Methods
 #'
 #' @family Task
+#' @export
 #' @examples
 #' b = as_data_backend(iris)
 #' task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
 #' task$task_type
 #' task$formula
 #' task$truth()
-NULL
-
-#' @include TaskSupervised.R
-#' @export
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(

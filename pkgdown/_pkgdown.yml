@@ -80,9 +80,9 @@ reference:
   - title: Tasks
     contents:
       - starts_with("mlr_tasks")
-  - title: Task Generators
+  - title: Generators
     contents:
-      - starts_with("mlr_task_generators")
+      - starts_with("mlr_generators")
   - title: Learners
     contents:
       - starts_with("mlr_learners")
@@ -99,6 +99,7 @@ reference:
   - title: Benchmarking
     contents:
       - benchmark
+      - expand_grid
       - BenchmarkResult
   - title: Reflections
     contents:

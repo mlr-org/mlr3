@@ -3,7 +3,7 @@
 \name{mlr_resamplings}
 \alias{mlr_resamplings}
 \title{Dictionary of Resampling Strategies}
-\format{\link{R6Class} object}
+\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 A simple \link{Dictionary} storing objects of class \link{Resampling}.
 Each resampling has an associated help page, see \code{mlr_resamplings_[id]}.
@@ -14,15 +14,13 @@ Inherits from \link{Dictionary}.
 }
 
 \examples{
-mlr_resamplings$ids()
 as.data.table(mlr_resamplings)
 mlr_resamplings$get("cv")
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},
-  \code{\link{mlr_learners}}, \code{\link{mlr_measures}},
-  \code{\link{mlr_task_generators}},
-  \code{\link{mlr_tasks}}
+  \code{\link{mlr_generators}}, \code{\link{mlr_learners}},
+  \code{\link{mlr_measures}}, \code{\link{mlr_tasks}}
 
 Other Resampling: \code{\link{Resampling}}
 }

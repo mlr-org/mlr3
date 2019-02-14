@@ -156,9 +156,9 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(mlr3)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">mlr_tasks</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; &lt;DictionaryTask&gt; with 7 stored values</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Ids: bh, iris, mtcars, pima, sonar, spam, zoo</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Keys: bh, iris, mtcars, pima, sonar, spam, zoo</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Public:  add(), get(), has(), ids(), items, mget(), remove()</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Public:  add(), get(), has(), items, keys(), mget(), remove()</span></a></code></pre></div>
 <p>The <code>mlr_tasks</code> object offers public member methods to modify and extend the key-value store, see also the help page in <code><a href="../reference/mlr_tasks.html">?mlr_tasks</a></code>. We can obtain an overview of all currently available tasks by</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(mlr_tasks)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;       id    type     measures nrow ncol logical integer numeric character</span></a>
@@ -191,7 +191,7 @@
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; Public: all_classes, backend, cbind(), class_n, class_names,</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;   clone(), col_info, col_roles, data(), feature_names,</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;   feature_types, filter(), formula, groups, hash, head(), id,</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;   feature_types, filter(), formula, group, hash, head(), id,</span></a>
 <a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;   levels(), measures, ncol, negative, nrow, positive, properties,</span></a>
 <a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;   rbind(), replace_features(), row_ids, row_roles, select(),</span></a>
 <a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type,</span></a>
@@ -272,7 +272,7 @@
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; * dbl (2): cyl, disp</span></a>
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; Public: backend, cbind(), clone(), col_info, col_roles, data(),</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;   feature_names, feature_types, filter(), formula, groups, hash,</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;   feature_names, feature_types, filter(), formula, group, hash,</span></a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;   head(), id, levels(), measures, ncol, nrow, properties, rbind(),</span></a>
 <a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;   replace_features(), row_ids, row_roles, select(),</span></a>
 <a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type,</span></a>
@@ -334,7 +334,7 @@
 <a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; $order</span></a>
 <a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; character(0)</span></a>
 <a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; $groups</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; $group</span></a>
 <a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; character(0)</span></a>
 <a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; $weights</span></a>

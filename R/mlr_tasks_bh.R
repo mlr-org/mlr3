@@ -1,8 +1,11 @@
 #' @title Boston Housing Regression Task
+#'
 #' @name mlr_tasks_bh
+#' @format [R6::R6Class] inheriting from [TaskRegr].
+#' @include mlr_tasks.R
+#'
 #' @description
 #' A regression task for the [mlbench::BostonHousing2] data set.
-#' @include mlr_tasks.R
 mlr_tasks$add("bh",  function(id = "bh") {
   b = as_data_backend(load_dataset("BostonHousing2", "mlbench"))
   b$hash = "_mlr_tasks_bh_"

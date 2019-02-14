@@ -1,59 +1,70 @@
 #' @title Container for Results of `resample()`.
 #'
-#' @name ResampleResult
-#' @format [R6Class] object.
+#' @usage NULL
+#' @format [R6::R6Class] object.
+#'
 #' @description
-#' This is the object returned by [resample()].
+#' This is the result container object returned by [resample()].
 #'
-#' @section Usage:
-#'
+#' @section Construction:
 #' ```
-#' # Construction
-#' # Users of mlr3 generally don't need to construct this class themselves, but rather use objects returned by [resample()].
-#' rr = ResampleResult$new(data, hash = NULL)
-#'
-#' # Members
-#' rr$aggregated
-#' rr$data
-#' rr$errors
-#' rr$hash
-#' rr$learner
-#' rr$measures
-#' rr$resampling
-#' rr$task
-#'
-#' # Methods
-#' rr$combine(rr)
-#' rr$experiment(iter)
-#' rr$experiments(iters)
-#' rr$performance(id)
-#' rr$print()
+#' rr = ResampleResult$new(data)
 #' ```
 #'
-#' @section Arguments:
-#' * `data` ([data.table()]):
-#'   [data.table()] with columns matching the data of an [Experiment].
-#'   Each row corresponds to a single experiment.
-#' * `hash` (`NULL` | `character(1)`): Pre-calculated hash for the combination of `task`, `learner` and `resampling`.
-#'   If `NULL`, the checksum will be calculated on-demand.
-#' * `rr` (`ResampleResult`): Second [ResampleResult].
-#' * `iter` (`integer(1)`): Iteration of the experiment to retrieve.
-#' * `iters` (`integer`): Iterations of experiments to retrieve as `list()`.
-#' * `id` (`character(1)`): Identifier of a performance measure.
+#' * `data` :: [data.table::data.table()]\cr
+#'   Table with the data of one [Experiment] per row.
+#'   See description of in [Experiment] for the exact structure.
 #'
-#' @section Details:
+#' @section Fields:
+#' * `data` :: [data.table::data.table()]\cr
+#'   Experiment data with one [Experiment] per line.
 #'
-#' * `$aggregated` (named `numeric()`) returns the aggregated performance measures. The aggregation method is part of the [Measure].
-#' * `$combine()` takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
-#' * `$errors` (`logical()`) returns a vector with the i-th element `TRUE` if the i-th experiment had at least on error during train or predict.
-#' * `$experiment()` returns an [Experiment] for the `iter`-th resampling iteration.
-#' * `$experiments()` returns a `list` with the slice of [Experiment]s for the provided `iters`.
-#' * `$hash` (`character(1))` stores a hash for the combination of task, learner and resampling.
-#' * `$performance(id)` retrieves the performance values for the measure with id `id` as numeric vector.
-#' * `$task`, `$learner`, `$resampling` and `$measure` allow access to the [Task], [Learner], [Resampling] and [Measure] used in the resampling.
-#' * `as.data.table()` converts the [BenchmarkResult] to a [data.table()].
-NULL
-
+#' * `task` :: [Task]\cr
+#'   The task [resample()] operated on.
+#'
+#' * `learner` :: [Learner]\cr
+#'   The learner [resample()] operated on.
+#'
+#' * `resampling` :: [Resampling]\cr
+#'   The resampling object [resample()] operated on.
+#'
+#' * `measures` :: `list()` of [Measure]\cr
+#'   The performance measures [resample()] operated on.
+#'
+#' * `errors` :: `logical()`\cr
+#'   Logical vector where the i-th element is `TRUE` if an error for the i-th resampling iteration has been captured.
+#'
+#' * `hash` :: `character(1)`\cr
+#'   Hash (unique identifier) for this object.
+#'
+#' * `aggregated` :: named `numeric()`\cr
+#'   Returns a single score for each measure, named with measure ids.
+#'
+#' @section Methods:
+#' * `combine(rr)`\cr
+#'   [ResampleResult] -> [BenchmarkResult]\cr
+#'   Takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
+#'
+#' * `experiment(iter)`\cr
+#'   `integer(1)` -> [Experiment]\cr
+#'   Returns the `iter`-th [Experiment].
+#'
+#' * `experiments(iters)`\cr
+#'   `integer()` -> `list()` of [Experiment].
+#'   Returns a slice of [Experiment]s, referred to by resampling iterations `iters`.
+#'
+#' * `performance(id)`\cr
+#'   `character(1)` -> `numeric(1)`\cr
+#'   Retrieves the performance values for the measure with id `id` as numeric vector.
+#'
+#' @section S3 Methods:
+#' * `as.data.frame(rr)`\cr
+#'   [ResampleResult] -> `data.frame()`\cr
+#'   Converts to a flat `data.frame()`.
+#' * `as.data.table(rr)`\cr
+#'   [ResampleResult] -> [data.table::data.table()]\cr
+#'   Converts to a flat `data.table()`.
+#' @export
 ResampleResult = R6Class("ResampleResult",
   public = list(
     data = NULL,
@@ -147,7 +158,7 @@ ResampleResult = R6Class("ResampleResult",
 
 #' @export
 as.data.frame.ResampleResult = function(x, ...) {
-  setDF(as.data.table.ResampleResult(x))
+  setDF(as.data.table.ResampleResult(x))[]
 }
 
 #' @export

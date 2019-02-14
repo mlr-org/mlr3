@@ -5,7 +5,7 @@
 \alias{mlr_learners_classif.featureless}
 \alias{LearnerClassifFeatureless}
 \title{Featureless Classification Learner}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerClassif}.}
 \usage{
 LearnerClassifFeatureless
 }

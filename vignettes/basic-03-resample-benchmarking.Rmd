@@ -37,7 +37,7 @@ Additionally, we need to define **how** we want to resample.
 `mlr3` comes with the following resampling strategies implemented:
 
 ```{r}
-mlr_resamplings$ids()
+mlr_resamplings$keys()
 ```
 
 Additional resampling methods for special use cases will be available via extension packages, such as [mlr3spatiotemporal](https://github.com/mlr-org/mlr3spatiotemporal) for spatial data (still in development).

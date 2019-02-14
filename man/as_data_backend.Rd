@@ -8,7 +8,7 @@ as_data_backend(data, ...)
 }
 \arguments{
 \item{data}{Data to wrap the backend around.
-For a \code{data.frame()} (this includes \code{tibble()} from \pkg{tibble} and \code{data.table()}),
+For a \code{data.frame()} (this includes \code{tibble()} from \CRANpkg{tibble} and \code{data.table()}),
 creates a \link{DataBackendDataTable}.
 See \code{methods("as_data_backend")} for possible input formats.}
 

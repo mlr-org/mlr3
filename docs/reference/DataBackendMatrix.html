@@ -30,13 +30,7 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="DataBackend for Matrix — DataBackendMatrix" />
 
-<meta property="og:description" content="DataBackend for Matrix::Matrix(). Data is stored as (sparse) matrix.
-Supports two output formats:
-"data.table" (default): Returns a data.table. The primary key is returned as a regular column.
-"sparse" (native): Returns a Matrix::Matrix. The primary key is stored as additional attribute ..row_id.
-" />
-
-<meta property="og:description" content="NB: The handling of multiple output formats is subject to change." />
+<meta property="og:description" content="DataBackend for Matrix. Data is stored as (sparse) matrix." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -157,35 +151,61 @@ Supports two output formats:
     </div>
 
     
-    <p><a href='DataBackend.html'>DataBackend</a> for <code><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>. Data is stored as (sparse) matrix.</p>
-<p>Supports two output formats:</p><ul>
-<li><p><code>"data.table"</code> (default): Returns a data.table. The primary key is returned as a regular column.</p></li>
-<li><p><code>"sparse"</code> (native): Returns a <a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix</a>. The primary key is stored as additional attribute <code>..row_id</code>.</p></li>
-</ul>
-
-    <p>NB: The handling of multiple output formats is subject to change.</p>
+    <p><a href='DataBackend.html'>DataBackend</a> for <a href='https://CRAN.R-project.org/package=Matrix'><span class="pkg">Matrix</span></a>. Data is stored as (sparse) matrix.</p>
     
 
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>R6Class object inheriting from <a href='DataBackend.html'>DataBackend</a>.</p>
+    <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object inheriting from <a href='DataBackend.html'>DataBackend</a>.</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
-    
-    <p>Inherits from <a href='DataBackend.html'>DataBackend</a>.</p><pre># Construction
-b = DataBackendMatrix$new(data)
-b = as_data_backend(data)
+    <pre>DataBackendMatrix$new(data, primary_key = NULL)
 </pre>
-    <p>The interface is described in <a href='DataBackend.html'>DataBackend</a>.</p>
+<ul>
+<li><p><code>data</code> :: <code><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>.</p></li>
+<li><p><code>primary_key</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Not supported by this backend. Rows are addresses by their <code><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames()</a></code>.
+If the matrix does not have row names, integer row indices are used.</p></li>
+</ul>
+    <p>Alternatively, use <a href='as_data_backend.html'>as_data_backend</a> on a <code><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix()</a></code>.</p>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
     
     <ul>
-<li><p><code>data</code> (<a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix::Matrix</a>): A (sparse) matrix. If <code>data</code> has row names, these will be used as primary key.
-Integer keys (<code><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len(nrow(data))</a></code>) are used otherwise.</p></li>
+<li><p><code>nrow</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code><br />
+Number of rows (observations).</p></li>
+<li><p><code>ncol</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code><br />
+Number of columns (variables), including the primary key column.</p></li>
+<li><p><code>colnames</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Returns vector of all column names, including the primary key column.</p></li>
+<li><p><code>rownames</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Returns vector of all distinct row identifiers, i.e. the primary key column.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <ul>
+<li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data(rows = NULL, cols = NULL, format = "data.table")</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; <code>any</code><br />
+Returns a slice of the data in a specific format.
+Currently, the only supported format is "data.table".
+The rows must be addressed as vector of primary key values, columns must be referred to via column names.
+Non-existing rows and columns are silently ignored.</p></li>
+<li><p><code>distinct(cols)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+Returns a named list of vectors of distinct values for each column specified.
+Non-existing columns are silently ignored.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head(n = 6)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Returns the first up-to <code>n</code> rows of the data as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/missing'>missing(rows, cols)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code><br />
+Returns the number of missing values per column in the specified slice of data.
+Non-existing rows and columns are silently ignored.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -201,11 +221,11 @@ Integer keys (<code><a href='https://www.rdocumentation.org/packages/base/topics
 
 <span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>data</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>))</div><div class='output co'>#&gt;    x1 x2 ..row_id
-#&gt; 1:  1  0    row_1
+#&gt; 1:  0  1    row_1
 #&gt; 2:  1  1    row_2
 #&gt; 3:  0  0    row_3</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"sparse"</span>))</div><div class='output co'>#&gt; 3 x 2 sparse Matrix of class "dgCMatrix"
 #&gt;       x1 x2
-#&gt; row_1  1  .
+#&gt; row_1  .  1
 #&gt; row_2  1  1
 #&gt; row_3  .  .</div></pre>
   </div>
@@ -215,9 +235,11 @@ Integer keys (<code><a href='https://www.rdocumentation.org/packages/base/topics
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#construction">Construction</a></li>
 
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#fields">Fields</a></li>
+
+      <li><a href="#methods">Methods</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

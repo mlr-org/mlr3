@@ -2,13 +2,14 @@
 #'
 #' @name mlr_learners_regr.featureless
 #' @format [R6::R6Class] inheriting from [LearnerRegr].
+#' @include LearnerRegr.R
+#'
 #' @description
 #' A simple [LearnerRegr] which only analyses the response during train, ignoring all features.
 #' If hyperparameter `robust` is `FALSE` (default), constantly predicts `mean(y)` as response
 #' and `sd(y)` as standard error.
 #' If `robust` is `TRUE`, `median()` and `madn()` are used instead of `mean()` and `sd()`,
 #' respectively.
-#' @include LearnerRegr.R
 #' @export
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(

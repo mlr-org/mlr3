@@ -1,13 +1,12 @@
 #' @title Subsampling Resampling
 #'
-#' @format [R6Class] object
 #' @name mlr_resamplings_subsampling
 #' @format [R6::R6Class] inheriting from [Resampling].
+#' @include Resampling.R
 #'
 #' @description
 #' `repeats` times repeated splits into training and test set with a `ratio` ratio of training observations.
 #'
-#' @include Resampling.R
 #' @export
 #' @examples
 #' # Create a task with 10 observations

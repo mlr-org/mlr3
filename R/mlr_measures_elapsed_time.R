@@ -2,12 +2,12 @@
 #'
 #' @name mlr_measures_elapsed_time
 #' @format [R6::R6Class()] inheriting from [Measure].
+#' @include Measure.R
 #'
 #' @description
 #' Measures the elapsed time during train, predict, or both.
 #'
 #' @export
-#' @include Measure.R
 MeasureElapsedTime = R6Class("MeasureElapsedTime",
   inherit = Measure,
   cloneable = FALSE,

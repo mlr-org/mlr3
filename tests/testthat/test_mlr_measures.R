@@ -1,9 +1,9 @@
 context("mlr_measures")
 
 test_that("mlr_measures", {
-  ids = mlr_measures$ids()
+  keys = mlr_measures$keys()
 
-  for (key in ids) {
+  for (key in keys) {
     m = mlr_measures$get(key)
     expect_measure(m)
   }

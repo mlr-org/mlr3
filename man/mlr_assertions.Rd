@@ -12,6 +12,7 @@
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
 \alias{assert_param_set}
+\alias{assert_id}
 \title{Assertion for mlr3 Objects}
 \usage{
 assert_backend(b)
@@ -33,6 +34,8 @@ assert_resample_result(resample_result)
 assert_benchmark_result(bmr)
 
 assert_param_set(param_set)
+
+assert_id(id)
 }
 \arguments{
 \item{b}{(\link{DataBackend}).}
@@ -56,6 +59,8 @@ assert_param_set(param_set)
 \item{bmr}{(\link{BenchmarkResult}).}
 
 \item{param_set}{(\link[paradox:ParamSet]{paradox::ParamSet}).}
+
+\item{id}{(\code{character(1)}).}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
