@@ -49,6 +49,9 @@ test_that("Task rbind", {
   task$rbind(iris[1:10, ])
   expect_task(task)
   expect_equal(task$nrow, 160)
+
+  task$rbind(iris[integer(0), ])
+  expect_equal(task$nrow, 160)
 })
 
 test_that("Task cbind", {

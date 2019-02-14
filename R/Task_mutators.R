@@ -42,7 +42,7 @@ check_matching_types = function(col_info_x, col_info_y) {
 # 4. Update col_info
 task_rbind = function(self, data) {
   # 1. Check that an rbind is feasible
-  assert_data_frame(data, min.rows = 1L, min.cols = 1L)
+  assert_data_frame(data, min.cols = 1L)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
