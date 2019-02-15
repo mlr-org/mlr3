@@ -88,7 +88,7 @@ Measure = R6Class("Measure",
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types)
-        assert_choice(predict_type, mlr_reflections$predict_types[[task_type]])
+        assert_choice(predict_type, mlr_reflections$learner_predict_types[[task_type]])
       }
       self$predict_type = predict_type
       self$task_properties = assert_sorted_subset(task_properties, mlr_reflections$task_properties[[task_type]])

@@ -7,10 +7,13 @@
 #' ls.str(mlr_reflections)
 mlr_reflections = new.env(parent = emptyenv())
 
-mlr_reflections$backend_formats = c(
+
+### DataBackend
+mlr_reflections$databackend_formats = c(
   "data.table", "sparse"
 )
 
+### Task
 mlr_reflections$task_types = c(
   "regr", "classif"
 )
@@ -33,12 +36,14 @@ mlr_reflections$task_properties = list(
   regr    = c("weights")
 )
 
+
+### Learner
 mlr_reflections$learner_properties = list(
   classif = c("missings", "weights", "parallel", "twoclass", "multiclass", "importance", "selected_features"),
   regr    = c("missings", "weights", "parallel", "importance", "selected_features")
 )
 
-mlr_reflections$predict_types = list(
+mlr_reflections$learner_predict_types = list(
   classif = c("response", "prob"),
   regr    = c("response", "se")
 )
@@ -54,12 +59,6 @@ mlr_reflections$experiment_slots = data.table(
 
 mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = mlr_reflections$experiment_states)
 
-mlr_reflections$log_classes = c("output", "warning", "error")
+### Log
 
-mlr_reflections$default_mlr_control = list(
-  store_model = TRUE,
-  store_prediction = TRUE,
-  encapsulate_train = "none",
-  encapsulate_predict = "none",
-  log_threshold = INFO
-)
+mlr_reflections$log_classes = c("output", "warning", "error")

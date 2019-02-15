@@ -26,10 +26,10 @@
 #' # get a list of the defaults
 #' mlr_control()
 #'
-#' # get a control object, with the default of store_model switched to FALSE
+#' # get a control object, with the default of store_model changed to FALSE
 #' mlr_control(store_model = FALSE)
 mlr_control = function(...) {
-  ctrl = mlr_reflections$default_mlr_control
+  ctrl = default_mlr_control
   ctrl$log_threshold = logger::log_threshold(namespace = "mlr3")
 
   ldots = ...length()
@@ -50,3 +50,11 @@ mlr_control = function(...) {
   ctrl[names(dots)] = dots
   ctrl
 }
+
+default_mlr_control = list(
+  store_model = TRUE,
+  store_prediction = TRUE,
+  encapsulate_train = "none",
+  encapsulate_predict = "none",
+  log_threshold = INFO
+)

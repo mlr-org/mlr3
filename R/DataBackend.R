@@ -81,7 +81,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     initialize = function(data, primary_key, formats = "data.table") {
       private$.data = data
       self$primary_key = assert_string(primary_key)
-      self$formats = assert_subset(formats, mlr_reflections$backend_formats, empty.ok = FALSE)
+      self$formats = assert_subset(formats, mlr_reflections$databackend_formats, empty.ok = FALSE)
     },
 
     format = function() {

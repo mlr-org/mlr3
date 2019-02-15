@@ -22,7 +22,7 @@
 #'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
 #'
 #' * `predict_types` :: `character()`\cr
-#'   Supported predict types. Must be a subset of [`mlr_reflections$predict_types`][mlr_reflections].
+#'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
 #'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.

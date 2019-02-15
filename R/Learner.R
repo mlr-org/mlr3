@@ -23,7 +23,7 @@
 #'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
 #'
 #' * `predict_types` :: `character()`\cr
-#'   Supported predict types. Must be a subset of [`mlr_reflections$predict_types`][mlr_reflections].
+#'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
 #'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
@@ -66,7 +66,7 @@
 #'
 #' * `predict_types` :: `character()`\cr
 #'   Stores the possible predict types the learner is capable of.
-#'   A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$predict_types`][mlr_reflections].
+#'   A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
 #'
 #' * `properties` :: `character()`\cr
 #'   Stores a set of properties/capabilities the learner has.
@@ -126,7 +126,7 @@ Learner = R6Class("Learner",
       private$.id = id
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
-      self$predict_types = assert_sorted_subset(predict_types, mlr_reflections$predict_types[[task_type]], empty.ok = FALSE)
+      self$predict_types = assert_sorted_subset(predict_types, mlr_reflections$learner_predict_types[[task_type]], empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
@@ -156,7 +156,7 @@ Learner = R6Class("Learner",
     predict_type = function(rhs) {
       if (missing(rhs))
         return(private$.predict_type)
-      assert_choice(rhs, mlr_reflections$predict_types[[self$task_type]])
+      assert_choice(rhs, mlr_reflections$learner_predict_types[[self$task_type]])
       if (rhs %nin% self$predict_types)
         stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
