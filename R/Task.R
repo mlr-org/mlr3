@@ -223,12 +223,14 @@ Task = R6Class("Task",
     },
 
     filter = function(rows) {
+      rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
       self$row_roles$use = intersect(self$row_roles$use, rows)
       private$.hash = NA_character_
       invisible(self)
     },
 
     select = function(cols) {
+      assert_character(cols, any.missing = FALSE, min.chars = 1L)
       self$col_roles$feature = intersect(self$col_roles$feature, cols)
       private$.hash = NA_character_
       invisible(self)
@@ -253,6 +255,7 @@ Task = R6Class("Task",
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
+      rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
       assert_subset(new_roles, mlr_reflections$task_row_roles)
       assert_flag(exclusive)
 
@@ -269,6 +272,7 @@ Task = R6Class("Task",
     },
 
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
+      assert_character(cols, any.missing = FALSE)
       assert_subset(new_roles, mlr_reflections$task_col_roles[[self$task_type]])
       assert_flag(exclusive)
 
@@ -362,6 +366,8 @@ task_data = function(self, rows = NULL, cols = NULL, format) {
     selected_rows = self$row_roles$use
   } else {
     assert_subset(rows, self$row_roles$use)
+    if (is.double(rows))
+      rows = as.integer(rows)
     selected_rows = rows
   }
 

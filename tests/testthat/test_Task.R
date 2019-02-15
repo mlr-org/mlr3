@@ -124,6 +124,8 @@ test_that("select works", {
   expect_equal(task$ncol, 2L)
 
   expect_equal(task$feature_names, "Sepal.Width")
+
+  expect_error(task$select(1:4), "character")
 })
 
 test_that("group/weights work", {

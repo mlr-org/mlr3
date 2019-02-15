@@ -15,27 +15,31 @@
 \alias{assert_id}
 \title{Assertion for mlr3 Objects}
 \usage{
-assert_backend(b)
+assert_backend(b, .var.name = vname(b))
 
-assert_experiment(e)
+assert_experiment(e, .var.name = vname(e))
 
-assert_task(task)
+assert_task(task, .var.name = vname(task))
 
-assert_learner(learner, task = NULL)
+assert_learner(learner, task = NULL, .var.name = vname(learner))
 
-assert_measure(measure, task = NULL, predict_types = NULL)
+assert_measure(measure, task = NULL, predict_types = NULL,
+  .var.name = vname(measure))
 
-assert_measures(measures, task = NULL, predict_types = NULL)
+assert_measures(measures, task = NULL, predict_types = NULL,
+  .var.name = vname(measures))
 
-assert_resampling(resampling, instantiated = NULL)
+assert_resampling(resampling, instantiated = NULL,
+  .var.name = vname(resampling))
 
-assert_resample_result(resample_result)
+assert_resample_result(resample_result,
+  .var.name = vname(resample_result))
 
-assert_benchmark_result(bmr)
+assert_benchmark_result(bmr, .var.name = vname(bmr))
 
-assert_param_set(param_set)
+assert_param_set(param_set, .var.name = vname(param_set))
 
-assert_id(id)
+assert_id(id, .var.name = vname(id))
 }
 \arguments{
 \item{b}{(\link{DataBackend}).}

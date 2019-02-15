@@ -171,15 +171,13 @@ Experiment = R6Class("Experiment",
     train = function(row_ids = NULL, ctrl = list()) {
       if (! self$state >= "defined")
         stopf("Experiment needs a task and a learner")
-      experiment_train(self, row_ids = row_ids %??% self$data$task$row_ids, ctrl = ctrl)
+      experiment_train(self, row_ids = row_ids, ctrl = ctrl)
       invisible(self)
     },
 
     predict = function(row_ids = NULL, newdata = NULL, ctrl = list()) {
       if (! self$state >= "trained")
         stopf("Experiment needs to be trained before predict()")
-      if (!is.null(row_ids) && !is.null(newdata))
-        stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
       experiment_predict(self, row_ids = row_ids %??% self$data$task$row_ids, newdata = newdata, ctrl = ctrl)
       invisible(self)
     },
@@ -298,6 +296,7 @@ experiment_print = function(self) {
 
 experiment_train = function(self, row_ids, ctrl = list()) {
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
+  row_ids = if (is.null(row_ids)) self$data$task$row_ids else assert_row_ids(row_ids)
   self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
   self$data$iteration = 1L
 
@@ -309,6 +308,8 @@ experiment_train = function(self, row_ids, ctrl = list()) {
 }
 
 experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list()) {
+  if (!is.null(row_ids) && !is.null(newdata))
+    stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
 
   # TODO: we could allow new_data to be a backend / task to avoid duplication
@@ -316,6 +317,8 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list(
     old_row_ids = self$data$task$row_ids
     self$data$task = self$data$task$clone(deep = TRUE)$rbind(newdata)
     row_ids = setdiff(self$data$task$row_ids, old_row_ids)
+  } else if (!is.null(row_ids)) {
+    row_ids = assert_row_ids(row_ids)
   }
   self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
 
