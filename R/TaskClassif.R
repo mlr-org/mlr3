@@ -116,7 +116,7 @@ TaskClassif = R6Class("TaskClassif",
     all_classes = function() {
       # TODO: this operation is slow for small data, and we do this quite often
       # we might want to optimize here in the future
-      self$col_info[list(self$target_names), "levels", on = "id", nomatch = 0L, with = FALSE][[1L]][[1L]]
+      self$col_info[list(self$target_names), get("levels"), nomatch = 0L][[1L]]
     }
   )
 )

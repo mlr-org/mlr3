@@ -60,7 +60,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
 
       if (isTRUE(pv$save_tasks)) {
-        self$model = list(task)
+        self$model = list(task$clone(deep = TRUE))
       } else {
         label = sample(task$truth(), 1L)
         self$model = set_class(as.character(label), "unittest")
@@ -79,7 +79,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$segfault_predict))
         get("attach")( structure(list(), class = "UserDefinedDatabase")  )
       if (isTRUE(pv$save_tasks)) {
-        self$model[[2]] = task
+        self$model[[2]] = task$clone(deep = TRUE)
         label = sample(task$truth(), 1L)
         PredictionClassif$new(response = rep.int(as.character(label), task$nrow))
       } else {

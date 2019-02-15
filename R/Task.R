@@ -219,7 +219,7 @@ Task = R6Class("Task",
 
     levels = function(col) {
       assert_choice(col, self$col_info$id)
-      self$col_info[list(col), "levels", with = FALSE, nomatch = 0L][[1L]][[1L]]
+      self$col_info[list(col), get("levels"), nomatch = 0L][[1L]]
     },
 
     filter = function(rows) {
