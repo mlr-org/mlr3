@@ -117,11 +117,11 @@ assert_id = function(id, .var.name = vname(id)) {
 }
 
 assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
-  qassert(row_ids, c("I", "S[1,]"), .var.name = .var.name)
-  if (!is.null(type) && typeof(row_ids) != type)
-    stopf("Assertion on '%s' failed: Must be of type '%s', not '%s'", type, typeof(row_ids))
+  qassert(row_ids, c("X", "S[1,]"), .var.name = .var.name)
   if (is.double(row_ids))
     row_ids = as.integer(row_ids)
+  if (!is.null(type) && typeof(row_ids) != type)
+    stopf("Assertion on '%s' failed: Must be of type '%s', not '%s'", .var.name, type, typeof(row_ids))
   invisible(row_ids)
 }
 

@@ -36,6 +36,6 @@ Same format as \code{encapsulate_train}.
 # get a list of the defaults
 mlr_control()
 
-# get a control object, with the default of store_model switched to FALSE
+# get a control object, with the default of store_model changed to FALSE
 mlr_control(store_model = FALSE)
 }

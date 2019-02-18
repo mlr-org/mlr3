@@ -4,7 +4,7 @@
 \name{mlr_reflections}
 \alias{mlr_reflections}
 \title{Reflections for mlr3}
-\format{An object of class \code{environment} of length 12.}
+\format{An object of class \code{environment} of length 11.}
 \usage{
 mlr_reflections
 }

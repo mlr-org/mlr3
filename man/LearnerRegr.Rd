@@ -20,7 +20,7 @@ Identifier for the learner.
 \item \code{feature_types} :: \code{character()}\cr
 Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
 \item \code{predict_types} :: \code{character()}\cr
-Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$predict_types}}.
+Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
@@ -55,7 +55,7 @@ Description of available hyperparameters and hyperparameter settings.
 Stores the currently selected predict type. Must be an element of \code{l$predict_types}.
 \item \code{predict_types} :: \code{character()}\cr
 Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$predict_types}}.
+A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
 \item \code{properties} :: \code{character()}\cr
 Stores a set of properties/capabilities the learner has.
 A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
