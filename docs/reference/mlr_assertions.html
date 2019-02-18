@@ -154,27 +154,31 @@
     <p>Functions intended to be used in packages extending <span class="pkg">mlr3</span>.</p>
     
 
-    <pre class="usage"><span class='fu'>assert_backend</span>(<span class='no'>b</span>)
+    <pre class="usage"><span class='fu'>assert_backend</span>(<span class='no'>b</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>b</span>))
 
-<span class='fu'>assert_experiment</span>(<span class='no'>e</span>)
+<span class='fu'>assert_experiment</span>(<span class='no'>e</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>e</span>))
 
-<span class='fu'>assert_task</span>(<span class='no'>task</span>)
+<span class='fu'>assert_task</span>(<span class='no'>task</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>task</span>))
 
-<span class='fu'>assert_learner</span>(<span class='no'>learner</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>assert_learner</span>(<span class='no'>learner</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>learner</span>))
 
-<span class='fu'>assert_measure</span>(<span class='no'>measure</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>assert_measure</span>(<span class='no'>measure</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>measure</span>))
 
-<span class='fu'>assert_measures</span>(<span class='no'>measures</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>assert_measures</span>(<span class='no'>measures</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predict_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>measures</span>))
 
-<span class='fu'>assert_resampling</span>(<span class='no'>resampling</span>, <span class='kw'>instantiated</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>assert_resampling</span>(<span class='no'>resampling</span>, <span class='kw'>instantiated</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>resampling</span>))
 
-<span class='fu'>assert_resample_result</span>(<span class='no'>resample_result</span>)
+<span class='fu'>assert_resample_result</span>(<span class='no'>resample_result</span>,
+  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>resample_result</span>))
 
-<span class='fu'>assert_benchmark_result</span>(<span class='no'>bmr</span>)
+<span class='fu'>assert_benchmark_result</span>(<span class='no'>bmr</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>bmr</span>))
 
-<span class='fu'>assert_param_set</span>(<span class='no'>param_set</span>)
+<span class='fu'>assert_param_set</span>(<span class='no'>param_set</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>param_set</span>))
 
-<span class='fu'>assert_id</span>(<span class='no'>id</span>)</pre>
+<span class='fu'>assert_id</span>(<span class='no'>id</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>id</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
