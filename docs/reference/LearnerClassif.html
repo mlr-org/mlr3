@@ -165,24 +165,24 @@ Predefined learners can be found in the <a href='Dictionary.html'>Dictionary</a>
     
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
-    <pre>l = LearnerClasif$new(id, feature_types = character(0L), predict_types = character(0L),
-  packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
+    <pre>l = LearnerClassif$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+     feature_types = character(), properties = character(), packages = character())
 </pre>
 <ul>
 <li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Identifier for the learner.</p></li>
-<li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Feature types the learner operates on. Must be a subset of <code>mlr_reflections$task_feature_types</code>.</p></li>
-<li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Supported predict types. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a></code>.</p></li>
-<li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Set of required packages.</p></li>
 <li><p><code>param_set</code> :: <a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a><br />
 Set of hyperparameters.</p></li>
 <li><p><code>param_vals</code> :: named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
 List of hyperparameter settings.</p></li>
+<li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Supported predict types. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a></code>.</p></li>
+<li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Feature types the learner operates on. Must be a subset of <code>mlr_reflections$task_feature_types</code>.</p></li>
 <li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
 Set of properties of the learner. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$learner_properties</a></code>.</p></li>
+<li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Set of required packages.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
