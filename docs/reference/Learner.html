@@ -174,7 +174,7 @@ Type of the task the learner can operator on. E.g., <code>"classif"</code> or <c
 <li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
 Feature types the learner operates on. Must be a subset of <code>mlr_reflections$task_feature_types</code>.</p></li>
 <li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Supported predict types. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$predict_types</a></code>.</p></li>
+Supported predict types. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a></code>.</p></li>
 <li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
 Set of required packages.
 Note that these packages will be loaded via <code><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace()</a></code>, and are not attached.</p></li>
@@ -210,7 +210,7 @@ Description of available hyperparameters and hyperparameter settings.</p></li>
 Stores the currently selected predict type. Must be an element of <code>l$predict_types</code>.</p></li>
 <li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
 Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$predict_types</a></code>.</p></li>
+A complete list of candidate predict types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a></code>.</p></li>
 <li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
 Stores a set of properties/capabilities the learner has.
 A complete list of candidate properties, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$learner_properties</a></code>.</p></li>
