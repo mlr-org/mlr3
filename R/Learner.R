@@ -9,8 +9,8 @@
 #'
 #' @section Construction:
 #' ```
-#' l = Learner$new(id, task_type, feature_types = character(0L), predict_types = character(0L),
-#'   packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
+#' l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+#'      feature_types = character(), properties = character(), packages = character())
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -19,24 +19,24 @@
 #' * `task_type` :: `character(1)`\cr
 #'   Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
 #'
-#' * `feature_types` :: `character()`\cr
-#'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
-#'
-#' * `predict_types` :: `character()`\cr
-#'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
-#'
-#' * `packages` :: `character()`\cr
-#'   Set of required packages.
-#'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
-#'
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Set of hyperparameters.
 #'
 #' * `param_vals` :: named `list()`\cr
 #'   List of hyperparameter settings.
 #'
+#' * `predict_types` :: `character()`\cr
+#'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
+#'
+#' * `feature_types` :: `character()`\cr
+#'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
+#'
 #' * `properties` :: `character()`\cr
 #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
+#'
+#' * `packages` :: `character()`\cr
+#'   Set of required packages.
+#'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
 #'
 #' @section Fields:
 #' * `fallback` :: ([Learner] | `NULL`)\cr
@@ -122,7 +122,7 @@ Learner = R6Class("Learner",
     model = NULL,
     fallback = NULL,
 
-    initialize = function(id, task_type, feature_types = character(0L), predict_types = character(0L), packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L)) {
+    initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(), feature_types = character(), properties = character(), packages = character()) {
       private$.id = id
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)

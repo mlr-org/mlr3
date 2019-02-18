@@ -10,27 +10,27 @@ This is the abstract base class for learner objects like \link{LearnerClassif} a
 Predefined learners are stored in \link{mlr_learners}.
 }
 \section{Construction}{
-\preformatted{l = Learner$new(id, task_type, feature_types = character(0L), predict_types = character(0L),
-  packages = character(0L), param_set = ParamSet$new(), param_vals = list(), properties = character(0L))
+\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+     feature_types = character(), properties = character(), packages = character())
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Identifier for the learner.
 \item \code{task_type} :: \code{character(1)}\cr
 Type of the task the learner can operator on. E.g., \code{"classif"} or \code{"regr"}.
-\item \code{feature_types} :: \code{character()}\cr
-Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
-\item \code{predict_types} :: \code{character()}\cr
-Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
-\item \code{packages} :: \code{character()}\cr
-Set of required packages.
-Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Set of hyperparameters.
 \item \code{param_vals} :: named \code{list()}\cr
 List of hyperparameter settings.
+\item \code{predict_types} :: \code{character()}\cr
+Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
+\item \code{feature_types} :: \code{character()}\cr
+Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
 \item \code{properties} :: \code{character()}\cr
 Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+\item \code{packages} :: \code{character()}\cr
+Set of required packages.
+Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
 }
 }
 
