@@ -134,19 +134,20 @@
 <li>Embrace <a href="https://cran.r-project.org/package=R6">R6</a>, clean OO-design, object state-changes and reference semantics. This might be less “traditional R”, but seems to fit <code>mlr</code> nicely.</li>
 <li>Embrace <a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a> for fast and convenient data frame computations.</li>
 <li>Combine <code>data.table</code> and <code>R6</code>, for this we will make heavy use of list columns in data.tables.</li>
-<li>Once the API is fixed, both advanced techniques and implementations for different learners will be implemented in extra packages to reduce the maintenance burden.</li>
 <li>Be light on dependencies. <code>mlr3</code> requires the following packages:
 <ul>
 <li>
+<a href="https://cran.r-project.org/package=backports"><code>backports</code></a>: Ensures backward compatibility with older R releases. Developed by members of the <code>mlr</code> team. No recursive dependencies.</li>
+<li>
+<a href="https://cran.r-project.org/package=checkmate"><code>checkmate</code></a>: Fast argument checks. Developed by members of the <code>mlr</code> team. No extra recursive dependencies.</li>
+<li>
 <a href="https://github.com/mlr-org/mlr3misc"><code>mlr3misc</code></a> Miscellaneous functions used in multiple mlr3 <a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages">extension packages</a>. Developed by the <code>mlr</code> team. No extra recursive dependencies.</li>
+<li>
+<a href="https://github.com/mlr-org/paradox"><code>paradox</code></a>: Descriptions for parameters and parameter sets. Developed by the <code>mlr</code> team. No extra recursive dependencies.</li>
 <li>
 <a href="https://cran.r-project.org/package=R6"><code>R6</code></a>: Reference class objects. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=backports"><code>backports</code></a>: Ensures backward compatibility with older R releases. Developed by members of the <code>mlr</code> team. No recursive dependencies.</li>
-<li>
 <a href="https://cran.r-project.org/package=bit"><code>bit</code></a>: Efficient storage of logical vectors. No recursive dependencies.</li>
-<li>
-<a href="https://cran.r-project.org/package=checkmate"><code>checkmate</code></a>: Fast argument checks. Developed by members of the <code>mlr</code> team. No extra recursive dependencies.</li>
 <li>
 <a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a>: Extension of R’s <code>data.frame</code>. No recursive dependencies.</li>
 <li>
@@ -155,14 +156,12 @@
 <a href="https://github.com/daroczig/logger"><code>logger</code></a>: Logging facility. No recursive dependencies.</li>
 <li>
 <a href="https://cran.r-project.org/package=Metrics"><code>Metrics</code></a>: Package which implements performance measures. No recursive dependencies.</li>
-<li>
-<a href="https://github.com/mlr-org/paradox"><code>paradox</code></a> Descriptions for parameters and parameter sets. Developed by the <code>mlr</code> team. No extra recursive dependencies.</li>
 </ul>
 </li>
 <li>Additional functionality that comes with extra dependencies:
 <ul>
 <li>For parallelization, <code>mlr3</code> utilizes the <a href="https://cran.r-project.org/package=future"><code>future</code></a> and <a href="https://cran.r-project.org/package=future.apply"><code>future.apply</code></a> packages.</li>
-<li>To capture output for logging, <a href="https://cran.r-project.org/package=evaluate"><code>evaluate</code></a> is used to capture output of third party learners. Alternatively, <a href="https://cran.r-project.org/package=callr"><code>callr</code></a> starts a new R session to completely isolate the learner from the running session.</li>
+<li>To capture output, warnings and excepetions, <a href="https://cran.r-project.org/package=evaluate"><code>evaluate</code></a> and <a href="https://cran.r-project.org/package=callr"><code>callr</code></a> can be used.</li>
 </ul>
 </li>
 </ul>
@@ -189,12 +188,14 @@
 </li>
 </ul>
 </li>
+<li>Task <a href="https://mlr3.mlr-org.com/reference/Generator.html">Generators</a>
+</li>
 <li>Single step experiments via the <code>Experiment</code> class</li>
 <li>Resampling via <a href="https://mlr3.mlr-org.com/reference/resample.html"><code><a href="reference/resample.html">resample()</a></code></a>
 </li>
+<li>Stratification and blocking / grouping.</li>
 <li>Benchmarking via <a href="https://mlr3.mlr-org.com/reference/benchmark.html"><code><a href="reference/benchmark.html">benchmark()</a></code></a>
 </li>
-<li>Stratification.</li>
 <li>Parallelization via <a href="https://cran.r-project.org/package=future"><code>future</code></a>.</li>
 </ul>
 <p>The <a href="https://mlr3.mlr-org.com">webpage</a> provides, besides a short introduction, a <a href="https://mlr3.mlr-org.com/reference/">function reference</a>.</p>
