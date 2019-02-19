@@ -55,10 +55,10 @@ Each column (feature) can have an arbitrary number of roles in the learning task
 \item \code{"target"}: Labels to predict.
 \item \code{"feature"}: Regular feature.
 \item \code{"order"}: Data returned by \code{data()} is ordered by this column (or these columns).
-\item \code{"group"}: During resampling, observations with the same value of the variable with role "group"
+\item \code{"groups"}: During resampling, observations with the same value of the variable with role "groups"
 are marked as "belonging together". They will be exclusively assigned to be either in the training set
-or the test set for each resampling iteration.
-\item \code{"weights"}: Observation weights.
+or the test set for each resampling iteration. Only a single column may be marked as grouping column.
+\item \code{"weights"}: Observation weights. Only a single column may be marked as weights.
 \code{col_roles} keeps track of the roles with a named list of vectors of feature names.
 To alter the roles, use \code{t$set_col_role()}.
 }
@@ -78,9 +78,6 @@ and \code{type} is the storage type.
 \item \code{formula} :: \code{formula()}\cr
 Constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}, using
 the active features of the task.
-\item \code{group} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a table with columns \code{row_id} and \code{group} where \code{row_id} are the row ids and group is the value of the
-grouping variable. Returns \code{NULL} if there is no grouping.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 \item \code{id} :: \code{character(1)}\cr
@@ -97,6 +94,14 @@ Returns the row ids of the \link{DataBackend} for observations with with role "u
 Returns all column names with role "target".
 \item \code{task_type} :: \code{character(1)}\cr
 Stores the type of the \link{Task}.
+\item \code{groups} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+If the task has a designated column role "groups", table with two columns:
+"row_id" (\code{integer()} | \code{character()}) and the grouping variable \code{group} (\code{vector()}).
+Returns \code{NULL} if there are is no grouping column.
+\item \code{weights} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+If the task has a designated column role "weights", table with two columns:
+"row_id" (\code{integer()} | \code{character()}) and the observation weights \code{weight} (\code{numeric()}).
+Returns \code{NULL} if there are is no weight column.
 }
 }
 

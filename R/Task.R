@@ -35,10 +35,10 @@
 #'     - `"target"`: Labels to predict.
 #'     - `"feature"`: Regular feature.
 #'     - `"order"`: Data returned by `data()` is ordered by this column (or these columns).
-#'     - `"group"`: During resampling, observations with the same value of the variable with role "group"
+#'     - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
-#'          or the test set for each resampling iteration.
-#'     - `"weights"`: Observation weights.
+#'          or the test set for each resampling iteration. Only a single column may be marked as grouping column.
+#'     - `"weights"`: Observation weights. Only a single column may be marked as weights.
 #'   `col_roles` keeps track of the roles with a named list of vectors of feature names.
 #'   To alter the roles, use `t$set_col_role()`.
 #'
@@ -59,10 +59,6 @@
 #' * `formula` :: `formula()`\cr
 #'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
 #'   the active features of the task.
-#'
-#' * `group` :: [data.table::data.table()]\cr
-#'   Returns a table with columns `row_id` and `group` where `row_id` are the row ids and group is the value of the
-#'   grouping variable. Returns `NULL` if there is no grouping.
 #'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
@@ -88,6 +84,15 @@
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of the [Task].
 #'
+#' * `groups` :: [data.table::data.table()]\cr
+#'   If the task has a designated column role "groups", table with two columns:
+#'   "row_id" (`integer()` | `character()`) and the grouping variable `group` (`vector()`).
+#'   Returns `NULL` if there are is no grouping column.
+#'
+#' * `weights` :: [data.table::data.table()]\cr
+#'   If the task has a designated column role "weights", table with two columns:
+#'   "row_id" (`integer()` | `character()`) and the observation weights `weight` (`numeric()`).
+#'   Returns `NULL` if there are is no weight column.
 #'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, format = NULL)`\cr
@@ -255,35 +260,13 @@ Task = R6Class("Task",
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
-      rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
-      assert_subset(new_roles, mlr_reflections$task_row_roles)
-      assert_flag(exclusive)
-
-      for (role in new_roles)
-        self$row_roles[[role]] = union(self$row_roles[[role]], rows)
-
-      if (exclusive) {
-        for (role in setdiff(names(self$row_roles), new_roles))
-          self$row_roles[[role]] = setdiff(self$row_roles[[role]], rows)
-      }
-
+      task_set_row_role(self, rows, new_roles, exclusive)
       private$.hash = NA_character_
       invisible(self)
     },
 
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
-      assert_character(cols, any.missing = FALSE)
-      assert_subset(new_roles, mlr_reflections$task_col_roles[[self$task_type]])
-      assert_flag(exclusive)
-
-      for (role in new_roles)
-        self$col_roles[[role]] = union(self$col_roles[[role]], cols)
-
-      if (exclusive) {
-        for (role in setdiff(names(self$col_roles), new_roles))
-          self$col_roles[[role]] = setdiff(self$col_roles[[role]], cols)
-      }
-
+      task_set_col_role(self, cols, new_roles, exclusive)
       private$.hash = NA_character_
       invisible(self)
     }
@@ -325,11 +308,11 @@ Task = R6Class("Task",
       generate_formula(self$target_names, self$feature_names)
     },
 
-     group = function() {
-       group = self$col_roles$group
-       if (length(group) == 0L)
+     groups = function() {
+       groups = self$col_roles$groups
+       if (length(groups) == 0L)
          return(NULL)
-       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, group))
+       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, groups))
        setnames(data, names(data), c("row_id", "group"))[]
      },
 
@@ -337,7 +320,8 @@ Task = R6Class("Task",
        weights = self$col_roles$weights
        if (length(weights) == 0L)
          return(NULL)
-       setnames(self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights)), weights, "weights")
+       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights))
+       setnames(data, names(data), c("row_id", "weight"))[]
      }
   ),
 
@@ -346,7 +330,7 @@ Task = R6Class("Task",
 
     .calculate_hash = function() {
       hash(list(class(self), private$.id, self$backend$hash, self$row_roles,
-          self$col_roles, sort(hashes(self$measures))))
+          self$col_roles, self$properties, sort(hashes(self$measures))))
     },
 
     deep_clone = function(name, value) {
@@ -421,7 +405,9 @@ task_print = function(self) {
 
   if (length(self$col_roles$order))
     catf(str_indent("Order by:", self$col_roles$order))
-  if (length(self$col_roles$weights))
+  if ("groups" %in% self$properties)
+    catf(str_indent("Groups:", self$col_roles$groups))
+  if ("weights" %in% self$properties)
     catf(str_indent("Weights:", self$col_roles$weights))
 
   catf(str_indent("\nPublic:", str_r6_interface(self)))

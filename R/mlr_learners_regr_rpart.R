@@ -25,12 +25,14 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
             ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
           )
         ),
-        properties = c("missings", "importance", "selected_features")
+        properties = c("weights", "missings", "importance", "selected_features")
       )
     },
 
     train = function(task) {
       pars = self$params("train")
+      if ("weights" %in% task$properties)
+        pars = insert_named(pars, list(weights = task$weights$weight))
       self$model = invoke(rpart::rpart, formula = task$formula, data = task$data(), .args = pars)
       self
     },

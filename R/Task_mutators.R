@@ -1,3 +1,45 @@
+task_set_row_role = function(self, rows, new_roles, exclusive = TRUE) {
+  rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
+  assert_subset(new_roles, mlr_reflections$task_row_roles)
+  assert_flag(exclusive)
+
+  for (role in new_roles) {
+    self$row_roles[[role]] = union(self$row_roles[[role]], rows)
+  }
+
+  if (exclusive) {
+    for (role in setdiff(names(self$row_roles), new_roles))
+      self$row_roles[[role]] = setdiff(self$row_roles[[role]], rows)
+  }
+}
+
+task_set_col_role = function(self, cols, new_roles, exclusive = TRUE) {
+  assert_character(cols, any.missing = FALSE)
+  assert_subset(new_roles, mlr_reflections$task_col_roles[[self$task_type]])
+  assert_flag(exclusive)
+
+  for (role in new_roles) {
+    self$col_roles[[role]] = union(self$col_roles[[role]], cols)
+  }
+
+  if (exclusive) {
+    for (role in setdiff(names(self$col_roles), new_roles))
+      self$col_roles[[role]] = setdiff(self$col_roles[[role]], cols)
+  }
+
+  # update weights and groups property
+  for (role in c("weights", "groups")) {
+    n = length(self$col_roles[[role]])
+    if (n == 0L) {
+      self$properties = setdiff(self$properties, role)
+    } else if (n == 1L) {
+      self$properties = union(self$properties, role)
+    } else {
+      stopf("Multiple columns with role '%s' not supported", role)
+    }
+  }
+}
+
 check_new_row_ids = function(task, data, type) {
   pk = task$backend$primary_key
   row_ids = data[[pk]]

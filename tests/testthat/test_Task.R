@@ -33,7 +33,9 @@ test_that("Rows return ordered with multiple order cols", {
   x = task$data()
   expect_true(is.unsorted(x$Petal.Length))
 
-  task$col_roles$order = c("Petal.Length", "Petal.Width")
+  task$set_col_role("Petal.Length", "order", exclusive = FALSE)
+  task$set_col_role("Petal.Width", "order", exclusive = FALSE)
+  expect_equal(task$col_roles$order, c("Petal.Length", "Petal.Width"))
 
   x = task$data()
   expect_numeric(x$Petal.Length, sorted = TRUE, any.missing = FALSE)
@@ -128,21 +130,31 @@ test_that("select works", {
   expect_error(task$select(1:4), "character")
 })
 
-test_that("group/weights work", {
+test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
   task$set_row_role(16:20, character(0))
 
-  expect_null(task$group)
+  expect_null(task$groups)
   expect_null(task$weights)
 
   task$set_col_role("w", "weights")
+  expect_subset("weights", task$properties)
   expect_data_table(task$weights, ncol = 2, nrow = 15)
-  expect_numeric(task$weights$weights, any.missing = FALSE)
+  expect_numeric(task$weights$weight, any.missing = FALSE)
 
-  task$set_col_role("g", "group")
-  expect_data_table(task$group, ncol = 2, nrow = 15)
-  expect_subset(task$group$group, c("a", "b"))
+  task$set_col_role("w", "feature", exclusive = TRUE)
+  expect_true("weights" %nin% task$properties)
+
+  task$set_col_role("g", "groups")
+  expect_subset("groups", task$properties)
+  expect_data_table(task$groups, ncol = 2, nrow = 15)
+  expect_subset(task$groups$group, c("a", "b"))
+
+  task$set_col_role("g", "feature", exclusive = TRUE)
+  expect_true("groups" %nin% task$properties)
+
+  expect_error(task$set_col_role(c("w", "g"), "weights"), "Multiple columns with role")
 })
 
 test_that("ordered factors (#95)", {
