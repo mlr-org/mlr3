@@ -245,10 +245,10 @@ Each column (feature) can have an arbitrary number of roles in the learning task
 <li><p><code>"target"</code>: Labels to predict.</p></li>
 <li><p><code>"feature"</code>: Regular feature.</p></li>
 <li><p><code>"order"</code>: Data returned by <code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data()</a></code> is ordered by this column (or these columns).</p></li>
-<li><p><code>"group"</code>: During resampling, observations with the same value of the variable with role "group"
+<li><p><code>"groups"</code>: During resampling, observations with the same value of the variable with role "groups"
 are marked as "belonging together". They will be exclusively assigned to be either in the training set
-or the test set for each resampling iteration.</p></li>
-<li><p><code>"weights"</code>: Observation weights.
+or the test set for each resampling iteration. Only a single column may be marked as grouping column.</p></li>
+<li><p><code>"weights"</code>: Observation weights. Only a single column may be marked as weights.
 <code>col_roles</code> keeps track of the roles with a named list of vectors of feature names.
 To alter the roles, use <code>t$set_col_role()</code>.</p></li>
 </ul></li>
@@ -267,9 +267,6 @@ and <code>type</code> is the storage type.</p></li>
 <li><p><code>formula</code> :: <code><a href='https://www.rdocumentation.org/packages/stats/topics/formula'>formula()</a></code><br />
 Constructs a <a href='https://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>, using
 the active features of the task.</p></li>
-<li><p><code>group</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
-Returns a table with columns <code>row_id</code> and <code>group</code> where <code>row_id</code> are the row ids and group is the value of the
-grouping variable. Returns <code>NULL</code> if there is no grouping.</p></li>
 <li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Hash (unique identifier) for this object.</p></li>
 <li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
@@ -286,6 +283,14 @@ Returns the row ids of the <a href='DataBackend.html'>DataBackend</a> for observ
 Returns all column names with role "target".</p></li>
 <li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Stores the type of the <a href='Task.html'>Task</a>.</p></li>
+<li><p><code>groups</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+If the task has a designated column role "groups", table with two columns:
+"row_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) and the grouping variable <code>group</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector()</a></code>).
+Returns <code>NULL</code> if there are is no grouping column.</p></li>
+<li><p><code>weights</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+If the task has a designated column role "weights", table with two columns:
+"row_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) and the observation weights <code>weight</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric()</a></code>).
+Returns <code>NULL</code> if there are is no weight column.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
