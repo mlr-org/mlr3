@@ -153,6 +153,8 @@ test_that("groups/weights work", {
 
   task$set_col_role("g", "feature", exclusive = TRUE)
   expect_true("groups" %nin% task$properties)
+
+  expect_error(task$set_col_role(c("w", "g"), "weights"), "Multiple columns with role")
 })
 
 test_that("ordered factors (#95)", {

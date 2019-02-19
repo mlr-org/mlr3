@@ -260,43 +260,13 @@ Task = R6Class("Task",
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
-      rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
-      assert_subset(new_roles, mlr_reflections$task_row_roles)
-      assert_flag(exclusive)
-
-      for (role in new_roles)
-        self$row_roles[[role]] = union(self$row_roles[[role]], rows)
-
-      if (exclusive) {
-        for (role in setdiff(names(self$row_roles), new_roles))
-          self$row_roles[[role]] = setdiff(self$row_roles[[role]], rows)
-      }
-
+      task_set_row_role(self, rows, new_roles, exclusive)
       private$.hash = NA_character_
       invisible(self)
     },
 
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
-      assert_character(cols, any.missing = FALSE)
-      assert_subset(new_roles, mlr_reflections$task_col_roles[[self$task_type]])
-      assert_flag(exclusive)
-
-      for (role in new_roles)
-        self$col_roles[[role]] = union(self$col_roles[[role]], cols)
-
-      if (exclusive) {
-        for (role in setdiff(names(self$col_roles), new_roles))
-          self$col_roles[[role]] = setdiff(self$col_roles[[role]], cols)
-      }
-
-      update = function(property, predicate) {
-        p = self$properties
-        self$properties = if (predicate) union(p, property) else setdiff(p, property)
-      }
-
-      update("weights", length(self$col_roles$weights) > 0L)
-      update("groups", length(self$col_roles$groups) > 0L)
-
+      task_set_col_role(self, cols, new_roles, exclusive)
       private$.hash = NA_character_
       invisible(self)
     }
