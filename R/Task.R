@@ -35,7 +35,7 @@
 #'     - `"target"`: Labels to predict.
 #'     - `"feature"`: Regular feature.
 #'     - `"order"`: Data returned by `data()` is ordered by this column (or these columns).
-#'     - `"group"`: During resampling, observations with the same value of the variable with role "group"
+#'     - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
 #'          or the test set for each resampling iteration.
 #'     - `"weights"`: Observation weights.
@@ -59,10 +59,6 @@
 #' * `formula` :: `formula()`\cr
 #'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
 #'   the active features of the task.
-#'
-#' * `group` :: [data.table::data.table()]\cr
-#'   Returns a table with columns `row_id` and `group` where `row_id` are the row ids and group is the value of the
-#'   grouping variable. Returns `NULL` if there is no grouping.
 #'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
@@ -88,6 +84,15 @@
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of the [Task].
 #'
+#' * `groups` :: [data.table::data.table()]\cr
+#'   If the task has a designated column role "groups", table with two columns:
+#'   "row_id" (`integer()` | `character()`) and the grouping variable `group` (`vector()`).
+#'   Returns `NULL` if there are is no grouping column.
+#'
+#' * `weights` :: [data.table::data.table()]\cr
+#'   If the task has a designated column role "weights", table with two columns:
+#'   "row_id" (`integer()` | `character()`) and the observation weights `weight` (`numeric()`).
+#'   Returns `NULL` if there are is no weight column.
 #'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, format = NULL)`\cr
@@ -290,7 +295,7 @@ Task = R6Class("Task",
       }
 
       update("weights", length(self$col_roles$weights) > 0L)
-      update("group", length(self$col_roles$group) > 0L)
+      update("groups", length(self$col_roles$groups) > 0L)
 
       private$.hash = NA_character_
       invisible(self)
@@ -333,11 +338,11 @@ Task = R6Class("Task",
       generate_formula(self$target_names, self$feature_names)
     },
 
-     group = function() {
-       group = self$col_roles$group
-       if (length(group) == 0L)
+     groups = function() {
+       groups = self$col_roles$groups
+       if (length(groups) == 0L)
          return(NULL)
-       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, group))
+       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, groups))
        setnames(data, names(data), c("row_id", "group"))[]
      },
 
@@ -345,7 +350,8 @@ Task = R6Class("Task",
        weights = self$col_roles$weights
        if (length(weights) == 0L)
          return(NULL)
-       setnames(self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights)), weights, "weights")
+       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights))
+       setnames(data, names(data), c("row_id", "weight"))[]
      }
   ),
 
@@ -429,7 +435,9 @@ task_print = function(self) {
 
   if (length(self$col_roles$order))
     catf(str_indent("Order by:", self$col_roles$order))
-  if (length(self$col_roles$weights))
+  if ("groups" %in% self$properties)
+    catf(str_indent("Groups:", self$col_roles$groups))
+  if ("weights" %in% self$properties)
     catf(str_indent("Weights:", self$col_roles$weights))
 
   catf(str_indent("\nPublic:", str_r6_interface(self)))

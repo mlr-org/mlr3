@@ -78,9 +78,6 @@ and \code{type} is the storage type.
 \item \code{formula} :: \code{formula()}\cr
 Constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}, using
 the active features of the task.
-\item \code{group} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a table with columns \code{row_id} and \code{group} where \code{row_id} are the row ids and group is the value of the
-grouping variable. Returns \code{NULL} if there is no grouping.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 \item \code{id} :: \code{character(1)}\cr
@@ -97,6 +94,17 @@ Returns the row ids of the \link{DataBackend} for observations with with role "u
 Returns all column names with role "target".
 \item \code{task_type} :: \code{character(1)}\cr
 Stores the type of the \link{Task}.
+\item \code{weights} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+If the task has a designated column role "weights", table with two columns:
+"row_id" (\code{integer()} | \code{character()}) and the observation weights \code{weights} (\code{numeric()}).
+\item \code{group} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+If the task has a designated column role "group", table with two columns:
+"row_id" (\code{integer()} | \code{character()}) and the grouping variable \code{group} (\code{vector()}).
+Returns \code{NULL} if there are is no group column.
+\item \code{weights} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+If the task has a designated column role "weights", table with two columns:
+"row_id" (\code{integer()} | \code{character()}) and the observation weights \code{weights} (\code{numeric()}).
+Returns \code{NULL} if there are is no weight column.
 }
 }
 
