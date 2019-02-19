@@ -246,16 +246,16 @@ Converts to a flat <code>data.table()</code>.</p></li>
 #&gt; 
 #&gt; Public: aggregated(), clone(), combine(), data, get_best(), learners,
 #&gt;   measures, resample_result(), resample_results, resamplings, tasks</div><div class='input'><span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
-#&gt; 1: 118778cfb7b5918f    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash  learner_id                     learner
+#&gt; 1: f324533f785df121    iris &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash  learner_id                     learner
 #&gt; 1: a3aea4ed7bc571d2 featureless &lt;LearnerClassifFeatureless&gt;
 #&gt; 2: d64806633203a6d5       rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>resamplings</span></div><div class='output co'>#&gt;     resampling_hash resampling_id     resampling
 #&gt; 1: e740f22253d1c2ee            cv &lt;ResamplingCV&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>measures</span></div><div class='output co'>#&gt;        measure_hash   measure_id              measure
 #&gt; 1: c7a66ec863ba061f classif.mmce &lt;MeasureClassifMMCE&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='fu'>aggregated</span>(<span class='kw'>objects</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                hash resampling_id task_id  learner_id classif.mmce
-#&gt; 1: 78f08b3ec3175f45            cv    iris featureless   0.80666667
-#&gt; 2: 24cf82fe4fa281f5            cv    iris       rpart   0.07333333</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
+#&gt; 1: b2af1c2fa7b96f5a            cv    iris featureless   0.80666667
+#&gt; 2: fc8fc2239b01bbb3            cv    iris       rpart   0.07333333</div><div class='input'><span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id  learner_id resampling_id  N
-#&gt; 1: 78f08b3ec3175f45    iris featureless            cv 10
-#&gt; 2: 24cf82fe4fa281f5    iris       rpart            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
+#&gt; 1: b2af1c2fa7b96f5a    iris featureless            cv 10
+#&gt; 2: fc8fc2239b01bbb3    iris       rpart            cv 10</div><div class='input'><span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'featureless' with 10 iterations
 #&gt;       Measure   Min. 1st Qu. Median   Mean 3rd Qu.   Max.      Sd
 #&gt;  classif.mmce 0.7333     0.8    0.8 0.8067     0.8 0.9333 0.05837</div><div class='input'><span class='no'>rr</span>$<span class='fu'>experiment</span>(<span class='fl'>1</span>)$<span class='no'>model</span></div><div class='output co'>#&gt; $tab
