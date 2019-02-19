@@ -284,6 +284,14 @@ Task = R6Class("Task",
           self$col_roles[[role]] = setdiff(self$col_roles[[role]], cols)
       }
 
+      update = function(property, predicate) {
+        p = self$properties
+        self$properties = if (predicate) union(p, property) else setdiff(p, property)
+      }
+
+      update("weights", length(self$col_roles$weights) > 0L)
+      update("group", length(self$col_roles$group) > 0L)
+
       private$.hash = NA_character_
       invisible(self)
     }
@@ -346,7 +354,7 @@ Task = R6Class("Task",
 
     .calculate_hash = function() {
       hash(list(class(self), private$.id, self$backend$hash, self$row_roles,
-          self$col_roles, sort(hashes(self$measures))))
+          self$col_roles, self$properties, sort(hashes(self$measures))))
     },
 
     deep_clone = function(name, value) {

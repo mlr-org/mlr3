@@ -31,6 +31,8 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
 
     train = function(task) {
       pars = self$params("train")
+      if ("weights" %in% task$properties)
+        pars = insert_named(pars, list(weights = task$weights$weights))
       self$model = invoke(rpart::rpart, formula = task$formula, data = task$data(), .args = pars)
       self
     },

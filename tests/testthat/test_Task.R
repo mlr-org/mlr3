@@ -33,7 +33,9 @@ test_that("Rows return ordered with multiple order cols", {
   x = task$data()
   expect_true(is.unsorted(x$Petal.Length))
 
-  task$col_roles$order = c("Petal.Length", "Petal.Width")
+  task$set_col_role("Petal.Length", "order", exclusive = FALSE)
+  task$set_col_role("Petal.Width", "order", exclusive = FALSE)
+  expect_equal(task$col_roles$order, c("Petal.Length", "Petal.Width"))
 
   x = task$data()
   expect_numeric(x$Petal.Length, sorted = TRUE, any.missing = FALSE)
@@ -137,12 +139,20 @@ test_that("group/weights work", {
   expect_null(task$weights)
 
   task$set_col_role("w", "weights")
+  expect_subset("weights", task$properties)
   expect_data_table(task$weights, ncol = 2, nrow = 15)
   expect_numeric(task$weights$weights, any.missing = FALSE)
 
+  task$set_col_role("w", "feature", exclusive = TRUE)
+  expect_true("weights" %nin% task$properties)
+
   task$set_col_role("g", "group")
+  expect_subset("group", task$properties)
   expect_data_table(task$group, ncol = 2, nrow = 15)
   expect_subset(task$group$group, c("a", "b"))
+
+  task$set_col_role("g", "feature", exclusive = TRUE)
+  expect_true("group" %nin% task$properties)
 })
 
 test_that("ordered factors (#95)", {
