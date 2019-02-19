@@ -143,7 +143,8 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     errors = function() {
-      map_lgl(self$data$train_log, function(x) x$has_condition("error"))
+      has_error = function(log) !is.null(log) && log[get("class") == "error", .N] > 0L
+      map_lgl(self$data$train_log, has_error)
     }
   ),
 

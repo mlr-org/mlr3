@@ -16,9 +16,11 @@ test_that("encapsulate", {
     log = res$log
     expect_identical(res$result, 99L)
     expect_number(res$elapsed, lower = 0)
+    expect_data_table(log)
+    expect_set_equal(as.character(log$class), c("output", "warning"))
+    expect_true(log[class == "warning", grepl("\n", msg, fixed = TRUE)])
+    log = Log$new(log)
     expect_log(log)
-    expect_set_equal(as.character(log$log$class), c("output", "warning"))
-    expect_true(log$log[class == "warning", grepl("\n", msg, fixed = TRUE)])
     expect_true(log$has_condition("warning"))
     expect_true(log$has_condition("output"))
     expect_false(log$has_condition("error"))
@@ -27,6 +29,8 @@ test_that("encapsulate", {
     log = res$log
     expect_identical(res$result, 1L)
     expect_number(res$elapsed, lower = 0)
+    expect_null(log)
+    log = Log$new(log)
     expect_log(log)
     expect_data_table(log$log, ncol = 2L, nrow = 0L)
   }
@@ -46,13 +50,13 @@ test_that("evaluate / experiment", {
   e = Experiment$new(task = task, learner = learner)
 
   expect_message(expect_warning(e$train(row_ids, disabled)))
-  log = e$data$train_log
+  log = e$log()
   expect_output(print(log), "Empty <Log>")
   expect_is(log, "Log")
   expect_true(is_empty_log(log))
 
   expect_silent(e$train(row_ids, enabled))
-  log = e$data$train_log
+  log = e$log()
   expect_is(log, "Log")
   expect_output(print(log), "<Log> with 2")
   expect_data_table(log$log, nrow = 2L, ncol = 2L, any.missing = FALSE)
@@ -64,12 +68,12 @@ test_that("evaluate / experiment", {
   expect_false(log$has_condition("error"))
 
   expect_message(expect_warning(e$predict(row_ids = 101:150, ctrl = disabled)))
-  log = e$data$predict_log
+  log = e$log("predict")
   expect_is(log, "Log")
   expect_true(is_empty_log(log))
 
   e$predict(row_ids = 101:150, ctrl = enabled)
-  log = e$data$predict_log
+  log = e$log("predict")
   expect_is(log, "Log")
   expect_data_table(log$log, nrow = 2L, ncol = 2L, any.missing = FALSE)
   expect_character(log$log$class)

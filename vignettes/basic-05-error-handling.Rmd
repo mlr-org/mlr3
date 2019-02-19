@@ -65,9 +65,9 @@ ctrl = mlr_control(encapsulate_train = "evaluate")
 e = Experiment$new(task, learner, ctrl = ctrl)
 e$train()
 e$has_errors # any errors recorded?
-e$logs$train # print train log
-e$logs$train$warnings # get all the warnings
-e$logs$train$errors # get all the errors
+e$log("train") # print train log
+e$log("train")$warnings # get all the warnings
+e$log("train")$errors # get all the errors
 ```
 You can also enable the encapsulation for the *predict* step of an experiment by setting `encapsulate_predict`.
 
@@ -79,7 +79,7 @@ ctrl = mlr_control(encapsulate_train = "callr")
 e = Experiment$new(task, learner)
 e$train(ctrl = ctrl)
 e$has_errors
-e$logs$train
+e$log("train")
 ```
 
 ```{r}
@@ -90,7 +90,7 @@ learner$param_set$values = list(segfault_train = TRUE)
 e = Experiment$new(task, learner)
 e$train(ctrl = ctrl)
 e$has_errors
-e$logs$train$errors
+e$log("train")$errors
 ```
 
 Note that, although no exception has been raised with encapsulation, it is impossible to perform the predict step without a model:
@@ -116,7 +116,7 @@ ctrl = mlr_control(encapsulate_train = "evaluate")
 e = Experiment$new(task = task, learner = learner, ctrl = ctrl)
 e$train()
 e$has_errors
-e$logs$train
+e$log("train")
 
 e$predict()
 e$score()

@@ -12,8 +12,8 @@
 #' ```
 #'
 #' * `log` :: [data.table::data.table()]\cr
-#'   Table with columns "class" (allowed values are "output", "warning", and "error")
-#'   and "message".
+#'   Table with columns "class" (allowed values are "output", "warning", and "error"),
+#'   and "msg" (`character()`).
 #'
 #' @section Fields:
 #' * `warnings` :: `character(1)`\cr
@@ -35,15 +35,21 @@
 #' learner$fallback = mlr_learners$get("classif.featureless")
 #' e = Experiment$new(task, learner)
 #' e$train(ctrl = list(encapsulate_train = "evaluate"))
-#' l = e$logs$train
+#' l = e$log()
 #'
 #' l$has_condition("error")
 #' print(l)
 Log = R6Class("Log", cloneable = FALSE,
   public = list(
     log = NULL,
-    initialize = function(log) {
-      self$log = assert_data_table(log, ncol = 2L)
+    initialize = function(log = NULL) {
+      if (is.null(log)) {
+        log = data.table(class = character(), msg = character())
+      } else {
+        assert_data_table(log)
+        assert_names(names(log), permutation.of = c("class", "msg"))
+      }
+      self$log = log
     },
 
     format = function() {

@@ -39,10 +39,10 @@
 #'     If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()]), a [ResamplingCustom] object is stored.
 #'   * `task` :: [Task]\cr
 #'     A clone of the [Task] provided during construction.
-#'   * `train_log` :: [Log]
-#'     : Log for the training step.
-#'   * `predict_log` :: [Log]\cr
-#'     Log of the predict step.
+#'   * `train_log` :: [data.table::data.table()]\cr
+#'     Log for the training step.
+#'   * `predict_log` :: [data.table::data.table()]\cr
+#'     Log for the predict step.
 #'   * `train_time` :: `numeric(1)`\cr
 #'     Elapsed time during train in seconds.
 #'   * `predict_time` :: `numeric(1)`\cr
@@ -71,9 +71,6 @@
 #' * `learner` :: [Learner]\cr
 #'   Access the stored [Learner].
 #'
-#' * `logs` :: named `list()`\cr
-#'   Access to the stored [Log] objects.
-#'
 #' * `model` :: `any`\cr
 #'   Access the trained model of the [Learner].
 #'
@@ -98,7 +95,7 @@
 #'   The row ids of the validation set of the [Task].
 #'
 #' @section Methods:
-#' * `train(row_ids = NULL, ctrl = list())` \cr
+#' * `train(row_ids = NULL, ctrl = list())`\cr
 #'   (`integer()` | `character()`, `list()`) -> `self`\cr
 #'   Fits the induced [Learner] on the `row_ids` of the [Task] and stores the model inside the [Learner] object.
 #'   The model can be accessed via `$model`.
@@ -113,10 +110,14 @@
 #'   The resulting predictions are stored internally as an [Prediction] object and can be
 #'   accessed via `$prediction`.
 #'
-#' * `score(ctrl = list())` \cr
+#' * `score(ctrl = list())`\cr
 #'   `list()` -> `self`\cr
 #'   Quantifies stored predictions using the [Measure] defined in the [Task].
 #'   The performance is stored internally and can be accessed via `$performance`.
+#'
+#' * `log(steps = c("train", "predict"))`\cr
+#'   `character(1)` -> [Log]\cr
+#'   Returns a [Log] for specified steps.
 #'
 #' @export
 #' @examples
@@ -187,6 +188,14 @@ Experiment = R6Class("Experiment",
         stopf("Experiment needs predictions before score()")
       experiment_score(self, ctrl = ctrl)
       invisible(self)
+    },
+
+    log = function(steps = c("train", "predict")) {
+      steps = assert_sorted_subset(steps, c("train", "predict"), empty.ok = FALSE)
+      parts = discard(self$data[sprintf("%s_log", steps)], is.null)
+      if (length(parts) == 0L)
+        return(Log$new())
+      Log$new(rbindlist(parts))
     }
   ),
 
@@ -211,10 +220,6 @@ Experiment = R6Class("Experiment",
     timings = function() {
       t = map_dbl(self$data[c("train_time", "predict_time", "score_time")], function(x) x %??% NA_real_)
       set_names(t, c("train", "predict", "score"))
-    },
-
-    logs = function() {
-      list(train = self$data$train_log, predict = self$data$predict_log)
     },
 
     train_set = function() {
@@ -246,11 +251,7 @@ Experiment = R6Class("Experiment",
     },
 
     has_errors = function() {
-      train_log = self$data$train_log
-      predict_log = self$data$predict_log
-
-      (!is.null(train_log) && train_log$has_condition("error")) ||
-      (!is.null(predict_log) && predict_log$has_condition("error"))
+      self$log()$has_condition("error")
     },
 
     state = function() {
