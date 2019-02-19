@@ -28,7 +28,7 @@ skim.factor = function(x) {
 }
 
 skim.data.frame = function(x) {
-  groups = lapply(x, class)
+  groups = map_chr(x, class)
   res = named_list(unique(groups))
   for (grp in names(res)) {
     res[[grp]] = rbindlist(
