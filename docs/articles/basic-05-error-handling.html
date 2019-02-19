@@ -187,8 +187,8 @@
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb3-11" data-line-number="11">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>) <span class="co"># print train log</span></a>
 <a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; &lt;Log&gt; with 2 messages:</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; 1: [warning] Warning from classif.debug-&gt;train()</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; 2: [error] Error from classif.debug-&gt;train()</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; [WRN] train: Warning from classif.debug-&gt;train()</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; [ERR] train: Error from classif.debug-&gt;train()</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>)<span class="op">$</span>warnings <span class="co"># get all the warnings</span></a>
 <a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; [1] "Warning from classif.debug-&gt;train()"</span></a>
 <a class="sourceLine" id="cb3-17" data-line-number="17">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>)<span class="op">$</span>errors <span class="co"># get all the errors</span></a>
@@ -203,8 +203,8 @@
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>)</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; &lt;Log&gt; with 2 messages:</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 1: [warning] Warning from classif.debug-&gt;train()</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 2: [error] Error from classif.debug-&gt;train()</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; [WRN] train: Warning from classif.debug-&gt;train()</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; [ERR] train: Error from classif.debug-&gt;train()</span></a></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">ctrl =<span class="st"> </span><span class="kw"><a href="../reference/mlr_control.html">mlr_control</a></span>(<span class="dt">encapsulate_train =</span> <span class="st">"callr"</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"spam"</span>)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.debug"</span>)</a>
@@ -239,7 +239,7 @@
 <a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb7-12" data-line-number="12">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>)</a>
 <a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; &lt;Log&gt; with 1 message:</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 1: [error] Error from classif.debug-&gt;train()</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; [ERR] train: Error from classif.debug-&gt;train()</span></a>
 <a class="sourceLine" id="cb7-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb7-16" data-line-number="16">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>()</a>
 <a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; INFO [mlr3] Predicting with model of learner 'debug' on task 'spam' ...</span></a>
