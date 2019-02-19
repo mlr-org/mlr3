@@ -37,8 +37,8 @@
 #'     - `"order"`: Data returned by `data()` is ordered by this column (or these columns).
 #'     - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
-#'          or the test set for each resampling iteration.
-#'     - `"weights"`: Observation weights.
+#'          or the test set for each resampling iteration. Only a single column may be marked as grouping column.
+#'     - `"weights"`: Observation weights. Only a single column may be marked as weights.
 #'   `col_roles` keeps track of the roles with a named list of vectors of feature names.
 #'   To alter the roles, use `t$set_col_role()`.
 #'
