@@ -12,8 +12,9 @@
 #' ```
 #'
 #' * `log` :: [data.table::data.table()]\cr
-#'   Table with columns "class" (allowed values are "output", "warning", and "error"),
+#'   Table with at least the columns "class" (allowed values are "output", "warning", and "error")
 #'   and "msg" (`character()`).
+#'   A third column "context" is optional, and currently only used for printing.
 #'
 #' @section Fields:
 #' * `warnings` :: `character(1)`\cr
@@ -37,8 +38,8 @@
 #' e$train(ctrl = list(encapsulate_train = "evaluate"))
 #' l = e$log()
 #'
-#' l$has_condition("error")
 #' print(l)
+#' l$has_condition("error")
 Log = R6Class("Log", cloneable = FALSE,
   public = list(
     log = NULL,
@@ -47,7 +48,7 @@ Log = R6Class("Log", cloneable = FALSE,
         log = data.table(class = character(), msg = character())
       } else {
         assert_data_table(log)
-        assert_names(names(log), permutation.of = c("class", "msg"))
+        assert_names(names(log), must.include = c("class", "msg"))
       }
       self$log = log
     },
@@ -57,13 +58,7 @@ Log = R6Class("Log", cloneable = FALSE,
     },
 
     print = function() {
-      n = nrow(self$log)
-      if (n == 0L) {
-        catf("Empty <Log>")
-      } else {
-        catf("%s with %i message%s:", format(self), n, if (n == 1L) "" else "s")
-        catf(strwrap(sprintf("%i: [%s] %s", seq_len(n), self$log$class, self$log$msg), exdent = nchar(n) + 2L))
-      }
+      log_print(self)
     },
 
     has_condition = function(cl) {
@@ -89,3 +84,19 @@ Log = R6Class("Log", cloneable = FALSE,
     }
   )
 )
+
+log_print = function(self) {
+  n = nrow(self$log)
+  if (n == 0L) {
+    catf("Empty <Log>")
+  } else {
+    trans = c(output = "OUT", warning = "WRN", error = "ERR")
+    catf("%s with %i message%s:", format(self), n, if (n == 1L) "" else "s")
+
+    if (is.null(self$log$context)) {
+      catf(strwrap(sprintf("[%s]: %s", trans[self$log$class], self$log$msg), exdent = nchar(n) + 2L))
+    } else {
+      catf(strwrap(sprintf("[%s] %s: %s", trans[self$log$class], self$log$context, self$log$msg), exdent = nchar(n) + 2L))
+    }
+  }
+}

@@ -28,8 +28,11 @@ Output is not stored, just send to the console.
 \item If set to \code{"callr"}, the code is executed in an independent R session. This guards your session from segfaults,
 at the cost of some computational overhead. Logs are also stored in the \link{Experiment}.
 }
+
+See \link{Log} for an example.
 \item \code{encapsulate_predict}: How to call external code in third party packages during predict.
 Same format as \code{encapsulate_train}.
+See \link{Log} for an example.
 }
 }
 \examples{

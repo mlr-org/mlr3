@@ -57,6 +57,7 @@ Imports:
     R6
 Suggests:
     callr,
+    crayon,
     datasets,
     devtools,
     evaluate,
