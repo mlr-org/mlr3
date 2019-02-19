@@ -185,13 +185,13 @@
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; INFO [mlr3] Training learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9">e<span class="op">$</span>has_errors <span class="co"># any errors recorded?</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [1] TRUE</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">e<span class="op">$</span>logs<span class="op">$</span>train <span class="co"># print train log</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>) <span class="co"># print train log</span></a>
 <a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; &lt;Log&gt; with 2 messages:</span></a>
 <a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; 1: [warning] Warning from classif.debug-&gt;train()</span></a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; 2: [error] Error from classif.debug-&gt;train()</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15">e<span class="op">$</span>logs<span class="op">$</span>train<span class="op">$</span>warnings <span class="co"># get all the warnings</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>)<span class="op">$</span>warnings <span class="co"># get all the warnings</span></a>
 <a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; [1] "Warning from classif.debug-&gt;train()"</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17">e<span class="op">$</span>logs<span class="op">$</span>train<span class="op">$</span>errors <span class="co"># get all the errors</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>)<span class="op">$</span>errors <span class="co"># get all the errors</span></a>
 <a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; [1] "Error from classif.debug-&gt;train()"</span></a></code></pre></div>
 <p>You can also enable the encapsulation for the <em>predict</em> step of an experiment by setting <code>encapsulate_predict</code>.</p>
 <p>Another possibility to encapsulate is execution via package the <a href="https://cran.r-project.org/package=callr"><code>callr</code></a>. <a href="https://cran.r-project.org/package=callr"><code>callr</code></a> spawns a new R process, and thus guards us from segfaults. On the downside, starting new processes comes with a computational overhead.</p>
@@ -201,7 +201,7 @@
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; INFO [mlr3] Training learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] TRUE</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">e<span class="op">$</span>logs<span class="op">$</span>train</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>)</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; &lt;Log&gt; with 2 messages:</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 1: [warning] Warning from classif.debug-&gt;train()</span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 2: [error] Error from classif.debug-&gt;train()</span></a></code></pre></div>
@@ -214,7 +214,7 @@
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; INFO [mlr3] Training learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; [1] TRUE</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">e<span class="op">$</span>logs<span class="op">$</span>train<span class="op">$</span>errors</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>)<span class="op">$</span>errors</a>
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [1] "callr exited with status -11"</span></a></code></pre></div>
 <p>Note that, although no exception has been raised with encapsulation, it is impossible to perform the predict step without a model:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>()</a>
@@ -237,7 +237,7 @@
 <a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; INFO [mlr3] Training learner 'debug' on task 'spam' ...</span></a>
 <a class="sourceLine" id="cb7-10" data-line-number="10">e<span class="op">$</span>has_errors</a>
 <a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; [1] TRUE</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12">e<span class="op">$</span>logs<span class="op">$</span>train</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">e<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(<span class="st">"train"</span>)</a>
 <a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; &lt;Log&gt; with 1 message:</span></a>
 <a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 1: [error] Error from classif.debug-&gt;train()</span></a>
 <a class="sourceLine" id="cb7-15" data-line-number="15"></a>

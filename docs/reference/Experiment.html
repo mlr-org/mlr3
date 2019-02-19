@@ -194,10 +194,10 @@ Is <code>NULL</code> prior to calling <code>$train()</code>.
 If the experiment is constructed manually (i.e., not via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>), a <a href='mlr_resamplings_custom.html'>ResamplingCustom</a> object is stored.</p></li>
 <li><p><code>task</code> :: <a href='Task.html'>Task</a><br />
 A clone of the <a href='Task.html'>Task</a> provided during construction.</p></li>
-<li><p><code>train_log</code> :: <a href='Log.html'>Log</a>
-: Log for the training step.</p></li>
-<li><p><code>predict_log</code> :: <a href='Log.html'>Log</a><br />
-Log of the predict step.</p></li>
+<li><p><code>train_log</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Log for the training step.</p></li>
+<li><p><code>predict_log</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Log for the predict step.</p></li>
 <li><p><code>train_time</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code><br />
 Elapsed time during train in seconds.</p></li>
 <li><p><code>predict_time</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code><br />
@@ -219,8 +219,6 @@ The row ids of the training set for <code>$train()</code>.</p></li>
 The row ids of the test set for <code>$predict()</code></p></li>
 <li><p><code>learner</code> :: <a href='Learner.html'>Learner</a><br />
 Access the stored <a href='Learner.html'>Learner</a>.</p></li>
-<li><p><code>logs</code> :: named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
-Access to the stored <a href='Log.html'>Log</a> objects.</p></li>
 <li><p><code>model</code> :: <code>any</code><br />
 Access the trained model of the <a href='Learner.html'>Learner</a>.</p></li>
 <li><p><code>performance</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric()</a></code><br />
@@ -243,7 +241,7 @@ The row ids of the validation set of the <a href='Task.html'>Task</a>.</p></li>
 
     
     <ul>
-<li><p><code>train(row_ids = NULL, ctrl = list())</code> <br />
+<li><p><code>train(row_ids = NULL, ctrl = list())</code><br />
 (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>) -&gt; <code>self</code><br />
 Fits the induced <a href='Learner.html'>Learner</a> on the <code>row_ids</code> of the <a href='Task.html'>Task</a> and stores the model inside the <a href='Learner.html'>Learner</a> object.
 The model can be accessed via <code>$model</code>.</p></li>
@@ -256,10 +254,13 @@ Note that predicting on new data fuses the new observations into the <a href='Ta
 mutates the Experiment. To avoid any side effects, it is advised to clone the experiment first.
 The resulting predictions are stored internally as an <a href='Prediction.html'>Prediction</a> object and can be
 accessed via <code>$prediction</code>.</p></li>
-<li><p><code>score(ctrl = list())</code> <br />
+<li><p><code>score(ctrl = list())</code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code> -&gt; <code>self</code><br />
 Quantifies stored predictions using the <a href='Measure.html'>Measure</a> defined in the <a href='Task.html'>Task</a>.
 The performance is stored internally and can be accessed via <code>$performance</code>.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log(steps = c("train", "predict"))</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> -&gt; <a href='Log.html'>Log</a><br />
+Returns a <a href='Log.html'>Log</a> for specified steps.</p></li>
 </ul>
     
 
@@ -275,7 +276,7 @@ The performance is stored internally and can be accessed via <code>$performance<
 #&gt;  - Predictions: [missing]
 #&gt;  - Performance: [missing]
 #&gt; 
-#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
+#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, log(), model,
 #&gt;   performance, predict(), prediction, score(), seeds, state, task,
 #&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'>
@@ -286,7 +287,7 @@ The performance is stored internally and can be accessed via <code>$performance<
 #&gt;  - Predictions: [missing]
 #&gt;  - Performance: [missing]
 #&gt; 
-#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
+#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, log(), model,
 #&gt;   performance, predict(), prediction, score(), seeds, state, task,
 #&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] trained
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>model</span></div><div class='output co'>#&gt; n= 120 
@@ -306,7 +307,7 @@ The performance is stored internally and can be accessed via <code>$performance<
 #&gt;  + Predictions: [PredictionClassif]
 #&gt;  - Performance: [missing]
 #&gt; 
-#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
+#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, log(), model,
 #&gt;   performance, predict(), prediction, score(), seeds, state, task,
 #&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] predicted
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>prediction</span></div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 30 observations:
@@ -325,7 +326,7 @@ The performance is stored internally and can be accessed via <code>$performance<
 #&gt;  + Predictions: [PredictionClassif]
 #&gt;  + Performance: classif.mmce=0.1666667
 #&gt; 
-#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, logs, model,
+#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, log(), model,
 #&gt;   performance, predict(), prediction, score(), seeds, state, task,
 #&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] scored
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'><span class='no'>e</span>$<span class='no'>performance</span></div><div class='output co'>#&gt; classif.mmce 
