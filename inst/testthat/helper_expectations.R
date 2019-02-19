@@ -326,13 +326,13 @@ expect_experiment = function(e) {
   if (state >= "trained") {
     checkmate::expect_class(e$data$resampling, "Resampling")
     checkmate::expect_int(e$data$iteration, lower = 1L)
-    checkmate::expect_class(e$data$train_log, "Log")
+    checkmate::expect_data_table(e$data$train_log, null.ok = TRUE)
     checkmate::expect_number(e$data$train_time)
     # testthat::expect_false(is.null(e$data$model)) # may be null, depending on options
   }
 
   if (state >= "predicted") {
-    checkmate::expect_class(e$data$predict_log, "Log")
+    checkmate::expect_data_table(e$data$predict_log, null.ok = TRUE)
     checkmate::expect_number(e$data$predict_time)
     checkmate::expect_class(e$data$prediction, "Prediction")
     if (e$task$task_type %in% c("classif", "regr"))

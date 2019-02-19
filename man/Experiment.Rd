@@ -43,10 +43,10 @@ Is \code{NULL} prior to calling \code{$train()}.
 If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}), a \link{ResamplingCustom} object is stored.
 \item \code{task} :: \link{Task}\cr
 A clone of the \link{Task} provided during construction.
-\item \code{train_log} :: \link{Log}
-: Log for the training step.
-\item \code{predict_log} :: \link{Log}\cr
-Log of the predict step.
+\item \code{train_log} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Log for the training step.
+\item \code{predict_log} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Log for the predict step.
 \item \code{train_time} :: \code{numeric(1)}\cr
 Elapsed time during train in seconds.
 \item \code{predict_time} :: \code{numeric(1)}\cr
@@ -68,8 +68,6 @@ The row ids of the training set for \code{$train()}.
 The row ids of the test set for \code{$predict()}
 \item \code{learner} :: \link{Learner}\cr
 Access the stored \link{Learner}.
-\item \code{logs} :: named \code{list()}\cr
-Access to the stored \link{Log} objects.
 \item \code{model} :: \code{any}\cr
 Access the trained model of the \link{Learner}.
 \item \code{performance} :: \code{numeric()}\cr
@@ -92,7 +90,7 @@ The row ids of the validation set of the \link{Task}.
 \section{Methods}{
 
 \itemize{
-\item \code{train(row_ids = NULL, ctrl = list())} \cr
+\item \code{train(row_ids = NULL, ctrl = list())}\cr
 (\code{integer()} | \code{character()}, \code{list()}) -> \code{self}\cr
 Fits the induced \link{Learner} on the \code{row_ids} of the \link{Task} and stores the model inside the \link{Learner} object.
 The model can be accessed via \code{$model}.
@@ -105,10 +103,13 @@ Note that predicting on new data fuses the new observations into the \link{Task}
 mutates the Experiment. To avoid any side effects, it is advised to clone the experiment first.
 The resulting predictions are stored internally as an \link{Prediction} object and can be
 accessed via \code{$prediction}.
-\item \code{score(ctrl = list())} \cr
+\item \code{score(ctrl = list())}\cr
 \code{list()} -> \code{self}\cr
 Quantifies stored predictions using the \link{Measure} defined in the \link{Task}.
 The performance is stored internally and can be accessed via \code{$performance}.
+\item \code{log(steps = c("train", "predict"))}\cr
+\code{character(1)} -> \link{Log}\cr
+Returns a \link{Log} for specified steps.
 }
 }
 

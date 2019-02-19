@@ -36,10 +36,13 @@ train_worker = function(e, ctrl) {
 
   # Raise the exception if we have no encapsulation enabled
   # Restore the learner to the untrained learner otherwise
-  if (res$train_log$has_condition("error")) {
-    if (ctrl$encapsulate_train == "none")
-      stopf(paste(res$train_log$errors, sep = "\n"))
-    res$learner = data$learner$clone(deep = TRUE)
+  if (!is.null(res$train_log)) {
+    errors = res$train_log[get("class") == "error", get("msg")]
+    if (length(errors) > 0L) {
+      if (ctrl$encapsulate_train == "none")
+        stopf(paste(errors, sep = "\n"))
+      res$learner = data$learner$clone(deep = TRUE)
+    }
   }
 
   # if there is a fallback learner defined, also fit fallback learner
@@ -96,7 +99,7 @@ predict_worker = function(e, ctrl) {
   res = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = e$seeds[["predict"]]),
     c("prediction", "predict_log", "predict_time"))
 
-  if (res$predict_log$has_condition("error")) {
+  if (!is.null(res$predict_log) && res$predict_log[get("class") == "error", .N] > 0L) {
     fb = learner$fallback
     if (!is.null(fb)) {
       log_debug("predict_worker: Predicting fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")

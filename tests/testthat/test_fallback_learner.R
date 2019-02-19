@@ -62,7 +62,7 @@ test_that("fallback_learner; fail during predict", {
   expect_true(inherits(e$model, "unittest"))
   expect_true(inherits(e$data$learner$model, "unittest"))
   expect_true(inherits(e$data$learner$fallback$model, "featureless"))
-  expect_true(e$logs$predict$has_condition("error"))
+  expect_true(e$log("predict")$has_condition("error"))
   expect_true(uniqueN(e$prediction$response) > 1L)
 
   e$score()

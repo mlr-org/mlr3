@@ -12,8 +12,11 @@
 #'     - If set to `"evaluate"`, the exceptions are caught using [evaluate::evaluate()], and output is stored in a [Log] of the corresponding [Experiment].
 #'     - If set to `"callr"`, the code is executed in an independent R session. This guards your session from segfaults,
 #'       at the cost of some computational overhead. Logs are also stored in the [Experiment].
+#'
+#'   See [Log] for an example.
 #' * `encapsulate_predict`: How to call external code in third party packages during predict.
 #'   Same format as `encapsulate_train`.
+#'   See [Log] for an example.
 #'
 #' @param ... Named arguments to overwrite the defaults / options.
 #'

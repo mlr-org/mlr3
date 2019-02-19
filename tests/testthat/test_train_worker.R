@@ -32,7 +32,7 @@ test_that("Handling of training errors", {
   res = train_worker(e$clone(), mlr_control())
   expect_list(res, len = 3)
   expect_learner(res$learner)
-  expect_log(res$train_log)
+  expect_data_table(res$train_log, null.ok = TRUE)
   expect_number(res$train_time, lower = 0)
 
   LearnerTest$set("public", "train", function(task) self, overwrite = TRUE)
@@ -44,5 +44,5 @@ test_that("Handling of training errors", {
   expect_error(train_worker(e, mlr_control()), "store a model")
 
   res = train_worker(e, mlr_control(encapsulate_train = "evaluate"))
-  expect_string(res$train_log$errors, fixed = "store a model")
+  expect_string(Log$new(res$train_log)$errors, fixed = "store a model")
 })

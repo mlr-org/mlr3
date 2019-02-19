@@ -17,8 +17,7 @@ encapsulate_dummy = function(fun, args = list(), pkgs = character(0L), seed = NA
   now = proc.time()[[3L]]
   result = invoke(fun, .args = args)
   elapsed = proc.time()[[3L]] - now
-  log = setDT(list(class = character(), msg = character()))
-  list(result = result, log = Log$new(log), elapsed = elapsed)
+  list(result = result, log = NULL, elapsed = elapsed)
 }
 
 
@@ -37,7 +36,7 @@ encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L), seed =
     }
 
     log = map_dtr(log[-1L], extract)
-    if (ncol(log) == 0L) data.table(class = character(), msg = character()) else log
+    if (ncol(log) == 0L) NULL else log
   }
 
   require_namespaces(c("evaluate", pkgs))
@@ -56,11 +55,7 @@ encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L), seed =
   )
   elapsed = proc.time()[[3L]] - now
   log = parse_evaluate(log)
-  list(
-    result = result,
-    log = Log$new(log),
-    elapsed = elapsed
-  )
+  list(result = result, log = log, elapsed = elapsed)
 }
 
 encapsulate_callr = function(fun, args = list(), pkgs = character(0L), seed = NA_integer_) {
@@ -118,8 +113,8 @@ encapsulate_callr = function(fun, args = list(), pkgs = character(0L), seed = NA
     log[startsWith(get("msg"), "[WRN] "), c("class", "msg") := list("warning", parse_line(msg))]
     log[startsWith(get("msg"), "[ERR] "), c("class", "msg") := list("error", parse_line(msg))]
   } else {
-    log = data.table(class = character(0L), msg = character(0L))
+    log = NULL
   }
 
-  list(result = result, log = Log$new(log), elapsed = elapsed)
+  list(result = result, log = log, elapsed = elapsed)
 }

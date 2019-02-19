@@ -13,8 +13,9 @@ Object which stores the text output of the \code{train} or \code{predict} step o
 }
 \itemize{
 \item \code{log} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with columns "class" (allowed values are "output", "warning", and "error")
-and "message".
+Table with at least the columns "class" (allowed values are "output", "warning", and "error")
+and "msg" (\code{character()}).
+A third column "context" is optional, and currently only used for printing.
 }
 }
 
@@ -45,9 +46,9 @@ learner = mlr_learners$get("classif.debug",
 learner$fallback = mlr_learners$get("classif.featureless")
 e = Experiment$new(task, learner)
 e$train(ctrl = list(encapsulate_train = "evaluate"))
-l = e$logs$train
+l = e$log()
 
-l$has_condition("error")
 print(l)
+l$has_condition("error")
 }
 \keyword{datasets}
