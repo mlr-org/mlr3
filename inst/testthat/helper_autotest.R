@@ -165,7 +165,8 @@ sanity_check.LearnerRegr = function(e) {
 registerS3method("sanity_check", "LearnerRegr", sanity_check.LearnerRegr)
 
 run_experiment = function(task, learner) {
-  err = function(info) {
+  err = function(info, ...) {
+    info = sprintf(info, ...)
     list(
       ok = FALSE,
       experiment = e,
@@ -182,8 +183,9 @@ run_experiment = function(task, learner) {
   ok = try(e$train(), silent = TRUE)
   if (inherits(ok, "try-error"))
     return(err(as.character(ok)))
-  if (e$log("train")$has_condition("error"))
-    return(err("train log has errors"))
+  log = e$log("train")
+  if (log$has_condition("error"))
+    return(err("train log has errors: %s", str_collapse(log$errors)))
   if (is.null(e$model))
     return(err("model is NULL"))
 
@@ -191,8 +193,9 @@ run_experiment = function(task, learner) {
   ok = try(e$predict(), silent = TRUE)
   if (inherits(ok, "try-error"))
     return(err(as.character(ok)))
-  if (e$log("predict")$has_condition("error"))
-    return(err("predict log has errors"))
+  log = e$log("predict")
+  if (log$has_condition("error"))
+    return(err("predict log has errors: %s", str_collapse(log$errors)))
   if (!inherits(e$prediction, "Prediction"))
     return(err("$prediction has wrong class"))
   if (e$prediction$task_type != learner$task_type)
