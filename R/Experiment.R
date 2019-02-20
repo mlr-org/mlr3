@@ -179,7 +179,7 @@ Experiment = R6Class("Experiment",
     predict = function(row_ids = NULL, newdata = NULL, ctrl = list()) {
       if (! self$state >= "trained")
         stopf("Experiment needs to be trained before predict()")
-      experiment_predict(self, row_ids = row_ids %??% self$data$task$row_ids, newdata = newdata, ctrl = ctrl)
+      experiment_predict(self, row_ids = row_ids, newdata = newdata, ctrl = ctrl)
       invisible(self)
     },
 
@@ -319,8 +319,8 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list(
     old_row_ids = self$data$task$row_ids
     self$data$task = self$data$task$clone(deep = TRUE)$rbind(newdata)
     row_ids = setdiff(self$data$task$row_ids, old_row_ids)
-  } else if (!is.null(row_ids)) {
-    row_ids = assert_row_ids(row_ids)
+  } else {
+    row_ids = if (is.null(row_ids)) self$task$row_ids else assert_row_ids(row_ids)
   }
   self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
 

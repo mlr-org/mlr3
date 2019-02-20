@@ -65,16 +65,20 @@ check_new_row_ids = function(task, data, type) {
   )
 }
 
-check_matching_types = function(col_info_x, col_info_y) {
-  cmp = function(x, y) {
-    # character -> factor conversion is handled by data.table
-    x != y & !(x %in% c("character", "factor") & y %in% c("character", "factor"))
-  }
-  joined = merge(col_info_x, col_info_y, by = "id")
-  joined = head(joined[cmp(get("type.x"), get("type.y"))], 1L)
-  if (nrow(joined)) {
-    stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", joined$id, joined$type.x, joined$type.y)
-  }
+convert_matching_types = function(col_info, data) {
+  pmap(col_info, function(id, type, levels) {
+    cur_col = data[[id]]
+    cur_type = class(cur_col)[1L]
+
+    if (type != cur_type && any(c(type, cur_type) %nin% c("character", "factor"))) {
+      if (allMissing(cur_col)) {
+        storage.mode(cur_col) = type
+        data[, (id) := cur_col]
+      } else {
+        stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", id, type, cur_type)
+      }
+    }
+  })
 }
 
 # Performs the following steps to virtually rbind data to the task:
@@ -108,8 +112,8 @@ task_rbind = function(self, data) {
   assert_set_equal(names(data), c(unlist(self$col_roles, use.names = FALSE), pk))
 
   ## 1.4 Check that types are matching
+  convert_matching_types(self$col_info, data)
   data_col_info = col_info(data, primary_key = pk)
-  check_matching_types(self$col_info, data_col_info)
 
   # 2. Overwrite self$backend with new backend
   rows_self = unlist(self$row_roles, use.names = FALSE)
