@@ -208,8 +208,9 @@ run_experiment = function(task, learner) {
     return(err("score is not a numeric value"))
 
   # run sanity check on sanity task
-  if (task$id == "sanity" && !sanity_check(e)) {
-    return(err("sanity check failed"))
+  if (task$id == "sanity") {
+    if (!sanity_check(e))
+      return(err("sanity check failed"))
 
     if ("importance" %in% learner$properties) {
       imp = e$learner$importance()
