@@ -48,7 +48,7 @@ generate_generic_tasks = function(learner, proto) {
 
   # task with weights
   if ("weights" %in% learner$properties) {
-    tasks$weights = proto$clone()$cbind(data.table(weights = runif(proto$nrow)))$set_col_role("weights", "weights", exclusive = TRUE)
+    tasks$weights = proto$clone()$cbind(data.frame(weights = runif(proto$nrow)))$set_col_role("weights", "weights", exclusive = TRUE)
   }
 
   # make sure that task ids match list names
@@ -208,21 +208,20 @@ run_experiment = function(task, learner) {
     return(err("score is not a numeric value"))
 
   # run sanity check on sanity task
-  if (task$id == "sanity") {
-    if (!sanity_check(e))
-      return(err("sanity check failed"))
+  if (grepl("^sanity", task$id) && !sanity_check(e)) {
+    return(err("sanity check failed"))
+  }
 
-    if ("importance" %in% learner$properties) {
-      imp = e$learner$importance()
-      if (!checkmate::test_numeric(imp, any.missing = FALSE, min.len = 1L))
-        return(err("importance is not numeric"))
-      if (!test_names(names(imp), subset.of = task$feature_names))
-        return(err("importance is not properly named"))
-      if (is.unsorted(rev(imp)))
-        return(err("importance is not sorted"))
-      if ("unimportant" %in% head(names(imp), 1L))
-        return(err("unimportance feature is important"))
-    }
+  if (grepl("^feat_all", task$id) && "importance" %in% learner$properties) {
+    imp = e$learner$importance()
+    if (!checkmate::test_numeric(imp, any.missing = FALSE, min.len = 1L))
+      return(err("importance is not numeric"))
+    if (!test_names(names(imp), subset.of = task$feature_names))
+      return(err("importance is not properly named"))
+    if (is.unsorted(rev(imp)))
+      return(err("importance is not sorted"))
+    if ("unimportant" %in% head(names(imp), 1L))
+      return(err("unimportant feature is important"))
   }
 
   return(list(ok = TRUE, experiment = e, error = character(0)))

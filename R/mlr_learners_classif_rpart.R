@@ -53,7 +53,8 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     importance = function() {
       if (is.null(self$model))
         stopf("No model stored")
-      sort(self$model$variable.importance, decreasing = TRUE)
+      # importance is only present if there is at least on split
+      sort(self$model$variable.importance %??% set_names(numeric()), decreasing = TRUE)
     },
 
     selected_features = function() {
