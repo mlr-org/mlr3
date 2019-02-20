@@ -1,5 +1,6 @@
 task_set_row_role = function(self, rows, new_roles, exclusive = TRUE) {
   rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
+  assert_subset(rows, self$backend$rownames)
   assert_subset(new_roles, mlr_reflections$task_row_roles)
   assert_flag(exclusive)
 
@@ -15,6 +16,7 @@ task_set_row_role = function(self, rows, new_roles, exclusive = TRUE) {
 
 task_set_col_role = function(self, cols, new_roles, exclusive = TRUE) {
   assert_character(cols, any.missing = FALSE)
+  assert_subset(cols, self$col_info$id)
   assert_subset(new_roles, mlr_reflections$task_col_roles[[self$task_type]])
   assert_flag(exclusive)
 

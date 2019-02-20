@@ -13,37 +13,42 @@
 # NB: Extension packages need to specialize the S3 methods in the file.
 
 
-generate_generic_tasks = function(learner, task) {
+generate_generic_tasks = function(learner, proto) {
   tasks = list()
 
-  if (length(task$feature_names) > 1L) {
+  if (length(proto$feature_names) > 1L) {
     # individual tasks with each supported feature type
     for (type in learner$feature_types) {
-      sel = task$feature_types[type, "id", on = "type", with = FALSE][[1L]]
-      tasks[[sprintf("feat_single_%s", type)]] = task$clone()$select(sel)
+      sel = proto$feature_types[type, "id", on = "type", with = FALSE][[1L]]
+      tasks[[sprintf("feat_single_%s", type)]] = proto$clone()$select(sel)
     }
   }
 
   # task with all supported features types
-  sel = task$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
-  tasks$feat_all = task$clone()$select(sel)
+  sel = proto$feature_types[list(learner$feature_types), "id", on = "type", with = FALSE][[1L]]
+  tasks$feat_all = proto$clone()$select(sel)
 
   # task with missing values
   if ("missings" %in% learner$properties) {
     # one missing val in each feature
-    features = task$feature_names
-    rows = sample(task$nrow, length(features))
-    data = task$data(cols = features)
+    features = proto$feature_names
+    rows = sample(proto$nrow, length(features))
+    data = proto$data(cols = features)
     for (j in seq_along(features))
       data.table::set(data, rows[j], features[j], NA)
-    tasks$missings = task$clone()$replace_features(data)
+    tasks$missings = proto$clone()$replace_features(data)
 
     # no row with no missing -> complete.cases() won't help
-    features = sample(features, task$nrow, replace = TRUE)
-    data = task$data(cols = task$feature_names)
+    features = sample(features, proto$nrow, replace = TRUE)
+    data = proto$data(cols = proto$feature_names)
     for (i in seq_along(features))
       data.table::set(data, i = i, j = features[i], NA)
-    tasks$missings_each_row = task$clone()$replace_features(data)
+    tasks$missings_each_row = proto$clone()$replace_features(data)
+  }
+
+  # task with weights
+  if ("weights" %in% learner$properties) {
+    tasks$weights = proto$clone()$cbind(data.table(weights = runif(proto$nrow)))$set_col_role("weights", "weights", exclusive = TRUE)
   }
 
   # make sure that task ids match list names
