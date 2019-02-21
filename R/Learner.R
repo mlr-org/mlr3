@@ -114,24 +114,26 @@
 #' @export
 Learner = R6Class("Learner",
   public = list(
+    id = NULL,
     task_type = NULL,
-    feature_types = NULL,
+    param_set = NULL,
     predict_types = NULL,
-    packages = NULL,
+    feature_types = NULL,
     properties = NULL,
+    packages = NULL,
     model = NULL,
     fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(), feature_types = character(), properties = character(), packages = character()) {
-      private$.id = id
+      self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_sorted_subset(predict_types, mlr_reflections$learner_predict_types[[task_type]], empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
-      private$.param_set = assert_param_set(param_set)
-      private$.param_set$values = param_vals
+      self$param_set = assert_param_set(param_set)
+      self$param_set$values = param_vals
     },
 
     train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
@@ -153,6 +155,10 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    hash = function() {
+      hash(list(class(self), self$id, self$param_set$values, private$.predict_type))
+    },
+
     predict_type = function(rhs) {
       if (missing(rhs))
         return(private$.predict_type)
@@ -160,25 +166,13 @@ Learner = R6Class("Learner",
       if (rhs %nin% self$predict_types)
         stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
-    },
-    param_set = function(rhs) {
-      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
-        stop("param_set is read-only.")
-      }
-      private$.param_set
     }
   ),
 
   private = list(
-    .calculate_hash = function() {
-      hash(list(class(self), private$.id, self$param_set$values, private$.predict_type))
-    },
-    .predict_type = NULL,
-    .param_set = NULL
+    .predict_type = NULL
   )
 )
-
-Learner = add_id_hash(Learner)
 
 learner_print = function(self) {
   catf(format(self))

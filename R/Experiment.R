@@ -57,7 +57,7 @@
 #'   Flag which is `TRUE` if any error has been recorded during `$train()` or `$predict()`.
 #'
 #' * `hash` :: `character(1)`\cr
-#'   Hash (unique identifier) for this object.
+#'   Hash (unique identifier) for this object. This hash is cached.
 #'
 #' * `state` :: `ordered(1)`\cr
 #'   Returns the state of the experiment as ordered factor: "defined", "trained", "predicted", or "scored".
@@ -170,24 +170,15 @@ Experiment = R6Class("Experiment",
     },
 
     train = function(row_ids = NULL, ctrl = list()) {
-      if (! self$state >= "defined")
-        stopf("Experiment needs a task and a learner")
-      experiment_train(self, row_ids = row_ids, ctrl = ctrl)
-      invisible(self)
+      experiment_train(self, private, row_ids = row_ids, ctrl = ctrl)
     },
 
     predict = function(row_ids = NULL, newdata = NULL, ctrl = list()) {
-      if (! self$state >= "trained")
-        stopf("Experiment needs to be trained before predict()")
-      experiment_predict(self, row_ids = row_ids, newdata = newdata, ctrl = ctrl)
-      invisible(self)
+      experiment_predict(self, private, row_ids = row_ids, newdata = newdata, ctrl = ctrl)
     },
 
     score = function(ctrl = list()) {
-      if (! self$state >= "trained")
-        stopf("Experiment needs predictions before score()")
-      experiment_score(self, ctrl = ctrl)
-      invisible(self)
+      experiment_score(self, private, ctrl = ctrl)
     },
 
     log = function(steps = c("train", "predict")) {
@@ -296,7 +287,10 @@ experiment_print = function(self) {
 }
 
 
-experiment_train = function(self, row_ids, ctrl = list()) {
+experiment_train = function(self, private, row_ids, ctrl = list()) {
+  if (! self$state >= "defined")
+    stopf("Experiment needs a task and a learner")
+
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   row_ids = if (is.null(row_ids)) self$data$task$row_ids else assert_row_ids(row_ids)
   self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
@@ -306,10 +300,13 @@ experiment_train = function(self, row_ids, ctrl = list()) {
   value = train_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)
-  return(experiment_reset_state(self, "trained"))
+  private$.hash = NA_character_
+  experiment_reset_state(self, "trained")
 }
 
-experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list()) {
+experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctrl = list()) {
+  if (! self$state >= "trained")
+    stopf("Experiment needs to be trained before predict()")
   if (!is.null(row_ids) && !is.null(newdata))
     stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
@@ -328,10 +325,13 @@ experiment_predict = function(self, row_ids = NULL, newdata = NULL, ctrl = list(
   value = predict_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)
+  private$.hash = NA_character_
   return(experiment_reset_state(self, "predicted"))
 }
 
-experiment_score = function(self, ctrl = list()) {
+experiment_score = function(self, private, ctrl = list()) {
+  if (! self$state >= "trained")
+    stopf("Experiment needs predictions before score()")
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$measures = assert_measures(self$data$task$measures, task = self$task, predict_types = self$data$prediction$predict_types)
 
@@ -339,6 +339,7 @@ experiment_score = function(self, ctrl = list()) {
   value = score_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)
+  private$.hash = NA_character_
   return(self)
 }
 

@@ -1,6 +1,5 @@
 context("mlr_resamplings")
 
-
 test_that("mlr_resamplings", {
   keys = mlr_resamplings$keys()
   task = mlr_tasks$get("iris")

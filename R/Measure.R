@@ -72,6 +72,7 @@
 Measure = R6Class("Measure",
   cloneable = FALSE,
   public = list(
+    id = NULL,
     task_type = NULL,
     predict_type = NULL,
     task_properties = NULL,
@@ -108,11 +109,9 @@ Measure = R6Class("Measure",
     }
   ),
 
-  private = list(
-    .calculate_hash = function() {
-      hash(list(class(self), private$.id, as.character(body(self$calculate))))
+  active = list(
+    hash = function() {
+      hash(list(class(self), self$id, as.character(body(self$calculate))))
     }
   )
 )
-
-add_id_hash(Measure)

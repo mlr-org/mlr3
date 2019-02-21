@@ -59,7 +59,7 @@ Control settings passed during initialization.
 \item \code{has_errors} :: \code{logical(1)}\cr
 Flag which is \code{TRUE} if any error has been recorded during \code{$train()} or \code{$predict()}.
 \item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) for this object.
+Hash (unique identifier) for this object. This hash is cached.
 \item \code{state} :: \code{ordered(1)}\cr
 Returns the state of the experiment as ordered factor: "defined", "trained", "predicted", or "scored".
 \item \code{train_set} :: (\code{integer()} | \code{character()})\cr
