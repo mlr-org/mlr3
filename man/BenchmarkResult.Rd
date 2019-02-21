@@ -97,7 +97,14 @@ bmr$tasks
 bmr$learners
 bmr$resamplings
 bmr$measures
+
+# aggregated results
 bmr$aggregated(objects = FALSE)
+
+# aggregated results with hyperparameters as separate columns
+mlr3misc::unnest(bmr$aggregated(objects = FALSE, params = TRUE), "params")
+
+# extract resample results and experiments
 rrs = bmr$resample_results
 print(rrs)
 rr = bmr$resample_result(rrs$hash[1])
