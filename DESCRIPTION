@@ -50,6 +50,7 @@ Imports:
     checkmate (>= 1.9.0),
     data.table,
     digest,
+    fastmatch,
     logger,
     Metrics,
     mlr3misc,
@@ -114,6 +115,7 @@ Collate:
     'helper.R'
     'helper_future.R'
     'helper_print.R'
+    'helper_sets.R'
     'mlr_control.R'
     'mlr_generators.R'
     'mlr_generators_2dnormals.R'
