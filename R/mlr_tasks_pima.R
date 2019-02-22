@@ -9,7 +9,7 @@
 #' Positive class is set to "pos".
 mlr_tasks$add("pima", function(id = "pima") {
   b = as_data_backend(load_dataset("PimaIndiansDiabetes2", "mlbench"))
-  b$hash = "_mlr_tasks_pima_"
+  b$hash = "_mlr3_tasks_pima_"
   TaskClassif$new(id, b, target = "diabetes", positive = "pos")
 })
 

@@ -9,6 +9,6 @@
 #' Positive class is set to "spam".
 mlr_tasks$add("spam", function(id = "spam") {
   b = as_data_backend(load_dataset("spam", "kernlab"))
-  b$hash = "_mlr_tasks_kernlab_"
+  b$hash = "_mlr3_tasks_spam_"
   TaskClassif$new(id, b, target = "type", positive = "spam")
 })
