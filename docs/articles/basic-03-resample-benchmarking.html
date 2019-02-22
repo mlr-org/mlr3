@@ -272,8 +272,8 @@
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">bmr =<span class="st"> </span>rr1<span class="op">$</span><span class="kw">combine</span>(rr2)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;                hash resampling_id task_id  learner_id classif.mmce</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: 17ef374dda26715f            cv    iris       rpart   0.04666667</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: 9394f2cdade6bac0            cv    iris featureless   0.70666667</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; 1: 430a37d12df054d3            cv    iris       rpart   0.04666667</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; 2: 66892b6f4d405ab9            cv    iris featureless   0.70666667</span></a></code></pre></div>
 </div>
 <div id="custom-resampling" class="section level2">
 <h2 class="hasAnchor">
@@ -408,12 +408,12 @@
 <p>The aggregated resampling results can be accessed with:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt;                hash resampling_id task_id  learner_id classif.acc</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1: 53292cf52d4cb1bd            cv    pima featureless   0.6509569</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2: e79a84b43cc606dd            cv    pima       rpart   0.7540328</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3: 9ee541dc25b9c85f            cv   sonar featureless   0.5347619</span></a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4: 0234e41a87d2fcc1            cv   sonar       rpart   0.7592857</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5: 57c7d8e2fdafefee            cv    spam featureless   0.6059521</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6: f21cd3afa9a3f12f            cv    spam       rpart   0.8919858</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; 1: 757f57f818d66105            cv    pima featureless   0.6509569</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; 2: 622976a31f4716ea            cv    pima       rpart   0.7540328</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; 3: 57fe7a84a3bd0c0f            cv   sonar featureless   0.5347619</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 4: 1836ae7955caad99            cv   sonar       rpart   0.7592857</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 5: 5d4e5aceb19d520d            cv    spam featureless   0.6059521</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 6: 610f8f5c8fc6f228            cv    spam       rpart   0.8919858</span></a>
 <a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt;    classif.auc</span></a>
 <a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; 1:   0.5000000</span></a>
 <a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; 2:   0.7927332</span></a>
@@ -434,7 +434,7 @@
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">tab =<span class="st"> </span>bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)[task_id <span class="op">==</span><span class="st"> "spam"</span> <span class="op">&amp;</span><span class="st"> </span>learner_id <span class="op">==</span><span class="st"> "rpart"</span>]</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(tab)</a>
 <a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co">#&gt;                hash resampling_id task_id learner_id classif.acc</span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt; 1: f21cd3afa9a3f12f            cv    spam      rpart   0.8919858</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="co">#&gt; 1: 610f8f5c8fc6f228            cv    spam      rpart   0.8919858</span></a>
 <a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co">#&gt;    classif.auc</span></a>
 <a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; 1:   0.8927645</span></a>
 <a class="sourceLine" id="cb18-7" data-line-number="7"></a>
