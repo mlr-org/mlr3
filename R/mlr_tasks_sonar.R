@@ -3,6 +3,8 @@
 #' @name mlr_tasks_sonar
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
+#' @usage
+#' mlr_tasks$get("sonar")
 #'
 #' @description
 #' A classification task for the [mlbench::Sonar] data set.

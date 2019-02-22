@@ -3,6 +3,8 @@
 #' @name mlr_tasks_spam
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
+#' @usage
+#' mlr_tasks$get("spam")
 #'
 #' @description
 #' A classification task for the [kernlab::spam] data set.

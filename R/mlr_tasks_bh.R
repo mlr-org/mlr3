@@ -3,6 +3,8 @@
 #' @name mlr_tasks_bh
 #' @format [R6::R6Class] inheriting from [TaskRegr].
 #' @include mlr_tasks.R
+#' @usage
+#' mlr_tasks$get("bh")
 #'
 #' @description
 #' A regression task for the [mlbench::BostonHousing2] data set.

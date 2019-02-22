@@ -3,6 +3,8 @@
 #' @name mlr_tasks_mtcars
 #' @format [R6::R6Class] inheriting from [TaskRegr].
 #' @include mlr_tasks.R
+#' @usage
+#' mlr_tasks$get("mtcars")
 #'
 #' @description
 #' A regression task for the [datasets::mtcars] data set.
