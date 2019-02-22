@@ -116,7 +116,6 @@ Learner = R6Class("Learner",
   public = list(
     id = NULL,
     task_type = NULL,
-    param_set = NULL,
     predict_types = NULL,
     feature_types = NULL,
     properties = NULL,
@@ -132,7 +131,7 @@ Learner = R6Class("Learner",
       private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
-      self$param_set = assert_param_set(param_set)
+      private$.param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
     },
 
@@ -166,11 +165,18 @@ Learner = R6Class("Learner",
       if (rhs %nin% self$predict_types)
         stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
+    },
+    param_set = function(rhs) {
+      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
+        stop("param_set is read-only.")
+      }
+      private$.param_set
     }
   ),
 
   private = list(
-    .predict_type = NULL
+    .predict_type = NULL,
+    .param_set = NULL
   )
 )
 
