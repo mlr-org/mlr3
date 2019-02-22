@@ -148,12 +148,25 @@
 #'   Adds the roles `new_roles` to rows referred to by `rows`.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
 #'
+#' @section S3 methods:
+#'
+#' * `as.data.frame(task)`\cr
+#'   [Task] -> `data.frame()`\cr
+#'   Returns the data set as `data.frame()`.
+#'
+#' * `as.data.table(task)`\cr
+#'   [Task] -> [data.table::data.table()]\cr
+#'   Returns the data set as `data.table()`.
+#'
 #' @section Task mutators:
-#' The methods `filter()`, `select()`, `rbind()`, and `cbind()` change the task in-place,
-#' but without modifying the [DataBackend].
-#' `filter()` and `select()` just reduce the set of active rows or columns, providing a different view on the data.
-#' `rbind()` and `cbind()` first create a new [DataBackendDataTable] from the provided new data, and then
-#' merge both backends into an abstract [DataBackend] which combines the results on-demand.
+#' The following methods change the task in-place:
+#' * `set_row_roles()` and `set_col_roles()` alter the row or column information in `row_roles` or `col_roles`, respectively.
+#' * `filter()` and `select()` subset the set of active rows or columns in `row_roles` or `col_roles`, respectively.
+#'   This provides a different "view" on the data.
+#' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
+#'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
+#'   merge both backends into an abstract [DataBackend] which combines the results on-demand.
+#' * `replace_features()` is a convenience wrapper around `select()` and `cbind()`. Again, the original [DataBackend] remains unchanged.
 #'
 #' @family Task
 #' @export
@@ -415,9 +428,18 @@ col_info.data.table = function(x, primary_key = character(0L), ...) {
 }
 
 col_info.DataBackend = function(x, ...) {
-  # X <<- x
   types = map_chr(x$head(1L), function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
+}
+
+#' @export
+as.data.table.Task = function(x, ...) {
+  x$head(x$nrow)
+}
+
+#' @export
+as.data.frame.Task = function(x, ...) {
+  setDF(as.data.table(x))[]
 }
