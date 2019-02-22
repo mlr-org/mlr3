@@ -54,6 +54,11 @@ test_that("Task rbind", {
 
   task$rbind(iris[integer(0), ])
   expect_equal(task$nrow, 160)
+
+  # 185
+  task = mlr_tasks$get("iris")
+  task$select("Petal.Length")
+  task$rbind(task$data())
 })
 
 test_that("Task cbind", {
