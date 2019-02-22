@@ -4,9 +4,11 @@
 \alias{mlr_tasks_zoo}
 \title{Zoo Classification Task}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
-\usage{
-mlr_tasks$get("zoo")
-}
 \description{
 A classification task for the \link[mlbench:Zoo]{mlbench::Zoo} data set.
 }
+\section{Usage}{
+\preformatted{mlr_tasks$get("zoo")
+}
+}
+

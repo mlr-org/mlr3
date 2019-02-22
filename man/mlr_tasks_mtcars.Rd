@@ -4,10 +4,12 @@
 \alias{mlr_tasks_mtcars}
 \title{"Motor Trend" Car Road Tests Task}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskRegr}.}
-\usage{
-mlr_tasks$get("mtcars")
-}
 \description{
 A regression task for the \link[datasets:mtcars]{datasets::mtcars} data set.
 Target variable is \code{mpg} (Miles/(US) gallon).
 }
+\section{Usage}{
+\preformatted{mlr_tasks$get("mtcars")
+}
+}
+

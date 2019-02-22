@@ -4,9 +4,11 @@
 \alias{mlr_tasks_iris}
 \title{Iris Classification Task}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
-\usage{
-mlr_tasks$get("iris")
-}
 \description{
 A classification task for the popular \link[datasets:iris]{datasets::iris} data set.
 }
+\section{Usage}{
+\preformatted{mlr_tasks$get("iris")
+}
+}
+

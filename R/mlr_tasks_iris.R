@@ -3,8 +3,11 @@
 #' @name mlr_tasks_iris
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
-#' @usage
+#'
+#' @section Usage:
+#' ```
 #' mlr_tasks$get("iris")
+#' ```
 #'
 #' @description
 #' A classification task for the popular [datasets::iris] data set.

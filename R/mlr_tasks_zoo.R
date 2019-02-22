@@ -3,8 +3,11 @@
 #' @name mlr_tasks_zoo
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
-#' @usage
+#'
+#' @section Usage:
+#' ```
 #' mlr_tasks$get("zoo")
+#' ```
 #'
 #' @description
 #' A classification task for the [mlbench::Zoo] data set.

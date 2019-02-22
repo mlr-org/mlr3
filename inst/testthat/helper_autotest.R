@@ -219,7 +219,7 @@ run_experiment = function(task, learner) {
     imp = e$learner$importance()
     if (!checkmate::test_numeric(imp, any.missing = FALSE, min.len = 1L))
       return(err("importance is not numeric"))
-    if (!test_names(names(imp), subset.of = task$feature_names))
+    if (!checkmate::test_names(names(imp), subset.of = task$feature_names))
       return(err("importance is not properly named"))
     if (is.unsorted(rev(imp)))
       return(err("importance is not sorted"))
