@@ -221,20 +221,22 @@
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; [103] 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119</span></a>
 <a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; [120] 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136</span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [137] 137 138 139 140 141 142 143 144 145 146 147 148 149 150</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co"># filter rows 1, 51, and 101</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>))</a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt;       Species Petal.Length Petal.Width Sepal.Length Sepal.Width</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; 1:     setosa          1.4         0.2          5.1         3.5</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; 2: versicolor          4.7         1.4          7.0         3.2</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 3:  virginica          6.0         2.5          6.3         3.3</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co"># filter rows 1, 51, and 101 and only select column "Species"</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>), <span class="dt">cols =</span> <span class="st">"Species"</span>)</a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt;       Species</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; 1:     setosa</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; 2: versicolor</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 3:  virginica</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; attr(,".match.hash")</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; &lt;hash table&gt;</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co"># filter rows 1, 51, and 101</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>))</a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt;       Species Petal.Length Petal.Width Sepal.Length Sepal.Width</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 1:     setosa          1.4         0.2          5.1         3.5</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 2: versicolor          4.7         1.4          7.0         3.2</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; 3:  virginica          6.0         2.5          6.3         3.3</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co"># filter rows 1, 51, and 101 and only select column "Species"</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">51</span>, <span class="dv">101</span>), <span class="dt">cols =</span> <span class="st">"Species"</span>)</a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt;       Species</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 1:     setosa</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; 2: versicolor</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; 3:  virginica</span></a></code></pre></div>
 <p>Note that the method <code>$data()</code> is only an accesor and does not modify the underlying data/task. To modify the underlying data/task, you can use the <a href="basic-01-tasks.html#filter"><code>$filter()</code></a> and <a href="basic-01-tasks.html#select"><code>$select()</code></a> methods, which are mutators.</p>
 <p>Each task comes with at least one associated performance measure, stored as list inside the task:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">task<span class="op">$</span>measures</a>
@@ -316,7 +318,9 @@
 <a class="sourceLine" id="cb10-12" data-line-number="12"></a>
 <a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co"># there is a new "feature" called "rn"</span></a>
 <a class="sourceLine" id="cb10-14" data-line-number="14">task<span class="op">$</span>feature_names</a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; [1] "cyl"  "disp" "rn"</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; [1] "cyl"  "disp" "rn"  </span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; attr(,".unique")</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 <p>In <code>mlr3</code>, columns (and rows) can be assigned roles. We have seen three different roles for columns so far:</p>
 <ol style="list-style-type: decimal">
 <li>The target column (here <code>"mpg"</code>), also called dependent variable.</li>
@@ -327,37 +331,45 @@
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">task<span class="op">$</span>col_roles</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; $feature</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt; [1] "cyl"  "disp" "rn"  </span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; $target</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; [1] "mpg"</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; $order</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; character(0)</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; $groups</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; character(0)</span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; $weights</span></a>
-<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co">#&gt; character(0)</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; attr(,".unique")</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; $target</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; [1] "mpg"</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; attr(,".match.hash")</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; &lt;hash table&gt;</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; $order</span></a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; character(0)</span></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co">#&gt; $groups</span></a>
+<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co">#&gt; character(0)</span></a>
+<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="co">#&gt; $weights</span></a>
+<a class="sourceLine" id="cb11-19" data-line-number="19"><span class="co">#&gt; character(0)</span></a></code></pre></div>
 <p>As the output shows, the column is <code>"mpg"</code> is the target column and are three features: <code>"rn"</code> (row names), <code>"cyl"</code>, and <code>"disp"</code>. More roles are documented in the help for tasks.</p>
 <p>In the following, we do not want to learn on neither the primary key (which is taken care of <code>mlr3</code>) nor the new column <code>rn</code> with the row names. However, we still might want to carry <code>rn</code> around for different reasons. E.g., we can use the row names in plots or to associate outliers with the row names. This being said, we need to change the role of the row names column <code>rn</code> and remove it from the set of features.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">task<span class="op">$</span>feature_names</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; [1] "cyl"  "disp" "rn"</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">task<span class="op">$</span><span class="kw">set_col_role</span>(<span class="st">"rn"</span>, <span class="dt">new_roles =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">character</a></span>(0L))</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co"># "rn" not listed as feature any more</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">task<span class="op">$</span>feature_names</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; [1] "cyl"  "disp"</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co"># also eliminated from "data" and "head"</span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt;    mpg cyl disp</span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt; 1:  21   6  160</span></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">#&gt; 2:  21   6  160</span></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; [1] "cyl"  "disp" "rn"  </span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; attr(,".unique")</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">task<span class="op">$</span><span class="kw">set_col_role</span>(<span class="st">"rn"</span>, <span class="dt">new_roles =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">character</a></span>(0L))</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co"># "rn" not listed as feature any more</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">task<span class="op">$</span>feature_names</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; [1] "cyl"  "disp"</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; attr(,".unique")</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co"># also eliminated from "data" and "head"</span></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="dt">rows =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt;    mpg cyl disp</span></a>
 <a class="sourceLine" id="cb12-16" data-line-number="16"><span class="co">#&gt; 1:  21   6  160</span></a>
-<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co">#&gt; 2:  21   6  160</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co">#&gt; 2:  21   6  160</span></a>
+<a class="sourceLine" id="cb12-18" data-line-number="18">task<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="co">#&gt;    mpg cyl disp</span></a>
+<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co">#&gt; 1:  21   6  160</span></a>
+<a class="sourceLine" id="cb12-21" data-line-number="21"><span class="co">#&gt; 2:  21   6  160</span></a></code></pre></div>
 </div>
 <div id="row-roles" class="section level2">
 <h2 class="hasAnchor">
@@ -376,13 +388,14 @@
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(task<span class="op">$</span>row_roles)</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; List of 2</span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;  $ use       : int [1:32] 1 2 3 4 5 6 7 8 9 10 ...</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;  $ validation: int(0)</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">task<span class="op">$</span>nrow</a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; [1] 32</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">task<span class="op">$</span><span class="kw">set_row_role</span>(<span class="dt">rows =</span> <span class="dv">29</span><span class="op">:</span><span class="dv">32</span>, <span class="dt">new_role =</span> <span class="st">"validation"</span>)</a>
-<a class="sourceLine" id="cb13-9" data-line-number="9">task<span class="op">$</span>nrow</a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; [1] 28</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;   ..- attr(*, ".match.hash")=Class 'match.hash' &lt;externalptr&gt; </span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt;  $ validation: int(0)</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">task<span class="op">$</span>nrow</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; [1] 32</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">task<span class="op">$</span><span class="kw">set_row_role</span>(<span class="dt">rows =</span> <span class="dv">29</span><span class="op">:</span><span class="dv">32</span>, <span class="dt">new_role =</span> <span class="st">"validation"</span>)</a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">task<span class="op">$</span>nrow</a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt; [1] 28</span></a></code></pre></div>
 <p>All pre- and post-processing you have used on the training data is also applied to the validation data in exactly the same way.</p>
 </div>
 <div id="task-mutation" class="section level2">
@@ -411,12 +424,14 @@
 <a href="#select" class="anchor"></a>$select()</h3>
 <p>The equivalent method for subsetting columns is <code>select()</code>.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">task<span class="op">$</span>feature_names</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt; [1] "Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width"</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">task<span class="op">$</span><span class="kw">select</span>(<span class="st">"Petal.Length"</span>)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt; [1] "Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width" </span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; attr(,".unique")</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb15-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">task<span class="op">$</span>ncol</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; [1] 2</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-6" data-line-number="6">task<span class="op">$</span><span class="kw">select</span>(<span class="st">"Petal.Length"</span>)</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">task<span class="op">$</span>ncol</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt; [1] 2</span></a></code></pre></div>
 <p>You might wonder why there are still two columns left even if we selected only one? The subsetting only applies to the columns listed as “feature” (<code>task$col_roles</code>). The “target” column is not touched.</p>
 </div>
 <div id="rbind-cbind" class="section level3">
