@@ -5,7 +5,7 @@ test_that("Basic ops on iris task", {
   expect_task(task)
   expect_task_supervised(task)
   expect_task_classif(task)
-  expect_equal(task$target_names, "Species")
+  expect_equal(as.vector(task$target_names), "Species")
   expect_set_equal(task$class_names, levels(iris$Species))
   expect_identical(task$class_n, nlevels(iris$Species))
 

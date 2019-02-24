@@ -140,3 +140,15 @@ assert_sorted_subset = function(x, choices, ..., .var.name = vname(x)) {
   assert_subset(x, choices, ..., .var.name = .var.name)
   x[match(choices, x, nomatch = 0L)]
 }
+
+assert_unique = function(x, .var.name = vname(x)) {
+  assert_atomic_vector(x, .var.name = .var.name)
+  if (isTRUE(attr(x, ".unique"))) {
+    return(x)
+  }
+  if (anyDuplicated(x) == 0L) {
+    attr(x, ".unique") = TRUE
+    return(x)
+  }
+  stopf("Assertion on '%s' failed: Must be unique.", .var.name)
+}

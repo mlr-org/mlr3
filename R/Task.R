@@ -291,11 +291,11 @@ Task = R6Class("Task",
     },
 
     feature_names = function() {
-      as.vector(self$col_roles$feature)
+      self$col_roles$feature
     },
 
     target_names = function() {
-      as.vector(self$col_roles$target)
+      self$col_roles$target
     },
 
     nrow = function() {

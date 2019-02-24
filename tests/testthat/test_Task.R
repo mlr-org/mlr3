@@ -35,7 +35,7 @@ test_that("Rows return ordered with multiple order cols", {
 
   task$set_col_role("Petal.Length", "order", exclusive = FALSE)
   task$set_col_role("Petal.Width", "order", exclusive = FALSE)
-  expect_equal(task$col_roles$order, c("Petal.Length", "Petal.Width"))
+  expect_equal(as.vector(task$col_roles$order), c("Petal.Length", "Petal.Width"))
 
   x = task$data()
   expect_numeric(x$Petal.Length, sorted = TRUE, any.missing = FALSE)
@@ -119,7 +119,7 @@ test_that("filter works", {
   task$filter(91:150)
   expect_equal(task$nrow, 10L)
 
-  expect_equal(task$row_ids, 91:100)
+  expect_equal(as.vector(task$row_ids), 91:100)
 })
 
 test_that("select works", {
@@ -130,7 +130,7 @@ test_that("select works", {
   task$select(c("Sepal.Width", "foobar"))
   expect_equal(task$ncol, 2L)
 
-  expect_equal(task$feature_names, "Sepal.Width")
+  expect_equal(as.vector(task$feature_names), "Sepal.Width")
 
   expect_error(task$select(1:4), "character")
 })

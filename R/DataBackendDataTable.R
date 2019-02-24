@@ -54,8 +54,8 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     data = function(rows, cols, format = self$formats[1L]) {
       assert_choice(format, self$formats)
-      assert_names(cols, type = "unique")
-      cols = intersect(cols, colnames(private$.data))
+      cols = assert_unique(cols)
+      cols = set_intersect(cols, colnames(private$.data))
 
       if (self$compact_seq) {
         # https://github.com/Rdatatable/data.table/issues/3109
@@ -73,13 +73,13 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     },
 
     distinct = function(cols) {
-      cols = intersect(cols, colnames(private$.data))
+      cols = set_intersect(cols, colnames(private$.data))
       lapply(private$.data[, cols, with = FALSE], distinct)
     },
 
     missing = function(rows, cols) {
-      assert_names(cols, type = "unique")
-      cols = intersect(cols, colnames(private$.data))
+      cols = assert_unique(cols)
+      cols = set_intersect(cols, colnames(private$.data))
       if (length(cols) == 0L)
         return(set_names(integer(0L), character(0L)))
 
