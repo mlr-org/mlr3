@@ -35,7 +35,6 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
       self$instance = instantiate_custom(self$instance, train_sets, test_sets)
       self$task_hash = task$hash
-      private$.hash = NA_character_
       invisible(self)
     }
   ),
@@ -48,7 +47,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
     hash = function() {
       if (is.null(self$instance$test))
         return(NA_character_)
-      super$hash
+      hash(list(class(self), self$id, self$param_set$values, self$instance))
     }
   ),
 

@@ -136,13 +136,30 @@ If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all
 }
 }
 
+\section{S3 methods}{
+
+\itemize{
+\item \code{as.data.frame(task)}\cr
+\link{Task} -> \code{data.frame()}\cr
+Returns the data set as \code{data.frame()}.
+\item \code{as.data.table(task)}\cr
+\link{Task} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Returns the data set as \code{data.table()}.
+}
+}
+
 \section{Task mutators}{
 
-The methods \code{filter()}, \code{select()}, \code{rbind()}, and \code{cbind()} change the task in-place,
-but without modifying the \link{DataBackend}.
-\code{filter()} and \code{select()} just reduce the set of active rows or columns, providing a different view on the data.
-\code{rbind()} and \code{cbind()} first create a new \link{DataBackendDataTable} from the provided new data, and then
+The following methods change the task in-place:
+\itemize{
+\item \code{set_row_roles()} and \code{set_col_roles()} alter the row or column information in \code{row_roles} or \code{col_roles}, respectively.
+\item \code{filter()} and \code{select()} subset the set of active rows or columns in \code{row_roles} or \code{col_roles}, respectively.
+This provides a different "view" on the data.
+\item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
+Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
 merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
+\item \code{replace_features()} is a convenience wrapper around \code{select()} and \code{cbind()}. Again, the original \link{DataBackend} remains unchanged.
+}
 }
 
 \examples{

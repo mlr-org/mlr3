@@ -148,12 +148,25 @@
 #'   Adds the roles `new_roles` to rows referred to by `rows`.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
 #'
+#' @section S3 methods:
+#'
+#' * `as.data.frame(task)`\cr
+#'   [Task] -> `data.frame()`\cr
+#'   Returns the data set as `data.frame()`.
+#'
+#' * `as.data.table(task)`\cr
+#'   [Task] -> [data.table::data.table()]\cr
+#'   Returns the data set as `data.table()`.
+#'
 #' @section Task mutators:
-#' The methods `filter()`, `select()`, `rbind()`, and `cbind()` change the task in-place,
-#' but without modifying the [DataBackend].
-#' `filter()` and `select()` just reduce the set of active rows or columns, providing a different view on the data.
-#' `rbind()` and `cbind()` first create a new [DataBackendDataTable] from the provided new data, and then
-#' merge both backends into an abstract [DataBackend] which combines the results on-demand.
+#' The following methods change the task in-place:
+#' * `set_row_roles()` and `set_col_roles()` alter the row or column information in `row_roles` or `col_roles`, respectively.
+#' * `filter()` and `select()` subset the set of active rows or columns in `row_roles` or `col_roles`, respectively.
+#'   This provides a different "view" on the data.
+#' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
+#'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
+#'   merge both backends into an abstract [DataBackend] which combines the results on-demand.
+#' * `replace_features()` is a convenience wrapper around `select()` and `cbind()`. Again, the original [DataBackend] remains unchanged.
 #'
 #' @family Task
 #' @export
@@ -180,15 +193,17 @@
 Task = R6Class("Task",
   cloneable = TRUE,
   public = list(
+    id = NULL,
     task_type = NULL,
     backend = NULL,
     properties = character(0L),
     row_roles = NULL,
     col_roles = NULL,
     col_info = NULL,
+    measures = NULL,
 
     initialize = function(id, task_type, backend) {
-      private$.id = assert_id(id)
+      self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$backend = assert_backend(backend)
 
@@ -230,54 +245,45 @@ Task = R6Class("Task",
     filter = function(rows) {
       rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
       self$row_roles$use = intersect(self$row_roles$use, rows)
-      private$.hash = NA_character_
       invisible(self)
     },
 
     select = function(cols) {
       assert_character(cols, any.missing = FALSE, min.chars = 1L)
       self$col_roles$feature = intersect(self$col_roles$feature, cols)
-      private$.hash = NA_character_
       invisible(self)
     },
 
     rbind = function(data) {
       task_rbind(self, data)
-      private$.hash = NA_character_
       invisible(self)
     },
 
     cbind = function(data) {
       task_cbind(self, data)
-      private$.hash = NA_character_
       invisible(self)
     },
 
     replace_features = function(data) {
       task_replace_features(self, data)
-      private$.hash = NA_character_
       invisible(self)
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
       task_set_row_role(self, rows, new_roles, exclusive)
-      private$.hash = NA_character_
       invisible(self)
     },
 
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
       task_set_col_role(self, cols, new_roles, exclusive)
-      private$.hash = NA_character_
       invisible(self)
     }
   ),
 
   active = list(
-    measures = function(rhs) {
-      if (missing(rhs))
-        return(private$.measures)
-      private$.hash = NA_character_
-      private$.measures = assert_measures(rhs, task = self)
+    hash = function() {
+      hash(list(class(self), self$id, self$backend$hash, self$row_roles,
+          self$col_roles, self$properties, sort(hashes(self$measures))))
     },
 
     row_ids = function() {
@@ -308,30 +314,25 @@ Task = R6Class("Task",
       generate_formula(self$target_names, self$feature_names)
     },
 
-     groups = function() {
-       groups = self$col_roles$groups
-       if (length(groups) == 0L)
-         return(NULL)
-       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, groups))
-       setnames(data, names(data), c("row_id", "group"))[]
-     },
+    groups = function() {
+      groups = self$col_roles$groups
+      if (length(groups) == 0L)
+        return(NULL)
+      data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, groups))
+      setnames(data, names(data), c("row_id", "group"))[]
+    },
 
-     weights = function() {
-       weights = self$col_roles$weights
-       if (length(weights) == 0L)
-         return(NULL)
-       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights))
-       setnames(data, names(data), c("row_id", "weight"))[]
-     }
+    weights = function() {
+      weights = self$col_roles$weights
+      if (length(weights) == 0L)
+        return(NULL)
+      data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights))
+      setnames(data, names(data), c("row_id", "weight"))[]
+    }
   ),
 
   private = list(
     .measures = list(),
-
-    .calculate_hash = function() {
-      hash(list(class(self), private$.id, self$backend$hash, self$row_roles,
-          self$col_roles, self$properties, sort(hashes(self$measures))))
-    },
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
@@ -340,8 +341,6 @@ Task = R6Class("Task",
     }
   )
 )
-
-Task = add_id_hash(Task)
 
 task_data = function(self, rows = NULL, cols = NULL, format) {
   order = self$col_roles$order
@@ -429,9 +428,18 @@ col_info.data.table = function(x, primary_key = character(0L), ...) {
 }
 
 col_info.DataBackend = function(x, ...) {
-  # X <<- x
   types = map_chr(x$head(1L), function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
+}
+
+#' @export
+as.data.table.Task = function(x, ...) {
+  x$head(x$nrow)
+}
+
+#' @export
+as.data.frame.Task = function(x, ...) {
+  setDF(as.data.table(x))[]
 }

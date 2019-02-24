@@ -210,7 +210,7 @@ Control settings passed during initialization.</p></li>
 <li><p><code>has_errors</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code><br />
 Flag which is <code>TRUE</code> if any error has been recorded during <code>$train()</code> or <code>$predict()</code>.</p></li>
 <li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
-Hash (unique identifier) for this object.</p></li>
+Hash (unique identifier) for this object. This hash is cached.</p></li>
 <li><p><code>state</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/factor'>ordered(1)</a></code><br />
 Returns the state of the experiment as ordered factor: "defined", "trained", "predicted", or "scored".</p></li>
 <li><p><code>train_set</code> :: (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>)<br />
@@ -280,7 +280,16 @@ Returns a <a href='Log.html'>Log</a> for specified steps.</p></li>
 #&gt;   performance, predict(), prediction, score(), seeds, state, task,
 #&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='no'>e</span>$<span class='no'>state</span></div><div class='output co'>#&gt; [1] defined
 #&gt; Levels: undefined &lt; defined &lt; trained &lt; predicted &lt; scored</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [trained]:
+<span class='no'>e</span>$<span class='fu'>train</span>(<span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>120</span>)</div><div class='output co'>#&gt; INFO [mlr3] Training learner 'rpart' on task 'iris' ...</div><div class='output co'>#&gt; &lt;Experiment&gt; [trained]:
+#&gt;  + Task: iris
+#&gt;  + Learner: rpart
+#&gt;  + Model: [rpart]
+#&gt;  - Predictions: [missing]
+#&gt;  - Performance: [missing]
+#&gt; 
+#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, log(), model,
+#&gt;   performance, predict(), prediction, score(), seeds, state, task,
+#&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [trained]:
 #&gt;  + Task: iris
 #&gt;  + Learner: rpart
 #&gt;  + Model: [rpart]
@@ -300,7 +309,16 @@ Returns a <a href='Log.html'>Log</a> for specified steps.</p></li>
 #&gt;   3) Petal.Length&gt;=2.45 70 20 versicolor (0.00000000 0.71428571 0.28571429)  
 #&gt;     6) Petal.Length&lt; 4.95 49  1 versicolor (0.00000000 0.97959184 0.02040816) *
 #&gt;     7) Petal.Length&gt;=4.95 21  2 virginica (0.00000000 0.09523810 0.90476190) *</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [mlr3] Predicting with model of learner 'rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [predicted]:
+<span class='no'>e</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='fl'>121</span>:<span class='fl'>150</span>)</div><div class='output co'>#&gt; INFO [mlr3] Predicting with model of learner 'rpart' on task 'iris' ...</div><div class='output co'>#&gt; &lt;Experiment&gt; [predicted]:
+#&gt;  + Task: iris
+#&gt;  + Learner: rpart
+#&gt;  + Model: [rpart]
+#&gt;  + Predictions: [PredictionClassif]
+#&gt;  - Performance: [missing]
+#&gt; 
+#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, log(), model,
+#&gt;   performance, predict(), prediction, score(), seeds, state, task,
+#&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [predicted]:
 #&gt;  + Task: iris
 #&gt;  + Learner: rpart
 #&gt;  + Model: [rpart]
@@ -319,7 +337,16 @@ Returns a <a href='Log.html'>Log</a> for specified steps.</p></li>
 #&gt; 28:    148  virginica virginica
 #&gt; 29:    149  virginica virginica
 #&gt; 30:    150  virginica virginica</div><div class='input'>
-<span class='no'>e</span>$<span class='fu'>score</span>()</div><div class='output co'>#&gt; INFO [mlr3] Scoring predictions of learner 'rpart' on task 'iris' ...</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [scored]:
+<span class='no'>e</span>$<span class='fu'>score</span>()</div><div class='output co'>#&gt; INFO [mlr3] Scoring predictions of learner 'rpart' on task 'iris' ...</div><div class='output co'>#&gt; &lt;Experiment&gt; [scored]:
+#&gt;  + Task: iris
+#&gt;  + Learner: rpart
+#&gt;  + Model: [rpart]
+#&gt;  + Predictions: [PredictionClassif]
+#&gt;  + Performance: classif.mmce=0.1666667
+#&gt; 
+#&gt; Public: clone(), ctrl, data, has_errors, hash, learner, log(), model,
+#&gt;   performance, predict(), prediction, score(), seeds, state, task,
+#&gt;   test_set, timings, train_set, train(), validation_set</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; &lt;Experiment&gt; [scored]:
 #&gt;  + Task: iris
 #&gt;  + Learner: rpart
 #&gt;  + Model: [rpart]

@@ -91,7 +91,14 @@
 #' bmr$learners
 #' bmr$resamplings
 #' bmr$measures
+#'
+#' # aggregated results
 #' bmr$aggregated(objects = FALSE)
+#'
+#' # aggregated results with hyperparameters as separate columns
+#' mlr3misc::unnest(bmr$aggregated(objects = FALSE, params = TRUE), "params")
+#'
+#' # extract resample results and experiments
 #' rrs = bmr$resample_results
 #' print(rrs)
 #' rr = bmr$resample_result(rrs$hash[1])
@@ -150,7 +157,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       aggr$resample_result[[best]]
     },
 
-    aggregated = function(ids = TRUE, objects = TRUE, params = FALSE) {
+    aggregated = function(ids = TRUE, objects = TRUE, params = FALSE, unnest_params = FALSE) {
       res = self$data[, list(resample_result = list(ResampleResult$new(.SD))), by = hash]
 
       if (assert_flag(objects)) {

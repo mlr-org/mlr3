@@ -7,3 +7,8 @@
 \description{
 A regression task for the \link[mlbench:BostonHousing2]{mlbench::BostonHousing2} data set.
 }
+\section{Usage}{
+\preformatted{mlr_tasks$get("bh")
+}
+}
+

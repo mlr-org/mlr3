@@ -40,6 +40,9 @@
 #' * `rownames` :: `integer()` | `character()`\cr
 #'   Returns vector of all distinct row identifiers, i.e. the primary key column.
 #'
+#' * `hash` :: `character(1)`\cr
+#'   Returns a unique hash for this backend. This hash is cached.
+#'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, format = "data.table")`\cr
 #'   (`integer()` | `character()`, `character()`) -> `any`\cr

@@ -286,14 +286,30 @@ Adds the roles <code>new_roles</code> to rows referred to by <code>rows</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p></li>
 </ul>
     
+    <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 methods</h2>
+
+    
+    <ul>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame(task)</a></code><br />
+Task -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code><br />
+Returns the data set as <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code>.</p></li>
+<li><p><code><a href='as.data.table.html'>as.data.table(task)</a></code><br />
+Task -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Returns the data set as <code>data.table()</code>.</p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="task-mutators"><a class="anchor" href="#task-mutators"></a>Task mutators</h2>
 
     
-    <p>The methods <code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code>, <code>select()</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code>, and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code> change the task in-place,
-but without modifying the <a href='DataBackend.html'>DataBackend</a>.
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code> and <code>select()</code> just reduce the set of active rows or columns, providing a different view on the data.
-<code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code> first create a new <a href='DataBackendDataTable.html'>DataBackendDataTable</a> from the provided new data, and then
-merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> which combines the results on-demand.</p>
+    <p>The following methods change the task in-place:</p><ul>
+<li><p><code>set_row_roles()</code> and <code>set_col_roles()</code> alter the row or column information in <code>row_roles</code> or <code>col_roles</code>, respectively.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter()</a></code> and <code>select()</code> subset the set of active rows or columns in <code>row_roles</code> or <code>col_roles</code>, respectively.
+This provides a different "view" on the data.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind()</a></code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code> change the task in-place by binding rows or columns to the data, but without modifying the original <a href='DataBackend.html'>DataBackend</a>.
+Instead, the methods first create a new <a href='DataBackendDataTable.html'>DataBackendDataTable</a> from the provided new data, and then
+merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> which combines the results on-demand.</p></li>
+<li><p><code>replace_features()</code> is a convenience wrapper around <code>select()</code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>. Again, the original <a href='DataBackend.html'>DataBackend</a> remains unchanged.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -335,6 +351,8 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
       <li><a href="#fields">Fields</a></li>
 
       <li><a href="#methods">Methods</a></li>
+
+      <li><a href="#s-methods">S3 methods</a></li>
 
       <li><a href="#task-mutators">Task mutators</a></li>
 

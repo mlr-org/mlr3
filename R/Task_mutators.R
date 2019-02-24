@@ -114,8 +114,9 @@ task_rbind = function(self, data) {
   assert_set_equal(names(data), c(unlist(self$col_roles, use.names = FALSE), pk))
 
   ## 1.4 Check that types are matching
-  convert_matching_types(self$col_info, data)
-  data_col_info = col_info(data, primary_key = pk)
+  col_info = self$col_info[unique(unlist(self$col_roles, use.names = FALSE)), on = "id"]
+  convert_matching_types(col_info, data)
+  ci = col_info(data, primary_key = pk)
 
   # 2. Overwrite self$backend with new backend
   rows_self = unlist(self$row_roles, use.names = FALSE)
@@ -126,7 +127,7 @@ task_rbind = function(self, data) {
 
   # 4. Update col_info
   vunion = function(x, y) Map(union, x, y)
-  self$col_info = self$col_info[data_col_info[, c("id", "levels"), with = FALSE], on = "id", nomatch = 0L]
+  self$col_info = self$col_info[ci[, c("id", "levels"), with = FALSE], on = "id", nomatch = 0L]
   self$col_info[get("type") %in% c("factor", "ordered", "character"), "levels" := list(vunion(get("levels"), get("i.levels")))]
   self$col_info[, "i.levels" := NULL]
 
@@ -198,8 +199,8 @@ task_replace_features = function(self, data) {
   self$col_roles$feature = new_features
 
   # 3. Update column info
-  # TODO: can be optimized
-  self$col_info = col_info(self$backend)
+  ci = col_info(data)[get("id") != pk]
+  self$col_info = ujoin(self$col_info, ci, key = "id")
 
   invisible(self)
 }

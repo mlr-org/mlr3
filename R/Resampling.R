@@ -99,6 +99,7 @@
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
 Resampling = R6Class("Resampling",
   public = list(
+    id = NULL,
     param_set = NULL,
     instance = NULL,
     task_hash = NA_character_,
@@ -106,7 +107,7 @@ Resampling = R6Class("Resampling",
     duplicated_ids = NULL,
 
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(), duplicated_ids = FALSE) {
-      private$.id = id
+      self$id = assert_id(id)
       self$param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
       self$stratify = character(0L)
@@ -145,7 +146,6 @@ Resampling = R6Class("Resampling",
 
       self$instance = instance
       self$task_hash = task$hash
-      private$.hash = NA_character_
       invisible(self)
     },
 
@@ -161,21 +161,19 @@ Resampling = R6Class("Resampling",
   active = list(
     is_instantiated = function() {
       !is.null(self$instance)
+    },
+
+    hash = function() {
+      hash(list(class(self), self$id, self$param_set$values, self$instance))
     }
   ),
 
   private = list(
     .groups = NULL,
 
-    .calculate_hash = function() {
-      # if (is.null(self$instance))
-      #   return(NA_character_)
-      hash(list(class(self), private$.id, self$param_set$values, self$instance))
-    },
-
     .get_set = function(getter, i) {
       if (!self$is_instantiated)
-        stopf("Resampling '%s' has not been instantiated yet", private$.id)
+        stopf("Resampling '%s' has not been instantiated yet", self$id)
       i = assert_int(i, lower = 1L, upper = self$iters, coerce = TRUE)
       ids = getter(i)
 
@@ -183,8 +181,6 @@ Resampling = R6Class("Resampling",
     }
   )
 )
-
-Resampling = add_id_hash(Resampling)
 
 stratify = function(task, stratify) {
   assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)

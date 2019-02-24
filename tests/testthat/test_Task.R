@@ -54,6 +54,11 @@ test_that("Task rbind", {
 
   task$rbind(iris[integer(0), ])
   expect_equal(task$nrow, 160)
+
+  # 185
+  task = mlr_tasks$get("iris")
+  task$select("Petal.Length")
+  task$rbind(task$data())
 })
 
 test_that("Task cbind", {
@@ -164,4 +169,10 @@ test_that("ordered factors (#95)", {
   expect_subset(c("numeric", "ordered", "factor"), task$col_info$type)
   expect_set_equal(task$col_info[id == "z", levels][[1L]], c("M", "R"))
   expect_set_equal(task$col_info[id == "y", levels][[1L]], letters[1:3])
+})
+
+test_that("as.data.(frame|table)", {
+  task = mlr_tasks$get("iris")
+  expect_data_table(as.data.table(task), nrow = 150, ncol = 5)
+  expect_data_frame(as.data.frame(task), nrow = 150, ncol = 5)
 })
