@@ -215,7 +215,7 @@ Task = R6Class("Task",
 
       self$row_roles = list(use = rn, validation = rn[0L])
       self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character(0L))
-      self$col_roles$feature = setdiff(cn, backend$primary_key)
+      self$col_roles$feature = set_diff(cn, backend$primary_key)
     },
 
     format = function() {
@@ -244,13 +244,13 @@ Task = R6Class("Task",
 
     filter = function(rows) {
       rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
-      self$row_roles$use = intersect(self$row_roles$use, rows)
+      self$row_roles$use = set_intersect(self$row_roles$use, rows)
       invisible(self)
     },
 
     select = function(cols) {
       assert_character(cols, any.missing = FALSE, min.chars = 1L)
-      self$col_roles$feature = intersect(self$col_roles$feature, cols)
+      self$col_roles$feature = set_intersect(self$col_roles$feature, cols)
       invisible(self)
     },
 
@@ -282,8 +282,8 @@ Task = R6Class("Task",
 
   active = list(
     hash = function() {
-      hash(list(class(self), self$id, self$backend$hash, self$row_roles,
-          self$col_roles, self$properties, sort(hashes(self$measures))))
+      hash(list(class(self), self$id, self$backend$hash, map(self$row_roles, as.vector),
+          map(self$col_roles, as.vector), self$properties, sort(hashes(self$measures))))
     },
 
     row_ids = function() {
@@ -291,11 +291,11 @@ Task = R6Class("Task",
     },
 
     feature_names = function() {
-      self$col_roles$feature
+      as.vector(self$col_roles$feature)
     },
 
     target_names = function() {
-      self$col_roles$target
+      as.vector(self$col_roles$target)
     },
 
     nrow = function() {
@@ -348,7 +348,7 @@ task_data = function(self, rows = NULL, cols = NULL, format) {
   if (is.null(rows)) {
     selected_rows = self$row_roles$use
   } else {
-    assert_subset(rows, self$row_roles$use)
+    assert_subset(rows, self$row_roles$use, fmatch = TRUE)
     if (is.double(rows))
       rows = as.integer(rows)
     selected_rows = rows
@@ -357,6 +357,7 @@ task_data = function(self, rows = NULL, cols = NULL, format) {
   if (is.null(cols)) {
     selected_cols = c(self$col_roles$target, self$col_roles$feature)
   } else {
+    # TODO: use fmatch
     assert_subset(cols, c(self$col_roles$target, self$col_roles$feature))
     selected_cols = cols
   }

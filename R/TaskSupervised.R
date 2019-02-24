@@ -44,9 +44,9 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
     initialize = function(id, task_type, backend, target) {
       super$initialize(id = id, task_type = task_type, backend = backend)
-      assert_subset(target, self$col_roles$feature)
+      assert_subset(target, self$col_roles$feature, fmatch = TRUE)
       self$col_roles$target = target
-      self$col_roles$feature = setdiff(self$col_roles$feature, target)
+      self$col_roles$feature = set_diff(self$col_roles$feature, target)
     },
 
     truth = function(row_ids = NULL) {

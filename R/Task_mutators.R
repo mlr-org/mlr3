@@ -5,12 +5,12 @@ task_set_row_role = function(self, rows, new_roles, exclusive = TRUE) {
   assert_flag(exclusive)
 
   for (role in new_roles) {
-    self$row_roles[[role]] = union(self$row_roles[[role]], rows)
+    self$row_roles[[role]] = set_union(self$row_roles[[role]], rows)
   }
 
   if (exclusive) {
     for (role in setdiff(names(self$row_roles), new_roles))
-      self$row_roles[[role]] = setdiff(self$row_roles[[role]], rows)
+      self$row_roles[[role]] = set_diff(self$row_roles[[role]], rows)
   }
 }
 
@@ -21,12 +21,12 @@ task_set_col_role = function(self, cols, new_roles, exclusive = TRUE) {
   assert_flag(exclusive)
 
   for (role in new_roles) {
-    self$col_roles[[role]] = union(self$col_roles[[role]], cols)
+    self$col_roles[[role]] = set_union(self$col_roles[[role]], cols)
   }
 
   if (exclusive) {
     for (role in setdiff(names(self$col_roles), new_roles))
-      self$col_roles[[role]] = setdiff(self$col_roles[[role]], cols)
+      self$col_roles[[role]] = set_diff(self$col_roles[[role]], cols)
   }
 
   # update weights and groups property
@@ -53,7 +53,7 @@ check_new_row_ids = function(task, data, type) {
 
   switch(type,
     "disjunct" = {
-      if (any(row_ids %in% task_row_ids))
+      if (any(row_ids %fin% task_row_ids))
         stopf("Cannot mutate task: Duplicated row_ids")
     },
     "setequal" = {
@@ -61,7 +61,7 @@ check_new_row_ids = function(task, data, type) {
         stopf("Cannot mutate task: row_ids do not match")
     },
     "subset" = {
-      if (!all(row_ids %in% task_row_ids))
+      if (!all(row_ids %fin% task_row_ids))
         stopf("Cannot mutate task: Extra row ids")
     }
   )
@@ -166,7 +166,7 @@ task_cbind = function(self, data) {
   self$col_info = ujoin(self$col_info, ci, key = "id")
   self$col_info = rbind(self$col_info, ci[!list(self$col_info$id), on = "id"])
   setkeyv(self$col_info, "id")
-  self$col_roles$feature = union(self$col_roles$feature, setdiff(names(data), pk))
+  self$col_roles$feature = set_union(self$col_roles$feature, set_diff(names(data), pk))
 
   invisible(self)
 }
@@ -191,7 +191,7 @@ task_replace_features = function(self, data) {
   # 1.3 Remove old features
   self$col_roles$feature = character(0L)
   keep_cols = unlist(self$col_roles, use.names = FALSE)
-  new_features = setdiff(names(data), pk)
+  new_features = set_diff(names(data), pk)
 
   # 2. Cbind new features
   b = DataBackendDataTable$new(data, primary_key = pk)
