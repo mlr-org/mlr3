@@ -33,7 +33,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       assert_choice(format, self$formats)
       cols = set_intersect(cols, self$cols)
 
-      query_rows = funique(rows)
+      query_rows = wunique(rows)
       query_cols = set_union(cols, self$primary_key)
       data = rbind(
         private$.data$b1$data(set_intersect(query_rows, self$rows$b1), query_cols, format = format),
