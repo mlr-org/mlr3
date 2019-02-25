@@ -57,7 +57,7 @@ test_that("DataBackendMatrix sparse output", {
   testthat::expect_equal(i, get_row_id(x))
 
   # duplicated cols raise exception
-  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L, format = "sparse")), "unique")
+  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L, format = "sparse")), "duplicated")
 
   # argument n of head
   expect_Matrix(b$head(3, format = "sparse"), nrow = 3, ncol = b$ncol - 1L)

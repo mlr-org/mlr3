@@ -25,3 +25,5 @@ doc
 inst/doc
 .DS_Store
 .Rproj.user
+/src/*.so
+/src/*.o

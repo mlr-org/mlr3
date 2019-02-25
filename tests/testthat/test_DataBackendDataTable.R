@@ -23,3 +23,11 @@ test_that("DataBackendDataTable construction", {
   x = b$missing(b$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })
+
+test_that("DataBackendDataTable is constructed with hashes", {
+  data = as.data.table(iris)
+  data$id = 1:150
+  b = DataBackendDataTable$new(data, "id")
+  expect_true(!is.null(attr(b$colnames, ".match.hash")))
+  expect_true(!is.null(attr(b$colnames, ".unique")))
+})

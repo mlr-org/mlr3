@@ -12,3 +12,5 @@
 ^attic$
 ^docs$
 ^pkgdown$
+^src/.+\.o$
+^src/.+\.so$

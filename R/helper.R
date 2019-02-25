@@ -25,9 +25,11 @@ distinct = function(x) {
   lvls
 }
 
+#' @useDynLib mlr3 C_filter_oob_index
 filter_oob_index = function(x, lower, upper) {
-  x = assert_integerish(x, coerce = TRUE)
-  x[!is.na(x) & x >= lower & x <= upper]
+  .Call(C_filter_oob_index, x, lower, upper)
+  # x = assert_integerish(x, coerce = TRUE)
+  # x[!is.na(x) & x >= lower & x <= upper]
 }
 
 hash = function(...) {
