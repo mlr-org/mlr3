@@ -131,8 +131,7 @@ DataBackendMatrix_query_rows = function(M, rows) {
   if (is.null(rownames(M)))
     return(filter_oob_index(rows, 1L, nrow(M)))
 
-  assert_character(rows)
-  set_intersect(rows, rownames(M))
+  set_intersect(assert_character(rows), rownames(M))
 }
 
 #' @export
