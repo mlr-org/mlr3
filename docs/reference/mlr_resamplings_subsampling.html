@@ -172,7 +172,11 @@
 <span class='no'>rss</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
 
 <span class='co'># Individual sets:</span>
-<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 2 3 6 7 8</div><div class='input'><span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  4  5  9 10</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 2 3 6 7 8
+#&gt; attr(,".unique")
+#&gt; [1] TRUE</div><div class='input'><span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  4  5  9 10
+#&gt; attr(,".unique")
+#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
 <span class='no'>rss</span>$<span class='no'>instance</span>$<span class='no'>train</span> <span class='co'># list of bit vectors</span></div><div class='output co'>#&gt; [[1]]
 #&gt; bit length=10 occupying only 1 integers

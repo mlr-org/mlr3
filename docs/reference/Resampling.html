@@ -244,7 +244,9 @@ Returns the row ids of the i-th test set.</p></li>
 
 <span class='co'># Extract train/test sets</span>
 <span class='no'>train_set</span> <span class='kw'>=</span> <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]   1  17  57  65  69  71  75  87  90 103 119 120 138 141 150</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]   1  17  57  65  69  71  75  87  90 103 119 120 138 141 150
+#&gt; attr(,".unique")
+#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Another example: 10-fold CV</span>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"cv"</span>)$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
 <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]   9  10  40  55  59  66  80  87  90 114 115 124 127 132 135   7  12  14
@@ -254,7 +256,9 @@ Returns the row ids of the i-th test set.</p></li>
 #&gt;  [73] 125 129 136  27  32  47  49  61  81  97  98 103 104 111 131 133 138 139
 #&gt;  [91]   4  11  22  23  25  45  60  65  78  88  92  99 102 122 130   3  13  15
 #&gt; [109]  18  26  37  48  58  69  86  91  93 107 121 126   1   2  39  42  44  51
-#&gt; [127]  54  56  83  96 108 128 137 141 148</div><div class='input'>
+#&gt; [127]  54  56  83  96 108 128 137 141 148
+#&gt; attr(,".unique")
+#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># Stratification</span>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"pima"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>())) <span class='co'># moderately unbalanced</span></div><div class='output co'>#&gt; 
