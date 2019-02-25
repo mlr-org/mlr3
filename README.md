@@ -34,6 +34,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`bit`](https://cran.r-project.org/package=bit): Efficient storage of logical vectors. No recursive dependencies.
     - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No recursive dependencies.
     - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No recursive dependencies.
+    - [`fastmatch`](https://cran.r-project.org/package=fastmatch): Fast and hashed implementation of `match()`. No recursive dependencies.
     - [`logger`](https://github.com/daroczig/logger): Logging facility. No recursive dependencies.
     - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No recursive dependencies.
 
