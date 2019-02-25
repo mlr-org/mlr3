@@ -39,13 +39,17 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     initialize = function(data, primary_key = NULL) {
       require_namespaces("Matrix")
       assert_class(data, "Matrix")
-      assert_names(colnames(data), type = "unique")
+      assert_unique(colnames(data))
+
       if (!is.null(rownames(data)))
-        assert_names(rownames(data), type = "unique")
+        assert_unique(rownames(data))
+
       if (any(dim(data) == 0L))
         stopf("No data in Matrix")
+
       if (!is.null(primary_key))
         stopf("Primary key column not supported by DataBackendMatrix")
+
       super$initialize(data, "..row_id", c("data.table", "sparse"))
     },
 

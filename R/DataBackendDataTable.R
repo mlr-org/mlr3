@@ -49,7 +49,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     initialize = function(data, primary_key) {
       assert_data_table(data)
       super$initialize(setkeyv(data, primary_key), primary_key)
-      assert_choice(primary_key, names(data))
+      assert_choice(primary_key, colnames(private$.data), fmatch = TRUE)
     },
 
     data = function(rows, cols, format = self$formats[1L]) {

@@ -244,13 +244,13 @@ Task = R6Class("Task",
 
     filter = function(rows) {
       rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
-      self$row_roles$use = set_intersect(self$row_roles$use, rows)
+      self$row_roles$use = set_intersect(rows, self$row_roles$use)
       invisible(self)
     },
 
     select = function(cols) {
       assert_character(cols, any.missing = FALSE, min.chars = 1L)
-      self$col_roles$feature = set_intersect(self$col_roles$feature, cols)
+      self$col_roles$feature = set_intersect(cols, self$col_roles$feature)
       invisible(self)
     },
 

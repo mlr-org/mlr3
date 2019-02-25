@@ -39,7 +39,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
         private$.data$b1$data(set_intersect(query_rows, self$rows$b1), query_cols, format = format),
         private$.data$b2$data(set_intersect(query_rows, self$rows$b2), query_cols, format = format)
       )
-      data[list(rows), set_intersect(cols, names(data)), nomatch = 0L, on = self$primary_key, with = FALSE]
+      data[list(rows), set_intersect(names(data), cols), nomatch = 0L, on = self$primary_key, with = FALSE]
     },
 
     head = function(n = 6L) {

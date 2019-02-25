@@ -150,11 +150,17 @@ Resampling = R6Class("Resampling",
     },
 
     train_set = function(i) {
-      private$.get_set(private$.get_train, i)
+      set = private$.get_set(private$.get_train, i)
+      if (!self$duplicated_ids)
+        attr(set, ".unique") = TRUE
+      set
     },
 
     test_set = function(i) {
-      private$.get_set(private$.get_test, i)
+      set = private$.get_set(private$.get_test, i)
+      if (!self$duplicated_ids)
+        attr(set, ".unique") = TRUE
+      set
     }
   ),
 

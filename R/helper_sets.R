@@ -1,5 +1,3 @@
-is_hashed = function(x) !is.null(attr(x, ".match.hash"))
-
 `%fnin%` = function(x, y) {
   !fmatch(x, y, 0L)
 }
@@ -22,7 +20,9 @@ set_equal = function(x, y) {
 }
 
 set_intersect = function(x, y) {
-  if (is_hashed(y) || (!is_hashed(x) && length(y) > length(x)))
+  is_hashed = function(x) !is.null(attr(x, ".match.hash"))
+
+  if (is_hashed(y) || !is_hashed(x))
     funique(y[fmatch(x, y, 0L)], attr(x, ".unique"))
   else
     funique(x[fmatch(y, x, 0L)], attr(y, ".unique"))
@@ -31,5 +31,5 @@ set_intersect = function(x, y) {
 set_diff = function(x, y) {
   if (length(x) == 0L && length(y) == 0L)
     return(x)
-  funique(x[fmatch(x, y, 0L) == 0L])
+  funique(x[fmatch(x, y, 0L) == 0L], attr(x, ".unique"))
 }
