@@ -78,7 +78,7 @@ Remotes:
     mlr-org/paradox
 Encoding: UTF-8
 LazyData: true
-NeedsCompilation: no
+NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Collate:
