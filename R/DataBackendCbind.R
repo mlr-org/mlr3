@@ -32,10 +32,10 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       qcols = union(assert_names(cols, type = "unique"), self$primary_key)
       assert_choice(format, self$formats)
 
-      d1 = private$.data$b1$data(qrows, intersect(qcols, self$cols$b1), format = "data.table")
+      d1 = private$.data$b1$data(qrows, intersect(qcols, self$cols$b1), format = format)
 
       if (ncol(d1) < length(qcols)) {
-        d2 = private$.data$b2$data(qrows, intersect(qcols, self$cols$b2), format = "data.table")
+        d2 = private$.data$b2$data(qrows, intersect(qcols, self$cols$b2), format = format)
         d1 = d1[d2, on = self$primary_key, nomatch = 0L]
       }
       d1[list(rows), intersect(cols, names(d1)), with = FALSE, on = self$primary_key, nomatch = 0L]

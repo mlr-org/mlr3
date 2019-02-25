@@ -36,8 +36,8 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       query_rows = unique(rows)
       query_cols = union(cols, self$primary_key)
       data = rbind(
-        private$.data$b1$data(intersect(query_rows, self$rows$b1), query_cols, format = "data.table"),
-        private$.data$b2$data(intersect(query_rows, self$rows$b2), query_cols, format = "data.table")
+        private$.data$b1$data(intersect(query_rows, self$rows$b1), query_cols, format = format),
+        private$.data$b2$data(intersect(query_rows, self$rows$b2), query_cols, format = format)
       )
       data[list(rows), intersect(cols, names(data)), nomatch = 0L, on = self$primary_key, with = FALSE]
     },
@@ -45,9 +45,9 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     head = function(n = 6L) {
       n = assert_count(n, coerce = TRUE)
 
+      cols = self$cols
       h1 = private$.data$b1$head(n)
       h2 = private$.data$b2$head(n)
-      cols = intersect(names(h1), names(h2))
 
       if (nrow(h1) < n)
         rbind(h1[, cols, with = FALSE], head(h2[, cols, with = FALSE], n - nrow(h1)))
