@@ -65,10 +65,17 @@ As we have not yet learned a model, this is `NULL`:
 learner$model
 ```
 
-We now train the learner on the complete iris task and retrieve the fitted `rpart::rpart()` model:
+### Train and Predict
+
+Is recommended to train the learner via the `mlr3::Experiment` class, we only train the learner here directly to showcase more of its API.
+
+First, we retrieve the "iris" task from the `mlr3::mlr_tasks` dictionary, and then apply the train method on the complete task.
 ```{r}
 task = mlr_tasks$get("iris")
 learner$train(task)
+```
+The learner returns itself, the fitted model is stored in the field "model":
+```{r}
 learner$model
 ```
 
