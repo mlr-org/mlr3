@@ -1,9 +1,9 @@
 ---
-title: "Handling model errors"
+title: "Handling Model Errors"
 author: "mlr-org team"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Handling model errors}
+  %\VignetteIndexEntry{Handling Model Errors}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

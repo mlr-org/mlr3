@@ -1,9 +1,9 @@
 ---
-title: "Introduction to Resampling and Benchmarking"
+title: "Resampling and Benchmarking"
 author: "mlr-org team"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to Resampling}
+  %\VignetteIndexEntry{Resampling and Benchmarking}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

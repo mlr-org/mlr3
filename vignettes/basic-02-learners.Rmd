@@ -1,9 +1,9 @@
 ---
-title: "Tasks"
+title: "Learners"
 author: "mlr-org team"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Tasks}
+  %\VignetteIndexEntry{Learners}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

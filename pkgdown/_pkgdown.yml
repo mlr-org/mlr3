@@ -26,14 +26,16 @@ navbar:
     menu:
     - text: Tasks
       href: articles/basic-01-tasks.html
-    - text: Train, predict, score
-      href: articles/basic-02-train-predict-score.html
+    - text: Learners
+      href: articles/basic-02-learners.html
+    - text: Experiments
+      href: articles/basic-03-experiments.html
     - text: Resampling
-      href: articles/basic-03-resample.html
+      href: articles/basic-04-resample-benchmark.html
     - text: Parallelization
-      href: articles/basic-04-parallelization.html
+      href: articles/basic-05-parallelization.html
     - text: Error handling
-      href: articles/basic-05-error-handling.html
+      href: articles/basic-06-error-handling.html
 
   - text: Appendix
     menu:
