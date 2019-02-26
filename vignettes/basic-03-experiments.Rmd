@@ -1,9 +1,9 @@
 ---
-title: "Introduction to train/predict/score"
-author: "Michel Lang"
+title: "Experiments"
+author: "mlr-org team"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to train/predict/score}
+  %\VignetteIndexEntry{Experiments}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,7 +11,7 @@ vignette: >
 ```{r child = 'include/options.Rmd'}
 ```
 
-In this introduction, we fit a classification tree on the iris and determine the mean misclassification error.
+In this introduction, we fit a single classification tree on the iris and determine the mean misclassification error.
 
 ## Task and learner objects
 

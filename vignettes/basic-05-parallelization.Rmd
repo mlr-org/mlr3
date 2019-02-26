@@ -1,6 +1,6 @@
 ---
 title: "Introduction to parallelization"
-author: "Michel Lang"
+author: "mlr-org team"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to parallelization}

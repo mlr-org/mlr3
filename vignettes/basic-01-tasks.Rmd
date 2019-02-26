@@ -1,6 +1,6 @@
 ---
 title: "Tasks"
-author: "Michel Lang"
+author: "mlr-org team"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Tasks}
@@ -15,7 +15,6 @@ vignette: >
 ```{r}
 library(mlr3)
 ```
-
 
 Learning tasks encapsulate the data set and additional meta information about a machine learning problem, for example the name of the target variable for supervised problems.
 

@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Resampling and Benchmarking"
-author: "Michel Lang"
+author: "mlr-org team"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to Resampling}
