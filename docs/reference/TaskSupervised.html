@@ -168,7 +168,9 @@ It extends <a href='Task.html'>Task</a> with methods to handle a target columns.
 <ul>
 <li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Name of the task.</p></li>
-<li><p><code>backend</code> :: <a href='DataBackend.html'>DataBackend</a></p></li>
+<li><p><code>backend</code> :: <a href='DataBackend.html'>DataBackend</a><br />
+Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a DataBackend with <code><a href='as_data_backend.html'>as_data_backend()</a></code>.
+E.g., a <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> will be converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.</p></li>
 <li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Set in the classes which inherit from this class.
 Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types</a>.</p></li>
@@ -301,8 +303,7 @@ Returns <code>NULL</code> if there are is no weight column.</p></li>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>iris</span>)
-<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskSupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>b</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskSupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -133,10 +133,10 @@ Subsets the task, reducing it to only keep the rows specified.
 \item \code{select(cols)}\cr
 \code{character()} -> \code{self}\cr
 Subsets the task, reducing it to only keep the columns specified.
-\item \code{levels(col)}\cr
+\item \code{levels(cols)}\cr
 \code{character()} -> named \code{list()}\cr
-Returns  the distinct levels of the column \code{col}.
-Only applicable for features with type "character",  "factor" or "ordered".
+Returns  the distinct levels of all columns in \code{cols}.
+Only applicable for features with type "character",  "factor" or "ordered", and is \code{NULL} otherwise.
 This function ignores the row roles, it returns all levels available in the \link{DataBackend}.
 \item \code{head(n = 6)}\cr
 \code{integer()} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
