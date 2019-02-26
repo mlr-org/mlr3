@@ -16,7 +16,9 @@
 #' * `id` :: `character(1)`\cr
 #'   Name of the task.
 #'
-#' * `backend` :: [DataBackend]
+#' * `backend` :: [DataBackend]\cr
+#'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
+#'   E.g., a `data.frame()` will be converted to a [DataBackendDataTable].
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Set in the classes which inherit from this class.
@@ -38,8 +40,7 @@
 #' @keywords internal
 #' @export
 #' @examples
-#' b = as_data_backend(iris)
-#' task = TaskSupervised$new("iris", task_type = "classif", backend = b, target = "Species")
+#' task = TaskSupervised$new("iris", task_type = "classif", backend = iris, target = "Species")
 TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
     initialize = function(id, task_type, backend, target) {

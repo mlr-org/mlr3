@@ -19,7 +19,9 @@
 #'   Set in the classes which inherit from this class.
 #'   Must be an element of [mlr_reflections$task_types][mlr_reflections].
 #'
-#' * `backend` :: [DataBackend]
+#' * `backend` :: [DataBackend]\cr
+#'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
+#'   E.g., a `data.frame()` will be converted to a [DataBackendDataTable].
 #'
 #' @section Fields:
 #' * `backend` :: [DataBackend].

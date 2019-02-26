@@ -18,7 +18,9 @@ The \code{task_type} is set to \code{"classif"}.
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Name of the task.
-\item \code{backend} :: \link{DataBackend}
+\item \code{backend} :: \link{DataBackend}\cr
+Either a \link{DataBackend}, or any object which is convertible to a DataBackend with \code{as_data_backend()}.
+E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.
 \item \code{target} :: \code{character(1)}\cr
 Name of the target column.
 }
@@ -139,8 +141,7 @@ If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all
 }
 
 \examples{
-b = as_data_backend(iris)
-task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
+task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
 task$task_type
 task$formula
 task$truth()

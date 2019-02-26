@@ -19,7 +19,9 @@
 #' * `id` :: `character(1)`\cr
 #'   Name of the task.
 #'
-#' * `backend` :: [DataBackend]
+#' * `backend` :: [DataBackend]\cr
+#'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
+#'   E.g., a `data.frame()` will be converted to a [DataBackendDataTable].
 #'
 #' * `target` :: `character(1)`\cr
 #'   Name of the target column.
@@ -49,8 +51,7 @@
 #' @family Task
 #' @export
 #' @examples
-#' b = as_data_backend(iris)
-#' task = TaskClassif$new("iris", backend = b, target = "Species")
+#' task = TaskClassif$new("iris", backend = iris, target = "Species")
 #' task$task_type
 #' task$formula
 #' task$truth()
@@ -58,8 +59,7 @@
 #' task$class_names
 #'
 #' data("Sonar", package = "mlbench")
-#' b = as_data_backend(Sonar)
-#' task = TaskClassif$new("sonar", backend = b, target = "Class", positive = "M")
+#' task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
 #' task$positive
 #' task$negative
 TaskClassif = R6Class("TaskClassif",

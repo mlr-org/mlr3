@@ -18,7 +18,9 @@ The \code{task_type} is set to \code{"classif"}.
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Name of the task.
-\item \code{backend} :: \link{DataBackend}
+\item \code{backend} :: \link{DataBackend}\cr
+Either a \link{DataBackend}, or any object which is convertible to a DataBackend with \code{as_data_backend()}.
+E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.
 \item \code{target} :: \code{character(1)}\cr
 Name of the target column.
 \item \code{positive} :: \code{character(1)}\cr
@@ -155,8 +157,7 @@ If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all
 }
 
 \examples{
-b = as_data_backend(iris)
-task = TaskClassif$new("iris", backend = b, target = "Species")
+task = TaskClassif$new("iris", backend = iris, target = "Species")
 task$task_type
 task$formula
 task$truth()
@@ -164,8 +165,7 @@ task$all_classes
 task$class_names
 
 data("Sonar", package = "mlbench")
-b = as_data_backend(Sonar)
-task = TaskClassif$new("sonar", backend = b, target = "Class", positive = "M")
+task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
 task$positive
 task$negative
 }

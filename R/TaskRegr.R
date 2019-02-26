@@ -19,7 +19,9 @@
 #' * `id` :: `character(1)`\cr
 #'   Name of the task.
 #'
-#' * `backend` :: [DataBackend]
+#' * `backend` :: [DataBackend]\cr
+#'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
+#'   E.g., a `data.frame()` will be converted to a [DataBackendDataTable].
 #'
 #' * `target` :: `character(1)`\cr
 #'   Name of the target column.
@@ -30,8 +32,7 @@
 #' @family Task
 #' @export
 #' @examples
-#' b = as_data_backend(iris)
-#' task = TaskRegr$new("iris", backend = b, target = "Sepal.Length")
+#' task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
 #' task$task_type
 #' task$formula
 #' task$truth()
