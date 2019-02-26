@@ -125,7 +125,11 @@
 <a href="#toc" class="anchor"></a>Table of Contents</h3>
       <ul>
 <li><a href="#prerequisites">Prerequisites</a></li>
-      <li><a href="#predefined-learners">Predefined Learners</a></li>
+      <li>
+<a href="#predefined-learners">Predefined Learners</a><ul>
+<li><a href="#train-and-predict">Train and Predict</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       
@@ -240,7 +244,11 @@
 <p>The field <code>model</code> stores the result of the training step. As we have not yet learned a model, this is <code>NULL</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">learner<span class="op">$</span>model</a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; NULL</span></a></code></pre></div>
-<p>We now train the learner on the complete iris task and retrieve the fitted <code><a href="https://www.rdocumentation.org/packages/rpart/topics/rpart">rpart::rpart()</a></code> model:</p>
+<div id="train-and-predict" class="section level3">
+<h3 class="hasAnchor">
+<a href="#train-and-predict" class="anchor"></a>Train and Predict</h3>
+<p>Is recommended to train the learner via the <code><a href="../reference/Experiment.html">mlr3::Experiment</a></code> class, we only train the learner here directly to showcase more of its API.</p>
+<p>First, we retrieve the “iris” task from the <code><a href="../reference/mlr_tasks.html">mlr3::mlr_tasks</a></code> dictionary, and then apply the train method on the complete task.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb7-2" title="2">learner<span class="op">$</span><span class="kw">train</span>(task)</a>
 <a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; &lt;LearnerClassifRpart:rpart&gt;</span></a>
@@ -255,26 +263,28 @@
 <a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; Public: clone(), fallback, feature_types, hash, id, importance(),</span></a>
 <a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;   model, packages, param_set, params(), predict_type,</span></a>
 <a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt;   predict_types, predict(), properties, selected_features(),</span></a>
-<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt;   task_type, train()</span></a>
-<a class="sourceLine" id="cb7-16" title="16">learner<span class="op">$</span>model</a>
-<a class="sourceLine" id="cb7-17" title="17"><span class="co">#&gt; n= 150 </span></a>
-<a class="sourceLine" id="cb7-18" title="18"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-19" title="19"><span class="co">#&gt; node), split, n, loss, yval, (yprob)</span></a>
-<a class="sourceLine" id="cb7-20" title="20"><span class="co">#&gt;       * denotes terminal node</span></a>
-<a class="sourceLine" id="cb7-21" title="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-22" title="22"><span class="co">#&gt; 1) root 150 100 setosa (0.33333333 0.33333333 0.33333333)  </span></a>
-<a class="sourceLine" id="cb7-23" title="23"><span class="co">#&gt;   2) Petal.Length&lt; 2.45 50   0 setosa (1.00000000 0.00000000 0.00000000) *</span></a>
-<a class="sourceLine" id="cb7-24" title="24"><span class="co">#&gt;   3) Petal.Length&gt;=2.45 100  50 versicolor (0.00000000 0.50000000 0.50000000)  </span></a>
-<a class="sourceLine" id="cb7-25" title="25"><span class="co">#&gt;     6) Petal.Width&lt; 1.75 54   5 versicolor (0.00000000 0.90740741 0.09259259) *</span></a>
-<a class="sourceLine" id="cb7-26" title="26"><span class="co">#&gt;     7) Petal.Width&gt;=1.75 46   1 virginica (0.00000000 0.02173913 0.97826087) *</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt;   task_type, train()</span></a></code></pre></div>
+<p>The learner returns itself, the fitted model is stored in the field “model”:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">learner<span class="op">$</span>model</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; n= 150 </span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; node), split, n, loss, yval, (yprob)</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt;       * denotes terminal node</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt; 1) root 150 100 setosa (0.33333333 0.33333333 0.33333333)  </span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;   2) Petal.Length&lt; 2.45 50   0 setosa (1.00000000 0.00000000 0.00000000) *</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;   3) Petal.Length&gt;=2.45 100  50 versicolor (0.00000000 0.50000000 0.50000000)  </span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;     6) Petal.Width&lt; 1.75 54   5 versicolor (0.00000000 0.90740741 0.09259259) *</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;     7) Petal.Width&gt;=1.75 46   1 virginica (0.00000000 0.02173913 0.97826087) *</span></a></code></pre></div>
 <p>Next, we generate predictions on the complete iris data set:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">predictions =<span class="st"> </span>learner<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(task)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">predictions =<span class="st"> </span>learner<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(task)</a></code></pre></div>
 <p>The returned <code><a href="../reference/PredictionClassif.html">mlr3::PredictionClassif</a></code> object stores the predicted labels (“response”) as well as the true labels (“truth”).</p>
 <p>By simply counting the number of correct predictions and dividing by the number of observations, we can calculate the accuracy:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">tab =<span class="st"> </span><span class="kw"><a href="../reference/as.data.table.html">as.data.table</a></span>(predictions)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(tab<span class="op">$</span>response <span class="op">==</span><span class="st"> </span>tab<span class="op">$</span>truth)</a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; [1] 0.96</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">tab =<span class="st"> </span><span class="kw"><a href="../reference/as.data.table.html">as.data.table</a></span>(predictions)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(tab<span class="op">$</span>response <span class="op">==</span><span class="st"> </span>tab<span class="op">$</span>truth)</a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt; [1] 0.96</span></a></code></pre></div>
 <p>Note that this measure is over-optimistic. As we did not used an independent test set, this is the re-substitution error.</p>
+</div>
 </div>
 </div>
   </div>
@@ -285,7 +295,11 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#prerequisites">Prerequisites</a></li>
-      <li><a href="#predefined-learners">Predefined Learners</a></li>
+      <li>
+<a href="#predefined-learners">Predefined Learners</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#train-and-predict">Train and Predict</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

@@ -210,10 +210,10 @@ Subsets the task, reducing it to only keep the rows specified.</p></li>
 <li><p><code>select(cols)</code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code>self</code><br />
 Subsets the task, reducing it to only keep the columns specified.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels(col)</a></code><br />
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels(cols)</a></code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
-Returns  the distinct levels of the column <code>col</code>.
-Only applicable for features with type "character",  "factor" or "ordered".
+Returns  the distinct levels of all columns in <code>cols</code>.
+Only applicable for features with type "character",  "factor" or "ordered", and is <code>NULL</code> otherwise.
 This function ignores the row roles, it returns all levels available in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head(n = 6)</a></code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
