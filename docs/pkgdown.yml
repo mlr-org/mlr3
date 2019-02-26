@@ -3,10 +3,12 @@ pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
   basic-01-tasks: basic-01-tasks.html
-  basic-02-train-predict-score: basic-02-train-predict-score.html
-  basic-03-resample-benchmarking: basic-03-resample-benchmarking.html
-  basic-04-parallelization: basic-04-parallelization.html
-  basic-05-error-handling: basic-05-error-handling.html
+  basic-02-learners: basic-02-learners.html
+  basic-03-experiments: basic-03-experiments.html
+  basic-04-resample-benchmarking: basic-04-resample-benchmarking.html
+  basic-05-parallelization: basic-05-parallelization.html
+  basic-06-error-handling: basic-06-error-handling.html
+  options: include/options.html
 urls:
   reference: https://mlr3.mlr-org.com/reference
   article: https://mlr3.mlr-org.com/articles
