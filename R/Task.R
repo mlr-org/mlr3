@@ -205,17 +205,21 @@ Task = R6Class("Task",
     initialize = function(id, task_type, backend) {
       self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
-      self$backend = assert_backend(backend)
+      if (is.data.frame(backend)) {
+        self$backend = as_data_backend(backend)
+      } else {
+        self$backend = assert_backend(backend)
+      }
 
-      self$col_info = col_info(backend)
+      self$col_info = col_info(self$backend)
       assert_names(self$col_info$id, "strict", .var.name = "feature names")
 
-      rn = backend$rownames
+      rn = self$backend$rownames
       cn = self$col_info$id
 
       self$row_roles = list(use = rn, validation = rn[0L])
       self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character(0L))
-      self$col_roles$feature = setdiff(cn, backend$primary_key)
+      self$col_roles$feature = setdiff(cn, self$backend$primary_key)
     },
 
     format = function() {
