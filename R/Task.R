@@ -125,10 +125,10 @@
 #'   `character()` -> `self`\cr
 #'   Subsets the task, reducing it to only keep the columns specified.
 #'
-#' * `levels(col)`\cr
+#' * `levels(cols)`\cr
 #'   `character()` -> named `list()`\cr
-#'   Returns  the distinct levels of the column `col`.
-#'   Only applicable for features with type "character",  "factor" or "ordered".
+#'   Returns  the distinct levels of all columns in `cols`.
+#'   Only applicable for features with type "character",  "factor" or "ordered", and is `NULL` otherwise.
 #'   This function ignores the row roles, it returns all levels available in the [DataBackend].
 #'
 #' * `head(n = 6)`\cr
@@ -243,9 +243,13 @@ Task = R6Class("Task",
       self$data(rows = ids, cols = cols)
     },
 
-    levels = function(col) {
-      assert_choice(col, self$col_info$id)
-      self$col_info[list(col), get("levels"), nomatch = 0L][[1L]]
+    levels = function(cols = NULL) {
+      if (is.null(cols)) {
+        cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
+      } else {
+        assert_subset(cols, self$col_info$id)
+      }
+      set_names(self$col_info[list(cols), get("levels")], cols)
     },
 
     filter = function(rows) {

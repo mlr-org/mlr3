@@ -184,6 +184,10 @@ expect_task = function(task) {
   properties = task$properties
   checkmate::expect_subset(properties, mlr3::mlr_reflections$task_properties[[task$task_type]])
 
+  levels = task$levels()
+  checkmate::expect_list(levels, names = "unique")
+  checkmate::qassertr(levels, c("0", "S+"))
+
   expect_hash(task$hash, 1L)
 
   # query zero columns
