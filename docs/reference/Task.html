@@ -232,6 +232,9 @@ Returns the row ids of the <a href='DataBackend.html'>DataBackend</a> for observ
 Returns all column names with role "target".</p></li>
 <li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Stores the type of the Task.</p></li>
+<li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Set of task properties. Possible properties are are stored in
+<a href='mlr_reflections.html'>mlr_reflections$task_properties</a>.</p></li>
 <li><p><code>groups</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
 If the task has a designated column role "groups", table with two columns:
 "row_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) and the grouping variable <code>group</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector()</a></code>).

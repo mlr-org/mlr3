@@ -235,6 +235,9 @@ Returns the row ids of the <a href='DataBackend.html'>DataBackend</a> for observ
 Returns all column names with role "target".</p></li>
 <li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Stores the type of the <a href='Task.html'>Task</a>.</p></li>
+<li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Set of task properties. Possible properties are are stored in
+<a href='mlr_reflections.html'>mlr_reflections$task_properties</a>.</p></li>
 <li><p><code>groups</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
 If the task has a designated column role "groups", table with two columns:
 "row_id" (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) and the grouping variable <code>group</code> (<code><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector()</a></code>).
@@ -312,7 +315,9 @@ If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be remo
 #&gt;  [91] 5.5 6.1 5.8 5.0 5.6 5.7 5.7 6.2 5.1 5.7 6.3 5.8 7.1 6.3 6.5 7.6 4.9 7.3
 #&gt; [109] 6.7 7.2 6.5 6.4 6.8 5.7 5.8 6.4 6.5 7.7 7.7 6.0 6.9 5.6 7.7 6.3 6.7 7.2
 #&gt; [127] 6.2 6.1 6.4 7.2 7.4 7.9 6.4 6.3 6.1 7.7 6.3 6.4 6.0 6.9 6.7 6.9 5.8 6.8
-#&gt; [145] 6.7 6.7 6.3 6.5 6.2 5.9</div></pre>
+#&gt; [145] 6.7 6.7 6.3 6.5 6.2 5.9</div><div class='input'>
+<span class='co'># possible properties:</span>
+<span class='no'>mlr_reflections</span>$<span class='no'>task_properties</span>$<span class='no'>regr</span></div><div class='output co'>#&gt; [1] "weights" "groups" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
