@@ -1,2 +1,2 @@
-log$set_threshold(old_threshold)
+lg$set_threshold(old_threshold)
 future::plan(old_plan)

@@ -33,7 +33,7 @@
 #' mlr_control(store_model = FALSE)
 mlr_control = function(...) {
   ctrl = default_mlr_control
-  ctrl$log_threshold = log$threshold
+  ctrl$log_threshold = lg$threshold
 
   ldots = ...length()
   if (ldots == 0L)

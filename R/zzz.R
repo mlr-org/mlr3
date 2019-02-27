@@ -16,10 +16,7 @@ dummy_import = function() { # nocov start
 
 .onLoad = function(libname, pkgname) { #nocov start
   backports::import(pkgname)
-  log = lgr::Logger$new(name = "mlr3", appenders = list(console = lgr::AppenderConsole$new()), propagate = FALSE)
-  log$appenders$console$set_layout(lgr::LayoutFormat$new(fmt = "[%L] %m"))
-
-  assign("log", log, envir = parent.env(environment())
-  )
+  lg = lgr::get_logger("mlr3")
+  assign("lg", lg, envir = parent.env(environment()))
   # utils::globalVariables(c("id", "role"), package = "mlr3")
 } #nocov end

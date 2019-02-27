@@ -1,4 +1,4 @@
-old_threshold = log$threshold
+old_threshold = lg$threshold
 old_plan = future::plan()
-log$set_threshold("warn")
+lg$set_threshold("warn")
 future::plan("sequential")

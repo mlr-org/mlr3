@@ -73,6 +73,7 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
+    s-fleck/lgr,
     mlr-org/mlr3misc,
     mlr-org/paradox
 Encoding: UTF-8

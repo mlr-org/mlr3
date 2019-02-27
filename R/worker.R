@@ -27,7 +27,7 @@ train_worker = function(e, ctrl) {
   # subset task
   task = data$task$clone(deep = TRUE)$filter(e$train_set)
 
-  log$debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
+  lg$debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
 
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
@@ -48,7 +48,7 @@ train_worker = function(e, ctrl) {
   # if there is a fallback learner defined, also fit fallback learner
   fb = learner$fallback
   if (!is.null(fb)) {
-    log$debug("train_worker: Training fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
+    lg$debug("train_worker: Training fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
     require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", fb$id))
 
     ok = try(fb$train(task))
@@ -102,7 +102,7 @@ predict_worker = function(e, ctrl) {
   if (!is.null(res$predict_log) && res$predict_log[get("class") == "error", .N] > 0L) {
     fb = learner$fallback
     if (!is.null(fb)) {
-      log$debug("predict_worker: Predicting fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
+      lg$debug("predict_worker: Predicting fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
       require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", fb$id))
 
       ok = try(fb$predict(task))
@@ -126,7 +126,7 @@ score_worker = function(e, ctrl) {
   measures = data$measures
   pkgs = unique(unlist(map(measures, "packages")))
 
-  log$debug("score_worker: Learner '%s' on task '%s' [%ix%i]", data$learner$id, data$task$id, data$task$nrow, data$task$ncol, namespace = "mlr3")
+  lg$debug("score_worker: Learner '%s' on task '%s' [%ix%i]", data$learner$id, data$task$id, data$task$nrow, data$task$ncol, namespace = "mlr3")
 
   # call m$score with local encapsulation
   score = function() { set_names(lapply(measures, function(m) m$calculate(e)), ids(measures)) }
@@ -141,14 +141,14 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   if (remote) {
     # restore the state of the master session
     # currently, this only affects logging as we do not use any global options
-    log$set_threshold(ctrl$log_threshold)
+    lg$set_threshold(ctrl$log_threshold)
   }
 
   # Create a new experiment
   # Results will be inserted into e$data in a piecemeal fashion
   e = as_experiment(task = task, learner = learner, resampling = resampling, iteration = iteration, measures = measures)
 
-  log$info("Running learner '%s' on task '%s' (iteration %i/%i)'", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
+  lg$info("Running learner '%s' on task '%s' (iteration %i/%i)'", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
 
   tmp = train_worker(e, ctrl)
   e$data = insert_named(e$data, tmp)

@@ -64,10 +64,10 @@ benchmark = function(design, ctrl = list()) {
       iter = seq_len(instance$iters), hash = hash)
   })
 
-  log$info("Benchmarking %i experiments", nrow(grid), namespace = "mlr3")
+  lg$info("Benchmarking %i experiments", nrow(grid), namespace = "mlr3")
 
   if (future_remote()) {
-    log$debug("Running benchmark() via future", namespace = "mlr3")
+    lg$debug("Running benchmark() via future", namespace = "mlr3")
 
     tmp = future.apply::future_mapply(experiment_worker,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
@@ -77,7 +77,7 @@ benchmark = function(design, ctrl = list()) {
       future.packages = "mlr3"
     )
   } else {
-    log$debug("Running benchmark() sequentially", namespace = "mlr3")
+    lg$debug("Running benchmark() sequentially", namespace = "mlr3")
     tmp = mapply(experiment_worker,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
       iteration = grid$iter, measures = grid$measures,
@@ -88,7 +88,7 @@ benchmark = function(design, ctrl = list()) {
   remove_named(grid, c("iter", "learner"))
   grid = ref_cbind(grid, combine_experiments(tmp))
 
-  log$info("Finished benchmark", namespace = "mlr3")
+  lg$info("Finished benchmark", namespace = "mlr3")
   BenchmarkResult$new(grid)
 }
 
