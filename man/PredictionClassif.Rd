@@ -11,6 +11,9 @@ If probabilities are provided via construction and response is missing,
 the response is calculated from the probabilities: the class label with the highest
 probability is chosen. In case of ties, a random class label of the tied labels picked.
 
+For binary classification problems, it is possible to set the probability threshold for
+predicting the positive class. This requires stored predictions.
+
 The \code{task_type} is set to \code{"classif"}.
 }
 \section{Construction}{
