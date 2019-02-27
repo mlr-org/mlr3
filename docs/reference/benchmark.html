@@ -201,12 +201,12 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 #&gt; 3: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingHoldout&gt;
 #&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingHoldout&gt;</div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; [INFO ] Benchmarking 4 experiments
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 1/1)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 1/1)'
-#&gt; [INFO ] Running learner 'featureless' on task 'sonar' (iteration 1/1)'
-#&gt; [INFO ] Running learner 'rpart' on task 'sonar' (iteration 1/1)'
-#&gt; [INFO ] Finished benchmark</div><div class='input'>
+<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [13:05:35.897] Benchmarking 4 experiments {namespace: mlr3}
+#&gt; INFO  [13:05:35.901] Running learner 'featureless' on task 'iris' (iteration 1/1)' {namespace: mlr3}
+#&gt; INFO  [13:05:35.918] Running learner 'rpart' on task 'iris' (iteration 1/1)' {namespace: mlr3}
+#&gt; INFO  [13:05:35.948] Running learner 'featureless' on task 'sonar' (iteration 1/1)' {namespace: mlr3}
+#&gt; INFO  [13:05:35.968] Running learner 'rpart' on task 'sonar' (iteration 1/1)' {namespace: mlr3}
+#&gt; INFO  [13:05:36.023] Finished benchmark {namespace: mlr3}</div><div class='input'>
 <span class='co'># performance for all conducted experiments</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                hash          task task_id                     learner
 #&gt; 1: 41dfc6619b64a548 &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;

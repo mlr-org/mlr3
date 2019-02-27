@@ -241,28 +241,28 @@ Converts to a flat <code>data.table()</code>.</p></li>
   <span class='kw'>tasks</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='st'>"iris"</span>),
   <span class='kw'>learners</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>)),
   <span class='kw'>resamplings</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget</a></span>(<span class='st'>"cv"</span>)
-))</div><div class='output co'>#&gt; [INFO ] Benchmarking 20 experiments
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 1/10)'
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 2/10)'
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 3/10)'
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 4/10)'
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 5/10)'
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 6/10)'
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 7/10)'
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 8/10)'
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 9/10)'
-#&gt; [INFO ] Running learner 'featureless' on task 'iris' (iteration 10/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 1/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 2/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 3/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 4/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 5/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 6/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 7/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 8/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 9/10)'
-#&gt; [INFO ] Running learner 'rpart' on task 'iris' (iteration 10/10)'
-#&gt; [INFO ] Finished benchmark</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 20 experiments in 2 resamplings:
+))</div><div class='output co'>#&gt; INFO  [13:05:26.663] Benchmarking 20 experiments {namespace: mlr3}
+#&gt; INFO  [13:05:26.789] Running learner 'featureless' on task 'iris' (iteration 1/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:26.895] Running learner 'featureless' on task 'iris' (iteration 2/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.013] Running learner 'featureless' on task 'iris' (iteration 3/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.033] Running learner 'featureless' on task 'iris' (iteration 4/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.055] Running learner 'featureless' on task 'iris' (iteration 5/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.075] Running learner 'featureless' on task 'iris' (iteration 6/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.105] Running learner 'featureless' on task 'iris' (iteration 7/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.126] Running learner 'featureless' on task 'iris' (iteration 8/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.146] Running learner 'featureless' on task 'iris' (iteration 9/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.167] Running learner 'featureless' on task 'iris' (iteration 10/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.188] Running learner 'rpart' on task 'iris' (iteration 1/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.237] Running learner 'rpart' on task 'iris' (iteration 2/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.270] Running learner 'rpart' on task 'iris' (iteration 3/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.302] Running learner 'rpart' on task 'iris' (iteration 4/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.343] Running learner 'rpart' on task 'iris' (iteration 5/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.374] Running learner 'rpart' on task 'iris' (iteration 6/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.405] Running learner 'rpart' on task 'iris' (iteration 7/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.437] Running learner 'rpart' on task 'iris' (iteration 8/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.470] Running learner 'rpart' on task 'iris' (iteration 9/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.504] Running learner 'rpart' on task 'iris' (iteration 10/10)' {namespace: mlr3}
+#&gt; INFO  [13:05:27.548] Finished benchmark {namespace: mlr3}</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 20 experiments in 2 resamplings:
 #&gt;  resampling task     learner classif.mmce
 #&gt;          cv iris       rpart   0.07333333
 #&gt;          cv iris featureless   0.80666667
