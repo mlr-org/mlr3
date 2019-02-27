@@ -14,7 +14,7 @@ This is the result container object returned by \code{\link[=resample]{resample(
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table with the data of one \link{Experiment} per row.
-See description of in \link{Experiment} for the exact structure.
+See description of field \code{data} of \link{Experiment} for the exact structure.
 }
 }
 

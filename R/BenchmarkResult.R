@@ -13,7 +13,7 @@
 #'
 #' * `data` :: [data.table::data.table()]\cr
 #'   Table with the data of one [Experiment] per row.
-#'   See description of in [Experiment] for the exact structure.
+#'   See description of field `data` of [Experiment] for the exact structure.
 #'
 #' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
