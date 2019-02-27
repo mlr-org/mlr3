@@ -33,7 +33,7 @@
 #' mlr_control(store_model = FALSE)
 mlr_control = function(...) {
   ctrl = default_mlr_control
-  ctrl$log_threshold = logger::log_threshold(namespace = "mlr3")
+  ctrl$log_threshold = log$threshold
 
   ldots = ...length()
   if (ldots == 0L)
@@ -59,5 +59,5 @@ default_mlr_control = list(
   store_prediction = TRUE,
   encapsulate_train = "none",
   encapsulate_predict = "none",
-  log_threshold = INFO
+  log_threshold = 400L
 )

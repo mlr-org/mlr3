@@ -296,7 +296,7 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
   self$data$iteration = 1L
 
-  log_info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
+  log$info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = train_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)
@@ -321,7 +321,7 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   }
   self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
 
-  log_info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
+  log$info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = predict_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)
@@ -335,7 +335,7 @@ experiment_score = function(self, private, ctrl = list()) {
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$measures = assert_measures(self$data$task$measures, task = self$task, predict_types = self$data$prediction$predict_types)
 
-  log_info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
+  log$info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = score_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)

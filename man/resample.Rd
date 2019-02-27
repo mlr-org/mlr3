@@ -26,10 +26,6 @@ Object to control various parts of the execution. See \code{\link[=mlr_control]{
 Runs a resampling (possibly in parallel).
 }
 \examples{
-\dontshow{
-   .threshold = logger::log_threshold(namespace = "mlr3")
-   logger::log_threshold(logger::WARN, namespace = "mlr3")
-}
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 resampling = mlr_resamplings$get("cv")
@@ -50,9 +46,4 @@ rr.featureless = resample(task, learner, resampling)
 
 bmr = rr$combine(rr.featureless)
 bmr$aggregated(objects = FALSE)
-
-
-\dontshow{
-   logger::log_threshold(.threshold, namespace = "mlr3")
-}
 }

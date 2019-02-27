@@ -2,7 +2,6 @@
 #' @import checkmate
 #' @import paradox
 #' @import mlr3misc
-#' @importFrom logger DEBUG log_debug INFO log_info WARN log_warn ERROR log_error with_log_threshold
 #' @importFrom R6 R6Class is.R6
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate median mad runif rnorm
@@ -14,15 +13,13 @@ dummy_import = function() { # nocov start
   tmp = Metrics::ce
 } # nocov end
 
-layout_mlr3 = structure(
-  function(level, msg, namespace = NA_character_, .logcall = sys.call(), .topcall = sys.call(-1), .topenv = parent.frame()) {
-    paste0(attr(level, 'level'), ' [mlr3] ', msg)
-  }, generator = quote(layout_mlr3())
-)
 
 .onLoad = function(libname, pkgname) { #nocov start
   backports::import(pkgname)
-  logger::log_formatter(logger::formatter_sprintf, namespace = pkgname)
-  logger::log_layout(layout_mlr3, namespace = pkgname)
+  log = lgr::Logger$new(name = "mlr3", appenders = list(console = lgr::AppenderConsole$new()), propagate = FALSE)
+  log$appenders$console$set_layout(lgr::LayoutFormat$new(fmt = "[%L] %m"))
+
+  assign("log", log, envir = parent.env(environment())
+  )
   # utils::globalVariables(c("id", "role"), package = "mlr3")
 } #nocov end

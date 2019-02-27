@@ -19,10 +19,6 @@
 #' @return [BenchmarkResult].
 #' @export
 #' @examples
-#' \dontshow{
-#'    .threshold = logger::log_threshold(namespace = "mlr3")
-#'    logger::log_threshold(logger::WARN, namespace = "mlr3")
-#' }
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 #' resamplings = mlr_resamplings$mget("holdout")
@@ -49,9 +45,6 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
-#' \dontshow{
-#'    logger::log_threshold(.threshold, namespace = "mlr3")
-#' }
 benchmark = function(design, ctrl = list()) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
@@ -71,10 +64,10 @@ benchmark = function(design, ctrl = list()) {
       iter = seq_len(instance$iters), hash = hash)
   })
 
-  log_info("Benchmarking %i experiments", nrow(grid), namespace = "mlr3")
+  log$info("Benchmarking %i experiments", nrow(grid), namespace = "mlr3")
 
   if (future_remote()) {
-    log_debug("Running benchmark() via future", namespace = "mlr3")
+    log$debug("Running benchmark() via future", namespace = "mlr3")
 
     tmp = future.apply::future_mapply(experiment_worker,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
@@ -84,7 +77,7 @@ benchmark = function(design, ctrl = list()) {
       future.packages = "mlr3"
     )
   } else {
-    log_debug("Running benchmark() sequentially", namespace = "mlr3")
+    log$debug("Running benchmark() sequentially", namespace = "mlr3")
     tmp = mapply(experiment_worker,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
       iteration = grid$iter, measures = grid$measures,
@@ -95,7 +88,7 @@ benchmark = function(design, ctrl = list()) {
   remove_named(grid, c("iter", "learner"))
   grid = ref_cbind(grid, combine_experiments(tmp))
 
-  log_info("Finished benchmark", namespace = "mlr3")
+  log$info("Finished benchmark", namespace = "mlr3")
   BenchmarkResult$new(grid)
 }
 

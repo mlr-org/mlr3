@@ -1,4 +1,4 @@
-old_threshold = logger::log_threshold(namespace = "mlr3")
+old_threshold = log$threshold
 old_plan = future::plan()
-logger::log_threshold(logger::WARN, namespace = "mlr3")
+log$set_threshold("warn")
 future::plan("sequential")

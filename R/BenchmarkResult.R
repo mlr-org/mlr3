@@ -76,10 +76,6 @@
 #'
 #' @export
 #' @examples
-#' \dontshow{
-#'    .threshold = logger::log_threshold(namespace = "mlr3")
-#'    logger::log_threshold(logger::WARN, namespace = "mlr3")
-#' }
 #' set.seed(123)
 #' bmr = benchmark(expand_grid(
 #'   tasks = mlr_tasks$mget("iris"),
@@ -104,9 +100,6 @@
 #' rr = bmr$resample_result(rrs$hash[1])
 #' print(rr)
 #' rr$experiment(1)$model
-#' \dontshow{
-#'    logger::log_threshold(.threshold, namespace = "mlr3")
-#' }
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
     data = NULL,
