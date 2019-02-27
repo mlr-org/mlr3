@@ -86,6 +86,10 @@
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of the [Task].
 #'
+#' * `properties` :: `character()`\cr
+#'   Set of task properties. Possible properties are are stored in
+#'   [mlr_reflections$task_properties][mlr_reflections].
+#'
 #' * `groups` :: [data.table::data.table()]\cr
 #'   If the task has a designated column role "groups", table with two columns:
 #'   "row_id" (`integer()` | `character()`) and the grouping variable `group` (`vector()`).

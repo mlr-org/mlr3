@@ -51,17 +51,19 @@
 #' @family Task
 #' @export
 #' @examples
-#' task = TaskClassif$new("iris", backend = iris, target = "Species")
+#' data("Sonar", package = "mlbench")
+#' task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
+#'
 #' task$task_type
 #' task$formula
 #' task$truth()
 #' task$all_classes
 #' task$class_names
-#'
-#' data("Sonar", package = "mlbench")
-#' task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
 #' task$positive
 #' task$negative
+#'
+#' # possible properties:
+#' mlr_reflections$task_properties$classif
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(

@@ -136,6 +136,9 @@ Returns the row ids of the \link{DataBackend} for observations with with role "u
 Returns all column names with role "target".
 \item \code{task_type} :: \code{character(1)}\cr
 Stores the type of the \link{Task}.
+\item \code{properties} :: \code{character()}\cr
+Set of task properties. Possible properties are are stored in
+\link[=mlr_reflections]{mlr_reflections$task_properties}.
 \item \code{groups} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 If the task has a designated column role "groups", table with two columns:
 "row_id" (\code{integer()} | \code{character()}) and the grouping variable \code{group} (\code{vector()}).

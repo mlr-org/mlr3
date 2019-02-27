@@ -96,6 +96,9 @@ Returns the row ids of the \link{DataBackend} for observations with with role "u
 Returns all column names with role "target".
 \item \code{task_type} :: \code{character(1)}\cr
 Stores the type of the \link{Task}.
+\item \code{properties} :: \code{character()}\cr
+Set of task properties. Possible properties are are stored in
+\link[=mlr_reflections]{mlr_reflections$task_properties}.
 \item \code{groups} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 If the task has a designated column role "groups", table with two columns:
 "row_id" (\code{integer()} | \code{character()}) and the grouping variable \code{group} (\code{vector()}).
@@ -157,17 +160,19 @@ If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all
 }
 
 \examples{
-task = TaskClassif$new("iris", backend = iris, target = "Species")
+data("Sonar", package = "mlbench")
+task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
+
 task$task_type
 task$formula
 task$truth()
 task$all_classes
 task$class_names
-
-data("Sonar", package = "mlbench")
-task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
 task$positive
 task$negative
+
+# possible properties:
+mlr_reflections$task_properties$classif
 }
 \seealso{
 Other Task: \code{\link{TaskRegr}},

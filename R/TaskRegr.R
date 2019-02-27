@@ -36,6 +36,9 @@
 #' task$task_type
 #' task$formula
 #' task$truth()
+#'
+#' # possible properties:
+#' mlr_reflections$task_properties$regr
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(
