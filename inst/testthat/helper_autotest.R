@@ -185,7 +185,7 @@ run_experiment = function(task, learner) {
     return(err(as.character(ok)))
   log = e$log("train")
   if (log$has_condition("error"))
-    return(err("train log has errors: %s", str_collapse(log$errors)))
+    return(err("train log has errors: %s", mlr3misc::str_collapse(log$errors)))
   if (is.null(e$model))
     return(err("model is NULL"))
 
@@ -195,7 +195,7 @@ run_experiment = function(task, learner) {
     return(err(as.character(ok)))
   log = e$log("predict")
   if (log$has_condition("error"))
-    return(err("predict log has errors: %s", str_collapse(log$errors)))
+    return(err("predict log has errors: %s", mlr3misc::str_collapse(log$errors)))
   if (!inherits(e$prediction, "Prediction"))
     return(err("$prediction has wrong class"))
   if (e$prediction$task_type != learner$task_type)
