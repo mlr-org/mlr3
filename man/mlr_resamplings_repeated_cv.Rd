@@ -10,8 +10,71 @@
 ResamplingRepeatedCV
 }
 \description{
-\code{repeats} times repeated \code{folds}-fold cross validation.
+\code{repeats} (default: 10) times repeated \code{folds}-fold (default: 10) cross-validation.
+
+The iteration counter translates to \code{repeats} blocks of \code{folds}
+cross-validations, i.e., the first \code{folds} iterations belong to
+a single cross-validation.
 }
+\section{Methods}{
+
+\itemize{
+\item \code{folds(iters)}\cr
+\code{integer()} -> \code{integer()}\cr
+Translates iteration numbers to fold number.
+\item \code{repeats(iters)}\cr
+\code{integer()} -> \code{integer()}\cr
+Translates iteration numbers to repetition number.
+}
+
+
+\itemize{
+\item \code{params(tag)}\cr
+\code{character(1)} -> named \code{list()}\cr
+Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
+with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters used in the training step.
+\item \code{train(task)}\cr
+\link{Task} -> \code{self}\cr
+Train the learner on the complete \link{Task}. The resulting model is stored in \code{l$model}.
+\item \code{predict(task)}\cr
+\link{Task} -> \link{Prediction}\cr
+Uses \code{l$model} (fitted during \code{train()}) to return a \link{Prediction} object.
+}
+}
+
+\section{Fields}{
+
+\itemize{
+\item \code{fallback} :: (\link{Learner} | \code{NULL})\cr
+Optionally stores a second \link{Learner} which is activated as fallback if this first \link{Learner} fails during
+train or predict.
+This mechanism is disabled unless you explicitly assign a learner to this slot.
+Additionally, you need to catch raised exceptions via encapsulation, see \code{\link[=mlr_control]{mlr_control()}}.
+\item \code{feature_types} :: \code{character()}\cr
+Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
+\item \code{hash} :: \code{character(1)}\cr
+Hash (unique identifier) for this object.
+\item \code{id} :: \code{character(1)}\cr
+Stores the identifier of the learner.
+\item \code{packages} :: \code{character()}\cr
+Stores the names of required packages.
+\item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
+Description of available hyperparameters and hyperparameter settings.
+\item \code{predict_type} :: \code{character(1)}\cr
+Stores the currently selected predict type. Must be an element of \code{l$predict_types}.
+\item \code{predict_types} :: \code{character()}\cr
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
+\item \code{properties} :: \code{character()}\cr
+Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+\item \code{task_type} :: \code{character(1)}\cr
+Stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
+A complete list of task types is stored in \code{mlr_reflections$task_types}.
+}
+}
+
 \examples{
 # Create a task with 10 observations
 task = mlr_tasks$get("iris")
@@ -22,6 +85,8 @@ rrcv = mlr_resamplings$get("repeated_cv")
 rrcv$param_set$values = list(repeats = 2, folds = 3)
 rrcv$instantiate(task)
 rrcv$iters
+rrcv$folds(1:6)
+rrcv$repeats(1:6)
 
 # Individual sets:
 rrcv$train_set(1)

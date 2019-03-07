@@ -5,8 +5,11 @@
 #' @include Resampling.R
 #'
 #' @description
-#' Simple holdout: A single split into training and test.
-#' Parameter `ratio` determines the ratio of observation in the train set.
+#' Splits data into a single training set and a test set.
+#' Parameter `ratio` determines the ratio of observation in the train set (default: 2/3).
+#'
+#' @inheritSection Learner Fields
+#' @inheritSection Learner Methods
 #'
 #' @export
 #' @examples
