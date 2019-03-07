@@ -7,6 +7,9 @@
 #' @description
 #' Cross validation with `folds` folds (default: 10).
 #'
+#' @inheritSection Learner Fields
+#' @inheritSection Learner Methods
+#'
 #' @export
 #' @examples
 #' # Create a task with 10 observations

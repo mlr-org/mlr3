@@ -30,7 +30,10 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="Repeated Cross Validation Resampling — mlr_resamplings_repeated_cv" />
 
-<meta property="og:description" content="repeats times repeated folds-fold cross validation." />
+<meta property="og:description" content="repeats (default: 10) times repeated folds-fold (default: 10) cross-validation.
+The iteration counter translates to repeats blocks of folds
+cross-validations, i.e., the first folds iterations belong to
+a single cross-validation." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -154,7 +157,10 @@
     </div>
 
     
-    <p><code>repeats</code> times repeated <code>folds</code>-fold cross validation.</p>
+    <p><code>repeats</code> (default: 10) times repeated <code>folds</code>-fold (default: 10) cross-validation.</p>
+<p>The iteration counter translates to <code>repeats</code> blocks of <code>folds</code>
+cross-validations, i.e., the first <code>folds</code> iterations belong to
+a single cross-validation.</p>
     
 
     <pre class="usage"><span class='no'>ResamplingRepeatedCV</span></pre>
@@ -162,6 +168,63 @@
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p><code><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class()</a></code> inheriting from <a href='Resampling.html'>Resampling</a>.</p>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <ul>
+<li><p><code>folds(iters)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code><br />
+Translates iteration numbers to fold number.</p></li>
+<li><p><code>repeats(iters)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code><br />
+Translates iteration numbers to repetition number.</p></li>
+</ul>
+    <ul>
+<li><p><code>params(tag)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+Returns a list of hyperparameter settings from <code>param_set</code> where the corresponding parameters in <code>param_set</code> are tagged
+with <code>tag</code>. I.e., <code>l$params("train")</code> returns all settings of hyperparameters used in the training step.</p></li>
+<li><p><code>train(task)</code><br />
+<a href='Task.html'>Task</a> -&gt; <code>self</code><br />
+Train the learner on the complete <a href='Task.html'>Task</a>. The resulting model is stored in <code>l$model</code>.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(task)</a></code><br />
+<a href='Task.html'>Task</a> -&gt; <a href='Prediction.html'>Prediction</a><br />
+Uses <code>l$model</code> (fitted during <code>train()</code>) to return a <a href='Prediction.html'>Prediction</a> object.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
+
+    
+    <ul>
+<li><p><code>fallback</code> :: (<a href='Learner.html'>Learner</a> | <code>NULL</code>)<br />
+Optionally stores a second <a href='Learner.html'>Learner</a> which is activated as fallback if this first <a href='Learner.html'>Learner</a> fails during
+train or predict.
+This mechanism is disabled unless you explicitly assign a learner to this slot.
+Additionally, you need to catch raised exceptions via encapsulation, see <code><a href='mlr_control.html'>mlr_control()</a></code>.</p></li>
+<li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
+A complete list of candidate feature types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a></code>.</p></li>
+<li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Hash (unique identifier) for this object.</p></li>
+<li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the identifier of the learner.</p></li>
+<li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores the names of required packages.</p></li>
+<li><p><code>param_set</code> :: <a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a><br />
+Description of available hyperparameters and hyperparameter settings.</p></li>
+<li><p><code>predict_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the currently selected predict type. Must be an element of <code>l$predict_types</code>.</p></li>
+<li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a></code>.</p></li>
+<li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$learner_properties</a></code>.</p></li>
+<li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the type of class this learner can operate on, e.g. <code>"classif"</code> or <code>"regr"</code>.
+A complete list of task types is stored in <code>mlr_reflections$task_types</code>.</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -173,7 +236,7 @@
 <span class='no'>rrcv</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"repeated_cv"</span>)
 <span class='no'>rrcv</span>$<span class='no'>param_set</span>$<span class='no'>values</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 <span class='no'>rrcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-<span class='no'>rrcv</span>$<span class='no'>iters</span></div><div class='output co'>#&gt; [1] 6</div><div class='input'>
+<span class='no'>rrcv</span>$<span class='no'>iters</span></div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>folds</span>(<span class='fl'>1</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 1 2 1 2 1 2</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>repeats</span>(<span class='fl'>1</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 1 1 1 2 2 2</div><div class='input'>
 <span class='co'># Individual sets:</span>
 <span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  2  9 10  3  5  6</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 4 7 8</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
@@ -204,6 +267,10 @@
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
+
+      <li><a href="#methods">Methods</a></li>
+
+      <li><a href="#fields">Fields</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -6,8 +6,11 @@
 #'
 #' @description
 #' Simple Bootstrap sampling.
-#' You can control the number of bootstrap iterations (`repeats`)
-#' and the number of observations to draw per iteration (`ratio`).
+#' Hyperparameters are the number of bootstrap iterations (`repeats`, default: 30)
+#' and the ratio of observations to draw per iteration (`ratio`, default: 1).
+#'
+#' @inheritSection Learner Fields
+#' @inheritSection Learner Methods
 #'
 #' @export
 #' @examples

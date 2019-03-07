@@ -5,7 +5,23 @@
 #' @include Resampling.R
 #'
 #' @description
-#' `repeats` times repeated `folds`-fold cross validation.
+#' `repeats` (default: 10) times repeated `folds`-fold (default: 10) cross-validation.
+#'
+#' The iteration counter translates to `repeats` blocks of `folds`
+#' cross-validations, i.e., the first `folds` iterations belong to
+#' a single cross-validation.
+#'
+#' @inheritSection Learner Fields
+#' @inheritSection Learner Methods
+#'
+#' @section Methods:
+#' * `folds(iters)`\cr
+#'   `integer()` -> `integer()`\cr
+#'   Translates iteration numbers to fold number.
+#'
+#' * `repeats(iters)`\cr
+#'   `integer()` -> `integer()`\cr
+#'   Translates iteration numbers to repetition number.
 #'
 #' @export
 #' @examples
@@ -18,6 +34,8 @@
 #' rrcv$param_set$values = list(repeats = 2, folds = 3)
 #' rrcv$instantiate(task)
 #' rrcv$iters
+#' rrcv$folds(1:6)
+#' rrcv$repeats(1:6)
 #'
 #' # Individual sets:
 #' rrcv$train_set(1)
@@ -34,6 +52,16 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
         param_set = ParamSet$new(params = list(ParamInt$new("repeats", lower = 1), ParamInt$new("folds", lower = 1L, tags = "required"))),
         param_vals = param_vals
       )
+    },
+
+    folds = function(iters) {
+      iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
+      ((iters - 1L) %% self$param_set$values$repeats) + 1L
+    },
+
+    repeats = function(iters) {
+      iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
+      ((iters - 1L) %/% self$param_set$values$folds) + 1L
     }
   ),
 
