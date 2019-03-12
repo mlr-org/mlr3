@@ -14,12 +14,12 @@ test_that("Basic ops on iris task", {
   expect_set_equal(attr(terms(f), "term.labels"), setdiff(names(iris), "Species"))
 })
 
-test_that("$class_names and $class_n only consider active rows", {
+test_that("$class_names and $class_n consider also inactive rows", {
   task = mlr_tasks$get("iris")
   task$set_row_role(1:100, character(0L))
 
-  expect_identical(task$class_names, "virginica")
-  expect_identical(task$class_n, 1L)
+  expect_set_equal(task$class_names, levels(iris$Species))
+  expect_identical(task$class_n, 3L)
 })
 
 test_that("Factor levels are preserved in prediction", {

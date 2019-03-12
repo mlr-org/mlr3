@@ -72,27 +72,18 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       head(private$.data, n)
     },
 
-    distinct = function(cols) {
+    distinct = function(rows, cols) {
       cols = intersect(cols, colnames(private$.data))
-      lapply(private$.data[, cols, with = FALSE], distinct)
+      if (is.null(rows)) {
+        set_names(lapply(cols, function(x) distinct(private$.data[[x]], drop = FALSE)), cols)
+      } else {
+        lapply(self$data(rows, cols), distinct)
+      }
     },
 
-    missing = function(rows, cols) {
-      assert_names(cols, type = "unique")
-      cols = intersect(cols, colnames(private$.data))
-      if (length(cols) == 0L)
-        return(set_names(integer(0L), character(0L)))
-
-      if (self$compact_seq) {
-        rows = filter_oob_index(rows, 1L, nrow(private$.data))
-        data = private$.data[rows, lapply(.SD, function(x) sum(is.na(x))), .SDcols = cols]
-      } else {
-        assert_atomic_vector(rows)
-        data = private$.data[list(rows), lapply(.SD, function(x) sum(is.na(x))), on = self$primary_key, nomatch = 0L, .SDcols = cols]
-      }
-      if (nrow(data) == 0L)
-        return(set_names(integer(length(cols)), cols))
-      unlist(data, recursive = FALSE)
+    missings = function(rows, cols) {
+      data = self$data(rows, cols)
+      map_int(data, function(x) sum(is.na(x)))
     }
   ),
 

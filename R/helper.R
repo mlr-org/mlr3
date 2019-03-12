@@ -14,10 +14,13 @@ ujoin = function(x, y, key) {
   x[y, eval(expr), on = key]
 }
 
-distinct = function(x) {
-  if (is.factor(x)) {
+distinct = function(x, drop = TRUE) {
+  if (is.logical(x) && !drop) {
+    lvls = c(FALSE, TRUE)
+  } else if (is.factor(x)) {
     lvls = levels(x)
-    lvls = lvls[lvls %in% x]
+    if (drop)
+      lvls = lvls[lvls %in% x]
   } else {
     lvls = unique(x)
     lvls = lvls[!is.na(lvls)]

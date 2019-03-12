@@ -85,20 +85,20 @@ expect_backend = function(b) {
   checkmate::expect_data_table(b$head(0L), nrow = 0, ncol = p)
 
   # $distinct()
-  d = b$distinct(b$primary_key)[[1L]]
+  d = b$distinct(rn, b$primary_key)[[1L]]
   checkmate::expect_atomic_vector(d, any.missing = FALSE, len = n, unique = TRUE)
-  checkmate::expect_list(b$distinct("_not_existing_"), len = 0L, names = "named")
-  d = b$distinct(rev(cn))
+  checkmate::expect_list(b$distinct(rn, "_not_existing_"), len = 0L, names = "named")
+  d = b$distinct(rn, c("_not_existing_", rev(cn), "_also_not_existing_"))
   checkmate::expect_list(d, names = "unique")
-  checkmate::expect_names(names(d), permutation.of = rev(cn))
+  testthat::expect_equal(names(d), rev(cn))
 
-  # $missing()
-  x = b$missing(b$rownames, b$colnames)
+  # $missings()
+  x = b$missings(b$rownames, b$colnames)
   checkmate::expect_integer(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
   checkmate::expect_names(names(x), permutation.of = b$colnames)
-  checkmate::expect_integer(b$missing(b$rownames, "_not_existing_"), len = 0L, names = "named")
-  checkmate::expect_integer(b$missing(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
-  checkmate::expect_integer(b$missing(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")
+  checkmate::expect_integer(b$missings(b$rownames, "_not_existing_"), len = 0L, names = "named")
+  checkmate::expect_integer(b$missings(b$rownames[0L], b$colnames), len = b$ncol, names = "unique")
+  checkmate::expect_integer(b$missings(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")
 
   # $hash
   checkmate::expect_string(b$hash)
@@ -114,7 +114,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
   checkmate::expect_data_table(x, nrow = 2L, ncol = 6L, any.missing = FALSE)
   checkmate::expect_set_equal(names(x), c(names(iris), b$primary_key))
 
-  x = b$distinct("Species")
+  x = b$distinct(b$rownames, "Species")
   checkmate::expect_list(x, "character", len = 1)
   checkmate::expect_set_equal(x$Species, levels(iris$Species))
 
@@ -145,7 +145,7 @@ expect_iris_backend = function(b, n_missing = 0L) {
   testthat::expect_equal(as.character(x[["Species"]]), c("setosa", "setosa"))
 
   # no missing values
-  x = b$missing(b$rownames, b$colnames)
+  x = b$missings(b$rownames, b$colnames)
   checkmate::expect_integer(x, names = "unique", lower = 0L, upper = b$nrow, any.missing = FALSE)
   checkmate::expect_names(names(x), permutation.of = b$colnames)
   testthat::expect_identical(sum(x), as.integer(n_missing))
@@ -187,6 +187,9 @@ expect_task = function(task) {
   levels = task$levels()
   checkmate::expect_list(levels, names = "unique")
   checkmate::qassertr(levels, c("0", "S+"))
+
+  missings = task$missings()
+  checkmate::expect_integer(missings, names = "unique", any.missing = FALSE, lower = 0L, upper = task$nrow)
 
   expect_hash(task$hash, 1L)
 
@@ -367,7 +370,7 @@ expect_prediction_regr = function(p) {
 expect_prediction_classif = function(p, task = NULL) {
   checkmate::expect_r6(p, "PredictionClassif", public = c("row_ids", "response", "truth", "predict_types", "prob"))
   n = length(p$row_ids)
-  lvls = if (is.null(task)) NULL else task$all_classes
+  lvls = if (is.null(task)) NULL else task$class_names
   checkmate::expect_factor(p$truth, len = n, levels = lvls, null.ok = TRUE)
   checkmate::expect_factor(p$response, len = n, levels = lvls, null.ok = TRUE)
   if ("prob" %in% p$predict_types) {

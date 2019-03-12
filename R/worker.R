@@ -22,7 +22,6 @@ train_worker = function(e, ctrl) {
 
   # we are going to change learner$model, so make sure we clone it first
   learner = data$learner$clone(deep = TRUE)
-  has_fallback = !is.null(learner$fallback)
 
   # subset task
   task = data$task$clone(deep = TRUE)$filter(e$train_set)

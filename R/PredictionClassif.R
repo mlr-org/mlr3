@@ -83,7 +83,7 @@ predictionclassif_initialize = function(self, task, response, prob) {
     self$row_ids = row_ids = task$row_ids
     self$truth = task$truth()
     n = length(row_ids)
-    classes = task$all_classes
+    classes = task$class_names
 
     if (!is.null(response)) {
       response = factor(response, levels = classes)
