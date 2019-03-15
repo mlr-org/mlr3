@@ -76,7 +76,7 @@
 #' print(b)
 #' b$head(2)
 #' b$data(rows = 1:2, cols = "x")
-#' b$distinct("y")
+#' b$distinct(rows = b$rownames, "y")
 #' b$missings(rows = b$rownames, cols = names(data))
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(

@@ -77,7 +77,7 @@ b = DataBackendDataTable$new(data, primary_key = "id")
 print(b)
 b$head(2)
 b$data(rows = 1:2, cols = "x")
-b$distinct("y")
+b$distinct(rows = b$rownames, "y")
 b$missings(rows = b$rownames, cols = names(data))
 }
 \seealso{
