@@ -31,10 +31,8 @@ Only for binary classification: Name of the positive class.
 \section{Fields}{
 
 \itemize{
-\item \code{all_classes} :: \code{character()}\cr
-Returns all class labels of the task, regardless of the number of active rows.
 \item \code{class_names} :: \code{character()}\cr
-Returns all class labels of the task w.r.t. the active rows.
+Returns all class labels of the target column.
 \item \code{class_n} :: \code{integer(1)}\cr
 Returns the number of classes.
 \item \code{negative} :: \code{character(1)}\cr
@@ -136,11 +134,17 @@ Subsets the task, reducing it to only keep the rows specified.
 \item \code{select(cols)}\cr
 \code{character()} -> \code{self}\cr
 Subsets the task, reducing it to only keep the columns specified.
-\item \code{levels(cols)}\cr
+\item \code{levels(cols = NULL)}\cr
 \code{character()} -> named \code{list()}\cr
-Returns  the distinct levels of all columns in \code{cols}.
-Only applicable for features with type "character",  "factor" or "ordered", and is \code{NULL} otherwise.
-This function ignores the row roles, it returns all levels available in the \link{DataBackend}.
+Returns the distinct values of columns in \code{cols} for columns with storage type "character", "factor" or "ordered".
+Argument \code{cols} defaults to all such columns with role "target" or "feature".
+
+Note that this function ignores the row roles, it returns all levels available in the \link{DataBackend}.
+To update the stored level information, e.g. after filtering a task, call \code{$droplevels()}.
+\item \code{missings(cols = NULL)}\cr
+\code{character()} -> named \code{integer()}\cr
+Returns the number of missing values observations for each columns in \code{cols}.
+Argument \code{cols} defaults to all columns with role "target" or "feature".
 \item \code{head(n = 6)}\cr
 \code{integer()} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Get the first \code{n} observations with role "use".
@@ -156,6 +160,10 @@ If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from 
 (\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}\cr
 Adds the roles \code{new_roles} to rows referred to by \code{rows}.
 If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
+\item \code{droplevels(cols = NULL)}\cr
+\code{character} -> \code{self}\cr
+Updates the cache of stored factor levels, removing all levels not present in the
+set of active rows. \code{cols} defaults to all columns with storage type "character", "factor", or "ordered".
 }
 }
 
@@ -166,7 +174,6 @@ task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M
 task$task_type
 task$formula
 task$truth()
-task$all_classes
 task$class_names
 task$positive
 task$negative

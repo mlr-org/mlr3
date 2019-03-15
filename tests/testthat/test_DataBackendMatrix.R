@@ -63,13 +63,13 @@ test_that("DataBackendMatrix sparse output", {
   expect_Matrix(b$head(3, format = "sparse"), nrow = 3, ncol = b$ncol - 1L)
 })
 
-test_that("$missing", {
+test_that("$missings", {
   M = data
   M[2:3, "cn0005"] = NA
   b = as_data_backend(M)
   rows = b$rownames
   cols = b$colnames
-  x = b$missing(b$rownames, b$colnames)
+  x = b$missings(b$rownames, b$colnames)
   expect_identical(sum(x), 2L)
   expect_identical(x[["cn0005"]], 2L)
 })

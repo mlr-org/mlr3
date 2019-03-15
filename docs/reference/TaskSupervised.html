@@ -213,11 +213,16 @@ Subsets the task, reducing it to only keep the rows specified.</p></li>
 <li><p><code>select(cols)</code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code>self</code><br />
 Subsets the task, reducing it to only keep the columns specified.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels(cols)</a></code><br />
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels(cols = NULL)</a></code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
-Returns  the distinct levels of all columns in <code>cols</code>.
-Only applicable for features with type "character",  "factor" or "ordered", and is <code>NULL</code> otherwise.
-This function ignores the row roles, it returns all levels available in the <a href='DataBackend.html'>DataBackend</a>.</p></li>
+Returns the distinct values of columns in <code>cols</code> for columns with storage type "character", "factor" or "ordered".
+Argument <code>cols</code> defaults to all such columns with role "target" or "feature".</p>
+<p>Note that this function ignores the row roles, it returns all levels available in the <a href='DataBackend.html'>DataBackend</a>.
+To update the stored level information, e.g. after filtering a task, call <code>$droplevels()</code>.</p></li>
+<li><p><code>missings(cols = NULL)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code><br />
+Returns the number of missing values observations for each columns in <code>cols</code>.
+Argument <code>cols</code> defaults to all columns with role "target" or "feature".</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head(n = 6)</a></code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
 Get the first <code>n</code> observations with role "use".</p></li>
@@ -233,6 +238,10 @@ If <code>exclusive</code> is <code>TRUE</code>, the referenced columns will be r
 (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code>self</code><br />
 Adds the roles <code>new_roles</code> to rows referred to by <code>rows</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/droplevels'>droplevels(cols = NULL)</a></code><br />
+<code>character</code> -&gt; <code>self</code><br />
+Updates the cache of stored factor levels, removing all levels not present in the
+set of active rows. <code>cols</code> defaults to all columns with storage type "character", "factor", or "ordered".</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>

@@ -202,14 +202,16 @@ Returns a slice of the data in a specific format.
 Currently, the only supported format is "data.table".
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Non-existing rows and columns are silently ignored.</p></li>
-<li><p><code>distinct(cols)</code><br />
-<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+<li><p><code>distinct(rows, cols)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
 Returns a named list of vectors of distinct values for each column specified.
-Non-existing columns are silently ignored.</p></li>
+Non-existing columns are silently ignored.
+If <code>rows</code> is <code>NULL</code>, all possible distinct values will be returned, even if they do not occur.
+This affects factor-like variables with empty levels.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head(n = 6)</a></code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
 Returns the first up-to <code>n</code> rows of the data as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/missing'>missing(rows, cols)</a></code><br />
+<li><p><code>missings(rows, cols)</code><br />
 (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code><br />
 Returns the number of missing values per column in the specified slice of data.
 Non-existing rows and columns are silently ignored.</p></li>
@@ -228,7 +230,7 @@ Non-existing rows and columns are silently ignored.</p></li>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>)</div><div class='output co'>#&gt; &lt;DataBackendDataTable&gt; (150x6)
 #&gt; 
 #&gt; Public: colnames, compact_seq, data(), distinct(), formats, hash,
-#&gt;   head(), missing(), ncol, nrow, primary_key, rownames
+#&gt;   head(), missings(), ncol, nrow, primary_key, rownames
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species id
 #&gt; 1:          5.1         3.5          1.4         0.2  setosa  1
 #&gt; 2:          4.9         3.0          1.4         0.2  setosa  2

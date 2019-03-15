@@ -181,3 +181,34 @@ test_that("as.data.(frame|table)", {
   expect_data_table(as.data.table(task), nrow = 150, ncol = 5)
   expect_data_frame(as.data.frame(task), nrow = 150, ncol = 5)
 })
+
+test_that("extra factor levels are stored (#179)", {
+  dt = data.table(
+    x1 = factor(letters[1:5], levels = letters[5:1]),
+    x2 = factor(letters[1:5], levels = letters),
+    x3 = letters[1:5],
+    target = 1:5)
+  task = TaskRegr$new("extra_factor_levels", as_data_backend(dt), "target")
+  expect_equal(task$levels("x2")$x2, letters)
+})
+
+test_that("task$droplevels works", {
+  dt = data.table(
+    x1 = letters[1:3],
+    target = 1:3
+  )
+  task = TaskRegr$new("droplevels", as_data_backend(dt), "target")
+
+  task$filter(1:2)
+  expect_equal(task$nrow, 2L)
+  expect_equal(task$levels("x1")$x1, letters[1:3])
+  task$droplevels()
+  expect_equal(task$levels("x1")$x1, letters[1:2])
+})
+
+test_that("task$missings() works", {
+  task = mlr_tasks$get("pima")
+  x = task$missings()
+  y = map_int(task$data(), function(x) sum(is.na(x)))
+  expect_equal(x, y[match(names(x), names(y))])
+})

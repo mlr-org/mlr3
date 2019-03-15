@@ -55,7 +55,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       assert_names(cols, type = "unique")
       assert_choice(format, self$formats)
 
-      query_rows = DataBackendMatrix_query_rows(private$.data, rows)
+      query_rows = private$.translate_rows(rows)
       query_cols = intersect(cols, colnames(private$.data))
       data = private$.data[query_rows, query_cols, drop = FALSE]
 
@@ -78,22 +78,27 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       self$data(head(self$rownames, n), self$colnames, format = format)
     },
 
-    distinct = function(cols) {
+    distinct = function(rows, cols) {
       query_cols = intersect(cols, colnames(private$.data))
-      res = set_names(lapply(query_cols, function(col) distinct(private$.data[, col])), query_cols)
+      query_rows = if (is.null(rows)) self$rownames else private$.translate_rows(rows)
+
+      res = set_names(lapply(query_cols, function(col) distinct(private$.data[query_rows, col])), query_cols)
+
       if (self$primary_key %in% cols) {
-        res[[self$primary_key]] = self$rownames
-        # res = res[match(names(res), cols, nomatch = 0L)]
+        res[[self$primary_key]] = query_rows
+        res = res[match(cols, names(res), nomatch = 0L)]
       }
       res
     },
 
-    missing = function(rows, cols) {
-      query_rows = DataBackendMatrix_query_rows(private$.data, rows)
+    missings = function(rows, cols) {
+      query_rows = private$.translate_rows(rows)
       query_cols = intersect(cols, colnames(private$.data))
       res = apply(private$.data[query_rows, query_cols], 2L, function(x) sum(is.na(x)))
-      if (self$primary_key %in% cols)
+      if (self$primary_key %in% cols) {
         res[self$primary_key] = 0L
+        res = res[match(cols, names(res), nomatch = 0L)]
+      }
       res
     }
   ),
@@ -119,18 +124,17 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
   private = list(
     .calculate_hash = function() {
       hash(private$.data)
+    },
+
+    .translate_rows = function(rows) {
+      rn = rownames(private$.data)
+      if (is.null(rn))
+        return(filter_oob_index(rows, 1L, self$nrow))
+      assert_character(rows)
+      intersect(rows, rn)
     }
   )
 )
-
-DataBackendMatrix_query_rows = function(M, rows) {
-  rn = rownames(M)
-  if (is.null(rn))
-    return(filter_oob_index(rows, 1L, nrow(M)))
-
-  assert_character(rows)
-  intersect(rows, rn)
-}
 
 #' @export
 as_data_backend.Matrix = function(data, ...) {

@@ -129,11 +129,18 @@
 #'   `character()` -> `self`\cr
 #'   Subsets the task, reducing it to only keep the columns specified.
 #'
-#' * `levels(cols)`\cr
+#' * `levels(cols = NULL)`\cr
 #'   `character()` -> named `list()`\cr
-#'   Returns  the distinct levels of all columns in `cols`.
-#'   Only applicable for features with type "character",  "factor" or "ordered", and is `NULL` otherwise.
-#'   This function ignores the row roles, it returns all levels available in the [DataBackend].
+#'   Returns the distinct values of columns in `cols` for columns with storage type "character", "factor" or "ordered".
+#'   Argument `cols` defaults to all such columns with role "target" or "feature".
+#'
+#'   Note that this function ignores the row roles, it returns all levels available in the [DataBackend].
+#'   To update the stored level information, e.g. after filtering a task, call `$droplevels()`.
+#'
+#' * `missings(cols = NULL)`\cr
+#'   `character()` -> named `integer()`\cr
+#'   Returns the number of missing values observations for each columns in `cols`.
+#'   Argument `cols` defaults to all columns with role "target" or "feature".
 #'
 #' * `head(n = 6)`\cr
 #'   `integer()` -> [data.table::data.table()]\cr
@@ -153,6 +160,11 @@
 #'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
 #'   Adds the roles `new_roles` to rows referred to by `rows`.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
+#'
+#' * `droplevels(cols = NULL)`\cr
+#'   `character` -> `self`\cr
+#'   Updates the cache of stored factor levels, removing all levels not present in the
+#'   set of active rows. `cols` defaults to all columns with storage type "character", "factor", or "ordered".
 #'
 #' @section S3 methods:
 #'
@@ -250,10 +262,22 @@ Task = R6Class("Task",
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
+        cols = self$col_info[id %in% cols & type %in% c("character", "factor", "ordered"), "id", with = FALSE][[1L]]
       } else {
         assert_subset(cols, self$col_info$id)
       }
-      set_names(self$col_info[list(cols), get("levels")], cols)
+
+      set_names(self$col_info[list(cols), "levels", with = FALSE][[1L]], cols)
+    },
+
+    missings = function(cols = NULL) {
+      if (is.null(cols)) {
+        cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
+      } else {
+        assert_subset(cols, self$col_info$id)
+      }
+
+      self$backend$missings(self$row_ids, cols = cols)
     },
 
     filter = function(rows) {
@@ -291,13 +315,23 @@ Task = R6Class("Task",
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
       task_set_col_role(self, cols, new_roles, exclusive)
       invisible(self)
+    },
+
+    droplevels = function(cols = NULL) {
+      ids = self$col_info[type %in% c("character", "factor", "ordered"), "id", with = FALSE][[1L]]
+      cols = if (is.null(cols)) ids else intersect(cols, ids)
+      lvls = self$backend$distinct(rows = self$row_ids, cols = cols)
+      self$col_info = ujoin(self$col_info, enframe(lvls, "id", "levels"), key = "id")
+      invisible(self)
     }
   ),
 
   active = list(
     hash = function() {
-      hash(list(class(self), self$id, self$backend$hash, self$row_roles,
-          self$col_roles, self$properties, sort(hashes(self$measures))))
+      hash(list(
+        class(self), self$id, self$backend$hash, self$row_roles, self$col_roles,
+        self$col_info$levels, self$properties, sort(hashes(self$measures))
+      ))
     },
 
     row_ids = function() {
@@ -356,9 +390,7 @@ Task = R6Class("Task",
   )
 )
 
-task_data = function(self, rows = NULL, cols = NULL, format) {
-  order = self$col_roles$order
-
+task_data = function(self, rows = NULL, cols = NULL, format = "data.table") {
   if (is.null(rows)) {
     selected_rows = self$row_roles$use
   } else {
@@ -375,6 +407,7 @@ task_data = function(self, rows = NULL, cols = NULL, format) {
     selected_cols = cols
   }
 
+  order = self$col_roles$order
   extra_cols = character(0L)
   if (length(order)) {
     extra_cols = setdiff(order, selected_cols)
@@ -437,14 +470,14 @@ col_info = function(x, ...) {
 col_info.data.table = function(x, primary_key = character(0L), ...) {
   types = map_chr(x, function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], primary_key)
-  levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct))
+  levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct, drop = FALSE))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
 col_info.DataBackend = function(x, ...) {
   types = map_chr(x$head(1L), function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], x$primary_key)
-  levels = insert_named(named_list(names(types)), x$distinct(discrete))
+  levels = insert_named(named_list(names(types)), x$distinct(rows = NULL, cols = discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
