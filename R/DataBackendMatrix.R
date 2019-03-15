@@ -80,15 +80,12 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
     distinct = function(rows, cols) {
       query_cols = intersect(cols, colnames(private$.data))
-      if (is.null(rows)) {
-        res = set_names(lapply(query_cols, function(col) distinct(private$.data[, col], drop = FALSE)), query_cols)
-      } else {
-        query_rows = private$.translate_rows(rows)
-        res = set_names(lapply(query_cols, function(col) distinct(private$.data[query_rows, col])), query_cols)
-      }
+      query_rows = if (is.null(rows)) self$rownames else private$.translate_rows(rows)
+
+      res = set_names(lapply(query_cols, function(col) distinct(private$.data[query_rows, col])), query_cols)
 
       if (self$primary_key %in% cols) {
-        res[[self$primary_key]] = self$rownames
+        res[[self$primary_key]] = query_rows
         res = res[match(cols, names(res), nomatch = 0L)]
       }
       res

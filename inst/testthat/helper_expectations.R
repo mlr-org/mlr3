@@ -92,6 +92,10 @@ expect_backend = function(b) {
   checkmate::expect_list(d, names = "unique")
   testthat::expect_equal(names(d), rev(cn))
 
+  d = b$distinct(rn[1L], cn)
+  expect_list(d, len = length(cn), names = "unique", any.missing = FALSE)
+  expect_true(all(lengths(d) == 1L))
+
   # $missings()
   x = b$missings(b$rownames, b$colnames)
   checkmate::expect_integer(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
