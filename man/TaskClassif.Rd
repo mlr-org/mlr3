@@ -160,10 +160,10 @@ If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from 
 (\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}\cr
 Adds the roles \code{new_roles} to rows referred to by \code{rows}.
 If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
-\item \code{droplevels()}\cr
-() -> \code{self}\cr
+\item \code{droplevels(cols = NULL)}\cr
+\code{character} -> \code{self}\cr
 Updates the cache of stored factor levels, removing all levels not present in the
-set of active rows.
+set of active rows. \code{cols} defaults to all columns with storage type "character", "factor", or "ordered".
 }
 }
 

@@ -161,10 +161,10 @@
 #'   Adds the roles `new_roles` to rows referred to by `rows`.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
 #'
-#' * `droplevels()`\cr
-#'   () -> `self`\cr
+#' * `droplevels(cols = NULL)`\cr
+#'   `character` -> `self`\cr
 #'   Updates the cache of stored factor levels, removing all levels not present in the
-#'   set of active rows.
+#'   set of active rows. `cols` defaults to all columns with storage type "character", "factor", or "ordered".
 #'
 #' @section S3 methods:
 #'
@@ -317,8 +317,9 @@ Task = R6Class("Task",
       invisible(self)
     },
 
-    droplevels = function() {
-      cols = self$col_info[type %in% c("character", "factor", "ordered"), "id", with = FALSE][[1L]]
+    droplevels = function(cols = NULL) {
+      ids = self$col_info[type %in% c("character", "factor", "ordered"), "id", with = FALSE][[1L]]
+      cols = if (is.null(cols)) ids else intersect(cols, ids)
       lvls = self$backend$distinct(rows = self$row_ids, cols = cols)
       self$col_info = ujoin(self$col_info, enframe(lvls, "id", "levels"), key = "id")
       invisible(self)
