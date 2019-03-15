@@ -90,6 +90,11 @@ test_that("task$replace_features", {
   expect_task(task)
 })
 
+test_that("task$feature_types preserves key (#193)", {
+  task = mlr_tasks$get("iris")$select(character(0))$cbind(iris[1:4])
+  expect_data_table(task$feature_types, ncol = 2L, nrow = 4L, key = "id")
+})
+
 test_that("cbind/rbind works", {
   task = mlr_tasks$get("iris")
   data = data.table(..row_id = 1:150, foo = 150:1)

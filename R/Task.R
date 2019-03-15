@@ -321,7 +321,7 @@ Task = R6Class("Task",
     },
 
     feature_types = function() {
-      self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"]
+      setkeyv(self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"], "id")
     },
 
     formula = function() {
