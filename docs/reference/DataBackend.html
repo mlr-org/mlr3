@@ -212,14 +212,16 @@ Returns a slice of the data in a specific format.
 Currently, the only supported format is "data.table".
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Non-existing rows and columns are silently ignored.</p></li>
-<li><p><code>distinct(cols)</code><br />
-<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+<li><p><code>distinct(rows, cols)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
 Returns a named list of vectors of distinct values for each column specified.
-Non-existing columns are silently ignored.</p></li>
+Non-existing columns are silently ignored.
+If <code>rows</code> is <code>NULL</code>, all possible distinct values will be returned, even if they do not occur.
+This affects factor-like variables with empty levels.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head(n = 6)</a></code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
 Returns the first up-to <code>n</code> rows of the data as <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/missing'>missing(rows, cols)</a></code><br />
+<li><p><code>missings(rows, cols)</code><br />
 (<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code><br />
 Returns the number of missing values per column in the specified slice of data.
 Non-existing rows and columns are silently ignored.</p></li>
@@ -239,7 +241,7 @@ Non-existing rows and columns are silently ignored.</p></li>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>b</span>)</div><div class='output co'>#&gt; &lt;DataBackendDataTable&gt; (5x3)
 #&gt; 
 #&gt; Public: colnames, compact_seq, data(), distinct(), formats, hash,
-#&gt;   head(), missing(), ncol, nrow, primary_key, rownames
+#&gt;   head(), missings(), ncol, nrow, primary_key, rownames
 #&gt;    id         x y
 #&gt; 1:  1 0.9566087 a
 #&gt; 2:  2 0.8444304 b
@@ -249,9 +251,9 @@ Non-existing rows and columns are silently ignored.</p></li>
 #&gt; 1:  1 0.9566087 a
 #&gt; 2:  2 0.8444304 b</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='st'>"x"</span>)</div><div class='output co'>#&gt;            x
 #&gt; 1: 0.9566087
-#&gt; 2: 0.8444304</div><div class='input'><span class='no'>b</span>$<span class='fu'>distinct</span>(<span class='st'>"y"</span>)</div><div class='output co'>#&gt; $y
+#&gt; 2: 0.8444304</div><div class='input'><span class='no'>b</span>$<span class='fu'>distinct</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='no'>b</span>$<span class='no'>rownames</span>, <span class='st'>"y"</span>)</div><div class='output co'>#&gt; $y
 #&gt; [1] "a" "b" "c"
-#&gt; </div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/missing'>missing</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='no'>b</span>$<span class='no'>rownames</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>data</span>))</div><div class='output co'>#&gt; id  x  y 
+#&gt; </div><div class='input'><span class='no'>b</span>$<span class='fu'>missings</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='no'>b</span>$<span class='no'>rownames</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>data</span>))</div><div class='output co'>#&gt; id  x  y 
 #&gt;  0  0  0 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
