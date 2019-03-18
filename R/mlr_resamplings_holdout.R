@@ -8,6 +8,10 @@
 #' Splits data into a single training set and a test set.
 #' Parameter `ratio` determines the ratio of observation in the train set (default: 2/3).
 #'
+#' @section Fields:
+#' @section Methods:
+#' @section S3 methods:
+#'
 #' @inheritSection Learner Fields
 #' @inheritSection Learner Methods
 #'

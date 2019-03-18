@@ -66,13 +66,9 @@
 #'   Retrieves the [ResampleResult] with provided `hash`.
 #'
 #' @section S3 Methods:
-#' * `as.data.frame(rr)`\cr
-#'   [BenchmarkResult] -> `data.frame()`\cr
-#'   Converts to a flat `data.frame()`.
-#'
-#' * `as.data.table(rr)`\cr
+#' * `as.data.table(bmr)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
-#'   Converts to a flat `data.table()`.
+#'   Converts the data to a `data.table()`.
 #'
 #' @export
 #' @examples
@@ -212,11 +208,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
     }
   )
 )
-
-#' @export
-as.data.frame.BenchmarkResult = function(x, ...) {
-  setDF(as.data.table.BenchmarkResult(x))[]
-}
 
 #' @export
 as.data.table.BenchmarkResult = function(x, ...) {

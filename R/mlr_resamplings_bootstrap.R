@@ -9,6 +9,10 @@
 #' Hyperparameters are the number of bootstrap iterations (`repeats`, default: 30)
 #' and the ratio of observations to draw per iteration (`ratio`, default: 1).
 #'
+#' @section Fields:
+#' @section Methods:
+#' @section S3 methods:
+#'
 #' @inheritSection Learner Fields
 #' @inheritSection Learner Methods
 #'

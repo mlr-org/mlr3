@@ -5,8 +5,17 @@
 #' A simple [Dictionary] storing objects of class [Task].
 #' Each task has an associated help page, see `mlr_tasks_[id]`.
 #'
-#' @section Usage:
-#' See [Dictionary].
+#' @section Fields:
+#' @section Methods:
+#' @section S3 methods:
+#' * `as.data.table(dict)`\cr
+#'   [Dictionary] -> [data.table::data.table()]\cr
+#'   Returns a `data.table()` with fields "key", "task_type", "measures", "nrow", "ncol" and
+#'   the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord" as columns.
+#'
+#' @inheritSection Dictionary Methods
+#'
+#' @section S3 methods:
 #'
 #' @family Dictionary
 #' @family Task
@@ -47,9 +56,13 @@ mlr_tasks = DictionaryTask$new()
 as.data.table.DictionaryTask = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
     t = x$get(key)
-    feats = factor(t$feature_types$type, levels = mlr_reflections$task_feature_types)
-    feats = as.list(table(feats))
-    insert_named(data.table(id = key, type = t$task_type, measures = list(ids(t$measures)),
-        nrow = t$nrow, ncol = t$ncol), feats)
-  }), "id")[]
+    feats = translate_types(t$feature_types$type)
+    insert_named(list(
+      key = key,
+      task_type = t$task_type,
+      measures = list(ids(t$measures)),
+      nrow = t$nrow,
+      ncol = t$ncol
+    ), table(feats))
+  }), "key")[]
 }

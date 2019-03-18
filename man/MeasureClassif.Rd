@@ -34,6 +34,8 @@ Note that these packages will be loaded via \code{\link[=requireNamespace]{requi
 
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Stores the identifier of the measure.
@@ -52,6 +54,8 @@ Stores required properties of the \link{Task}.
 
 \section{Methods}{
 
+
+
 \itemize{
 \item \code{aggregate(rr)}\cr
 \link{ResampleResult} -> \code{numeric(1)}\cr
@@ -62,6 +66,10 @@ Operates on a \link{ResampleResult} as returned by \link{resample}.
 Takes an \link{Experiment}, extracts the predictions (as well as other possibly needed objects), and calculates
 a score.
 }
+}
+
+\section{S3 methods}{
+
 }
 
 \seealso{

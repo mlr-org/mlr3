@@ -7,6 +7,10 @@
 #' @description
 #' Cross validation with `folds` folds (default: 10).
 #'
+#' @section Fields:
+#' @section Methods:
+#' @section S3 methods:
+#'
 #' @inheritSection Learner Fields
 #' @inheritSection Learner Methods
 #'

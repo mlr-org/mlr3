@@ -33,6 +33,8 @@ Required are "row_ids", "truth", and "predict_type". Depending on the value of
 
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
 Vector of row ids for which predictions are stored.
@@ -45,6 +47,14 @@ Stores the type of the \link{Task}.
 \item \code{predict_types} :: \code{character()}\cr
 Vector of predict types this object stores.
 }
+}
+
+\section{Methods}{
+
+}
+
+\section{S3 methods}{
+
 }
 
 \examples{

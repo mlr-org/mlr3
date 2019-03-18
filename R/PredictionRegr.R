@@ -31,6 +31,10 @@
 #' Required are "row_ids", "truth", and "predict_type". Depending on the value of
 #' "predict_types", also "response" and "se" must be set.
 #'
+#' @section Fields:
+#' @section Methods:
+#' @section S3 methods:
+#'
 #' @inheritSection Prediction Fields
 #'
 #' @family Prediction

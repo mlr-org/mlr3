@@ -22,6 +22,11 @@
 #' construct a [DataBackend] with a copy of the data, and automatically
 #' creates a primary key column if required.
 #'
+#'
+#' @section Fields:
+#' @section Methods:
+#' @section S3 methods:
+#'
 #' @inheritSection DataBackend Fields
 #' @inheritSection DataBackend Methods
 #'

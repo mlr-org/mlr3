@@ -16,33 +16,9 @@ The iteration counter translates to \code{repeats} blocks of \code{folds}
 cross-validations, i.e., the first \code{folds} iterations belong to
 a single cross-validation.
 }
-\section{Methods}{
-
-\itemize{
-\item \code{folds(iters)}\cr
-\code{integer()} -> \code{integer()}\cr
-Translates iteration numbers to fold number.
-\item \code{repeats(iters)}\cr
-\code{integer()} -> \code{integer()}\cr
-Translates iteration numbers to repetition number.
-}
-
-
-\itemize{
-\item \code{params(tag)}\cr
-\code{character(1)} -> named \code{list()}\cr
-Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
-with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters used in the training step.
-\item \code{train(task)}\cr
-\link{Task} -> \code{self}\cr
-Train the learner on the complete \link{Task}. The resulting model is stored in \code{l$model}.
-\item \code{predict(task)}\cr
-\link{Task} -> \link{Prediction}\cr
-Uses \code{l$model} (fitted during \code{train()}) to return a \link{Prediction} object.
-}
-}
-
 \section{Fields}{
+
+
 
 \itemize{
 \item \code{fallback} :: (\link{Learner} | \code{NULL})\cr
@@ -73,6 +49,36 @@ A complete list of candidate properties, grouped by task type, is stored in \cod
 Stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
 A complete list of task types is stored in \code{mlr_reflections$task_types}.
 }
+}
+
+\section{Methods}{
+
+\itemize{
+\item \code{folds(iters)}\cr
+\code{integer()} -> \code{integer()}\cr
+Translates iteration numbers to fold number.
+\item \code{repeats(iters)}\cr
+\code{integer()} -> \code{integer()}\cr
+Translates iteration numbers to repetition number.
+}
+
+
+\itemize{
+\item \code{params(tag)}\cr
+\code{character(1)} -> named \code{list()}\cr
+Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
+with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters used in the training step.
+\item \code{train(task)}\cr
+\link{Task} -> \code{self}\cr
+Train the learner on the complete \link{Task}. The resulting model is stored in \code{l$model}.
+\item \code{predict(task)}\cr
+\link{Task} -> \link{Prediction}\cr
+Uses \code{l$model} (fitted during \code{train()}) to return a \link{Prediction} object.
+}
+}
+
+\section{S3 methods}{
+
 }
 
 \examples{

@@ -27,6 +27,10 @@
 #' * `target` :: `character(1)`\cr
 #'   Name of the target column.
 #'
+#' @section Fields:
+#' @section Methods:
+#' @section S3 methods:
+#'
 #' @inheritSection Task Fields
 #' @inheritSection Task Methods
 #'

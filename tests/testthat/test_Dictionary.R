@@ -23,7 +23,6 @@ test_that("Dictionary", {
   expect_set_equal(d$keys(), "f1")
   expect_false(d$has("f2"))
 
-  expect_data_frame(as.data.frame(d), nrow = 1L)
   expect_data_table(as.data.table(d), nrow = 1L)
 })
 

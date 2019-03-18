@@ -35,6 +35,10 @@
 #'   Set of required packages.
 #'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
 #'
+#' @section Fields:
+#' @section Methods:
+#' @section S3 methods:
+#'
 #' @inheritSection Measure Fields
 #' @inheritSection Measure Methods
 #'

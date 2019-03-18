@@ -18,28 +18,28 @@
 #'
 #' @section Methods:
 #' * `get(key, ...)`\cr
-#'   (`character(1)`, ...) -> `any`
+#'   (`character(1)`, ...) -> `any`\cr
 #'   Retrieves object with key `key` from the dictionary.
 #'
 #' * `mget(keys, ...)`\cr
-#'   (`character()`, ...) -> named `list()`
+#'   (`character()`, ...) -> named `list()`\cr
 #'   Retrieves objects with keys `keys` from the dictionary, returns them in a list named with `keys`.
 #'
 #' * `has(keys)`\cr
-#'   `character()` -> `logical()`
+#'   `character()` -> `logical()`\cr
 #'   Returns a logical vector with `TRUE` at its i-th position, if the i-th key exists.
 #'
 #' * `keys(pattern)`\cr
-#'   `character(1)` -> `character()`
+#'   `character(1)` -> `character()`\cr
 #'   Returns all keys which comply to the regular expression `pattern`.
 #'
 #' * `add(key, value)`\cr
-#'   (`character(1)`, `any`) -> `self`
+#'   (`character(1)`, `any`) -> `self`\cr
 #'   Adds object `value` to the dictionary with key `key`, potentially overwriting a
 #'   previously stored value.
 #'
 #' * `remove(key)`\cr
-#'   `character()` -> `self`
+#'   `character()` -> `self`\cr
 #'   Removes object with key `key` from the dictionary.
 #'
 #' @family Dictionary
@@ -112,14 +112,4 @@ dictionary_retrieve = function(self, key, ...) {
     value = assert_r6(value(...))
   }
   return(value)
-}
-
-#' @export
-as.data.table.Dictionary = function(x, ...) {
-  data.table(id = x$keys())
-}
-
-#' @export
-as.data.frame.Dictionary = function(x, ...) {
-  setDF(as.data.table(x))[]
 }

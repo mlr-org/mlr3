@@ -15,6 +15,8 @@ with a ratio of \code{ratio} (default: 2/3) observations in the training set.
 }
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{fallback} :: (\link{Learner} | \code{NULL})\cr
 Optionally stores a second \link{Learner} which is activated as fallback if this first \link{Learner} fails during
@@ -48,6 +50,8 @@ A complete list of task types is stored in \code{mlr_reflections$task_types}.
 
 \section{Methods}{
 
+
+
 \itemize{
 \item \code{params(tag)}\cr
 \code{character(1)} -> named \code{list()}\cr
@@ -60,6 +64,10 @@ Train the learner on the complete \link{Task}. The resulting model is stored in 
 \link{Task} -> \link{Prediction}\cr
 Uses \code{l$model} (fitted during \code{train()}) to return a \link{Prediction} object.
 }
+}
+
+\section{S3 methods}{
+
 }
 
 \examples{
