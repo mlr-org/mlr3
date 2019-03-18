@@ -43,22 +43,6 @@ Returns a slice of the data from the \link{DataBackend} in the format specified 
 Rows are subsetted to only contain observations with role "use".
 Columns are filtered to only contain features with roles "target" and "feature".
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
-\item \code{cbind(data)}\cr
-\code{data.frame()} -> \code{self}\cr
-Extends the \link{DataBackend} with additional columns.
-The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}). If this column is missing, it is assumed that the rows are exactly in the order of
-\code{t$row_ids}.
-\item \code{rbind(data)}\cr
-\code{data.frame()} -> \code{self}\cr
-Extends the \link{DataBackend} with additional rows.
-The new row ids must be provided as column in \code{data}.
-If this column is missing, new row ids are constructed automatically.
-\item \code{filter(rows)}\cr
-(\code{integer()} | \code{character()}) -> \code{self}\cr
-Subsets the task, reducing it to only keep the rows specified.
-\item \code{select(cols)}\cr
-\code{character()} -> \code{self}\cr
-Subsets the task, reducing it to only keep the columns specified.
 \item \code{levels(cols = NULL)}\cr
 \code{character()} -> named \code{list()}\cr
 Returns the distinct values of columns in \code{cols} for columns with storage type "character", "factor" or "ordered".
@@ -73,10 +57,6 @@ Argument \code{cols} defaults to all columns with role "target" or "feature".
 \item \code{head(n = 6)}\cr
 \code{integer()} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Get the first \code{n} observations with role "use".
-\item \code{replace_features(data)}\cr
-\code{data.frame()} -> \code{self}\cr
-Replaces some features of the task by constructing a completely new \link{DataBackendDataTable}.
-This operation is similar to calling \code{select()} and \code{cbind()}, but explicitly copies the data.
 \item \code{set_col_role(cols, new_roles, exclusive = TRUE)}\cr
 (\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}\cr
 Adds the roles \code{new_roles} to columns referred to by \code{cols}.
@@ -85,6 +65,31 @@ If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from 
 (\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}\cr
 Adds the roles \code{new_roles} to rows referred to by \code{rows}.
 If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
+\item \code{filter(rows)}\cr
+(\code{integer()} | \code{character()}) -> \code{self}\cr
+Subsets the task, reducing it to only keep the rows specified.
+See the section on task mutators for more information.
+\item \code{select(cols)}\cr
+\code{character()} -> \code{self}\cr
+Subsets the task, reducing it to only keep the columns specified.
+See the section on task mutators for more information.
+\item \code{cbind(data)}\cr
+\code{data.frame()} -> \code{self}\cr
+Extends the \link{DataBackend} with additional columns.
+The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
+If this column is missing, it is assumed that the rows are exactly in the order of \code{t$row_ids}.
+See the section on task mutators for more information.
+\item \code{rbind(data)}\cr
+\code{data.frame()} -> \code{self}\cr
+Extends the \link{DataBackend} with additional rows.
+The new row ids must be provided as column in \code{data}.
+If this column is missing, new row ids are constructed automatically.
+See the section on task mutators for more information.
+\item \code{replace_features(data)}\cr
+\code{data.frame()} -> \code{self}\cr
+Replaces some features of the task by constructing a completely new \link{DataBackendDataTable}.
+This operation is similar to calling \code{select()} and \code{cbind()}, but explicitly copies the data.
+See the section on task mutators for more information.
 \item \code{droplevels(cols = NULL)}\cr
 \code{character} -> \code{self}\cr
 Updates the cache of stored factor levels, removing all levels not present in the

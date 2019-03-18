@@ -109,26 +109,6 @@
 #'   Columns are filtered to only contain features with roles "target" and "feature".
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
 #'
-#' * `cbind(data)`\cr
-#'   `data.frame()` -> `self`\cr
-#'   Extends the [DataBackend] with additional columns.
-#'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]). If this column is missing, it is assumed that the rows are exactly in the order of
-#'   `t$row_ids`.
-#'
-#' * `rbind(data)`\cr
-#'   `data.frame()` -> `self`\cr
-#'   Extends the [DataBackend] with additional rows.
-#'   The new row ids must be provided as column in `data`.
-#'   If this column is missing, new row ids are constructed automatically.
-#'
-#' * `filter(rows)`\cr
-#'   (`integer()` | `character()`) -> `self`\cr
-#'  Subsets the task, reducing it to only keep the rows specified.
-#'
-#' * `select(cols)`\cr
-#'   `character()` -> `self`\cr
-#'   Subsets the task, reducing it to only keep the columns specified.
-#'
 #' * `levels(cols = NULL)`\cr
 #'   `character()` -> named `list()`\cr
 #'   Returns the distinct values of columns in `cols` for columns with storage type "character", "factor" or "ordered".
@@ -146,11 +126,6 @@
 #'   `integer()` -> [data.table::data.table()]\cr
 #'   Get the first `n` observations with role "use".
 #'
-#' * `replace_features(data)`\cr
-#'   `data.frame()` -> `self`\cr
-#'   Replaces some features of the task by constructing a completely new [DataBackendDataTable].
-#'   This operation is similar to calling `select()` and `cbind()`, but explicitly copies the data.
-#'
 #' * `set_col_role(cols, new_roles, exclusive = TRUE)`\cr
 #'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
 #'   Adds the roles `new_roles` to columns referred to by `cols`.
@@ -160,6 +135,36 @@
 #'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
 #'   Adds the roles `new_roles` to rows referred to by `rows`.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
+#'
+#' * `filter(rows)`\cr
+#'   (`integer()` | `character()`) -> `self`\cr
+#'   Subsets the task, reducing it to only keep the rows specified.
+#'   See the section on task mutators for more information.
+#'
+#' * `select(cols)`\cr
+#'   `character()` -> `self`\cr
+#'   Subsets the task, reducing it to only keep the columns specified.
+#'   See the section on task mutators for more information.
+#'
+#' * `cbind(data)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Extends the [DataBackend] with additional columns.
+#'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
+#'   If this column is missing, it is assumed that the rows are exactly in the order of `t$row_ids`.
+#'   See the section on task mutators for more information.
+#'
+#' * `rbind(data)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Extends the [DataBackend] with additional rows.
+#'   The new row ids must be provided as column in `data`.
+#'   If this column is missing, new row ids are constructed automatically.
+#'   See the section on task mutators for more information.
+#'
+#' * `replace_features(data)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Replaces some features of the task by constructing a completely new [DataBackendDataTable].
+#'   This operation is similar to calling `select()` and `cbind()`, but explicitly copies the data.
+#'   See the section on task mutators for more information.
 #'
 #' * `droplevels(cols = NULL)`\cr
 #'   `character` -> `self`\cr
@@ -179,12 +184,14 @@
 #' @section Task mutators:
 #' The following methods change the task in-place:
 #' * `set_row_roles()` and `set_col_roles()` alter the row or column information in `row_roles` or `col_roles`, respectively.
+#'   This provides a different "view" on the data without altering the data itself.
 #' * `filter()` and `select()` subset the set of active rows or columns in `row_roles` or `col_roles`, respectively.
-#'   This provides a different "view" on the data.
+#'   This provides a different "view" on the data without altering the data itself.
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
 #'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
 #'   merge both backends into an abstract [DataBackend] which combines the results on-demand.
-#' * `replace_features()` is a convenience wrapper around `select()` and `cbind()`. Again, the original [DataBackend] remains unchanged.
+#' * `replace_features()` is a convenience wrapper around `select()` and `cbind()`.
+#'   Again, the original [DataBackend] remains unchanged.
 #'
 #' @family Task
 #' @export

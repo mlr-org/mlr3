@@ -26,7 +26,7 @@
 #'   The learner [resample()] operated on.
 #'
 #' * `resampling` :: [Resampling]\cr
-#'   The resampling object [resample()] operated on.
+#'   The resampling splits [resample()] operated on.
 #'
 #' * `measures` :: `list()` of [Measure]\cr
 #'   The performance measures [resample()] operated on.
@@ -51,7 +51,7 @@
 #'
 #' * `experiments(iters)`\cr
 #'   `integer()` -> `list()` of [Experiment].
-#'   Returns a slice of [Experiment]s, referred to by resampling iterations `iters`.
+#'   Returns a slice of [Experiment]s with provided resampling iterations `iters`.
 #'
 #' * `performance(id)`\cr
 #'   `character(1)` -> `numeric(1)`\cr
