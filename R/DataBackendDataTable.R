@@ -25,7 +25,6 @@
 #'
 #' @section Fields:
 #' @section Methods:
-#' @section S3 methods:
 #'
 #' @inheritSection DataBackend Fields
 #' @inheritSection DataBackend Methods

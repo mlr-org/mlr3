@@ -5,7 +5,6 @@
 #' A simple [Dictionary] storing objects of class [Learner].
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
-#' @section Fields:
 #' @section Methods:
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr

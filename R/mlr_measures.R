@@ -5,7 +5,6 @@
 #' A simple [Dictionary] storing objects of class [Measure].
 #' Each measure has an associated help page, see `mlr_measures_[id]`.
 #'
-#' @section Fields:
 #' @section Methods:
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr

@@ -77,10 +77,6 @@ Uses \code{l$model} (fitted during \code{train()}) to return a \link{Prediction}
 }
 }
 
-\section{S3 methods}{
-
-}
-
 \examples{
 # Create a task with 10 observations
 task = mlr_tasks$get("iris")

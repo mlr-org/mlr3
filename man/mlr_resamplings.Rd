@@ -8,10 +8,6 @@
 A simple \link{Dictionary} storing objects of class \link{Resampling}.
 Each resampling has an associated help page, see \code{mlr_resamplings_[id]}.
 }
-\section{Fields}{
-
-}
-
 \section{Methods}{
 
 

@@ -169,10 +169,6 @@ set of active rows. \code{cols} defaults to all columns with storage type "chara
 }
 }
 
-\section{S3 methods}{
-
-}
-
 \examples{
 task = TaskSupervised$new("iris", task_type = "classif", backend = iris, target = "Species")
 }

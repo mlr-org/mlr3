@@ -8,10 +8,6 @@
 A simple \link{Dictionary} storing objects of class \link{Measure}.
 Each measure has an associated help page, see \code{mlr_measures_[id]}.
 }
-\section{Fields}{
-
-}
-
 \section{Methods}{
 
 

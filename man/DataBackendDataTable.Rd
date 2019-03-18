@@ -68,10 +68,6 @@ Non-existing rows and columns are silently ignored.
 }
 }
 
-\section{S3 methods}{
-
-}
-
 \examples{
 data = as.data.table(iris)
 data$id = seq_len(nrow(iris))

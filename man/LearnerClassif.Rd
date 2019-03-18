@@ -85,10 +85,6 @@ Uses \code{l$model} (fitted during \code{train()}) to return a \link{Prediction}
 }
 }
 
-\section{S3 methods}{
-
-}
-
 \examples{
 # get all classification learners from mlr_learners:
 lrns = mlr_learners$mget(mlr_learners$keys("^classif"))

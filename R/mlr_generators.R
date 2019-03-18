@@ -4,7 +4,6 @@
 #' @description
 #' A simple [Dictionary] storing generator functions returning a [Task].
 #'
-#' @section Fields:
 #' @section Methods:
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr

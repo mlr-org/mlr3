@@ -20,7 +20,6 @@
 #' * `repeats(iters)`\cr
 #'   `integer()` -> `integer()`\cr
 #'   Translates iteration numbers to repetition number.
-#' @section S3 methods:
 #'
 #' @inheritSection Learner Fields
 #' @inheritSection Learner Methods

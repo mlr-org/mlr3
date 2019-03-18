@@ -9,7 +9,6 @@
 #'
 #' @section Fields:
 #' @section Methods:
-#' @section S3 methods:
 #'
 #' @inheritSection Learner Fields
 #' @inheritSection Learner Methods

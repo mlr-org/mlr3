@@ -29,7 +29,6 @@
 #'
 #' @section Fields:
 #' @section Methods:
-#' @section S3 methods:
 #'
 #' @inheritSection Task Fields
 #' @inheritSection Task Methods

@@ -68,10 +68,6 @@ a score.
 }
 }
 
-\section{S3 methods}{
-
-}
-
 \seealso{
 Other Measure: \code{\link{MeasureRegr}},
   \code{\link{Measure}}, \code{\link{mlr_measures}}

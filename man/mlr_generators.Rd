@@ -6,10 +6,6 @@
 \description{
 A simple \link{Dictionary} storing generator functions returning a \link{Task}.
 }
-\section{Fields}{
-
-}
-
 \section{Methods}{
 
 

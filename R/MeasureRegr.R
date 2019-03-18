@@ -37,7 +37,6 @@
 #'
 #' @section Fields:
 #' @section Methods:
-#' @section S3 methods:
 #'
 #' @inheritSection Measure Fields
 #' @inheritSection Measure Methods
