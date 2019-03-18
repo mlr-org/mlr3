@@ -302,7 +302,7 @@
 <div id="benchmarking" class="section level2">
 <h2 class="hasAnchor">
 <a href="#benchmarking" class="anchor"></a>Benchmarking</h2>
-<p>Comparing the performance of different learners on multiple tasks is a recurrent task. <code>mlr3</code> offers the <code><a href="../reference/benchmark.html">benchmark()</a></code> function for convenience. The interface of the <code><a href="../reference/benchmark.html">benchmark()</a></code> function accepts a design of tasks, learners, and resampling strategies as data frame.</p>
+<p>Comparing the performance of different learners on multiple tasks is a recurrent task. <code>mlr3</code> offers the <code><a href="../reference/benchmark.html">benchmark()</a></code> function for convenience. The interface of the <code><a href="../reference/benchmark.html">benchmark()</a></code> function accepts a design of tasks, learners, and resampling strategies as data.frame.</p>
 <p>Here, we call <code><a href="../reference/benchmark.html">benchmark()</a></code> to perform a single holdout split on a single task and two learners:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(data.table)</a>
 <a class="sourceLine" id="cb14-2" title="2">design =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/data.table">data.table</a></span>(</a>

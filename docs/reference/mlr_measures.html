@@ -164,10 +164,44 @@ Each measure has an associated help page, see <code>mlr_measures_[id]</code>.</p
 
     <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object.</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
     
-    <p>See <a href='Dictionary.html'>Dictionary</a>.</p>
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+    <ul>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/get'>get(key, ...)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>, ...) -&gt; <code>any</code><br />
+Retrieves object with key <code>key</code> from the dictionary.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget(keys, ...)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, ...) -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+Retrieves objects with keys <code>keys</code> from the dictionary, returns them in a list named with <code>keys</code>.</p></li>
+<li><p><code>has(keys)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code><br />
+Returns a logical vector with <code>TRUE</code> at its i-th position, if the i-th key exists.</p></li>
+<li><p><code>keys(pattern)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Returns all keys which comply to the regular expression <code>pattern</code>.</p></li>
+<li><p><code>add(key, value)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>, <code>any</code>) -&gt; <code>self</code><br />
+Adds object <code>value</code> to the dictionary with key <code>key</code>, potentially overwriting a
+previously stored value.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/rm'>remove(key)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code>self</code><br />
+Removes object with key <code>key</code> from the dictionary.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 methods</h2>
+
+    
+    <ul>
+<li><p><code><a href='as.data.table.html'>as.data.table(dict)</a></code><br />
+<a href='Dictionary.html'>Dictionary</a> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Returns a <code>data.table()</code> with fields "key", "task_type", "predict_type",
+and "packages" as columns.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -179,7 +213,7 @@ Each measure has an associated help page, see <code>mlr_measures_[id]</code>.</p
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_measures</span>)</div><div class='output co'>#&gt;              id task_type predict_type packages
+    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_measures</span>)</div><div class='output co'>#&gt;             key task_type predict_type packages
 #&gt; 1:  classif.acc   classif     response  Metrics
 #&gt; 2:  classif.auc   classif         prob  Metrics
 #&gt; 3: classif.mmce   classif     response  Metrics
@@ -198,7 +232,11 @@ Each measure has an associated help page, see <code>mlr_measures_[id]</code>.</p
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#fields">Fields</a></li>
+
+      <li><a href="#methods">Methods</a></li>
+
+      <li><a href="#s-methods">S3 methods</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
