@@ -12,6 +12,8 @@
 #' a single cross-validation.
 #'
 #' @section Fields:
+#' @inheritSection Learner Fields
+#'
 #' @section Methods:
 #' * `folds(iters)`\cr
 #'   `integer()` -> `integer()`\cr
@@ -21,7 +23,6 @@
 #'   `integer()` -> `integer()`\cr
 #'   Translates iteration numbers to repetition number.
 #'
-#' @inheritSection Learner Fields
 #' @inheritSection Learner Methods
 #'
 #' @export

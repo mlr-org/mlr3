@@ -9,9 +9,9 @@
 #' Parameter `ratio` determines the ratio of observation in the train set (default: 2/3).
 #'
 #' @section Fields:
-#' @section Methods:
-#'
 #' @inheritSection Learner Fields
+#'
+#' @section Methods:
 #' @inheritSection Learner Methods
 #'
 #' @export

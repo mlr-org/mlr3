@@ -41,8 +41,9 @@
 #'
 #' * `positive` :: `character(1)`\cr
 #'   Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
-#'
 #' @inheritSection Task Fields
+#'
+#' @section Methods:
 #' @inheritSection Task Methods
 #'
 #' @family Task

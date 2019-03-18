@@ -5,12 +5,12 @@
 #' A simple [Dictionary] storing generator functions returning a [Task].
 #'
 #' @section Methods:
+#' @inheritSection Dictionary Methods
+#'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
 #'   [Dictionary] -> [data.table::data.table()]\cr
 #'   Returns a `data.table()` with fields "key" and "packages" as columns.
-#'
-#' @inheritSection Dictionary Methods
 #'
 #' @family Dictionary
 #' @family Task

@@ -9,9 +9,9 @@
 #' with a ratio of `ratio` (default: 2/3) observations in the training set.
 #'
 #' @section Fields:
-#' @section Methods:
-#'
 #' @inheritSection Learner Fields
+#'
+#' @section Methods:
 #' @inheritSection Learner Methods
 #'
 #' @export

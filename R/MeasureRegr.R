@@ -36,9 +36,9 @@
 #'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
 #'
 #' @section Fields:
-#' @section Methods:
-#'
 #' @inheritSection Measure Fields
+#'
+#' @section Methods:
 #' @inheritSection Measure Methods
 #'
 #' @family Measure

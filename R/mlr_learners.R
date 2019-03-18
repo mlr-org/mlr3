@@ -6,13 +6,13 @@
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
 #' @section Methods:
+#' @inheritSection Dictionary Methods
+#'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
 #'   [Dictionary] -> [data.table::data.table()]\cr
 #'   Returns a `data.table()` with fields "key", "feature_types", "packages",
 #'   "properties" and "predict_types" as columns.
-#'
-#' @inheritSection Dictionary Methods
 #'
 #' @family Dictionary
 #' @family Learner

@@ -37,9 +37,9 @@
 #'   Set of required packages.
 #'
 #' @section Fields:
-#' @section Methods:
-#'
 #' @inheritSection Learner Fields
+#'
+#' @section Methods:
 #' @inheritSection Learner Methods
 #'
 #' @family Learner

@@ -42,8 +42,6 @@ Removes object with key \code{key} from the dictionary.
 Returns a \code{data.table()} with fields "key", "task_type", "measures", "nrow", "ncol" and
 the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord" as columns.
 }
-
-
 }
 
 \examples{

@@ -6,13 +6,13 @@
 #' Each measure has an associated help page, see `mlr_measures_[id]`.
 #'
 #' @section Methods:
+#' @inheritSection Dictionary Methods
+#'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
 #'   [Dictionary] -> [data.table::data.table()]\cr
 #'   Returns a `data.table()` with fields "key", "task_type", "predict_type",
 #'   and "packages" as columns.
-#'
-#' @inheritSection Dictionary Methods
 #'
 #' @family Dictionary
 #' @family Measure

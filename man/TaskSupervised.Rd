@@ -98,8 +98,6 @@ Returns \code{NULL} if there are is no weight column.
 
 \section{Methods}{
 
-
-
 \itemize{
 \item \code{truth(row_ids = NULL)} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table with true  labels for specified \code{row_ids}.

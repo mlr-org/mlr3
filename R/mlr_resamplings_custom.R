@@ -9,9 +9,9 @@
 #' can be set manually.
 #'
 #' @section Fields:
-#' @section Methods:
-#'
 #' @inheritSection Learner Fields
+#'
+#' @section Methods:
 #' @inheritSection Learner Methods
 #'
 #' @export

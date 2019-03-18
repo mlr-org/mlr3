@@ -20,7 +20,10 @@
 #'
 #' Alternatively, use [as_data_backend] on a [Matrix::Matrix()].
 #'
+#' @section Fields:
 #' @inheritSection DataBackend Fields
+#'
+#' @section Methods:
 #' @inheritSection DataBackend Methods
 #'
 #' @family DataBackend

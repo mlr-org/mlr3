@@ -8,9 +8,9 @@
 #' Cross validation with `folds` folds (default: 10).
 #'
 #' @section Fields:
-#' @section Methods:
-#'
 #' @inheritSection Learner Fields
+#'
+#' @section Methods:
 #' @inheritSection Learner Methods
 #'
 #' @export

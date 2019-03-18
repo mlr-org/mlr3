@@ -24,9 +24,9 @@
 #'
 #'
 #' @section Fields:
-#' @section Methods:
-#'
 #' @inheritSection DataBackend Fields
+#'
+#' @section Methods:
 #' @inheritSection DataBackend Methods
 #'
 #' @family DataBackend
