@@ -113,3 +113,8 @@ dictionary_retrieve = function(self, key, ...) {
   }
   return(value)
 }
+
+#' @export
+as.data.table.Dictionary = function(x, ...) {
+  setkeyv(as.data.table(list(key = x$keys())), "key")[]
+}

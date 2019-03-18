@@ -24,6 +24,7 @@ expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
   if (!is.na(contains)) {
     checkmate::expect_list(d$mget(d$keys()), types = contains, names = "unique")
   }
+  expect_data_table(as.data.table(d), key = "key")
 }
 
 expect_backend = function(b) {
