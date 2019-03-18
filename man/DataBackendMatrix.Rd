@@ -23,6 +23,8 @@ Alternatively, use \link{as_data_backend} on a \code{\link[Matrix:Matrix]{Matrix
 
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{nrow} :: \code{integer(1)}\cr
 Number of rows (observations).
@@ -38,6 +40,8 @@ Returns a unique hash for this backend. This hash is cached.
 }
 
 \section{Methods}{
+
+
 
 \itemize{
 \item \code{data(rows = NULL, cols = NULL, format = "data.table")}\cr

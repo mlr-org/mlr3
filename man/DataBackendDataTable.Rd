@@ -25,6 +25,8 @@ creates a primary key column if required.
 
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{nrow} :: \code{integer(1)}\cr
 Number of rows (observations).
@@ -40,6 +42,8 @@ Returns a unique hash for this backend. This hash is cached.
 }
 
 \section{Methods}{
+
+
 
 \itemize{
 \item \code{data(rows = NULL, cols = NULL, format = "data.table")}\cr

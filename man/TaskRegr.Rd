@@ -28,6 +28,8 @@ Name of the target column.
 
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{backend} :: \link{DataBackend}.
 \item \code{col_info} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
@@ -95,6 +97,8 @@ Returns \code{NULL} if there are is no weight column.
 }
 
 \section{Methods}{
+
+
 
 \itemize{
 \item \code{data(rows = NULL, cols = NULL, format = NULL)}\cr

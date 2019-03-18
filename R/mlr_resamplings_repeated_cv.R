@@ -11,8 +11,8 @@
 #' cross-validations, i.e., the first `folds` iterations belong to
 #' a single cross-validation.
 #'
+#' @section Fields:
 #' @inheritSection Learner Fields
-#' @inheritSection Learner Methods
 #'
 #' @section Methods:
 #' * `folds(iters)`\cr
@@ -22,6 +22,8 @@
 #' * `repeats(iters)`\cr
 #'   `integer()` -> `integer()`\cr
 #'   Translates iteration numbers to repetition number.
+#'
+#' @inheritSection Learner Methods
 #'
 #' @export
 #' @examples

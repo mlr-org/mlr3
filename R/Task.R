@@ -172,11 +172,6 @@
 #'   set of active rows. `cols` defaults to all columns with storage type "character", "factor", or "ordered".
 #'
 #' @section S3 methods:
-#'
-#' * `as.data.frame(task)`\cr
-#'   [Task] -> `data.frame()`\cr
-#'   Returns the data set as `data.frame()`.
-#'
 #' * `as.data.table(task)`\cr
 #'   [Task] -> [data.table::data.table()]\cr
 #'   Returns the data set as `data.table()`.
@@ -491,9 +486,4 @@ col_info.DataBackend = function(x, ...) {
 #' @export
 as.data.table.Task = function(x, ...) {
   x$head(x$nrow)
-}
-
-#' @export
-as.data.frame.Task = function(x, ...) {
-  setDF(as.data.table(x))[]
 }

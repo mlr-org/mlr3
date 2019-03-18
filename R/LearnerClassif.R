@@ -36,7 +36,10 @@
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
 #'
+#' @section Fields:
 #' @inheritSection Learner Fields
+#'
+#' @section Methods:
 #' @inheritSection Learner Methods
 #'
 #' @family Learner

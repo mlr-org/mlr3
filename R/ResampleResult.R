@@ -58,12 +58,9 @@
 #'   Retrieves the performance values for the measure with id `id` as numeric vector.
 #'
 #' @section S3 Methods:
-#' * `as.data.frame(rr)`\cr
-#'   [ResampleResult] -> `data.frame()`\cr
-#'   Converts to a flat `data.frame()`.
 #' * `as.data.table(rr)`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
-#'   Converts to a flat `data.table()`.
+#'   Converts the data to a `data.table()`.
 #' @export
 ResampleResult = R6Class("ResampleResult",
   public = list(
@@ -156,11 +153,6 @@ ResampleResult = R6Class("ResampleResult",
     }
   )
 )
-
-#' @export
-as.data.frame.ResampleResult = function(x, ...) {
-  setDF(as.data.table.ResampleResult(x))[]
-}
 
 #' @export
 as.data.table.ResampleResult = function(x, ...) {

@@ -72,12 +72,9 @@ Retrieves the \link{ResampleResult} with provided \code{hash}.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.frame(rr)}\cr
-\link{BenchmarkResult} -> \code{data.frame()}\cr
-Converts to a flat \code{data.frame()}.
-\item \code{as.data.table(rr)}\cr
+\item \code{as.data.table(bmr)}\cr
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts to a flat \code{data.table()}.
+Converts the data to a \code{data.table()}.
 }
 }
 

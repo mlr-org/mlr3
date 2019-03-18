@@ -176,10 +176,9 @@ test_that("ordered factors (#95)", {
   expect_set_equal(task$col_info[id == "y", levels][[1L]], letters[1:3])
 })
 
-test_that("as.data.(frame|table)", {
+test_that("as.data.table", {
   task = mlr_tasks$get("iris")
   expect_data_table(as.data.table(task), nrow = 150, ncol = 5)
-  expect_data_frame(as.data.frame(task), nrow = 150, ncol = 5)
 })
 
 test_that("extra factor levels are stored (#179)", {

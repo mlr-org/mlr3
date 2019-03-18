@@ -110,6 +110,8 @@ Returns \code{NULL} if there are is no weight column.
 
 \section{Methods}{
 
+
+
 \itemize{
 \item \code{data(rows = NULL, cols = NULL, format = NULL)}\cr
 (\code{integer()} | \code{character()}, \code{character()}, \code{character(1)}) -> \code{any}\cr

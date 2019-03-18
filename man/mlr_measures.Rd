@@ -8,9 +8,41 @@
 A simple \link{Dictionary} storing objects of class \link{Measure}.
 Each measure has an associated help page, see \code{mlr_measures_[id]}.
 }
-\section{Usage}{
+\section{Methods}{
 
-See \link{Dictionary}.
+
+
+\itemize{
+\item \code{get(key, ...)}\cr
+(\code{character(1)}, ...) -> \code{any}\cr
+Retrieves object with key \code{key} from the dictionary.
+\item \code{mget(keys, ...)}\cr
+(\code{character()}, ...) -> named \code{list()}\cr
+Retrieves objects with keys \code{keys} from the dictionary, returns them in a list named with \code{keys}.
+\item \code{has(keys)}\cr
+\code{character()} -> \code{logical()}\cr
+Returns a logical vector with \code{TRUE} at its i-th position, if the i-th key exists.
+\item \code{keys(pattern)}\cr
+\code{character(1)} -> \code{character()}\cr
+Returns all keys which comply to the regular expression \code{pattern}.
+\item \code{add(key, value)}\cr
+(\code{character(1)}, \code{any}) -> \code{self}\cr
+Adds object \code{value} to the dictionary with key \code{key}, potentially overwriting a
+previously stored value.
+\item \code{remove(key)}\cr
+\code{character()} -> \code{self}\cr
+Removes object with key \code{key} from the dictionary.
+}
+}
+
+\section{S3 methods}{
+
+\itemize{
+\item \code{as.data.table(dict)}\cr
+\link{Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Returns a \code{data.table()} with fields "key", "task_type", "predict_type",
+and "packages" as columns.
+}
 }
 
 \examples{
