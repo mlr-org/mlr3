@@ -259,22 +259,6 @@ Returns a slice of the data from the <a href='DataBackend.html'>DataBackend</a> 
 Rows are subsetted to only contain observations with role "use".
 Columns are filtered to only contain features with roles "target" and "feature".
 If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind(data)</a></code><br />
-<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
-Extends the <a href='DataBackend.html'>DataBackend</a> with additional columns.
-The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>). If this column is missing, it is assumed that the rows are exactly in the order of
-<code>t$row_ids</code>.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind(data)</a></code><br />
-<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
-Extends the <a href='DataBackend.html'>DataBackend</a> with additional rows.
-The new row ids must be provided as column in <code>data</code>.
-If this column is missing, new row ids are constructed automatically.</p></li>
-<li><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter(rows)</a></code><br />
-(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; <code>self</code><br />
-Subsets the task, reducing it to only keep the rows specified.</p></li>
-<li><p><code>select(cols)</code><br />
-<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code>self</code><br />
-Subsets the task, reducing it to only keep the columns specified.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels(cols = NULL)</a></code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
 Returns the distinct values of columns in <code>cols</code> for columns with storage type "character", "factor" or "ordered".
@@ -288,10 +272,6 @@ Argument <code>cols</code> defaults to all columns with role "target" or "featur
 <li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head(n = 6)</a></code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
 Get the first <code>n</code> observations with role "use".</p></li>
-<li><p><code>replace_features(data)</code><br />
-<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
-Replaces some features of the task by constructing a completely new <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.
-This operation is similar to calling <code>select()</code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, but explicitly copies the data.</p></li>
 <li><p><code>set_col_role(cols, new_roles, exclusive = TRUE)</code><br />
 (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code>self</code><br />
 Adds the roles <code>new_roles</code> to columns referred to by <code>cols</code>.
@@ -300,6 +280,31 @@ If <code>exclusive</code> is <code>TRUE</code>, the referenced columns will be r
 (<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code>) -&gt; <code>self</code><br />
 Adds the roles <code>new_roles</code> to rows referred to by <code>rows</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/filter'>filter(rows)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; <code>self</code><br />
+Subsets the task, reducing it to only keep the rows specified.
+See the section on task mutators for more information.</p></li>
+<li><p><code>select(cols)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code>self</code><br />
+Subsets the task, reducing it to only keep the columns specified.
+See the section on task mutators for more information.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind(data)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
+Extends the <a href='DataBackend.html'>DataBackend</a> with additional columns.
+The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).
+If this column is missing, it is assumed that the rows are exactly in the order of <code>t$row_ids</code>.
+See the section on task mutators for more information.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind(data)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
+Extends the <a href='DataBackend.html'>DataBackend</a> with additional rows.
+The new row ids must be provided as column in <code>data</code>.
+If this column is missing, new row ids are constructed automatically.
+See the section on task mutators for more information.</p></li>
+<li><p><code>replace_features(data)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> -&gt; <code>self</code><br />
+Replaces some features of the task by constructing a completely new <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.
+This operation is similar to calling <code>select()</code> and <code><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind()</a></code>, but explicitly copies the data.
+See the section on task mutators for more information.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/droplevels'>droplevels(cols = NULL)</a></code><br />
 <code>character</code> -&gt; <code>self</code><br />
 Updates the cache of stored factor levels, removing all levels not present in the

@@ -183,7 +183,7 @@ The task <code><a href='resample.html'>resample()</a></code> operated on.</p></l
 <li><p><code>learner</code> :: <a href='Learner.html'>Learner</a><br />
 The learner <code><a href='resample.html'>resample()</a></code> operated on.</p></li>
 <li><p><code>resampling</code> :: <a href='Resampling.html'>Resampling</a><br />
-The resampling object <code><a href='resample.html'>resample()</a></code> operated on.</p></li>
+The resampling splits <code><a href='resample.html'>resample()</a></code> operated on.</p></li>
 <li><p><code>measures</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code> of <a href='Measure.html'>Measure</a><br />
 The performance measures <code><a href='resample.html'>resample()</a></code> operated on.</p></li>
 <li><p><code>errors</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code><br />
@@ -206,7 +206,7 @@ Takes a second ResampleResult and combines both ResampleResults to a <a href='Be
 Returns the <code>iter</code>-th <a href='Experiment.html'>Experiment</a>.</p></li>
 <li><p><code>experiments(iters)</code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code> of <a href='Experiment.html'>Experiment</a>.
-Returns a slice of <a href='Experiment.html'>Experiment</a>s, referred to by resampling iterations <code>iters</code>.</p></li>
+Returns a slice of <a href='Experiment.html'>Experiment</a>s with provided resampling iterations <code>iters</code>.</p></li>
 <li><p><code>performance(id)</code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code><br />
 Retrieves the performance values for the measure with id <code>id</code> as numeric vector.</p></li>
