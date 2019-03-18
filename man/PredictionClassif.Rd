@@ -11,8 +11,11 @@ If probabilities are provided via construction and response is missing,
 the response is calculated from the probabilities: the class label with the highest
 probability is chosen. In case of ties, a random class label of the tied labels picked.
 
-For binary classification problems, it is possible to set the probability threshold for
-predicting the positive class. This requires stored predictions.
+It is possible to set the probability threshold.
+For binary problems, a single threshold value for predicting the positive class can be set.
+Multiclass classification problems require a numeric vector, which sums up to 1 and
+whose length equals the number of classes.
+Setting a probability threshold always requires stored predictions.
 
 The \code{task_type} is set to \code{"classif"}.
 }

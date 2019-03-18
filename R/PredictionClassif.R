@@ -10,8 +10,11 @@
 #' the response is calculated from the probabilities: the class label with the highest
 #' probability is chosen. In case of ties, a random class label of the tied labels picked.
 #'
-#' For binary classification problems, it is possible to set the probability threshold for
-#' predicting the positive class. This requires stored predictions.
+#' It is possible to set the probability threshold.
+#' For binary problems, a single threshold value for predicting the positive class can be set.
+#' Multiclass classification problems require a numeric vector, which sums up to 1 and
+#' whose length equals the number of classes.
+#' Setting a probability threshold always requires stored predictions.
 #'
 #' The `task_type` is set to `"classif"`.
 #'
@@ -64,11 +67,23 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         return(private$.threshold)
       if (!is.matrix(self$prob))
         stopf("Cannot set threshold, no probabilities available")
-      if (ncol(self$prob) != 2L)
-        stopf("Cannot set threshold, need binary classification task")
-      private$.threshold = assert_number(rhs, lower = 0, upper = 1)
-      lvls = colnames(self$prob)
-      self$response = factor(lvls[(unname(self$prob[, 1L]) < rhs) + 1L], levels = lvls)
+      if (ncol(self$prob) == 2L) {
+        private$.threshold = assert_number(rhs, lower = 0, upper = 1)
+        lvls = colnames(self$prob)
+        self$response = factor(lvls[(unname(self$prob[, 1L]) < rhs) + 1L], levels = lvls)
+      } else if (ncol(self$prob) > 2L) {
+        assert_set_equal(sum(rhs), 1L)
+        private$.threshold = assert_double(rhs, lower = 0, upper = 1, len = ncol(self$prob))
+        lvls = colnames(self$prob)
+        # divide all rows by threshold then get max el
+        p = sweep(as.matrix(self$prob), MARGIN = 2, FUN = "/", rhs)
+        # 0 / 0 can produce NaNs. For a 0 threshold we always want Inf weight for that class
+        p[is.nan(p)] = Inf
+        ind = apply(p, 1, mlr3misc::which_max)
+        self$response = factor(ind, levels = seq_along(lvls), labels = lvls)
+      } else {
+        stopf("Cannot set threshold, need binary or multiclass classification task")
+      }
     }
   ),
 
