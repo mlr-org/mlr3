@@ -203,7 +203,7 @@
 <p>To extract a specific learner, use the corresponding “id”:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">learner =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>)</a>
 <a class="sourceLine" id="cb3-2" title="2">learner</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; &lt;LearnerClassifRpart:rpart&gt;</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;</span></a>
 <a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; Parameters: list()</span></a>
 <a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; Packages: rpart</span></a>
 <a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; Predict Type: response</span></a>
@@ -231,7 +231,7 @@
 <p>The set of hyperparamter values is stored inside the parameter set in the field <code>values</code>. By assigning a named list to this field, we change the active hyperparameters of the learner:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">learner<span class="op">$</span>param_set<span class="op">$</span>values =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">cp =</span> <span class="fl">0.01</span>)</a>
 <a class="sourceLine" id="cb5-2" title="2">learner</a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt; &lt;LearnerClassifRpart:rpart&gt;</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;</span></a>
 <a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt; Parameters: cp=0.01</span></a>
 <a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; Packages: rpart</span></a>
 <a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt; Predict Type: response</span></a>
@@ -254,7 +254,7 @@
 <p>First, we retrieve the “iris” task from the <code><a href="../reference/mlr_tasks.html">mlr3::mlr_tasks</a></code> dictionary, and then apply the train method on the complete task.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">task =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb7-2" title="2">learner<span class="op">$</span><span class="kw">train</span>(task)</a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; &lt;LearnerClassifRpart:rpart&gt;</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;</span></a>
 <a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; Parameters: cp=0.01</span></a>
 <a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; Packages: rpart</span></a>
 <a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; Predict Type: response</span></a>
