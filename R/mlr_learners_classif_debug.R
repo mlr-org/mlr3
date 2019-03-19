@@ -25,7 +25,7 @@
 #' @export
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "debug") {
+    initialize = function(id = "classif.debug") {
       super$initialize(
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
