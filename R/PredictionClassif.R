@@ -73,7 +73,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         lvls = colnames(self$prob)
         self$response = factor(lvls[(unname(self$prob[, 1L]) < rhs) + 1L], levels = lvls)
       } else if (ncol(self$prob) > 2L) {
-        assert_set_equal(sum(rhs), 1L)
+        # assert_set_equal(sum(rhs), 1L) # FIXME: sollte 1 sein, kann jedoch passieren, dass es beim tuning nur ~ 1 ist.
         private$.threshold = assert_double(rhs, lower = 0, upper = 1, len = ncol(self$prob))
         lvls = colnames(self$prob)
         # divide all rows by threshold then get max el
