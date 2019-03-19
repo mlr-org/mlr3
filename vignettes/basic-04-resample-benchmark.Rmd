@@ -139,7 +139,7 @@ resampling$test_set(1)
 
 Comparing the performance of different learners on multiple tasks is a recurrent task.
 `mlr3` offers the `benchmark()` function for convenience.
-The interface of the `benchmark()` function accepts a design of tasks, learners, and resampling strategies as data frame.
+The interface of the `benchmark()` function accepts a design of tasks, learners, and resampling strategies as data.frame.
 
 Here, we call `benchmark()` to perform a single holdout split on a single task and two learners:
 ```{r}
@@ -203,7 +203,7 @@ Unsurprisingly, the classification tree outperformed the featureless learner.
 As a `BenchmarkResult` object is basically a collection of multiple `ResampleResult` objects, we can extract specific `ResampleResult` objects using the stored hashes:
 
 ```{r}
-tab = bmr$aggregated(objects = FALSE)[task_id == "spam" & learner_id == "rpart"]
+tab = bmr$aggregated(objects = FALSE)[task_id == "spam" & learner_id == "classif.rpart"]
 print(tab)
 
 rr = bmr$resample_result(tab$hash)

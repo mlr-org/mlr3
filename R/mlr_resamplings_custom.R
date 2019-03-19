@@ -8,7 +8,10 @@
 #' A custom resampling class where the training and test indices
 #' can be set manually.
 #'
+#' @section Fields:
 #' @inheritSection Learner Fields
+#'
+#' @section Methods:
 #' @inheritSection Learner Methods
 #'
 #' @export

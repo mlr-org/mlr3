@@ -42,6 +42,8 @@ Required are "row_ids", "truth", and "predict_type". Depending on the value of
 
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
 Vector of row ids for which predictions are stored.

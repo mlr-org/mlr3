@@ -159,9 +159,6 @@ set of active rows. \code{cols} defaults to all columns with storage type "chara
 \section{S3 methods}{
 
 \itemize{
-\item \code{as.data.frame(task)}\cr
-\link{Task} -> \code{data.frame()}\cr
-Returns the data set as \code{data.frame()}.
 \item \code{as.data.table(task)}\cr
 \link{Task} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns the data set as \code{data.table()}.

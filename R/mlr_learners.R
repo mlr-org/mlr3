@@ -5,9 +5,14 @@
 #' A simple [Dictionary] storing objects of class [Learner].
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
-#' @section Usage:
+#' @section Methods:
+#' @inheritSection Dictionary Methods
 #'
-#' See [Dictionary].
+#' @section S3 methods:
+#' * `as.data.table(dict)`\cr
+#'   [Dictionary] -> [data.table::data.table()]\cr
+#'   Returns a `data.table()` with fields "key", "feature_types", "packages",
+#'   "properties" and "predict_types" as columns.
 #'
 #' @family Dictionary
 #' @family Learner
@@ -44,11 +49,11 @@ as.data.table.DictionaryLearner = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
     l = x$get(key)
     list(
-      id = key,
+      key = key,
       feature_types = list(l$feature_types),
       packages = list(l$packages),
       properties = list(l$properties),
       predict_types = list(l$predict_types)
     )
-  }), "id")[]
+  }), "key")[]
 }

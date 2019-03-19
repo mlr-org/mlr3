@@ -34,6 +34,8 @@ Note that these packages will be loaded via \code{\link[=requireNamespace]{requi
 
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Stores the identifier of the measure.
@@ -51,6 +53,8 @@ Stores required properties of the \link{Task}.
 }
 
 \section{Methods}{
+
+
 
 \itemize{
 \item \code{aggregate(rr)}\cr

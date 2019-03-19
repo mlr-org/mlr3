@@ -27,6 +27,11 @@
 #' * `predict_types` :: `character()`\cr
 #'   Vector of predict types this object stores.
 #'
+#' @section S3 Methods:
+#' * `as.data.table(rr)`\cr
+#'   [BenchmarkResult] -> [data.table::data.table()]\cr
+#'   Converts the data to a `data.table()`.
+#'
 #' @export
 #' @family Prediction
 Prediction = R6Class("Prediction",
@@ -60,9 +65,4 @@ as.data.table.Prediction = function(x, ...) {
   if (is.null(x$response) || is.null(x$truth))
     stop("Cannon convert Prediction to data.table: Prediction object incomplete")
   data.table(row_id = x$row_ids, response = x$response, truth = x$truth)
-}
-
-#' @export
-as.data.frame.Prediction = function(x, ...) {
-  setDF(as.data.table(x))[]
 }

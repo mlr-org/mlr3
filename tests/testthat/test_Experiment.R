@@ -50,7 +50,6 @@ test_that("$train() + $predict()", {
   e$predict(1:10)
   expect_set_equal(e$test_set, 1:10)
   expect_data_table(as.data.table(e$prediction), nrow = 10L, any.missing = FALSE)
-  expect_data_frame(as.data.frame(e$prediction), nrow = 10L, any.missing = FALSE)
   expect_equal(task$nrow, 150L)
   expect_equal(e$data$task$nrow, 150L)
   expect_class(e$prediction, "Prediction")

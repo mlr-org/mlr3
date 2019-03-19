@@ -15,6 +15,8 @@ with a ratio of \code{ratio} (default: 2/3) observations in the training set.
 }
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{fallback} :: (\link{Learner} | \code{NULL})\cr
 Optionally stores a second \link{Learner} which is activated as fallback if this first \link{Learner} fails during
@@ -47,6 +49,8 @@ A complete list of task types is stored in \code{mlr_reflections$task_types}.
 }
 
 \section{Methods}{
+
+
 
 \itemize{
 \item \code{params(tag)}\cr

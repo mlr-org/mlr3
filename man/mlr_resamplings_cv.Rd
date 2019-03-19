@@ -14,6 +14,8 @@ Cross validation with \code{folds} folds (default: 10).
 }
 \section{Fields}{
 
+
+
 \itemize{
 \item \code{fallback} :: (\link{Learner} | \code{NULL})\cr
 Optionally stores a second \link{Learner} which is activated as fallback if this first \link{Learner} fails during
@@ -46,6 +48,8 @@ A complete list of task types is stored in \code{mlr_reflections$task_types}.
 }
 
 \section{Methods}{
+
+
 
 \itemize{
 \item \code{params(tag)}\cr

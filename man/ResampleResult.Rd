@@ -61,12 +61,9 @@ Retrieves the performance values for the measure with id \code{id} as numeric ve
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.frame(rr)}\cr
-\link{ResampleResult} -> \code{data.frame()}\cr
-Converts to a flat \code{data.frame()}.
 \item \code{as.data.table(rr)}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts to a flat \code{data.table()}.
+Converts the data to a \code{data.table()}.
 }
 }
 
