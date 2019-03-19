@@ -106,10 +106,12 @@ Defaults to all rows in use.
 
 
 \itemize{
-\item \code{data(rows = NULL, cols = NULL, format = NULL)}\cr
-(\code{integer()} | \code{character()}, \code{character()}, \code{character(1)}) -> \code{any}\cr
-Returns a slice of the data from the \link{DataBackend} in the format specified by \code{format}
+\item \code{data(rows = NULL, cols = NULL, data_format = NULL)}\cr
+(\code{integer()} | \code{character()}, \code{character()}, \code{character()}) -> \code{any}\cr
+Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}
 (depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.table]{data.table::data.table()}}).
+It is possible to provide multiple formats, the first format supported is selected.
+
 Rows are subsetted to only contain observations with role "use".
 Columns are filtered to only contain features with roles "target" and "feature".
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
