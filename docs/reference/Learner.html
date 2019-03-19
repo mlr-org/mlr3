@@ -184,6 +184,12 @@ Supported predict types. Must be a subset of <code><a href='mlr_reflections.html
 Feature types the learner operates on. Must be a subset of <code>mlr_reflections$task_feature_types</code>.</p></li>
 <li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
 Set of properties of the learner. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$learner_properties</a></code>.</p></li>
+<li><p><code>data_formats</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Vector of supported data formats which can be processed during <code>$train()</code> and <code>$predict()</code>.
+Will be matched against the data formats supported by the <a href='Task.html'>Task</a>, and the first data format specified
+in the learner which is also supported by the task will be picked.
+The resulting format can be queried via <code>task$common_format()</code>.
+Defaults to <code>"data.table"</code>.</p></li>
 <li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
 Set of required packages.
 Note that these packages will be loaded via <code><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace()</a></code>, and are not attached.</p></li>

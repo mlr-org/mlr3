@@ -249,7 +249,7 @@ Uses <code>l$model</code> (fitted during <code>train()</code>) to return a <a hr
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>lrns</span>)</div><div class='output co'>#&gt; [1] "classif.debug"       "classif.featureless" "classif.rpart"      </div><div class='input'>
 <span class='co'># get a specific learner from mlr_learners:</span>
 <span class='no'>lrn</span> <span class='kw'>=</span> <span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.rpart"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>lrn</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifRpart:rpart&gt;
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>lrn</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
 #&gt; Parameters: list()
 #&gt; Packages: rpart
 #&gt; Predict Type: response
@@ -257,9 +257,10 @@ Uses <code>l$model</code> (fitted during <code>train()</code>) to return a <a hr
 #&gt; Properties: importance, missings, multiclass, selected_features,
 #&gt;   twoclass, weights
 #&gt; 
-#&gt; Public: clone(), fallback, feature_types, hash, id, importance(),
-#&gt;   model, packages, param_set, params(), predict_type, predict_types,
-#&gt;   predict(), properties, selected_features(), task_type, train()</div></pre>
+#&gt; Public: clone(), data_formats, fallback, feature_types, hash, id,
+#&gt;   importance(), model, packages, param_set, params(), predict_type,
+#&gt;   predict_types, predict(), properties, selected_features(), task_type,
+#&gt;   train()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
