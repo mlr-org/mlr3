@@ -43,9 +43,10 @@ test_that("Backends with different cols", {
 test_that("Backends with mixed data_formats", {
   requireNamespace("Matrix")
   i = c(1,3:8,20); j <- c(2,9,6:10,5); x <- 7 * (1:8)
-  A = sparseMatrix(i, j, x = x)
+  A = Matrix::sparseMatrix(i, j, x = x)
   colnames(A) = letters[1:10]
   X = cbind(A, Y = rnorm(nrow(A)))
+  task = TaskRegr$new("sparse", X, "Y")
 
   newdata = as.data.frame(as.list(set_names(rep(0, ncol(X)), colnames(X))))
   task$rbind(newdata)
