@@ -395,9 +395,14 @@ expect_resample_result = function(rr) {
   checkmate::expect_names(names(rr$data), must.include = mlr3::mlr_reflections$experiment_slots$name)
   expect_hash(rr$hash, 1L)
 
+  checkmate::expect_data_table(as.data.table(rr), nrow = nrow(rr$data))
+
   e = rr$experiment(1L)
   expect_experiment(e)
   testthat::expect_true(e$state == "scored")
+
+  exps = rr$experiments(seq_len(nrow(rr$data)))
+  expect_list(exps, types = "Experiment", len = nrow(rr$data))
 
   measures = rr$measures$measure
   aggr = rr$aggregated
