@@ -39,3 +39,19 @@ test_that("Backends with different cols", {
 
   expect_data_table(b$data(rows = 1:120, cols = b$colnames), nrow = 120, ncol = length(fn))
 })
+
+test_that("Backends with mixed data_formats", {
+  requireNamespace("Matrix")
+  i = c(1,3:8,20); j <- c(2,9,6:10,5); x <- 7 * (1:8)
+  A = sparseMatrix(i, j, x = x)
+  colnames(A) = letters[1:10]
+  X = cbind(A, Y = rnorm(nrow(A)))
+
+  newdata = as.data.frame(as.list(set_names(rep(0, ncol(X)), colnames(X))))
+  task$rbind(newdata)
+  expect_backend(task$backend)
+  expect_set_equal(task$backend$data_formats, "data.table")
+
+  rr = resample(task, mlr_learners$get("regr.rpart"), mlr_resamplings$get("holdout"))
+  expect_number(rr$aggregated)
+})

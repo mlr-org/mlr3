@@ -32,7 +32,6 @@ Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflectio
 Vector of supported data formats which can be processed during \code{$train()} and \code{$predict()}.
 Will be matched against the data formats supported by the \link{Task}, and the first data format specified
 in the learner which is also supported by the task will be picked.
-The resulting format can be queried via \code{task$common_format()}.
 Defaults to \code{"data.table"}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
