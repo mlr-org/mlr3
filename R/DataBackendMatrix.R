@@ -35,8 +35,8 @@
 #' rownames(data) = paste0("row_", 1:10)
 #'
 #' b = as_data_backend(data)
-#' print(b$head(n = 3, format = "data.table"))
-#' print(b$head(n = 3, format = "sparse"))
+#' b$head()
+#' b$data(b$rownames[1:3], b$colnames, data_format = "Matrix")
 DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneable = FALSE,
   public = list(
     initialize = function(data, primary_key = NULL) {
@@ -49,36 +49,34 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         stopf("No data in Matrix")
       if (!is.null(primary_key))
         stopf("Primary key column not supported by DataBackendMatrix")
-      super$initialize(data, "..row_id", c("data.table", "sparse"))
+      super$initialize(data, "..row_id", c("data.table", "Matrix"))
     },
 
-    data = function(rows, cols, format = self$formats[1L]) {
-      assert_choice(format, self$formats)
+    data = function(rows, cols, data_format = "data.table") {
+      assert_choice(data_format, self$data_formats)
       assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
-      assert_choice(format, self$formats)
 
       query_rows = private$.translate_rows(rows)
       query_cols = intersect(cols, colnames(private$.data))
       data = private$.data[query_rows, query_cols, drop = FALSE]
 
-      switch(format,
+      switch(data_format,
         "data.table" = {
           data = as.data.table(as.matrix(data))
           if (self$primary_key %in% cols)
             data = insert_named(data, set_names(list(query_rows), self$primary_key))
           data
         },
-        "sparse" = {
+        "Matrix" = {
           attr(data, "..row_id") = query_rows
           data
-        },
-        stopf("Cannot convert to format '%s'", format)
+        }
       )
     },
 
-    head = function(n = 6L, format = "data.table") {
-      self$data(head(self$rownames, n), self$colnames, format = format)
+    head = function(n = 6L) {
+      self$data(head(self$rownames, n), self$colnames)
     },
 
     distinct = function(rows, cols) {

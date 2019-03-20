@@ -36,6 +36,9 @@ Returns vector of all column names, including the primary key column.
 Returns vector of all distinct row identifiers, i.e. the primary key column.
 \item \code{hash} :: \code{character(1)}\cr
 Returns a unique hash for this backend. This hash is cached.
+\item \code{data_formats} :: \code{character()}\cr
+Vector of supported data formats.
+A specific format of these supported formats can be picked in the \code{$data()} method.
 }
 }
 
@@ -73,8 +76,8 @@ colnames(data) = c("x1", "x2")
 rownames(data) = paste0("row_", 1:10)
 
 b = as_data_backend(data)
-print(b$head(n = 3, format = "data.table"))
-print(b$head(n = 3, format = "sparse"))
+b$head()
+b$data(b$rownames[1:3], b$colnames, data_format = "Matrix")
 }
 \seealso{
 Other DataBackend: \code{\link{DataBackendDataTable}},
