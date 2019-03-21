@@ -24,7 +24,7 @@ expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
   if (!is.na(contains)) {
     checkmate::expect_list(d$mget(d$keys()), types = contains, names = "unique")
   }
-  expect_data_table(as.data.table(d), key = "key")
+  expect_data_table(data.table::as.data.table(d), key = "key")
 }
 
 expect_backend = function(b) {
@@ -360,7 +360,7 @@ expect_experiment = function(e) {
 expect_prediction = function(p) {
   checkmate::expect_r6(p, "Prediction", public = c("row_ids", "response", "truth", "predict_types"))
   testthat::expect_output(print(p), "^<Prediction")
-  checkmate::expect_data_table(as.data.table(p), nrow = length(p$row_ids))
+  checkmate::expect_data_table(data.table::as.data.table(p), nrow = length(p$row_ids))
 }
 
 expect_prediction_regr = function(p) {
@@ -395,7 +395,7 @@ expect_resample_result = function(rr) {
   checkmate::expect_names(names(rr$data), must.include = mlr3::mlr_reflections$experiment_slots$name)
   expect_hash(rr$hash, 1L)
 
-  checkmate::expect_data_table(as.data.table(rr), nrow = nrow(rr$data))
+  checkmate::expect_data_table(data.table::as.data.table(rr), nrow = nrow(rr$data))
 
   e = rr$experiment(1L)
   expect_experiment(e)
