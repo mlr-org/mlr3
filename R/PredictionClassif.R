@@ -14,6 +14,7 @@
 #' For binary problems, a single threshold value for predicting the positive class can be set.
 #' Multiclass classification problems require a numeric vector, which sums up to 1 and
 #' whose length equals the number of classes.
+#' In the multiclass context, each threshold value serves as weight for the probability of the corresponding class.
 #' Setting a probability threshold always requires stored predictions.
 #'
 #' The `task_type` is set to `"classif"`.
@@ -77,10 +78,8 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         private$.threshold = assert_double(rhs, lower = 0, upper = 1, len = ncol(self$prob))
         lvls = colnames(self$prob)
         # divide all rows by threshold then get max el
-        p = sweep(as.matrix(self$prob), MARGIN = 2, FUN = "/", rhs)
-        # 0 / 0 can produce NaNs. For a 0 threshold we always want Inf weight for that class
-        p[is.nan(p)] = Inf
-        ind = apply(p, 1, mlr3misc::which_max)
+        p = sweep(as.matrix(self$prob), MARGIN = 2, FUN 0 = "*", rhs)
+        ind = apply(p, 1, mlr3misc::which_min)
         self$response = factor(ind, levels = seq_along(lvls), labels = lvls)
       } else {
         stopf("Cannot set threshold, need binary or multiclass classification task")

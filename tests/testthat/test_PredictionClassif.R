@@ -61,8 +61,8 @@ test_that("setting threshold", {
 
   response_before = p$response
 
-  expect_error({p$threshold = c(0.5, 0.5)})
-  expect_error({p$threshold = c(0.1, 0.5, 0.5)})
+  expect_error({p$threshold = c(0.5, 0.5)}) # check for correct length(threshold) = nclass
+  # expect_error({p$threshold = c(0.1, 0.5, 0.5)}) # FIXME: sum of elements is allowed to unequal 1
 
   p$threshold = c(0, 0.5, 0.5)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
