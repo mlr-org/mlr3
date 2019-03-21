@@ -402,7 +402,7 @@ expect_resample_result = function(rr) {
   testthat::expect_true(e$state == "scored")
 
   exps = rr$experiments(seq_len(nrow(rr$data)))
-  expect_list(exps, types = "Experiment", len = nrow(rr$data))
+  checkmate::expect_list(exps, types = "Experiment", len = nrow(rr$data))
 
   measures = rr$measures$measure
   aggr = rr$aggregated
