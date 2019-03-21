@@ -28,6 +28,11 @@ Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_r
 Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
 \item \code{properties} :: \code{character()}\cr
 Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+\item \code{data_formats} :: \code{character()}\cr
+Vector of supported data formats which can be processed during \code{$train()} and \code{$predict()}.
+Will be matched against the data formats supported by the \link{Task}, and the first data format specified
+in the learner which is also supported by the task will be picked.
+Defaults to \code{"data.table"}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
 Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.

@@ -169,7 +169,7 @@ Predefined learners can be found in the <a href='Dictionary.html'>Dictionary</a>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     <pre>l = LearnerRegr$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
-     feature_types = character(), properties = character(), packages = character())
+     feature_types = character(), properties = character(), data_formats = "data.table", packages = character())
 </pre>
 <ul>
 <li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
@@ -256,9 +256,10 @@ Uses <code>l$model</code> (fitted during <code>train()</code>) to return a <a hr
 #&gt; Feature types: logical, integer, numeric, character, factor, ordered
 #&gt; Properties: importance, missings, selected_features, weights
 #&gt; 
-#&gt; Public: clone(), fallback, feature_types, hash, id, importance(),
-#&gt;   model, packages, param_set, params(), predict_type, predict_types,
-#&gt;   predict(), properties, selected_features(), task_type, train()</div></pre>
+#&gt; Public: clone(), data_formats, fallback, feature_types, hash, id,
+#&gt;   importance(), model, packages, param_set, params(), predict_type,
+#&gt;   predict_types, predict(), properties, selected_features(), task_type,
+#&gt;   train()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

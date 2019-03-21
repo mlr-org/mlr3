@@ -34,6 +34,12 @@
 #' * `properties` :: `character()`\cr
 #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
 #'
+#' * `data_formats` :: `character()`\cr
+#'   Vector of supported data formats which can be processed during `$train()` and `$predict()`.
+#'   Will be matched against the data formats supported by the [Task], and the first data format specified
+#'   in the learner which is also supported by the task will be picked.
+#'   Defaults to `"data.table"`.
+#'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
 #'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
@@ -119,11 +125,13 @@ Learner = R6Class("Learner",
     predict_types = NULL,
     feature_types = NULL,
     properties = NULL,
+    data_formats = NULL,
     packages = NULL,
     model = NULL,
     fallback = NULL,
 
-    initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(), feature_types = character(), properties = character(), packages = character()) {
+    initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+      feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
       self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
@@ -131,12 +139,10 @@ Learner = R6Class("Learner",
       private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
+      self$data_formats = assert_subset(data_formats, mlr_reflections$task_data_formats)
       private$.param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
     },
-
-    train = function(...) stopf("Method not implemented, should have been overloaded during construction"),
-    predict = function(...) stopf("Method not implemented, should have been overloaded during construction"),
 
     format = function() {
       sprintf("<%s:%s>", class(self)[1L], self$id)

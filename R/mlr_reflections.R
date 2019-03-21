@@ -8,11 +8,6 @@
 mlr_reflections = new.env(parent = emptyenv())
 
 
-### DataBackend
-mlr_reflections$databackend_formats = c(
-  "data.table", "sparse"
-)
-
 ### Task
 mlr_reflections$task_types = c(
   "regr", "classif"
@@ -34,6 +29,10 @@ mlr_reflections$task_col_roles = list(
 mlr_reflections$task_properties = list(
   classif = c("weights", "groups", "twoclass", "multiclass"),
   regr    = c("weights", "groups")
+)
+
+mlr_reflections$task_data_formats = c(
+  "data.table", "Matrix"
 )
 
 

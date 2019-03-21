@@ -212,10 +212,10 @@
 <a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt; Properties: importance, missings, multiclass, selected_features,</span></a>
 <a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt;   twoclass, weights</span></a>
 <a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt; Public: clone(), fallback, feature_types, hash, id, importance(),</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;   model, packages, param_set, params(), predict_type,</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt;   predict_types, predict(), properties, selected_features(),</span></a>
-<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt;   task_type, train()</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt; Public: clone(), data_formats, fallback, feature_types, hash, id,</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;   importance(), model, packages, param_set, params(),</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt;   predict_type, predict_types, predict(), properties,</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt;   selected_features(), task_type, train()</span></a></code></pre></div>
 <p>As the printer shows, all information from the previous table is also accessible via public fields (<code>id</code>, <code>feature_types</code>, <code>packages</code>, <code>properties</code>, <code>predict_types</code>) Additionally, <code>predict_type</code> returns the currently selected predict type of the learner.</p>
 <p>The field <code>param_set</code> stores a description of hyperparameter settings:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">learner<span class="op">$</span>param_set</a>
@@ -240,10 +240,10 @@
 <a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt; Properties: importance, missings, multiclass, selected_features,</span></a>
 <a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt;   twoclass, weights</span></a>
 <a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt; Public: clone(), fallback, feature_types, hash, id, importance(),</span></a>
-<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt;   model, packages, param_set, params(), predict_type,</span></a>
-<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;   predict_types, predict(), properties, selected_features(),</span></a>
-<a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt;   task_type, train()</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt; Public: clone(), data_formats, fallback, feature_types, hash, id,</span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt;   importance(), model, packages, param_set, params(),</span></a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;   predict_type, predict_types, predict(), properties,</span></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt;   selected_features(), task_type, train()</span></a></code></pre></div>
 <p>The field <code>model</code> stores the result of the training step. As we have not yet learned a model, this is <code>NULL</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">learner<span class="op">$</span>model</a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; NULL</span></a></code></pre></div>
@@ -263,10 +263,10 @@
 <a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; Properties: importance, missings, multiclass, selected_features,</span></a>
 <a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt;   twoclass, weights</span></a>
 <a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; Public: clone(), fallback, feature_types, hash, id, importance(),</span></a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;   model, packages, param_set, params(), predict_type,</span></a>
-<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt;   predict_types, predict(), properties, selected_features(),</span></a>
-<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt;   task_type, train()</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; Public: clone(), data_formats, fallback, feature_types, hash, id,</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="co">#&gt;   importance(), model, packages, param_set, params(),</span></a>
+<a class="sourceLine" id="cb7-14" title="14"><span class="co">#&gt;   predict_type, predict_types, predict(), properties,</span></a>
+<a class="sourceLine" id="cb7-15" title="15"><span class="co">#&gt;   selected_features(), task_type, train()</span></a></code></pre></div>
 <p>The learner returns itself, the fitted model is stored in the field “model”:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">learner<span class="op">$</span>model</a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; n= 150 </span></a>
