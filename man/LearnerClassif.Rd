@@ -12,7 +12,7 @@ Predefined learners can be found in the \link{Dictionary} \link{mlr_learners}.
 }
 \section{Construction}{
 \preformatted{l = LearnerClassif$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
-     feature_types = character(), properties = character(), packages = character())
+     feature_types = character(), properties = character(), data_formats = "data.table", packages = character())
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -27,6 +27,11 @@ Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_r
 Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
 \item \code{properties} :: \code{character()}\cr
 Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+\item \code{data_formats} :: \code{character()}\cr
+Vector of supported data formats which can be processed during \code{$train()} and \code{$predict()}.
+Will be matched against the data formats supported by the \link{Task}, and the first data format specified
+in the learner which is also supported by the task will be picked.
+Defaults to \code{"data.table"}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
 }

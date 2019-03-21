@@ -249,11 +249,12 @@ Returns <code>NULL</code> if there are is no weight column.</p></li>
 
     
     <ul>
-<li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data(rows = NULL, cols = NULL, format = NULL)</a></code><br />
-(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>) -&gt; <code>any</code><br />
-Returns a slice of the data from the <a href='DataBackend.html'>DataBackend</a> in the format specified by <code>format</code>
+<li><p><code><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data(rows = NULL, cols = NULL, data_format = NULL)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer()</a></code> | <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>) -&gt; <code>any</code><br />
+Returns a slice of the data from the <a href='DataBackend.html'>DataBackend</a> in the data format specified by <code>data_format</code>
 (depending on the <a href='DataBackend.html'>DataBackend</a>, but usually a <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code>).
-Rows are subsetted to only contain observations with role "use".
+It is possible to provide multiple formats, the first format supported is selected.</p>
+<p>Rows are subsetted to only contain observations with role "use".
 Columns are filtered to only contain features with roles "target" and "feature".
 If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels(cols = NULL)</a></code><br />

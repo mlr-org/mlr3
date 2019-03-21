@@ -12,7 +12,7 @@ Predefined learners can be found in the \link{Dictionary} \link{mlr_learners}.
 }
 \section{Construction}{
 \preformatted{l = LearnerRegr$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
-     feature_types = character(), properties = character(), packages = character())
+     feature_types = character(), properties = character(), data_formats = "data.table", packages = character())
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr

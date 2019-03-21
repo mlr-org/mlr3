@@ -1,5 +1,10 @@
 context("Measure")
 
+test_that("print.Measure", {
+  m = mlr_measures$get("classif.mmce")
+  expect_output(print(Measure))
+})
+
 test_that("assert_measure", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
