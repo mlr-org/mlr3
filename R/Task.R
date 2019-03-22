@@ -172,7 +172,7 @@
 #'   set of active rows. `cols` defaults to all columns with storage type "character", "factor", or "ordered".
 #'
 #' @section S3 methods:
-#' * `as.data.table(task)`\cr
+#' * `as.data.table(t)`\cr
 #'   [Task] -> [data.table::data.table()]\cr
 #'   Returns the data set as `data.table()`.
 #'
@@ -191,8 +191,7 @@
 #' @family Task
 #' @export
 #' @examples
-#' b = as_data_backend(iris)
-#' task = Task$new("iris", task_type = "classif", backend = b)
+#' task = Task$new("iris", task_type = "classif", backend = iris)
 #'
 #' task$nrow
 #' task$ncol
