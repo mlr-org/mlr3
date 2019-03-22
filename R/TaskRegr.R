@@ -37,7 +37,7 @@
 #' @examples
 #' task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
 #' task$task_type
-#' task$formula
+#' task$formula()
 #' task$truth()
 #'
 #' # possible properties:

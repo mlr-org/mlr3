@@ -58,10 +58,6 @@
 #'   Returns a table with columns `id` and `type` where `id` are the column names of "active" features of the task
 #'   and `type` is the storage type.
 #'
-#' * `formula` :: `formula()`\cr
-#'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
-#'   the active features of the task.
-#'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
@@ -110,6 +106,11 @@
 #'   Rows are subsetted to only contain observations with role "use".
 #'   Columns are filtered to only contain features with roles "target" and "feature".
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
+#'
+#' * `formula(rhs = NULL)`\cr
+#'   `character()` -> `formula`\cr
+#'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
+#'   the features provided in argument `rhs` (defaults to all active features).
 #'
 #' * `levels(cols = NULL)`\cr
 #'   `character()` -> named `list()`\cr
@@ -200,7 +201,7 @@
 #' task$ncol
 #' task$head()
 #' task$feature_names
-#' task$formula
+#' task$formula()
 #'
 #' # Remove "Petal.Length"
 #' task$set_col_role("Petal.Length", character(0L))
@@ -254,6 +255,10 @@ Task = R6Class("Task",
 
     data = function(rows = NULL, cols = NULL, data_format = self$backend$data_formats[1L]) {
       task_data(self, rows, cols, data_format)
+    },
+
+    formula = function(rhs = NULL) {
+      formulate(self$target_names, rhs %??% self$feature_names)
     },
 
     head = function(n = 6L) {
@@ -360,10 +365,6 @@ Task = R6Class("Task",
 
     feature_types = function() {
       setkeyv(self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"], "id")
-    },
-
-    formula = function() {
-      generate_formula(self$target_names, self$feature_names)
     },
 
     data_formats = function() {

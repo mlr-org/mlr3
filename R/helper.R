@@ -43,16 +43,6 @@ translate_types = function(x) {
   factor(map_values(x, r_types, p_types), levels = p_types)
 }
 
-generate_formula = function(lhs, rhs) {
-  if (length(lhs) == 0L)
-    lhs = NULL
-  if (length(rhs) == 0L)
-    rhs = "1"
-  f = reformulate(rhs, response = lhs)
-  environment(f) = NULL
-  f
-}
-
 get_seed = function() {
   seed = get0(".Random.seed", globalenv(), mode = "integer", inherits = FALSE)
   if (is.null(seed)) {
