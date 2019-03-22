@@ -203,7 +203,7 @@ Unsurprisingly, the classification tree outperformed the featureless learner.
 As a `BenchmarkResult` object is basically a collection of multiple `ResampleResult` objects, we can extract specific `ResampleResult` objects using the stored hashes:
 
 ```{r}
-tab = bmr$aggregated(objects = FALSE)[task_id == "spam" & learner_id == "rpart"]
+tab = bmr$aggregated(objects = FALSE)[task_id == "spam" & learner_id == "classif.rpart"]
 print(tab)
 
 rr = bmr$resample_result(tab$hash)

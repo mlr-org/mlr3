@@ -205,31 +205,31 @@ Object to control experiment execution. See <code><a href='mlr_control.html'>mlr
 
 <span class='co'># performance for all conducted experiments</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                hash          task task_id                     learner
-#&gt; 1: 1c8714cf1db10a8c &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;
-#&gt; 2: 351cffa6b90d936a &lt;TaskClassif&gt;    iris       &lt;LearnerClassifRpart&gt;
-#&gt; 3: 50f34719e6392d8a &lt;TaskClassif&gt;   sonar &lt;LearnerClassifFeatureless&gt;
-#&gt; 4: 6b553a71c14a5c95 &lt;TaskClassif&gt;   sonar       &lt;LearnerClassifRpart&gt;
-#&gt;     learner_id          resampling resampling_id classif.mmce
-#&gt; 1: featureless &lt;ResamplingHoldout&gt;       holdout    0.7400000
-#&gt; 2:       rpart &lt;ResamplingHoldout&gt;       holdout    0.0600000
-#&gt; 3: featureless &lt;ResamplingHoldout&gt;       holdout    0.4347826
-#&gt; 4:       rpart &lt;ResamplingHoldout&gt;       holdout    0.2463768</div><div class='input'>
+#&gt; 1: e4be888f65b194c4 &lt;TaskClassif&gt;    iris &lt;LearnerClassifFeatureless&gt;
+#&gt; 2: bc09a032e797e992 &lt;TaskClassif&gt;    iris       &lt;LearnerClassifRpart&gt;
+#&gt; 3: f3ab4827f36b9492 &lt;TaskClassif&gt;   sonar &lt;LearnerClassifFeatureless&gt;
+#&gt; 4: 8c127813347dbd34 &lt;TaskClassif&gt;   sonar       &lt;LearnerClassifRpart&gt;
+#&gt;             learner_id          resampling resampling_id classif.mmce
+#&gt; 1: classif.featureless &lt;ResamplingHoldout&gt;       holdout    0.7400000
+#&gt; 2:       classif.rpart &lt;ResamplingHoldout&gt;       holdout    0.0600000
+#&gt; 3: classif.featureless &lt;ResamplingHoldout&gt;       holdout    0.4347826
+#&gt; 4:       classif.rpart &lt;ResamplingHoldout&gt;       holdout    0.2463768</div><div class='input'>
 <span class='co'># aggregated performance values</span>
-<span class='no'>bmr</span>$<span class='fu'>aggregated</span>(<span class='kw'>objects</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                hash resampling_id task_id  learner_id classif.mmce
-#&gt; 1: 1c8714cf1db10a8c       holdout    iris featureless    0.7400000
-#&gt; 2: 351cffa6b90d936a       holdout    iris       rpart    0.0600000
-#&gt; 3: 50f34719e6392d8a       holdout   sonar featureless    0.4347826
-#&gt; 4: 6b553a71c14a5c95       holdout   sonar       rpart    0.2463768</div><div class='input'>
+<span class='no'>bmr</span>$<span class='fu'>aggregated</span>(<span class='kw'>objects</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                hash resampling_id task_id          learner_id classif.mmce
+#&gt; 1: e4be888f65b194c4       holdout    iris classif.featureless    0.7400000
+#&gt; 2: bc09a032e797e992       holdout    iris       classif.rpart    0.0600000
+#&gt; 3: f3ab4827f36b9492       holdout   sonar classif.featureless    0.4347826
+#&gt; 4: 8c127813347dbd34       holdout   sonar       classif.rpart    0.2463768</div><div class='input'>
 <span class='co'># Overview of of resamplings that were conducted internally</span>
 <span class='no'>rrs</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='no'>resample_results</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id  learner_id resampling_id N
-#&gt; 1: 1c8714cf1db10a8c    iris featureless       holdout 1
-#&gt; 2: 351cffa6b90d936a    iris       rpart       holdout 1
-#&gt; 3: 50f34719e6392d8a   sonar featureless       holdout 1
-#&gt; 4: 6b553a71c14a5c95   sonar       rpart       holdout 1</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rrs</span>)</div><div class='output co'>#&gt;                hash task_id          learner_id resampling_id N
+#&gt; 1: e4be888f65b194c4    iris classif.featureless       holdout 1
+#&gt; 2: bc09a032e797e992    iris       classif.rpart       holdout 1
+#&gt; 3: f3ab4827f36b9492   sonar classif.featureless       holdout 1
+#&gt; 4: 8c127813347dbd34   sonar       classif.rpart       holdout 1</div><div class='input'>
 <span class='co'># Extract first ResampleResult</span>
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'>resample_result</span>(<span class='kw'>hash</span> <span class='kw'>=</span> <span class='no'>rrs</span>$<span class='no'>hash</span>[<span class='fl'>1</span>])
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'featureless' with 1 iterations
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.featureless' with 1 iterations
 #&gt;       Measure Min. 1st Qu. Median Mean 3rd Qu. Max. Sd
 #&gt;  classif.mmce 0.74    0.74   0.74 0.74    0.74 0.74 NA</div><div class='input'>
 <span class='co'># Extract predictions of first experiment of this resampling</span>

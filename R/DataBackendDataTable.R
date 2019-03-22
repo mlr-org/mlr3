@@ -52,12 +52,12 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     initialize = function(data, primary_key) {
       assert_data_table(data)
-      super$initialize(setkeyv(data, primary_key), primary_key)
+      super$initialize(setkeyv(data, primary_key), primary_key, data_formats = "data.table")
       assert_choice(primary_key, names(data))
     },
 
-    data = function(rows, cols, format = self$formats[1L]) {
-      assert_choice(format, self$formats)
+    data = function(rows, cols, data_format = "data.table") {
+      assert_choice(data_format, self$data_formats)
       assert_names(cols, type = "unique")
       cols = intersect(cols, colnames(private$.data))
 

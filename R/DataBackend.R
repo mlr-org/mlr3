@@ -43,6 +43,10 @@
 #' * `hash` :: `character(1)`\cr
 #'   Returns a unique hash for this backend. This hash is cached.
 #'
+#' * `data_formats` :: `character()`\cr
+#'   Vector of supported data formats.
+#'   A specific format of these supported formats can be picked in the `$data()` method.
+#'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, format = "data.table")`\cr
 #'   (`integer()` | `character()`, `character()`) -> `any`\cr
@@ -81,12 +85,12 @@
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     primary_key = NULL,
-    formats = character(0L),
+    data_formats = NULL,
 
-    initialize = function(data, primary_key, formats = "data.table") {
+    initialize = function(data, primary_key, data_formats = "data.table") {
       private$.data = data
       self$primary_key = assert_string(primary_key)
-      self$formats = assert_subset(formats, mlr_reflections$databackend_formats, empty.ok = FALSE)
+      self$data_formats = assert_subset(data_formats, mlr_reflections$task_data_formats, empty.ok = FALSE)
     },
 
     format = function() {

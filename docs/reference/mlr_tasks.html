@@ -219,11 +219,12 @@ the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord" as co
 #&gt; * dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
 #&gt; 
 #&gt; Public: backend, cbind(), class_n, class_names, clone(), col_info,
-#&gt;   col_roles, data(), droplevels(), feature_names, feature_types,
-#&gt;   filter(), formula, groups, hash, head(), id, levels(), measures,
-#&gt;   missings(), ncol, negative, nrow, positive, properties, rbind(),
-#&gt;   replace_features(), row_ids, row_roles, select(), set_col_role(),
-#&gt;   set_row_role(), target_names, task_type, truth(), weights</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>())</div><div class='output co'>#&gt;    Species Petal.Length Petal.Width Sepal.Length Sepal.Width
+#&gt;   col_roles, data_formats, data(), droplevels(), feature_names,
+#&gt;   feature_types, filter(), formula(), groups, hash, head(), id,
+#&gt;   levels(), measures, missings(), ncol, negative, nrow, positive,
+#&gt;   properties, rbind(), replace_features(), row_ids, row_roles,
+#&gt;   select(), set_col_role(), set_row_role(), target_names, task_type,
+#&gt;   truth(), weights</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)$<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>())</div><div class='output co'>#&gt;    Species Petal.Length Petal.Width Sepal.Length Sepal.Width
 #&gt; 1:  setosa          1.4         0.2          5.1         3.5
 #&gt; 2:  setosa          1.4         0.2          4.9         3.0
 #&gt; 3:  setosa          1.3         0.2          4.7         3.2
@@ -248,11 +249,12 @@ the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord" as co
 #&gt; * dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
 #&gt; 
 #&gt; Public: backend, cbind(), class_n, class_names, clone(), col_info,
-#&gt;   col_roles, data(), droplevels(), feature_names, feature_types,
-#&gt;   filter(), formula, groups, hash, head(), id, levels(), measures,
-#&gt;   missings(), ncol, negative, nrow, positive, properties, rbind(),
-#&gt;   replace_features(), row_ids, row_roles, select(), set_col_role(),
-#&gt;   set_row_role(), target_names, task_type, truth(), weights</div><div class='input'>
+#&gt;   col_roles, data_formats, data(), droplevels(), feature_names,
+#&gt;   feature_types, filter(), formula(), groups, hash, head(), id,
+#&gt;   levels(), measures, missings(), ncol, negative, nrow, positive,
+#&gt;   properties, rbind(), replace_features(), row_ids, row_roles,
+#&gt;   select(), set_col_role(), set_row_role(), target_names, task_type,
+#&gt;   truth(), weights</div><div class='input'>
 <span class='co'># remove task again</span>
 <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rm'>remove</a></span>(<span class='st'>"iris.binary"</span>)</div></pre>
   </div>

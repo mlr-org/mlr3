@@ -58,10 +58,6 @@
 #'   Returns a table with columns `id` and `type` where `id` are the column names of "active" features of the task
 #'   and `type` is the storage type.
 #'
-#' * `formula` :: `formula()`\cr
-#'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
-#'   the active features of the task.
-#'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
@@ -101,13 +97,20 @@
 #'   Returns `NULL` if there are is no weight column.
 #'
 #' @section Methods:
-#' * `data(rows = NULL, cols = NULL, format = NULL)`\cr
-#'   (`integer()` | `character()`, `character()`, `character(1)`) -> `any`\cr
-#'   Returns a slice of the data from the [DataBackend] in the format specified by `format`
+#' * `data(rows = NULL, cols = NULL, data_format = NULL)`\cr
+#'   (`integer()` | `character()`, `character()`, `character()`) -> `any`\cr
+#'   Returns a slice of the data from the [DataBackend] in the data format specified by `data_format`
 #'   (depending on the [DataBackend], but usually a [data.table::data.table()]).
+#'   It is possible to provide multiple formats, the first format supported is selected.
+#'
 #'   Rows are subsetted to only contain observations with role "use".
 #'   Columns are filtered to only contain features with roles "target" and "feature".
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
+#'
+#' * `formula(rhs = NULL)`\cr
+#'   `character()` -> `formula`\cr
+#'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
+#'   the features provided in argument `rhs` (defaults to all active features).
 #'
 #' * `levels(cols = NULL)`\cr
 #'   `character()` -> named `list()`\cr
@@ -197,7 +200,7 @@
 #' task$ncol
 #' task$head()
 #' task$feature_names
-#' task$formula
+#' task$formula()
 #'
 #' # Remove "Petal.Length"
 #' task$set_col_role("Petal.Length", character(0L))
@@ -224,7 +227,7 @@ Task = R6Class("Task",
     initialize = function(id, task_type, backend) {
       self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
-      if (is.data.frame(backend)) {
+      if (!inherits(backend, "DataBackend")) {
         self$backend = as_data_backend(backend)
       } else {
         self$backend = assert_backend(backend)
@@ -249,8 +252,12 @@ Task = R6Class("Task",
       task_print(self)
     },
 
-    data = function(rows = NULL, cols = NULL, format = NULL) {
-      task_data(self, rows, cols, format %??% self$backend$formats[1L])
+    data = function(rows = NULL, cols = NULL, data_format = self$backend$data_formats[1L]) {
+      task_data(self, rows, cols, data_format)
+    },
+
+    formula = function(rhs = NULL) {
+      formulate(self$target_names, rhs %??% self$feature_names)
     },
 
     head = function(n = 6L) {
@@ -359,8 +366,8 @@ Task = R6Class("Task",
       setkeyv(self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"], "id")
     },
 
-    formula = function() {
-      generate_formula(self$target_names, self$feature_names)
+    data_formats = function() {
+      self$backend$data_formats
     },
 
     groups = function() {
@@ -391,7 +398,7 @@ Task = R6Class("Task",
   )
 )
 
-task_data = function(self, rows = NULL, cols = NULL, format = "data.table") {
+task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table") {
   if (is.null(rows)) {
     selected_rows = self$row_roles$use
   } else {
@@ -408,6 +415,14 @@ task_data = function(self, rows = NULL, cols = NULL, format = "data.table") {
     selected_cols = cols
   }
 
+  assert_subset(data_format, mlr_reflections$task_data_formats, empty.ok = FALSE)
+  common_format = intersect(data_format, self$data_formats)
+  if (length(common_format) == 0L)
+    stopf("None of the data formats (%s) supported by task '%s'",
+      str_collapse(data_format, quote = "'"), self$id)
+  if (length(common_format) >= 2L)
+    common_format = common_format[1L]
+
   order = self$col_roles$order
   extra_cols = character(0L)
   if (length(order)) {
@@ -415,7 +430,7 @@ task_data = function(self, rows = NULL, cols = NULL, format = "data.table") {
     selected_cols = union(selected_cols, extra_cols)
   }
 
-  data = self$backend$data(rows = selected_rows, cols = selected_cols, format = format %??% self$backend$formats[1L])
+  data = self$backend$data(rows = selected_rows, cols = selected_cols, data_format = common_format)
 
   if (length(selected_cols) && nrow(data) != length(selected_rows)) {
     stopf("DataBackend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
@@ -425,7 +440,7 @@ task_data = function(self, rows = NULL, cols = NULL, format = "data.table") {
     stopf("DataBackend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
   }
 
-  if (format == "data.table") {
+  if (common_format == "data.table") {
     if (length(order)) {
       setorderv(data, order)[]
     }
