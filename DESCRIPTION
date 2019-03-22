@@ -50,7 +50,7 @@ Imports:
     checkmate (>= 1.9.0),
     data.table,
     digest,
-    lgr,
+    lgr (>= 0.2.0),
     Metrics,
     mlr3misc,
     paradox,

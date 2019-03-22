@@ -9,7 +9,7 @@ learners = mlr_learners$mget(c("classif.featureless"))
 resamplings = mlr_resamplings$mget("subsampling")
 measures = mlr_measures$mget(c("classif.acc", "time_train"))
 
-log_threshold(ERROR, namespace = "mlr3")
+# log_threshold(ERROR, namespace = "mlr3")
 profvis::profvis(
   benchmark(expand_grid(tasks, learners, resamplings))
 )
