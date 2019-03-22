@@ -380,6 +380,7 @@ experiment_reset_state = function(self, new_state) {
 as_experiment = function(...) {
   e = Experiment$new()
   dots = list(...)
-  e$data[match(names(dots), names(e$data), nomatch = 0L)] = dots
+  ii = intersect(names(dots), names(e$data))
+  e$data[ii] = dots[ii]
   e
 }

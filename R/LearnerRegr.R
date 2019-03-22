@@ -12,7 +12,7 @@
 #' @section Construction:
 #' ```
 #' l = LearnerRegr$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
-#'      feature_types = character(), properties = character(), packages = character())
+#'      feature_types = character(), properties = character(), data_formats = "data.table", packages = character())
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -36,7 +36,10 @@
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
 #'
+#' @section Fields:
 #' @inheritSection Learner Fields
+#'
+#' @section Methods:
 #' @inheritSection Learner Methods
 #'
 #' @family Learner
@@ -51,9 +54,10 @@
 #' print(lrn)
 LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
   public = list(
-    initialize = function(id, param_set = ParamSet$new(), param_vals = list(), predict_types = "response", feature_types = character(), properties = character(), packages = character()) {
+    initialize = function(id, param_set = ParamSet$new(), param_vals = list(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
       super$initialize(id = id, task_type = "regr", param_set = param_set, param_vals = param_vals,
-        feature_types = feature_types, predict_types = predict_types, properties = properties, packages = packages)
+        feature_types = feature_types, predict_types = predict_types, properties = properties,
+        data_formats = data_formats, packages = packages)
     }
   )
 )

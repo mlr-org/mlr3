@@ -5,7 +5,14 @@
 #' @include Resampling.R
 #'
 #' @description
-#' `repeats` times repeated splits into training and test set with a `ratio` ratio of training observations.
+#' `repeats` (default: 30) times repeated splits into training and test set
+#' with a ratio of `ratio` (default: 2/3) observations in the training set.
+#'
+#' @section Fields:
+#' @inheritSection Learner Fields
+#'
+#' @section Methods:
+#' @inheritSection Learner Methods
 #'
 #' @export
 #' @examples
@@ -27,7 +34,7 @@
 #' rss$instance$train # list of bit vectors
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
-    initialize = function(id = "subsampling", param_vals = list(repeats = 30L, ratio = 0.67)) {
+    initialize = function(id = "subsampling", param_vals = list(repeats = 30L, ratio = 2/3)) {
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(

@@ -6,8 +6,14 @@
 #' A simple [Dictionary] storing objects of class [Resampling].
 #' Each resampling has an associated help page, see `mlr_resamplings_[id]`.
 #'
-#' @section Usage:
-#' Inherits from [Dictionary].
+#' @section Methods:
+#' @inheritSection Dictionary Methods
+#'
+#' @section S3 methods:
+#' * `as.data.table(dict)`\cr
+#'   [Dictionary] -> [data.table::data.table()]\cr
+#'   Returns a `data.table()` with fields "key", "hyperpars", and "iters"
+#'   as columns.
 #'
 #' @name mlr_resamplings
 #' @family Dictionary
@@ -41,6 +47,6 @@ mlr_resamplings = DictionaryResampling$new()
 as.data.table.DictionaryResampling = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
     r = x$get(key)
-    list(id = key, hyperpars = list(r$param_set$ids), default_iters = r$iters)
-  }), "id")[]
+    list(key = key, hyperpars = list(r$param_set$ids()), iters = r$iters)
+  }), "key")[]
 }

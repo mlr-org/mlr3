@@ -109,6 +109,7 @@ benchmark = function(design, ctrl = list()) {
 expand_grid = function(tasks, learners, resamplings) {
   assert_list(tasks, "Task")
   assert_list(learners, "Learner")
+  assert_list(resamplings, "Resampling")
   map(resamplings, assert_resampling, instantiated = FALSE)
 
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))

@@ -12,7 +12,7 @@
 #' @section Construction:
 #' ```
 #' l = LearnerClassif$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
-#'      feature_types = character(), properties = character(), packages = character())
+#'      feature_types = character(), properties = character(), data_formats = "data.table", packages = character())
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -33,10 +33,19 @@
 #' * `properties` :: `character()`\cr
 #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
 #'
+#' * `data_formats` :: `character()`\cr
+#'   Vector of supported data formats which can be processed during `$train()` and `$predict()`.
+#'   Will be matched against the data formats supported by the [Task], and the first data format specified
+#'   in the learner which is also supported by the task will be picked.
+#'   Defaults to `"data.table"`.
+#'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
 #'
+#' @section Fields:
 #' @inheritSection Learner Fields
+#'
+#' @section Methods:
 #' @inheritSection Learner Methods
 #'
 #' @family Learner
@@ -51,9 +60,10 @@
 #' print(lrn)
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
-    initialize = function(id, param_set = ParamSet$new(), param_vals = list(), predict_types = "response", feature_types = character(), properties = character(), packages = character()) {
+    initialize = function(id, param_set = ParamSet$new(), param_vals = list(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
       super$initialize(id = id, task_type = "classif", param_set = param_set, param_vals = param_vals,
-        predict_types = predict_types, feature_types = feature_types, properties = properties, packages = packages)
+        predict_types = predict_types, feature_types = feature_types, properties = properties,
+        data_formats = data_formats, packages = packages)
     }
   )
 )

@@ -29,15 +29,9 @@
 #' * `positive` :: `character(1)`\cr
 #'   Only for binary classification: Name of the positive class.
 #'
-#' @inheritSection Task Fields
-#' @inheritSection Task Methods
-#'
 #' @section Fields:
-#' * `all_classes` :: `character()`\cr
-#'   Returns all class labels of the task, regardless of the number of active rows.
-#'
 #' * `class_names` :: `character()`\cr
-#'   Returns all class labels of the task w.r.t. the active rows.
+#'   Returns all class labels of the target column.
 #'
 #' * `class_n` :: `integer(1)`\cr
 #'   Returns the number of classes.
@@ -47,21 +41,26 @@
 #'
 #' * `positive` :: `character(1)`\cr
 #'   Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
+#' @inheritSection Task Fields
+#'
+#' @section Methods:
+#' @inheritSection Task Methods
 #'
 #' @family Task
 #' @export
 #' @examples
-#' task = TaskClassif$new("iris", backend = iris, target = "Species")
-#' task$task_type
-#' task$formula
-#' task$truth()
-#' task$all_classes
-#' task$class_names
-#'
 #' data("Sonar", package = "mlbench")
 #' task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
+#'
+#' task$task_type
+#' task$formula()
+#' task$truth()
+#' task$class_names
 #' task$positive
 #' task$negative
+#'
+#' # possible properties:
+#' mlr_reflections$task_properties$classif
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
@@ -103,20 +102,16 @@ TaskClassif = R6Class("TaskClassif",
     truth = function(row_ids = NULL) {
       res = self$data(row_ids, cols = self$target_names)[[1L]]
       if (is.character(res))
-        res = factor(res, levels = self$all_classes)
+        res = factor(res, levels = self$class_names)
       res
     }
   ),
 
   active = list(
-    class_names = function() as.character(unique(self$truth())),
+    class_names = function() {
+      self$col_info[list(self$target_names), "levels", with = FALSE][[1L]][[1L]]
+    },
 
-    class_n = function() uniqueN(self$truth()),
-
-    all_classes = function() {
-      # TODO: this operation is slow for small data, and we do this quite often
-      # we might want to optimize here in the future
-      self$col_info[list(self$target_names), get("levels"), nomatch = 0L][[1L]]
-    }
+    class_n = function() length(self$class_names)
   )
 )

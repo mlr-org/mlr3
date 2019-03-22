@@ -58,10 +58,6 @@
 #'   Returns a table with columns `id` and `type` where `id` are the column names of "active" features of the task
 #'   and `type` is the storage type.
 #'
-#' * `formula` :: `formula()`\cr
-#'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
-#'   the active features of the task.
-#'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
@@ -86,6 +82,10 @@
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of the [Task].
 #'
+#' * `properties` :: `character()`\cr
+#'   Set of task properties. Possible properties are are stored in
+#'   [mlr_reflections$task_properties][mlr_reflections].
+#'
 #' * `groups` :: [data.table::data.table()]\cr
 #'   If the task has a designated column role "groups", table with two columns:
 #'   "row_id" (`integer()` | `character()`) and the grouping variable `group` (`vector()`).
@@ -97,48 +97,37 @@
 #'   Returns `NULL` if there are is no weight column.
 #'
 #' @section Methods:
-#' * `data(rows = NULL, cols = NULL, format = NULL)`\cr
-#'   (`integer()` | `character()`, `character()`, `character(1)`) -> `any`\cr
-#'   Returns a slice of the data from the [DataBackend] in the format specified by `format`
+#' * `data(rows = NULL, cols = NULL, data_format = NULL)`\cr
+#'   (`integer()` | `character()`, `character()`, `character()`) -> `any`\cr
+#'   Returns a slice of the data from the [DataBackend] in the data format specified by `data_format`
 #'   (depending on the [DataBackend], but usually a [data.table::data.table()]).
+#'   It is possible to provide multiple formats, the first format supported is selected.
+#'
 #'   Rows are subsetted to only contain observations with role "use".
 #'   Columns are filtered to only contain features with roles "target" and "feature".
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
 #'
-#' * `cbind(data)`\cr
-#'   `data.frame()` -> `self`\cr
-#'   Extends the [DataBackend] with additional columns.
-#'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]). If this column is missing, it is assumed that the rows are exactly in the order of
-#'   `t$row_ids`.
+#' * `formula(rhs = NULL)`\cr
+#'   `character()` -> `formula`\cr
+#'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
+#'   the features provided in argument `rhs` (defaults to all active features).
 #'
-#' * `rbind(data)`\cr
-#'   `data.frame()` -> `self`\cr
-#'   Extends the [DataBackend] with additional rows.
-#'   The new row ids must be provided as column in `data`.
-#'   If this column is missing, new row ids are constructed automatically.
-#'
-#' * `filter(rows)`\cr
-#'   (`integer()` | `character()`) -> `self`\cr
-#'  Subsets the task, reducing it to only keep the rows specified.
-#'
-#' * `select(cols)`\cr
-#'   `character()` -> `self`\cr
-#'   Subsets the task, reducing it to only keep the columns specified.
-#'
-#' * `levels(cols)`\cr
+#' * `levels(cols = NULL)`\cr
 #'   `character()` -> named `list()`\cr
-#'   Returns  the distinct levels of all columns in `cols`.
-#'   Only applicable for features with type "character",  "factor" or "ordered", and is `NULL` otherwise.
-#'   This function ignores the row roles, it returns all levels available in the [DataBackend].
+#'   Returns the distinct values of columns in `cols` for columns with storage type "character", "factor" or "ordered".
+#'   Argument `cols` defaults to all such columns with role "target" or "feature".
+#'
+#'   Note that this function ignores the row roles, it returns all levels available in the [DataBackend].
+#'   To update the stored level information, e.g. after filtering a task, call `$droplevels()`.
+#'
+#' * `missings(cols = NULL)`\cr
+#'   `character()` -> named `integer()`\cr
+#'   Returns the number of missing values observations for each columns in `cols`.
+#'   Argument `cols` defaults to all columns with role "target" or "feature".
 #'
 #' * `head(n = 6)`\cr
 #'   `integer()` -> [data.table::data.table()]\cr
 #'   Get the first `n` observations with role "use".
-#'
-#' * `replace_features(data)`\cr
-#'   `data.frame()` -> `self`\cr
-#'   Replaces some features of the task by constructing a completely new [DataBackendDataTable].
-#'   This operation is similar to calling `select()` and `cbind()`, but explicitly copies the data.
 #'
 #' * `set_col_role(cols, new_roles, exclusive = TRUE)`\cr
 #'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
@@ -150,37 +139,68 @@
 #'   Adds the roles `new_roles` to rows referred to by `rows`.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
 #'
+#' * `filter(rows)`\cr
+#'   (`integer()` | `character()`) -> `self`\cr
+#'   Subsets the task, reducing it to only keep the rows specified.
+#'   See the section on task mutators for more information.
+#'
+#' * `select(cols)`\cr
+#'   `character()` -> `self`\cr
+#'   Subsets the task, reducing it to only keep the columns specified.
+#'   See the section on task mutators for more information.
+#'
+#' * `cbind(data)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Extends the [DataBackend] with additional columns.
+#'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
+#'   If this column is missing, it is assumed that the rows are exactly in the order of `t$row_ids`.
+#'   See the section on task mutators for more information.
+#'
+#' * `rbind(data)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Extends the [DataBackend] with additional rows.
+#'   The new row ids must be provided as column in `data`.
+#'   If this column is missing, new row ids are constructed automatically.
+#'   See the section on task mutators for more information.
+#'
+#' * `replace_features(data)`\cr
+#'   `data.frame()` -> `self`\cr
+#'   Replaces some features of the task by constructing a completely new [DataBackendDataTable].
+#'   This operation is similar to calling `select()` and `cbind()`, but explicitly copies the data.
+#'   See the section on task mutators for more information.
+#'
+#' * `droplevels(cols = NULL)`\cr
+#'   `character` -> `self`\cr
+#'   Updates the cache of stored factor levels, removing all levels not present in the
+#'   set of active rows. `cols` defaults to all columns with storage type "character", "factor", or "ordered".
+#'
 #' @section S3 methods:
-#'
-#' * `as.data.frame(task)`\cr
-#'   [Task] -> `data.frame()`\cr
-#'   Returns the data set as `data.frame()`.
-#'
-#' * `as.data.table(task)`\cr
+#' * `as.data.table(t)`\cr
 #'   [Task] -> [data.table::data.table()]\cr
 #'   Returns the data set as `data.table()`.
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:
 #' * `set_row_roles()` and `set_col_roles()` alter the row or column information in `row_roles` or `col_roles`, respectively.
+#'   This provides a different "view" on the data without altering the data itself.
 #' * `filter()` and `select()` subset the set of active rows or columns in `row_roles` or `col_roles`, respectively.
-#'   This provides a different "view" on the data.
+#'   This provides a different "view" on the data without altering the data itself.
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
 #'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
 #'   merge both backends into an abstract [DataBackend] which combines the results on-demand.
-#' * `replace_features()` is a convenience wrapper around `select()` and `cbind()`. Again, the original [DataBackend] remains unchanged.
+#' * `replace_features()` is a convenience wrapper around `select()` and `cbind()`.
+#'   Again, the original [DataBackend] remains unchanged.
 #'
 #' @family Task
 #' @export
 #' @examples
-#' b = as_data_backend(iris)
-#' task = Task$new("iris", task_type = "classif", backend = b)
+#' task = Task$new("iris", task_type = "classif", backend = iris)
 #'
 #' task$nrow
 #' task$ncol
 #' task$head()
 #' task$feature_names
-#' task$formula
+#' task$formula()
 #'
 #' # Remove "Petal.Length"
 #' task$set_col_role("Petal.Length", character(0L))
@@ -207,7 +227,7 @@ Task = R6Class("Task",
     initialize = function(id, task_type, backend) {
       self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
-      if (is.data.frame(backend)) {
+      if (!inherits(backend, "DataBackend")) {
         self$backend = as_data_backend(backend)
       } else {
         self$backend = assert_backend(backend)
@@ -232,8 +252,12 @@ Task = R6Class("Task",
       task_print(self)
     },
 
-    data = function(rows = NULL, cols = NULL, format = NULL) {
-      task_data(self, rows, cols, format %??% self$backend$formats[1L])
+    data = function(rows = NULL, cols = NULL, data_format = self$backend$data_formats[1L]) {
+      task_data(self, rows, cols, data_format)
+    },
+
+    formula = function(rhs = NULL) {
+      formulate(self$target_names, rhs %??% self$feature_names)
     },
 
     head = function(n = 6L) {
@@ -246,10 +270,22 @@ Task = R6Class("Task",
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
+        cols = self$col_info[id %in% cols & type %in% c("character", "factor", "ordered"), "id", with = FALSE][[1L]]
       } else {
         assert_subset(cols, self$col_info$id)
       }
-      set_names(self$col_info[list(cols), get("levels")], cols)
+
+      set_names(self$col_info[list(cols), "levels", with = FALSE][[1L]], cols)
+    },
+
+    missings = function(cols = NULL) {
+      if (is.null(cols)) {
+        cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
+      } else {
+        assert_subset(cols, self$col_info$id)
+      }
+
+      self$backend$missings(self$row_ids, cols = cols)
     },
 
     filter = function(rows) {
@@ -287,13 +323,23 @@ Task = R6Class("Task",
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
       task_set_col_role(self, cols, new_roles, exclusive)
       invisible(self)
+    },
+
+    droplevels = function(cols = NULL) {
+      ids = self$col_info[type %in% c("character", "factor", "ordered"), "id", with = FALSE][[1L]]
+      cols = if (is.null(cols)) ids else intersect(cols, ids)
+      lvls = self$backend$distinct(rows = self$row_ids, cols = cols)
+      self$col_info = ujoin(self$col_info, enframe(lvls, "id", "levels"), key = "id")
+      invisible(self)
     }
   ),
 
   active = list(
     hash = function() {
-      hash(list(class(self), self$id, self$backend$hash, self$row_roles,
-          self$col_roles, self$properties, sort(hashes(self$measures))))
+      hash(list(
+        class(self), self$id, self$backend$hash, self$row_roles, self$col_roles,
+        self$col_info$levels, self$properties, sort(hashes(self$measures))
+      ))
     },
 
     row_ids = function() {
@@ -317,11 +363,11 @@ Task = R6Class("Task",
     },
 
     feature_types = function() {
-      self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"]
+      setkeyv(self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"], "id")
     },
 
-    formula = function() {
-      generate_formula(self$target_names, self$feature_names)
+    data_formats = function() {
+      self$backend$data_formats
     },
 
     groups = function() {
@@ -352,9 +398,7 @@ Task = R6Class("Task",
   )
 )
 
-task_data = function(self, rows = NULL, cols = NULL, format) {
-  order = self$col_roles$order
-
+task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table") {
   if (is.null(rows)) {
     selected_rows = self$row_roles$use
   } else {
@@ -371,13 +415,22 @@ task_data = function(self, rows = NULL, cols = NULL, format) {
     selected_cols = cols
   }
 
+  assert_subset(data_format, mlr_reflections$task_data_formats, empty.ok = FALSE)
+  common_format = intersect(data_format, self$data_formats)
+  if (length(common_format) == 0L)
+    stopf("None of the data formats (%s) supported by task '%s'",
+      str_collapse(data_format, quote = "'"), self$id)
+  if (length(common_format) >= 2L)
+    common_format = common_format[1L]
+
+  order = self$col_roles$order
   extra_cols = character(0L)
   if (length(order)) {
     extra_cols = setdiff(order, selected_cols)
     selected_cols = union(selected_cols, extra_cols)
   }
 
-  data = self$backend$data(rows = selected_rows, cols = selected_cols, format = format %??% self$backend$formats[1L])
+  data = self$backend$data(rows = selected_rows, cols = selected_cols, data_format = common_format)
 
   if (length(selected_cols) && nrow(data) != length(selected_rows)) {
     stopf("DataBackend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
@@ -387,7 +440,7 @@ task_data = function(self, rows = NULL, cols = NULL, format) {
     stopf("DataBackend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
   }
 
-  if (format == "data.table") {
+  if (common_format == "data.table") {
     if (length(order)) {
       setorderv(data, order)[]
     }
@@ -433,23 +486,18 @@ col_info = function(x, ...) {
 col_info.data.table = function(x, primary_key = character(0L), ...) {
   types = map_chr(x, function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], primary_key)
-  levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct))
+  levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct, drop = FALSE))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
 col_info.DataBackend = function(x, ...) {
   types = map_chr(x$head(1L), function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], x$primary_key)
-  levels = insert_named(named_list(names(types)), x$distinct(discrete))
+  levels = insert_named(named_list(names(types)), x$distinct(rows = NULL, cols = discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
 #' @export
 as.data.table.Task = function(x, ...) {
   x$head(x$nrow)
-}
-
-#' @export
-as.data.frame.Task = function(x, ...) {
-  setDF(as.data.table(x))[]
 }

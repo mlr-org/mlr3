@@ -19,14 +19,17 @@
 #' * `id` :: `character(1)`\cr
 #'   Name of the task.
 #'
-#' * `backend` :: [DataBackend]\cr
+#' * `backend` :: ([DataBackend] | `data.frame()` | ...)\cr
 #'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
 #'   E.g., a `data.frame()` will be converted to a [DataBackendDataTable].
 #'
 #' * `target` :: `character(1)`\cr
 #'   Name of the target column.
 #'
+#' @section Fields:
 #' @inheritSection Task Fields
+#'
+#' @section Methods:
 #' @inheritSection Task Methods
 #'
 #' @family Task
@@ -34,8 +37,11 @@
 #' @examples
 #' task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
 #' task$task_type
-#' task$formula
+#' task$formula()
 #' task$truth()
+#'
+#' # possible properties:
+#' mlr_reflections$task_properties$regr
 TaskRegr = R6Class("TaskRegr",
   inherit = TaskSupervised,
   public = list(

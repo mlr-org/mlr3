@@ -14,7 +14,7 @@ This is the result container object returned by \code{\link[=resample]{resample(
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table with the data of one \link{Experiment} per row.
-See description of in \link{Experiment} for the exact structure.
+See description of field \code{data} of \link{Experiment} for the exact structure.
 }
 }
 
@@ -28,7 +28,7 @@ The task \code{\link[=resample]{resample()}} operated on.
 \item \code{learner} :: \link{Learner}\cr
 The learner \code{\link[=resample]{resample()}} operated on.
 \item \code{resampling} :: \link{Resampling}\cr
-The resampling object \code{\link[=resample]{resample()}} operated on.
+The resampling splits \code{\link[=resample]{resample()}} operated on.
 \item \code{measures} :: \code{list()} of \link{Measure}\cr
 The performance measures \code{\link[=resample]{resample()}} operated on.
 \item \code{errors} :: \code{logical()}\cr
@@ -51,7 +51,7 @@ Takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to
 Returns the \code{iter}-th \link{Experiment}.
 \item \code{experiments(iters)}\cr
 \code{integer()} -> \code{list()} of \link{Experiment}.
-Returns a slice of \link{Experiment}s, referred to by resampling iterations \code{iters}.
+Returns a slice of \link{Experiment}s with provided resampling iterations \code{iters}.
 \item \code{performance(id)}\cr
 \code{character(1)} -> \code{numeric(1)}\cr
 Retrieves the performance values for the measure with id \code{id} as numeric vector.
@@ -61,12 +61,9 @@ Retrieves the performance values for the measure with id \code{id} as numeric ve
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.frame(rr)}\cr
-\link{ResampleResult} -> \code{data.frame()}\cr
-Converts to a flat \code{data.frame()}.
 \item \code{as.data.table(rr)}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts to a flat \code{data.table()}.
+Converts the data to a \code{data.table()}.
 }
 }
 

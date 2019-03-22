@@ -188,12 +188,13 @@
 <a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; Features (2):</span></a>
 <a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; * dbl (2): cyl, disp</span></a>
 <a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; Public: backend, cbind(), clone(), col_info, col_roles, data(),</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;   feature_names, feature_types, filter(), formula, groups, hash,</span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt;   head(), id, levels(), measures, ncol, nrow, properties, rbind(),</span></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt;   replace_features(), row_ids, row_roles, select(),</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type,</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;   truth(), weights</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; Public: backend, cbind(), clone(), col_info, col_roles,</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;   data_formats, data(), droplevels(), feature_names,</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt;   feature_types, filter(), formula(), groups, hash, head(), id,</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt;   levels(), measures, missings(), ncol, nrow, properties, rbind(),</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt;   replace_features(), row_ids, row_roles, select(),</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type,</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt;   truth(), weights</span></a></code></pre></div>
 <p>The <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code> method gives a short summary of the task: It has 32 observations, 3 columns of which 2 columns are features.</p>
 </div>
 <div id="predefined-tasks" class="section level2">
@@ -201,24 +202,24 @@
 <a href="#predefined-tasks" class="anchor"></a>Predefined tasks</h2>
 <p><code>mlr3</code> ships with some predefined machine learning tasks. These are stored in a <code><a href="../reference/Dictionary.html">mlr3::Dictionary</a></code>, which is a simple key-value store named <code><a href="../reference/mlr_tasks.html">mlr3::mlr_tasks</a></code>. We can obtain a summarizing overview of all stored tasks by converting the dictionary to a <code><a href="https://www.rdocumentation.org/packages/data.table/topics/data.table">data.table()</a></code></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/as.data.table.html">as.data.table</a></span>(mlr_tasks)</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt;        id    type     measures  nrow  ncol logical integer numeric</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt;    &lt;char&gt;  &lt;char&gt;       &lt;list&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; 1:     bh    regr     regr.mse   506    19       0       3      13</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; 2:   iris classif classif.mmce   150     5       0       0       4</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; 3: mtcars    regr     regr.mse    32    11       0       0      10</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; 4:   pima classif classif.mmce   768     9       0       0       8</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 5:  sonar classif classif.mmce   208    61       0       0      60</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; 6:   spam classif classif.mmce  4601    58       0       0      57</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; 7:    zoo classif classif.mmce   101    17      15       1       0</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;    character factor ordered</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;        &lt;int&gt;  &lt;int&gt;   &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; 1:         0      2       0</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 2:         0      0       0</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; 3:         0      0       0</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; 4:         0      0       0</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; 5:         0      0       0</span></a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; 6:         0      0       0</span></a>
-<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt; 7:         0      0       0</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt;       key task_type     measures  nrow  ncol   lgl   int   dbl   chr   fct</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt;    &lt;char&gt;    &lt;char&gt;       &lt;list&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; 1:     bh      regr     regr.mse   506    19     0     3    13     0     2</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; 2:   iris   classif classif.mmce   150     5     0     0     4     0     0</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; 3: mtcars      regr     regr.mse    32    11     0     0    10     0     0</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; 4:   pima   classif classif.mmce   768     9     0     0     8     0     0</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 5:  sonar   classif classif.mmce   208    61     0     0    60     0     0</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; 6:   spam   classif classif.mmce  4601    58     0     0    57     0     0</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; 7:    zoo   classif classif.mmce   101    17    15     1     0     0     0</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;      ord</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;    &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; 1:     0</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 2:     0</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; 3:     0</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; 4:     0</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; 5:     0</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; 6:     0</span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt; 7:     0</span></a></code></pre></div>
 <p>For illustration purposes, we now retrieve the popular <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris data set</a> from <code>mlr_tasks</code> as a classification task:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">task_iris =<span class="st"> </span>mlr_tasks<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"iris"</span>)</a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(task_iris)</a>
@@ -227,13 +228,13 @@
 <a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; Features (4):</span></a>
 <a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt; * dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</span></a>
 <a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt; Public: all_classes, backend, cbind(), class_n, class_names,</span></a>
-<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt;   clone(), col_info, col_roles, data(), feature_names,</span></a>
-<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt;   feature_types, filter(), formula, groups, hash, head(), id,</span></a>
-<a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt;   levels(), measures, ncol, negative, nrow, positive, properties,</span></a>
-<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt;   rbind(), replace_features(), row_ids, row_roles, select(),</span></a>
-<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt;   set_col_role(), set_row_role(), target_names, task_type,</span></a>
-<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;   truth(), weights</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt; Public: backend, cbind(), class_n, class_names, clone(),</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt;   col_info, col_roles, data_formats, data(), droplevels(),</span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt;   feature_names, feature_types, filter(), formula(), groups, hash,</span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt;   head(), id, levels(), measures, missings(), ncol, negative,</span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt;   nrow, positive, properties, rbind(), replace_features(),</span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt;   row_ids, row_roles, select(), set_col_role(), set_row_role(),</span></a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;   target_names, task_type, truth(), weights</span></a></code></pre></div>
 </div>
 <div id="task-api" class="section level2">
 <h2 class="hasAnchor">

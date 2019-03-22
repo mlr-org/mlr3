@@ -10,8 +10,62 @@
 ResamplingSubsampling
 }
 \description{
-\code{repeats} times repeated splits into training and test set with a \code{ratio} ratio of training observations.
+\code{repeats} (default: 30) times repeated splits into training and test set
+with a ratio of \code{ratio} (default: 2/3) observations in the training set.
 }
+\section{Fields}{
+
+
+
+\itemize{
+\item \code{fallback} :: (\link{Learner} | \code{NULL})\cr
+Optionally stores a second \link{Learner} which is activated as fallback if this first \link{Learner} fails during
+train or predict.
+This mechanism is disabled unless you explicitly assign a learner to this slot.
+Additionally, you need to catch raised exceptions via encapsulation, see \code{\link[=mlr_control]{mlr_control()}}.
+\item \code{feature_types} :: \code{character()}\cr
+Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
+\item \code{hash} :: \code{character(1)}\cr
+Hash (unique identifier) for this object.
+\item \code{id} :: \code{character(1)}\cr
+Stores the identifier of the learner.
+\item \code{packages} :: \code{character()}\cr
+Stores the names of required packages.
+\item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
+Description of available hyperparameters and hyperparameter settings.
+\item \code{predict_type} :: \code{character(1)}\cr
+Stores the currently selected predict type. Must be an element of \code{l$predict_types}.
+\item \code{predict_types} :: \code{character()}\cr
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
+\item \code{properties} :: \code{character()}\cr
+Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+\item \code{task_type} :: \code{character(1)}\cr
+Stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
+A complete list of task types is stored in \code{mlr_reflections$task_types}.
+}
+}
+
+\section{Methods}{
+
+
+
+\itemize{
+\item \code{params(tag)}\cr
+\code{character(1)} -> named \code{list()}\cr
+Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
+with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters used in the training step.
+\item \code{train(task)}\cr
+\link{Task} -> \code{self}\cr
+Train the learner on the complete \link{Task}. The resulting model is stored in \code{l$model}.
+\item \code{predict(task)}\cr
+\link{Task} -> \link{Prediction}\cr
+Uses \code{l$model} (fitted during \code{train()}) to return a \link{Prediction} object.
+}
+}
+
 \examples{
 # Create a task with 10 observations
 task = mlr_tasks$get("iris")

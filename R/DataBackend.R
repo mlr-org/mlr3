@@ -43,6 +43,10 @@
 #' * `hash` :: `character(1)`\cr
 #'   Returns a unique hash for this backend. This hash is cached.
 #'
+#' * `data_formats` :: `character()`\cr
+#'   Vector of supported data formats.
+#'   A specific format of these supported formats can be picked in the `$data()` method.
+#'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, format = "data.table")`\cr
 #'   (`integer()` | `character()`, `character()`) -> `any`\cr
@@ -51,16 +55,18 @@
 #'   The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 #'   Non-existing rows and columns are silently ignored.
 #'
-#' * `distinct(cols)`\cr
-#'   `character()` -> named `list()`\cr
+#' * `distinct(rows, cols)`\cr
+#'   (`integer()` | `character()`, `character()`) -> named `list()`\cr
 #'   Returns a named list of vectors of distinct values for each column specified.
 #'   Non-existing columns are silently ignored.
+#'   If `rows` is `NULL`, all possible distinct values will be returned, even if they do not occur.
+#'   This affects factor-like variables with empty levels.
 #'
 #' * `head(n = 6)`\cr
 #'   `integer(1)` -> [data.table::data.table()]\cr
 #'   Returns the first up-to `n` rows of the data as [data.table::data.table()].
 #'
-#' * `missing(rows, cols)`\cr
+#' * `missings(rows, cols)`\cr
 #'   (`integer()` | `character()`, `character()`) -> named `integer()`\cr
 #'   Returns the number of missing values per column in the specified slice of data.
 #'   Non-existing rows and columns are silently ignored.
@@ -74,17 +80,17 @@
 #' print(b)
 #' b$head(2)
 #' b$data(rows = 1:2, cols = "x")
-#' b$distinct("y")
-#' b$missing(rows = b$rownames, cols = names(data))
+#' b$distinct(rows = b$rownames, "y")
+#' b$missings(rows = b$rownames, cols = names(data))
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
     primary_key = NULL,
-    formats = character(0L),
+    data_formats = NULL,
 
-    initialize = function(data, primary_key, formats = "data.table") {
+    initialize = function(data, primary_key, data_formats = "data.table") {
       private$.data = data
       self$primary_key = assert_string(primary_key)
-      self$formats = assert_subset(formats, mlr_reflections$databackend_formats, empty.ok = FALSE)
+      self$data_formats = assert_subset(data_formats, mlr_reflections$task_data_formats, empty.ok = FALSE)
     },
 
     format = function() {

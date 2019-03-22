@@ -1,4 +1,4 @@
-#' @title Container for Results of `resample()`.
+#' @title Container for Results of `resample()`
 #'
 #' @usage NULL
 #' @format [R6::R6Class] object.
@@ -13,7 +13,7 @@
 #'
 #' * `data` :: [data.table::data.table()]\cr
 #'   Table with the data of one [Experiment] per row.
-#'   See description of in [Experiment] for the exact structure.
+#'   See description of field `data` of [Experiment] for the exact structure.
 #'
 #' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
@@ -26,7 +26,7 @@
 #'   The learner [resample()] operated on.
 #'
 #' * `resampling` :: [Resampling]\cr
-#'   The resampling object [resample()] operated on.
+#'   The resampling splits [resample()] operated on.
 #'
 #' * `measures` :: `list()` of [Measure]\cr
 #'   The performance measures [resample()] operated on.
@@ -51,19 +51,16 @@
 #'
 #' * `experiments(iters)`\cr
 #'   `integer()` -> `list()` of [Experiment].
-#'   Returns a slice of [Experiment]s, referred to by resampling iterations `iters`.
+#'   Returns a slice of [Experiment]s with provided resampling iterations `iters`.
 #'
 #' * `performance(id)`\cr
 #'   `character(1)` -> `numeric(1)`\cr
 #'   Retrieves the performance values for the measure with id `id` as numeric vector.
 #'
 #' @section S3 Methods:
-#' * `as.data.frame(rr)`\cr
-#'   [ResampleResult] -> `data.frame()`\cr
-#'   Converts to a flat `data.frame()`.
 #' * `as.data.table(rr)`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
-#'   Converts to a flat `data.table()`.
+#'   Converts the data to a `data.table()`.
 #' @export
 ResampleResult = R6Class("ResampleResult",
   public = list(
@@ -156,11 +153,6 @@ ResampleResult = R6Class("ResampleResult",
     }
   )
 )
-
-#' @export
-as.data.frame.ResampleResult = function(x, ...) {
-  setDF(as.data.table.ResampleResult(x))[]
-}
 
 #' @export
 as.data.table.ResampleResult = function(x, ...) {

@@ -12,7 +12,7 @@ Predefined learners can be found in the \link{Dictionary} \link{mlr_learners}.
 }
 \section{Construction}{
 \preformatted{l = LearnerRegr$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
-     feature_types = character(), properties = character(), packages = character())
+     feature_types = character(), properties = character(), data_formats = "data.table", packages = character())
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -33,6 +33,8 @@ Set of required packages.
 }
 
 \section{Fields}{
+
+
 
 \itemize{
 \item \code{fallback} :: (\link{Learner} | \code{NULL})\cr
@@ -66,6 +68,8 @@ A complete list of task types is stored in \code{mlr_reflections$task_types}.
 }
 
 \section{Methods}{
+
+
 
 \itemize{
 \item \code{params(tag)}\cr

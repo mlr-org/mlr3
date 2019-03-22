@@ -164,10 +164,40 @@ Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p
 
     <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object</p>
     
-    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-    <p>See <a href='Dictionary.html'>Dictionary</a>.</p>
+    <ul>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/get'>get(key, ...)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>, ...) -&gt; <code>any</code><br />
+Retrieves object with key <code>key</code> from the dictionary.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/get'>mget(keys, ...)</a></code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code>, ...) -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
+Retrieves objects with keys <code>keys</code> from the dictionary, returns them in a list named with <code>keys</code>.</p></li>
+<li><p><code>has(keys)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical()</a></code><br />
+Returns a logical vector with <code>TRUE</code> at its i-th position, if the i-th key exists.</p></li>
+<li><p><code>keys(pattern)</code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Returns all keys which comply to the regular expression <code>pattern</code>.</p></li>
+<li><p><code>add(key, value)</code><br />
+(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>, <code>any</code>) -&gt; <code>self</code><br />
+Adds object <code>value</code> to the dictionary with key <code>key</code>, potentially overwriting a
+previously stored value.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/rm'>remove(key)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code>self</code><br />
+Removes object with key <code>key</code> from the dictionary.</p></li>
+</ul>
+    
+    <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 methods</h2>
+
+    
+    <ul>
+<li><p><code><a href='as.data.table.html'>as.data.table(dict)</a></code><br />
+<a href='Dictionary.html'>Dictionary</a> -&gt; <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
+Returns a <code>data.table()</code> with fields "key", "feature_types", "packages",
+"properties" and "predict_types" as columns.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -179,7 +209,7 @@ Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_learners</span>)</div><div class='output co'>#&gt;                     id                                    feature_types
+    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_learners</span>)</div><div class='output co'>#&gt;                    key                                    feature_types
 #&gt; 1:       classif.debug logical,integer,numeric,character,factor,ordered
 #&gt; 2: classif.featureless logical,integer,numeric,character,factor,ordered
 #&gt; 3:       classif.rpart logical,integer,numeric,character,factor,ordered
@@ -196,7 +226,7 @@ Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p
 #&gt; 2: response,prob
 #&gt; 3: response,prob
 #&gt; 4:   response,se
-#&gt; 5:      response</div><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:featureless&gt;
+#&gt; 5:      response</div><div class='input'><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.featureless"</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
 #&gt; Parameters: method=mode
 #&gt; Packages: -
 #&gt; Predict Type: response
@@ -204,9 +234,10 @@ Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p
 #&gt; Properties: importance, missings, multiclass, selected_features,
 #&gt;   twoclass
 #&gt; 
-#&gt; Public: clone(), fallback, feature_types, hash, id, importance(),
-#&gt;   model, packages, param_set, params(), predict_type, predict_types,
-#&gt;   predict(), properties, selected_features(), task_type, train()</div></pre>
+#&gt; Public: clone(), data_formats, fallback, feature_types, hash, id,
+#&gt;   importance(), model, packages, param_set, params(), predict_type,
+#&gt;   predict_types, predict(), properties, selected_features(), task_type,
+#&gt;   train()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -214,7 +245,9 @@ Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#usage">Usage</a></li>
+      <li><a href="#methods">Methods</a></li>
+
+      <li><a href="#s-methods">S3 methods</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

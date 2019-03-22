@@ -29,6 +29,15 @@ Vector of predict types this object stores.
 }
 }
 
+\section{S3 Methods}{
+
+\itemize{
+\item \code{as.data.table(rr)}\cr
+\link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Converts the data to a \code{data.table()}.
+}
+}
+
 \seealso{
 Other Prediction: \code{\link{PredictionClassif}},
   \code{\link{PredictionRegr}}

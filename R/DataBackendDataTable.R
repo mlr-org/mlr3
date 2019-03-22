@@ -22,7 +22,11 @@
 #' construct a [DataBackend] with a copy of the data, and automatically
 #' creates a primary key column if required.
 #'
+#'
+#' @section Fields:
 #' @inheritSection DataBackend Fields
+#'
+#' @section Methods:
 #' @inheritSection DataBackend Methods
 #'
 #' @family DataBackend
@@ -48,12 +52,12 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     initialize = function(data, primary_key) {
       assert_data_table(data)
-      super$initialize(setkeyv(data, primary_key), primary_key)
+      super$initialize(setkeyv(data, primary_key), primary_key, data_formats = "data.table")
       assert_choice(primary_key, names(data))
     },
 
-    data = function(rows, cols, format = self$formats[1L]) {
-      assert_choice(format, self$formats)
+    data = function(rows, cols, data_format = "data.table") {
+      assert_choice(data_format, self$data_formats)
       assert_names(cols, type = "unique")
       cols = intersect(cols, colnames(private$.data))
 
@@ -72,27 +76,18 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       head(private$.data, n)
     },
 
-    distinct = function(cols) {
+    distinct = function(rows, cols) {
       cols = intersect(cols, colnames(private$.data))
-      lapply(private$.data[, cols, with = FALSE], distinct)
+      if (is.null(rows)) {
+        set_names(lapply(cols, function(x) distinct(private$.data[[x]], drop = FALSE)), cols)
+      } else {
+        lapply(self$data(rows, cols), distinct)
+      }
     },
 
-    missing = function(rows, cols) {
-      assert_names(cols, type = "unique")
-      cols = intersect(cols, colnames(private$.data))
-      if (length(cols) == 0L)
-        return(set_names(integer(0L), character(0L)))
-
-      if (self$compact_seq) {
-        rows = filter_oob_index(rows, 1L, nrow(private$.data))
-        data = private$.data[rows, lapply(.SD, function(x) sum(is.na(x))), .SDcols = cols]
-      } else {
-        assert_atomic_vector(rows)
-        data = private$.data[list(rows), lapply(.SD, function(x) sum(is.na(x))), on = self$primary_key, nomatch = 0L, .SDcols = cols]
-      }
-      if (nrow(data) == 0L)
-        return(set_names(integer(length(cols)), cols))
-      unlist(data, recursive = FALSE)
+    missings = function(rows, cols) {
+      data = self$data(rows, cols)
+      map_int(data, function(x) sum(is.na(x)))
     }
   ),
 

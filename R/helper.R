@@ -14,10 +14,13 @@ ujoin = function(x, y, key) {
   x[y, eval(expr), on = key]
 }
 
-distinct = function(x) {
-  if (is.factor(x)) {
+distinct = function(x, drop = TRUE) {
+  if (is.logical(x) && !drop) {
+    lvls = c(FALSE, TRUE)
+  } else if (is.factor(x)) {
     lvls = levels(x)
-    lvls = lvls[lvls %in% x]
+    if (drop)
+      lvls = lvls[lvls %in% x]
   } else {
     lvls = unique(x)
     lvls = lvls[!is.na(lvls)]
@@ -38,16 +41,6 @@ translate_types = function(x) {
   r_types = mlr_reflections$task_feature_types
   p_types = names(mlr_reflections$task_feature_types)
   factor(map_values(x, r_types, p_types), levels = p_types)
-}
-
-generate_formula = function(lhs, rhs) {
-  if (length(lhs) == 0L)
-    lhs = NULL
-  if (length(rhs) == 0L)
-    rhs = "1"
-  f = reformulate(rhs, response = lhs)
-  environment(f) = NULL
-  f
 }
 
 get_seed = function() {

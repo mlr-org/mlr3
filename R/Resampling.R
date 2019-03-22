@@ -59,6 +59,7 @@
 #' * `train_set(i)`\cr
 #'   `integer(1)` -> (`integer()` | `character()`)\cr
 #'   Returns the row ids of the i-th training set.
+#'
 #' * `test_set(i)`\cr
 #'   `integer(1)` -> (`integer()` | `character()`)\cr
 #'   Returns the row ids of the i-th test set.

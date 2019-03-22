@@ -13,7 +13,7 @@
 #' @export
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(
-    initialize = function(id = "featureless") {
+    initialize = function(id = "regr.featureless") {
       super$initialize(
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),

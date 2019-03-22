@@ -10,6 +10,9 @@
 #' the response is calculated from the probabilities: the class label with the highest
 #' probability is chosen. In case of ties, a random class label of the tied labels picked.
 #'
+#' For binary classification problems, it is possible to set the probability threshold for
+#' predicting the positive class. This requires stored predictions.
+#'
 #' The `task_type` is set to `"classif"`.
 #'
 #' @section Construction:
@@ -34,6 +37,7 @@
 #' Required are "row_ids", "truth", and "predict_type". Depending on the value of
 #' "predict_types", also "response" and "prob" must be set.
 #'
+#' @section Fields:
 #' @inheritSection Prediction Fields
 #'
 #' @family Prediction
@@ -53,6 +57,24 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     initialize = function(task = NULL, response = NULL, prob = NULL) {
       predictionclassif_initialize(self, task, response, prob)
     }
+  ),
+
+  active = list(
+    threshold = function(rhs) {
+      if (missing(rhs))
+        return(private$.threshold)
+      if (!is.matrix(self$prob))
+        stopf("Cannot set threshold, no probabilities available")
+      if (ncol(self$prob) != 2L)
+        stopf("Cannot set threshold, need binary classification task")
+      private$.threshold = assert_number(rhs, lower = 0, upper = 1)
+      lvls = colnames(self$prob)
+      self$response = factor(lvls[(unname(self$prob[, 1L]) < rhs) + 1L], levels = lvls)
+    }
+  ),
+
+  private = list(
+    .threshold = NULL
   )
 )
 
@@ -62,7 +84,7 @@ predictionclassif_initialize = function(self, task, response, prob) {
     self$row_ids = row_ids = task$row_ids
     self$truth = task$truth()
     n = length(row_ids)
-    classes = task$all_classes
+    classes = task$class_names
 
     if (!is.null(response)) {
       response = factor(response, levels = classes)

@@ -9,7 +9,7 @@
 #' @export
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(
-    initialize = function(id = "rpart") {
+    initialize = function(id = "classif.rpart") {
       super$initialize(
         id = id,
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
@@ -33,7 +33,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       pars = self$params("train")
       if ("weights" %in% task$properties)
         pars = insert_named(pars, list(weights = task$weights$weight))
-      self$model = invoke(rpart::rpart, formula = task$formula, data = task$data(), .args = pars)
+      self$model = invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
       self
     },
 
