@@ -162,7 +162,7 @@ set of active rows. \code{cols} defaults to all columns with storage type "chara
 \section{S3 methods}{
 
 \itemize{
-\item \code{as.data.table(task)}\cr
+\item \code{as.data.table(t)}\cr
 \link{Task} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns the data set as \code{data.table()}.
 }
@@ -185,8 +185,7 @@ Again, the original \link{DataBackend} remains unchanged.
 }
 
 \examples{
-b = as_data_backend(iris)
-task = Task$new("iris", task_type = "classif", backend = b)
+task = Task$new("iris", task_type = "classif", backend = iris)
 
 task$nrow
 task$ncol

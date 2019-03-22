@@ -18,7 +18,7 @@ The \code{task_type} is set to \code{"classif"}.
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Name of the task.
-\item \code{backend} :: \link{DataBackend}\cr
+\item \code{backend} :: (\link{DataBackend} | \code{data.frame()} | ...)\cr
 Either a \link{DataBackend}, or any object which is convertible to a DataBackend with \code{as_data_backend()}.
 E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.
 \item \code{target} :: \code{character(1)}\cr
