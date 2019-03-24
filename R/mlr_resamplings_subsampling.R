@@ -31,7 +31,7 @@
 #' intersect(rss$train_set(1), rss$test_set(1))
 #'
 #' # Internal storage:
-#' rss$instance$train # list of bit vectors
+#' rss$instance$train # list of index vectors
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
     initialize = function(id = "subsampling", param_vals = list(repeats = 30L, ratio = 2/3)) {
@@ -58,22 +58,26 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
       n = length(ids)
       nr = round(n * pv$ratio)
 
-      train = replicate(pv$repeats,
-        bit::as.bit(replace(logical(n), sample.int(n, nr), TRUE)),
-        simplify = FALSE)
+      train = replicate(pv$repeats, sample.int(n, nr), simplify = FALSE)
       list(train = train, row_ids = ids)
     },
 
     .get_train = function(i) {
-      self$instance$row_ids[bit::as.which(self$instance$train[[i]])]
+      self$instance$row_ids[self$instance$train[[i]]]
     },
 
     .get_test = function(i) {
-      self$instance$row_ids[bit::as.which(!self$instance$train[[i]])]
+      self$instance$row_ids[-self$instance$train[[i]]]
     },
 
     .combine = function(instances) {
-      Reduce(function(lhs, rhs) { list(train = Map(c, lhs$train, rhs$train), row_ids = c(lhs$row_ids , rhs$row_ids)) }, instances)
+      Reduce(function(lhs, rhs) {
+        n = length(lhs$row_ids)
+        list(train =
+          Map(function(x, y) c(x, y + n), lhs$train, rhs$train),
+          row_ids = c(lhs$row_ids, rhs$row_ids)
+        )
+      }, instances)
     }
   )
 )
