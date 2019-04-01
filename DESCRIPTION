@@ -46,7 +46,6 @@ Depends:
     R (>= 3.1.0)
 Imports:
     backports,
-    bit,
     checkmate (>= 1.9.0),
     data.table,
     digest,

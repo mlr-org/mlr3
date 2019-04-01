@@ -89,7 +89,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       folds = as.integer(self$param_set$values$folds)
       rep = as.integer(i %/% folds) + 1L
       fold = as.integer(i %% folds) + 1L
-      ii = data.table(rep = rep, fold = setdiff(seq_len(folds), fold))
+      ii = data.table(rep = rep, fold = seq_len(folds)[-fold])
       self$instance[ii, "row_id", on = names(ii), nomatch = 0L][[1L]]
     },
 

@@ -9,7 +9,6 @@
 
 dummy_import = function() { # nocov start
   # this function is required to silence R CMD check
-  tmp = bit::bit
   tmp = Metrics::ce
 } # nocov end
 
