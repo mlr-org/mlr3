@@ -13,7 +13,7 @@ dummy_import = function() { # nocov start
 } # nocov end
 
 
-.onLoad = function(libname, pkgname) { #nocov start
+.onLoad = function(libname, pkgname) { # nocov start
   backports::import(pkgname)
   assign("lg", lgr::get_logger(pkgname), envir = parent.env(environment()))
-} #nocov end
+} # nocov end
