@@ -175,7 +175,7 @@ Predefined tasks are stored in <a href='mlr_tasks.html'>mlr_tasks</a>.</p>
 <ul>
 <li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Name of the task.</p></li>
-<li><p><code>backend</code> :: <a href='DataBackend.html'>DataBackend</a><br />
+<li><p><code>backend</code> :: (<a href='DataBackend.html'>DataBackend</a> | <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> | ...)<br />
 Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a DataBackend with <code><a href='as_data_backend.html'>as_data_backend()</a></code>.
 E.g., a <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> will be converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.</p></li>
 <li><p><code>target</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />

@@ -82,6 +82,6 @@ rss$test_set(1)
 intersect(rss$train_set(1), rss$test_set(1))
 
 # Internal storage:
-rss$instance$train # list of bit vectors
+rss$instance$train # list of index vectors
 }
 \keyword{datasets}

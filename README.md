@@ -31,7 +31,6 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`mlr3misc`](https://github.com/mlr-org/mlr3misc) Miscellaneous functions used in multiple mlr3 [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages). Developed by the `mlr` team. No extra recursive dependencies.
     - [`paradox`](https://github.com/mlr-org/paradox): Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra recursive dependencies.
     - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No recursive dependencies.
-    - [`bit`](https://cran.r-project.org/package=bit): Efficient storage of logical vectors. No recursive dependencies.
     - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No recursive dependencies.
     - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No recursive dependencies.
     - [`logger`](https://github.com/daroczig/logger): Logging facility. No recursive dependencies.
