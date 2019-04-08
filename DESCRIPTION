@@ -127,6 +127,7 @@ Collate:
     'mlr_measures.R'
     'mlr_measures_classif_acc.R'
     'mlr_measures_classif_auc.R'
+    'mlr_measures_classif_costs.R'
     'mlr_measures_classif_mmce.R'
     'mlr_measures_elapsed_time.R'
     'mlr_measures_regr_mse.R'

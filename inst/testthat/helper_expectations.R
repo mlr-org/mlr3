@@ -381,6 +381,13 @@ expect_prediction_classif = function(p, task = NULL) {
   if ("prob" %in% p$predict_types) {
     checkmate::expect_matrix(p$prob, "numeric", any.missing = FALSE, ncol = nlevels(p$response), nrow = n)
   }
+  confusion = p$confusion
+  checkmate::expect_matrix(confusion)
+  checkmate::expect_integer(confusion, lower = 0L, any.missing = FALSE)
+  if (!is.null(task)) {
+    checkmate::expect_names(rownames(confusion), identical.to = task$class_names)
+    checkmate::expect_names(colnames(confusion), identical.to = task$class_names)
+  }
 }
 
 expect_resample_result = function(rr) {

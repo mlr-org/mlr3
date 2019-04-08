@@ -14,6 +14,11 @@ test_that("Classification measures", {
   for (key in keys) {
     m = mlr_measures$get(key)
     if (is.na(m$task_type) || m$task_type == "classif") {
+      if (key == "classif.costs") {
+        costs = 1 - diag(e$task$class_n)
+        rownames(costs) = colnames(costs) = e$task$class_names
+        m$costs = costs
+      }
       perf = m$calculate(e)
       expect_number(perf, lower = m$range[1], upper = m$range[2])
     }

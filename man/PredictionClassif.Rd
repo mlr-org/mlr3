@@ -12,7 +12,7 @@ the response is calculated from the probabilities: the class label with the high
 probability is chosen. In case of ties, a random class label of the tied labels picked.
 
 For binary classification problems, it is possible to set the probability threshold for
-predicting the positive class. This requires stored predictions.
+predicting the positive class. Only works if probabilities are stored.
 
 The \code{task_type} is set to \code{"classif"}.
 }
@@ -23,12 +23,17 @@ The \code{task_type} is set to \code{"classif"}.
 \item \code{task} :: \link{TaskClassif}\cr
 Task for which the predictions are made. Used to extract the row ids and the true
 labels. Must be subsetted to test set.
-\item \code{response} :: (\code{factor()} | \code{character()})\cr
+\item \code{response} :: \code{factor()}\cr
 Vector of predicted class labels.
 One element for each observation in the test set.
 \item \code{prob} :: \code{matrix()}\cr
 Numeric matrix of class probabilities with one column for each class
 and one row for each observation in the test set.
+\item \code{threshold} :: \code{numeric(1)}\cr
+Probability threshold between 0 and 1.
+Assigning a value to this field modifies the stored responses.
+\item \code{confusion} :: \code{matrix()}\cr
+Confusion matrix resulting from the comparison of truth and response.
 }
 
 Note that it is allowed to initialize this object without any arguments in order
@@ -62,6 +67,7 @@ learner$predict_type = "prob"
 e = Experiment$new(task, learner)$train()$predict()
 p = e$prediction
 p$predict_types
+p$confusion
 head(as.data.table(p))
 }
 \seealso{
