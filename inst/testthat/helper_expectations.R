@@ -211,10 +211,10 @@ expect_task_supervised = function(task) {
   checkmate::expect_r6(task, "TaskSupervised", cloneable = TRUE)
   checkmate::expect_choice(task$target_names, task$col_info$id)
 
-  f = task$formula
-  checkmate::expect_class(task$formula, "formula")
-  testthat::expect_null(environment(task$formula))
-  tf = terms(task$formula)
+  f = task$formula()
+  checkmate::expect_class(f, "formula")
+  testthat::expect_null(environment(f))
+  tf = terms(f)
   checkmate::expect_set_equal(labels(tf), task$feature_names) # rhs
   checkmate::expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target_names) # lhs
   checkmate::expect_subset(task$feature_names, colnames(task$head()))

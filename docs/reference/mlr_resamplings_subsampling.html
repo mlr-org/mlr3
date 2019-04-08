@@ -133,7 +133,7 @@ with a ratio of ratio (default: 2/3) observations in the training set." />
   </a>
 </li>
 <li>
-  <a href="https://mlr-web.com/">
+  <a href="https://mlr-org.com/">
     <span class="fa fa-rss"></span>
      
   </a>
@@ -226,17 +226,13 @@ Uses <code>l$model</code> (fitted during <code>train()</code>) to return a <a hr
 <span class='no'>rss</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
 
 <span class='co'># Individual sets:</span>
-<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 2 3 6 7 8</div><div class='input'><span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  4  5  9 10</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 7 3 6 8 2</div><div class='input'><span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  4  5  9 10</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>intersect</a></span>(<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
-<span class='no'>rss</span>$<span class='no'>instance</span>$<span class='no'>train</span> <span class='co'># list of bit vectors</span></div><div class='output co'>#&gt; [[1]]
-#&gt; bit length=10 occupying only 1 integers
-#&gt;     1     2     3     4     5     6     7     8     9    10 
-#&gt; FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE 
+<span class='no'>rss</span>$<span class='no'>instance</span>$<span class='no'>train</span> <span class='co'># list of index vectors</span></div><div class='output co'>#&gt; [[1]]
+#&gt; [1] 7 3 6 8 2
 #&gt; 
 #&gt; [[2]]
-#&gt; bit length=10 occupying only 1 integers
-#&gt;     1     2     3     4     5     6     7     8     9    10 
-#&gt; FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE 
+#&gt; [1]  5  7  6 10  8
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

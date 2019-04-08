@@ -9,7 +9,7 @@ test_that("Basic ops on iris task", {
   expect_set_equal(task$class_names, levels(iris$Species))
   expect_identical(task$class_n, nlevels(iris$Species))
 
-  f = task$formula
+  f = task$formula()
   expect_class(f, "formula")
   expect_set_equal(attr(terms(f), "term.labels"), setdiff(names(iris), "Species"))
 })

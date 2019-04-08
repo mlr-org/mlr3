@@ -1,4 +1,4 @@
-#' @title Container for Results of `resample()`.
+#' @title Container for Results of `resample()`
 #'
 #' @usage NULL
 #' @format [R6::R6Class] object.

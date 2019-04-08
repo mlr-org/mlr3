@@ -53,7 +53,7 @@
 #' task = TaskClassif$new("sonar", backend = Sonar, target = "Class", positive = "M")
 #'
 #' task$task_type
-#' task$formula
+#' task$formula()
 #' task$truth()
 #' task$class_names
 #' task$positive

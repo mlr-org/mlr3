@@ -59,9 +59,6 @@ Returns all column names with \code{role == "feature"}.
 \item \code{feature_types} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active" features of the task
 and \code{type} is the storage type.
-\item \code{formula} :: \code{formula()}\cr
-Constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}, using
-the active features of the task.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 \item \code{id} :: \code{character(1)}\cr
@@ -104,6 +101,10 @@ It is possible to provide multiple formats, the first format supported is select
 Rows are subsetted to only contain observations with role "use".
 Columns are filtered to only contain features with roles "target" and "feature".
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
+\item \code{formula(rhs = NULL)}\cr
+\code{character()} -> \code{formula}\cr
+Constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}, using
+the features provided in argument \code{rhs} (defaults to all active features).
 \item \code{levels(cols = NULL)}\cr
 \code{character()} -> named \code{list()}\cr
 Returns the distinct values of columns in \code{cols} for columns with storage type "character", "factor" or "ordered".
@@ -161,7 +162,7 @@ set of active rows. \code{cols} defaults to all columns with storage type "chara
 \section{S3 methods}{
 
 \itemize{
-\item \code{as.data.table(task)}\cr
+\item \code{as.data.table(t)}\cr
 \link{Task} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns the data set as \code{data.table()}.
 }
@@ -184,14 +185,13 @@ Again, the original \link{DataBackend} remains unchanged.
 }
 
 \examples{
-b = as_data_backend(iris)
-task = Task$new("iris", task_type = "classif", backend = b)
+task = Task$new("iris", task_type = "classif", backend = iris)
 
 task$nrow
 task$ncol
 task$head()
 task$feature_names
-task$formula
+task$formula()
 
 # Remove "Petal.Length"
 task$set_col_role("Petal.Length", character(0L))

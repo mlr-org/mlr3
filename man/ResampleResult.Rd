@@ -3,7 +3,7 @@
 \docType{data}
 \name{ResampleResult}
 \alias{ResampleResult}
-\title{Container for Results of \code{resample()}.}
+\title{Container for Results of \code{resample()}}
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the result container object returned by \code{\link[=resample]{resample()}}.

@@ -135,7 +135,7 @@ The task_type is set to "classif"." />
   </a>
 </li>
 <li>
-  <a href="https://mlr-web.com/">
+  <a href="https://mlr-org.com/">
     <span class="fa fa-rss"></span>
      
   </a>
@@ -175,7 +175,7 @@ Predefined tasks are stored in <a href='mlr_tasks.html'>mlr_tasks</a>.</p>
 <ul>
 <li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Name of the task.</p></li>
-<li><p><code>backend</code> :: <a href='DataBackend.html'>DataBackend</a><br />
+<li><p><code>backend</code> :: (<a href='DataBackend.html'>DataBackend</a> | <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> | ...)<br />
 Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a DataBackend with <code><a href='as_data_backend.html'>as_data_backend()</a></code>.
 E.g., a <code><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame()</a></code> will be converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.</p></li>
 <li><p><code>target</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
@@ -216,9 +216,6 @@ Returns all column names with <code>role == "feature"</code>.</p></li>
 <li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/data.table/topics/data.table'>data.table::data.table()</a></code><br />
 Returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active" features of the task
 and <code>type</code> is the storage type.</p></li>
-<li><p><code>formula</code> :: <code><a href='https://www.rdocumentation.org/packages/stats/topics/formula'>formula()</a></code><br />
-Constructs a <a href='https://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>, using
-the active features of the task.</p></li>
 <li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Hash (unique identifier) for this object.</p></li>
 <li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
@@ -260,6 +257,10 @@ It is possible to provide multiple formats, the first format supported is select
 <p>Rows are subsetted to only contain observations with role "use".
 Columns are filtered to only contain features with roles "target" and "feature".
 If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/formula'>formula(rhs = NULL)</a></code><br />
+<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; <code>formula</code><br />
+Constructs a <a href='https://www.rdocumentation.org/packages/stats/topics/formula'>stats::formula</a>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>, using
+the features provided in argument <code>rhs</code> (defaults to all active features).</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels(cols = NULL)</a></code><br />
 <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code> -&gt; named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
 Returns the distinct values of columns in <code>cols</code> for columns with storage type "character", "factor" or "ordered".
@@ -321,7 +322,7 @@ set of active rows. <code>cols</code> defaults to all columns with storage type 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskRegr</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Sepal.Length"</span>)
-<span class='no'>task</span>$<span class='no'>task_type</span></div><div class='output co'>#&gt; [1] "regr"</div><div class='input'><span class='no'>task</span>$<span class='no'>formula</span></div><div class='output co'>#&gt; Sepal.Length ~ Petal.Length + Petal.Width + Sepal.Width + Species
+<span class='no'>task</span>$<span class='no'>task_type</span></div><div class='output co'>#&gt; [1] "regr"</div><div class='input'><span class='no'>task</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/formula'>formula</a></span>()</div><div class='output co'>#&gt; Sepal.Length ~ Petal.Length + Petal.Width + Sepal.Width + Species
 #&gt; NULL</div><div class='input'><span class='no'>task</span>$<span class='fu'>truth</span>()</div><div class='output co'>#&gt;   [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 4.8 4.3 5.8 5.7 5.4 5.1
 #&gt;  [19] 5.7 5.1 5.4 5.1 4.6 5.1 4.8 5.0 5.0 5.2 5.2 4.7 4.8 5.4 5.2 5.5 4.9 5.0
 #&gt;  [37] 5.5 4.9 4.4 5.1 5.0 4.5 4.4 5.0 5.1 4.8 5.1 4.6 5.3 5.0 7.0 6.4 6.9 5.5

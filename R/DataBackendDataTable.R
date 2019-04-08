@@ -56,7 +56,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       assert_choice(primary_key, names(data))
     },
 
-    data = function(rows, cols, data_format = self$data_formats[1L]) {
+    data = function(rows, cols, data_format = "data.table") {
       assert_choice(data_format, self$data_formats)
       assert_names(cols, type = "unique")
       cols = intersect(cols, colnames(private$.data))
