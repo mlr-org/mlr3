@@ -73,7 +73,8 @@ VignetteBuilder:
     knitr
 Remotes:
     mlr-org/mlr3misc,
-    mlr-org/paradox
+    mlr-org/paradox,
+    s-fleck/lgr
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
