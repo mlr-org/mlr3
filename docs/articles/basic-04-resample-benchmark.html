@@ -180,7 +180,7 @@
 <a href="#resampling" class="anchor"></a>Resampling</h2>
 <p>Now, we can pass all created objects to the <code><a href="../reference/resample.html">resample()</a></code> function to get an object of class <code>ResampleResult</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">rr =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner, resampling)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; INFO  [23:54:26.711] Running learner 'classif.rpart' on task 'iris' (iteration 1/1)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">#&gt; INFO  [08:54:36.662] Running learner 'classif.rpart' on task 'iris' (iteration 1/1)' {namespace: mlr3}</span></a>
 <a class="sourceLine" id="cb5-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
 <a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 1 iterations</span></a>
 <a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt;       Measure    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. Sd</span></a>
@@ -188,9 +188,9 @@
 <p>Before we go into more detail, let’s change the resampling to a 3-fold cross-validation to better illustrate what operations are possible with a resampling result.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">resampling =<span class="st"> </span>mlr_resamplings<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"cv"</span>, <span class="dt">param_vals =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">folds =</span> 3L))</a>
 <a class="sourceLine" id="cb6-2" title="2">rr =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner, resampling)</a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; INFO  [23:54:26.845] Running learner 'classif.rpart' on task 'iris' (iteration 1/3)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; INFO  [23:54:26.877] Running learner 'classif.rpart' on task 'iris' (iteration 2/3)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; INFO  [23:54:26.908] Running learner 'classif.rpart' on task 'iris' (iteration 3/3)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; INFO  [08:54:36.792] Running learner 'classif.rpart' on task 'iris' (iteration 1/3)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; INFO  [08:54:36.826] Running learner 'classif.rpart' on task 'iris' (iteration 2/3)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; INFO  [08:54:36.850] Running learner 'classif.rpart' on task 'iris' (iteration 3/3)' {namespace: mlr3}</span></a>
 <a class="sourceLine" id="cb6-6" title="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(rr)</a>
 <a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 3 iterations</span></a>
 <a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;       Measure Min. 1st Qu. Median    Mean 3rd Qu. Max.      Sd</span></a>
@@ -263,13 +263,13 @@
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">learner1 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.rpart"</span>) <span class="co"># simple classification tree</span></a>
 <a class="sourceLine" id="cb11-2" title="2">learner2 =<span class="st"> </span>mlr_learners<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(<span class="st">"classif.featureless"</span>) <span class="co"># featureless learner, prediction majority class</span></a>
 <a class="sourceLine" id="cb11-3" title="3">rr1 =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner1, resampling)</a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt; INFO  [23:54:27.052] Running learner 'classif.rpart' on task 'iris' (iteration 1/3)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt; INFO  [23:54:27.082] Running learner 'classif.rpart' on task 'iris' (iteration 2/3)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt; INFO  [23:54:27.113] Running learner 'classif.rpart' on task 'iris' (iteration 3/3)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt; INFO  [08:54:36.982] Running learner 'classif.rpart' on task 'iris' (iteration 1/3)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt; INFO  [08:54:37.007] Running learner 'classif.rpart' on task 'iris' (iteration 2/3)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt; INFO  [08:54:37.031] Running learner 'classif.rpart' on task 'iris' (iteration 3/3)' {namespace: mlr3}</span></a>
 <a class="sourceLine" id="cb11-7" title="7">rr2 =<span class="st"> </span><span class="kw"><a href="../reference/resample.html">resample</a></span>(task, learner2, resampling)</a>
-<a class="sourceLine" id="cb11-8" title="8"><span class="co">#&gt; INFO  [23:54:27.158] Running learner 'classif.featureless' on task 'iris' (iteration 1/3)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb11-9" title="9"><span class="co">#&gt; INFO  [23:54:27.180] Running learner 'classif.featureless' on task 'iris' (iteration 2/3)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb11-10" title="10"><span class="co">#&gt; INFO  [23:54:27.209] Running learner 'classif.featureless' on task 'iris' (iteration 3/3)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb11-8" title="8"><span class="co">#&gt; INFO  [08:54:37.066] Running learner 'classif.featureless' on task 'iris' (iteration 1/3)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb11-9" title="9"><span class="co">#&gt; INFO  [08:54:37.084] Running learner 'classif.featureless' on task 'iris' (iteration 2/3)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb11-10" title="10"><span class="co">#&gt; INFO  [08:54:37.100] Running learner 'classif.featureless' on task 'iris' (iteration 3/3)' {namespace: mlr3}</span></a>
 <a class="sourceLine" id="cb11-11" title="11"></a>
 <a class="sourceLine" id="cb11-12" title="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setequal</a></span>(rr1<span class="op">$</span><span class="kw">experiment</span>(<span class="dv">1</span>)<span class="op">$</span>train_set, rr2<span class="op">$</span><span class="kw">experiment</span>(<span class="dv">1</span>)<span class="op">$</span>train_set)</a>
 <a class="sourceLine" id="cb11-13" title="13"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
@@ -316,10 +316,10 @@
 <a class="sourceLine" id="cb14-10" title="10"><span class="co">#&gt; 1: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingHoldout&gt;</span></a>
 <a class="sourceLine" id="cb14-11" title="11"><span class="co">#&gt; 2: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingHoldout&gt;</span></a>
 <a class="sourceLine" id="cb14-12" title="12">bmr =<span class="st"> </span><span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(design)</a>
-<a class="sourceLine" id="cb14-13" title="13"><span class="co">#&gt; INFO  [23:54:27.354] Benchmarking 2 experiments {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb14-14" title="14"><span class="co">#&gt; INFO  [23:54:27.359] Running learner 'classif.rpart' on task 'iris' (iteration 1/1)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb14-15" title="15"><span class="co">#&gt; INFO  [23:54:27.386] Running learner 'classif.featureless' on task 'iris' (iteration 1/1)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb14-16" title="16"><span class="co">#&gt; INFO  [23:54:27.417] Finished benchmark {namespace: mlr3}</span></a></code></pre></div>
+<a class="sourceLine" id="cb14-13" title="13"><span class="co">#&gt; INFO  [08:54:37.246] Benchmarking 2 experiments {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb14-14" title="14"><span class="co">#&gt; INFO  [08:54:37.250] Running learner 'classif.rpart' on task 'iris' (iteration 1/1)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb14-15" title="15"><span class="co">#&gt; INFO  [08:54:37.274] Running learner 'classif.featureless' on task 'iris' (iteration 1/1)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb14-16" title="16"><span class="co">#&gt; INFO  [08:54:37.292] Finished benchmark {namespace: mlr3}</span></a></code></pre></div>
 <p>Note that the holdout splits have been automatically instantiated for each row of the design. As a result, the <code>rpart</code> learner used a different training set than the featureless learner. However, for comparison of learners you usually want the learners to see the same splits into train and test sets. To overcome this issue, the resampling strategy needs to be manually instantiated before creating the design.</p>
 <p>While the interface of <code><a href="../reference/benchmark.html">benchmark()</a></code> allows full flexibility, the creation of such design tables can be tedious. Therefore, <code>mlr3</code> provides a helper function to quickly generate design tables and instantiate resampling strategies in an exhaustive grid fashion: <code><a href="../reference/expand_grid.html">mlr3::expand_grid()</a></code>.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co"># get some example tasks</span></a>
@@ -351,68 +351,68 @@
 <a class="sourceLine" id="cb15-27" title="27"><span class="co">#&gt; 5: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;</span></a>
 <a class="sourceLine" id="cb15-28" title="28"><span class="co">#&gt; 6: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</span></a>
 <a class="sourceLine" id="cb15-29" title="29">bmr =<span class="st"> </span><span class="kw"><a href="../reference/benchmark.html">benchmark</a></span>(design)</a>
-<a class="sourceLine" id="cb15-30" title="30"><span class="co">#&gt; INFO  [23:54:27.608] Benchmarking 60 experiments {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-31" title="31"><span class="co">#&gt; INFO  [23:54:27.612] Running learner 'classif.featureless' on task 'pima' (iteration 1/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-32" title="32"><span class="co">#&gt; INFO  [23:54:27.635] Running learner 'classif.featureless' on task 'pima' (iteration 2/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-33" title="33"><span class="co">#&gt; INFO  [23:54:27.664] Running learner 'classif.featureless' on task 'pima' (iteration 3/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-34" title="34"><span class="co">#&gt; INFO  [23:54:27.687] Running learner 'classif.featureless' on task 'pima' (iteration 4/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-35" title="35"><span class="co">#&gt; INFO  [23:54:27.709] Running learner 'classif.featureless' on task 'pima' (iteration 5/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-36" title="36"><span class="co">#&gt; INFO  [23:54:27.731] Running learner 'classif.featureless' on task 'pima' (iteration 6/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-37" title="37"><span class="co">#&gt; INFO  [23:54:27.753] Running learner 'classif.featureless' on task 'pima' (iteration 7/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-38" title="38"><span class="co">#&gt; INFO  [23:54:27.775] Running learner 'classif.featureless' on task 'pima' (iteration 8/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-39" title="39"><span class="co">#&gt; INFO  [23:54:27.797] Running learner 'classif.featureless' on task 'pima' (iteration 9/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-40" title="40"><span class="co">#&gt; INFO  [23:54:27.819] Running learner 'classif.featureless' on task 'pima' (iteration 10/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-41" title="41"><span class="co">#&gt; INFO  [23:54:27.848] Running learner 'classif.rpart' on task 'pima' (iteration 1/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-42" title="42"><span class="co">#&gt; INFO  [23:54:27.899] Running learner 'classif.rpart' on task 'pima' (iteration 2/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-43" title="43"><span class="co">#&gt; INFO  [23:54:27.949] Running learner 'classif.rpart' on task 'pima' (iteration 3/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-44" title="44"><span class="co">#&gt; INFO  [23:54:27.998] Running learner 'classif.rpart' on task 'pima' (iteration 4/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-45" title="45"><span class="co">#&gt; INFO  [23:54:28.047] Running learner 'classif.rpart' on task 'pima' (iteration 5/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-46" title="46"><span class="co">#&gt; INFO  [23:54:28.098] Running learner 'classif.rpart' on task 'pima' (iteration 6/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-47" title="47"><span class="co">#&gt; INFO  [23:54:28.155] Running learner 'classif.rpart' on task 'pima' (iteration 7/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-48" title="48"><span class="co">#&gt; INFO  [23:54:28.204] Running learner 'classif.rpart' on task 'pima' (iteration 8/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-49" title="49"><span class="co">#&gt; INFO  [23:54:28.253] Running learner 'classif.rpart' on task 'pima' (iteration 9/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-50" title="50"><span class="co">#&gt; INFO  [23:54:28.303] Running learner 'classif.rpart' on task 'pima' (iteration 10/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-51" title="51"><span class="co">#&gt; INFO  [23:54:28.353] Running learner 'classif.featureless' on task 'sonar' (iteration 1/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-52" title="52"><span class="co">#&gt; INFO  [23:54:28.376] Running learner 'classif.featureless' on task 'sonar' (iteration 2/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-53" title="53"><span class="co">#&gt; INFO  [23:54:28.399] Running learner 'classif.featureless' on task 'sonar' (iteration 3/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-54" title="54"><span class="co">#&gt; INFO  [23:54:28.444] Running learner 'classif.featureless' on task 'sonar' (iteration 4/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-55" title="55"><span class="co">#&gt; INFO  [23:54:28.466] Running learner 'classif.featureless' on task 'sonar' (iteration 5/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-56" title="56"><span class="co">#&gt; INFO  [23:54:28.488] Running learner 'classif.featureless' on task 'sonar' (iteration 6/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-57" title="57"><span class="co">#&gt; INFO  [23:54:28.510] Running learner 'classif.featureless' on task 'sonar' (iteration 7/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-58" title="58"><span class="co">#&gt; INFO  [23:54:28.532] Running learner 'classif.featureless' on task 'sonar' (iteration 8/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-59" title="59"><span class="co">#&gt; INFO  [23:54:28.553] Running learner 'classif.featureless' on task 'sonar' (iteration 9/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-60" title="60"><span class="co">#&gt; INFO  [23:54:28.575] Running learner 'classif.featureless' on task 'sonar' (iteration 10/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-61" title="61"><span class="co">#&gt; INFO  [23:54:28.597] Running learner 'classif.rpart' on task 'sonar' (iteration 1/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-62" title="62"><span class="co">#&gt; INFO  [23:54:28.678] Running learner 'classif.rpart' on task 'sonar' (iteration 2/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-63" title="63"><span class="co">#&gt; INFO  [23:54:28.751] Running learner 'classif.rpart' on task 'sonar' (iteration 3/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-64" title="64"><span class="co">#&gt; INFO  [23:54:28.822] Running learner 'classif.rpart' on task 'sonar' (iteration 4/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-65" title="65"><span class="co">#&gt; INFO  [23:54:28.892] Running learner 'classif.rpart' on task 'sonar' (iteration 5/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-66" title="66"><span class="co">#&gt; INFO  [23:54:28.973] Running learner 'classif.rpart' on task 'sonar' (iteration 6/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-67" title="67"><span class="co">#&gt; INFO  [23:54:29.045] Running learner 'classif.rpart' on task 'sonar' (iteration 7/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-68" title="68"><span class="co">#&gt; INFO  [23:54:29.116] Running learner 'classif.rpart' on task 'sonar' (iteration 8/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-69" title="69"><span class="co">#&gt; INFO  [23:54:29.187] Running learner 'classif.rpart' on task 'sonar' (iteration 9/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-70" title="70"><span class="co">#&gt; INFO  [23:54:29.267] Running learner 'classif.rpart' on task 'sonar' (iteration 10/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-71" title="71"><span class="co">#&gt; INFO  [23:54:29.339] Running learner 'classif.featureless' on task 'spam' (iteration 1/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-72" title="72"><span class="co">#&gt; INFO  [23:54:29.366] Running learner 'classif.featureless' on task 'spam' (iteration 2/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-73" title="73"><span class="co">#&gt; INFO  [23:54:29.389] Running learner 'classif.featureless' on task 'spam' (iteration 3/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-74" title="74"><span class="co">#&gt; INFO  [23:54:29.412] Running learner 'classif.featureless' on task 'spam' (iteration 4/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-75" title="75"><span class="co">#&gt; INFO  [23:54:29.434] Running learner 'classif.featureless' on task 'spam' (iteration 5/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-76" title="76"><span class="co">#&gt; INFO  [23:54:29.458] Running learner 'classif.featureless' on task 'spam' (iteration 6/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-77" title="77"><span class="co">#&gt; INFO  [23:54:29.490] Running learner 'classif.featureless' on task 'spam' (iteration 7/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-78" title="78"><span class="co">#&gt; INFO  [23:54:29.515] Running learner 'classif.featureless' on task 'spam' (iteration 8/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-79" title="79"><span class="co">#&gt; INFO  [23:54:29.539] Running learner 'classif.featureless' on task 'spam' (iteration 9/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-80" title="80"><span class="co">#&gt; INFO  [23:54:29.562] Running learner 'classif.featureless' on task 'spam' (iteration 10/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-81" title="81"><span class="co">#&gt; INFO  [23:54:29.584] Running learner 'classif.rpart' on task 'spam' (iteration 1/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-82" title="82"><span class="co">#&gt; INFO  [23:54:30.230] Running learner 'classif.rpart' on task 'spam' (iteration 2/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-83" title="83"><span class="co">#&gt; INFO  [23:54:30.888] Running learner 'classif.rpart' on task 'spam' (iteration 3/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-84" title="84"><span class="co">#&gt; INFO  [23:54:31.545] Running learner 'classif.rpart' on task 'spam' (iteration 4/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-85" title="85"><span class="co">#&gt; INFO  [23:54:32.197] Running learner 'classif.rpart' on task 'spam' (iteration 5/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-86" title="86"><span class="co">#&gt; INFO  [23:54:32.857] Running learner 'classif.rpart' on task 'spam' (iteration 6/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-87" title="87"><span class="co">#&gt; INFO  [23:54:33.506] Running learner 'classif.rpart' on task 'spam' (iteration 7/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-88" title="88"><span class="co">#&gt; INFO  [23:54:34.197] Running learner 'classif.rpart' on task 'spam' (iteration 8/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-89" title="89"><span class="co">#&gt; INFO  [23:54:34.852] Running learner 'classif.rpart' on task 'spam' (iteration 9/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-90" title="90"><span class="co">#&gt; INFO  [23:54:35.522] Running learner 'classif.rpart' on task 'spam' (iteration 10/10)' {namespace: mlr3}</span></a>
-<a class="sourceLine" id="cb15-91" title="91"><span class="co">#&gt; INFO  [23:54:36.186] Finished benchmark {namespace: mlr3}</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-30" title="30"><span class="co">#&gt; INFO  [08:54:37.497] Benchmarking 60 experiments {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-31" title="31"><span class="co">#&gt; INFO  [08:54:37.500] Running learner 'classif.featureless' on task 'pima' (iteration 1/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-32" title="32"><span class="co">#&gt; INFO  [08:54:37.518] Running learner 'classif.featureless' on task 'pima' (iteration 2/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-33" title="33"><span class="co">#&gt; INFO  [08:54:37.535] Running learner 'classif.featureless' on task 'pima' (iteration 3/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-34" title="34"><span class="co">#&gt; INFO  [08:54:37.553] Running learner 'classif.featureless' on task 'pima' (iteration 4/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-35" title="35"><span class="co">#&gt; INFO  [08:54:37.571] Running learner 'classif.featureless' on task 'pima' (iteration 5/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-36" title="36"><span class="co">#&gt; INFO  [08:54:37.595] Running learner 'classif.featureless' on task 'pima' (iteration 6/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-37" title="37"><span class="co">#&gt; INFO  [08:54:37.612] Running learner 'classif.featureless' on task 'pima' (iteration 7/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-38" title="38"><span class="co">#&gt; INFO  [08:54:37.628] Running learner 'classif.featureless' on task 'pima' (iteration 8/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-39" title="39"><span class="co">#&gt; INFO  [08:54:37.647] Running learner 'classif.featureless' on task 'pima' (iteration 9/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-40" title="40"><span class="co">#&gt; INFO  [08:54:37.664] Running learner 'classif.featureless' on task 'pima' (iteration 10/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-41" title="41"><span class="co">#&gt; INFO  [08:54:37.682] Running learner 'classif.rpart' on task 'pima' (iteration 1/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-42" title="42"><span class="co">#&gt; INFO  [08:54:37.721] Running learner 'classif.rpart' on task 'pima' (iteration 2/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-43" title="43"><span class="co">#&gt; INFO  [08:54:37.761] Running learner 'classif.rpart' on task 'pima' (iteration 3/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-44" title="44"><span class="co">#&gt; INFO  [08:54:37.801] Running learner 'classif.rpart' on task 'pima' (iteration 4/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-45" title="45"><span class="co">#&gt; INFO  [08:54:37.845] Running learner 'classif.rpart' on task 'pima' (iteration 5/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-46" title="46"><span class="co">#&gt; INFO  [08:54:37.884] Running learner 'classif.rpart' on task 'pima' (iteration 6/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-47" title="47"><span class="co">#&gt; INFO  [08:54:37.923] Running learner 'classif.rpart' on task 'pima' (iteration 7/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-48" title="48"><span class="co">#&gt; INFO  [08:54:37.962] Running learner 'classif.rpart' on task 'pima' (iteration 8/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-49" title="49"><span class="co">#&gt; INFO  [08:54:38.002] Running learner 'classif.rpart' on task 'pima' (iteration 9/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-50" title="50"><span class="co">#&gt; INFO  [08:54:38.042] Running learner 'classif.rpart' on task 'pima' (iteration 10/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-51" title="51"><span class="co">#&gt; INFO  [08:54:38.088] Running learner 'classif.featureless' on task 'sonar' (iteration 1/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-52" title="52"><span class="co">#&gt; INFO  [08:54:38.104] Running learner 'classif.featureless' on task 'sonar' (iteration 2/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-53" title="53"><span class="co">#&gt; INFO  [08:54:38.121] Running learner 'classif.featureless' on task 'sonar' (iteration 3/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-54" title="54"><span class="co">#&gt; INFO  [08:54:38.137] Running learner 'classif.featureless' on task 'sonar' (iteration 4/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-55" title="55"><span class="co">#&gt; INFO  [08:54:38.154] Running learner 'classif.featureless' on task 'sonar' (iteration 5/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-56" title="56"><span class="co">#&gt; INFO  [08:54:38.171] Running learner 'classif.featureless' on task 'sonar' (iteration 6/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-57" title="57"><span class="co">#&gt; INFO  [08:54:38.189] Running learner 'classif.featureless' on task 'sonar' (iteration 7/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-58" title="58"><span class="co">#&gt; INFO  [08:54:38.206] Running learner 'classif.featureless' on task 'sonar' (iteration 8/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-59" title="59"><span class="co">#&gt; INFO  [08:54:38.224] Running learner 'classif.featureless' on task 'sonar' (iteration 9/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-60" title="60"><span class="co">#&gt; INFO  [08:54:38.241] Running learner 'classif.featureless' on task 'sonar' (iteration 10/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-61" title="61"><span class="co">#&gt; INFO  [08:54:38.283] Running learner 'classif.rpart' on task 'sonar' (iteration 1/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-62" title="62"><span class="co">#&gt; INFO  [08:54:38.336] Running learner 'classif.rpart' on task 'sonar' (iteration 2/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-63" title="63"><span class="co">#&gt; INFO  [08:54:38.389] Running learner 'classif.rpart' on task 'sonar' (iteration 3/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-64" title="64"><span class="co">#&gt; INFO  [08:54:38.441] Running learner 'classif.rpart' on task 'sonar' (iteration 4/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-65" title="65"><span class="co">#&gt; INFO  [08:54:38.494] Running learner 'classif.rpart' on task 'sonar' (iteration 5/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-66" title="66"><span class="co">#&gt; INFO  [08:54:38.556] Running learner 'classif.rpart' on task 'sonar' (iteration 6/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-67" title="67"><span class="co">#&gt; INFO  [08:54:38.609] Running learner 'classif.rpart' on task 'sonar' (iteration 7/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-68" title="68"><span class="co">#&gt; INFO  [08:54:38.661] Running learner 'classif.rpart' on task 'sonar' (iteration 8/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-69" title="69"><span class="co">#&gt; INFO  [08:54:38.713] Running learner 'classif.rpart' on task 'sonar' (iteration 9/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-70" title="70"><span class="co">#&gt; INFO  [08:54:38.773] Running learner 'classif.rpart' on task 'sonar' (iteration 10/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-71" title="71"><span class="co">#&gt; INFO  [08:54:38.825] Running learner 'classif.featureless' on task 'spam' (iteration 1/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-72" title="72"><span class="co">#&gt; INFO  [08:54:38.843] Running learner 'classif.featureless' on task 'spam' (iteration 2/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-73" title="73"><span class="co">#&gt; INFO  [08:54:38.861] Running learner 'classif.featureless' on task 'spam' (iteration 3/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-74" title="74"><span class="co">#&gt; INFO  [08:54:38.878] Running learner 'classif.featureless' on task 'spam' (iteration 4/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-75" title="75"><span class="co">#&gt; INFO  [08:54:38.895] Running learner 'classif.featureless' on task 'spam' (iteration 5/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-76" title="76"><span class="co">#&gt; INFO  [08:54:38.913] Running learner 'classif.featureless' on task 'spam' (iteration 6/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-77" title="77"><span class="co">#&gt; INFO  [08:54:38.931] Running learner 'classif.featureless' on task 'spam' (iteration 7/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-78" title="78"><span class="co">#&gt; INFO  [08:54:38.955] Running learner 'classif.featureless' on task 'spam' (iteration 8/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-79" title="79"><span class="co">#&gt; INFO  [08:54:38.973] Running learner 'classif.featureless' on task 'spam' (iteration 9/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-80" title="80"><span class="co">#&gt; INFO  [08:54:38.990] Running learner 'classif.featureless' on task 'spam' (iteration 10/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-81" title="81"><span class="co">#&gt; INFO  [08:54:39.008] Running learner 'classif.rpart' on task 'spam' (iteration 1/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-82" title="82"><span class="co">#&gt; INFO  [08:54:39.522] Running learner 'classif.rpart' on task 'spam' (iteration 2/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-83" title="83"><span class="co">#&gt; INFO  [08:54:40.051] Running learner 'classif.rpart' on task 'spam' (iteration 3/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-84" title="84"><span class="co">#&gt; INFO  [08:54:40.573] Running learner 'classif.rpart' on task 'spam' (iteration 4/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-85" title="85"><span class="co">#&gt; INFO  [08:54:41.088] Running learner 'classif.rpart' on task 'spam' (iteration 5/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-86" title="86"><span class="co">#&gt; INFO  [08:54:41.627] Running learner 'classif.rpart' on task 'spam' (iteration 6/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-87" title="87"><span class="co">#&gt; INFO  [08:54:42.126] Running learner 'classif.rpart' on task 'spam' (iteration 7/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-88" title="88"><span class="co">#&gt; INFO  [08:54:42.674] Running learner 'classif.rpart' on task 'spam' (iteration 8/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-89" title="89"><span class="co">#&gt; INFO  [08:54:43.175] Running learner 'classif.rpart' on task 'spam' (iteration 9/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-90" title="90"><span class="co">#&gt; INFO  [08:54:43.689] Running learner 'classif.rpart' on task 'spam' (iteration 10/10)' {namespace: mlr3}</span></a>
+<a class="sourceLine" id="cb15-91" title="91"><span class="co">#&gt; INFO  [08:54:44.198] Finished benchmark {namespace: mlr3}</span></a></code></pre></div>
 <p>The aggregated resampling results can be accessed with:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">bmr<span class="op">$</span><span class="kw">aggregated</span>(<span class="dt">objects =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb16-2" title="2"><span class="co">#&gt;                hash resampling_id task_id          learner_id classif.acc</span></a>
