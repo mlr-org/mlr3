@@ -1,14 +1,14 @@
-#' @title Area Under the Curve Classification Measure
+#' @title F1 Classification Measure
 #'
-#' @name mlr_measures_classif.auc
+#' @name mlr_measures_classif.f1
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'
 #' @description
-#' Calls [Metrics::auc()].
+#' Calls [Metrics::f1()].
 #'
 #' @export
-MeasureClassifAUC = R6Class("MeasureClassifAUC",
+MeasureClassifF1 = R6Class("MeasureClassifF1",
   inherit = MeasureClassif,
   cloneable = FALSE,
   public = list(
@@ -25,12 +25,12 @@ MeasureClassifAUC = R6Class("MeasureClassifAUC",
 
     calculate = function(e) {
       p = e$prediction
-      positive = e$data$task$positive
-      Metrics::auc(actual = as.integer((p$truth == positive)), predicted = p$prob[, positive])
+      Metrics::f1(actual = p$truth, predicted = p$response)
     }
   )
 )
 
 
 #' @include mlr_measures.R
-mlr_measures$add("classif.auc", MeasureClassifAUC)
+mlr_measures$add("classif.f1", MeasureClassifF1)
+

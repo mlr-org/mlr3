@@ -10,6 +10,6 @@
 MeasureClassifAUC
 }
 \description{
-Calls \link[Metrics:auc]{Metrics::auc}.
+Calls \code{\link[Metrics:auc]{Metrics::auc()}}.
 }
 \keyword{datasets}

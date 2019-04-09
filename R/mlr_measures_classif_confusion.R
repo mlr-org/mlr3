@@ -12,12 +12,11 @@ confusion_measures = setkeyv(dribble(
   "fdr",         0,      1,      TRUE,      TRUE,
   "for",         0,      1,      TRUE,      TRUE,
   "npv",         0,      1,      FALSE,     TRUE,
-  "f1",          0,      1,      FALSE,     FALSE,
   "precision",   0,      1,      FALSE,     TRUE,
   "recall",      0,      1,      FALSE,     TRUE,
   "sensitivity", 0,      1,      FALSE,     TRUE,
   "specificity", 0,      1,      FALSE,     TRUE
-),               "id")
+), "id")
 
 #' @title Binary Classification Measures Derived from a Confusion Matrix
 #'
@@ -41,13 +40,12 @@ confusion_measures = setkeyv(dribble(
 #' * `"fdr"`: False Discovery Rate.
 #' * `"for"`: False Omission Rate.
 #' * `"npv"`: Negative Predictive Value.
-#' * `"f1"`: F1 Score.
 #' * `"precision"`: Alias for `"ppv"`.
 #' * `"recall"`: Alias for `"tpr"`.
 #' * `"sensitivity"`: Alias for `"tpr"`.
 #' * `"specificity"`: Alias for `"tnr"`.
 #'
-#' If any denominator is 0, the score is returned as `NA`.
+#' If the denominator is 0, the score is returned as `NA`.
 #'
 #' @aliases
 #'  mlr_measures_classif.tp
@@ -62,7 +60,6 @@ confusion_measures = setkeyv(dribble(
 #'  mlr_measures_classif.fdr
 #'  mlr_measures_classif.for
 #'  mlr_measures_classif.npv
-#'  mlr_measures_classif.f1
 #'  mlr_measures_classif.precision
 #'  mlr_measures_classif.recall
 #'  mlr_measures_classif.sensitivity
@@ -81,7 +78,7 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
         id = sprintf("classif.%s", type),
         range = c(row$lower, row$upper),
         minimize = row$minimize,
-        predict_type = "prob",
+        predict_type = "response",
         task_properties = "twoclass",
         na_score = row$na_score
       )
@@ -122,7 +119,6 @@ extract_from_confusion = function(m, type) {
     "fdr" = div(m[1L, 2L], sum(m[1L, ])),
     "for" = div(m[2L, 1L], sum(m[2L, ])),
     "npv" = div(m[2L, 2L], sum(m[2L, ])),
-    "f1" = div(2L * m[1L, 1L], 2L * m[1L, 1L] + m[1L, 2L] + m[2L, 1L]),
     stop("Unknown measure to extract from confusion matrix")
   )
 }

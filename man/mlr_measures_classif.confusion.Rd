@@ -16,7 +16,6 @@
 \alias{mlr_measures_classif.fdr}
 \alias{mlr_measures_classif.for}
 \alias{mlr_measures_classif.npv}
-\alias{mlr_measures_classif.f1}
 \alias{mlr_measures_classif.precision}
 \alias{mlr_measures_classif.recall}
 \alias{mlr_measures_classif.sensitivity}
@@ -53,13 +52,12 @@ Implemented are the following measures based on \url{https://en.wikipedia.org/wi
 \item \code{"fdr"}: False Discovery Rate.
 \item \code{"for"}: False Omission Rate.
 \item \code{"npv"}: Negative Predictive Value.
-\item \code{"f1"}: F1 Score.
 \item \code{"precision"}: Alias for \code{"ppv"}.
 \item \code{"recall"}: Alias for \code{"tpr"}.
 \item \code{"sensitivity"}: Alias for \code{"tpr"}.
 \item \code{"specificity"}: Alias for \code{"tnr"}.
 }
 
-If any denominator is 0, the score is returned as \code{NA}.
+If the denominator is 0, the score is returned as \code{NA}.
 }
 \keyword{datasets}
