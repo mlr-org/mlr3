@@ -314,6 +314,7 @@ expect_measure = function(m) {
   checkmate::expect_numeric(m$range, len = 2, any.missing = FALSE)
   testthat::expect_lt(m$range[1], m$range[2])
   checkmate::expect_flag(m$minimize)
+  checkmate::expect_flag(m$na_score)
   checkmate::expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
   checkmate::expect_function(m$calculate, args = "e")
   checkmate::expect_function(m$aggregate, args = "rr")
@@ -353,7 +354,11 @@ expect_experiment = function(e) {
 
   if (state >= "scored") {
     checkmate::expect_list(e$data$performance, names = "unique")
-    checkmate::qassertr(e$data$performance, "N1")
+    measures = e$task$measures
+    perf = e$performance
+    checkmate::expect_numeric(perf)
+    checkmate::expect_set_equal(mlr3misc::map_chr(measures, "id"), names(perf))
+    testthat::expect_true(all(mlr3misc::map_lgl(measures, "na_score") | !is.na(perf)))
   }
 }
 
@@ -380,6 +385,13 @@ expect_prediction_classif = function(p, task = NULL) {
   checkmate::expect_factor(p$response, len = n, levels = lvls, null.ok = TRUE)
   if ("prob" %in% p$predict_types) {
     checkmate::expect_matrix(p$prob, "numeric", any.missing = FALSE, ncol = nlevels(p$response), nrow = n)
+  }
+  confusion = p$confusion
+  checkmate::expect_matrix(confusion)
+  checkmate::expect_integer(confusion, lower = 0L, any.missing = FALSE)
+  if (!is.null(task)) {
+    checkmate::expect_names(rownames(confusion), identical.to = task$class_names)
+    checkmate::expect_names(colnames(confusion), identical.to = task$class_names)
   }
 }
 

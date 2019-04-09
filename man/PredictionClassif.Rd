@@ -7,17 +7,21 @@
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerClassif}.
+The field \code{task_type} is set to \code{"classif"}.
+
 If probabilities are provided via construction and response is missing,
 the response is calculated from the probabilities: the class label with the highest
-probability is chosen. In case of ties, a random class label of the tied labels picked.
+probability is chosen. In case of ties, a label is selected randomly.
 
-It is possible to set the probability threshold.
-For binary problems, a single threshold value for predicting the positive class can be set.
-Multiclass classification problems require a numeric vector, which sums up to 1 and
-whose length equals the number of classes.
-Setting a probability threshold always requires stored predictions.
-
-The \code{task_type} is set to \code{"classif"}.
+It is possible to set the probability threshold if probabilities are stored:
+\itemize{
+\item For binary problems, a single threshold value can be set.
+If the probability exceeds the threshold, the positive class is predicted.
+If the probability equals the threshold, the label is selected randomly.
+\item Multi-class classification problems require a numeric vector, which sums up to 1 and whose length equals the number of classes.
+In the multi-class context, each threshold value serves as weight for the probability of the corresponding class.
+The class with the maximum probability after re-weighting is selected as response, with random label selection in case of ties.
+}
 }
 \section{Construction}{
 \preformatted{p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL)
@@ -26,12 +30,18 @@ The \code{task_type} is set to \code{"classif"}.
 \item \code{task} :: \link{TaskClassif}\cr
 Task for which the predictions are made. Used to extract the row ids and the true
 labels. Must be subsetted to test set.
-\item \code{response} :: (\code{factor()} | \code{character()})\cr
+\item \code{response} :: \code{factor()}\cr
 Vector of predicted class labels.
 One element for each observation in the test set.
 \item \code{prob} :: \code{matrix()}\cr
 Numeric matrix of class probabilities with one column for each class
 and one row for each observation in the test set.
+\item \code{threshold} :: \code{numeric(1)}\cr
+Probability threshold between 0 and 1.
+Assigning a value to this field modifies the stored responses.
+\item \code{confusion} :: \code{matrix()}\cr
+Confusion matrix resulting from the comparison of truth and response.
+Truth is in columns, predicted response in rows.
 }
 
 Note that it is allowed to initialize this object without any arguments in order
@@ -65,6 +75,7 @@ learner$predict_type = "prob"
 e = Experiment$new(task, learner)$train()$predict()
 p = e$prediction
 p$predict_types
+p$confusion
 head(as.data.table(p))
 }
 \seealso{

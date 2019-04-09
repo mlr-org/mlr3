@@ -5,7 +5,7 @@
 #' @include MeasureClassif.R
 #'
 #' @description
-#' Calls [Metrics::accuracy].
+#' Calls [Metrics::accuracy()].
 #'
 #' @export
 MeasureClassifACC = R6Class("MeasureClassifACC",

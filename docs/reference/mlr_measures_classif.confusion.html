@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Mean Misclassification Error Measure — mlr_measures_classif.mmce • mlr3</title>
+<title>Binary Classification Measures Derived from a Confusion Matrix — mlr_measures_classif.confusion • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,29 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Mean Misclassification Error Measure — mlr_measures_classif.mmce" />
+<meta property="og:title" content="Binary Classification Measures Derived from a Confusion Matrix — mlr_measures_classif.confusion" />
 
-<meta property="og:description" content="Calls Metrics::ce()." />
+<meta property="og:description" content="Based on a confusion matrix for binary classification problems, allows to calculate various performance measures.
+Implemented are the following measures based on https://en.wikipedia.org/wiki/Template:DiagnosticTesting_Diagram:
+"tp": True Positives.
+"fn": False Negatives.
+"fp": False Positives.
+"tn": True Negatives.
+"tpr": True Positive Rate.
+"fnr": False Negative Rate.
+"fpr": False Positive Rate.
+"tnr": True Negative Rate.
+"ppv": Positive Predictive Value.
+"fdr": False Discovery Rate.
+"for": False Omission Rate.
+"npv": Negative Predictive Value.
+"precision": Alias for "ppv".
+"recall": Alias for "tpr".
+"sensitivity": Alias for "tpr".
+"specificity": Alias for "tnr".
+" />
+
+<meta property="og:description" content="If the denominator is 0, the score is returned as NA." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -149,16 +169,54 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean Misclassification Error Measure</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures_classif_mmce.R'><code>R/mlr_measures_classif_mmce.R</code></a></small>
+    <h1>Binary Classification Measures Derived from a Confusion Matrix</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures_classif_confusion.R'><code>R/mlr_measures_classif_confusion.R</code></a></small>
     </div>
 
     
-    <p>Calls <code><a href='https://www.rdocumentation.org/packages/Metrics/topics/ce'>Metrics::ce()</a></code>.</p>
+    <p>Based on a confusion matrix for binary classification problems, allows to calculate various performance measures.
+Implemented are the following measures based on <a href='https://en.wikipedia.org/wiki/Template:DiagnosticTesting_Diagram'>https://en.wikipedia.org/wiki/Template:DiagnosticTesting_Diagram</a>:</p><ul>
+<li><p><code>"tp"</code>: True Positives.</p></li>
+<li><p><code>"fn"</code>: False Negatives.</p></li>
+<li><p><code>"fp"</code>: False Positives.</p></li>
+<li><p><code>"tn"</code>: True Negatives.</p></li>
+<li><p><code>"tpr"</code>: True Positive Rate.</p></li>
+<li><p><code>"fnr"</code>: False Negative Rate.</p></li>
+<li><p><code>"fpr"</code>: False Positive Rate.</p></li>
+<li><p><code>"tnr"</code>: True Negative Rate.</p></li>
+<li><p><code>"ppv"</code>: Positive Predictive Value.</p></li>
+<li><p><code>"fdr"</code>: False Discovery Rate.</p></li>
+<li><p><code>"for"</code>: False Omission Rate.</p></li>
+<li><p><code>"npv"</code>: Negative Predictive Value.</p></li>
+<li><p><code>"precision"</code>: Alias for <code>"ppv"</code>.</p></li>
+<li><p><code>"recall"</code>: Alias for <code>"tpr"</code>.</p></li>
+<li><p><code>"sensitivity"</code>: Alias for <code>"tpr"</code>.</p></li>
+<li><p><code>"specificity"</code>: Alias for <code>"tnr"</code>.</p></li>
+</ul>
+
+    <p>If the denominator is 0, the score is returned as <code>NA</code>.</p>
     
 
-    <pre class="usage"><span class='no'>MeasureClassifMMCE</span></pre>
-        
+    <pre class="usage"><span class='no'>MeasureClassifConfusion</span>
+
+<span class='fu'>extract_from_confusion</span>(<span class='no'>m</span>, <span class='no'>type</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>m</th>
+      <td><p>(<code><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix()</a></code>)<br />
+Confusion matrix, e.g. as returned by field <code>confusion</code> of <a href='PredictionClassif.html'>PredictionClassif</a>.
+Truth is in columns, predicted response is in rows.</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>(<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>)<br />
+Selects the measure to use. See description.</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p><code><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class()</a></code> inheriting from <a href='MeasureClassif.html'>MeasureClassif</a>.</p>
@@ -168,6 +226,7 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#format">Format</a></li>
           </ul>

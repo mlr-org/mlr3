@@ -6,8 +6,7 @@
 #'
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerRegr].
-#'
-#' The `task_type` is set to `"classif"`.
+#' The field `task_type` is set to `"classif"`.
 #'
 #' @section Construction:
 #' ```

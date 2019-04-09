@@ -1,12 +1,14 @@
 if (inherits(ci(), "TravisCI")) {
 
   get_stage("script") %>%
+    add_step(step_install_deps()) %>%
     add_code_step(devtools::document()) %>%
     add_step(step_rcmdcheck(args = "--as-cran", error_on = "error"))
 }
 
 if (inherits(ci(), "AppVeyorCI")) {
   get_stage("script") %>%
+    add_step(step_install_deps()) %>%
     add_step(step_rcmdcheck(args = c("--as-cran", "--no-manual", "--no-vignettes",
       "--no-build-vignettes"), build_args = c("--no-build-vignettes"), error_on = "error"))
 }

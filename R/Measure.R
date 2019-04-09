@@ -2,6 +2,7 @@
 #'
 #' @usage NULL
 #' @format [R6::R6Class] object.
+#' @include mlr_reflections.R
 #'
 #' @description
 #' This is the abstract base class for measures like [MeasureClassif] and [MeasureRegr].
@@ -10,7 +11,7 @@
 #' @section Construction:
 #' ```
 #' m = Measure$new(id, task_type, range, minimize, predict_type = "response",
-#'      task_properties = character(0L), packages = character(0L))
+#'      task_properties = character(0L), na_score = FALSE, packages = character(0L))
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -30,6 +31,10 @@
 #'
 #' * `task_properties` :: `character()`\cr
 #'   Required task properties, see [Task].
+#'
+#' * `na_score` :: `logical(1)`\cr
+#'   Is the measure expected to return `NA` in some edge cases?
+#'   Default is `FALSE`.
 #'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
@@ -78,10 +83,11 @@ Measure = R6Class("Measure",
     task_properties = NULL,
     range = NULL,
     minimize = NULL,
+    na_score = NULL,
     packages = NULL,
     aggregate = function(rr) mean(rr$performance(self$id)),
 
-    initialize = function(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L)) {
+    initialize = function(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
       self$id = assert_id(id)
       self$task_type = task_type
       self$range = assert_range(range)
@@ -93,6 +99,7 @@ Measure = R6Class("Measure",
       }
       self$predict_type = predict_type
       self$task_properties = assert_sorted_subset(task_properties, mlr_reflections$task_properties[[task_type]])
+      self$na_score = assert_flag(na_score)
       self$packages = assert_set(packages)
     },
 

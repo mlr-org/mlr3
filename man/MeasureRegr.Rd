@@ -26,6 +26,9 @@ Set to \code{TRUE} if good predictions correspond to small values.
 Required predict type of the \link{Learner}.
 \item \code{task_properties} :: \code{character()}\cr
 Required task properties, see \link{Task}.
+\item \code{na_score} :: \code{logical(1)}\cr
+Is the measure expected to return \code{NA} in some edge cases?
+Default is \code{FALSE}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
 Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.

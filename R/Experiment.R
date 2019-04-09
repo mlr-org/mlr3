@@ -2,6 +2,7 @@
 #'
 #' @usage NULL
 #' @format [R6::R6Class] object.
+#' @include mlr_reflections.R
 #'
 #' @description
 #' Container object for a machine learning experiment.

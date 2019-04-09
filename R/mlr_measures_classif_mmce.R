@@ -5,7 +5,7 @@
 #' @include MeasureClassif.R
 #'
 #' @description
-#' Calls [Metrics::ce].
+#' Calls [Metrics::ce()].
 #'
 #' @export
 MeasureClassifMMCE = R6Class("MeasureClassifMMCE",

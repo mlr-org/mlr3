@@ -6,18 +6,20 @@
 #'
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerClassif].
+#' The field `task_type` is set to `"classif"`.
+#'
 #' If probabilities are provided via construction and response is missing,
 #' the response is calculated from the probabilities: the class label with the highest
-#' probability is chosen. In case of ties, a random class label of the tied labels picked.
+#' probability is chosen. In case of ties, a label is selected randomly.
 #'
-#' It is possible to set the probability threshold.
-#' For binary problems, a single threshold value for predicting the positive class can be set.
-#' Multiclass classification problems require a numeric vector, which sums up to 1 and
-#' whose length equals the number of classes.
-#' In the multiclass context, each threshold value serves as weight for the probability of the corresponding class.
-#' Setting a probability threshold always requires stored predictions.
+#' It is possible to set the probability threshold if probabilities are stored:
 #'
-#' The `task_type` is set to `"classif"`.
+#' * For binary problems, a single threshold value can be set.
+#'   If the probability exceeds the threshold, the positive class is predicted.
+#'   If the probability equals the threshold, the label is selected randomly.
+#' * Multi-class classification problems require a numeric vector, which sums up to 1 and whose length equals the number of classes.
+#'   In the multi-class context, each threshold value serves as weight for the probability of the corresponding class.
+#'   The class with the maximum probability after re-weighting is selected as response, with random label selection in case of ties.
 #'
 #' @section Construction:
 #' ```
@@ -28,13 +30,21 @@
 #'   Task for which the predictions are made. Used to extract the row ids and the true
 #'   labels. Must be subsetted to test set.
 #'
-#' * `response` :: (`factor()` | `character()`)\cr
+#' * `response` :: `factor()`\cr
 #'   Vector of predicted class labels.
 #'   One element for each observation in the test set.
 #'
 #' * `prob` :: `matrix()`\cr
 #'   Numeric matrix of class probabilities with one column for each class
 #'   and one row for each observation in the test set.
+#'
+#' * `threshold` :: `numeric(1)`\cr
+#'   Probability threshold between 0 and 1.
+#'   Assigning a value to this field modifies the stored responses.
+#'
+#' * `confusion` :: `matrix()`\cr
+#'   Confusion matrix resulting from the comparison of truth and response.
+#'   Truth is in columns, predicted response in rows.
 #'
 #' Note that it is allowed to initialize this object without any arguments in order
 #' to allow to manually construct [Prediction] objects in a piecemeal fashion.
@@ -53,6 +63,7 @@
 #' e = Experiment$new(task, learner)$train()$predict()
 #' p = e$prediction
 #' p$predict_types
+#' p$confusion
 #' head(as.data.table(p))
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
@@ -69,21 +80,26 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         return(private$.threshold)
       if (!is.matrix(self$prob))
         stopf("Cannot set threshold, no probabilities available")
-      if (ncol(self$prob) == 2L) {
-        private$.threshold = assert_number(rhs, lower = 0, upper = 1)
-        lvls = colnames(self$prob)
-        self$response = factor(lvls[(unname(self$prob[, 1L]) < rhs) + 1L], levels = lvls)
-      } else if (ncol(self$prob) > 2L) {
-        # assert_set_equal(sum(rhs), 1L) # FIXME: sollte 1 sein, kann jedoch passieren, dass es beim tuning nur ~ 1 ist.
-        private$.threshold = assert_double(rhs, lower = 0, upper = 1, len = ncol(self$prob))
-        lvls = colnames(self$prob)
-        # divide all rows by threshold then get max el
-        p = sweep(as.matrix(self$prob), MARGIN = 2, FUN 0 = "*", rhs)
-        ind = apply(p, 1, mlr3misc::which_min)
-        self$response = factor(ind, levels = seq_along(lvls), labels = lvls)
+      lvls = colnames(self$prob)
+
+      if (length(lvls) == 2L) {
+        assert_number(rhs, lower = 0, upper = 1)
+        ind = max.col(cbind(self$prob[, 1L], rhs), ties.method = "random")
       } else {
-        stopf("Cannot set threshold, need binary or multiclass classification task")
+        assert_numeric(rhs, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
+        if (!any(rhs > 0))
+          stopf("At least one element of threshold must be > 0")
+        rhs = rhs / sum(rhs)
+
+        # multiply all rows by threshold, then get index of max element per row
+        ind = max.col(self$prob %*% diag(rhs), ties.method = "random")
       }
+      private$.threshold = rhs
+      self$response = factor(lvls[ind], levels = lvls)
+    },
+
+    confusion = function() {
+      as.matrix(table(self$response, self$truth, useNA = "ifany"))
     }
   ),
 
