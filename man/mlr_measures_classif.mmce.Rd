@@ -10,6 +10,6 @@
 MeasureClassifMMCE
 }
 \description{
-Calls \link[Metrics:ce]{Metrics::ce}.
+Calls \code{\link[Metrics:ce]{Metrics::ce()}}.
 }
 \keyword{datasets}

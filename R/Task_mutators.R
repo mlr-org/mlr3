@@ -1,3 +1,5 @@
+#' @include mlr_reflections.R
+
 task_set_row_role = function(self, rows, new_roles, exclusive = TRUE) {
   rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
   assert_subset(rows, self$backend$rownames)

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Mean Misclassification Error Measure — mlr_measures_classif.mmce • mlr3</title>
+<title>Cost-sensitive Classification Measure — mlr_measures_classif.costs • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Mean Misclassification Error Measure — mlr_measures_classif.mmce" />
+<meta property="og:title" content="Cost-sensitive Classification Measure — mlr_measures_classif.costs" />
 
-<meta property="og:description" content="Calls Metrics::ce()." />
+<meta property="og:description" content="The cost matrix is stored as slot "costs" and must be set manually." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -149,15 +149,15 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean Misclassification Error Measure</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures_classif_mmce.R'><code>R/mlr_measures_classif_mmce.R</code></a></small>
+    <h1>Cost-sensitive Classification Measure</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures_classif_costs.R'><code>R/mlr_measures_classif_costs.R</code></a></small>
     </div>
 
     
-    <p>Calls <code><a href='https://www.rdocumentation.org/packages/Metrics/topics/ce'>Metrics::ce()</a></code>.</p>
+    <p>The cost matrix is stored as slot "costs" and must be set manually.</p>
     
 
-    <pre class="usage"><span class='no'>MeasureClassifMMCE</span></pre>
+    <pre class="usage"><span class='no'>MeasureClassifCosts</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 

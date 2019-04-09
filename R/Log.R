@@ -2,6 +2,7 @@
 #'
 #' @usage NULL
 #' @format [R6::R6Class] object.
+#' @include mlr_reflections.R
 #'
 #' @description
 #' Object which stores the text output of the `train` or `predict` step of an [Experiment].

@@ -49,11 +49,20 @@ mlr_reflections$learner_predict_types = list(
 
 mlr_reflections$experiment_states = c("undefined", "defined", "trained", "predicted", "scored")
 
-mlr_reflections$experiment_slots = data.table(
-  name =   c("task",    "learner", "resampling", "iteration", "train_log",  "train_time", "predict_log", "predict_time", "prediction", "measures", "performance", "score_time"),
-  type =   c("Task",    "Learner", "Resampling", "integer",   "data.table", "numeric",    "data.table",  "numeric",      "data.table", "list",     "list",        "numeric"),
-  atomic = c(FALSE,     FALSE,     FALSE,        TRUE,        FALSE,        TRUE,         FALSE,         TRUE,           FALSE,        FALSE,      FALSE,         TRUE),
-  state =  c("defined", "defined", "trained",    "trained",   "trained",    "trained",    "predicted",   "predicted",    "predicted",  "scored",   "scored",      "scored")
+mlr_reflections$experiment_slots = dribble(
+  ~name,          ~type,        ~atomic, ~state,
+  "task",         "Task",       FALSE,   "defined",
+  "learner",      "Learner",    FALSE,   "defined",
+  "resampling",   "Resampling", FALSE,   "trained",
+  "iteration",    "integer",    TRUE,    "trained",
+  "train_log",    "data.table", FALSE,   "trained",
+  "train_time",   "numeric",    TRUE,    "trained",
+  "predict_log",  "data.table", FALSE,   "predicted",
+  "predict_time", "numeric",    TRUE,    "predicted",
+  "prediction",   "data.table", FALSE,   "predicted",
+  "measures",     "list",       FALSE,   "scored",
+  "performance",  "list",       FALSE,   "scored",
+  "score_time",   "numeric",    TRUE,    "scored"
 )
 
 mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = mlr_reflections$experiment_states)
