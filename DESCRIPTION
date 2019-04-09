@@ -80,6 +80,7 @@ NeedsCompilation: no
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Collate:
+    'mlr_reflections.R'
     'BenchmarkResult.R'
     'DataBackend.R'
     'DataBackendCbind.R'
@@ -93,7 +94,6 @@ Collate:
     'LearnerClassif.R'
     'LearnerRegr.R'
     'Log.R'
-    'mlr_reflections.R'
     'Measure.R'
     'MeasureClassif.R'
     'MeasureRegr.R'
