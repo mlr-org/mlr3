@@ -8,7 +8,6 @@ test_that("Classification measures", {
     task = mlr_tasks$get("sonar"),
     learner = lrn
   )
-  # e$train()$predict()$score()
   e$train()$predict()
 
   for (key in keys) {
@@ -20,7 +19,7 @@ test_that("Classification measures", {
         m$costs = costs
       }
       perf = m$calculate(e)
-      expect_number(perf, lower = m$range[1], upper = m$range[2])
+      expect_number(perf, na.ok = m$na_score, lower = m$range[1], upper = m$range[2])
     }
   }
 })

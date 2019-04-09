@@ -34,6 +34,7 @@ Probability threshold between 0 and 1.
 Assigning a value to this field modifies the stored responses.
 \item \code{confusion} :: \code{matrix()}\cr
 Confusion matrix resulting from the comparison of truth and response.
+Truth is in columns, predicted response in rows.
 }
 
 Note that it is allowed to initialize this object without any arguments in order

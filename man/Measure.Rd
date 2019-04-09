@@ -11,7 +11,7 @@ Predefined measures are stored in \link{mlr_measures}.
 }
 \section{Construction}{
 \preformatted{m = Measure$new(id, task_type, range, minimize, predict_type = "response",
-     task_properties = character(0L), packages = character(0L))
+     task_properties = character(0L), na_score = FALSE, packages = character(0L))
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -26,6 +26,9 @@ Set to \code{TRUE} if good predictions correspond to small values.
 Required predict type of the \link{Learner}.
 \item \code{task_properties} :: \code{character()}\cr
 Required task properties, see \link{Task}.
+\item \code{na_score} :: \code{logical(1)}\cr
+Is the measure expected to return \code{NA} in some edge cases?
+Default is \code{FALSE}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
 Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.

@@ -38,6 +38,7 @@
 #'
 #' * `confusion` :: `matrix()`\cr
 #'   Confusion matrix resulting from the comparison of truth and response.
+#'   Truth is in columns, predicted response in rows.
 #'
 #' Note that it is allowed to initialize this object without any arguments in order
 #' to allow to manually construct [Prediction] objects in a piecemeal fashion.
