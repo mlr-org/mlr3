@@ -5,14 +5,28 @@
 #' @include MeasureClassif.R
 #'
 #' @description
-#' The cost matrix is stored as slot "costs" and must be set manually.
+#' Uses a cost matrix to create a classification measure.
+#' The cost matrix is stored as slot "costs".
+#' Costs are aggregated with the mean.
+#'
+#' @section Construction:
+#' ```
+#' MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
+#' ```
+#'
+#' * `costs` :: `matrix()`\cr
+#'   Numeric matrix of costs (truth in columns, predicted response in rows).
+#' * `normalize` :: `logical(1)`\cr
+#'   If `TRUE`, calculate the mean costs instead of the total costs.
 #'
 #' @export
 MeasureClassifCosts = R6Class("MeasureClassifCosts",
   inherit = MeasureClassif,
   cloneable = FALSE,
   public = list(
-    initialize = function(costs = NULL) {
+    normalize = NULL,
+
+    initialize = function(costs = NULL, normalize = TRUE) {
       super$initialize(
         id = "classif.costs",
         range = c(-Inf, Inf),
@@ -21,6 +35,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
 
       if (!is.null(costs))
         self$costs = costs
+      self$normalize = assert_flag(normalize)
     },
 
     calculate = function(e) {
@@ -30,7 +45,10 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       jj = match(colnames(confusion), colnames(costs))
       if (is.unsorted(ii) || is.unsorted(jj))
         confusion = confusion[ii, jj]
-      sum(confusion * costs)
+      score = sum(confusion * costs)
+      if (self$normalize)
+        score = score / sum(confusion)
+      score
     }
   ),
 
