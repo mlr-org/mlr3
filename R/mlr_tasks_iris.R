@@ -16,4 +16,3 @@ mlr_tasks$add("iris", function(id = "iris") {
   b$hash = "_mlr3_tasks_iris_"
   TaskClassif$new(id, b, target = "Species")
 })
-
