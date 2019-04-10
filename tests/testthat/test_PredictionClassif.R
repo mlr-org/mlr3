@@ -67,15 +67,11 @@ test_that("setting threshold", {
   p$prob = t(apply(p$prob, 1, function(x) { x = x + 0.01; x / sum(x) }))
   expect_error({ p$threshold = c(0.5, 0.5) }, "have length") # check for correct length(threshold) = nclass
 
-  p$threshold = c(1, 1, 1, 1, 1, 1, 1)
+  p$threshold = set_names(c(1, 1, 1, 1, 1, 1, 1), task$class_names)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_equal(p$response, response_before)
 
-  p$threshold = c(0, 1, 1, 1, 1, 1, 1)
+  p$threshold = set_names(c(0, 1, 1, 1, 1, 1, 1), task$class_names)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
-  expect_false(task$class_names[1L] %in% p$response)
-
-  p$threshold = c(1, 0, 1, 1, 1, 1, 1)
-  expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
-  expect_false(task$class_names[2L] %in% p$response)
+  expect_equal(as.character(unique(p$response)), task$class_names[1L])
 })

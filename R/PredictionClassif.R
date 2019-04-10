@@ -14,12 +14,16 @@
 #'
 #' It is possible to set the probability threshold if probabilities are stored:
 #'
-#' * For binary problems, a single threshold value can be set.
+#' * For binary problems only a single threshold value can be set.
 #'   If the probability exceeds the threshold, the positive class is predicted.
 #'   If the probability equals the threshold, the label is selected randomly.
-#' * Multi-class classification problems require a numeric vector, which sums up to 1 and whose length equals the number of classes.
-#'   In the multi-class context, each threshold value serves as weight for the probability of the corresponding class.
-#'   The class with the maximum probability after re-weighting is selected as response, with random label selection in case of ties.
+#' * For binary and multi-class problems, a named numeric vector of thresholds can be set.
+#'   The length and names must correspond to the number of classes and class names, respectively.
+#'   To determine the class label, the probabilities are divided by the threshold.
+#'   This results in a ratio > 1 if the probability exceeds the threshold, and a ratio < 1 otherwise.
+#'   Note that it is possible that either none or multiple ratios are greater than 1 at the same time.
+#'   Anyway, the class label with maximum ratio is determined.
+#'   In case of ties in the ratio, one of the tied class labels is selected randomly.
 #'
 #' @section Construction:
 #' ```
@@ -63,8 +67,14 @@
 #' e = Experiment$new(task, learner)$train()$predict()
 #' p = e$prediction
 #' p$predict_types
-#' p$confusion
 #' head(as.data.table(p))
+#'
+#' # confusion matrix
+#' p$confusion
+#'
+#' # change threshold
+#' p$threshold = mlr3misc::set_names(c(0.05, 0.9, 0.05), task$class_names)
+#' p$confusion
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
@@ -82,17 +92,18 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         stopf("Cannot set threshold, no probabilities available")
       lvls = colnames(self$prob)
 
-      if (length(lvls) == 2L) {
+      if (length(rhs) == 1L) {
+        if (length(lvls) != 2L)
+          stopf("Setting a single threshold only supported for binary classification problems")
         assert_number(rhs, lower = 0, upper = 1)
         ind = max.col(cbind(self$prob[, 1L], rhs), ties.method = "random")
       } else {
         assert_numeric(rhs, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
-        if (!any(rhs > 0))
-          stopf("At least one element of threshold must be > 0")
-        rhs = rhs / sum(rhs)
+        assert_names(names(rhs), permutation.of = lvls)
 
         # multiply all rows by threshold, then get index of max element per row
-        ind = max.col(self$prob %*% diag(rhs), ties.method = "random")
+        w = ifelse(rhs > 0, 1 / rhs, Inf)
+        ind = max.col(self$prob %*% diag(w), ties.method = "random")
       }
       private$.threshold = rhs
       self$response = factor(lvls[ind], levels = lvls)

@@ -15,12 +15,16 @@ probability is chosen. In case of ties, a label is selected randomly.
 
 It is possible to set the probability threshold if probabilities are stored:
 \itemize{
-\item For binary problems, a single threshold value can be set.
+\item For binary problems only a single threshold value can be set.
 If the probability exceeds the threshold, the positive class is predicted.
 If the probability equals the threshold, the label is selected randomly.
-\item Multi-class classification problems require a numeric vector, which sums up to 1 and whose length equals the number of classes.
-In the multi-class context, each threshold value serves as weight for the probability of the corresponding class.
-The class with the maximum probability after re-weighting is selected as response, with random label selection in case of ties.
+\item For binary and multi-class problems, a named numeric vector of thresholds can be set.
+The length and names must correspond to the number of classes and class names, respectively.
+To determine the class label, the probabilities are divided by the threshold.
+This results in a ratio > 1 if the probability exceeds the threshold, and a ratio < 1 otherwise.
+Note that it is possible that either none or multiple ratios are greater than 1 at the same time.
+Anyway, the class label with maximum ratio is determined.
+In case of ties in the ratio, one of the tied class labels is selected randomly.
 }
 }
 \section{Construction}{
@@ -75,8 +79,14 @@ learner$predict_type = "prob"
 e = Experiment$new(task, learner)$train()$predict()
 p = e$prediction
 p$predict_types
-p$confusion
 head(as.data.table(p))
+
+# confusion matrix
+p$confusion
+
+# change threshold
+p$threshold = mlr3misc::set_names(c(0.05, 0.9, 0.05), task$class_names)
+p$confusion
 }
 \seealso{
 Other Prediction: \code{\link{PredictionRegr}},
