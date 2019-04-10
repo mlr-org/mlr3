@@ -51,6 +51,7 @@ Imports:
     digest,
     logger,
     Metrics,
+    mlbench,
     mlr3misc,
     paradox,
     R6
@@ -62,11 +63,8 @@ Suggests:
     future (>= 1.9.0),
     future.apply (>= 1.1.0),
     future.callr,
-    kernlab,
     knitr,
     Matrix,
-    mlbench,
-    rattle.data,
     rmarkdown,
     rpart,
     testthat

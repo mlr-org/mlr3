@@ -2,13 +2,27 @@
 % Please edit documentation in R/mlr_tasks_wine.R
 \name{mlr_tasks_wine}
 \alias{mlr_tasks_wine}
-\title{Spam Classification Task}
+\title{Wine Classification Task}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
+\source{
+Original owners:
+Forina, M. et al, PARVUS - An Extendible Package for Data Exploration, Classification and Correlation.
+Institute of Pharmaceutical and Food Analysis and Technologies, Via Brigata Salerno, 16147 Genoa, Italy.
+
+Donor:
+Stefan Aeberhard, email: stefan@coral.cs.jcu.edu.au
+}
 \description{
-A classification task for the \link[rattle.data:wine]{rattle.data::wine} data set.
+Wine data set from the UCI machine learning repository (\url{https://archive.ics.uci.edu/ml/datasets/wine}).
+Results of a chemical analysis of three types of wines grown in the same region in Italy but derived from three different cultivars.
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("wine")
 }
 }
 
+\references{
+Dua, D. and Graff, C. (2019).
+\emph{UCI Machine Learning Repository} \url{http://archive.ics.uci.edu/ml}.
+Irvine, CA: University of California, School of Information and Computer Science.
+}
