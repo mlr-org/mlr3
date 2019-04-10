@@ -36,9 +36,6 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
       assert_task(task)
-      if (length(self$stratify))
-        stopf("Cannot stratify custom resampling")
-
       self$instance = instantiate_custom(self$instance, train_sets, test_sets)
       self$task_hash = task$hash
       invisible(self)

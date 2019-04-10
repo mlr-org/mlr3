@@ -36,7 +36,10 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     initialize = function(id = "holdout", param_vals = list(ratio = 2/3)) {
       super$initialize(
         id = id,
-        param_set = ParamSet$new(params = list(ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))),
+        param_set = ParamSet$new(params = list(
+            ParamUty$new("stratify", default = NULL),
+            ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required")
+        )),
         param_vals = param_vals
       )
     },

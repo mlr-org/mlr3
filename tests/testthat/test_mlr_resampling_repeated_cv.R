@@ -22,8 +22,7 @@ test_that("stratification", {
   task = TaskClassif$new("stratify_data", data, target = "y")
 
   r = mlr_resamplings$get("repeated_cv")
-  r$param_set$values = list(folds = 5, repeats = 2)
-  r$stratify = "y"
+  r$param_set$values = list(folds = 5, repeats = 2, stratify = TRUE)
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {
