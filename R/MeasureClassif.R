@@ -31,6 +31,10 @@
 #' * `task_properties` :: `character()`\cr
 #'   Required task properties, see [Task].
 #'
+#' * `na_score` :: `logical(1)`\cr
+#'   Is the measure expected to return `NA` in some edge cases?
+#'   Default is `FALSE`.
+#'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
 #'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
@@ -45,9 +49,9 @@
 #' @export
 MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
   public = list(
-    initialize = function(id, range, minimize, predict_type = "response", task_properties = character(0L), packages = character(0L)) {
+    initialize = function(id, range, minimize, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
       super$initialize(id, task_type = "classif", range = range, minimize = minimize,
-        predict_type = predict_type, task_properties = task_properties, packages = packages)
+        predict_type = predict_type, task_properties = task_properties, na_score = na_score, packages = packages)
     }
   )
 )

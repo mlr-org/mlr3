@@ -10,6 +10,6 @@
 MeasureClassifACC
 }
 \description{
-Calls \link[Metrics:accuracy]{Metrics::accuracy}.
+Calls \code{\link[Metrics:accuracy]{Metrics::accuracy()}}.
 }
 \keyword{datasets}

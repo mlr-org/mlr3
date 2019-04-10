@@ -11,7 +11,7 @@
 #' probability is chosen. In case of ties, a random class label of the tied labels picked.
 #'
 #' For binary classification problems, it is possible to set the probability threshold for
-#' predicting the positive class. This requires stored predictions.
+#' predicting the positive class. Only works if probabilities are stored.
 #'
 #' The `task_type` is set to `"classif"`.
 #'
@@ -24,13 +24,21 @@
 #'   Task for which the predictions are made. Used to extract the row ids and the true
 #'   labels. Must be subsetted to test set.
 #'
-#' * `response` :: (`factor()` | `character()`)\cr
+#' * `response` :: `factor()`\cr
 #'   Vector of predicted class labels.
 #'   One element for each observation in the test set.
 #'
 #' * `prob` :: `matrix()`\cr
 #'   Numeric matrix of class probabilities with one column for each class
 #'   and one row for each observation in the test set.
+#'
+#' * `threshold` :: `numeric(1)`\cr
+#'   Probability threshold between 0 and 1.
+#'   Assigning a value to this field modifies the stored responses.
+#'
+#' * `confusion` :: `matrix()`\cr
+#'   Confusion matrix resulting from the comparison of truth and response.
+#'   Truth is in columns, predicted response in rows.
 #'
 #' Note that it is allowed to initialize this object without any arguments in order
 #' to allow to manually construct [Prediction] objects in a piecemeal fashion.
@@ -49,6 +57,7 @@
 #' e = Experiment$new(task, learner)$train()$predict()
 #' p = e$prediction
 #' p$predict_types
+#' p$confusion
 #' head(as.data.table(p))
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
@@ -70,6 +79,10 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       private$.threshold = assert_number(rhs, lower = 0, upper = 1)
       lvls = colnames(self$prob)
       self$response = factor(lvls[(unname(self$prob[, 1L]) < rhs) + 1L], levels = lvls)
+    },
+
+    confusion = function() {
+      as.matrix(table(self$response, self$truth, useNA = "ifany"))
     }
   ),
 

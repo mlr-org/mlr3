@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Mean Misclassification Error Measure — mlr_measures_classif.mmce • mlr3</title>
+<title>Selected Features Measure — mlr_measures_selected_features • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,10 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Mean Misclassification Error Measure — mlr_measures_classif.mmce" />
+<meta property="og:title" content="Selected Features Measure — mlr_measures_selected_features" />
 
-<meta property="og:description" content="Calls Metrics::ce()." />
+<meta property="og:description" content="Measures the number of selected features.
+If field normalize is set to TRUE, divides the number of features by the total number of available features." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -149,19 +150,20 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean Misclassification Error Measure</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures_classif_mmce.R'><code>R/mlr_measures_classif_mmce.R</code></a></small>
+    <h1>Selected Features Measure</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_measures_selected_features.R'><code>R/mlr_measures_selected_features.R</code></a></small>
     </div>
 
     
-    <p>Calls <code><a href='https://www.rdocumentation.org/packages/Metrics/topics/ce'>Metrics::ce()</a></code>.</p>
+    <p>Measures the number of selected features.
+If field <code>normalize</code> is set to <code>TRUE</code>, divides the number of features by the total number of available features.</p>
     
 
-    <pre class="usage"><span class='no'>MeasureClassifMMCE</span></pre>
+    <pre class="usage"><span class='no'>MeasureSelectedFeatures</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><code><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class()</a></code> inheriting from <a href='MeasureClassif.html'>MeasureClassif</a>.</p>
+    <p><code><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class()</a></code> inheriting from <a href='Measure.html'>Measure</a>.</p>
     
 
   </div>
