@@ -41,8 +41,6 @@ Is \code{TRUE} if this resampling strategy may have duplicated row ids in a sing
 E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross validation.
 \item \code{iters} :: \code{integer(1)}\cr
 Return the number of resampling iterations, depending on the values stored in the \code{param_set}.
-\item \code{stratify} :: \code{character()}\cr
-Subset of target and feature names of the \link{Task}. Used to stratify during \code{r$instantiate()}.
 \item \code{task_hash} :: \code{character(1)}\cr
 The hash of the task which was passed to \code{r$instantiate()}.
 }
@@ -91,7 +89,6 @@ task = mlr_tasks$get("pima")
 prop.table(table(task$truth())) # moderately unbalanced
 
 r = mlr_resamplings$get("subsampling")
-r$stratify = task$target_names # stratify on target column
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?

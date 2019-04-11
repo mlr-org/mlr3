@@ -51,6 +51,7 @@ Imports:
     digest,
     lgr,
     Metrics,
+    mlbench,
     mlr3misc,
     paradox,
     R6
@@ -62,10 +63,8 @@ Suggests:
     future (>= 1.9.0),
     future.apply (>= 1.1.0),
     future.callr,
-    kernlab,
     knitr,
     Matrix,
-    mlbench,
     rmarkdown,
     rpart,
     testthat
@@ -151,6 +150,7 @@ Collate:
     'mlr_tasks_pima.R'
     'mlr_tasks_sonar.R'
     'mlr_tasks_spam.R'
+    'mlr_tasks_wine.R'
     'mlr_tasks_zoo.R'
     'reexports.R'
     'resample.R'

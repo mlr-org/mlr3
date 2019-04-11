@@ -213,7 +213,8 @@ the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord" as co
 #&gt; 4:   pima   classif classif.mmce  768    9   0   0   8   0   0   0
 #&gt; 5:  sonar   classif classif.mmce  208   61   0   0  60   0   0   0
 #&gt; 6:   spam   classif classif.mmce 4601   58   0   0  57   0   0   0
-#&gt; 7:    zoo   classif classif.mmce  101   17  15   1   0   0   0   0</div><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)</div><div class='output co'>#&gt; &lt;TaskClassif:iris&gt; (150 x 5)
+#&gt; 7:   wine   classif classif.mmce  178   14   0   2  11   0   0   0
+#&gt; 8:    zoo   classif classif.mmce  101   17  15   1   0   0   0   0</div><div class='input'><span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris"</span>)</div><div class='output co'>#&gt; &lt;TaskClassif:iris&gt; (150 x 5)
 #&gt; Target: Species
 #&gt; Features (4):
 #&gt; * dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
@@ -241,7 +242,7 @@ the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord" as co
 
 <span class='co'># list available tasks</span>
 <span class='no'>mlr_tasks</span>$<span class='fu'>keys</span>()</div><div class='output co'>#&gt; [1] "bh"          "iris"        "iris.binary" "mtcars"      "pima"       
-#&gt; [6] "sonar"       "spam"        "zoo"        </div><div class='input'>
+#&gt; [6] "sonar"       "spam"        "wine"        "zoo"        </div><div class='input'>
 <span class='co'># retrieve from dictionary</span>
 <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"iris.binary"</span>)</div><div class='output co'>#&gt; &lt;TaskClassif:iris.binary&gt; (150 x 5)
 #&gt; Target: Species

@@ -11,6 +11,7 @@ On retrieval of an object, the following applies:
 \itemize{
 \item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized (with additional arguments).
 \item Functions are called (with additional arguments) and must return an instance of a \link[R6:R6]{R6::R6} object.
+\item Other objects are returned as-is.
 }
 }
 \section{Construction}{

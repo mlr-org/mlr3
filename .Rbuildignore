@@ -2,9 +2,9 @@
 ^doc$
 ^tic\.R$
 ^appveyor\.yml$
-.ignore
-.editorconfig
-.gitignore
+^.ignore$
+^.editorconfig$
+^.gitignore$
 ^\.travis\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
@@ -12,3 +12,4 @@
 ^attic$
 ^docs$
 ^pkgdown$
+^inst/extdata/.+\.R$

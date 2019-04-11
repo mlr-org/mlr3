@@ -197,8 +197,6 @@ Is <code>TRUE</code> if this resampling strategy may have duplicated row ids in 
 E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross validation.</p></li>
 <li><p><code>iters</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code><br />
 Return the number of resampling iterations, depending on the values stored in the <code>param_set</code>.</p></li>
-<li><p><code>stratify</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Subset of target and feature names of the <a href='Task.html'>Task</a>. Used to stratify during <code>r$instantiate()</code>.</p></li>
 <li><p><code>task_hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 The hash of the task which was passed to <code>r$instantiate()</code>.</p></li>
 </ul>
@@ -264,13 +262,12 @@ Returns the row ids of the i-th test set.</p></li>
 #&gt;       neg       pos 
 #&gt; 0.6510417 0.3489583 </div><div class='input'>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"subsampling"</span>)
-<span class='no'>r</span>$<span class='no'>stratify</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>target_names</span> <span class='co'># stratify on target column</span>
 <span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 
-#&gt; 0.6503906 0.3496094 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion # FIXME why two times?</span></div><div class='output co'>#&gt; 
+#&gt; 0.6699219 0.3300781 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/prop.table'>prop.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion # FIXME why two times?</span></div><div class='output co'>#&gt; 
 #&gt;       neg       pos 
-#&gt; 0.6503906 0.3496094 </div></pre>
+#&gt; 0.6699219 0.3300781 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

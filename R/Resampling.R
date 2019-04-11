@@ -45,9 +45,6 @@
 #' * `iters` :: `integer(1)`\cr
 #'   Return the number of resampling iterations, depending on the values stored in the `param_set`.
 #'
-#' * `stratify` :: `character()`\cr
-#'   Subset of target and feature names of the [Task]. Used to stratify during `r$instantiate()`.
-#'
 #' * `task_hash` :: `character(1)`\cr
 #'   The hash of the task which was passed to `r$instantiate()`.
 #'
@@ -94,7 +91,6 @@
 #' prop.table(table(task$truth())) # moderately unbalanced
 #'
 #' r = mlr_resamplings$get("subsampling")
-#' r$stratify = task$target_names # stratify on target column
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
@@ -104,14 +100,12 @@ Resampling = R6Class("Resampling",
     param_set = NULL,
     instance = NULL,
     task_hash = NA_character_,
-    stratify = NULL,
     duplicated_ids = NULL,
 
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(), duplicated_ids = FALSE) {
       self$id = assert_id(id)
       self$param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
-      self$stratify = character(0L)
       self$duplicated_ids = assert_flag(duplicated_ids)
     },
 
@@ -131,7 +125,8 @@ Resampling = R6Class("Resampling",
       assert_task(task)
       groups = task$groups
 
-      if (length(self$stratify) == 0L) {
+      stratify = self$param_set$values$stratify
+      if (length(stratify) == 0L || isFALSE(stratify)) {
         if (is.null(groups)) {
           instance = private$.sample(task$row_ids)
         } else {
@@ -141,7 +136,7 @@ Resampling = R6Class("Resampling",
       } else {
         if (!is.null(groups))
           stopf("Cannot combine stratification with grouping")
-        instances = stratify(task, self$stratify)
+        instances = stratify(task, stratify)
         instance = private$.combine(lapply(instances$..row_id, private$.sample))
       }
 
@@ -184,7 +179,11 @@ Resampling = R6Class("Resampling",
 )
 
 stratify = function(task, stratify) {
-  assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)
+  if (isTRUE(stratify)) {
+    stratify = task$target_names
+  } else {
+    assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)
+  }
   row_ids = task$row_ids
   cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
 }

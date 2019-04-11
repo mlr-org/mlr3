@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Google Site Verification -->
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
-<title>Spam Classification Task — mlr_tasks_spam • mlr3</title>
+<title>Wine Classification Task — mlr_tasks_wine • mlr3</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,12 +28,10 @@
 <script src="../pkgdown.js"></script>
   <link href="../extra.css" rel="stylesheet">
   <script src="../extra.js"></script>
-<meta property="og:title" content="Spam Classification Task — mlr_tasks_spam" />
+<meta property="og:title" content="Wine Classification Task — mlr_tasks_wine" />
 
-<meta property="og:description" content="Spam data set from the UCI machine learning repository (http://archive.ics.uci.edu/ml/datasets/spambase).
-Data set collected at Hewlett-Packard Labs to classify emails as spam or non-spam.
-57 variables indicate the frequency of certain words and characters in the e-mail.
-The positive class is set to "spam"." />
+<meta property="og:description" content="Wine data set from the UCI machine learning repository (https://archive.ics.uci.edu/ml/datasets/wine).
+Results of a chemical analysis of three types of wines grown in the same region in Italy but derived from three different cultivars." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -152,15 +150,13 @@ The positive class is set to "spam"." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Spam Classification Task</h1>
-    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_tasks_spam.R'><code>R/mlr_tasks_spam.R</code></a></small>
+    <h1>Wine Classification Task</h1>
+    <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_tasks_wine.R'><code>R/mlr_tasks_wine.R</code></a></small>
     </div>
 
     
-    <p>Spam data set from the UCI machine learning repository (<a href='http://archive.ics.uci.edu/ml/datasets/spambase'>http://archive.ics.uci.edu/ml/datasets/spambase</a>).
-Data set collected at Hewlett-Packard Labs to classify emails as spam or non-spam.
-57 variables indicate the frequency of certain words and characters in the e-mail.
-The positive class is set to "spam".</p>
+    <p>Wine data set from the UCI machine learning repository (<a href='https://archive.ics.uci.edu/ml/datasets/wine'>https://archive.ics.uci.edu/ml/datasets/wine</a>).
+Results of a chemical analysis of three types of wines grown in the same region in Italy but derived from three different cultivars.</p>
     
 
         
@@ -170,17 +166,15 @@ The positive class is set to "spam".</p>
     
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>Creators:
-Mark Hopkins, Erik Reeber, George Forman, Jaap Suermondt.
-Hewlett-Packard Labs, 1501 Page Mill Rd., Palo Alto, CA 94304</p>
+    <p>Original owners:
+Forina, M. et al, PARVUS - An Extendible Package for Data Exploration, Classification and Correlation.
+Institute of Pharmaceutical and Food Analysis and Technologies, Via Brigata Salerno, 16147 Genoa, Italy.</p>
 <p>Donor:
-George Forman (gforman at nospam hpl.hp.com) 650-857-7835</p>
-<p>Preprocessing:
-Columns has been renamed. Preprocessed data taken from the <a href='https://CRAN.R-project.org/package=kernlab'><span class="pkg">kernlab</span></a> package.</p>
+Stefan Aeberhard, email: stefan@coral.cs.jcu.edu.au</p>
     
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-    <pre>mlr_tasks$get("spam")
+    <pre>mlr_tasks$get("wine")
 </pre>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>

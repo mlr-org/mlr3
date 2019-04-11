@@ -6,14 +6,24 @@
 #'
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerClassif].
+#' The field `task_type` is set to `"classif"`.
+#'
 #' If probabilities are provided via construction and response is missing,
 #' the response is calculated from the probabilities: the class label with the highest
-#' probability is chosen. In case of ties, a random class label of the tied labels picked.
+#' probability is chosen. In case of ties, a label is selected randomly.
 #'
-#' For binary classification problems, it is possible to set the probability threshold for
-#' predicting the positive class. Only works if probabilities are stored.
+#' It is possible to set the probability threshold if probabilities are stored:
 #'
-#' The `task_type` is set to `"classif"`.
+#' * For binary problems only a single threshold value can be set.
+#'   If the probability exceeds the threshold, the positive class is predicted.
+#'   If the probability equals the threshold, the label is selected randomly.
+#' * For binary and multi-class problems, a named numeric vector of thresholds can be set.
+#'   The length and names must correspond to the number of classes and class names, respectively.
+#'   To determine the class label, the probabilities are divided by the threshold.
+#'   This results in a ratio > 1 if the probability exceeds the threshold, and a ratio < 1 otherwise.
+#'   Note that it is possible that either none or multiple ratios are greater than 1 at the same time.
+#'   Anyway, the class label with maximum ratio is determined.
+#'   In case of ties in the ratio, one of the tied class labels is selected randomly.
 #'
 #' @section Construction:
 #' ```
@@ -57,8 +67,14 @@
 #' e = Experiment$new(task, learner)$train()$predict()
 #' p = e$prediction
 #' p$predict_types
-#' p$confusion
 #' head(as.data.table(p))
+#'
+#' # confusion matrix
+#' p$confusion
+#'
+#' # change threshold
+#' p$threshold = mlr3misc::set_names(c(0.05, 0.9, 0.05), task$class_names)
+#' p$confusion
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
@@ -74,15 +90,28 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         return(private$.threshold)
       if (!is.matrix(self$prob))
         stopf("Cannot set threshold, no probabilities available")
-      if (ncol(self$prob) != 2L)
-        stopf("Cannot set threshold, need binary classification task")
-      private$.threshold = assert_number(rhs, lower = 0, upper = 1)
       lvls = colnames(self$prob)
-      self$response = factor(lvls[(unname(self$prob[, 1L]) < rhs) + 1L], levels = lvls)
+
+      if (length(rhs) == 1L) {
+        if (length(lvls) != 2L)
+          stopf("Setting a single threshold only supported for binary classification problems")
+        assert_number(rhs, lower = 0, upper = 1)
+        ind = max.col(cbind(self$prob[, 1L], rhs), ties.method = "random")
+      } else {
+        assert_numeric(rhs, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
+        assert_names(names(rhs), permutation.of = lvls)
+        rhs = rhs[lvls] # reorder rhs so it is in the same order as levels
+
+        # multiply all rows by threshold, then get index of max element per row
+        w = ifelse(rhs > 0, 1 / rhs, Inf)
+        ind = max.col(self$prob %*% diag(w), ties.method = "random")
+      }
+      private$.threshold = rhs
+      self$response = factor(lvls[ind], levels = lvls)
     },
 
     confusion = function() {
-      as.matrix(table(self$response, self$truth, useNA = "ifany"))
+      as.matrix(table(response = self$response, truth = self$truth, useNA = "ifany"))
     }
   ),
 
