@@ -17,4 +17,3 @@ mlr_tasks$add("pima", function(id = "pima") {
   b$hash = "_mlr3_tasks_pima_"
   TaskClassif$new(id, b, target = "diabetes", positive = "pos")
 })
-

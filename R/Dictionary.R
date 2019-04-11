@@ -10,6 +10,7 @@
 #'
 #' * R6 Factories (objects of class `R6ClassGenerator`) are initialized (with additional arguments).
 #' * Functions are called (with additional arguments) and must return an instance of a [R6::R6] object.
+#' * Other objects are returned as-is.
 #'
 #' @section Construction:
 #' ```

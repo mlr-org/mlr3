@@ -11,8 +11,7 @@ test_that("stratification", {
   task = TaskClassif$new("stratify_data", b, target = "y")
 
   r = mlr_resamplings$get("bootstrap")
-  r$param_set$values = list(ratio = 1, repeats = 3)
-  r$stratify = "y"
+  r$param_set$values = list(ratio = 1, repeats = 3, stratify = TRUE)
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {

@@ -10,8 +10,7 @@ test_that("stratification", {
   b = as_data_backend(data)
   task = TaskClassif$new("stratify_data", b, target = "y")
 
-  r = mlr_resamplings$get("holdout", param_vals = list(ratio = .5))
-  r$stratify = "y"
+  r = mlr_resamplings$get("holdout", param_vals = list(ratio = .5, stratify = TRUE))
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {
