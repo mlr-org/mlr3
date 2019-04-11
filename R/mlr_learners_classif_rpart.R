@@ -5,7 +5,14 @@
 #' @include LearnerClassif.R
 #'
 #' @description
-#' A [LearnerClassif] for a classification tree implemented in [rpart::rpart].
+#' A [LearnerClassif] for a classification tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
+#'
+#' @references
+#' Breiman, L. (1984).
+#' Classification and Regression Trees.
+#' New York: Routledge.
+#' \url{https://doi.org/10.1201/9781315139470}
+#'
 #' @export
 LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
   public = list(

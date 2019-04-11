@@ -13,7 +13,7 @@ Donor:
 George Forman (gforman at nospam hpl.hp.com) 650-857-7835
 
 Preprocessing:
-Columns has been renamed. Preprocessed data taken from the \CRANpkg{kernlab} package.
+Columns have been renamed. Preprocessed data taken from the \CRANpkg{kernlab} package.
 }
 \description{
 Spam data set from the UCI machine learning repository (\url{http://archive.ics.uci.edu/ml/datasets/spambase}).

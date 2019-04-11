@@ -10,6 +10,12 @@
 LearnerRegrRpart
 }
 \description{
-A learner for a regression tree implemented in \link[rpart:rpart]{rpart::rpart}.
+A \link{LearnerClassif} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
+}
+\references{
+Breiman, L. (1984).
+Classification and Regression Trees.
+New York: Routledge.
+\url{https://doi.org/10.1201/9781315139470}
 }
 \keyword{datasets}
