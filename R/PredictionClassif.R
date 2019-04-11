@@ -100,6 +100,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       } else {
         assert_numeric(rhs, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
         assert_names(names(rhs), permutation.of = lvls)
+        rhs = rhs[lvls] # reorder rhs so it is in the same order as levels
 
         # multiply all rows by threshold, then get index of max element per row
         w = ifelse(rhs > 0, 1 / rhs, Inf)
