@@ -4,7 +4,7 @@
 \name{mlr_learners_classif.debug}
 \alias{mlr_learners_classif.debug}
 \alias{LearnerClassifDebug}
-\title{Toy Classification Learner}
+\title{Classification Learner for Debugging}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerClassif}.}
 \usage{
 LearnerClassifDebug
