@@ -20,20 +20,20 @@
 \alias{mlr_measures_classif.recall}
 \alias{mlr_measures_classif.sensitivity}
 \alias{mlr_measures_classif.specificity}
-\alias{extract_from_confusion}
+\alias{confusion_measures}
 \title{Binary Classification Measures Derived from a Confusion Matrix}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
 \usage{
 MeasureClassifConfusion
 
-extract_from_confusion(m, type)
+confusion_measures(m, type = NULL)
 }
 \arguments{
 \item{m}{(\code{matrix()})\cr
 Confusion matrix, e.g. as returned by field \code{confusion} of \link{PredictionClassif}.
 Truth is in columns, predicted response is in rows.}
 
-\item{type}{(\code{character(1)})\cr
+\item{type}{(\code{character()})\cr
 Selects the measure to use. See description.}
 }
 \description{
@@ -59,5 +59,12 @@ Implemented are the following measures based on \url{https://en.wikipedia.org/wi
 }
 
 If the denominator is 0, the score is returned as \code{NA}.
+}
+\examples{
+task = mlr_tasks$get("wine")
+learner = mlr_learners$get("classif.rpart")
+e = Experiment$new(task, learner)$train()$predict()
+m = e$prediction$confusion
+confusion_measures(m, type = c("precision", "recall"))
 }
 \keyword{datasets}

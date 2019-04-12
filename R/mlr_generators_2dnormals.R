@@ -29,4 +29,5 @@ Generator2DNormals = R6Class("Generator2DNormals",
   )
 )
 
+#' @include mlr_generators.R
 mlr_generators$add("2dnormals", Generator2DNormals)

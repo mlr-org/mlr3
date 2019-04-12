@@ -1,4 +1,4 @@
-confusion_measures = setkeyv(dribble(
+confusion_measure_info = setkeyv(dribble(
   ~id,           ~lower, ~upper, ~minimize, ~na_score,
   "tp",          0,      Inf,    FALSE,     FALSE,
   "fn",          0,      Inf,    TRUE,      FALSE,
@@ -65,14 +65,20 @@ confusion_measures = setkeyv(dribble(
 #'  mlr_measures_classif.sensitivity
 #'  mlr_measures_classif.specificity
 #' @export
+#' @examples
+#' task = mlr_tasks$get("wine")
+#' learner = mlr_learners$get("classif.rpart")
+#' e = Experiment$new(task, learner)$train()$predict()
+#' m = e$prediction$confusion
+#' confusion_measures(m, type = c("precision", "recall"))
 MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
   inherit = MeasureClassif,
   cloneable = FALSE,
   public = list(
     type = NULL,
     initialize = function(type) {
-      self$type = assert_choice(type, confusion_measures$id)
-      row = as.list(confusion_measures[list(type)])
+      self$type = assert_choice(type, confusion_measure_info$id)
+      row = as.list(confusion_measure_info[list(type)])
 
       super$initialize(
         id = sprintf("classif.%s", type),
@@ -85,7 +91,7 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
     },
 
     calculate = function(e) {
-      extract_from_confusion(e$prediction$confusion, self$type)
+      confusion_measures(e$prediction$confusion, self$type)
     }
   )
 )
@@ -95,34 +101,45 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
 #' @param m (`matrix()`)\cr
 #'   Confusion matrix, e.g. as returned by field `confusion` of [PredictionClassif].
 #'   Truth is in columns, predicted response is in rows.
-#' @param type (`character(1)`)\cr
+#' @param type (`character()`)\cr
 #'   Selects the measure to use. See description.
 #'
 #' @export
-extract_from_confusion = function(m, type) {
+confusion_measures = function(m, type = NULL) {
+  assert_matrix(m, nrows = ncol(m), row.names = "unique", col.names = "unique")
+  assert_names(rownames(m), identical.to = colnames(m))
+  if (is.null(type)) {
+    type = confusion_measure_info$id
+  } else {
+    assert_subset(type, confusion_measure_info$id)
+  }
+
   div = function(nominator, denominator) {
     if (denominator == 0L)
       return(NA_real_)
     nominator / denominator
   }
 
-  switch(type,
-    "tp" = m[1L, 1L],
-    "fn" = m[2L, 1L],
-    "fp" = m[1L, 2L],
-    "tn" = m[2L, 2L],
-    "tpr" = , "recall" = , "sensitivity" = div(m[1L, 1L], sum(m[, 1L])),
-    "fnr" = div(m[2L, 1L], sum(m[, 1L])),
-    "fpr" = div(m[1L, 2L], sum(m[, 2L])),
-    "tnr" = , "specificity" = div(m[2L, 2L], sum(m[, 2L])),
-    "ppv" = , "precision" = div(m[1L, 1L], sum(m[1L, ])),
-    "fdr" = div(m[1L, 2L], sum(m[1L, ])),
-    "for" = div(m[2L, 1L], sum(m[2L, ])),
-    "npv" = div(m[2L, 2L], sum(m[2L, ])),
-    stop("Unknown measure to extract from confusion matrix")
-  )
+  set_names(map_dbl(type, function(type) {
+    switch(type,
+      "tp" = m[1L, 1L],
+      "fn" = m[2L, 1L],
+      "fp" = m[1L, 2L],
+      "tn" = m[2L, 2L],
+      "tpr" = , "recall" = , "sensitivity" = div(m[1L, 1L], sum(m[, 1L])),
+      "fnr" = div(m[2L, 1L], sum(m[, 1L])),
+      "fpr" = div(m[1L, 2L], sum(m[, 2L])),
+      "tnr" = , "specificity" = div(m[2L, 2L], sum(m[, 2L])),
+      "ppv" = , "precision" = div(m[1L, 1L], sum(m[1L, ])),
+      "fdr" = div(m[1L, 2L], sum(m[1L, ])),
+      "for" = div(m[2L, 1L], sum(m[2L, ])),
+      "npv" = div(m[2L, 2L], sum(m[2L, ]))
+    )
+  }), type)
 }
 
-
-for (type in confusion_measures$id)
-  mlr_measures$add(sprintf("classif.%s", type), MeasureClassifConfusion$new(type))
+local({
+  generate_conf_measure = function(type) { force(type); function() MeasureClassifConfusion$new(type) }
+  for (type in confusion_measure_info$id)
+    mlr_measures$add(sprintf("classif.%s", type), generate_conf_measure(type))
+})

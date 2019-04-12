@@ -111,7 +111,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     },
 
     confusion = function() {
-      as.matrix(table(response = self$response, truth = self$truth, useNA = "ifany"))
+      table(response = self$response, truth = self$truth, useNA = "ifany")
     }
   ),
 

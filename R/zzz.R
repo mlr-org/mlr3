@@ -11,6 +11,7 @@
 dummy_import = function() { # nocov start
   # this function is required to silence R CMD check
   tmp = Metrics::ce
+  tmp = mlbench::xor
 } # nocov end
 
 layout_mlr3 = structure(
