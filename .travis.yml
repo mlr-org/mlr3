@@ -23,7 +23,7 @@ after_script: R -q -e 'tic::after_script()'
 language: r
 sudo: false
 dist: xenial
-# cache: packages
+cache: packages
 latex: true
 pandoc_version: 2.5
 
