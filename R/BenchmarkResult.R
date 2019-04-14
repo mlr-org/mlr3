@@ -125,7 +125,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
       measure = self$measures$measure[[1L]]
       aggr = remove_named(self$aggregated(objects = FALSE, ids = TRUE, params = FALSE), "hash")
       setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
-      setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
+      if (!is.na(measure$minimize))
+        setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
       print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
 
       catf(str_indent("\nPublic:", str_r6_interface(self)))
@@ -147,6 +148,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     get_best = function(measure) {
       assert_measure(measure)
       id = measure$id
+      if (is.na(measure$minimize))
+        stopf("Impossible to determine best value for measure '%s': '$minimize' is NA", id)
       aggr = self$aggregated(ids = FALSE)
       if (id %nin% names(aggr))
         stopf("Measure with id '%s' not in BenchmarkResult", id)

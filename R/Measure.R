@@ -33,8 +33,7 @@
 #'   Required task properties, see [Task].
 #'
 #' * `na_score` :: `logical(1)`\cr
-#'   Is the measure expected to return `NA` in some edge cases?
-#'   Default is `FALSE`.
+#'   Is the measure expected to return `NA` in some cases? Default is `FALSE`.
 #'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
@@ -87,11 +86,11 @@ Measure = R6Class("Measure",
     packages = NULL,
     aggregate = function(rr) mean(rr$performance(self$id)),
 
-    initialize = function(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
+    initialize = function(id, task_type, range, minimize = NA, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
       self$id = assert_id(id)
       self$task_type = task_type
       self$range = assert_range(range)
-      self$minimize = assert_flag(minimize)
+      self$minimize = assert_flag(minimize, na.ok = TRUE)
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types)
