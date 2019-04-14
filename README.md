@@ -35,6 +35,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No recursive dependencies.
     - [`logger`](https://github.com/daroczig/logger): Logging facility. No recursive dependencies.
     - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No recursive dependencies.
+    - [`mlbench`](https://cran.r-project.org/package=mlbench): A collection of machine learning data sets. No dependencies.
 
 * Additional functionality that comes with extra dependencies:
     - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.

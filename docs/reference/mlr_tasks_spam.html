@@ -30,8 +30,10 @@
   <script src="../extra.js"></script>
 <meta property="og:title" content="Spam Classification Task — mlr_tasks_spam" />
 
-<meta property="og:description" content="A classification task for the kernlab::spam data set.
-Positive class is set to "spam"." />
+<meta property="og:description" content="Spam data set from the UCI machine learning repository (http://archive.ics.uci.edu/ml/datasets/spambase).
+Data set collected at Hewlett-Packard Labs to classify emails as spam or non-spam.
+57 variables indicate the frequency of certain words and characters in the e-mail.
+The positive class is set to "spam"." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -155,8 +157,10 @@ Positive class is set to "spam"." />
     </div>
 
     
-    <p>A classification task for the <a href='https://www.rdocumentation.org/packages/kernlab/topics/spam'>kernlab::spam</a> data set.
-Positive class is set to "spam".</p>
+    <p>Spam data set from the UCI machine learning repository (<a href='http://archive.ics.uci.edu/ml/datasets/spambase'>http://archive.ics.uci.edu/ml/datasets/spambase</a>).
+Data set collected at Hewlett-Packard Labs to classify emails as spam or non-spam.
+57 variables indicate the frequency of certain words and characters in the e-mail.
+The positive class is set to "spam".</p>
     
 
         
@@ -164,10 +168,26 @@ Positive class is set to "spam".</p>
 
     <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> inheriting from <a href='TaskClassif.html'>TaskClassif</a>.</p>
     
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Creators:
+Mark Hopkins, Erik Reeber, George Forman, Jaap Suermondt.
+Hewlett-Packard Labs, 1501 Page Mill Rd., Palo Alto, CA 94304</p>
+<p>Donor:
+George Forman (gforman at nospam hpl.hp.com) 650-857-7835</p>
+<p>Preprocessing:
+Columns have been renamed. Preprocessed data taken from the <a href='https://CRAN.R-project.org/package=kernlab'><span class="pkg">kernlab</span></a> package.</p>
+    
     <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
     <pre>mlr_tasks$get("spam")
 </pre>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Dua, D. and Graff, C. (2019).
+<em>UCI Machine Learning Repository</em> <a href='http://archive.ics.uci.edu/ml'>http://archive.ics.uci.edu/ml</a>.
+Irvine, CA: University of California, School of Information and Computer Science.</p>
     
 
   </div>
@@ -177,7 +197,11 @@ Positive class is set to "spam".</p>
       
       <li><a href="#format">Format</a></li>
 
+      <li><a href="#source">Source</a></li>
+
       <li><a href="#usage">Usage</a></li>
+
+      <li><a href="#references">References</a></li>
           </ul>
 
   </div>

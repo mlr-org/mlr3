@@ -4,12 +4,30 @@
 \alias{mlr_tasks_spam}
 \title{Spam Classification Task}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
+\source{
+Creators:
+Mark Hopkins, Erik Reeber, George Forman, Jaap Suermondt.
+Hewlett-Packard Labs, 1501 Page Mill Rd., Palo Alto, CA 94304
+
+Donor:
+George Forman (gforman at nospam hpl.hp.com) 650-857-7835
+
+Preprocessing:
+Columns have been renamed. Preprocessed data taken from the \CRANpkg{kernlab} package.
+}
 \description{
-A classification task for the \link[kernlab:spam]{kernlab::spam} data set.
-Positive class is set to "spam".
+Spam data set from the UCI machine learning repository (\url{http://archive.ics.uci.edu/ml/datasets/spambase}).
+Data set collected at Hewlett-Packard Labs to classify emails as spam or non-spam.
+57 variables indicate the frequency of certain words and characters in the e-mail.
+The positive class is set to "spam".
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("spam")
 }
 }
 
+\references{
+Dua, D. and Graff, C. (2019).
+\emph{UCI Machine Learning Repository} \url{http://archive.ics.uci.edu/ml}.
+Irvine, CA: University of California, School of Information and Computer Science.
+}

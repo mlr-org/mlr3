@@ -11,8 +11,7 @@ test_that("stratification", {
   task = TaskClassif$new("stratify_data", b, target = "y")
 
   r = mlr_resamplings$get("cv")
-  r$param_set$values = list(folds = 5)
-  r$stratify = "y"
+  r$param_set$values = list(folds = 5, stratify = TRUE)
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {
@@ -21,7 +20,6 @@ test_that("stratification", {
     expect_equal(task$data(r$test_set(i))[y == "a", .N],  18)
     expect_equal(task$data(r$test_set(i))[y == "b", .N],   2)
   }
-
 })
 
 test_that("grouping", {
