@@ -148,6 +148,9 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_oob_error.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.mae.html</loc>
   </url>
   <url>
