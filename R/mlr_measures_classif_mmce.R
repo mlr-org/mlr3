@@ -27,7 +27,3 @@ MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
     }
   )
 )
-
-
-#' @include mlr_measures.R
-mlr_measures$add("classif.mmce", MeasureClassifMMCE)

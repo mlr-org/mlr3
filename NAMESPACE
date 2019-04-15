@@ -2,7 +2,7 @@
 
 S3method(as.data.table,BenchmarkResult)
 S3method(as.data.table,Dictionary)
-S3method(as.data.table,DictionaryGenerators)
+S3method(as.data.table,DictionaryGenerator)
 S3method(as.data.table,DictionaryLearner)
 S3method(as.data.table,DictionaryMeasure)
 S3method(as.data.table,DictionaryResampling)

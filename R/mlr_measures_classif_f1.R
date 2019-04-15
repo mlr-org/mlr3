@@ -29,8 +29,3 @@ MeasureClassifF1 = R6Class("MeasureClassifF1",
     }
   )
 )
-
-
-#' @include mlr_measures.R
-mlr_measures$add("classif.f1", MeasureClassifF1)
-

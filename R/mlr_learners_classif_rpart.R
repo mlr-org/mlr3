@@ -71,6 +71,3 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     }
   )
 )
-
-#' @include mlr_learners.R
-mlr_learners$add("classif.rpart", LearnerClassifRpart)

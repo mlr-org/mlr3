@@ -137,9 +137,3 @@ confusion_measures = function(m, type = NULL) {
     )
   }), type)
 }
-
-local({
-  generate_conf_measure = function(type) { force(type); function() MeasureClassifConfusion$new(type) }
-  for (type in confusion_measure_info$id)
-    mlr_measures$add(sprintf("classif.%s", type), generate_conf_measure(type))
-})

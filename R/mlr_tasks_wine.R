@@ -25,8 +25,10 @@
 #' Dua, D. and Graff, C. (2019).
 #' \emph{UCI Machine Learning Repository} \url{http://archive.ics.uci.edu/ml}.
 #' Irvine, CA: University of California, School of Information and Computer Science.
-mlr_tasks$add("wine", function(id = "wine") {
+NULL
+
+load_task_wine = function(id = "wine") {
   b = as_data_backend(readRDS(system.file("extdata", "wine.rds", package = "mlr3")))
   b$hash = "_mlr3_tasks_wine_"
   TaskClassif$new(id, b, target = "type")
-})
+}

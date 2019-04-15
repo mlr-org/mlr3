@@ -111,7 +111,3 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     }
   )
 )
-
-
-#' @include mlr_resamplings.R
-mlr_resamplings$add("repeated_cv", ResamplingRepeatedCV)

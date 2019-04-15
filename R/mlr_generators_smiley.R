@@ -27,6 +27,3 @@ GeneratorSmiley = R6Class("GeneratorSmiley",
     }
   )
 )
-
-#' @include mlr_generators.R
-mlr_generators$add("smiley", GeneratorSmiley)
