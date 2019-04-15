@@ -4,8 +4,12 @@ test_that("mlr_learners", {
   keys = mlr_learners$keys()
 
   for (key in keys) {
-    m = mlr_learners$get(key)
-    expect_learner(m)
+    l = mlr_learners$get(key)
+    expect_learner(l)
+    if (inherits(l, "TaskClassif"))
+      expect_true(startsWith(l$id, "classif."))
+    if (inherits(l, "TaskRegr"))
+      expect_true(startsWith(l$id, "regr."))
   }
 })
 
