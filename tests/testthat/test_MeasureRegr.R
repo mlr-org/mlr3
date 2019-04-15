@@ -13,7 +13,7 @@ test_that("Regression measures", {
     m = mlr_measures$get(key)
     if (is.na(m$task_type) || m$task_type == "regr") {
       perf = m$calculate(e)
-      expect_number(perf, lower = m$range[1], upper = m$range[2])
+      expect_number(perf, na.ok = m$na_score, lower = m$range[1], upper = m$range[2])
     }
   }
 })

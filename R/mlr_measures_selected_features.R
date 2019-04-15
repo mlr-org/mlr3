@@ -27,10 +27,10 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
     },
 
     calculate = function(e) {
-      # TODO: encode this check into the measure as learner_properties
-      if ("selected_features" %nin% e$learner$properties)
-        stopf("Learner '%s' needs property 'selected_features'", e$learner$id)
-      n = length(e$learner$selected_features())
+      lrn = e$learner
+      if ("selected_features" %nin% lrn$properties)
+        return(NA_integer_)
+      n = length(lrn$selected_features())
       if (self$normalize)
         n = n / length(e$task$feature_names)
       n
@@ -38,5 +38,5 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
   )
 )
 
-
+#' @include mlr_measures.R
 mlr_measures$add("selected_features", MeasureSelectedFeatures)
