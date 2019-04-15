@@ -11,8 +11,10 @@
 #'
 #' @description
 #' A classification task for the popular [datasets::iris] data set.
-mlr_tasks$add("iris", function(id = "iris") {
+NULL
+
+load_task_iris = function(id = "iris") {
   b = as_data_backend(load_dataset("iris", "datasets"))
   b$hash = "_mlr3_tasks_iris_"
   TaskClassif$new(id, b, target = "Species")
-})
+}

@@ -41,7 +41,7 @@ DictionaryResampling = R6Class("DictionaryResampling",
 )
 
 #' @export
-mlr_resamplings = DictionaryResampling$new()
+mlr_resamplings = NULL
 
 #' @export
 as.data.table.DictionaryResampling = function(x, ...) {

@@ -34,6 +34,3 @@ MeasureOOBError = R6Class("MeasureOOBError",
     }
   )
 )
-
-#' @include mlr_measures.R
-mlr_measures$add("oob_error", MeasureOOBError)

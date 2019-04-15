@@ -12,8 +12,10 @@
 #' @description
 #' A regression task for the [datasets::mtcars] data set.
 #' Target variable is `mpg` (Miles/(US) gallon).
-mlr_tasks$add("mtcars",  function(id = "mtcars") {
+NULL
+
+load_task_mtcars = function(id = "mtcars") {
   b = as_data_backend(load_dataset("mtcars", "datasets", keep_rownames = TRUE))
   b$hash = "_mlr3_tasks_mtcars_"
   TaskRegr$new(id, b, target = "mpg")
-})
+}

@@ -23,16 +23,16 @@
 NULL
 
 #' @include Dictionary.R
-DictionaryGenerators = R6Class("DictionaryGenerators",
+DictionaryGenerator = R6Class("DictionaryGenerator",
   inherit = Dictionary,
   cloneable = FALSE
 )
 
 #' @export
-mlr_generators = DictionaryGenerators$new()
+mlr_generators = NULL
 
 #' @export
-as.data.table.DictionaryGenerators = function(x, ...) {
+as.data.table.DictionaryGenerator = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
     g = x$get(key)
     list(

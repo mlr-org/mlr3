@@ -29,7 +29,7 @@ DictionaryMeasure = R6Class("DictionaryMeasure",
 )
 
 #' @export
-mlr_measures = DictionaryMeasure$new()
+mlr_measures = NULL
 
 #' @export
 as.data.table.DictionaryMeasure = function(x, ...) {

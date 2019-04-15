@@ -48,8 +48,3 @@ MeasureTimePredict = R6Class("MeasureTimePredict", inherit = MeasureElapsedTime,
 MeasureTimeBoth = R6Class("MeasureTimeBoth", inherit = MeasureElapsedTime,
   public = list(initialize = function(id = "time_both") super$initialize(id, c("train", "predict")))
 )
-
-#' @include mlr_measures.R
-mlr_measures$add("time_train", MeasureTimeTrain)
-mlr_measures$add("time_predict", MeasureTimePredict)
-mlr_measures$add("time_both", MeasureTimeBoth)
