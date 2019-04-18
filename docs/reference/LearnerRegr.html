@@ -192,33 +192,33 @@ Set of required packages.</p></li>
 
     
     <ul>
+<li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the identifier of the learner.</p></li>
+<li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the type of class this learner can operate on, e.g. <code>"classif"</code> or <code>"regr"</code>.
+A complete list of task types is stored in <code><a href='mlr_reflections.html'>mlr_reflections$task_types</a></code>.</p></li>
+<li><p><code>param_set</code> :: <a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a><br />
+Description of available hyperparameters and hyperparameter settings.</p></li>
+<li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a></code>.</p></li>
+<li><p><code>predict_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
+Stores the currently selected predict type. Must be an element of <code>l$predict_types</code>.</p></li>
+<li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
+A complete list of candidate feature types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a></code>.</p></li>
+<li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$learner_properties</a></code>.</p></li>
+<li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
+Stores the names of required packages.</p></li>
 <li><p><code>fallback</code> :: (<a href='Learner.html'>Learner</a> | <code>NULL</code>)<br />
 Optionally stores a second <a href='Learner.html'>Learner</a> which is activated as fallback if this first <a href='Learner.html'>Learner</a> fails during
 train or predict.
 This mechanism is disabled unless you explicitly assign a learner to this slot.
 Additionally, you need to catch raised exceptions via encapsulation, see <code><a href='mlr_control.html'>mlr_control()</a></code>.</p></li>
-<li><p><code>feature_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Stores the feature types the learner can handle, e.g. <code>"logical"</code>, <code>"numeric"</code>, or <code>"factor"</code>.
-A complete list of candidate feature types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a></code>.</p></li>
 <li><p><code>hash</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Hash (unique identifier) for this object.</p></li>
-<li><p><code>id</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
-Stores the identifier of the learner.</p></li>
-<li><p><code>packages</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Stores the names of required packages.</p></li>
-<li><p><code>param_set</code> :: <a href='https://www.rdocumentation.org/packages/paradox/topics/ParamSet'>paradox::ParamSet</a><br />
-Description of available hyperparameters and hyperparameter settings.</p></li>
-<li><p><code>predict_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
-Stores the currently selected predict type. Must be an element of <code>l$predict_types</code>.</p></li>
-<li><p><code>predict_types</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a></code>.</p></li>
-<li><p><code>properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />
-Stores a set of properties/capabilities the learner has.
-A complete list of candidate properties, grouped by task type, is stored in <code><a href='mlr_reflections.html'>mlr_reflections$learner_properties</a></code>.</p></li>
-<li><p><code>task_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
-Stores the type of class this learner can operate on, e.g. <code>"classif"</code> or <code>"regr"</code>.
-A complete list of task types is stored in <code>mlr_reflections$task_types</code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
