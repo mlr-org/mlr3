@@ -46,44 +46,42 @@
 #'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
 #'
 #' @section Fields:
+#' * `id` :: `character(1)`\cr
+#'   Stores the identifier of the learner.
+#'
+#' * `task_type` :: `character(1)`\cr
+#'   Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
+#'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections].
+#'
+#' * `param_set` :: [paradox::ParamSet]\cr
+#'   Description of available hyperparameters and hyperparameter settings.
+#'
+#' * `predict_types` :: `character()`\cr
+#'   Stores the possible predict types the learner is capable of.
+#'   A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
+#'
+#' * `predict_type` :: `character(1)`\cr
+#'   Stores the currently selected predict type. Must be an element of `l$predict_types`.
+#'
+#' * `feature_types` :: `character()`\cr
+#'   Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+#'   A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
+#'
+#' * `properties` :: `character()`\cr
+#'   Stores a set of properties/capabilities the learner has.
+#'   A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
+#'
+#' * `packages` :: `character()`\cr
+#'   Stores the names of required packages.
+#'
 #' * `fallback` :: ([Learner] | `NULL`)\cr
 #'   Optionally stores a second [Learner] which is activated as fallback if this first [Learner] fails during
 #'   train or predict.
 #'   This mechanism is disabled unless you explicitly assign a learner to this slot.
 #'   Additionally, you need to catch raised exceptions via encapsulation, see [mlr_control()].
 #'
-#' * `feature_types` :: `character()`\cr
-#'   Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
-#'   A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
-#'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
-#'
-#' * `id` :: `character(1)`\cr
-#'   Stores the identifier of the learner.
-#'
-#' * `packages` :: `character()`\cr
-#'   Stores the names of required packages.
-#'
-#' * `param_set` :: [paradox::ParamSet]\cr
-#'   Description of available hyperparameters and hyperparameter settings.
-#'
-#' * `predict_type` :: `character(1)`\cr
-#'   Stores the currently selected predict type. Must be an element of `l$predict_types`.
-#'
-#' * `predict_types` :: `character()`\cr
-#'   Stores the possible predict types the learner is capable of.
-#'   A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
-#'
-#' * `properties` :: `character()`\cr
-#'   Stores a set of properties/capabilities the learner has.
-#'   A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
-#'
-#' * `task_type` :: `character(1)`\cr
-#'   Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
-#'   A complete list of task types is stored in `mlr_reflections$task_types`.
-#'
-#'
 #'
 #' @section Methods:
 #' * `params(tag)`\cr
@@ -135,14 +133,14 @@ Learner = R6Class("Learner",
       feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
       self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
+      private$.param_set = assert_param_set(param_set)
+      self$param_set$values = param_vals
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_sorted_subset(predict_types, mlr_reflections$learner_predict_types[[task_type]], empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$task_data_formats)
-      private$.param_set = assert_param_set(param_set)
-      self$param_set$values = param_vals
     },
 
     format = function() {
@@ -173,6 +171,7 @@ Learner = R6Class("Learner",
         stopf("Learner does not support predict type '%s'", rhs)
       private$.predict_type = rhs
     },
+
     param_set = function(rhs) {
       if (!missing(rhs) && !identical(rhs, private$.param_set)) {
         stop("param_set is read-only.")
