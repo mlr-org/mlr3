@@ -24,7 +24,8 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
           )
         ),
         param_vals = list(robust = FALSE),
-        properties = c("missings", "importance", "selected_features")
+        properties = c("missings", "importance", "selected_features"),
+        packages = "stats"
       )
     },
 
@@ -35,8 +36,8 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         location = mean(x)
         dispersion = sd(x)
       } else {
-        location = median(x)
-        dispersion = mad(x, center = location)
+        location = stats::median(x)
+        dispersion = stats::mad(x, center = location)
       }
       self$model = set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "featureless")
       self

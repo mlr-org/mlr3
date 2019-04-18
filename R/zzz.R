@@ -5,13 +5,13 @@
 #' @importFrom logger DEBUG log_debug INFO log_info WARN log_warn ERROR log_error with_log_threshold
 #' @importFrom R6 R6Class is.R6
 #' @importFrom utils data head tail
-#' @importFrom stats reformulate median mad runif rnorm
+#' @importFrom stats reformulate
 "_PACKAGE"
 
 dummy_import = function() { # nocov start
   # this function is required to silence R CMD check
   tmp = Metrics::ce
-  tmp = mlbench::xor
+  tmp = mlbench::mlbench.xor
 } # nocov end
 
 layout_mlr3 = structure(
