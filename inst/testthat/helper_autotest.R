@@ -141,7 +141,7 @@ generate_tasks.LearnerRegr = function(learner, N = 20L) {
 
   # generate sanity task
   with_seed(100, {
-    data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = 1)
+    data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = c(rep(0, 100), rep(1, 100)))
     data$unimportant = runif(nrow(data))
   })
   task = mlr3misc::set_names(list(mlr3::TaskRegr$new("sanity", mlr3::as_data_backend(data), target = "y")), "sanity")
