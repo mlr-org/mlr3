@@ -216,10 +216,9 @@ Stores required properties of the <a href='Task.html'>Task</a>.</p></li>
 <a href='ResampleResult.html'>ResampleResult</a> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code><br />
 Aggregates multiple performance scores into a single score using the <code>aggregate</code> function of the measure.
 Operates on a <a href='ResampleResult.html'>ResampleResult</a> as returned by <a href='resample.html'>resample</a>.</p></li>
-<li><p><code>calculate(e)</code><br />
-<a href='Experiment.html'>Experiment</a> -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code><br />
-Takes an <a href='Experiment.html'>Experiment</a>, extracts the predictions (as well as other possibly needed objects), and calculates
-a score.</p></li>
+<li><p><code>calculate(experiment = NULL, prediction = experiment$prediction)</code><br />
+(<a href='Experiment.html'>Experiment</a>, <a href='Prediction.html'>Prediction</a>) -&gt; <code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code><br />
+Takes an <a href='Experiment.html'>Experiment</a> and a <a href='Prediction.html'>Prediction</a> (defaults to prediction stored in experiment), and calculates a numeric score.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
