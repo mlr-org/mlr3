@@ -91,7 +91,7 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
     },
 
     calculate = function(experiment = NULL, prediction = experiment$prediction) {
-      confusion_measures(prediction$confusion, self$type)
+      unname(confusion_measures(prediction$confusion, self$type))
     }
   )
 )

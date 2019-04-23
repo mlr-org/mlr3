@@ -66,10 +66,9 @@
 #'   Aggregates multiple performance scores into a single score using the `aggregate` function of the measure.
 #'   Operates on a [ResampleResult] as returned by [resample].
 #'
-#' * `calculate(e)`\cr
-#'   [Experiment] -> `numeric(1)`\cr
-#'   Takes an [Experiment], extracts the predictions (as well as other possibly needed objects), and calculates
-#'   a score.
+#' * `calculate(experiment = NULL, prediction = experiment$prediction)`\cr
+#'   ([Experiment], [Prediction]) -> `numeric(1)`\cr
+#'   Takes an [Experiment] and a [Prediction] (defaults to prediction stored in experiment), and calculates a numeric score.
 #'
 #' @family Measure
 #' @export

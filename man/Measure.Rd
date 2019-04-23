@@ -59,10 +59,9 @@ Stores required properties of the \link{Task}.
 \link{ResampleResult} -> \code{numeric(1)}\cr
 Aggregates multiple performance scores into a single score using the \code{aggregate} function of the measure.
 Operates on a \link{ResampleResult} as returned by \link{resample}.
-\item \code{calculate(e)}\cr
-\link{Experiment} -> \code{numeric(1)}\cr
-Takes an \link{Experiment}, extracts the predictions (as well as other possibly needed objects), and calculates
-a score.
+\item \code{calculate(experiment = NULL, prediction = experiment$prediction)}\cr
+(\link{Experiment}, \link{Prediction}) -> \code{numeric(1)}\cr
+Takes an \link{Experiment} and a \link{Prediction} (defaults to prediction stored in experiment), and calculates a numeric score.
 }
 }
 
