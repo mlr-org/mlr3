@@ -1,4 +1,4 @@
-confusion_measure_info = setkeyv(dribble(
+confusion_measure_info = setkeyv(rowwise_table(
   ~id,           ~lower, ~upper, ~minimize, ~na_score,
   "tp",          0,      Inf,    FALSE,     FALSE,
   "fn",          0,      Inf,    TRUE,      FALSE,

@@ -55,7 +55,7 @@ local({
   ### Experiment
   mlr_reflections$experiment_states = c("undefined", "defined", "trained", "predicted", "scored")
 
-  mlr_reflections$experiment_slots = dribble(
+  mlr_reflections$experiment_slots = rowwise_table(
     ~name,          ~type,        ~atomic, ~state,
     "task",         "Task",       FALSE,   "defined",
     "learner",      "Learner",    FALSE,   "defined",
