@@ -82,12 +82,14 @@ TaskClassif = R6Class("TaskClassif",
       if (length(levels) == 2L) {
         if (is.null(positive)) {
           self$positive = levels[1L]
+          self$negative = levels[2L]
           log_debug("Setting positive class to '%s'", self$positive, namespace = "mlr3")
         } else {
           self$positive = assert_choice(positive, levels)
+          self$negative = setdiff(levels, self$positive)
+          self$col_info[list(target), levels := list(list(c(self$positive, self$negative))), on = "id"][]
         }
-        self$negative = setdiff(levels, self$positive)
-        self$col_info[list(target), levels := list(list(c(self$positive, self$negative))), on = "id"][]
+
         self$properties = "twoclass"
       } else {
         if (!is.null(positive))
@@ -101,9 +103,7 @@ TaskClassif = R6Class("TaskClassif",
 
     truth = function(row_ids = NULL) {
       res = self$data(row_ids, cols = self$target_names)[[1L]]
-      if (is.character(res))
-        res = factor(res, levels = self$class_names)
-      res
+      factor(res, levels = self$class_names)
     }
   ),
 

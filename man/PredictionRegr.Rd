@@ -9,6 +9,12 @@
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
 The field \code{task_type} is set to \code{"classif"}.
 }
+\note{
+It is possible to initialize this object without any arguments.
+This allows to manually construct \link{Prediction} objects in a piecemeal fashion.
+Required are "row_ids", "truth", and "predict_type".
+Depending on the value of "predict_types", "response" and "se" must also be set.
+}
 \section{Construction}{
 \preformatted{p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 }
@@ -23,11 +29,6 @@ One element for each observation in the test set.
 Numeric vector of predicted standard error.
 One element for each observation in the test set.
 }
-
-Note that it is allowed to initialize this object without any arguments in order
-to allow to manually construct \link{Prediction} objects in a piecemeal fashion.
-Required are "row_ids", "truth", and "predict_type". Depending on the value of
-"predict_types", also "response" and "se" must be set.
 }
 
 \section{Fields}{

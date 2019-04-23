@@ -81,9 +81,9 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$save_tasks)) {
         self$model[[2]] = task$clone(deep = TRUE)
         label = sample(task$truth(), 1L)
-        PredictionClassif$new(response = rep.int(as.character(label), task$nrow))
+        PredictionClassif$new(task = task, response = rep.int(as.character(label), task$nrow))
       } else {
-        PredictionClassif$new(response = rep.int(unclass(self$model), task$nrow))
+        PredictionClassif$new(task = task, response = rep.int(unclass(self$model), task$nrow))
       }
     }
   )

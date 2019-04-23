@@ -25,10 +25,11 @@
 #'   Numeric vector of predicted standard error.
 #'   One element for each observation in the test set.
 #'
-#' Note that it is allowed to initialize this object without any arguments in order
-#' to allow to manually construct [Prediction] objects in a piecemeal fashion.
-#' Required are "row_ids", "truth", and "predict_type". Depending on the value of
-#' "predict_types", also "response" and "se" must be set.
+#' @note
+#' It is possible to initialize this object without any arguments.
+#' This allows to manually construct [Prediction] objects in a piecemeal fashion.
+#' Required are "row_ids", "truth", and "predict_type".
+#' Depending on the value of "predict_types", "response" and "se" must also be set.
 #'
 #' @section Fields:
 #' @inheritSection Prediction Fields
