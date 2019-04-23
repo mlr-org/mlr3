@@ -128,7 +128,7 @@ score_worker = function(e, ctrl) {
   log_debug("score_worker: Learner '%s' on task '%s' [%ix%i]", data$learner$id, data$task$id, data$task$nrow, data$task$ncol, namespace = "mlr3")
 
   # call m$score with local encapsulation
-  score = function() { set_names(lapply(measures, function(m) m$calculate(e)), ids(measures)) }
+  score = function() { set_names(lapply(measures, function(m) m$calculate(experiment = e)), ids(measures)) }
   enc = encapsulate("none")
   res = enc(score, list(), pkgs, seed = e$seeds[["score"]])
 

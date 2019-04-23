@@ -21,9 +21,8 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
       )
     },
 
-    calculate = function(e) {
-      p = e$prediction
-      Metrics::accuracy(actual = p$truth, predicted = p$response)
+    calculate = function(experiment = NULL, prediction = experiment$prediction) {
+      Metrics::accuracy(actual = prediction$truth, predicted = prediction$response)
     }
   )
 )

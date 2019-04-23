@@ -78,6 +78,7 @@
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
+    positive = NA_character_,
     prob = NULL,
     initialize = function(task = NULL, response = NULL, prob = NULL) {
       predictionclassif_initialize(self, task, response, prob)
@@ -122,6 +123,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
 predictionclassif_initialize = function(self, task, response, prob) {
   self$task_type = "classif"
+
   if (!is.null(task)) {
     self$row_ids = row_ids = task$row_ids
     self$truth = task$truth()

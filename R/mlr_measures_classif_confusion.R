@@ -90,8 +90,8 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
       )
     },
 
-    calculate = function(e) {
-      confusion_measures(e$prediction$confusion, self$type)
+    calculate = function(experiment = NULL, prediction = experiment$prediction) {
+      confusion_measures(prediction$confusion, self$type)
     }
   )
 )

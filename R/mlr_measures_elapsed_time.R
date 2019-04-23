@@ -25,8 +25,8 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
       self$parts = assert_subset(parts, c("train", "predict"), empty.ok = FALSE)
     },
 
-    calculate = function(e) {
-      sum(e$timings[self$parts], na.rm = TRUE)
+    calculate = function(experiment = NULL, prediction = experiment$prediction) {
+      sum(experiment$timings[self$parts], na.rm = TRUE)
     }
   )
 )

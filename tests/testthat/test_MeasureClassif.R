@@ -18,7 +18,7 @@ test_that("Classification measures", {
         rownames(costs) = colnames(costs) = e$task$class_names
         m$costs = costs
       }
-      perf = m$calculate(e)
+      perf = m$calculate(experiment = e)
       expect_number(perf, na.ok = m$na_score, lower = m$range[1], upper = m$range[2])
     }
   }

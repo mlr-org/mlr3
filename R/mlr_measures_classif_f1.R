@@ -23,9 +23,8 @@ MeasureClassifF1 = R6Class("MeasureClassifF1",
       )
     },
 
-    calculate = function(e) {
-      p = e$prediction
-      Metrics::f1(actual = p$truth, predicted = p$response)
+    calculate = function(experiment = NULL, prediction = experiment$prediction) {
+      Metrics::f1(actual = prediction$truth, predicted = prediction$response)
     }
   )
 )

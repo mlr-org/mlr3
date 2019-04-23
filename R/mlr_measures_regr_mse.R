@@ -21,9 +21,8 @@ MeasureRegrMSE = R6Class("MeasureRegrMSE",
       )
     },
 
-    calculate = function(e) {
-      p = e$prediction
-      Metrics::mse(actual = p$truth, predicted = p$response)
+    calculate = function(experiment = NULL, prediction = experiment$prediction) {
+      Metrics::mse(actual = prediction$truth, predicted = prediction$response)
     }
   )
 )
