@@ -75,3 +75,17 @@ test_that("setting threshold", {
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_equal(as.character(unique(p$response)), task$class_names[1L])
 })
+
+test_that("confusion", {
+  task = mlr_tasks$get("iris")
+  lrn = mlr_learners$get("classif.featureless")
+  lrn$predict_type = "prob"
+  e = Experiment$new(task, lrn)$train()$predict()
+  p = e$prediction
+  cm = p$confusion
+
+  expect_matrix(cm, nrow = 3, ncol = 3, any.missing = FALSE)
+  expect_equal(colnames(p$confusion), task$class_names)
+  expect_equal(rownames(p$confusion), task$class_names)
+  expect_equal(names(dimnames(cm)), c("response", "truth"))
+})
