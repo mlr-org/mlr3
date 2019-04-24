@@ -19,7 +19,7 @@
 #' @name mlr_measures
 #' @examples
 #' as.data.table(mlr_measures)
-#' mlr_measures$get("classif.mmce")
+#' mlr_measures$get("classif.ce")
 NULL
 
 #' @include Dictionary.R

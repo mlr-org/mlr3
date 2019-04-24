@@ -22,6 +22,9 @@ Type of the task the measure can operator on. E.g., \code{\"classif\"} or \code{
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
 \item \code{minimize} :: \code{logical(1)}\cr
 Set to \code{TRUE} if good predictions correspond to small values.
+\item \code{aggregator} :: \code{function()}\cr
+Function to aggregate individual performance values.
+If \code{NULL}, defaults to \code{\link[base:mean]{base::mean()}}.
 \item \code{predict_type} :: \code{character(1)}\cr
 Required predict type of the \link{Learner}.
 \item \code{task_properties} :: \code{character()}\cr

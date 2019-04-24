@@ -47,7 +47,7 @@ and "packages" as columns.
 
 \examples{
 as.data.table(mlr_measures)
-mlr_measures$get("classif.mmce")
+mlr_measures$get("classif.ce")
 }
 \seealso{
 Other Dictionary: \code{\link{Dictionary}},

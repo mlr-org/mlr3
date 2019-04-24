@@ -23,7 +23,7 @@ test_that("learner$hash", {
 })
 
 test_that("measure$hash", {
-  x = mlr_measures$get("classif.mmce")
+  x = mlr_measures$get("classif.ce")
   expect_hash_changes(x)
 })
 

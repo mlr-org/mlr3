@@ -1,6 +1,6 @@
-#' @title Mean Misclassification Error Measure
+#' @title Classification Error Measure
 #'
-#' @name mlr_measures_classif.mmce
+#' @name mlr_measures_classif.ce
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'
@@ -14,7 +14,7 @@ MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
   public = list(
     initialize = function() {
       super$initialize(
-        id = "classif.mmce",
+        id = "classif.ce",
         range = 0:1,
         minimize = TRUE,
         packages = "Metrics"
