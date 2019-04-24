@@ -14,9 +14,11 @@
 #'
 #' * `task` :: [Task]\cr
 #'   May be `NULL` during initialization, but is mandatory to train the Experiment.
+#'   Instead if a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
 #'
 #' * `learner` :: [Learner]\cr
 #'   May be `NULL` during initialization, but is mandatory to train the Experiment.
+#'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a task from the [mlr_learners] dictionary.
 #'
 #' * `ctrl` :: named `list()`\cr
 #'   Control object, see [mlr_control()].
@@ -155,9 +157,9 @@ Experiment = R6Class("Experiment",
     initialize = function(task = NULL, learner = NULL, ctrl = list()) {
       self$data = named_list(mlr_reflections$experiment_slots$name)
       if (!is.null(task))
-        self$data$task = assert_task(task)$clone(deep = TRUE)
+        self$data$task = get_task(task, clone = TRUE)
       if (!is.null(learner))
-        self$data$learner = assert_learner(learner, task = task)$clone(deep = TRUE)
+        self$data$learner = get_learner(learner, clone = TRUE)
       self$ctrl = assert_list(ctrl)
       self$seeds = set_names(rep.int(NA_integer_, 3L), c("train", "predict", "score"))
     },

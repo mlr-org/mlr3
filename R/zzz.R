@@ -64,18 +64,20 @@ layout_mlr3 = structure(
   mlr_measures$add("regr.mae", MeasureRegrMAE)
   mlr_measures$add("regr.mse", MeasureRegrMSE)
   mlr_measures$add("selected_features", MeasureSelectedFeatures)
-  mlr_measures$add("time_both", MeasureTimeBoth)
-  mlr_measures$add("time_predict", MeasureTimePredict)
-  mlr_measures$add("time_train", MeasureTimeTrain)
-  generate_conf_measure = function(type) { force(type); function() MeasureClassifConfusion$new(type) }
-  for (type in confusion_measure_info$id)
-    mlr_measures$add(sprintf("classif.%s", type), generate_conf_measure(type))
+  mlr_measures$add("time_train", MeasureElapsedTime, id = "time_train", parts = "train")
+  mlr_measures$add("time_predict", MeasureElapsedTime, id = "time_predict", parts = "predict")
+  mlr_measures$add("time_both", MeasureElapsedTime, id = "time_both", parts = c("train", "predict"))
+  for (type in confusion_measure_info$id) {
+    id = sprintf("classif.%s", type)
+    mlr_measures$add(id, MeasureClassifConfusion, id = id, type = type)
+  }
 
   # Populate Resamplings
   mlr_resamplings <<- DictionaryResampling$new()
   mlr_resamplings$add("bootstrap", ResamplingBootstrap)
   mlr_resamplings$add("custom", ResamplingCustom)
   mlr_resamplings$add("cv", ResamplingCV)
+  mlr_resamplings$add("cv3", ResamplingCV, id = "cv3", param_vals = list(folds = 3L))
   mlr_resamplings$add("holdout", ResamplingHoldout)
   mlr_resamplings$add("repeated_cv", ResamplingRepeatedCV)
   mlr_resamplings$add("subsampling", ResamplingSubsampling)

@@ -26,9 +26,7 @@ test_that("Dictionary", {
   expect_data_table(as.data.table(d), nrow = 1L)
 })
 
-test_that("Dictionary: lazy values", {
-  expect_function(mlr_tasks$items$iris)
-
+test_that("Dictionary: clone works", {
   t1 = mlr_tasks$get("iris")
   expect_task(t1)
   t2 = mlr_tasks$get("iris")

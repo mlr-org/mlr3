@@ -5,10 +5,13 @@
 #'
 #' @param task ([Task]):
 #'   Object of type [Task].
+#'   Instead if a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
 #' @param learner ([Learner]):
 #'   Object of type [Learner].
+#'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a task from the [mlr_learners] dictionary.
 #' @param resampling ([Resampling]):
 #'   Object of type [Resampling].
+#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a task from the [mlr_resamplings] dictionary.
 #' @param ctrl (named `list()`, e.g. as returned by [mlr_control()]):
 #'   Object to control various parts of the execution. See [mlr_control()].
 #' @return [ResampleResult].
@@ -44,9 +47,9 @@
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
 resample = function(task, learner, resampling, ctrl = list()) {
-  task = assert_task(task)$clone(deep = TRUE)
-  learner = assert_learner(learner, task = task)$clone(deep = TRUE)
-  assert_resampling(resampling)
+  task = get_task(task, clone = TRUE)
+  learner = get_learner(learner, clone = TRUE)
+  resampling = get_resampling(resampling)
   measures = assert_measures(task$measures, task = task)
   ctrl = mlr_control(ctrl)
 

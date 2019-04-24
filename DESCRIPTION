@@ -154,5 +154,6 @@ Collate:
     'mlr_tasks_zoo.R'
     'reexports.R'
     'resample.R'
+    'sugar.R'
     'worker.R'
     'zzz.R'
