@@ -1,11 +1,13 @@
 #' @title Cross Validation Resampling
 #'
 #' @name mlr_resamplings_cv
+#' @aliases mlr_resamplings_cv3
+#'
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'
 #' @description
-#' Cross validation with `folds` folds (default: 10).
+#' Cross validation with `folds` folds (cv: 10 folds, cv3: 3 folds).
 #'
 #' @section Fields:
 #' @inheritSection Learner Fields

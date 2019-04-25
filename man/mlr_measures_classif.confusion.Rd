@@ -62,8 +62,7 @@ If the denominator is 0, the score is returned as \code{NA}.
 }
 \examples{
 task = mlr_tasks$get("wine")
-learner = mlr_learners$get("classif.rpart")
-e = Experiment$new(task, learner)$train()$predict()
+e = Experiment$new("wine", "classif.rpart")$train()$predict()
 m = e$prediction$confusion
 confusion_measures(m, type = c("precision", "recall"))
 }

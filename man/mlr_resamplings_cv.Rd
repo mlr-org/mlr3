@@ -4,13 +4,14 @@
 \name{mlr_resamplings_cv}
 \alias{mlr_resamplings_cv}
 \alias{ResamplingCV}
+\alias{mlr_resamplings_cv3}
 \title{Cross Validation Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \usage{
 ResamplingCV
 }
 \description{
-Cross validation with \code{folds} folds (default: 10).
+Cross validation with \code{folds} folds (cv: 10 folds, cv3: 3 folds).
 }
 \section{Fields}{
 

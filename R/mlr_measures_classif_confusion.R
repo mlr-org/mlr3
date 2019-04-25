@@ -67,8 +67,7 @@ confusion_measure_info = setkeyv(rowwise_table(
 #' @export
 #' @examples
 #' task = mlr_tasks$get("wine")
-#' learner = mlr_learners$get("classif.rpart")
-#' e = Experiment$new(task, learner)$train()$predict()
+#' e = Experiment$new("wine", "classif.rpart")$train()$predict()
 #' m = e$prediction$confusion
 #' confusion_measures(m, type = c("precision", "recall"))
 MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
