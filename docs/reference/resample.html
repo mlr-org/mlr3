@@ -200,9 +200,9 @@ Object to control various parts of the execution. See <code><a href='mlr_control
 
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>rr</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of learner 'iris' on task 'classif.rpart' with 10 iterations
-#&gt;       Measure Min. 1st Qu. Median  Mean 3rd Qu. Max.    Sd
-#&gt;  classif.mmce    0   0.067  0.067 0.073    0.12 0.13 0.049</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt; classif.mmce 
-#&gt;   0.07333333 </div><div class='input'><span class='no'>rr</span>$<span class='fu'>performance</span>(<span class='st'>"classif.mmce"</span>)</div><div class='output co'>#&gt;  [1] 0.00000000 0.13333333 0.06666667 0.06666667 0.06666667 0.13333333
+#&gt;     Measure Min. 1st Qu. Median  Mean 3rd Qu. Max.    Sd
+#&gt;  classif.ce    0   0.067  0.067 0.073    0.12 0.13 0.049</div><div class='input'><span class='no'>rr</span>$<span class='no'>aggregated</span></div><div class='output co'>#&gt; classif.ce 
+#&gt; 0.07333333 </div><div class='input'><span class='no'>rr</span>$<span class='fu'>performance</span>(<span class='st'>"classif.ce"</span>)</div><div class='output co'>#&gt;  [1] 0.00000000 0.13333333 0.06666667 0.06666667 0.06666667 0.13333333
 #&gt;  [7] 0.06666667 0.06666667 0.13333333 0.00000000</div><div class='input'>
 <span class='co'># Repeat resampling with featureless learner and combine</span>
 <span class='co'># the ResampleResults into a BenchmarkResult</span>
@@ -210,9 +210,9 @@ Object to control various parts of the execution. See <code><a href='mlr_control
 <span class='no'>rr.featureless</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)
 
 <span class='no'>bmr</span> <span class='kw'>=</span> <span class='no'>rr</span>$<span class='fu'>combine</span>(<span class='no'>rr.featureless</span>)
-<span class='no'>bmr</span>$<span class='fu'>aggregated</span>(<span class='kw'>objects</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                hash resampling_id task_id          learner_id classif.mmce
-#&gt; 1: faa17fc7d9a5d7a6            cv    iris       classif.rpart   0.07333333
-#&gt; 2: 0a234b1294340642            cv    iris classif.featureless   0.80666667</div><div class='input'>
+<span class='no'>bmr</span>$<span class='fu'>aggregated</span>(<span class='kw'>objects</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                hash resampling_id task_id          learner_id classif.ce
+#&gt; 1: fba61f73f9e199f2            cv    iris       classif.rpart 0.07333333
+#&gt; 2: df2689a698cf1c50            cv    iris classif.featureless 0.80666667</div><div class='input'>
 
 </div></pre>
   </div>

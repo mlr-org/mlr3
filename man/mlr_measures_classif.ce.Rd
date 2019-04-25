@@ -3,11 +3,11 @@
 \docType{data}
 \name{mlr_measures_classif.ce}
 \alias{mlr_measures_classif.ce}
-\alias{MeasureClassifMMCE}
+\alias{MeasureClassifCE}
 \title{Classification Error Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
 \usage{
-MeasureClassifMMCE
+MeasureClassifCE
 }
 \description{
 Calls \code{\link[Metrics:ce]{Metrics::ce()}}.

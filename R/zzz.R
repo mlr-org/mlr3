@@ -59,7 +59,7 @@ layout_mlr3 = structure(
   mlr_measures$add("classif.auc", MeasureClassifAUC)
   mlr_measures$add("classif.costs", MeasureClassifCosts)
   mlr_measures$add("classif.f1", MeasureClassifF1)
-  mlr_measures$add("classif.ce", MeasureClassifMMCE)
+  mlr_measures$add("classif.ce", MeasureClassifCE)
   mlr_measures$add("oob_error", MeasureOOBError)
   mlr_measures$add("regr.mae", MeasureRegrMAE)
   mlr_measures$add("regr.mse", MeasureRegrMSE)

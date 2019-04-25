@@ -178,6 +178,9 @@ Type of the task the measure can operator on. E.g., <code>\"classif\"</code> or 
 Feasible range for this measure as <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(lower_bound, upper_bound)</a></code>.</p></li>
 <li><p><code>minimize</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>logical(1)</a></code><br />
 Set to <code>TRUE</code> if good predictions correspond to small values.</p></li>
+<li><p><code>aggregator</code> :: <code>function()</code><br />
+Function to aggregate individual performance values.
+If <code>NULL</code>, defaults to <code><a href='https://www.rdocumentation.org/packages/base/topics/mean'>base::mean()</a></code>.</p></li>
 <li><p><code>predict_type</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code><br />
 Required predict type of the <a href='Learner.html'>Learner</a>.</p></li>
 <li><p><code>task_properties</code> :: <code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character()</a></code><br />

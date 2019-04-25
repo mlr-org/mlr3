@@ -8,7 +8,7 @@
 #' Calls [Metrics::ce()].
 #'
 #' @export
-MeasureClassifMMCE = R6Class("MeasureClassifMMCE",
+MeasureClassifCE = R6Class("MeasureClassifCE",
   inherit = MeasureClassif,
   cloneable = FALSE,
   public = list(
