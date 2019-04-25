@@ -5,8 +5,6 @@ test_that("Empty Experiment construction", {
   learner = mlr_learners$get("classif.featureless")
   e = Experiment$new()
   expect_error(e$train(), "task")
-  e$task = task
-  e$learner = learner
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
 })

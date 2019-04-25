@@ -21,9 +21,27 @@ assert_experiment = function(e, .var.name = vname(e)) {
 
 #' @export
 #' @param task ([Task]).
+#' @param feature_types (`character()`)\cr
+#'   Set of allowed feature types.
+#' @param task_properties (`character()`)\cr
+#'   Set of required task properties.
 #' @rdname mlr_assertions
-assert_task = function(task, .var.name = vname(task)) {
+assert_task = function(task, feature_types = NULL, task_properties = NULL, .var.name = vname(task)) {
   assert_class(task, "Task", .var.name = .var.name)
+
+  if (!is.null(feature_types)) {
+    tmp = setdiff(task$feature_types$type, feature_types)
+    if (length(tmp))
+      stopf("Task has the following unsupported feature types: %s", str_collapse(tmp))
+  }
+
+  if (!is.null(task_properties)) {
+    tmp = setdiff(task_properties, task$properties)
+    if (length(tmp))
+      stopf("Task is missing the following properties: %s", str_collapse(tmp))
+  }
+
+  invisible(task)
 }
 
 #' @export

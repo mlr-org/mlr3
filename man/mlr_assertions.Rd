@@ -19,7 +19,8 @@ assert_backend(b, .var.name = vname(b))
 
 assert_experiment(e, .var.name = vname(e))
 
-assert_task(task, .var.name = vname(task))
+assert_task(task, feature_types = NULL, task_properties = NULL,
+  .var.name = vname(task))
 
 assert_learner(learner, task = NULL, properties = character(0L),
   .var.name = vname(learner))
@@ -48,6 +49,12 @@ assert_id(id, .var.name = vname(id))
 \item{e}{(\link{Experiment}).}
 
 \item{task}{(\link{Task}).}
+
+\item{feature_types}{(\code{character()})\cr
+Set of allowed feature types.}
+
+\item{task_properties}{(\code{character()})\cr
+Set of required task properties.}
 
 \item{learner}{(\link{Learner}).}
 
