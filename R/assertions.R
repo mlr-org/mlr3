@@ -28,13 +28,21 @@ assert_task = function(task, .var.name = vname(task)) {
 
 #' @export
 #' @param learner ([Learner]).
+#' @param task ([Task]).
 #' @rdname mlr_assertions
-assert_learner = function(learner, task = NULL, .var.name = vname(learner)) {
+assert_learner = function(learner, task = NULL, properties = character(0L), .var.name = vname(learner)) {
   assert_class(learner, "Learner", .var.name = .var.name)
   if (!is.null(task)) {
     if (!identical(task$task_type, learner$task_type)) {
       stopf("Learner '%s' is not compatible with type of task '%s' (type: %s)",
         learner$id, task$id, task$task_type)
+    }
+  }
+
+  if (length(properties)) {
+    miss = setdiff(properties, learner$properties)
+    if (length(miss)) {
+      stopf("Learner '%s' must have the properties: %s", learner$id, str_collapse(miss))
     }
   }
   invisible(learner)
