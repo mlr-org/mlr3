@@ -99,10 +99,9 @@
 #'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, data_format = NULL)`\cr
-#'   (`integer()` | `character()`, `character()`, `character()`) -> `any`\cr
+#'   (`integer()` | `character()`, `character(1)`, `character()`) -> `any`\cr
 #'   Returns a slice of the data from the [DataBackend] in the data format specified by `data_format`
 #'   (depending on the [DataBackend], but usually a [data.table::data.table()]).
-#'   It is possible to provide multiple formats, the first format supported is selected.
 #'
 #'   Rows are subsetted to only contain observations with role "use".
 #'   Columns are filtered to only contain features with roles "target" and "feature".
@@ -253,7 +252,7 @@ Task = R6Class("Task",
       task_print(self)
     },
 
-    data = function(rows = NULL, cols = NULL, data_format = self$backend$data_formats[1L]) {
+    data = function(rows = NULL, cols = NULL, data_format = "data.table") {
       task_data(self, rows, cols, data_format)
     },
 
@@ -400,6 +399,8 @@ Task = R6Class("Task",
 )
 
 task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table") {
+  assert_choice(data_format, self$backend$data_formats)
+
   if (is.null(rows)) {
     selected_rows = self$row_roles$use
   } else {
@@ -416,22 +417,17 @@ task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table")
     selected_cols = cols
   }
 
-  assert_subset(data_format, mlr_reflections$task_data_formats, empty.ok = FALSE)
-  common_format = intersect(data_format, self$data_formats)
-  if (length(common_format) == 0L)
-    stopf("None of the data formats (%s) supported by task '%s'",
-      str_collapse(data_format, quote = "'"), self$id)
-  if (length(common_format) >= 2L)
-    common_format = common_format[1L]
-
   order = self$col_roles$order
-  extra_cols = character(0L)
   if (length(order)) {
-    extra_cols = setdiff(order, selected_cols)
-    selected_cols = union(selected_cols, extra_cols)
+    if (data_format != "data.table")
+      stopf("Ordering only supported for data_format 'data.table'")
+    order_cols = setdiff(order, selected_cols)
+    selected_cols = union(selected_cols, order_cols)
+  } else {
+    order_cols = character()
   }
 
-  data = self$backend$data(rows = selected_rows, cols = selected_cols, data_format = common_format)
+  data = self$backend$data(rows = selected_rows, cols = selected_cols, data_format = data_format)
 
   if (length(selected_cols) && nrow(data) != length(selected_rows)) {
     stopf("DataBackend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
@@ -441,13 +437,10 @@ task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table")
     stopf("DataBackend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
   }
 
-  if (common_format == "data.table") {
-    if (length(order)) {
-      setorderv(data, order)[]
-    }
-
-    if (length(extra_cols)) {
-      data[, (extra_cols) := NULL][]
+  if (length(order)) {
+    setorderv(data, order)[]
+    if (length(order_cols)) {
+      data[, (order_cols) := NULL][]
     }
   }
 

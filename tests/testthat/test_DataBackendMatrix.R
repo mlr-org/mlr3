@@ -97,7 +97,7 @@ test_that("learners can request sparse data format", {
       },
 
       train = function(task) {
-        self$model = task$data(data_format = self$data_formats)
+        self$model = task$data(data_format = "Matrix")
         self
       },
 
