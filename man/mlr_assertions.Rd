@@ -21,7 +21,8 @@ assert_experiment(e, .var.name = vname(e))
 
 assert_task(task, .var.name = vname(task))
 
-assert_learner(learner, task = NULL, .var.name = vname(learner))
+assert_learner(learner, task = NULL, properties = character(0L),
+  .var.name = vname(learner))
 
 assert_measure(measure, task = NULL, predict_types = NULL,
   .var.name = vname(measure))
@@ -65,6 +66,8 @@ assert_id(id, .var.name = vname(id))
 \item{param_set}{(\link[paradox:ParamSet]{paradox::ParamSet}).}
 
 \item{id}{(\code{character(1)}).}
+
+\item{task}{(\link{Task}).}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
