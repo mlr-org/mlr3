@@ -5,8 +5,12 @@
 #' @include Measure.R
 #'
 #' @description
-#' Measures the elapsed time during train, predict, or both.
+#' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
 #'
+#' @aliases
+#'   mlr_measures_time_train
+#'   mlr_measures_time_predict
+#'   mlr_measures_time_both
 #' @export
 MeasureElapsedTime = R6Class("MeasureElapsedTime",
   inherit = Measure,
@@ -14,7 +18,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
   public = list(
     parts = NULL,
 
-    initialize = function(id = NA_character_, parts) {
+    initialize = function(id = "elapsed_time", parts) {
       super$initialize(
         id = id,
         task_type = NA_character_,
@@ -29,22 +33,4 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
       sum(experiment$timings[self$parts], na.rm = TRUE)
     }
   )
-)
-
-#' @export
-#' @rdname mlr_measures_elapsed_time
-MeasureTimeTrain = R6Class("MeasureTimeTrain", inherit = MeasureElapsedTime,
-  public = list(initialize = function(id = "time_train") super$initialize(id, "train"))
-)
-
-#' @export
-#' @rdname mlr_measures_elapsed_time
-MeasureTimePredict = R6Class("MeasureTimePredict", inherit = MeasureElapsedTime,
-  public = list(initialize = function(id = "time_predict") super$initialize(id, "predict"))
-)
-
-#' @export
-#' @rdname mlr_measures_elapsed_time
-MeasureTimeBoth = R6Class("MeasureTimeBoth", inherit = MeasureElapsedTime,
-  public = list(initialize = function(id = "time_both") super$initialize(id, c("train", "predict")))
 )

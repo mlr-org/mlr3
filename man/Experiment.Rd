@@ -14,8 +14,10 @@ Container object for a machine learning experiment.
 \itemize{
 \item \code{task} :: \link{Task}\cr
 May be \code{NULL} during initialization, but is mandatory to train the Experiment.
+Instead if a \link{Task} object, it is also possible to provide a key to retrieve a task from the \link{mlr_tasks} dictionary.
 \item \code{learner} :: \link{Learner}\cr
 May be \code{NULL} during initialization, but is mandatory to train the Experiment.
+Instead if a \link{Learner} object, it is also possible to provide a key to retrieve a task from the \link{mlr_learners} dictionary.
 \item \code{ctrl} :: named \code{list()}\cr
 Control object, see \code{\link[=mlr_control]{mlr_control()}}.
 }

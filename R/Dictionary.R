@@ -87,9 +87,9 @@ Dictionary = R6Class("Dictionary",
       set_names(lapply(keys, self$get, ...), keys)
     },
 
-    add = function(key, value) {
+    add = function(key, value, ...) {
       assert_id(key)
-      assign(x = key, value = value, envir = self$items)
+      assign(x = key, value = list(value = value, pars = list(...)), envir = self$items)
       invisible(self)
     },
 
@@ -103,14 +103,17 @@ Dictionary = R6Class("Dictionary",
 )
 
 dictionary_retrieve = function(self, key, ...) {
-  value = get0(key, envir = self$items, inherits = FALSE, ifnotfound = NULL)
-  if (is.null(value))
+  obj = get0(key, envir = self$items, inherits = FALSE, ifnotfound = NULL)
+  if (is.null(obj))
     stopf("Element with key '%s' not found!%s", key, did_you_mean(key, self$keys()))
 
+  value = obj$value
+  pars = insert_named(obj$pars, list(...))
+
   if (inherits(value, "R6ClassGenerator")) {
-    value = value$new(...)
+    value = do.call(value$new, pars)
   } else if (is.function(value)) {
-    value = assert_r6(value(...))
+    value = assert_r6(do.call(value, pars))
   }
   return(value)
 }

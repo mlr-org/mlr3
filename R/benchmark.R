@@ -108,15 +108,18 @@ benchmark = function(design, ctrl = list()) {
 #' Resampling strategies must be uninstantiated, and will be instantiated per task.
 #'
 #' @param tasks (list of [Task]).
+#'   Instead a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
 #' @param learners (list of [Learner]).
+#'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a task from the [mlr_learners] dictionary.
 #' @param resamplings (list of [Resampling]).
+#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a task from the [mlr_resamplings] dictionary.
 #'
 #' @return ([data.table()]) with the cross product of the input vectors.
 #' @export
 expand_grid = function(tasks, learners, resamplings) {
-  assert_list(tasks, "Task")
-  assert_list(learners, "Learner")
-  assert_list(resamplings, "Resampling")
+  tasks = get_tasks(tasks)
+  learners = get_learners(learners)
+  resamplings = get_resamplings(resamplings)
   map(resamplings, assert_resampling, instantiated = FALSE)
 
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))

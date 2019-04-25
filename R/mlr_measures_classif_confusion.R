@@ -76,12 +76,12 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
   cloneable = FALSE,
   public = list(
     type = NULL,
-    initialize = function(type) {
+    initialize = function(id = "classif.confusion", type) {
       self$type = assert_choice(type, confusion_measure_info$id)
       row = as.list(confusion_measure_info[list(type)])
 
       super$initialize(
-        id = sprintf("classif.%s", type),
+        id = id,
         range = c(row$lower, row$upper),
         minimize = row$minimize,
         predict_type = "response",

@@ -168,9 +168,11 @@
 </pre>
 <ul>
 <li><p><code>task</code> :: <a href='Task.html'>Task</a><br />
-May be <code>NULL</code> during initialization, but is mandatory to train the Experiment.</p></li>
+May be <code>NULL</code> during initialization, but is mandatory to train the Experiment.
+Instead if a <a href='Task.html'>Task</a> object, it is also possible to provide a key to retrieve a task from the <a href='mlr_tasks.html'>mlr_tasks</a> dictionary.</p></li>
 <li><p><code>learner</code> :: <a href='Learner.html'>Learner</a><br />
-May be <code>NULL</code> during initialization, but is mandatory to train the Experiment.</p></li>
+May be <code>NULL</code> during initialization, but is mandatory to train the Experiment.
+Instead if a <a href='Learner.html'>Learner</a> object, it is also possible to provide a key to retrieve a task from the <a href='mlr_learners.html'>mlr_learners</a> dictionary.</p></li>
 <li><p><code>ctrl</code> :: named <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code><br />
 Control object, see <code><a href='mlr_control.html'>mlr_control()</a></code>.</p></li>
 </ul>
