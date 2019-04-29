@@ -67,12 +67,10 @@ layout_mlr3 = structure(
   mlr_measures$add("time_train", MeasureElapsedTime, id = "time_train", parts = "train")
   mlr_measures$add("time_predict", MeasureElapsedTime, id = "time_predict", parts = "predict")
   mlr_measures$add("time_both", MeasureElapsedTime, id = "time_both", parts = c("train", "predict"))
-  mlr_measures$add("classif.confusion", MeasureClassifConfusion, required_args = "type")
-  mlr_measures$get("classif.confusion", type = "tpr")
-  # for (type in confusion_measure_info$id) {
-  #   id = sprintf("classif.%s", type)
-  #   mlr_measures$add(id, MeasureClassifConfusion, id = id, type = type)
-  # }
+  for (type in confusion_measure_info$id) {
+    id = sprintf("classif.%s", type)
+    mlr_measures$add(id, MeasureClassifConfusion, id = id, type = type)
+  }
 
   # Populate Resamplings
   mlr_resamplings <<- DictionaryResampling$new()

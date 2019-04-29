@@ -40,15 +40,15 @@
 #'   (`character(1)`, `any`, ..., `character()`) -> `self`\cr
 #'   Adds object `value` to the dictionary with key `key`, potentially overwriting a previously stored item.
 #'   Additional arguments in `...` are used as default arguments for `value` during construction.
-#'   If the object is not constructable without additional arguments, their names should be listed in `required_args`.
+#'   If the object is not constructable without additional arguments, the require argument names should be provided in `required_args`.
 #'
 #' * `remove(key)`\cr
 #'   `character()` -> `self`\cr
 #'   Removes object with key `key` from the dictionary.
 #'
-#' * `required_args()`\cr
-#'   () -> named `list()`\cr
-#'   Returns a named list of all items with requirements. The list values are the required arguments.
+#' * `required_args(key)`\cr
+#'   (`character(1)`) -> `character()`\cr
+#'   Returns the names of arguments required to construct the object.
 #'
 #' @family Dictionary
 #' @export
@@ -108,8 +108,9 @@ Dictionary = R6Class("Dictionary",
       invisible(self)
     },
 
-    required_args = function() {
-      discard(eapply(self$items, "[[", "requires", all.names = TRUE), is.null)
+    required_args = function(key) {
+      assert_id(key)
+      self$items[[key]][["required_args"]]
     }
   )
 )
