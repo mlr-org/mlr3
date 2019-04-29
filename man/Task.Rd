@@ -171,7 +171,7 @@ Returns the data set as \code{data.table()}.
 
 The following methods change the task in-place:
 \itemize{
-\item \code{set_row_roles()} and \code{set_col_roles()} alter the row or column information in \code{row_roles} or \code{col_roles}, respectively.
+\item \code{set_row_role()} and \code{set_col_role()} alter the row or column information in \code{row_roles} or \code{col_roles}, respectively.
 This provides a different "view" on the data without altering the data itself.
 \item \code{filter()} and \code{select()} subset the set of active rows or columns in \code{row_roles} or \code{col_roles}, respectively.
 This provides a different "view" on the data without altering the data itself.

@@ -181,7 +181,7 @@
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:
-#' * `set_row_roles()` and `set_col_roles()` alter the row or column information in `row_roles` or `col_roles`, respectively.
+#' * `set_row_role()` and `set_col_role()` alter the row or column information in `row_roles` or `col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * `filter()` and `select()` subset the set of active rows or columns in `row_roles` or `col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
