@@ -17,6 +17,8 @@ get_task = function(task, clone = FALSE)  {
 }
 
 get_tasks = function(tasks, clone = FALSE) {
+  if (inherits(tasks, "Task"))
+    return(list(tasks))
   tasks = map(tasks, get_task, clone = clone)
   types = unique(map_chr(tasks, "task_type"))
   if (length(types) > 1L)
@@ -29,6 +31,8 @@ get_learner = function(learner, clone = FALSE) {
 }
 
 get_learners = function(learners, clone = FALSE) {
+  if (inherits(learners, "Learner"))
+    return(list(learners))
   learners = map(learners, get_learner, clone = clone)
   types = unique(map_chr(learners, "task_type"))
   if (length(types) > 1L)
@@ -41,6 +45,8 @@ get_measure = function(measure, clone = FALSE) {
 }
 
 get_measures = function(measures, clone = FALSE) {
+  if (inherits(measures, "Measure"))
+    return(list(measures))
   measures = map(measures, get_measure, clone = clone)
   types = unique(map_chr(measures, "task_type"))
   if (length(types) > 1L)
@@ -53,5 +59,7 @@ get_resampling = function(resampling, clone = FALSE) {
 }
 
 get_resamplings = function(resamplings, clone = FALSE) {
+  if (inherits(resamplings, "Resampling"))
+    return(list(resamplings))
   map(resamplings, get_resampling, clone = clone)
 }
