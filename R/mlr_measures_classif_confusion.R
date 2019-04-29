@@ -75,7 +75,7 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
   cloneable = FALSE,
   public = list(
     type = NULL,
-    initialize = function(id = "classif.confusion", type) {
+    initialize = function(id = type, type) {
       self$type = assert_choice(type, confusion_measure_info$id)
       row = as.list(confusion_measure_info[list(type)])
 

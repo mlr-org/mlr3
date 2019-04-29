@@ -15,22 +15,28 @@ Each task has an associated help page, see \code{mlr_tasks_[id]}.
 \item \code{get(key, ...)}\cr
 (\code{character(1)}, ...) -> \code{any}\cr
 Retrieves object with key \code{key} from the dictionary.
+Additional arguments are passed to the stored object during construction.
 \item \code{mget(keys, ...)}\cr
 (\code{character()}, ...) -> named \code{list()}\cr
 Retrieves objects with keys \code{keys} from the dictionary, returns them in a list named with \code{keys}.
+Additional arguments are passed to the stored objects during construction.
 \item \code{has(keys)}\cr
 \code{character()} -> \code{logical()}\cr
 Returns a logical vector with \code{TRUE} at its i-th position, if the i-th key exists.
 \item \code{keys(pattern)}\cr
 \code{character(1)} -> \code{character()}\cr
 Returns all keys which comply to the regular expression \code{pattern}.
-\item \code{add(key, value)}\cr
-(\code{character(1)}, \code{any}) -> \code{self}\cr
-Adds object \code{value} to the dictionary with key \code{key}, potentially overwriting a
-previously stored value.
+\item \code{add(key, value, ..., required_args = character())}\cr
+(\code{character(1)}, \code{any}, ..., \code{character()}) -> \code{self}\cr
+Adds object \code{value} to the dictionary with key \code{key}, potentially overwriting a previously stored item.
+Additional arguments in \code{...} are used as default arguments for \code{value} during construction.
+If the object is not constructable without additional arguments, the require argument names should be provided in \code{required_args}.
 \item \code{remove(key)}\cr
 \code{character()} -> \code{self}\cr
 Removes object with key \code{key} from the dictionary.
+\item \code{required_args(key)}\cr
+(\code{character(1)}) -> \code{character()}\cr
+Returns the names of arguments required to construct the object.
 }
 }
 

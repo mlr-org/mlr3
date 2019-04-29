@@ -21,10 +21,12 @@
 #' * `get(key, ...)`\cr
 #'   (`character(1)`, ...) -> `any`\cr
 #'   Retrieves object with key `key` from the dictionary.
+#'   Additional arguments are passed to the stored object during construction.
 #'
 #' * `mget(keys, ...)`\cr
 #'   (`character()`, ...) -> named `list()`\cr
 #'   Retrieves objects with keys `keys` from the dictionary, returns them in a list named with `keys`.
+#'   Additional arguments are passed to the stored objects during construction.
 #'
 #' * `has(keys)`\cr
 #'   `character()` -> `logical()`\cr
@@ -34,14 +36,19 @@
 #'   `character(1)` -> `character()`\cr
 #'   Returns all keys which comply to the regular expression `pattern`.
 #'
-#' * `add(key, value)`\cr
-#'   (`character(1)`, `any`) -> `self`\cr
-#'   Adds object `value` to the dictionary with key `key`, potentially overwriting a
-#'   previously stored value.
+#' * `add(key, value, ..., required_args = character())`\cr
+#'   (`character(1)`, `any`, ..., `character()`) -> `self`\cr
+#'   Adds object `value` to the dictionary with key `key`, potentially overwriting a previously stored item.
+#'   Additional arguments in `...` are used as default arguments for `value` during construction.
+#'   If the object is not constructable without additional arguments, the require argument names should be provided in `required_args`.
 #'
 #' * `remove(key)`\cr
 #'   `character()` -> `self`\cr
 #'   Removes object with key `key` from the dictionary.
+#'
+#' * `required_args(key)`\cr
+#'   (`character(1)`) -> `character()`\cr
+#'   Returns the names of arguments required to construct the object.
 #'
 #' @family Dictionary
 #' @export
@@ -87,9 +94,10 @@ Dictionary = R6Class("Dictionary",
       set_names(lapply(keys, self$get, ...), keys)
     },
 
-    add = function(key, value, ...) {
+    add = function(key, value, ..., required_args = character()) {
       assert_id(key)
-      assign(x = key, value = list(value = value, pars = list(...)), envir = self$items)
+      assert_character(required_args, any.missing = FALSE)
+      assign(x = key, value = list(value = value, pars = list(...), required_args = required_args), envir = self$items)
       invisible(self)
     },
 
@@ -98,6 +106,11 @@ Dictionary = R6Class("Dictionary",
         stopf("Element with key '%s' not found!%s", key, did_you_mean(key, self$keys()))
       rm(list = key, envir = self$items)
       invisible(self)
+    },
+
+    required_args = function(key) {
+      assert_id(key)
+      self$items[[key]][["required_args"]]
     }
   )
 )
@@ -109,12 +122,15 @@ dictionary_retrieve = function(self, key, ...) {
 
   value = obj$value
   pars = insert_named(obj$pars, list(...))
+  if (any(obj$required_args %nin% names(pars)))
+    stopf("Need the arguments %s to construct '%s'", str_collapse(obj$required_args, quote = "'"), key)
 
   if (inherits(value, "R6ClassGenerator")) {
     value = do.call(value$new, pars)
   } else if (is.function(value)) {
     value = assert_r6(do.call(value, pars))
   }
+
   return(value)
 }
 

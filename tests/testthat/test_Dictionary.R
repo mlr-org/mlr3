@@ -58,3 +58,13 @@ test_that("Error when a package containing the dataset is not installed", {
   })
   expect_error(test_task$get("missing_package"))
 })
+
+test_that("Dictionary required args", {
+  x = Dictionary$new()
+  x$add("a", 1)
+  x$add("b", 2, required_args = "c")
+
+  expect_equal(x$required_args("a"), character())
+  expect_equal(x$required_args("b"), "c")
+  expect_equal(x$required_args("c"), NULL)
+})
