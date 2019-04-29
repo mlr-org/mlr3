@@ -18,6 +18,8 @@ Costs are aggregated with the mean.
 \preformatted{MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
 }
 \itemize{
+\item \code{id} :: \code{character(1)}\cr
+Identifier for the measure.
 \item \code{costs} :: \code{matrix()}\cr
 Numeric matrix of costs (truth in columns, predicted response in rows).
 \item \code{normalize} :: \code{logical(1)}\cr

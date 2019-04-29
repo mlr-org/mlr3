@@ -14,6 +14,9 @@
 #' MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
 #' ```
 #'
+#' * `id` :: `character(1)`\cr
+#'   Identifier for the measure.
+#'
 #' * `costs` :: `matrix()`\cr
 #'   Numeric matrix of costs (truth in columns, predicted response in rows).
 #' * `normalize` :: `logical(1)`\cr
@@ -26,9 +29,9 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
   public = list(
     normalize = NULL,
 
-    initialize = function(costs = NULL, normalize = TRUE) {
+    initialize = function(id = "classif.costs", costs = NULL, normalize = TRUE) {
       super$initialize(
-        id = "classif.costs",
+        id = id,
         range = c(-Inf, Inf),
         minimize = TRUE
       )
