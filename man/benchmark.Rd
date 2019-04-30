@@ -4,13 +4,17 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, ctrl = list())
+benchmark(design, measures = NULL, ctrl = list())
 }
 \arguments{
 \item{design}{(\code{\link[=data.frame]{data.frame()}}):
 Data frame (or \code{\link[=data.table]{data.table()}}) with three columns: "task", "learner", and "resampling".
 Each row defines a set of resampled experiments by providing a \link{Task}, \link{Learner} and \link{Resampling} strategy.
 The helper function \code{\link[=expand_grid]{expand_grid()}} can assist in generating an exhaustive design (see examples).}
+
+\item{measures}{(list of \link{Measure}):
+List of performance measures to calculate.
+Defaults to the measures specified in the each respective \link{Task}.}
 
 \item{ctrl}{(named \code{list} as returned by \code{\link[=mlr_control]{mlr_control()}}):
 Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}}.}

@@ -12,6 +12,9 @@
 #' @param resampling ([Resampling]):
 #'   Object of type [Resampling].
 #'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a task from the [mlr_resamplings] dictionary.
+#' @param measures (list of [Measure]):
+#'   List of performance measures to calculate.
+#'   Defaults to the measures specified in the [Task] `task`.
 #' @param ctrl (named `list()`, e.g. as returned by [mlr_control()]):
 #'   Object to control various parts of the execution. See [mlr_control()].
 #' @return [ResampleResult].
@@ -44,11 +47,11 @@
 #' \dontshow{
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
-resample = function(task, learner, resampling, ctrl = list()) {
+resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   task = get_task(task, clone = TRUE)
   learner = get_learner(learner, clone = TRUE)
   resampling = get_resampling(resampling)
-  measures = assert_measures(task$measures, task = task)
+  measures = assert_measures(measures %??% task$measures, task = task)
   ctrl = mlr_control(ctrl)
 
   instance = resampling$clone(deep = TRUE)
@@ -56,7 +59,7 @@ resample = function(task, learner, resampling, ctrl = list()) {
     instance = instance$instantiate(task)
   n = instance$iters
 
-  if (future_remote()) {
+  if (use_future()) {
     log_debug("Running resample() via future with %i iterations", n, namespace = "mlr3")
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
       task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl,

@@ -105,9 +105,10 @@ Note that predicting on new data fuses the new observations into the \link{Task}
 mutates the Experiment. To avoid any side effects, it is advised to clone the experiment first.
 The resulting predictions are stored internally as an \link{Prediction} object and can be
 accessed via \code{$prediction}.
-\item \code{score(ctrl = list())}\cr
-\code{list()} -> \code{self}\cr
-Quantifies stored predictions using the \link{Measure} defined in the \link{Task}.
+\item \code{score(measures = NULL, ctrl = list())}\cr
+(list of \code{[Measure]}, \code{list()}) -> \code{self}\cr
+Quantifies stored predictions using the list of \link{Measure} provided here,
+defaulting to the measures provided in the \link{Task}.
 The performance is stored internally and can be accessed via \code{$performance}.
 \item \code{log(steps = c("train", "predict"))}\cr
 \code{character(1)} -> \link{Log}\cr

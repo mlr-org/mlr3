@@ -113,9 +113,10 @@
 #'   The resulting predictions are stored internally as an [Prediction] object and can be
 #'   accessed via `$prediction`.
 #'
-#' * `score(ctrl = list())`\cr
-#'   `list()` -> `self`\cr
-#'   Quantifies stored predictions using the [Measure] defined in the [Task].
+#' * `score(measures = NULL, ctrl = list())`\cr
+#'   (list of `[Measure]`, `list()`) -> `self`\cr
+#'   Quantifies stored predictions using the list of [Measure] provided here,
+#'   defaulting to the measures provided in the [Task].
 #'   The performance is stored internally and can be accessed via `$performance`.
 #'
 #' * `log(steps = c("train", "predict"))`\cr
@@ -177,8 +178,8 @@ Experiment = R6Class("Experiment",
       experiment_predict(self, private, row_ids = row_ids, newdata = newdata, ctrl = ctrl)
     },
 
-    score = function(ctrl = list()) {
-      experiment_score(self, private, ctrl = ctrl)
+    score = function(measures = NULL, ctrl = list()) {
+      experiment_score(self, private, measures, ctrl = ctrl)
     },
 
     log = function(steps = c("train", "predict")) {
@@ -329,11 +330,11 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   return(experiment_reset_state(self, "predicted"))
 }
 
-experiment_score = function(self, private, ctrl = list()) {
+experiment_score = function(self, private, measures = NULL, ctrl = list()) {
   if (! self$state >= "trained")
     stopf("Experiment needs predictions before score()")
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  self$data$measures = assert_measures(self$data$task$measures, task = self$task, predict_types = self$data$prediction$predict_types)
+  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, predict_types = self$data$prediction$predict_types)
 
   log_info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = score_worker(self, ctrl = ctrl)

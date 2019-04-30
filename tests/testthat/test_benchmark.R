@@ -5,7 +5,7 @@ tasks$iris$measures = mlr_measures$mget("classif.acc")
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("cv")
 resamplings$cv$param_set$values = list(folds =  3)
-bmr = benchmark(expand_grid(tasks, learners, resamplings))
+bmr = benchmark(design = expand_grid(tasks, learners, resamplings))
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
@@ -99,4 +99,12 @@ test_that("inputs are cloned", {
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
   expect_different_address(resampling, e$data$resampling)
+})
+
+test_that("resample with replacement measures", {
+  tasks = mlr_tasks$mget(c("iris", "sonar"))
+  learner = mlr_learners$get("classif.featureless")
+  bmr = benchmark(design = expand_grid(tasks, learner, "cv3"), measures = mlr_measures$mget(c("classif.ce", "classif.acc")))
+  expect_equal(bmr$measures$measure_id, c("classif.ce", "classif.acc"))
+  expect_subset(c("classif.ce", "classif.acc"), names(bmr$aggregated()))
 })

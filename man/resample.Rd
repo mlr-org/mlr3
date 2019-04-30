@@ -4,7 +4,7 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, ctrl = list())
+resample(task, learner, resampling, measures = NULL, ctrl = list())
 }
 \arguments{
 \item{task}{(\link{Task}):
@@ -18,6 +18,10 @@ Instead if a \link{Learner} object, it is also possible to provide a key to retr
 \item{resampling}{(\link{Resampling}):
 Object of type \link{Resampling}.
 Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a task from the \link{mlr_resamplings} dictionary.}
+
+\item{measures}{(list of \link{Measure}):
+List of performance measures to calculate.
+Defaults to the measures specified in the \link{Task} \code{task}.}
 
 \item{ctrl}{(named \code{list()}, e.g. as returned by \code{\link[=mlr_control]{mlr_control()}}):
 Object to control various parts of the execution. See \code{\link[=mlr_control]{mlr_control()}}.}
