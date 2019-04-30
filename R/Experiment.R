@@ -185,7 +185,7 @@ Experiment = R6Class("Experiment",
     log = function(steps = c("train", "predict")) {
       steps = assert_sorted_subset(steps, c("train", "predict"), empty.ok = FALSE)
       parts = set_names(self$data[sprintf("%s_log", steps)], steps)
-      data = rbindlist(parts, idcol = "context")
+      data = rbindlist(parts, idcol = "context", use.names = TRUE)
       if (nrow(data) == 0L)
         return(Log$new())
       Log$new(data)

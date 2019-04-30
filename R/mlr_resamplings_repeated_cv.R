@@ -107,7 +107,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     },
 
     .combine = function(instances) {
-      rbindlist(instances)
+      rbindlist(instances, use.names = TRUE)
     }
   )
 )
