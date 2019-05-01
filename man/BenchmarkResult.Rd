@@ -66,7 +66,7 @@ Returns the \link{ResampleResult} with best performance according to the provide
 \item \code{resample_result(hash)}\cr
 \code{character(1)} -> \link{ResampleResult}\cr
 Retrieves the \link{ResampleResult} whose hash starts with \code{hash}.
-The Abbreviation must be unambiguous, so that exactly one \link{ResampleResult} is matched.
+The abbreviation must be unambiguous, so that exactly one \link{ResampleResult} is matched.
 }
 }
 
