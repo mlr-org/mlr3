@@ -58,6 +58,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     data = function(rows, cols, data_format = "data.table") {
       assert_choice(data_format, self$data_formats)
+      assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
       cols = intersect(cols, colnames(private$.data))
 
