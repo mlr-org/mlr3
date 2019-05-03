@@ -1,14 +1,14 @@
 train_worker = function(e, ctrl) {
+  abort = function(e, ...) {
+    msg = sprintf(as.character(e), ...)
+    stop(errorCondition(msg, learner = learner, task = task, class = "trainError"))
+  }
+
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(learner, task) {
-    abort = function(e, ...) {
-      msg = sprintf(as.character(e), ...)
-      stop(errorCondition(msg, learner = learner, task = task, class = "trainError"))
-    }
-
     result = tryCatch(learner$train(task), error = abort)
 
     if (is.null(result))
@@ -69,16 +69,16 @@ train_worker = function(e, ctrl) {
 
 
 predict_worker = function(e, ctrl) {
+  abort = function(e, ...) {
+    msg = sprintf(as.character(e), ...)
+    stop(errorCondition(msg, learner = learner, task = task, class = "predictError"))
+  }
+
   # This wrapper calls learner$predict, and additionally performs some basic
   # checks that the prediction was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(learner, task) {
-    abort = function(e, ...) {
-      msg = sprintf(as.character(e), ...)
-      stop(errorCondition(msg, learner = learner, task = task, class = "predictError"))
-    }
-
     if (is.null(learner$model))
       abort("No trained model available")
 
