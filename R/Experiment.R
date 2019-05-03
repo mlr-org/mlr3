@@ -155,9 +155,9 @@ Experiment = R6Class("Experiment",
     initialize = function(task = NULL, learner = NULL, ctrl = list()) {
       self$data = named_list(mlr_reflections$experiment_slots$name)
       if (!is.null(task))
-        self$data$task = get_task(task, clone = TRUE)
+        self$data$task = assert_task(task, clone = TRUE)
       if (!is.null(learner))
-        self$data$learner = get_learner(learner, clone = TRUE)
+        self$data$learner = assert_learner(learner, task = self$data$task, clone = TRUE)
       self$ctrl = assert_list(ctrl)
       self$seeds = set_names(rep.int(NA_integer_, 3L), c("train", "predict", "score"))
     },
