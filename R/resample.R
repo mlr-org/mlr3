@@ -48,9 +48,9 @@
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
 resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
-  task = get_task(task, clone = TRUE)
-  learner = get_learner(learner, clone = TRUE)
-  resampling = get_resampling(resampling)
+  task = assert_task(task, clone = TRUE)
+  learner = assert_learner(learner, task = task, clone = TRUE)
+  resampling = assert_resampling(resampling)
   measures = assert_measures(measures %??% task$measures, task = task)
   ctrl = mlr_control(ctrl)
 

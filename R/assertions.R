@@ -26,8 +26,8 @@ assert_experiment = function(e, .var.name = vname(e)) {
 #' @param task_properties (`character()`)\cr
 #'   Set of required task properties.
 #' @rdname mlr_assertions
-assert_task = function(task, feature_types = NULL, task_properties = NULL, .var.name = vname(task)) {
-  assert_class(task, "Task", .var.name = .var.name)
+assert_task = function(task, feature_types = NULL, task_properties = NULL, clone = FALSE) {
+  task = cast_from_dict(task, "Task", mlr_tasks, clone, FALSE)[[1L]]
 
   if (!is.null(feature_types)) {
     tmp = setdiff(task$feature_types$type, feature_types)
@@ -41,15 +41,23 @@ assert_task = function(task, feature_types = NULL, task_properties = NULL, .var.
       stopf("Task is missing the following properties: %s", str_collapse(tmp))
   }
 
-  invisible(task)
+  task
+}
+
+#' @export
+#' @param tasks (list of [Task]).
+#' @rdname mlr_assertions
+assert_tasks = function(tasks, feature_types = NULL, task_properties = NULL, clone = FALSE) {
+  tasks = cast_from_dict(tasks, "Task", mlr_tasks, clone, TRUE)
+  lapply(tasks, assert_task, feature_types = feature_types, task_properties = task_properties)
 }
 
 #' @export
 #' @param learner ([Learner]).
-#' @param task ([Task]).
 #' @rdname mlr_assertions
-assert_learner = function(learner, task = NULL, properties = character(0L), .var.name = vname(learner)) {
-  assert_class(learner, "Learner", .var.name = .var.name)
+assert_learner = function(learner, task = NULL, properties = character(0L), clone = FALSE) {
+  learner = cast_from_dict(learner, "Learner", mlr_learners, clone, FALSE)[[1L]]
+
   if (!is.null(task)) {
     if (!identical(task$task_type, learner$task_type)) {
       stopf("Learner '%s' is not compatible with type of task '%s' (type: %s)",
@@ -63,15 +71,24 @@ assert_learner = function(learner, task = NULL, properties = character(0L), .var
       stopf("Learner '%s' must have the properties: %s", learner$id, str_collapse(miss))
     }
   }
-  invisible(learner)
+
+  learner
+}
+
+#' @export
+#' @param learners (list of [Learner]).
+#' @rdname mlr_assertions
+assert_learners = function(learners, task = NULL, properties = character(0L), clone = FALSE) {
+  learners = cast_from_dict(learners, "Learner", mlr_learners, clone, TRUE)
+  lapply(learners, assert_learner, task = task, properties = properties)
 }
 
 #' @export
 #' @param measure ([Measure]).
 #' @param predict_types (`character()`). Vector of predict types provided by the experiment/learner.
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, predict_types = NULL, .var.name = vname(measure)) {
-  assert_class(measure, "Measure", .var.name = .var.name)
+assert_measure = function(measure, task = NULL, predict_types = NULL, clone = FALSE) {
+  measure = cast_from_dict(measure, "Measure", mlr_measures, clone, FALSE)[[1L]]
 
   if (!is.null(task)) {
     if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type)
@@ -89,29 +106,38 @@ assert_measure = function(measure, task = NULL, predict_types = NULL, .var.name 
       stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
   }
 
-  measure
+  return(measure)
 }
 
 #' @export
 #' @param measures (list of [Measure]).
 #' @rdname mlr_assertions
-assert_measures = function(measures, task = NULL, predict_types = NULL, .var.name = vname(measures)) {
-  assert_list(measures, min.len = 1L, .var.name = .var.name)
+assert_measures = function(measures, task = NULL, predict_types = NULL, clone = FALSE) {
+  measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
   lapply(measures, assert_measure, task = task, predict_types = predict_types)
 }
 
 #' @export
 #' @param resampling ([Resampling]).
 #' @rdname mlr_assertions
-assert_resampling = function(resampling, instantiated = NULL, .var.name = vname(resampling)) {
-  assert_class(resampling, "Resampling", .var.name = .var.name)
+assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
+  resampling = cast_from_dict(resampling, "Resampling", mlr_resamplings, clone, FALSE)[[1L]]
   if (!is.null(instantiated)) {
     if (instantiated && !resampling$is_instantiated)
       stopf("Resampling '%s' must be instantiated", resampling$id)
     if (!instantiated && resampling$is_instantiated)
       stopf("Resampling '%s' may not be instantiated", resampling$id)
   }
-  invisible(resampling)
+
+  return(resampling)
+}
+
+#' @export
+#' @param resamplings (list of [Resampling]).
+#' @rdname mlr_assertions
+assert_resamplings = function(resamplings, instantiated = NULL, clone = FALSE) {
+  resamplings = cast_from_dict(resamplings, "Resampling", mlr_resamplings, clone, TRUE)
+  lapply(resamplings, assert_resampling, instantiated = instantiated)
 }
 
 #' @export
@@ -148,7 +174,7 @@ assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
     row_ids = as.integer(row_ids)
   if (!is.null(type) && typeof(row_ids) != type)
     stopf("Assertion on '%s' failed: Must be of type '%s', not '%s'", .var.name, type, typeof(row_ids))
-  invisible(row_ids)
+  return(row_ids)
 }
 
 assert_set = function(x, empty = TRUE, .var.name = vname(x)) {

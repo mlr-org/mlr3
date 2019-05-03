@@ -5,10 +5,13 @@
 \alias{assert_backend}
 \alias{assert_experiment}
 \alias{assert_task}
+\alias{assert_tasks}
 \alias{assert_learner}
+\alias{assert_learners}
 \alias{assert_measure}
 \alias{assert_measures}
 \alias{assert_resampling}
+\alias{assert_resamplings}
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
 \alias{assert_param_set}
@@ -20,19 +23,26 @@ assert_backend(b, .var.name = vname(b))
 assert_experiment(e, .var.name = vname(e))
 
 assert_task(task, feature_types = NULL, task_properties = NULL,
-  .var.name = vname(task))
+  clone = FALSE)
+
+assert_tasks(tasks, feature_types = NULL, task_properties = NULL,
+  clone = FALSE)
 
 assert_learner(learner, task = NULL, properties = character(0L),
-  .var.name = vname(learner))
+  clone = FALSE)
+
+assert_learners(learners, task = NULL, properties = character(0L),
+  clone = FALSE)
 
 assert_measure(measure, task = NULL, predict_types = NULL,
-  .var.name = vname(measure))
+  clone = FALSE)
 
 assert_measures(measures, task = NULL, predict_types = NULL,
-  .var.name = vname(measures))
+  clone = FALSE)
 
-assert_resampling(resampling, instantiated = NULL,
-  .var.name = vname(resampling))
+assert_resampling(resampling, instantiated = NULL, clone = FALSE)
+
+assert_resamplings(resamplings, instantiated = NULL, clone = FALSE)
 
 assert_resample_result(resample_result,
   .var.name = vname(resample_result))
@@ -56,7 +66,11 @@ Set of allowed feature types.}
 \item{task_properties}{(\code{character()})\cr
 Set of required task properties.}
 
+\item{tasks}{(list of \link{Task}).}
+
 \item{learner}{(\link{Learner}).}
+
+\item{learners}{(list of \link{Learner}).}
 
 \item{measure}{(\link{Measure}).}
 
@@ -66,6 +80,8 @@ Set of required task properties.}
 
 \item{resampling}{(\link{Resampling}).}
 
+\item{resamplings}{(list of \link{Resampling}).}
+
 \item{resample_result}{(\link{ResampleResult}).}
 
 \item{bmr}{(\link{BenchmarkResult}).}
@@ -73,8 +89,6 @@ Set of required task properties.}
 \item{param_set}{(\link[paradox:ParamSet]{paradox::ParamSet}).}
 
 \item{id}{(\code{character(1)}).}
-
-\item{task}{(\link{Task}).}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

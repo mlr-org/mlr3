@@ -123,10 +123,11 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 #' @return ([data.table()]) with the cross product of the input vectors.
 #' @export
 expand_grid = function(tasks, learners, resamplings) {
-  tasks = get_tasks(tasks)
-  learners = get_learners(learners)
-  resamplings = get_resamplings(resamplings)
-  map(resamplings, assert_resampling, instantiated = FALSE)
+  tasks = assert_tasks(tasks)
+  learners = assert_learners(learners)
+  resamplings = assert_resamplings(resamplings)
+  # map(resamplings, assert_resampling, instantiated = FALSE)
+  # FIXME
 
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
   instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))
