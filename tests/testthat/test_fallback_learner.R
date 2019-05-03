@@ -7,12 +7,12 @@ test_that("no fallback_learner, no encapsulation", {
 
   learner$param_set$values = list(error_train = TRUE)
   e = Experiment$new(task = task, learner = learner)
-  expect_error(e$train(ctrl = ctrl), "classif.debug->train")
+  expect_error(e$train(ctrl = ctrl), "classif.debug->train", class = "trainError")
 
   learner$param_set$values = list(error_predict = TRUE)
   e = Experiment$new(task = task, learner = learner)
   e$train(ctrl = ctrl)
-  expect_error(e$predict(ctrl = ctrl), "classif.debug->predict")
+  expect_error(e$predict(ctrl = ctrl), "classif.debug->predict", class = "predictError")
 })
 
 
