@@ -1,6 +1,6 @@
 #' @title Repeated Cross Validation Resampling
 #'
-#' @name mlr_resamplings_repeated_cv
+#' @aliases mlr_resamplings_repeated_cv
 #' @format [R6::R6Class()] inheriting from [Resampling].
 #' @include Resampling.R
 #'

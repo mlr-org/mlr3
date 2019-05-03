@@ -1,6 +1,6 @@
 #' @title Classification Tree Learner
 #'
-#' @name mlr_learners_classif.rpart
+#' @aliases mlr_learners_classif.rpart
 #' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @include LearnerClassif.R
 #'

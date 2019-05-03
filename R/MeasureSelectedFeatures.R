@@ -1,6 +1,6 @@
 #' @title Selected Features Measure
 #'
-#' @name mlr_measures_selected_features
+#' @aliases mlr_measures_selected_features
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'

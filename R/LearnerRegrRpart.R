@@ -1,6 +1,6 @@
 #' @title Regression Tree Learner
 #'
-#' @name mlr_learners_regr.rpart
+#' @aliases mlr_learners_regr.rpart
 #' @format [R6::R6Class] inheriting from [LearnerRegr].
 #' @include LearnerRegr.R
 #'

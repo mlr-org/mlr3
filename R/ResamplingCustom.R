@@ -1,6 +1,6 @@
 #' @title Custom Resampling
 #'
-#' @name mlr_resamplings_custom
+#' @aliases mlr_resamplings_custom
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'

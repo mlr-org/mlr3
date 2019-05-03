@@ -1,6 +1,6 @@
 #' @title XOR Classification Task Generator
 #'
-#' @name mlr_generators_xor
+#' @aliases mlr_generators_xor
 #' @format [R6::R6Class] inheriting from [Generator].
 #' @include Generator.R
 #'

@@ -1,6 +1,6 @@
 #' @title Absolute Errors Regression Measure
 #'
-#' @name mlr_measures_regr.mae
+#' @aliases mlr_measures_regr.mae
 #' @format [R6::R6Class] inheriting from [MeasureClassif].
 #' @include MeasureRegr.R
 #'

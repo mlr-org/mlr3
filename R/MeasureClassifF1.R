@@ -1,6 +1,6 @@
 #' @title F1 Classification Measure
 #'
-#' @name mlr_measures_classif.f1
+#' @aliases mlr_measures_classif.f1
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'

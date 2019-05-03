@@ -89,7 +89,7 @@ Collate:
     'Dictionary.R'
     'Experiment.R'
     'Generator.R'
-    'Generator2dNormals.R'
+    'Generator2DNormals.R'
     'GeneratorSmiley.R'
     'GeneratorXor.R'
     'Learner.R'

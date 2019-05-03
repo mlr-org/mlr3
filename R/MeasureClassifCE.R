@@ -1,6 +1,6 @@
 #' @title Classification Error Measure
 #'
-#' @name mlr_measures_classif.ce
+#' @aliases mlr_measures_classif.ce
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'

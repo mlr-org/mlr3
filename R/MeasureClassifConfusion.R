@@ -20,7 +20,23 @@ confusion_measure_info = setkeyv(rowwise_table(
 
 #' @title Binary Classification Measures Derived from a Confusion Matrix
 #'
-#' @name mlr_measures_classif.confusion
+#' @aliases mlr_measures_classif.confusion
+#'  mlr_measures_classif.tp
+#'  mlr_measures_classif.fn
+#'  mlr_measures_classif.fp
+#'  mlr_measures_classif.tn
+#'  mlr_measures_classif.tpr
+#'  mlr_measures_classif.fnr
+#'  mlr_measures_classif.fpr
+#'  mlr_measures_classif.tnr
+#'  mlr_measures_classif.ppv
+#'  mlr_measures_classif.fdr
+#'  mlr_measures_classif.for
+#'  mlr_measures_classif.npv
+#'  mlr_measures_classif.precision
+#'  mlr_measures_classif.recall
+#'  mlr_measures_classif.sensitivity
+#'  mlr_measures_classif.specificity
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'
@@ -47,23 +63,6 @@ confusion_measure_info = setkeyv(rowwise_table(
 #'
 #' If the denominator is 0, the score is returned as `NA`.
 #'
-#' @aliases
-#'  mlr_measures_classif.tp
-#'  mlr_measures_classif.fn
-#'  mlr_measures_classif.fp
-#'  mlr_measures_classif.tn
-#'  mlr_measures_classif.tpr
-#'  mlr_measures_classif.fnr
-#'  mlr_measures_classif.fpr
-#'  mlr_measures_classif.tnr
-#'  mlr_measures_classif.ppv
-#'  mlr_measures_classif.fdr
-#'  mlr_measures_classif.for
-#'  mlr_measures_classif.npv
-#'  mlr_measures_classif.precision
-#'  mlr_measures_classif.recall
-#'  mlr_measures_classif.sensitivity
-#'  mlr_measures_classif.specificity
 #' @export
 #' @examples
 #' task = mlr_tasks$get("wine")
@@ -95,7 +94,7 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
   )
 )
 
-#' @rdname mlr_measures_classif.confusion
+#' @rdname MeasureClassifConfusion
 #'
 #' @param m (`matrix()`)\cr
 #'   Confusion matrix, e.g. as returned by field `confusion` of [PredictionClassif].

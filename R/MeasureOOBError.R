@@ -1,6 +1,6 @@
 #' @title Out-of-bag Error Measure
 #'
-#' @name mlr_measures_oob_error
+#' @aliases mlr_measures_oob_error
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'
