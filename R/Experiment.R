@@ -157,7 +157,7 @@ Experiment = R6Class("Experiment",
       if (!is.null(task))
         self$data$task = assert_task(task, clone = TRUE)
       if (!is.null(learner))
-        self$data$learner = assert_learner(learner, task = task, clone = TRUE)
+        self$data$learner = assert_learner(learner, task = self$data$task, clone = TRUE)
       self$ctrl = assert_list(ctrl)
       self$seeds = set_names(rep.int(NA_integer_, 3L), c("train", "predict", "score"))
     },
