@@ -78,7 +78,7 @@ expect_backend = function(b) {
   testthat::expect_equal(i, x[[1L]])
 
   # duplicated cols raise exception
-  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L), data_format = "data.table"), "uniquely")
+  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L), data_format = "data.table"), "unique")
 
   # $head()
   checkmate::expect_data_table(b$head(9999L), nrow = n, ncol = p)

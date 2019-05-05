@@ -46,7 +46,7 @@ Depends:
     R (>= 3.1.0)
 Imports:
     backports,
-    checkmate (>= 1.9.0),
+    checkmate (>= 1.9.3),
     data.table,
     digest,
     logger,
