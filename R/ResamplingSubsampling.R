@@ -9,10 +9,10 @@
 #' with a ratio of `ratio` (default: 2/3) observations in the training set.
 #'
 #' @section Fields:
-#' @inheritSection Learner Fields
+#' See [Resampling].
 #'
 #' @section Methods:
-#' @inheritSection Learner Methods
+#' See [Resampling].
 #'
 #' @export
 #' @examples

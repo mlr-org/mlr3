@@ -5,14 +5,13 @@
 #' @include Resampling.R
 #'
 #' @description
-#' A custom resampling class where the training and test indices
-#' can be set manually.
+#' A custom resampling class where the training and test indices can be set manually.
 #'
 #' @section Fields:
-#' @inheritSection Learner Fields
+#' See [Resampling].
 #'
 #' @section Methods:
-#' @inheritSection Learner Methods
+#' See [Resampling].
 #'
 #' @export
 #' @examples

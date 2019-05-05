@@ -53,6 +53,8 @@
 #'   and one row for each observation in the test set.
 #'
 #' @section Fields:
+#' All fields from [Prediction], and additionally:
+#'
 #' * `threshold` :: `numeric(1)`\cr
 #'   Probability threshold between 0 and 1.
 #'   Assigning a value to this field modifies the stored responses.
@@ -60,8 +62,6 @@
 #' * `confusion` :: `matrix()`\cr
 #'   Confusion matrix resulting from the comparison of truth and response.
 #'   Truth is in columns, predicted response in rows.
-#'
-#' @inheritSection Prediction Fields
 #'
 #' @family Prediction
 #' @export

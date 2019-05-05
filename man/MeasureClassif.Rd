@@ -40,37 +40,12 @@ Note that these packages will be loaded via \code{\link[=requireNamespace]{requi
 
 \section{Fields}{
 
-
-
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Stores the identifier of the measure.
-\item \code{minimize} :: \code{logical(1)}\cr
-Is \code{TRUE} if the best value is reached via minimization and \code{FALSE} by maximization.
-\item \code{packages} :: \code{character()}\cr
-Stores the names of required packages.
-\item \code{range} :: \code{numeric(2)}\cr
-Stores the feasible range of the measure.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the required type of the \link{Task}.
-\item \code{task_properties} :: \code{character()}\cr
-Stores required properties of the \link{Task}.
-}
+See \link{Measure}.
 }
 
 \section{Methods}{
 
-
-
-\itemize{
-\item \code{aggregate(rr)}\cr
-\link{ResampleResult} -> \code{numeric(1)}\cr
-Aggregates multiple performance scores into a single score using the \code{aggregate} function of the measure.
-Operates on a \link{ResampleResult} as returned by \link{resample}.
-\item \code{calculate(experiment = NULL, prediction = experiment$prediction)}\cr
-(\link{Experiment}, \link{Prediction}) -> \code{numeric(1)}\cr
-Takes an \link{Experiment} and a \link{Prediction} (defaults to prediction stored in experiment), and calculates a numeric score.
-}
+See \link{Measure}.
 }
 
 \seealso{

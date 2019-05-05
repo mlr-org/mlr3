@@ -33,20 +33,7 @@ One element for each observation in the test set.
 
 \section{Fields}{
 
-
-
-\itemize{
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Vector of row ids for which predictions are stored.
-\item \code{truth} :: \code{any}\cr
-Vector of true labels.
-\item \code{response} :: \code{any}\cr
-Vector of predicted labels.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the type of the \link{Task}.
-\item \code{predict_types} :: \code{character()}\cr
-Vector of predict types this object stores.
-}
+See \link{Prediction}.
 }
 
 \examples{

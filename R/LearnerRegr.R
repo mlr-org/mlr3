@@ -37,10 +37,10 @@
 #'   Set of required packages.
 #'
 #' @section Fields:
-#' @inheritSection Learner Fields
+#' See [Learner].
 #'
 #' @section Methods:
-#' @inheritSection Learner Methods
+#' See [Learner].
 #'
 #' @family Learner
 #' @export

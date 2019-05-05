@@ -107,6 +107,25 @@ The learner must be tagged with property "selected_features".
 }
 }
 
+\section{Setting Hyperparameters}{
+
+
+All information about hyperparameters is stored in the slot \code{param_set} which is a \link[paradox:ParamSet]{paradox::ParamSet}.
+The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
+possible levels (for factors), default values and assigned values.
+To set hyperparameters, assign a named list to the subslot \code{values}:\preformatted{lrn = mlr_learners$get("classif.rpart")
+lrn$param_set$values = list(minsplit = 3, cp = 0.01)
+}
+
+Note that this operation erases all previously set hyperparameter values.
+If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function \code{\link[mlr3misc:insert_named]{mlr3misc::insert_named()}}:\preformatted{lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
+}
+
+If the learner has additional hyperparameters which are not encoded in the \link[paradox:ParamSet]{ParamSet}, you can easily extend the learner.
+Here, we add a hyperparameter with id "foo" possible levels "bar" and "baz":\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("bar", "baz")))
+}
+}
+
 \seealso{
 Other Learner: \code{\link{LearnerClassif}},
   \code{\link{LearnerRegr}}, \code{\link{mlr_learners}}

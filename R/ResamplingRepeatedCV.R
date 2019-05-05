@@ -12,9 +12,12 @@
 #' a single cross-validation.
 #'
 #' @section Fields:
-#' @inheritSection Learner Fields
+#' See [Resampling].
 #'
 #' @section Methods:
+#' See [Resampling].
+#' Additionally, the class provides two helper function to translate iteration numbers to folds / repeats:
+#'
 #' * `folds(iters)`\cr
 #'   `integer()` -> `integer()`\cr
 #'   Translates iteration numbers to fold number.
@@ -22,8 +25,6 @@
 #' * `repeats(iters)`\cr
 #'   `integer()` -> `integer()`\cr
 #'   Translates iteration numbers to repetition number.
-#'
-#' @inheritSection Learner Methods
 #'
 #' @export
 #' @examples

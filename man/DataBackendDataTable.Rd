@@ -25,50 +25,12 @@ creates a primary key column if required.
 
 \section{Fields}{
 
-
-
-\itemize{
-\item \code{nrow} :: \code{integer(1)}\cr
-Number of rows (observations).
-\item \code{ncol} :: \code{integer(1)}\cr
-Number of columns (variables), including the primary key column.
-\item \code{colnames} :: \code{character()}\cr
-Returns vector of all column names, including the primary key column.
-\item \code{rownames} :: \code{integer()} | \code{character()}\cr
-Returns vector of all distinct row identifiers, i.e. the primary key column.
-\item \code{hash} :: \code{character(1)}\cr
-Returns a unique hash for this backend. This hash is cached.
-\item \code{data_formats} :: \code{character()}\cr
-Vector of supported data formats.
-A specific format of these supported formats can be picked in the \code{$data()} method.
-}
+See \link{DataBackend}.
 }
 
 \section{Methods}{
 
-
-
-\itemize{
-\item \code{data(rows = NULL, cols = NULL, format = "data.table")}\cr
-(\code{integer()} | \code{character()}, \code{character()}) -> \code{any}\cr
-Returns a slice of the data in a specific format.
-Currently, the only supported format is "data.table".
-The rows must be addressed as vector of primary key values, columns must be referred to via column names.
-Non-existing rows and columns are silently ignored.
-\item \code{distinct(rows, cols)}\cr
-(\code{integer()} | \code{character()}, \code{character()}) -> named \code{list()}\cr
-Returns a named list of vectors of distinct values for each column specified.
-Non-existing columns are silently ignored.
-If \code{rows} is \code{NULL}, all possible distinct values will be returned, even if they do not occur.
-This affects factor-like variables with empty levels.
-\item \code{head(n = 6)}\cr
-\code{integer(1)} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns the first up-to \code{n} rows of the data as \code{\link[data.table:data.table]{data.table::data.table()}}.
-\item \code{missings(rows, cols)}\cr
-(\code{integer()} | \code{character()}, \code{character()}) -> named \code{integer()}\cr
-Returns the number of missing values per column in the specified slice of data.
-Non-existing rows and columns are silently ignored.
-}
+See \link{DataBackend}.
 }
 
 \examples{

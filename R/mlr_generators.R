@@ -5,7 +5,7 @@
 #' A simple [Dictionary] storing generator functions returning a [Task].
 #'
 #' @section Methods:
-#' @inheritSection Dictionary Methods
+#' See [Dictionary].
 #'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr

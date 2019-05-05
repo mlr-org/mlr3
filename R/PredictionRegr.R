@@ -32,7 +32,7 @@
 #' Depending on the value of "predict_types", "response" and "se" must also be set.
 #'
 #' @section Fields:
-#' @inheritSection Prediction Fields
+#' See [Prediction].
 #'
 #' @family Prediction
 #' @export

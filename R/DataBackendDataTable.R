@@ -24,10 +24,10 @@
 #'
 #'
 #' @section Fields:
-#' @inheritSection DataBackend Fields
+#' See [DataBackend].
 #'
 #' @section Methods:
-#' @inheritSection DataBackend Methods
+#' See [DataBackend].
 #'
 #' @family DataBackend
 #' @export

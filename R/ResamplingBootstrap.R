@@ -10,10 +10,10 @@
 #' and the ratio of observations to draw per iteration (`ratio`, default: 1).
 #'
 #' @section Fields:
-#' @inheritSection Learner Fields
+#' See [Resampling].
 #'
 #' @section Methods:
-#' @inheritSection Learner Methods
+#' See [Resampling].
 #'
 #' @export
 #' @examples

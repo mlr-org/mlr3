@@ -8,10 +8,10 @@
 #' Cross validation with `folds` folds (cv: 10 folds, cv3: 3 folds).
 #'
 #' @section Fields:
-#' @inheritSection Learner Fields
+#' See [Resampling].
 #'
 #' @section Methods:
-#' @inheritSection Learner Methods
+#' See [Resampling].
 #'
 #' @export
 #' @examples

@@ -27,10 +27,10 @@
 #'   Name of the target column.
 #'
 #' @section Fields:
-#' @inheritSection Task Fields
+#' See [TaskSupervised].
 #'
 #' @section Methods:
-#' @inheritSection Task Methods
+#' See [TaskSupervised].
 #'
 #' @family Task
 #' @export

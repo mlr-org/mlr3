@@ -6,7 +6,7 @@
 #' Each measure has an associated help page, see `mlr_measures_[id]`.
 #'
 #' @section Methods:
-#' @inheritSection Dictionary Methods
+#' See [Dictionary].
 #'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr

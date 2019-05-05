@@ -48,7 +48,7 @@
 #'   `integer(1)` -> [Task]\cr
 #'   Creates a task of type `task_type` with `n` observations, possibly using additional settings stored in `param_set`.
 #'
-#' @family Generators
+#' @family Generator
 #' @export
 Generator = R6Class("Generator",
   public = list(

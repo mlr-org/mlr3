@@ -115,6 +115,28 @@
 #' * `selected_features(...)`: Returns a subset of selected features as `character()`.
 #'   The learner must be tagged with property "selected_features".
 #'
+#' @section Setting Hyperparameters:
+#'
+#' All information about hyperparameters is stored in the slot `param_set` which is a [paradox::ParamSet].
+#' The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
+#' possible levels (for factors), default values and assigned values.
+#' To set hyperparameters, assign a named list to the subslot `values`:
+#' ```
+#' lrn = mlr_learners$get("classif.rpart")
+#' lrn$param_set$values = list(minsplit = 3, cp = 0.01)
+#' ```
+#' Note that this operation erases all previously set hyperparameter values.
+#' If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function [mlr3misc::insert_named()]:
+#' ```
+#' lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
+#' ```
+#' If the learner has additional hyperparameters which are not encoded in the [ParamSet][paradox::ParamSet], you can easily extend the learner.
+#' Here, we add a hyperparameter with id "foo" possible levels "bar" and "baz":
+#' ```
+#' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("bar", "baz")))
+#' ```
+#'
+#'
 #' @family Learner
 #' @export
 Learner = R6Class("Learner",

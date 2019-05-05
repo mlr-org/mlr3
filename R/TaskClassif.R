@@ -30,6 +30,8 @@
 #'   Only for binary classification: Name of the positive class.
 #'
 #' @section Fields:
+#' All methods from [TaskSupervised], and additionally:
+#'
 #' * `class_names` :: `character()`\cr
 #'   Returns all class labels of the target column.
 #'
@@ -41,10 +43,9 @@
 #'
 #' * `positive` :: `character(1)`\cr
 #'   Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
-#' @inheritSection Task Fields
 #'
 #' @section Methods:
-#' @inheritSection Task Methods
+#' See [TaskSupervised].
 #'
 #' @family Task
 #' @export

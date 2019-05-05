@@ -9,10 +9,10 @@
 #' Parameter `ratio` determines the ratio of observation in the train set (default: 2/3).
 #'
 #' @section Fields:
-#' @inheritSection Learner Fields
+#' See [Resampling].
 #'
 #' @section Methods:
-#' @inheritSection Learner Methods
+#' See [Resampling].
 #'
 #' @export
 #' @examples

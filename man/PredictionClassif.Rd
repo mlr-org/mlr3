@@ -54,6 +54,7 @@ and one row for each observation in the test set.
 
 \section{Fields}{
 
+All fields from \link{Prediction}, and additionally:
 \itemize{
 \item \code{threshold} :: \code{numeric(1)}\cr
 Probability threshold between 0 and 1.
@@ -61,20 +62,6 @@ Assigning a value to this field modifies the stored responses.
 \item \code{confusion} :: \code{matrix()}\cr
 Confusion matrix resulting from the comparison of truth and response.
 Truth is in columns, predicted response in rows.
-}
-
-
-\itemize{
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Vector of row ids for which predictions are stored.
-\item \code{truth} :: \code{any}\cr
-Vector of true labels.
-\item \code{response} :: \code{any}\cr
-Vector of predicted labels.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the type of the \link{Task}.
-\item \code{predict_types} :: \code{character()}\cr
-Vector of predict types this object stores.
 }
 }
 
