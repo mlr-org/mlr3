@@ -143,7 +143,7 @@ Collate:
     'as_data_backend.R'
     'assertions.R'
     'benchmark.R'
-    'cast.R'
+    'cast_from_dict.R'
     'encapsulate.R'
     'helper.R'
     'helper_future.R'
