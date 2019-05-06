@@ -11,7 +11,7 @@ Learners consist of the following parts:
 \itemize{
 \item Methods \code{train()} and \code{predict()} to perform the respective steps.
 \item The fitted model, after calling \code{train()}.
-\item A \link[padadox:ParamSet]{padadox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+\item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 \item Meta-information about the requirements and capabilities of the learner.
 }
 

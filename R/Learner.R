@@ -10,7 +10,7 @@
 #'
 #' - Methods `train()` and `predict()` to perform the respective steps.
 #' - The fitted model, after calling `train()`.
-#' - A [padadox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+#' - A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' - Meta-information about the requirements and capabilities of the learner.
 #'
 #' Predefined learners are stored in [mlr_learners].
