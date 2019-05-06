@@ -63,6 +63,6 @@ as.data.table.Prediction = function(x, ...) {
   if (is.null(x$row_ids))
     return(data.table())
   if (is.null(x$response) || is.null(x$truth))
-    stop("Cannon convert Prediction to data.table: Prediction object incomplete")
+    stop("Cannot convert Prediction to data.table: Prediction object incomplete")
   data.table(row_id = x$row_ids, response = x$response, truth = x$truth)
 }

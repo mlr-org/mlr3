@@ -7,12 +7,11 @@
 mlr_control(...)
 }
 \arguments{
-\item{...}{Named arguments to overwrite the defaults / options.}
+\item{...}{Named arguments to overwrite the defaults / options.
+Settings may be provided in a \code{name = value} fashion, or by providing a single named \code{list()}.}
 }
 \value{
-(named \code{list()}). If no argument is provided, returns all settings as named list.
-If arguments are provided in a \code{name = value} fashion, the settings are returned as named list
-after some argument checks.
+(named \code{list()}) of all settings.
 }
 \description{
 This function creates a named list of settings which control the execution of an \link{Experiment}.
@@ -24,15 +23,16 @@ Note that you will be unable to further predict on new data.
 \itemize{
 \item If set to \code{"none"} (default), the code is executed in the running session without error handling.
 Output is not stored, just send to the console.
-\item If set to \code{"evaluate"}, the exceptions are caught using \code{\link[evaluate:evaluate]{evaluate::evaluate()}}, and output is stored in a \link{Log} of the corresponding \link{Experiment}.
-\item If set to \code{"callr"}, the code is executed in an independent R session. This guards your session from segfaults,
-at the cost of some computational overhead. Logs are also stored in the \link{Experiment}.
+\item If set to \code{"evaluate"}, the exceptions are caught using \code{\link[evaluate:evaluate]{evaluate::evaluate()}}.
+All output is stored in a \link{Log} of the corresponding \link{Experiment}.
+\CRANpkg{evaluate} does not start a separate session, and thus cannot guard you against segfaults.
+\item If set to \code{"callr"}, the code is executed in an independent R session using the \CRANpkg{callr} package.
+All output is stored in a \link{Log} of the corresponding \link{Experiment}.
+This guards your session from segfaults, at the cost of some computational overhead.
+See \link{Log} for an example.
 }
-
-See \link{Log} for an example.
 \item \code{encapsulate_predict}: How to call external code in third party packages during predict.
-Same format as \code{encapsulate_train}.
-See \link{Log} for an example.
+Same format as \code{encapsulate_train}. See \link{Log} for an example.
 }
 }
 \examples{

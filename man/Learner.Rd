@@ -7,10 +7,19 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for learner objects like \link{LearnerClassif} and \link{LearnerRegr}.
+Learners consist of the following parts:
+\itemize{
+\item Methods \code{train()} and \code{predict()} to perform the respective steps.
+\item The fitted model, after calling \code{train()}.
+\item A \link[padadox:ParamSet]{padadox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+\item Meta-information about the requirements and capabilities of the learner.
+}
+
 Predefined learners are stored in \link{mlr_learners}.
 }
 \section{Construction}{
-\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+
+Note: This object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
      feature_types = character(), properties = character(), packages = character())
 }
 \itemize{
@@ -30,8 +39,6 @@ Feature types the learner operates on. Must be a subset of \code{mlr_reflections
 Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
 \item \code{data_formats} :: \code{character()}\cr
 Vector of supported data formats which can be processed during \code{$train()} and \code{$predict()}.
-Will be matched against the data formats supported by the \link{Task}, and the first data format specified
-in the learner which is also supported by the task will be picked.
 Defaults to \code{"data.table"}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
@@ -43,7 +50,7 @@ Note that these packages will be loaded via \code{\link[=requireNamespace]{requi
 
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
-Stores the identifier of the learner.
+Identifier of the learner.
 \item \code{task_type} :: \code{character(1)}\cr
 Stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
 A complete list of task types is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_types}}.
@@ -66,7 +73,7 @@ Stores the names of required packages.
 Optionally stores a second \link{Learner} which is activated as fallback if this first \link{Learner} fails during
 train or predict.
 This mechanism is disabled unless you explicitly assign a learner to this slot.
-Additionally, you need to catch raised exceptions via encapsulation, see \code{\link[=mlr_control]{mlr_control()}}.
+Additionally, you need to enable encapsulation for the fallback learner to work, see \code{\link[=mlr_control]{mlr_control()}}.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 }
@@ -78,7 +85,7 @@ Hash (unique identifier) for this object.
 \item \code{params(tag)}\cr
 \code{character(1)} -> named \code{list()}\cr
 Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
-with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters used in the training step.
+with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters relevant in the training step.
 \item \code{train(task)}\cr
 \link{Task} -> \code{self}\cr
 Train the learner on the complete \link{Task}. The resulting model is stored in \code{l$model}.
@@ -104,6 +111,8 @@ The returned vector is named with feature names and sorted in decreasing order.
 Note that the model might omit features it has not used at all.
 \item \code{selected_features(...)}: Returns a subset of selected features as \code{character()}.
 The learner must be tagged with property "selected_features".
+\item \code{oob_error(...)}: Returns the out-of-bag error of the model as \code{numeric(1)}.
+The learner must be tagged with property "oob_error".
 }
 }
 
@@ -122,7 +131,7 @@ If you only intend to change one specific hyperparameter value and leave the oth
 }
 
 If the learner has additional hyperparameters which are not encoded in the \link[paradox:ParamSet]{ParamSet}, you can easily extend the learner.
-Here, we add a hyperparameter with id "foo" possible levels "bar" and "baz":\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("bar", "baz")))
+Here, we add a hyperparameter with id "foo" possible levels "a" and "b":\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 }
 }
 

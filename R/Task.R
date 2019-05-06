@@ -6,15 +6,23 @@
 #'
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
-#' Predefined tasks are stored in [mlr_tasks].
+#' Tasks serve two purposes:
+#'
+#' 1. Tasks wrap a [DataBackend], an object to transparently interface different data storage types.
+#' 2. Tasks store meta-information, such as the role of the individual columns in the [DataBackend].
+#'    For example, for a classification task a single column must be marked as target column, and others as features.
+#'
+#' Predefined (toy) tasks are stored in [mlr_tasks].
 #'
 #' @section Construction:
+#' Note: This object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
+#'
 #' ```
 #' t = Task$new(id, task_type, backend)
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
-#'   Name of the task.
+#'   Identifier for the task.
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Set in the classes which inherit from this class.
@@ -29,19 +37,21 @@
 #'
 #' * `col_info` :: [data.table::data.table()]\cr
 #'   Table with with 3 columns:
-#'   Column names of [DataBackend] are stored in column`id`.
-#'   Column `type` holds the storage type of the variables, e.g. `integer`, `numeric` or `character`.
-#'   Column `levels` keeps a list of possible levels for factor and character variables.
+#'   - `"id"` stores the name of the column.
+#'   - `"type"` holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
+#'   - `"levels"` stores a vector of distinct values (levels) for factor and character variables.
 #'
 #' * `col_roles` :: named `list()`\cr
 #'   Each column (feature) can have an arbitrary number of roles in the learning task:
-#'     - `"target"`: Labels to predict.
-#'     - `"feature"`: Regular feature.
+#'     - `"feature"`: Regular feature used in the model fitting process.
+#'     - `"target"`: Target variable.
+#'     - `"label"`: Observation labels. May be used in plots.
 #'     - `"order"`: Data returned by `data()` is ordered by this column (or these columns).
 #'     - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
 #'          or the test set for each resampling iteration. Only a single column may be marked as grouping column.
 #'     - `"weights"`: Observation weights. Only a single column may be marked as weights.
+#'
 #'   `col_roles` keeps track of the roles with a named list of vectors of feature names.
 #'   To alter the roles, use `t$set_col_role()`.
 #'
@@ -49,11 +59,13 @@
 #'   Each row (observation) can have an arbitrary number of roles in the learning task:
 #'     - `"use"`: Use in train / predict / resampling.
 #'     - `"validation"`: Hold the observations back unless explicitly requested.
+#'       Validation sets are not yet completely integrated into the package.
+#'
 #'   `row_roles` keeps track of the roles with a named list of vectors of feature names.
 #'   To alter the role, use `set_row_role()`.
 #'
 #' * `feature_names` :: `character()`\cr
-#'   Returns all column names with `role == "feature"`.
+#'   Return all column names with `role == "feature"`.
 #'
 #' * `feature_types` :: [data.table::data.table()]\cr
 #'   Returns a table with columns `id` and `type` where `id` are the column names of "active" features of the task
@@ -66,7 +78,7 @@
 #'   Stores the identifier of the Task.
 #'
 #' * `measures` :: `list()` of [Measure]\cr
-#'   Stores the measures to use for this task.
+#'   Stores the default measures to use for this task.
 #'
 #' * `ncol` :: `integer(1)`\cr
 #'   Returns the total number of cols with role "target" or "feature".
@@ -89,12 +101,12 @@
 #'
 #' * `groups` :: [data.table::data.table()]\cr
 #'   If the task has a designated column role "groups", table with two columns:
-#'   "row_id" (`integer()` | `character()`) and the grouping variable `group` (`vector()`).
+#'   `row_id` (`integer()` | `character()`) and the grouping variable `group` (`vector()`).
 #'   Returns `NULL` if there are is no grouping column.
 #'
 #' * `weights` :: [data.table::data.table()]\cr
 #'   If the task has a designated column role "weights", table with two columns:
-#'   "row_id" (`integer()` | `character()`) and the observation weights `weight` (`numeric()`).
+#'   `row_id` (`integer()` | `character()`) and the observation weights `weight` (`numeric()`).
 #'   Returns `NULL` if there are is no weight column.
 #'
 #' @section Methods:
@@ -103,18 +115,18 @@
 #'   Returns a slice of the data from the [DataBackend] in the data format specified by `data_format`
 #'   (depending on the [DataBackend], but usually a [data.table::data.table()]).
 #'
-#'   Rows are subsetted to only contain observations with role "use".
-#'   Columns are filtered to only contain features with roles "target" and "feature".
+#'   Rows are additionally subsetted to only contain observations with role "use", and
+#'   columns are filtered to only contain features with roles "target" and "feature".
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
 #'
 #' * `formula(rhs = NULL)`\cr
 #'   `character()` -> `formula`\cr
 #'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
-#'   the features provided in argument `rhs` (defaults to all active features).
+#'   the features provided in argument `rhs` (defaults to all columns with role "feature").
 #'
 #' * `levels(cols = NULL)`\cr
 #'   `character()` -> named `list()`\cr
-#'   Returns the distinct values of columns in `cols` for columns with storage type "character", "factor" or "ordered".
+#'   Returns the distinct values for columns referenced in `cols` with storage type "character", "factor" or "ordered".
 #'   Argument `cols` defaults to all such columns with role "target" or "feature".
 #'
 #'   Note that this function ignores the row roles, it returns all levels available in the [DataBackend].
@@ -122,7 +134,7 @@
 #'
 #' * `missings(cols = NULL)`\cr
 #'   `character()` -> named `integer()`\cr
-#'   Returns the number of missing values observations for each columns in `cols`.
+#'   Returns the number of missing observations for columns referenced in `cols`.
 #'   Argument `cols` defaults to all columns with role "target" or "feature".
 #'
 #' * `head(n = 6)`\cr
@@ -165,19 +177,19 @@
 #'
 #' * `replace_features(data)`\cr
 #'   `data.frame()` -> `self`\cr
-#'   Replaces some features of the task by constructing a completely new [DataBackendDataTable].
-#'   This operation is similar to calling `select()` and `cbind()`, but explicitly copies the data.
+#'   Replaces some features of the task with features in `data`.
+#'   This operation is similar to calling `select()` and `cbind()`.
 #'   See the section on task mutators for more information.
 #'
 #' * `droplevels(cols = NULL)`\cr
 #'   `character` -> `self`\cr
-#'   Updates the cache of stored factor levels, removing all levels not present in the
-#'   set of active rows. `cols` defaults to all columns with storage type "character", "factor", or "ordered".
+#'   Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
+#'   `cols` defaults to all columns with storage type "character", "factor", or "ordered".
 #'
 #' @section S3 methods:
 #' * `as.data.table(t)`\cr
 #'   [Task] -> [data.table::data.table()]\cr
-#'   Returns the data set as `data.table()`.
+#'   Returns the complete data as `data.table()`.
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:

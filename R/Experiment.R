@@ -6,78 +6,43 @@
 #'
 #' @description
 #' Container object for a machine learning experiment.
+#' After initialization with a [Task] and a [Learner], the experiment is conducted
+#' by calling the methods `$train()`, `$predict()` and `$score()`.
 #'
 #' @section Construction:
 #' ```
 #' Experiment$new(task = NULL, learner = NULL, ctrl = list())
 #' ```
 #'
-#' * `task` :: [Task]\cr
+#' * `task` :: ([Task] | `character(1)`)\cr
 #'   May be `NULL` during initialization, but is mandatory to train the Experiment.
-#'   Instead if a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
+#'   Instead of a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
 #'
-#' * `learner` :: [Learner]\cr
+#' * `learner` :: [Learner] | `character(1)`)\cr
 #'   May be `NULL` during initialization, but is mandatory to train the Experiment.
-#'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a task from the [mlr_learners] dictionary.
+#'   Instead of a [Learner] object, it is also possible to provide a key to retrieve a learner from the [mlr_learners] dictionary.
 #'
 #' * `ctrl` :: named `list()`\cr
 #'   Control object, see [mlr_control()].
 #'
 #' @section Fields:
-#' * `data` :: named `list()`\cr
-#'   Internal data storage as a `named list` with the following slots:
-#'   * `iteration` :: `integer(1)`\cr
-#'     Refers to the iteration number of the stored [Resampling] object.
-#'     If the experiment is constructed manually, this is always `1`, as there is only one training-test split.
-#'   * `learner` :: [Learner]\cr
-#'     A clone of the [Learner] provided during construction.
-#'   * `measures` :: `list()` of [Measure]\cr
-#'     Measures for performance assessment.
-#'   * `performance` :: named `numeric()`\cr
-#'      Aggregated scores returned by the measures, named with measure ids.
-#'   * `prediction` :: [Prediction]\cr
-#'     Prediction object as returned by the [Learner]'s `predict()` call.
-#'   * `resampling` :: [Resampling]\cr
-#'     Is `NULL` prior to calling `$train()`.
-#'     If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()]), a [ResamplingCustom] object is stored.
-#'   * `task` :: [Task]\cr
-#'     A clone of the [Task] provided during construction.
-#'   * `train_log` :: [data.table::data.table()]\cr
-#'     Log for the training step.
-#'   * `predict_log` :: [data.table::data.table()]\cr
-#'     Log for the predict step.
-#'   * `train_time` :: `numeric(1)`\cr
-#'     Elapsed time during train in seconds.
-#'   * `predict_time` :: `numeric(1)`\cr
-#'     Elapsed time during predict in seconds.
-#'   * `score_time` :: `numeric(1)`\cr
-#'     Elapsed time during score in seconds.
-#'
 #' * `ctrl` :: `list()`\cr
 #'   Control settings passed during initialization.
+#'
+#' * `data` :: named `list()`\cr
+#'   See section "Internal Data Storage".
 #'
 #' * `has_errors` :: `logical(1)`\cr
 #'   Flag which is `TRUE` if any error has been recorded during `$train()` or `$predict()`.
 #'
 #' * `hash` :: `character(1)`\cr
-#'   Hash (unique identifier) for this object. This hash is cached.
-#'
-#' * `state` :: `ordered(1)`\cr
-#'   Returns the state of the experiment as ordered factor: "defined", "trained", "predicted", or "scored".
-#'
-#' * `train_set` :: (`integer()` | `character()`)\cr
-#'   The row ids of the training set for `$train()`.
-#'
-#' * `test_set` :: (`integer()` | `character()`)\cr
-#'   The row ids of the test set for `$predict()`
-#'
-#' * `learner` :: [Learner]\cr
-#'   Access the stored [Learner].
+#'   Hash (unique identifier) for this object.
 #'
 #' * `model` :: `any`\cr
 #'   Access the trained model of the [Learner].
+#'   Only available after the learner has been trained.
 #'
-#' * `performance` :: `numeric()`\cr
+#' * `performance` :: named `numeric()`\cr
 #'   Access the scored performance scores as returned by the [Measure] stored in the [Task].
 #'
 #' * `prediction` :: [Prediction]\cr
@@ -87,41 +52,100 @@
 #'   Named integer of random number generator seeds passed to [set.seed()] prior to calling external code in `train()`, `predict()` or `score()`.
 #'   Names must match "train", "predict" and "score". Set to `NA` to disable seeding (default).
 #'
+#' * `state` :: `ordered(1)`\cr
+#'   Returns the state of the experiment as ordered factor with levels `"defined"`,
+#'   `"trained"`, `"predicted"`, and `"scored"`.
+#'
 #' * `task` :: [Task]\cr
 #'   Access to the stored [Task].
 #'
-#' * `timings` :: `numeric(3)`\cr
-#'   Stores the elapsed time for the steps `train()`, `predict()` and `score()` in seconds with up to millisecond accuracy (c.f. `proc.time()`).
+#' * `test_set` :: (`integer()` | `character()`)\cr
+#'   The row ids of the [Task] for the test set used in `$predict()`
 #'   Timings are `NA` if the respective step has not been performed yet.
+#'
+#' * `timings` :: named `numeric(3)`\cr
+#'   Stores the elapsed time for the steps `train()`, `predict()` and `score()` in seconds with up to millisecond accuracy (c.f. `proc.time()`).
+#'
+#' * `train_set` :: (`integer()` | `character()`)\cr
+#'   The row ids of the [Task] for the training set used in `$train()`.
 #'
 #' * `validation_set` :: (`integer()` || `character()`)\cr
 #'   The row ids of the validation set of the [Task].
+#'   Validation sets are not yet completely integrated into the package.
 #'
 #' @section Methods:
 #' * `train(row_ids = NULL, ctrl = list())`\cr
 #'   (`integer()` | `character()`, `list()`) -> `self`\cr
 #'   Fits the induced [Learner] on the `row_ids` of the [Task] and stores the model inside the [Learner] object.
-#'   The model can be accessed via `$model`.
+#'   If no `row_ids` are provided, trains the model on all rows of the [Task] with row role `"use"`.
+#'   The fitted model can be accessed via `$model`.
 #'
 #' * `predict(row_ids = NULL, newdata = NULL, ctrl = list())`\cr
 #'   (`integer()` | `character()`, `data.frame()`, `list()`) -> `self`\cr
-#'   Uses the previously trained model to predict new observations.
-#'   New observations are either addressed as `row_ids` of the stored task, or
-#'   you can pass new observations as `data.frame()`.
-#'   Note that predicting on new data fuses the new observations into the [Task] first, and thereby
-#'   mutates the Experiment. To avoid any side effects, it is advised to clone the experiment first.
-#'   The resulting predictions are stored internally as an [Prediction] object and can be
-#'   accessed via `$prediction`.
+#'   Uses the previously fitted model to predict new observations.
+#'   New observations are either addressed as `row_ids` referencing rows in the stored task, or
+#'   as `data.frame()` via `newdata`.
+#'   The later fuses the new observations with the stored [Task], and thereby mutates the Experiment.
+#'   To avoid any side effects, it is advised to clone the experiment first.
+#'   The resulting predictions are stored internally as an [Prediction] object and can be accessed via `$prediction`.
 #'
 #' * `score(measures = NULL, ctrl = list())`\cr
 #'   (list of `[Measure]`, `list()`) -> `self`\cr
 #'   Quantifies stored predictions using the list of [Measure] provided here,
-#'   defaulting to the measures provided in the [Task].
-#'   The performance is stored internally and can be accessed via `$performance`.
+#'   defaulting to the default measures that come with the [Task].
+#'   The performance values are stored internally and can be accessed via `$performance`.
 #'
 #' * `log(steps = c("train", "predict"))`\cr
 #'   `character(1)` -> [Log]\cr
 #'   Returns a [Log] for specified steps.
+#'
+#'
+#' @section Internal Data Storage:
+#' All data is stored in the slot `data` as named `list()`.
+#' Directly accessing the elements is not recommended, but sometimes required, especially if you aim to extend `mlr3`.
+#' The data object contains the following items:
+#'
+#' * `task` :: [Task]\cr
+#'   A clone of the [Task] which was provided during construction.
+#'   Also accessible via `e$task`.
+#'
+#' * `learner` :: [Learner]\cr
+#'   A clone of the [Learner] which was provided during construction.
+#'   Also accessible via `e$learner`.
+#'
+#' * `resampling` :: [Resampling]\cr
+#'   Is `NULL` prior to calling `$train()`.
+#'   If the experiment is constructed manually (i.e., not via [resample()] or [benchmark()]), a [ResamplingCustom] object is stored.
+#'   The combination of `resampling` and `iteration` (next item) is used to extract the training and test set indices.
+#'   These are directly accessible via `e$train_set` and `e$test_set`.
+#'
+#' * `iteration` :: `integer(1)`\cr
+#'   Refers to the iteration number of the stored [Resampling] object.
+#'   If the experiment is constructed manually, this is always `1`, as there is only one training-test split.
+#'
+#' * `train_log` :: [data.table::data.table()]\cr
+#'   [Log] for the training step. May be `NULL` if no encapsulation has been enabled via [mlr_control()].
+#'
+#' * `train_time` :: `numeric(1)`\cr
+#'   Elapsed time during train in seconds with up to millisecond accuracy (c.f. `proc.time()`).
+#'
+#' * `predict_log` :: [data.table::data.table()]\cr
+#'   [Log] for the predict step. May be `NULL` if no encapsulation has been enabled via [mlr_control()].
+#'
+#' * `predict_time` :: `numeric(1)`\cr
+#'   Elapsed time during predict in seconds with up to millisecond accuracy (c.f. `proc.time()`).
+#'
+#' * `prediction` :: [Prediction]\cr
+#'   Prediction object as returned by the [Learner]'s `predict()` call.
+#'
+#' * `measures` :: `list()` of [Measure]\cr
+#'   Measures which where used for performance assessment.
+#'
+#' * `performance` :: named `numeric()`\cr
+#'   Aggregated scores returned by the measures, named with measure ids.
+#'
+#' * `score_time` :: `numeric(1)`\cr
+#'   Elapsed time during score in seconds with up to millisecond accuracy (c.f. `proc.time()`)..
 #'
 #' @export
 #' @examples

@@ -40,7 +40,7 @@
 #'   (`character(1)`, `any`, ..., `character()`) -> `self`\cr
 #'   Adds object `value` to the dictionary with key `key`, potentially overwriting a previously stored item.
 #'   Additional arguments in `...` are used as default arguments for `value` during construction.
-#'   If the object is not constructable without additional arguments, the require argument names should be provided in `required_args`.
+#'   If the object is not constructible without additional arguments, the require argument names should be provided in `required_args`.
 #'
 #' * `remove(key)`\cr
 #'   `character()` -> `self`\cr

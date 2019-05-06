@@ -111,7 +111,7 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 #' Takes a lists of [Task], a list of [Learner] and a list of [Resampling] to
 #' generate a design in an [expand.grid()] fashion (a.k.a. cross join or Cartesian product).
 #'
-#' Resampling strategies must be uninstantiated, and will be instantiated per task.
+#' Resampling strategies may not be instantiated, and will be instantiated per task internally.
 #'
 #' @param tasks (list of [Task]).
 #'   Instead a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.

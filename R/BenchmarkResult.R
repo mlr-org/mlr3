@@ -39,7 +39,7 @@
 #'
 #' * `resample_results` :: [data.table::data.table()]\cr
 #'   Table of [ResampleResult] groups with 5 columns:
-#'   "hash" (`character(1)`), "task_id" (`character(1)`), "learner_id" (`character(1)`), "resamping_id" (`character(1)`) and "N" (`integer(1)`).
+#'   "hash" (`character(1)`), "task_id" (`character(1)`), "learner_id" (`character(1)`), "resampling_id" (`character(1)`) and "N" (`integer(1)`).
 #'   The last column ("N") is the number of [Experiment]s in the [ResampleResult].
 #'
 #' @section Methods:

@@ -29,7 +29,7 @@
 #' It is possible to initialize this object without any arguments.
 #' This allows to manually construct [Prediction] objects in a piecemeal fashion.
 #' Required are "row_ids", "truth", and "predict_type".
-#' Depending on the value of "predict_types", "response" and "se" must also be set.
+#' Depending on the value of `predict_types`, `response` and `se` must also be set.
 #'
 #' @section Fields:
 #' See [Prediction].

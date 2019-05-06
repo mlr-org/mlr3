@@ -11,8 +11,8 @@
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
 #'   [Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a `data.table()` with fields "key", "task_type", "measures", "nrow", "ncol" and
-#'   the number of features of type "lgl", "int", "dbl", "chr", "fct" and "ord" as columns.
+#'   Returns a `data.table()` with columns `"key"`, `"task_type"`, `"measures"`, `"nrow"`, `"ncol"` and
+#'   the number of features of type `"lgl"`, `"int"`, `"dbl"`, `"chr"`, `"fct"` and `"ord"` as columns.
 #'
 #' @family Dictionary
 #' @family Task

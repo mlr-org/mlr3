@@ -13,7 +13,7 @@ The field \code{task_type} is set to \code{"classif"}.
 It is possible to initialize this object without any arguments.
 This allows to manually construct \link{Prediction} objects in a piecemeal fashion.
 Required are "row_ids", "truth", and "predict_type".
-Depending on the value of "predict_types", "response" and "se" must also be set.
+Depending on the value of \code{predict_types}, \code{response} and \code{se} must also be set.
 }
 \section{Construction}{
 \preformatted{p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
