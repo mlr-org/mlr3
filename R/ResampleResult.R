@@ -41,6 +41,11 @@
 #' * `aggregated` :: named `numeric()`\cr
 #'   Returns a single score for each measure, named with measure ids.
 #'
+#' * `prediction` :: [Prediction]\cr
+#'   Combined [Prediction] of all individual experiments.
+#'   Note that the performance is not calculated on this object,
+#'   but instead on each experiment separately and then combined with an aggregate function.
+#'
 #' @section Methods:
 #' * `combine(rr)`\cr
 #'   [ResampleResult] -> [BenchmarkResult]\cr
@@ -136,6 +141,10 @@ ResampleResult = R6Class("ResampleResult",
     aggregated = function() {
       measures = self$measures$measure
       set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
+    },
+
+    prediction = function() {
+      do.call(rbind, map(self$experiments(), "prediction"))
     },
 
     hash = function() {

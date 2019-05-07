@@ -34,8 +34,14 @@
 #'
 #' rr = resample(task, learner, resampling)
 #' print(rr, digits = 2)
-#' rr$aggregated
+#'
+#' # retrieve performance
 #' rr$performance("classif.ce")
+#' rr$aggregated
+#'
+#' # merged prediction object for all experiments
+#' pred = rr$prediction
+#' pred$confusion
 #'
 #' # Repeat resampling with featureless learner
 #' rr.featureless = resample(task, "classif.featureless", resampling)

@@ -37,6 +37,10 @@ Logical vector where the i-th element is \code{TRUE} if an error for the i-th re
 Hash (unique identifier) for this object.
 \item \code{aggregated} :: named \code{numeric()}\cr
 Returns a single score for each measure, named with measure ids.
+\item \code{prediction} :: \link{Prediction}\cr
+Combined \link{Prediction} of all individual experiments.
+Note that the performance is not calculated on this object,
+but instead on each experiment separately and then combined with an aggregate function.
 }
 }
 
