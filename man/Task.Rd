@@ -7,14 +7,22 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
-Predefined tasks are stored in \link{mlr_tasks}.
+Tasks serve two purposes:
+\enumerate{
+\item Tasks wrap a \link{DataBackend}, an object to transparently interface different data storage types.
+\item Tasks store meta-information, such as the role of the individual columns in the \link{DataBackend}.
+For example, for a classification task a single column must be marked as target column, and others as features.
+}
+
+Predefined (toy) tasks are stored in \link{mlr_tasks}.
 }
 \section{Construction}{
-\preformatted{t = Task$new(id, task_type, backend)
+
+Note: This object is typically constructed via a derived classes, e.g. \link{TaskClassif} or \link{TaskRegr}.\preformatted{t = Task$new(id, task_type, backend)
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
-Name of the task.
+Identifier for the task.
 \item \code{task_type} :: \code{character(1)}\cr
 Set in the classes which inherit from this class.
 Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types}.
@@ -30,32 +38,38 @@ E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.
 \item \code{backend} :: \link{DataBackend}.
 \item \code{col_info} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table with with 3 columns:
-Column names of \link{DataBackend} are stored in column\code{id}.
-Column \code{type} holds the storage type of the variables, e.g. \code{integer}, \code{numeric} or \code{character}.
-Column \code{levels} keeps a list of possible levels for factor and character variables.
+\itemize{
+\item \code{"id"} stores the name of the column.
+\item \code{"type"} holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
+\item \code{"levels"} stores a vector of distinct values (levels) for factor and character variables.
+}
 \item \code{col_roles} :: named \code{list()}\cr
 Each column (feature) can have an arbitrary number of roles in the learning task:
 \itemize{
-\item \code{"target"}: Labels to predict.
-\item \code{"feature"}: Regular feature.
+\item \code{"feature"}: Regular feature used in the model fitting process.
+\item \code{"target"}: Target variable.
+\item \code{"label"}: Observation labels. May be used in plots.
 \item \code{"order"}: Data returned by \code{data()} is ordered by this column (or these columns).
 \item \code{"groups"}: During resampling, observations with the same value of the variable with role "groups"
 are marked as "belonging together". They will be exclusively assigned to be either in the training set
 or the test set for each resampling iteration. Only a single column may be marked as grouping column.
 \item \code{"weights"}: Observation weights. Only a single column may be marked as weights.
+}
+
 \code{col_roles} keeps track of the roles with a named list of vectors of feature names.
 To alter the roles, use \code{t$set_col_role()}.
-}
 \item \code{row_roles} :: named \code{list()}\cr
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
 \item \code{"use"}: Use in train / predict / resampling.
 \item \code{"validation"}: Hold the observations back unless explicitly requested.
+Validation sets are not yet completely integrated into the package.
+}
+
 \code{row_roles} keeps track of the roles with a named list of vectors of feature names.
 To alter the role, use \code{set_row_role()}.
-}
 \item \code{feature_names} :: \code{character()}\cr
-Returns all column names with \code{role == "feature"}.
+Return all column names with \code{role == "feature"}.
 \item \code{feature_types} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with columns \code{id} and \code{type} where \code{id} are the column names of "active" features of the task
 and \code{type} is the storage type.
@@ -64,7 +78,7 @@ Hash (unique identifier) for this object.
 \item \code{id} :: \code{character(1)}\cr
 Stores the identifier of the Task.
 \item \code{measures} :: \code{list()} of \link{Measure}\cr
-Stores the measures to use for this task.
+Stores the default measures to use for this task.
 \item \code{ncol} :: \code{integer(1)}\cr
 Returns the total number of cols with role "target" or "feature".
 \item \code{nrow} :: \code{integer(1)}\cr
@@ -80,11 +94,11 @@ Set of task properties. Possible properties are are stored in
 \link[=mlr_reflections]{mlr_reflections$task_properties}.
 \item \code{groups} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 If the task has a designated column role "groups", table with two columns:
-"row_id" (\code{integer()} | \code{character()}) and the grouping variable \code{group} (\code{vector()}).
+\code{row_id} (\code{integer()} | \code{character()}) and the grouping variable \code{group} (\code{vector()}).
 Returns \code{NULL} if there are is no grouping column.
 \item \code{weights} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 If the task has a designated column role "weights", table with two columns:
-"row_id" (\code{integer()} | \code{character()}) and the observation weights \code{weight} (\code{numeric()}).
+\code{row_id} (\code{integer()} | \code{character()}) and the observation weights \code{weight} (\code{numeric()}).
 Returns \code{NULL} if there are is no weight column.
 }
 }
@@ -97,23 +111,23 @@ Returns \code{NULL} if there are is no weight column.
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}
 (depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.table]{data.table::data.table()}}).
 
-Rows are subsetted to only contain observations with role "use".
-Columns are filtered to only contain features with roles "target" and "feature".
+Rows are additionally subsetted to only contain observations with role "use", and
+columns are filtered to only contain features with roles "target" and "feature".
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \item \code{formula(rhs = NULL)}\cr
 \code{character()} -> \code{formula}\cr
 Constructs a \link[stats:formula]{stats::formula}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}, using
-the features provided in argument \code{rhs} (defaults to all active features).
+the features provided in argument \code{rhs} (defaults to all columns with role "feature").
 \item \code{levels(cols = NULL)}\cr
 \code{character()} -> named \code{list()}\cr
-Returns the distinct values of columns in \code{cols} for columns with storage type "character", "factor" or "ordered".
+Returns the distinct values for columns referenced in \code{cols} with storage type "character", "factor" or "ordered".
 Argument \code{cols} defaults to all such columns with role "target" or "feature".
 
 Note that this function ignores the row roles, it returns all levels available in the \link{DataBackend}.
 To update the stored level information, e.g. after filtering a task, call \code{$droplevels()}.
 \item \code{missings(cols = NULL)}\cr
 \code{character()} -> named \code{integer()}\cr
-Returns the number of missing values observations for each columns in \code{cols}.
+Returns the number of missing observations for columns referenced in \code{cols}.
 Argument \code{cols} defaults to all columns with role "target" or "feature".
 \item \code{head(n = 6)}\cr
 \code{integer()} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
@@ -148,13 +162,13 @@ If this column is missing, new row ids are constructed automatically.
 See the section on task mutators for more information.
 \item \code{replace_features(data)}\cr
 \code{data.frame()} -> \code{self}\cr
-Replaces some features of the task by constructing a completely new \link{DataBackendDataTable}.
-This operation is similar to calling \code{select()} and \code{cbind()}, but explicitly copies the data.
+Replaces some features of the task with features in \code{data}.
+This operation is similar to calling \code{select()} and \code{cbind()}.
 See the section on task mutators for more information.
 \item \code{droplevels(cols = NULL)}\cr
 \code{character} -> \code{self}\cr
-Updates the cache of stored factor levels, removing all levels not present in the
-set of active rows. \code{cols} defaults to all columns with storage type "character", "factor", or "ordered".
+Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
+\code{cols} defaults to all columns with storage type "character", "factor", or "ordered".
 }
 }
 
@@ -163,7 +177,7 @@ set of active rows. \code{cols} defaults to all columns with storage type "chara
 \itemize{
 \item \code{as.data.table(t)}\cr
 \link{Task} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns the data set as \code{data.table()}.
+Returns the complete data as \code{data.table()}.
 }
 }
 

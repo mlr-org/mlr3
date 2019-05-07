@@ -23,5 +23,5 @@ Instead if a \link{Resampling} object, it is also possible to provide a key to r
 Takes a lists of \link{Task}, a list of \link{Learner} and a list of \link{Resampling} to
 generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a. cross join or Cartesian product).
 
-Resampling strategies must be uninstantiated, and will be instantiated per task.
+Resampling strategies may not be instantiated, and will be instantiated per task internally.
 }

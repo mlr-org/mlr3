@@ -6,9 +6,17 @@
 #'
 #' @description
 #' This is the abstract base class for learner objects like [LearnerClassif] and [LearnerRegr].
+#' Learners consist of the following parts:
+#'
+#' - Methods `train()` and `predict()` to perform the respective steps.
+#' - The fitted model, after calling `train()`.
+#' - A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+#' - Meta-information about the requirements and capabilities of the learner.
+#'
 #' Predefined learners are stored in [mlr_learners].
 #'
 #' @section Construction:
+#' Note: This object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
 #' ```
 #' l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
 #'      feature_types = character(), properties = character(), packages = character())
@@ -37,8 +45,6 @@
 #'
 #' * `data_formats` :: `character()`\cr
 #'   Vector of supported data formats which can be processed during `$train()` and `$predict()`.
-#'   Will be matched against the data formats supported by the [Task], and the first data format specified
-#'   in the learner which is also supported by the task will be picked.
 #'   Defaults to `"data.table"`.
 #'
 #' * `packages` :: `character()`\cr
@@ -47,7 +53,7 @@
 #'
 #' @section Fields:
 #' * `id` :: `character(1)`\cr
-#'   Stores the identifier of the learner.
+#'   Identifier of the learner.
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
@@ -78,7 +84,7 @@
 #'   Optionally stores a second [Learner] which is activated as fallback if this first [Learner] fails during
 #'   train or predict.
 #'   This mechanism is disabled unless you explicitly assign a learner to this slot.
-#'   Additionally, you need to catch raised exceptions via encapsulation, see [mlr_control()].
+#'   Additionally, you need to enable encapsulation for the fallback learner to work, see [mlr_control()].
 #'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
@@ -87,7 +93,7 @@
 #' * `params(tag)`\cr
 #'   `character(1)` -> named `list()`\cr
 #'   Returns a list of hyperparameter settings from `param_set` where the corresponding parameters in `param_set` are tagged
-#'   with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters used in the training step.
+#'   with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters relevant in the training step.
 #'
 #' * `train(task)`\cr
 #'   [Task] -> `self`\cr
@@ -115,6 +121,9 @@
 #' * `selected_features(...)`: Returns a subset of selected features as `character()`.
 #'   The learner must be tagged with property "selected_features".
 #'
+#' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
+#'   The learner must be tagged with property "oob_error".
+#'
 #' @section Setting Hyperparameters:
 #'
 #' All information about hyperparameters is stored in the slot `param_set` which is a [paradox::ParamSet].
@@ -131,11 +140,10 @@
 #' lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
 #' ```
 #' If the learner has additional hyperparameters which are not encoded in the [ParamSet][paradox::ParamSet], you can easily extend the learner.
-#' Here, we add a hyperparameter with id "foo" possible levels "bar" and "baz":
+#' Here, we add a hyperparameter with id "foo" possible levels "a" and "b":
 #' ```
-#' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("bar", "baz")))
+#' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 #' ```
-#'
 #'
 #' @family Learner
 #' @export

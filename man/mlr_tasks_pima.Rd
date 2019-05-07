@@ -6,7 +6,7 @@
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
 \description{
 A classification task for the \link[mlbench:PimaIndiansDiabetes2]{mlbench::PimaIndiansDiabetes2} data set.
-Positive class is set to "pos".
+Positive class is set to \code{"pos"}.
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("pima")
