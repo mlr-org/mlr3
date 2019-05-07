@@ -26,18 +26,14 @@
 #'   In case of ties in the ratio, one of the tied class labels is selected randomly.
 #'
 #' @note
-#' It is possible to initialize this object without any arguments.
-#' This allows to manually construct [Prediction] objects in a piecemeal fashion.
-#' Required are "row_ids", "truth", "predict_type" and "class_names".
-#' Depending on the value of "predict_types", "response" and "prob" must also be set.
-#'
-#' The factor objects "truth" and "response" must have identical levels (this includes their order).
-#' For binary classification, the true label should be the first level.
-#'
+#' It is possible to initialize this object without a task, by manually providing `row_ids` and `truth`.
+#' In this case, the class names are taken from `truth`, and must be identical to `task$class_names`
+#' (this includes the order of the levels).
+#' This is especially important for binary classification tasks, where the positive class must be the first level.
 #'
 #' @section Construction:
 #' ```
-#' p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL)
+#' p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL, row_ids = task$row_ids, truth = task$truth())
 #' ```
 #'
 #' * `task` :: [TaskClassif]\cr
@@ -47,10 +43,17 @@
 #' * `response` :: `factor()`\cr
 #'   Vector of predicted class labels.
 #'   One element for each observation in the test set.
+#'   Character vectors are automatically converted to factors.
 #'
 #' * `prob` :: `matrix()`\cr
 #'   Numeric matrix of class probabilities with one column for each class
 #'   and one row for each observation in the test set.
+#'
+#' * `row_ids` :: (`integer()` | `character()`)\cr
+#'   Row ids of the task. Per default, these are extracted from the `task`.
+#'
+#' * `truth` :: `factor()`\cr
+#'   True (observed) labels. Per default, these are extracted from the `task`.
 #'
 #' @section Fields:
 #' All fields from [Prediction], and additionally:
@@ -84,8 +87,8 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     prob = NULL,
-    initialize = function(task = NULL, response = NULL, prob = NULL) {
-      predictionclassif_initialize(self, task, response, prob)
+    initialize = function(task = NULL, response = NULL, prob = NULL, row_ids = task$row_ids, truth = task$truth()) {
+      predictionclassif_initialize(self, task, row_ids, truth, response, prob)
     }
   ),
 
@@ -125,47 +128,46 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   )
 )
 
-predictionclassif_initialize = function(self, task, response, prob) {
+predictionclassif_initialize = function(self, task, row_ids, truth, response, prob, class_names) {
   self$task_type = "classif"
+  self$row_ids = assert_atomic_vector(row_ids)
+  n = length(row_ids)
 
-  if (!is.null(task)) {
-    class_names = task$class_names
-    self$row_ids = row_ids = task$row_ids
-    self$truth = task$truth()
-    n = length(row_ids)
-
-    if (!is.null(response)) {
-      response = factor(response, levels = class_names)
-      assert_factor(response, len = n, any.missing = FALSE)
-    }
-
-    if (!is.null(prob)) {
-      assert_matrix(prob, nrows = n, ncols = length(class_names))
-      assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
-      assert_names(colnames(prob), permutation.of = class_names)
-      if (!is.null(rownames(prob)))
-        rownames(prob) = NULL
-    }
-
-    if (is.null(response) && !is.null(prob)) {
-      # calculate response from prob
-      i = max.col(prob, ties.method = "random")
-      response = factor(colnames(prob)[i], levels = class_names)
-    }
+  if (is.null(task)) {
+    self$truth = assert_factor(truth, len = n, any.missing = FALSE)
+    lvls = levels(truth)
   } else {
-    assert_factor(response, any.missing = FALSE, null.ok = TRUE)
-    assert_matrix(prob, null.ok = TRUE)
-    assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1, null.ok = TRUE)
+    lvls = task$class_names
+    self$truth = as_factor(truth, levels = lvls, len = n, any.missing = FALSE)
   }
 
-  self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(prob))]
-  self$response = response
-  self$prob = prob
+  if (!is.null(response)) {
+    self$response = as_factor(response, levels = lvls, len = n, any.missing = FALSE)
+  }
+
+  if (!is.null(prob)) {
+      assert_matrix(prob, nrows = n, ncols = length(lvls))
+      assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
+      assert_names(colnames(prob), permutation.of = lvls)
+      if (!is.null(rownames(prob)))
+        rownames(prob) = NULL
+      self$prob = prob
+
+      if (is.null(self$response)) {
+        # calculate response from prob
+        i = max.col(prob, ties.method = "random")
+        self$response = factor(colnames(prob)[i], levels = lvls)
+      }
+  }
+
+  self$predict_types = c("response", "prob")[c(!is.null(self$response), !is.null(self$prob))]
 }
 
 #' @export
 as.data.table.PredictionClassif = function(x, ...) {
-  tab = as.data.table.Prediction(x)
+  if (is.null(x$row_ids))
+    return(data.table())
+  tab = data.table(row_id = x$row_ids, truth = x$truth, response = x$response)
   if (!is.null(x$prob)) {
     prob = as.data.table(x$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
@@ -173,4 +175,21 @@ as.data.table.PredictionClassif = function(x, ...) {
   }
 
   tab
+}
+
+#' @export
+rbind.PredictionClassif = function(...) {
+  dots = list(...)
+  assert_list(dots, "PredictionClassif")
+
+  x = map_dtr(dots, function(p) {
+    list(row_ids = p$row_ids, truth = p$truth, response = p$response)
+  }, .fill = FALSE)
+
+  prob = discard(map(dots, "prob"), is.null)
+  if (length(prob) > 0L && length(prob) < length(dots))
+    stopf("Cannot rbind predictions: Probabilities for some experiments, not all")
+  prob = Reduce(rbind_named, prob)
+
+  PredictionClassif$new(row_ids = x$row_ids, truth = x$truth, response = x$response, prob = prob)
 }

@@ -53,6 +53,7 @@
 #' * `experiments(iters)`\cr
 #'   `integer()` -> `list()` of [Experiment].
 #'   Returns a slice of [Experiment]s with provided resampling iterations `iters`.
+#'   Defaults to all experiments.
 #'
 #' * `performance(id)`\cr
 #'   `character(1)` -> `numeric(1)`\cr
@@ -99,8 +100,11 @@ ResampleResult = R6Class("ResampleResult",
       pmap(self$data[get("iteration") == iter, mlr_reflections$experiment_slots$name, with = FALSE], as_experiment)[[1L]]
     },
 
-    experiments = function(iters) {
-      iters = assert_integerish(iters, lower = 1L, upper = nrow(self$data), any.missing = FALSE, coerce = TRUE)
+    experiments = function(iters = NULL) {
+      iters = if (is.null(iters))
+        seq_row(self$data)
+      else
+        assert_integerish(iters, lower = 1L, upper = nrow(self$data), any.missing = FALSE, coerce = TRUE)
       pmap(self$data[get("iteration") %in% iters], as_experiment)
     },
 

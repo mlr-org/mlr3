@@ -28,16 +28,13 @@ In case of ties in the ratio, one of the tied class labels is selected randomly.
 }
 }
 \note{
-It is possible to initialize this object without any arguments.
-This allows to manually construct \link{Prediction} objects in a piecemeal fashion.
-Required are "row_ids", "truth", "predict_type" and "class_names".
-Depending on the value of "predict_types", "response" and "prob" must also be set.
-
-The factor objects "truth" and "response" must have identical levels (this includes their order).
-For binary classification, the true label should be the first level.
+It is possible to initialize this object without a task, by manually providing \code{row_ids} and \code{truth}.
+In this case, the class names are taken from \code{truth}, and must be identical to \code{task$class_names}
+(this includes the order of the levels).
+This is especially important for binary classification tasks, where the positive class must be the first level.
 }
 \section{Construction}{
-\preformatted{p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL)
+\preformatted{p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL, row_ids = task$row_ids, truth = task$truth())
 }
 \itemize{
 \item \code{task} :: \link{TaskClassif}\cr
@@ -46,9 +43,14 @@ labels. Must be subsetted to test set.
 \item \code{response} :: \code{factor()}\cr
 Vector of predicted class labels.
 One element for each observation in the test set.
+Character vectors are automatically converted to factors.
 \item \code{prob} :: \code{matrix()}\cr
 Numeric matrix of class probabilities with one column for each class
 and one row for each observation in the test set.
+\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
+Row ids of the task. Per default, these are extracted from the \code{task}.
+\item \code{truth} :: \code{factor()}\cr
+True (observed) labels. Per default, these are extracted from the \code{task}.
 }
 }
 

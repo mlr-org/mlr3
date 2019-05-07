@@ -25,11 +25,11 @@
 #'   Numeric vector of predicted standard error.
 #'   One element for each observation in the test set.
 #'
-#' @note
-#' It is possible to initialize this object without any arguments.
-#' This allows to manually construct [Prediction] objects in a piecemeal fashion.
-#' Required are "row_ids", "truth", and "predict_type".
-#' Depending on the value of "predict_types", "response" and "se" must also be set.
+#' * `row_ids` :: (`integer()` | `character()`)\cr
+#'   Row ids of the task. Per default, these are extracted from the `task`.
+#'
+#' * `truth` :: `numeric()`\cr
+#'   True (observed) response. Per default, this is extracted from the `task`.
 #'
 #' @section Fields:
 #' See [Prediction].
@@ -48,32 +48,40 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     se = NULL,
-    initialize = function(task = NULL, response = NULL, se = NULL) {
-      predictionregr_initialize(self, task, response, se)
+    initialize = function(task = NULL, response = NULL, se = NULL, row_ids = task$row_ids, truth = task$truth()) {
+      predictionregr_initialize(self, task, row_ids, truth, response, se)
     }
   )
 )
 
-predictionregr_initialize = function(self, task, response, se) {
+predictionregr_initialize = function(self, task, row_ids, truth, response, se) {
   self$task_type = "regr"
-  if (!is.null(task)) {
-    self$row_ids = row_ids = task$row_ids
-    self$truth = task$truth()
-    n = length(row_ids)
-  } else {
-    n = NULL
-  }
+  self$row_ids = assert_atomic_vector(row_ids)
+  n = length(row_ids)
 
-  self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
+  self$truth = assert_numeric(truth, len = n, any.missing = FALSE)
   self$response = assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
   self$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
+  self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
 }
 
 #' @export
 as.data.table.PredictionRegr = function(x, ...) {
-  tab = as.data.table.Prediction(x)
-  if (!is.null(x$se)) {
-    tab = insert_named(tab, list("se" = x$se))
-  }
-  tab
+  if (is.null(x$row_ids))
+    return(data.table())
+  data.table(row_id = x$row_ids, truth = x$truth, response = x$response, se = x$se)
+}
+
+
+#' @export
+rbind.PredictionRegr = function(...) {
+  dots = list(...)
+  assert_list(dots, "PredictionRegr")
+
+  x = map_dtr(dots, function(p) {
+    list(row_ids = p$row_ids, truth = p$truth, response = p$response, se = p$se)
+  }, .fill = FALSE)
+
+  p = PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = x$se)
+  return(p)
 }

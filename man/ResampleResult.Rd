@@ -52,6 +52,7 @@ Returns the \code{iter}-th \link{Experiment}.
 \item \code{experiments(iters)}\cr
 \code{integer()} -> \code{list()} of \link{Experiment}.
 Returns a slice of \link{Experiment}s with provided resampling iterations \code{iters}.
+Defaults to all experiments.
 \item \code{performance(id)}\cr
 \code{character(1)} -> \code{numeric(1)}\cr
 Retrieves the performance values for the measure with id \code{id} as numeric vector.

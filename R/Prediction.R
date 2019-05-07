@@ -16,10 +16,10 @@
 #'   Vector of row ids for which predictions are stored.
 #'
 #' * `truth` :: `any`\cr
-#'   Vector of true labels.
+#'   True (observed) outcome.
 #'
 #' * `response` :: `any`\cr
-#'   Vector of predicted labels.
+#'   Predicted outcome.
 #'
 #' * `task_type` :: `character(1)`\cr
 #'    Stores the type of the [Task].
@@ -57,12 +57,3 @@ Prediction = R6Class("Prediction",
     }
   )
 )
-
-#' @export
-as.data.table.Prediction = function(x, ...) {
-  if (is.null(x$row_ids))
-    return(data.table())
-  if (is.null(x$response) || is.null(x$truth))
-    stop("Cannon convert Prediction to data.table: Prediction object incomplete")
-  data.table(row_id = x$row_ids, response = x$response, truth = x$truth)
-}

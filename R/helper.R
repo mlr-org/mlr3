@@ -42,3 +42,24 @@ translate_types = function(x) {
   p_types = names(mlr_reflections$task_feature_types)
   factor(map_values(x, r_types, p_types), levels = p_types)
 }
+
+rbind_named = function(x, y) {
+  assert_matrix(x)
+  assert_matrix(y)
+  assert_names(colnames(x), permutation.of = colnames(y))
+
+  rbind(x, y[, match(colnames(x), colnames(y)), drop = FALSE])
+}
+
+# converts to factor, and ensures that levels are in the right order
+as_factor = function(x, levels, ...) {
+  if (is.character(x)) {
+    x = factor(x, levels = levels)
+    assert_factor(x, ...)
+  } else {
+    assert_factor(x, levels = levels, ...)
+    if (!identical(levels(x), levels))
+      x = factor(x, levels = levels)
+  }
+  x
+}

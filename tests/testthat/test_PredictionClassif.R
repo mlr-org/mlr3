@@ -1,11 +1,13 @@
 context("PredictionClassif")
 
 test_that("Construction", {
-  p = PredictionClassif$new()
+  task = mlr_tasks$get("iris")
+  p = PredictionClassif$new(task = task, response = task$truth())
   expect_prediction(p)
+  expect_prediction_classif(p)
 })
 
-test_that("partial results", {
+test_that("Internally constructed Prediction", {
   task = mlr_tasks$get("iris")
   lrn = mlr_learners$get("classif.featureless")
   lrn$predict_type = "prob"
@@ -13,17 +15,6 @@ test_that("partial results", {
   p = e$prediction
   expect_prediction(p)
   expect_prediction_classif(p, task = task)
-
-  p = PredictionClassif$new()
-  expect_prediction(p)
-  expect_prediction_classif(p)
-  p$row_ids = task$row_ids
-  expect_error(as.data.table(p))
-
-  p$truth = task$truth()
-  p$response = rep(factor("setosa", levels = task$class_names), task$nrow)
-  expect_prediction(p)
-  expect_prediction_classif(p)
 })
 
 test_that("setting threshold", {
@@ -88,4 +79,25 @@ test_that("confusion", {
   expect_equal(colnames(p$confusion), task$class_names)
   expect_equal(rownames(p$confusion), task$class_names)
   expect_equal(names(dimnames(cm)), c("response", "truth"))
+})
+
+
+test_that("rbind", {
+  task = mlr_tasks$get("iris")
+  lrn = mlr_learners$get("classif.featureless")
+  lrn$predict_type = "prob"
+  rr = resample(task, lrn, "cv3")
+
+  pred = do.call(rbind, map(rr$experiments(), "prediction"))
+  expect_prediction(pred)
+  expect_prediction_classif(pred)
+
+  dt = as.data.table(pred)
+  expect_data_table(dt, nrow = task$nrow, ncol = 6L, any.missing = FALSE)
+
+  conf = pred$confusion
+  expect_equal(sum(conf), 150L)
+  expect_equal(rownames(conf), task$class_names)
+  expect_equal(colnames(conf), task$class_names)
+  expect_equal(conf, Reduce("+", map(rr$experiments(), function(x) x$prediction$confusion)))
 })
