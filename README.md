@@ -42,27 +42,8 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - To capture output, warnings and exceptions, [`evaluate`](https://cran.r-project.org/package=evaluate) and [`callr`](https://cran.r-project.org/package=callr) can be used.
 
 
-## State of the project
+## Resources
 
-**This package is currently work-in-progress. Do not use in production. The API will change.**
-
-### Already implemented:
-
-* Basic building blocks of machine learning
-    - [Experiment](https://mlr3.mlr-org.com/reference/Experiment.html): Class to store and access a single machine learning experiment
-    - Tasks for [classification](https://mlr3.mlr-org.com/reference/TaskClassif.html) and [regression](https://mlr3.mlr-org.com/reference/TaskRegr.html)
-    - Abstract [Learner](https://mlr3.mlr-org.com/reference/Learner.html)
-    - [Resampling](https://mlr3.mlr-org.com/reference/Resampling.html) strategies
-    - Performance [measures](https://mlr3.mlr-org.com/reference/Measure.html)
-* Task [Generators](https://mlr3.mlr-org.com/reference/Generator.html)
-* Single step experiments via the `Experiment` class
-* Resampling via [`resample()`](https://mlr3.mlr-org.com/reference/resample.html)
-* Stratification and blocking / grouping.
-* Benchmarking via [`benchmark()`](https://mlr3.mlr-org.com/reference/benchmark.html)
-* Parallelization via [`future`](https://cran.r-project.org/package=future).
-
-The [webpage](https://mlr3.mlr-org.com) provides, besides a short introduction, a [function reference](https://mlr3.mlr-org.com/reference/).
-
-### WiP
-
-While `mlr3` implements the building blocks for machine learning, some of the advanced features of the monolithic  [mlr](https://github.com/mlr-org/mlr) are now shipped in multiple [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
+* [Reference Manual](https://mlr3.mlr-org.com/reference/)
+* [Extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
+* We started to write a [book](https://mlr3book.mlr-org.com/), but it is still very unfinished.
