@@ -1,22 +1,8 @@
-if (inherits(ci(), "TravisCI")) {
-
-  do_package_checks(args = "--as-cran", error_on = "error")
-
-}
-
-if (inherits(ci(), "AppVeyorCI")) {
-
-  do_package_checks(
-    args = c("--as-cran", "--no-manual", "--no-vignettes", "--no-build-vignettes"),
-    build_args = c("--no-build-vignettes"),
-    error_on = "error"
-  )
-
-}
+do_package_checks()
 
 if (ci_can_push()) {
 
-  do_pkgdown(commit_paths = "docs")
+  do_pkgdown(commit_paths = "docs/")
 }
 
 # only deploy man files in master branch
