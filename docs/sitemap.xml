@@ -133,6 +133,9 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.auc.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.ce.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.confusion.html</loc>
   </url>
   <url>
@@ -142,10 +145,10 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.f1.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mmce.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_oob_error.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.mae.html</loc>
@@ -209,26 +212,5 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/resample.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/articles/basic-01-tasks.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/articles/basic-02-learners.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/articles/basic-03-experiments.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/articles/basic-04-resample-benchmark.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/articles/basic-05-parallelization.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/articles/basic-06-error-handling.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/articles/include/options.html</loc>
   </url>
 </urlset>

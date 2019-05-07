@@ -25,6 +25,10 @@
 #' * `minimize` :: `logical(1)`\cr
 #'   Set to `TRUE` if good predictions correspond to small values.
 #'
+#' * `aggregator` :: `function()`\cr
+#'   Function to aggregate individual performance values.
+#'   If `NULL`, defaults to [base::mean()].
+#'
 #' * `predict_type` :: `character(1)`\cr
 #'   Required predict type of the [Learner].
 #'
@@ -40,17 +44,17 @@
 #'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
 #'
 #' @section Fields:
-#' @inheritSection Measure Fields
+#' See [Measure].
 #'
 #' @section Methods:
-#' @inheritSection Measure Methods
+#' See [Measure].
 #'
 #' @family Measure
 #' @export
 MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
   public = list(
-    initialize = function(id, range, minimize, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
-      super$initialize(id, task_type = "classif", range = range, minimize = minimize,
+    initialize = function(id, range, minimize = NA, aggregator = NULL, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
+      super$initialize(id, task_type = "classif", range = range, minimize = minimize, aggregator = aggregator,
         predict_type = predict_type, task_properties = task_properties, na_score = na_score, packages = packages)
     }
   )

@@ -26,9 +26,7 @@ test_that("Dictionary", {
   expect_data_table(as.data.table(d), nrow = 1L)
 })
 
-test_that("Dictionary: lazy values", {
-  expect_function(mlr_tasks$items$iris)
-
+test_that("Dictionary: clone works", {
   t1 = mlr_tasks$get("iris")
   expect_task(t1)
   t2 = mlr_tasks$get("iris")
@@ -59,4 +57,14 @@ test_that("Error when a package containing the dataset is not installed", {
     TaskClassif$new("missing_package", b, target = "x", positive = "y")
   })
   expect_error(test_task$get("missing_package"))
+})
+
+test_that("Dictionary required args", {
+  x = Dictionary$new()
+  x$add("a", 1)
+  x$add("b", 2, required_args = "c")
+
+  expect_equal(x$required_args("a"), character())
+  expect_equal(x$required_args("b"), "c")
+  expect_equal(x$required_args("c"), NULL)
 })

@@ -28,13 +28,14 @@
 #'   Name of the target column.
 #'
 #' @section Fields:
-#' @inheritSection Task Fields
+#' See [Task].
 #'
 #' @section Methods:
+#' All methods from [Task], and additionally:
+#'
 #' * `truth(row_ids = NULL)` :: [data.table::data.table()]\cr
 #'   Table with true  labels for specified `row_ids`.
 #'   Defaults to all rows in use.
-#' @inheritSection Task Methods
 #'
 #' @family Task
 #' @keywords internal

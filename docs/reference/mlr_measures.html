@@ -212,15 +212,15 @@ and "packages" as columns.</p></li>
     <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_measures</span>)</div><div class='output co'>#&gt;                     key task_type predict_type packages
 #&gt;  1:         classif.acc   classif     response  Metrics
 #&gt;  2:         classif.auc   classif         prob  Metrics
-#&gt;  3:       classif.costs   classif     response         
-#&gt;  4:          classif.f1   classif         prob  Metrics
-#&gt;  5:         classif.fdr   classif     response         
-#&gt;  6:          classif.fn   classif     response         
-#&gt;  7:         classif.fnr   classif     response         
-#&gt;  8:         classif.for   classif     response         
-#&gt;  9:          classif.fp   classif     response         
-#&gt; 10:         classif.fpr   classif     response         
-#&gt; 11:        classif.mmce   classif     response  Metrics
+#&gt;  3:          classif.ce   classif     response  Metrics
+#&gt;  4:       classif.costs   classif     response         
+#&gt;  5:          classif.f1   classif         prob  Metrics
+#&gt;  6:         classif.fdr   classif     response         
+#&gt;  7:          classif.fn   classif     response         
+#&gt;  8:         classif.fnr   classif     response         
+#&gt;  9:         classif.for   classif     response         
+#&gt; 10:          classif.fp   classif     response         
+#&gt; 11:         classif.fpr   classif     response         
 #&gt; 12:         classif.npv   classif     response         
 #&gt; 13:         classif.ppv   classif     response         
 #&gt; 14:   classif.precision   classif     response         
@@ -231,13 +231,14 @@ and "packages" as columns.</p></li>
 #&gt; 19:         classif.tnr   classif     response         
 #&gt; 20:          classif.tp   classif     response         
 #&gt; 21:         classif.tpr   classif     response         
-#&gt; 22:            regr.mae      regr     response  Metrics
-#&gt; 23:            regr.mse      regr     response  Metrics
-#&gt; 24:   selected_features      &lt;NA&gt;     response         
-#&gt; 25:           time_both      &lt;NA&gt;     response         
-#&gt; 26:        time_predict      &lt;NA&gt;     response         
-#&gt; 27:          time_train      &lt;NA&gt;     response         
-#&gt;                     key task_type predict_type packages</div><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.mmce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifMMCE:classif.mmce&gt;
+#&gt; 22:           oob_error      &lt;NA&gt;     response         
+#&gt; 23:            regr.mae      regr     response  Metrics
+#&gt; 24:            regr.mse      regr     response  Metrics
+#&gt; 25:   selected_features      &lt;NA&gt;     response         
+#&gt; 26:           time_both      &lt;NA&gt;     response         
+#&gt; 27:        time_predict      &lt;NA&gt;     response         
+#&gt; 28:          time_train      &lt;NA&gt;     response         
+#&gt;                     key task_type predict_type packages</div><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/get'>get</a></span>(<span class='st'>"classif.ce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifMMCE:classif.ce&gt;
 #&gt; Packages: Metrics
 #&gt; Range: [0, 1]
 #&gt; Minimize: TRUE

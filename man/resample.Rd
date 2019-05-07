@@ -4,17 +4,24 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, ctrl = list())
+resample(task, learner, resampling, measures = NULL, ctrl = list())
 }
 \arguments{
 \item{task}{(\link{Task}):
-Object of type \link{Task}.}
+Object of type \link{Task}.
+Instead if a \link{Task} object, it is also possible to provide a key to retrieve a task from the \link{mlr_tasks} dictionary.}
 
 \item{learner}{(\link{Learner}):
-Object of type \link{Learner}.}
+Object of type \link{Learner}.
+Instead if a \link{Learner} object, it is also possible to provide a key to retrieve a task from the \link{mlr_learners} dictionary.}
 
 \item{resampling}{(\link{Resampling}):
-Object of type \link{Resampling}.}
+Object of type \link{Resampling}.
+Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a task from the \link{mlr_resamplings} dictionary.}
+
+\item{measures}{(list of \link{Measure}):
+List of performance measures to calculate.
+Defaults to the measures specified in the \link{Task} \code{task}.}
 
 \item{ctrl}{(named \code{list()}, e.g. as returned by \code{\link[=mlr_control]{mlr_control()}}):
 Object to control various parts of the execution. See \code{\link[=mlr_control]{mlr_control()}}.}
@@ -41,16 +48,14 @@ resampling$instantiate(task)
 rr = resample(task, learner, resampling)
 print(rr, digits = 2)
 rr$aggregated
-rr$performance("classif.mmce")
+rr$performance("classif.ce")
 
-# Repeat resampling with featureless learner and combine
-# the ResampleResults into a BenchmarkResult
-learner = mlr_learners$get("classif.featureless")
-rr.featureless = resample(task, learner, resampling)
+# Repeat resampling with featureless learner
+rr.featureless = resample(task, "classif.featureless", resampling)
 
+# Combine the ResampleResults into a BenchmarkResult
 bmr = rr$combine(rr.featureless)
 bmr$aggregated(objects = FALSE)
-
 
 \dontshow{
    logger::log_threshold(.threshold, namespace = "mlr3")

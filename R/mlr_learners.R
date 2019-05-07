@@ -6,7 +6,7 @@
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
 #' @section Methods:
-#' @inheritSection Dictionary Methods
+#' See [Dictionary].
 #'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
@@ -42,7 +42,7 @@ DictionaryLearner = R6Class("DictionaryLearner",
 )
 
 #' @export
-mlr_learners = DictionaryLearner$new()
+mlr_learners = NULL
 
 #' @export
 as.data.table.DictionaryLearner = function(x, ...) {

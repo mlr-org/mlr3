@@ -5,10 +5,16 @@
 #'
 #' @param task ([Task]):
 #'   Object of type [Task].
+#'   Instead if a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
 #' @param learner ([Learner]):
 #'   Object of type [Learner].
+#'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a task from the [mlr_learners] dictionary.
 #' @param resampling ([Resampling]):
 #'   Object of type [Resampling].
+#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a task from the [mlr_resamplings] dictionary.
+#' @param measures (list of [Measure]):
+#'   List of performance measures to calculate.
+#'   Defaults to the measures specified in the [Task] `task`.
 #' @param ctrl (named `list()`, e.g. as returned by [mlr_control()]):
 #'   Object to control various parts of the execution. See [mlr_control()].
 #' @return [ResampleResult].
@@ -29,25 +35,23 @@
 #' rr = resample(task, learner, resampling)
 #' print(rr, digits = 2)
 #' rr$aggregated
-#' rr$performance("classif.mmce")
+#' rr$performance("classif.ce")
 #'
-#' # Repeat resampling with featureless learner and combine
-#' # the ResampleResults into a BenchmarkResult
-#' learner = mlr_learners$get("classif.featureless")
-#' rr.featureless = resample(task, learner, resampling)
+#' # Repeat resampling with featureless learner
+#' rr.featureless = resample(task, "classif.featureless", resampling)
 #'
+#' # Combine the ResampleResults into a BenchmarkResult
 #' bmr = rr$combine(rr.featureless)
 #' bmr$aggregated(objects = FALSE)
-#'
 #'
 #' \dontshow{
 #'    logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
-resample = function(task, learner, resampling, ctrl = list()) {
-  task = assert_task(task)$clone(deep = TRUE)
-  learner = assert_learner(learner, task = task)$clone(deep = TRUE)
-  assert_resampling(resampling)
-  measures = assert_measures(task$measures, task = task)
+resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
+  task = assert_task(task, clone = TRUE)
+  learner = assert_learner(learner, task = task, clone = TRUE)
+  resampling = assert_resampling(resampling)
+  measures = assert_measures(measures %??% task$measures, task = task)
   ctrl = mlr_control(ctrl)
 
   instance = resampling$clone(deep = TRUE)
@@ -55,7 +59,7 @@ resample = function(task, learner, resampling, ctrl = list()) {
     instance = instance$instantiate(task)
   n = instance$iters
 
-  if (future_remote()) {
+  if (use_future()) {
     log_debug("Running resample() via future with %i iterations", n, namespace = "mlr3")
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
       task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl,

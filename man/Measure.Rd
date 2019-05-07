@@ -22,13 +22,15 @@ Type of the task the measure can operator on. E.g., \code{\"classif\"} or \code{
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
 \item \code{minimize} :: \code{logical(1)}\cr
 Set to \code{TRUE} if good predictions correspond to small values.
+\item \code{aggregator} :: \code{function()}\cr
+Function to aggregate individual performance values.
+If \code{NULL}, defaults to \code{\link[base:mean]{base::mean()}}.
 \item \code{predict_type} :: \code{character(1)}\cr
 Required predict type of the \link{Learner}.
 \item \code{task_properties} :: \code{character()}\cr
 Required task properties, see \link{Task}.
 \item \code{na_score} :: \code{logical(1)}\cr
-Is the measure expected to return \code{NA} in some edge cases?
-Default is \code{FALSE}.
+Is the measure expected to return \code{NA} in some cases? Default is \code{FALSE}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
 Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
@@ -60,10 +62,9 @@ Stores required properties of the \link{Task}.
 \link{ResampleResult} -> \code{numeric(1)}\cr
 Aggregates multiple performance scores into a single score using the \code{aggregate} function of the measure.
 Operates on a \link{ResampleResult} as returned by \link{resample}.
-\item \code{calculate(e)}\cr
-\link{Experiment} -> \code{numeric(1)}\cr
-Takes an \link{Experiment}, extracts the predictions (as well as other possibly needed objects), and calculates
-a score.
+\item \code{calculate(experiment = NULL, prediction = experiment$prediction)}\cr
+(\link{Experiment}, \link{Prediction}) -> \code{numeric(1)}\cr
+Takes an \link{Experiment} and a \link{Prediction} (defaults to prediction stored in experiment), and calculates a numeric score.
 }
 }
 

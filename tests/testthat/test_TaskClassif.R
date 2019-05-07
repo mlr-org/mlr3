@@ -59,7 +59,7 @@ test_that("Replace features", {
   expect_equal(task$ncol, 3)
 })
 
-test_that("TaskClassif: 0 feature task", {
+test_that("0 feature task", {
   b = as_data_backend(iris[, 5L, drop = FALSE])
   task = TaskClassif$new(id = "zero_feat_task", b, target = "Species")
   expect_output(print(task))
@@ -75,4 +75,22 @@ test_that("TaskClassif: 0 feature task", {
   e$train()$predict()$score()
   expect_experiment(e)
   expect_number(e$performance, lower = 0.6, upper = 0.7)
+})
+
+test_that("Positive class always comes first", {
+  sonar = load_dataset("Sonar", package = "mlbench")
+  tmp = list(c("M", "R"), c("R", "M"))
+  lrn = mlr_learners$get("classif.featureless", predict_type = "prob", param_vals = list(method = "sample"))
+
+  for (lvls in tmp) {
+    task = TaskClassif$new("sonar", backend = sonar, target = "Class", positive = lvls[[1]])
+    expect_equal(task$positive, lvls[1])
+    expect_equal(task$negative, lvls[2])
+    expect_equal(task$class_names, lvls)
+    expect_equal(levels(task$truth()), lvls)
+    e = Experiment$new(task, lrn)$train()$predict()
+    expect_equal(levels(e$prediction$truth), lvls)
+    expect_equal(levels(e$prediction$response), lvls)
+    expect_set_equal(colnames(e$prediction$prob), lvls)
+  }
 })

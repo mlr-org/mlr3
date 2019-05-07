@@ -7,11 +7,14 @@
 expand_grid(tasks, learners, resamplings)
 }
 \arguments{
-\item{tasks}{(list of \link{Task}).}
+\item{tasks}{(list of \link{Task}).
+Instead a \link{Task} object, it is also possible to provide a key to retrieve a task from the \link{mlr_tasks} dictionary.}
 
-\item{learners}{(list of \link{Learner}).}
+\item{learners}{(list of \link{Learner}).
+Instead if a \link{Learner} object, it is also possible to provide a key to retrieve a task from the \link{mlr_learners} dictionary.}
 
-\item{resamplings}{(list of \link{Resampling}).}
+\item{resamplings}{(list of \link{Resampling}).
+Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a task from the \link{mlr_resamplings} dictionary.}
 }
 \value{
 (\code{\link[=data.table]{data.table()}}) with the cross product of the input vectors.
@@ -20,5 +23,5 @@ expand_grid(tasks, learners, resamplings)
 Takes a lists of \link{Task}, a list of \link{Learner} and a list of \link{Resampling} to
 generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a. cross join or Cartesian product).
 
-Resampling strategies must be uninstantiated, and will be instantiated per task.
+Resampling strategies may not be instantiated, and will be instantiated per task internally.
 }

@@ -57,7 +57,7 @@ test_that("DataBackendMatrix sparse output", {
   testthat::expect_equal(i, get_row_id(x))
 
   # duplicated cols raise exception
-  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L, data_format = "Matrix")), "uniquely")
+  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L, data_format = "Matrix")), "unique")
 
   # argument n of head
   expect_data_table(b$head(3), nrow = 3, ncol = b$ncol)
@@ -97,7 +97,7 @@ test_that("learners can request sparse data format", {
       },
 
       train = function(task) {
-        self$model = task$data(data_format = self$data_formats)
+        self$model = task$data(data_format = "Matrix")
         self
       },
 

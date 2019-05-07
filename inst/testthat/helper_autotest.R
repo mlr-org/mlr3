@@ -58,12 +58,12 @@ generate_generic_tasks = function(learner, proto) {
 generate_data = function(learner, N) {
   generate_feature = function(type) {
     switch(type,
-      logical = rep_len(c(TRUE, FALSE), N),
-      integer = rep_len(1:3, N),
+      logical = sample(rep_len(c(TRUE, FALSE), N)),
+      integer = sample(rep_len(1:3, N)),
       numeric = runif(N),
-      character = rep_len(letters[1:2], N),
-      factor = factor(rep_len(c("f1", "f2"), N), levels = c("f1", "f2")),
-      ordered = ordered(rep_len(c("o1", "o2"), N), levels = c("o1", "o2"))
+      character = sample(rep_len(letters[1:2], N)),
+      factor = sample(factor(rep_len(c("f1", "f2"), N), levels = c("f1", "f2"))),
+      ordered = sample(ordered(rep_len(c("o1", "o2"), N), levels = c("o1", "o2")))
     )
   }
   types = unique(learner$feature_types)
@@ -86,13 +86,13 @@ generate_data = function(learner, N) {
 #' @examples
 #' tasks = generate_tasks(mlr_learners$get("classif.rpart"))
 #' tasks$missings_binary$data()
-generate_tasks = function(learner, N = 20L) {
+generate_tasks = function(learner, N = 30L) {
   N = checkmate::assert_int(N, lower = 10L, coerce = TRUE)
   UseMethod("generate_tasks")
 }
 
 #' @export
-generate_tasks.LearnerClassif = function(learner, N = 20L) {
+generate_tasks.LearnerClassif = function(learner, N = 30L) {
   tasks = list()
 
   # generate binary tasks
@@ -132,7 +132,7 @@ generate_tasks.LearnerClassif = function(learner, N = 20L) {
 registerS3method("generate_tasks", "LearnerClassif", generate_tasks.LearnerClassif)
 
 #' @export
-generate_tasks.LearnerRegr = function(learner, N = 20L) {
+generate_tasks.LearnerRegr = function(learner, N = 30L) {
   target = rnorm(N)
   data = cbind(data.table::data.table(target = target), generate_data(learner, N))
   task = mlr3::TaskRegr$new("proto", mlr3::as_data_backend(data), target = "target")
@@ -141,7 +141,7 @@ generate_tasks.LearnerRegr = function(learner, N = 20L) {
 
   # generate sanity task
   with_seed(100, {
-    data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = 1)
+    data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = c(rep(0, 100), rep(1, 100)))
     data$unimportant = runif(nrow(data))
   })
   task = mlr3misc::set_names(list(mlr3::TaskRegr$new("sanity", mlr3::as_data_backend(data), target = "y")), "sanity")

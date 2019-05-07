@@ -51,5 +51,8 @@ Creates a task of type \code{task_type} with \code{n} observations, possibly usi
 }
 }
 
-\concept{Generators}
+\seealso{
+Other Generator: \code{\link{mlr_generators}}
+}
+\concept{Generator}
 \keyword{datasets}

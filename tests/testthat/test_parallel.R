@@ -6,7 +6,7 @@ test_that("parallel resample", {
   skip_if_not_installed("future.callr")
 
   with_future(future.callr::callr, {
-    expect_true(future_remote())
+    expect_true(use_future())
 
     task = mlr_tasks$get("iris")
     learner = mlr_learners$get("classif.rpart")
@@ -24,7 +24,7 @@ test_that("parallel benchmark", {
   skip_if_not_installed("future.callr")
 
   with_future(future.callr::callr, {
-    expect_true(future_remote())
+    expect_true(use_future())
 
     task = mlr_tasks$get("iris")
     learner = mlr_learners$get("classif.rpart")

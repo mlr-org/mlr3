@@ -6,7 +6,7 @@
 #' Each measure has an associated help page, see `mlr_measures_[id]`.
 #'
 #' @section Methods:
-#' @inheritSection Dictionary Methods
+#' See [Dictionary].
 #'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
@@ -19,7 +19,7 @@
 #' @name mlr_measures
 #' @examples
 #' as.data.table(mlr_measures)
-#' mlr_measures$get("classif.mmce")
+#' mlr_measures$get("classif.ce")
 NULL
 
 #' @include Dictionary.R
@@ -29,7 +29,7 @@ DictionaryMeasure = R6Class("DictionaryMeasure",
 )
 
 #' @export
-mlr_measures = DictionaryMeasure$new()
+mlr_measures = NULL
 
 #' @export
 as.data.table.DictionaryMeasure = function(x, ...) {

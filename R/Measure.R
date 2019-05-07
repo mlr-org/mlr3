@@ -26,6 +26,10 @@
 #' * `minimize` :: `logical(1)`\cr
 #'   Set to `TRUE` if good predictions correspond to small values.
 #'
+#' * `aggregator` :: `function()`\cr
+#'   Function to aggregate individual performance values.
+#'   If `NULL`, defaults to [base::mean()].
+#'
 #' * `predict_type` :: `character(1)`\cr
 #'   Required predict type of the [Learner].
 #'
@@ -33,8 +37,7 @@
 #'   Required task properties, see [Task].
 #'
 #' * `na_score` :: `logical(1)`\cr
-#'   Is the measure expected to return `NA` in some edge cases?
-#'   Default is `FALSE`.
+#'   Is the measure expected to return `NA` in some cases? Default is `FALSE`.
 #'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
@@ -67,10 +70,9 @@
 #'   Aggregates multiple performance scores into a single score using the `aggregate` function of the measure.
 #'   Operates on a [ResampleResult] as returned by [resample].
 #'
-#' * `calculate(e)`\cr
-#'   [Experiment] -> `numeric(1)`\cr
-#'   Takes an [Experiment], extracts the predictions (as well as other possibly needed objects), and calculates
-#'   a score.
+#' * `calculate(experiment = NULL, prediction = experiment$prediction)`\cr
+#'   ([Experiment], [Prediction]) -> `numeric(1)`\cr
+#'   Takes an [Experiment] and a [Prediction] (defaults to prediction stored in experiment), and calculates a numeric score.
 #'
 #' @family Measure
 #' @export
@@ -80,18 +82,20 @@ Measure = R6Class("Measure",
     id = NULL,
     task_type = NULL,
     predict_type = NULL,
+    aggregator = NULL,
     task_properties = NULL,
     range = NULL,
     minimize = NULL,
     na_score = NULL,
     packages = NULL,
-    aggregate = function(rr) mean(rr$performance(self$id)),
 
-    initialize = function(id, task_type, range, minimize, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
+    initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
       self$id = assert_id(id)
       self$task_type = task_type
       self$range = assert_range(range)
-      self$minimize = assert_flag(minimize)
+      self$minimize = assert_flag(minimize, na.ok = TRUE)
+      if (!is.null(aggregator))
+        self$aggregator = assert_function(aggregator)
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types)
@@ -113,6 +117,11 @@ Measure = R6Class("Measure",
       catf(str_indent("Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catf(str_indent("Minimize:", self$minimize))
       catf(str_indent("Predict type:", self$predict_type))
+    },
+
+    aggregate = function(rr) {
+      fun = self$aggregator %??% mean
+      fun(rr$performance(self$id))
     }
   ),
 

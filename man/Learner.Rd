@@ -7,10 +7,19 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for learner objects like \link{LearnerClassif} and \link{LearnerRegr}.
+Learners consist of the following parts:
+\itemize{
+\item Methods \code{train()} and \code{predict()} to perform the respective steps.
+\item The fitted model, after calling \code{train()}.
+\item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+\item Meta-information about the requirements and capabilities of the learner.
+}
+
 Predefined learners are stored in \link{mlr_learners}.
 }
 \section{Construction}{
-\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+
+Note: This object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
      feature_types = character(), properties = character(), packages = character())
 }
 \itemize{
@@ -30,8 +39,6 @@ Feature types the learner operates on. Must be a subset of \code{mlr_reflections
 Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
 \item \code{data_formats} :: \code{character()}\cr
 Vector of supported data formats which can be processed during \code{$train()} and \code{$predict()}.
-Will be matched against the data formats supported by the \link{Task}, and the first data format specified
-in the learner which is also supported by the task will be picked.
 Defaults to \code{"data.table"}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
@@ -42,33 +49,33 @@ Note that these packages will be loaded via \code{\link[=requireNamespace]{requi
 \section{Fields}{
 
 \itemize{
+\item \code{id} :: \code{character(1)}\cr
+Identifier of the learner.
+\item \code{task_type} :: \code{character(1)}\cr
+Stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
+A complete list of task types is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_types}}.
+\item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
+Description of available hyperparameters and hyperparameter settings.
+\item \code{predict_types} :: \code{character()}\cr
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
+\item \code{predict_type} :: \code{character(1)}\cr
+Stores the currently selected predict type. Must be an element of \code{l$predict_types}.
+\item \code{feature_types} :: \code{character()}\cr
+Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
+\item \code{properties} :: \code{character()}\cr
+Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+\item \code{packages} :: \code{character()}\cr
+Stores the names of required packages.
 \item \code{fallback} :: (\link{Learner} | \code{NULL})\cr
 Optionally stores a second \link{Learner} which is activated as fallback if this first \link{Learner} fails during
 train or predict.
 This mechanism is disabled unless you explicitly assign a learner to this slot.
-Additionally, you need to catch raised exceptions via encapsulation, see \code{\link[=mlr_control]{mlr_control()}}.
-\item \code{feature_types} :: \code{character()}\cr
-Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
-A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
+Additionally, you need to enable encapsulation for the fallback learner to work, see \code{\link[=mlr_control]{mlr_control()}}.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
-\item \code{id} :: \code{character(1)}\cr
-Stores the identifier of the learner.
-\item \code{packages} :: \code{character()}\cr
-Stores the names of required packages.
-\item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
-Description of available hyperparameters and hyperparameter settings.
-\item \code{predict_type} :: \code{character(1)}\cr
-Stores the currently selected predict type. Must be an element of \code{l$predict_types}.
-\item \code{predict_types} :: \code{character()}\cr
-Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
-\item \code{properties} :: \code{character()}\cr
-Stores a set of properties/capabilities the learner has.
-A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
-A complete list of task types is stored in \code{mlr_reflections$task_types}.
 }
 }
 
@@ -78,7 +85,7 @@ A complete list of task types is stored in \code{mlr_reflections$task_types}.
 \item \code{params(tag)}\cr
 \code{character(1)} -> named \code{list()}\cr
 Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
-with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters used in the training step.
+with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters relevant in the training step.
 \item \code{train(task)}\cr
 \link{Task} -> \code{self}\cr
 Train the learner on the complete \link{Task}. The resulting model is stored in \code{l$model}.
@@ -104,6 +111,27 @@ The returned vector is named with feature names and sorted in decreasing order.
 Note that the model might omit features it has not used at all.
 \item \code{selected_features(...)}: Returns a subset of selected features as \code{character()}.
 The learner must be tagged with property "selected_features".
+\item \code{oob_error(...)}: Returns the out-of-bag error of the model as \code{numeric(1)}.
+The learner must be tagged with property "oob_error".
+}
+}
+
+\section{Setting Hyperparameters}{
+
+
+All information about hyperparameters is stored in the slot \code{param_set} which is a \link[paradox:ParamSet]{paradox::ParamSet}.
+The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
+possible levels (for factors), default values and assigned values.
+To set hyperparameters, assign a named list to the subslot \code{values}:\preformatted{lrn = mlr_learners$get("classif.rpart")
+lrn$param_set$values = list(minsplit = 3, cp = 0.01)
+}
+
+Note that this operation erases all previously set hyperparameter values.
+If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function \code{\link[mlr3misc:insert_named]{mlr3misc::insert_named()}}:\preformatted{lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
+}
+
+If the learner has additional hyperparameters which are not encoded in the \link[paradox:ParamSet]{ParamSet}, you can easily extend the learner.
+Here, we add a hyperparameter with id "foo" possible levels "a" and "b":\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 }
 }
 

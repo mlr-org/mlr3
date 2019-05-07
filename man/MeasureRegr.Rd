@@ -22,6 +22,9 @@ Identifier for the measure.
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
 \item \code{minimize} :: \code{logical(1)}\cr
 Set to \code{TRUE} if good predictions correspond to small values.
+\item \code{aggregator} :: \code{function()}\cr
+Function to aggregate individual performance values.
+If \code{NULL}, defaults to \code{\link[base:mean]{base::mean()}}.
 \item \code{predict_type} :: \code{character(1)}\cr
 Required predict type of the \link{Learner}.
 \item \code{task_properties} :: \code{character()}\cr
@@ -37,38 +40,12 @@ Note that these packages will be loaded via \code{\link[=requireNamespace]{requi
 
 \section{Fields}{
 
-
-
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Stores the identifier of the measure.
-\item \code{minimize} :: \code{logical(1)}\cr
-Is \code{TRUE} if the best value is reached via minimization and \code{FALSE} by maximization.
-\item \code{packages} :: \code{character()}\cr
-Stores the names of required packages.
-\item \code{range} :: \code{numeric(2)}\cr
-Stores the feasible range of the measure.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the required type of the \link{Task}.
-\item \code{task_properties} :: \code{character()}\cr
-Stores required properties of the \link{Task}.
-}
+See \link{Measure}.
 }
 
 \section{Methods}{
 
-
-
-\itemize{
-\item \code{aggregate(rr)}\cr
-\link{ResampleResult} -> \code{numeric(1)}\cr
-Aggregates multiple performance scores into a single score using the \code{aggregate} function of the measure.
-Operates on a \link{ResampleResult} as returned by \link{resample}.
-\item \code{calculate(e)}\cr
-\link{Experiment} -> \code{numeric(1)}\cr
-Takes an \link{Experiment}, extracts the predictions (as well as other possibly needed objects), and calculates
-a score.
-}
+See \link{Measure}.
 }
 
 \seealso{

@@ -7,7 +7,7 @@
 #' Each resampling has an associated help page, see `mlr_resamplings_[id]`.
 #'
 #' @section Methods:
-#' @inheritSection Dictionary Methods
+#' See [Dictionary].
 #'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
@@ -41,7 +41,7 @@ DictionaryResampling = R6Class("DictionaryResampling",
 )
 
 #' @export
-mlr_resamplings = DictionaryResampling$new()
+mlr_resamplings = NULL
 
 #' @export
 as.data.table.DictionaryResampling = function(x, ...) {

@@ -25,6 +25,16 @@
 #'   Anyway, the class label with maximum ratio is determined.
 #'   In case of ties in the ratio, one of the tied class labels is selected randomly.
 #'
+#' @note
+#' It is possible to initialize this object without any arguments.
+#' This allows to manually construct [Prediction] objects in a piecemeal fashion.
+#' Required are "row_ids", "truth", "predict_type" and "class_names".
+#' Depending on the value of "predict_types", "response" and "prob" must also be set.
+#'
+#' The factor objects "truth" and "response" must have identical levels (this includes their order).
+#' For binary classification, the true label should be the first level.
+#'
+#'
 #' @section Construction:
 #' ```
 #' p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL)
@@ -42,6 +52,9 @@
 #'   Numeric matrix of class probabilities with one column for each class
 #'   and one row for each observation in the test set.
 #'
+#' @section Fields:
+#' All fields from [Prediction], and additionally:
+#'
 #' * `threshold` :: `numeric(1)`\cr
 #'   Probability threshold between 0 and 1.
 #'   Assigning a value to this field modifies the stored responses.
@@ -49,14 +62,6 @@
 #' * `confusion` :: `matrix()`\cr
 #'   Confusion matrix resulting from the comparison of truth and response.
 #'   Truth is in columns, predicted response in rows.
-#'
-#' Note that it is allowed to initialize this object without any arguments in order
-#' to allow to manually construct [Prediction] objects in a piecemeal fashion.
-#' Required are "row_ids", "truth", and "predict_type". Depending on the value of
-#' "predict_types", also "response" and "prob" must be set.
-#'
-#' @section Fields:
-#' @inheritSection Prediction Fields
 #'
 #' @family Prediction
 #' @export
@@ -111,7 +116,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     },
 
     confusion = function() {
-      as.matrix(table(response = self$response, truth = self$truth, useNA = "ifany"))
+      table(response = self$response, truth = self$truth, useNA = "ifany")
     }
   ),
 
@@ -122,34 +127,32 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
 predictionclassif_initialize = function(self, task, response, prob) {
   self$task_type = "classif"
+
   if (!is.null(task)) {
+    class_names = task$class_names
     self$row_ids = row_ids = task$row_ids
     self$truth = task$truth()
     n = length(row_ids)
-    classes = task$class_names
 
     if (!is.null(response)) {
-      response = factor(response, levels = classes)
+      response = factor(response, levels = class_names)
       assert_factor(response, len = n, any.missing = FALSE)
     }
 
     if (!is.null(prob)) {
-      assert_matrix(prob, nrows = n, ncols = length(classes))
+      assert_matrix(prob, nrows = n, ncols = length(class_names))
       assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
-      assert_names(colnames(prob), permutation.of = classes)
-      if (is.null(rownames(prob)))
-        rownames(prob) = row_ids
-      self$prob = prob[, match(colnames(prob), classes), drop = FALSE]
+      assert_names(colnames(prob), permutation.of = class_names)
+      if (!is.null(rownames(prob)))
+        rownames(prob) = NULL
     }
 
     if (is.null(response) && !is.null(prob)) {
       # calculate response from prob
       i = max.col(prob, ties.method = "random")
-      response = factor(colnames(prob)[i], levels = classes)
+      response = factor(colnames(prob)[i], levels = class_names)
     }
   } else {
-    if (!is.null(response) && is.character(response))
-      response = factor(response)
     assert_factor(response, any.missing = FALSE, null.ok = TRUE)
     assert_matrix(prob, null.ok = TRUE)
     assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1, null.ok = TRUE)

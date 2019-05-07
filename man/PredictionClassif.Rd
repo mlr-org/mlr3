@@ -27,6 +27,15 @@ Anyway, the class label with maximum ratio is determined.
 In case of ties in the ratio, one of the tied class labels is selected randomly.
 }
 }
+\note{
+It is possible to initialize this object without any arguments.
+This allows to manually construct \link{Prediction} objects in a piecemeal fashion.
+Required are "row_ids", "truth", "predict_type" and "class_names".
+Depending on the value of "predict_types", "response" and "prob" must also be set.
+
+The factor objects "truth" and "response" must have identical levels (this includes their order).
+For binary classification, the true label should be the first level.
+}
 \section{Construction}{
 \preformatted{p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL)
 }
@@ -40,35 +49,19 @@ One element for each observation in the test set.
 \item \code{prob} :: \code{matrix()}\cr
 Numeric matrix of class probabilities with one column for each class
 and one row for each observation in the test set.
+}
+}
+
+\section{Fields}{
+
+All fields from \link{Prediction}, and additionally:
+\itemize{
 \item \code{threshold} :: \code{numeric(1)}\cr
 Probability threshold between 0 and 1.
 Assigning a value to this field modifies the stored responses.
 \item \code{confusion} :: \code{matrix()}\cr
 Confusion matrix resulting from the comparison of truth and response.
 Truth is in columns, predicted response in rows.
-}
-
-Note that it is allowed to initialize this object without any arguments in order
-to allow to manually construct \link{Prediction} objects in a piecemeal fashion.
-Required are "row_ids", "truth", and "predict_type". Depending on the value of
-"predict_types", also "response" and "prob" must be set.
-}
-
-\section{Fields}{
-
-
-
-\itemize{
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Vector of row ids for which predictions are stored.
-\item \code{truth} :: \code{any}\cr
-Vector of true labels.
-\item \code{response} :: \code{any}\cr
-Vector of predicted labels.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the type of the \link{Task}.
-\item \code{predict_types} :: \code{character()}\cr
-Vector of predict types this object stores.
 }
 }
 

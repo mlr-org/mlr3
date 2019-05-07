@@ -78,7 +78,7 @@ expect_backend = function(b) {
   testthat::expect_equal(i, x[[1L]])
 
   # duplicated cols raise exception
-  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L), data_format = "data.table"), "uniquely")
+  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L), data_format = "data.table"), "unique")
 
   # $head()
   checkmate::expect_data_table(b$head(9999L), nrow = n, ncol = p)
@@ -209,11 +209,10 @@ expect_task = function(task) {
 
 expect_task_supervised = function(task) {
   checkmate::expect_r6(task, "TaskSupervised", cloneable = TRUE)
-  checkmate::expect_choice(task$target_names, task$col_info$id)
+  checkmate::expect_subset(task$target_names, task$col_info$id, empty.ok = FALSE)
 
   f = task$formula()
   checkmate::expect_class(f, "formula")
-  testthat::expect_null(environment(f))
   tf = terms(f)
   checkmate::expect_set_equal(labels(tf), task$feature_names) # rhs
   checkmate::expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target_names) # lhs
@@ -319,10 +318,10 @@ expect_measure = function(m) {
   checkmate::expect_subset(m$task_type, c(NA_character_, mlr3::mlr_reflections$task_types), empty.ok = FALSE)
   checkmate::expect_numeric(m$range, len = 2, any.missing = FALSE)
   testthat::expect_lt(m$range[1], m$range[2])
-  checkmate::expect_flag(m$minimize)
+  checkmate::expect_flag(m$minimize, na.ok = TRUE)
   checkmate::expect_flag(m$na_score)
   checkmate::expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
-  checkmate::expect_function(m$calculate, args = "e")
+  checkmate::expect_function(m$calculate, args = c("experiment", "prediction"))
   checkmate::expect_function(m$aggregate, args = "rr")
 }
 

@@ -41,7 +41,7 @@ test_that("Handling of training errors", {
   e$data$resampling = r
   e$data$iteration = 1L
 
-  expect_error(train_worker(e, mlr_control()), "store a model")
+  expect_error(train_worker(e, mlr_control()), "store a model", class = "trainError")
 
   res = train_worker(e, mlr_control(encapsulate_train = "evaluate"))
   expect_string(Log$new(res$train_log)$errors, fixed = "store a model")

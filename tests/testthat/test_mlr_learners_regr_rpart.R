@@ -2,6 +2,7 @@ context("mlr_learners_regr_rpart")
 
 test_that("autotest", {
   learner = mlr_learners$get("regr.rpart")
+  expect_learner(learner)
   result = run_autotest(learner)
   expect_true(result, info = result$error)
 })

@@ -37,7 +37,7 @@ Table of used measures with three columns:
 "measure_hash" (\code{character(1)}), "measure_id" (\code{character(1)}) and "measure" (\link{Measure}).
 \item \code{resample_results} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of \link{ResampleResult} groups with 5 columns:
-"hash" (\code{character(1)}), "task_id" (\code{character(1)}), "learner_id" (\code{character(1)}), "resamping_id" (\code{character(1)}) and "N" (\code{integer(1)}).
+"hash" (\code{character(1)}), "task_id" (\code{character(1)}), "learner_id" (\code{character(1)}), "resampling_id" (\code{character(1)}) and "N" (\code{integer(1)}).
 The last column ("N") is the number of \link{Experiment}s in the \link{ResampleResult}.
 }
 }
@@ -65,7 +65,8 @@ Fuses a second \link{BenchmarkResult} into itself.
 Returns the \link{ResampleResult} with best performance according to the provided \link{Measure}.
 \item \code{resample_result(hash)}\cr
 \code{character(1)} -> \link{ResampleResult}\cr
-Retrieves the \link{ResampleResult} with provided \code{hash}.
+Retrieves the \link{ResampleResult} whose hash starts with \code{hash}.
+The abbreviation must be unambiguous, so that exactly one \link{ResampleResult} is matched.
 }
 }
 
@@ -85,10 +86,11 @@ Converts the data to a \code{data.table()}.
 }
 set.seed(123)
 bmr = benchmark(expand_grid(
-  tasks = mlr_tasks$mget("iris"),
-  learners = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
-  resamplings = mlr_resamplings$mget("cv")
+  tasks = "iris",
+  learners = c("classif.featureless", "classif.rpart"),
+  resamplings = "cv3"
 ))
+
 print(bmr)
 bmr$tasks
 bmr$learners

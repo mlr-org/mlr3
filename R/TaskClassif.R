@@ -30,6 +30,8 @@
 #'   Only for binary classification: Name of the positive class.
 #'
 #' @section Fields:
+#' All methods from [TaskSupervised], and additionally:
+#'
 #' * `class_names` :: `character()`\cr
 #'   Returns all class labels of the target column.
 #'
@@ -41,10 +43,9 @@
 #'
 #' * `positive` :: `character(1)`\cr
 #'   Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
-#' @inheritSection Task Fields
 #'
 #' @section Methods:
-#' @inheritSection Task Methods
+#' See [TaskSupervised].
 #'
 #' @family Task
 #' @export
@@ -82,12 +83,14 @@ TaskClassif = R6Class("TaskClassif",
       if (length(levels) == 2L) {
         if (is.null(positive)) {
           self$positive = levels[1L]
+          self$negative = levels[2L]
           log_debug("Setting positive class to '%s'", self$positive, namespace = "mlr3")
         } else {
           self$positive = assert_choice(positive, levels)
+          self$negative = setdiff(levels, self$positive)
+          self$col_info[list(target), levels := list(list(c(self$positive, self$negative))), on = "id"][]
         }
-        self$negative = setdiff(levels, self$positive)
-        self$col_info[list(target), levels := list(list(c(self$positive, self$negative))), on = "id"][]
+
         self$properties = "twoclass"
       } else {
         if (!is.null(positive))
@@ -96,14 +99,12 @@ TaskClassif = R6Class("TaskClassif",
         self$properties = "multiclass"
       }
 
-      self$measures = list(mlr_measures$get("classif.mmce"))
+      self$measures = list(mlr_measures$get("classif.ce"))
     },
 
     truth = function(row_ids = NULL) {
       res = self$data(row_ids, cols = self$target_names)[[1L]]
-      if (is.character(res))
-        res = factor(res, levels = self$class_names)
-      res
+      factor(res, levels = self$class_names)
     }
   ),
 

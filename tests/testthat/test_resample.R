@@ -18,18 +18,24 @@ test_that("resample", {
 
 test_that("resample with multiple measures", {
   task = mlr_tasks$get("iris")
-  task$measures = mlr_measures$mget(c("classif.mmce", "classif.acc"))
+  task$measures = mlr_measures$mget(c("classif.ce", "classif.acc"))
   learner = mlr_learners$get("classif.featureless")
-  resampling = mlr_resamplings$get("cv")
-  resampling$param_set$values = list(folds = 3)
-  rr = resample(task, learner, resampling)
+  rr = resample(task, learner, "cv3")
 
   expect_resample_result(rr)
 })
 
+test_that("resample with replacement measures", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.featureless")
+  rr = resample(task, learner, "cv3", measures = mlr_measures$mget(c("classif.ce", "classif.acc")))
+  expect_equal(rr$measures$measure_id, c("classif.ce", "classif.acc"))
+  expect_equal(names(rr$aggregated), c("classif.ce", "classif.acc"))
+})
+
 test_that("rr$combine()", {
   task = mlr_tasks$get("iris")
-  task$measures = mlr_measures$mget(c("classif.mmce", "classif.acc"))
+  task$measures = mlr_measures$mget(c("classif.ce", "classif.acc"))
   learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv")
   resampling$param_set$values = list(folds = 3)

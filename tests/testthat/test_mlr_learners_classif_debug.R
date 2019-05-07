@@ -1,4 +1,4 @@
-context("mlr_learners_regr_featureless")
+context("mlr_learners_classif.debug")
 
 test_that("Simple training/predict", {
   task = mlr_tasks$get("iris")

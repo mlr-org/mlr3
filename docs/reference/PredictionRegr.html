@@ -164,6 +164,13 @@ The field <code>task_type</code> is set to <code>"classif"</code>.</p>
 
     <p><a href='https://www.rdocumentation.org/packages/R6/topics/R6Class'>R6::R6Class</a> object inheriting from <a href='Prediction.html'>Prediction</a>.</p>
     
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>It is possible to initialize this object without any arguments.
+This allows to manually construct <a href='Prediction.html'>Prediction</a> objects in a piecemeal fashion.
+Required are "row_ids", "truth", and "predict_type".
+Depending on the value of "predict_types", "response" and "se" must also be set.</p>
+    
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     <pre>p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
@@ -179,10 +186,6 @@ One element for each observation in the test set.</p></li>
 Numeric vector of predicted standard error.
 One element for each observation in the test set.</p></li>
 </ul>
-    <p>Note that it is allowed to initialize this object without any arguments in order
-to allow to manually construct <a href='Prediction.html'>Prediction</a> objects in a piecemeal fashion.
-Required are "row_ids", "truth", and "predict_type". Depending on the value of
-"predict_types", also "response" and "se" must be set.</p>
     
     <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
 
@@ -225,6 +228,8 @@ Vector of predict types this object stores.</p></li>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
+
+      <li><a href="#note">Note</a></li>
 
       <li><a href="#construction">Construction</a></li>
 

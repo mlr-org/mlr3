@@ -9,6 +9,12 @@
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
 The field \code{task_type} is set to \code{"classif"}.
 }
+\note{
+It is possible to initialize this object without any arguments.
+This allows to manually construct \link{Prediction} objects in a piecemeal fashion.
+Required are "row_ids", "truth", and "predict_type".
+Depending on the value of \code{predict_types}, \code{response} and \code{se} must also be set.
+}
 \section{Construction}{
 \preformatted{p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
 }
@@ -23,29 +29,11 @@ One element for each observation in the test set.
 Numeric vector of predicted standard error.
 One element for each observation in the test set.
 }
-
-Note that it is allowed to initialize this object without any arguments in order
-to allow to manually construct \link{Prediction} objects in a piecemeal fashion.
-Required are "row_ids", "truth", and "predict_type". Depending on the value of
-"predict_types", also "response" and "se" must be set.
 }
 
 \section{Fields}{
 
-
-
-\itemize{
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Vector of row ids for which predictions are stored.
-\item \code{truth} :: \code{any}\cr
-Vector of true labels.
-\item \code{response} :: \code{any}\cr
-Vector of predicted labels.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the type of the \link{Task}.
-\item \code{predict_types} :: \code{character()}\cr
-Vector of predict types this object stores.
-}
+See \link{Prediction}.
 }
 
 \examples{

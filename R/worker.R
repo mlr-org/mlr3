@@ -1,19 +1,24 @@
 train_worker = function(e, ctrl) {
+  abort = function(e, ...) {
+    msg = sprintf(as.character(e), ...)
+    stop(errorCondition(msg, learner = learner, task = task, class = "trainError"))
+  }
+
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(learner, task) {
-    result = learner$train(task)
+    result = tryCatch(learner$train(task), error = abort)
 
     if (is.null(result))
-     stopf("Learner '%s' returned NULL during train", learner$id)
+     abort("Learner '%s' returned NULL during train", learner$id)
 
     if (!inherits(result, "Learner"))
-      stopf("Learner '%s' returned '%s' during train(), but needs to return a Learner", learner$id, as_short_string(result))
+      abort("Learner '%s' returned '%s' during train(), but needs to return a Learner", learner$id, as_short_string(result))
 
     if (is.null(result$model))
-      stopf("Learner '%s' did not store a model during train", learner$id)
+      abort("Learner '%s' did not store a model during train", learner$id)
 
     result
   }
@@ -30,18 +35,14 @@ train_worker = function(e, ctrl) {
 
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
-  res = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = e$seeds[["train"]]),
+  result = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = e$seeds[["train"]]),
     c("learner", "train_log", "train_time"))
 
-  # Raise the exception if we have no encapsulation enabled
   # Restore the learner to the untrained learner otherwise
-  if (!is.null(res$train_log)) {
-    errors = res$train_log[get("class") == "error", get("msg")]
-    if (length(errors) > 0L) {
-      if (ctrl$encapsulate_train == "none")
-        stopf(paste(errors, sep = "\n"))
-      res$learner = data$learner$clone(deep = TRUE)
-    }
+  if (!is.null(result$train_log)) {
+    errors = result$train_log[get("class") == "error", .N]
+    if (errors > 0L)
+      result$learner = data$learner$clone(deep = TRUE)
   }
 
   # if there is a fallback learner defined, also fit fallback learner
@@ -52,39 +53,44 @@ train_worker = function(e, ctrl) {
 
     ok = try(fb$train(task))
     if (inherits(ok, "try-error"))
-      stopf("Fallback learner '%s' failed during train() with error: %s", fb$id, as.character(ok))
+      abort("Fallback learner '%s' failed during train() with error: %s", fb$id, as.character(ok))
     if (!inherits(ok, "Learner"))
-      stopf("Fallback-Learner '%s' returned '%s' during train(), but needs to return a Learner",
-        fb$id, as_short_string(res))
+      abort("Fallback-Learner '%s' returned '%s' during train(), but needs to return a Learner",
+        fb$id, as_short_string(result))
     if (is.null(ok$model))
-      stopf("Fallback learner '%s' did not store a model during train", fb$id)
+      abort("Fallback learner '%s' did not store a model during train", fb$id)
 
-    res$learner$fallback = ok
+    result$learner$fallback = ok
   }
 
   # result is list(learner, train_log, train_time)
-  return(res)
+  return(result)
 }
 
 
 predict_worker = function(e, ctrl) {
+  abort = function(e, ...) {
+    msg = sprintf(as.character(e), ...)
+    stop(errorCondition(msg, learner = learner, task = task, class = "predictError"))
+  }
+
   # This wrapper calls learner$predict, and additionally performs some basic
   # checks that the prediction was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(learner, task) {
     if (is.null(learner$model))
-      stopf("No model available")
+      abort("No trained model available")
 
-    result = learner$predict(task)
+    result = tryCatch(learner$predict(task), error = abort)
 
     if (is.null(result))
-      stopf("Learner '%s' returned NULL during predict()", learner$id)
+      abort("Learner '%s' returned NULL during predict()", learner$id)
 
     if (!inherits(result, "Prediction"))
-      stopf("Learner '%s' returned '%s' during predict(), but needs to return a Prediction", learner$id, as_short_string(result))
+      abort("Learner '%s' returned '%s' during predict(), but needs to return a Prediction object", learner$id, as_short_string(result))
 
-    result
+    return(result)
   }
 
   data = e$data
@@ -106,9 +112,9 @@ predict_worker = function(e, ctrl) {
 
       ok = try(fb$predict(task))
       if (inherits(ok, "try-error"))
-        stopf("Fallback learner '%s' failed during predict() with error: %s", fb$id, as.character(ok))
+        abort("Fallback learner '%s' failed during predict() with error: %s", fb$id, as.character(ok))
       if (!inherits(ok, "Prediction"))
-        stopf("Fallback-Learner '%s' returned '%s' during predict(), but needs to return a Prediction",
+        abort("Fallback-Learner '%s' returned '%s' during predict(), but needs to return a Prediction",
           fb$id, as_short_string(res))
 
       res$prediction = ok
@@ -127,8 +133,17 @@ score_worker = function(e, ctrl) {
 
   log_debug("score_worker: Learner '%s' on task '%s' [%ix%i]", data$learner$id, data$task$id, data$task$nrow, data$task$ncol, namespace = "mlr3")
 
+
+  score_one = function(m) {
+    abort = function(e, ...) {
+      msg = sprintf(as.character(e), ...)
+      stop(errorCondition(msg, experiment = e, measure = m, class = "scoreError"))
+    }
+    tryCatch(m$calculate(experiment = e), error = abort)
+  }
+  score = function() { set_names(lapply(measures, score_one), ids(measures)) }
+
   # call m$score with local encapsulation
-  score = function() { set_names(lapply(measures, function(m) m$calculate(e)), ids(measures)) }
   enc = encapsulate("none")
   res = enc(score, list(), pkgs, seed = e$seeds[["score"]])
 

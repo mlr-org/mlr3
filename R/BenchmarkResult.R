@@ -39,7 +39,7 @@
 #'
 #' * `resample_results` :: [data.table::data.table()]\cr
 #'   Table of [ResampleResult] groups with 5 columns:
-#'   "hash" (`character(1)`), "task_id" (`character(1)`), "learner_id" (`character(1)`), "resamping_id" (`character(1)`) and "N" (`integer(1)`).
+#'   "hash" (`character(1)`), "task_id" (`character(1)`), "learner_id" (`character(1)`), "resampling_id" (`character(1)`) and "N" (`integer(1)`).
 #'   The last column ("N") is the number of [Experiment]s in the [ResampleResult].
 #'
 #' @section Methods:
@@ -64,7 +64,8 @@
 #'
 #' * `resample_result(hash)`\cr
 #'   `character(1)` -> [ResampleResult]\cr
-#'   Retrieves the [ResampleResult] with provided `hash`.
+#'   Retrieves the [ResampleResult] whose hash starts with `hash`.
+#'   The abbreviation must be unambiguous, so that exactly one [ResampleResult] is matched.
 #'
 #' @section S3 Methods:
 #' * `as.data.table(bmr)`\cr
@@ -79,10 +80,11 @@
 #' }
 #' set.seed(123)
 #' bmr = benchmark(expand_grid(
-#'   tasks = mlr_tasks$mget("iris"),
-#'   learners = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
-#'   resamplings = mlr_resamplings$mget("cv")
+#'   tasks = "iris",
+#'   learners = c("classif.featureless", "classif.rpart"),
+#'   resamplings = "cv3"
 #' ))
+#'
 #' print(bmr)
 #' bmr$tasks
 #' bmr$learners
@@ -125,7 +127,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
       measure = self$measures$measure[[1L]]
       aggr = remove_named(self$aggregated(objects = FALSE, ids = TRUE, params = FALSE), "hash")
       setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
-      setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
+      if (!is.na(measure$minimize))
+        setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
       print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
 
       catf(str_indent("\nPublic:", str_r6_interface(self)))
@@ -133,20 +136,25 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     resample_result = function(hash) {
       assert_string(hash)
-      assert_choice(hash, self$data[, unique(hash)])
-      tmp = hash
+      hashes = self$data[, unique(hash)]
+      tmp = hashes[which(startsWith(hash, prefix = hash))]
+      if (length(tmp) != 1L)
+        stopf("Hash '%s' matches %i of the recorded resample results", hash, length(tmp))
+
       ResampleResult$new(self$data[list(tmp), on = "hash", nomatch = 0L], hash = hash)
     },
 
     combine = function(bmr) {
       assert_benchmark_result(bmr)
-      self$data = rbindlist(list(self$data, bmr$data), fill = TRUE)
+      self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
       invisible(self)
     },
 
     get_best = function(measure) {
       assert_measure(measure)
       id = measure$id
+      if (is.na(measure$minimize))
+        stopf("Impossible to determine best value for measure '%s': '$minimize' is NA", id)
       aggr = self$aggregated(ids = FALSE)
       if (id %nin% names(aggr))
         stopf("Measure with id '%s' not in BenchmarkResult", id)
