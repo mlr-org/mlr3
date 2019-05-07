@@ -6,9 +6,21 @@
 #'
 #' @description
 #' This is the abstract base class for measures like [MeasureClassif] and [MeasureRegr].
+#'
+#' Measures are classes around tailored around two functions:
+#'
+#' 1. A function `calculate` which calculates the predictive performance of an [Experiment]
+#'    by comparing true and predicted response.
+#' 2. A function `aggregator` which combines multiple performance values returned by
+#'    `calculate` to a single numeric value.
+#'
+#' In addition to these two functions, meta-information about the performance measure is stored.
+#'
 #' Predefined measures are stored in [mlr_measures].
 #'
 #' @section Construction:
+#' Note: This object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
+#'
 #' ```
 #' m = Measure$new(id, task_type, range, minimize, predict_type = "response",
 #'      task_properties = character(0L), na_score = FALSE, packages = character(0L))
@@ -17,21 +29,25 @@
 #' * `id` :: `character(1)`\cr
 #'   Identifier for the measure.
 #'
-#' * `task_type` :: `character(1)`\\cr
-#'   Type of the task the measure can operator on. E.g., `\"classif\"` or `\"regr\"`.
+#' * `task_type` :: `character(1)`\cr
+#'   Type of the task the measure can operator on. E.g., `"classif"` or `"regr"`.
 #'
 #' * `range` :: `numeric(2)`\cr
 #'   Feasible range for this measure as `c(lower_bound, upper_bound)`.
+#'   Both bounds may be infinite.
 #'
 #' * `minimize` :: `logical(1)`\cr
-#'   Set to `TRUE` if good predictions correspond to small values.
+#'   Set to `TRUE` if good predictions correspond to small values,
+#'   and to `FALSE` if good predictions correspond to large values.
+#'   If set to `NA`, tuning with this measure is not possible.
 #'
-#' * `aggregator` :: `function()`\cr
-#'   Function to aggregate individual performance values.
+#' * `aggregator` :: `function(x)`\cr
+#'   Function to aggregate individual performance values `x` where `x` is a numeric vector.
 #'   If `NULL`, defaults to [base::mean()].
 #'
 #' * `predict_type` :: `character(1)`\cr
 #'   Required predict type of the [Learner].
+#'   Possible values are stored in [mlr_reflections$learner_predict_types][mlr_reflections()].
 #'
 #' * `task_properties` :: `character()`\cr
 #'   Required task properties, see [Task].
@@ -67,7 +83,7 @@
 #' @section Methods:
 #' * `aggregate(rr)`\cr
 #'   [ResampleResult] -> `numeric(1)`\cr
-#'   Aggregates multiple performance scores into a single score using the `aggregate` function of the measure.
+#'   Aggregates multiple performance scores into a single score using the `aggregator` function of the measure.
 #'   Operates on a [ResampleResult] as returned by [resample].
 #'
 #' * `calculate(experiment = NULL, prediction = experiment$prediction)`\cr

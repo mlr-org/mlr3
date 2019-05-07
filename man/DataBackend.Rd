@@ -16,7 +16,9 @@ Note that all data access is handled transparently via the \link{Task}.
 It is not recommended to work directly with the DataBackend.
 }
 \section{Construction}{
-\preformatted{DataBackend$new(data, primary_key = NULL)
+
+Note: This object is typically constructed via a derived classes, e.g. \link{DataBackendDataTable} or \link{DataBackendMatrix},
+or via the S3 method \code{\link[=as_data_backend]{as_data_backend()}}.\preformatted{DataBackend$new(data, primary_key = NULL)
 }
 \itemize{
 \item \code{data} :: \code{any}\cr
@@ -24,7 +26,7 @@ The format of the input data depends on the specialization.
 E.g., \link{DataBackendDataTable} expects a \code{\link[data.table:data.table]{data.table::data.table()}} and \link{DataBackendMatrix} expects a \code{\link[Matrix:Matrix]{Matrix::Matrix()}}
 constructed with the \CRANpkg{Matrix} package.
 \item \code{primary_key} :: \code{character(1)}\cr
-Each DataBackend needs a way to address rows, which is typically handled by a \code{primary_key} column of unique values.
+Each DataBackend needs a way to address rows, which is done via a column of unique values, referenced here by \code{primary_key}.
 The use of this variable may differ between backends.
 }
 }
@@ -53,7 +55,7 @@ A specific format of these supported formats can be picked in the \code{$data()}
 \itemize{
 \item \code{data(rows = NULL, cols = NULL, format = "data.table")}\cr
 (\code{integer()} | \code{character()}, \code{character()}) -> \code{any}\cr
-Returns a slice of the data in a specific format.
+Returns a slice of the data in the specified format.
 Currently, the only supported format is "data.table".
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Non-existing rows and columns are silently ignored.

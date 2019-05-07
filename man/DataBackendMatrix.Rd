@@ -10,6 +10,7 @@
 }
 \section{Construction}{
 \preformatted{DataBackendMatrix$new(data, primary_key = NULL)
+as_data_backend(data, primary_key = NULL, ...)
 }
 \itemize{
 \item \code{data} :: \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.
@@ -17,8 +18,6 @@
 Not supported by this backend. Rows are addresses by their \code{\link[=rownames]{rownames()}}.
 If the matrix does not have row names, integer row indices are used.
 }
-
-Alternatively, use \link{as_data_backend} on a \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.
 }
 
 \section{Fields}{

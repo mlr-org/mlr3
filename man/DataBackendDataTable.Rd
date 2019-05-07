@@ -3,24 +3,24 @@
 \docType{data}
 \name{DataBackendDataTable}
 \alias{DataBackendDataTable}
-\title{DataBackend for \code{data.table}}
+\title{DataBackend for data.table}
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{DataBackend}.}
 \description{
 \link{DataBackend} for \CRANpkg{data.table} as an in-memory data base.
 }
 \section{Construction}{
 \preformatted{DataBackendDataTable$new(data, primary_key = NULL)
+as_data_backend(data, primary_key = NULL, ...)
 }
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-The input \code{\link[data.table:data.table]{data.table::data.table()}} (as reference).
+The input \code{\link[data.table:data.table]{data.table::data.table()}}.
 \item \code{primary_key} :: \code{character(1)}\cr
 Name of the primary key column.
 }
 
-Alternatively, use \link{as_data_backend} on a \code{\link[data.table:data.table]{data.table::data.table()}} which will
-construct a \link{DataBackend} with a copy of the data, and automatically
-creates a primary key column if required.
+\code{DataBackendDataTable} does not copy the input data, while \code{as_data_backend} calls \code{\link[data.table:copy]{data.table::copy()}}.
+\code{as_data_backend} creates a primary key column as integer column if \code{primary_key} is \code{NULL.}
 }
 
 \section{Fields}{

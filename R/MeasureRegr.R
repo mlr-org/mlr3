@@ -8,40 +8,14 @@
 #' This measure specializes [Measure] for regression problems.
 #' Predefined measures can be found in the [Dictionary] [mlr_measures].
 #'
-#' The `task_type` is set to `"regr"`.
-#'
 #' @section Construction:
 #' ```
 #' m = MeasureRegr$new(id, range, minimize, predict_type = "response",
 #'      task_properties = character(0L), packages = character(0L))
 #' ```
-#'
-#' * `id` :: `character(1)`\cr
-#'   Identifier for the measure.
-#'
-#' * `range` :: `numeric(2)`\cr
-#'   Feasible range for this measure as `c(lower_bound, upper_bound)`.
-#'
-#' * `minimize` :: `logical(1)`\cr
-#'   Set to `TRUE` if good predictions correspond to small values.
-#'
-#' * `aggregator` :: `function()`\cr
-#'   Function to aggregate individual performance values.
-#'   If `NULL`, defaults to [base::mean()].
-#'
-#' * `predict_type` :: `character(1)`\cr
-#'   Required predict type of the [Learner].
-#'
-#' * `task_properties` :: `character()`\cr
-#'   Required task properties, see [Task].
-#'
-#' * `na_score` :: `logical(1)`\cr
-#'   Is the measure expected to return `NA` in some edge cases?
-#'   Default is `FALSE`.
-#'
-#' * `packages` :: `character()`\cr
-#'   Set of required packages.
-#'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
+#' For a description of the arguments, see [Measure].
+#' The `task_type` is set to `"regr"`.
+#' Possible values for `predict_type` are `"response"` and `"se"`.
 #'
 #' @section Fields:
 #' See [Measure].

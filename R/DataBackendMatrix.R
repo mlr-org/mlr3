@@ -10,6 +10,7 @@
 #' @section Construction:
 #' ```
 #' DataBackendMatrix$new(data, primary_key = NULL)
+#' as_data_backend(data, primary_key = NULL, ...)
 #' ```
 #'
 #' * `data` :: [Matrix::Matrix()].
@@ -17,8 +18,6 @@
 #' * `primary_key` :: `character(1)`\cr
 #'   Not supported by this backend. Rows are addresses by their [rownames()].
 #'   If the matrix does not have row names, integer row indices are used.
-#'
-#' Alternatively, use [as_data_backend] on a [Matrix::Matrix()].
 #'
 #' @section Fields:
 #' See [DataBackend].

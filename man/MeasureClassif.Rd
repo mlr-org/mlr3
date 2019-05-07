@@ -7,35 +7,17 @@
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Measure}.}
 \description{
 This measure specializes \link{Measure} for classification problems.
-Predefined measures can be found in the \link{Dictionary} \link{mlr_measures}.
 
-The \code{task_type} is set to \code{"classif"}.
+Predefined measures can be found in the \link{Dictionary} \link{mlr_measures}.
 }
 \section{Construction}{
 \preformatted{m = MeasureClassif$new(id, range, minimize, predict_type = "response",
      task_properties = character(0L), packages = character(0L))
 }
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Identifier for the measure.
-\item \code{range} :: \code{numeric(2)}\cr
-Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
-\item \code{minimize} :: \code{logical(1)}\cr
-Set to \code{TRUE} if good predictions correspond to small values.
-\item \code{aggregator} :: \code{function()}\cr
-Function to aggregate individual performance values.
-If \code{NULL}, defaults to \code{\link[base:mean]{base::mean()}}.
-\item \code{predict_type} :: \code{character(1)}\cr
-Required predict type of the \link{Learner}.
-\item \code{task_properties} :: \code{character()}\cr
-Required task properties, see \link{Task}.
-\item \code{na_score} :: \code{logical(1)}\cr
-Is the measure expected to return \code{NA} in some edge cases?
-Default is \code{FALSE}.
-\item \code{packages} :: \code{character()}\cr
-Set of required packages.
-Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
-}
+
+For a description of the arguments, see \link{Measure}.
+The \code{task_type} is set to \code{"classif"}.
+Possible values for \code{predict_type} are \code{"response"} and \code{"prob"}.
 }
 
 \section{Fields}{

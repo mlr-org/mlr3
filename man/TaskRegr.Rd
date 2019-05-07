@@ -8,9 +8,9 @@
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for regression problems.
 The target column is assumed to be numeric.
-Predefined tasks are stored in \link{mlr_tasks}.
-
 The \code{task_type} is set to \code{"classif"}.
+
+Predefined tasks are stored in \link{mlr_tasks}.
 }
 \section{Construction}{
 \preformatted{t = TaskRegr$new(id, backend, target)

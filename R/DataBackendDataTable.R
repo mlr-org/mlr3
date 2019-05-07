@@ -1,4 +1,4 @@
-#' @title DataBackend for `data.table`
+#' @title DataBackend for data.table
 #'
 #' @usage NULL
 #' @format [R6::R6Class] object inheriting from [DataBackend].
@@ -10,18 +10,17 @@
 #' @section Construction:
 #' ```
 #' DataBackendDataTable$new(data, primary_key = NULL)
+#' as_data_backend(data, primary_key = NULL, ...)
 #' ```
 #'
 #' * `data` :: [data.table::data.table()]\cr
-#'   The input [data.table::data.table()] (as reference).
+#'   The input [data.table::data.table()].
 #'
 #' * `primary_key` :: `character(1)`\cr
 #'   Name of the primary key column.
 #'
-#' Alternatively, use [as_data_backend] on a [data.table::data.table()] which will
-#' construct a [DataBackend] with a copy of the data, and automatically
-#' creates a primary key column if required.
-#'
+#' `DataBackendDataTable` does not copy the input data, while `as_data_backend` calls [data.table::copy()].
+#' `as_data_backend` creates a primary key column as integer column if `primary_key` is `NULL.`
 #'
 #' @section Fields:
 #' See [DataBackend].

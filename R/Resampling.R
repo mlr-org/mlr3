@@ -4,16 +4,25 @@
 #' @format [R6::R6Class] object.
 #'
 #' @description
-#' Abstraction for resampling strategies.
+#' This is the abstract base class for resampling objects like [ResamplingCV] and [ResamplingBootstrap].
+#'
+#' The objects of this class define how a task is partitioned for resampling (e.g., in [resample()] or [benchmark()]),
+#' using a set of hyperparameters such as the number of folds in cross-validation.
+#'
+#' Resampling objects can be instantiated on a [Task], which applies the strategy on the task and manifests in a
+#' fixed partition of `row_ids` of the [Task].
+#'
 #' Predefined resamplings are stored in [mlr_resamplings].
 #'
 #' @section Construction:
 #' ```
+#' Note: This object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
+#'
 #' r = Resampling$new(id, param_set, param_vals)
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
-#'   Name of the resampling strategy.
+#'   Identifier for the resampling strategy.
 #'
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Set of hyperparameters.
@@ -93,7 +102,6 @@
 #' r = mlr_resamplings$get("subsampling")
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
-#' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
 Resampling = R6Class("Resampling",
   public = list(
     id = NULL,

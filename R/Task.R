@@ -6,6 +6,7 @@
 #'
 #' @description
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
+#'
 #' Tasks serve two purposes:
 #'
 #' 1. Tasks wrap a [DataBackend], an object to transparently interface different data storage types.

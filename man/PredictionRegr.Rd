@@ -7,7 +7,6 @@
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
-The field \code{task_type} is set to \code{"classif"}.
 }
 \section{Construction}{
 \preformatted{p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
@@ -32,6 +31,8 @@ True (observed) response. Per default, this is extracted from the \code{task}.
 \section{Fields}{
 
 See \link{Prediction}.
+
+The field \code{task_type} is set to \code{"regr"}.
 }
 
 \examples{

@@ -7,6 +7,7 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for learner objects like \link{LearnerClassif} and \link{LearnerRegr}.
+
 Learners consist of the following parts:
 \itemize{
 \item Methods \code{train()} and \code{predict()} to perform the respective steps.

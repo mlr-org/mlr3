@@ -7,10 +7,19 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for task objects like \link{PredictionClassif} and \link{PredictionRegr}.
+
+Prediction objects store the following information:
+\enumerate{
+\item The row ids of the test set
+\item The corresponding true (observed) response.
+\item The corresponding predicted response.
+\item Additional per-row predictions based on the class and \code{predict_type}.
+E.g., the class probabilities for classification or the estimated standard error for regression.
+}
 }
 \section{Construction}{
-\preformatted{Prediction$new()
-}
+
+This object is constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.
 }
 
 \section{Fields}{
@@ -33,8 +42,11 @@ Vector of predict types this object stores.
 
 \itemize{
 \item \code{as.data.table(rr)}\cr
-\link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+\link{Prediction} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Converts the data to a \code{data.table()}.
+\item \code{rbind(...)}\cr
+[(\link{Prediction}, \link{Prediction}, ...)] -> \link{Prediction}\cr
+Combines multiple \code{Prediction}s to a single \code{Prediction}
 }
 }
 

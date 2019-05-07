@@ -9,8 +9,8 @@
 A simple key-value store for \link[R6:R6]{R6::R6} generator objects.
 On retrieval of an object, the following applies:
 \itemize{
-\item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized (with additional arguments).
-\item Functions are called (with additional arguments) and must return an instance of a \link[R6:R6]{R6::R6} object.
+\item R6 Factories (objects of class \code{R6ClassGenerator}) are initialized.
+\item Functions are called and must return an instance of a \link[R6:R6]{R6::R6} object.
 \item Other objects are returned as-is.
 }
 }
@@ -28,28 +28,46 @@ Retrieves object with key \code{key} from the dictionary.
 Additional arguments are passed to the stored object during construction.
 \item \code{mget(keys, ...)}\cr
 (\code{character()}, ...) -> named \code{list()}\cr
-Retrieves objects with keys \code{keys} from the dictionary, returns them in a list named with \code{keys}.
+Returns objects with keys \code{keys} in a list named with \code{keys}.
 Additional arguments are passed to the stored objects during construction.
 \item \code{has(keys)}\cr
 \code{character()} -> \code{logical()}\cr
-Returns a logical vector with \code{TRUE} at its i-th position, if the i-th key exists.
-\item \code{keys(pattern)}\cr
+Returns a logical vector with \code{TRUE} at its i-th position if the i-th key exists.
+\item \code{keys(pattern = NULL)}\cr
 \code{character(1)} -> \code{character()}\cr
 Returns all keys which comply to the regular expression \code{pattern}.
+If \code{pattern} is \code{NULL} (default), all keys are returned.
 \item \code{add(key, value, ..., required_args = character())}\cr
 (\code{character(1)}, \code{any}, ..., \code{character()}) -> \code{self}\cr
 Adds object \code{value} to the dictionary with key \code{key}, potentially overwriting a previously stored item.
 Additional arguments in \code{...} are used as default arguments for \code{value} during construction.
 If the object is not constructible without additional arguments, the require argument names should be provided in \code{required_args}.
-\item \code{remove(key)}\cr
+\item \code{remove(keys)}\cr
 \code{character()} -> \code{self}\cr
-Removes object with key \code{key} from the dictionary.
+Removes objects with keys \code{keys} from the dictionary.
 \item \code{required_args(key)}\cr
 (\code{character(1)}) -> \code{character()}\cr
 Returns the names of arguments required to construct the object.
 }
 }
 
+\section{S3 methods}{
+
+\itemize{
+\item \code{as.data.table(d)}\cr
+\link{Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Converts the dictionary to a \code{data.table::data.table()}.
+}
+}
+
+\examples{
+d = Dictionary$new()
+d$add("a", 1)
+d$add("b", 2)
+d$keys()
+d$get("a")
+d$mget(c("a", "b"))
+}
 \seealso{
 Other Dictionary: \code{\link{mlr_generators}},
   \code{\link{mlr_learners}}, \code{\link{mlr_measures}},

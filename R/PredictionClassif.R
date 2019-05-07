@@ -6,7 +6,6 @@
 #'
 #' @description
 #' This object stores the predictions returned by a learner of class [LearnerClassif].
-#' The field `task_type` is set to `"classif"`.
 #'
 #' If probabilities are provided via construction and response is missing,
 #' the response is calculated from the probabilities: the class label with the highest
@@ -65,6 +64,8 @@
 #' * `confusion` :: `matrix()`\cr
 #'   Confusion matrix resulting from the comparison of truth and response.
 #'   Truth is in columns, predicted response in rows.
+#'
+#' The field `task_type` is set to `"classif"`.
 #'
 #' @family Prediction
 #' @export

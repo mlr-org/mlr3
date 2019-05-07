@@ -8,8 +8,8 @@
 #' A simple key-value store for [R6::R6] generator objects.
 #' On retrieval of an object, the following applies:
 #'
-#' * R6 Factories (objects of class `R6ClassGenerator`) are initialized (with additional arguments).
-#' * Functions are called (with additional arguments) and must return an instance of a [R6::R6] object.
+#' * R6 Factories (objects of class `R6ClassGenerator`) are initialized.
+#' * Functions are called and must return an instance of a [R6::R6] object.
 #' * Other objects are returned as-is.
 #'
 #' @section Construction:
@@ -25,16 +25,17 @@
 #'
 #' * `mget(keys, ...)`\cr
 #'   (`character()`, ...) -> named `list()`\cr
-#'   Retrieves objects with keys `keys` from the dictionary, returns them in a list named with `keys`.
+#'   Returns objects with keys `keys` in a list named with `keys`.
 #'   Additional arguments are passed to the stored objects during construction.
 #'
 #' * `has(keys)`\cr
 #'   `character()` -> `logical()`\cr
-#'   Returns a logical vector with `TRUE` at its i-th position, if the i-th key exists.
+#'   Returns a logical vector with `TRUE` at its i-th position if the i-th key exists.
 #'
-#' * `keys(pattern)`\cr
+#' * `keys(pattern = NULL)`\cr
 #'   `character(1)` -> `character()`\cr
 #'   Returns all keys which comply to the regular expression `pattern`.
+#'   If `pattern` is `NULL` (default), all keys are returned.
 #'
 #' * `add(key, value, ..., required_args = character())`\cr
 #'   (`character(1)`, `any`, ..., `character()`) -> `self`\cr
@@ -42,16 +43,28 @@
 #'   Additional arguments in `...` are used as default arguments for `value` during construction.
 #'   If the object is not constructible without additional arguments, the require argument names should be provided in `required_args`.
 #'
-#' * `remove(key)`\cr
+#' * `remove(keys)`\cr
 #'   `character()` -> `self`\cr
-#'   Removes object with key `key` from the dictionary.
+#'   Removes objects with keys `keys` from the dictionary.
 #'
 #' * `required_args(key)`\cr
 #'   (`character(1)`) -> `character()`\cr
 #'   Returns the names of arguments required to construct the object.
 #'
+#' @section S3 methods:
+#' * `as.data.table(d)`\cr
+#'   [Dictionary] -> [data.table::data.table()]\cr
+#'   Converts the dictionary to a `data.table::data.table()`.
+#'
 #' @family Dictionary
 #' @export
+#' @examples
+#' d = Dictionary$new()
+#' d$add("a", 1)
+#' d$add("b", 2)
+#' d$keys()
+#' d$get("a")
+#' d$mget(c("a", "b"))
 Dictionary = R6Class("Dictionary",
   cloneable = FALSE,
   public = list(
@@ -101,10 +114,11 @@ Dictionary = R6Class("Dictionary",
       invisible(self)
     },
 
-    remove = function(key) {
-      if (!self$has(key))
-        stopf("Element with key '%s' not found!%s", key, did_you_mean(key, self$keys()))
-      rm(list = key, envir = self$items)
+    remove = function(keys) {
+      i = wf(!self$has(keys))
+      if (length(i))
+        stopf("Element with key '%s' not found!%s", keys[i], did_you_mean(key, self$keys()))
+      rm(list = keys, envir = self$items)
       invisible(self)
     },
 
@@ -128,7 +142,7 @@ dictionary_retrieve = function(self, key, ...) {
   if (inherits(value, "R6ClassGenerator")) {
     value = do.call(value$new, pars)
   } else if (is.function(value)) {
-    value = assert_r6(do.call(value, pars))
+    value = do.call(value, pars)
   }
 
   return(value)

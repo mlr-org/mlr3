@@ -8,16 +8,16 @@
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for classification problems.
 The target column is assumed to be a factor.
-Predefined tasks are stored in \link{mlr_tasks}.
-
 The \code{task_type} is set to \code{"classif"}.
+
+Predefined tasks are stored in \link{mlr_tasks}.
 }
 \section{Construction}{
 \preformatted{t = TaskClassif$new(id, backend, target, positive = NULL)
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
-Name of the task.
+Identifier for the task.
 \item \code{backend} :: \link{DataBackend}\cr
 Either a \link{DataBackend}, or any object which is convertible to a DataBackend with \code{as_data_backend()}.
 E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.

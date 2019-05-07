@@ -6,10 +6,15 @@
 #' @description
 #' This is the abstract base class for task objects like [PredictionClassif] and [PredictionRegr].
 #'
+#' Prediction objects store the following information:
+#' 1. The row ids of the test set
+#' 2. The corresponding true (observed) response.
+#' 3. The corresponding predicted response.
+#' 4. Additional per-row predictions based on the class and `predict_type`.
+#'    E.g., the class probabilities for classification or the estimated standard error for regression.
+#'
 #' @section Construction:
-#' ```
-#' Prediction$new()
-#' ```
+#' This object is constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
 #'
 #' @section Fields:
 #' * `row_ids` :: (`integer()` | `character()`)\cr
@@ -29,8 +34,12 @@
 #'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
-#'   [BenchmarkResult] -> [data.table::data.table()]\cr
+#'   [Prediction] -> [data.table::data.table()]\cr
 #'   Converts the data to a `data.table()`.
+#'
+#' * `rbind(...)`\cr
+#'   [([Prediction], [Prediction], ...)] -> [Prediction]\cr
+#'   Combines multiple `Prediction`s to a single `Prediction`
 #'
 #' @export
 #' @family Prediction

@@ -6,7 +6,7 @@
 #'
 #' @description
 #' This Learner specializes [Learner] for regression problems.
-#' The slot `task_type` is set to `"regr"`.
+#'
 #' Predefined learners can be found in the [Dictionary] [mlr_learners].
 #'
 #' @section Construction:
@@ -14,27 +14,9 @@
 #' l = LearnerRegr$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
 #'      feature_types = character(), properties = character(), data_formats = "data.table", packages = character())
 #' ```
-#'
-#' * `id` :: `character(1)`\cr
-#'   Identifier for the learner.
-#'
-#' * `param_set` :: [paradox::ParamSet]\cr
-#'   Set of hyperparameters.
-#'
-#' * `param_vals` :: named `list()`\cr
-#'   List of hyperparameter settings.
-#'
-#' * `predict_types` :: `character()`\cr
-#'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
-#'
-#' * `feature_types` :: `character()`\cr
-#'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
-#'
-#' * `properties` :: `character()`\cr
-#'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
-#'
-#' * `packages` :: `character()`\cr
-#'   Set of required packages.
+#' For a description of the arguments, see [Learner].
+#' `task_type` is set to `"regr"`.
+#' Possible values for `predict_types` are a subset of `c("response", "se")`.
 #'
 #' @section Fields:
 #' See [Learner].

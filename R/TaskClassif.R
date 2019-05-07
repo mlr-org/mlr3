@@ -7,9 +7,9 @@
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for classification problems.
 #' The target column is assumed to be a factor.
-#' Predefined tasks are stored in [mlr_tasks].
-#'
 #' The `task_type` is set to `"classif"`.
+#'
+#' Predefined tasks are stored in [mlr_tasks].
 #'
 #' @section Construction:
 #' ```
@@ -17,7 +17,7 @@
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
-#'   Name of the task.
+#'   Identifier for the task.
 #'
 #' * `backend` :: [DataBackend]\cr
 #'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.

@@ -6,15 +6,24 @@
 \title{Resampling Class}
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
-Abstraction for resampling strategies.
+This is the abstract base class for resampling objects like \link{ResamplingCV} and \link{ResamplingBootstrap}.
+
+The objects of this class define how a task is partitioned for resampling (e.g., in \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}),
+using a set of hyperparameters such as the number of folds in cross-validation.
+
+Resampling objects can be instantiated on a \link{Task}, which applies the strategy on the task and manifests in a
+fixed partition of \code{row_ids} of the \link{Task}.
+
 Predefined resamplings are stored in \link{mlr_resamplings}.
 }
 \section{Construction}{
-\preformatted{r = Resampling$new(id, param_set, param_vals)
+\preformatted{Note: This object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
+
+r = Resampling$new(id, param_set, param_vals)
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
-Name of the resampling strategy.
+Identifier for the resampling strategy.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Set of hyperparameters.
 \item \code{param_vals} :: named \code{list()}\cr
@@ -91,7 +100,6 @@ prop.table(table(task$truth())) # moderately unbalanced
 r = mlr_resamplings$get("subsampling")
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
-prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion # FIXME why two times?
 }
 \seealso{
 Other Resampling: \code{\link{mlr_resamplings}}

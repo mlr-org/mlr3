@@ -7,7 +7,6 @@
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object stores the predictions returned by a learner of class \link{LearnerClassif}.
-The field \code{task_type} is set to \code{"classif"}.
 
 If probabilities are provided via construction and response is missing,
 the response is calculated from the probabilities: the class label with the highest
@@ -65,6 +64,8 @@ Assigning a value to this field modifies the stored responses.
 Confusion matrix resulting from the comparison of truth and response.
 Truth is in columns, predicted response in rows.
 }
+
+The field \code{task_type} is set to \code{"classif"}.
 }
 
 \examples{

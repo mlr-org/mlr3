@@ -7,26 +7,42 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for measures like \link{MeasureClassif} and \link{MeasureRegr}.
+
+Measures are classes around tailored around two functions:
+\enumerate{
+\item A function \code{calculate} which calculates the predictive performance of an \link{Experiment}
+by comparing true and predicted response.
+\item A function \code{aggregator} which combines multiple performance values returned by
+\code{calculate} to a single numeric value.
+}
+
+In addition to these two functions, meta-information about the performance measure is stored.
+
 Predefined measures are stored in \link{mlr_measures}.
 }
 \section{Construction}{
-\preformatted{m = Measure$new(id, task_type, range, minimize, predict_type = "response",
+
+Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type, range, minimize, predict_type = "response",
      task_properties = character(0L), na_score = FALSE, packages = character(0L))
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Identifier for the measure.
 \item \code{task_type} :: \code{character(1)}\cr
-Type of the task the measure can operator on. E.g., \code{\"classif\"} or \code{\"regr\"}.
+Type of the task the measure can operator on. E.g., \code{"classif"} or \code{"regr"}.
 \item \code{range} :: \code{numeric(2)}\cr
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
+Both bounds may be infinite.
 \item \code{minimize} :: \code{logical(1)}\cr
-Set to \code{TRUE} if good predictions correspond to small values.
-\item \code{aggregator} :: \code{function()}\cr
-Function to aggregate individual performance values.
+Set to \code{TRUE} if good predictions correspond to small values,
+and to \code{FALSE} if good predictions correspond to large values.
+If set to \code{NA}, tuning with this measure is not possible.
+\item \code{aggregator} :: \code{function(x)}\cr
+Function to aggregate individual performance values \code{x} where \code{x} is a numeric vector.
 If \code{NULL}, defaults to \code{\link[base:mean]{base::mean()}}.
 \item \code{predict_type} :: \code{character(1)}\cr
 Required predict type of the \link{Learner}.
+Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.
 \item \code{task_properties} :: \code{character()}\cr
 Required task properties, see \link{Task}.
 \item \code{na_score} :: \code{logical(1)}\cr
@@ -60,7 +76,7 @@ Stores required properties of the \link{Task}.
 \itemize{
 \item \code{aggregate(rr)}\cr
 \link{ResampleResult} -> \code{numeric(1)}\cr
-Aggregates multiple performance scores into a single score using the \code{aggregate} function of the measure.
+Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
 Operates on a \link{ResampleResult} as returned by \link{resample}.
 \item \code{calculate(experiment = NULL, prediction = experiment$prediction)}\cr
 (\link{Experiment}, \link{Prediction}) -> \code{numeric(1)}\cr

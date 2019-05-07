@@ -7,6 +7,7 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for task objects like \link{TaskClassif} and \link{TaskRegr}.
+
 Tasks serve two purposes:
 \enumerate{
 \item Tasks wrap a \link{DataBackend}, an object to transparently interface different data storage types.

@@ -6,6 +6,7 @@
 #'
 #' @description
 #' This is the abstract base class for learner objects like [LearnerClassif] and [LearnerRegr].
+#'
 #' Learners consist of the following parts:
 #'
 #' - Methods `train()` and `predict()` to perform the respective steps.
@@ -17,6 +18,7 @@
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
+#'
 #' ```
 #' l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
 #'      feature_types = character(), properties = character(), packages = character())
