@@ -1,6 +1,6 @@
 do_package_checks()
 
-do_pkgdown(deploy = TRUE)
+do_pkgdown()
 
 # only deploy man files in master branch
 if (ci_get_branch() == "master" && ci_is_env("TRAVIS_EVENT_TYPE", "cron")) {
