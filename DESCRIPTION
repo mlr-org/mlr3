@@ -90,6 +90,7 @@ Collate:
     'Experiment.R'
     'Generator.R'
     'Generator2DNormals.R'
+    'GeneratorFriedman1.R'
     'GeneratorSmiley.R'
     'GeneratorXor.R'
     'Learner.R'

@@ -41,6 +41,7 @@ layout_mlr3 = structure(
   # Populate Generators
   mlr_generators <<- DictionaryGenerator$new()
   mlr_generators$add("2dnormals", Generator2DNormals)
+  mlr_generators$add("friedman1", GeneratorFriedman1)
   mlr_generators$add("smiley", GeneratorSmiley)
   mlr_generators$add("xor", GeneratorXor)
 
