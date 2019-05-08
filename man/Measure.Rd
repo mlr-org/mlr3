@@ -57,7 +57,7 @@ Note that these packages will be loaded via \code{\link[=requireNamespace]{requi
 
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
-Stores the identifier of the measure.
+Identifier of the measure.
 \item \code{minimize} :: \code{logical(1)}\cr
 Is \code{TRUE} if the best value is reached via minimization and \code{FALSE} by maximization.
 \item \code{packages} :: \code{character()}\cr

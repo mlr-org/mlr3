@@ -76,7 +76,7 @@
 #'   Hash (unique identifier) for this object.
 #'
 #' * `id` :: `character(1)`\cr
-#'   Stores the identifier of the Task.
+#'   Identifier of the Task.
 #'
 #' * `measures` :: `list()` of [Measure]\cr
 #'   Stores the default measures to use for this task.

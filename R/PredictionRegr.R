@@ -9,7 +9,8 @@
 #'
 #' @section Construction:
 #' ```
-#' p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
+#' p = PredictionRegr$new(task = NULL, response = NULL, se = NULL,
+#'   row_ids = task$row_ids, truth = task$truth())
 #' ```
 #'
 #' * `task` :: [TaskRegr]\cr

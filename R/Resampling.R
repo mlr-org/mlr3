@@ -32,7 +32,7 @@
 #'
 #' @section Fields:
 #' * `id` :: `character(1)`\cr
-#'   Stores the identifier of the learner.
+#'   Identifier of the learner.
 #'
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Description of available hyperparameters and hyperparameter settings.

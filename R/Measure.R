@@ -62,7 +62,7 @@
 #'
 #' @section Fields:
 #' * `id` :: `character(1)`\cr
-#'   Stores the identifier of the measure.
+#'   Identifier of the measure.
 #'
 #' * `minimize` :: `logical(1)`\cr
 #'   Is `TRUE` if the best value is reached via minimization and `FALSE` by maximization.

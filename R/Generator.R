@@ -31,7 +31,7 @@
 #'
 #' @section Fields:
 #' * `id` :: `character(1)`\cr
-#'   Stores the identifier of the learner.
+#'   Identifier of the learner.
 #'
 #' * `packages` :: `character()`\cr
 #'   Stores the names of required packages.

@@ -9,7 +9,8 @@
 This object stores the predictions returned by a learner of class \link{LearnerRegr}.
 }
 \section{Construction}{
-\preformatted{p = PredictionRegr$new(task = NULL, response = NULL, se = NULL)
+\preformatted{p = PredictionRegr$new(task = NULL, response = NULL, se = NULL,
+  row_ids = task$row_ids, truth = task$truth())
 }
 \itemize{
 \item \code{task} :: \link{TaskRegr}\cr

@@ -17,7 +17,7 @@
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
-#'   Name of the task.
+#'   Identifier for the task.
 #'
 #' * `backend` :: ([DataBackend] | `data.frame()` | ...)\cr
 #'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.

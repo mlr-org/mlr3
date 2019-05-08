@@ -5,24 +5,12 @@
 #' @include Prediction.R
 #'
 #' @description
-#' This object stores the predictions returned by a learner of class [LearnerClassif].
+#' This object stores the predictions returned by a learner of class [LearnerClassif], i.e.
+#' the predicted response and class probabilities.
 #'
-#' If probabilities are provided via construction and response is missing,
+#' If response is not provided during construction, but class probabilities are,
 #' the response is calculated from the probabilities: the class label with the highest
 #' probability is chosen. In case of ties, a label is selected randomly.
-#'
-#' It is possible to set the probability threshold if probabilities are stored:
-#'
-#' * For binary problems only a single threshold value can be set.
-#'   If the probability exceeds the threshold, the positive class is predicted.
-#'   If the probability equals the threshold, the label is selected randomly.
-#' * For binary and multi-class problems, a named numeric vector of thresholds can be set.
-#'   The length and names must correspond to the number of classes and class names, respectively.
-#'   To determine the class label, the probabilities are divided by the threshold.
-#'   This results in a ratio > 1 if the probability exceeds the threshold, and a ratio < 1 otherwise.
-#'   Note that it is possible that either none or multiple ratios are greater than 1 at the same time.
-#'   Anyway, the class label with maximum ratio is determined.
-#'   In case of ties in the ratio, one of the tied class labels is selected randomly.
 #'
 #' @note
 #' It is possible to initialize this object without a task, by manually providing `row_ids` and `truth`.
@@ -32,7 +20,8 @@
 #'
 #' @section Construction:
 #' ```
-#' p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL, row_ids = task$row_ids, truth = task$truth())
+#' p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL,
+#'   row_ids = task$row_ids, truth = task$truth())
 #' ```
 #'
 #' * `task` :: [TaskClassif]\cr
@@ -67,6 +56,23 @@
 #'
 #' The field `task_type` is set to `"classif"`.
 #'
+#' @section Thresholding:
+#' If probabilities are stored, it is possible to manually set the threshold which determines the predicted class label.
+#' Usually, the label of the class with the highest predicted probability is selected.
+#' For binary classification problems, such an threshold defaults to 0.5.
+#' For cost-sensitive or imbalanced classification problems, manually adjusting the threshold can increase
+#' the predictive performance.
+#'
+#' * For binary problems only a single threshold value can be set.
+#'   If the probability exceeds the threshold, the positive class is predicted.
+#'   If the probability equals the threshold, the label is selected randomly.
+#' * For binary and multi-class problems, a named numeric vector of thresholds can be set.
+#'   The length and names must correspond to the number of classes and class names, respectively.
+#'   To determine the class label, the probabilities are divided by the threshold.
+#'   This results in a ratio > 1 if the probability exceeds the threshold, and a ratio < 1 otherwise.
+#'   Note that it is possible that either none or multiple ratios are greater than 1 at the same time.
+#'   Anyway, the class label with maximum ratio is selected.
+#'   In case of ties in the ratio, one of the tied class labels is selected randomly.
 #' @family Prediction
 #' @export
 #' @examples

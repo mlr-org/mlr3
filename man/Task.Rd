@@ -77,7 +77,7 @@ and \code{type} is the storage type.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 \item \code{id} :: \code{character(1)}\cr
-Stores the identifier of the Task.
+Identifier of the Task.
 \item \code{measures} :: \code{list()} of \link{Measure}\cr
 Stores the default measures to use for this task.
 \item \code{ncol} :: \code{integer(1)}\cr

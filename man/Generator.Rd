@@ -31,7 +31,7 @@ List of hyperparameter settings.
 
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
-Stores the identifier of the learner.
+Identifier of the learner.
 \item \code{packages} :: \code{character()}\cr
 Stores the names of required packages.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
