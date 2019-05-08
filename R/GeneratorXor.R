@@ -7,22 +7,23 @@
 #' @description
 #' A [Generator] for the xor task in [mlbench::mlbench.xor()].
 #' @export
+#' @examples
+#' mlr_generators$get("xor")$generate(10)$data()
 GeneratorXor = R6Class("GeneratorXor",
   inherit = Generator,
   public = list(
-    initialize = function(...) {
+    initialize = function(id = "xor") {
       param_set = ParamSet$new(list(
         ParamInt$new("d", lower = 1L)
       ))
-      super$initialize(id = "xor", "classif", "mlbench", param_set, list(...))
+      super$initialize(id = id, "classif", "mlbench", param_set)
     }
   ),
 
   private = list(
     .generate = function(n) {
       data = invoke(mlbench::mlbench.xor, n = n, .args = self$param_set$values)
-      data = insert_named(as.data.table(data$x), list(class = data$classes))
-      TaskClassif$new(sprintf("%s_%i", self$id, n), data, target = "class")
+      TaskClassif$new(sprintf("%s_%i", self$id, n), as.data.frame(data), target = "classes")
     }
   )
 )

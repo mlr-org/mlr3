@@ -12,4 +12,7 @@ Generator2DNormals
 \description{
 A \link{Generator} for the 2d normals task in \code{\link[mlbench:mlbench.2dnormals]{mlbench::mlbench.2dnormals()}}.
 }
+\examples{
+mlr_generators$get("2dnormals")$generate(10)$data()
+}
 \keyword{datasets}

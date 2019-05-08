@@ -12,4 +12,7 @@ GeneratorXor
 \description{
 A \link{Generator} for the xor task in \code{\link[mlbench:mlbench.xor]{mlbench::mlbench.xor()}}.
 }
+\examples{
+mlr_generators$get("xor")$generate(10)$data()
+}
 \keyword{datasets}

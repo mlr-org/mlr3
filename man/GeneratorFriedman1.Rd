@@ -12,4 +12,7 @@ GeneratorFriedman1
 \description{
 A \link{Generator} for the friedman1 task in \code{\link[mlbench:mlbench.friedman1]{mlbench::mlbench.friedman1()}}.
 }
+\examples{
+mlr_generators$get("friedman1")$generate(10)$data()
+}
 \keyword{datasets}

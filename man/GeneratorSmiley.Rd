@@ -12,4 +12,7 @@ GeneratorSmiley
 \description{
 A \link{Generator} for the smiley task in \code{\link[mlbench:mlbench.smiley]{mlbench::mlbench.smiley()}}.
 }
+\examples{
+mlr_generators$get("smiley")$generate(10)$data()
+}
 \keyword{datasets}
