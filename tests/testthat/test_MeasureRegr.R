@@ -4,7 +4,7 @@ context("MeasureRegr")
 test_that("Regression measures", {
   keys = mlr_measures$keys()
   e = Experiment$new(
-    task = mlr_tasks$get("bh"),
+    task = mlr_tasks$get("boston_housing"),
     learner = mlr_learners$get("regr.featureless")
   )
   e$train()$predict()

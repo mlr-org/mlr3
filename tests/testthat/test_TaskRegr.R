@@ -1,7 +1,7 @@
 context("TaskRegr")
 
 test_that("Basic ops on BostonHousing task", {
-  task = mlr_tasks$get("bh")
+  task = mlr_tasks$get("boston_housing")
   expect_task(task)
   expect_task_supervised(task)
   expect_task_regr(task)
@@ -18,12 +18,12 @@ test_that("Target is numeric", {
 })
 
 test_that("Replace features", {
-  task = mlr_tasks$get("bh")
+  task = mlr_tasks$get("boston_housing")
   data = task$data()[, task$feature_names[1:3], with = FALSE]
   task$replace_features(data)
   expect_task(task)
   expect_task_regr(task)
-  expect_equal(task$nrow, mlr_tasks$get("bh")$nrow)
+  expect_equal(task$nrow, mlr_tasks$get("boston_housing")$nrow)
   expect_equal(task$ncol, 4L)
 })
 

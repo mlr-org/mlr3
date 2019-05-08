@@ -27,8 +27,9 @@ layout_mlr3 = structure(
 
   # Populate Tasks
   mlr_tasks <<- DictionaryTask$new()
-  mlr_tasks$add("bh", load_task_bh)
+  mlr_tasks$add("boston_housing", load_task_boston_housing)
   mlr_tasks$add("iris", load_task_iris)
+  mlr_tasks$add("german_credit", load_task_german_credit)
   mlr_tasks$add("mtcars", load_task_mtcars)
   mlr_tasks$add("pima", load_task_pima)
   mlr_tasks$add("sonar", load_task_sonar)

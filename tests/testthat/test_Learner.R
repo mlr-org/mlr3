@@ -6,7 +6,7 @@ test_that("construction", {
 })
 
 test_that("Learners are called with invoke / small footprint of call", {
-  task = mlr_tasks$get("bh")
+  task = mlr_tasks$get("boston_housing")
   learner = mlr_learners$get("regr.rpart")
   e = Experiment$new(task = task, learner = learner)
   e$train()
