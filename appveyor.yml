@@ -10,11 +10,7 @@ init:
 install:
   - ps: Bootstrap
   - cmd: R -q -e "writeLines('options(repos = \'https://cloud.r-project.org\')', '~/.Rprofile')"
-  - cmd: R -q -e "getOption('repos')"
   - cmd: R -q -e "if (!requireNamespace('curl', quietly = TRUE)) install.packages('remotes')"
-  - cmd: R -q -e "if (!requireNamespace('curl', quietly = TRUE)) install.packages('curl')"
-  - cmd: R -q -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager')"
-  - cmd: R -q -e "if (!requireNamespace('genefilter', quietly = TRUE)) BiocManager::install('genefilter')"
   - cmd: R -q -e "remotes::install_github('ropenscilabs/tic')"
   - cmd: R -q -e "tic::prepare_all_stages()"
   - cmd: R -q -e "tic::before_install()"
