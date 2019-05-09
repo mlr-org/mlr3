@@ -17,6 +17,7 @@ task_set_row_role = function(self, rows, new_roles, exclusive = TRUE) {
 }
 
 task_set_col_role = function(self, cols, new_roles, exclusive = TRUE) {
+
   assert_character(cols, any.missing = FALSE)
   assert_subset(cols, self$col_info$id)
   assert_subset(new_roles, mlr_reflections$task_col_roles[[self$task_type]])
@@ -50,23 +51,26 @@ check_new_row_ids = function(task, data, type) {
   task_row_ids = task$row_roles$use
 
   assert_atomic_vector(row_ids, any.missing = FALSE, unique = TRUE)
-  if (typeof(task_row_ids) != typeof(row_ids))
+  if (typeof(task_row_ids) != typeof(row_ids)) {
     stopf("Cannot mutate task: Key column '%s' has wrong type", pk)
+  }
 
   switch(type,
     "disjunct" = {
-      if (any(row_ids %in% task_row_ids))
+      if (any(row_ids %in% task_row_ids)) {
         stopf("Cannot mutate task: Duplicated row_ids")
+      }
     },
     "setequal" = {
-      if (!setequal(row_ids, task_row_ids))
+      if (!setequal(row_ids, task_row_ids)) {
         stopf("Cannot mutate task: row_ids do not match")
+      }
     },
     "subset" = {
-      if (!all(row_ids %in% task_row_ids))
+      if (!all(row_ids %in% task_row_ids)) {
         stopf("Cannot mutate task: Extra row ids")
-    }
-  )
+      }
+  })
 }
 
 convert_matching_types = function(col_info, data) {
@@ -91,6 +95,7 @@ convert_matching_types = function(col_info, data) {
 # 3. Update row_roles
 # 4. Update col_info
 task_rbind = function(self, data) {
+
   # 1. Check that an rbind is feasible
   assert_data_frame(data, min.cols = 1L)
   data = as.data.table(data)
@@ -109,8 +114,9 @@ task_rbind = function(self, data) {
   }
 
   # nothing to rbind
-  if (ncol(data) == 1L)
+  if (ncol(data) == 1L) {
     return(invisible(self))
+  }
 
   ## 1.2 Check for set equality of column names
   assert_set_equal(names(data), c(unlist(self$col_roles, use.names = FALSE), pk))
@@ -141,6 +147,7 @@ task_rbind = function(self, data) {
 # 2. Overwrite self$backend with new backend
 # 3. Update col_info
 task_cbind = function(self, data) {
+
   # 1. Check that an cbind is feasible
   assert_data_frame(data, nrows = self$nrow)
   data = as.data.table(data)
@@ -154,8 +161,9 @@ task_cbind = function(self, data) {
   }
 
   # nothing to cbind
-  if (ncol(data) == 1L)
+  if (ncol(data) == 1L) {
     return(invisible(self))
+  }
 
   # 2. Overwrite self$backend with new backend
   b2 = DataBackendDataTable$new(data, pk)
@@ -174,6 +182,7 @@ task_cbind = function(self, data) {
 }
 
 task_replace_features = function(self, data) {
+
   assert_data_frame(data, nrows = self$nrow, min.cols = 1L)
   data = as.data.table(data)
   pk = self$backend$primary_key
@@ -187,8 +196,9 @@ task_replace_features = function(self, data) {
 
   # 1.2 Check for target column
   i = which(self$target_names %in% names(data))
-  if (length(i))
+  if (length(i)) {
     stopf("Feature replacement data may not have target column %s", str_collapse(self$target_names[i], quote = "'"))
+  }
 
   # 1.3 Remove old features
   self$col_roles$feature = character(0L)

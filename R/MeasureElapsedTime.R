@@ -31,6 +31,5 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
 
     calculate = function(experiment = NULL, prediction = experiment$prediction) {
       sum(experiment$timings[self$parts], na.rm = TRUE)
-    }
-  )
+    })
 )

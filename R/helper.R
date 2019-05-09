@@ -19,8 +19,9 @@ distinct = function(x, drop = TRUE) {
     lvls = c(FALSE, TRUE)
   } else if (is.factor(x)) {
     lvls = levels(x)
-    if (drop)
+    if (drop) {
       lvls = lvls[lvls %in% x]
+    }
   } else {
     lvls = unique(x)
     lvls = lvls[!is.na(lvls)]
@@ -58,8 +59,9 @@ as_factor = function(x, levels, ...) {
     assert_factor(x, ...)
   } else {
     assert_factor(x, levels = levels, ...)
-    if (!identical(levels(x), levels))
+    if (!identical(levels(x), levels)) {
       x = factor(x, levels = levels)
+    }
   }
   x
 }

@@ -1,21 +1,21 @@
 confusion_measure_info = setkeyv(rowwise_table(
-  ~id,           ~lower, ~upper, ~minimize, ~na_score,
-  "tp",          0,      Inf,    FALSE,     FALSE,
-  "fn",          0,      Inf,    TRUE,      FALSE,
-  "fp",          0,      Inf,    TRUE,      FALSE,
-  "tn",          0,      Inf,    FALSE,     FALSE,
-  "tpr",         0,      1,      FALSE,     TRUE,
-  "fnr",         0,      1,      TRUE,      TRUE,
-  "fpr",         0,      1,      TRUE,      TRUE,
-  "tnr",         0,      1,      FALSE,     TRUE,
-  "ppv",         0,      1,      FALSE,     TRUE,
-  "fdr",         0,      1,      TRUE,      TRUE,
-  "for",         0,      1,      TRUE,      TRUE,
-  "npv",         0,      1,      FALSE,     TRUE,
-  "precision",   0,      1,      FALSE,     TRUE,
-  "recall",      0,      1,      FALSE,     TRUE,
-  "sensitivity", 0,      1,      FALSE,     TRUE,
-  "specificity", 0,      1,      FALSE,     TRUE
+  ~id, ~lower, ~upper, ~minimize, ~na_score,
+  "tp", 0, Inf, FALSE, FALSE,
+  "fn", 0, Inf, TRUE, FALSE,
+  "fp", 0, Inf, TRUE, FALSE,
+  "tn", 0, Inf, FALSE, FALSE,
+  "tpr", 0, 1, FALSE, TRUE,
+  "fnr", 0, 1, TRUE, TRUE,
+  "fpr", 0, 1, TRUE, TRUE,
+  "tnr", 0, 1, FALSE, TRUE,
+  "ppv", 0, 1, FALSE, TRUE,
+  "fdr", 0, 1, TRUE, TRUE,
+  "for", 0, 1, TRUE, TRUE,
+  "npv", 0, 1, FALSE, TRUE,
+  "precision", 0, 1, FALSE, TRUE,
+  "recall", 0, 1, FALSE, TRUE,
+  "sensitivity", 0, 1, FALSE, TRUE,
+  "specificity", 0, 1, FALSE, TRUE
 ), "id")
 
 #' @title Binary Classification Measures Derived from a Confusion Matrix
@@ -90,8 +90,7 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
 
     calculate = function(experiment = NULL, prediction = experiment$prediction) {
       unname(confusion_measures(prediction$confusion, self$type))
-    }
-  )
+    })
 )
 
 #' @rdname MeasureClassifConfusion
@@ -113,8 +112,9 @@ confusion_measures = function(m, type = NULL) {
   }
 
   div = function(nominator, denominator) {
-    if (denominator == 0L)
+    if (denominator == 0L) {
       return(NA_real_)
+    }
     nominator / denominator
   }
 

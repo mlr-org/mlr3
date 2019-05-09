@@ -33,24 +33,28 @@
 #' # get a control object, with the default of store_model changed to FALSE
 #' mlr_control(store_model = FALSE)
 mlr_control = function(...) {
+
   ctrl = default_mlr_control
   ctrl$log_threshold = logger::log_threshold(namespace = "mlr3")
 
   ldots = ...length()
-  if (ldots == 0L)
+  if (ldots == 0L) {
     return(ctrl)
+  }
 
   dots = list(...)
   if (ldots == 1L && is.null(names(dots)) && is.list(dots[[1L]])) {
     dots = dots[[1L]]
-    if (length(dots) == 0L)
+    if (length(dots) == 0L) {
       return(ctrl)
+    }
   }
 
   assert_names(names(dots), "unique")
   ii = wf(names(dots) %nin% names(ctrl))
-  if (length(ii))
+  if (length(ii)) {
     stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
+  }
   ctrl[names(dots)] = dots
   ctrl
 }

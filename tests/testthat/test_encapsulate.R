@@ -38,7 +38,9 @@ test_that("encapsulate", {
 
 
 
-is_empty_log = function(log) { test_data_table(log$log, nrow = 0L, ncol = 2L) && test_subset(log$log$class, mlr_reflections$log_classes) }
+is_empty_log = function(log) {
+  test_data_table(log$log, nrow = 0L, ncol = 2L) && test_subset(log$log$class, mlr_reflections$log_classes)
+}
 disabled = mlr_control(encapsulate_train = "none")
 enabled = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
 task = mlr_tasks$get("iris")

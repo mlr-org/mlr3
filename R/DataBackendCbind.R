@@ -5,6 +5,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     cols = NULL,
 
     initialize = function(b1, b2, cols_b1, cols_b2) {
+
       assert_backend(b1)
       assert_backend(b2)
       assert_subset(cols_b1, b1$colnames)
@@ -12,15 +13,18 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       pk = b1$primary_key
 
       data_formats = intersect(b1$data_formats, b2$data_formats)
-      if (length(data_formats) == 0L)
+      if (length(data_formats) == 0L) {
         stopf("There is no common data format for the backends to cbind")
+      }
 
-      if (pk != b2$primary_key)
+      if (pk != b2$primary_key) {
         stopf("All backends to rbind must have the same primary_key '%s'", pk)
+      }
 
       i = which(cols_b1 %in% setdiff(cols_b2, pk))
-      if (length(i))
+      if (length(i)) {
         stopf("Ambiguous column membership: %s", str_collapse(cols_b1[i], quote = "'"))
+      }
 
       self$rows = intersect(b1$rownames, b2$rownames)
       self$cols = list(b1 = union(pk, cols_b1), b2 = union(pk, cols_b2))
@@ -60,8 +64,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
         private$.data$b1$missings(rows, intersect(cols, self$cols$b1)),
         private$.data$b2$missings(rows, setdiff(intersect(cols, self$cols$b2), self$primary_key))
       )
-    }
-  ),
+    }),
 
   active = list(
     rownames = function() {
@@ -78,13 +81,11 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
 
     ncol = function() {
       sum(lengths(self$cols)) - 1L
-    }
-  ),
+    }),
 
   private = list(
     .calculate_hash = function() {
       data = private$.data
       hash(c(data$b1$hash, data$b2$hash))
-    }
-  )
+    })
 )

@@ -53,9 +53,9 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
-            ParamUty$new("stratify", default = NULL),
-            ParamInt$new("repeats", lower = 1),
-            ParamInt$new("folds", lower = 1L, tags = "required")
+          ParamUty$new("stratify", default = NULL),
+          ParamInt$new("repeats", lower = 1),
+          ParamInt$new("folds", lower = 1L, tags = "required")
         )),
         param_vals = param_vals
       )
@@ -69,15 +69,13 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     repeats = function(iters) {
       iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
       ((iters - 1L) %/% self$param_set$values$folds) + 1L
-    }
-  ),
+    }),
 
   active = list(
     iters = function() {
       pv = self$param_set$values
       pv$repeats * pv$folds
-    }
-  ),
+    }),
 
   private = list(
     .sample = function(ids) {
@@ -109,6 +107,5 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
     .combine = function(instances) {
       rbindlist(instances, use.names = TRUE)
-    }
-  )
+    })
 )

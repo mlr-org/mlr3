@@ -50,14 +50,18 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
     train = function(task) {
       pv = self$params("train")
-      if (isTRUE(pv$message_train))
+      if (isTRUE(pv$message_train)) {
         message("Message from classif.debug->train()")
-      if (isTRUE(pv$warning_train))
+      }
+      if (isTRUE(pv$warning_train)) {
         warning("Warning from classif.debug->train()")
-      if (isTRUE(pv$error_train))
+      }
+      if (isTRUE(pv$error_train)) {
         stop("Error from classif.debug->train()")
-      if (isTRUE(pv$segfault_train))
-        get("attach")( structure(list(), class = "UserDefinedDatabase")  )
+      }
+      if (isTRUE(pv$segfault_train)) {
+        get("attach")(structure(list(), class = "UserDefinedDatabase"))
+      }
 
       if (isTRUE(pv$save_tasks)) {
         self$model = list(task$clone(deep = TRUE))
@@ -70,14 +74,18 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
     predict = function(task) {
       pv = self$params("predict")
-      if (isTRUE(pv$message_predict))
+      if (isTRUE(pv$message_predict)) {
         message("Message from classif.debug->predict()")
-      if (isTRUE(pv$warning_predict))
+      }
+      if (isTRUE(pv$warning_predict)) {
         warning("Warning from classif.debug->predict()")
-      if (isTRUE(pv$error_predict))
+      }
+      if (isTRUE(pv$error_predict)) {
         stop("Error from classif.debug->predict()")
-      if (isTRUE(pv$segfault_predict))
-        get("attach")( structure(list(), class = "UserDefinedDatabase")  )
+      }
+      if (isTRUE(pv$segfault_predict)) {
+        get("attach")(structure(list(), class = "UserDefinedDatabase"))
+      }
       if (isTRUE(pv$save_tasks)) {
         self$model[[2]] = task$clone(deep = TRUE)
         label = sample(task$truth(), 1L)
@@ -85,6 +93,5 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       } else {
         PredictionClassif$new(task = task, response = rep.int(unclass(self$model), task$nrow))
       }
-    }
-  )
+    })
 )

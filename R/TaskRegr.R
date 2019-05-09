@@ -50,13 +50,13 @@ TaskRegr = R6Class("TaskRegr",
       super$initialize(id = id, task_type = "regr", backend = backend, target = target)
 
       type = self$col_info[id == target]$type
-      if (type %nin% c("integer", "numeric"))
+      if (type %nin% c("integer", "numeric")) {
         stopf("Target column '%s' must be numeric", target)
+      }
       self$measures = list(mlr_measures$get("regr.mse"))
     },
 
     truth = function(row_ids = NULL) {
       self$data(row_ids, cols = self$target_names)[[1L]]
-    }
-  )
+    })
 )
