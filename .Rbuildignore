@@ -8,6 +8,5 @@
 ^\.Rproj\.user$
 ^man-roxygen$
 ^attic$
-^docs$
 ^pkgdown$
 ^inst/extdata/.+\.R$
