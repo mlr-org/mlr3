@@ -11,4 +11,5 @@ test_that("mlr_control", {
   ctrl = mlr_control(store_model = FALSE)
   expect_list(ctrl, names = "unique")
   expect_false(ctrl$store_model)
-})
+}
+)

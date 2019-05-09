@@ -345,7 +345,8 @@ Task = R6Class("Task",
       lvls = self$backend$distinct(rows = self$row_ids, cols = cols)
       self$col_info = ujoin(self$col_info, enframe(lvls, "id", "levels"), key = "id")
       invisible(self)
-    }),
+    }
+  ),
 
   active = list(
     hash = function() {
@@ -399,7 +400,8 @@ Task = R6Class("Task",
       }
       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights))
       setnames(data, names(data), c("row_id", "weight"))[]
-    }),
+    }
+  ),
 
   private = list(
     .measures = list(),
@@ -408,7 +410,8 @@ Task = R6Class("Task",
       # NB: DataBackends are never copied!
       # TODO: check if we can assume col_info to be read-only
       if (name == "col_info") copy(value) else value
-    })
+    }
+  )
 )
 
 task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table") {

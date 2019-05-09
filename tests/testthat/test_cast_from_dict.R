@@ -24,4 +24,5 @@ test_that("cast_from_dict", {
 
   x = cast_from_dict(list(task), "Task", mlr_tasks, clone = FALSE)[[1L]]
   expect_same_address(task, x)
-})
+}
+)

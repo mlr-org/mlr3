@@ -92,7 +92,8 @@ ResampleResult = R6Class("ResampleResult",
       tab = map_dtr(self$measures$measure_id, function(id) {
         perf = self$performance(id)
         c(list(Measure = id), as.list(summary(perf)), list(Sd = sd(perf)))
-      })
+      }
+      )
       print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = digits, ...)
     },
 
@@ -121,7 +122,8 @@ ResampleResult = R6Class("ResampleResult",
         warningf("ResampleResult$combine(): Identical hashes detected. This is likely to be unintended.")
       }
       BenchmarkResult$new(rbind(cbind(self$data, data.table(hash = self$hash)), cbind(rr$data, data.table(hash = rr$hash))))
-    }),
+    }
+  ),
 
   active = list(
     task = function() {
@@ -159,14 +161,16 @@ ResampleResult = R6Class("ResampleResult",
     errors = function() {
       has_error = function(log) !is.null(log) && log[get("class") == "error", .N] > 0L
       map_lgl(self$data$train_log, has_error)
-    }),
+    }
+  ),
 
   private = list(
     .hash = NA_character_,
 
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
-    })
+    }
+  )
 )
 
 #' @export

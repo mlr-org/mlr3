@@ -7,7 +7,8 @@ test_that("mlr_measures", {
     m = mlr_measures$get(key)
     expect_measure(m)
   }
-})
+}
+)
 
 test_that("custom aggregation", {
   task = mlr_tasks$get("wine")
@@ -21,4 +22,5 @@ test_that("custom aggregation", {
   rr = resample(task, lrn, mlr_resamplings$get("cv"))
   rr$aggregated
   expect_equal(rr$aggregated[["max_ce"]], max(rr$performance("classif.ce")))
-})
+}
+)

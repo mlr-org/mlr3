@@ -93,5 +93,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       } else {
         PredictionClassif$new(task = task, response = rep.int(unclass(self$model), task$nrow))
       }
-    })
+    }
+  )
 )

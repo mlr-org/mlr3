@@ -5,7 +5,8 @@ test_that("autotest", {
   expect_learner(learner)
   result = run_autotest(learner)
   expect_true(result, info = result$error)
-})
+}
+)
 
 test_that("variable importance", {
   task = TaskClassif$new("foo", as_data_backend(cbind(iris, data.frame(unimportant = runif(150)))), target = "Species")
@@ -16,7 +17,8 @@ test_that("variable importance", {
   expect_numeric(imp, min.len = 1L, any.missing = FALSE)
   expect_names(names(imp), subset.of = task$feature_names)
   expect_false(is.unsorted(rev(imp)))
-})
+}
+)
 
 test_that("selected_features", {
   task = TaskClassif$new("foo", as_data_backend(cbind(iris, data.frame(unimportant = runif(150)))), target = "Species")
@@ -24,4 +26,5 @@ test_that("selected_features", {
   learner$param_set$values = insert_named(learner$param_set$values, list(maxdepth = 2))
   sf = Experiment$new(task, learner)$train()$learner$selected_features()
   expect_subset(sf, task$feature_names, empty.ok = FALSE)
-})
+}
+)

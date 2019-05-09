@@ -40,7 +40,8 @@ DictionaryLearner = R6Class("DictionaryLearner",
         obj$predict_type = predict_type
       }
       obj
-    })
+    }
+  )
 )
 
 #' @export
@@ -57,5 +58,6 @@ as.data.table.DictionaryLearner = function(x, ...) {
       properties = list(l$properties),
       predict_types = list(l$predict_types)
     )
-  }), "key")[]
+  }
+  ), "key")[]
 }

@@ -52,7 +52,8 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     se = NULL,
     initialize = function(task = NULL, response = NULL, se = NULL, row_ids = task$row_ids, truth = task$truth()) {
       predictionregr_initialize(self, task, row_ids, truth, response, se)
-    })
+    }
+  )
 )
 
 predictionregr_initialize = function(self, task, row_ids, truth, response, se) {

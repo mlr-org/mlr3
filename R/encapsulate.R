@@ -70,7 +70,8 @@ encapsulate_callr = function(fun, args = list(), pkgs = character(0L), seed = NA
     suppressPackageStartupMessages({
       library("mlr3")
       lapply(pkgs, requireNamespace)
-    })
+    }
+    )
     if (!is.na(seed)) {
       set.seed(seed)
     }
@@ -80,11 +81,13 @@ encapsulate_callr = function(fun, args = list(), pkgs = character(0L), seed = NA
         error = function(e) {
           cat("[ERR]", gsub("\r?\n|\r", "<br>", trimws(conditionMessage(e))), "\n")
           NULL
-        }),
+        }
+      ),
       warning = function(w) {
         cat("[WRN]", gsub("\r?\n|\r", "<br>", trimws(conditionMessage(w))), "\n")
         invokeRestart("muffleWarning")
-      })
+      }
+    )
     list(result = result, elapsed = proc.time()[[3L]] - now)
   }
 

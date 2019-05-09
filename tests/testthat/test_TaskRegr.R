@@ -10,12 +10,14 @@ test_that("Basic ops on BostonHousing task", {
   f = task$formula()
   expect_class(f, "formula")
   expect_set_equal(attr(terms(f), "term.labels"), task$feature_names)
-})
+}
+)
 
 test_that("Target is numeric", {
   b = as_data_backend(iris)
   expect_error(TaskRegr$new("iris", backend = b, target = "Species"), "Target column")
-})
+}
+)
 
 test_that("Replace features", {
   task = mlr_tasks$get("boston_housing")
@@ -25,7 +27,8 @@ test_that("Replace features", {
   expect_task_regr(task)
   expect_equal(task$nrow, mlr_tasks$get("boston_housing")$nrow)
   expect_equal(task$ncol, 4L)
-})
+}
+)
 
 test_that("TaskRegr: 0 feature task", {
   b = as_data_backend(data.table(y = runif(20)))
@@ -43,4 +46,5 @@ test_that("TaskRegr: 0 feature task", {
   e$train()$predict()$score()
   expect_experiment(e)
   expect_number(e$performance)
-})
+}
+)

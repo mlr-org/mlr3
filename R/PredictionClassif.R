@@ -96,7 +96,8 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     prob = NULL,
     initialize = function(task = NULL, response = NULL, prob = NULL, row_ids = task$row_ids, truth = task$truth()) {
       predictionclassif_initialize(self, task, row_ids, truth, response, prob)
-    }),
+    }
+  ),
 
   active = list(
     threshold = function(rhs) {
@@ -129,7 +130,8 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
     confusion = function() {
       table(response = self$response, truth = self$truth, useNA = "ifany")
-    }),
+    }
+  ),
 
   private = list(
     .threshold = NULL

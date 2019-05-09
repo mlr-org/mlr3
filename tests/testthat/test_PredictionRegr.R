@@ -5,7 +5,8 @@ test_that("Construction", {
   p = PredictionRegr$new(task = task, response = task$truth())
   expect_prediction(p)
   expect_prediction_regr(p)
-})
+}
+)
 
 test_that("Internally constructed Prediction", {
   task = mlr_tasks$get("boston_housing")
@@ -15,7 +16,8 @@ test_that("Internally constructed Prediction", {
   p = e$prediction
   expect_prediction(p)
   expect_prediction_regr(p)
-})
+}
+)
 
 
 test_that("rbind", {
@@ -30,4 +32,5 @@ test_that("rbind", {
 
   dt = as.data.table(pred)
   expect_data_table(dt, nrow = task$nrow, ncol = 4L, any.missing = FALSE)
-})
+}
+)

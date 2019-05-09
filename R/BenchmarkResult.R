@@ -191,7 +191,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
         remove_named(res, "resample_result")
       }
       res[]
-    }),
+    }
+  ),
 
   active = list(
     tasks = function() {
@@ -212,12 +213,14 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     resample_results = function() {
       self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, .N), by = "hash"]
-    }),
+    }
+  ),
 
   private = list(
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
-    })
+    }
+  )
 )
 
 #' @export

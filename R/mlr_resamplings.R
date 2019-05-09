@@ -38,7 +38,8 @@ DictionaryResampling = R6Class("DictionaryResampling",
         obj$param_set$values = insert_named(obj$param_set$values, param_vals)
       }
       obj
-    })
+    }
+  )
 )
 
 #' @export
@@ -49,5 +50,6 @@ as.data.table.DictionaryResampling = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
     r = x$get(key)
     list(key = key, hyperpars = list(r$param_set$ids()), iters = r$iters)
-  }), "key")[]
+  }
+  ), "key")[]
 }

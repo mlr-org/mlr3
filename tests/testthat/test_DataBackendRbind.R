@@ -18,7 +18,8 @@ test_that("DataBackendRbind", {
 
   x = b$missings(b$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
-})
+}
+)
 
 test_that("Backends with different cols", {
   data = as.data.table(iris)
@@ -38,7 +39,8 @@ test_that("Backends with different cols", {
   expect_data_table(h, ncol = 3, nrow = 120)
 
   expect_data_table(b$data(rows = 1:120, cols = b$colnames), nrow = 120, ncol = length(fn))
-})
+}
+)
 
 test_that("Backends with mixed data_formats", {
   requireNamespace("Matrix")
@@ -57,4 +59,5 @@ test_that("Backends with mixed data_formats", {
 
   rr = resample(task, mlr_learners$get("regr.rpart"), mlr_resamplings$get("holdout"))
   expect_number(rr$aggregated)
-})
+}
+)

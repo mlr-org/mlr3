@@ -109,7 +109,8 @@ TaskClassif = R6Class("TaskClassif",
     truth = function(row_ids = NULL) {
       res = self$data(row_ids, cols = self$target_names)[[1L]]
       factor(res, levels = self$class_names)
-    }),
+    }
+  ),
 
   active = list(
     class_names = function() {

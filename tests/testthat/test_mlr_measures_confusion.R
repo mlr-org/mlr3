@@ -19,4 +19,5 @@ test_that("precision +  recall", {
     Metrics::recall(as.integer(p$truth == task$positive), as.integer(p$response == task$positive)),
     perf[["classif.recall"]]
   )
-})
+}
+)

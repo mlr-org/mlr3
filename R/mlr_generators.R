@@ -38,5 +38,6 @@ as.data.table.DictionaryGenerator = function(x, ...) {
     list(
       key = key,
       packages = list(g$packages))
-  }), "key")[]
+  }
+  ), "key")[]
 }

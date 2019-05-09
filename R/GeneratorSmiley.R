@@ -18,7 +18,8 @@ GeneratorSmiley = R6Class("GeneratorSmiley",
         ParamDbl$new("sd2", lower = 0L)
       ))
       super$initialize(id = id, "classif", "mlbench", param_set)
-    }),
+    }
+  ),
 
   private = list(
     .generate = function(n) {
@@ -26,5 +27,6 @@ GeneratorSmiley = R6Class("GeneratorSmiley",
       colnames(data$x) = sprintf("x.%i", seq_col(data$x))
       data = insert_named(as.data.table(data$x), list(classes = data$classes))
       TaskClassif$new(sprintf("%s_%i", self$id, n), data, target = "classes")
-    })
+    }
+  )
 )

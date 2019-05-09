@@ -7,4 +7,5 @@ test_that("TaskSupervised Construction", {
   expect_backend(b)
   expect_task(task)
   expect_task_supervised(task)
-})
+}
+)

@@ -72,7 +72,8 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       m1 = private$.data$b1$missings(rows, cols)
       m2 = private$.data$b2$missings(rows, cols)
       m1 + m2[match(names(m1), names(m2))]
-    }),
+    }
+  ),
 
   active = list(
     rownames = function() {
@@ -89,11 +90,13 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
 
     ncol = function() {
       length(self$cols)
-    }),
+    }
+  ),
 
   private = list(
     .calculate_hash = function() {
       data = private$.data
       hash(c(data$b1$hash, data$b2$hash))
-    })
+    }
+  )
 )

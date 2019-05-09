@@ -40,5 +40,6 @@ as.data.table.DictionaryMeasure = function(x, ...) {
       task_type = m$task_type,
       predict_type = m$predict_type,
       packages = list(m$packages))
-  }), "key")[]
+  }
+  ), "key")[]
 }

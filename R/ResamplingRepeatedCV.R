@@ -69,13 +69,15 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     repeats = function(iters) {
       iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
       ((iters - 1L) %/% self$param_set$values$folds) + 1L
-    }),
+    }
+  ),
 
   active = list(
     iters = function() {
       pv = self$param_set$values
       pv$repeats * pv$folds
-    }),
+    }
+  ),
 
   private = list(
     .sample = function(ids) {
@@ -84,7 +86,8 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       folds = pv$folds
       map_dtr(seq_len(pv$repeats), function(i) {
         data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
-      })
+      }
+      )
     },
 
     .get_train = function(i) {
@@ -107,5 +110,6 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
     .combine = function(instances) {
       rbindlist(instances, use.names = TRUE)
-    })
+    }
+  )
 )

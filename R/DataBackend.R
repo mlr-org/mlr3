@@ -105,7 +105,8 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
       catf("%s (%ix%i)", format(self), self$nrow, self$ncol)
       catf(str_indent("\nPublic:", str_r6_interface(self)))
       print(self$head(6L))
-    }),
+    }
+  ),
 
   active = list(
     hash = function(rhs) {
@@ -116,7 +117,8 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
         return(private$.hash)
       }
       private$.hash = assert_string(rhs)
-    }),
+    }
+  ),
 
   private = list(
     .data = NULL,

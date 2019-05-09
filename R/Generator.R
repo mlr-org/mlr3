@@ -68,5 +68,6 @@ Generator = R6Class("Generator",
       n = assert_count(n, coerce = TRUE)
       require_namespaces(self$packages)
       private$.generate(n)
-    })
+    }
+  )
 )

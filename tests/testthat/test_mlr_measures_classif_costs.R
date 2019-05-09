@@ -19,7 +19,8 @@ test_that("binary task", {
 
   expect_equal(perf[[1]], -perf[[2]])
   expect_equal(perf[[3]], 0)
-})
+}
+)
 
 test_that("multiclass", {
   task = mlr_tasks$get("iris")
@@ -33,7 +34,8 @@ test_that("multiclass", {
   perf = e$performance
 
   expect_equal(perf[["classif.costs"]], perf[["classif.ce"]] * task$nrow)
-})
+}
+)
 
 test_that("multiclass / level reordering", {
   task = mlr_tasks$get("iris")
@@ -51,4 +53,5 @@ test_that("multiclass / level reordering", {
   perf = e$performance
 
   expect_equal(perf[1], perf[2])
-})
+}
+)

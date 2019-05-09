@@ -140,10 +140,12 @@ Measure = R6Class("Measure",
     aggregate = function(rr) {
       fun = self$aggregator %??% mean
       fun(rr$performance(self$id))
-    }),
+    }
+  ),
 
   active = list(
     hash = function() {
       hash(list(class(self), self$id, as.character(body(self$calculate))))
-    })
+    }
+  )
 )

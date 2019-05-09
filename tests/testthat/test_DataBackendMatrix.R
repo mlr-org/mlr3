@@ -17,7 +17,8 @@ expect_Matrix = function(x, ...) {
 test_that("DataBackendMatrix construction", {
   b = as_data_backend(data)
   expect_backend(b)
-})
+}
+)
 
 test_that("DataBackendMatrix sparse output", {
   b = as_data_backend(data)
@@ -61,7 +62,8 @@ test_that("DataBackendMatrix sparse output", {
 
   # argument n of head
   expect_data_table(b$head(3), nrow = 3, ncol = b$ncol)
-})
+}
+)
 
 test_that("$missings", {
   M = data
@@ -72,7 +74,8 @@ test_that("$missings", {
   x = b$missings(b$rownames, b$colnames)
   expect_identical(sum(x), 2L)
   expect_identical(x[["cn0005"]], 2L)
-})
+}
+)
 
 test_that("task argument 'format' is passed down", {
   td = cbind(y = 1:10, data)
@@ -81,7 +84,8 @@ test_that("task argument 'format' is passed down", {
   task = TaskRegr$new("regr_task", b, target = "y")
   expect_data_table(task$data(data_format = "data.table"))
   expect_Matrix(task$data(data_format = "Matrix"))
-})
+}
+)
 
 test_that("learners can request sparse data format", {
   LearnerSparseTest = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
@@ -103,7 +107,8 @@ test_that("learners can request sparse data format", {
 
       predict = function(task) {
         PredictionRegr$new(response = rep(task$class_names[1L], task$nrow))
-      })
+      }
+    )
   )
 
   td = cbind(y = 1:10, data)
@@ -114,4 +119,5 @@ test_that("learners can request sparse data format", {
   e = Experiment$new(task = task, learner = lrn)
   e$train()
   expect_is(e$model, "Matrix")
-})
+}
+)

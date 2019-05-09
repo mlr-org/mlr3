@@ -46,12 +46,14 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
         param_vals = param_vals,
         duplicated_ids = TRUE
       )
-    }),
+    }
+  ),
 
   active = list(
     iters = function() {
       self$param_set$values$repeats
-    }),
+    }
+  ),
 
   private = list(
     .sample = function(ids) {
@@ -73,5 +75,6 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
     .combine = function(instances) {
       list(row_ids = do.call(c, map(instances, "row_ids")), M = do.call(rbind, map(instances, "M")))
-    })
+    }
+  )
 )

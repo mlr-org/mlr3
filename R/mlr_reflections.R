@@ -76,4 +76,5 @@ local({
 
   ### Log
   mlr_reflections$log_classes = c("output", "warning", "error")
-})
+}
+)

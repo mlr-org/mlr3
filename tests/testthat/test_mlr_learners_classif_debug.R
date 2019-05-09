@@ -25,4 +25,5 @@ test_that("Simple training/predict", {
   ipredict = task$clone(TRUE)$filter(11:20)
 
   expect_equal(hashes(model), hashes(list(itrain, ipredict)))
-})
+}
+)

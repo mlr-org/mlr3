@@ -46,5 +46,6 @@ cast_from_dict = function(x, type, dict, clone = FALSE, multiple = TRUE) {
 
     stopf("Argument %s must be an object of type '%2$s', a list of elements of type '%2$s' or a character vector of keys to lookup in the dictionary",
       deparse(substitute(x)), type)
-  })
+  }
+  )
 }

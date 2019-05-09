@@ -7,4 +7,5 @@ test_that("mlr_measures_auc", {
 
   e = Experiment$new(task, lrn)$train()$predict()$score()
   expect_equal(unname(e$performance), 0.5)
-})
+}
+)

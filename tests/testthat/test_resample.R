@@ -14,7 +14,8 @@ test_that("resample", {
   expect_same_address(rr$data$task[[1L]], rr$data$task[[2L]])
   expect_same_address(rr$data$resampling[[1L]], rr$data$resampling[[2L]])
   expect_different_address(rr$data$learner[[1L]]$model, rr$data$learner[[2L]]$model)
-})
+}
+)
 
 test_that("resample with multiple measures", {
   task = mlr_tasks$get("iris")
@@ -23,7 +24,8 @@ test_that("resample with multiple measures", {
   rr = resample(task, learner, "cv3")
 
   expect_resample_result(rr)
-})
+}
+)
 
 test_that("resample with replacement measures", {
   task = mlr_tasks$get("iris")
@@ -31,7 +33,8 @@ test_that("resample with replacement measures", {
   rr = resample(task, learner, "cv3", measures = mlr_measures$mget(c("classif.ce", "classif.acc")))
   expect_equal(rr$measures$measure_id, c("classif.ce", "classif.acc"))
   expect_equal(names(rr$aggregated), c("classif.ce", "classif.acc"))
-})
+}
+)
 
 test_that("rr$combine()", {
   task = mlr_tasks$get("iris")
@@ -52,7 +55,8 @@ test_that("rr$combine()", {
   rrs = bmr$resample_results
   expect_data_table(rrs, nrow = 2)
   expect_set_equal(rrs$hash, c(rr1$hash, rr2$hash))
-})
+}
+)
 
 test_that("discarding model", {
   task = mlr_tasks$get("iris")
@@ -62,7 +66,8 @@ test_that("discarding model", {
 
   rr = resample(task, learner, resampling, ctrl = mlr_control(store_model = FALSE))
   expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
-})
+}
+)
 
 test_that("inputs are cloned", {
   task = mlr_tasks$get("iris")
@@ -75,4 +80,5 @@ test_that("inputs are cloned", {
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
   expect_different_address(resampling, e$data$resampling)
-})
+}
+)

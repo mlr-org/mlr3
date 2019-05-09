@@ -46,7 +46,8 @@ test_that("Basic benchmarking", {
   expect_names(names(tab), type = "unique", permutation.of = c("hash", "task_id", "learner_id", "resampling_id", "classif.ce", "classif.acc"))
   expect_numeric(tab[task_id == "sonar", classif.ce], any.missing = FALSE)
   expect_numeric(tab[task_id == "iris", classif.acc], any.missing = FALSE)
-})
+}
+)
 
 test_that("ResampleResult getter", {
   hashes = bmr$resample_results$hash
@@ -54,14 +55,16 @@ test_that("ResampleResult getter", {
   rr = bmr$resample_result(hashes[1])
   expect_resample_result(rr)
   expect_experiment(rr$experiment(1))
-})
+}
+)
 
 
 test_that("discarding model", {
   bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings), ctrl = mlr_control(store_prediction = FALSE, store_model = FALSE))
   expect_true(every(bmr$data$prediction, is.null))
   expect_true(every(bmr$data$model, is.null))
-})
+}
+)
 
 test_that("bmr$combine()", {
   bmr_new = benchmark(expand_grid(mlr_tasks$mget("pima"), learners, resamplings))
@@ -78,14 +81,16 @@ test_that("bmr$combine()", {
   expect_false("pima" %in% bmr$tasks$task_id)
   expect_true("pima" %in% bmr_new$tasks$task_id)
   expect_true("pima" %in% bmr_combined$tasks$task_id)
-})
+}
+)
 
 
 test_that("bmr$get_best()", {
   measure = tasks$iris$measures[[1L]]
   best = bmr$get_best(measure)
   expect_resample_result(best)
-})
+}
+)
 
 test_that("inputs are cloned", {
   task = mlr_tasks$get("iris")
@@ -99,7 +104,8 @@ test_that("inputs are cloned", {
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
   expect_different_address(resampling, e$data$resampling)
-})
+}
+)
 
 test_that("resample with replacement measures", {
   tasks = mlr_tasks$mget(c("iris", "sonar"))
@@ -107,4 +113,5 @@ test_that("resample with replacement measures", {
   bmr = benchmark(design = expand_grid(tasks, learner, "cv3"), measures = mlr_measures$mget(c("classif.ce", "classif.acc")))
   expect_equal(bmr$measures$measure_id, c("classif.ce", "classif.acc"))
   expect_subset(c("classif.ce", "classif.acc"), names(bmr$aggregated()))
-})
+}
+)

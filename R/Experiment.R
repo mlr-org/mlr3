@@ -216,7 +216,8 @@ Experiment = R6Class("Experiment",
         return(Log$new())
       }
       Log$new(data)
-    }),
+    }
+  ),
 
   active = list(
     task = function(rhs) {
@@ -286,7 +287,8 @@ Experiment = R6Class("Experiment",
         private$.hash = experiment_data_hash(self$data)
       }
       private$.hash
-    }),
+    }
+  ),
 
   private = list(
     .hash = NA_character_
@@ -389,7 +391,8 @@ combine_experiments = function(x) {
   map_dtr(x, function(exp) {
     exp[wrap_list] = lapply(exp[wrap_list], list)
     exp
-  })
+  }
+  )
 }
 
 experiment_state = function(self) {

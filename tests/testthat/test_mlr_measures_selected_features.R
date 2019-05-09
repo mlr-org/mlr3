@@ -7,4 +7,5 @@ test_that("selected_features", {
 
   rr = resample(task, lrn, mlr_resamplings$get("holdout"))
   expect_number(rr$performance("selected_features"))
-})
+}
+)

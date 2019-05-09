@@ -23,5 +23,6 @@ MeasureClassifCE = R6Class("MeasureClassifCE",
 
     calculate = function(experiment = NULL, prediction = experiment$prediction) {
       Metrics::ce(actual = prediction$truth, predicted = prediction$response)
-    })
+    }
+  )
 )

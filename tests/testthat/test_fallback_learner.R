@@ -13,7 +13,8 @@ test_that("no fallback_learner, no encapsulation", {
   e = Experiment$new(task = task, learner = learner)
   e$train(ctrl = ctrl)
   expect_error(e$predict(ctrl = ctrl), "classif.debug->predict", class = "predictError")
-})
+}
+)
 
 
 test_that("fallback_learner; fail during train", {
@@ -37,7 +38,8 @@ test_that("fallback_learner; fail during train", {
   e$predict()
   e$score()
   expect_number(e$performance)
-})
+}
+)
 
 test_that("fallback_learner; fail during predict", {
   task = mlr_tasks$get("iris")
@@ -67,7 +69,8 @@ test_that("fallback_learner; fail during predict", {
 
   e$score()
   expect_number(e$performance)
-})
+}
+)
 
 test_that("fallback_learner, resampling", {
   task = mlr_tasks$get("iris")
@@ -83,4 +86,5 @@ test_that("fallback_learner, resampling", {
   expect_true(all(rr$errors))
   expect_false(any(is.na(rr$performance(task$measures[[1L]]$id))))
   expect_number(rr$aggregated)
-})
+}
+)

@@ -16,10 +16,12 @@ test_that("mlr_resamplings", {
     expect_true(r$is_instantiated)
     expect_resampling(r)
   }
-})
+}
+)
 
 test_that("mlr_resamplings: sugar", {
   r = mlr_resamplings$get("cv", id = "cv3", param_vals = list(folds = 3L))
   expect_equal(r$id, "cv3")
   expect_equal(r$param_set$values$folds, 3L)
-})
+}
+)

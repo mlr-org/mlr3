@@ -5,7 +5,8 @@ test_that("autotest", {
   expect_learner(learner)
   result = run_autotest(learner, exclude = "sanity")
   expect_true(result, info = result$error)
-})
+}
+)
 
 test_that("Simple training/predict", {
   task = mlr_tasks$get("iris")
@@ -23,7 +24,8 @@ test_that("Simple training/predict", {
   expect_factor(e$prediction$response, any.missing = FALSE, levels = levels(iris$Species))
   e$score()
   expect_number(e$performance, lower = 0.6, upper = 0.7)
-})
+}
+)
 
 test_that("Predict with prob", {
   task = mlr_tasks$get("iris")
@@ -34,4 +36,5 @@ test_that("Predict with prob", {
   e = Experiment$new(task, learner)$train()$predict()
   expect_matrix(e$data$prediction$prob, nrow = 150L, ncol = 3L)
   expect_names(colnames(e$data$prediction$prob), permutation.of = levels(iris$Species))
-})
+}
+)

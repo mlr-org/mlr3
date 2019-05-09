@@ -13,7 +13,8 @@ test_that("mlr_learners", {
       expect_true(startsWith(l$id, "regr."))
     }
   }
-})
+}
+)
 
 test_that("mlr_learners: sugar", {
   lrn = mlr_learners$get("classif.rpart", id = "foo", param_vals = list(cp = 0.001), predict_type = "prob")
@@ -25,4 +26,5 @@ test_that("mlr_learners: sugar", {
   lrns = mlr_learners$mget(c("classif.rpart", "classif.featureless"), predict_type = "prob")
   expect_equal(lrns[[1]]$predict_type, "prob")
   expect_equal(lrns[[2]]$predict_type, "prob")
-})
+}
+)

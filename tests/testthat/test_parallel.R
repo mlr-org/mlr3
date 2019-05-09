@@ -16,8 +16,10 @@ test_that("parallel resample", {
     rr = resample(task, learner, resampling)
     expect_resample_result(rr)
     expect_false(any(rr$errors))
-  })
-})
+  }
+  )
+}
+)
 
 test_that("parallel benchmark", {
   skip_if_not_installed("future")
@@ -33,5 +35,7 @@ test_that("parallel benchmark", {
 
     bmr = benchmark(expand_grid(list(task), list(learner), list(resampling)))
     expect_benchmark_result(bmr)
-  })
-})
+  }
+  )
+}
+)

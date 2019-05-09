@@ -18,7 +18,8 @@ LearnerTest = R6Class("LearnerTest", inherit = LearnerClassif,
 
     predict = function(task) {
       PredictionClassif$new(response = task$truth(1), task$nrow)
-    })
+    }
+  )
 )
 
 test_that("Handling of training errors", {
@@ -44,4 +45,5 @@ test_that("Handling of training errors", {
 
   res = train_worker(e, mlr_control(encapsulate_train = "evaluate"))
   expect_string(Log$new(res$train_log)$errors, fixed = "store a model")
-})
+}
+)

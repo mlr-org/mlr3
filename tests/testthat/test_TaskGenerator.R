@@ -17,10 +17,12 @@ test_that("Generators", {
     expect_equal(gen$task_type, task$task_type)
     expect_equal(task$nrow, n)
   }
-})
+}
+)
 
 test_that("as.data.table.DictionaryGenerator", {
   tab = as.data.table(mlr_generators)
   expect_data_table(tab, min.cols = 2L)
   expect_names(names(tab), must.include = "key")
-})
+}
+)

@@ -34,7 +34,8 @@ test_that("encapsulate", {
     expect_log(log)
     expect_data_table(log$log, ncol = 2L, nrow = 0L)
   }
-})
+}
+)
 
 
 
@@ -81,7 +82,8 @@ test_that("evaluate / experiment", {
   expect_character(log$log$class)
   expect_equal(log$log$class, c("output", "warning"))
   expect_true(all(grepl("->predict()", log$log$msg, fixed = TRUE)))
-})
+}
+)
 
 test_that("evaluate / resample", {
   resampling = mlr_resamplings$get("cv")
@@ -94,4 +96,5 @@ test_that("evaluate / resample", {
   rr = expect_silent(resample(task, learner, resampling, ctrl = enabled))
   lapply(rr$data$train_log$log, expect_data_table, , nrow = 2L, ncol = 2L, any.missing = FALSE)
   lapply(rr$data$predict_log$log, expect_data_table, nrow = 2L, ncol = 2L, any.missing = FALSE)
-})
+}
+)

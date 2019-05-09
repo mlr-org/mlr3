@@ -58,5 +58,6 @@ TaskRegr = R6Class("TaskRegr",
 
     truth = function(row_ids = NULL) {
       self$data(row_ids, cols = self$target_names)[[1L]]
-    })
+    }
+  )
 )

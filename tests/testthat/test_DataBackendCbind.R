@@ -18,14 +18,16 @@ test_that("DataBackendCbind", {
 
   x = b$missings(b$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
-})
+}
+)
 
 test_that("issue #124", {
   task = mlr_tasks$get("iris")
   newcols = cbind(data.table(col = 1:150))
   task$select(character(0))$cbind(newcols)
   expect_data_table(task$data(cols = "col"), ncol = 1L, nrow = 150L)
-})
+}
+)
 
 test_that("cbind backends with same columns", {
   data = as.data.table(iris)
@@ -42,7 +44,8 @@ test_that("cbind backends with same columns", {
 
   b = self = DataBackendCbind$new(b1, b2, cols_b1, cols_b2)
   expect_backend(b)
-})
+}
+)
 
 test_that("Backends with different rows", {
   data = as.data.table(iris)
@@ -57,7 +60,8 @@ test_that("Backends with different rows", {
   expect_set_equal(b$rownames, 1:10)
 
   expect_data_table(b$head(12), nrow = 10, ncol = 6)
-})
+}
+)
 
 test_that("Backends with mixed data_formats", {
   requireNamespace("Matrix")
@@ -78,4 +82,5 @@ test_that("Backends with mixed data_formats", {
 
   rr = resample(task, mlr_learners$get("regr.rpart"), mlr_resamplings$get("holdout"))
   expect_number(rr$aggregated)
-})
+}
+)

@@ -61,5 +61,6 @@ as.data.table.DictionaryTask = function(x, ...) {
       nrow = t$nrow,
       ncol = t$ncol
     ), table(feats))
-  }), "key")[]
+  }
+  ), "key")[]
 }

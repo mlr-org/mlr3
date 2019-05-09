@@ -12,7 +12,8 @@ test_that("Basic ops on iris task", {
   f = task$formula()
   expect_class(f, "formula")
   expect_set_equal(attr(terms(f), "term.labels"), setdiff(names(iris), "Species"))
-})
+}
+)
 
 test_that("$class_names and $class_n consider also inactive rows", {
   task = mlr_tasks$get("iris")
@@ -20,7 +21,8 @@ test_that("$class_names and $class_n consider also inactive rows", {
 
   expect_set_equal(task$class_names, levels(iris$Species))
   expect_identical(task$class_n, 3L)
-})
+}
+)
 
 test_that("Factor levels are preserved in prediction", {
   task = mlr_tasks$get("iris")
@@ -42,12 +44,14 @@ test_that("Factor levels are preserved in prediction", {
   expect_factor(pred$response, levels = levels(iris$Species), any.missing = FALSE)
   expect_equal(levels(pred$truth), levels(pred$response))
   expect_numeric(pred$prob.virginica, lower = 0, upper = 0, any.missing = FALSE)
-})
+}
+)
 
 test_that("Target is character/factor", {
   b = as_data_backend(iris)
   expect_error(TaskClassif$new("iris", backend = b, target = "Sepal.Length"), "Target column")
-})
+}
+)
 
 test_that("Replace features", {
   task = mlr_tasks$get("iris")
@@ -57,7 +61,8 @@ test_that("Replace features", {
   expect_task_classif(task)
   expect_equal(task$nrow, 150)
   expect_equal(task$ncol, 3)
-})
+}
+)
 
 test_that("0 feature task", {
   b = as_data_backend(iris[, 5L, drop = FALSE])
@@ -75,7 +80,8 @@ test_that("0 feature task", {
   e$train()$predict()$score()
   expect_experiment(e)
   expect_number(e$performance, lower = 0.6, upper = 0.7)
-})
+}
+)
 
 test_that("Positive class always comes first", {
   sonar = load_dataset("Sonar", package = "mlbench")
@@ -93,4 +99,5 @@ test_that("Positive class always comes first", {
     expect_equal(levels(e$prediction$response), lvls)
     expect_set_equal(colnames(e$prediction$prob), lvls)
   }
-})
+}
+)

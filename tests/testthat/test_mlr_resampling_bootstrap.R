@@ -3,7 +3,8 @@ context("mlr_resampling_bootstrap")
 test_that("bootstrap has duplicated ids", {
   r = mlr_resamplings$get("bootstrap")
   expect_identical(r$duplicated_ids, TRUE)
-})
+}
+)
 
 test_that("stratification", {
   data = data.table(y = rep(letters[1:2], times = c(90, 10)), x1 = runif(100), x2 = rep(LETTERS[1:2], times = c(50, 50)))
@@ -18,10 +19,12 @@ test_that("stratification", {
     expect_equal(task$data(r$train_set(i))[y == "a", .N], 90)
     expect_equal(task$data(r$train_set(i))[y == "b", .N], 10)
   }
-})
+}
+)
 
 test_that("grouping", {
   r = mlr_resamplings$get("bootstrap")
   r$param_set$values = list(ratio = 1, repeats = 3)
   expect_grouping_works(r)
-})
+}
+)

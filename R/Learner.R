@@ -188,7 +188,8 @@ Learner = R6Class("Learner",
       assert_string(tag)
       pv = self$param_set$values
       pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = tag)]
-    }),
+    }
+  ),
 
   active = list(
     hash = function() {
@@ -211,7 +212,8 @@ Learner = R6Class("Learner",
         stop("param_set is read-only.")
       }
       private$.param_set
-    }),
+    }
+  ),
 
   private = list(
     .predict_type = NULL,

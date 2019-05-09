@@ -7,4 +7,5 @@ test_that("mlr_tasks", {
     t = mlr_tasks$get(key)
     expect_task_supervised(t)
   }
-})
+}
+)

@@ -3,7 +3,8 @@ context("Learner")
 test_that("construction", {
   l = Learner$new("test-learner", task_type = "classif", predict_types = "prob")
   expect_class(l, "Learner")
-})
+}
+)
 
 test_that("Learners are called with invoke / small footprint of call", {
   task = mlr_tasks$get("boston_housing")
@@ -15,4 +16,5 @@ test_that("Learners are called with invoke / small footprint of call", {
   expect_true(any(grepl("task$formula()", call, fixed = TRUE)))
   expect_true(any(grepl("task$data", call, fixed = TRUE)))
   expect_lt(sum(nchar(call)), 1000)
-})
+}
+)

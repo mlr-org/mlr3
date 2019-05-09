@@ -88,7 +88,8 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     missings = function(rows, cols) {
       data = self$data(rows, cols)
       map_int(data, function(x) sum(is.na(x)))
-    }),
+    }
+  ),
 
   active = list(
     rownames = function() {
@@ -105,12 +106,14 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     ncol = function() {
       ncol(private$.data)
-    }),
+    }
+  ),
 
   private = list(
     .calculate_hash = function() {
       hash(list(self$compact_seq, private$.data))
-    })
+    }
+  )
 )
 
 #' @export

@@ -77,7 +77,8 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
     hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
     data.table(task = list(task$clone(deep = TRUE)), learner = list(learner$clone(deep = TRUE)), resampling = list(instance), measures = list(measures %??% task$measures),
       iter = seq_len(instance$iters), hash = hash)
-  })
+  }
+  )
 
   log_info("Benchmarking %i experiments", nrow(grid), namespace = "mlr3")
 

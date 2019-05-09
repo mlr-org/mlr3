@@ -15,19 +15,23 @@ expect_hash_changes = function(x) {
 test_that("task$hash", {
   x = mlr_tasks$get("iris")
   expect_hash_changes(x)
-})
+}
+)
 
 test_that("learner$hash", {
   x = mlr_learners$get("classif.rpart")
   expect_hash_changes(x)
-})
+}
+)
 
 test_that("measure$hash", {
   x = mlr_measures$get("classif.ce")
   expect_hash_changes(x)
-})
+}
+)
 
 test_that("resampling$hash", {
   x = mlr_resamplings$get("cv")
   expect_hash_changes(x)
-})
+}
+)

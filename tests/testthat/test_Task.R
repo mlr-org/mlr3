@@ -4,7 +4,8 @@ test_that("Task duplicates rows", {
   task = mlr_tasks$get("iris")
   data = task$data(c(1L, 1L))
   expect_data_table(data, nrow = 2L, any.missing = FALSE)
-})
+}
+)
 
 test_that("Rows return ordered", {
   x = load_dataset("nhtemp", "datasets", TRUE)
@@ -25,7 +26,8 @@ test_that("Rows return ordered", {
 
   x = task$data(rows = sample(nrow(data), 50))
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
-})
+}
+)
 
 test_that("Rows return ordered with multiple order cols", {
   task = mlr_tasks$get("iris")
@@ -42,7 +44,8 @@ test_that("Rows return ordered with multiple order cols", {
 
   expect_true(x[, is.unsorted(Petal.Width)])
   expect_true(all(x[, is.unsorted(Petal.Width), by = Petal.Width]$V1 == FALSE))
-})
+}
+)
 
 
 test_that("Task rbind", {
@@ -59,7 +62,8 @@ test_that("Task rbind", {
   task = mlr_tasks$get("iris")
   task$select("Petal.Length")
   task$rbind(task$data())
-})
+}
+)
 
 test_that("Task cbind", {
   task = mlr_tasks$get("iris")
@@ -81,19 +85,22 @@ test_that("Task cbind", {
 
   task$cbind(iris[, character(0)])
   expect_equal(task$ncol, 7L)
-})
+}
+)
 
 test_that("task$replace_features", {
   task = mlr_tasks$get("iris")$filter(1:120)
   data = task$data(cols = c("Petal.Length", "Petal.Width"))
   task$replace_features(data)
   expect_task(task)
-})
+}
+)
 
 test_that("task$feature_types preserves key (#193)", {
   task = mlr_tasks$get("iris")$select(character(0))$cbind(iris[1:4])
   expect_data_table(task$feature_types, ncol = 2L, nrow = 4L, key = "id")
-})
+}
+)
 
 test_that("cbind/rbind works", {
   task = mlr_tasks$get("iris")
@@ -114,7 +121,8 @@ test_that("cbind/rbind works", {
   newdata = task$data("wasp")
   task$rbind(newdata)
   expect_equal(sum(grepl("^rbind_[0-9a-z]+_1", task$row_ids)), 1L)
-})
+}
+)
 
 test_that("filter works", {
   task = mlr_tasks$get("iris")
@@ -125,7 +133,8 @@ test_that("filter works", {
   expect_equal(task$nrow, 10L)
 
   expect_equal(task$row_ids, 91:100)
-})
+}
+)
 
 test_that("select works", {
   task = mlr_tasks$get("iris")
@@ -138,7 +147,8 @@ test_that("select works", {
   expect_equal(task$feature_names, "Sepal.Width")
 
   expect_error(task$select(1:4), "character")
-})
+}
+)
 
 test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
@@ -165,7 +175,8 @@ test_that("groups/weights work", {
   expect_true("groups" %nin% task$properties)
 
   expect_error(task$set_col_role(c("w", "g"), "weights"), "Multiple columns with role")
-})
+}
+)
 
 test_that("ordered factors (#95)", {
   df = data.frame(x = c(1, 2, 3), y = factor(letters[1:3], ordered = TRUE), z = c("M", "R", "R"))
@@ -174,12 +185,14 @@ test_that("ordered factors (#95)", {
   expect_subset(c("numeric", "ordered", "factor"), task$col_info$type)
   expect_set_equal(task$col_info[id == "z", levels][[1L]], c("M", "R"))
   expect_set_equal(task$col_info[id == "y", levels][[1L]], letters[1:3])
-})
+}
+)
 
 test_that("as.data.table", {
   task = mlr_tasks$get("iris")
   expect_data_table(as.data.table(task), nrow = 150, ncol = 5)
-})
+}
+)
 
 test_that("extra factor levels are stored (#179)", {
   dt = data.table(
@@ -189,7 +202,8 @@ test_that("extra factor levels are stored (#179)", {
     target = 1:5)
   task = TaskRegr$new("extra_factor_levels", as_data_backend(dt), "target")
   expect_equal(task$levels("x2")$x2, letters)
-})
+}
+)
 
 test_that("task$droplevels works", {
   dt = data.table(
@@ -203,11 +217,13 @@ test_that("task$droplevels works", {
   expect_equal(task$levels("x1")$x1, letters[1:3])
   task$droplevels()
   expect_equal(task$levels("x1")$x1, letters[1:2])
-})
+}
+)
 
 test_that("task$missings() works", {
   task = mlr_tasks$get("pima")
   x = task$missings()
   y = map_int(task$data(), function(x) sum(is.na(x)))
   expect_equal(x, y[match(names(x), names(y))])
-})
+}
+)

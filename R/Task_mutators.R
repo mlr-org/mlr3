@@ -70,7 +70,8 @@ check_new_row_ids = function(task, data, type) {
       if (!all(row_ids %in% task_row_ids)) {
         stopf("Cannot mutate task: Extra row ids")
       }
-  })
+    }
+  )
 }
 
 convert_matching_types = function(col_info, data) {
@@ -86,7 +87,8 @@ convert_matching_types = function(col_info, data) {
         stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", id, type, cur_type)
       }
     }
-  })
+  }
+  )
 }
 
 # Performs the following steps to virtually rbind data to the task:

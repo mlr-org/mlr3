@@ -22,7 +22,8 @@ test_that("param_vals", {
   expect_error({
     r$param_set$values = list(ratio = 0.5, repeats = 10L, foobar = 12)
   }, "foobar")
-})
+}
+)
 
 test_that("hashing", {
   task = mlr_tasks$get("iris")
@@ -41,4 +42,5 @@ test_that("hashing", {
     with_seed(124L, r$instantiate(task))
     expect_false(identical(r$hash, hash))
   }
-})
+}
+)

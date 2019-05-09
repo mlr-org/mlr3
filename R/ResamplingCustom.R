@@ -38,7 +38,8 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
       self$instance = instantiate_custom(self$instance, train_sets, test_sets)
       self$task_hash = task$hash
       invisible(self)
-    }),
+    }
+  ),
 
   active = list(
     iters = function() {
@@ -50,7 +51,8 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
         return(NA_character_)
       }
       hash(list(class(self), self$id, self$param_set$values, self$instance))
-    }),
+    }
+  ),
 
   private = list(
     .get_train = function(i) {
@@ -59,7 +61,8 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
     .get_test = function(i) {
       self$instance$test[[i]]
-    })
+    }
+  )
 )
 
 

@@ -31,5 +31,6 @@ MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
     initialize = function(id, range, minimize = NA, aggregator = NULL, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
       super$initialize(id, task_type = "classif", range = range, minimize = minimize, aggregator = aggregator,
         predict_type = predict_type, task_properties = task_properties, na_score = na_score, packages = packages)
-    })
+    }
+  )
 )

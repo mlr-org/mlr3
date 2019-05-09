@@ -7,7 +7,8 @@ test_that("Empty Experiment construction", {
   expect_error(e$train(), "task")
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
-})
+}
+)
 
 test_that("Partial experiments + save/restore", {
   fn = tempfile(pattern = "exp_", fileext = ".rds")
@@ -29,7 +30,8 @@ test_that("Partial experiments + save/restore", {
   saveRDS(e, file = fn)
   e = readRDS(fn)
   expect_experiment(e)
-})
+}
+)
 
 test_that("inputs are cloned", {
   task = mlr_tasks$get("iris")
@@ -38,7 +40,8 @@ test_that("inputs are cloned", {
   e = Experiment$new(task, learner)
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
-})
+}
+)
 
 test_that("$train() + $predict()", {
   task = mlr_tasks$get("iris")
@@ -66,7 +69,8 @@ test_that("$train() + $predict()", {
   e$predict(row_ids = 101:150) # performance is reset?
 
   expect_experiment(e)
-})
+}
+)
 
 test_that("Seeting seeds", {
   task = mlr_tasks$get("iris")
@@ -77,7 +81,8 @@ test_that("Seeting seeds", {
   with_seed(1, {
     p1 = e$train()$predict()$prediction$response
     p2 = e$train()$predict()$prediction$response
-  })
+  }
+  )
   expect_false(identical(p1, p2))
 
   e$seeds[] = 1:3
@@ -87,4 +92,5 @@ test_that("Seeting seeds", {
     p2 = e$train()$predict()$prediction$response
     expect_true(identical(p1, p2))
   }
-})
+}
+)

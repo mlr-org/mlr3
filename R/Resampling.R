@@ -160,7 +160,8 @@ Resampling = R6Class("Resampling",
 
     test_set = function(i) {
       private$.get_set(private$.get_test, i)
-    }),
+    }
+  ),
 
   active = list(
     is_instantiated = function() {
@@ -169,7 +170,8 @@ Resampling = R6Class("Resampling",
 
     hash = function() {
       hash(list(class(self), self$id, self$param_set$values, self$instance))
-    }),
+    }
+  ),
 
   private = list(
     .groups = NULL,
@@ -182,7 +184,8 @@ Resampling = R6Class("Resampling",
       ids = getter(i)
 
       if (is.null(private$.groups)) ids else private$.groups[ids, on = "group"][[1L]]
-    })
+    }
+  )
 )
 
 stratify = function(task, stratify) {
