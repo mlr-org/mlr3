@@ -39,21 +39,19 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
-            ParamUty$new("stratify", default = NULL),
-            ParamInt$new("repeats", lower = 1L, tags = "required"),
-            ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
+          ParamUty$new("stratify", default = NULL),
+          ParamInt$new("repeats", lower = 1L, tags = "required"),
+          ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
         ),
         param_vals = param_vals,
         duplicated_ids = TRUE
       )
-    }
-  ),
+    }),
 
   active = list(
     iters = function() {
       self$param_set$values$repeats
-    }
-  ),
+    }),
 
   private = list(
     .sample = function(ids) {
@@ -75,6 +73,5 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
 
     .combine = function(instances) {
       list(row_ids = do.call(c, map(instances, "row_ids")), M = do.call(rbind, map(instances, "M")))
-    }
-  )
+    })
 )

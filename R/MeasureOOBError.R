@@ -28,9 +28,9 @@ MeasureOOBError = R6Class("MeasureOOBError",
 
     calculate = function(experiment = NULL, prediction = experiment$prediction) {
       lrn = experiment$learner
-      if ("oob_error" %nin% lrn$properties)
+      if ("oob_error" %nin% lrn$properties) {
         return(NA_real_)
+      }
       experiment$lrn$oob_error()
-    }
-  )
+    })
 )

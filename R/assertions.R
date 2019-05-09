@@ -31,14 +31,16 @@ assert_task = function(task, feature_types = NULL, task_properties = NULL, clone
 
   if (!is.null(feature_types)) {
     tmp = setdiff(task$feature_types$type, feature_types)
-    if (length(tmp))
+    if (length(tmp)) {
       stopf("Task has the following unsupported feature types: %s", str_collapse(tmp))
+    }
   }
 
   if (!is.null(task_properties)) {
     tmp = setdiff(task_properties, task$properties)
-    if (length(tmp))
+    if (length(tmp)) {
       stopf("Task is missing the following properties: %s", str_collapse(tmp))
+    }
   }
 
   task
@@ -91,19 +93,22 @@ assert_measure = function(measure, task = NULL, predict_types = NULL, clone = FA
   measure = cast_from_dict(measure, "Measure", mlr_measures, clone, FALSE)[[1L]]
 
   if (!is.null(task)) {
-    if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type)
+    if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
       stopf("Measure '%s' is not compatible with type of task '%s' (type: %s)",
         measure$id, task$id, task$task_type)
+    }
 
     miss = setdiff(measure$task_properties, task$properties)
-    if (length(miss))
+    if (length(miss)) {
       stopf("Measure '%s' needs task properties: %s",
         measure$id, str_collapse(miss))
+    }
   }
 
   if (!is.null(predict_types)) {
-    if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% predict_types)
+    if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% predict_types) {
       stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
+    }
   }
 
   return(measure)
@@ -123,10 +128,12 @@ assert_measures = function(measures, task = NULL, predict_types = NULL, clone = 
 assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
   resampling = cast_from_dict(resampling, "Resampling", mlr_resamplings, clone, FALSE)[[1L]]
   if (!is.null(instantiated)) {
-    if (instantiated && !resampling$is_instantiated)
+    if (instantiated && !resampling$is_instantiated) {
       stopf("Resampling '%s' must be instantiated", resampling$id)
-    if (!instantiated && resampling$is_instantiated)
+    }
+    if (!instantiated && resampling$is_instantiated) {
       stopf("Resampling '%s' may not be instantiated", resampling$id)
+    }
   }
 
   return(resampling)
@@ -170,10 +177,12 @@ assert_id = function(id, .var.name = vname(id)) {
 
 assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
   qassert(row_ids, c("X", "S[1,]"), .var.name = .var.name)
-  if (is.double(row_ids))
+  if (is.double(row_ids)) {
     row_ids = as.integer(row_ids)
-  if (!is.null(type) && typeof(row_ids) != type)
+  }
+  if (!is.null(type) && typeof(row_ids) != type) {
     stopf("Assertion on '%s' failed: Must be of type '%s', not '%s'", .var.name, type, typeof(row_ids))
+  }
   return(row_ids)
 }
 
@@ -183,8 +192,9 @@ assert_set = function(x, empty = TRUE, .var.name = vname(x)) {
 
 assert_range = function(range, .var.name = vname(range)) {
   assert_numeric(range, len = 2L, any.missing = FALSE, .var.name = .var.name)
-  if (diff(range) <= 0)
+  if (diff(range) <= 0) {
     stopf("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
+  }
   range
 }
 

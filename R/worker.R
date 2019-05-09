@@ -1,4 +1,5 @@
 train_worker = function(e, ctrl) {
+
   abort = function(e, ...) {
     msg = sprintf(as.character(e), ...)
     stop(errorCondition(msg, learner = learner, task = task, class = "trainError"))
@@ -11,14 +12,17 @@ train_worker = function(e, ctrl) {
   wrapper = function(learner, task) {
     result = tryCatch(learner$train(task), error = abort)
 
-    if (is.null(result))
-     abort("Learner '%s' returned NULL during train", learner$id)
+    if (is.null(result)) {
+      abort("Learner '%s' returned NULL during train", learner$id)
+    }
 
-    if (!inherits(result, "Learner"))
+    if (!inherits(result, "Learner")) {
       abort("Learner '%s' returned '%s' during train(), but needs to return a Learner", learner$id, as_short_string(result))
+    }
 
-    if (is.null(result$model))
+    if (is.null(result$model)) {
       abort("Learner '%s' did not store a model during train", learner$id)
+    }
 
     result
   }
@@ -41,8 +45,9 @@ train_worker = function(e, ctrl) {
   # Restore the learner to the untrained learner otherwise
   if (!is.null(result$train_log)) {
     errors = result$train_log[get("class") == "error", .N]
-    if (errors > 0L)
+    if (errors > 0L) {
       result$learner = data$learner$clone(deep = TRUE)
+    }
   }
 
   # if there is a fallback learner defined, also fit fallback learner
@@ -52,13 +57,16 @@ train_worker = function(e, ctrl) {
     require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", fb$id))
 
     ok = try(fb$train(task))
-    if (inherits(ok, "try-error"))
+    if (inherits(ok, "try-error")) {
       abort("Fallback learner '%s' failed during train() with error: %s", fb$id, as.character(ok))
-    if (!inherits(ok, "Learner"))
+    }
+    if (!inherits(ok, "Learner")) {
       abort("Fallback-Learner '%s' returned '%s' during train(), but needs to return a Learner",
         fb$id, as_short_string(result))
-    if (is.null(ok$model))
+    }
+    if (is.null(ok$model)) {
       abort("Fallback learner '%s' did not store a model during train", fb$id)
+    }
 
     result$learner$fallback = ok
   }
@@ -69,6 +77,7 @@ train_worker = function(e, ctrl) {
 
 
 predict_worker = function(e, ctrl) {
+
   abort = function(e, ...) {
     msg = sprintf(as.character(e), ...)
     stop(errorCondition(msg, learner = learner, task = task, class = "predictError"))
@@ -79,16 +88,19 @@ predict_worker = function(e, ctrl) {
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(learner, task) {
-    if (is.null(learner$model))
+    if (is.null(learner$model)) {
       abort("No trained model available")
+    }
 
     result = tryCatch(learner$predict(task), error = abort)
 
-    if (is.null(result))
+    if (is.null(result)) {
       abort("Learner '%s' returned NULL during predict()", learner$id)
+    }
 
-    if (!inherits(result, "Prediction"))
+    if (!inherits(result, "Prediction")) {
       abort("Learner '%s' returned '%s' during predict(), but needs to return a Prediction object", learner$id, as_short_string(result))
+    }
 
     return(result)
   }
@@ -96,8 +108,9 @@ predict_worker = function(e, ctrl) {
   data = e$data
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
   learner = data$learner
-  if (is.null(learner$model))
+  if (is.null(learner$model)) {
     learner = learner$fallback
+  }
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
@@ -111,11 +124,13 @@ predict_worker = function(e, ctrl) {
       require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", fb$id))
 
       ok = try(fb$predict(task))
-      if (inherits(ok, "try-error"))
+      if (inherits(ok, "try-error")) {
         abort("Fallback learner '%s' failed during predict() with error: %s", fb$id, as.character(ok))
-      if (!inherits(ok, "Prediction"))
+      }
+      if (!inherits(ok, "Prediction")) {
         abort("Fallback-Learner '%s' returned '%s' during predict(), but needs to return a Prediction",
           fb$id, as_short_string(res))
+      }
 
       res$prediction = ok
     }
@@ -127,6 +142,7 @@ predict_worker = function(e, ctrl) {
 
 
 score_worker = function(e, ctrl) {
+
   data = e$data
   measures = data$measures
   pkgs = unique(unlist(map(measures, "packages")))
@@ -141,7 +157,9 @@ score_worker = function(e, ctrl) {
     }
     tryCatch(m$calculate(experiment = e), error = abort)
   }
-  score = function() { set_names(lapply(measures, score_one), ids(measures)) }
+  score = function() {
+    set_names(lapply(measures, score_one), ids(measures))
+  }
 
   # call m$score with local encapsulation
   enc = encapsulate("none")
@@ -152,6 +170,7 @@ score_worker = function(e, ctrl) {
 
 
 experiment_worker = function(iteration, task, learner, resampling, measures, ctrl, remote = FALSE) {
+
   if (remote) {
     # restore the state of the master session
     # currently, this only affects logging as we do not use any global options
@@ -173,8 +192,9 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   tmp = score_worker(e, ctrl)
   e$data = insert_named(e$data, tmp)
 
-  if (!ctrl$store_prediction)
+  if (!ctrl$store_prediction) {
     e$data["prediction"] = list(NULL)
+  }
 
   if (!ctrl$store_model) {
     e$data$learner$model = NULL

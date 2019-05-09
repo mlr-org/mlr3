@@ -106,12 +106,14 @@ Measure = R6Class("Measure",
     packages = NULL,
 
     initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
+
       self$id = assert_id(id)
       self$task_type = task_type
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize, na.ok = TRUE)
-      if (!is.null(aggregator))
+      if (!is.null(aggregator)) {
         self$aggregator = assert_function(aggregator)
+      }
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types)
@@ -138,12 +140,10 @@ Measure = R6Class("Measure",
     aggregate = function(rr) {
       fun = self$aggregator %??% mean
       fun(rr$performance(self$id))
-    }
-  ),
+    }),
 
   active = list(
     hash = function() {
       hash(list(class(self), self$id, as.character(body(self$calculate))))
-    }
-  )
+    })
 )

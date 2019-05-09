@@ -238,6 +238,7 @@ Task = R6Class("Task",
     measures = NULL,
 
     initialize = function(id, task_type, backend) {
+
       self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       if (!inherits(backend, "DataBackend")) {
@@ -344,8 +345,7 @@ Task = R6Class("Task",
       lvls = self$backend$distinct(rows = self$row_ids, cols = cols)
       self$col_info = ujoin(self$col_info, enframe(lvls, "id", "levels"), key = "id")
       invisible(self)
-    }
-  ),
+    }),
 
   active = list(
     hash = function() {
@@ -385,20 +385,21 @@ Task = R6Class("Task",
 
     groups = function() {
       groups = self$col_roles$groups
-      if (length(groups) == 0L)
+      if (length(groups) == 0L) {
         return(NULL)
+      }
       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, groups))
       setnames(data, names(data), c("row_id", "group"))[]
     },
 
     weights = function() {
       weights = self$col_roles$weights
-      if (length(weights) == 0L)
+      if (length(weights) == 0L) {
         return(NULL)
+      }
       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights))
       setnames(data, names(data), c("row_id", "weight"))[]
-    }
-  ),
+    }),
 
   private = list(
     .measures = list(),
@@ -407,19 +408,20 @@ Task = R6Class("Task",
       # NB: DataBackends are never copied!
       # TODO: check if we can assume col_info to be read-only
       if (name == "col_info") copy(value) else value
-    }
-  )
+    })
 )
 
 task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table") {
+
   assert_choice(data_format, self$backend$data_formats)
 
   if (is.null(rows)) {
     selected_rows = self$row_roles$use
   } else {
     assert_subset(rows, self$row_roles$use)
-    if (is.double(rows))
+    if (is.double(rows)) {
       rows = as.integer(rows)
+    }
     selected_rows = rows
   }
 
@@ -432,8 +434,9 @@ task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table")
 
   order = self$col_roles$order
   if (length(order)) {
-    if (data_format != "data.table")
+    if (data_format != "data.table") {
       stopf("Ordering only supported for data_format 'data.table'")
+    }
     order_cols = setdiff(order, selected_cols)
     selected_cols = union(selected_cols, order_cols)
   } else {
@@ -461,6 +464,7 @@ task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table")
 }
 
 task_print = function(self) {
+
   catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
   catf(str_indent("Target:", str_collapse(self$target_names)))
 
@@ -472,12 +476,15 @@ task_print = function(self) {
     pmap(types, function(type, N, feats) catf(str_indent(sprintf("* %s (%i):", type, N), feats)))
   }
 
-  if (length(self$col_roles$order))
+  if (length(self$col_roles$order)) {
     catf(str_indent("Order by:", self$col_roles$order))
-  if ("groups" %in% self$properties)
+  }
+  if ("groups" %in% self$properties) {
     catf(str_indent("Groups:", self$col_roles$groups))
-  if ("weights" %in% self$properties)
+  }
+  if ("weights" %in% self$properties) {
     catf(str_indent("Weights:", self$col_roles$weights))
+  }
 
   catf(str_indent("\nPublic:", str_r6_interface(self)))
 }

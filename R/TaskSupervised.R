@@ -53,6 +53,5 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
 
     truth = function(row_ids = NULL) {
       self$data(row_ids, cols = self$target_names)
-    }
-  )
+    })
 )

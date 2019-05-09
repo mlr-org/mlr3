@@ -69,11 +69,10 @@ Log = R6Class("Log", cloneable = FALSE,
 
     append = function(cl, msg) {
       self$log = rbind(self$log, data.table(
-          class = assert_choice(cl, mlr_reflections$log_classes),
-          msg = assert_string(msg))
+        class = assert_choice(cl, mlr_reflections$log_classes),
+        msg = assert_string(msg))
       )
-    }
-  ),
+    }),
 
   active = list(
     warnings = function() {
@@ -82,8 +81,7 @@ Log = R6Class("Log", cloneable = FALSE,
 
     errors = function() {
       self$log[list("error"), "msg", on = "class", nomatch = 0L, with = FALSE][[1L]]
-    }
-  )
+    })
 )
 
 log_print = function(self) {

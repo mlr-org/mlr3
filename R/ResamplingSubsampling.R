@@ -34,24 +34,22 @@
 #' rss$instance$train # list of index vectors
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
-    initialize = function(id = "subsampling", param_vals = list(repeats = 30L, ratio = 2/3)) {
+    initialize = function(id = "subsampling", param_vals = list(repeats = 30L, ratio = 2 / 3)) {
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
-            ParamUty$new("stratify", default = NULL),
-            ParamInt$new("repeats", lower = 1, tags = "required"),
-            ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
+          ParamUty$new("stratify", default = NULL),
+          ParamInt$new("repeats", lower = 1, tags = "required"),
+          ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
         ),
         param_vals = param_vals
       )
-    }
-  ),
+    }),
 
   active = list(
     iters = function() {
       self$param_set$values$repeats
-    }
-  ),
+    }),
 
   private = list(
     .sample = function(ids) {
@@ -76,9 +74,8 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
         n = length(lhs$row_ids)
         list(train =
           Map(function(x, y) c(x, y + n), lhs$train, rhs$train),
-          row_ids = c(lhs$row_ids, rhs$row_ids)
+        row_ids = c(lhs$row_ids, rhs$row_ids)
         )
       }, instances)
-    }
-  )
+    })
 )
