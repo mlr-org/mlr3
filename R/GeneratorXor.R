@@ -17,13 +17,11 @@ GeneratorXor = R6Class("GeneratorXor",
         ParamInt$new("d", lower = 1L)
       ))
       super$initialize(id = id, "classif", "mlbench", param_set)
-    }
-  ),
+    }),
 
   private = list(
     .generate = function(n) {
       data = invoke(mlbench::mlbench.xor, n = n, .args = self$param_set$values)
       TaskClassif$new(sprintf("%s_%i", self$id, n), as.data.frame(data), target = "classes")
-    }
-  )
+    })
 )

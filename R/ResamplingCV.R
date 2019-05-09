@@ -37,19 +37,17 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
-            ParamUty$new("stratify", default = NULL),
-            ParamInt$new("folds", lower = 1L, tags = "required")
+          ParamUty$new("stratify", default = NULL),
+          ParamInt$new("folds", lower = 1L, tags = "required")
         )),
         param_vals = param_vals
       )
-    }
-  ),
+    }),
 
   active = list(
     iters = function() {
       self$param_set$values$folds
-    }
-  ),
+    }),
 
   private = list(
     .sample = function(ids) {
@@ -74,6 +72,5 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
 
     deep_clone = function(name, value) {
       if (name == "instance") copy(value) else value
-    }
-  )
+    })
 )

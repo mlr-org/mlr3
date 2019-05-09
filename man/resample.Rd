@@ -34,8 +34,8 @@ Runs a resampling (possibly in parallel).
 }
 \examples{
 \dontshow{
-   .threshold = logger::log_threshold(namespace = "mlr3")
-   logger::log_threshold(logger::WARN, namespace = "mlr3")
+.threshold = logger::log_threshold(namespace = "mlr3")
+logger::log_threshold(logger::WARN, namespace = "mlr3")
 }
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
@@ -62,8 +62,7 @@ rr.featureless = resample(task, "classif.featureless", resampling)
 # Combine the ResampleResults into a BenchmarkResult
 bmr = rr$combine(rr.featureless)
 bmr$aggregated(objects = FALSE)
-
 \dontshow{
-   logger::log_threshold(.threshold, namespace = "mlr3")
+logger::log_threshold(.threshold, namespace = "mlr3")
 }
 }

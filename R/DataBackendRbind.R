@@ -5,6 +5,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     cols = NULL,
 
     initialize = function(b1, b2, rows_b1, rows_b2) {
+
       assert_backend(b1)
       assert_backend(b2)
       assert_subset(rows_b1, b1$rownames)
@@ -12,15 +13,18 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       pk = b1$primary_key
 
       data_formats = intersect(b1$data_formats, b2$data_formats)
-      if (length(data_formats) == 0L)
+      if (length(data_formats) == 0L) {
         stopf("There is no common data format for the backends to rbind")
+      }
 
-      if (pk != b2$primary_key)
+      if (pk != b2$primary_key) {
         stopf("All backends to rbind must have the same primary_key '%s'", pk)
+      }
 
       i = which(rows_b1 %in% rows_b2)
-      if (length(i))
+      if (length(i)) {
         stopf("Ambiguous row ids: %s", str_collapse(rows_b1[i], quote = "'", n = 10L))
+      }
 
       self$rows = list(b1 = rows_b1, b2 = rows_b2)
       self$cols = intersect(b1$colnames, b2$colnames)
@@ -49,10 +53,11 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       h1 = private$.data$b1$head(n)
       h2 = private$.data$b2$head(n)
 
-      if (nrow(h1) < n)
+      if (nrow(h1) < n) {
         rbind(h1[, cols, with = FALSE], head(h2[, cols, with = FALSE], n - nrow(h1)))
-      else
+      } else {
         h1[, cols, with = FALSE]
+      }
     },
 
     distinct = function(rows, cols) {
@@ -67,8 +72,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       m1 = private$.data$b1$missings(rows, cols)
       m2 = private$.data$b2$missings(rows, cols)
       m1 + m2[match(names(m1), names(m2))]
-    }
-  ),
+    }),
 
   active = list(
     rownames = function() {
@@ -85,13 +89,11 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
 
     ncol = function() {
       length(self$cols)
-    }
-  ),
+    }),
 
   private = list(
     .calculate_hash = function() {
       data = private$.data
       hash(c(data$b1$hash, data$b2$hash))
-    }
-  )
+    })
 )

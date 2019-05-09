@@ -18,8 +18,7 @@ LearnerTest = R6Class("LearnerTest", inherit = LearnerClassif,
 
     predict = function(task) {
       PredictionClassif$new(response = task$truth(1), task$nrow)
-    }
-  )
+    })
 )
 
 test_that("Handling of training errors", {

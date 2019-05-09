@@ -69,16 +69,19 @@ TaskClassif = R6Class("TaskClassif",
     negative = NULL,
 
     initialize = function(id, backend, target, positive = NULL) {
+
       assert_string(target)
       super$initialize(id = id, task_type = "classif", backend = backend, target = target)
 
       info = self$col_info[id == target]
       levels = info$levels[[1L]]
 
-      if (info$type %nin% c("factor", "character"))
+      if (info$type %nin% c("factor", "character")) {
         stopf("Target column '%s' must be a factor or character", target)
-      if (length(levels) < 2L)
+      }
+      if (length(levels) < 2L) {
         stopf("Target column '%s' must have at least two levels", target)
+      }
 
       if (length(levels) == 2L) {
         if (is.null(positive)) {
@@ -93,8 +96,9 @@ TaskClassif = R6Class("TaskClassif",
 
         self$properties = "twoclass"
       } else {
-        if (!is.null(positive))
+        if (!is.null(positive)) {
           stopf("Setting the positive class is only feasible for binary classification")
+        }
         self$positive = self$negative = NA_character_
         self$properties = "multiclass"
       }
@@ -105,8 +109,7 @@ TaskClassif = R6Class("TaskClassif",
     truth = function(row_ids = NULL) {
       res = self$data(row_ids, cols = self$target_names)[[1L]]
       factor(res, levels = self$class_names)
-    }
-  ),
+    }),
 
   active = list(
     class_names = function() {
