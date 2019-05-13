@@ -14,6 +14,10 @@
 #' The aim is to predict creditworthiness, labeled as "good" and "bad".
 #' Positive class is set to label "good".
 #'
+#' The default performance measure uses [MeasureClassifCosts]: Correct classifications
+#' have zero cost, while incorrectly predicting "good" yields a cost of 5 incorrectly
+#' predicting "bad" yields a cost of 1.
+#'
 #' @source
 #' Data set originally published on [UCI](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)).
 #' This is the preprocessed version taken from package \CRANpkg{evtree}.
@@ -30,5 +34,9 @@ NULL
 load_task_german_credit = function(id = "german_credit") {
   b = as_data_backend(readRDS(system.file("extdata", "german_credit.rds", package = "mlr3")))
   b$hash = "_mlr3_tasks_german_credit_"
-  TaskClassif$new(id, b, target = "credit_risk", positive = "good")
+  task = TaskClassif$new(id, b, target = "credit_risk", positive = "good")
+  costs = matrix(c(0, 1, 5, 0), nrow = 2)
+  dimnames(costs) = list(predicted = task$class_names, truth = task$class_names)
+  task$measures = list(MeasureClassifCosts$new("german_credit_costs", costs))
+  task
 }

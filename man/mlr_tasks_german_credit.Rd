@@ -20,6 +20,10 @@ Von-Melle-Park 5\cr
 A classification task for the german credit data set.
 The aim is to predict creditworthiness, labeled as "good" and "bad".
 Positive class is set to label "good".
+
+The default performance measure uses \link{MeasureClassifCosts}: Correct classifications
+have zero cost, while incorrectly predicting "good" yields a cost of 5 incorrectly
+predicting "bad" yields a cost of 1.
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("german_credit")

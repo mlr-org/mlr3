@@ -27,4 +27,23 @@ If \code{TRUE}, calculate the mean costs instead of the total costs.
 }
 }
 
+\examples{
+# get a cost sensitive task
+task = mlr_tasks$get("german_credit")
+
+# cost matrix as given on the UCI page of the german credit data set
+# https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)
+costs = matrix(c(0, 5, 1, 0), nrow = 2)
+dimnames(costs) = list(truth = task$class_names, predicted = task$class_names)
+print(costs)
+
+# mlr3 needs truth in columns, predictions in rows
+costs = t(costs)
+
+# create measure which calculates the absolute costs
+m = MeasureClassifCosts$new(id = "german_credit_costs", costs, normalize = FALSE)
+
+# fit models and calculate the costs
+resample(task, "classif.rpart", "cv3", measure = m)
+}
 \keyword{datasets}
