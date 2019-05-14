@@ -38,7 +38,7 @@ test_that("predict on newdata works / no target column", {
   e = Experiment$new(task$clone()$filter(train), "regr.featureless")
   e$train()
 
-  newdata = task$clone()$filter(test)$select(task$feature_names)$data()
+  newdata = remove_named(task$clone()$filter(test)$data(), task$target_names)
   e$predict(newdata = newdata)
 
   expect_data_table(as.data.table(e$prediction), nrow = length(test))
