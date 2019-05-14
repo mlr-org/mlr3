@@ -64,16 +64,17 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
     calculate = function(experiment = NULL, prediction = experiment$prediction) {
       costs = assert_cost_matrix(private$.costs, experiment$task)
       confusion = prediction$confusion
+
+      # reorder rows / cols if necessary
       ii = match(rownames(confusion), rownames(costs))
       jj = match(colnames(confusion), colnames(costs))
       if (is.unsorted(ii) || is.unsorted(jj)) {
         confusion = confusion[ii, jj]
       }
 
+      perf = sum(confusion * costs)
       if (self$normalize) {
-        mean(confusion * costs)
-      } else {
-        sum(confusion * costs)
+        perf = perf / sum(confusion)
       }
     }),
 
