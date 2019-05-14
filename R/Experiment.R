@@ -350,6 +350,11 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
 
   # TODO: we could allow new_data to be a backend / task to avoid duplication
   if (!is.null(newdata)) {
+    assert_data_frame(newdata)
+    tn = self$task$target_names
+    if (any(tn %nin% colnames(newdata))) {
+      newdata[, tn] = NA
+    }
     old_row_ids = self$data$task$row_ids
     self$data$task = self$data$task$clone(deep = TRUE)$rbind(newdata)
     row_ids = setdiff(self$data$task$row_ids, old_row_ids)

@@ -60,7 +60,7 @@ predictionregr_initialize = function(self, task, row_ids, truth, response, se) {
   self$row_ids = assert_atomic_vector(row_ids)
   n = length(row_ids)
 
-  self$truth = assert_numeric(truth, len = n, any.missing = FALSE)
+  self$truth = assert_numeric(truth, len = n)
   self$response = assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
   self$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
   self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]

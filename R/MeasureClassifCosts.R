@@ -76,6 +76,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       if (self$normalize) {
         perf = perf / sum(confusion)
       }
+      perf
     }),
 
   active = list(

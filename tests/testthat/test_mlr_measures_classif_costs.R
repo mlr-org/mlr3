@@ -29,7 +29,7 @@ test_that("multiclass", {
   m = mlr_measures$get("classif.costs", costs = costs, normalize = FALSE)
   task$measures = list(m, mlr_measures$get("classif.ce"))
 
-  e = Experiment$new(task, mlr_learners$get("classif.featureless"))$train()$predict()$score()
+  e = Experiment$new(task, "classif.featureless")$train()$predict()$score()
   perf = e$performance
 
   expect_equal(perf[["classif.costs"]], perf[["classif.ce"]] * task$nrow)

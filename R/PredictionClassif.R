@@ -143,11 +143,11 @@ predictionclassif_initialize = function(self, task, row_ids, truth, response, pr
   n = length(row_ids)
 
   if (is.null(task)) {
-    self$truth = assert_factor(truth, len = n, any.missing = FALSE)
+    self$truth = assert_factor(truth, len = n)
     lvls = levels(truth)
   } else {
     lvls = task$class_names
-    self$truth = as_factor(truth, levels = lvls, len = n, any.missing = FALSE)
+    self$truth = as_factor(truth, levels = lvls, len = n)
   }
 
   if (!is.null(response)) {
