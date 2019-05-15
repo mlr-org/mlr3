@@ -10,7 +10,6 @@
 #' @export
 MeasureClassifCE = R6Class("MeasureClassifCE",
   inherit = MeasureClassif,
-  cloneable = FALSE,
   public = list(
     initialize = function() {
       super$initialize(

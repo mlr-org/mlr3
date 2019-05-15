@@ -10,7 +10,6 @@
 #' @export
 MeasureRegrMAE = R6Class("MeasureRegrMAE",
   inherit = MeasureRegr,
-  cloneable = FALSE,
   public = list(
     initialize = function() {
       super$initialize(

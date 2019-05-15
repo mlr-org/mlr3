@@ -76,3 +76,16 @@ test_that("inputs are cloned", {
   expect_different_address(learner, e$learner)
   expect_different_address(resampling, e$data$resampling)
 })
+
+test_that("memory footprint", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.featureless")
+  resampling = mlr_resamplings$get("cv3")
+  rr = resample(task, learner, resampling)
+  x = rr$data
+
+  expect_equal(uniqueN(map_chr(x$learner, address)), 3L)
+  expect_equal(uniqueN(map_chr(x$task, address)), 1L)
+  expect_equal(uniqueN(map_chr(x$resampling, address)), 1L)
+  expect_equal(uniqueN(map_chr(x$measures, address)), 1L)
+})

@@ -226,7 +226,6 @@
 #' # Add new column "foo"
 #' task$cbind(data.frame(foo = 1:150))
 Task = R6Class("Task",
-  cloneable = TRUE,
   public = list(
     id = NULL,
     task_type = NULL,

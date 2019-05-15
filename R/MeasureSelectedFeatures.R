@@ -11,7 +11,6 @@
 #' @export
 MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
   inherit = Measure,
-  cloneable = FALSE,
   public = list(
     normalize = NULL,
 

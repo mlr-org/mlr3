@@ -5,7 +5,8 @@ tasks$iris$measures = mlr_measures$mget("classif.acc")
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("cv")
 resamplings$cv$param_set$values = list(folds = 3)
-bmr = benchmark(design = expand_grid(tasks, learners, resamplings))
+design = expand_grid(tasks, learners, resamplings)
+bmr = benchmark(design)
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
@@ -91,7 +92,6 @@ test_that("inputs are cloned", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("holdout")
-  resampling$instantiate(task)
 
   bmr = benchmark(data.table(task = list(task), learner = list(learner), resampling = list(resampling)))
   e = bmr$resample_result(bmr$resample_results$hash)$experiment(1)
@@ -99,6 +99,18 @@ test_that("inputs are cloned", {
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
   expect_different_address(resampling, e$data$resampling)
+})
+
+test_that("memory footprint", {
+  expect_equal(uniqueN(map_chr(design$task, address)), 2L)
+  expect_equal(uniqueN(map_chr(design$learner, address)), 2L)
+  expect_equal(uniqueN(map_chr(design$resampling, address)), 2L)
+
+  x = bmr$data
+  expect_equal(uniqueN(map_chr(x$learner, address)), 12L)
+  expect_equal(uniqueN(map_chr(x$task, address)), 2L)
+  expect_equal(uniqueN(map_chr(x$resampling, address)), 2L)
+  expect_equal(uniqueN(map_chr(x$measures, function(x) address(x[[1]]))), 2L)
 })
 
 test_that("resample with replacement measures", {

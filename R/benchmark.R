@@ -63,19 +63,29 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
   assert_list(design$learner, "Learner")
   assert_list(design$resampling, "Resampling")
   if (!is.null(measures)) {
-    assert_measures(measures)
+    measures = assert_measures(measures, clone = TRUE)
   }
-  design = as.data.table(design) # ensures that the table is copied
   ctrl = mlr_control(ctrl)
 
+  # clone inputs
+  design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
+  # TODO: deal with resamplings
+  if (is.null(measures)) {
+    design[, "measures" := list(list(task[[1L]]$measures)), by = list(hashes(task))]
+  } else {
+    design[, "measures" := list(list(lapply(measures, function(x) x$clone())))]
+  }
+
   # expand the design: add rows for each resampling iteration
-  grid = pmap_dtr(design, function(task, learner, resampling) {
-    instance = resampling$clone()
-    if (!instance$is_instantiated) {
+  grid = pmap_dtr(design, function(task, learner, resampling, measures) {
+    if (resampling$is_instantiated) {
+      instance = resampling
+    } else {
+      instance = resampling$clone()
       instance = instance$instantiate(task)
     }
     hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
-    data.table(task = list(task$clone(deep = TRUE)), learner = list(learner$clone(deep = TRUE)), resampling = list(instance), measures = list(measures %??% task$measures),
+    data.table(task = list(task), learner = list(learner$clone(deep = TRUE)), resampling = list(instance), measures = list(measures),
       iter = seq_len(instance$iters), hash = hash)
   })
 
