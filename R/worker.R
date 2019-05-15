@@ -109,7 +109,11 @@ predict_worker = function(e, ctrl) {
   task = data$task$clone(deep = TRUE)$filter(e$test_set)
   learner = data$learner
   if (is.null(learner$model)) {
-    learner = learner$fallback
+    if (!is.null(learner$fallback)) {
+      learner = learner$fallback
+    } else {
+      abort("No model fitted during train()")
+    }
   }
 
   # call predict with encapsulation
