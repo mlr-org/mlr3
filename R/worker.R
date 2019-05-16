@@ -74,7 +74,7 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 }
 
 
-predict_worker = function(e, ctrl) {
+predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
 
   abort = function(e, ...) {
     msg = sprintf(as.character(e), ...)
@@ -103,9 +103,7 @@ predict_worker = function(e, ctrl) {
     return(result)
   }
 
-  data = e$data
-  task = data$task$clone(deep = TRUE)$filter(e$test_set)
-  learner = data$learner
+  task = task$clone(deep = TRUE)$filter(test_set)
   if (is.null(learner$model)) {
     if (!is.null(learner$fallback)) {
       learner = learner$fallback
@@ -116,7 +114,7 @@ predict_worker = function(e, ctrl) {
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
-  res = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = e$seeds[["predict"]]),
+  res = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed),
     c("prediction", "predict_log", "predict_time"))
 
   if (!is.null(res$predict_log) && res$predict_log[get("class") == "error", .N] > 0L) {
@@ -189,7 +187,8 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   tmp = train_worker(task, learner, train_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
-  tmp = predict_worker(e, ctrl)
+  test_set = resampling$test_set(iteration)
+  tmp = predict_worker(task, e$learner, test_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
   tmp = score_worker(e, ctrl)

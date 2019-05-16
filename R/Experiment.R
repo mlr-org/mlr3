@@ -331,7 +331,7 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   self$data$iteration = 1L
 
   log_info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
-  value = train_worker(self$task, self$learner, self$train_set, ctrl = ctrl, self$seeds[["train"]])
+  value = train_worker(self$task, self$learner, self$train_set, ctrl, self$seeds[["train"]])
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
@@ -364,7 +364,7 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
 
   log_info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
-  value = predict_worker(self, ctrl = ctrl)
+  value = predict_worker(self$task, self$learner, self$test_set, ctrl, self$seeds[["predict"]])
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
