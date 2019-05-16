@@ -1,4 +1,4 @@
-context("train_worker")
+context("worker")
 
 LearnerTest = R6Class("LearnerTest", inherit = LearnerClassif,
   public = list(
@@ -17,7 +17,7 @@ LearnerTest = R6Class("LearnerTest", inherit = LearnerClassif,
     },
 
     predict = function(task) {
-      PredictionClassif$new(response = task$truth(1), task$nrow)
+      PredictionClassif$new(task, response = rep(task$truth(1), task$nrow))
     })
 )
 
@@ -44,4 +44,14 @@ test_that("Handling of training errors", {
 
   res = train_worker(e, mlr_control(encapsulate_train = "evaluate"))
   expect_string(Log$new(res$train_log)$errors, fixed = "store a model")
+})
+
+test_that("experiment_worker", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.featureless")
+  resampling = mlr_resamplings$get("cv3")$instantiate(task)
+  iteration = 1L
+  measures = task$measures
+
+  e = Experiment$new(task = mlr_tasks$get("sonar"), learner = learner)
 })
