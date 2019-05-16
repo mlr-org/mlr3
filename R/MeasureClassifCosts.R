@@ -44,7 +44,6 @@
 #' resample(task, "classif.rpart", "cv3", measure = m)
 MeasureClassifCosts = R6Class("MeasureClassifCosts",
   inherit = MeasureClassif,
-  cloneable = FALSE,
   public = list(
     normalize = NULL,
 

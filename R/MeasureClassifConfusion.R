@@ -71,7 +71,6 @@ confusion_measure_info = setkeyv(rowwise_table(
 #' confusion_measures(m, type = c("precision", "recall"))
 MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
   inherit = MeasureClassif,
-  cloneable = FALSE,
   public = list(
     type = NULL,
     initialize = function(id = type, type) {

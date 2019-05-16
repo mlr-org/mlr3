@@ -11,7 +11,6 @@
 #' @export
 MeasureOOBError = R6Class("MeasureOOBError",
   inherit = Measure,
-  cloneable = FALSE,
   public = list(
     parts = NULL,
 
