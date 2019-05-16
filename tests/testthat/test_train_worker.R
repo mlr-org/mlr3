@@ -28,7 +28,7 @@ test_that("Handling of training errors", {
   e$data$resampling = r
   e$data$iteration = 1L
 
-  res = train_worker(e$clone(), mlr_control())
+  res = train_worker(e$task, e$learner, e$train_set, mlr_control())
   expect_list(res, len = 3)
   expect_learner(res$learner)
   expect_data_table(res$train_log, null.ok = TRUE)
@@ -40,8 +40,8 @@ test_that("Handling of training errors", {
   e$data$resampling = r
   e$data$iteration = 1L
 
-  expect_error(train_worker(e, mlr_control()), "store a model", class = "trainError")
+  expect_error(train_worker(e$task, e$learner, e$train_set, mlr_control()), "store a model", class = "trainError")
 
-  res = train_worker(e, mlr_control(encapsulate_train = "evaluate"))
+  res = train_worker(e$task, e$learner, e$train_set, mlr_control(encapsulate_train = "evaluate"))
   expect_string(Log$new(res$train_log)$errors, fixed = "store a model")
 })
