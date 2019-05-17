@@ -11,7 +11,7 @@ Authors@R:
       person(given = "Bernd",
              family = "Bischl",
              role = "aut",
-             email = "bernd_bischl@gmx.de",
+             email = "bernd_bischl@gmx.net",
              comment = c(ORCID = "0000-0001-6002-6980")),
       person(given = "Jakob",
              family = "Richter",
