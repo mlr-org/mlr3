@@ -1,4 +1,4 @@
-train_worker = function(e, ctrl) {
+train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 
   abort = function(e, ...) {
     msg = sprintf(as.character(e), ...)
@@ -27,26 +27,24 @@ train_worker = function(e, ctrl) {
     result
   }
 
-  data = e$data
-
   # we are going to change learner$model, so make sure we clone it first
-  learner = data$learner$clone(deep = TRUE)
+  learner = learner$clone(deep = TRUE)
 
   # subset task
-  task = data$task$clone(deep = TRUE)$filter(e$train_set)
+  task = task$clone(deep = TRUE)$filter(train_set)
 
   log_debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
 
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
-  result = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = e$seeds[["train"]]),
+  result = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed),
     c("learner", "train_log", "train_time"))
 
   # Restore the learner to the untrained learner otherwise
   if (!is.null(result$train_log)) {
     errors = result$train_log[get("class") == "error", .N]
     if (errors > 0L) {
-      result$learner = data$learner$clone(deep = TRUE)
+      result$learner = learner$clone(deep = TRUE)
     }
   }
 
@@ -76,7 +74,7 @@ train_worker = function(e, ctrl) {
 }
 
 
-predict_worker = function(e, ctrl) {
+predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
 
   abort = function(e, ...) {
     msg = sprintf(as.character(e), ...)
@@ -105,9 +103,7 @@ predict_worker = function(e, ctrl) {
     return(result)
   }
 
-  data = e$data
-  task = data$task$clone(deep = TRUE)$filter(e$test_set)
-  learner = data$learner
+  task = task$clone(deep = TRUE)$filter(test_set)
   if (is.null(learner$model)) {
     if (!is.null(learner$fallback)) {
       learner = learner$fallback
@@ -118,7 +114,7 @@ predict_worker = function(e, ctrl) {
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
-  res = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = e$seeds[["predict"]]),
+  res = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed),
     c("prediction", "predict_log", "predict_time"))
 
   if (!is.null(res$predict_log) && res$predict_log[get("class") == "error", .N] > 0L) {
@@ -173,6 +169,8 @@ score_worker = function(e, ctrl) {
 }
 
 
+# this gem here is parallelized.
+# thus, we want the in- and output to be minimal
 experiment_worker = function(iteration, task, learner, resampling, measures, ctrl, remote = FALSE) {
 
   if (remote) {
@@ -187,10 +185,10 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
 
   log_info("Running learner '%s' on task '%s' (iteration %i/%i)'", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
 
-  tmp = train_worker(e, ctrl)
+  tmp = train_worker(e$task, e$learner, e$train_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
-  tmp = predict_worker(e, ctrl)
+  tmp = predict_worker(e$task, e$learner, e$test_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
   tmp = score_worker(e, ctrl)
