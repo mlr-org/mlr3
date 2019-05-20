@@ -39,8 +39,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         location = stats::median(x)
         dispersion = stats::mad(x, center = location)
       }
-      self$model = set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "featureless")
-      self
+      set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "featureless")
     },
 
     predict = function(task) {

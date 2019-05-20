@@ -73,7 +73,7 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
   if (is.null(measures)) {
     design[, "measures" := list(list(task[[1L]]$measures)), by = list(hashes(task))]
   } else {
-    design[, "measures" := list(list(lapply(measures, function(x) x$clone())))]
+    design[, "measures" := list(list(measures))]
   }
 
   # expand the design: add rows for each resampling iteration
@@ -111,7 +111,7 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
     )
   }
 
-  remove_named(grid, c("iter", "learner"))
+  remove_named(grid, "iter")
   grid = ref_cbind(grid, combine_experiments(tmp))
 
   log_info("Finished benchmark", namespace = "mlr3")

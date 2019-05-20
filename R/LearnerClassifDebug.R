@@ -44,7 +44,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),
-        properties = "missings"
+        properties = c("missings", "updates_model")
       )
     },
 
@@ -64,12 +64,9 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       if (isTRUE(pv$save_tasks)) {
-        self$model = list(task$clone(deep = TRUE))
-      } else {
-        label = sample(task$truth(), 1L)
-        self$model = set_class(as.character(label), "unittest")
+        return(list(task$clone(deep = TRUE)))
       }
-      self
+      set_class(as.character(sample(task$truth(), 1L)), "unittest")
     },
 
     predict = function(task) {

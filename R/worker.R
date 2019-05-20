@@ -11,19 +11,9 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
   # and turned into log messages.
   wrapper = function(learner, task) {
     result = tryCatch(learner$train(task), error = abort)
-
     if (is.null(result)) {
       abort("Learner '%s' returned NULL during train", learner$id)
     }
-
-    if (!inherits(result, "Learner")) {
-      abort("Learner '%s' returned '%s' during train(), but needs to return a Learner", learner$id, as_short_string(result))
-    }
-
-    if (is.null(result$model)) {
-      abort("Learner '%s' did not store a model during train", learner$id)
-    }
-
     result
   }
 
@@ -38,43 +28,14 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
   result = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed),
-    c("learner", "train_log", "train_time"))
+    c("model", "train_log", "train_time"))
 
-  # Restore the learner to the untrained learner otherwise
-  if (!is.null(result$train_log)) {
-    errors = result$train_log[get("class") == "error", .N]
-    if (errors > 0L) {
-      result$learner = learner$clone(deep = TRUE)
-    }
-  }
-
-  # if there is a fallback learner defined, also fit fallback learner
-  fb = learner$fallback
-  if (!is.null(fb)) {
-    log_debug("train_worker: Training fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
-    require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", fb$id))
-
-    ok = try(fb$train(task))
-    if (inherits(ok, "try-error")) {
-      abort("Fallback learner '%s' failed during train() with error: %s", fb$id, as.character(ok))
-    }
-    if (!inherits(ok, "Learner")) {
-      abort("Fallback-Learner '%s' returned '%s' during train(), but needs to return a Learner",
-        fb$id, as_short_string(result))
-    }
-    if (is.null(ok$model)) {
-      abort("Fallback learner '%s' did not store a model during train", fb$id)
-    }
-
-    result$learner$fallback = ok
-  }
-
-  # result is list(learner, train_log, train_time)
+  # result is list(model, train_log, train_time)
   return(result)
 }
 
 
-predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
+predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_integer_) {
 
   abort = function(e, ...) {
     msg = sprintf(as.character(e), ...)
@@ -85,8 +46,8 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   # checks that the prediction was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
-  wrapper = function(learner, task) {
-    if (is.null(learner$model)) {
+  wrapper = function(task, learner, model) {
+    if (is.null(model)) {
       abort("No trained model available")
     }
 
@@ -103,38 +64,16 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
     return(result)
   }
 
+  # subset to test set
   task = task$clone(deep = TRUE)$filter(test_set)
-  if (is.null(learner$model)) {
-    if (!is.null(learner$fallback)) {
-      learner = learner$fallback
-    } else {
-      abort("No model fitted during train()")
-    }
-  }
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
-  res = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed),
+  res = set_names(enc(wrapper, list(task = task, learner = learner, model = model), learner$packages, seed = seed),
     c("prediction", "predict_log", "predict_time"))
 
-  if (!is.null(res$predict_log) && res$predict_log[get("class") == "error", .N] > 0L) {
-    fb = learner$fallback
-    if (!is.null(fb)) {
-      log_debug("predict_worker: Predicting fallback learner '%s' on task '%s'", fb$id, task$id, namespace = "mlr3")
-      require_namespaces(fb$packages, sprintf("The following packages are required for fallback learner %s: %%s", fb$id))
-
-      ok = try(fb$predict(task))
-      if (inherits(ok, "try-error")) {
-        abort("Fallback learner '%s' failed during predict() with error: %s", fb$id, as.character(ok))
-      }
-      if (!inherits(ok, "Prediction")) {
-        abort("Fallback-Learner '%s' returned '%s' during predict(), but needs to return a Prediction",
-          fb$id, as_short_string(res))
-      }
-
-      res$prediction = ok
-    }
-  }
+  if ("updates_model" %in% learner$properties)
+    res$model = learner$model
 
   # result is list(prediction, predict_log, predict_time)
   return(res)
@@ -185,10 +124,12 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
 
   log_info("Running learner '%s' on task '%s' (iteration %i/%i)'", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
 
-  tmp = train_worker(e$task, e$learner, e$train_set, ctrl)
+  train_set = resampling$train_set(iteration)
+  tmp = train_worker(task, learner, train_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
-  tmp = predict_worker(e$task, e$learner, e$test_set, ctrl)
+  test_set = resampling$test_set(iteration)
+  tmp = predict_worker(task, e$learner, e$data$model, test_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
   tmp = score_worker(e, ctrl)
@@ -199,9 +140,9 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   }
 
   if (!ctrl$store_model) {
-    e$data$learner$model = NULL
+    e$data[c("model")] = list(NULL)
   }
 
   # Remove slots which are already known by the calling function and return data slot
-  remove_named(e$data, c("task", "resampling", "measures"))
+  remove_named(e$data, c("task", "learner", "resampling", "measures"))
 }

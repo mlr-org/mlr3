@@ -1,28 +1,7 @@
 context("worker")
 
-LearnerTest = R6Class("LearnerTest", inherit = LearnerClassif,
-  public = list(
-    initialize = function(id = "test") {
-      super$initialize(
-        id = id,
-        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
-        predict_types = c("response", "prob"),
-        properties = "missings"
-      )
-    },
-
-    train = function(task) {
-      self$model = list()
-      self
-    },
-
-    predict = function(task) {
-      PredictionClassif$new(task, response = rep(task$truth(1), task$nrow))
-    })
-)
-
 test_that("Handling of training errors", {
-  learner = LearnerTest$new()
+  learner = LearnerClassifDebug$new()
   e = Experiment$new(task = mlr_tasks$get("sonar"), learner = learner)
   r = ResamplingCustom$new()$instantiate(e$task, train_sets = list(1:150))
   e$data$resampling = r
@@ -30,20 +9,19 @@ test_that("Handling of training errors", {
 
   res = train_worker(e$task, e$learner, e$train_set, mlr_control())
   expect_list(res, len = 3)
-  expect_learner(res$learner)
-  expect_data_table(res$train_log, null.ok = TRUE)
+  expect_names(names(res), permutation.of = c("model", "train_log", "train_time"))
+  expect_class(res$model, "unittest")
+  expect_null(res$train_log)
   expect_number(res$train_time, lower = 0)
 
-  LearnerTest$set("public", "train", function(task) self, overwrite = TRUE)
-  learner = LearnerTest$new()
-  e = Experiment$new(task = mlr_tasks$get("sonar"), learner = learner)
-  e$data$resampling = r
-  e$data$iteration = 1L
+  e$data$learner$param_set$values = list(error_train = TRUE)
+  expect_error(train_worker(e$task, e$learner, e$train_set, mlr_control()), class = "trainError")
 
-  expect_error(train_worker(e$task, e$learner, e$train_set, mlr_control()), "store a model", class = "trainError")
-
-  res = train_worker(e$task, e$learner, e$train_set, mlr_control(encapsulate_train = "evaluate"))
-  expect_string(Log$new(res$train_log)$errors, fixed = "store a model")
+  ctrl = mlr_control(encapsulate_train = "evaluate")
+  res = train_worker(e$task, e$learner, e$train_set, ctrl)
+  expect_list(res, len = 3)
+  expect_names(names(res), permutation.of = c("model", "train_log", "train_time"))
+  expect_data_table(res$train_log, min.rows = 1)
 })
 
 test_that("experiment_worker", {
@@ -55,4 +33,6 @@ test_that("experiment_worker", {
 
   res = experiment_worker(iteration, task, learner, resampling, measures, mlr_control())
   expect_list(res)
+  expect_names(names(res), permutation.of =
+    c("iteration", "model", "train_log", "train_time", "predict_log", "predict_time", "prediction", "performance", "score_time"))
 })

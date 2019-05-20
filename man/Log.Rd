@@ -43,7 +43,6 @@ Returns \code{TRUE} if at least one message with condition \code{cl} has been re
 task = mlr_tasks$get("sonar")
 learner = mlr_learners$get("classif.debug",
   param_vals = list(message_train = TRUE, error_train = TRUE))
-learner$fallback = mlr_learners$get("classif.featureless")
 e = Experiment$new(task, learner)
 e$train(ctrl = list(encapsulate_train = "evaluate"))
 l = e$log()

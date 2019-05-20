@@ -40,7 +40,7 @@ local({
 
 
   ### Learner
-  tmp = c("missings", "weights", "parallel", "importance", "selected_features", "oob_error")
+  tmp = c("missings", "weights", "parallel", "importance", "selected_features", "oob_error", "updates_model")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp
@@ -56,19 +56,20 @@ local({
   mlr_reflections$experiment_states = c("undefined", "defined", "trained", "predicted", "scored")
 
   mlr_reflections$experiment_slots = rowwise_table(
-    ~name, ~type, ~atomic, ~state,
-    "task", "Task", FALSE, "defined",
-    "learner", "Learner", FALSE, "defined",
-    "resampling", "Resampling", FALSE, "trained",
-    "iteration", "integer", TRUE, "trained",
-    "train_log", "data.table", FALSE, "trained",
-    "train_time", "numeric", TRUE, "trained",
-    "predict_log", "data.table", FALSE, "predicted",
-    "predict_time", "numeric", TRUE, "predicted",
-    "prediction", "data.table", FALSE, "predicted",
-    "measures", "list", FALSE, "scored",
-    "performance", "list", FALSE, "scored",
-    "score_time", "numeric", TRUE, "scored"
+    ~name,            ~type,        ~atomic, ~state,
+    "task",           "Task",       FALSE,   "defined",
+    "learner",        "Learner",    FALSE,   "defined",
+    "resampling",     "Resampling", FALSE,   "trained",
+    "iteration",      "integer",    TRUE,    "trained",
+    "model",          "list",       FALSE,   "trained",
+    "train_log",      "data.table", FALSE,   "trained",
+    "train_time",     "numeric",    TRUE,    "trained",
+    "predict_log",    "data.table", FALSE,   "predicted",
+    "predict_time",   "numeric",    TRUE,    "predicted",
+    "prediction",     "data.table", FALSE,   "predicted",
+    "measures",       "list",       FALSE,   "scored",
+    "performance",    "list",       FALSE,   "scored",
+    "score_time",     "numeric",    TRUE,    "scored"
   )
 
   mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = mlr_reflections$experiment_states)

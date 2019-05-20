@@ -82,12 +82,6 @@
 #' * `packages` :: `character()`\cr
 #'   Stores the names of required packages.
 #'
-#' * `fallback` :: ([Learner] | `NULL`)\cr
-#'   Optionally stores a second [Learner] which is activated as fallback if this first [Learner] fails during
-#'   train or predict.
-#'   This mechanism is disabled unless you explicitly assign a learner to this slot.
-#'   Additionally, you need to enable encapsulation for the fallback learner to work, see [mlr_control()].
-#'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
@@ -98,12 +92,13 @@
 #'   with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters relevant in the training step.
 #'
 #' * `train(task)`\cr
-#'   [Task] -> `self`\cr
-#'   Train the learner on the complete [Task]. The resulting model is stored in `l$model`.
+#'   [Task] -> `any`\cr
+#'   Train the learner on the complete [Task] and returns the fitted model.
+#'   The resulting model is then automatically stored in `l$model` by `mlr3`.
 #'
 #' * `predict(task)`\cr
 #'   [Task] -> [Prediction]\cr
-#'   Uses `l$model` (fitted during `train()`) to return a [Prediction] object.
+#'   Uses `l$model` (fitted and stored during `train()`) to return a [Prediction] object.
 #'
 #'
 #' @section Optional Extractors:
@@ -159,7 +154,6 @@ Learner = R6Class("Learner",
     data_formats = NULL,
     packages = NULL,
     model = NULL,
-    fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
       feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
@@ -226,8 +220,5 @@ learner_print = function(self) {
   catf(str_indent("Predict Type:", self$predict_type))
   catf(str_indent("Feature types:", self$feature_types))
   catf(str_indent("Properties:", self$properties))
-  if (!is.null(self$fallback)) {
-    catf(str_indent("Fallback:", format(self$fallback)))
-  }
   catf(str_indent("\nPublic:", str_r6_interface(self)))
 }
