@@ -47,7 +47,6 @@ test_that("multiclass / level reordering", {
   task$measures = list(m1, m2)
 
   e = Experiment$new(task, mlr_learners$get("classif.featureless"))$train()$predict()$score()
-  e$prediction
   perf = e$performance
 
   expect_equal(perf[1], perf[2])

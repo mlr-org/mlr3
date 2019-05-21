@@ -76,16 +76,16 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
   result = set_names(enc(wrapper, list(task = task, learner = learner, model = model), learner$packages, seed = seed),
-    c("prediction", "predict_log", "predict_time"))
+    c("predicted", "predict_log", "predict_time"))
 
   # check and convert prediction of the learner
-  result$prediction = convert_prediction(task, result$prediction)
+  result$predicted = convert_prediction(task, result$predicted)
 
   # store updated model if required
   if ("updates_model" %in% learner$properties)
     result$model = learner$model
 
-  # result is list(prediction, predict_log, predict_time)
+  # result is list(predicted, predict_log, predict_time)
   return(result)
 }
 
@@ -104,11 +104,15 @@ score_worker = function(e, ctrl) {
       msg = sprintf(as.character(e), ...)
       stop(errorCondition(msg, experiment = e, measure = m, class = "scoreError"))
     }
-    tryCatch(m$calculate(experiment = e), error = abort)
+    tryCatch(m$calculate(experiment = e, prediction = prediction), error = abort)
   }
+
   score = function() {
     set_names(lapply(measures, score_one), ids(measures))
   }
+
+  # build the prediction object once
+  prediction = e$prediction
 
   # call m$score with local encapsulation
   enc = encapsulate("none")
@@ -146,7 +150,7 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   e$data = insert_named(e$data, tmp)
 
   if (!ctrl$store_prediction) {
-    e$data["prediction"] = list(NULL)
+    e$data["predicted"] = list(NULL)
   }
 
   if (!ctrl$store_model) {

@@ -139,8 +139,9 @@
 #' * `predict_time` :: `numeric(1)`\cr
 #'   Elapsed time during predict in seconds with up to millisecond accuracy (c.f. `proc.time()`).
 #'
-#' * `prediction` :: [Prediction]\cr
-#'   Prediction object as returned by the [Learner]'s `predict()` call.
+#' * `predicted` :: named `list()`\cr
+#'   Prediction as returned by the [Learner]'s `predict()` call, possibly converted by [convert_prediction()].
+#'   List elements are named with predict types.
 #'
 #' * `measures` :: `list()` of [Measure]\cr
 #'   Measures which where used for performance assessment.
@@ -276,14 +277,15 @@ Experiment = R6Class("Experiment",
 
     prediction = function(rhs) {
       if (missing(rhs)) {
-        p = invoke(as_prediction, task = self$task, row_ids = self$test_set, predicted = self$data$prediction)
-        return(p)
+        if (is.null(self$data$predicted))
+          return(NULL)
+        return(invoke(as_prediction, task = self$task, row_ids = self$test_set, predicted = self$data$predicted))
       }
 
       assert_list(rhs, names = "unique")
       assert_names(names(rhs), subset.of = self$learner$predict_types)
       experiment_reset_state(self, "predicted")
-      self$data$prediction = rhs
+      self$data$predicted = rhs
     },
 
     performance = function() {
@@ -330,7 +332,7 @@ experiment_print = function(self) {
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
   catf(fmt(self$model, "Model", sprintf("[%s]", class(self$model)[[1L]])))
-  catf(fmt(data$prediction, "Predictions", sprintf("[%s]", class(data$prediction)[[1L]])))
+  catf(fmt(self$prediction, "Predictions", sprintf("[%s]", class(self$prediction)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), format(as.numeric(data$performance)), sep = "=", collapse = ", ")))
   catf(str_indent("\nPublic:", str_r6_interface(self)))
 }
@@ -394,7 +396,7 @@ experiment_score = function(self, private, measures = NULL, ctrl = list()) {
     stopf("Experiment needs predictions before score()")
   }
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, predict_types = self$data$prediction$predict_types)
+  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, predict_types = names(self$data$predicted))
 
   log_info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = score_worker(self, ctrl = ctrl)

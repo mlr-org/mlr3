@@ -55,7 +55,7 @@ test_that("setting threshold multiclass", {
 
   # a small fix for our tests ... Add a small number to all probabilities so that
   # we can knock off single labels
-  e$data$prediction$prob = t(apply(p$prob, 1, function(x) {
+  e$data$predicted$prob = t(apply(e$data$predicted$prob, 1, function(x) {
     x = x + 0.01
     x / sum(x)
   }))

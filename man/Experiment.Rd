@@ -122,8 +122,9 @@ Elapsed time during train in seconds with up to millisecond accuracy (c.f. \code
 \link{Log} for the predict step. May be \code{NULL} if no encapsulation has been enabled via \code{\link[=mlr_control]{mlr_control()}}.
 \item \code{predict_time} :: \code{numeric(1)}\cr
 Elapsed time during predict in seconds with up to millisecond accuracy (c.f. \code{proc.time()}).
-\item \code{prediction} :: \link{Prediction}\cr
-Prediction object as returned by the \link{Learner}'s \code{predict()} call.
+\item \code{predicted} :: named \code{list()}\cr
+Prediction as returned by the \link{Learner}'s \code{predict()} call, possibly converted by \code{\link[=convert_prediction]{convert_prediction()}}.
+List elements are named with predict types.
 \item \code{measures} :: \code{list()} of \link{Measure}\cr
 Measures which where used for performance assessment.
 \item \code{performance} :: named \code{numeric()}\cr

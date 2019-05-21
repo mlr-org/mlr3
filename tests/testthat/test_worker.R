@@ -34,5 +34,5 @@ test_that("experiment_worker", {
   res = experiment_worker(iteration, task, learner, resampling, measures, mlr_control())
   expect_list(res)
   expect_names(names(res), permutation.of =
-    c("iteration", "model", "train_log", "train_time", "predict_log", "predict_time", "prediction", "performance", "score_time"))
+    c("iteration", "model", "train_log", "train_time", "predict_log", "predict_time", "predicted", "performance", "score_time"))
 })
