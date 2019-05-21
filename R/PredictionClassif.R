@@ -217,7 +217,11 @@ rbind.PredictionClassif = function(...) {
   if (length(prob) > 0L && length(prob) < length(dots)) {
     stopf("Cannot rbind predictions: Probabilities for some experiments, not all")
   }
-  prob = Reduce(rbind_named, prob)
+
+  prob = Reduce(x = prob, f = function(x, y) {
+    assert_set_equal(colnames(x), colnames(y))
+    rbind(x, y[, match(colnames(x), colnames(y)), drop = FALSE])
+  })
 
   PredictionClassif$new(row_ids = x$row_ids, truth = x$truth, response = x$response, prob = prob)
 }

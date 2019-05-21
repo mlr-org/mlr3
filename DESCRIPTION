@@ -148,8 +148,6 @@ Collate:
     'cast_from_dict.R'
     'encapsulate.R'
     'helper.R'
-    'helper_future.R'
-    'helper_print.R'
     'mlr_control.R'
     'mlr_generators.R'
     'mlr_learners.R'

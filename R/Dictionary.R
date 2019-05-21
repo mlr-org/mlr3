@@ -83,28 +83,29 @@ Dictionary = R6Class("Dictionary",
       keys = self$keys()
       catf(sprintf("%s with %i stored values", format(self), length(keys)))
       catf(str_indent("Keys:", keys))
-
-      catf(str_indent("\nPublic:", str_r6_interface(self)))
     },
 
     keys = function(pattern = NULL) {
       keys = ls(self$items, all.names = TRUE)
       if (!is.null(pattern)) {
-        keys = keys[grepl(assert_string(pattern), keys)]
+        assert_string(pattern)
+        keys = keys[grepl(pattern, keys)]
       }
       keys
     },
 
     has = function(keys) {
-      assert_character(keys, any.missing = FALSE)
+      assert_ids(keys)
       set_names(map_lgl(keys, exists, envir = self$items, inherits = FALSE), keys)
     },
 
     get = function(key, ...) {
+      assert_id(key)
       dictionary_retrieve(self, key, ...)
     },
 
     mget = function(keys, ...) {
+      assert_ids(keys)
       set_names(lapply(keys, self$get, ...), keys)
     },
 

@@ -44,24 +44,24 @@ translate_types = function(x) {
   factor(map_values(x, r_types, p_types), levels = p_types)
 }
 
-rbind_named = function(x, y) {
-  assert_matrix(x)
-  assert_matrix(y)
-  assert_names(colnames(x), permutation.of = colnames(y))
-
-  rbind(x, y[, match(colnames(x), colnames(y)), drop = FALSE])
-}
-
 # converts to factor, and ensures that levels are in the right order
 as_factor = function(x, levels, ...) {
-  if (is.character(x)) {
-    x = factor(x, levels = levels)
-    assert_factor(x, ...)
-  } else {
+  if (is.factor(x)) {
     if (!identical(levels(x), levels)) {
-      assert_factor(x, levels = levels, ...)
       x = factor(x, levels = levels)
     }
+  } else {
+    if (!is.character(x)) {
+      x = as.character(x)
+    }
+    x = factor(x, levels = levels)
   }
   x
+}
+
+# determines if execution will we are running locally or remotely
+use_future = function() {
+  isNamespaceLoaded("future") &&
+    requireNamespace("future.apply", quietly = TRUE) &&
+    !inherits(future::plan(), "uniprocess")
 }

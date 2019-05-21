@@ -131,8 +131,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
         setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
       }
       print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
-
-      catf(str_indent("\nPublic:", str_r6_interface(self)))
     },
 
     resample_result = function(hash) {

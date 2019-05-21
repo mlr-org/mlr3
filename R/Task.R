@@ -484,8 +484,6 @@ task_print = function(self) {
   if ("weights" %in% self$properties) {
     catf(str_indent("Weights:", self$col_roles$weights))
   }
-
-  catf(str_indent("\nPublic:", str_r6_interface(self)))
 }
 
 # collect column information of a backend.

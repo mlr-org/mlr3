@@ -68,8 +68,9 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
   ctrl = mlr_control(ctrl)
 
   # clone inputs
-  design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(get("task")))]
-  design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(get("learner")))]
+  task = learner = NULL
+  design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
+  design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {

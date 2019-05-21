@@ -220,5 +220,4 @@ learner_print = function(self) {
   catf(str_indent("Predict Type:", self$predict_type))
   catf(str_indent("Feature types:", self$feature_types))
   catf(str_indent("Properties:", self$properties))
-  catf(str_indent("\nPublic:", str_r6_interface(self)))
 }

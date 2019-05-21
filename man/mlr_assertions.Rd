@@ -16,6 +16,7 @@
 \alias{assert_benchmark_result}
 \alias{assert_param_set}
 \alias{assert_id}
+\alias{assert_ids}
 \title{Assertion for mlr3 Objects}
 \usage{
 assert_backend(b, .var.name = vname(b))
@@ -52,6 +53,8 @@ assert_benchmark_result(bmr, .var.name = vname(bmr))
 assert_param_set(param_set, .var.name = vname(param_set))
 
 assert_id(id, .var.name = vname(id))
+
+assert_ids(ids, .var.name = vname(ids))
 }
 \arguments{
 \item{b}{(\link{DataBackend}).}
@@ -87,6 +90,8 @@ Set of required task properties.}
 \item{bmr}{(\link{BenchmarkResult}).}
 
 \item{param_set}{(\link[paradox:ParamSet]{paradox::ParamSet}).}
+
+\item{id}{(\code{character(1)}).}
 
 \item{id}{(\code{character(1)}).}
 }
