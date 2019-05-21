@@ -368,7 +368,7 @@ expect_experiment = function(e) {
 }
 
 expect_prediction = function(p) {
-  checkmate::expect_r6(p, "Prediction", public = c("row_ids", "response", "truth", "predict_types"))
+  checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types"))
   testthat::expect_output(print(p), "^<Prediction")
   checkmate::expect_data_table(data.table::as.data.table(p), nrow = length(p$row_ids))
 }
