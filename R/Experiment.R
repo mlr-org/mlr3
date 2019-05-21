@@ -241,7 +241,7 @@ Experiment = R6Class("Experiment",
         }
         return(learner)
       }
-      self$data$learner = assert_learner(rhs)$clone(deep = TRUE)
+      self$data$learner = assert_learner(rhs, task = self$task)$clone(deep = TRUE)
     },
 
     model = function() {
@@ -317,8 +317,8 @@ experiment_data_hash = function(data) {
 }
 
 experiment_print = function(self) {
-
   data = self$data
+  p = self$prediction
 
   fmt = function(x, obj, info) {
     if (is.null(x)) {
@@ -332,7 +332,7 @@ experiment_print = function(self) {
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
   catf(fmt(self$model, "Model", sprintf("[%s]", class(self$model)[[1L]])))
-  catf(fmt(self$prediction, "Predictions", sprintf("[%s]", class(self$prediction)[[1L]])))
+  catf(fmt(p, "Predictions", sprintf("[%s]", class(p)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), format(as.numeric(data$performance)), sep = "=", collapse = ", ")))
   catf(str_indent("\nPublic:", str_r6_interface(self)))
 }
@@ -383,7 +383,7 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
 
   log_info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
-  value = predict_worker(self$task, self$learner, self$data$model, self$test_set, ctrl, self$seeds[["predict"]])
+  value = predict_worker(self$task, self$data$learner, self$data$model, self$test_set, ctrl, self$seeds[["predict"]])
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_

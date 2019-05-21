@@ -17,11 +17,10 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
     result
   }
 
-  # we are going to change learner$model, so make sure we clone it first
-  learner = learner$clone(deep = TRUE)
-
-  # subset task
-  task = task$clone(deep = TRUE)$filter(train_set)
+  # subset to train set w/o cloning
+  prev_use = task$row_roles$use
+  task$row_roles$use = train_set
+  on.exit( { task$row_roles$use = prev_use }, add = TRUE)
 
   log_debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
 
@@ -70,8 +69,15 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
     return(result)
   }
 
-  # subset to test set
-  task = task$clone(deep = TRUE)$filter(test_set)
+  # subset to test set w/o cloning
+  prev_use = task$row_roles$use
+  task$row_roles$use = test_set
+  on.exit( { task$row_roles$use = prev_use }, add = TRUE)
+
+  # augment learner with model
+  assert_null(learner$model)
+  learner$model = model
+  on.exit( { learner$model = NULL }, add = TRUE)
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
@@ -82,8 +88,10 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
   result$predicted = convert_prediction(task, result$predicted)
 
   # store updated model if required
-  if ("updates_model" %in% learner$properties)
+  if ("updates_model" %in% learner$properties) {
     result$model = learner$model
+    learner$model = NULL
+  }
 
   # result is list(predicted, predict_log, predict_time)
   return(result)
@@ -143,7 +151,7 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   e$data = insert_named(e$data, tmp)
 
   test_set = resampling$test_set(iteration)
-  tmp = predict_worker(task, e$learner, e$data$model, test_set, ctrl)
+  tmp = predict_worker(task, e$data$learner, e$data$model, test_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
   tmp = score_worker(e, ctrl)

@@ -62,7 +62,6 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$segfault_train)) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
-
       if (isTRUE(pv$save_tasks)) {
         return(list(task$clone(deep = TRUE)))
       }
