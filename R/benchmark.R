@@ -68,10 +68,10 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
   ctrl = mlr_control(ctrl)
 
   # clone inputs
-  design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
+  design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(get("task")))]
   # TODO: deal with resamplings
   if (is.null(measures)) {
-    design[, "measures" := list(list(task[[1L]]$measures)), by = list(hashes(task))]
+    design[, "measures" := list(list(task[[1L]]$measures)), by = list(hashes(get("task")))]
   } else {
     design[, "measures" := list(list(measures))]
   }
