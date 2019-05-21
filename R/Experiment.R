@@ -274,8 +274,16 @@ Experiment = R6Class("Experiment",
       self$data$task$row_roles$validation
     },
 
-    prediction = function() {
-      invoke(as_prediction, task = self$task, row_ids = self$test_set, predicted = self$data$prediction)
+    prediction = function(rhs) {
+      if (missing(rhs)) {
+        p = invoke(as_prediction, task = self$task, row_ids = self$test_set, predicted = self$data$prediction)
+        return(p)
+      }
+
+      assert_list(rhs, names = "unique")
+      assert_names(names(rhs), subset.of = self$learner$predict_types)
+      experiment_reset_state(self, "predicted")
+      self$data$prediction = rhs
     },
 
     performance = function() {

@@ -4,17 +4,17 @@
 #' @format [R6::R6Class] object.
 #'
 #' @description
-#' This is the abstract base class for task objects like [PredictionClassif] and [PredictionRegr].
+#' This is the abstract base class for task objects like [PredictionClassif] or [PredictionRegr].
 #'
 #' Prediction objects store the following information:
 #' 1. The row ids of the test set
 #' 2. The corresponding true (observed) response.
 #' 3. The corresponding predicted response.
-#' 4. Additional per-row predictions based on the class and `predict_type`.
+#' 4. Additional predictions based on the class and `predict_type`.
 #'    E.g., the class probabilities for classification or the estimated standard error for regression.
 #'
 #' @section Construction:
-#' This object is constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
+#' This object is constructed via a derived classes, e.g. [PredictionClassif] or [PredictionRegr].
 #'
 #' @section Fields:
 #' * `row_ids` :: (`integer()` | `character()`)\cr
@@ -22,9 +22,6 @@
 #'
 #' * `truth` :: `any`\cr
 #'   True (observed) outcome.
-#'
-#' * `response` :: `any`\cr
-#'   Predicted outcome.
 #'
 #' * `task_type` :: `character(1)`\cr
 #'    Stores the type of the [Task].
@@ -47,7 +44,6 @@ Prediction = R6Class("Prediction",
   public = list(
     row_ids = NULL,
     truth = NULL,
-    response = NULL,
     task_type = NULL,
     predict_types = NULL,
 

@@ -5,59 +5,65 @@
 #' @include Prediction.R
 #'
 #' @description
-#' This object stores the predictions returned by a learner of class [LearnerClassif], i.e.
+#' This object wraps the predictions returned by a learner of class [LearnerClassif], i.e.
 #' the predicted response and class probabilities.
 #'
-#' If response is not provided during construction, but class probabilities are,
+#' If the response is not provided during construction, but class probabilities are,
 #' the response is calculated from the probabilities: the class label with the highest
 #' probability is chosen. In case of ties, a label is selected randomly.
 #'
 #' @note
-#' It is possible to initialize this object without a task, by manually providing `row_ids` and `truth`.
-#' In this case, the class names are taken from `truth`, and must be identical to `task$class_names`
-#' (this includes the order of the levels).
-#' This is especially important for binary classification tasks, where the positive class must be the first level.
+#' If this object is constructed manually, make sure that the factors for truth and response
+#' have the same levels, in the same order.
+#' In case of binary classification tasks, the positive class label must be the first level.
 #'
 #' @section Construction:
 #' ```
-#' p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL,
-#'   row_ids = task$row_ids, truth = task$truth())
+#' p = PredictionClassif$new(row_ids, truth, response = NULL, prob = NULL)
 #' ```
 #'
-#' * `task` :: [TaskClassif]\cr
-#'   Task for which the predictions are made. Used to extract the row ids and the true
-#'   labels. Must be subsetted to test set.
+#' * `row_ids` :: (`integer()` | `character()`)\cr
+#'   Row ids of the observations in the test set.
 #'
-#' * `response` :: `factor()`\cr
+#' * `truth` :: `factor()`\cr
+#'   True (observed) labels. See the note on manual construction.
+#'
+#' * `response` :: (`character()` | `factor()`)\cr
 #'   Vector of predicted class labels.
 #'   One element for each observation in the test set.
 #'   Character vectors are automatically converted to factors.
+#'   See the note on manual construction.
 #'
 #' * `prob` :: `matrix()`\cr
 #'   Numeric matrix of class probabilities with one column for each class
 #'   and one row for each observation in the test set.
-#'
-#' * `row_ids` :: (`integer()` | `character()`)\cr
-#'   Row ids of the task. Per default, these are extracted from the `task`.
-#'
-#' * `truth` :: `factor()`\cr
-#'   True (observed) labels. Per default, these are extracted from the `task`.
+#'   Columns must be named with class labels, rownames are automatically removed.
 #'
 #' @section Fields:
 #' All fields from [Prediction], and additionally:
 #'
-#' * `threshold` :: `numeric(1)`\cr
-#'   Probability threshold between 0 and 1.
-#'   Assigning a value to this field modifies the stored responses.
+#' * `response` :: `factor()`\cr
+#'   Access to the stored predicted class labels.
+#'
+#' * `prob` :: `matrix()`\cr
+#'   Access to the stored probabilities.
 #'
 #' * `confusion` :: `matrix()`\cr
 #'   Confusion matrix resulting from the comparison of truth and response.
-#'   Truth is in columns, predicted response in rows.
+#'   Truth is in columns, predicted response is in rows.
 #'
 #' The field `task_type` is set to `"classif"`.
 #'
+#' @section Methods:
+#'
+#' * `set_threshold(th)`\cr
+#'   `numeric()` -> named `list()`\cr
+#'   Sets the prediction threshold, and returns a named list with updated `response` and `prob`.
+#'   This list can be stored in the experiment (see examples).
+#'   See the section on thresholding for more information.
+#'
 #' @section Thresholding:
-#' If probabilities are stored, it is possible to manually set the threshold which determines the predicted class label.
+#' If probabilities are stored, it is possible to change the threshold which determines the predicted class label.
 #' Usually, the label of the class with the highest predicted probability is selected.
 #' For binary classification problems, such an threshold defaults to 0.5.
 #' For cost-sensitive or imbalanced classification problems, manually adjusting the threshold can increase
@@ -73,6 +79,7 @@
 #'   Note that it is possible that either none or multiple ratios are greater than 1 at the same time.
 #'   Anyway, the class label with maximum ratio is selected.
 #'   In case of ties in the ratio, one of the tied class labels is selected randomly.
+#'
 #' @family Prediction
 #' @export
 #' @examples
@@ -88,11 +95,20 @@
 #' p$confusion
 #'
 #' # change threshold
-#' p$threshold = mlr3misc::set_names(c(0.05, 0.9, 0.05), task$class_names)
-#' p$confusion
+#' th = c(0.05, 0.9, 0.05)
+#' names(th) = task$class_names
+#'
+#' # new predictions
+#' p$set_threshold(th)$response
+#'
+#' # update the threshold in the experiment
+#' e$score()$performance # score before thresholding
+#' e$prediction = e$prediction$set_threshold(th)
+#' e$score()$performance # score after thresholding
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
+    response = NULL,
     prob = NULL,
     initialize = function(row_ids, truth, response = NULL, prob = NULL) {
       self$row_ids = assert_atomic_vector(row_ids)
@@ -101,43 +117,39 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       self$prob = assert_matrix(prob, null.ok = TRUE)
       self$task_type = "classif"
       self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(prob))]
-    }),
+    },
 
-  active = list(
-    threshold = function(rhs) {
-      if (missing(rhs)) {
-        return(private$.threshold)
-      }
+    set_threshold = function(threshold) {
       if (!is.matrix(self$prob)) {
         stopf("Cannot set threshold, no probabilities available")
       }
       lvls = colnames(self$prob)
 
-      if (length(rhs) == 1L) {
+      if (length(threshold) == 1L) {
+        assert_number(threshold, lower = 0, upper = 1)
         if (length(lvls) != 2L) {
           stopf("Setting a single threshold only supported for binary classification problems")
         }
-        assert_number(rhs, lower = 0, upper = 1)
-        ind = max.col(cbind(self$prob[, 1L], rhs), ties.method = "random")
+        prob = cbind(self$prob[, 1L], threshold)
       } else {
-        assert_numeric(rhs, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
-        assert_names(names(rhs), permutation.of = lvls)
-        rhs = rhs[lvls] # reorder rhs so it is in the same order as levels
+        assert_numeric(threshold, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
+        assert_names(names(threshold), permutation.of = lvls)
+        threshold = threshold[lvls] # reorder thresh so it is in the same order as levels
 
         # multiply all rows by threshold, then get index of max element per row
-        w = ifelse(rhs > 0, 1 / rhs, Inf)
-        ind = max.col(self$prob %*% diag(w), ties.method = "random")
+        w = ifelse(threshold > 0, 1 / threshold, Inf)
+        prob = self$prob %*% diag(w)
       }
-      private$.threshold = rhs
-      self$response = factor(lvls[ind], levels = lvls)
-    },
 
+      ind = max.col(prob, ties.method = "random")
+      return(list(response = factor(lvls[ind], levels = lvls), prob = self$prob))
+    }
+  ),
+
+  active = list(
     confusion = function() {
       table(response = self$response, truth = self$truth, useNA = "ifany")
-    }),
-
-  private = list(
-    .threshold = NULL
+    }
   )
 )
 

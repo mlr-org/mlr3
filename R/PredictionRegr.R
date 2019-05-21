@@ -5,17 +5,19 @@
 #' @include Prediction.R
 #'
 #' @description
-#' This object stores the predictions returned by a learner of class [LearnerRegr].
+#' This object wraps the predictions returned by a learner of class [LearnerRegr], i.e.
+#' the predicted response and standard error.
 #'
 #' @section Construction:
 #' ```
-#' p = PredictionRegr$new(task = NULL, response = NULL, se = NULL,
-#'   row_ids = task$row_ids, truth = task$truth())
+#' p = PredictionRegr$new(row_ids, truth, response = NULL, se = NULL)
 #' ```
 #'
-#' * `task` :: [TaskRegr]\cr
-#'   Task for which the predictions are made. Used to extract the row ids and the true
-#'   response. Must be subsetted to test set.
+#' * `row_ids` :: (`integer()` | `character()`)\cr
+#'   Row ids of the observations in the test set.
+#'
+#' * `truth` :: `numeric()`\cr
+#'   True (observed) response.
 #'
 #' * `response` :: `numeric()`\cr
 #'   Vector of numeric response values.
@@ -25,14 +27,14 @@
 #'   Numeric vector of predicted standard error.
 #'   One element for each observation in the test set.
 #'
-#' * `row_ids` :: (`integer()` | `character()`)\cr
-#'   Row ids of the task. Per default, these are extracted from the `task`.
-#'
-#' * `truth` :: `numeric()`\cr
-#'   True (observed) response. Per default, this is extracted from the `task`.
-#'
 #' @section Fields:
-#' See [Prediction].
+#' All fields from [Prediction], and additionally:
+#'
+#' * `response` :: `numeric()`\cr
+#'   Access to the stored predicted response.
+#'
+#' * `se` :: `numeric()`\cr
+#'   Access to the stored standard error.
 #'
 #' The field `task_type` is set to `"regr"`.
 #'
@@ -49,6 +51,7 @@
 PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
+    response = NULL,
     se = NULL,
     initialize = function(row_ids, truth, response = NULL, se = NULL) {
       self$row_ids = assert_atomic_vector(row_ids)
