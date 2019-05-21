@@ -31,7 +31,7 @@ local({
   tmp = c("weights", "groups")
   mlr_reflections$task_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
-    regr    = tmp
+    regr = tmp
   )
 
   mlr_reflections$task_data_formats = c(
@@ -43,12 +43,12 @@ local({
   tmp = c("missings", "weights", "parallel", "importance", "selected_features", "oob_error")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
-    regr    = tmp
+    regr = tmp
   )
 
   mlr_reflections$learner_predict_types = list(
     classif = c("response", "prob"),
-    regr    = c("response", "se")
+    regr = c("response", "se")
   )
 
 

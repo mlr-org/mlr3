@@ -22,16 +22,21 @@ encapsulate_dummy = function(fun, args = list(), pkgs = character(0L), seed = NA
 
 
 encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L), seed = NA_integer_) {
+
   parse_evaluate = function(log) {
     extract = function(x) {
-      if (inherits(x, "message"))
+      if (inherits(x, "message")) {
         return(list(class = "output", msg = x$message))
-      if (inherits(x, "warning"))
+      }
+      if (inherits(x, "warning")) {
         return(list(class = "warning", msg = x$message))
-      if (inherits(x, "error"))
+      }
+      if (inherits(x, "error")) {
         return(list(class = "error", msg = x$message))
-      if (inherits(x, "recordedplot"))
+      }
+      if (inherits(x, "recordedplot")) {
         return(NULL)
+      }
       return(list(class = "output", msg = x))
     }
 
@@ -59,26 +64,28 @@ encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L), seed =
 }
 
 encapsulate_callr = function(fun, args = list(), pkgs = character(0L), seed = NA_integer_) {
+
   wrapper = function(fun, args, pkgs, seed) {
     options(warn = 1L)
     suppressPackageStartupMessages({
       library("mlr3")
       lapply(pkgs, requireNamespace)
     })
-    if (!is.na(seed))
+    if (!is.na(seed)) {
       set.seed(seed)
+    }
     now = proc.time()[[3L]]
     result = withCallingHandlers(
-        tryCatch(do.call(fun, args),
-          error = function(e) {
-            cat("[ERR]", gsub("\r?\n|\r", "<br>", trimws(conditionMessage(e))), "\n")
-            NULL
-          }
-        ),
-        warning = function(w) {
-          cat("[WRN]", gsub("\r?\n|\r", "<br>", trimws(conditionMessage(w))), "\n")
-          invokeRestart("muffleWarning")
+      tryCatch(do.call(fun, args),
+        error = function(e) {
+          cat("[ERR]", gsub("\r?\n|\r", "<br>", trimws(conditionMessage(e))), "\n")
+          NULL
         }
+      ),
+      warning = function(w) {
+        cat("[WRN]", gsub("\r?\n|\r", "<br>", trimws(conditionMessage(w))), "\n")
+        invokeRestart("muffleWarning")
+      }
     )
     list(result = result, elapsed = proc.time()[[3L]] - now)
   }

@@ -23,8 +23,8 @@
 #' @export
 #' @examples
 #' \dontshow{
-#'    .threshold = logger::log_threshold(namespace = "mlr3")
-#'    logger::log_threshold(logger::WARN, namespace = "mlr3")
+#' .threshold = logger::log_threshold(namespace = "mlr3")
+#' logger::log_threshold(logger::WARN, namespace = "mlr3")
 #' }
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
@@ -53,24 +53,27 @@
 #' # Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
 #' \dontshow{
-#'    logger::log_threshold(.threshold, namespace = "mlr3")
+#' logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
 benchmark = function(design, measures = NULL, ctrl = list()) {
+
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   assert_list(design$task, "Task")
   assert_list(design$learner, "Learner")
   assert_list(design$resampling, "Resampling")
-  if (!is.null(measures))
+  if (!is.null(measures)) {
     assert_measures(measures)
+  }
   design = as.data.table(design) # ensures that the table is copied
   ctrl = mlr_control(ctrl)
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
     instance = resampling$clone()
-    if (!instance$is_instantiated)
+    if (!instance$is_instantiated) {
       instance = instance$instantiate(task)
+    }
     hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
     data.table(task = list(task$clone(deep = TRUE)), learner = list(learner$clone(deep = TRUE)), resampling = list(instance), measures = list(measures %??% task$measures),
       iter = seq_len(instance$iters), hash = hash)
@@ -123,6 +126,7 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 #' @return ([data.table()]) with the cross product of the input vectors.
 #' @export
 expand_grid = function(tasks, learners, resamplings) {
+
   tasks = assert_tasks(tasks)
   learners = assert_learners(learners)
   resamplings = assert_resamplings(resamplings)

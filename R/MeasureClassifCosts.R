@@ -36,8 +36,9 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         minimize = TRUE
       )
 
-      if (!is.null(costs))
+      if (!is.null(costs)) {
         self$costs = costs
+      }
       self$normalize = assert_flag(normalize)
     },
 
@@ -46,25 +47,30 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       confusion = prediction$confusion
       ii = match(rownames(confusion), rownames(costs))
       jj = match(colnames(confusion), colnames(costs))
-      if (is.unsorted(ii) || is.unsorted(jj))
+      if (is.unsorted(ii) || is.unsorted(jj)) {
         confusion = confusion[ii, jj]
+      }
       score = sum(confusion * costs)
-      if (self$normalize)
+      if (self$normalize) {
         score = score / sum(confusion)
+      }
       score
     }
   ),
 
   active = list(
     costs = function(rhs) {
-      if (missing(rhs))
+      if (missing(rhs)) {
         return(private$.costs)
+      }
       private$.costs = assert_cost_matrix(rhs)
 
-      if (min(rhs) >= 0)
+      if (min(rhs) >= 0) {
         self$range[1L] = 0
-      if (max(rhs) <= 0)
+      }
+      if (max(rhs) <= 0) {
         self$range[2L] = 0
+      }
     }
   ),
 

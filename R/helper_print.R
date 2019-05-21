@@ -1,9 +1,11 @@
 str_r6_interface = function(x) {
   categorize = function(name) {
-    if (bindingIsActive(name, x))
+    if (bindingIsActive(name, x)) {
       return("active_binding")
-    if (is.function(x[[name]]))
+    }
+    if (is.function(x[[name]])) {
       return("method")
+    }
     return("field")
   }
 

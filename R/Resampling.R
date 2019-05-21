@@ -142,8 +142,9 @@ Resampling = R6Class("Resampling",
           instance = private$.sample(unique(groups$group))
         }
       } else {
-        if (!is.null(groups))
+        if (!is.null(groups)) {
           stopf("Cannot combine stratification with grouping")
+        }
         instances = stratify(task, stratify)
         instance = private$.combine(lapply(instances$..row_id, private$.sample))
       }
@@ -176,8 +177,9 @@ Resampling = R6Class("Resampling",
     .groups = NULL,
 
     .get_set = function(getter, i) {
-      if (!self$is_instantiated)
+      if (!self$is_instantiated) {
         stopf("Resampling '%s' has not been instantiated yet", self$id)
+      }
       i = assert_int(i, lower = 1L, upper = self$iters, coerce = TRUE)
       ids = getter(i)
 

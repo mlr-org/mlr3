@@ -31,10 +31,12 @@ DictionaryResampling = R6Class("DictionaryResampling",
   public = list(
     get = function(key, id = NULL, param_vals = NULL) {
       obj = dictionary_retrieve(self, key)
-      if (!is.null(id))
+      if (!is.null(id)) {
         obj$id = id
-      if (!is.null(param_vals))
+      }
+      if (!is.null(param_vals)) {
         obj$param_set$values = insert_named(obj$param_set$values, param_vals)
+      }
       obj
     }
   )

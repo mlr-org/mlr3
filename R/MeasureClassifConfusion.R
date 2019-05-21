@@ -113,8 +113,9 @@ confusion_measures = function(m, type = NULL) {
   }
 
   div = function(nominator, denominator) {
-    if (denominator == 0L)
+    if (denominator == 0L) {
       return(NA_real_)
+    }
     nominator / denominator
   }
 

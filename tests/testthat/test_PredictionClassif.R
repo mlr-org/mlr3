@@ -55,8 +55,13 @@ test_that("setting threshold", {
 
   # a small fix for our tests ... Add a small number to all probabilities so that
   # we can knock off single labels
-  p$prob = t(apply(p$prob, 1, function(x) { x = x + 0.01; x / sum(x) }))
-  expect_error({ p$threshold = c(0.5, 0.5) }, "have length") # check for correct length(threshold) = nclass
+  p$prob = t(apply(p$prob, 1, function(x) {
+    x = x + 0.01
+    x / sum(x)
+  }))
+  expect_error({
+    p$threshold = c(0.5, 0.5)
+  }, "have length") # check for correct length(threshold) = nclass
 
   p$threshold = set_names(c(1, 1, 1, 1, 1, 1, 1), task$class_names)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)

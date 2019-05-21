@@ -28,11 +28,13 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
 
     calculate = function(experiment = NULL, prediction = experiment$prediction) {
       lrn = experiment$learner
-      if ("selected_features" %nin% lrn$properties)
+      if ("selected_features" %nin% lrn$properties) {
         return(NA_integer_)
+      }
       n = length(lrn$selected_features())
-      if (self$normalize)
+      if (self$normalize) {
         n = n / length(experiment$task$feature_names)
+      }
       n
     }
   )

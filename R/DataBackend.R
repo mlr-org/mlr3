@@ -111,8 +111,9 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
   active = list(
     hash = function(rhs) {
       if (missing(rhs)) {
-        if (is.na(private$.hash))
+        if (is.na(private$.hash)) {
           private$.hash = private$.calculate_hash()
+        }
         return(private$.hash)
       }
       private$.hash = assert_string(rhs)

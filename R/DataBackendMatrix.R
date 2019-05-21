@@ -42,12 +42,15 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       require_namespaces("Matrix")
       assert_class(data, "Matrix")
       assert_names(colnames(data), type = "unique")
-      if (!is.null(rownames(data)))
+      if (!is.null(rownames(data))) {
         assert_names(rownames(data), type = "unique")
-      if (any(dim(data) == 0L))
+      }
+      if (any(dim(data) == 0L)) {
         stopf("No data in Matrix")
-      if (!is.null(primary_key))
+      }
+      if (!is.null(primary_key)) {
         stopf("Primary key column not supported by DataBackendMatrix")
+      }
       super$initialize(data, "..row_id", c("data.table", "Matrix"))
     },
 
@@ -63,8 +66,9 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       switch(data_format,
         "data.table" = {
           data = as.data.table(as.matrix(data))
-          if (self$primary_key %in% cols)
+          if (self$primary_key %in% cols) {
             data = insert_named(data, set_names(list(query_rows), self$primary_key))
+          }
           data
         },
         "Matrix" = {
@@ -128,8 +132,9 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
     .translate_rows = function(rows) {
       rn = rownames(private$.data)
-      if (is.null(rn))
+      if (is.null(rn)) {
         return(filter_oob_index(rows, 1L, self$nrow))
+      }
       assert_character(rows)
       intersect(rows, rn)
     }

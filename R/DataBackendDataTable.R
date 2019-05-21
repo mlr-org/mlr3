@@ -118,6 +118,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
 #' @export
 as_data_backend.data.frame = function(data, primary_key = NULL, ...) {
+
   assert_data_frame(data, min.rows = 1L, min.cols = 1L)
 
   if (!is.null(primary_key)) {

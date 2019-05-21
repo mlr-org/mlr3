@@ -8,7 +8,8 @@
 #' @importFrom stats reformulate
 "_PACKAGE"
 
-dummy_import = function() { # nocov start
+dummy_import = function() {
+  # nocov start
   # this function is required to silence R CMD check
   tmp = Metrics::ce
   tmp = mlbench::mlbench.xor
@@ -16,11 +17,13 @@ dummy_import = function() { # nocov start
 
 layout_mlr3 = structure(
   function(level, msg, namespace = NA_character_, .logcall = sys.call(), .topcall = sys.call(-1), .topenv = parent.frame()) {
-    paste0(attr(level, 'level'), ' [mlr3] ', msg)
+    paste0(attr(level, "level"), " [mlr3] ", msg)
   }, generator = quote(layout_mlr3())
 )
 
-.onLoad = function(libname, pkgname) { #nocov start
+.onLoad = function(libname, pkgname) {
+
+  # nocov start
   backports::import(pkgname)
   logger::log_formatter(logger::formatter_sprintf, namespace = pkgname)
   logger::log_layout(layout_mlr3, namespace = pkgname)
@@ -83,4 +86,4 @@ layout_mlr3 = structure(
   mlr_resamplings$add("holdout", ResamplingHoldout)
   mlr_resamplings$add("repeated_cv", ResamplingRepeatedCV)
   mlr_resamplings$add("subsampling", ResamplingSubsampling)
-} #nocov end
+} # nocov end

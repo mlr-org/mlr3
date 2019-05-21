@@ -47,8 +47,9 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
     },
 
     hash = function() {
-      if (is.null(self$instance$test))
+      if (is.null(self$instance$test)) {
         return(NA_character_)
+      }
       hash(list(class(self), self$id, self$param_set$values, self$instance))
     }
   ),
@@ -66,8 +67,9 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
 
 instantiate_custom = function(instance, train_sets = NULL, test_sets = NULL) {
-  if (is.null(train_sets) && is.null(test_sets))
+  if (is.null(train_sets) && is.null(test_sets)) {
     stopf("At least one of 'train_sets' or 'test_sets' must be provided")
+  }
   instance = instance %??% list(train = NULL, test = NULL)
 
   if (!is.null(train_sets)) {
@@ -77,8 +79,9 @@ instantiate_custom = function(instance, train_sets = NULL, test_sets = NULL) {
   }
 
   if (!is.null(test_sets)) {
-    if (is.null(instance$train))
+    if (is.null(instance$train)) {
       stopf("Cannot set test_set without train_set")
+    }
     assert_list(test_sets, types = "atomicvector", len = length(instance$train), any.missing = FALSE, unique = TRUE)
     instance$test = test_sets
   }

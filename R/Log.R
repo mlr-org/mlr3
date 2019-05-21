@@ -69,8 +69,8 @@ Log = R6Class("Log", cloneable = FALSE,
 
     append = function(cl, msg) {
       self$log = rbind(self$log, data.table(
-          class = assert_choice(cl, mlr_reflections$log_classes),
-          msg = assert_string(msg))
+        class = assert_choice(cl, mlr_reflections$log_classes),
+        msg = assert_string(msg))
       )
     }
   ),

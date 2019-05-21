@@ -101,15 +101,18 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
   active = list(
     threshold = function(rhs) {
-      if (missing(rhs))
+      if (missing(rhs)) {
         return(private$.threshold)
-      if (!is.matrix(self$prob))
+      }
+      if (!is.matrix(self$prob)) {
         stopf("Cannot set threshold, no probabilities available")
+      }
       lvls = colnames(self$prob)
 
       if (length(rhs) == 1L) {
-        if (length(lvls) != 2L)
+        if (length(lvls) != 2L) {
           stopf("Setting a single threshold only supported for binary classification problems")
+        }
         assert_number(rhs, lower = 0, upper = 1)
         ind = max.col(cbind(self$prob[, 1L], rhs), ties.method = "random")
       } else {
@@ -136,6 +139,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 )
 
 predictionclassif_initialize = function(self, task, row_ids, truth, response, prob, class_names) {
+
   self$task_type = "classif"
   self$row_ids = assert_atomic_vector(row_ids)
   n = length(row_ids)
@@ -153,18 +157,19 @@ predictionclassif_initialize = function(self, task, row_ids, truth, response, pr
   }
 
   if (!is.null(prob)) {
-      assert_matrix(prob, nrows = n, ncols = length(lvls))
-      assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
-      assert_names(colnames(prob), permutation.of = lvls)
-      if (!is.null(rownames(prob)))
-        rownames(prob) = NULL
-      self$prob = prob
+    assert_matrix(prob, nrows = n, ncols = length(lvls))
+    assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
+    assert_names(colnames(prob), permutation.of = lvls)
+    if (!is.null(rownames(prob))) {
+      rownames(prob) = NULL
+    }
+    self$prob = prob
 
-      if (is.null(self$response)) {
-        # calculate response from prob
-        i = max.col(prob, ties.method = "random")
-        self$response = factor(colnames(prob)[i], levels = lvls)
-      }
+    if (is.null(self$response)) {
+      # calculate response from prob
+      i = max.col(prob, ties.method = "random")
+      self$response = factor(colnames(prob)[i], levels = lvls)
+    }
   }
 
   self$predict_types = c("response", "prob")[c(!is.null(self$response), !is.null(self$prob))]
@@ -172,8 +177,9 @@ predictionclassif_initialize = function(self, task, row_ids, truth, response, pr
 
 #' @export
 as.data.table.PredictionClassif = function(x, ...) {
-  if (is.null(x$row_ids))
+  if (is.null(x$row_ids)) {
     return(data.table())
+  }
   tab = data.table(row_id = x$row_ids, truth = x$truth, response = x$response)
   if (!is.null(x$prob)) {
     prob = as.data.table(x$prob)
@@ -186,6 +192,7 @@ as.data.table.PredictionClassif = function(x, ...) {
 
 #' @export
 rbind.PredictionClassif = function(...) {
+
   dots = list(...)
   assert_list(dots, "PredictionClassif")
 
@@ -194,8 +201,9 @@ rbind.PredictionClassif = function(...) {
   }, .fill = FALSE)
 
   prob = discard(map(dots, "prob"), is.null)
-  if (length(prob) > 0L && length(prob) < length(dots))
+  if (length(prob) > 0L && length(prob) < length(dots)) {
     stopf("Cannot rbind predictions: Probabilities for some experiments, not all")
+  }
   prob = Reduce(rbind_named, prob)
 
   PredictionClassif$new(row_ids = x$row_ids, truth = x$truth, response = x$response, prob = prob)

@@ -178,10 +178,12 @@ Experiment = R6Class("Experiment",
 
     initialize = function(task = NULL, learner = NULL, ctrl = list()) {
       self$data = named_list(mlr_reflections$experiment_slots$name)
-      if (!is.null(task))
+      if (!is.null(task)) {
         self$data$task = assert_task(task, clone = TRUE)
-      if (!is.null(learner))
+      }
+      if (!is.null(learner)) {
         self$data$learner = assert_learner(learner, task = self$data$task, clone = TRUE)
+      }
       self$ctrl = assert_list(ctrl)
       self$seeds = set_names(rep.int(NA_integer_, 3L), c("train", "predict", "score"))
     },
@@ -210,22 +212,25 @@ Experiment = R6Class("Experiment",
       steps = assert_sorted_subset(steps, c("train", "predict"), empty.ok = FALSE)
       parts = set_names(self$data[sprintf("%s_log", steps)], steps)
       data = rbindlist(parts, idcol = "context", use.names = TRUE)
-      if (nrow(data) == 0L)
+      if (nrow(data) == 0L) {
         return(Log$new())
+      }
       Log$new(data)
     }
   ),
 
   active = list(
     task = function(rhs) {
-      if (missing(rhs))
+      if (missing(rhs)) {
         return(self$data$task)
+      }
       self$data$task = assert_task(rhs)$clone(deep = TRUE)
     },
 
     learner = function(rhs) {
-      if (missing(rhs))
+      if (missing(rhs)) {
         return(self$data$learner)
+      }
       self$data$learner = assert_learner(rhs)$clone(deep = TRUE)
     },
 
@@ -242,16 +247,18 @@ Experiment = R6Class("Experiment",
     train_set = function() {
       resampling = self$data$resampling
       iteration = self$data$iteration
-      if (is.null(resampling) || is.null(iteration))
+      if (is.null(resampling) || is.null(iteration)) {
         return(NULL)
+      }
       resampling$train_set(iteration)
     },
 
     test_set = function() {
       resampling = self$data$resampling
       iteration = self$data$iteration
-      if (is.null(resampling) || is.null(iteration))
+      if (is.null(resampling) || is.null(iteration)) {
         return(NULL)
+      }
       resampling$test_set(iteration)
     },
 
@@ -276,8 +283,9 @@ Experiment = R6Class("Experiment",
     },
 
     hash = function() {
-      if (is.na(private$.hash))
+      if (is.na(private$.hash)) {
         private$.hash = experiment_data_hash(self$data)
+      }
       private$.hash
     }
   ),
@@ -292,6 +300,7 @@ experiment_data_hash = function(data) {
 }
 
 experiment_print = function(self) {
+
   data = self$data
 
   fmt = function(x, obj, info) {
@@ -313,8 +322,10 @@ experiment_print = function(self) {
 
 
 experiment_train = function(self, private, row_ids, ctrl = list()) {
-  if (! self$state >= "defined")
+
+  if (!self$state >= "defined") {
     stopf("Experiment needs a task and a learner")
+  }
 
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   row_ids = if (is.null(row_ids)) self$data$task$row_ids else assert_row_ids(row_ids)
@@ -330,10 +341,13 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
 }
 
 experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctrl = list()) {
-  if (! self$state >= "trained")
+
+  if (!self$state >= "trained") {
     stopf("Experiment needs to be trained before predict()")
-  if (!is.null(row_ids) && !is.null(newdata))
+  }
+  if (!is.null(row_ids) && !is.null(newdata)) {
     stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
+  }
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
 
   # TODO: we could allow new_data to be a backend / task to avoid duplication
@@ -355,8 +369,10 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
 }
 
 experiment_score = function(self, private, measures = NULL, ctrl = list()) {
-  if (! self$state >= "trained")
+
+  if (!self$state >= "trained") {
     stopf("Experiment needs predictions before score()")
+  }
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, predict_types = self$data$prediction$predict_types)
 
@@ -382,14 +398,18 @@ experiment_state = function(self) {
   as_state = function(state) ordered(state, levels = mlr_reflections$experiment_states)
   d = self$data
 
-  if (!is.null(d$score_time))
+  if (!is.null(d$score_time)) {
     return(as_state("scored"))
-  if (!is.null(d$predict_time))
+  }
+  if (!is.null(d$predict_time)) {
     return(as_state("predicted"))
-  if (!is.null(d$train_time))
+  }
+  if (!is.null(d$train_time)) {
     return(as_state("trained"))
-  if (!is.null(d$task) && !is.null(d$learner))
+  }
+  if (!is.null(d$task) && !is.null(d$learner)) {
     return(as_state("defined"))
+  }
   return(as_state("undefined"))
 }
 

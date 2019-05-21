@@ -163,6 +163,7 @@ Learner = R6Class("Learner",
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
       feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
+
       self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       private$.param_set = assert_param_set(param_set)
@@ -196,11 +197,13 @@ Learner = R6Class("Learner",
     },
 
     predict_type = function(rhs) {
-      if (missing(rhs))
+      if (missing(rhs)) {
         return(private$.predict_type)
+      }
       assert_choice(rhs, mlr_reflections$learner_predict_types[[self$task_type]])
-      if (rhs %nin% self$predict_types)
+      if (rhs %nin% self$predict_types) {
         stopf("Learner does not support predict type '%s'", rhs)
+      }
       private$.predict_type = rhs
     },
 
@@ -225,7 +228,8 @@ learner_print = function(self) {
   catf(str_indent("Predict Type:", self$predict_type))
   catf(str_indent("Feature types:", self$feature_types))
   catf(str_indent("Properties:", self$properties))
-  if (!is.null(self$fallback))
+  if (!is.null(self$fallback)) {
     catf(str_indent("Fallback:", format(self$fallback)))
+  }
   catf(str_indent("\nPublic:", str_r6_interface(self)))
 }

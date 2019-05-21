@@ -77,8 +77,9 @@ ResampleResult = R6Class("ResampleResult",
       assert_data_table(data)
       assert_names(names(data), must.include = mlr_reflections$experiment_slots$name)
       self$data = data[order(iteration), ]
-      if (!is.null(hash))
+      if (!is.null(hash)) {
         private$.hash = assert_string(hash)
+      }
     },
 
     format = function() {
@@ -106,17 +107,19 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     experiments = function(iters = NULL) {
-      iters = if (is.null(iters))
+      iters = if (is.null(iters)) {
         seq_row(self$data)
-      else
+      } else {
         assert_integerish(iters, lower = 1L, upper = nrow(self$data), any.missing = FALSE, coerce = TRUE)
+      }
       pmap(self$data[get("iteration") %in% iters], as_experiment)
     },
 
     combine = function(rr) {
       assert_resample_result(rr)
-      if (self$hash == rr$hash)
+      if (self$hash == rr$hash) {
         warningf("ResampleResult$combine(): Identical hashes detected. This is likely to be unintended.")
+      }
       BenchmarkResult$new(rbind(cbind(self$data, data.table(hash = self$hash)), cbind(rr$data, data.table(hash = rr$hash))))
     }
   ),
@@ -148,8 +151,9 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     hash = function() {
-      if (is.na(private$.hash))
+      if (is.na(private$.hash)) {
         private$.hash = self$experiment(1L)$hash
+      }
       private$.hash
     },
 

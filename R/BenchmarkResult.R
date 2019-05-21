@@ -75,8 +75,8 @@
 #' @export
 #' @examples
 #' \dontshow{
-#'    .threshold = logger::log_threshold(namespace = "mlr3")
-#'    logger::log_threshold(logger::WARN, namespace = "mlr3")
+#' .threshold = logger::log_threshold(namespace = "mlr3")
+#' logger::log_threshold(logger::WARN, namespace = "mlr3")
 #' }
 #' set.seed(123)
 #' bmr = benchmark(expand_grid(
@@ -104,7 +104,7 @@
 #' print(rr)
 #' rr$experiment(1)$model
 #' \dontshow{
-#'    logger::log_threshold(.threshold, namespace = "mlr3")
+#' logger::log_threshold(.threshold, namespace = "mlr3")
 #' }
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
@@ -127,8 +127,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
       measure = self$measures$measure[[1L]]
       aggr = remove_named(self$aggregated(objects = FALSE, ids = TRUE, params = FALSE), "hash")
       setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
-      if (!is.na(measure$minimize))
+      if (!is.na(measure$minimize)) {
         setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
+      }
       print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
 
       catf(str_indent("\nPublic:", str_r6_interface(self)))
@@ -138,8 +139,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_string(hash)
       hashes = self$data[, unique(hash)]
       tmp = hashes[which(startsWith(hash, prefix = hash))]
-      if (length(tmp) != 1L)
+      if (length(tmp) != 1L) {
         stopf("Hash '%s' matches %i of the recorded resample results", hash, length(tmp))
+      }
 
       ResampleResult$new(self$data[list(tmp), on = "hash", nomatch = 0L], hash = hash)
     },
@@ -153,16 +155,19 @@ BenchmarkResult = R6Class("BenchmarkResult",
     get_best = function(measure) {
       assert_measure(measure)
       id = measure$id
-      if (is.na(measure$minimize))
+      if (is.na(measure$minimize)) {
         stopf("Impossible to determine best value for measure '%s': '$minimize' is NA", id)
+      }
       aggr = self$aggregated(ids = FALSE)
-      if (id %nin% names(aggr))
+      if (id %nin% names(aggr)) {
         stopf("Measure with id '%s' not in BenchmarkResult", id)
+      }
       best = if (measure$minimize) which_min(aggr[[id]]) else which_max(aggr[[id]])
       aggr$resample_result[[best]]
     },
 
     aggregated = function(ids = TRUE, objects = TRUE, params = FALSE, unnest_params = FALSE) {
+
       res = self$data[, list(resample_result = list(ResampleResult$new(.SD))), by = hash]
 
       if (assert_flag(objects)) {
@@ -182,8 +187,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
       extract = function(x) as.list(x$aggregated)
       res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
 
-      if (!objects)
+      if (!objects) {
         remove_named(res, "resample_result")
+      }
       res[]
     }
   ),
@@ -229,5 +235,5 @@ as.data.table.BenchmarkResult = function(x, ...) {
       resampling = resampling, resampling_id = ids(resampling),
       performance = performance
     )
-    ], "performance")
+  ], "performance")
 }

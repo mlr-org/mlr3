@@ -53,9 +53,9 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       super$initialize(
         id = id,
         param_set = ParamSet$new(params = list(
-            ParamUty$new("stratify", default = NULL),
-            ParamInt$new("repeats", lower = 1),
-            ParamInt$new("folds", lower = 1L, tags = "required")
+          ParamUty$new("stratify", default = NULL),
+          ParamInt$new("repeats", lower = 1),
+          ParamInt$new("folds", lower = 1L, tags = "required")
         )),
         param_vals = param_vals
       )

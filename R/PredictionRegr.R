@@ -69,8 +69,9 @@ predictionregr_initialize = function(self, task, row_ids, truth, response, se) {
 
 #' @export
 as.data.table.PredictionRegr = function(x, ...) {
-  if (is.null(x$row_ids))
+  if (is.null(x$row_ids)) {
     return(data.table())
+  }
   data.table(row_id = x$row_ids, truth = x$truth, response = x$response, se = x$se)
 }
 

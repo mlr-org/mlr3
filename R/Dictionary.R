@@ -89,8 +89,9 @@ Dictionary = R6Class("Dictionary",
 
     keys = function(pattern = NULL) {
       keys = ls(self$items, all.names = TRUE)
-      if (!is.null(pattern))
+      if (!is.null(pattern)) {
         keys = keys[grepl(assert_string(pattern), keys)]
+      }
       keys
     },
 
@@ -116,8 +117,9 @@ Dictionary = R6Class("Dictionary",
 
     remove = function(keys) {
       i = wf(!self$has(keys))
-      if (length(i))
+      if (length(i)) {
         stopf("Element with key '%s' not found!%s", keys[i], did_you_mean(key, self$keys()))
+      }
       rm(list = keys, envir = self$items)
       invisible(self)
     },
@@ -130,14 +132,17 @@ Dictionary = R6Class("Dictionary",
 )
 
 dictionary_retrieve = function(self, key, ...) {
+
   obj = get0(key, envir = self$items, inherits = FALSE, ifnotfound = NULL)
-  if (is.null(obj))
+  if (is.null(obj)) {
     stopf("Element with key '%s' not found!%s", key, did_you_mean(key, self$keys()))
+  }
 
   value = obj$value
   pars = insert_named(obj$pars, list(...))
-  if (any(obj$required_args %nin% names(pars)))
+  if (any(obj$required_args %nin% names(pars))) {
     stopf("Need the arguments %s to construct '%s'", str_collapse(obj$required_args, quote = "'"), key)
+  }
 
   if (inherits(value, "R6ClassGenerator")) {
     value = do.call(value$new, pars)
