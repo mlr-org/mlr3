@@ -58,8 +58,8 @@ as_factor = function(x, levels, ...) {
     x = factor(x, levels = levels)
     assert_factor(x, ...)
   } else {
-    assert_factor(x, levels = levels, ...)
     if (!identical(levels(x), levels)) {
+      assert_factor(x, levels = levels, ...)
       x = factor(x, levels = levels)
     }
   }
