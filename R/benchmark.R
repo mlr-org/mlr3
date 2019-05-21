@@ -69,15 +69,10 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 
   # clone inputs
   design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(get("task")))]
-  # TODO: deal with resamplings
-  if (is.null(measures)) {
-    design[, "measures" := list(list(task[[1L]]$measures)), by = list(hashes(get("task")))]
-  } else {
-    design[, "measures" := list(list(measures))]
-  }
+  design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(get("learner")))]
 
   # expand the design: add rows for each resampling iteration
-  grid = pmap_dtr(design, function(task, learner, resampling, measures) {
+  grid = pmap_dtr(design, function(task, learner, resampling) {
     if (resampling$is_instantiated) {
       instance = resampling
     } else {
@@ -85,8 +80,8 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
       instance = instance$instantiate(task)
     }
     hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
-    data.table(task = list(task), learner = list(learner$clone(deep = TRUE)), resampling = list(instance), measures = list(measures),
-      iter = seq_len(instance$iters), hash = hash)
+    data.table(task = list(task), learner = list(learner), resampling = list(instance),
+      measures = list(measures %??% task$measures), iter = seq_len(instance$iters), hash = hash)
   })
 
   log_info("Benchmarking %i experiments", nrow(grid), namespace = "mlr3")
