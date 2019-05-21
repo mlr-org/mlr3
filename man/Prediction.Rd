@@ -6,20 +6,20 @@
 \title{Abstract Prediction Object}
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
-This is the abstract base class for task objects like \link{PredictionClassif} and \link{PredictionRegr}.
+This is the abstract base class for task objects like \link{PredictionClassif} or \link{PredictionRegr}.
 
 Prediction objects store the following information:
 \enumerate{
 \item The row ids of the test set
 \item The corresponding true (observed) response.
 \item The corresponding predicted response.
-\item Additional per-row predictions based on the class and \code{predict_type}.
+\item Additional predictions based on the class and \code{predict_type}.
 E.g., the class probabilities for classification or the estimated standard error for regression.
 }
 }
 \section{Construction}{
 
-This object is constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.
+This object is constructed via a derived classes, e.g. \link{PredictionClassif} or \link{PredictionRegr}.
 }
 
 \section{Fields}{
@@ -29,8 +29,6 @@ This object is constructed via a derived classes, e.g. \link{MeasureClassif} or 
 Vector of row ids for which predictions are stored.
 \item \code{truth} :: \code{any}\cr
 True (observed) outcome.
-\item \code{response} :: \code{any}\cr
-Predicted outcome.
 \item \code{task_type} :: \code{character(1)}\cr
 Stores the type of the \link{Task}.
 \item \code{predict_types} :: \code{character()}\cr

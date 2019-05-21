@@ -230,7 +230,7 @@ run_experiment = function(task, learner) {
   return(list(ok = TRUE, experiment = e, error = character(0)))
 }
 
-run_autotest = function(learner, N = 30L, exclude = NULL) {
+run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types) {
   learner = learner$clone(deep = TRUE)
   id = learner$id
   tasks = generate_tasks(learner, N = N)
@@ -238,7 +238,7 @@ run_autotest = function(learner, N = 30L, exclude = NULL) {
     tasks = tasks[!grepl(exclude, names(tasks))]
 
   for (task in tasks) {
-    for (predict_type in learner$predict_types) {
+    for (predict_type in predict_types) {
       learner$id = sprintf("%s:%s", id, predict_type)
       learner$predict_type = predict_type
       run = run_experiment(task, learner)

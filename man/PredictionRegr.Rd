@@ -6,32 +6,35 @@
 \title{Prediction Object for Regression}
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Prediction}.}
 \description{
-This object stores the predictions returned by a learner of class \link{LearnerRegr}.
+This object wraps the predictions returned by a learner of class \link{LearnerRegr}, i.e.
+the predicted response and standard error.
 }
 \section{Construction}{
-\preformatted{p = PredictionRegr$new(task = NULL, response = NULL, se = NULL,
-  row_ids = task$row_ids, truth = task$truth())
+\preformatted{p = PredictionRegr$new(row_ids, truth, response = NULL, se = NULL)
 }
 \itemize{
-\item \code{task} :: \link{TaskRegr}\cr
-Task for which the predictions are made. Used to extract the row ids and the true
-response. Must be subsetted to test set.
+\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
+Row ids of the observations in the test set.
+\item \code{truth} :: \code{numeric()}\cr
+True (observed) response.
 \item \code{response} :: \code{numeric()}\cr
 Vector of numeric response values.
 One element for each observation in the test set.
 \item \code{se} :: \code{numeric()}\cr
 Numeric vector of predicted standard error.
 One element for each observation in the test set.
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Row ids of the task. Per default, these are extracted from the \code{task}.
-\item \code{truth} :: \code{numeric()}\cr
-True (observed) response. Per default, this is extracted from the \code{task}.
 }
 }
 
 \section{Fields}{
 
-See \link{Prediction}.
+All fields from \link{Prediction}, and additionally:
+\itemize{
+\item \code{response} :: \code{numeric()}\cr
+Access to the stored predicted response.
+\item \code{se} :: \code{numeric()}\cr
+Access to the stored standard error.
+}
 
 The field \code{task_type} is set to \code{"regr"}.
 }

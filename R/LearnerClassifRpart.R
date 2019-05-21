@@ -41,8 +41,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       if ("weights" %in% task$properties) {
         pars = insert_named(pars, list(weights = task$weights$weight))
       }
-      self$model = invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
-      self
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
     },
 
     predict = function(task) {
@@ -55,7 +54,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         prob = predict(self$model, newdata = newdata, type = "prob")
       }
 
-      PredictionClassif$new(task, response, prob)
+      list(response = response, prob = prob)
     },
 
     importance = function() {

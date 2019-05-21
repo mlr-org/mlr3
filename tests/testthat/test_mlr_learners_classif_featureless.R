@@ -17,9 +17,6 @@ test_that("Simple training/predict", {
   expect_class(e$model, "featureless")
   expect_numeric(e$model$tab, len = 3L, any.missing = FALSE)
   e$predict()
-  e$data$prediction
-  e$prediction
-
   expect_factor(e$prediction$response, any.missing = FALSE, levels = levels(iris$Species))
   e$score()
   expect_number(e$performance, lower = 0.6, upper = 0.7)
@@ -32,6 +29,6 @@ test_that("Predict with prob", {
   expect_learner(learner, task)
 
   e = Experiment$new(task, learner)$train()$predict()
-  expect_matrix(e$data$prediction$prob, nrow = 150L, ncol = 3L)
-  expect_names(colnames(e$data$prediction$prob), permutation.of = levels(iris$Species))
+  expect_matrix(e$data$predicted$prob, nrow = 150L, ncol = 3L)
+  expect_names(colnames(e$data$predicted$prob), permutation.of = levels(iris$Species))
 })

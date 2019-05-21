@@ -10,10 +10,10 @@ test_that("resample", {
   expect_resample_result(rr)
   expect_numeric(rr$performance(task$measures[[1]]$id), any.missing = FALSE)
   expect_number(rr$aggregated)
-  expect_different_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
+  expect_same_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
   expect_same_address(rr$data$task[[1L]], rr$data$task[[2L]])
   expect_same_address(rr$data$resampling[[1L]], rr$data$resampling[[2L]])
-  expect_different_address(rr$data$learner[[1L]]$model, rr$data$learner[[2L]]$model)
+  expect_different_address(rr$data$model[[1]], rr$data$model[[2L]])
 })
 
 test_that("resample with multiple measures", {
@@ -84,7 +84,7 @@ test_that("memory footprint", {
   rr = resample(task, learner, resampling)
   x = rr$data
 
-  expect_equal(uniqueN(map_chr(x$learner, address)), 3L)
+  expect_equal(uniqueN(map_chr(x$learner, address)), 1L)
   expect_equal(uniqueN(map_chr(x$task, address)), 1L)
   expect_equal(uniqueN(map_chr(x$resampling, address)), 1L)
   expect_equal(uniqueN(map_chr(x$measures, address)), 1L)

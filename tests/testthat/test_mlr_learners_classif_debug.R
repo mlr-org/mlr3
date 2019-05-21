@@ -6,19 +6,17 @@ test_that("Simple training/predict", {
   expect_learner(learner, task)
 
   e = Experiment$new(task, learner)
-  e$train()
+  e$train()$predict()$score()
   expect_class(e$model, "unittest")
   expect_character(e$model, len = 1L, any.missing = FALSE)
-  e$predict()
-  e$data$prediction
-  e$prediction
-
   expect_factor(e$prediction$response, any.missing = FALSE, levels = levels(e$model))
-  e$score()
 
-  e$learner$param_set$values$save_tasks = TRUE
+  learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
+  e = Experiment$new(task, learner)
   e$train(row_ids = 1:10)
+  expect_null(e$data$learner$model)
   e$predict(row_ids = 11:20)
+  expect_null(e$data$learner$model)
   model = e$model
 
   itrain = task$clone(TRUE)$filter(1:10)

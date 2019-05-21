@@ -6,38 +6,35 @@
 \title{Prediction Object for Classification}
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Prediction}.}
 \description{
-This object stores the predictions returned by a learner of class \link{LearnerClassif}, i.e.
+This object wraps the predictions returned by a learner of class \link{LearnerClassif}, i.e.
 the predicted response and class probabilities.
 
-If response is not provided during construction, but class probabilities are,
+If the response is not provided during construction, but class probabilities are,
 the response is calculated from the probabilities: the class label with the highest
 probability is chosen. In case of ties, a label is selected randomly.
 }
 \note{
-It is possible to initialize this object without a task, by manually providing \code{row_ids} and \code{truth}.
-In this case, the class names are taken from \code{truth}, and must be identical to \code{task$class_names}
-(this includes the order of the levels).
-This is especially important for binary classification tasks, where the positive class must be the first level.
+If this object is constructed manually, make sure that the factors for truth and response
+have the same levels, in the same order.
+In case of binary classification tasks, the positive class label must be the first level.
 }
 \section{Construction}{
-\preformatted{p = PredictionClassif$new(task = NULL, response = NULL, prob = NULL,
-  row_ids = task$row_ids, truth = task$truth())
+\preformatted{p = PredictionClassif$new(row_ids, truth, response = NULL, prob = NULL)
 }
 \itemize{
-\item \code{task} :: \link{TaskClassif}\cr
-Task for which the predictions are made. Used to extract the row ids and the true
-labels. Must be subsetted to test set.
-\item \code{response} :: \code{factor()}\cr
+\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
+Row ids of the observations in the test set.
+\item \code{truth} :: \code{factor()}\cr
+True (observed) labels. See the note on manual construction.
+\item \code{response} :: (\code{character()} | \code{factor()})\cr
 Vector of predicted class labels.
 One element for each observation in the test set.
 Character vectors are automatically converted to factors.
+See the note on manual construction.
 \item \code{prob} :: \code{matrix()}\cr
 Numeric matrix of class probabilities with one column for each class
 and one row for each observation in the test set.
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Row ids of the task. Per default, these are extracted from the \code{task}.
-\item \code{truth} :: \code{factor()}\cr
-True (observed) labels. Per default, these are extracted from the \code{task}.
+Columns must be named with class labels, rownames are automatically removed.
 }
 }
 
@@ -45,20 +42,32 @@ True (observed) labels. Per default, these are extracted from the \code{task}.
 
 All fields from \link{Prediction}, and additionally:
 \itemize{
-\item \code{threshold} :: \code{numeric(1)}\cr
-Probability threshold between 0 and 1.
-Assigning a value to this field modifies the stored responses.
+\item \code{response} :: \code{factor()}\cr
+Access to the stored predicted class labels.
+\item \code{prob} :: \code{matrix()}\cr
+Access to the stored probabilities.
 \item \code{confusion} :: \code{matrix()}\cr
 Confusion matrix resulting from the comparison of truth and response.
-Truth is in columns, predicted response in rows.
+Truth is in columns, predicted response is in rows.
 }
 
 The field \code{task_type} is set to \code{"classif"}.
 }
 
+\section{Methods}{
+
+\itemize{
+\item \code{set_threshold(th)}\cr
+\code{numeric()} -> named \code{list()}\cr
+Sets the prediction threshold, and returns a named list with updated \code{response} and \code{prob}.
+This list can be stored in the experiment (see examples).
+See the section on thresholding for more information.
+}
+}
+
 \section{Thresholding}{
 
-If probabilities are stored, it is possible to manually set the threshold which determines the predicted class label.
+If probabilities are stored, it is possible to change the threshold which determines the predicted class label.
 Usually, the label of the class with the highest predicted probability is selected.
 For binary classification problems, such an threshold defaults to 0.5.
 For cost-sensitive or imbalanced classification problems, manually adjusting the threshold can increase
@@ -90,8 +99,16 @@ head(as.data.table(p))
 p$confusion
 
 # change threshold
-p$threshold = mlr3misc::set_names(c(0.05, 0.9, 0.05), task$class_names)
-p$confusion
+th = c(0.05, 0.9, 0.05)
+names(th) = task$class_names
+
+# new predictions
+p$set_threshold(th)$response
+
+# update the threshold in the experiment
+e$score()$performance # score before thresholding
+e$prediction = e$prediction$set_threshold(th)
+e$score()$performance # score after thresholding
 }
 \seealso{
 Other Prediction: \code{\link{PredictionRegr}},

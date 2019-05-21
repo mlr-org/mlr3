@@ -44,7 +44,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),
-        properties = "missings"
+        properties = c("missings", "updates_model")
       )
     },
 
@@ -62,14 +62,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$segfault_train)) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
-
       if (isTRUE(pv$save_tasks)) {
-        self$model = list(task$clone(deep = TRUE))
-      } else {
-        label = sample(task$truth(), 1L)
-        self$model = set_class(as.character(label), "unittest")
+        return(list(task$clone(deep = TRUE)))
       }
-      self
+      set_class(as.character(sample(task$truth(), 1L)), "unittest")
     },
 
     predict = function(task) {
@@ -89,9 +85,9 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$save_tasks)) {
         self$model[[2]] = task$clone(deep = TRUE)
         label = sample(task$truth(), 1L)
-        PredictionClassif$new(task = task, response = rep.int(as.character(label), task$nrow))
+        list(response = rep.int(as.character(label), task$nrow))
       } else {
-        PredictionClassif$new(task = task, response = rep.int(unclass(self$model), task$nrow))
+        list(response = rep.int(unclass(self$model), task$nrow))
       }
     })
 )

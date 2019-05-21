@@ -37,8 +37,8 @@ Flag which is \code{TRUE} if any error has been recorded during \code{$train()} 
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 \item \code{model} :: \code{any}\cr
-Access the trained model of the \link{Learner}.
-Only available after the learner has been trained.
+Access the trained model.
+Only available after the experiment has been trained.
 \item \code{performance} :: named \code{numeric()}\cr
 Access the scored performance scores as returned by the \link{Measure} stored in the \link{Task}.
 \item \code{prediction} :: \link{Prediction}\cr
@@ -51,6 +51,9 @@ Returns the state of the experiment as ordered factor with levels \code{"defined
 \code{"trained"}, \code{"predicted"}, and \code{"scored"}.
 \item \code{task} :: \link{Task}\cr
 Access to the stored \link{Task}.
+\item \code{learner} :: \link{Learner}\cr
+Access to the stored \link{Learner}.
+If the experiment has been fitted, the model is stored in slot \code{$model}.
 \item \code{test_set} :: (\code{integer()} | \code{character()})\cr
 The row ids of the \link{Task} for the test set used in \code{$predict()}
 Timings are \code{NA} if the respective step has not been performed yet.
@@ -102,7 +105,7 @@ A clone of the \link{Task} which was provided during construction.
 Also accessible via \code{e$task}.
 \item \code{learner} :: \link{Learner}\cr
 A clone of the \link{Learner} which was provided during construction.
-Also accessible via \code{e$learner}.
+If retrieved via \code{e$learner}, the slot \code{$model} contains the fitted model.
 \item \code{resampling} :: \link{Resampling}\cr
 Is \code{NULL} prior to calling \code{$train()}.
 If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}), a \link{ResamplingCustom} object is stored.
@@ -119,8 +122,9 @@ Elapsed time during train in seconds with up to millisecond accuracy (c.f. \code
 \link{Log} for the predict step. May be \code{NULL} if no encapsulation has been enabled via \code{\link[=mlr_control]{mlr_control()}}.
 \item \code{predict_time} :: \code{numeric(1)}\cr
 Elapsed time during predict in seconds with up to millisecond accuracy (c.f. \code{proc.time()}).
-\item \code{prediction} :: \link{Prediction}\cr
-Prediction object as returned by the \link{Learner}'s \code{predict()} call.
+\item \code{predicted} :: named \code{list()}\cr
+Prediction as returned by the \link{Learner}'s \code{predict()} call, possibly converted by \code{\link[=convert_prediction]{convert_prediction()}}.
+List elements are named with predict types.
 \item \code{measures} :: \code{list()} of \link{Measure}\cr
 Measures which where used for performance assessment.
 \item \code{performance} :: named \code{numeric()}\cr

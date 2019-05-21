@@ -70,11 +70,6 @@ Stores a set of properties/capabilities the learner has.
 A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
 \item \code{packages} :: \code{character()}\cr
 Stores the names of required packages.
-\item \code{fallback} :: (\link{Learner} | \code{NULL})\cr
-Optionally stores a second \link{Learner} which is activated as fallback if this first \link{Learner} fails during
-train or predict.
-This mechanism is disabled unless you explicitly assign a learner to this slot.
-Additionally, you need to enable encapsulation for the fallback learner to work, see \code{\link[=mlr_control]{mlr_control()}}.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 }
@@ -88,11 +83,12 @@ Hash (unique identifier) for this object.
 Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
 with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters relevant in the training step.
 \item \code{train(task)}\cr
-\link{Task} -> \code{self}\cr
-Train the learner on the complete \link{Task}. The resulting model is stored in \code{l$model}.
+\link{Task} -> \code{any}\cr
+Train the learner on the complete \link{Task} and returns the fitted model.
+The resulting model is then automatically stored in \code{l$model} by \code{mlr3}.
 \item \code{predict(task)}\cr
 \link{Task} -> \link{Prediction}\cr
-Uses \code{l$model} (fitted during \code{train()}) to return a \link{Prediction} object.
+Uses \code{l$model} (fitted and stored during \code{train()}) to return a \link{Prediction} object.
 }
 }
 

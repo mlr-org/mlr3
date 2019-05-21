@@ -39,8 +39,8 @@
 #'   Hash (unique identifier) for this object.
 #'
 #' * `model` :: `any`\cr
-#'   Access the trained model of the [Learner].
-#'   Only available after the learner has been trained.
+#'   Access the trained model.
+#'   Only available after the experiment has been trained.
 #'
 #' * `performance` :: named `numeric()`\cr
 #'   Access the scored performance scores as returned by the [Measure] stored in the [Task].
@@ -58,6 +58,10 @@
 #'
 #' * `task` :: [Task]\cr
 #'   Access to the stored [Task].
+#'
+#' * `learner` :: [Learner]\cr
+#'   Access to the stored [Learner].
+#'   If the experiment has been fitted, the model is stored in slot `$model`.
 #'
 #' * `test_set` :: (`integer()` | `character()`)\cr
 #'   The row ids of the [Task] for the test set used in `$predict()`
@@ -111,7 +115,7 @@
 #'
 #' * `learner` :: [Learner]\cr
 #'   A clone of the [Learner] which was provided during construction.
-#'   Also accessible via `e$learner`.
+#'   If retrieved via `e$learner`, the slot `$model` contains the fitted model.
 #'
 #' * `resampling` :: [Resampling]\cr
 #'   Is `NULL` prior to calling `$train()`.
@@ -135,8 +139,9 @@
 #' * `predict_time` :: `numeric(1)`\cr
 #'   Elapsed time during predict in seconds with up to millisecond accuracy (c.f. `proc.time()`).
 #'
-#' * `prediction` :: [Prediction]\cr
-#'   Prediction object as returned by the [Learner]'s `predict()` call.
+#' * `predicted` :: named `list()`\cr
+#'   Prediction as returned by the [Learner]'s `predict()` call, possibly converted by [convert_prediction()].
+#'   List elements are named with predict types.
 #'
 #' * `measures` :: `list()` of [Measure]\cr
 #'   Measures which where used for performance assessment.
@@ -228,14 +233,19 @@ Experiment = R6Class("Experiment",
 
     learner = function(rhs) {
       if (missing(rhs)) {
-        return(self$data$learner)
+        learner = self$data$learner
+        model = self$model
+        if (!is.null(model)) {
+          learner = learner$clone()
+          learner$model = model
+        }
+        return(learner)
       }
-      self$data$learner = assert_learner(rhs)$clone(deep = TRUE)
+      self$data$learner = assert_learner(rhs, task = self$task)$clone(deep = TRUE)
     },
 
     model = function() {
-      learner = self$data$learner
-      learner$model %??% learner$fallback$model
+      self$data$model
     },
 
     timings = function() {
@@ -265,8 +275,17 @@ Experiment = R6Class("Experiment",
       self$data$task$row_roles$validation
     },
 
-    prediction = function() {
-      self$data$prediction
+    prediction = function(rhs) {
+      if (missing(rhs)) {
+        if (is.null(self$data$predicted))
+          return(NULL)
+        return(invoke(as_prediction, task = self$task, row_ids = self$test_set, predicted = self$data$predicted))
+      }
+
+      assert_list(rhs, names = "unique")
+      assert_names(names(rhs), subset.of = self$learner$predict_types)
+      experiment_reset_state(self, "predicted")
+      self$data$predicted = rhs
     },
 
     performance = function() {
@@ -298,8 +317,8 @@ experiment_data_hash = function(data) {
 }
 
 experiment_print = function(self) {
-
   data = self$data
+  p = self$prediction
 
   fmt = function(x, obj, info) {
     if (is.null(x)) {
@@ -313,7 +332,7 @@ experiment_print = function(self) {
   catf(fmt(data$task, "Task", data$task$id))
   catf(fmt(data$learner, "Learner", data$learner$id))
   catf(fmt(self$model, "Model", sprintf("[%s]", class(self$model)[[1L]])))
-  catf(fmt(data$prediction, "Predictions", sprintf("[%s]", class(data$prediction)[[1L]])))
+  catf(fmt(p, "Predictions", sprintf("[%s]", class(p)[[1L]])))
   catf(fmt(data$performance, "Performance", paste(names(data$performance), format(as.numeric(data$performance)), sep = "=", collapse = ", ")))
   catf(str_indent("\nPublic:", str_r6_interface(self)))
 }
@@ -331,7 +350,7 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   self$data$iteration = 1L
 
   log_info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
-  value = train_worker(self, ctrl = ctrl)
+  value = train_worker(self$task, self$learner, self$train_set, ctrl, seed = self$seeds[["train"]])
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
@@ -364,7 +383,7 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
 
   log_info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
-  value = predict_worker(self, ctrl = ctrl)
+  value = predict_worker(self$task, self$data$learner, self$data$model, self$test_set, ctrl, self$seeds[["predict"]])
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
@@ -377,7 +396,7 @@ experiment_score = function(self, private, measures = NULL, ctrl = list()) {
     stopf("Experiment needs predictions before score()")
   }
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, predict_types = self$data$prediction$predict_types)
+  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, predict_types = names(self$data$predicted))
 
   log_info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = score_worker(self, ctrl = ctrl)
@@ -391,9 +410,9 @@ combine_experiments = function(x) {
   name = atomic = NULL
   nn = names(x[[1L]])
   wrap_list = mlr_reflections$experiment_slots[name %in% nn & atomic == FALSE, "name"][[1L]]
-  map_dtr(x, function(exp) {
-    exp[wrap_list] = lapply(exp[wrap_list], list)
-    exp
+  map_dtr(x, function(e) {
+    e[wrap_list] = lapply(e[wrap_list], list)
+    e
   })
 }
 

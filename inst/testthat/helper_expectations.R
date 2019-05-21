@@ -352,9 +352,9 @@ expect_experiment = function(e) {
   if (state >= "predicted") {
     checkmate::expect_data_table(e$data$predict_log, null.ok = TRUE)
     checkmate::expect_number(e$data$predict_time)
-    checkmate::expect_class(e$data$prediction, "Prediction")
+    checkmate::expect_list(e$data$predicted, names = "unique")
     if (e$task$task_type %in% c("classif", "regr"))
-      checkmate::expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
+      checkmate::expect_atomic_vector(e$data$predicted$response, len = length(e$test_set), any.missing = FALSE)
   }
 
   if (state >= "scored") {
@@ -368,7 +368,7 @@ expect_experiment = function(e) {
 }
 
 expect_prediction = function(p) {
-  checkmate::expect_r6(p, "Prediction", public = c("row_ids", "response", "truth", "predict_types"))
+  checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types"))
   testthat::expect_output(print(p), "^<Prediction")
   checkmate::expect_data_table(data.table::as.data.table(p), nrow = length(p$row_ids))
 }
