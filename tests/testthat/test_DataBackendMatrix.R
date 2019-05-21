@@ -101,7 +101,7 @@ test_that("learners can request sparse data format", {
       },
 
       predict = function(task) {
-        PredictionRegr$new(response = rep(task$class_names[1L], task$nrow))
+        list(response = rep(task$class_names[1L], task$nrow))
       })
   )
 

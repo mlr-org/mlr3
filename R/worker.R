@@ -57,8 +57,14 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
       abort("Learner '%s' returned NULL during predict()", learner$id)
     }
 
-    if (!inherits(result, "Prediction")) {
-      abort("Learner '%s' returned '%s' during predict(), but needs to return a Prediction object", learner$id, as_short_string(result))
+    if (!testList(result, names = "unique")) {
+      abort("Learner '%s' returned '%s' during predict(), but needs to return a named list",
+        learner$id, as_short_string(result))
+    }
+
+    i = wf(names(result) %nin% learner$predict_types)
+    if (length(i)) {
+      abort("Learner '%s' returned result for unsupported predict type '%s'", learner$id, names(result)[i])
     }
 
     return(result)
@@ -69,14 +75,18 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
-  res = set_names(enc(wrapper, list(task = task, learner = learner, model = model), learner$packages, seed = seed),
+  result = set_names(enc(wrapper, list(task = task, learner = learner, model = model), learner$packages, seed = seed),
     c("prediction", "predict_log", "predict_time"))
 
+  # check and convert prediction of the learner
+  result$prediction = convert_prediction(task, result$prediction)
+
+  # store updated model if required
   if ("updates_model" %in% learner$properties)
-    res$model = learner$model
+    result$model = learner$model
 
   # result is list(prediction, predict_log, predict_time)
-  return(res)
+  return(result)
 }
 
 
@@ -102,9 +112,9 @@ score_worker = function(e, ctrl) {
 
   # call m$score with local encapsulation
   enc = encapsulate("none")
-  res = enc(score, list(), pkgs, seed = e$seeds[["score"]])
+  result = enc(score, list(), pkgs, seed = e$seeds[["score"]])
 
-  return(list(performance = res$result, score_time = res$elapsed))
+  return(list(performance = result$result, score_time = result$elapsed))
 }
 
 

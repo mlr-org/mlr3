@@ -2,7 +2,7 @@ context("PredictionClassif")
 
 test_that("Construction", {
   task = mlr_tasks$get("boston_housing")
-  p = PredictionRegr$new(task = task, response = task$truth())
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
   expect_prediction(p)
   expect_prediction_regr(p)
 })

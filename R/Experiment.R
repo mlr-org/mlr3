@@ -275,7 +275,7 @@ Experiment = R6Class("Experiment",
     },
 
     prediction = function() {
-      self$data$prediction
+      invoke(as_prediction, task = self$task, row_ids = self$test_set, predicted = self$data$prediction)
     },
 
     performance = function() {

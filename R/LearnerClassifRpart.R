@@ -54,7 +54,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         prob = predict(self$model, newdata = newdata, type = "prob")
       }
 
-      PredictionClassif$new(task, response, prob)
+      list(response = response, prob = prob)
     },
 
     importance = function() {

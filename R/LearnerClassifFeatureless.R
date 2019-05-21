@@ -60,7 +60,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
         colnames(prob) = names(tab)
       }
 
-      PredictionClassif$new(task, response = response, prob = prob)
+      list(response = response, prob = prob)
     },
 
     importance = function() {

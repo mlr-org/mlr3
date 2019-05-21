@@ -44,7 +44,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
 
     predict = function(task) {
       n = task$nrow
-      PredictionRegr$new(task, response = rep(self$model$location, n), se = rep(self$model$dispersion, n))
+      list(response = rep(self$model$location, n), se = rep(self$model$dispersion, n))
     },
 
     importance = function() {

@@ -94,8 +94,13 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     prob = NULL,
-    initialize = function(task = NULL, response = NULL, prob = NULL, row_ids = task$row_ids, truth = task$truth()) {
-      predictionclassif_initialize(self, task, row_ids, truth, response, prob)
+    initialize = function(row_ids, truth, response = NULL, prob = NULL) {
+      self$row_ids = assert_atomic_vector(row_ids)
+      self$truth = assert_factor(truth)
+      self$response = assert_factor(response, null.ok = TRUE)
+      self$prob = assert_matrix(prob, null.ok = TRUE)
+      self$task_type = "classif"
+      self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(prob))]
     }),
 
   active = list(
@@ -136,41 +141,39 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   )
 )
 
-predictionclassif_initialize = function(self, task, row_ids, truth, response, prob, class_names) {
+#' @export
+convert_prediction.TaskClassif = function(task, predicted) {
+  n = task$nrow
+  lvls = task$class_names
 
-  self$task_type = "classif"
-  self$row_ids = assert_atomic_vector(row_ids)
-  n = length(row_ids)
-
-  if (is.null(task)) {
-    self$truth = assert_factor(truth, len = n)
-    lvls = levels(truth)
-  } else {
-    lvls = task$class_names
-    self$truth = as_factor(truth, levels = lvls, len = n)
+  if (!is.null(predicted$response)) {
+    predicted$response = as_factor(predicted$response, levels = lvls, len = n, any.missing = FALSE)
   }
 
-  if (!is.null(response)) {
-    self$response = as_factor(response, levels = lvls, len = n, any.missing = FALSE)
-  }
-
+  prob = predicted$prob
   if (!is.null(prob)) {
     assert_matrix(prob, nrows = n, ncols = length(lvls))
     assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
     assert_names(colnames(prob), permutation.of = lvls)
     if (!is.null(rownames(prob))) {
       rownames(prob) = NULL
+      predicted$prob = prob
     }
-    self$prob = prob
 
-    if (is.null(self$response)) {
+    if (is.null(predicted$response)) {
       # calculate response from prob
       i = max.col(prob, ties.method = "random")
-      self$response = factor(colnames(prob)[i], levels = lvls)
+      predicted$response = factor(colnames(prob)[i], levels = lvls)
     }
   }
 
-  self$predict_types = c("response", "prob")[c(!is.null(self$response), !is.null(self$prob))]
+  predicted
+}
+
+
+#' @export
+as_prediction.TaskClassif = function(task, row_ids, predicted) {
+  PredictionClassif$new(row_ids = row_ids, truth = task$truth(row_ids), response = predicted$response, prob = predicted$prob)
 }
 
 #' @export

@@ -66,7 +66,7 @@ local({
     "train_time",     "numeric",    TRUE,    "trained",
     "predict_log",    "data.table", FALSE,   "predicted",
     "predict_time",   "numeric",    TRUE,    "predicted",
-    "prediction",     "data.table", FALSE,   "predicted",
+    "prediction",     "list",       FALSE,   "predicted",
     "measures",       "list",       FALSE,   "scored",
     "performance",    "list",       FALSE,   "scored",
     "score_time",     "numeric",    TRUE,    "scored"

@@ -50,20 +50,28 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     se = NULL,
-    initialize = function(task = NULL, response = NULL, se = NULL, row_ids = task$row_ids, truth = task$truth()) {
-      predictionregr_initialize(self, task, row_ids, truth, response, se)
+    initialize = function(row_ids, truth, response = NULL, se = NULL) {
+      self$row_ids = assert_atomic_vector(row_ids)
+      self$truth = assert_numeric(truth)
+      self$response = assert_numeric(response, null.ok = TRUE)
+      self$se = assert_numeric(se, null.ok = TRUE)
+      self$task_type = "regr"
+      self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
     })
 )
 
-predictionregr_initialize = function(self, task, row_ids, truth, response, se) {
-  self$task_type = "regr"
-  self$row_ids = assert_atomic_vector(row_ids)
-  n = length(row_ids)
+#' @export
+convert_prediction.TaskRegr = function(task, predicted) {
+  n = task$nrow
+  assert_numeric(predicted$response, len = n, any.missing = FALSE, null.ok = TRUE)
+  assert_numeric(predicted$se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
 
-  self$truth = assert_numeric(truth, len = n)
-  self$response = assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
-  self$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
-  self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
+  predicted
+}
+
+#' @export
+as_prediction.TaskRegr = function(task, row_ids, predicted) {
+  PredictionRegr$new(row_ids = row_ids, truth = task$truth(row_ids), response = predicted$response, se = predicted$se)
 }
 
 #' @export
