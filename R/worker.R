@@ -1,8 +1,7 @@
 train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 
   abort = function(e, ...) {
-    msg = sprintf(as.character(e), ...)
-    stop(errorCondition(msg, learner = learner, task = task, class = "trainError"))
+    stop(errorCondition(as.character(e), learner = learner, task = task, class = "trainError"))
   }
 
   # This wrapper calls learner$train, and additionally performs some basic
@@ -10,9 +9,9 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(learner, task) {
-    result = tryCatch(learner$train(task), error = abort)
+    result = learner$train(task)
     if (is.null(result)) {
-      abort("Learner '%s' returned NULL during train", learner$id)
+      stopf("Learner '%s' returned NULL during train", learner$id)
     }
     result
   }
@@ -26,8 +25,8 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
-  result = set_names(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed),
-    c("model", "train_log", "train_time"))
+  result = tryCatch(enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed), error = abort)
+  names(result) = c("model", "train_log", "train_time")
 
   # result is list(model, train_log, train_time)
   return(result)
@@ -37,8 +36,7 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_integer_) {
 
   abort = function(e, ...) {
-    msg = sprintf(as.character(e), ...)
-    stop(errorCondition(msg, learner = learner, task = task, class = "predictError"))
+    stop(errorCondition(as.character(e), learner = learner, task = task, class = "predictError"))
   }
 
   # This wrapper calls learner$predict, and additionally performs some basic
@@ -47,23 +45,23 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
   # and turned into log messages.
   wrapper = function(task, learner, model) {
     if (is.null(model)) {
-      abort("No trained model available")
+      stopf("No trained model available")
     }
 
-    result = tryCatch(learner$predict(task), error = abort)
+    result = learner$predict(task)
 
     if (is.null(result)) {
-      abort("Learner '%s' returned NULL during predict()", learner$id)
+      stopf("Learner '%s' returned NULL during predict()", learner$id)
     }
 
     if (!testList(result, names = "unique")) {
-      abort("Learner '%s' returned '%s' during predict(), but needs to return a named list",
+      stopf("Learner '%s' returned '%s' during predict(), but needs to return a named list",
         learner$id, as_short_string(result))
     }
 
     i = wf(names(result) %nin% learner$predict_types)
     if (length(i)) {
-      abort("Learner '%s' returned result for unsupported predict type '%s'", learner$id, names(result)[i])
+      stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, names(result)[i])
     }
 
     return(result)
@@ -81,8 +79,8 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
-  result = set_names(enc(wrapper, list(task = task, learner = learner, model = model), learner$packages, seed = seed),
-    c("predicted", "predict_log", "predict_time"))
+  result = tryCatch(enc(wrapper, list(task = task, learner = learner, model = model), learner$packages, seed = seed), error = abort)
+  names(result) = c("predicted", "predict_log", "predict_time")
 
   # check and convert prediction of the learner
   result$predicted = convert_prediction(task, result$predicted)
@@ -109,8 +107,7 @@ score_worker = function(e, ctrl) {
 
   score_one = function(m) {
     abort = function(e, ...) {
-      msg = sprintf(as.character(e), ...)
-      stop(errorCondition(msg, experiment = e, measure = m, class = "scoreError"))
+      stop(errorCondition(as.character(e), experiment = e, measure = m, class = "scoreError"))
     }
     tryCatch(m$calculate(experiment = e, prediction = prediction), error = abort)
   }
