@@ -61,6 +61,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
     },
 
     calculate = function(experiment = NULL, prediction = experiment$prediction) {
+
       costs = assert_cost_matrix(private$.costs, experiment$task)
       confusion = prediction$confusion
 
