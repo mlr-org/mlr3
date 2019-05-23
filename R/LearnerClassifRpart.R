@@ -29,9 +29,10 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
             ParamInt$new(id = "maxcompete", default = 4L, lower = 0L, tags = "train"),
             ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L, tags = "train"),
             ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
-            ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
+            ParamInt$new(id = "xval", default = 0L, lower = 0L, tags = "train")
           )
         ),
+        param_vals = list(xval = 0L),
         properties = c("twoclass", "multiclass", "weights", "missings", "importance", "selected_features")
       )
     },
