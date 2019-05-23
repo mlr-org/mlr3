@@ -5,7 +5,8 @@
 #' @include LearnerRegr.R
 #'
 #' @description
-#' A [LearnerClassif] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
+#' A [LearnerRegr] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
+#' Parameter `xval` has been set to 0 per default.
 #'
 #' @references
 #' Breiman, L. (1984).

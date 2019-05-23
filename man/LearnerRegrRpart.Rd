@@ -10,7 +10,8 @@
 LearnerRegrRpart
 }
 \description{
-A \link{LearnerClassif} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
+A \link{LearnerRegr} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
+Parameter \code{xval} has been set to 0 per default.
 }
 \references{
 Breiman, L. (1984).

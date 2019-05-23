@@ -6,6 +6,7 @@
 #'
 #' @description
 #' A [LearnerClassif] for a classification tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
+#' Parameter `xval` has been set to 0 per default.
 #'
 #' @references
 #' Breiman, L. (1984).
