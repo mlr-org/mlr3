@@ -9,7 +9,7 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(learner, task) {
-    result = learner$train(task)
+    result = learner$train(task = task)
     if (is.null(result)) {
       stopf("Learner '%s' returned NULL during train", learner$id)
     }
@@ -48,7 +48,7 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
       stopf("No trained model available")
     }
 
-    result = learner$predict(task)
+    result = learner$predict(task = task, model = model)
 
     if (is.null(result)) {
       stopf("Learner '%s' returned NULL during predict()", learner$id)
@@ -59,7 +59,7 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
         learner$id, as_short_string(result))
     }
 
-    i = wf(names(result) %nin% learner$predict_types)
+    i = wf(names(result) %nin% c("model", learner$predict_types))
     if (length(i)) {
       stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, names(result)[i])
     }
@@ -72,24 +72,20 @@ predict_worker = function(task, learner, model, test_set, ctrl, seed = NA_intege
   task$row_roles$use = test_set
   on.exit( { task$row_roles$use = prev_use }, add = TRUE)
 
-  # augment learner with model
-  assert_null(learner$model)
-  learner$model = model
-  on.exit( { learner$model = NULL }, add = TRUE)
-
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
   result = tryCatch(enc(wrapper, list(task = task, learner = learner, model = model), learner$packages, seed = seed), error = abort)
   names(result) = c("predicted", "predict_log", "predict_time")
 
+  # update model if necessary
+  model = result$predicted$model
+  if (!is.null(model)) {
+    result$model = model
+    result$predicted$model = NULL
+  }
+
   # check and convert prediction of the learner
   result$predicted = convert_prediction(task, result$predicted)
-
-  # store updated model if required
-  if ("updates_model" %in% learner$properties) {
-    result$model = learner$model
-    learner$model = NULL
-  }
 
   # result is list(predicted, predict_log, predict_time)
   return(result)

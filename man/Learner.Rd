@@ -85,10 +85,13 @@ with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperpar
 \item \code{train(task)}\cr
 \link{Task} -> \code{any}\cr
 Train the learner on the complete \link{Task} and returns the fitted model.
-The resulting model is then automatically stored in \code{l$model} by \code{mlr3}.
-\item \code{predict(task)}\cr
+\item \code{predict(task, model)}\cr
 \link{Task} -> \link{Prediction}\cr
-Uses \code{l$model} (fitted and stored during \code{train()}) to return a \link{Prediction} object.
+Uses \code{model} (fitted and stored during \code{train()}) to return a \link{Prediction} object.
+Note: Argument \code{model} defaults to the model stored inside the learner.
+The learner and the model are stored separately for performance reasons.
+However, if you retrieve the learner via the \link{Experiment}, \code{mlr3} automatically inserts the model into the slot \code{$model},
+so that you do not need to pass the model to each method of the learner yourself.
 }
 }
 

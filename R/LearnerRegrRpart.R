@@ -46,9 +46,9 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
     },
 
-    predict = function(task) {
+    predict = function(task, model = self$model) {
       newdata = task$data(cols = task$feature_names)
-      response = predict(self$model, newdata = newdata)
+      response = predict(model, newdata = newdata)
       list(response = response)
     },
 

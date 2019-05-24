@@ -94,11 +94,14 @@
 #' * `train(task)`\cr
 #'   [Task] -> `any`\cr
 #'   Train the learner on the complete [Task] and returns the fitted model.
-#'   The resulting model is then automatically stored in `l$model` by `mlr3`.
 #'
-#' * `predict(task)`\cr
+#' * `predict(task, model)`\cr
 #'   [Task] -> [Prediction]\cr
-#'   Uses `l$model` (fitted and stored during `train()`) to return a [Prediction] object.
+#'   Uses `model` (fitted and stored during `train()`) to return a [Prediction] object.
+#'   Note: Argument `model` defaults to the model stored inside the learner.
+#'   The learner and the model are stored separately for performance reasons.
+#'   However, if you retrieve the learner via the [Experiment], `mlr3` automatically inserts the model into the slot `$model`,
+#'   so that you do not need to pass the model to each method of the learner yourself.
 #'
 #'
 #' @section Optional Extractors:
