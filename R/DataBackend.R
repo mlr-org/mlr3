@@ -20,16 +20,20 @@
 #' or via the S3 method [as_data_backend()].
 #'
 #' ```
-#' DataBackend$new(data, primary_key = NULL)
+#' DataBackend$new(data, primary_key = NULL, data_formats = "data.table", converters = list())
 #' ```
 #'
 #' * `data` :: `any`\cr
 #'   The format of the input data depends on the specialization.
 #'   E.g., [DataBackendDataTable] expects a [data.table::data.table()] and [DataBackendMatrix] expects a [Matrix::Matrix()]
 #'   constructed with the \CRANpkg{Matrix} package.
+#'
 #' * `primary_key` :: `character(1)`\cr
 #'   Each DataBackend needs a way to address rows, which is done via a column of unique values, referenced here by `primary_key`.
 #'   The use of this variable may differ between backends.
+#'
+#' * data_formats (`character()`)\cr
+#'   Set of supported formats, e.g. `"data.table"` or `"Matrix"`.
 #'
 #' @section Fields:
 #' * `nrow` :: `integer(1)`\cr
@@ -104,7 +108,8 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     print = function() {
       catf("%s (%ix%i)", format(self), self$nrow, self$ncol)
       print(self$head(6L))
-    }),
+    }
+  ),
 
   active = list(
     hash = function(rhs) {

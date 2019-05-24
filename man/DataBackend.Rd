@@ -18,7 +18,7 @@ It is not recommended to work directly with the DataBackend.
 \section{Construction}{
 
 Note: This object is typically constructed via a derived classes, e.g. \link{DataBackendDataTable} or \link{DataBackendMatrix},
-or via the S3 method \code{\link[=as_data_backend]{as_data_backend()}}.\preformatted{DataBackend$new(data, primary_key = NULL)
+or via the S3 method \code{\link[=as_data_backend]{as_data_backend()}}.\preformatted{DataBackend$new(data, primary_key = NULL, data_formats = "data.table", converters = list())
 }
 \itemize{
 \item \code{data} :: \code{any}\cr
@@ -28,6 +28,8 @@ constructed with the \CRANpkg{Matrix} package.
 \item \code{primary_key} :: \code{character(1)}\cr
 Each DataBackend needs a way to address rows, which is done via a column of unique values, referenced here by \code{primary_key}.
 The use of this variable may differ between backends.
+\item data_formats (\code{character()})\cr
+Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.
 }
 }
 
