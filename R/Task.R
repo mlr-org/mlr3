@@ -270,7 +270,7 @@ Task = R6Class("Task",
     },
 
     formula = function(rhs = NULL) {
-      formulate(self$target_names, rhs %??% self$feature_names)
+      formulate(self$target_names, rhs %??% ".")
     },
 
     head = function(n = 6L) {

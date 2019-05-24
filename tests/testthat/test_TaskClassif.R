@@ -11,7 +11,7 @@ test_that("Basic ops on iris task", {
 
   f = task$formula()
   expect_class(f, "formula")
-  expect_set_equal(attr(terms(f), "term.labels"), setdiff(names(iris), "Species"))
+  # expect_set_equal(attr(terms(f), "term.labels"), setdiff(names(iris), "Species"))
 })
 
 test_that("$class_names and $class_n consider also inactive rows", {

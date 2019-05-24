@@ -213,9 +213,9 @@ expect_task_supervised = function(task) {
 
   f = task$formula()
   checkmate::expect_class(f, "formula")
-  tf = terms(f)
-  checkmate::expect_set_equal(labels(tf), task$feature_names) # rhs
-  checkmate::expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target_names) # lhs
+  # tf = terms(f)
+  # checkmate::expect_set_equal(labels(tf), task$feature_names) # rhs
+  # checkmate::expect_set_equal(setdiff(all.vars(tf), labels(tf)), task$target_names) # lhs
   checkmate::expect_subset(task$feature_names, colnames(task$head()))
   expect_hash(task$hash, 1L)
 }
