@@ -40,7 +40,7 @@ local({
 
 
   ### Learner
-  tmp = c("missings", "weights", "parallel", "importance", "selected_features", "oob_error")
+  tmp = c("missings", "weights", "parallel", "importance", "selected_features", "oob_error", "updates_model")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp
@@ -61,7 +61,6 @@ local({
     "learner",        "Learner",    FALSE,   "defined",
     "resampling",     "Resampling", FALSE,   "trained",
     "iteration",      "integer",    TRUE,    "trained",
-    "model",          "list",       FALSE,   "trained",
     "train_log",      "data.table", FALSE,   "trained",
     "train_time",     "numeric",    TRUE,    "trained",
     "predict_log",    "data.table", FALSE,   "predicted",

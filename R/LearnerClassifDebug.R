@@ -62,13 +62,16 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$segfault_train)) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
+
       if (isTRUE(pv$save_tasks)) {
-        return(list(task$clone(deep = TRUE)))
+        self$model = list(task$clone(deep = TRUE))
+      } else {
+        self$model = set_class(as.character(sample(task$truth(), 1L)), "unittest")
       }
-      set_class(as.character(sample(task$truth(), 1L)), "unittest")
+      self
     },
 
-    predict = function(task, model = self$model) {
+    predict = function(task) {
       pv = self$params("predict")
       if (isTRUE(pv$message_predict)) {
         message("Message from classif.debug->predict()")
@@ -82,12 +85,13 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$segfault_predict)) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
+
       if (isTRUE(pv$save_tasks)) {
-        model = c(model, task$clone(deep = TRUE))
+        self$model = c(self$model, task$clone(deep = TRUE))
         label = sample(task$truth(), 1L)
-        list(model = model, response = rep.int(as.character(label), task$nrow))
+        list(response = rep.int(as.character(label), task$nrow))
       } else {
-        list(response = rep.int(unclass(model), task$nrow))
+        list(response = rep.int(unclass(self$model), task$nrow))
       }
     })
 )

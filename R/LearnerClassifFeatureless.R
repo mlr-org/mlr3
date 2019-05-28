@@ -32,12 +32,13 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
 
     train = function(task) {
       tn = task$target_names
-      set_class(list(tab = table(task$data(cols = tn)[[1L]]), features = task$feature_names), "featureless")
+      self$model = set_class(list(tab = table(task$data(cols = tn)[[1L]]), features = task$feature_names), "featureless")
+      self
     },
 
-    predict = function(task, model = self$model) {
+    predict = function(task) {
       pv = self$params("predict")
-      tab = model$tab
+      tab = self$model$tab
       n = task$nrow
       response = prob = NULL
 

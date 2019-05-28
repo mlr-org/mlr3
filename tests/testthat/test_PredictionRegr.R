@@ -11,7 +11,8 @@ test_that("Internally constructed Prediction", {
   task = mlr_tasks$get("boston_housing")
   lrn = mlr_learners$get("regr.featureless")
   lrn$predict_type = "se"
-  e = Experiment$new(task, lrn)$train()$predict()
+  e = Experiment$new(task, lrn)$train()
+  e$predict()
   p = e$prediction
   expect_prediction(p)
   expect_prediction_regr(p)

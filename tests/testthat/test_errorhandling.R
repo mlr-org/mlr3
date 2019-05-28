@@ -7,10 +7,12 @@ test_that("no encapsulation", {
 
   learner$param_set$values = list(error_train = TRUE)
   e = Experiment$new(task = task, learner = learner)
-  expect_error(e$train(ctrl = ctrl), "classif.debug->train", class = "trainError")
+  # expect_error(e$train(ctrl = ctrl), "classif.debug->train", class = "trainError")
+  expect_error(e$train(ctrl = ctrl), "classif.debug->train")
 
   learner$param_set$values = list(error_predict = TRUE)
   e = Experiment$new(task = task, learner = learner)
   e$train(ctrl = ctrl)
-  expect_error(e$predict(ctrl = ctrl), "classif.debug->predict", class = "predictError")
+  # expect_error(e$predict(ctrl = ctrl), "classif.debug->predict", class = "predictError")
+  expect_error(e$predict(ctrl = ctrl), "classif.debug->predict")
 })

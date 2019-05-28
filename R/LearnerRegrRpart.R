@@ -43,12 +43,13 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       if ("weights" %in% task$properties) {
         pars = insert_named(pars, list(weights = task$weights$weight))
       }
-      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
+      self$model = invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
+      self
     },
 
-    predict = function(task, model = self$model) {
+    predict = function(task) {
       newdata = task$data(cols = task$feature_names)
-      response = predict(model, newdata = newdata)
+      response = predict(self$model, newdata = newdata)
       list(response = response)
     },
 

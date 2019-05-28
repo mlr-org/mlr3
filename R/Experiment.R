@@ -115,7 +115,7 @@
 #'
 #' * `learner` :: [Learner]\cr
 #'   A clone of the [Learner] which was provided during construction.
-#'   If retrieved via `e$learner`, the slot `$model` contains the fitted model.
+#'   If the experiment has already been trained, `e$learner$model` contains the fitted model.
 #'
 #' * `resampling` :: [Resampling]\cr
 #'   Is `NULL` prior to calling `$train()`.
@@ -233,19 +233,13 @@ Experiment = R6Class("Experiment",
 
     learner = function(rhs) {
       if (missing(rhs)) {
-        learner = self$data$learner
-        model = self$model
-        if (!is.null(model)) {
-          learner = learner$clone()
-          learner$model = model
-        }
-        return(learner)
+        return(self$data$learner)
       }
-      self$data$learner = assert_learner(rhs, task = self$task)$clone(deep = TRUE)
+      self$data$learner = assert_learner(rhs, task = self$task, clone = TRUE)
     },
 
     model = function() {
-      self$data$model
+      self$data$learner$model
     },
 
     timings = function() {
@@ -349,7 +343,12 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   self$data$iteration = 1L
 
   log_info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
-  value = train_worker(self$task, self$learner, self$train_set, ctrl, seed = self$seeds[["train"]])
+  value = train_worker(self$task, self$learner$clone(), self$train_set, ctrl, seed = self$seeds[["train"]])
+
+  # this is required to get a clean learner object:
+  # during parallelization, learners might get serialized and are getting unnecessarily big
+  # after de-serialization
+  value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
@@ -379,10 +378,12 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   } else {
     row_ids = if (is.null(row_ids)) self$task$row_ids else assert_row_ids(row_ids)
   }
+
+  # update resampling instance
   self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
 
   log_info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
-  value = predict_worker(self$task, self$data$learner, self$data$model, self$test_set, ctrl, self$seeds[["predict"]])
+  value = predict_worker(self$data$task, self$data$learner, self$test_set, ctrl, self$seeds[["predict"]])
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_

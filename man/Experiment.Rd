@@ -105,7 +105,7 @@ A clone of the \link{Task} which was provided during construction.
 Also accessible via \code{e$task}.
 \item \code{learner} :: \link{Learner}\cr
 A clone of the \link{Learner} which was provided during construction.
-If retrieved via \code{e$learner}, the slot \code{$model} contains the fitted model.
+If the experiment has already been trained, \code{e$learner$model} contains the fitted model.
 \item \code{resampling} :: \link{Resampling}\cr
 Is \code{NULL} prior to calling \code{$train()}.
 If the experiment is constructed manually (i.e., not via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}), a \link{ResamplingCustom} object is stored.
