@@ -33,7 +33,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No recursive dependencies.
     - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No recursive dependencies.
     - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No recursive dependencies.
-    - [`logger`](https://github.com/daroczig/logger): Logging facility. No recursive dependencies.
+    - [`lgr`](https://github.com/s-fleck/lgr): Logging facility. No extra recursive dependencies.
     - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No recursive dependencies.
     - [`mlbench`](https://cran.r-project.org/package=mlbench): A collection of machine learning data sets. No dependencies.
 

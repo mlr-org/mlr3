@@ -87,7 +87,7 @@ TaskClassif = R6Class("TaskClassif",
         if (is.null(positive)) {
           self$positive = levels[1L]
           self$negative = levels[2L]
-          log_debug("Setting positive class to '%s'", self$positive, namespace = "mlr3")
+          lg$debug("Setting positive class to '%s'", self$positive)
         } else {
           self$positive = assert_choice(positive, levels)
           self$negative = setdiff(levels, self$positive)

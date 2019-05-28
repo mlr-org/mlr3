@@ -49,7 +49,7 @@ Imports:
     checkmate (>= 1.9.3),
     data.table,
     digest,
-    logger,
+    lgr,
     Metrics,
     mlbench,
     mlr3misc,
@@ -71,6 +71,7 @@ Suggests:
 VignetteBuilder:
     knitr
 Remotes:
+    s-fleck/lgr,
     mlr-org/mlr3misc,
     mlr-org/paradox
 Encoding: UTF-8

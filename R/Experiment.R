@@ -342,7 +342,7 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
   self$data$iteration = 1L
 
-  log_info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
+  lg$info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = train_worker(self$task, self$learner$clone(), self$train_set, ctrl, seed = self$seeds[["train"]])
 
   # this is required to get a clean learner object:
@@ -382,7 +382,7 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   # update resampling instance
   self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
 
-  log_info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
+  lg$info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = predict_worker(self$data$task, self$data$learner, self$test_set, ctrl, self$seeds[["predict"]])
 
   # this is required to get a clean learner object:
@@ -405,7 +405,7 @@ experiment_score = function(self, private, measures = NULL, ctrl = list()) {
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, predict_types = names(self$data$predicted))
 
-  log_info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
+  lg$info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = score_worker(self, ctrl = ctrl)
 
   self$data = insert_named(self$data, value)

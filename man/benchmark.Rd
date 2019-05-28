@@ -32,10 +32,6 @@ see different splits of the same task.
 To generate exhaustive designs and automatically instantiate resampling strategies per task, see \code{\link[=expand_grid]{expand_grid()}}.
 }
 \examples{
-\dontshow{
-.threshold = logger::log_threshold(namespace = "mlr3")
-logger::log_threshold(logger::WARN, namespace = "mlr3")
-}
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("holdout")
@@ -62,7 +58,4 @@ print(rr)
 
 # Extract predictions of first experiment of this resampling
 head(as.data.table(rr$experiment(1)$prediction))
-\dontshow{
-logger::log_threshold(.threshold, namespace = "mlr3")
-}
 }

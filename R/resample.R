@@ -20,10 +20,6 @@
 #' @return [ResampleResult].
 #' @export
 #' @examples
-#' \dontshow{
-#' .threshold = logger::log_threshold(namespace = "mlr3")
-#' logger::log_threshold(logger::WARN, namespace = "mlr3")
-#' }
 #' task = mlr_tasks$get("iris")
 #' learner = mlr_learners$get("classif.rpart")
 #' resampling = mlr_resamplings$get("cv")
@@ -49,9 +45,6 @@
 #' # Combine the ResampleResults into a BenchmarkResult
 #' bmr = rr$combine(rr.featureless)
 #' bmr$aggregated(objects = FALSE)
-#' \dontshow{
-#' logger::log_threshold(.threshold, namespace = "mlr3")
-#' }
 resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
 
   task = assert_task(task, clone = TRUE)
@@ -67,13 +60,13 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   n = instance$iters
 
   if (use_future()) {
-    log_debug("Running resample() via future with %i iterations", n, namespace = "mlr3")
+    lg$debug("Running resample() via future with %i iterations", n)
     res = future.apply::future_lapply(seq_len(n), experiment_worker,
       task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl,
       remote = TRUE, future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3")
   } else {
-    log_debug("Running resample() sequentially with %i iterations", n, namespace = "mlr3")
+    lg$debug("Running resample() sequentially with %i iterations", n)
     res = lapply(seq_len(n), experiment_worker,
       task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl)
   }

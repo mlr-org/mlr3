@@ -22,7 +22,7 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 
   learner = learner$clone(deep = TRUE)
 
-  log_debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
+  lg$debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol)
 
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
@@ -93,7 +93,7 @@ score_worker = function(e, ctrl) {
   measures = data$measures
   pkgs = unique(unlist(map(measures, "packages")))
 
-  log_debug("score_worker: Learner '%s' on task '%s' [%ix%i]", data$learner$id, data$task$id, data$task$nrow, data$task$ncol, namespace = "mlr3")
+  lg$debug("score_worker: Learner '%s' on task '%s' [%ix%i]", data$learner$id, data$task$id, data$task$nrow, data$task$ncol)
 
 
   score_one = function(m) {
@@ -122,14 +122,14 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   if (remote) {
     # restore the state of the master session
     # currently, this only affects logging as we do not use any global options
-    logger::log_threshold(ctrl$log_threshold, namespace = "mlr3")
+    lg$set_threshold(ctrl$log_threshold)
   }
 
   # Create a new experiment
   # Results will be inserted into e$data in a piecemeal fashion
   e = as_experiment(task = task, learner = learner, resampling = resampling, iteration = iteration, measures = measures)
 
-  log_info("Running learner '%s' on task '%s' (iteration %i/%i)'", learner$id, task$id, iteration, resampling$iters, namespace = "mlr3")
+  lg$info("Running learner '%s' on task '%s' (iteration %i/%i)'", learner$id, task$id, iteration, resampling$iters)
 
   train_set = resampling$train_set(iteration)
   tmp = train_worker(task, learner, train_set, ctrl)
