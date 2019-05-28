@@ -69,7 +69,7 @@ convert_prediction.TaskRegr = function(task, predicted) {
   assert_numeric(predicted$response, len = n, any.missing = FALSE, null.ok = TRUE)
   assert_numeric(predicted$se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
 
-  predicted
+  set_class(predicted, c("PredictionDataRegr", "PredictionData"))
 }
 
 #' @export

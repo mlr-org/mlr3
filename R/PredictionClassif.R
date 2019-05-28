@@ -179,7 +179,7 @@ convert_prediction.TaskClassif = function(task, predicted) {
     }
   }
 
-  predicted
+  set_class(predicted, c("PredictionDataClassif", "PredictionData"))
 }
 
 

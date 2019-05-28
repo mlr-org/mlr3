@@ -353,6 +353,7 @@ expect_experiment = function(e) {
     checkmate::expect_data_table(e$data$predict_log, null.ok = TRUE)
     checkmate::expect_number(e$data$predict_time)
     checkmate::expect_list(e$data$predicted, names = "unique")
+    testthat::expect_is(e$data$predicted, "PredictionData")
     if (e$task$task_type %in% c("classif", "regr"))
       checkmate::expect_atomic_vector(e$data$predicted$response, len = length(e$test_set), any.missing = FALSE)
   }

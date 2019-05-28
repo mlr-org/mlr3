@@ -35,4 +35,7 @@ test_that("experiment_worker", {
   expect_list(res)
   expect_names(names(res), permutation.of =
     c("iteration", "learner", "train_log", "train_time", "predict_log", "predict_time", "predicted", "performance", "score_time"))
+
+  expect_is(res$predicted, "PredictionData")
+  expect_is(res$predicted, "PredictionDataClassif")
 })
