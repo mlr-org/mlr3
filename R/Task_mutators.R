@@ -11,8 +11,9 @@ task_set_row_role = function(self, rows, new_roles, exclusive = TRUE) {
   }
 
   if (exclusive) {
-    for (role in setdiff(names(self$row_roles), new_roles))
+    for (role in setdiff(names(self$row_roles), new_roles)) {
       self$row_roles[[role]] = setdiff(self$row_roles[[role]], rows)
+    }
   }
 }
 
@@ -28,8 +29,9 @@ task_set_col_role = function(self, cols, new_roles, exclusive = TRUE) {
   }
 
   if (exclusive) {
-    for (role in setdiff(names(self$col_roles), new_roles))
+    for (role in setdiff(names(self$col_roles), new_roles)) {
       self$col_roles[[role]] = setdiff(self$col_roles[[role]], cols)
+    }
   }
 
   # update weights and groups property
