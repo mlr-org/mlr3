@@ -22,9 +22,6 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 
   log_debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
 
-  # we are going to mutate learner, so better clone it first
-  learner = learner$clone()
-
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
   result = (enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed))

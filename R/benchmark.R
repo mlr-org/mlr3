@@ -107,9 +107,14 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
     )
   }
 
-  remove_named(grid, c("iter", "learner"))
-  grid = ref_cbind(grid, combine_experiments(tmp))
+  combined = combine_experiments(tmp)
 
+  # this is required to get a clean learner object:
+  # during parallelization, learners might get serialized and are getting unnecessarily big
+  # after de-serialization
+  insert_named(combined, list(learner = copy_models(combined$learner, grid$learner)))
+
+  grid = ref_cbind(remove_named(grid, c("iter", "learner")), combined)
   log_info("Finished benchmark", namespace = "mlr3")
   BenchmarkResult$new(grid)
 }

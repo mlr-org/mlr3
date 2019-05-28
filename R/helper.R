@@ -65,3 +65,13 @@ use_future = function() {
     requireNamespace("future.apply", quietly = TRUE) &&
     !inherits(future::plan(), "uniprocess")
 }
+
+# copies model from a list of learners in `src` to a list of learners in `dst`
+# all learners in `dst` will be cloned
+copy_models = function(src, dst) {
+  Map(function(src, dst) {
+    dst = dst$clone(deep = TRUE)
+    dst$model = src$model
+    dst
+  }, src = src, dst = dst)
+}

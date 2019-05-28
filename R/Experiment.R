@@ -343,7 +343,12 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   self$data$iteration = 1L
 
   log_info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
-  value = train_worker(self$task, self$learner, self$train_set, ctrl, seed = self$seeds[["train"]])
+  value = train_worker(self$task, self$learner$clone(), self$train_set, ctrl, seed = self$seeds[["train"]])
+
+  # this is required to get a clean learner object:
+  # during parallelization, learners might get serialized and are getting unnecessarily big
+  # after de-serialization
+  value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
