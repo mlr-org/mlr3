@@ -10,10 +10,10 @@ test_that("Simple training/predict", {
   expect_class(e$model, "unittest")
   expect_character(e$model, len = 1L, any.missing = FALSE)
   expect_factor(e$prediction$response, any.missing = FALSE, levels = levels(e$model))
-
 })
 
-test_that("updates_model works / Experiment", {
+test_that("updating model works / Experiment", {
+  task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
   e = Experiment$new(task, learner)
   e$train(row_ids = 1:10)
@@ -28,7 +28,7 @@ test_that("updates_model works / Experiment", {
   expect_equal(hashes(model), hashes(list(itrain, ipredict)))
 })
 
-test_that("updates_model works / resample", {
+test_that("updating model works / resample", {
   learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
   rr = resample("iris", learner, "holdout")
   e = rr$experiment(1)

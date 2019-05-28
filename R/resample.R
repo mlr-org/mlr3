@@ -84,7 +84,7 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   # this is required to get a clean learner object:
   # during parallelization, learners might get serialized and are getting unnecessarily big
   # after de-serialization
-  insert_named(res, list(learner = copy_models(res$learner, list(learner))))
+  # insert_named(res, list(learner = copy_models(res$learner, list(learner))))
 
   ResampleResult$new(res)
 }

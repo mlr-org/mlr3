@@ -348,7 +348,7 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   # this is required to get a clean learner object:
   # during parallelization, learners might get serialized and are getting unnecessarily big
   # after de-serialization
-  value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
+  # value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
@@ -388,9 +388,9 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   # this is required to get a clean learner object:
   # during parallelization, learners might get serialized and are getting unnecessarily big
   # after de-serialization
-  if ("learner" %in% names(value)) {
-    value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
-  }
+  # if ("learner" %in% names(value)) {
+    # value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
+  # }
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_

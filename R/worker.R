@@ -20,6 +20,8 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
   task$row_roles$use = train_set
   on.exit( { task$row_roles$use = prev_use }, add = TRUE)
 
+  learner = learner$clone(deep = TRUE)
+
   log_debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol, namespace = "mlr3")
 
   # call wrapper with encapsulation
@@ -73,9 +75,9 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   names(result) = c("predicted", "predict_log", "predict_time")
 
   # update the model if necessary
-  if ("updates_model" %in% learner$properties) {
-    result$learner = learner
-  }
+  # if ("updates_model" %in% learner$properties) {
+  #   result$learner = learner
+  # }
 
   # check and convert prediction of the learner
   result$predicted = convert_prediction(task, result$predicted)
