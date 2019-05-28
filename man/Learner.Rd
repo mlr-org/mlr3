@@ -83,9 +83,9 @@ Hash (unique identifier) for this object.
 Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
 with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters relevant in the training step.
 \item \code{train(task)}\cr
-\link{Task} -> \code{any}\cr
-Train the learner on the complete \link{Task} and returns the fitted model.
-\item \code{predict(task, model)}\cr
+\link{Task} -> \link{Learner}\cr
+Train the learner on the complete \link{Task}, sets \code{self$model} to the learner model and returns itself.
+\item \code{predict(task)}\cr
 \link{Task} -> \link{Prediction}\cr
 Uses \code{model} (fitted and stored during \code{train()}) to return a \link{Prediction} object.
 Note: Argument \code{model} defaults to the model stored inside the learner.

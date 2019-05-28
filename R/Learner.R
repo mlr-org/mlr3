@@ -92,10 +92,10 @@
 #'   with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters relevant in the training step.
 #'
 #' * `train(task)`\cr
-#'   [Task] -> `any`\cr
-#'   Train the learner on the complete [Task] and returns the fitted model.
+#'   [Task] -> [Learner]\cr
+#'   Train the learner on the complete [Task], sets `self$model` to the learner model and returns itself.
 #'
-#' * `predict(task, model)`\cr
+#' * `predict(task)`\cr
 #'   [Task] -> [Prediction]\cr
 #'   Uses `model` (fitted and stored during `train()`) to return a [Prediction] object.
 #'   Note: Argument `model` defaults to the model stored inside the learner.

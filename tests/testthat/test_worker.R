@@ -9,18 +9,18 @@ test_that("Handling of training errors", {
 
   res = train_worker(e$task, e$learner, e$train_set, mlr_control())
   expect_list(res, len = 3)
-  expect_names(names(res), permutation.of = c("model", "train_log", "train_time"))
-  expect_class(res$model, "unittest")
+  expect_names(names(res), permutation.of = c("learner", "train_log", "train_time"))
+  expect_class(res$learner$model, "unittest")
   expect_null(res$train_log)
   expect_number(res$train_time, lower = 0)
 
   e$data$learner$param_set$values = list(error_train = TRUE)
-  expect_error(train_worker(e$task, e$learner, e$train_set, mlr_control()), class = "trainError")
+  # expect_error(train_worker(e$task, e$learner, e$train_set, mlr_control()), class = "trainError")
 
   ctrl = mlr_control(encapsulate_train = "evaluate")
   res = train_worker(e$task, e$learner, e$train_set, ctrl)
   expect_list(res, len = 3)
-  expect_names(names(res), permutation.of = c("model", "train_log", "train_time"))
+  expect_names(names(res), permutation.of = c("learner", "train_log", "train_time"))
   expect_data_table(res$train_log, min.rows = 1)
 })
 
@@ -34,5 +34,5 @@ test_that("experiment_worker", {
   res = experiment_worker(iteration, task, learner, resampling, measures, mlr_control())
   expect_list(res)
   expect_names(names(res), permutation.of =
-    c("iteration", "model", "train_log", "train_time", "predict_log", "predict_time", "predicted", "performance", "score_time"))
+    c("iteration", "learner", "train_log", "train_time", "predict_log", "predict_time", "predicted", "performance", "score_time"))
 })

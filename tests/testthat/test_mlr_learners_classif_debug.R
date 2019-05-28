@@ -14,9 +14,9 @@ test_that("Simple training/predict", {
   learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
   e = Experiment$new(task, learner)
   e$train(row_ids = 1:10)
-  expect_null(e$data$learner$model)
+  expect_list(e$data$learner$model, types = "Task", len = 1)
   e$predict(row_ids = 11:20)
-  expect_null(e$data$learner$model)
+  expect_list(e$data$learner$model, types = "Task", len = 2)
   model = e$model
 
   itrain = task$clone(TRUE)$filter(1:10)

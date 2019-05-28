@@ -61,7 +61,6 @@ local({
     "learner",        "Learner",    FALSE,   "defined",
     "resampling",     "Resampling", FALSE,   "trained",
     "iteration",      "integer",    TRUE,    "trained",
-    "model",          "list",       FALSE,   "trained",
     "train_log",      "data.table", FALSE,   "trained",
     "train_time",     "numeric",    TRUE,    "trained",
     "predict_log",    "data.table", FALSE,   "predicted",
