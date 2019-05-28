@@ -74,7 +74,7 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
 
   # update the model if necessary
   if ("updates_model" %in% learner$properties) {
-    result$model = learner$model
+    result$learner = learner
   }
 
   # check and convert prediction of the learner

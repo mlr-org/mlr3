@@ -11,6 +11,9 @@ test_that("Simple training/predict", {
   expect_character(e$model, len = 1L, any.missing = FALSE)
   expect_factor(e$prediction$response, any.missing = FALSE, levels = levels(e$model))
 
+})
+
+test_that("updates_model works / Experiment", {
   learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
   e = Experiment$new(task, learner)
   e$train(row_ids = 1:10)
@@ -23,4 +26,11 @@ test_that("Simple training/predict", {
   ipredict = task$clone(TRUE)$filter(11:20)
 
   expect_equal(hashes(model), hashes(list(itrain, ipredict)))
+})
+
+test_that("updates_model works / resample", {
+  learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
+  rr = resample("iris", learner, "holdout")
+  e = rr$experiment(1)
+  expect_list(e$model, len = 2, types = "Task")
 })

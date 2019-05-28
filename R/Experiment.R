@@ -385,6 +385,13 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   log_info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id, namespace = "mlr3")
   value = predict_worker(self$data$task, self$data$learner, self$test_set, ctrl, self$seeds[["predict"]])
 
+  # this is required to get a clean learner object:
+  # during parallelization, learners might get serialized and are getting unnecessarily big
+  # after de-serialization
+  if ("learner" %in% names(value)) {
+    value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
+  }
+
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
   return(experiment_reset_state(self, "predicted"))

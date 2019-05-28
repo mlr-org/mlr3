@@ -44,7 +44,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),
-        properties = "missings"
+        properties = c("missings", "updates_model")
       )
     },
 
