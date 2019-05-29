@@ -2,15 +2,17 @@
 % Please edit documentation in R/as_data_backend.R
 \name{as_data_backend}
 \alias{as_data_backend}
-\title{Create a Data Backend.}
+\title{Create a Data Backend}
 \usage{
 as_data_backend(data, ...)
 }
 \arguments{
-\item{data}{Data to wrap the backend around.
+\item{data}{(\code{any}).
+Data to create a \link{DataBackend} for.
 For a \code{data.frame()} (this includes \code{tibble()} from \CRANpkg{tibble} and \code{data.table()}),
-creates a \link{DataBackendDataTable}.
-See \code{methods("as_data_backend")} for possible input formats.}
+this function creates a \link{DataBackendDataTable}.
+See \code{methods("as_data_backend")} for possible input formats.
+Note that third-party packages may extend this functionality.}
 
 \item{...}{Additional arguments passed to the respective \link{DataBackend} method.}
 }
@@ -19,6 +21,10 @@ See \code{methods("as_data_backend")} for possible input formats.}
 }
 \description{
 Wraps a \link{DataBackend} around data.
+}
+\examples{
+# create a new backend using the iris data:
+as_data_backend(iris)
 }
 \seealso{
 Other DataBackend: \code{\link{DataBackendDataTable}},

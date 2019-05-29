@@ -6,6 +6,7 @@
 #'
 #' @description
 #' A [Generator] for the 2d normals task in [mlbench::mlbench.2dnormals()].
+#'
 #' @export
 #' @examples
 #' mlr_generators$get("2dnormals")$generate(10)$data()
@@ -19,11 +20,13 @@ Generator2DNormals = R6Class("Generator2DNormals",
         ParamDbl$new("sd", lower = 0L)
       ))
       super$initialize(id = id, "classif", "mlbench", param_set)
-    }),
+    }
+  ),
 
   private = list(
     .generate = function(n) {
       data = invoke(mlbench::mlbench.2dnormals, n = n, .args = self$param_set$values)
       TaskClassif$new(sprintf("%s_%i", self$id, n), as.data.frame(data), target = "classes")
-    })
+    }
+  )
 )

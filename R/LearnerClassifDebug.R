@@ -23,6 +23,15 @@
 #' Note that segfaults may not work on your operating system.
 #' Also note that if they work, they will tear down your R session immediately!
 #' @export
+#' @examples
+#' learner = LearnerClassifDebug$new()
+#' learner$param_set$values = list(message_train = TRUE, save_tasks = TRUE)
+#'
+#' # this should signal a message
+#' e = Experiment$new("iris", learner)$train()$predict()
+#'
+#' # task_train and task_predict are the input tasks for train() and predict()
+#' names(e$model)
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
     initialize = function(id = "classif.debug") {
@@ -63,11 +72,11 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
+      model = list(response = as.character(sample(task$truth(), 1L)))
       if (isTRUE(pv$save_tasks)) {
-        self$model = list(task$clone(deep = TRUE))
-      } else {
-        self$model = set_class(as.character(sample(task$truth(), 1L)), "unittest")
+        model$task_train = task$clone(deep = TRUE)
       }
+      self$model = set_class(model, "classif.debug_model")
       self
     },
 
@@ -87,11 +96,9 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       if (isTRUE(pv$save_tasks)) {
-        self$model = c(self$model, task$clone(deep = TRUE))
-        label = sample(task$truth(), 1L)
-        list(response = rep.int(as.character(label), task$nrow))
-      } else {
-        list(response = rep.int(unclass(self$model), task$nrow))
+        self$model$task_predict = task$clone(deep = TRUE)
       }
-    })
+      list(response = rep.int(unclass(self$model$response), task$nrow))
+    }
+  )
 )

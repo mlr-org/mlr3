@@ -1,25 +1,34 @@
 #' @title Benchmark Multiple Learners on Multiple Tasks
 #'
 #' @description
-#' Runs a benchmark of the cross-product of learners, tasks, and resampling strategies (possibly in parallel).
-#'
+#' Runs a benchmark on arbitrary combinations of learners, tasks, and resampling strategies (possibly in parallel).
 #' Resamplings which are not already instantiated will be instantiated automatically.
-#' Note that these auto-instantiated resamplings will not be synchronized per task, i.e. learners will
-#' see different splits of the same task.
+#' However, these auto-instantiated resamplings will not be synchronized per task, i.e. different learners will
+#' work on different splits of the same task.
 #'
-#' To generate exhaustive designs and automatically instantiate resampling strategies per task, see [expand_grid()].
+#' To generate exhaustive designs and automatically instantiate resampling strategies per task, use [expand_grid()].
 #'
 #' @param design ([data.frame()]):
 #'   Data frame (or [data.table()]) with three columns: "task", "learner", and "resampling".
 #'   Each row defines a set of resampled experiments by providing a [Task], [Learner] and [Resampling] strategy.
-#'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples).
+#'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples) and properly
+#'   instantiate the [Resampling]s per [Task].
 #' @param measures (list of [Measure]):
 #'   List of performance measures to calculate.
 #'   Defaults to the measures specified in the each respective [Task].
-#' @param ctrl (named `list` as returned by [mlr_control()]):
-#'   Object to control experiment execution. See [mlr_control()].
-#'
+#'   The measures will be cloned.
+#' @param ctrl (named `list()` as returned by [mlr_control()]):
+#'   Object to control experiment execution. See [mlr_control()] for details.
+#'   Note that per default, fitted learner models are discarded after the prediction in order to save
+#'   some memory.
 #' @return [BenchmarkResult].
+#'
+#' @section Parallelization:
+#' This function can be parallelized with the \CRANpkg{future} package.
+#' Each row in the `design` creates as many jobs as there are resampling iterations.
+#' All jobs are forwarded to the \CRANpkg{future} package together.
+#' To select a parallel backend, use [future::plan()].
+#'
 #' @export
 #' @examples
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
@@ -48,7 +57,7 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
-benchmark = function(design, measures = NULL, ctrl = list()) {
+benchmark = function(design, measures = NULL, ctrl = list(store_model = FALSE)) {
 
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
@@ -59,23 +68,23 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
     measures = assert_measures(measures, clone = TRUE)
   }
   ctrl = mlr_control(ctrl)
+  is_exhautive_grid = isTRUE(attr(design, "exhaustive_grid"))
 
   # clone inputs
   task = learner = NULL
   design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
-  design[, "learner" := list(list(learner[[1L]]$clone())), by = list(hashes(learner))]
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
-    if (resampling$is_instantiated) {
-      instance = resampling
-    } else {
-      instance = resampling$clone()
-      instance = instance$instantiate(task)
+    if (!is_exhautive_grid) {
+      resampling = resampling$clone()
+      if (!resampling$is_instantiated) {
+        resampling$instantiate(task)
+      }
     }
     hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
-    data.table(task = list(task), learner = list(learner), resampling = list(instance),
-      measures = list(measures %??% task$measures), iter = seq_len(instance$iters), hash = hash)
+    data.table(task = list(task), learner = list(learner), resampling = list(resampling),
+      measures = list(measures %??% task$measures), iter = seq_len(resampling$iters), hash = hash)
   })
 
   lg$info("Benchmarking %i experiments", nrow(grid))
@@ -120,12 +129,12 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 #'
 #' Resampling strategies may not be instantiated, and will be instantiated per task internally.
 #'
-#' @param tasks (list of [Task]).
-#'   Instead a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
-#' @param learners (list of [Learner]).
-#'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a task from the [mlr_learners] dictionary.
-#' @param resamplings (list of [Resampling]).
-#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a task from the [mlr_resamplings] dictionary.
+#' @param tasks (list of [Task] | `character()`).
+#'   Instead a [Task] object, it is also possible to provide a keys to retrieve tasks from the [mlr_tasks] dictionary.
+#' @param learners (list of [Learner] | `character()`).
+#'   Instead if a [Learner] object, it is also possible to provide keys to retrieve learners from the [mlr_learners] dictionary.
+#' @param resamplings (list of [Resampling] | `character()`).
+#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
 #'
 #' @return ([data.table()]) with the cross product of the input vectors.
 #' @export
@@ -134,13 +143,14 @@ expand_grid = function(tasks, learners, resamplings) {
   tasks = assert_tasks(tasks)
   learners = assert_learners(learners)
   resamplings = assert_resamplings(resamplings)
-  # map(resamplings, assert_resampling, instantiated = FALSE)
-  # FIXME
+  assert_resamplings(resamplings, instantiated = FALSE)
 
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
   instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))
   grid$instance = seq_row(grid)
   grid = grid[CJ(task = seq_along(tasks), learner = seq_along(learners)), on = "task", allow.cartesian = TRUE]
 
-  data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
+  design = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
+  attr(design, "exhaustive_grid") = TRUE
+  design
 }

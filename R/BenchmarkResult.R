@@ -7,6 +7,9 @@
 #' @description
 #' This is the result container object returned by [benchmark()].
 #'
+#' Note that all stored objects are accessed by reference.
+#' Do not modify any object without cloning it first.
+#'
 #' @section Construction:
 #' ```
 #' bmr = BenchmarkResult$new(data)
@@ -27,7 +30,6 @@
 #' * `learners` :: [data.table::data.table()]\cr
 #'   Table of used learners with three columns:
 #'   "learner_hash" (`character(1)`), "learner_id" (`character(1)`) and "learner" ([Learner]).
-#'
 #'
 #' * `resamplings` :: [data.table::data.table()]\cr
 #'   Table of used resamplings with three columns:
@@ -58,9 +60,9 @@
 #'   [BenchmarkResult] -> `self`\cr
 #'   Fuses a second [BenchmarkResult] into itself.
 #'
-#' * `get_best(measure)`\cr
-#'   [Measure] -> [ResampleResult]\cr
-#'   Returns the [ResampleResult] with best performance according to the provided [Measure].
+#' * `get_best(id)`\cr
+#'   (`character(1)`) -> [ResampleResult]\cr
+#'   Returns the [ResampleResult] with best performance according to [Measure] with the provided id.
 #'
 #' * `resample_result(hash)`\cr
 #'   `character(1)` -> [ResampleResult]\cr
@@ -143,18 +145,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
       invisible(self)
     },
 
-    get_best = function(measure) {
-      assert_measure(measure)
-      id = measure$id
+    get_best = function(id) {
+      measures = self$measures
+      assert_choice(id, measures$measure_id)
+      measure = measures[list(id), "measure", on = "measure_id"][[1]][[1L]]
       if (is.na(measure$minimize)) {
         stopf("Impossible to determine best value for measure '%s': '$minimize' is NA", id)
       }
-      aggr = self$aggregated(ids = FALSE)
-      if (id %nin% names(aggr)) {
-        stopf("Measure with id '%s' not in BenchmarkResult", id)
-      }
+      aggr = self$aggregated(ids = FALSE, objects = FALSE)
       best = if (measure$minimize) which_min(aggr[[id]]) else which_max(aggr[[id]])
-      aggr$resample_result[[best]]
+      self$resample_result(aggr[best, get("hash")])
     },
 
     aggregated = function(ids = TRUE, objects = TRUE, params = FALSE, unnest_params = FALSE) {
@@ -182,7 +182,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
         remove_named(res, "resample_result")
       }
       res[]
-    }),
+    }
+  ),
 
   active = list(
     tasks = function() {
@@ -203,12 +204,14 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     resample_results = function() {
       self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, .N), by = "hash"]
-    }),
+    }
+  ),
 
   private = list(
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
-    })
+    }
+  )
 )
 
 #' @export

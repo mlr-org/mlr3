@@ -7,6 +7,9 @@
 #' @description
 #' This is the result container object returned by [resample()].
 #'
+#' Note that all stored objects are accessed by reference.
+#' Do not modify any object without cloning it first.
+#'
 #' @section Construction:
 #' ```
 #' rr = ResampleResult$new(data)
@@ -121,7 +124,8 @@ ResampleResult = R6Class("ResampleResult",
         warningf("ResampleResult$combine(): Identical hashes detected. This is likely to be unintended.")
       }
       BenchmarkResult$new(rbind(cbind(self$data, data.table(hash = self$hash)), cbind(rr$data, data.table(hash = rr$hash))))
-    }),
+    }
+  ),
 
   active = list(
     task = function() {
@@ -159,14 +163,16 @@ ResampleResult = R6Class("ResampleResult",
     errors = function() {
       has_error = function(log) !is.null(log) && log[get("class") == "error", .N] > 0L
       map_lgl(self$data$train_log, has_error)
-    }),
+    }
+  ),
 
   private = list(
     .hash = NA_character_,
 
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
-    })
+    }
+  )
 )
 
 #' @export

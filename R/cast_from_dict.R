@@ -1,7 +1,7 @@
 #' @title Cast objects using a Dictionary
 #'
 #' @description
-#' Uses a dictionary to cast objects of a specific type.
+#' Uses a dictionary to cast objects of a specific type of a [Dictionary].
 #' Intended for package developers, internal use only.
 #'
 #' @param `x` (`character()` | `list()`)\cr

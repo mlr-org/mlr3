@@ -40,7 +40,8 @@ DictionaryLearner = R6Class("DictionaryLearner",
         obj$predict_type = predict_type
       }
       obj
-    })
+    }
+  )
 )
 
 #' @export

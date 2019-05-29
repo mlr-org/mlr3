@@ -7,13 +7,14 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for data backends.
-See \link{DataBackendDataTable} or \link{DataBackendMatrix} for exemplary implementations of this interface.
 
 Data Backends provide a layer of abstraction for various data storage systems.
 The required set of operations to implement is listed in the Methods section.
 
 Note that all data access is handled transparently via the \link{Task}.
 It is not recommended to work directly with the DataBackend.
+
+See \link{DataBackendDataTable} or \link{DataBackendMatrix} for exemplary implementations of this interface.
 }
 \section{Construction}{
 

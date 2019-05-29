@@ -26,5 +26,6 @@ MeasureClassifAUC = R6Class("MeasureClassifAUC",
       truth = prediction$truth
       positive = levels(truth)[1L]
       Metrics::auc(actual = as.integer((truth == positive)), predicted = prediction$prob[, positive])
-    })
+    }
+  )
 )

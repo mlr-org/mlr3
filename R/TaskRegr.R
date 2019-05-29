@@ -9,7 +9,7 @@
 #' The target column is assumed to be numeric.
 #' The `task_type` is set to `"classif"`.
 #'
-#' Predefined tasks are stored in [mlr_tasks].
+#' Predefined tasks are stored in the [Dictionary] [mlr_tasks].
 #'
 #' @section Construction:
 #' ```
@@ -58,5 +58,6 @@ TaskRegr = R6Class("TaskRegr",
 
     truth = function(row_ids = NULL) {
       self$data(row_ids, cols = self$target_names)[[1L]]
-    })
+    }
+  )
 )

@@ -30,7 +30,6 @@
 #'
 #' @family DataBackend
 #' @export
-#'
 #' @examples
 #' data = as.data.table(iris)
 #' data$id = seq_len(nrow(iris))
@@ -44,6 +43,9 @@
 #'
 #' b$ncol
 #' b$colnames
+#'
+#' # alternative construction
+#' as_data_backend(iris)
 DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   cloneable = FALSE,
   public = list(
@@ -88,7 +90,8 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     missings = function(rows, cols) {
       data = self$data(rows, cols)
       map_int(data, function(x) sum(is.na(x)))
-    }),
+    }
+  ),
 
   active = list(
     rownames = function() {
@@ -105,12 +108,14 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     ncol = function() {
       ncol(private$.data)
-    }),
+    }
+  ),
 
   private = list(
     .calculate_hash = function() {
       hash(list(self$compact_seq, private$.data))
-    })
+    }
+  )
 )
 
 #' @export

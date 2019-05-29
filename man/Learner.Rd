@@ -16,7 +16,7 @@ Learners consist of the following parts:
 \item Meta-information about the requirements and capabilities of the learner.
 }
 
-Predefined learners are stored in \link{mlr_learners}.
+Predefined learners are stored in the \link{Dictionary} \link{mlr_learners}.
 }
 \section{Construction}{
 

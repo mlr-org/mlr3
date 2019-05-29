@@ -3,21 +3,27 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task ([Task]):
+#' @param task ([Task] | `character(1)`):
 #'   Object of type [Task].
 #'   Instead if a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
-#' @param learner ([Learner]):
+#' @param learner ([Learner] | `character(1)`):
 #'   Object of type [Learner].
-#'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a task from the [mlr_learners] dictionary.
-#' @param resampling ([Resampling]):
+#'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a learner from the [mlr_learners] dictionary.
+#' @param resampling ([Resampling] | `character(1)`):
 #'   Object of type [Resampling].
-#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a task from the [mlr_resamplings] dictionary.
+#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
 #' @param measures (list of [Measure]):
 #'   List of performance measures to calculate.
 #'   Defaults to the measures specified in the [Task] `task`.
-#' @param ctrl (named `list()`, e.g. as returned by [mlr_control()]):
-#'   Object to control various parts of the execution. See [mlr_control()].
+#' @param ctrl (named `list()` as returned by [mlr_control()]):
+#'   Object to control experiment execution. See [mlr_control()] for details.
 #' @return [ResampleResult].
+#'
+#' @section Parallelization:
+#' This function can be parallelized with the \CRANpkg{future} package.
+#' One jobs is one resampling iteration, and all jobs are forwarded to the \CRANpkg{future} package together.
+#' To select a parallel backend, use [future::plan()].
+#'
 #' @export
 #' @examples
 #' task = mlr_tasks$get("iris")

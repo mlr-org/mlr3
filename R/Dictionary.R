@@ -128,7 +128,8 @@ Dictionary = R6Class("Dictionary",
     required_args = function(key) {
       assert_id(key)
       self$items[[key]][["required_args"]]
-    })
+    }
+  )
 )
 
 dictionary_retrieve = function(self, key, ...) {

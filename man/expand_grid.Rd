@@ -7,14 +7,14 @@
 expand_grid(tasks, learners, resamplings)
 }
 \arguments{
-\item{tasks}{(list of \link{Task}).
-Instead a \link{Task} object, it is also possible to provide a key to retrieve a task from the \link{mlr_tasks} dictionary.}
+\item{tasks}{(list of \link{Task} | \code{character()}).
+Instead a \link{Task} object, it is also possible to provide a keys to retrieve tasks from the \link{mlr_tasks} dictionary.}
 
-\item{learners}{(list of \link{Learner}).
-Instead if a \link{Learner} object, it is also possible to provide a key to retrieve a task from the \link{mlr_learners} dictionary.}
+\item{learners}{(list of \link{Learner} | \code{character()}).
+Instead if a \link{Learner} object, it is also possible to provide keys to retrieve learners from the \link{mlr_learners} dictionary.}
 
-\item{resamplings}{(list of \link{Resampling}).
-Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a task from the \link{mlr_resamplings} dictionary.}
+\item{resamplings}{(list of \link{Resampling} | \code{character()}).
+Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a resampling from the \link{mlr_resamplings} dictionary.}
 }
 \value{
 (\code{\link[=data.table]{data.table()}}) with the cross product of the input vectors.

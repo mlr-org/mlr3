@@ -59,7 +59,8 @@ Prediction = R6Class("Prediction",
         catf("%s for %i observations:", format(self), nrow(data))
         print(data, nrows = 10L, topn = 3L, print.class = TRUE, print.keys = FALSE)
       }
-    })
+    }
+  )
 )
 
 #' @title Prediction Object Helpers

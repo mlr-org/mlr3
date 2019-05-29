@@ -9,7 +9,7 @@
 #' The target column is assumed to be a factor.
 #' The `task_type` is set to `"classif"`.
 #'
-#' Predefined tasks are stored in [mlr_tasks].
+#' Predefined tasks are stored in the [Dictionary] [mlr_tasks].
 #'
 #' @section Construction:
 #' ```
@@ -109,7 +109,8 @@ TaskClassif = R6Class("TaskClassif",
     truth = function(row_ids = NULL) {
       res = self$data(row_ids, cols = self$target_names)[[1L]]
       as_factor(res, levels = self$class_names)
-    }),
+    }
+  ),
 
   active = list(
     class_names = function() {

@@ -60,7 +60,8 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$se = assert_numeric(se, null.ok = TRUE)
       self$task_type = "regr"
       self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
-    })
+    }
+  )
 )
 
 #' @export

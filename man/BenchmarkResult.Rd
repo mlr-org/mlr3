@@ -7,6 +7,9 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
+
+Note that all stored objects are accessed by reference.
+Do not modify any object without cloning it first.
 }
 \section{Construction}{
 \preformatted{bmr = BenchmarkResult$new(data)
@@ -60,9 +63,9 @@ Return learner hyperparameter values as list column \code{params} in the result 
 \item \code{combine(bmr)}\cr
 \link{BenchmarkResult} -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself.
-\item \code{get_best(measure)}\cr
-\link{Measure} -> \link{ResampleResult}\cr
-Returns the \link{ResampleResult} with best performance according to the provided \link{Measure}.
+\item \code{get_best(id)}\cr
+(\code{character(1)}) -> \link{ResampleResult}\cr
+Returns the \link{ResampleResult} with best performance according to \link{Measure} with the provided id.
 \item \code{resample_result(hash)}\cr
 \code{character(1)} -> \link{ResampleResult}\cr
 Retrieves the \link{ResampleResult} whose hash starts with \code{hash}.

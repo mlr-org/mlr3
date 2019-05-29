@@ -26,7 +26,7 @@ Cast multiple objects of type \code{type} or just a single one?}
 Object of type \code{type} or list of objects of type \code{type}.
 }
 \description{
-Uses a dictionary to cast objects of a specific type.
+Uses a dictionary to cast objects of a specific type of a \link{Dictionary}.
 Intended for package developers, internal use only.
 }
 \keyword{internal}

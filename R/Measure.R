@@ -16,7 +16,7 @@
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
 #'
-#' Predefined measures are stored in [mlr_measures].
+#' Predefined measures are stored in the [Dictionary] [mlr_measures].
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
@@ -140,10 +140,12 @@ Measure = R6Class("Measure",
     aggregate = function(rr) {
       fun = self$aggregator %??% mean
       fun(rr$performance(self$id))
-    }),
+    }
+  ),
 
   active = list(
     hash = function() {
       hash(list(class(self), self$id, as.character(body(self$calculate))))
-    })
+    }
+  )
 )

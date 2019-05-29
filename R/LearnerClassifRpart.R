@@ -73,5 +73,6 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         stopf("No model stored")
       }
       unique(setdiff(self$model$frame$var, "<leaf>"))
-    })
+    }
+  )
 )

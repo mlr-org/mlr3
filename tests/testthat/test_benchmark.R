@@ -84,7 +84,7 @@ test_that("bmr$combine()", {
 
 test_that("bmr$get_best()", {
   measure = tasks$iris$measures[[1L]]
-  best = bmr$get_best(measure)
+  best = bmr$get_best(measure$id)
   expect_resample_result(best)
 })
 

@@ -17,9 +17,11 @@ by calling the methods \code{$train()}, \code{$predict()} and \code{$score()}.
 \item \code{task} :: (\link{Task} | \code{character(1)})\cr
 May be \code{NULL} during initialization, but is mandatory to train the Experiment.
 Instead of a \link{Task} object, it is also possible to provide a key to retrieve a task from the \link{mlr_tasks} dictionary.
+The task will be cloned during initialization.
 \item \code{learner} :: \link{Learner} | \code{character(1)})\cr
 May be \code{NULL} during initialization, but is mandatory to train the Experiment.
 Instead of a \link{Learner} object, it is also possible to provide a key to retrieve a learner from the \link{mlr_learners} dictionary.
+The learner will be cloned during initialization.
 \item \code{ctrl} :: named \code{list()}\cr
 Control object, see \code{\link[=mlr_control]{mlr_control()}}.
 }
@@ -91,6 +93,9 @@ The performance values are stored internally and can be accessed via \code{$perf
 \item \code{log(steps = c("train", "predict"))}\cr
 \code{character(1)} -> \link{Log}\cr
 Returns a \link{Log} for specified steps.
+\item \code{run(ctrl = list())}\cr
+\code{list()} -> \code{self}\cr
+Runs the steps \code{$train()}, \code{predict()} and \code{score()}.
 }
 }
 

@@ -103,7 +103,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         res = res[match(cols, names(res), nomatch = 0L)]
       }
       res
-    }),
+    }
+  ),
 
   active = list(
     rownames = function() {
@@ -120,7 +121,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
     ncol = function() {
       ncol(private$.data) + 1L
-    }),
+    }
+  ),
 
   private = list(
     .calculate_hash = function() {

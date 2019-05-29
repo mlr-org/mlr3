@@ -40,5 +40,6 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       super$initialize(id = id, task_type = "regr", param_set = param_set, param_vals = param_vals,
         feature_types = feature_types, predict_types = predict_types, properties = properties,
         data_formats = data_formats, packages = packages)
-    })
+    }
+  )
 )

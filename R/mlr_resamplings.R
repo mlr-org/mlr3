@@ -38,7 +38,8 @@ DictionaryResampling = R6Class("DictionaryResampling",
         obj$param_set$values = insert_named(obj$param_set$values, param_vals)
       }
       obj
-    })
+    }
+  )
 )
 
 #' @export

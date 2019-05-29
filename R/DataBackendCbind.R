@@ -64,7 +64,8 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
         private$.data$b1$missings(rows, intersect(cols, self$cols$b1)),
         private$.data$b2$missings(rows, setdiff(intersect(cols, self$cols$b2), self$primary_key))
       )
-    }),
+    }
+  ),
 
   active = list(
     rownames = function() {
@@ -81,11 +82,13 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
 
     ncol = function() {
       sum(lengths(self$cols)) - 1L
-    }),
+    }
+  ),
 
   private = list(
     .calculate_hash = function() {
       data = private$.data
       hash(c(data$b1$hash, data$b2$hash))
-    })
+    }
+  )
 )

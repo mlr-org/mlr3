@@ -46,6 +46,9 @@ head(b$rownames)
 
 b$ncol
 b$colnames
+
+# alternative construction
+as_data_backend(iris)
 }
 \seealso{
 Other DataBackend: \code{\link{DataBackendMatrix}},

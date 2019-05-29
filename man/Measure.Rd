@@ -18,7 +18,7 @@ by comparing true and predicted response.
 
 In addition to these two functions, meta-information about the performance measure is stored.
 
-Predefined measures are stored in \link{mlr_measures}.
+Predefined measures are stored in the \link{Dictionary} \link{mlr_measures}.
 }
 \section{Construction}{
 

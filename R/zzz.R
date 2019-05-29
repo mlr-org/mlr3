@@ -14,11 +14,6 @@ dummy_import = function() {
   tmp = mlbench::mlbench.xor
 } # nocov end
 
-layout_mlr3 = structure(
-  function(level, msg, namespace = NA_character_, .logcall = sys.call(), .topcall = sys.call(-1), .topenv = parent.frame()) {
-    paste0(attr(level, "level"), " [mlr3] ", msg)
-  }, generator = quote(layout_mlr3())
-)
 
 .onLoad = function(libname, pkgname) {
 

@@ -77,7 +77,8 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         perf = perf / sum(confusion)
       }
       perf
-    }),
+    }
+  ),
 
   active = list(
     costs = function(rhs) {
@@ -92,7 +93,8 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       if (max(rhs) <= 0) {
         self$range[2L] = 0
       }
-    }),
+    }
+  ),
 
   private = list(
     .costs = NULL

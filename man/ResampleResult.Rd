@@ -7,6 +7,9 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the result container object returned by \code{\link[=resample]{resample()}}.
+
+Note that all stored objects are accessed by reference.
+Do not modify any object without cloning it first.
 }
 \section{Construction}{
 \preformatted{rr = ResampleResult$new(data)

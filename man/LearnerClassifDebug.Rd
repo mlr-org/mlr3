@@ -28,4 +28,14 @@ The following hyperparameters trigger the following actions:
 Note that segfaults may not work on your operating system.
 Also note that if they work, they will tear down your R session immediately!
 }
+\examples{
+learner = LearnerClassifDebug$new()
+learner$param_set$values = list(message_train = TRUE, save_tasks = TRUE)
+
+# this should signal a message
+e = Experiment$new("iris", learner)$train()$predict()
+
+# task_train and task_predict are the input tasks for train() and predict()
+names(e$model)
+}
 \keyword{datasets}

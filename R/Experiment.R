@@ -17,10 +17,12 @@
 #' * `task` :: ([Task] | `character(1)`)\cr
 #'   May be `NULL` during initialization, but is mandatory to train the Experiment.
 #'   Instead of a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
+#'   The task will be cloned during initialization.
 #'
 #' * `learner` :: [Learner] | `character(1)`)\cr
 #'   May be `NULL` during initialization, but is mandatory to train the Experiment.
 #'   Instead of a [Learner] object, it is also possible to provide a key to retrieve a learner from the [mlr_learners] dictionary.
+#'   The learner will be cloned during initialization.
 #'
 #' * `ctrl` :: named `list()`\cr
 #'   Control object, see [mlr_control()].
@@ -103,6 +105,9 @@
 #'   `character(1)` -> [Log]\cr
 #'   Returns a [Log] for specified steps.
 #'
+#' * `run(ctrl = list())`\cr
+#'   `list()` -> `self`\cr
+#'   Runs the steps `$train()`, `predict()` and `score()`.
 #'
 #' @section Internal Data Storage:
 #' All data is stored in the slot `data` as named `list()`.
@@ -213,6 +218,16 @@ Experiment = R6Class("Experiment",
       experiment_score(self, private, measures, ctrl = ctrl)
     },
 
+    run = function(ctrl = list()) {
+      state = self$state
+      if (state < "trained")
+        self$train(ctrl = ctrl)
+      if (state < "predicted")
+        self$predict(ctrl = ctrl)
+      if (state < "scored")
+        self$score(ctrl = ctrl)
+    },
+
     log = function(steps = c("train", "predict")) {
       steps = assert_sorted_subset(steps, c("train", "predict"), empty.ok = FALSE)
       parts = set_names(self$data[sprintf("%s_log", steps)], steps)
@@ -221,7 +236,8 @@ Experiment = R6Class("Experiment",
         return(Log$new())
       }
       Log$new(data)
-    }),
+    }
+  ),
 
   active = list(
     task = function(rhs) {
@@ -299,7 +315,8 @@ Experiment = R6Class("Experiment",
         private$.hash = experiment_data_hash(self$data)
       }
       private$.hash
-    }),
+    }
+  ),
 
   private = list(
     .hash = NA_character_

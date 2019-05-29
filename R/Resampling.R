@@ -12,7 +12,7 @@
 #' Resampling objects can be instantiated on a [Task], which applies the strategy on the task and manifests in a
 #' fixed partition of `row_ids` of the [Task].
 #'
-#' Predefined resamplings are stored in [mlr_resamplings].
+#' Predefined resamplings are stored in the [Dictionary] [mlr_resamplings].
 #'
 #' @section Construction:
 #' ```
@@ -160,7 +160,8 @@ Resampling = R6Class("Resampling",
 
     test_set = function(i) {
       private$.get_set(private$.get_test, i)
-    }),
+    }
+  ),
 
   active = list(
     is_instantiated = function() {
@@ -169,7 +170,8 @@ Resampling = R6Class("Resampling",
 
     hash = function() {
       hash(list(class(self), self$id, self$param_set$values, self$instance))
-    }),
+    }
+  ),
 
   private = list(
     .groups = NULL,
@@ -182,7 +184,8 @@ Resampling = R6Class("Resampling",
       ids = getter(i)
 
       if (is.null(private$.groups)) ids else private$.groups[ids, on = "group"][[1L]]
-    })
+    }
+  )
 )
 
 stratify = function(task, stratify) {

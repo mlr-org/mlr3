@@ -13,7 +13,7 @@
 #' 2. Tasks store meta-information, such as the role of the individual columns in the [DataBackend].
 #'    For example, for a classification task a single column must be marked as target column, and others as features.
 #'
-#' Predefined (toy) tasks are stored in [mlr_tasks].
+#' Predefined (toy) tasks are stored in the [Dictionary] [mlr_tasks].
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
@@ -344,7 +344,8 @@ Task = R6Class("Task",
       lvls = self$backend$distinct(rows = self$row_ids, cols = cols)
       self$col_info = ujoin(self$col_info, enframe(lvls, "id", "levels"), key = "id")
       invisible(self)
-    }),
+    }
+  ),
 
   active = list(
     hash = function() {
@@ -398,7 +399,8 @@ Task = R6Class("Task",
       }
       data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights))
       setnames(data, names(data), c("row_id", "weight"))[]
-    }),
+    }
+  ),
 
   private = list(
     .measures = list(),
@@ -407,7 +409,8 @@ Task = R6Class("Task",
       # NB: DataBackends are never copied!
       # TODO: check if we can assume col_info to be read-only
       if (name == "col_info") copy(value) else value
-    })
+    }
+  )
 )
 
 task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table") {

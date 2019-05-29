@@ -10,7 +10,7 @@ test_that("Handling of training errors", {
   res = train_worker(e$task, e$learner, e$train_set, mlr_control())
   expect_list(res, len = 3)
   expect_names(names(res), permutation.of = c("learner", "train_log", "train_time"))
-  expect_class(res$learner$model, "unittest")
+  expect_class(res$learner$model, "classif.debug_model")
   expect_null(res$train_log)
   expect_number(res$train_time, lower = 0)
 

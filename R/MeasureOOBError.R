@@ -31,5 +31,6 @@ MeasureOOBError = R6Class("MeasureOOBError",
         return(NA_real_)
       }
       experiment$lrn$oob_error()
-    })
+    }
+  )
 )

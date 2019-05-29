@@ -44,12 +44,14 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
         ),
         param_vals = param_vals
       )
-    }),
+    }
+  ),
 
   active = list(
     iters = function() {
       self$param_set$values$repeats
-    }),
+    }
+  ),
 
   private = list(
     .sample = function(ids) {
@@ -77,5 +79,6 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
         row_ids = c(lhs$row_ids, rhs$row_ids)
         )
       }, instances)
-    })
+    }
+  )
 )

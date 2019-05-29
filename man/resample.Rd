@@ -7,24 +7,24 @@
 resample(task, learner, resampling, measures = NULL, ctrl = list())
 }
 \arguments{
-\item{task}{(\link{Task}):
+\item{task}{(\link{Task} | \code{character(1)}):
 Object of type \link{Task}.
 Instead if a \link{Task} object, it is also possible to provide a key to retrieve a task from the \link{mlr_tasks} dictionary.}
 
-\item{learner}{(\link{Learner}):
+\item{learner}{(\link{Learner} | \code{character(1)}):
 Object of type \link{Learner}.
-Instead if a \link{Learner} object, it is also possible to provide a key to retrieve a task from the \link{mlr_learners} dictionary.}
+Instead if a \link{Learner} object, it is also possible to provide a key to retrieve a learner from the \link{mlr_learners} dictionary.}
 
-\item{resampling}{(\link{Resampling}):
+\item{resampling}{(\link{Resampling} | \code{character(1)}):
 Object of type \link{Resampling}.
-Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a task from the \link{mlr_resamplings} dictionary.}
+Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a resampling from the \link{mlr_resamplings} dictionary.}
 
 \item{measures}{(list of \link{Measure}):
 List of performance measures to calculate.
 Defaults to the measures specified in the \link{Task} \code{task}.}
 
-\item{ctrl}{(named \code{list()}, e.g. as returned by \code{\link[=mlr_control]{mlr_control()}}):
-Object to control various parts of the execution. See \code{\link[=mlr_control]{mlr_control()}}.}
+\item{ctrl}{(named \code{list()} as returned by \code{\link[=mlr_control]{mlr_control()}}):
+Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}} for details.}
 }
 \value{
 \link{ResampleResult}.
@@ -32,6 +32,13 @@ Object to control various parts of the execution. See \code{\link[=mlr_control]{
 \description{
 Runs a resampling (possibly in parallel).
 }
+\section{Parallelization}{
+
+This function can be parallelized with the \CRANpkg{future} package.
+One jobs is one resampling iteration, and all jobs are forwarded to the \CRANpkg{future} package together.
+To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
+}
+
 \examples{
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")

@@ -6,7 +6,6 @@
 #'
 #' @description
 #' This is the abstract base class for data backends.
-#' See [DataBackendDataTable] or [DataBackendMatrix] for exemplary implementations of this interface.
 #'
 #' Data Backends provide a layer of abstraction for various data storage systems.
 #' The required set of operations to implement is listed in the Methods section.
@@ -14,6 +13,7 @@
 #' Note that all data access is handled transparently via the [Task].
 #' It is not recommended to work directly with the DataBackend.
 #'
+#' See [DataBackendDataTable] or [DataBackendMatrix] for exemplary implementations of this interface.
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [DataBackendDataTable] or [DataBackendMatrix],
@@ -120,7 +120,8 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
         return(private$.hash)
       }
       private$.hash = assert_string(rhs)
-    }),
+    }
+  ),
 
   private = list(
     .data = NULL,

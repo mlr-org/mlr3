@@ -6,7 +6,7 @@
 #'
 #' @description
 #' Creates a [Task] of arbitrary size.
-#' Predefined task generators are stored in [mlr_generators].
+#' Predefined task generators are stored in the [Dictionary] [mlr_generators].
 #'
 #' @section Construction:
 #' ```
@@ -41,7 +41,7 @@
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
-#'   A complete list of task types is stored in `mlr_reflections$task_types`.
+#'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections()].
 #'
 #' @section Methods:
 #' * `generate(n)`\cr
@@ -68,5 +68,6 @@ Generator = R6Class("Generator",
       n = assert_count(n, coerce = TRUE)
       require_namespaces(self$packages)
       private$.generate(n)
-    })
+    }
+  )
 )
