@@ -1,4 +1,4 @@
-confusion_measure_info = setkeyv(rowwise_table(
+confusion_measure_info = setindexv(rowwise_table(
   ~id, ~lower, ~upper, ~minimize, ~na_score,
   "tp", 0, Inf, FALSE, FALSE,
   "fn", 0, Inf, TRUE, FALSE,
@@ -75,7 +75,7 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
     type = NULL,
     initialize = function(id = type, type) {
       self$type = assert_choice(type, confusion_measure_info$id)
-      row = as.list(confusion_measure_info[list(type)])
+      row = as.list(confusion_measure_info[list(type), on = "id"])
 
       super$initialize(
         id = id,
@@ -103,10 +103,11 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
 #'
 #' @export
 confusion_measures = function(m, type = NULL) {
-  assert_matrix(m, nrows = ncol(m), row.names = "unique", col.names = "unique")
+  assert_matrix(m, nrows = 2L, ncols = 2L, row.names = "unique", col.names = "unique")
   assert_names(rownames(m), identical.to = colnames(m))
   if (is.null(type)) {
     type = confusion_measure_info$id
+    type = type[nchar(type) <= 3L] # filter out alias names
   } else {
     assert_subset(type, confusion_measure_info$id)
   }
