@@ -7,19 +7,19 @@
 cast_from_dict(x, type, dict, clone = FALSE, multiple = TRUE)
 }
 \arguments{
-\item{`x`}{(\code{character()} | \code{list()})\cr
+\item{`x`}{:: (\code{character()} | \code{list()})\cr
 Object to cast.}
 
-\item{`type`}{(\code{character(1)})\cr
+\item{`type`}{:: \code{character(1)}\cr
 Expected type of objects.}
 
-\item{`dict`}{(\link{Dictionary})\cr
+\item{`dict`}{:: \link{Dictionary}\cr
 Expected type of objects.}
 
-\item{`clone`}{(\code{logical(1)})\cr
+\item{`clone`}{:: \code{logical(1)}\cr
 Clone objects, if necessary. Default is \code{FALSE}.}
 
-\item{`multiple`}{(\code{logical(1)})\cr
+\item{`multiple`}{:: \code{logical(1)}\cr
 Cast multiple objects of type \code{type} or just a single one?}
 }
 \value{

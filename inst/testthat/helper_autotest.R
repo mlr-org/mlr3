@@ -77,10 +77,11 @@ generate_data = function(learner, N) {
 #' This function is primarily used for unit tests, but can also assist while
 #' writing custom learners.
 #'
-#' @param learner ([Learner]).
-#' @param N (`integer(1)`). Number of rows of generated tasks.
+#' @param learner :: [Learner].
+#' @param N :: `integer(1)`\cr
+#'   Number of rows of generated tasks.
 #'
-#' @return (`list()`) of [Task].
+#' @return (List of [Task]s).
 #' @keywords internal
 #' @export
 #' @examples

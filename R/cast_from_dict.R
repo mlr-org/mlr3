@@ -4,15 +4,15 @@
 #' Uses a dictionary to cast objects of a specific type of a [Dictionary].
 #' Intended for package developers, internal use only.
 #'
-#' @param `x` (`character()` | `list()`)\cr
+#' @param `x` :: (`character()` | `list()`)\cr
 #'  Object to cast.
-#' @param `type` (`character(1)`)\cr
+#' @param `type` :: `character(1)`\cr
 #'  Expected type of objects.
-#' @param `dict` ([Dictionary])\cr
+#' @param `dict` :: [Dictionary]\cr
 #'  Expected type of objects.
-#' @param `clone` (`logical(1)`)\cr
+#' @param `clone` :: `logical(1)`\cr
 #'  Clone objects, if necessary. Default is `FALSE`.
-#' @param `multiple` (`logical(1)`)\cr
+#' @param `multiple` :: `logical(1)`\cr
 #'  Cast multiple objects of type `type` or just a single one?
 #'
 #' @return Object of type `type` or list of objects of type `type`.

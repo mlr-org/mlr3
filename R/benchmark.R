@@ -8,16 +8,16 @@
 #'
 #' To generate exhaustive designs and automatically instantiate resampling strategies per task, use [expand_grid()].
 #'
-#' @param design ([data.frame()]):
+#' @param design :: [data.frame()]\cr
 #'   Data frame (or [data.table()]) with three columns: "task", "learner", and "resampling".
 #'   Each row defines a set of resampled experiments by providing a [Task], [Learner] and [Resampling] strategy.
 #'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples) and properly
 #'   instantiate the [Resampling]s per [Task].
-#' @param measures (list of [Measure]):
+#' @param measures :: list of [Measure]\cr
 #'   List of performance measures to calculate.
 #'   Defaults to the measures specified in the each respective [Task].
 #'   The measures will be cloned.
-#' @param ctrl (named `list()` as returned by [mlr_control()]):
+#' @param ctrl :: (named `list()`)\cr
 #'   Object to control experiment execution. See [mlr_control()] for details.
 #'   Note that per default, fitted learner models are discarded after the prediction in order to save
 #'   some memory.
@@ -129,11 +129,11 @@ benchmark = function(design, measures = NULL, ctrl = list(store_model = FALSE)) 
 #'
 #' Resampling strategies may not be instantiated, and will be instantiated per task internally.
 #'
-#' @param tasks (list of [Task] | `character()`).
+#' @param tasks :: (list of [Task] | `character()`)\cr
 #'   Instead a [Task] object, it is also possible to provide a keys to retrieve tasks from the [mlr_tasks] dictionary.
-#' @param learners (list of [Learner] | `character()`).
+#' @param learners (list of [Learner] | `character()`)\cr
 #'   Instead if a [Learner] object, it is also possible to provide keys to retrieve learners from the [mlr_learners] dictionary.
-#' @param resamplings (list of [Resampling] | `character()`).
+#' @param resamplings :: (list of [Resampling] | `character()`)\cr
 #'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
 #'
 #' @return ([data.table()]) with the cross product of the input vectors.

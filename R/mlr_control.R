@@ -20,8 +20,9 @@
 #' * `encapsulate_predict`: How to call external code in third party packages during predict.
 #'   Same format as `encapsulate_train`. See [Log] for an example.
 #'
-#' @param ... Named arguments to overwrite the defaults / options.
-#'  Settings may be provided in a `name = value` fashion, or by providing a single named `list()`.
+#' @param ... :: any\cr
+#'   Named arguments to overwrite the defaults / options.
+#'   Settings may be provided in a `name = value` fashion, or by providing a single named `list()`.
 #'
 #' @return (named `list()`) of all settings.
 #'

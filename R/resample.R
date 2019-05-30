@@ -3,19 +3,19 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task ([Task] | `character(1)`):
+#' @param task :: ([Task] | `character(1)`)\cr
 #'   Object of type [Task].
 #'   Instead if a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
-#' @param learner ([Learner] | `character(1)`):
+#' @param learner :: ([Learner] | `character(1)`)\cr
 #'   Object of type [Learner].
 #'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a learner from the [mlr_learners] dictionary.
-#' @param resampling ([Resampling] | `character(1)`):
+#' @param resampling :: ([Resampling] | `character(1)`)\cr
 #'   Object of type [Resampling].
 #'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
-#' @param measures (list of [Measure]):
+#' @param measures :: list of [Measure]\cr
 #'   List of performance measures to calculate.
 #'   Defaults to the measures specified in the [Task] `task`.
-#' @param ctrl (named `list()` as returned by [mlr_control()]):
+#' @param ctrl :: named `list()`\cr
 #'   Object to control experiment execution. See [mlr_control()] for details.
 #' @return [ResampleResult].
 #'

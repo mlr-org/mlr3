@@ -57,43 +57,44 @@ assert_id(id, .var.name = vname(id))
 assert_ids(ids, .var.name = vname(ids))
 }
 \arguments{
-\item{b}{(\link{DataBackend}).}
+\item{b}{:: \link{DataBackend}.}
 
-\item{e}{(\link{Experiment}).}
+\item{e}{:: \link{Experiment}.}
 
-\item{task}{(\link{Task}).}
+\item{task}{:: \link{Task}.}
 
-\item{feature_types}{(\code{character()})\cr
+\item{feature_types}{:: \code{character()}\cr
 Set of allowed feature types.}
 
-\item{task_properties}{(\code{character()})\cr
+\item{task_properties}{:: \code{character()}\cr
 Set of required task properties.}
 
-\item{tasks}{(list of \link{Task}).}
+\item{tasks}{:: list of \link{Task}.}
 
-\item{learner}{(\link{Learner}).}
+\item{learner}{:: \link{Learner}.}
 
-\item{learners}{(list of \link{Learner}).}
+\item{learners}{:: list of \link{Learner}.}
 
-\item{measure}{(\link{Measure}).}
+\item{measure}{:: \link{Measure}.}
 
-\item{predict_types}{(\code{character()}). Vector of predict types provided by the experiment/learner.}
+\item{predict_types}{:: \code{character()}\cr
+Vector of predict types provided by the \link{Experiment} or \link{Learner}.}
 
-\item{measures}{(list of \link{Measure}).}
+\item{measures}{:: list of \link{Measure}.}
 
-\item{resampling}{(\link{Resampling}).}
+\item{resampling}{:: \link{Resampling}.}
 
-\item{resamplings}{(list of \link{Resampling}).}
+\item{resamplings}{:: list of \link{Resampling}.}
 
-\item{resample_result}{(\link{ResampleResult}).}
+\item{resample_result}{:: \link{ResampleResult}.}
 
-\item{bmr}{(\link{BenchmarkResult}).}
+\item{bmr}{:: \link{BenchmarkResult}.}
 
-\item{param_set}{(\link[paradox:ParamSet]{paradox::ParamSet}).}
+\item{param_set}{:: \link[paradox:ParamSet]{paradox::ParamSet}.}
 
-\item{id}{(\code{character(1)}).}
+\item{id}{:: \code{character(1)}.}
 
-\item{id}{(\code{character(1)}).}
+\item{id}{:: \code{character(1)}.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

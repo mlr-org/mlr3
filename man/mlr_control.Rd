@@ -7,7 +7,8 @@
 mlr_control(...)
 }
 \arguments{
-\item{...}{Named arguments to overwrite the defaults / options.
+\item{...}{:: any\cr
+Named arguments to overwrite the defaults / options.
 Settings may be provided in a \code{name = value} fashion, or by providing a single named \code{list()}.}
 }
 \value{

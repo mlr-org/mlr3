@@ -29,11 +29,11 @@ MeasureClassifConfusion
 confusion_measures(m, type = NULL)
 }
 \arguments{
-\item{m}{(\code{matrix()})\cr
+\item{m}{:: \code{matrix()}\cr
 Confusion matrix, e.g. as returned by field \code{confusion} of \link{PredictionClassif}.
 Truth is in columns, predicted response is in rows.}
 
-\item{type}{(\code{character()})\cr
+\item{type}{:: \code{character()}\cr
 Selects the measure to use. See description.}
 }
 \description{

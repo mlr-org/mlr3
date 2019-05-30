@@ -94,10 +94,10 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
 
 #' @rdname MeasureClassifConfusion
 #'
-#' @param m (`matrix()`)\cr
+#' @param m :: `matrix()`\cr
 #'   Confusion matrix, e.g. as returned by field `confusion` of [PredictionClassif].
 #'   Truth is in columns, predicted response is in rows.
-#' @param type (`character()`)\cr
+#' @param type :: `character()`\cr
 #'   Selects the measure to use. See description.
 #'
 #' @export

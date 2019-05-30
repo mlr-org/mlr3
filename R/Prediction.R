@@ -71,11 +71,11 @@ Prediction = R6Class("Prediction",
 #' `as_prediction()` is used to construct a [Prediction] object from the data
 #' returned by `convert_prediction()`.
 #'
-#' @param task ([Task])\cr
+#' @param task :: [Task]\cr
 #'  Task as passed to `$predict()` of a [Learner].
-#' @param predicted (named `list()`)\cr
+#' @param predicted :: named `list()`\cr
 #'  Return value of the [Learner].
-#' @param row_ids (`integer()` | `character()`)\cr
+#' @param row_ids :: (`integer()` | `character()`)\cr
 #'  Row ids of the [Task] for the observations in the test set.
 #' @export
 convert_prediction = function(task, predicted) {

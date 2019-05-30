@@ -8,24 +8,24 @@
 NULL
 
 #' @export
-#' @param b ([DataBackend]).
+#' @param b :: [DataBackend].
 #' @rdname mlr_assertions
 assert_backend = function(b, .var.name = vname(b)) {
   assert_class(b, "DataBackend", .var.name = .var.name)
 }
 
 #' @export
-#' @param e ([Experiment]).
+#' @param e :: [Experiment].
 #' @rdname mlr_assertions
 assert_experiment = function(e, .var.name = vname(e)) {
   assert_class(e, "Experiment", .var.name = .var.name)
 }
 
 #' @export
-#' @param task ([Task]).
-#' @param feature_types (`character()`)\cr
+#' @param task :: [Task].
+#' @param feature_types :: `character()`\cr
 #'   Set of allowed feature types.
-#' @param task_properties (`character()`)\cr
+#' @param task_properties :: `character()`\cr
 #'   Set of required task properties.
 #' @rdname mlr_assertions
 assert_task = function(task, feature_types = NULL, task_properties = NULL, clone = FALSE) {
@@ -49,7 +49,7 @@ assert_task = function(task, feature_types = NULL, task_properties = NULL, clone
 }
 
 #' @export
-#' @param tasks (list of [Task]).
+#' @param tasks :: list of [Task].
 #' @rdname mlr_assertions
 assert_tasks = function(tasks, feature_types = NULL, task_properties = NULL, clone = FALSE) {
   tasks = cast_from_dict(tasks, "Task", mlr_tasks, clone, TRUE)
@@ -57,7 +57,7 @@ assert_tasks = function(tasks, feature_types = NULL, task_properties = NULL, clo
 }
 
 #' @export
-#' @param learner ([Learner]).
+#' @param learner :: [Learner].
 #' @rdname mlr_assertions
 assert_learner = function(learner, task = NULL, properties = character(0L), clone = FALSE) {
   learner = cast_from_dict(learner, "Learner", mlr_learners, clone, FALSE)[[1L]]
@@ -80,7 +80,7 @@ assert_learner = function(learner, task = NULL, properties = character(0L), clon
 }
 
 #' @export
-#' @param learners (list of [Learner]).
+#' @param learners :: list of [Learner].
 #' @rdname mlr_assertions
 assert_learners = function(learners, task = NULL, properties = character(0L), clone = FALSE) {
   learners = cast_from_dict(learners, "Learner", mlr_learners, clone, TRUE)
@@ -88,8 +88,9 @@ assert_learners = function(learners, task = NULL, properties = character(0L), cl
 }
 
 #' @export
-#' @param measure ([Measure]).
-#' @param predict_types (`character()`). Vector of predict types provided by the experiment/learner.
+#' @param measure :: [Measure].
+#' @param predict_types :: `character()`\cr
+#'   Vector of predict types provided by the [Experiment] or [Learner].
 #' @rdname mlr_assertions
 assert_measure = function(measure, task = NULL, predict_types = NULL, clone = FALSE) {
   measure = cast_from_dict(measure, "Measure", mlr_measures, clone, FALSE)[[1L]]
@@ -117,7 +118,7 @@ assert_measure = function(measure, task = NULL, predict_types = NULL, clone = FA
 }
 
 #' @export
-#' @param measures (list of [Measure]).
+#' @param measures :: list of [Measure].
 #' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, predict_types = NULL, clone = FALSE) {
   measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
@@ -125,7 +126,7 @@ assert_measures = function(measures, task = NULL, predict_types = NULL, clone = 
 }
 
 #' @export
-#' @param resampling ([Resampling]).
+#' @param resampling :: [Resampling].
 #' @rdname mlr_assertions
 assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
   resampling = cast_from_dict(resampling, "Resampling", mlr_resamplings, clone, FALSE)[[1L]]
@@ -142,7 +143,7 @@ assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
 }
 
 #' @export
-#' @param resamplings (list of [Resampling]).
+#' @param resamplings :: list of [Resampling].
 #' @rdname mlr_assertions
 assert_resamplings = function(resamplings, instantiated = NULL, clone = FALSE) {
   resamplings = cast_from_dict(resamplings, "Resampling", mlr_resamplings, clone, TRUE)
@@ -150,35 +151,35 @@ assert_resamplings = function(resamplings, instantiated = NULL, clone = FALSE) {
 }
 
 #' @export
-#' @param resample_result ([ResampleResult]).
+#' @param resample_result :: [ResampleResult].
 #' @rdname mlr_assertions
 assert_resample_result = function(resample_result, .var.name = vname(resample_result)) {
   assert_class(resample_result, "ResampleResult", .var.name = .var.name)
 }
 
 #' @export
-#' @param bmr ([BenchmarkResult]).
+#' @param bmr :: [BenchmarkResult].
 #' @rdname mlr_assertions
 assert_benchmark_result = function(bmr, .var.name = vname(bmr)) {
   assert_class(bmr, "BenchmarkResult", .var.name = .var.name)
 }
 
 #' @export
-#' @param param_set ([paradox::ParamSet]).
+#' @param param_set :: [paradox::ParamSet].
 #' @rdname mlr_assertions
 assert_param_set = function(param_set, .var.name = vname(param_set)) {
   assert_class(param_set, "ParamSet", .var.name = .var.name)
 }
 
 #' @export
-#' @param id (`character(1)`).
+#' @param id :: `character(1)`.
 #' @rdname mlr_assertions
 assert_id = function(id, .var.name = vname(id)) {
   assert_string(id, min.chars = 1L, .var.name = .var.name)
 }
 
 #' @export
-#' @param id (`character(1)`).
+#' @param id :: `character(1)`.
 #' @rdname mlr_assertions
 assert_ids = function(ids, .var.name = vname(ids)) {
   assert_character(ids, min.chars = 1L, any.missing = FALSE, .var.name = .var.name)
