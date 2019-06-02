@@ -22,8 +22,9 @@ dummy_import = function() {
 
   # setup logger
   assign("lg", lgr::get_logger(pkgname), envir = parent.env(environment()))
-  if (Sys.getenv("IN_PKGDOWN") == "true")
+  if (Sys.getenv("IN_PKGDOWN") == "true") {
     lg$set_threshold("warn")
+  }
 
   # Populate Tasks
   mlr_tasks <<- DictionaryTask$new()

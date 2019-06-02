@@ -18,7 +18,9 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
   # subset to train set w/o cloning
   prev_use = task$row_roles$use
   task$row_roles$use = train_set
-  on.exit( { task$row_roles$use = prev_use }, add = TRUE)
+  on.exit({
+    task$row_roles$use = prev_use
+  }, add = TRUE)
 
   learner = learner$clone(deep = TRUE)
 
@@ -41,6 +43,7 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(task, learner) {
+
     if (is.null(learner$model)) {
       stopf("No trained model available")
     }
@@ -67,7 +70,9 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   # subset to test set w/o cloning
   prev_use = task$row_roles$use
   task$row_roles$use = test_set
-  on.exit( { task$row_roles$use = prev_use }, add = TRUE)
+  on.exit({
+    task$row_roles$use = prev_use
+  }, add = TRUE)
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)

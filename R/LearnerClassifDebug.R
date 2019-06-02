@@ -58,6 +58,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     train = function(task) {
+
       pv = self$params("train")
       if (isTRUE(pv$message_train)) {
         message("Message from classif.debug->train()")

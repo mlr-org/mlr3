@@ -220,12 +220,15 @@ Experiment = R6Class("Experiment",
 
     run = function(ctrl = list()) {
       state = self$state
-      if (state < "trained")
+      if (state < "trained") {
         self$train(ctrl = ctrl)
-      if (state < "predicted")
+      }
+      if (state < "predicted") {
         self$predict(ctrl = ctrl)
-      if (state < "scored")
+      }
+      if (state < "scored") {
         self$score(ctrl = ctrl)
+      }
     },
 
     log = function(steps = c("train", "predict")) {
@@ -287,8 +290,9 @@ Experiment = R6Class("Experiment",
 
     prediction = function(rhs) {
       if (missing(rhs)) {
-        if (is.null(self$data$predicted))
+        if (is.null(self$data$predicted)) {
           return(NULL)
+        }
         return(invoke(as_prediction, task = self$task, row_ids = self$test_set, predicted = self$data$predicted))
       }
 
@@ -328,6 +332,7 @@ experiment_data_hash = function(data) {
 }
 
 experiment_print = function(self) {
+
   data = self$data
   p = self$prediction
 
@@ -406,7 +411,7 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   # during parallelization, learners might get serialized and are getting unnecessarily big
   # after de-serialization
   # if ("learner" %in% names(value)) {
-    # value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
+  # value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
   # }
 
   self$data = insert_named(self$data, value)
