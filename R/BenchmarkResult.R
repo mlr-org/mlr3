@@ -167,7 +167,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (assert_flag(ids)) {
-        extract = function(x) list(resampling_id = x$resampling$id, task_id = x$task$id, learner_id = x$learner$id)
+        extract = function(x) list(task_id = x$task$id, learner_id = x$learner$id, resampling_id = x$resampling$id)
         res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
       }
 
