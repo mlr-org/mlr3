@@ -52,9 +52,14 @@ test_that("Basic benchmarking", {
 test_that("ResampleResult getter", {
   hashes = bmr$resample_results$hash
   expect_character(hashes, len = 4L, any.missing = FALSE, unique = TRUE)
-  rr = bmr$resample_result(hashes[1])
-  expect_resample_result(rr)
-  expect_experiment(rr$experiment(1))
+  for (i in seq_along(hashes)) {
+    rr = bmr$resample_result(hashes[i])
+    expect_resample_result(rr)
+    expect_experiment(rr$experiment(1))
+    val1 = rr$aggregated
+    val2 = bmr$aggregated()[[names(val1)]][i]
+    expect_equivalent(val1, val2)
+  }
 })
 
 
