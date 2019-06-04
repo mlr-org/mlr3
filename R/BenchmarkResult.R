@@ -130,12 +130,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     resample_result = function(hash) {
       assert_string(hash)
-      hashes = self$data[, unique(hash)]
-      tmp = hashes[which(startsWith(hash, prefix = hash))]
+      hashes = unique(self$data$hash)
+      tmp = hashes[which(startsWith(hashes, prefix = hash))]
       if (length(tmp) != 1L) {
         stopf("Hash '%s' matches %i of the recorded resample results", hash, length(tmp))
       }
-
       ResampleResult$new(self$data[list(tmp), on = "hash", nomatch = 0L], hash = hash)
     },
 
