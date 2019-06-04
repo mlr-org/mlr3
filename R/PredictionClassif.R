@@ -142,7 +142,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       }
 
       ind = max.col(prob, ties.method = "random")
-      return(list(response = factor(lvls[ind], levels = lvls), prob = self$prob))
+      return(list(row_ids = self$row_ids, response = factor(lvls[ind], levels = lvls), prob = self$prob))
     }
   ),
 
@@ -179,13 +179,14 @@ convert_prediction.TaskClassif = function(task, predicted) {
     }
   }
 
+  predicted$row_ids = task$row_ids
   set_class(predicted, c("PredictionDataClassif", "PredictionData"))
 }
 
 
 #' @export
-as_prediction.TaskClassif = function(task, row_ids, predicted) {
-  PredictionClassif$new(row_ids = row_ids, truth = task$truth(row_ids), response = predicted$response, prob = predicted$prob)
+as_prediction.TaskClassif = function(task, predicted) {
+  PredictionClassif$new(row_ids = predicted$row_ids, truth = task$truth(predicted$row_ids), response = predicted$response, prob = predicted$prob)
 }
 
 #' @export

@@ -70,12 +70,13 @@ convert_prediction.TaskRegr = function(task, predicted) {
   assert_numeric(predicted$response, len = n, any.missing = FALSE, null.ok = TRUE)
   assert_numeric(predicted$se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
 
+  predicted$row_ids = task$row_ids
   set_class(predicted, c("PredictionDataRegr", "PredictionData"))
 }
 
 #' @export
-as_prediction.TaskRegr = function(task, row_ids, predicted) {
-  PredictionRegr$new(row_ids = row_ids, truth = task$truth(row_ids), response = predicted$response, se = predicted$se)
+as_prediction.TaskRegr = function(task, predicted) {
+  PredictionRegr$new(row_ids = predicted$row_ids, truth = task$truth(predicted$row_ids), response = predicted$response, se = predicted$se)
 }
 
 #' @export

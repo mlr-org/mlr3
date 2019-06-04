@@ -293,11 +293,11 @@ Experiment = R6Class("Experiment",
         if (is.null(self$data$predicted)) {
           return(NULL)
         }
-        return(invoke(as_prediction, task = self$task, row_ids = self$test_set, predicted = self$data$predicted))
+        return(invoke(as_prediction, task = self$task, predicted = self$data$predicted))
       }
 
       assert_list(rhs, names = "unique")
-      assert_names(names(rhs), subset.of = self$learner$predict_types)
+      assert_names(names(rhs), subset.of = c("row_ids", self$learner$predict_types))
       experiment_reset_state(self, "predicted")
       self$data$predicted = rhs
     },

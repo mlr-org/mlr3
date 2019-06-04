@@ -75,8 +75,6 @@ Prediction = R6Class("Prediction",
 #'  Task as passed to `$predict()` of a [Learner].
 #' @param predicted :: named `list()`\cr
 #'  Return value of the [Learner].
-#' @param row_ids :: (`integer()` | `character()`)\cr
-#'  Row ids of the [Task] for the observations in the test set.
 #' @export
 convert_prediction = function(task, predicted) {
   UseMethod("convert_prediction")
@@ -84,7 +82,7 @@ convert_prediction = function(task, predicted) {
 
 #' @rdname convert_prediction
 #' @export
-as_prediction = function(task, row_ids, predicted) {
+as_prediction = function(task, predicted) {
   UseMethod("as_prediction")
 }
 

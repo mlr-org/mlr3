@@ -13,7 +13,7 @@ returned by \code{convert_prediction()}.}
 \usage{
 convert_prediction(task, predicted)
 
-as_prediction(task, row_ids, predicted)
+as_prediction(task, predicted)
 }
 \arguments{
 \item{task}{:: \link{Task}\cr
@@ -21,9 +21,6 @@ Task as passed to \code{$predict()} of a \link{Learner}.}
 
 \item{predicted}{:: named \code{list()}\cr
 Return value of the \link{Learner}.}
-
-\item{row_ids}{:: (\code{integer()} | \code{character()})\cr
-Row ids of the \link{Task} for the observations in the test set.}
 }
 \description{
 Prediction Object Helpers
