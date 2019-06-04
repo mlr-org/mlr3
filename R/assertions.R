@@ -165,13 +165,6 @@ assert_benchmark_result = function(bmr, .var.name = vname(bmr)) {
 }
 
 #' @export
-#' @param param_set :: [paradox::ParamSet].
-#' @rdname mlr_assertions
-assert_param_set = function(param_set, .var.name = vname(param_set)) {
-  assert_class(param_set, "ParamSet", .var.name = .var.name)
-}
-
-#' @export
 #' @param id :: `character(1)`.
 #' @rdname mlr_assertions
 assert_id = function(id, .var.name = vname(id)) {

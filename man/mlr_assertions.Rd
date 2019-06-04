@@ -14,7 +14,6 @@
 \alias{assert_resamplings}
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
-\alias{assert_param_set}
 \alias{assert_id}
 \alias{assert_ids}
 \title{Assertion for mlr3 Objects}
@@ -49,8 +48,6 @@ assert_resample_result(resample_result,
   .var.name = vname(resample_result))
 
 assert_benchmark_result(bmr, .var.name = vname(bmr))
-
-assert_param_set(param_set, .var.name = vname(param_set))
 
 assert_id(id, .var.name = vname(id))
 
@@ -89,8 +86,6 @@ Vector of predict types provided by the \link{Experiment} or \link{Learner}.}
 \item{resample_result}{:: \link{ResampleResult}.}
 
 \item{bmr}{:: \link{BenchmarkResult}.}
-
-\item{param_set}{:: \link[paradox:ParamSet]{paradox::ParamSet}.}
 
 \item{id}{:: \code{character(1)}.}
 
