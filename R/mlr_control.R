@@ -61,7 +61,7 @@ mlr_control = function(...) {
 }
 
 default_mlr_control = list(
-  store_model = TRUE,
+  store_model = FALSE,
   store_prediction = TRUE,
   encapsulate_train = "none",
   encapsulate_predict = "none",

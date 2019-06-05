@@ -29,6 +29,10 @@
 #' All jobs are forwarded to the \CRANpkg{future} package together.
 #' To select a parallel backend, use [future::plan()].
 #'
+#' @note
+#' The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+#' If you need access to the models for later analysis, set `store_model` to `TRUE` via [mlr_control()].
+#'
 #' @export
 #' @examples
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
@@ -57,7 +61,7 @@
 #'
 #' # Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
-benchmark = function(design, measures = NULL, ctrl = list(store_model = FALSE)) {
+benchmark = function(design, measures = NULL, ctrl = list()) {
 
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))

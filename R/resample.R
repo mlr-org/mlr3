@@ -24,6 +24,10 @@
 #' One jobs is one resampling iteration, and all jobs are forwarded to the \CRANpkg{future} package together.
 #' To select a parallel backend, use [future::plan()].
 #'
+#' @note
+#' The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+#' If you need access to the models for later analysis, set `store_model` to `TRUE` via [mlr_control()].
+#'
 #' @export
 #' @examples
 #' task = mlr_tasks$get("iris")
