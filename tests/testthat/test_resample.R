@@ -48,9 +48,9 @@ test_that("rr$combine()", {
   expect_equal(nrow(bmr$data), nrow(rr1$data) + nrow(rr2$data))
   expect_set_equal(bmr$data$hash, c(rr1$hash, rr2$hash))
 
-  rrs = bmr$resample_results
-  expect_data_table(rrs, nrow = 2)
-  expect_set_equal(rrs$hash, c(rr1$hash, rr2$hash))
+  aggr = bmr$aggregated()
+  expect_data_table(aggr, nrow = 2)
+  expect_set_equal(aggr$hash, c(rr1$hash, rr2$hash))
 })
 
 test_that("discarding model", {

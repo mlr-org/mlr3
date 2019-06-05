@@ -434,7 +434,7 @@ expect_resample_result = function(rr) {
 }
 
 expect_benchmark_result = function(bmr) {
-  checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data", "resample_results", "resample_result"))
+  checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data"))
 
   checkmate::expect_data_table(bmr$data, min.cols = nrow(mlr_reflections$experiment_slots) + 1L)
   checkmate::expect_names(names(bmr$data), must.include = c(mlr_reflections$experiment_slots$name, "hash"))
@@ -476,15 +476,6 @@ expect_benchmark_result = function(bmr) {
   expect_id(tab$resampling_id)
   for (m in bmr$measures$measure)
     checkmate::expect_numeric(tab[[m$id]])
-
-  tab = bmr$resample_results
-  checkmate::expect_data_table(tab, ncol = 5L)
-  checkmate::expect_names(names(tab), identical.to = c("hash", "task_id", "learner_id", "resampling_id", "N"))
-  expect_hash(tab$hash)
-  expect_id(tab$task_id)
-  expect_id(tab$learner_id)
-  expect_id(tab$resampling_id)
-  checkmate::expect_integer(tab$N, any.missing = FALSE, lower = 1L)
 }
 
 expect_log = function(log) {

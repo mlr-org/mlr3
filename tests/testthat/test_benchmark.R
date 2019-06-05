@@ -44,16 +44,17 @@ test_that("Basic benchmarking", {
 
   tab = bmr$aggregated(objects = FALSE)
   expect_data_table(tab, nrow = 4L)
-  expect_names(names(tab), type = "unique", permutation.of = c("hash", "task_id", "learner_id", "resampling_id", "classif.ce", "classif.acc"))
+  expect_names(names(tab), type = "unique", permutation.of = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", "classif.ce", "classif.acc"))
   expect_numeric(tab[task_id == "sonar", classif.ce], any.missing = FALSE)
   expect_numeric(tab[task_id == "iris", classif.acc], any.missing = FALSE)
 })
 
 test_that("ResampleResult getter", {
-  hashes = bmr$resample_results$hash
+  aggr = bmr$aggregated()
+  hashes = aggr$hash
   expect_character(hashes, len = 4L, any.missing = FALSE, unique = TRUE)
   for (i in seq_along(hashes)) {
-    rr = bmr$resample_result(hashes[i])
+    rr = aggr[i]$resample_result[[1L]]
     expect_resample_result(rr)
     expect_experiment(rr$experiment(1))
     val1 = rr$aggregated
@@ -99,7 +100,7 @@ test_that("inputs are cloned", {
   resampling = mlr_resamplings$get("holdout")
 
   bmr = benchmark(data.table(task = list(task), learner = list(learner), resampling = list(resampling)))
-  e = bmr$resample_result(bmr$resample_results$hash)$experiment(1)
+  e = bmr$aggregated()$resample_result[[1L]]$experiment(1)
 
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)

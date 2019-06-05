@@ -39,11 +39,6 @@
 #'   Table of used measures with three columns:
 #'   "measure_hash" (`character(1)`), "measure_id" (`character(1)`) and "measure" ([Measure]).
 #'
-#' * `resample_results` :: [data.table::data.table()]\cr
-#'   Table of [ResampleResult] groups with 5 columns:
-#'   "hash" (`character(1)`), "task_id" (`character(1)`), "learner_id" (`character(1)`), "resampling_id" (`character(1)`) and "N" (`integer(1)`).
-#'   The last column ("N") is the number of [Experiment]s in the [ResampleResult].
-#'
 #' @section Methods:
 #' * `aggregated(objects = TRUE, ids = TRUE, params = FALSE)`\cr
 #'   (`logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
@@ -64,11 +59,6 @@
 #'   (`character(1)`) -> [ResampleResult]\cr
 #'   Returns the [ResampleResult] with best performance according to [Measure] with the provided id.
 #'
-#' * `resample_result(hash)`\cr
-#'   `character(1)` -> [ResampleResult]\cr
-#'   Retrieves the [ResampleResult] whose hash starts with `hash`.
-#'   The abbreviation must be unambiguous, so that exactly one [ResampleResult] is matched.
-#'
 #' @section S3 Methods:
 #' * `as.data.table(bmr)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
@@ -77,30 +67,32 @@
 #' @export
 #' @examples
 #' set.seed(123)
-#' bmr = benchmark(expand_grid(
+#' design = expand_grid(
 #'   tasks = "iris",
 #'   learners = c("classif.featureless", "classif.rpart"),
 #'   resamplings = "cv3"
-#' ))
+#' )
+#' print(design)
 #'
+#' bmr = benchmark(design)
 #' print(bmr)
+#'
 #' bmr$tasks
 #' bmr$learners
-#' bmr$resamplings
 #' bmr$measures
 #'
 #' # aggregated results
-#' bmr$aggregated(objects = FALSE)
+#' bmr$aggregated()
 #'
 #' # aggregated results with hyperparameters as separate columns
-#' mlr3misc::unnest(bmr$aggregated(objects = FALSE, params = TRUE), "params")
+#' mlr3misc::unnest(bmr$aggregated(params = TRUE), "params")
 #'
-#' # extract resample results and experiments
-#' rrs = bmr$resample_results
-#' print(rrs)
-#' rr = bmr$resample_result(rrs$hash[1])
+#' # extract resample result for classif.rpart
+#' rr = bmr$aggregated()[learner_id == "classif.rpart", resample_result][[1]]
 #' print(rr)
-#' rr$experiment(1)$model
+#'
+#' # access the confusion matrix of the first resampling iteration
+#' rr$experiment(1)$prediction$confusion
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
     data = NULL,
@@ -128,16 +120,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
     },
 
-    resample_result = function(hash) {
-      assert_string(hash)
-      hashes = self$data[, unique(hash)]
-      tmp = hashes[which(startsWith(hashes, prefix = hash))]
-      if (length(tmp) != 1L) {
-        stopf("Hash '%s' matches %i of the recorded resample results", hash, length(tmp))
-      }
-      ResampleResult$new(self$data[list(tmp), on = "hash", nomatch = 0L], hash = hash)
-    },
-
     combine = function(bmr) {
       assert_benchmark_result(bmr)
       self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
@@ -152,8 +134,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
         stopf("Impossible to determine best value for measure '%s': '$minimize' is NA", id)
       }
       aggr = self$aggregated(ids = FALSE, objects = FALSE)
-      best = if (measure$minimize) which_min(aggr[[id]]) else which_max(aggr[[id]])
-      self$resample_result(aggr[best, get("hash")])
+      best = if (measure$minimize) which_min else which_max
+      aggr[best(get(id)), "resample_result"][[1L]][[1L]]
     },
 
     aggregated = function(ids = TRUE, objects = TRUE, params = FALSE, unnest_params = FALSE) {
@@ -177,9 +159,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
       extract = function(x) as.list(x$aggregated)
       res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
 
-      if (!objects) {
-        remove_named(res, "resample_result")
-      }
+      # if (!objects) {
+      #   remove_named(res, "resample_result")
+      # }
       res[]
     }
   ),
@@ -199,10 +181,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     measures = function() {
       unique(map_dtr(self$data$measures, function(m) data.table(measure_hash = hashes(m), measure_id = ids(m), measure = m)), by = "measure_id")
-    },
-
-    resample_results = function() {
-      self$data[, list(task_id = task[[1L]]$id, learner_id = learner[[1L]]$id, resampling_id = resampling[[1L]]$id, .N), by = "hash"]
     }
   ),
 
