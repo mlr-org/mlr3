@@ -70,6 +70,17 @@
 #'   `integer(1)` -> (`integer()` | `character()`)\cr
 #'   Returns the row ids of the i-th test set.
 #'
+#' * `obs_weights_train_set(i)`\cr
+#'   `integer(1)` -> (`integer()` | `character()`)\cr
+#'   Returns the observation weights for ids of the i-th training set.
+#'
+#' * `class_weights_train_set(i)`\cr
+#'   `integer(1)` -> (`integer()` | `character()`)\cr
+#'   Returns the class weights for ids of the i-th training set.
+#'
+#' * `class_costs_train_set(i)`\cr
+#'   `integer(1)` -> (`integer()` | `character()`)\cr
+#'   Returns the class costs for ids of the i-th training set.
 #' @export
 #' @family Resampling
 #' @examples
