@@ -160,15 +160,15 @@ Resampling = R6Class("Resampling",
 
     test_set = function(i) {
       private$.get_set(private$.get_test, i)
-    }
+    },
 
     obs_weights_train_set = function(i) {
       private$.get_set(private$.get_obs_weights_train, i)
-    }
+    },
 
     class_weights_train_sets = function(i) {
       private$.get_set(private$.get_class_weights_train, i)
-    }
+    },
 
     class_costs_train_set = function(i) {
       private$.get_set(private$.get_class_costs_train, i)
