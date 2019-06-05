@@ -163,7 +163,7 @@ Learner = R6Class("Learner",
 
       self$id = assert_id(id)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
-      private$.param_set = assert_paramset(param_set)
+      private$.param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_sorted_subset(predict_types, mlr_reflections$learner_predict_types[[task_type]], empty.ok = FALSE)
