@@ -389,7 +389,7 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
 
   # TODO: we could allow new_data to be a backend / task to avoid duplication
   if (!is.null(newdata)) {
-    assert_data_frame(newdata)
+    assert_data_frame(newdata, min.rows = 1L)
     tn = self$task$target_names
     if (any(tn %nin% colnames(newdata))) {
       newdata[, tn] = NA
