@@ -61,6 +61,18 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
     .get_test = function(i) {
       self$instance$test[[i]]
+    },
+
+    .get_obs_weights_train = function(i) {
+      self$instance$obs_weights_train[[i]]
+    },
+
+    .get_class_weights_train = function(i) {
+      self$instance$class_weights_train[[i]]
+    },
+
+    .get_class_costs_train = function(i) {
+      self$instance$class_costs_train[[i]]
     }
   )
 )
@@ -78,13 +90,13 @@ instantiate_custom = function(instance, train_sets = NULL, test_sets = NULL, obs
     instance$train = train_sets
 
     assert_list(obs_weights_train_sets, types = "atomicvector", any.missing = FALSE, len = train_sets)
-    instance$obs_weights_train_sets = obs_weights_train_sets
+    instance$obs_weights_train = obs_weights_train_sets
 
     assert_list(class_weights_train_sets, types = "atomicvector", any.missing = FALSE, len = train_sets)
-    instance$class_weights_train_sets = class_weights_train_sets
+    instance$class_weights_train = class_weights_train_sets
 
     assert_list(class_costs_train_sets, types = "atomicvector", any.missing = FALSE, len = train_sets)
-    instance$class_costs_train_sets = class_costs_train_sets
+    instance$class_costs_train = class_costs_train_sets
   }
 
   if (!is.null(test_sets)) {
