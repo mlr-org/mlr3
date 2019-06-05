@@ -52,11 +52,11 @@
 #' bmr$aggregated(objects = FALSE)
 #'
 #' # Overview of of resamplings that were conducted internally
-#' rrs = bmr$resample_results
-#' print(rrs)
+#' aggr = bmr$aggregated()
+#' print(aggr)
 #'
 #' # Extract first ResampleResult
-#' rr = bmr$resample_result(hash = rrs$hash[1])
+#' rr = aggr[1, resample_result][[1]]
 #' print(rr)
 #'
 #' # Extract predictions of first experiment of this resampling
