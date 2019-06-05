@@ -159,7 +159,8 @@ convert_prediction.TaskClassif = function(task, predicted) {
   lvls = task$class_names
 
   if (!is.null(predicted$response)) {
-    predicted$response = as_factor(predicted$response, levels = lvls, len = n, any.missing = FALSE)
+    predicted$response = as_factor(predicted$response, levels = lvls)
+    assert_factor(predicted$response, len = n, any.missing = FALSE)
   }
 
   prob = predicted$prob

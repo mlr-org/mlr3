@@ -87,8 +87,9 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
       }
     }
     hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
+    measures = assert_measures(measures %??% task$measures, learner = learner)
     data.table(task = list(task), learner = list(learner), resampling = list(resampling),
-      measures = list(measures %??% task$measures), iter = seq_len(resampling$iters), hash = hash)
+      measures = list(measures), iter = seq_len(resampling$iters), hash = hash)
   })
 
   lg$info("Benchmarking %i experiments", nrow(grid))

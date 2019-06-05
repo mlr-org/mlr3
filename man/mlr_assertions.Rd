@@ -34,11 +34,9 @@ assert_learner(learner, task = NULL, properties = character(0L),
 assert_learners(learners, task = NULL, properties = character(0L),
   clone = FALSE)
 
-assert_measure(measure, task = NULL, predict_types = NULL,
-  clone = FALSE)
+assert_measure(measure, task = NULL, learner = NULL, clone = FALSE)
 
-assert_measures(measures, task = NULL, predict_types = NULL,
-  clone = FALSE)
+assert_measures(measures, task = NULL, learner = NULL, clone = FALSE)
 
 assert_resampling(resampling, instantiated = NULL, clone = FALSE)
 
@@ -73,9 +71,6 @@ Set of required task properties.}
 \item{learners}{:: list of \link{Learner}.}
 
 \item{measure}{:: \link{Measure}.}
-
-\item{predict_types}{:: \code{character()}\cr
-Vector of predict types provided by the \link{Experiment} or \link{Learner}.}
 
 \item{measures}{:: list of \link{Measure}.}
 

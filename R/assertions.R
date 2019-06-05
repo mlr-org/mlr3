@@ -89,10 +89,8 @@ assert_learners = function(learners, task = NULL, properties = character(0L), cl
 
 #' @export
 #' @param measure :: [Measure].
-#' @param predict_types :: `character()`\cr
-#'   Vector of predict types provided by the [Experiment] or [Learner].
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, predict_types = NULL, clone = FALSE) {
+assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
   measure = cast_from_dict(measure, "Measure", mlr_measures, clone, FALSE)[[1L]]
 
   if (!is.null(task)) {
@@ -108,8 +106,9 @@ assert_measure = function(measure, task = NULL, predict_types = NULL, clone = FA
     }
   }
 
-  if (!is.null(predict_types)) {
-    if (!is_scalar_na(measure$predict_type) && measure$predict_type %nin% predict_types) {
+  if (!is.null(learner) && !is_scalar_na(measure$predict_type)) {
+    predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
+    if (measure$predict_type %nin% predict_types) {
       stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
     }
   }
@@ -120,9 +119,9 @@ assert_measure = function(measure, task = NULL, predict_types = NULL, clone = FA
 #' @export
 #' @param measures :: list of [Measure].
 #' @rdname mlr_assertions
-assert_measures = function(measures, task = NULL, predict_types = NULL, clone = FALSE) {
+assert_measures = function(measures, task = NULL, learner = NULL, clone = FALSE) {
   measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
-  lapply(measures, assert_measure, task = task, predict_types = predict_types)
+  lapply(measures, assert_measure, task = task, learner = learner)
 }
 
 #' @export

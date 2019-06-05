@@ -60,7 +60,7 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   task = assert_task(task, clone = TRUE)
   learner = assert_learner(learner, task = task, clone = TRUE)
   resampling = assert_resampling(resampling)
-  measures = assert_measures(measures %??% task$measures, task = task, clone = TRUE)
+  measures = assert_measures(measures %??% task$measures, task = task, learner = learner, clone = TRUE)
   ctrl = mlr_control(ctrl)
 
   instance = resampling$clone(deep = TRUE)

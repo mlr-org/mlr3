@@ -88,3 +88,11 @@ test_that("memory footprint", {
   expect_equal(uniqueN(map_chr(x$resampling, address)), 1L)
   expect_equal(uniqueN(map_chr(x$measures, address)), 1L)
 })
+
+test_that("predict_type is checked", {
+  task = mlr_tasks$get("sonar")
+  learner = mlr_learners$get("classif.featureless")
+  resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
+  measure = mlr_measures$get("classif.auc")
+  expect_error(resample(task, learner, resampling, measure = measure), "predict_type")
+})

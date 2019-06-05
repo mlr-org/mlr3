@@ -425,7 +425,7 @@ experiment_score = function(self, private, measures = NULL, ctrl = list()) {
     stopf("Experiment needs predictions before score()")
   }
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, predict_types = names(self$data$predicted))
+  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, learner = self$learner)
 
   lg$info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = score_worker(self, ctrl = ctrl)

@@ -41,7 +41,7 @@
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
-#'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections()].
+#'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections].
 #'
 #' @section Methods:
 #' * `generate(n)`\cr

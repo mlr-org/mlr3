@@ -127,3 +127,12 @@ test_that("resample with replacement measures", {
   expect_equal(bmr$measures$measure_id, c("classif.ce", "classif.acc"))
   expect_subset(c("classif.ce", "classif.acc"), names(bmr$aggregated()))
 })
+
+test_that("predict_type is checked", {
+  task = mlr_tasks$get("sonar")
+  learner = mlr_learners$get("classif.featureless")
+  resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
+  measure = mlr_measures$get("classif.auc")
+  design = expand_grid(task, learner, resampling)
+  expect_error(benchmark(design, measure = measure), "predict_type")
+})

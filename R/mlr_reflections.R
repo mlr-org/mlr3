@@ -47,8 +47,8 @@ local({
   )
 
   mlr_reflections$learner_predict_types = list(
-    classif = c("response", "prob"),
-    regr = c("response", "se")
+    classif = list(response = "response", prob = c("response", "prob")),
+    regr = list(response = "response", se = c("response", "se"))
   )
 
 
