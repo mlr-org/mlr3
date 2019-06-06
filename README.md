@@ -8,6 +8,12 @@ A clean, object-oriented rewrite of [mlr](https://github.com/mlr-org/mlr).
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 
+## Installation
+
+```r
+remotes::install_github("mlr-org/mlr3")
+```
+
 ## Why a rewrite?
 
 [mlr](https://github.com/mlr-org/mlr) was first released to [CRAN](https://cran.r-project.org/package=mlr) in 2013.
