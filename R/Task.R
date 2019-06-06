@@ -234,7 +234,6 @@ Task = R6Class("Task",
     row_roles = NULL,
     col_roles = NULL,
     col_info = NULL,
-    measures = NULL,
 
     initialize = function(id, task_type, backend) {
 
@@ -348,10 +347,17 @@ Task = R6Class("Task",
   ),
 
   active = list(
+    measures = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.measures)
+      }
+      private$.measures = assert_measures(rhs, task = self, clone = TRUE)
+    },
+
     hash = function() {
       hash(list(
         class(self), self$id, self$backend$hash, self$row_roles, self$col_roles,
-        self$col_info$levels, self$properties, sort(hashes(self$measures))
+        self$col_info$levels, self$properties, sort(hashes(private$.measures))
       ))
     },
 
@@ -403,7 +409,7 @@ Task = R6Class("Task",
   ),
 
   private = list(
-    .measures = list(),
+    .measures = NULL,
 
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
