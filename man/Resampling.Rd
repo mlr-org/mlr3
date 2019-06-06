@@ -67,6 +67,15 @@ Returns the row ids of the i-th training set.
 \item \code{test_set(i)}\cr
 \code{integer(1)} -> (\code{integer()} | \code{character()})\cr
 Returns the row ids of the i-th test set.
+\item \code{obs_weights_train_set(i)}\cr
+\code{integer(1)} -> (\code{integer()} | \code{character()})\cr
+Returns the observation weights for ids of the i-th training set.
+\item \code{class_weights_train_set(i)}\cr
+\code{integer(1)} -> (\code{integer()} | \code{character()})\cr
+Returns the class weights for ids of the i-th training set.
+\item \code{class_costs_train_set(i)}\cr
+\code{integer(1)} -> (\code{integer()} | \code{character()})\cr
+Returns the class costs for ids of the i-th training set.
 }
 }
 
