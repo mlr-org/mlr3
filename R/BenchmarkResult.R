@@ -112,7 +112,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       catf("%s of %i experiments in %i resamplings:",
         format(self), nrow(self$data), uniqueN(self$data$hash))
       measure = self$measures$measure[[1L]]
-      aggr = remove_named(self$aggregated(objects = FALSE, ids = TRUE, params = FALSE), "hash")
+      aggr = remove_named(self$aggregated(objects = FALSE, ids = TRUE, params = FALSE), c("resample_result", "hash"))
       setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
       if (!is.na(measure$minimize)) {
         setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
