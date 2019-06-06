@@ -90,17 +90,17 @@ instantiate_custom = function(instance, train_sets = NULL, test_sets = NULL, obs
     instance$train = train_sets
 
     if (!is.null(obs_weights_train_sets)) {
-      assert_list(obs_weights_train_sets, types = "atomicvector", any.missing = FALSE, len = train_sets)
+      assert_list(obs_weights_train_sets, types = "atomicvector", any.missing = FALSE, len = length(train_sets))
       instance$obs_weights_train = obs_weights_train_sets
     }
 
     if (!is.null(class_weights_train_sets)) {
-      assert_list(class_weights_train_sets, types = "atomicvector", any.missing = FALSE, len = train_sets)
+      assert_list(class_weights_train_sets, types = "atomicvector", any.missing = FALSE, len = length(train_sets))
       instance$class_weights_train = class_weights_train_sets
     }
 
     if (!is.null(class_costs_train_sets)) {
-      assert_list(class_costs_train_sets, types = "atomicvector", any.missing = FALSE, len = train_sets)
+      assert_list(class_costs_train_sets, types = "atomicvector", any.missing = FALSE, len = length(train_sets))
       instance$class_costs_train = class_costs_train_sets
     }
   }
