@@ -60,6 +60,7 @@ test_that("ResampleResult getter", {
     val1 = rr$aggregated
     val2 = bmr$aggregated()[[names(val1)]][i]
     expect_equivalent(val1, val2)
+    expect_equal(hashes[i], rr$hash)
   }
 })
 
