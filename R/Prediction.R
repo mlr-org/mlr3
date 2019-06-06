@@ -75,6 +75,7 @@ Prediction = R6Class("Prediction",
 #'  Task as passed to `$predict()` of a [Learner].
 #' @param predicted :: named `list()`\cr
 #'  Return value of the [Learner].
+#' @keywords internal
 #' @export
 convert_prediction = function(task, predicted) {
   UseMethod("convert_prediction")

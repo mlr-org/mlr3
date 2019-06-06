@@ -31,3 +31,4 @@ value of the \code{predict()} function of a \link{Learner}.
 \code{as_prediction()} is used to construct a \link{Prediction} object from the data
 returned by \code{convert_prediction()}.
 }
+\keyword{internal}
