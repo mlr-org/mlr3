@@ -35,7 +35,9 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
       assert_task(task)
-      self$instance = instantiate_custom(self$instance, train_sets, test_sets)
+      assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
+      assert_list(test_sets, types = "atomicvector", len = length(train_sets), any.missing = FALSE, null.ok = TRUE)
+      self$instance = list(train = train_sets, test = test_sets)
       self$task_hash = task$hash
       invisible(self)
     }
@@ -64,27 +66,3 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
     }
   )
 )
-
-
-instantiate_custom = function(instance, train_sets = NULL, test_sets = NULL) {
-  if (is.null(train_sets) && is.null(test_sets)) {
-    stopf("At least one of 'train_sets' or 'test_sets' must be provided")
-  }
-  instance = instance %??% list(train = NULL, test = NULL)
-
-  if (!is.null(train_sets)) {
-    # TODO: more assertions?
-    assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
-    instance$train = train_sets
-  }
-
-  if (!is.null(test_sets)) {
-    if (is.null(instance$train)) {
-      stopf("Cannot set test_set without train_set")
-    }
-    assert_list(test_sets, types = "atomicvector", len = length(instance$train), any.missing = FALSE, unique = TRUE)
-    instance$test = test_sets
-  }
-
-  return(instance)
-}

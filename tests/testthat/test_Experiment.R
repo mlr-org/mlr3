@@ -88,3 +88,24 @@ test_that("Seeting seeds", {
     expect_true(identical(p1, p2))
   }
 })
+
+test_that("Setting train and test sets via AB", {
+  e = Experiment$new("iris", "classif.featureless")
+  expect_null(e$train_set)
+  e$train_set = 1:120
+  expect_set_equal(e$train_set, 1:120)
+
+  expect_null(e$test_set)
+  e$test_set = 121:150
+  expect_set_equal(e$train_set, 1:120)
+  expect_set_equal(e$test_set, 121:150)
+
+  e$run()
+  expect_equal(as.character(e$state), "scored")
+
+  e$test_set = 141:150
+  expect_equal(as.character(e$state), "trained")
+
+  e$train_set = 1:111
+  expect_equal(as.character(e$state), "defined")
+})
