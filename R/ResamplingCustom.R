@@ -27,6 +27,17 @@
 #'
 #' rc$train_set(1)
 #' rc$test_set(1)
+#'
+#' # Resampling with custom observation weights for the training set
+#' rc = mlr_resamplings$get("custom")
+#' train_sets = list(1:5, 1:6)
+#' test_sets = list(6:10, 7:10)
+#' obs_weights_train_sets =
+#'    list(train_sets[[1]] / sum(train_sets[[1]]), train_sets[[2]] / sum(train_sets[[2]]))
+#' rc$instantiate(task, train_sets, test_sets, obs_weights_train_sets)
+#' rc$train_set(1)
+#' rc$test_set(1)
+#' rc$obs_weights_train_set(1)
 ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   public = list(
     initialize = function() {
