@@ -78,7 +78,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         model$task_train = task$clone(deep = TRUE)
       }
       self$model = set_class(model, "classif.debug_model")
-      self
+      invisible(self)
     },
 
     predict = function(task) {

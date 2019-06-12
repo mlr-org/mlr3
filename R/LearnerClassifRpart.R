@@ -44,7 +44,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         pars = insert_named(pars, list(weights = task$weights$weight))
       }
       self$model = invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
-      self
+      invisible(self)
     },
 
     predict = function(task) {
