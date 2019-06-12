@@ -56,13 +56,17 @@ Access to the stored \link{Task}.
 \item \code{learner} :: \link{Learner}\cr
 Access to the stored \link{Learner}.
 If the experiment has been fitted, the model is stored in slot \code{$model}.
-\item \code{test_set} :: (\code{integer()} | \code{character()})\cr
-The row ids of the \link{Task} for the test set used in \code{$predict()}
-Timings are \code{NA} if the respective step has not been performed yet.
 \item \code{timings} :: named \code{numeric(3)}\cr
 Stores the elapsed time for the steps \code{train()}, \code{predict()} and \code{score()} in seconds with up to millisecond accuracy (c.f. \code{proc.time()}).
+Timings are \code{NA} if the respective step has not been performed yet.
 \item \code{train_set} :: (\code{integer()} | \code{character()})\cr
 The row ids of the \link{Task} for the training set used in \code{$train()}.
+You can assign a vector of ids to this field.
+Doing so resets the experiment to the state before the training step.
+\item \code{test_set} :: (\code{integer()} | \code{character()})\cr
+The row ids of the \link{Task} for the test set used in \code{$predict()}
+You can assign a vector of ids to this field.
+Doing so resets the experiment to the state before the predict step.
 \item \code{validation_set} :: (\code{integer()} || \code{character()})\cr
 The row ids of the validation set of the \link{Task}.
 Validation sets are not yet completely integrated into the package.

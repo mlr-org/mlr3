@@ -65,15 +65,19 @@
 #'   Access to the stored [Learner].
 #'   If the experiment has been fitted, the model is stored in slot `$model`.
 #'
-#' * `test_set` :: (`integer()` | `character()`)\cr
-#'   The row ids of the [Task] for the test set used in `$predict()`
-#'   Timings are `NA` if the respective step has not been performed yet.
-#'
 #' * `timings` :: named `numeric(3)`\cr
 #'   Stores the elapsed time for the steps `train()`, `predict()` and `score()` in seconds with up to millisecond accuracy (c.f. `proc.time()`).
+#'   Timings are `NA` if the respective step has not been performed yet.
 #'
 #' * `train_set` :: (`integer()` | `character()`)\cr
 #'   The row ids of the [Task] for the training set used in `$train()`.
+#'   You can assign a vector of ids to this field.
+#'   Doing so resets the experiment to the state before the training step.
+#'
+#' * `test_set` :: (`integer()` | `character()`)\cr
+#'   The row ids of the [Task] for the test set used in `$predict()`
+#'   You can assign a vector of ids to this field.
+#'   Doing so resets the experiment to the state before the predict step.
 #'
 #' * `validation_set` :: (`integer()` || `character()`)\cr
 #'   The row ids of the validation set of the [Task].
@@ -266,22 +270,36 @@ Experiment = R6Class("Experiment",
       set_names(t, c("train", "predict", "score"))
     },
 
-    train_set = function() {
-      resampling = self$data$resampling
-      iteration = self$data$iteration
-      if (is.null(resampling) || is.null(iteration)) {
-        return(NULL)
+    train_set = function(rhs) {
+      if (missing(rhs)) {
+        resampling = self$data$resampling
+        iteration = self$data$iteration
+        if (is.null(resampling) || is.null(iteration)) {
+          return(NULL)
+        }
+        return(resampling$train_set(iteration))
       }
-      resampling$train_set(iteration)
+
+      row_ids = assert_row_ids(rhs)
+      experiment_reset_state(self, "defined")
+      self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
+      self$data$iteration = 1L
     },
 
-    test_set = function() {
-      resampling = self$data$resampling
-      iteration = self$data$iteration
-      if (is.null(resampling) || is.null(iteration)) {
-        return(NULL)
+    test_set = function(rhs) {
+      if (missing(rhs)) {
+        resampling = self$data$resampling
+        iteration = self$data$iteration
+        if (is.null(resampling) || is.null(iteration)) {
+          return(NULL)
+        }
+        return(resampling$test_set(iteration))
       }
-      resampling$test_set(iteration)
+
+      row_ids = assert_row_ids(rhs)
+      experiment_reset_state(self, "trained")
+      self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(self$train_set), test_sets = list(row_ids))
+      self$data$iteration = 1L
     },
 
     validation_set = function() {
@@ -360,9 +378,7 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   }
 
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  row_ids = if (is.null(row_ids)) self$data$task$row_ids else assert_row_ids(row_ids)
-  self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
-  self$data$iteration = 1L
+  self$train_set = row_ids %??% self$data$task$row_ids
 
   lg$info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = train_worker(self$task, self$learner$clone(), self$train_set, ctrl, seed = self$seeds[["train"]])
@@ -397,12 +413,12 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
     old_row_ids = self$data$task$row_ids
     self$data$task = self$data$task$clone(deep = TRUE)$rbind(newdata)
     row_ids = setdiff(self$data$task$row_ids, old_row_ids)
-  } else {
-    row_ids = if (is.null(row_ids)) self$task$row_ids else assert_row_ids(row_ids)
+  } else if (is.null(row_ids)) {
+    row_ids = self$task$row_ids
   }
 
   # update resampling instance
-  self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
+  self$test_set = row_ids
 
   lg$info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = predict_worker(self$data$task, self$data$learner, self$test_set, ctrl, self$seeds[["predict"]])
