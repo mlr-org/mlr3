@@ -20,6 +20,24 @@
 #' * `encapsulate_predict`: How to call external code in third party packages during predict.
 #'   Same format as `encapsulate_train`. See [Log] for an example.
 #'
+#' **Defaults**
+#' ```
+#' $store_model
+#' FALSE
+#'
+#' $store_prediction
+#' TRUE
+#'
+#' $encapsulate_train
+#' "none"
+#'
+#' $encapsulate_predict
+#' "none"
+#'
+#' $log_threshold
+#' 400
+#' ```
+#'
 #' @param ... :: any\cr
 #'   Named arguments to overwrite the defaults / options.
 #'   Settings may be provided in a `name = value` fashion, or by providing a single named `list()`.

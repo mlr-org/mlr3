@@ -35,6 +35,22 @@ See \link{Log} for an example.
 \item \code{encapsulate_predict}: How to call external code in third party packages during predict.
 Same format as \code{encapsulate_train}. See \link{Log} for an example.
 }
+
+\strong{Defaults}\preformatted{$store_model
+FALSE
+
+$store_prediction
+TRUE
+
+$encapsulate_train
+"none"
+
+$encapsulate_predict
+"none"
+
+$log_threshold
+400
+}
 }
 \examples{
 # get a list of the defaults
