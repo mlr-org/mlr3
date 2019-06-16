@@ -53,7 +53,7 @@
 #' mlr_control(store_prediction = FALSE)
 mlr_control = function(...) {
 
-  ctrl = default_mlr_control
+  ctrl = mlr_reflections$mlr_control_defaults
   ctrl$log_threshold = lg$threshold
 
   ldots = ...length()
@@ -77,11 +77,3 @@ mlr_control = function(...) {
   ctrl[names(dots)] = dots
   ctrl
 }
-
-default_mlr_control = list(
-  store_model = FALSE,
-  store_prediction = TRUE,
-  encapsulate_train = "none",
-  encapsulate_predict = "none",
-  log_threshold = 400L
-)
