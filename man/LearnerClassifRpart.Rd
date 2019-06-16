@@ -11,7 +11,7 @@ LearnerClassifRpart
 }
 \description{
 A \link{LearnerClassif} for a classification tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
-Parameter \code{xval} has been set to 0 per default.
+Parameter \code{xval} is set to 0 in order to save some computation time.
 }
 \references{
 Breiman, L. (1984).

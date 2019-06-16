@@ -6,7 +6,7 @@
 #'
 #' @description
 #' A [LearnerRegr] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
-#' Parameter `xval` has been set to 0 per default.
+#' Parameter `xval` is set to 0 in order to save some computation time.
 #'
 #' @references
 #' Breiman, L. (1984).
@@ -30,7 +30,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
             ParamInt$new(id = "maxcompete", default = 4L, lower = 0L, tags = "train"),
             ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L, tags = "train"),
             ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
-            ParamInt$new(id = "xval", default = 0L, lower = 0L, tags = "train")
+            ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
           )
         ),
         param_vals = list(xval = 0L),
