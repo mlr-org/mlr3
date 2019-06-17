@@ -132,7 +132,7 @@ Elapsed time during train in seconds with up to millisecond accuracy (c.f. \code
 \item \code{predict_time} :: \code{numeric(1)}\cr
 Elapsed time during predict in seconds with up to millisecond accuracy (c.f. \code{proc.time()}).
 \item \code{predicted} :: named \code{list()}\cr
-Prediction as returned by the \link{Learner}'s \code{predict()} call, possibly converted by \code{\link[=as_prediction]{as_prediction()}}.
+Prediction as returned by the \link{Learner}'s \code{predict()} call, possibly converted by \code{\link[=as_prediction_data]{as_prediction_data()}}.
 List elements are named with predict types.
 \item \code{measures} :: \code{list()} of \link{Measure}\cr
 Measures which where used for performance assessment.

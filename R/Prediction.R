@@ -65,11 +65,11 @@ Prediction = R6Class("Prediction",
 
 #' @title Prediction Object Helpers
 #'
-#' `as_prediction()` is called on the slave to check and convert the return
+#' `as_prediction_data()` is called on the slave to check and convert the return
 #' value of the `predict()` function of a [Learner].
 #'
 #' `new_prediction()` is used to construct a [Prediction] object from the data
-#' returned by `as_prediction()`.
+#' returned by `as_prediction_data()`.
 #'
 #' @param task :: [Task]\cr
 #'  Task as passed to `$predict()` of a [Learner].
@@ -82,11 +82,11 @@ Prediction = R6Class("Prediction",
 #'
 #' @keywords internal
 #' @export
-as_prediction = function(task, ...) {
-  UseMethod("as_prediction")
+as_prediction_data = function(task, ...) {
+  UseMethod("as_prediction_data")
 }
 
-#' @rdname as_prediction
+#' @rdname as_prediction_data
 #' @export
 new_prediction = function(task, data) {
   UseMethod("new_prediction")

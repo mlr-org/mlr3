@@ -149,7 +149,7 @@
 #'   Elapsed time during predict in seconds with up to millisecond accuracy (c.f. `proc.time()`).
 #'
 #' * `predicted` :: named `list()`\cr
-#'   Prediction as returned by the [Learner]'s `predict()` call, possibly converted by [as_prediction()].
+#'   Prediction as returned by the [Learner]'s `predict()` call, possibly converted by [as_prediction_data()].
 #'   List elements are named with predict types.
 #'
 #' * `measures` :: `list()` of [Measure]\cr

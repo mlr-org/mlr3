@@ -55,7 +55,7 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
     }
 
     if (!inherits(result, "PredictionData")) {
-      stopf("Learner '%s' returned '%s' during predict(), but needs to return a PredictionData object as returned by ?as_prediction",
+      stopf("Learner '%s' returned '%s' during predict(), but needs to return a PredictionData object as returned by ?as_prediction_data",
         learner$id, as_short_string(result))
 
     }

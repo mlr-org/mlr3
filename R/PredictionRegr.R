@@ -65,7 +65,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 )
 
 #' @export
-as_prediction.TaskRegr = function(task, response = NULL, se = NULL, ...) {
+as_prediction_data.TaskRegr = function(task, response = NULL, se = NULL, ...) {
   row_ids = task$row_ids
   n = length(row_ids)
   assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)

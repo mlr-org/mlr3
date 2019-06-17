@@ -154,7 +154,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 )
 
 #' @export
-as_prediction.TaskClassif = function(task, response = NULL, prob = NULL, ...) {
+as_prediction_data.TaskClassif = function(task, response = NULL, prob = NULL, ...) {
   row_ids = task$row_ids
   n = length(row_ids)
   lvls = task$class_names
