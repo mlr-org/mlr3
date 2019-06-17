@@ -61,7 +61,7 @@
 #'   Returns a slice of the data in the specified format.
 #'   Currently, the only supported format is "data.table".
 #'   The rows must be addressed as vector of primary key values, columns must be referred to via column names.
-#'   Non-existing rows and columns are silently ignored.
+#'   Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
 #'
 #' * `distinct(rows, cols)`\cr
 #'   (`integer()` | `character()`, `character()`) -> named `list()`\cr
