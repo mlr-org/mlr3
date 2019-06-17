@@ -34,9 +34,9 @@ Example resamplings:
 \item \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}.
 }
 
-Other Dictionary: \code{\link{Dictionary}},
-  \code{\link{mlr_generators}}, \code{\link{mlr_learners}},
-  \code{\link{mlr_measures}}, \code{\link{mlr_tasks}}
+Other Dictionary: \code{\link{mlr_generators}},
+  \code{\link{mlr_learners}}, \code{\link{mlr_measures}},
+  \code{\link{mlr_tasks}}
 
 Other Resampling: \code{\link{Resampling}}
 }

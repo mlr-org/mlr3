@@ -25,7 +25,6 @@
 #' mlr_measures$get("classif.ce")
 NULL
 
-#' @include Dictionary.R
 DictionaryMeasure = R6Class("DictionaryMeasure",
   inherit = Dictionary,
   cloneable = FALSE

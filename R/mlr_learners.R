@@ -28,14 +28,13 @@
 #' mlr_learners$get("classif.featureless")
 NULL
 
-#' @include Dictionary.R
 DictionaryLearner = R6Class("DictionaryLearner",
   inherit = Dictionary,
   cloneable = FALSE,
 
   public = list(
     get = function(key, id = NULL, param_vals = NULL, predict_type = NULL) {
-      obj = dictionary_retrieve(self, key)
+      obj = super$get(key)
       if (!is.null(id)) {
         obj$id = id
       }

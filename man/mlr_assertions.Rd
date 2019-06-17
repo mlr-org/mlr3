@@ -14,8 +14,6 @@
 \alias{assert_resamplings}
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
-\alias{assert_id}
-\alias{assert_ids}
 \title{Assertion for mlr3 Objects}
 \usage{
 assert_backend(b, .var.name = vname(b))
@@ -46,10 +44,6 @@ assert_resample_result(resample_result,
   .var.name = vname(resample_result))
 
 assert_benchmark_result(bmr, .var.name = vname(bmr))
-
-assert_id(id, .var.name = vname(id))
-
-assert_ids(ids, .var.name = vname(ids))
 }
 \arguments{
 \item{b}{:: \link{DataBackend}.}
@@ -81,10 +75,6 @@ Set of required task properties.}
 \item{resample_result}{:: \link{ResampleResult}.}
 
 \item{bmr}{:: \link{BenchmarkResult}.}
-
-\item{id}{:: \code{character(1)}.}
-
-\item{id}{:: \code{character(1)}.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

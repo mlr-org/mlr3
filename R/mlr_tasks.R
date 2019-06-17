@@ -43,7 +43,6 @@
 #' mlr_tasks$remove("iris.binary")
 NULL
 
-#' @include Dictionary.R
 DictionaryTask = R6Class("DictionaryTask",
   inherit = Dictionary,
   cloneable = FALSE

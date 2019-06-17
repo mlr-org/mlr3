@@ -34,8 +34,8 @@ Example measures:
 \item \code{\link[=mlr_measures_time_train]{time_train}}.
 }
 
-Other Dictionary: \code{\link{Dictionary}},
-  \code{\link{mlr_generators}}, \code{\link{mlr_learners}},
+Other Dictionary: \code{\link{mlr_generators}},
+  \code{\link{mlr_learners}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 
 Other Measure: \code{\link{MeasureClassif}},
