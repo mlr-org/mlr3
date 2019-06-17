@@ -14,7 +14,8 @@
 #' - A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' - Meta-information about the requirements and capabilities of the learner.
 #'
-#' Predefined learners are stored in the [Dictionary] [mlr_learners].
+#' Predefined learners are stored in the [Dictionary] [mlr_learners],
+#' e.g. [`classif.rpart`][mlr_learners_classif.rpart] or [`regr.rpart`][mlr_learners_regr.rpart].
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].

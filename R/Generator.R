@@ -6,7 +6,8 @@
 #'
 #' @description
 #' Creates a [Task] of arbitrary size.
-#' Predefined task generators are stored in the [Dictionary] [mlr_generators].
+#' Predefined task generators are stored in the [Dictionary] [mlr_generators],
+#' e.g. [`xor`][mlr_generators_xor].
 #'
 #' @section Construction:
 #' ```

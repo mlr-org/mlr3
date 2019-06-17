@@ -13,7 +13,8 @@
 #' 2. Tasks store meta-information, such as the role of the individual columns in the [DataBackend].
 #'    For example, for a classification task a single column must be marked as target column, and others as features.
 #'
-#' Predefined (toy) tasks are stored in the [Dictionary] [mlr_tasks].
+#' Predefined (toy) tasks are stored in the [Dictionary] [mlr_tasks],
+#' e.g. [`iris`][mlr_tasks_iris] or [`boston_housing`][mlr_tasks_boston_housing].
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].

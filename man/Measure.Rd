@@ -18,7 +18,8 @@ by comparing true and predicted response.
 
 In addition to these two functions, meta-information about the performance measure is stored.
 
-Predefined measures are stored in the \link{Dictionary} \link{mlr_measures}.
+Predefined measures are stored in the \link{Dictionary} \link{mlr_measures},
+e.g. \code{\link[=mlr_measures_classif.auc]{classif.auc}} or \code{\link[=mlr_measures_time_train]{time_train}}.
 }
 \section{Construction}{
 

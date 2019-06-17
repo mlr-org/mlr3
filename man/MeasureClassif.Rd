@@ -31,6 +31,8 @@ See \link{Measure}.
 }
 
 \seealso{
+Example classification measure: \code{\link[=mlr_measures_classif.ce]{classif.ce}}.
+
 Other Measure: \code{\link{MeasureRegr}},
   \code{\link{Measure}}, \code{\link{mlr_measures}}
 }

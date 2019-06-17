@@ -28,6 +28,15 @@ as.data.table(mlr_learners)
 mlr_learners$get("classif.featureless")
 }
 \seealso{
+Example learners:
+\itemize{
+\item \code{\link[=mlr_learners_classif.rpart]{classif.rpart}}
+\item \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}
+\item \code{\link[=mlr_learners_classif.featureless]{classif.featureless}}
+\item \code{\link[=mlr_learners_regr.featureless]{regr.featureless}}
+\item \code{\link[=mlr_learners_classif.debug]{classif.debug}}
+}
+
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_generators}}, \code{\link{mlr_measures}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}

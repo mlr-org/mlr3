@@ -25,6 +25,7 @@
 #' See [Learner].
 #'
 #' @family Learner
+#' @seealso Example regression learner: [`regr.rpart`][mlr_learners_regr.rpart].
 #' @export
 #' @examples
 #' # get all regression learners from mlr_learners:

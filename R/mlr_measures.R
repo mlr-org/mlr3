@@ -16,6 +16,9 @@
 #'
 #' @family Dictionary
 #' @family Measure
+#' @seealso Example measures:
+#' * [`classif.auc`][mlr_measures_classif.auc].
+#' * [`time_train`][mlr_measures_time_train].
 #' @name mlr_measures
 #' @examples
 #' as.data.table(mlr_measures)

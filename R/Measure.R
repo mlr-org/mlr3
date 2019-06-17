@@ -16,7 +16,8 @@
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
 #'
-#' Predefined measures are stored in the [Dictionary] [mlr_measures].
+#' Predefined measures are stored in the [Dictionary] [mlr_measures],
+#' e.g. [`classif.auc`][mlr_measures_classif.auc] or [`time_train`][mlr_measures_time_train].
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
