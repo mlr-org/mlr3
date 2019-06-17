@@ -78,14 +78,14 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
   result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
-  names(result) = c("predicted", "predict_log", "predict_time")
+  names(result) = c("prediction_data", "predict_log", "predict_time")
 
   # update the model if necessary
   # if ("updates_model" %in% learner$properties) {
   #   result$learner = learner
   # }
 
-  # result is list(predicted, predict_log, predict_time)
+  # result is list(prediction_data, predict_log, predict_time)
   return(result)
 }
 
@@ -146,7 +146,7 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   e$data = insert_named(e$data, tmp)
 
   if (!ctrl$store_prediction) {
-    e$data["predicted"] = list(NULL)
+    e$data["prediction_data"] = list(NULL)
   }
 
   if (!ctrl$store_model) {

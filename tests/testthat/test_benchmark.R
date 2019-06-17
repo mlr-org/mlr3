@@ -67,7 +67,7 @@ test_that("ResampleResult getter", {
 
 test_that("discarding model", {
   bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings), ctrl = mlr_control(store_prediction = FALSE, store_model = FALSE))
-  expect_true(every(bmr$data$predicted, is.null))
+  expect_true(every(bmr$data$prediction_data, is.null))
   expect_true(every(bmr$data$model, is.null))
 })
 

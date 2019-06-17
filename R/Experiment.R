@@ -148,7 +148,7 @@
 #' * `predict_time` :: `numeric(1)`\cr
 #'   Elapsed time during predict in seconds with up to millisecond accuracy (c.f. `proc.time()`).
 #'
-#' * `predicted` :: named `list()`\cr
+#' * `prediction_data` :: named `list()`\cr
 #'   Prediction as returned by the [Learner]'s `predict()` call, possibly converted by [as_prediction_data()].
 #'   List elements are named with predict types.
 #'
@@ -308,16 +308,16 @@ Experiment = R6Class("Experiment",
 
     prediction = function(rhs) {
       if (missing(rhs)) {
-        if (is.null(self$data$predicted)) {
+        if (is.null(self$data$prediction_data)) {
           return(NULL)
         }
-        return(new_prediction(task = self$task, self$data$predicted))
+        return(new_prediction(task = self$task, self$data$prediction_data))
       }
 
       assert_list(rhs, names = "unique")
       assert_names(names(rhs), subset.of = c("row_ids", self$learner$predict_types))
       experiment_reset_state(self, "predicted")
-      self$data$predicted = rhs
+      self$data$prediction_data = rhs
     },
 
     performance = function() {
