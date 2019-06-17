@@ -15,19 +15,11 @@ dummy_import = function() {
 } # nocov end
 
 
-.onLoad = function(libname, pkgname) {
-
-  # nocov start
-  backports::import(pkgname)
-
-  # setup logger
-  assign("lg", lgr::get_logger(pkgname), envir = parent.env(environment()))
-  if (Sys.getenv("IN_PKGDOWN") == "true") {
-    lg$set_threshold("warn")
-  }
+populate_dictionaries = function() {
 
   # Populate Tasks
-  mlr_tasks <<- DictionaryTask$new()
+  if (is.null(mlr_tasks))
+    mlr_tasks <<- DictionaryTask$new()
   mlr_tasks$add("boston_housing", load_task_boston_housing)
   mlr_tasks$add("iris", load_task_iris)
   mlr_tasks$add("german_credit", load_task_german_credit)
@@ -40,7 +32,8 @@ dummy_import = function() {
 
 
   # Populate Generators
-  mlr_generators <<- DictionaryGenerator$new()
+  if (is.null(mlr_generators))
+    mlr_generators <<- DictionaryGenerator$new()
   mlr_generators$add("2dnormals", Generator2DNormals)
   mlr_generators$add("friedman1", GeneratorFriedman1)
   mlr_generators$add("smiley", GeneratorSmiley)
@@ -48,7 +41,8 @@ dummy_import = function() {
 
 
   # Populate Learners
-  mlr_learners <<- DictionaryLearner$new()
+  if (is.null(mlr_learners))
+    mlr_learners <<- DictionaryLearner$new()
   mlr_learners$add("classif.debug", LearnerClassifDebug)
   mlr_learners$add("classif.featureless", LearnerClassifFeatureless)
   mlr_learners$add("classif.rpart", LearnerClassifRpart)
@@ -57,7 +51,8 @@ dummy_import = function() {
 
 
   # Populate Measures
-  mlr_measures <<- DictionaryMeasure$new()
+  if (is.null(mlr_measures))
+    mlr_measures <<- DictionaryMeasure$new()
   mlr_measures$add("classif.acc", MeasureClassifACC)
   mlr_measures$add("classif.auc", MeasureClassifAUC)
   mlr_measures$add("classif.costs", MeasureClassifCosts)
@@ -76,7 +71,8 @@ dummy_import = function() {
   }
 
   # Populate Resamplings
-  mlr_resamplings <<- DictionaryResampling$new()
+  if (is.null(mlr_resamplings))
+    mlr_resamplings <<- DictionaryResampling$new()
   mlr_resamplings$add("bootstrap", ResamplingBootstrap)
   mlr_resamplings$add("custom", ResamplingCustom)
   mlr_resamplings$add("cv", ResamplingCV)
@@ -84,4 +80,17 @@ dummy_import = function() {
   mlr_resamplings$add("holdout", ResamplingHoldout)
   mlr_resamplings$add("repeated_cv", ResamplingRepeatedCV)
   mlr_resamplings$add("subsampling", ResamplingSubsampling)
+}
+
+.onLoad = function(libname, pkgname) {
+  # nocov start
+  backports::import(pkgname)
+
+  # setup logger
+  assign("lg", lgr::get_logger(pkgname), envir = parent.env(environment()))
+  if (Sys.getenv("IN_PKGDOWN") == "true") {
+    lg$set_threshold("warn")
+  }
+
+  populate_dictionaries()
 } # nocov end
