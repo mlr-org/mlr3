@@ -162,7 +162,7 @@ Learner = R6Class("Learner",
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
       feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
 
-      self$id = assert_id(id)
+      self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       private$.param_set = assert_param_set(param_set)
       self$param_set$values = param_vals

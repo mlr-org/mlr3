@@ -58,7 +58,7 @@ Generator = R6Class("Generator",
     param_set = NULL,
     packages = NULL,
     initialize = function(id, task_type, packages = character(0L), param_set = ParamSet$new(), param_vals = list()) {
-      self$id = assert_id(id)
+      self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
       self$packages = assert_set(packages)

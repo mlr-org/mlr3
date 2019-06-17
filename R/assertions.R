@@ -163,20 +163,6 @@ assert_benchmark_result = function(bmr, .var.name = vname(bmr)) {
   assert_class(bmr, "BenchmarkResult", .var.name = .var.name)
 }
 
-#' @export
-#' @param id :: `character(1)`.
-#' @rdname mlr_assertions
-assert_id = function(id, .var.name = vname(id)) {
-  assert_string(id, min.chars = 1L, .var.name = .var.name)
-}
-
-#' @export
-#' @param id :: `character(1)`.
-#' @rdname mlr_assertions
-assert_ids = function(ids, .var.name = vname(ids)) {
-  assert_character(ids, min.chars = 1L, any.missing = FALSE, .var.name = .var.name)
-}
-
 assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
   qassert(row_ids, c("X", "S[1,]"), .var.name = .var.name)
   if (is.double(row_ids)) {
