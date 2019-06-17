@@ -45,6 +45,13 @@ mlr_tasks$get("iris.binary")
 mlr_tasks$remove("iris.binary")
 }
 \seealso{
+Example tasks:
+\itemize{
+\item \code{\link[=mlr_tasks_iris]{iris}} (multi-class classification)
+\item \code{\link[=mlr_tasks_spam]{spam}} (binary classification)
+\item \code{\link[=mlr_tasks_boston_housing]{boston_housing}} (regression)
+}
+
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_generators}}, \code{\link{mlr_learners}},
   \code{\link{mlr_measures}}, \code{\link{mlr_resamplings}}

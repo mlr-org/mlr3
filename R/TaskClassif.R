@@ -48,6 +48,7 @@
 #' See [TaskSupervised].
 #'
 #' @family Task
+#' @seealso Example classification task: [`iris`][mlr_tasks_iris].
 #' @export
 #' @examples
 #' data("Sonar", package = "mlbench")
@@ -107,8 +108,8 @@ TaskClassif = R6Class("TaskClassif",
     },
 
     truth = function(row_ids = NULL) {
-      res = self$data(row_ids, cols = self$target_names)[[1L]]
-      as_factor(res, levels = self$class_names)
+      truth = super$truth(row_ids)[[1L]]
+      as_factor(truth, levels = self$class_names)
     }
   ),
 

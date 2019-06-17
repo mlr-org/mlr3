@@ -35,9 +35,9 @@ See \link{Task}.
 
 All methods from \link{Task}, and additionally:
 \itemize{
-\item \code{truth(row_ids = NULL)} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with true  labels for specified \code{row_ids}.
-Defaults to all rows in use.
+\item \code{truth(row_ids = NULL)} :: any\cr
+True response for specified \code{row_ids}. Format depends on the task type.
+Defaults to all rows with role "use".
 }
 }
 

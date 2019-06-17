@@ -40,6 +40,8 @@ lrn = mlr_learners$get("regr.rpart")
 print(lrn)
 }
 \seealso{
+Example regression learner: \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}.
+
 Other Learner: \code{\link{LearnerClassif}},
   \code{\link{Learner}}, \code{\link{mlr_learners}}
 }

@@ -28,6 +28,12 @@ as.data.table(mlr_measures)
 mlr_measures$get("classif.ce")
 }
 \seealso{
+Example measures:
+\itemize{
+\item \code{\link[=mlr_measures_classif.auc]{classif.auc}}.
+\item \code{\link[=mlr_measures_time_train]{time_train}}.
+}
+
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_generators}}, \code{\link{mlr_learners}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
