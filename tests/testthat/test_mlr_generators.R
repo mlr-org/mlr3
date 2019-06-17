@@ -1,8 +1,8 @@
-context("Generator")
+context("mlr_generators")
 
-test_that("Generators", {
+test_that("mlr_generators", {
   keys = mlr_generators$keys()
-  n = 10L
+  n = 30L
 
   for (key in keys) {
     gen = mlr_generators$get(key)
@@ -19,8 +19,8 @@ test_that("Generators", {
   }
 })
 
-test_that("as.data.table.DictionaryGenerator", {
+test_that("as.data.table(mlr_generators)", {
   tab = as.data.table(mlr_generators)
   expect_data_table(tab, min.cols = 2L)
-  expect_names(names(tab), must.include = "key")
+  expect_character(tab$key, unique = TRUE, any.missing = FALSE)
 })
