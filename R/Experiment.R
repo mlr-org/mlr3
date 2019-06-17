@@ -149,7 +149,7 @@
 #'   Elapsed time during predict in seconds with up to millisecond accuracy (c.f. `proc.time()`).
 #'
 #' * `predicted` :: named `list()`\cr
-#'   Prediction as returned by the [Learner]'s `predict()` call, possibly converted by [convert_prediction()].
+#'   Prediction as returned by the [Learner]'s `predict()` call, possibly converted by [as_prediction()].
 #'   List elements are named with predict types.
 #'
 #' * `measures` :: `list()` of [Measure]\cr
@@ -311,7 +311,7 @@ Experiment = R6Class("Experiment",
         if (is.null(self$data$predicted)) {
           return(NULL)
         }
-        return(invoke(as_prediction, task = self$task, predicted = self$data$predicted))
+        return(new_prediction(task = self$task, self$data$predicted))
       }
 
       assert_list(rhs, names = "unique")

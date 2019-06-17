@@ -54,14 +54,15 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
       stopf("Learner '%s' returned NULL during predict()", learner$id)
     }
 
-    if (!testList(result, names = "unique")) {
-      stopf("Learner '%s' returned '%s' during predict(), but needs to return a named list",
+    if (!inherits(result, "PredictionData")) {
+      stopf("Learner '%s' returned '%s' during predict(), but needs to return a PredictionData object as returned by ?as_prediction",
         learner$id, as_short_string(result))
+
     }
 
-    i = wf(names(result) %nin% learner$predict_types)
-    if (length(i)) {
-      stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, names(result)[i])
+    unsupported = setdiff(names(result), c("row_ids", learner$predict_types))
+    if (length(unsupported)) {
+      stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, head(unsupported, 1L))
     }
 
     return(result)
@@ -83,9 +84,6 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   # if ("updates_model" %in% learner$properties) {
   #   result$learner = learner
   # }
-
-  # check and convert prediction of the learner
-  result$predicted = convert_prediction(task, result$predicted)
 
   # result is list(predicted, predict_log, predict_time)
   return(result)
