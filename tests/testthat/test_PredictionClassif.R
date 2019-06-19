@@ -26,8 +26,7 @@ test_that("setting threshold binaryclass", {
   expect_equal(as.character(p$response), colnames(p$prob)[max.col(p$prob)])
 
   set_thresh = function(e, th) {
-    p = e$prediction$set_threshold(th)
-    e$prediction = p
+    e$prediction$set_threshold(th)
   }
 
   response_before = p$response
@@ -54,7 +53,7 @@ test_that("setting threshold multiclass", {
 
   # a small fix for our tests ... Add a small number to all probabilities so that
   # we can knock off single labels
-  e$data$prediction_data$prob = t(apply(e$data$prediction_data$prob, 1, function(x) {
+  e$data$prediction$data$prob = t(apply(e$data$prediction$data$prob, 1, function(x) {
     x = x + 0.01
     x / sum(x)
   }))

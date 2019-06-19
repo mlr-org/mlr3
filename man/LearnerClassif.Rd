@@ -27,7 +27,13 @@ See \link{Learner}.
 
 \section{Methods}{
 
-See \link{Learner}.
+All methods of \link{Learner}, and additionally:
+\itemize{
+\item \code{new_prediction(task, row_ids = task$row_ids, truth = NULL, response = NULL, prob = NULL)}\cr
+(\link{Task}, \code{vector()}, \code{factor()}, \code{factor()}, \code{matrix()}) -> \link{Prediction}\cr
+This method is called in \code{predict()} to create a \link{Prediction} object specific for the learner.
+See \link{LearnerClassif} or \link{LearnerRegr} for examples.
+}
 }
 
 \examples{

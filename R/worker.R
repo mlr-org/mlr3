@@ -1,5 +1,4 @@
 train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
-
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
@@ -17,10 +16,8 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 
   # subset to train set w/o cloning
   prev_use = task$row_roles$use
+  on.exit({ task$row_roles$use = prev_use }, add = TRUE)
   task$row_roles$use = train_set
-  on.exit({
-    task$row_roles$use = prev_use
-  }, add = TRUE)
 
   learner = learner$clone(deep = TRUE)
 
@@ -37,13 +34,11 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 
 
 predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
-
   # This wrapper calls learner$predict, and additionally performs some basic
   # checks that the prediction was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(task, learner) {
-
     if (is.null(learner$model)) {
       stopf("No trained model available")
     }
@@ -54,13 +49,13 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
       stopf("Learner '%s' returned NULL during predict()", learner$id)
     }
 
-    if (!inherits(result, "PredictionData")) {
-      stopf("Learner '%s' returned '%s' during predict(), but needs to return a PredictionData object as returned by ?as_prediction_data",
+    if (!inherits(result, "Prediction")) {
+      stopf("Learner '%s' returned '%s' during predict(), but needs to return a Prediction object, usually constructed via the learner method `$new_prediction()`",
         learner$id, as_short_string(result))
 
     }
 
-    unsupported = setdiff(names(result), c("row_ids", learner$predict_types))
+    unsupported = setdiff(names(result$data), c("row_ids", "truth", learner$predict_types))
     if (length(unsupported)) {
       stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, head(unsupported, 1L))
     }
@@ -70,28 +65,25 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
 
   # subset to test set w/o cloning
   prev_use = task$row_roles$use
+  on.exit({ task$row_roles$use = prev_use }, add = TRUE)
   task$row_roles$use = test_set
-  on.exit({
-    task$row_roles$use = prev_use
-  }, add = TRUE)
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
   result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
-  names(result) = c("prediction_data", "predict_log", "predict_time")
+  names(result) = c("prediction", "predict_log", "predict_time")
 
   # update the model if necessary
   # if ("updates_model" %in% learner$properties) {
   #   result$learner = learner
   # }
 
-  # result is list(prediction_data, predict_log, predict_time)
+  # result is list(prediction, predict_log, predict_time)
   return(result)
 }
 
 
 score_worker = function(e, ctrl) {
-
   data = e$data
   measures = data$measures
   pkgs = unique(unlist(map(measures, "packages")))
@@ -146,7 +138,7 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   e$data = insert_named(e$data, tmp)
 
   if (!ctrl$store_prediction) {
-    e$data["prediction_data"] = list(NULL)
+    e$data["prediction"] = list(NULL)
   }
 
   if (!ctrl$store_model) {

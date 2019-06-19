@@ -148,9 +148,8 @@
 #' * `predict_time` :: `numeric(1)`\cr
 #'   Elapsed time during predict in seconds with up to millisecond accuracy (c.f. `proc.time()`).
 #'
-#' * `prediction_data` :: named `list()`\cr
-#'   Prediction as returned by the [Learner]'s `predict()` call, possibly converted by [as_prediction_data()].
-#'   List elements are named with predict types.
+#' * `prediction` :: [Prediction]\cr
+#'   Prediction as returned by the [Learner]'s `new_prediction()` method.
 #'
 #' * `measures` :: `list()` of [Measure]\cr
 #'   Measures which where used for performance assessment.
@@ -307,17 +306,11 @@ Experiment = R6Class("Experiment",
     },
 
     prediction = function(rhs) {
-      if (missing(rhs)) {
-        if (is.null(self$data$prediction_data)) {
-          return(NULL)
-        }
-        return(new_prediction(task = self$task, self$data$prediction_data))
+      p = self$data$prediction
+      if (!is.null(p) && is.null(p$data$truth)) {
+        p$data$truth = self$task$truth(p$data$row_ids)
       }
-
-      assert_list(rhs, names = "unique")
-      assert_names(names(rhs), subset.of = c("row_ids", self$learner$predict_types))
-      experiment_reset_state(self, "predicted")
-      self$data$prediction_data = rhs
+      p
     },
 
     performance = function() {
@@ -383,10 +376,9 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   lg$info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = train_worker(self$task, self$learner$clone(), self$train_set, ctrl, seed = self$seeds[["train"]])
 
-  # this is required to get a clean learner object:
-  # during parallelization, learners might get serialized and are getting unnecessarily big
-  # after de-serialization
-  # value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
+  if (runs_remotely(ctrl, "train")) {
+    value$learner = reassemble_learners(list(value$learner), list(self$learner))[[1L]]
+  }
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
@@ -423,11 +415,12 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   lg$info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = predict_worker(self$data$task, self$data$learner, self$test_set, ctrl, self$seeds[["predict"]])
 
-  # this is required to get a clean learner object:
-  # during parallelization, learners might get serialized and are getting unnecessarily big
-  # after de-serialization
-  # if ("learner" %in% names(value)) {
-  # value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
+  # if (runs_remotely(ctrl, "predict")) {
+  #   if ("learner" %in% names(value)) {
+  #     value$learner = reassemble_learner(list(value$learner), list(self$learner))[[1L]]
+  #   }
+
+  #   value$prediction = do.call(self$learner$new_prediction, value$prediction$data)
   # }
 
   self$data = insert_named(self$data, value)

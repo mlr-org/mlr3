@@ -108,29 +108,26 @@
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
-    response = NULL,
-    prob = NULL,
-    initialize = function(row_ids, truth, response = NULL, prob = NULL) {
-      self$row_ids = assert_atomic_vector(row_ids)
-      self$truth = assert_factor(truth)
-      self$response = assert_factor(response, null.ok = TRUE)
-      self$prob = assert_matrix(prob, null.ok = TRUE)
+    initialize = function(row_ids, truth = NULL, response = NULL, prob = NULL) {
+      self$data$row_ids = assert_atomic_vector(row_ids)
+      self$data$truth = assert_factor(truth, null.ok = TRUE)
+      self$data$response = assert_factor(response, null.ok = TRUE)
+      self$data$prob = assert_matrix(prob, null.ok = TRUE)
       self$task_type = "classif"
-      self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(prob))]
     },
 
     set_threshold = function(threshold) {
-      if (!is.matrix(self$prob)) {
+      if (!is.matrix(self$data$prob)) {
         stopf("Cannot set threshold, no probabilities available")
       }
-      lvls = colnames(self$prob)
+      lvls = colnames(self$data$prob)
 
       if (length(threshold) == 1L) {
         assert_number(threshold, lower = 0, upper = 1)
         if (length(lvls) != 2L) {
           stopf("Setting a single threshold only supported for binary classification problems")
         }
-        prob = cbind(self$prob[, 1L], threshold)
+        prob = cbind(self$data$prob[, 1L], threshold)
       } else {
         assert_numeric(threshold, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
         assert_names(names(threshold), permutation.of = lvls)
@@ -142,62 +139,34 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       }
 
       ind = max.col(prob, ties.method = "random")
-      return(list(row_ids = self$row_ids, response = factor(lvls[ind], levels = lvls), prob = self$prob))
+      self$data$response = factor(lvls[ind], levels = lvls)
+      self
+    },
+
+    reassemble = function(...) {
+      PredictionClassif$new(self$row_ids, self$truth, self$response, self$prob)
     }
   ),
 
+
   active = list(
-    confusion = function() {
-      table(response = self$response, truth = self$truth, useNA = "ifany")
-    }
+    row_ids = function() self$data$row_ids,
+    truth = function() self$data$truth,
+    response = function() self$data$response,
+    prob = function() self$data$prob,
+    confusion = function() table(response = self$response, truth = self$truth, useNA = "ifany")
   )
 )
 
 #' @export
-as_prediction_data.TaskClassif = function(task, response = NULL, prob = NULL, ...) {
-  row_ids = task$row_ids
-  n = length(row_ids)
-  lvls = task$class_names
-
-  if (!is.null(response)) {
-    response = as_factor(response, levels = lvls)
-    assert_factor(response, len = n, any.missing = FALSE)
-  }
-
-  if (!is.null(prob)) {
-    assert_matrix(prob, nrows = n, ncols = length(lvls))
-    assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
-    assert_names(colnames(prob), permutation.of = lvls)
-    if (!is.null(rownames(prob))) {
-      rownames(prob) = NULL
-    }
-
-    if (is.null(response)) {
-      # calculate response from prob
-      i = max.col(prob, ties.method = "random")
-      response = factor(colnames(prob)[i], levels = lvls)
-    }
-  }
-
-  pd = discard(list(row_ids = row_ids, response = response, prob = prob), is.null)
-  class(pd) = c("PredictionDataClassif", "PredictionData")
-  pd
-}
-
-
-#' @export
-new_prediction.TaskClassif = function(task, data) {
-  PredictionClassif$new(row_ids = data$row_ids, truth = task$truth(data$row_ids), response = data$response, prob = data$prob)
-}
-
-#' @export
 as.data.table.PredictionClassif = function(x, ...) {
-  if (is.null(x$row_ids)) {
+  data = x$data
+  if (is.null(data$row_ids)) {
     return(data.table())
   }
-  tab = data.table(row_id = x$row_ids, truth = x$truth, response = x$response)
-  if (!is.null(x$prob)) {
-    prob = as.data.table(x$prob)
+  tab = data.table(row_id = data$row_ids, truth = data$truth, response = data$response)
+  if (!is.null(data$prob)) {
+    prob = as.data.table(data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
     tab = ref_cbind(tab, prob)
   }

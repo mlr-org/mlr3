@@ -84,10 +84,11 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   res = combine_experiments(res)
   res[, c("task", "resampling", "measures") := list(list(task), list(instance), list(measures))]
 
-  # this is required to get a clean learner object:
-  # during parallelization, learners might get serialized and are getting unnecessarily big
-  # after de-serialization
-  # insert_named(res, list(learner = copy_models(res$learner, list(learner))))
+  # this is required to get a clean objects on the master if calculation was performed in a remote session.
+  if (use_future() || any(runs_remotely(ctrl))) {
+    res = insert_named(res, list(learner = reassemble_learners(res$learner, list(learner))))
+    res = insert_named(res, list(prediction = reassemble_predictions(res$prediction, list(learner))))
+  }
 
   ResampleResult$new(res)
 }

@@ -148,6 +148,7 @@ Collate:
     'benchmark.R'
     'cast_from_dict.R'
     'encapsulate.R'
+    'helper-parallelization.R'
     'helper.R'
     'mlr_control.R'
     'mlr_generators.R'

@@ -41,6 +41,14 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       super$initialize(id = id, task_type = "regr", param_set = param_set, param_vals = param_vals,
         feature_types = feature_types, predict_types = predict_types, properties = properties,
         data_formats = data_formats, packages = packages)
+    },
+
+    new_prediction = function(task, row_ids = task$row_ids, truth = task$truth(row_ids), response = NULL, se = NULL) {
+      n = length(row_ids)
+      assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
+      assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
+
+      PredictionRegr$new(row_ids = row_ids, truth = truth, response = response, se = se)
     }
   )
 )

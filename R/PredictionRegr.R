@@ -51,42 +51,30 @@
 PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
-    response = NULL,
-    se = NULL,
-    initialize = function(row_ids, truth, response = NULL, se = NULL) {
-      self$row_ids = assert_atomic_vector(row_ids)
-      self$truth = assert_numeric(truth)
-      self$response = assert_numeric(response, null.ok = TRUE)
-      self$se = assert_numeric(se, null.ok = TRUE)
+    initialize = function(row_ids, truth = NULL, response = NULL, se = NULL) {
+      self$data$row_ids = assert_atomic_vector(row_ids)
+      self$data$truth = assert_numeric(truth, null.ok = TRUE)
+      self$data$response = assert_numeric(response, null.ok = TRUE)
+      self$data$se = assert_numeric(se, null.ok = TRUE)
       self$task_type = "regr"
-      self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
     }
+  ),
+
+  active = list(
+    row_ids = function() self$data$row_ids,
+    truth = function() self$data$truth,
+    response = function() self$data$response,
+    se = function() self$data$se
   )
 )
 
 #' @export
-as_prediction_data.TaskRegr = function(task, response = NULL, se = NULL, ...) {
-  row_ids = task$row_ids
-  n = length(row_ids)
-  assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
-  assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
-
-  pd = discard(list(row_ids = row_ids, response = response, se = se), is.null)
-  class(pd) = c("PredictionDataRegr", "PredictionData")
-  pd
-}
-
-#' @export
-new_prediction.TaskRegr = function(task, data) {
-  PredictionRegr$new(row_ids = data$row_ids, truth = task$truth(data$row_ids), response = data$response, se = data$se)
-}
-
-#' @export
 as.data.table.PredictionRegr = function(x, ...) {
-  if (is.null(x$row_ids)) {
+  data = x$data
+  if (is.null(data$row_ids)) {
     return(data.table())
   }
-  data.table(row_id = x$row_ids, truth = x$truth, response = x$response, se = x$se)
+  data.table(row_id = data$row_ids, truth = data$truth, response = data$response, se = data$se)
 }
 
 
@@ -105,6 +93,5 @@ rbind.PredictionRegr = function(...) {
   }
   se = do.call(c, se)
 
-  p = PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = x$se)
-  return(p)
+  PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = se)
 }
