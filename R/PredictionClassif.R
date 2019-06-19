@@ -143,7 +143,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       self
     },
 
-    reassemble = function(...) {
+    reassemble = function() {
       PredictionClassif$new(self$row_ids, self$truth, self$response, self$prob)
     }
   ),

@@ -57,6 +57,10 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$data$response = assert_numeric(response, null.ok = TRUE)
       self$data$se = assert_numeric(se, null.ok = TRUE)
       self$task_type = "regr"
+    },
+
+    reassemble = function() {
+      PredictionRegr$new(self$row_ids, self$truth, self$response, self$prob)
     }
   ),
 

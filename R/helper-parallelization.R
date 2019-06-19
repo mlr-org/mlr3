@@ -25,11 +25,3 @@ reassemble_learners = function(src, dst) {
     dst
   }, src = src, dst = dst)
 }
-
-reassemble_predictions = function(predictions, learners) {
-  Map(function(learner, prediction) {
-    if (is.null(prediction))
-      return(NULL)
-    do.call(learner$new_prediction, prediction$data)
-  }, learner = learners, prediction = predictions)
-}

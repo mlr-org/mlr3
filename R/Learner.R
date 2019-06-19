@@ -186,6 +186,11 @@ Learner = R6Class("Learner",
       assert_string(tag)
       pv = self$param_set$values
       pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = tag)]
+    },
+
+    inject = function(learner) {
+      self$model = learner$model
+      self$param_set$values = learner$param_set$values
     }
   ),
 

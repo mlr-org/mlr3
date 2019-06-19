@@ -87,7 +87,7 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   # this is required to get a clean objects on the master if calculation was performed in a remote session.
   if (use_future() || any(runs_remotely(ctrl))) {
     res = insert_named(res, list(learner = reassemble_learners(res$learner, list(learner))))
-    res = insert_named(res, list(prediction = reassemble_predictions(res$prediction, list(learner))))
+    res = insert_named(res, list(prediction = lapply(res$prediction, function(p) p$reassemble())))
   }
 
   ResampleResult$new(res)
