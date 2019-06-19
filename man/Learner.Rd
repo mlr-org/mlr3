@@ -93,6 +93,12 @@ Note: Argument \code{model} defaults to the model stored inside the learner.
 The learner and the model are stored separately for performance reasons.
 However, if you retrieve the learner via the \link{Experiment}, \code{mlr3} automatically inserts the model into the slot \code{$model},
 so that you do not need to pass the model to each method of the learner yourself.
+\item \code{reassemble()}\cr
+() -> \link{Learner}\cr
+Internal function used to re-create the object from the \link[R6:R6Class]{R6::R6Class} generator.
+This function is only called if the object has been created in a separate R session, e.g. during parallelization or encapsulation.
+During a serialization-deserialization roundtrip, pointers to shared objects get resolved, resulting in duplicated objects.
+By reassembling the object, the memory footprint get reduced.
 }
 }
 

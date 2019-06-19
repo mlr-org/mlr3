@@ -36,6 +36,18 @@ Vector of predict types this object stores.
 }
 }
 
+\section{Methods}{
+
+\itemize{
+\item \code{reassemble()}\cr
+() -> \link{Prediction}\cr
+Internal function used to re-create the object from the \link[R6:R6Class]{R6::R6Class} generator.
+This function is only called if the object has been created in a separate R session, e.g. during parallelization or encapsulation.
+During a serialization-deserialization roundtrip, pointers to shared objects get resolved, resulting in duplicated objects.
+By reassembling the object, the memory footprint get reduced.
+}
+}
+
 \section{S3 Methods}{
 
 \itemize{

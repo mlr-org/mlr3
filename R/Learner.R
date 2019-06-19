@@ -104,6 +104,12 @@
 #'   However, if you retrieve the learner via the [Experiment], `mlr3` automatically inserts the model into the slot `$model`,
 #'   so that you do not need to pass the model to each method of the learner yourself.
 #'
+#' * `reassemble()`\cr
+#'   () -> [Learner]\cr
+#'   Internal function used to re-create the object from the [R6::R6Class] generator.
+#'   This function is only called if the object has been created in a separate R session, e.g. during parallelization or encapsulation.
+#'   During a serialization-deserialization roundtrip, pointers to shared objects get resolved, resulting in duplicated objects.
+#'   By reassembling the object, the memory footprint get reduced.
 #'
 #' @section Optional Extractors:
 #'
@@ -188,9 +194,17 @@ Learner = R6Class("Learner",
       pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = tag)]
     },
 
-    inject = function(learner) {
-      self$model = learner$model
-      self$param_set$values = learner$param_set$values
+    reassemble = function() {
+      cl = class(self)[1L]
+      factory = get0(cl)
+      if (!inherits(factory, "R6ClassGenerator")) {
+        lg$info("Failed to reassemble learner '%s'. Unable to locate factory '%s'", self$id, cl)
+        return(self)
+      }
+      lrn = factory$new(self$id)
+      lrn$model = self$model
+      lrn$param_set$values = self$param_set$values
+      lrn
     }
   ),
 

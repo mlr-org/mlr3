@@ -141,10 +141,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       ind = max.col(prob, ties.method = "random")
       self$data$response = factor(lvls[ind], levels = lvls)
       self
-    },
-
-    reassemble = function() {
-      PredictionClassif$new(self$row_ids, self$truth, self$response, self$prob)
     }
   ),
 

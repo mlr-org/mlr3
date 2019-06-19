@@ -29,6 +29,15 @@
 #' * `predict_types` :: `character()`\cr
 #'   Vector of predict types this object stores.
 #'
+#'
+#' @section Methods:
+#' * `reassemble()`\cr
+#'   () -> [Prediction]\cr
+#'   Internal function used to re-create the object from the [R6::R6Class] generator.
+#'   This function is only called if the object has been created in a separate R session, e.g. during parallelization or encapsulation.
+#'   During a serialization-deserialization roundtrip, pointers to shared objects get resolved, resulting in duplicated objects.
+#'   By reassembling the object, the memory footprint get reduced.
+#'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [Prediction] -> [data.table::data.table()]\cr
@@ -57,6 +66,16 @@ Prediction = R6Class("Prediction",
         catf("%s for %i observations:", format(self), nrow(data))
         print(data, nrows = 10L, topn = 3L, print.class = TRUE, print.keys = FALSE)
       }
+    },
+
+    reassemble = function() {
+      cl = class(self)[1L]
+      factory = get0(cl)
+      if (!inherits(factory, "R6ClassGenerator")) {
+        lg$info("Failed to reassemble Prediction. Unable to locate factory '%s'", cl)
+        return(self)
+      }
+      do.call(factory$new, self$data)
     }
   ),
 
