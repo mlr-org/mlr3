@@ -105,6 +105,6 @@ rbind.PredictionRegr = function(...) {
   }
   se = do.call(c, se)
 
-  p = PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = x$se)
+  p = PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = se)
   return(p)
 }
