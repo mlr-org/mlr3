@@ -1,4 +1,4 @@
-context("PredictionClassif")
+context("PredictionRegr")
 
 test_that("Construction", {
   task = mlr_tasks$get("boston_housing")
