@@ -96,8 +96,14 @@ rbind.PredictionRegr = function(...) {
   assert_list(dots, "PredictionRegr")
 
   x = map_dtr(dots, function(p) {
-    list(row_ids = p$row_ids, truth = p$truth, response = p$response, se = p$se)
+    list(row_ids = p$row_ids, truth = p$truth, response = p$response)
   }, .fill = FALSE)
+
+  se = discard(map(dots, "se"), is.null)
+  if (length(se) > 0L && length(se) < length(dots)) {
+    stopf("Cannot rbind predictions: Standard error for some experiments, not all")
+  }
+  se = do.call(c, se)
 
   p = PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = x$se)
   return(p)

@@ -32,3 +32,13 @@ test_that("rbind", {
   dt = as.data.table(pred)
   expect_data_table(dt, nrow = task$nrow, ncol = 4L, any.missing = FALSE)
 })
+
+test_that("rbind drops se (#250)", {
+  task = mlr_tasks$get("boston_housing")
+  lrn = mlr_learners$get("regr.featureless")
+  rr = resample(task, lrn, "cv3")
+
+  pred = do.call(rbind, map(rr$experiments(), "prediction"))
+  expect_null(pred$se)
+  expect_false("se" %in% names(as.data.table(pred)))
+})
