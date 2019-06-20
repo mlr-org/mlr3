@@ -33,9 +33,9 @@
 #' @section Methods:
 #' All methods from [Task], and additionally:
 #'
-#' * `truth(row_ids = NULL)` :: [data.table::data.table()]\cr
-#'   Table with true  labels for specified `row_ids`.
-#'   Defaults to all rows in use.
+#' * `truth(row_ids = NULL)` :: any\cr
+#'   True response for specified `row_ids`. Format depends on the task type.
+#'   Defaults to all rows with role "use".
 #'
 #' @family Task
 #' @keywords internal

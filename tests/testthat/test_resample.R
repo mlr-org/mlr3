@@ -48,9 +48,9 @@ test_that("rr$combine()", {
   expect_equal(nrow(bmr$data), nrow(rr1$data) + nrow(rr2$data))
   expect_set_equal(bmr$data$hash, c(rr1$hash, rr2$hash))
 
-  rrs = bmr$resample_results
-  expect_data_table(rrs, nrow = 2)
-  expect_set_equal(rrs$hash, c(rr1$hash, rr2$hash))
+  aggr = bmr$aggregated()
+  expect_data_table(aggr, nrow = 2)
+  expect_set_equal(aggr$hash, c(rr1$hash, rr2$hash))
 })
 
 test_that("discarding model", {
@@ -87,4 +87,12 @@ test_that("memory footprint", {
   expect_equal(uniqueN(map_chr(x$task, address)), 1L)
   expect_equal(uniqueN(map_chr(x$resampling, address)), 1L)
   expect_equal(uniqueN(map_chr(x$measures, address)), 1L)
+})
+
+test_that("predict_type is checked", {
+  task = mlr_tasks$get("sonar")
+  learner = mlr_learners$get("classif.featureless")
+  resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
+  measure = mlr_measures$get("classif.auc")
+  expect_error(resample(task, learner, resampling, measure = measure), "predict_type")
 })

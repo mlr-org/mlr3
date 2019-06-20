@@ -142,7 +142,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       }
 
       ind = max.col(prob, ties.method = "random")
-      return(list(response = factor(lvls[ind], levels = lvls), prob = self$prob))
+      return(list(row_ids = self$row_ids, response = factor(lvls[ind], levels = lvls), prob = self$prob))
     }
   ),
 
@@ -154,38 +154,40 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 )
 
 #' @export
-convert_prediction.TaskClassif = function(task, predicted) {
-  n = task$nrow
+as_prediction_data.TaskClassif = function(task, response = NULL, prob = NULL, ...) {
+  row_ids = task$row_ids
+  n = length(row_ids)
   lvls = task$class_names
 
-  if (!is.null(predicted$response)) {
-    predicted$response = as_factor(predicted$response, levels = lvls, len = n, any.missing = FALSE)
+  if (!is.null(response)) {
+    response = as_factor(response, levels = lvls)
+    assert_factor(response, len = n, any.missing = FALSE)
   }
 
-  prob = predicted$prob
   if (!is.null(prob)) {
     assert_matrix(prob, nrows = n, ncols = length(lvls))
     assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
     assert_names(colnames(prob), permutation.of = lvls)
     if (!is.null(rownames(prob))) {
       rownames(prob) = NULL
-      predicted$prob = prob
     }
 
-    if (is.null(predicted$response)) {
+    if (is.null(response)) {
       # calculate response from prob
       i = max.col(prob, ties.method = "random")
-      predicted$response = factor(colnames(prob)[i], levels = lvls)
+      response = factor(colnames(prob)[i], levels = lvls)
     }
   }
 
-  set_class(predicted, c("PredictionDataClassif", "PredictionData"))
+  pd = discard(list(row_ids = row_ids, response = response, prob = prob), is.null)
+  class(pd) = c("PredictionDataClassif", "PredictionData")
+  pd
 }
 
 
 #' @export
-as_prediction.TaskClassif = function(task, row_ids, predicted) {
-  PredictionClassif$new(row_ids = row_ids, truth = task$truth(row_ids), response = predicted$response, prob = predicted$prob)
+new_prediction.TaskClassif = function(task, data) {
+  PredictionClassif$new(row_ids = data$row_ids, truth = task$truth(data$row_ids), response = data$response, prob = data$prob)
 }
 
 #' @export

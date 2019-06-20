@@ -6,7 +6,7 @@
 #'
 #' @description
 #' A [LearnerClassif] for a classification tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
-#' Parameter `xval` has been set to 0 per default.
+#' Parameter `xval` is set to 0 in order to save some computation time.
 #'
 #' @references
 #' Breiman, L. (1984).
@@ -30,7 +30,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
             ParamInt$new(id = "maxcompete", default = 4L, lower = 0L, tags = "train"),
             ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L, tags = "train"),
             ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
-            ParamInt$new(id = "xval", default = 0L, lower = 0L, tags = "train")
+            ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
           )
         ),
         param_vals = list(xval = 0L),
@@ -44,7 +44,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         pars = insert_named(pars, list(weights = task$weights$weight))
       }
       self$model = invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
-      self
+      invisible(self)
     },
 
     predict = function(task) {
@@ -57,7 +57,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         prob = predict(self$model, newdata = newdata, type = "prob")
       }
 
-      list(response = response, prob = prob)
+      as_prediction_data(task, response = response, prob = prob)
     },
 
     importance = function() {

@@ -82,7 +82,11 @@ convert_matching_types = function(col_info, data) {
 
     if (type != cur_type && any(c(type, cur_type) %nin% c("character", "factor"))) {
       if (allMissing(cur_col)) {
-        storage.mode(cur_col) = type
+        if (type == "factor") {
+          cur_col = as_factor(cur_col, levels = levels)
+        } else {
+          storage.mode(cur_col) = type
+        }
         data[, (id) := cur_col]
       } else {
         stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", id, type, cur_type)

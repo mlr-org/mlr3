@@ -40,6 +40,8 @@ lrn = mlr_learners$get("classif.rpart")
 print(lrn)
 }
 \seealso{
+Example classification learner: \code{\link[=mlr_learners_classif.rpart]{classif.rpart}}.
+
 Other Learner: \code{\link{LearnerRegr}},
   \code{\link{Learner}}, \code{\link{mlr_learners}}
 }

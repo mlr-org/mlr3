@@ -39,15 +39,24 @@ test_that("$keys(pattern) works", {
 })
 
 test_that("Dictionaries are populated", {
-  expect_dictionary(mlr_tasks, "Task", min.items = 1L)
-  expect_dictionary(mlr_learners, "Learner", min.items = 1L)
-  expect_dictionary(mlr_resamplings, "Resampling", min.items = 1L)
-  expect_dictionary(mlr_measures, "Measure", min.items = 1L)
 
-  expect_data_table(as.data.table(mlr_tasks), nrow = length(mlr_tasks$keys()))
-  expect_data_table(as.data.table(mlr_learners), nrow = length(mlr_learners$keys()))
-  expect_data_table(as.data.table(mlr_resamplings), nrow = length(mlr_resamplings$keys()))
-  expect_data_table(as.data.table(mlr_measures), nrow = length(mlr_measures$keys()))
+  expect_dictionary(mlr_tasks, "Task", min_items = 1L)
+  expect_dictionary(mlr_learners, "Learner", min_items = 1L)
+  expect_dictionary(mlr_generators, "Generator", min_items = 1L)
+  expect_dictionary(mlr_resamplings, "Resampling", min_items = 1L)
+  expect_dictionary(mlr_measures, "Measure", min_items = 1L)
+
+  expect_data_table(as.data.table(mlr_tasks), nrow = length(mlr_tasks$keys()), min.cols = 2L)
+  expect_data_table(as.data.table(mlr_generators), nrow = length(mlr_generators$keys()), min.cols = 2L)
+  expect_data_table(as.data.table(mlr_learners), nrow = length(mlr_learners$keys()), min.cols = 2L)
+  expect_data_table(as.data.table(mlr_resamplings), nrow = length(mlr_resamplings$keys()), min.cols = 2L)
+  expect_data_table(as.data.table(mlr_measures), nrow = length(mlr_measures$keys()), min.cols = 2L)
+
+  expect_true("classif.rpart" %in% mlr_learners$keys())
+  mlr_learners$remove("classif.rpart")
+  expect_false("classif.rpart" %in% mlr_learners$keys())
+  populate_dictionaries()
+  expect_true("classif.rpart" %in% mlr_learners$keys())
 })
 
 test_that("Error when a package containing the dataset is not installed", {

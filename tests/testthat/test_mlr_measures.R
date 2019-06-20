@@ -9,6 +9,17 @@ test_that("mlr_measures", {
   }
 })
 
+test_that("as.data.table(mlr_measures)", {
+  d = as.data.table(mlr_measures)
+  expect_data_table(d)
+  expect_character(d$key, unique = TRUE, any.missing = FALSE)
+  expect_subset(d$task_type, c(mlr_reflections$task_types, NA))
+  qexpectr(d$packages, "S")
+  expect_subset(d$predict_type, unlist(mlr_reflections$learner_predict_types))
+  qexpectr(d$task_properties, "S")
+  expect_subset(unlist(d$task_properties), unlist(mlr_reflections$task_properties))
+})
+
 test_that("custom aggregation", {
   task = mlr_tasks$get("wine")
   lrn = mlr_learners$get("classif.featureless")

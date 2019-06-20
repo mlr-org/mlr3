@@ -16,6 +16,9 @@
 #'
 #' @family Dictionary
 #' @family Measure
+#' @seealso Example measures:
+#' * [`classif.auc`][mlr_measures_classif.auc].
+#' * [`time_train`][mlr_measures_time_train].
 #' @name mlr_measures
 #' @examples
 #' as.data.table(mlr_measures)
@@ -38,7 +41,9 @@ as.data.table.DictionaryMeasure = function(x, ...) {
     list(
       key = key,
       task_type = m$task_type,
+      packages = list(m$packages),
       predict_type = m$predict_type,
-      packages = list(m$packages))
+      task_properties = list(m$task_properties)
+    )
   }), "key")[]
 }

@@ -30,6 +30,8 @@ See \link{Measure}.
 }
 
 \seealso{
+Example regression measure: \code{\link[=mlr_measures_regr.mse]{regr.mse}}.
+
 Other Measure: \code{\link{MeasureClassif}},
   \code{\link{Measure}}, \code{\link{mlr_measures}}
 }

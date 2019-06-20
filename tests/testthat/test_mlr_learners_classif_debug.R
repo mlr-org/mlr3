@@ -29,7 +29,7 @@ test_that("updating model works / Experiment", {
 
 test_that("updating model works / resample", {
   learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
-  rr = resample("iris", learner, "holdout")
+  rr = resample("iris", learner, "holdout", ctrl = list(store_model = TRUE))
   e = rr$experiment(1)
   expect_list(e$model, len = 3)
 })

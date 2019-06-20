@@ -65,17 +65,20 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 )
 
 #' @export
-convert_prediction.TaskRegr = function(task, predicted) {
-  n = task$nrow
-  assert_numeric(predicted$response, len = n, any.missing = FALSE, null.ok = TRUE)
-  assert_numeric(predicted$se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
+as_prediction_data.TaskRegr = function(task, response = NULL, se = NULL, ...) {
+  row_ids = task$row_ids
+  n = length(row_ids)
+  assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
+  assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
 
-  set_class(predicted, c("PredictionDataRegr", "PredictionData"))
+  pd = discard(list(row_ids = row_ids, response = response, se = se), is.null)
+  class(pd) = c("PredictionDataRegr", "PredictionData")
+  pd
 }
 
 #' @export
-as_prediction.TaskRegr = function(task, row_ids, predicted) {
-  PredictionRegr$new(row_ids = row_ids, truth = task$truth(row_ids), response = predicted$response, se = predicted$se)
+new_prediction.TaskRegr = function(task, data) {
+  PredictionRegr$new(row_ids = data$row_ids, truth = task$truth(data$row_ids), response = data$response, se = data$se)
 }
 
 #' @export
@@ -93,9 +96,15 @@ rbind.PredictionRegr = function(...) {
   assert_list(dots, "PredictionRegr")
 
   x = map_dtr(dots, function(p) {
-    list(row_ids = p$row_ids, truth = p$truth, response = p$response, se = p$se)
+    list(row_ids = p$row_ids, truth = p$truth, response = p$response)
   }, .fill = FALSE)
 
-  p = PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = x$se)
+  se = discard(map(dots, "se"), is.null)
+  if (length(se) > 0L && length(se) < length(dots)) {
+    stopf("Cannot rbind predictions: Standard error for some experiments, not all")
+  }
+  se = do.call(c, se)
+
+  p = PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = se)
   return(p)
 }

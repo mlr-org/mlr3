@@ -61,7 +61,7 @@ A specific format of these supported formats can be picked in the \code{$data()}
 Returns a slice of the data in the specified format.
 Currently, the only supported format is "data.table".
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
-Non-existing rows and columns are silently ignored.
+Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
 \item \code{distinct(rows, cols)}\cr
 (\code{integer()} | \code{character()}, \code{character()}) -> named \code{list()}\cr
 Returns a named list of vectors of distinct values for each column specified.

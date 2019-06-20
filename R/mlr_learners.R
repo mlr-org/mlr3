@@ -16,6 +16,12 @@
 #'
 #' @family Dictionary
 #' @family Learner
+#' @seealso Example learners:
+#' * [`classif.rpart`][mlr_learners_classif.rpart]
+#' * [`regr.rpart`][mlr_learners_regr.rpart]
+#' * [`classif.featureless`][mlr_learners_classif.featureless]
+#' * [`regr.featureless`][mlr_learners_regr.featureless]
+#' * [`classif.debug`][mlr_learners_classif.debug]
 #' @name mlr_learners
 #' @examples
 #' as.data.table(mlr_learners)
