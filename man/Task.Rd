@@ -15,7 +15,8 @@ Tasks serve two purposes:
 For example, for a classification task a single column must be marked as target column, and others as features.
 }
 
-Predefined (toy) tasks are stored in the \link{Dictionary} \link{mlr_tasks}.
+Predefined (toy) tasks are stored in the \link{Dictionary} \link{mlr_tasks},
+e.g. \code{\link[=mlr_tasks_iris]{iris}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
 }
 \section{Construction}{
 

@@ -33,6 +33,7 @@
 #' See [TaskSupervised].
 #'
 #' @family Task
+#' @seealso Example regression task: [`boston_housing`][mlr_tasks_boston_housing].
 #' @export
 #' @examples
 #' task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
@@ -57,7 +58,7 @@ TaskRegr = R6Class("TaskRegr",
     },
 
     truth = function(row_ids = NULL) {
-      self$data(row_ids, cols = self$target_names)[[1L]]
+      super$truth(row_ids)[[1L]]
     }
   )
 )

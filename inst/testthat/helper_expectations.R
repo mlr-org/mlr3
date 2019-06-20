@@ -16,11 +16,12 @@ expect_hash = function(x, len = NULL) {
   checkmate::expect_character(x, len = len, any.missing = FALSE, min.chars = 4L, pattern = "^[0-9a-z]{16}$", unique = TRUE)
 }
 
-expect_dictionary = function(d, contains = NA_character_, min.items = 0L) {
+expect_dictionary = function(d, contains = NA_character_, min_items = 0L) {
   checkmate::expect_r6(d, "Dictionary")
   testthat::expect_output(print(d), "Dictionary")
+
   checkmate::expect_environment(d$items)
-  checkmate::expect_character(d$keys(), any.missing = FALSE, min.len = min.items, min.chars = 1L)
+  checkmate::expect_character(d$keys(), any.missing = FALSE, min.len = min_items, min.chars = 1L)
   if (!is.na(contains)) {
     checkmate::expect_list(d$mget(d$keys()), types = contains, names = "unique")
   }
@@ -273,7 +274,7 @@ expect_learner = function(lrn, task = NULL) {
 
 expect_resampling = function(r, task = NULL) {
   checkmate::expect_r6(r, "Resampling")
-  testthat::expect_output(print(r))
+  testthat::expect_output(print(r), "Resampling")
   expect_id(r$id)
 
   instance = r$instance
@@ -313,6 +314,7 @@ expect_resampling = function(r, task = NULL) {
 
 expect_measure = function(m) {
   checkmate::expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type", "task_properties"))
+  testthat::expect_output(print(m), "Measure")
 
   expect_id(m$id)
   checkmate::expect_subset(m$task_type, c(NA_character_, mlr3::mlr_reflections$task_types), empty.ok = FALSE)
@@ -352,10 +354,10 @@ expect_experiment = function(e) {
   if (state >= "predicted") {
     checkmate::expect_data_table(e$data$predict_log, null.ok = TRUE)
     checkmate::expect_number(e$data$predict_time)
-    checkmate::expect_list(e$data$predicted, names = "unique")
-    testthat::expect_is(e$data$predicted, "PredictionData")
+    checkmate::expect_list(e$data$prediction_data, names = "unique")
+    testthat::expect_is(e$data$prediction_data, "PredictionData")
     if (e$task$task_type %in% c("classif", "regr"))
-      checkmate::expect_atomic_vector(e$data$predicted$response, len = length(e$test_set), any.missing = FALSE)
+      checkmate::expect_atomic_vector(e$data$prediction_data$response, len = length(e$test_set), any.missing = FALSE)
   }
 
   if (state >= "scored") {
@@ -434,7 +436,8 @@ expect_resample_result = function(rr) {
 }
 
 expect_benchmark_result = function(bmr) {
-  checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data", "resample_results", "resample_result"))
+  checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data"))
+  testthat::expect_output(print(bmr), "BenchmarkResult")
 
   checkmate::expect_data_table(bmr$data, min.cols = nrow(mlr_reflections$experiment_slots) + 1L)
   checkmate::expect_names(names(bmr$data), must.include = c(mlr_reflections$experiment_slots$name, "hash"))
@@ -477,14 +480,8 @@ expect_benchmark_result = function(bmr) {
   for (m in bmr$measures$measure)
     checkmate::expect_numeric(tab[[m$id]])
 
-  tab = bmr$resample_results
-  checkmate::expect_data_table(tab, ncol = 5L)
-  checkmate::expect_names(names(tab), identical.to = c("hash", "task_id", "learner_id", "resampling_id", "N"))
-  expect_hash(tab$hash)
-  expect_id(tab$task_id)
-  expect_id(tab$learner_id)
-  expect_id(tab$resampling_id)
-  checkmate::expect_integer(tab$N, any.missing = FALSE, lower = 1L)
+  tab = bmr$aggregated(params = TRUE)
+  checkmate::assert_list(tab$params)
 }
 
 expect_log = function(log) {

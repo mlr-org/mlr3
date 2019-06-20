@@ -18,6 +18,9 @@
 #' @name mlr_resamplings
 #' @family Dictionary
 #' @family Resampling
+#' @seealso Example resamplings:
+#' * [`cv`][mlr_resamplings_cv].
+#' * [`bootstrap`][mlr_resamplings_bootstrap].
 #' @examples
 #' as.data.table(mlr_resamplings)
 #' mlr_resamplings$get("cv")

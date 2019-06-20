@@ -6,7 +6,8 @@
 #'
 #' @description
 #' Creates a [Task] of arbitrary size.
-#' Predefined task generators are stored in the [Dictionary] [mlr_generators].
+#' Predefined task generators are stored in the [Dictionary] [mlr_generators],
+#' e.g. [`xor`][mlr_generators_xor].
 #'
 #' @section Construction:
 #' ```
@@ -41,7 +42,7 @@
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
-#'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections()].
+#'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections].
 #'
 #' @section Methods:
 #' * `generate(n)`\cr

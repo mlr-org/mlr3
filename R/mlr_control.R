@@ -20,6 +20,24 @@
 #' * `encapsulate_predict`: How to call external code in third party packages during predict.
 #'   Same format as `encapsulate_train`. See [Log] for an example.
 #'
+#' **Defaults**
+#' ```
+#' $store_model
+#' FALSE
+#'
+#' $store_prediction
+#' TRUE
+#'
+#' $encapsulate_train
+#' "none"
+#'
+#' $encapsulate_predict
+#' "none"
+#'
+#' $log_threshold
+#' 400
+#' ```
+#'
 #' @param ... :: any\cr
 #'   Named arguments to overwrite the defaults / options.
 #'   Settings may be provided in a `name = value` fashion, or by providing a single named `list()`.
@@ -31,11 +49,11 @@
 #' # get a list of the defaults
 #' mlr_control()
 #'
-#' # get a control object, with the default of store_model changed to FALSE
-#' mlr_control(store_model = FALSE)
+#' # get a control object, with the default of store_prediction changed to FALSE
+#' mlr_control(store_prediction = FALSE)
 mlr_control = function(...) {
 
-  ctrl = default_mlr_control
+  ctrl = mlr_reflections$mlr_control_defaults
   ctrl$log_threshold = lg$threshold
 
   ldots = ...length()
@@ -59,11 +77,3 @@ mlr_control = function(...) {
   ctrl[names(dots)] = dots
   ctrl
 }
-
-default_mlr_control = list(
-  store_model = TRUE,
-  store_prediction = TRUE,
-  encapsulate_train = "none",
-  encapsulate_predict = "none",
-  log_threshold = 400L
-)

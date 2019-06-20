@@ -32,6 +32,10 @@ Object to control experiment execution. See \code{\link[=mlr_control]{mlr_contro
 \description{
 Runs a resampling (possibly in parallel).
 }
+\note{
+The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+If you need access to the models for later analysis, set \code{store_model} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
+}
 \section{Parallelization}{
 
 This function can be parallelized with the \CRANpkg{future} package.

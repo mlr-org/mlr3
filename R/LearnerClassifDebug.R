@@ -58,6 +58,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     train = function(task) {
+
       pv = self$params("train")
       if (isTRUE(pv$message_train)) {
         message("Message from classif.debug->train()")
@@ -77,7 +78,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         model$task_train = task$clone(deep = TRUE)
       }
       self$model = set_class(model, "classif.debug_model")
-      self
+      invisible(self)
     },
 
     predict = function(task) {
@@ -98,7 +99,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$save_tasks)) {
         self$model$task_predict = task$clone(deep = TRUE)
       }
-      list(response = rep.int(unclass(self$model$response), task$nrow))
+      as_prediction_data(task, response = rep.int(unclass(self$model$response), task$nrow))
     }
   )
 )

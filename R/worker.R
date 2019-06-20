@@ -18,7 +18,9 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
   # subset to train set w/o cloning
   prev_use = task$row_roles$use
   task$row_roles$use = train_set
-  on.exit( { task$row_roles$use = prev_use }, add = TRUE)
+  on.exit({
+    task$row_roles$use = prev_use
+  }, add = TRUE)
 
   learner = learner$clone(deep = TRUE)
 
@@ -41,6 +43,7 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(task, learner) {
+
     if (is.null(learner$model)) {
       stopf("No trained model available")
     }
@@ -51,14 +54,15 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
       stopf("Learner '%s' returned NULL during predict()", learner$id)
     }
 
-    if (!testList(result, names = "unique")) {
-      stopf("Learner '%s' returned '%s' during predict(), but needs to return a named list",
+    if (!inherits(result, "PredictionData")) {
+      stopf("Learner '%s' returned '%s' during predict(), but needs to return a PredictionData object as returned by ?as_prediction_data",
         learner$id, as_short_string(result))
+
     }
 
-    i = wf(names(result) %nin% learner$predict_types)
-    if (length(i)) {
-      stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, names(result)[i])
+    unsupported = setdiff(names(result), c("row_ids", learner$predict_types))
+    if (length(unsupported)) {
+      stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, head(unsupported, 1L))
     }
 
     return(result)
@@ -67,22 +71,21 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   # subset to test set w/o cloning
   prev_use = task$row_roles$use
   task$row_roles$use = test_set
-  on.exit( { task$row_roles$use = prev_use }, add = TRUE)
+  on.exit({
+    task$row_roles$use = prev_use
+  }, add = TRUE)
 
   # call predict with encapsulation
   enc = encapsulate(ctrl$encapsulate_predict)
   result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
-  names(result) = c("predicted", "predict_log", "predict_time")
+  names(result) = c("prediction_data", "predict_log", "predict_time")
 
   # update the model if necessary
   # if ("updates_model" %in% learner$properties) {
   #   result$learner = learner
   # }
 
-  # check and convert prediction of the learner
-  result$predicted = convert_prediction(task, result$predicted)
-
-  # result is list(predicted, predict_log, predict_time)
+  # result is list(prediction_data, predict_log, predict_time)
   return(result)
 }
 
@@ -143,7 +146,7 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   e$data = insert_named(e$data, tmp)
 
   if (!ctrl$store_prediction) {
-    e$data["predicted"] = list(NULL)
+    e$data["prediction_data"] = list(NULL)
   }
 
   if (!ctrl$store_model) {

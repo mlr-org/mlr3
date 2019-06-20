@@ -14,7 +14,8 @@ using a set of hyperparameters such as the number of folds in cross-validation.
 Resampling objects can be instantiated on a \link{Task}, which applies the strategy on the task and manifests in a
 fixed partition of \code{row_ids} of the \link{Task}.
 
-Predefined resamplings are stored in the \link{Dictionary} \link{mlr_resamplings}.
+Predefined resamplings are stored in the \link{Dictionary} \link{mlr_resamplings},
+e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}.
 }
 \section{Construction}{
 \preformatted{Note: This object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].

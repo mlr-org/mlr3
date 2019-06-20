@@ -28,6 +28,12 @@ as.data.table(mlr_resamplings)
 mlr_resamplings$get("cv")
 }
 \seealso{
+Example resamplings:
+\itemize{
+\item \code{\link[=mlr_resamplings_cv]{cv}}.
+\item \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}.
+}
+
 Other Dictionary: \code{\link{Dictionary}},
   \code{\link{mlr_generators}}, \code{\link{mlr_learners}},
   \code{\link{mlr_measures}}, \code{\link{mlr_tasks}}

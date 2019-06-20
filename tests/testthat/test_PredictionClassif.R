@@ -45,7 +45,6 @@ test_that("setting threshold binaryclass", {
   expect_factor(e$prediction$response, levels = task$class_names, any.missing = FALSE)
   expect_true(all(as.character(e$prediction$response) == task$negative | e$prediction$prob[, task$negative] == 0))
   expect_gt(e$score()$performance, 0.25)
-
 })
 
 test_that("setting threshold multiclass", {
@@ -55,7 +54,7 @@ test_that("setting threshold multiclass", {
 
   # a small fix for our tests ... Add a small number to all probabilities so that
   # we can knock off single labels
-  e$data$predicted$prob = t(apply(e$data$predicted$prob, 1, function(x) {
+  e$data$prediction_data$prob = t(apply(e$data$prediction_data$prob, 1, function(x) {
     x = x + 0.01
     x / sum(x)
   }))

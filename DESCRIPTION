@@ -67,7 +67,8 @@ Suggests:
     Matrix,
     rmarkdown,
     rpart,
-    testthat
+    testthat,
+    titanic
 VignetteBuilder:
     knitr
 Remotes:

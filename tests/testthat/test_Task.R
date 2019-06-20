@@ -211,3 +211,12 @@ test_that("task$missings() works", {
   y = map_int(task$data(), function(x) sum(is.na(x)))
   expect_equal(x, y[match(names(x), names(y))])
 })
+
+test_that("setting task$measures works", {
+  task = mlr_tasks$get("pima")
+  expect_measure(task$measures[[1L]])
+  task$measures = "classif.auc"
+  expect_measure(task$measures[[1L]])
+  expect_equal(task$measures[[1]]$id, "classif.auc")
+  expect_error({ task$measures = "regr.mse" }, "compatible")
+})
