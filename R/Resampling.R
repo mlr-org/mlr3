@@ -71,6 +71,17 @@
 #'   `integer(1)` -> (`integer()` | `character()`)\cr
 #'   Returns the row ids of the i-th test set.
 #'
+#' * `obs_weights_train_set(i)`\cr
+#'   `integer(1)` -> (`integer()` | `character()`)\cr
+#'   Returns the observation weights for ids of the i-th training set.
+#'
+#' * `class_weights_train_set(i)`\cr
+#'   `integer(1)` -> (`integer()` | `character()`)\cr
+#'   Returns the class weights for ids of the i-th training set.
+#'
+#' * `class_costs_train_set(i)`\cr
+#'   `integer(1)` -> (`integer()` | `character()`)\cr
+#'   Returns the class costs for ids of the i-th training set.
 #' @export
 #' @family Resampling
 #' @examples
@@ -161,6 +172,18 @@ Resampling = R6Class("Resampling",
 
     test_set = function(i) {
       private$.get_set(private$.get_test, i)
+    },
+
+    obs_weights_train_set = function(i) {
+      private$.get_set(private$.get_obs_weights_train, i)
+    },
+
+    class_weights_train_sets = function(i) {
+      private$.get_set(private$.get_class_weights_train, i)
+    },
+
+    class_costs_train_set = function(i) {
+      private$.get_set(private$.get_class_costs_train, i)
     }
   ),
 
