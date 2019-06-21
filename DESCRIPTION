@@ -87,7 +87,6 @@ Collate:
     'DataBackendDataTable.R'
     'DataBackendMatrix.R'
     'DataBackendRbind.R'
-    'Dictionary.R'
     'Experiment.R'
     'Generator.R'
     'Generator2DNormals.R'

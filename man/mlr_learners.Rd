@@ -37,8 +37,8 @@ Example learners:
 \item \code{\link[=mlr_learners_classif.debug]{classif.debug}}
 }
 
-Other Dictionary: \code{\link{Dictionary}},
-  \code{\link{mlr_generators}}, \code{\link{mlr_measures}},
+Other Dictionary: \code{\link{mlr_generators}},
+  \code{\link{mlr_measures}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 
 Other Learner: \code{\link{LearnerClassif}},

@@ -29,8 +29,8 @@ task$data()
 \seealso{
 Example generator \code{\link[=mlr_generators_xor]{xor}}.
 
-Other Dictionary: \code{\link{Dictionary}},
-  \code{\link{mlr_learners}}, \code{\link{mlr_measures}},
+Other Dictionary: \code{\link{mlr_learners}},
+  \code{\link{mlr_measures}},
   \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
 
 Other Task: \code{\link{TaskClassif}},

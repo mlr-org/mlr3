@@ -52,9 +52,9 @@ Example tasks:
 \item \code{\link[=mlr_tasks_boston_housing]{boston_housing}} (regression)
 }
 
-Other Dictionary: \code{\link{Dictionary}},
-  \code{\link{mlr_generators}}, \code{\link{mlr_learners}},
-  \code{\link{mlr_measures}}, \code{\link{mlr_resamplings}}
+Other Dictionary: \code{\link{mlr_generators}},
+  \code{\link{mlr_learners}}, \code{\link{mlr_measures}},
+  \code{\link{mlr_resamplings}}
 
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskRegr}}, \code{\link{TaskSupervised}},

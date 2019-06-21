@@ -23,7 +23,6 @@
 #' task$data()
 NULL
 
-#' @include Dictionary.R
 DictionaryGenerator = R6Class("DictionaryGenerator",
   inherit = Dictionary,
   cloneable = FALSE
