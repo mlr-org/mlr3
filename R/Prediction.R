@@ -65,29 +65,29 @@ Prediction = R6Class("Prediction",
 
 #' @title Prediction Object Helpers
 #'
-#' `convert_prediction()` is called on the slave to check and convert the return
+#' `as_prediction_data()` is called on the slave to check and convert the return
 #' value of the `predict()` function of a [Learner].
 #'
-#' `as_prediction()` is used to construct a [Prediction] object from the data
-#' returned by `convert_prediction()`.
+#' `new_prediction()` is used to construct a [Prediction] object from the data
+#' returned by `as_prediction_data()`.
 #'
 #' @param task :: [Task]\cr
 #'  Task as passed to `$predict()` of a [Learner].
-#' @param predicted :: named `list()`\cr
-#'  Return value of the [Learner].
+#' @param ... :: any\cr
+#'  Arguments depending on the task type and predict type.
+#'  E.g., for classification, you may pass `response` and `prob`.
+#' @param data :: named `list()`\cr
+#'  Data as returned by `as_prediction`, used to construct a [Prediction] object in
+#'  `new_prediction()`.
+#'
 #' @keywords internal
 #' @export
-convert_prediction = function(task, predicted) {
-  UseMethod("convert_prediction")
+as_prediction_data = function(task, ...) {
+  UseMethod("as_prediction_data")
 }
 
-#' @rdname convert_prediction
+#' @rdname as_prediction_data
 #' @export
-as_prediction = function(task, predicted) {
-  UseMethod("as_prediction")
-}
-
-#' @export
-convert_prediction.default = function(task, predicted) {
-  predicted
+new_prediction = function(task, data) {
+  UseMethod("new_prediction")
 }
