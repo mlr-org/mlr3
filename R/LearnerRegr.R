@@ -22,7 +22,13 @@
 #' See [Learner].
 #'
 #' @section Methods:
-#' See [Learner].
+#' All methods of [Learner], and additionally:
+#'
+#' * `new_prediction(task, response = NULL, prob = NULL)`\cr
+#'   ([Task], `numeric()`, `numeric()`) -> [PredictionRegr]\cr
+#'   This method is intended to be called in `predict()` to create a [PredictionRegr] object.
+#'   Uses `task` to extract `row_ids`.
+#'   To manually construct a [PredictionRegr] object, see its constructor.
 #'
 #' @family Learner
 #' @seealso Example regression learner: [`regr.rpart`][mlr_learners_regr.rpart].
@@ -41,6 +47,14 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       super$initialize(id = id, task_type = "regr", param_set = param_set, param_vals = param_vals,
         feature_types = feature_types, predict_types = predict_types, properties = properties,
         data_formats = data_formats, packages = packages)
+    },
+
+    new_prediction = function(task, row_ids = task$row_ids, truth = task$truth(row_ids), response = NULL, se = NULL) {
+      n = length(row_ids)
+      assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
+      assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
+
+      PredictionRegr$new(row_ids = row_ids, truth = truth, response = response, se = se)
     }
   )
 )

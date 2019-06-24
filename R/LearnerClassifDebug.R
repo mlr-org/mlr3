@@ -99,7 +99,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$save_tasks)) {
         self$model$task_predict = task$clone(deep = TRUE)
       }
-      as_prediction_data(task, response = rep.int(unclass(self$model$response), task$nrow))
+      self$new_prediction(task, response = rep.int(unclass(self$model$response), task$nrow))
     }
   )
 )

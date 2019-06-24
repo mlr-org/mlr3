@@ -43,20 +43,3 @@ translate_types = function(x) {
   p_types = names(mlr_reflections$task_feature_types)
   factor(map_values(x, r_types, p_types), levels = p_types)
 }
-
-# determines if execution will we are running locally or remotely
-use_future = function() {
-  isNamespaceLoaded("future") &&
-    requireNamespace("future.apply", quietly = TRUE) &&
-    !inherits(future::plan(), "uniprocess")
-}
-
-# copies model from a list of learners in `src` to a list of learners in `dst`
-# all learners in `dst` will be cloned
-copy_models = function(src, dst) {
-  Map(function(src, dst) {
-    dst = dst$clone(deep = TRUE)
-    dst$model = src$model
-    dst
-  }, src = src, dst = dst)
-}

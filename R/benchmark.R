@@ -114,16 +114,11 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
     )
   }
 
-  combined = combine_experiments(tmp)
+  res = combine_experiments(tmp)
 
-  # this is required to get a clean learner object:
-  # during parallelization, learners might get serialized and are getting unnecessarily big
-  # after de-serialization
-  # insert_named(combined, list(learner = copy_models(combined$learner, grid$learner)))
-
-  grid = ref_cbind(remove_named(grid, c("iter", "learner")), combined)
+  ref_cbind(res, grid[, !c("iter", "learner"), with = FALSE])
   lg$info("Finished benchmark")
-  BenchmarkResult$new(grid)
+  BenchmarkResult$new(res)
 }
 
 #' @title Generate a Benchmark Design

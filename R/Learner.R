@@ -104,7 +104,6 @@
 #'   However, if you retrieve the learner via the [Experiment], `mlr3` automatically inserts the model into the slot `$model`,
 #'   so that you do not need to pass the model to each method of the learner yourself.
 #'
-#'
 #' @section Optional Extractors:
 #'
 #' Specific learner implementations are free to implement additional getters to ease the access of certain parts

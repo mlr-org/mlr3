@@ -68,6 +68,7 @@ test_that("inputs are cloned", {
   learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("holdout")
   resampling$instantiate(task)
+  measures = NULL
 
   rr = resample(task, learner, resampling)
   e = rr$experiment(1L)

@@ -22,7 +22,13 @@
 #' See [Learner].
 #'
 #' @section Methods:
-#' See [Learner].
+#' All methods of [Learner], and additionally:
+#'
+#' * `new_prediction(task, response = NULL, prob = NULL)`\cr
+#'   ([Task], `factor()`, `matrix()`) -> [PredictionClassif]\cr
+#'   This method is intended to be called in `predict()` to create a [PredictionClassif] object.
+#'   Uses `task` to extract factor levels and `row_ids`.
+#'   To manually construct a [PredictionClassif] object, see its constructor.
 #'
 #' @family Learner
 #' @seealso Example classification learner: [`classif.rpart`][mlr_learners_classif.rpart].
@@ -41,6 +47,34 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
       super$initialize(id = id, task_type = "classif", param_set = param_set, param_vals = param_vals,
         predict_types = predict_types, feature_types = feature_types, properties = properties,
         data_formats = data_formats, packages = packages)
+    },
+
+    new_prediction = function(task, response = NULL, prob = NULL) {
+      row_ids = task$row_ids
+      n = length(row_ids)
+      lvls = task$class_names
+
+      if (!is.null(response)) {
+        response = as_factor(response, levels = lvls)
+        assert_factor(response, len = n, any.missing = FALSE)
+      }
+
+      if (!is.null(prob)) {
+        assert_matrix(prob, nrows = n, ncols = length(lvls))
+        assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
+        assert_names(colnames(prob), permutation.of = lvls)
+        if (!is.null(rownames(prob))) {
+          rownames(prob) = NULL
+        }
+
+        if (is.null(response)) {
+          # calculate response from prob
+          i = max.col(prob, ties.method = "random")
+          response = factor(colnames(prob)[i], levels = lvls)
+        }
+      }
+
+      PredictionClassif$new(row_ids = row_ids, truth = NULL, response = response, prob = prob)
     }
   )
 )
