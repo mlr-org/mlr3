@@ -76,6 +76,9 @@ Is a task without observations allowed?}
 \item{minimum_nrows}{:: \code{integer()}\cr
 Is a minimum amount of observations required?}
 
+\item{allow_empty_cols}{:: \code{logical()}\cr
+Is a task without features allowed?}
+
 \item{tasks}{:: list of \link{Task}.}
 
 \item{learner}{:: \link{Learner}.}
@@ -100,9 +103,6 @@ Vector of predict types provided by the \link{Experiment} or \link{Learner}.}
 \item{param_set}{:: \link[paradox:ParamSet]{paradox::ParamSet}.}
 
 \item{id}{:: \code{character(1)}.}
-
-\item{allow_empty_rows}{:: \code{logical()}\cr
-Is a task without features allowed?}
 
 \item{minimum_cols}{:: \code{integer()}\cr
 Is a minimum amount of features required?}

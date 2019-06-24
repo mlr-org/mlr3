@@ -31,7 +31,7 @@ assert_experiment = function(e, .var.name = vname(e)) {
 #'   Is a task without observations allowed?
 #' @param minimum_nrows :: `integer()`\cr
 #'   Is a minimum amount of observations required?
-#' @param allow_empty_rows :: `logical()`\cr
+#' @param allow_empty_cols :: `logical()`\cr
 #'   Is a task without features allowed?
 #' @param minimum_cols :: `integer()`\cr
 #'   Is a minimum amount of features required?
