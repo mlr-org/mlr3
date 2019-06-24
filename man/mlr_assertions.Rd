@@ -24,7 +24,7 @@ assert_backend(b, .var.name = vname(b))
 assert_experiment(e, .var.name = vname(e))
 
 assert_task(task, feature_types = NULL, task_properties = NULL,
-  clone = FALSE)
+  clone = FALSE, allow_empty_features = FALSE)
 
 assert_tasks(tasks, feature_types = NULL, task_properties = NULL,
   clone = FALSE)
@@ -68,6 +68,9 @@ Set of allowed feature types.}
 
 \item{task_properties}{:: \code{character()}\cr
 Set of required task properties.}
+
+\item{allow_empty_features}{:: \code{logical()}\cr
+Is a task without features allowed?}
 
 \item{tasks}{:: list of \link{Task}.}
 

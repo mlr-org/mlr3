@@ -27,8 +27,11 @@ assert_experiment = function(e, .var.name = vname(e)) {
 #'   Set of allowed feature types.
 #' @param task_properties :: `character()`\cr
 #'   Set of required task properties.
+#' @param allow_empty_features :: `logical()`\cr
+#'   Is a task without features allowed?
 #' @rdname mlr_assertions
-assert_task = function(task, feature_types = NULL, task_properties = NULL, clone = FALSE) {
+assert_task = function(task, feature_types = NULL, task_properties = NULL,
+  clone = FALSE, allow_empty_features = FALSE) {
   task = cast_from_dict(task, "Task", mlr_tasks, clone, FALSE)[[1L]]
 
   if (!is.null(feature_types)) {
@@ -36,6 +39,10 @@ assert_task = function(task, feature_types = NULL, task_properties = NULL, clone
     if (length(tmp)) {
       stopf("Task has the following unsupported feature types: %s", str_collapse(tmp))
     }
+  }
+
+  if (!allow_empty_features && nrow(task$data()) == 0) {
+    stopf("Task has no features.")
   }
 
   if (!is.null(task_properties)) {
