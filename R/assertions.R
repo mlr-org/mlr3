@@ -27,9 +27,13 @@ assert_experiment = function(e, .var.name = vname(e)) {
 #'   Set of allowed feature types.
 #' @param task_properties :: `character()`\cr
 #'   Set of required task properties.
-#' @param allow_empty_features :: `logical()`\cr
+#' @param allow_empty_rows :: `logical()`\cr
+#'   Is a task without observations allowed?
+#' @param minimum_nrows :: `integer()`\cr
+#'   Is a minimum amount of observations required?
+#' @param allow_empty_rows :: `logical()`\cr
 #'   Is a task without features allowed?
-#' @param minimum_n_features :: `integer()`\cr
+#' @param minimum_cols :: `integer()`\cr
 #'   Is a minimum amount of features required?
 #' @rdname mlr_assertions
 assert_task = function(task, feature_types = NULL, task_properties = NULL,

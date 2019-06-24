@@ -70,6 +70,12 @@ Set of allowed feature types.}
 \item{task_properties}{:: \code{character()}\cr
 Set of required task properties.}
 
+\item{allow_empty_rows}{:: \code{logical()}\cr
+Is a task without observations allowed?}
+
+\item{minimum_nrows}{:: \code{integer()}\cr
+Is a minimum amount of observations required?}
+
 \item{tasks}{:: list of \link{Task}.}
 
 \item{learner}{:: \link{Learner}.}
@@ -95,10 +101,10 @@ Vector of predict types provided by the \link{Experiment} or \link{Learner}.}
 
 \item{id}{:: \code{character(1)}.}
 
-\item{allow_empty_features}{:: \code{logical()}\cr
+\item{allow_empty_rows}{:: \code{logical()}\cr
 Is a task without features allowed?}
 
-\item{minimum_n_features}{:: \code{integer()}\cr
+\item{minimum_cols}{:: \code{integer()}\cr
 Is a minimum amount of features required?}
 
 \item{id}{:: \code{character(1)}.}
