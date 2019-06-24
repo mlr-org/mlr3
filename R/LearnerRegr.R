@@ -22,7 +22,13 @@
 #' See [Learner].
 #'
 #' @section Methods:
-#' See [Learner].
+#' All methods of [Learner], and additionally:
+#'
+#' * `new_prediction(task, response = NULL, prob = NULL)`\cr
+#'   ([Task], `numeric()`, `numeric()`) -> [PredictionRegr]\cr
+#'   This method is intended to be called in `predict()` to create a [PredictionRegr] object.
+#'   Uses `task` to extract `row_ids`.
+#'   To manually construct a [PredictionRegr] object, see its constructor.
 #'
 #' @family Learner
 #' @seealso Example regression learner: [`regr.rpart`][mlr_learners_regr.rpart].

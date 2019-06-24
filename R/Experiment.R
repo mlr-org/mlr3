@@ -376,10 +376,6 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   lg$info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = train_worker(self$task, self$learner$clone(), self$train_set, ctrl, seed = self$seeds[["train"]])
 
-  if (runs_remotely(ctrl, "train")) {
-    value$learner = reassemble_learners(list(value$learner), list(self$learner))[[1L]]
-  }
-
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
   experiment_reset_state(self, "trained")
@@ -414,14 +410,6 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
 
   lg$info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = predict_worker(self$data$task, self$data$learner, self$test_set, ctrl, self$seeds[["predict"]])
-
-  # if (runs_remotely(ctrl, "predict")) {
-  #   if ("learner" %in% names(value)) {
-  #     value$learner = reassemble_learner(list(value$learner), list(self$learner))[[1L]]
-  #   }
-
-  #   value$prediction = do.call(self$learner$new_prediction, value$prediction$data)
-  # }
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_

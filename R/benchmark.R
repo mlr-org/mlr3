@@ -116,12 +116,6 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 
   res = combine_experiments(tmp)
 
-  # this is required to get a clean objects on the master if calculation was performed in a remote session.
-  if (use_future() || any(runs_remotely(ctrl))) {
-    res = insert_named(res, list(learner = lapply(res$learner, function(l) l$reassemble())))
-    res = insert_named(res, list(prediction = lapply(res$prediction, function(p) if (!is.null(p)) p$reassemble())))
-  }
-
   ref_cbind(res, grid[, !c("iter", "learner"), with = FALSE])
   lg$info("Finished benchmark")
   BenchmarkResult$new(res)
