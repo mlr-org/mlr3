@@ -146,8 +146,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
 
   active = list(
-    row_ids = function() self$data$row_ids,
-    truth = function() self$data$truth,
     response = function() self$data$response,
     prob = function() self$data$prob,
     confusion = function() table(response = self$response, truth = self$truth, useNA = "ifany")

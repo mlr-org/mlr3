@@ -61,8 +61,6 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   ),
 
   active = list(
-    row_ids = function() self$data$row_ids,
-    truth = function() self$data$truth,
     response = function() self$data$response,
     se = function() self$data$se
   )

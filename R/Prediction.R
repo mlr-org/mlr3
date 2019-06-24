@@ -62,8 +62,8 @@ Prediction = R6Class("Prediction",
   ),
 
   active = list(
-    predict_types = function() {
-      setdiff(names(self$data), c("row_ids", "truth"))
-    }
+    row_ids = function() self$data$row_ids,
+    truth = function() self$data$truth,
+    predict_types = function() setdiff(names(self$data), c("row_ids", "truth"))
   )
 )
