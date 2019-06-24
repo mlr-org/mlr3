@@ -169,8 +169,7 @@ as.data.table.PredictionClassif = function(x, ...) {
 }
 
 #' @export
-rbind.PredictionClassif = function(...) {
-
+c.PredictionClassif = function(...) {
   dots = list(...)
   assert_list(dots, "PredictionClassif")
 

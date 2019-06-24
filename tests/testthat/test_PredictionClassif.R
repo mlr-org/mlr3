@@ -94,13 +94,13 @@ test_that("confusion", {
 })
 
 
-test_that("rbind", {
+test_that("c", {
   task = mlr_tasks$get("iris")
   lrn = mlr_learners$get("classif.featureless")
   lrn$predict_type = "prob"
   rr = resample(task, lrn, "cv3")
 
-  pred = do.call(rbind, map(rr$experiments(), "prediction"))
+  pred = do.call(c, map(rr$experiments(), "prediction"))
   expect_prediction(pred)
   expect_prediction_classif(pred)
 

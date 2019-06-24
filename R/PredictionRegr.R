@@ -77,7 +77,7 @@ as.data.table.PredictionRegr = function(x, ...) {
 
 
 #' @export
-rbind.PredictionRegr = function(...) {
+c.PredictionRegr = function(...) {
   dots = list(...)
   assert_list(dots, "PredictionRegr")
 
