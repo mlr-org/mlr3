@@ -55,7 +55,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
       assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
       assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
 
-      PredictionRegr$new(row_ids = row_ids, truth = NULL, response = response, se = se)
+      PredictionRegr$new(row_ids = row_ids, truth = task$truth(), response = response, se = se)
     }
   )
 )

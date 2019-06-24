@@ -110,7 +110,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   public = list(
     initialize = function(row_ids, truth = NULL, response = NULL, prob = NULL) {
       self$data$row_ids = assert_atomic_vector(row_ids)
-      self$data$truth = assert_factor(truth, null.ok = TRUE)
+      self$data$truth = assert_factor(truth)
       self$data$response = assert_factor(response, null.ok = TRUE)
       self$data$prob = assert_matrix(prob, null.ok = TRUE)
       self$task_type = "classif"
@@ -146,7 +146,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
 
   active = list(
-    response = function() self$data$response,
+    response = function() self$data$response %??% factor(rep(NA, length(self$data$truth)), levels(self$data$truth)),
     prob = function() self$data$prob,
     confusion = function() table(response = self$response, truth = self$truth, useNA = "ifany")
   )

@@ -39,6 +39,8 @@ test_that("c drops se (#250)", {
   rr = resample(task, lrn, "cv3")
 
   pred = do.call(c, map(rr$experiments(), "prediction"))
-  expect_null(pred$se)
+  expect_null(pred$data$se)
+  expect_false("se" %in% pred$predict_types)
+  expect_true(allMissing(pred$se))
   expect_false("se" %in% names(as.data.table(pred)))
 })

@@ -51,8 +51,9 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
 
     new_prediction = function(task, response = NULL, prob = NULL) {
       row_ids = task$row_ids
+      truth = task$truth()
       n = length(row_ids)
-      lvls = task$class_names
+      lvls = levels(truth)
 
       if (!is.null(response)) {
         response = as_factor(response, levels = lvls)
@@ -74,7 +75,7 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
         }
       }
 
-      PredictionClassif$new(row_ids = row_ids, truth = NULL, response = response, prob = prob)
+      PredictionClassif$new(row_ids = row_ids, truth = truth, response = response, prob = prob)
     }
   )
 )

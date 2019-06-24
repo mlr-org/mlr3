@@ -53,7 +53,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   public = list(
     initialize = function(row_ids, truth = NULL, response = NULL, se = NULL) {
       self$data$row_ids = assert_atomic_vector(row_ids)
-      self$data$truth = assert_numeric(truth, null.ok = TRUE)
+      self$data$truth = assert_numeric(truth)
       self$data$response = assert_numeric(response, null.ok = TRUE)
       self$data$se = assert_numeric(se, null.ok = TRUE)
       self$task_type = "regr"
@@ -61,8 +61,8 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   ),
 
   active = list(
-    response = function() self$data$response,
-    se = function() self$data$se
+    response = function() self$data$response %??% rep(NA_real_, length(self$data$truth)),
+    se = function() self$data$se %??% rep(NA_real_, length(self$data$truth))
   )
 )
 
@@ -82,10 +82,10 @@ c.PredictionRegr = function(...) {
   assert_list(dots, "PredictionRegr")
 
   x = map_dtr(dots, function(p) {
-    list(row_ids = p$row_ids, truth = p$truth, response = p$response)
+    list(row_ids = p$data$row_ids, truth = p$data$truth, response = p$data$response)
   }, .fill = FALSE)
 
-  se = discard(map(dots, "se"), is.null)
+  se = discard(map(dots, function(p) p$data$se), is.null)
   if (length(se) > 0L && length(se) < length(dots)) {
     stopf("Cannot rbind predictions: Standard error for some experiments, not all")
   }

@@ -25,8 +25,15 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
-  result = (enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed))
+  result = enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed)
   names(result) = c("learner", "train_log", "train_time")
+
+  if (is.null(result$learner)) {
+    # restore learner if something went wrong
+    # learner$model is NULL then
+    learner$model = NULL
+    result$learner = learner
+  }
 
   # result is list(learner, train_log, train_time)
   return(result)
@@ -73,10 +80,10 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
   names(result) = c("prediction", "predict_log", "predict_time")
 
-  # update the model if necessary
-  # if ("updates_model" %in% learner$properties) {
-  #   result$learner = learner
-  # }
+  if (is.null(result$prediction)) {
+    # create empty prediction if something went wrong
+    result$prediction = learner$new_prediction(task = task)
+  }
 
   # result is list(prediction, predict_log, predict_time)
   return(result)

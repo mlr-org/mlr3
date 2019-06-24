@@ -306,11 +306,7 @@ Experiment = R6Class("Experiment",
     },
 
     prediction = function(rhs) {
-      p = self$data$prediction
-      if (!is.null(p) && is.null(p$data$truth)) {
-        p$data$truth = self$task$truth(p$data$row_ids)
-      }
-      p
+      self$data$prediction
     },
 
     performance = function() {
