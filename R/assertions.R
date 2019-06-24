@@ -29,9 +29,12 @@ assert_experiment = function(e, .var.name = vname(e)) {
 #'   Set of required task properties.
 #' @param allow_empty_features :: `logical()`\cr
 #'   Is a task without features allowed?
+#' @param minimum_n_features :: `integer()`\cr
+#'   Is a minimum amount of features required?
 #' @rdname mlr_assertions
 assert_task = function(task, feature_types = NULL, task_properties = NULL,
-  clone = FALSE, allow_empty_features = FALSE) {
+  clone = FALSE, allow_empty_rows = FALSE, minimum_nrows = NULL,
+  allow_empty_cols = FALSE, minimum_ncols = NULL) {
   task = cast_from_dict(task, "Task", mlr_tasks, clone, FALSE)[[1L]]
 
   if (!is.null(feature_types)) {
@@ -41,8 +44,24 @@ assert_task = function(task, feature_types = NULL, task_properties = NULL,
     }
   }
 
-  if (!allow_empty_features && nrow(task$data()) == 0) {
+  if (!allow_empty_rows && nrow(task$data()) == 0) {
+    stopf("Task has no rows.")
+  }
+
+  if (!is.null(minimum_nrows)) {
+    if (nrow(task$data()) < minimum_nrows) {
+      stopf("Task needs to have at least %s rows.", minimum_nrows)
+    }
+  }
+
+  if (!allow_empty_cols && nrow(task$data()) == 0) {
     stopf("Task has no features.")
+  }
+
+  if (!is.null(minimum_ncols)) {
+    if (nrow(task$data()) < minimum_ncols) {
+      stopf("Task needs to have at least %s features.", minimum_ncols)
+    }
   }
 
   if (!is.null(task_properties)) {

@@ -24,7 +24,8 @@ assert_backend(b, .var.name = vname(b))
 assert_experiment(e, .var.name = vname(e))
 
 assert_task(task, feature_types = NULL, task_properties = NULL,
-  clone = FALSE, allow_empty_features = FALSE)
+  clone = FALSE, allow_empty_rows = FALSE, minimum_nrows = NULL,
+  allow_empty_cols = FALSE, minimum_ncols = NULL)
 
 assert_tasks(tasks, feature_types = NULL, task_properties = NULL,
   clone = FALSE)
@@ -69,9 +70,6 @@ Set of allowed feature types.}
 \item{task_properties}{:: \code{character()}\cr
 Set of required task properties.}
 
-\item{allow_empty_features}{:: \code{logical()}\cr
-Is a task without features allowed?}
-
 \item{tasks}{:: list of \link{Task}.}
 
 \item{learner}{:: \link{Learner}.}
@@ -96,6 +94,12 @@ Vector of predict types provided by the \link{Experiment} or \link{Learner}.}
 \item{param_set}{:: \link[paradox:ParamSet]{paradox::ParamSet}.}
 
 \item{id}{:: \code{character(1)}.}
+
+\item{allow_empty_features}{:: \code{logical()}\cr
+Is a task without features allowed?}
+
+\item{minimum_n_features}{:: \code{integer()}\cr
+Is a minimum amount of features required?}
 
 \item{id}{:: \code{character(1)}.}
 }
