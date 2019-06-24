@@ -61,8 +61,8 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   ),
 
   active = list(
-    response = function() self$data$response %??% rep(NA_real_, length(self$data$truth)),
-    se = function() self$data$se %??% rep(NA_real_, length(self$data$truth))
+    response = function() self$data$response %??% rep(NA_real_, length(self$data$row_ids)),
+    se = function() self$data$se %??% rep(NA_real_, length(self$data$row_ids))
   )
 )
 
