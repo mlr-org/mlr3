@@ -15,6 +15,7 @@
 #' @family Dictionary
 #' @family Task
 #' @family Generator
+#' @seealso Example generator [`xor`][mlr_generators_xor].
 #' @examples
 #' g = mlr_generators$get("smiley")
 #' task = g$generate(10)
@@ -22,7 +23,6 @@
 #' task$data()
 NULL
 
-#' @include Dictionary.R
 DictionaryGenerator = R6Class("DictionaryGenerator",
   inherit = Dictionary,
   cloneable = FALSE

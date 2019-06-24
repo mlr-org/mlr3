@@ -16,7 +16,8 @@
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
 #'
-#' Predefined measures are stored in the [Dictionary] [mlr_measures].
+#' Predefined measures are stored in the [Dictionary] [mlr_measures],
+#' e.g. [`classif.auc`][mlr_measures_classif.auc] or [`time_train`][mlr_measures_time_train].
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
@@ -47,7 +48,7 @@
 #'
 #' * `predict_type` :: `character(1)`\cr
 #'   Required predict type of the [Learner].
-#'   Possible values are stored in [mlr_reflections$learner_predict_types][mlr_reflections()].
+#'   Possible values are stored in [mlr_reflections$learner_predict_types][mlr_reflections].
 #'
 #' * `task_properties` :: `character()`\cr
 #'   Required task properties, see [Task].
@@ -107,7 +108,7 @@ Measure = R6Class("Measure",
 
     initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
 
-      self$id = assert_id(id)
+      self$id = assert_string(id, min.chars = 1L)
       self$task_type = task_type
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize, na.ok = TRUE)
@@ -117,7 +118,7 @@ Measure = R6Class("Measure",
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types)
-        assert_choice(predict_type, mlr_reflections$learner_predict_types[[task_type]])
+        assert_choice(predict_type, names(mlr_reflections$learner_predict_types[[task_type]]))
       }
       self$predict_type = predict_type
       self$task_properties = assert_sorted_subset(task_properties, mlr_reflections$task_properties[[task_type]])

@@ -65,15 +65,19 @@
 #'   Access to the stored [Learner].
 #'   If the experiment has been fitted, the model is stored in slot `$model`.
 #'
-#' * `test_set` :: (`integer()` | `character()`)\cr
-#'   The row ids of the [Task] for the test set used in `$predict()`
-#'   Timings are `NA` if the respective step has not been performed yet.
-#'
 #' * `timings` :: named `numeric(3)`\cr
 #'   Stores the elapsed time for the steps `train()`, `predict()` and `score()` in seconds with up to millisecond accuracy (c.f. `proc.time()`).
+#'   Timings are `NA` if the respective step has not been performed yet.
 #'
 #' * `train_set` :: (`integer()` | `character()`)\cr
 #'   The row ids of the [Task] for the training set used in `$train()`.
+#'   You can assign a vector of ids to this field.
+#'   Doing so resets the experiment to the state before the training step.
+#'
+#' * `test_set` :: (`integer()` | `character()`)\cr
+#'   The row ids of the [Task] for the test set used in `$predict()`
+#'   You can assign a vector of ids to this field.
+#'   Doing so resets the experiment to the state before the predict step.
 #'
 #' * `validation_set` :: (`integer()` || `character()`)\cr
 #'   The row ids of the validation set of the [Task].
@@ -144,9 +148,8 @@
 #' * `predict_time` :: `numeric(1)`\cr
 #'   Elapsed time during predict in seconds with up to millisecond accuracy (c.f. `proc.time()`).
 #'
-#' * `predicted` :: named `list()`\cr
-#'   Prediction as returned by the [Learner]'s `predict()` call, possibly converted by [convert_prediction()].
-#'   List elements are named with predict types.
+#' * `prediction` :: [Prediction]\cr
+#'   Prediction as returned by the [Learner]'s `new_prediction()` method.
 #'
 #' * `measures` :: `list()` of [Measure]\cr
 #'   Measures which where used for performance assessment.
@@ -266,22 +269,36 @@ Experiment = R6Class("Experiment",
       set_names(t, c("train", "predict", "score"))
     },
 
-    train_set = function() {
-      resampling = self$data$resampling
-      iteration = self$data$iteration
-      if (is.null(resampling) || is.null(iteration)) {
-        return(NULL)
+    train_set = function(rhs) {
+      if (missing(rhs)) {
+        resampling = self$data$resampling
+        iteration = self$data$iteration
+        if (is.null(resampling) || is.null(iteration)) {
+          return(NULL)
+        }
+        return(resampling$train_set(iteration))
       }
-      resampling$train_set(iteration)
+
+      row_ids = assert_row_ids(rhs)
+      experiment_reset_state(self, "defined")
+      self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
+      self$data$iteration = 1L
     },
 
-    test_set = function() {
-      resampling = self$data$resampling
-      iteration = self$data$iteration
-      if (is.null(resampling) || is.null(iteration)) {
-        return(NULL)
+    test_set = function(rhs) {
+      if (missing(rhs)) {
+        resampling = self$data$resampling
+        iteration = self$data$iteration
+        if (is.null(resampling) || is.null(iteration)) {
+          return(NULL)
+        }
+        return(resampling$test_set(iteration))
       }
-      resampling$test_set(iteration)
+
+      row_ids = assert_row_ids(rhs)
+      experiment_reset_state(self, "trained")
+      self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(self$train_set), test_sets = list(row_ids))
+      self$data$iteration = 1L
     },
 
     validation_set = function() {
@@ -289,17 +306,7 @@ Experiment = R6Class("Experiment",
     },
 
     prediction = function(rhs) {
-      if (missing(rhs)) {
-        if (is.null(self$data$predicted)) {
-          return(NULL)
-        }
-        return(invoke(as_prediction, task = self$task, row_ids = self$test_set, predicted = self$data$predicted))
-      }
-
-      assert_list(rhs, names = "unique")
-      assert_names(names(rhs), subset.of = self$learner$predict_types)
-      experiment_reset_state(self, "predicted")
-      self$data$predicted = rhs
+      self$data$prediction
     },
 
     performance = function() {
@@ -360,17 +367,10 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
   }
 
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  row_ids = if (is.null(row_ids)) self$data$task$row_ids else assert_row_ids(row_ids)
-  self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(row_ids))
-  self$data$iteration = 1L
+  self$train_set = row_ids %??% self$data$task$row_ids
 
   lg$info("Training learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = train_worker(self$task, self$learner$clone(), self$train_set, ctrl, seed = self$seeds[["train"]])
-
-  # this is required to get a clean learner object:
-  # during parallelization, learners might get serialized and are getting unnecessarily big
-  # after de-serialization
-  # value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
@@ -389,7 +389,7 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
 
   # TODO: we could allow new_data to be a backend / task to avoid duplication
   if (!is.null(newdata)) {
-    assert_data_frame(newdata)
+    assert_data_frame(newdata, min.rows = 1L)
     tn = self$task$target_names
     if (any(tn %nin% colnames(newdata))) {
       newdata[, tn] = NA
@@ -397,22 +397,15 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
     old_row_ids = self$data$task$row_ids
     self$data$task = self$data$task$clone(deep = TRUE)$rbind(newdata)
     row_ids = setdiff(self$data$task$row_ids, old_row_ids)
-  } else {
-    row_ids = if (is.null(row_ids)) self$task$row_ids else assert_row_ids(row_ids)
+  } else if (is.null(row_ids)) {
+    row_ids = self$task$row_ids
   }
 
   # update resampling instance
-  self$data$resampling$instantiate(self$data$task, test_sets = list(row_ids))
+  self$test_set = row_ids
 
   lg$info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = predict_worker(self$data$task, self$data$learner, self$test_set, ctrl, self$seeds[["predict"]])
-
-  # this is required to get a clean learner object:
-  # during parallelization, learners might get serialized and are getting unnecessarily big
-  # after de-serialization
-  # if ("learner" %in% names(value)) {
-  # value$learner = copy_models(list(value$learner), list(self$learner))[[1L]]
-  # }
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
@@ -425,7 +418,7 @@ experiment_score = function(self, private, measures = NULL, ctrl = list()) {
     stopf("Experiment needs predictions before score()")
   }
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
-  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, predict_types = names(self$data$predicted))
+  self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, learner = self$learner)
 
   lg$info("Scoring predictions of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
   value = score_worker(self, ctrl = ctrl)

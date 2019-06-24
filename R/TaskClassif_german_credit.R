@@ -10,7 +10,7 @@
 #' ```
 #'
 #' @description
-#' A classification task for the german credit data set.
+#' A classification task for the German credit data set.
 #' The aim is to predict creditworthiness, labeled as "good" and "bad".
 #' Positive class is set to label "good".
 #'

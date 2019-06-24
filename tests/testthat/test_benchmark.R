@@ -44,23 +44,30 @@ test_that("Basic benchmarking", {
 
   tab = bmr$aggregated(objects = FALSE)
   expect_data_table(tab, nrow = 4L)
-  expect_names(names(tab), type = "unique", permutation.of = c("hash", "task_id", "learner_id", "resampling_id", "classif.ce", "classif.acc"))
+  expect_names(names(tab), type = "unique", permutation.of = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", "classif.ce", "classif.acc"))
   expect_numeric(tab[task_id == "sonar", classif.ce], any.missing = FALSE)
   expect_numeric(tab[task_id == "iris", classif.acc], any.missing = FALSE)
 })
 
 test_that("ResampleResult getter", {
-  hashes = bmr$resample_results$hash
+  aggr = bmr$aggregated()
+  hashes = aggr$hash
   expect_character(hashes, len = 4L, any.missing = FALSE, unique = TRUE)
-  rr = bmr$resample_result(hashes[1])
-  expect_resample_result(rr)
-  expect_experiment(rr$experiment(1))
+  for (i in seq_along(hashes)) {
+    rr = aggr[i]$resample_result[[1L]]
+    expect_resample_result(rr)
+    expect_experiment(rr$experiment(1))
+    val1 = rr$aggregated
+    val2 = bmr$aggregated()[[names(val1)]][i]
+    expect_equivalent(val1, val2)
+    expect_equal(hashes[i], rr$hash)
+  }
 })
 
 
 test_that("discarding model", {
   bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings), ctrl = mlr_control(store_prediction = FALSE, store_model = FALSE))
-  expect_true(every(bmr$data$predicted, is.null))
+  expect_true(every(bmr$data$prediction, is.null))
   expect_true(every(bmr$data$model, is.null))
 })
 
@@ -94,7 +101,7 @@ test_that("inputs are cloned", {
   resampling = mlr_resamplings$get("holdout")
 
   bmr = benchmark(data.table(task = list(task), learner = list(learner), resampling = list(resampling)))
-  e = bmr$resample_result(bmr$resample_results$hash)$experiment(1)
+  e = bmr$aggregated()$resample_result[[1L]]$experiment(1)
 
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
@@ -120,4 +127,13 @@ test_that("resample with replacement measures", {
   bmr = benchmark(design = expand_grid(tasks, learner, "cv3"), measures = mlr_measures$mget(c("classif.ce", "classif.acc")))
   expect_equal(bmr$measures$measure_id, c("classif.ce", "classif.acc"))
   expect_subset(c("classif.ce", "classif.acc"), names(bmr$aggregated()))
+})
+
+test_that("predict_type is checked", {
+  task = mlr_tasks$get("sonar")
+  learner = mlr_learners$get("classif.featureless")
+  resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
+  measure = mlr_measures$get("classif.auc")
+  design = expand_grid(task, learner, resampling)
+  expect_error(benchmark(design, measure = measure), "predict_type")
 })

@@ -14,7 +14,8 @@
 #' - A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' - Meta-information about the requirements and capabilities of the learner.
 #'
-#' Predefined learners are stored in the [Dictionary] [mlr_learners].
+#' Predefined learners are stored in the [Dictionary] [mlr_learners],
+#' e.g. [`classif.rpart`][mlr_learners_classif.rpart] or [`regr.rpart`][mlr_learners_regr.rpart].
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
@@ -103,7 +104,6 @@
 #'   However, if you retrieve the learner via the [Experiment], `mlr3` automatically inserts the model into the slot `$model`,
 #'   so that you do not need to pass the model to each method of the learner yourself.
 #'
-#'
 #' @section Optional Extractors:
 #'
 #' Specific learner implementations are free to implement additional getters to ease the access of certain parts
@@ -161,12 +161,12 @@ Learner = R6Class("Learner",
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
       feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
 
-      self$id = assert_id(id)
+      self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       private$.param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
-      self$predict_types = assert_sorted_subset(predict_types, mlr_reflections$learner_predict_types[[task_type]], empty.ok = FALSE)
+      self$predict_types = assert_sorted_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
@@ -197,7 +197,7 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.predict_type)
       }
-      assert_choice(rhs, mlr_reflections$learner_predict_types[[self$task_type]])
+      assert_choice(rhs, names(mlr_reflections$learner_predict_types[[self$task_type]]))
       if (rhs %nin% self$predict_types) {
         stopf("Learner does not support predict type '%s'", rhs)
       }

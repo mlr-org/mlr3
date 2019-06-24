@@ -14,9 +14,6 @@
 \alias{assert_resamplings}
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
-\alias{assert_param_set}
-\alias{assert_id}
-\alias{assert_ids}
 \title{Assertion for mlr3 Objects}
 \usage{
 assert_backend(b, .var.name = vname(b))
@@ -36,11 +33,9 @@ assert_learner(learner, task = NULL, properties = character(0L),
 assert_learners(learners, task = NULL, properties = character(0L),
   clone = FALSE)
 
-assert_measure(measure, task = NULL, predict_types = NULL,
-  clone = FALSE)
+assert_measure(measure, task = NULL, learner = NULL, clone = FALSE)
 
-assert_measures(measures, task = NULL, predict_types = NULL,
-  clone = FALSE)
+assert_measures(measures, task = NULL, learner = NULL, clone = FALSE)
 
 assert_resampling(resampling, instantiated = NULL, clone = FALSE)
 
@@ -50,12 +45,6 @@ assert_resample_result(resample_result,
   .var.name = vname(resample_result))
 
 assert_benchmark_result(bmr, .var.name = vname(bmr))
-
-assert_param_set(param_set, .var.name = vname(param_set))
-
-assert_id(id, .var.name = vname(id))
-
-assert_ids(ids, .var.name = vname(ids))
 }
 \arguments{
 \item{b}{:: \link{DataBackend}.}
@@ -86,9 +75,6 @@ Is a task without features allowed?}
 \item{learners}{:: list of \link{Learner}.}
 
 \item{measure}{:: \link{Measure}.}
-
-\item{predict_types}{:: \code{character()}\cr
-Vector of predict types provided by the \link{Experiment} or \link{Learner}.}
 
 \item{measures}{:: list of \link{Measure}.}
 

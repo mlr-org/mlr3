@@ -51,51 +51,45 @@
 PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
-    response = NULL,
-    se = NULL,
-    initialize = function(row_ids, truth, response = NULL, se = NULL) {
-      self$row_ids = assert_atomic_vector(row_ids)
-      self$truth = assert_numeric(truth)
-      self$response = assert_numeric(response, null.ok = TRUE)
-      self$se = assert_numeric(se, null.ok = TRUE)
+    initialize = function(row_ids, truth = NULL, response = NULL, se = NULL) {
+      self$data$row_ids = assert_atomic_vector(row_ids)
+      self$data$truth = assert_numeric(truth)
+      self$data$response = assert_numeric(response, null.ok = TRUE)
+      self$data$se = assert_numeric(se, null.ok = TRUE)
       self$task_type = "regr"
-      self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
     }
+  ),
+
+  active = list(
+    response = function() self$data$response %??% rep(NA_real_, length(self$data$row_ids)),
+    se = function() self$data$se %??% rep(NA_real_, length(self$data$row_ids))
   )
 )
 
 #' @export
-convert_prediction.TaskRegr = function(task, predicted) {
-  n = task$nrow
-  assert_numeric(predicted$response, len = n, any.missing = FALSE, null.ok = TRUE)
-  assert_numeric(predicted$se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
-
-  set_class(predicted, c("PredictionDataRegr", "PredictionData"))
-}
-
-#' @export
-as_prediction.TaskRegr = function(task, row_ids, predicted) {
-  PredictionRegr$new(row_ids = row_ids, truth = task$truth(row_ids), response = predicted$response, se = predicted$se)
-}
-
-#' @export
 as.data.table.PredictionRegr = function(x, ...) {
-  if (is.null(x$row_ids)) {
+  data = x$data
+  if (is.null(data$row_ids)) {
     return(data.table())
   }
-  data.table(row_id = x$row_ids, truth = x$truth, response = x$response, se = x$se)
+  data.table(row_id = data$row_ids, truth = data$truth, response = data$response, se = data$se)
 }
 
 
 #' @export
-rbind.PredictionRegr = function(...) {
+c.PredictionRegr = function(...) {
   dots = list(...)
   assert_list(dots, "PredictionRegr")
 
   x = map_dtr(dots, function(p) {
-    list(row_ids = p$row_ids, truth = p$truth, response = p$response, se = p$se)
+    list(row_ids = p$data$row_ids, truth = p$data$truth, response = p$data$response)
   }, .fill = FALSE)
 
-  p = PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = x$se)
-  return(p)
+  se = discard(map(dots, function(p) p$data$se), is.null)
+  if (length(se) > 0L && length(se) < length(dots)) {
+    stopf("Cannot rbind predictions: Standard error for some experiments, not all")
+  }
+  se = do.call(c, se)
+
+  PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = se)
 }

@@ -29,6 +29,7 @@
 #' * `predict_types` :: `character()`\cr
 #'   Vector of predict types this object stores.
 #'
+#'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [Prediction] -> [data.table::data.table()]\cr
@@ -42,17 +43,15 @@
 #' @family Prediction
 Prediction = R6Class("Prediction",
   public = list(
-    row_ids = NULL,
-    truth = NULL,
+    data = list(),
     task_type = NULL,
-    predict_types = NULL,
 
     format = function() {
       sprintf("<%s>", class(self)[1L])
     },
 
     print = function(...) {
-      if (is.null(self$row_ids)) {
+      if (is.null(self$data$row_ids)) {
         catf("%s for 0 observations", format(self))
       } else {
         data = as.data.table(self)
@@ -60,35 +59,11 @@ Prediction = R6Class("Prediction",
         print(data, nrows = 10L, topn = 3L, print.class = TRUE, print.keys = FALSE)
       }
     }
+  ),
+
+  active = list(
+    row_ids = function() self$data$row_ids,
+    truth = function() self$data$truth,
+    predict_types = function() setdiff(names(self$data), c("row_ids", "truth"))
   )
 )
-
-#' @title Prediction Object Helpers
-#'
-#' `convert_prediction()` is called on the slave to check and convert the return
-#' value of the `predict()` function of a [Learner].
-#'
-#' `as_prediction()` is used to construct a [Prediction] object from the data
-#' returned by `convert_prediction()`.
-#'
-#' @param task :: [Task]\cr
-#'  Task as passed to `$predict()` of a [Learner].
-#' @param predicted :: named `list()`\cr
-#'  Return value of the [Learner].
-#' @param row_ids :: (`integer()` | `character()`)\cr
-#'  Row ids of the [Task] for the observations in the test set.
-#' @export
-convert_prediction = function(task, predicted) {
-  UseMethod("convert_prediction")
-}
-
-#' @rdname convert_prediction
-#' @export
-as_prediction = function(task, row_ids, predicted) {
-  UseMethod("as_prediction")
-}
-
-#' @export
-convert_prediction.default = function(task, predicted) {
-  predicted
-}

@@ -38,10 +38,6 @@ Table of used resamplings with three columns:
 \item \code{measures} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used measures with three columns:
 "measure_hash" (\code{character(1)}), "measure_id" (\code{character(1)}) and "measure" (\link{Measure}).
-\item \code{resample_results} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table of \link{ResampleResult} groups with 5 columns:
-"hash" (\code{character(1)}), "task_id" (\code{character(1)}), "learner_id" (\code{character(1)}), "resampling_id" (\code{character(1)}) and "N" (\code{integer(1)}).
-The last column ("N") is the number of \link{Experiment}s in the \link{ResampleResult}.
 }
 }
 
@@ -66,10 +62,6 @@ Fuses a second \link{BenchmarkResult} into itself.
 \item \code{get_best(id)}\cr
 (\code{character(1)}) -> \link{ResampleResult}\cr
 Returns the \link{ResampleResult} with best performance according to \link{Measure} with the provided id.
-\item \code{resample_result(hash)}\cr
-\code{character(1)} -> \link{ResampleResult}\cr
-Retrieves the \link{ResampleResult} whose hash starts with \code{hash}.
-The abbreviation must be unambiguous, so that exactly one \link{ResampleResult} is matched.
 }
 }
 
@@ -84,29 +76,31 @@ Converts the data to a \code{data.table()}.
 
 \examples{
 set.seed(123)
-bmr = benchmark(expand_grid(
+design = expand_grid(
   tasks = "iris",
   learners = c("classif.featureless", "classif.rpart"),
   resamplings = "cv3"
-))
+)
+print(design)
 
+bmr = benchmark(design)
 print(bmr)
+
 bmr$tasks
 bmr$learners
-bmr$resamplings
 bmr$measures
 
 # aggregated results
-bmr$aggregated(objects = FALSE)
+bmr$aggregated()
 
 # aggregated results with hyperparameters as separate columns
-mlr3misc::unnest(bmr$aggregated(objects = FALSE, params = TRUE), "params")
+mlr3misc::unnest(bmr$aggregated(params = TRUE), "params")
 
-# extract resample results and experiments
-rrs = bmr$resample_results
-print(rrs)
-rr = bmr$resample_result(rrs$hash[1])
+# extract resample result for classif.rpart
+rr = bmr$aggregated()[learner_id == "classif.rpart", resample_result][[1]]
 print(rr)
-rr$experiment(1)$model
+
+# access the confusion matrix of the first resampling iteration
+rr$experiment(1)$prediction$confusion
 }
 \keyword{datasets}

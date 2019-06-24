@@ -108,29 +108,26 @@
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
-    response = NULL,
-    prob = NULL,
-    initialize = function(row_ids, truth, response = NULL, prob = NULL) {
-      self$row_ids = assert_atomic_vector(row_ids)
-      self$truth = assert_factor(truth)
-      self$response = assert_factor(response, null.ok = TRUE)
-      self$prob = assert_matrix(prob, null.ok = TRUE)
+    initialize = function(row_ids, truth = NULL, response = NULL, prob = NULL) {
+      self$data$row_ids = assert_atomic_vector(row_ids)
+      self$data$truth = assert_factor(truth)
+      self$data$response = assert_factor(response, null.ok = TRUE)
+      self$data$prob = assert_matrix(prob, null.ok = TRUE)
       self$task_type = "classif"
-      self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(prob))]
     },
 
     set_threshold = function(threshold) {
-      if (!is.matrix(self$prob)) {
+      if (!is.matrix(self$data$prob)) {
         stopf("Cannot set threshold, no probabilities available")
       }
-      lvls = colnames(self$prob)
+      lvls = colnames(self$data$prob)
 
       if (length(threshold) == 1L) {
         assert_number(threshold, lower = 0, upper = 1)
         if (length(lvls) != 2L) {
           stopf("Setting a single threshold only supported for binary classification problems")
         }
-        prob = cbind(self$prob[, 1L], threshold)
+        prob = cbind(self$data$prob[, 1L], threshold)
       } else {
         assert_numeric(threshold, any.missing = FALSE, lower = 0, upper = 1, len = length(lvls))
         assert_names(names(threshold), permutation.of = lvls)
@@ -142,60 +139,28 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       }
 
       ind = max.col(prob, ties.method = "random")
-      return(list(response = factor(lvls[ind], levels = lvls), prob = self$prob))
+      self$data$response = factor(lvls[ind], levels = lvls)
+      self
     }
   ),
 
+
   active = list(
-    confusion = function() {
-      table(response = self$response, truth = self$truth, useNA = "ifany")
-    }
+    response = function() self$data$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth)),
+    prob = function() self$data$prob,
+    confusion = function() table(response = self$response, truth = self$truth, useNA = "ifany")
   )
 )
 
 #' @export
-convert_prediction.TaskClassif = function(task, predicted) {
-  n = task$nrow
-  lvls = task$class_names
-
-  if (!is.null(predicted$response)) {
-    predicted$response = as_factor(predicted$response, levels = lvls, len = n, any.missing = FALSE)
-  }
-
-  prob = predicted$prob
-  if (!is.null(prob)) {
-    assert_matrix(prob, nrows = n, ncols = length(lvls))
-    assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
-    assert_names(colnames(prob), permutation.of = lvls)
-    if (!is.null(rownames(prob))) {
-      rownames(prob) = NULL
-      predicted$prob = prob
-    }
-
-    if (is.null(predicted$response)) {
-      # calculate response from prob
-      i = max.col(prob, ties.method = "random")
-      predicted$response = factor(colnames(prob)[i], levels = lvls)
-    }
-  }
-
-  set_class(predicted, c("PredictionDataClassif", "PredictionData"))
-}
-
-
-#' @export
-as_prediction.TaskClassif = function(task, row_ids, predicted) {
-  PredictionClassif$new(row_ids = row_ids, truth = task$truth(row_ids), response = predicted$response, prob = predicted$prob)
-}
-
-#' @export
 as.data.table.PredictionClassif = function(x, ...) {
-  if (is.null(x$row_ids)) {
+  data = x$data
+  if (is.null(data$row_ids)) {
     return(data.table())
   }
-  tab = data.table(row_id = x$row_ids, truth = x$truth, response = x$response)
-  if (!is.null(x$prob)) {
-    prob = as.data.table(x$prob)
+  tab = data.table(row_id = data$row_ids, truth = data$truth, response = data$response)
+  if (!is.null(data$prob)) {
+    prob = as.data.table(data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
     tab = ref_cbind(tab, prob)
   }
@@ -204,8 +169,7 @@ as.data.table.PredictionClassif = function(x, ...) {
 }
 
 #' @export
-rbind.PredictionClassif = function(...) {
-
+c.PredictionClassif = function(...) {
   dots = list(...)
   assert_list(dots, "PredictionClassif")
 

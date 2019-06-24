@@ -1,5 +1,63 @@
 context("Experiment")
 
+test_that("$train() + $predict() classif", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.featureless")
+  row_ids = 1:100
+  e = Experiment$new(task, learner)
+
+  e$train(row_ids)
+  expect_set_equal(e$train_set, row_ids)
+  expect_class(e$model, "featureless")
+  expect_equal(task$nrow, 150L)
+  expect_equal(e$data$task$nrow, 150L)
+
+  foo = e$predict(1:10)
+  expect_set_equal(e$test_set, 1:10)
+  expect_data_table(as.data.table(e$prediction), nrow = 10L, any.missing = FALSE)
+  expect_equal(task$nrow, 150L)
+  expect_equal(e$data$task$nrow, 150L)
+  expect_class(e$prediction, "Prediction")
+
+  expect_null(e$data$performance) # performance is unset?
+  e$score()
+  expect_number(e$performance)
+  e$predict(row_ids = 101:150)
+  expect_null(e$data$performance) # performance is reset?
+
+  expect_experiment(e)
+})
+
+test_that("$train() + $predict() regr", {
+  task = mlr_tasks$get("mtcars")
+  learner = mlr_learners$get("regr.featureless")
+  row_ids = head(task$row_ids, 20)
+  e = Experiment$new(task, learner)
+
+  e$train(row_ids)
+  expect_set_equal(e$train_set, row_ids)
+  expect_class(e$model, "featureless")
+  expect_equal(task$nrow, 32L)
+  expect_equal(e$data$task$nrow, 32L)
+
+  row_ids = tail(task$row_ids, 12)
+  e$predict(row_ids)
+  expect_set_equal(e$test_set, row_ids)
+  expect_data_table(as.data.table(e$prediction), nrow = length(row_ids), any.missing = FALSE)
+  expect_equal(task$nrow, 32L)
+  expect_equal(e$data$task$nrow, 32L)
+  expect_class(e$prediction, "Prediction")
+
+  expect_null(e$data$performance) # performance is unset?
+  e$score()
+  expect_number(e$performance)
+  e$predict(row_ids)
+  expect_null(e$data$performance)# performance is reset?
+
+  expect_experiment(e)
+})
+
+
 test_that("Empty Experiment construction", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
@@ -40,33 +98,6 @@ test_that("inputs are cloned", {
   expect_different_address(learner, e$learner)
 })
 
-test_that("$train() + $predict()", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.featureless")
-  row_ids = 1:100
-  e = Experiment$new(task, learner)
-
-  e$train(row_ids)
-  expect_set_equal(e$train_set, row_ids)
-  expect_class(e$model, "featureless")
-  expect_class(e$model, "featureless")
-  expect_equal(task$nrow, 150L)
-  expect_equal(e$data$task$nrow, 150L)
-
-  e$predict(1:10)
-  expect_set_equal(e$test_set, 1:10)
-  expect_data_table(as.data.table(e$prediction), nrow = 10L, any.missing = FALSE)
-  expect_equal(task$nrow, 150L)
-  expect_equal(e$data$task$nrow, 150L)
-  expect_class(e$prediction, "Prediction")
-
-  expect_null(e$data$performance) # performance is unset?
-  e$score()
-  expect_number(e$performance)
-  e$predict(row_ids = 101:150) # performance is reset?
-
-  expect_experiment(e)
-})
 
 test_that("Seeting seeds", {
   task = mlr_tasks$get("iris")
@@ -87,4 +118,25 @@ test_that("Seeting seeds", {
     p2 = e$train()$predict()$prediction$response
     expect_true(identical(p1, p2))
   }
+})
+
+test_that("Setting train and test sets via AB", {
+  e = Experiment$new("iris", "classif.featureless")
+  expect_null(e$train_set)
+  e$train_set = 1:120
+  expect_set_equal(e$train_set, 1:120)
+
+  expect_null(e$test_set)
+  e$test_set = 121:150
+  expect_set_equal(e$train_set, 1:120)
+  expect_set_equal(e$test_set, 121:150)
+
+  e$run()
+  expect_equal(as.character(e$state), "scored")
+
+  e$test_set = 141:150
+  expect_equal(as.character(e$state), "trained")
+
+  e$train_set = 1:111
+  expect_equal(as.character(e$state), "defined")
 })

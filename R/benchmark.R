@@ -29,6 +29,10 @@
 #' All jobs are forwarded to the \CRANpkg{future} package together.
 #' To select a parallel backend, use [future::plan()].
 #'
+#' @note
+#' The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+#' If you need access to the models for later analysis, set `store_model` to `TRUE` via [mlr_control()].
+#'
 #' @export
 #' @examples
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
@@ -48,16 +52,16 @@
 #' bmr$aggregated(objects = FALSE)
 #'
 #' # Overview of of resamplings that were conducted internally
-#' rrs = bmr$resample_results
-#' print(rrs)
+#' aggr = bmr$aggregated()
+#' print(aggr)
 #'
 #' # Extract first ResampleResult
-#' rr = bmr$resample_result(hash = rrs$hash[1])
+#' rr = aggr[1, resample_result][[1]]
 #' print(rr)
 #'
 #' # Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
-benchmark = function(design, measures = NULL, ctrl = list(store_model = FALSE)) {
+benchmark = function(design, measures = NULL, ctrl = list()) {
 
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
@@ -83,8 +87,9 @@ benchmark = function(design, measures = NULL, ctrl = list(store_model = FALSE)) 
       }
     }
     hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
+    measures = assert_measures(measures %??% task$measures, learner = learner)
     data.table(task = list(task), learner = list(learner), resampling = list(resampling),
-      measures = list(measures %??% task$measures), iter = seq_len(resampling$iters), hash = hash)
+      measures = list(measures), iter = seq_len(resampling$iters), hash = hash)
   })
 
   lg$info("Benchmarking %i experiments", nrow(grid))
@@ -109,16 +114,11 @@ benchmark = function(design, measures = NULL, ctrl = list(store_model = FALSE)) 
     )
   }
 
-  combined = combine_experiments(tmp)
+  res = combine_experiments(tmp)
 
-  # this is required to get a clean learner object:
-  # during parallelization, learners might get serialized and are getting unnecessarily big
-  # after de-serialization
-  # insert_named(combined, list(learner = copy_models(combined$learner, grid$learner)))
-
-  grid = ref_cbind(remove_named(grid, c("iter", "learner")), combined)
+  ref_cbind(res, grid[, !c("iter", "learner"), with = FALSE])
   lg$info("Finished benchmark")
-  BenchmarkResult$new(grid)
+  BenchmarkResult$new(res)
 }
 
 #' @title Generate a Benchmark Design

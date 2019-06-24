@@ -18,19 +18,21 @@
 #' @name mlr_resamplings
 #' @family Dictionary
 #' @family Resampling
+#' @seealso Example resamplings:
+#' * [`cv`][mlr_resamplings_cv].
+#' * [`bootstrap`][mlr_resamplings_bootstrap].
 #' @examples
 #' as.data.table(mlr_resamplings)
 #' mlr_resamplings$get("cv")
 NULL
 
-#' @include Dictionary.R
 DictionaryResampling = R6Class("DictionaryResampling",
   inherit = Dictionary,
   cloneable = FALSE,
 
   public = list(
     get = function(key, id = NULL, param_vals = NULL) {
-      obj = dictionary_retrieve(self, key)
+      obj = super$get(key)
       if (!is.null(id)) {
         obj$id = id
       }

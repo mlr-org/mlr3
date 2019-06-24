@@ -13,7 +13,7 @@ MeasureClassifF1 = R6Class("MeasureClassifF1",
   public = list(
     initialize = function() {
       super$initialize(
-        id = "classif.auc",
+        id = "classif.f1",
         range = 0:1,
         minimize = FALSE,
         predict_type = "prob",

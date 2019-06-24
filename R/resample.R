@@ -24,6 +24,10 @@
 #' One jobs is one resampling iteration, and all jobs are forwarded to the \CRANpkg{future} package together.
 #' To select a parallel backend, use [future::plan()].
 #'
+#' @note
+#' The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+#' If you need access to the models for later analysis, set `store_model` to `TRUE` via [mlr_control()].
+#'
 #' @export
 #' @examples
 #' task = mlr_tasks$get("iris")
@@ -56,7 +60,7 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   task = assert_task(task, clone = TRUE)
   learner = assert_learner(learner, task = task, clone = TRUE)
   resampling = assert_resampling(resampling)
-  measures = assert_measures(measures %??% task$measures, task = task, clone = TRUE)
+  measures = assert_measures(measures %??% task$measures, task = task, learner = learner, clone = TRUE)
   ctrl = mlr_control(ctrl)
 
   instance = resampling$clone(deep = TRUE)
@@ -79,11 +83,6 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
 
   res = combine_experiments(res)
   res[, c("task", "resampling", "measures") := list(list(task), list(instance), list(measures))]
-
-  # this is required to get a clean learner object:
-  # during parallelization, learners might get serialized and are getting unnecessarily big
-  # after de-serialization
-  # insert_named(res, list(learner = copy_models(res$learner, list(learner))))
 
   ResampleResult$new(res)
 }

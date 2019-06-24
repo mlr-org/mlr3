@@ -16,20 +16,25 @@
 #'
 #' @family Dictionary
 #' @family Learner
+#' @seealso Example learners:
+#' * [`classif.rpart`][mlr_learners_classif.rpart]
+#' * [`regr.rpart`][mlr_learners_regr.rpart]
+#' * [`classif.featureless`][mlr_learners_classif.featureless]
+#' * [`regr.featureless`][mlr_learners_regr.featureless]
+#' * [`classif.debug`][mlr_learners_classif.debug]
 #' @name mlr_learners
 #' @examples
 #' as.data.table(mlr_learners)
 #' mlr_learners$get("classif.featureless")
 NULL
 
-#' @include Dictionary.R
 DictionaryLearner = R6Class("DictionaryLearner",
   inherit = Dictionary,
   cloneable = FALSE,
 
   public = list(
     get = function(key, id = NULL, param_vals = NULL, predict_type = NULL) {
-      obj = dictionary_retrieve(self, key)
+      obj = super$get(key)
       if (!is.null(id)) {
         obj$id = id
       }

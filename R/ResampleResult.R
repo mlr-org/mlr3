@@ -150,7 +150,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     prediction = function() {
-      do.call(rbind, map(self$experiments(), "prediction"))
+      do.call(c, map(self$experiments(), "prediction"))
     },
 
     hash = function() {

@@ -125,8 +125,10 @@ generate_tasks.LearnerClassif = function(learner, N = 30L) {
     data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rep(as.factor(c("A", "B")), each = 100))
     data$unimportant = runif(nrow(data))
   })
-  task = mlr3misc::set_names(list(mlr3::TaskClassif$new("sanity", mlr3::as_data_backend(data), target = "y")), "sanity")
-  tasks = c(tasks, task)
+  tasks$sanity = mlr3::TaskClassif$new("sanity", mlr3::as_data_backend(data), target = "y", positive = "A")
+
+  # sanity task, but with other label as positive class to detect label switches
+  tasks$sanity_switched = mlr3::TaskClassif$new("sanity_switched", mlr3::as_data_backend(data), target = "y", positive = "B")
 
   tasks
 }

@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, measures = NULL, ctrl = list(store_model = FALSE))
+benchmark(design, measures = NULL, ctrl = list())
 }
 \arguments{
 \item{design}{:: \code{\link[=data.frame]{data.frame()}}\cr
@@ -34,6 +34,10 @@ work on different splits of the same task.
 
 To generate exhaustive designs and automatically instantiate resampling strategies per task, use \code{\link[=expand_grid]{expand_grid()}}.
 }
+\note{
+The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+If you need access to the models for later analysis, set \code{store_model} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
+}
 \section{Parallelization}{
 
 This function can be parallelized with the \CRANpkg{future} package.
@@ -60,11 +64,11 @@ head(as.data.table(bmr))
 bmr$aggregated(objects = FALSE)
 
 # Overview of of resamplings that were conducted internally
-rrs = bmr$resample_results
-print(rrs)
+aggr = bmr$aggregated()
+print(aggr)
 
 # Extract first ResampleResult
-rr = bmr$resample_result(hash = rrs$hash[1])
+rr = aggr[1, resample_result][[1]]
 print(rr)
 
 # Extract predictions of first experiment of this resampling

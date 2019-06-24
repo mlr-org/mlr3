@@ -27,7 +27,14 @@ See \link{Learner}.
 
 \section{Methods}{
 
-See \link{Learner}.
+All methods of \link{Learner}, and additionally:
+\itemize{
+\item \code{new_prediction(task, response = NULL, prob = NULL)}\cr
+(\link{Task}, \code{numeric()}, \code{numeric()}) -> \link{PredictionRegr}\cr
+This method is intended to be called in \code{predict()} to create a \link{PredictionRegr} object.
+Uses \code{task} to extract \code{row_ids}.
+To manually construct a \link{PredictionRegr} object, see its constructor.
+}
 }
 
 \examples{
@@ -40,6 +47,8 @@ lrn = mlr_learners$get("regr.rpart")
 print(lrn)
 }
 \seealso{
+Example regression learner: \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}.
+
 Other Learner: \code{\link{LearnerClassif}},
   \code{\link{Learner}}, \code{\link{mlr_learners}}
 }
