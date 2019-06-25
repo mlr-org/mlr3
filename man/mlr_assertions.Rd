@@ -21,8 +21,7 @@ assert_backend(b, .var.name = vname(b))
 assert_experiment(e, .var.name = vname(e))
 
 assert_task(task, feature_types = NULL, task_properties = NULL,
-  clone = FALSE, allow_empty_rows = FALSE, minimum_nrows = NULL,
-  allow_empty_cols = FALSE, minimum_ncols = NULL)
+  clone = FALSE, min_rows = 1, min_cols = 1)
 
 assert_tasks(tasks, feature_types = NULL, task_properties = NULL,
   clone = FALSE)
@@ -59,14 +58,11 @@ Set of allowed feature types.}
 \item{task_properties}{:: \code{character()}\cr
 Set of required task properties.}
 
-\item{allow_empty_rows}{:: \code{logical()}\cr
-Is a task without observations allowed?}
+\item{min_rows}{:: \code{integer()}\cr
+Minimum amount of required observations.}
 
-\item{minimum_nrows}{:: \code{integer()}\cr
-Is a minimum amount of observations required?}
-
-\item{allow_empty_cols}{:: \code{logical()}\cr
-Is a task without features allowed?}
+\item{min_cols}{:: \code{integer()}\cr
+Minimum amount of required features.}
 
 \item{tasks}{:: list of \link{Task}.}
 
@@ -85,15 +81,6 @@ Is a task without features allowed?}
 \item{resample_result}{:: \link{ResampleResult}.}
 
 \item{bmr}{:: \link{BenchmarkResult}.}
-
-\item{param_set}{:: \link[paradox:ParamSet]{paradox::ParamSet}.}
-
-\item{id}{:: \code{character(1)}.}
-
-\item{minimum_cols}{:: \code{integer()}\cr
-Is a minimum amount of features required?}
-
-\item{id}{:: \code{character(1)}.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

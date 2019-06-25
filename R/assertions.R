@@ -27,18 +27,13 @@ assert_experiment = function(e, .var.name = vname(e)) {
 #'   Set of allowed feature types.
 #' @param task_properties :: `character()`\cr
 #'   Set of required task properties.
-#' @param allow_empty_rows :: `logical()`\cr
-#'   Is a task without observations allowed?
-#' @param minimum_nrows :: `integer()`\cr
-#'   Is a minimum amount of observations required?
-#' @param allow_empty_cols :: `logical()`\cr
-#'   Is a task without features allowed?
-#' @param minimum_cols :: `integer()`\cr
-#'   Is a minimum amount of features required?
+#' @param min_rows :: `integer()`\cr
+#'   Minimum amount of required observations.
+#' @param min_cols :: `integer()`\cr
+#'   Minimum amount of required features.
 #' @rdname mlr_assertions
 assert_task = function(task, feature_types = NULL, task_properties = NULL,
-  clone = FALSE, allow_empty_rows = FALSE, minimum_nrows = NULL,
-  allow_empty_cols = FALSE, minimum_ncols = NULL) {
+  clone = FALSE, min_rows = 1, min_cols = 1) {
   task = cast_from_dict(task, "Task", mlr_tasks, clone, FALSE)[[1L]]
 
   if (!is.null(feature_types)) {
@@ -48,24 +43,11 @@ assert_task = function(task, feature_types = NULL, task_properties = NULL,
     }
   }
 
-  if (!allow_empty_rows && nrow(task$data()) == 0) {
-    stopf("Task has no rows.")
+  if (nrow(task$data()) < min_rows) {
+    stopf("Task needs to have at least %s rows.", min_rows)
   }
-
-  if (!is.null(minimum_nrows)) {
-    if (nrow(task$data()) < minimum_nrows) {
-      stopf("Task needs to have at least %s rows.", minimum_nrows)
-    }
-  }
-
-  if (!allow_empty_cols && nrow(task$data()) == 0) {
-    stopf("Task has no features.")
-  }
-
-  if (!is.null(minimum_ncols)) {
-    if (nrow(task$data()) < minimum_ncols) {
-      stopf("Task needs to have at least %s features.", minimum_ncols)
-    }
+  if (ncol(task$data()) < min_cols) {
+    stopf("Task needs to have at least %s features.", min_cols)
   }
 
   if (!is.null(task_properties)) {
