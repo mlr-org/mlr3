@@ -79,7 +79,7 @@ head(as.data.table(rr$experiment(1)$prediction))
 # benchmarking with a custom design:
 # - fit classif.featureless on iris with a 3-fold CV
 # - fit classif.rpart on sonar using a holdout
-design = data.table(
+design = data.table::data.table(
   task = mlr_tasks$mget(c("iris", "sonar")),
   learner = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
   resampling = mlr_resamplings$mget(c("cv3", "holdout"))
