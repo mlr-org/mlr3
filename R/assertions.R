@@ -142,6 +142,7 @@ assert_measures = function(measures, task = NULL, learner = NULL, clone = FALSE)
 assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
   resampling = cast_from_dict(resampling, "Resampling", mlr_resamplings, clone, FALSE)[[1L]]
   if (!is.null(instantiated)) {
+    assert_flag(instantiated)
     if (instantiated && !resampling$is_instantiated) {
       stopf("Resampling '%s' must be instantiated", resampling$id)
     }

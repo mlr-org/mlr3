@@ -100,7 +100,8 @@ test_that("inputs are cloned", {
   learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("holdout")
 
-  bmr = benchmark(data.table(task = list(task), learner = list(learner), resampling = list(resampling)))
+  expect_error(benchmark(data.table(task = list(task), learner = list(learner), resampling = list(resampling))), "instantiated")
+  bmr = benchmark(design = data.table(task = list(task), learner = list(learner), resampling = list(resampling$instantiate(task))))
   e = bmr$aggregated()$resample_result[[1L]]$experiment(1)
 
   expect_different_address(task, e$task)
@@ -136,4 +137,20 @@ test_that("predict_type is checked", {
   measure = mlr_measures$get("classif.auc")
   design = expand_grid(task, learner, resampling)
   expect_error(benchmark(design, measure = measure), "predict_type")
+})
+
+test_that("custom resampling (#245)", {
+  task_boston = mlr_tasks$get("boston_housing")
+  task_boston$set_col_role(c("chas", "town"), new_roles = "label")
+  lrn = mlr_learners$get("regr.featureless")
+
+  rdesc = mlr_resamplings$get("custom")
+  train_sets = list((1:200), (1:300), (1:400))
+  test_sets = list((201:301), (301:401), (401:501))
+  rdesc$instantiate(task_boston, train_sets, test_sets)
+
+  expect_resample_result(mlr3::resample(task_boston, lrn, rdesc))
+
+  design = data.table(task = list(task_boston), learner = list(lrn), resampling = list(rdesc))
+  expect_benchmark_result(benchmark(design))
 })

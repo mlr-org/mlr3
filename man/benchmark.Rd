@@ -10,7 +10,8 @@ benchmark(design, measures = NULL, ctrl = list())
 \item{design}{:: \code{\link[=data.frame]{data.frame()}}\cr
 Data frame (or \code{\link[=data.table]{data.table()}}) with three columns: "task", "learner", and "resampling".
 Each row defines a set of resampled experiments by providing a \link{Task}, \link{Learner} and \link{Resampling} strategy.
-The helper function \code{\link[=expand_grid]{expand_grid()}} can assist in generating an exhaustive design (see examples) and properly
+All resamplings must be properly instantiated.
+The helper function \code{\link[=expand_grid]{expand_grid()}} can assist in generating an exhaustive design (see examples) and
 instantiate the \link{Resampling}s per \link{Task}.}
 
 \item{measures}{:: list of \link{Measure}\cr
@@ -47,6 +48,7 @@ To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 }
 
 \examples{
+# benchmarking with expand_grid()
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("holdout")
@@ -57,20 +59,43 @@ print(design)
 set.seed(123)
 bmr = benchmark(design)
 
-# performance for all conducted experiments
+## performance for all conducted experiments
 head(as.data.table(bmr))
 
-# aggregated performance values
+## aggregated performance values
 bmr$aggregated(objects = FALSE)
 
-# Overview of of resamplings that were conducted internally
+## Overview of of resamplings that were conducted internally
 aggr = bmr$aggregated()
 print(aggr)
 
-# Extract first ResampleResult
+## Extract first ResampleResult
 rr = aggr[1, resample_result][[1]]
 print(rr)
 
-# Extract predictions of first experiment of this resampling
+## Extract predictions of first experiment of this resampling
 head(as.data.table(rr$experiment(1)$prediction))
+
+# benchmarking with a custom design:
+# - fit classif.featureless on iris with a 3-fold CV
+# - fit classif.rpart on sonar using a holdout
+design = data.table(
+  task = mlr_tasks$mget(c("iris", "sonar")),
+  learner = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
+  resampling = mlr_resamplings$mget(c("cv3", "holdout"))
+)
+
+## instantiate resamplings
+design$resampling = Map(
+  function(task, resampling) resampling$clone()$instantiate(task),
+  task = design$task, resampling = design$resampling
+)
+
+## calculate experiments
+bmr = benchmark(design)
+print(bmr)
+
+## get the training set of the 2nd iteration of the featureless learner on iris
+rr = bmr$aggregated()[learner_id == "classif.featureless"]$resample_result[[1]]
+rr$experiment(2)$train_set
 }

@@ -11,7 +11,8 @@
 #' @param design :: [data.frame()]\cr
 #'   Data frame (or [data.table()]) with three columns: "task", "learner", and "resampling".
 #'   Each row defines a set of resampled experiments by providing a [Task], [Learner] and [Resampling] strategy.
-#'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples) and properly
+#'   All resamplings must be properly instantiated.
+#'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
 #' @param measures :: list of [Measure]\cr
 #'   List of performance measures to calculate.
@@ -35,6 +36,7 @@
 #'
 #' @export
 #' @examples
+#' # benchmarking with expand_grid()
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 #' resamplings = mlr_resamplings$mget("holdout")
@@ -45,47 +47,65 @@
 #' set.seed(123)
 #' bmr = benchmark(design)
 #'
-#' # performance for all conducted experiments
+#' ## performance for all conducted experiments
 #' head(as.data.table(bmr))
 #'
-#' # aggregated performance values
+#' ## aggregated performance values
 #' bmr$aggregated(objects = FALSE)
 #'
-#' # Overview of of resamplings that were conducted internally
+#' ## Overview of of resamplings that were conducted internally
 #' aggr = bmr$aggregated()
 #' print(aggr)
 #'
-#' # Extract first ResampleResult
+#' ## Extract first ResampleResult
 #' rr = aggr[1, resample_result][[1]]
 #' print(rr)
 #'
-#' # Extract predictions of first experiment of this resampling
+#' ## Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
+#'
+#' # benchmarking with a custom design:
+#' # - fit classif.featureless on iris with a 3-fold CV
+#' # - fit classif.rpart on sonar using a holdout
+#' design = data.table(
+#'   task = mlr_tasks$mget(c("iris", "sonar")),
+#'   learner = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
+#'   resampling = mlr_resamplings$mget(c("cv3", "holdout"))
+#' )
+#'
+#' ## instantiate resamplings
+#' design$resampling = Map(
+#'   function(task, resampling) resampling$clone()$instantiate(task),
+#'   task = design$task, resampling = design$resampling
+#' )
+#'
+#' ## calculate experiments
+#' bmr = benchmark(design)
+#' print(bmr)
+#'
+#' ## get the training set of the 2nd iteration of the featureless learner on iris
+#' rr = bmr$aggregated()[learner_id == "classif.featureless"]$resample_result[[1]]
+#' rr$experiment(2)$train_set
 benchmark = function(design, measures = NULL, ctrl = list()) {
 
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
-  assert_list(design$task, "Task")
-  assert_list(design$learner, "Learner")
-  assert_list(design$resampling, "Resampling")
+  assert_tasks(design$task)
+  assert_learners(design$learner)
+  assert_resamplings(design$resampling, instantiated = TRUE)
   if (!is.null(measures)) {
     measures = assert_measures(measures, clone = TRUE)
   }
   ctrl = mlr_control(ctrl)
-  is_exhautive_grid = isTRUE(attr(design, "exhaustive_grid"))
 
   # clone inputs
-  task = learner = NULL
+  setDT(design)
+  task = resampling = NULL
   design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
+  design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
-    if (!is_exhautive_grid) {
-      resampling = resampling$clone()
-      if (!resampling$is_instantiated) {
-        resampling$instantiate(task)
-      }
-    }
     hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
     measures = assert_measures(measures %??% task$measures, learner = learner)
     data.table(task = list(task), learner = list(learner), resampling = list(resampling),
@@ -119,38 +139,4 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
   ref_cbind(res, grid[, !c("iter", "learner"), with = FALSE])
   lg$info("Finished benchmark")
   BenchmarkResult$new(res)
-}
-
-#' @title Generate a Benchmark Design
-#'
-#' @description
-#' Takes a lists of [Task], a list of [Learner] and a list of [Resampling] to
-#' generate a design in an [expand.grid()] fashion (a.k.a. cross join or Cartesian product).
-#'
-#' Resampling strategies may not be instantiated, and will be instantiated per task internally.
-#'
-#' @param tasks :: (list of [Task] | `character()`)\cr
-#'   Instead a [Task] object, it is also possible to provide a keys to retrieve tasks from the [mlr_tasks] dictionary.
-#' @param learners (list of [Learner] | `character()`)\cr
-#'   Instead if a [Learner] object, it is also possible to provide keys to retrieve learners from the [mlr_learners] dictionary.
-#' @param resamplings :: (list of [Resampling] | `character()`)\cr
-#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
-#'
-#' @return ([data.table()]) with the cross product of the input vectors.
-#' @export
-expand_grid = function(tasks, learners, resamplings) {
-
-  tasks = assert_tasks(tasks)
-  learners = assert_learners(learners)
-  resamplings = assert_resamplings(resamplings)
-  assert_resamplings(resamplings, instantiated = FALSE)
-
-  grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
-  instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))
-  grid$instance = seq_row(grid)
-  grid = grid[CJ(task = seq_along(tasks), learner = seq_along(learners)), on = "task", allow.cartesian = TRUE]
-
-  design = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
-  attr(design, "exhaustive_grid") = TRUE
-  design
 }
