@@ -21,7 +21,7 @@ assert_backend(b, .var.name = vname(b))
 assert_experiment(e, .var.name = vname(e))
 
 assert_task(task, feature_types = NULL, task_properties = NULL,
-  clone = FALSE)
+  clone = FALSE, min_rows = 1, min_cols = 1)
 
 assert_tasks(tasks, feature_types = NULL, task_properties = NULL,
   clone = FALSE)
@@ -57,6 +57,12 @@ Set of allowed feature types.}
 
 \item{task_properties}{:: \code{character()}\cr
 Set of required task properties.}
+
+\item{min_rows}{:: \code{integer()}\cr
+Minimum amount of required observations.}
+
+\item{min_cols}{:: \code{integer()}\cr
+Minimum amount of required features.}
 
 \item{tasks}{:: list of \link{Task}.}
 

@@ -27,8 +27,13 @@ assert_experiment = function(e, .var.name = vname(e)) {
 #'   Set of allowed feature types.
 #' @param task_properties :: `character()`\cr
 #'   Set of required task properties.
+#' @param min_rows :: `integer()`\cr
+#'   Minimum amount of required observations.
+#' @param min_cols :: `integer()`\cr
+#'   Minimum amount of required features.
 #' @rdname mlr_assertions
-assert_task = function(task, feature_types = NULL, task_properties = NULL, clone = FALSE) {
+assert_task = function(task, feature_types = NULL, task_properties = NULL,
+  clone = FALSE, min_rows = 1, min_cols = 1) {
   task = cast_from_dict(task, "Task", mlr_tasks, clone, FALSE)[[1L]]
 
   if (!is.null(feature_types)) {
@@ -36,6 +41,13 @@ assert_task = function(task, feature_types = NULL, task_properties = NULL, clone
     if (length(tmp)) {
       stopf("Task has the following unsupported feature types: %s", str_collapse(tmp))
     }
+  }
+
+  if (nrow(task$data()) < min_rows) {
+    stopf("Task needs to have at least %s rows.", min_rows)
+  }
+  if (ncol(task$data()) < min_cols) {
+    stopf("Task needs to have at least %s features.", min_cols)
   }
 
   if (!is.null(task_properties)) {
