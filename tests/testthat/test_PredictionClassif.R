@@ -112,20 +112,13 @@ test_that("c", {
   expect_equal(rownames(conf), task$class_names)
   expect_equal(colnames(conf), task$class_names)
   expect_equal(conf, Reduce("+", map(rr$experiments(), function(x) x$prediction$confusion)))
-})
 
-test_that("merge", {
-  task = mlr_tasks$get("iris")
-  lrn = mlr_learners$get("classif.featureless")
-  lrn$predict_type = "prob"
-
-  e = Experiment$new(task, lrn)$train()$predict()
-  x = e$prediction$clone()
-  y = e$prediction$clone()
-
-  x$data$response[1:5] = NA
-  x$data$prob[10:12, ] = NA
-  z = merge(x, y)
-  expect_false(anyMissing(z$response))
-  expect_false(anyMissing(z$prob))
+  # duplicates are detected?
+  p1 = rr$experiment(1)$prediction
+  p2 = rr$experiment(1)$prediction
+  p3 = c(p1, p2, keep_duplicates = FALSE)
+  expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
+  expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))
+  expect_factor(p3$response, len = length(p1$response), any.missing = FALSE)
+  expect_matrix(p3$prob, nrow = nrow(p1$prob), ncol = ncol(p1$prob))
 })

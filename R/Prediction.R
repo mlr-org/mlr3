@@ -29,15 +29,19 @@
 #' * `predict_types` :: `character()`\cr
 #'   Vector of predict types this object stores.
 #'
+#' * `missing` :: `logical()`\cr
+#'   Returns `row_ids` for which the predictions are missing or incomplete.
 #'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [Prediction] -> [data.table::data.table()]\cr
 #'   Converts the data to a `data.table()`.
 #'
-#' * `rbind(...)`\cr
-#'   [([Prediction], [Prediction], ...)] -> [Prediction]\cr
-#'   Combines multiple `Prediction`s to a single `Prediction`
+#' * `c(..., keep_duplicates = TRUE)`\cr
+#'   ([Prediction], [Prediction], ...) -> [Prediction]\cr
+#'   Combines multiple `Prediction`s to a single `Prediction`.
+#'   If `keep_duplicates` is `TRUE` and there are duplicated row ids,
+#'   the data of the former passed objects get overwritten by the data of the later passed objects.
 #'
 #' @export
 #' @family Prediction
@@ -64,11 +68,13 @@ Prediction = R6Class("Prediction",
   active = list(
     row_ids = function() self$data$row_ids,
     truth = function() self$data$truth,
-    predict_types = function() setdiff(names(self$data), c("row_ids", "truth"))
+    predict_types = function() setdiff(names(self$data), c("row_ids", "truth")),
+    missing = function() { self$data$row_ids[0L] } # empty vector
   )
 )
 
 #' @export
-merge.Prediction = function(x, y) {
-  x
+c.Prediction = function(..., keep_duplicates = TRUE) {
+  cl = class(list(...)[[1L]])[1L]
+  stopf("c.Prediction not implemented for '%s'", cl)
 }

@@ -73,6 +73,12 @@ A complete list of candidate properties, grouped by task type, is stored in \cod
 Stores the names of required packages.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
+\item \code{fallback} :: \link{Learner}\cr
+Learner which is used as a fallback in the following situations:
+\itemize{
+\item Model fit or prediction failed: The fallback learner is used to predict on new observations.
+\item Prediction has missing values for some observations: The predictions of the fallback learner are used to impute missing predictions.
+}
 }
 }
 

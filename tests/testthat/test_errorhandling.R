@@ -26,7 +26,6 @@ test_that("fallback learner", {
   e$train()
   expect_is(e$model, "classif.debug_model")
   expect_is(e$learner$model, "classif.debug_model")
-  expect_is(e$learner$fallback$model, "classif.featureless_model")
   expect_false(any(e$has_errors))
 
   e$predict()
@@ -40,9 +39,8 @@ test_that("fallback learner", {
   e = Experiment$new("sonar", learner, ctrl = mlr_control(encapsulate_train = "evaluate"))
 
   e$train()
-  expect_is(e$model, "classif.featureless_model")
+  expect_null(e$model)
   expect_null(e$learner$model)
-  expect_is(e$learner$fallback$model, "classif.featureless_model")
   expect_true(e$has_errors[["train"]])
 
   e$predict()
@@ -58,7 +56,6 @@ test_that("fallback learner", {
   e$train()
   expect_is(e$model, "classif.debug_model")
   expect_is(e$learner$model, "classif.debug_model")
-  expect_is(e$learner$fallback$model, "classif.featureless_model")
   expect_false(e$has_errors[["train"]])
   expect_false(e$has_errors[["predict"]])
 
@@ -67,16 +64,13 @@ test_that("fallback learner", {
   expect_false(e$has_errors[["train"]])
   expect_true(e$has_errors[["predict"]])
 
-
   # fail during train+predict
   learner = mlr_learners$get("classif.debug", param_vals = list(error_train = TRUE, error_predict = TRUE))
   learner$fallback = "classif.featureless"
   e = Experiment$new("sonar", learner, ctrl = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate"))
 
   e$train()
-  expect_is(e$model, "classif.featureless_model")
   expect_null(e$learner$model)
-  expect_is(e$learner$fallback$model, "classif.featureless_model")
   expect_true(e$has_errors[["train"]])
 
   e$predict()
@@ -87,8 +81,7 @@ test_that("fallback learner", {
   # NA predictions
   learner = mlr_learners$get("classif.debug", param_vals = list(predict_missing = 0.5))
   learner$fallback = "classif.featureless"
-  e = Experiment$new("sonar", learner)
+  e = Experiment$new("sonar", learner)$train()$predict()
 
-  profvis::profvis(e$train()$predict())
   expect_false(anyMissing(e$prediction$response))
 })

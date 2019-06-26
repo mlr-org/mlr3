@@ -31,6 +31,15 @@ test_that("c", {
 
   dt = as.data.table(pred)
   expect_data_table(dt, nrow = task$nrow, ncol = 4L, any.missing = FALSE)
+
+  # duplicates are detected?
+  p1 = rr$experiment(1)$prediction
+  p2 = rr$experiment(1)$prediction
+  p3 = c(p1, p2, keep_duplicates = FALSE)
+  expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
+  expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))
+  expect_numeric(p3$response, len = length(p1$response), any.missing = FALSE)
+  expect_numeric(p3$se, len = length(p1$se), any.missing = FALSE)
 })
 
 test_that("c drops se (#250)", {
@@ -43,19 +52,4 @@ test_that("c drops se (#250)", {
   expect_false("se" %in% pred$predict_types)
   expect_true(allMissing(pred$se))
   expect_false("se" %in% names(as.data.table(pred)))
-})
-
-test_that("merge", {
-  task = mlr_tasks$get("mtcars")
-  lrn = mlr_learners$get("regr.featureless", predict_type = "se")
-
-  e = Experiment$new(task, lrn)$train()$predict()
-  x = e$prediction$clone()
-  y = e$prediction$clone()
-
-  x$data$response[1:5] = NA
-  x$data$se[10:12] = NA
-  z = merge(x, y)
-  expect_false(anyMissing(z$response))
-  expect_false(anyMissing(z$se))
 })

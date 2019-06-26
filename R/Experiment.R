@@ -261,7 +261,7 @@ Experiment = R6Class("Experiment",
     },
 
     model = function() {
-      self$data$learner$model %??% self$data$learner$fallback$model
+      self$data$learner$model
     },
 
     timings = function() {
@@ -405,7 +405,7 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   self$test_set = row_ids
 
   lg$info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
-  value = predict_worker(self$data$task, self$data$learner, self$test_set, ctrl, self$seeds[["predict"]])
+  value = predict_worker(self$data$task, self$data$learner, self$train_set, self$test_set, ctrl, self$seeds[["predict"]])
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_

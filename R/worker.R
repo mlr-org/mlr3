@@ -35,27 +35,19 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
     result$learner = learner
   }
 
-  if (!is.null(learner$fallback)) {
-    lg$debug("Training fallback learner '%s'", learner$fallback$id)
-    learner$fallback = assert_learner(learner$fallback, clone = TRUE)$train(task)
-  }
-
   # result is list(learner, train_log, train_time)
   return(result)
 }
 
 
-predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
+predict_worker = function(task, learner, train_set, test_set, ctrl, seed = NA_integer_) {
   # This wrapper calls learner$predict, and additionally performs some basic
   # checks that the prediction was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(task, learner) {
     if (is.null(learner$model)) {
-      if (is.null(learner$fallback$model))
-        stopf("No trained model available")
-      lg$info("Using fallback learner '%s' for prediction", learner$fallback$id)
-      learner = learner$fallback
+      stopf("No trained model available")
     }
 
     result = learner$predict(task = task)
@@ -78,21 +70,30 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
     return(result)
   }
 
-  # subset to test set w/o cloning
-  prev_use = task$row_roles$use
-  on.exit({ task$row_roles$use = prev_use }, add = TRUE)
-  task$row_roles$use = test_set
+  if (is.null(learner$model)) {
+    result = list(prediction = NULL, predict_log = NULL, predict_time = NA_real_)
+  } else {
+    # subset to test set w/o cloning
+    prev_use = task$row_roles$use
+    on.exit({ task$row_roles$use = prev_use }, add = TRUE)
+    task$row_roles$use = test_set
 
-  # call predict with encapsulation
-  enc = encapsulate(ctrl$encapsulate_predict)
-  result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
-  names(result) = c("prediction", "predict_log", "predict_time")
+    # call predict with encapsulation
+    enc = encapsulate(ctrl$encapsulate_predict)
+    result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
+    names(result) = c("prediction", "predict_log", "predict_time")
+  }
 
   if (!is.null(learner$fallback)) {
     if (is.null(result$prediction)) {
-      result$prediction = learner$fallback$predict(task)
+      result$prediction = predict_fallback(task, learner, train_set, test_set)
     } else {
-      result$prediction = merge(result$prediction, learner$fallback$predict(task))
+      miss = result$prediction$missing
+      if (length(miss)) {
+        prediction = predict_fallback(task, learner, train_set, miss)
+        result$prediction = c(result$prediction, prediction, keep_duplicates = FALSE)
+      }
+
     }
   }
 
@@ -100,11 +101,14 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   return(result)
 }
 
-predict_fallback = function(task, train_set, test_set, fallback) {
+predict_fallback = function(task, learner, train_set, test_set) {
+  fallback = assert_learner(learner$fallback, clone = TRUE)
+  fallback$predict_type = learner$predict_type
+
   prev_use = task$row_roles$use
   on.exit({ task$row_roles$use = prev_use })
   task$row_roles$use = train_set
-  fallback$train(train_set)
+  fallback$train(task)
   task$row_roles$use = test_set
   fallback$predict(task)
 }
@@ -158,7 +162,7 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   e$data = insert_named(e$data, tmp)
 
   test_set = resampling$test_set(iteration)
-  tmp = predict_worker(task, e$data$learner, test_set, ctrl)
+  tmp = predict_worker(task, e$data$learner, train_set, test_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
   tmp = score_worker(e, ctrl)
