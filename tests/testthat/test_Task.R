@@ -132,12 +132,12 @@ test_that("select works", {
   task$select(setdiff(task$feature_names, "Sepal.Length"))
   expect_equal(task$ncol, 4L)
 
-  task$select(c("Sepal.Width", "foobar"))
-  expect_equal(task$ncol, 2L)
+  expect_error(task$select(c("Sepal.Width", "foobar")))
 
+  task$select("Sepal.Width")
   expect_equal(task$feature_names, "Sepal.Width")
 
-  expect_error(task$select(1:4), "character")
+  expect_error(task$select(1:4), "subset")
 })
 
 test_that("groups/weights work", {
