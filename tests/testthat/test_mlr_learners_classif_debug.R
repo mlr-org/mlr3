@@ -33,3 +33,16 @@ test_that("updating model works / resample", {
   e = rr$experiment(1)
   expect_list(e$model, len = 3)
 })
+
+test_that("NA predictions", {
+  learner = mlr_learners$get("classif.debug", param_vals = list(predict_missing = 0.5), predict_type = "response")
+  e = Experiment$new("iris", learner)$train()$predict()
+  p = e$prediction
+  expect_equal(sum(is.na(p$response)), 75L)
+
+  learner = mlr_learners$get("classif.debug", param_vals = list(predict_missing = 0.5), predict_type = "prob")
+  e = Experiment$new("iris", learner)$train()$predict()
+  p = e$prediction
+  expect_equal(sum(is.na(p$response)), 75L)
+  expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
+})

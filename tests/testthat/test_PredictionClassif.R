@@ -113,3 +113,19 @@ test_that("c", {
   expect_equal(colnames(conf), task$class_names)
   expect_equal(conf, Reduce("+", map(rr$experiments(), function(x) x$prediction$confusion)))
 })
+
+test_that("merge", {
+  task = mlr_tasks$get("iris")
+  lrn = mlr_learners$get("classif.featureless")
+  lrn$predict_type = "prob"
+
+  e = Experiment$new(task, lrn)$train()$predict()
+  x = e$prediction$clone()
+  y = e$prediction$clone()
+
+  x$data$response[1:5] = NA
+  x$data$prob[10:12, ] = NA
+  z = merge(x, y)
+  expect_false(anyMissing(z$response))
+  expect_false(anyMissing(z$prob))
+})

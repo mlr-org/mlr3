@@ -8,7 +8,7 @@ test_that("$train() + $predict() classif", {
 
   e$train(row_ids)
   expect_set_equal(e$train_set, row_ids)
-  expect_class(e$model, "featureless")
+  expect_class(e$model, "classif.featureless_model")
   expect_equal(task$nrow, 150L)
   expect_equal(e$data$task$nrow, 150L)
 
@@ -36,7 +36,7 @@ test_that("$train() + $predict() regr", {
 
   e$train(row_ids)
   expect_set_equal(e$train_set, row_ids)
-  expect_class(e$model, "featureless")
+  expect_class(e$model, "regr.featureless_model")
   expect_equal(task$nrow, 32L)
   expect_equal(e$data$task$nrow, 32L)
 

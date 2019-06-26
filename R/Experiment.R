@@ -34,8 +34,8 @@
 #' * `data` :: named `list()`\cr
 #'   See section "Internal Data Storage".
 #'
-#' * `has_errors` :: `logical(1)`\cr
-#'   Flag which is `TRUE` if any error has been recorded during `$train()` or `$predict()`.
+#' * `has_errors` :: named `logical(2)`\cr
+#'   Logical vector with names "train" and "predict" which is `TRUE` if any error has been recorded in the log for the respective state.
 #'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
@@ -261,7 +261,7 @@ Experiment = R6Class("Experiment",
     },
 
     model = function() {
-      self$data$learner$model
+      self$data$learner$model %??% self$data$learner$fallback$model
     },
 
     timings = function() {
@@ -314,7 +314,7 @@ Experiment = R6Class("Experiment",
     },
 
     has_errors = function() {
-      self$log()$has_condition("error")
+      set_names(c("error" %in% self$data$train_log$class, "error" %in% self$data$predict_log$class), c("train", "predict"))
     },
 
     state = function() {

@@ -86,6 +86,12 @@
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
+#' * `fallback` :: [Learner]\cr
+#'   Learner which is used as a fallback in the following situations:
+#'   * Model fit or prediction failed: The fallback learner is used to predict on new observations.
+#'   * Prediction has missing values for some observations: The predictions of the fallback learner are used to impute missing predictions.
+#'
+#'
 #' @section Methods:
 #' * `params(tag)`\cr
 #'   `character(1)` -> named `list()`\cr
@@ -157,6 +163,7 @@ Learner = R6Class("Learner",
     data_formats = NULL,
     packages = NULL,
     model = NULL,
+    fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
       feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
@@ -220,6 +227,7 @@ Learner = R6Class("Learner",
 
 learner_print = function(self) {
   catf(format(self))
+  catf(str_indent("Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
   catf(str_indent("Parameters:", as_short_string(self$param_set$values, 1000L)))
   catf(str_indent("Packages:", self$packages))
   catf(str_indent("Predict Type:", self$predict_type))

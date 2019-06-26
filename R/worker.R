@@ -35,6 +35,11 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
     result$learner = learner
   }
 
+  if (!is.null(learner$fallback)) {
+    lg$debug("Training fallback learner '%s'", learner$fallback$id)
+    learner$fallback = assert_learner(learner$fallback, clone = TRUE)$train(task)
+  }
+
   # result is list(learner, train_log, train_time)
   return(result)
 }
@@ -47,7 +52,10 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   # and turned into log messages.
   wrapper = function(task, learner) {
     if (is.null(learner$model)) {
-      stopf("No trained model available")
+      if (is.null(learner$fallback$model))
+        stopf("No trained model available")
+      lg$info("Using fallback learner '%s' for prediction", learner$fallback$id)
+      learner = learner$fallback
     }
 
     result = learner$predict(task = task)
@@ -80,13 +88,25 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
   result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
   names(result) = c("prediction", "predict_log", "predict_time")
 
-  if (is.null(result$prediction)) {
-    # create empty prediction if something went wrong
-    result$prediction = learner$new_prediction(task = task)
+  if (!is.null(learner$fallback)) {
+    if (is.null(result$prediction)) {
+      result$prediction = learner$fallback$predict(task)
+    } else {
+      result$prediction = merge(result$prediction, learner$fallback$predict(task))
+    }
   }
 
   # result is list(prediction, predict_log, predict_time)
   return(result)
+}
+
+predict_fallback = function(task, train_set, test_set, fallback) {
+  prev_use = task$row_roles$use
+  on.exit({ task$row_roles$use = prev_use })
+  task$row_roles$use = train_set
+  fallback$train(train_set)
+  task$row_roles$use = test_set
+  fallback$predict(task)
 }
 
 

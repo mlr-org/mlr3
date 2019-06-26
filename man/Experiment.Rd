@@ -34,8 +34,8 @@ Control object, see \code{\link[=mlr_control]{mlr_control()}}.
 Control settings passed during initialization.
 \item \code{data} :: named \code{list()}\cr
 See section "Internal Data Storage".
-\item \code{has_errors} :: \code{logical(1)}\cr
-Flag which is \code{TRUE} if any error has been recorded during \code{$train()} or \code{$predict()}.
+\item \code{has_errors} :: named \code{logical(2)}\cr
+Logical vector with names "train" and "predict" which is \code{TRUE} if any error has been recorded in the log for the respective state.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 \item \code{model} :: \code{any}\cr

@@ -17,6 +17,7 @@
 #'    \item{error_predict:}{Raises an exception during predict.}
 #'    \item{segfault_train:}{Provokes a segfault during train.}
 #'    \item{segfault_predict:}{Provokes a segfault during predict.}
+#'    \item{predict_missing}{Ratio of predictions which will be NA.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
 #'    \item{x:}{Numeric parameter. Ignored.}
 #' }
@@ -49,6 +50,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamLgl$new("error_predict", tags = "predict"),
             ParamLgl$new("segfault_train", tags = "train"),
             ParamLgl$new("segfault_predict", tags = "predict"),
+            ParamDbl$new("predict_missing", lower = 0, upper = 1, default = 0, tags = "predict"),
             ParamLgl$new("save_tasks", tags = c("train", "predict")),
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
@@ -82,6 +84,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     predict = function(task) {
+      n = task$nrow
       pv = self$params("predict")
       if (isTRUE(pv$message_predict)) {
         message("Message from classif.debug->predict()")
@@ -99,7 +102,30 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$save_tasks)) {
         self$model$task_predict = task$clone(deep = TRUE)
       }
-      self$new_prediction(task, response = rep.int(unclass(self$model$response), task$nrow))
+
+      response = prob = NULL
+
+      if ("response" %in% self$predict_type) {
+        response = rep.int(unclass(self$model$response), n)
+        if (!is.null(pv$predict_missing)) {
+          ii = sample.int(n, n * pv$predict_missing)
+          response = replace(response, ii, NA)
+        }
+      }
+
+      if ("prob" %in% self$predict_type) {
+        cl = task$class_names
+        prob = matrix(runif(n * length(cl)), nrow = n)
+        prob = prob / rowSums(prob)
+        colnames(prob) = cl
+
+        if (!is.null(pv$predict_missing)) {
+          ii = sample.int(n, n * pv$predict_missing)
+          prob[ii, 1L] = NA_real_
+        }
+      }
+
+      p = self$new_prediction(task, response = response, prob = prob)
     }
   )
 )

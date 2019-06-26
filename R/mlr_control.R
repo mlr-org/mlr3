@@ -74,6 +74,10 @@ mlr_control = function(...) {
   if (length(ii)) {
     stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
   }
+  assert_flag(dots$store_model, null.ok = TRUE)
+  assert_flag(dots$store_prediction, null.ok = TRUE)
+  assert_choice(dots$encapsulate_train, c("none", "evaluate", "callr"), null.ok = TRUE)
+  assert_choice(dots$encapsulate_predict, c("none", "evaluate", "callr"), null.ok = TRUE)
   ctrl[names(dots)] = dots
   ctrl
 }

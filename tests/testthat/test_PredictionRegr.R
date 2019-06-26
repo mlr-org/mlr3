@@ -44,3 +44,18 @@ test_that("c drops se (#250)", {
   expect_true(allMissing(pred$se))
   expect_false("se" %in% names(as.data.table(pred)))
 })
+
+test_that("merge", {
+  task = mlr_tasks$get("mtcars")
+  lrn = mlr_learners$get("regr.featureless", predict_type = "se")
+
+  e = Experiment$new(task, lrn)$train()$predict()
+  x = e$prediction$clone()
+  y = e$prediction$clone()
+
+  x$data$response[1:5] = NA
+  x$data$se[10:12] = NA
+  z = merge(x, y)
+  expect_false(anyMissing(z$response))
+  expect_false(anyMissing(z$se))
+})

@@ -57,12 +57,12 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
 
       if (!is.null(response)) {
         response = as_factor(response, levels = lvls)
-        assert_factor(response, len = n, any.missing = FALSE)
+        assert_factor(response, len = n)
       }
 
       if (!is.null(prob)) {
         assert_matrix(prob, nrows = n, ncols = length(lvls))
-        assert_numeric(prob, any.missing = FALSE, lower = 0, upper = 1)
+        assert_numeric(prob, lower = 0, upper = 1)
         assert_names(colnames(prob), permutation.of = lvls)
         if (!is.null(rownames(prob))) {
           rownames(prob) = NULL

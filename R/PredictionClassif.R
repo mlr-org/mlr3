@@ -189,3 +189,22 @@ c.PredictionClassif = function(...) {
 
   PredictionClassif$new(row_ids = x$row_ids, truth = x$truth, response = x$response, prob = prob)
 }
+
+#' @export
+merge.PredictionClassif = function(x, y, ...) {
+  if (!is.null(x$data$response)) {
+    ii = is.na(x$data$response)
+    if (any(ii)) {
+      x$data$response[ii] = y$data$response[ii]
+    }
+  }
+
+  if (!is.null(x$data$prob)) {
+    ii = apply(x$data$prob, 1L, anyMissing) & !apply(y$data$prob, 1L, anyMissing)
+    if (any(ii)) {
+      x$data$prob[ii, ] = y$data$prob[ii,, drop = FALSE]
+    }
+  }
+
+  x
+}

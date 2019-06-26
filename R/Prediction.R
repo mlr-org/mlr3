@@ -67,3 +67,8 @@ Prediction = R6Class("Prediction",
     predict_types = function() setdiff(names(self$data), c("row_ids", "truth"))
   )
 )
+
+#' @export
+merge.Prediction = function(x, y) {
+  x
+}

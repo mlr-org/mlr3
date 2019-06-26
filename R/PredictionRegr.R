@@ -93,3 +93,22 @@ c.PredictionRegr = function(...) {
 
   PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = se)
 }
+
+#' @export
+merge.PredictionRegr = function(x, y, ...) {
+  if (!is.null(x$data$response)) {
+    ii = is.na(x$data$response)
+    if (any(ii)) {
+      x$data$response[ii] = y$data$response[ii]
+    }
+  }
+
+  if (!is.null(x$data$se)) {
+    ii = is.na(x$data$se)
+    if (any(ii)) {
+      x$data$se[ii] = y$data$se[ii]
+    }
+  }
+
+  x
+}
