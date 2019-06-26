@@ -62,22 +62,22 @@ local({
 
 
   ### Experiment
-  mlr_reflections$experiment_states = c("undefined", "defined", "trained", "predicted", "scored")
+  mlr_reflections$experiment_states = c("undefined", "defined", "train:fail", "train:success", "predict:fail", "predict:success", "score:fail", "score:success")
 
   mlr_reflections$experiment_slots = rowwise_table(
     ~name,             ~type,        ~atomic, ~state,
     "task",            "Task",       FALSE,   "defined",
     "learner",         "Learner",    FALSE,   "defined",
-    "resampling",      "Resampling", FALSE,   "trained",
-    "iteration",       "integer",    TRUE,    "trained",
-    "train_log",       "data.table", FALSE,   "trained",
-    "train_time",      "numeric",    TRUE,    "trained",
-    "predict_log",     "data.table", FALSE,   "predicted",
-    "predict_time",    "numeric",    TRUE,    "predicted",
-    "prediction",      "Prediction", FALSE,   "predicted",
-    "measures",        "list",       FALSE,   "scored",
-    "performance",     "list",       FALSE,   "scored",
-    "score_time",      "numeric",    TRUE,    "scored"
+    "resampling",      "Resampling", FALSE,   "train:fail",
+    "iteration",       "integer",    TRUE,    "train:fail",
+    "train_log",       "data.table", FALSE,   "train:fail",
+    "train_time",      "numeric",    TRUE,    "train:fail",
+    "predict_log",     "data.table", FALSE,   "predict:fail",
+    "predict_time",    "numeric",    TRUE,    "predict:fail",
+    "prediction",      "Prediction", FALSE,   "predict:success",
+    "measures",        "list",       FALSE,   "score:fail",
+    "performance",     "list",       FALSE,   "score:success",
+    "score_time",      "numeric",    TRUE,    "score:fail"
   )
 
   mlr_reflections$experiment_slots$state = ordered(mlr_reflections$experiment_slots$state, levels = mlr_reflections$experiment_states)

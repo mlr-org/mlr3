@@ -71,7 +71,7 @@ predict_worker = function(task, learner, train_set, test_set, ctrl, seed = NA_in
   }
 
   if (is.null(learner$model)) {
-    result = list(prediction = NULL, predict_log = NULL, predict_time = NA_real_)
+    result = list(prediction = NULL, predict_log = data.table(class = "error", msg = "No model available"), predict_time = NA_real_)
   } else {
     # subset to test set w/o cloning
     prev_use = task$row_roles$use
@@ -86,10 +86,12 @@ predict_worker = function(task, learner, train_set, test_set, ctrl, seed = NA_in
 
   if (!is.null(learner$fallback)) {
     if (is.null(result$prediction)) {
+      result$predict_log = rbind(result$predict_log, data.table(class = "warning", msg = "Using fallback learner for prediction"))
       result$prediction = predict_fallback(task, learner, train_set, test_set)
     } else {
       miss = result$prediction$missing
       if (length(miss)) {
+        result$predict_log = rbind(result$predict_log, data.table(class = "warning", msg = "Using fallback learner to augment predictions"))
         prediction = predict_fallback(task, learner, train_set, miss)
         result$prediction = c(result$prediction, prediction, keep_duplicates = FALSE)
       }
@@ -165,8 +167,10 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   tmp = predict_worker(task, e$data$learner, train_set, test_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
-  tmp = score_worker(e, ctrl)
-  e$data = insert_named(e$data, tmp)
+  if (!is.null(e$data$prediction)) {
+    tmp = score_worker(e, ctrl)
+    e$data = insert_named(e$data, tmp)
+  }
 
   if (!ctrl$store_prediction) {
     e$data["prediction"] = list(NULL)

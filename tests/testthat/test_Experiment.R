@@ -62,7 +62,7 @@ test_that("Empty Experiment construction", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
   e = Experiment$new()
-  expect_error(e$train(), "task")
+  expect_warning(e$train(), "defined")
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
 })
@@ -131,11 +131,11 @@ test_that("Setting train and test sets via AB", {
   expect_set_equal(e$train_set, 1:120)
   expect_set_equal(e$test_set, 121:150)
 
-  e$run()
-  expect_equal(as.character(e$state), "scored")
+  e$train()$predict()$score()
+  expect_equal(as.character(e$state), "score:success")
 
   e$test_set = 141:150
-  expect_equal(as.character(e$state), "trained")
+  expect_equal(as.character(e$state), "train:success")
 
   e$train_set = 1:111
   expect_equal(as.character(e$state), "defined")

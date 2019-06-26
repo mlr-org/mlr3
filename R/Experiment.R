@@ -56,7 +56,8 @@
 #'
 #' * `state` :: `ordered(1)`\cr
 #'   Returns the state of the experiment as ordered factor with levels `"defined"`,
-#'   `"trained"`, `"predicted"`, and `"scored"`.
+#'   `"train:fail"`, `"train:success"`, `"predict::fail"`, `"predict:success"`,
+#'   `"score:fail"` and `"score:success"`.
 #'
 #' * `task` :: [Task]\cr
 #'   Access to the stored [Task].
@@ -221,19 +222,6 @@ Experiment = R6Class("Experiment",
       experiment_score(self, private, measures, ctrl = ctrl)
     },
 
-    run = function(ctrl = list()) {
-      state = self$state
-      if (state < "trained") {
-        self$train(ctrl = ctrl)
-      }
-      if (state < "predicted") {
-        self$predict(ctrl = ctrl)
-      }
-      if (state < "scored") {
-        self$score(ctrl = ctrl)
-      }
-    },
-
     log = function(steps = c("train", "predict")) {
       steps = assert_sorted_subset(steps, c("train", "predict"), empty.ok = FALSE)
       parts = set_names(self$data[sprintf("%s_log", steps)], steps)
@@ -296,7 +284,7 @@ Experiment = R6Class("Experiment",
       }
 
       row_ids = assert_row_ids(rhs)
-      experiment_reset_state(self, "trained")
+      experiment_reset_state(self, "train:success")
       self$data$resampling = ResamplingCustom$new()$instantiate(self$data$task, train_sets = list(self$train_set), test_sets = list(row_ids))
       self$data$iteration = 1L
     },
@@ -362,8 +350,9 @@ experiment_print = function(self) {
 
 experiment_train = function(self, private, row_ids, ctrl = list()) {
 
-  if (!self$state >= "defined") {
-    stopf("Experiment needs a task and a learner")
+  if (self$state < "defined") {
+    warningf("Experiment has not been completely defined, skipping train()")
+    return(self)
   }
 
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
@@ -374,14 +363,15 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
-  experiment_reset_state(self, "trained")
+  experiment_reset_state(self, "train:success")
 }
 
 experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctrl = list()) {
-
-  if (!self$state >= "trained") {
-    stopf("Experiment needs to be trained before predict()")
+  if (self$state < "train:success") {
+    warningf("Experiment has not been successfully trained, skipping predict()")
+    return(self)
   }
+
   if (!is.null(row_ids) && !is.null(newdata)) {
     stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
   }
@@ -409,13 +399,14 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
-  return(experiment_reset_state(self, "predicted"))
+  return(experiment_reset_state(self, "predict:success"))
 }
 
 experiment_score = function(self, private, measures = NULL, ctrl = list()) {
 
-  if (!self$state >= "trained") {
-    stopf("Experiment needs predictions before score()")
+  if (self$state < "predict:success") {
+    warningf("Experiment has not successfully predicted, skipping score()")
+    return(self)
   }
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, learner = self$learner)
@@ -439,27 +430,31 @@ combine_experiments = function(x) {
 }
 
 experiment_state = function(self) {
-  as_state = function(state) ordered(state, levels = mlr_reflections$experiment_states)
   d = self$data
 
-  if (!is.null(d$score_time)) {
-    return(as_state("scored"))
-  }
-  if (!is.null(d$predict_time)) {
-    return(as_state("predicted"))
-  }
-  if (!is.null(d$train_time)) {
-    return(as_state("trained"))
-  }
-  if (!is.null(d$task) && !is.null(d$learner)) {
+  if (!is.null(d$performance))
+    return(as_state("score:success"))
+  if (!is.null(d$score_time))
+    return(as_state("score:failed"))
+  if (!is.null(d$prediction))
+    return(as_state("predict:success"))
+  if (!is.null(d$predict_time))
+    return(as_state("predict:fail"))
+  if (!is.null(d$learner$model))
+    return(as_state("train:success"))
+  if (!is.null(d$train_time))
+    return(as_state("train:fail"))
+  if (!is.null(d$task) && !is.null(d$learner))
     return(as_state("defined"))
-  }
+
   return(as_state("undefined"))
 }
 
 experiment_reset_state = function(self, new_state) {
   slots = mlr_reflections$experiment_slots[get("state") > new_state, "name", with = FALSE][[1L]]
   self$data[slots] = list(NULL)
+  if (as_state(new_state) < "train:success" && !is.null(self$data$learner))
+    self$data$learner$model = NULL
   self
 }
 

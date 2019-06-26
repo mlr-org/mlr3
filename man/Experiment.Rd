@@ -50,7 +50,8 @@ Named integer of random number generator seeds passed to \code{\link[=set.seed]{
 Names must match "train", "predict" and "score". Set to \code{NA} to disable seeding (default).
 \item \code{state} :: \code{ordered(1)}\cr
 Returns the state of the experiment as ordered factor with levels \code{"defined"},
-\code{"trained"}, \code{"predicted"}, and \code{"scored"}.
+\code{"train:fail"}, \code{"train:success"}, \code{"predict::fail"}, \code{"predict:success"},
+\code{"score:fail"} and \code{"score:success"}.
 \item \code{task} :: \link{Task}\cr
 Access to the stored \link{Task}.
 \item \code{learner} :: \link{Learner}\cr

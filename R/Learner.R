@@ -87,9 +87,19 @@
 #'   Hash (unique identifier) for this object.
 #'
 #' * `fallback` :: [Learner]\cr
-#'   Learner which is used as a fallback in the following situations:
-#'   * Model fit or prediction failed: The fallback learner is used to predict on new observations.
-#'   * Prediction has missing values for some observations: The predictions of the fallback learner are used to impute missing predictions.
+#'   Learner which is used as a fallback to repair predictions in the following situations:
+#'   * The model fit fails during `train()`
+#'   * The prediction fails during `predict()`
+#'   * Prediction resulted in missing values for some observations (as reported by `$missing` of [Prediction])
+#'
+#'   If one of these cases is detected, the following applies during `predict()` of the top level learner:
+#'   * `fallback$train()` is called on the training set of the top level learner
+#'   * `fallback$predict()` is called on the (subset of the) test set for which predictions are missing
+#'   * The predictions of the top level learner are augmented with the predictions of the fallback learner
+#'   * The fallback learner is discarded
+#'
+#'   Note that the fallback learner runs without any encapsulation (see [mlr_control()]),
+#'   and its output is not captured in the learner log.
 #'
 #'
 #' @section Methods:
