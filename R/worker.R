@@ -71,7 +71,9 @@ predict_worker = function(task, learner, train_set, test_set, ctrl, seed = NA_in
   }
 
   if (is.null(learner$model)) {
-    result = list(prediction = NULL, predict_log = data.table(class = "error", msg = "No model available"), predict_time = NA_real_)
+    if (is.null(learner$fallback))
+      stopf("Cannot predict without model, consider using a fallback learner")
+    result = list(prediction = NULL, predict_log = NULL, predict_time = NA_real_)
   } else {
     # subset to test set w/o cloning
     prev_use = task$row_roles$use
@@ -84,7 +86,14 @@ predict_worker = function(task, learner, train_set, test_set, ctrl, seed = NA_in
     names(result) = c("prediction", "predict_log", "predict_time")
   }
 
-  if (!is.null(learner$fallback)) {
+  if (is.null(learner$fallback)) {
+    if (is.null(result$prediction)) {
+      stopf("Learner '%s' returned no Prediction object", learner$id)
+    }
+    if (length(result$prediction$missing)) {
+      stopf("Learner '%s' did returned missing predictions", learner$id)
+    }
+  } else {
     if (is.null(result$prediction)) {
       result$predict_log = rbind(result$predict_log, data.table(class = "warning", msg = "Using fallback learner for prediction"))
       result$prediction = predict_fallback(task, learner, train_set, test_set)
@@ -95,7 +104,6 @@ predict_worker = function(task, learner, train_set, test_set, ctrl, seed = NA_in
         prediction = predict_fallback(task, learner, train_set, miss)
         result$prediction = c(result$prediction, prediction, keep_duplicates = FALSE)
       }
-
     }
   }
 
@@ -111,8 +119,15 @@ predict_fallback = function(task, learner, train_set, test_set) {
   on.exit({ task$row_roles$use = prev_use })
   task$row_roles$use = train_set
   fallback$train(task)
+  if (is.null(fallback$model))
+    stopf("Fallback learner '%s' did not fit a model", fallback$id)
   task$row_roles$use = test_set
-  fallback$predict(task)
+  prediction = fallback$predict(task)
+  if (!inherits(prediction, "Prediction"))
+    stopf("Fallback learner '%s' did not return a Prediction object", fallback$id)
+  if (length(prediction$missing))
+    stopf("Fallback learner '%s' did returned missing predictions", fallback$id)
+  prediction
 }
 
 

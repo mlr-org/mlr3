@@ -132,10 +132,10 @@ test_that("Setting train and test sets via AB", {
   expect_set_equal(e$test_set, 121:150)
 
   e$train()$predict()$score()
-  expect_equal(as.character(e$state), "score:success")
+  expect_equal(as.character(e$state), "scored")
 
   e$test_set = 141:150
-  expect_equal(as.character(e$state), "train:success")
+  expect_equal(as.character(e$state), "trained")
 
   e$train_set = 1:111
   expect_equal(as.character(e$state), "defined")

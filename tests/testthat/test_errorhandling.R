@@ -25,13 +25,12 @@ test_that("encapsulation + no fallback", {
   learner$param_set$values = list(error_train = TRUE)
   e = Experiment$new(task = task, learner = learner)
   e$train(ctrl = ctrl)
-  expect_true(e$state == "train:fail")
+  expect_true(e$state == "trained")
 
-  expect_warning(e$predict())
-  expect_true(e$state == "train:fail")
+  expect_error(e$predict())
+  expect_true(e$state == "trained")
 
-  expect_warning(e$score())
-  expect_true(e$state == "train:fail")
+  expect_error(e$score(), "predicted")
 })
 
 

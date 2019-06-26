@@ -343,7 +343,7 @@ expect_experiment = function(e) {
   checkmate::expect_class(e$data$task, "Task")
   checkmate::expect_class(e$learner, "Learner")
   checkmate::expect_class(e$data$learner, "Learner")
-  if (state >= "train:success") {
+  if (state >= "trained") {
     checkmate::expect_class(e$data$resampling, "Resampling")
     checkmate::expect_int(e$data$iteration, lower = 1L)
     checkmate::expect_data_table(e$data$train_log, null.ok = TRUE)
@@ -351,7 +351,7 @@ expect_experiment = function(e) {
     # testthat::expect_false(is.null(e$data$model)) # may be null, depending on options
   }
 
-  if (state >= "predict:success") {
+  if (state >= "predicted") {
     checkmate::expect_data_table(e$data$predict_log, null.ok = TRUE)
     checkmate::expect_number(e$data$predict_time)
     testthat::expect_is(e$data$prediction, "Prediction")
@@ -359,7 +359,7 @@ expect_experiment = function(e) {
       checkmate::expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
   }
 
-  if (state >= "score:success") {
+  if (state >= "scored") {
     checkmate::expect_list(e$data$performance, names = "unique")
     measures = e$task$measures
     perf = e$performance
@@ -418,7 +418,7 @@ expect_resample_result = function(rr) {
 
   e = rr$experiment(1L)
   expect_experiment(e)
-  testthat::expect_true(e$state == "score:success")
+  testthat::expect_true(e$state == "scored")
 
   exps = rr$experiments(seq_len(nrow(rr$data)))
   checkmate::expect_list(exps, types = "Experiment", len = nrow(rr$data))
