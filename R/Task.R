@@ -160,7 +160,8 @@
 #'
 #' * `select(cols)`\cr
 #'   `character()` -> `self`\cr
-#'   Subsets the task, reducing it to only keep the columns specified.
+#'   Subsets the task, reducing it to only keep the features specified.
+#'   Note that you cannot deselect the target column, for obvious reasons.
 #'   See the section on task mutators for more information.
 #'
 #' * `cbind(data)`\cr
@@ -197,7 +198,7 @@
 #' The following methods change the task in-place:
 #' * `set_row_role()` and `set_col_role()` alter the row or column information in `row_roles` or `col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
-#' * `filter()` and `select()` subset the set of active rows or columns in `row_roles` or `col_roles`, respectively.
+#' * `filter()` and `select()` subset the set of active rows or features in `row_roles` or `col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
 #'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
@@ -308,7 +309,7 @@ Task = R6Class("Task",
     },
 
     select = function(cols) {
-      assert_character(cols, any.missing = FALSE, min.chars = 1L)
+      assert_subset(cols, self$col_roles$feature)
       self$col_roles$feature = intersect(self$col_roles$feature, cols)
       invisible(self)
     },
