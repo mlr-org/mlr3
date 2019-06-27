@@ -64,7 +64,7 @@ test_that("fallback learner", {
 
   e$predict()
   expect_prediction(e$prediction)
-  expect_true(e$has_errors[["predict"]])
+  expect_false(e$has_errors[["predict"]])
   expect_string(e$log("predict")$warnings, fixed = "fallback")
 
   # fail during predict
@@ -94,14 +94,14 @@ test_that("fallback learner", {
   e$train()
   expect_null(e$learner$model)
   expect_true(e$has_errors[["train"]])
+  expect_false(e$has_errors[["predict"]])
   expect_string(e$log("train")$errors, fixed = "classif.debug")
 
   e$predict()
   expect_prediction(e$prediction)
   expect_true(e$has_errors[["train"]])
-  expect_true(e$has_errors[["predict"]])
+  expect_false(e$has_errors[["predict"]]) # classif.debug is not called here
   expect_string(e$log("train")$errors, fixed = "classif.debug")
-  expect_string(e$log("predict")$errors, fixed = "model")
   expect_string(e$log("predict")$warnings, fixed = "fallback")
 
   # NA predictions

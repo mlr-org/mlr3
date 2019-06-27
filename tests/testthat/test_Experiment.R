@@ -62,7 +62,7 @@ test_that("Empty Experiment construction", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
   e = Experiment$new()
-  expect_warning(e$train(), "defined")
+  expect_error(e$train(), "defined")
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
 })
