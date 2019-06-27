@@ -373,9 +373,11 @@ expect_prediction = function(p) {
   checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types"))
   testthat::expect_output(print(p), "^<Prediction")
   checkmate::expect_data_table(data.table::as.data.table(p), nrow = length(p$row_ids))
+  checkmate::expect_atomic_vector(p$missing)
 }
 
 expect_prediction_regr = function(p) {
+  expect_prediction(p)
   checkmate::expect_r6(p, "PredictionRegr", public = c("row_ids", "response", "truth", "predict_types", "se"))
   checkmate::expect_numeric(p$truth, any.missing = TRUE, len = length(p$row_ids), null.ok = TRUE)
   checkmate::expect_numeric(p$response, any.missing = FALSE, len = length(p$row_ids), null.ok = TRUE)
@@ -385,6 +387,7 @@ expect_prediction_regr = function(p) {
 }
 
 expect_prediction_classif = function(p, task = NULL) {
+  expect_prediction(p)
   checkmate::expect_r6(p, "PredictionClassif", public = c("row_ids", "response", "truth", "predict_types", "prob"))
   n = length(p$row_ids)
   lvls = if (is.null(task)) NULL else task$class_names
