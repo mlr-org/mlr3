@@ -33,6 +33,8 @@ True (observed) outcome.
 Stores the type of the \link{Task}.
 \item \code{predict_types} :: \code{character()}\cr
 Vector of predict types this object stores.
+\item \code{missing} :: \code{logical()}\cr
+Returns \code{row_ids} for which the predictions are missing or incomplete.
 }
 }
 
@@ -42,9 +44,11 @@ Vector of predict types this object stores.
 \item \code{as.data.table(rr)}\cr
 \link{Prediction} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Converts the data to a \code{data.table()}.
-\item \code{rbind(...)}\cr
-[(\link{Prediction}, \link{Prediction}, ...)] -> \link{Prediction}\cr
-Combines multiple \code{Prediction}s to a single \code{Prediction}
+\item \code{c(..., keep_duplicates = TRUE)}\cr
+(\link{Prediction}, \link{Prediction}, ...) -> \link{Prediction}\cr
+Combines multiple \code{Prediction}s to a single \code{Prediction}.
+If \code{keep_duplicates} is \code{TRUE} and there are duplicated row ids,
+the data of the former passed objects get overwritten by the data of the later passed objects.
 }
 }
 

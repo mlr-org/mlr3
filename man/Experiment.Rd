@@ -34,8 +34,8 @@ Control object, see \code{\link[=mlr_control]{mlr_control()}}.
 Control settings passed during initialization.
 \item \code{data} :: named \code{list()}\cr
 See section "Internal Data Storage".
-\item \code{has_errors} :: \code{logical(1)}\cr
-Flag which is \code{TRUE} if any error has been recorded during \code{$train()} or \code{$predict()}.
+\item \code{has_errors} :: named \code{logical(2)}\cr
+Logical vector with names "train" and "predict" which is \code{TRUE} if any error has been recorded in the log for the respective state.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 \item \code{model} :: \code{any}\cr
@@ -49,8 +49,8 @@ Access the individual predictions of the model stored in the \link{Learner}.
 Named integer of random number generator seeds passed to \code{\link[=set.seed]{set.seed()}} prior to calling external code in \code{train()}, \code{predict()} or \code{score()}.
 Names must match "train", "predict" and "score". Set to \code{NA} to disable seeding (default).
 \item \code{state} :: \code{ordered(1)}\cr
-Returns the state of the experiment as ordered factor with levels \code{"defined"},
-\code{"trained"}, \code{"predicted"}, and \code{"scored"}.
+Returns the state of the experiment as ordered factor with levels \code{"undefined"},
+\code{"defined"}, \code{"trained"}, \code{"predicted"}, and \code{"scored"}.
 \item \code{task} :: \link{Task}\cr
 Access to the stored \link{Task}.
 \item \code{learner} :: \link{Learner}\cr

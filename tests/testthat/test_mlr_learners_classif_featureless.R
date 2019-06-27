@@ -14,7 +14,7 @@ test_that("Simple training/predict", {
 
   e = Experiment$new(task, learner)
   e$train()
-  expect_class(e$model, "featureless")
+  expect_class(e$model, "classif.featureless_model")
   expect_numeric(e$model$tab, len = 3L, any.missing = FALSE)
   e$predict()
   expect_factor(e$prediction$response, any.missing = FALSE, levels = levels(iris$Species))

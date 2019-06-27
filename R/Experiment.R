@@ -34,8 +34,8 @@
 #' * `data` :: named `list()`\cr
 #'   See section "Internal Data Storage".
 #'
-#' * `has_errors` :: `logical(1)`\cr
-#'   Flag which is `TRUE` if any error has been recorded during `$train()` or `$predict()`.
+#' * `has_errors` :: named `logical(2)`\cr
+#'   Logical vector with names "train" and "predict" which is `TRUE` if any error has been recorded in the log for the respective state.
 #'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
@@ -55,8 +55,8 @@
 #'   Names must match "train", "predict" and "score". Set to `NA` to disable seeding (default).
 #'
 #' * `state` :: `ordered(1)`\cr
-#'   Returns the state of the experiment as ordered factor with levels `"defined"`,
-#'   `"trained"`, `"predicted"`, and `"scored"`.
+#'   Returns the state of the experiment as ordered factor with levels `"undefined"`,
+#'   `"defined"`, `"trained"`, `"predicted"`, and `"scored"`.
 #'
 #' * `task` :: [Task]\cr
 #'   Access to the stored [Task].
@@ -221,19 +221,6 @@ Experiment = R6Class("Experiment",
       experiment_score(self, private, measures, ctrl = ctrl)
     },
 
-    run = function(ctrl = list()) {
-      state = self$state
-      if (state < "trained") {
-        self$train(ctrl = ctrl)
-      }
-      if (state < "predicted") {
-        self$predict(ctrl = ctrl)
-      }
-      if (state < "scored") {
-        self$score(ctrl = ctrl)
-      }
-    },
-
     log = function(steps = c("train", "predict")) {
       steps = assert_sorted_subset(steps, c("train", "predict"), empty.ok = FALSE)
       parts = set_names(self$data[sprintf("%s_log", steps)], steps)
@@ -314,7 +301,7 @@ Experiment = R6Class("Experiment",
     },
 
     has_errors = function() {
-      self$log()$has_condition("error")
+      set_names(c("error" %in% self$data$train_log$class, "error" %in% self$data$predict_log$class), c("train", "predict"))
     },
 
     state = function() {
@@ -362,8 +349,8 @@ experiment_print = function(self) {
 
 experiment_train = function(self, private, row_ids, ctrl = list()) {
 
-  if (!self$state >= "defined") {
-    stopf("Experiment needs a task and a learner")
+  if (self$state < "defined") {
+    stopf("Experiment has not been completely defined, cannot train")
   }
 
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
@@ -378,10 +365,10 @@ experiment_train = function(self, private, row_ids, ctrl = list()) {
 }
 
 experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctrl = list()) {
-
-  if (!self$state >= "trained") {
-    stopf("Experiment needs to be trained before predict()")
+  if (self$state < "trained") {
+    stopf("Experiment has not been successfully trained, cannot predict")
   }
+
   if (!is.null(row_ids) && !is.null(newdata)) {
     stopf("Arguments 'row_ids' and 'newdata' are mutually exclusive")
   }
@@ -405,17 +392,17 @@ experiment_predict = function(self, private, row_ids = NULL, newdata = NULL, ctr
   self$test_set = row_ids
 
   lg$info("Predicting with model of learner '%s' on task '%s' ...", self$learner$id, self$task$id)
-  value = predict_worker(self$data$task, self$data$learner, self$test_set, ctrl, self$seeds[["predict"]])
+  value = predict_worker(self$data$task, self$data$learner, self$train_set, self$test_set, ctrl, self$seeds[["predict"]])
 
   self$data = insert_named(self$data, value)
   private$.hash = NA_character_
-  return(experiment_reset_state(self, "predicted"))
+  return(experiment_reset_state(self, "predict:success"))
 }
 
 experiment_score = function(self, private, measures = NULL, ctrl = list()) {
 
-  if (!self$state >= "trained") {
-    stopf("Experiment needs predictions before score()")
+  if (self$state < "predicted") {
+    stopf("Experiment has not successfully predicted, cannot score")
   }
   ctrl = mlr_control(insert_named(self$ctrl, ctrl))
   self$data$measures = assert_measures(measures %??% self$data$task$measures, task = self$task, learner = self$learner)
@@ -439,21 +426,17 @@ combine_experiments = function(x) {
 }
 
 experiment_state = function(self) {
-  as_state = function(state) ordered(state, levels = mlr_reflections$experiment_states)
   d = self$data
 
-  if (!is.null(d$score_time)) {
+  if (!is.null(d$score_time))
     return(as_state("scored"))
-  }
-  if (!is.null(d$predict_time)) {
+  if (!is.null(d$predict_time))
     return(as_state("predicted"))
-  }
-  if (!is.null(d$train_time)) {
+  if (!is.null(d$train_time))
     return(as_state("trained"))
-  }
-  if (!is.null(d$task) && !is.null(d$learner)) {
+  if (!is.null(d$task) && !is.null(d$learner))
     return(as_state("defined"))
-  }
+
   return(as_state("undefined"))
 }
 

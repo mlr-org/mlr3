@@ -8,7 +8,7 @@ test_that("$train() + $predict() classif", {
 
   e$train(row_ids)
   expect_set_equal(e$train_set, row_ids)
-  expect_class(e$model, "featureless")
+  expect_class(e$model, "classif.featureless_model")
   expect_equal(task$nrow, 150L)
   expect_equal(e$data$task$nrow, 150L)
 
@@ -36,7 +36,7 @@ test_that("$train() + $predict() regr", {
 
   e$train(row_ids)
   expect_set_equal(e$train_set, row_ids)
-  expect_class(e$model, "featureless")
+  expect_class(e$model, "regr.featureless_model")
   expect_equal(task$nrow, 32L)
   expect_equal(e$data$task$nrow, 32L)
 
@@ -62,7 +62,7 @@ test_that("Empty Experiment construction", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
   e = Experiment$new()
-  expect_error(e$train(), "task")
+  expect_error(e$train(), "defined")
   expect_different_address(task, e$task)
   expect_different_address(learner, e$learner)
 })
@@ -131,7 +131,7 @@ test_that("Setting train and test sets via AB", {
   expect_set_equal(e$train_set, 1:120)
   expect_set_equal(e$test_set, 121:150)
 
-  e$run()
+  e$train()$predict()$score()
   expect_equal(as.character(e$state), "scored")
 
   e$test_set = 141:150

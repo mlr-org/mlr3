@@ -22,6 +22,7 @@ The following hyperparameters trigger the following actions:
 \item{error_predict:}{Raises an exception during predict.}
 \item{segfault_train:}{Provokes a segfault during train.}
 \item{segfault_predict:}{Provokes a segfault during predict.}
+\item{predict_missing}{Ratio of predictions which will be NA.}
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
 \item{x:}{Numeric parameter. Ignored.}
 }

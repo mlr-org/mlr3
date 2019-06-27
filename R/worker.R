@@ -40,7 +40,7 @@ train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
 }
 
 
-predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
+predict_worker = function(task, learner, train_set, test_set, ctrl, seed = NA_integer_) {
   # This wrapper calls learner$predict, and additionally performs some basic
   # checks that the prediction was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
@@ -70,23 +70,64 @@ predict_worker = function(task, learner, test_set, ctrl, seed = NA_integer_) {
     return(result)
   }
 
-  # subset to test set w/o cloning
-  prev_use = task$row_roles$use
-  on.exit({ task$row_roles$use = prev_use }, add = TRUE)
-  task$row_roles$use = test_set
+  if (is.null(learner$model)) {
+    if (is.null(learner$fallback))
+      stopf("Cannot predict without model, consider using a fallback learner")
+    result = list(prediction = NULL, predict_log = NULL, predict_time = NA_real_)
+  } else {
+    # subset to test set w/o cloning
+    prev_use = task$row_roles$use
+    on.exit({ task$row_roles$use = prev_use }, add = TRUE)
+    task$row_roles$use = test_set
 
-  # call predict with encapsulation
-  enc = encapsulate(ctrl$encapsulate_predict)
-  result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
-  names(result) = c("prediction", "predict_log", "predict_time")
+    # call predict with encapsulation
+    enc = encapsulate(ctrl$encapsulate_predict)
+    result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
+    names(result) = c("prediction", "predict_log", "predict_time")
+  }
 
-  if (is.null(result$prediction)) {
-    # create empty prediction if something went wrong
-    result$prediction = learner$new_prediction(task = task)
+  if (is.null(learner$fallback)) {
+    if (is.null(result$prediction)) {
+      stopf("Learner '%s' returned no Prediction object", learner$id)
+    }
+    if (length(result$prediction$missing)) {
+      stopf("Learner '%s' did returned missing predictions", learner$id)
+    }
+  } else {
+    if (is.null(result$prediction)) {
+      result$predict_log = rbind(result$predict_log, data.table(class = "warning", msg = "Using fallback learner for prediction"))
+      result$prediction = predict_fallback(task, learner, train_set, test_set)
+    } else {
+      miss = result$prediction$missing
+      if (length(miss)) {
+        result$predict_log = rbind(result$predict_log, data.table(class = "warning", msg = "Using fallback learner to augment predictions"))
+        prediction = predict_fallback(task, learner, train_set, miss)
+        result$prediction = c(result$prediction, prediction, keep_duplicates = FALSE)
+      }
+    }
   }
 
   # result is list(prediction, predict_log, predict_time)
   return(result)
+}
+
+predict_fallback = function(task, learner, train_set, test_set) {
+  fallback = assert_learner(learner$fallback, clone = TRUE)
+  fallback$predict_type = learner$predict_type
+
+  prev_use = task$row_roles$use
+  on.exit({ task$row_roles$use = prev_use })
+  task$row_roles$use = train_set
+  fallback$train(task)
+  if (is.null(fallback$model))
+    stopf("Fallback learner '%s' did not fit a model", fallback$id)
+  task$row_roles$use = test_set
+  prediction = fallback$predict(task)
+  if (!inherits(prediction, "Prediction"))
+    stopf("Fallback learner '%s' did not return a Prediction object", fallback$id)
+  if (length(prediction$missing))
+    stopf("Fallback learner '%s' did returned missing predictions", fallback$id)
+  prediction
 }
 
 
@@ -138,11 +179,13 @@ experiment_worker = function(iteration, task, learner, resampling, measures, ctr
   e$data = insert_named(e$data, tmp)
 
   test_set = resampling$test_set(iteration)
-  tmp = predict_worker(task, e$data$learner, test_set, ctrl)
+  tmp = predict_worker(task, e$data$learner, train_set, test_set, ctrl)
   e$data = insert_named(e$data, tmp)
 
-  tmp = score_worker(e, ctrl)
-  e$data = insert_named(e$data, tmp)
+  if (!is.null(e$data$prediction)) {
+    tmp = score_worker(e, ctrl)
+    e$data = insert_named(e$data, tmp)
+  }
 
   if (!ctrl$store_prediction) {
     e$data["prediction"] = list(NULL)

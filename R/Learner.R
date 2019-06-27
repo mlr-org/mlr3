@@ -86,6 +86,22 @@
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
+#' * `fallback` :: [Learner]\cr
+#'   Learner which is used as a fallback to repair predictions in the following situations:
+#'   * The model fit fails during `train()`
+#'   * The prediction fails during `predict()`
+#'   * Prediction resulted in missing values for some observations (as reported by `$missing` of [Prediction])
+#'
+#'   If one of these cases is detected, the following applies during `predict()` of the top level learner:
+#'   * `fallback$train()` is called on the training set of the top level learner
+#'   * `fallback$predict()` is called on the (subset of the) test set for which predictions are missing
+#'   * The predictions of the top level learner are augmented with the predictions of the fallback learner
+#'   * The fallback learner is discarded
+#'
+#'   Note that the fallback learner runs without any encapsulation (see [mlr_control()]),
+#'   and its output is not captured in the learner log.
+#'
+#'
 #' @section Methods:
 #' * `params(tag)`\cr
 #'   `character(1)` -> named `list()`\cr
@@ -157,6 +173,7 @@ Learner = R6Class("Learner",
     data_formats = NULL,
     packages = NULL,
     model = NULL,
+    fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
       feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
@@ -220,6 +237,7 @@ Learner = R6Class("Learner",
 
 learner_print = function(self) {
   catf(format(self))
+  catf(str_indent("Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
   catf(str_indent("Parameters:", as_short_string(self$param_set$values, 1000L)))
   catf(str_indent("Packages:", self$packages))
   catf(str_indent("Predict Type:", self$predict_type))

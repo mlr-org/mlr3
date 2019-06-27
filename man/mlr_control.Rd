@@ -17,10 +17,14 @@ Settings may be provided in a \code{name = value} fashion, or by providing a sin
 \description{
 This function creates a named list of settings which control the execution of an \link{Experiment}.
 \itemize{
-\item \code{store_model}: If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
+\item \code{store_model} (\code{logical(1))}:\cr
+If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
 Note that you will be unable to further predict on new data.
-\item \code{store_prediction}: If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
-\item \code{encapsulate_train}: How to call external code in third party packages during train.
+\item \code{store_prediction} (\code{logical(1)}):\cr
+If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
+Note that you will be unable to calculate additional performance measures.
+\item \code{encapsulate_train} (\code{character(1)}):\cr
+How to call external code in third party packages during train.
 \itemize{
 \item If set to \code{"none"} (default), the code is executed in the running session without error handling.
 Output is not stored, just send to the console.
@@ -32,8 +36,9 @@ All output is stored in a \link{Log} of the corresponding \link{Experiment}.
 This guards your session from segfaults, at the cost of some computational overhead.
 See \link{Log} for an example.
 }
-\item \code{encapsulate_predict}: How to call external code in third party packages during predict.
-Same format as \code{encapsulate_train}. See \link{Log} for an example.
+\item \code{encapsulate_predict} (\code{character(1)}):\cr
+How to call external code in third party packages during predict. Same format as \code{encapsulate_train}.
+See \link{Log} for an example.
 }
 
 \strong{Defaults}\preformatted{$store_model

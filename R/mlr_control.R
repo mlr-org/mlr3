@@ -3,10 +3,14 @@
 #' @description
 #' This function creates a named list of settings which control the execution of an [Experiment].
 #'
-#' * `store_model`: If `FALSE`, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
-#'  Note that you will be unable to further predict on new data.
-#' * `store_prediction`: If `FALSE`, the predictions are discarded in order to save some memory after the experiment is completed.
-#' * `encapsulate_train`: How to call external code in third party packages during train.
+#' * `store_model` (`logical(1))`:\cr
+#'   If `FALSE`, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
+#'   Note that you will be unable to further predict on new data.
+#' * `store_prediction` (`logical(1)`):\cr
+#'   If `FALSE`, the predictions are discarded in order to save some memory after the experiment is completed.
+#'   Note that you will be unable to calculate additional performance measures.
+#' * `encapsulate_train` (`character(1)`):\cr
+#'   How to call external code in third party packages during train.
 #'     - If set to `"none"` (default), the code is executed in the running session without error handling.
 #'       Output is not stored, just send to the console.
 #'     - If set to `"evaluate"`, the exceptions are caught using [evaluate::evaluate()].
@@ -16,9 +20,9 @@
 #'       All output is stored in a [Log] of the corresponding [Experiment].
 #'       This guards your session from segfaults, at the cost of some computational overhead.
 #'   See [Log] for an example.
-#'
-#' * `encapsulate_predict`: How to call external code in third party packages during predict.
-#'   Same format as `encapsulate_train`. See [Log] for an example.
+#' * `encapsulate_predict` (`character(1)`):\cr
+#'   How to call external code in third party packages during predict. Same format as `encapsulate_train`.
+#'   See [Log] for an example.
 #'
 #' **Defaults**
 #' ```
@@ -74,6 +78,10 @@ mlr_control = function(...) {
   if (length(ii)) {
     stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
   }
+  assert_flag(dots$store_model, null.ok = TRUE)
+  assert_flag(dots$store_prediction, null.ok = TRUE)
+  assert_choice(dots$encapsulate_train, c("none", "evaluate", "callr"), null.ok = TRUE)
+  assert_choice(dots$encapsulate_predict, c("none", "evaluate", "callr"), null.ok = TRUE)
   ctrl[names(dots)] = dots
   ctrl
 }

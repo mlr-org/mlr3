@@ -73,6 +73,24 @@ A complete list of candidate properties, grouped by task type, is stored in \cod
 Stores the names of required packages.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
+\item \code{fallback} :: \link{Learner}\cr
+Learner which is used as a fallback to repair predictions in the following situations:
+\itemize{
+\item The model fit fails during \code{train()}
+\item The prediction fails during \code{predict()}
+\item Prediction resulted in missing values for some observations (as reported by \code{$missing} of \link{Prediction})
+}
+
+If one of these cases is detected, the following applies during \code{predict()} of the top level learner:
+\itemize{
+\item \code{fallback$train()} is called on the training set of the top level learner
+\item \code{fallback$predict()} is called on the (subset of the) test set for which predictions are missing
+\item The predictions of the top level learner are augmented with the predictions of the fallback learner
+\item The fallback learner is discarded
+}
+
+Note that the fallback learner runs without any encapsulation (see \code{\link[=mlr_control]{mlr_control()}}),
+and its output is not captured in the learner log.
 }
 }
 
