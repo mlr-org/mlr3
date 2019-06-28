@@ -30,13 +30,12 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       )
     },
 
-    train = function(task) {
+    train_internal = function(task) {
       tn = task$target_names
-      self$model = set_class(list(tab = table(task$data(cols = tn)[[1L]]), features = task$feature_names), "classif.featureless_model")
-      invisible(self)
+      set_class(list(tab = table(task$data(cols = tn)[[1L]]), features = task$feature_names), "classif.featureless_model")
     },
 
-    predict = function(task) {
+    predict_internal = function(task) {
       pv = self$params("predict")
       tab = self$model$tab
       n = task$nrow
@@ -48,7 +47,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
           sample = sample(names(tab), n, replace = TRUE),
           weighted.sample = sample(names(tab), n, replace = TRUE, prob = tab)
         )
-        self$new_prediction(task, response = response)
+        list(response = response)
       } else {
         prob = switch(pv$method,
           mode = {
@@ -60,7 +59,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
         )
         prob = matrix(prob, nrow = n, ncol = length(tab), byrow = TRUE)
         colnames(prob) = names(tab)
-        self$new_prediction(task, prob = prob)
+        list(prob = prob)
       }
     },
 

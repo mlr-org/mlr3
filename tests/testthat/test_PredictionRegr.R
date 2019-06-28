@@ -11,9 +11,7 @@ test_that("Internally constructed Prediction", {
   task = mlr_tasks$get("boston_housing")
   lrn = mlr_learners$get("regr.featureless")
   lrn$predict_type = "se"
-  e = Experiment$new(task, lrn)$train()
-  e$predict()
-  p = e$prediction
+  p = lrn$train(task)$predict(task)
   expect_prediction(p)
   expect_prediction_regr(p)
 })
@@ -25,7 +23,7 @@ test_that("c", {
   lrn$predict_type = "se"
   rr = resample(task, lrn, "cv3")
 
-  pred = do.call(c, map(rr$experiments(), "prediction"))
+  pred = do.call(c, rr$data$prediction)
   expect_prediction(pred)
   expect_prediction_regr(pred)
 
@@ -33,8 +31,8 @@ test_that("c", {
   expect_data_table(dt, nrow = task$nrow, ncol = 4L, any.missing = FALSE)
 
   # duplicates are detected?
-  p1 = rr$experiment(1)$prediction
-  p2 = rr$experiment(1)$prediction
+  p1 = rr$data$prediction[[1L]]
+  p2 = rr$data$prediction[[1L]]
   p3 = c(p1, p2, keep_duplicates = FALSE)
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))
@@ -47,7 +45,7 @@ test_that("c drops se (#250)", {
   lrn = mlr_learners$get("regr.featureless")
   rr = resample(task, lrn, "cv3")
 
-  pred = do.call(c, map(rr$experiments(), "prediction"))
+  pred = do.call(c, rr$data$prediction)
   expect_null(pred$data$se)
   expect_false("se" %in% pred$predict_types)
   expect_true(allMissing(pred$se))

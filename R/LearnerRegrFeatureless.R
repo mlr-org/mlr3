@@ -29,7 +29,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       )
     },
 
-    train = function(task) {
+    train_internal = function(task) {
       pv = self$params("train")
       x = task$data(cols = task$target_names)[[1L]]
       if (isFALSE(pv$robust)) {
@@ -39,15 +39,14 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         location = stats::median(x)
         dispersion = stats::mad(x, center = location)
       }
-      self$model = set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "regr.featureless_model")
-      invisible(self)
+      set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "regr.featureless_model")
     },
 
-    predict = function(task) {
+    predict_internal = function(task) {
       n = task$nrow
       response = rep(self$model$location, n)
       se = if (self$predict_type == "se") rep(self$model$dispersion, n) else NULL
-      self$new_prediction(task, response = response, se = se)
+      list(response = response, se = se)
     },
 
     importance = function() {

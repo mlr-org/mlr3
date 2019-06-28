@@ -27,9 +27,8 @@ test_that("custom aggregation", {
   m = mlr_measures$get("classif.ce")
   m$id = "max_ce"
   m$aggregator = max
-  task$measures = list(mlr_measures$get("classif.ce"), m)
+  measures = list(mlr_measures$get("classif.ce"), m)
 
-  rr = resample(task, lrn, mlr_resamplings$get("cv"))
-  rr$aggregated
-  expect_equal(rr$aggregated[["max_ce"]], max(rr$performance("classif.ce")))
+  rr = resample(task, lrn, mlr_resamplings$get("cv"), measures)
+  expect_equal(rr$performance$max_ce, rep(max(rr$performance$classif.ce), 10))
 })

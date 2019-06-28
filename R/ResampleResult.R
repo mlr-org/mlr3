@@ -16,12 +16,11 @@
 #' ```
 #'
 #' * `data` :: [data.table::data.table()]\cr
-#'   Table with the data of one [Experiment] per row.
-#'   See description of field `data` of [Experiment] for the exact structure.
+#'   Table with the data of one resampling iteration per row.
 #'
 #' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
-#'   Experiment data with one [Experiment] per line.
+#'   Internal data storage.
 #'
 #' * `task` :: [Task]\cr
 #'   The task [resample()] operated on.
@@ -54,15 +53,6 @@
 #'   [ResampleResult] -> [BenchmarkResult]\cr
 #'   Takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
 #'
-#' * `experiment(iter)`\cr
-#'   `integer(1)` -> [Experiment]\cr
-#'   Returns the `iter`-th [Experiment].
-#'
-#' * `experiments(iters)`\cr
-#'   `integer()` -> `list()` of [Experiment].
-#'   Returns a slice of [Experiment]s with provided resampling iterations `iters`.
-#'   Defaults to all experiments.
-#'
 #' * `performance(id)`\cr
 #'   `character(1)` -> `numeric(1)`\cr
 #'   Retrieves the performance values for the measure with id `id` as numeric vector.
@@ -77,9 +67,8 @@ ResampleResult = R6Class("ResampleResult",
     data = NULL,
 
     initialize = function(data, hash = NULL) {
-      assert_data_table(data)
-      assert_names(names(data), must.include = mlr_reflections$experiment_slots$name)
-      self$data = data[order(iteration), ]
+      self$data = assert_data_table(data)
+      assert_names(names(data), must.include = mlr_reflections$rr_names)
       if (!is.null(hash)) {
         private$.hash = assert_string(hash)
       }
@@ -90,32 +79,14 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     print = function(digits = 4L, ...) {
-      catf("%s of learner '%s' on task '%s' with %i iterations", format(self), self$task$id, self$learner$id, nrow(self$data))
-
-      tab = map_dtr(self$measures$measure_id, function(id) {
-        perf = self$performance(id)
-        c(list(Measure = id), as.list(summary(perf)), list(Sd = sd(perf)))
-      })
-      print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = digits, ...)
-    },
-
-    performance = function(id) {
-      assert_choice(id, self$measures$measure_id)
-      map_dbl(self$data$performance, function(x) x[[id]] %??% NA_real_)
-    },
-
-    experiment = function(iter) {
-      iter = assert_int(iter, lower = 1L, upper = nrow(self$data), coerce = TRUE)
-      pmap(self$data[get("iteration") == iter, mlr_reflections$experiment_slots$name, with = FALSE], as_experiment)[[1L]]
-    },
-
-    experiments = function(iters = NULL) {
-      iters = if (is.null(iters)) {
-        seq_row(self$data)
-      } else {
-        assert_integerish(iters, lower = 1L, upper = nrow(self$data), any.missing = FALSE, coerce = TRUE)
+      catf("%s of learner '%s' on task '%s' with %i iterations", format(self), self$task$id, self$data$learner[[1L]]$id, nrow(self$data))
+      perf = self$performance
+      if (ncol(perf)) {
+        tab = imap_dtr(perf, function(value, nn) {
+          c(list(measure = nn), as.list(summary(value)), list(Sd = sd(value)))
+        })
+        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = digits, ...)
       }
-      pmap(self$data[get("iteration") %in% iters], as_experiment)
     },
 
     combine = function(rr) {
@@ -124,6 +95,11 @@ ResampleResult = R6Class("ResampleResult",
         warningf("ResampleResult$combine(): Identical hashes detected. This is likely to be unintended.")
       }
       BenchmarkResult$new(rbind(cbind(self$data, data.table(hash = self$hash)), cbind(rr$data, data.table(hash = rr$hash))))
+    },
+
+    aggregate = function(measures) {
+      measures = assert_measures(measures)
+      set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
     }
   ),
 
@@ -132,30 +108,26 @@ ResampleResult = R6Class("ResampleResult",
       self$data$task[[1L]]
     },
 
-    learner = function() {
-      self$data$learner[[1L]]
+    learners = function() {
+      self$data$learner
     },
 
     resampling = function() {
       self$data$resampling[[1L]]
     },
 
-    measures = function() {
-      unique(map_dtr(self$data$measures, function(m) data.table(measure_id = ids(m), measure = m)), by = "measure_id")
-    },
-
-    aggregated = function() {
-      measures = self$measures$measure
-      set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
-    },
-
     prediction = function() {
-      do.call(c, map(self$experiments(), "prediction"))
+      do.call(c, self$data$prediction)
+    },
+
+    performance = function() {
+      rbindlist(self$data$performance, fill = TRUE, use.names = TRUE)
     },
 
     hash = function() {
-      if (is.na(private$.hash)) {
-        private$.hash = self$experiment(1L)$hash
+      if (is.null(private$.hash)) {
+        row = as.list(self$data[1L])
+        private$.hash = hash(row$task$hash, row$learner$hash, row$resampling$hash)
       }
       private$.hash
     },
@@ -167,8 +139,7 @@ ResampleResult = R6Class("ResampleResult",
   ),
 
   private = list(
-    .hash = NA_character_,
-
+    .hash = NULL,
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
     }
@@ -178,7 +149,7 @@ ResampleResult = R6Class("ResampleResult",
 #' @export
 as.data.table.ResampleResult = function(x, ...) {
   task = learner = resampling = iteration = performance = NULL
-  unnest(x$data[order(iteration),
+  tab = x$data[order(iteration),
     list(
       hash = x$hash,
       task = task, task_id = ids(task),
@@ -186,5 +157,6 @@ as.data.table.ResampleResult = function(x, ...) {
       resampling = resampling, resampling_id = ids(resampling),
       iteration = iteration, performance = performance
     )
-  ], "performance")
+  ]
+  unnest(tab, "performance")
 }

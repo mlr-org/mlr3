@@ -87,15 +87,11 @@
 #' rr = bmr$aggregated()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$experiment(2)$train_set
 benchmark = function(design, measures = NULL, ctrl = list()) {
-
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   assert_tasks(design$task)
   assert_learners(design$learner)
   assert_resamplings(design$resampling, instantiated = TRUE)
-  if (!is.null(measures)) {
-    measures = assert_measures(measures, clone = TRUE)
-  }
   ctrl = mlr_control(ctrl)
 
   # clone inputs
@@ -106,10 +102,10 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
-    hash = experiment_data_hash(list(task = task, learner = learner, resampling = resampling))
-    measures = assert_measures(measures %??% task$measures, learner = learner)
+    measures = if (!is.null(measures)) assert_measures(measures, learner = learner)
+    hash = hash(task$hash, learner$hash, resampling$hash)
     data.table(task = list(task), learner = list(learner), resampling = list(resampling),
-      measures = list(measures), iter = seq_len(resampling$iters), hash = hash)
+      measures = list(measures), iteration = seq_len(resampling$iters), hash = hash)
   })
 
   lg$info("Benchmarking %i experiments", nrow(grid))
@@ -117,26 +113,27 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
   if (use_future()) {
     lg$debug("Running benchmark() via future")
 
-    tmp = future.apply::future_mapply(experiment_worker,
+    res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iter, measures = grid$measures,
-      MoreArgs = list(ctrl = ctrl, remote = TRUE), SIMPLIFY = FALSE, USE.NAMES = FALSE,
+      iteration = grid$iteration, measures = grid$measures,
+      MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3"
     )
   } else {
     lg$debug("Running benchmark() sequentially")
 
-    tmp = mapply(experiment_worker,
+    res = mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iter, measures = grid$measures,
-      MoreArgs = list(ctrl = ctrl, remote = FALSE), SIMPLIFY = FALSE, USE.NAMES = FALSE
+      iteration = grid$iteration, measures = grid$measures,
+      MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   }
 
-  res = combine_experiments(tmp)
+  res = rbindlist(Map(reassemble, row = res, learner = grid$learner), use.names = TRUE)
+  res = insert_named(grid, res)
+  res[, "measures" := NULL]
 
-  ref_cbind(res, grid[, !c("iter", "learner"), with = FALSE])
   lg$info("Finished benchmark")
   BenchmarkResult$new(res)
 }

@@ -12,13 +12,12 @@ test_that("Simple training/predict", {
   learner = mlr_learners$get("classif.featureless")
   expect_learner(learner, task)
 
-  e = Experiment$new(task, learner)
-  e$train()
-  expect_class(e$model, "classif.featureless_model")
-  expect_numeric(e$model$tab, len = 3L, any.missing = FALSE)
-  e$predict()
-  expect_factor(e$prediction$response, any.missing = FALSE, levels = levels(iris$Species))
-  e$score()
+  learner$train(task)
+  expect_class(learner$model, "classif.featureless_model")
+  expect_numeric(learner$model$tab, len = 3L, any.missing = FALSE)
+  prediction = learner$predict(task)
+  expect_factor(prediction$response, any.missing = FALSE, levels = levels(iris$Species))
+  prediction$score("classif.ce")
   expect_number(e$performance, lower = 0.6, upper = 0.7)
 })
 
@@ -28,7 +27,7 @@ test_that("Predict with prob", {
   learner$predict_type = "prob"
   expect_learner(learner, task)
 
-  e = Experiment$new(task, learner)$train()$predict()
-  expect_matrix(e$data$prediction$prob, nrow = 150L, ncol = 3L)
-  expect_names(colnames(e$data$prediction$prob), permutation.of = levels(iris$Species))
+  p = learner$train(task)$predict(task)
+  expect_matrix(p$prob, nrow = 150L, ncol = 3L)
+  expect_names(colnames(p$prob), permutation.of = levels(iris$Species))
 })

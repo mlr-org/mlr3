@@ -49,13 +49,14 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
         data_formats = data_formats, packages = packages)
     },
 
-    new_prediction = function(task, response = NULL, se = NULL) {
-      row_ids = task$row_ids
+    new_prediction = function(row_ids, truth, response = NULL, se = NULL) {
+      assert_row_ids(row_ids)
       n = length(row_ids)
+      assert_numeric(truth, len = n)
       assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
       assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
 
-      PredictionRegr$new(row_ids = row_ids, truth = task$truth(), response = response, se = se)
+      PredictionRegr$new(row_ids = row_ids, truth = truth, response = response, se = se)
     }
   )
 )

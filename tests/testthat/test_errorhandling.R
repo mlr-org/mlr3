@@ -23,6 +23,9 @@ test_that("encapsulation + no fallback", {
   ctrl = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
 
   learner$param_set$values = list(error_train = TRUE)
+  learner$train(task, ctrl = ctrl)
+  learner$log
+
   e = Experiment$new(task = task, learner = learner)
   e$train(ctrl = ctrl)
   expect_true(e$state == "trained")

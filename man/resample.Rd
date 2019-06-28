@@ -52,7 +52,7 @@ resampling = mlr_resamplings$get("cv")
 set.seed(123)
 resampling$instantiate(task)
 
-rr = resample(task, learner, resampling)
+rr = resample(task, learner, resampling, measures = "classif.ce")
 print(rr, digits = 2)
 
 # retrieve performance

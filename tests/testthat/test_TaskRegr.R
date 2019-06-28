@@ -39,8 +39,7 @@ test_that("TaskRegr: 0 feature task", {
   expect_data_table(task$data(), ncol = 1L)
 
   lrn = mlr_learners$get("regr.featureless")
-  e = Experiment$new(task, lrn)
-  e$train()$predict()$score()
-  expect_experiment(e)
-  expect_number(e$performance)
+  p = lrn$train(task)$predict(task)
+  expect_prediction(p)
+  # expect_number(e$performance)
 })

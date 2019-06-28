@@ -20,7 +20,7 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
       )
     },
 
-    calculate = function(experiment = NULL, prediction = experiment$prediction) {
+    score_internal = function(prediction, ...) {
       Metrics::accuracy(actual = prediction$truth, predicted = prediction$response)
     }
   )

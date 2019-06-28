@@ -16,8 +16,7 @@ Do not modify any object without cloning it first.
 }
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with the data of one \link{Experiment} per row.
-See description of field \code{data} of \link{Experiment} for the exact structure.
+Table with the data of one resampling iteration per row.
 }
 }
 
@@ -25,7 +24,7 @@ See description of field \code{data} of \link{Experiment} for the exact structur
 
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Experiment data with one \link{Experiment} per line.
+Internal data storage.
 \item \code{task} :: \link{Task}\cr
 The task \code{\link[=resample]{resample()}} operated on.
 \item \code{learner} :: \link{Learner}\cr
@@ -53,13 +52,6 @@ but instead on each experiment separately and then combined with an aggregate fu
 \item \code{combine(rr)}\cr
 \link{ResampleResult} -> \link{BenchmarkResult}\cr
 Takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
-\item \code{experiment(iter)}\cr
-\code{integer(1)} -> \link{Experiment}\cr
-Returns the \code{iter}-th \link{Experiment}.
-\item \code{experiments(iters)}\cr
-\code{integer()} -> \code{list()} of \link{Experiment}.
-Returns a slice of \link{Experiment}s with provided resampling iterations \code{iters}.
-Defaults to all experiments.
 \item \code{performance(id)}\cr
 \code{character(1)} -> \code{numeric(1)}\cr
 Retrieves the performance values for the measure with id \code{id} as numeric vector.

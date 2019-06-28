@@ -61,8 +61,10 @@ Implemented are the following measures based on \url{https://en.wikipedia.org/wi
 If the denominator is 0, the score is returned as \code{NA}.
 }
 \examples{
-e = Experiment$new("german_credit", "classif.rpart")$train()$predict()
-m = e$prediction$confusion
-round(confusion_measures(m), 2)
+task = mlr_tasks$get("german_credit")
+learner = mlr_learners$get("classif.rpart")
+p = learner$train(task)$predict(task)
+p$confusion
+round(confusion_measures(p$confusion), 2)
 }
 \keyword{datasets}

@@ -96,12 +96,11 @@ test_that("learners can request sparse data format", {
         )
       },
 
-      train = function(task) {
-        self$model = task$data(data_format = "Matrix")
-        self
+      train_internal = function(task) {
+        task$data(data_format = "Matrix")
       },
 
-      predict = function(task) {
+      predict_internal = function(task) {
         list(response = rep(task$class_names[1L], task$nrow))
       })
   )
@@ -110,8 +109,8 @@ test_that("learners can request sparse data format", {
   b = as_data_backend(td)
   task = TaskRegr$new("regr_task", b, target = "y")
   lrn = LearnerSparseTest$new()
+  expect_learner(lrn)
 
-  e = Experiment$new(task = task, learner = lrn)
-  e$train()
-  expect_is(e$model, "Matrix")
+  lrn$train(task)
+  expect_is(lrn$model, "Matrix")
 })

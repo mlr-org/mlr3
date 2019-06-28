@@ -1,6 +1,5 @@
 context("parallelization")
 
-
 test_that("parallel resample", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")

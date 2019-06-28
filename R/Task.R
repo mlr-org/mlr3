@@ -79,9 +79,6 @@
 #' * `id` :: `character(1)`\cr
 #'   Identifier of the Task.
 #'
-#' * `measures` :: `list()` of [Measure]\cr
-#'   Stores the default measures to use for this task.
-#'
 #' * `ncol` :: `integer(1)`\cr
 #'   Returns the total number of cols with role "target" or "feature".
 #'
@@ -349,17 +346,10 @@ Task = R6Class("Task",
   ),
 
   active = list(
-    measures = function(rhs) {
-      if (missing(rhs)) {
-        return(private$.measures)
-      }
-      private$.measures = assert_measures(rhs, task = self, clone = TRUE)
-    },
-
     hash = function() {
       hash(list(
         class(self), self$id, self$backend$hash, self$row_roles, self$col_roles,
-        self$col_info$levels, self$properties, sort(hashes(private$.measures))
+        self$col_info$levels, self$properties
       ))
     },
 
@@ -411,8 +401,6 @@ Task = R6Class("Task",
   ),
 
   private = list(
-    .measures = NULL,
-
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
       # TODO: check if we can assume col_info to be read-only

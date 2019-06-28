@@ -114,11 +114,7 @@
 #'
 #' * `predict(task)`\cr
 #'   [Task] -> [Prediction]\cr
-#'   Uses `model` (fitted and stored during `train()`) to return a [Prediction] object.
-#'   Note: Argument `model` defaults to the model stored inside the learner.
-#'   The learner and the model are stored separately for performance reasons.
-#'   However, if you retrieve the learner via the [Experiment], `mlr3` automatically inserts the model into the slot `$model`,
-#'   so that you do not need to pass the model to each method of the learner yourself.
+#'   Uses `self$model` (fitted and stored during `train()`) to create a new [Prediction] object via `self$new_prediction()`.
 #'
 #' @section Optional Extractors:
 #'
@@ -166,13 +162,13 @@
 Learner = R6Class("Learner",
   public = list(
     id = NULL,
+    data = list(),
     task_type = NULL,
     predict_types = NULL,
     feature_types = NULL,
     properties = NULL,
     data_formats = NULL,
     packages = NULL,
-    model = NULL,
     fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
@@ -198,6 +194,28 @@ Learner = R6Class("Learner",
       learner_print(self)
     },
 
+    train = function(task, row_ids = NULL, ctrl = list()) {
+      ctrl = mlr_control(ctrl)
+      learner_train(self, task, row_ids, ctrl)
+    },
+
+    predict = function(task, row_ids = NULL, ctrl = list()) {
+      ctrl = mlr_control(ctrl)
+      learner_predict(self, task, row_ids, ctrl)
+    },
+
+    predict_newdata = function(task, newdata, ctrl = list()) {
+      assert_data_frame(newdata, min.rows = 1L)
+      tn = task$target_names
+      if (any(tn %nin% colnames(newdata))) {
+        newdata[, tn] = NA
+      }
+      old_row_ids = task$row_ids
+      task = task$clone(deep = TRUE)$rbind(newdata)
+      row_ids = setdiff(task$row_ids, old_row_ids)
+      self$predict(task, row_ids, ctrl = ctrl)
+    },
+
     params = function(tag) {
       assert_string(tag)
       pv = self$param_set$values
@@ -206,6 +224,19 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
+    model = function() {
+      self$data$model
+    },
+
+    log = function() {
+      tab = rbindlist(list(train = self$data$train_log, predict = self$data$predict_log), idcol = "stage", use.names = TRUE)
+      if (nrow(tab) == 0L)
+        tab = data.table(stage = character(), class = character(), msg = character())
+      tab$stage = as_factor(tab$stage, levels = c("train", "predict"))
+      tab$class = as_factor(tab$class, levels = mlr_reflections$log_classes)
+      tab
+    },
+
     hash = function() {
       hash(list(class(self), self$id, self$param_set$values, private$.predict_type))
     },
@@ -234,6 +265,7 @@ Learner = R6Class("Learner",
     .param_set = NULL
   )
 )
+
 
 learner_print = function(self) {
   catf(format(self))

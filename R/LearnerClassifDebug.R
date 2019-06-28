@@ -29,10 +29,12 @@
 #' learner$param_set$values = list(message_train = TRUE, save_tasks = TRUE)
 #'
 #' # this should signal a message
-#' e = Experiment$new("iris", learner)$train()$predict()
+#' task = mlr_tasks$get("iris")
+#' learner$train(task)
+#' learner$predict(task)
 #'
 #' # task_train and task_predict are the input tasks for train() and predict()
-#' names(e$model)
+#' names(learner$model)
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
     initialize = function(id = "classif.debug") {
@@ -59,8 +61,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       )
     },
 
-    train = function(task) {
-
+    train_internal = function(task) {
       pv = self$params("train")
       if (isTRUE(pv$message_train)) {
         message("Message from classif.debug->train()")
@@ -79,11 +80,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }
-      self$model = set_class(model, "classif.debug_model")
-      invisible(self)
+      set_class(model, "classif.debug_model")
     },
 
-    predict = function(task) {
+    predict_internal = function(task) {
       n = task$nrow
       pv = self$params("predict")
       if (isTRUE(pv$message_predict)) {
@@ -100,7 +100,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       if (isTRUE(pv$save_tasks)) {
-        self$model$task_predict = task$clone(deep = TRUE)
+        self$data$model$task_predict = task$clone(deep = TRUE)
       }
 
       response = prob = NULL
@@ -125,7 +125,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         }
       }
 
-      p = self$new_prediction(task, response = response, prob = prob)
+      list(response = response, prob = prob)
     }
   )
 )

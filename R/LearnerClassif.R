@@ -49,10 +49,10 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
         data_formats = data_formats, packages = packages)
     },
 
-    new_prediction = function(task, response = NULL, prob = NULL) {
-      row_ids = task$row_ids
-      truth = task$truth()
+    new_prediction = function(row_ids, truth, response = NULL, prob = NULL) {
+      assert_row_ids(row_ids)
       n = length(row_ids)
+      assert_factor(truth, len = n)
       lvls = levels(truth)
 
       if (!is.null(response)) {

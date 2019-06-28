@@ -38,7 +38,7 @@
 #' set.seed(123)
 #' resampling$instantiate(task)
 #'
-#' rr = resample(task, learner, resampling)
+#' rr = resample(task, learner, resampling, measures = "classif.ce")
 #' print(rr, digits = 2)
 #'
 #' # retrieve performance
@@ -60,7 +60,8 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   task = assert_task(task, clone = TRUE)
   learner = assert_learner(learner, task = task, clone = TRUE)
   resampling = assert_resampling(resampling)
-  measures = assert_measures(measures %??% task$measures, task = task, learner = learner, clone = TRUE)
+  if (!is.null(measures))
+    measures = assert_measures(measures, task = task, learner = learner)
   ctrl = mlr_control(ctrl)
 
   instance = resampling$clone(deep = TRUE)
@@ -71,18 +72,18 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
 
   if (use_future()) {
     lg$debug("Running resample() via future with %i iterations", n)
-    res = future.apply::future_lapply(seq_len(n), experiment_worker,
+    res = future.apply::future_lapply(seq_len(n), workhorse,
       task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl,
-      remote = TRUE, future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3")
   } else {
     lg$debug("Running resample() sequentially with %i iterations", n)
-    res = lapply(seq_len(n), experiment_worker,
+    res = lapply(seq_len(n), workhorse,
       task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl)
   }
 
-  res = combine_experiments(res)
-  res[, c("task", "resampling", "measures") := list(list(task), list(instance), list(measures))]
+  res = map_dtr(res, reassemble, learner = learner)
+  res[, c("task", "resampling", "iteration") := list(list(task), list(resampling), seq_len(n))]
 
   ResampleResult$new(res)
 }

@@ -22,7 +22,7 @@ MeasureClassifAUC = R6Class("MeasureClassifAUC",
       )
     },
 
-    calculate = function(experiment = NULL, prediction = experiment$prediction) {
+    score_internal = function(prediction, ...) {
       truth = prediction$truth
       positive = levels(truth)[1L]
       Metrics::auc(actual = as.integer((truth == positive)), predicted = prediction$prob[, positive])

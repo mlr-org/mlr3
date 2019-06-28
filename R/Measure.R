@@ -9,8 +9,7 @@
 #'
 #' Measures are classes around tailored around two functions:
 #'
-#' 1. A function `calculate` which calculates the predictive performance of an [Experiment]
-#'    by comparing true and predicted response.
+#' 1. A function `score` which quantifies the performance by comparing true and predicted response.
 #' 2. A function `aggregator` which combines multiple performance values returned by
 #'    `calculate` to a single numeric value.
 #'
@@ -87,9 +86,11 @@
 #'   Aggregates multiple performance scores into a single score using the `aggregator` function of the measure.
 #'   Operates on a [ResampleResult] as returned by [resample].
 #'
-#' * `calculate(experiment = NULL, prediction = experiment$prediction)`\cr
-#'   ([Experiment], [Prediction]) -> `numeric(1)`\cr
-#'   Takes an [Experiment] and a [Prediction] (defaults to prediction stored in experiment), and calculates a numeric score.
+#' * `score(prediction, task = NULL, learner = NULL)`\cr
+#'   ([Prediction], [Task], [Learner]) -> `numeric(1)`\cr
+#'   Takes a [Prediction] and calculates a numeric score.
+#'   If the measure if flagged with the properties `"requires_task"` or `"requires_learner"`, you must additionally
+#'   pass the respective [Task] or the [Learner] for the measure to extract information from these objects.
 #'
 #' @family Measure
 #' @export
@@ -102,11 +103,12 @@ Measure = R6Class("Measure",
     aggregator = NULL,
     task_properties = NULL,
     range = NULL,
+    properties = NULL,
     minimize = NULL,
     na_score = NULL,
     packages = NULL,
 
-    initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
+    initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = task_type
@@ -120,6 +122,7 @@ Measure = R6Class("Measure",
         assert_choice(task_type, mlr_reflections$task_types)
         assert_choice(predict_type, names(mlr_reflections$learner_predict_types[[task_type]]))
       }
+      self$properties = assert_character(properties, any.missing = FALSE) # FIXME: reflection
       self$predict_type = predict_type
       self$task_properties = assert_sorted_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       self$na_score = assert_flag(na_score)
@@ -135,7 +138,20 @@ Measure = R6Class("Measure",
       catf(str_indent("Packages:", self$packages))
       catf(str_indent("Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
       catf(str_indent("Minimize:", self$minimize))
+      catf(str_indent("Properties:", self$properties))
       catf(str_indent("Predict type:", self$predict_type))
+    },
+
+    score = function(prediction, task = NULL, learner = NULL) {
+      if (is.null(task) && "requires_task" %in% self$properties) {
+        stopf("Measure '%s' requires a task", self$id)
+      }
+
+      if (is.null(learner) && "requires_learner" %in% self$properties) {
+        stopf("Measure '%s' requires a learner", self$learner)
+      }
+
+      self$score_internal(prediction = prediction, task = task, learner = learner)
     },
 
     aggregate = function(rr) {
@@ -146,7 +162,7 @@ Measure = R6Class("Measure",
 
   active = list(
     hash = function() {
-      hash(list(class(self), self$id, as.character(body(self$calculate))))
+      hash(list(class(self), self$id, as.character(body(self$score_internal))))
     }
   )
 )

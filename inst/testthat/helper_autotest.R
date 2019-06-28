@@ -152,74 +152,75 @@ generate_tasks.LearnerRegr = function(learner, N = 30L) {
 }
 registerS3method("generate_tasks", "LearnerRegr", generate_tasks.LearnerRegr)
 
-sanity_check = function(e) {
-  UseMethod("sanity_check", e$learner)
+sanity_check = function(prediction) {
+  UseMethod("sanity_check")
 }
 
-sanity_check.LearnerClassif = function(e) {
-  e$performance <= 0.3
+sanity_check.PredictionClassif = function(prediction) {
+  prediction$score("classif.ce") <= 0.3
 }
-registerS3method("sanity_check", "LearnerClassif", sanity_check.LearnerClassif)
+registerS3method("sanity_check", "LearnerClassif", sanity_check.PredictionClassif)
 
 
-sanity_check.LearnerRegr = function(e) {
-  e$performance <= 1
+sanity_check.PredictionRegr = function(prediction) {
+  prediction$score("regr.mse" <= 1)
 }
-registerS3method("sanity_check", "LearnerRegr", sanity_check.LearnerRegr)
+registerS3method("sanity_check", "LearnerRegr", sanity_check.PredictionRegr)
 
 run_experiment = function(task, learner) {
   err = function(info, ...) {
     info = sprintf(info, ...)
     list(
       ok = FALSE,
-      experiment = e,
+      task = task, learner = learner, prediction = prediction,
       error = sprintf("[%s] learner '%s' on task '%s' failed: %s",
         stage, learner$id, task$id, info)
     )
   }
 
   mlr3::assert_task(task)
-  mlr3::assert_learner(learner, task = task)
-  e = mlr3::Experiment$new(task, learner, ctrl = list(encapsulate_train = "evaluate", encapsulate_predict = "evaluate"))
+  learner = mlr3::assert_learner(learner, task = task, clone = TRUE)
+  prediction = NULL
+  ctrl = list(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
 
   stage = "train()"
-  ok = try(e$train(), silent = TRUE)
+  ok = try(learner$train(task, ctrl = ctrl), silent = TRUE)
   if (inherits(ok, "try-error"))
     return(err(as.character(ok)))
-  log = e$log("train")
-  if (log$has_condition("error"))
-    return(err("train log has errors: %s", mlr3misc::str_collapse(log$errors)))
-  if (is.null(e$model))
+  log = learner$log[stage == "train"]
+  if ("error" %in% log$class)
+    return(err("train log has errors: %s", mlr3misc::str_collapse(log[stage == "error", msg])))
+  if (is.null(learner$model))
     return(err("model is NULL"))
 
   stage = "predict()"
-  ok = try(e$predict(), silent = TRUE)
+  prediction = try(learner$predict(task), silent = TRUE)
   if (inherits(ok, "try-error"))
     return(err(as.character(ok)))
-  log = e$log("predict")
-  if (log$has_condition("error"))
-    return(err("predict log has errors: %s", mlr3misc::str_collapse(log$errors)))
-  if (!inherits(e$prediction, "Prediction"))
+  log = learner$log[stage == "predict"]
+  if ("error" %in% log$class)
+    return(err("predict log has errors: %s", mlr3misc::str_collapse(log[stage == "error", msg])))
+  if (!inherits(prediction, "Prediction"))
     return(err("$prediction has wrong class"))
-  if (e$prediction$task_type != learner$task_type)
+  if (prediction$task_type != learner$task_type)
     return(err("learner and prediction have different task_type"))
-  if (!all(learner$predict_type %in% e$prediction$predict_types))
+  if (!all(learner$predict_type %in% prediction$predict_types))
     return(err("prediction is missing predict_types"))
 
   stage = "score()"
-  ok = try(e$score(), silent = TRUE)
+  perf = try(prediction$score(mlr_reflections$default_measures[[learner$task_type]]), silent = TRUE)
   if (inherits(ok, "try-error"))
     return(err(as.character(ok)))
-  if (!checkmate::test_numeric(e$performance, any.missing = FALSE))
+  if (!checkmate::test_numeric(perf, any.missing = FALSE))
     return(err("score is not a numeric value"))
 
   # run sanity check on sanity task
-  if (grepl("^sanity", task$id) && !sanity_check(e)) {
+  if (grepl("^sanity", task$id) && !sanity_check(prediction)) {
     return(err("sanity check failed"))
   }
 
   if (grepl("^feat_all", task$id) && "importance" %in% learner$properties) {
-    imp = e$learner$importance()
+    imp = learner$importance()
     if (!checkmate::test_numeric(imp, any.missing = FALSE, min.len = 1L))
       return(err("importance is not numeric"))
     if (!checkmate::test_names(names(imp), subset.of = task$feature_names))
@@ -230,7 +231,7 @@ run_experiment = function(task, learner) {
       return(err("unimportant feature is important"))
   }
 
-  return(list(ok = TRUE, experiment = e, error = character(0)))
+  return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(0)))
 }
 
 run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types) {

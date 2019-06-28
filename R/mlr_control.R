@@ -1,25 +1,24 @@
 #' @title Execution Control Object
 #'
 #' @description
-#' This function creates a named list of settings which control the execution of an [Experiment].
+#' This function creates a named list of settings which control the execution of a [Learner].
 #'
 #' * `store_model` (`logical(1))`:\cr
-#'   If `FALSE`, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
-#'   Note that you will be unable to further predict on new data.
+#'   If `FALSE`, the model fitted during `train()` is discarded after `predict()`.
+#'   Note that you will be unable to predict on new data afterwards.
 #' * `store_prediction` (`logical(1)`):\cr
-#'   If `FALSE`, the predictions are discarded in order to save some memory after the experiment is completed.
-#'   Note that you will be unable to calculate additional performance measures.
+#'   If `FALSE`, the predictions are discarded after they have been scored in [resample()] or [benchmark()].
+#'   Note that you will be unable to calculate additional performance measures afterwards.
 #' * `encapsulate_train` (`character(1)`):\cr
 #'   How to call external code in third party packages during train.
 #'     - If set to `"none"` (default), the code is executed in the running session without error handling.
 #'       Output is not stored, just send to the console.
 #'     - If set to `"evaluate"`, the exceptions are caught using [evaluate::evaluate()].
-#'       All output is stored in a [Log] of the corresponding [Experiment].
+#'       All output can be accessed via the learner field `$log`.
 #'       \CRANpkg{evaluate} does not start a separate session, and thus cannot guard you against segfaults.
 #'     - If set to `"callr"`, the code is executed in an independent R session using the \CRANpkg{callr} package.
-#'       All output is stored in a [Log] of the corresponding [Experiment].
+#'       All output can be accessed via the learner field `$log`.
 #'       This guards your session from segfaults, at the cost of some computational overhead.
-#'   See [Log] for an example.
 #' * `encapsulate_predict` (`character(1)`):\cr
 #'   How to call external code in third party packages during predict. Same format as `encapsulate_train`.
 #'   See [Log] for an example.
@@ -27,7 +26,7 @@
 #' **Defaults**
 #' ```
 #' $store_model
-#' FALSE
+#' TRUE
 #'
 #' $store_prediction
 #' TRUE

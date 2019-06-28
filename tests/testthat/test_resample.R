@@ -5,11 +5,11 @@ test_that("resample", {
   learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
 
-  rr = resample(task, learner, resampling)
+  rr = resample(task, learner, resampling, measures = "classif.ce")
 
   expect_resample_result(rr)
-  expect_numeric(rr$performance(task$measures[[1]]$id), any.missing = FALSE)
-  expect_number(rr$aggregated)
+  expect_numeric(rr$performance$classif.ce, any.missing = FALSE)
+  # expect_number(rr$aggregated)
   expect_different_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
   expect_same_address(rr$data$task[[1L]], rr$data$task[[2L]])
   expect_same_address(rr$data$resampling[[1L]], rr$data$resampling[[2L]])

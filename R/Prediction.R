@@ -62,6 +62,12 @@ Prediction = R6Class("Prediction",
         catf("%s for %i observations:", format(self), nrow(data))
         print(data, nrows = 10L, topn = 3L, print.class = TRUE, print.keys = FALSE)
       }
+    },
+
+    score = function(measures, task = NULL, learner = NULL) {
+      measures = assert_measures(measures)
+      scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner))
+      set_names(scores, ids(measures))
     }
   ),
 

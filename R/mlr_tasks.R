@@ -60,7 +60,6 @@ as.data.table.DictionaryTask = function(x, ...) {
     insert_named(list(
       key = key,
       task_type = t$task_type,
-      measures = list(ids(t$measures)),
       nrow = t$nrow,
       ncol = t$ncol
     ), table(feats))

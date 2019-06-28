@@ -255,8 +255,8 @@ expect_learner = function(lrn, task = NULL) {
   checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   checkmate::expect_class(lrn$param_set, "ParamSet")
   checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
-  checkmate::expect_function(lrn$train, args = "task", nargs = 1L)
-  checkmate::expect_function(lrn$predict, args = "task", nargs = 1L)
+  checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
+  checkmate::expect_function(lrn$predict_internal, args = "task", nargs = 1L)
   expect_hash(lrn$hash, 1L)
 
   tags = lrn$param_set$tags
@@ -313,7 +313,7 @@ expect_resampling = function(r, task = NULL) {
 }
 
 expect_measure = function(m) {
-  checkmate::expect_r6(m, "Measure", public = c("aggregate", "calculate", "id", "minimize", "packages", "range", "task_type", "task_properties"))
+  checkmate::expect_r6(m, "Measure", public = c("aggregate", "score", "score_internal", "id", "minimize", "packages", "range", "task_type", "task_properties"))
   testthat::expect_output(print(m), "Measure")
 
   expect_id(m$id)
@@ -323,50 +323,8 @@ expect_measure = function(m) {
   checkmate::expect_flag(m$minimize, na.ok = TRUE)
   checkmate::expect_flag(m$na_score)
   checkmate::expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
-  checkmate::expect_function(m$calculate, args = c("experiment", "prediction"))
+  checkmate::expect_function(m$score_internal, args = c("prediction", "..."))
   checkmate::expect_function(m$aggregate, args = "rr")
-}
-
-expect_experiment = function(e) {
-  checkmate::expect_r6(e, "Experiment")
-  testthat::expect_output(print(e), "Experiment")
-  state = e$state
-  checkmate::expect_factor(state, ordered = TRUE)
-  checkmate::expect_subset(as.character(state), mlr3::mlr_reflections$experiment_states)
-  checkmate::expect_list(e$data, len = nrow(mlr3::mlr_reflections$experiment_slots))
-  checkmate::expect_names(names(e$data), permutation.of = mlr3::mlr_reflections$experiment_slots$name)
-  checkmate::expect_integer(e$seeds, len = 3L, names = "unique")
-  checkmate::expect_names(names(e$seeds), permutation.of = c("train", "predict", "score"))
-
-
-  checkmate::expect_class(e$task, "Task")
-  checkmate::expect_class(e$data$task, "Task")
-  checkmate::expect_class(e$learner, "Learner")
-  checkmate::expect_class(e$data$learner, "Learner")
-  if (state >= "trained") {
-    checkmate::expect_class(e$data$resampling, "Resampling")
-    checkmate::expect_int(e$data$iteration, lower = 1L)
-    checkmate::expect_data_table(e$data$train_log, null.ok = TRUE)
-    checkmate::expect_number(e$data$train_time)
-    # testthat::expect_false(is.null(e$data$model)) # may be null, depending on options
-  }
-
-  if (state >= "predicted") {
-    checkmate::expect_data_table(e$data$predict_log, null.ok = TRUE)
-    checkmate::expect_number(e$data$predict_time)
-    testthat::expect_is(e$data$prediction, "Prediction")
-    if (e$task$task_type %in% c("classif", "regr"))
-      checkmate::expect_atomic_vector(e$data$prediction$response, len = length(e$test_set), any.missing = FALSE)
-  }
-
-  if (state >= "scored") {
-    checkmate::expect_list(e$data$performance, names = "unique")
-    measures = e$task$measures
-    perf = e$performance
-    checkmate::expect_numeric(perf)
-    checkmate::expect_set_equal(mlr3misc::map_chr(measures, "id"), names(perf))
-    testthat::expect_true(all(mlr3misc::map_lgl(measures, "na_score") | !is.na(perf)))
-  }
 }
 
 expect_prediction = function(p) {
@@ -409,30 +367,21 @@ expect_resample_result = function(rr) {
   checkmate::expect_r6(rr, "ResampleResult")
   testthat::expect_output(print(rr), "ResampleResult")
   expect_task(rr$task)
-  expect_learner(rr$learner, task = rr$task)
   expect_resampling(rr$resampling, task = rr$task)
 
   data = rr$data
-  checkmate::expect_data_table(rr$data, nrow = rr$resampling$iters, min.cols = nrow(mlr3::mlr_reflections$experiment_slots), any.missing = FALSE)
-  checkmate::expect_names(names(rr$data), must.include = mlr3::mlr_reflections$experiment_slots$name)
+  checkmate::expect_data_table(rr$data, nrow = rr$resampling$iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
+  checkmate::expect_names(names(rr$data), must.include = mlr3::mlr_reflections$rr_names)
   expect_hash(rr$hash, 1L)
 
   checkmate::expect_data_table(data.table::as.data.table(rr), nrow = nrow(rr$data))
 
-  e = rr$experiment(1L)
-  expect_experiment(e)
-  testthat::expect_true(e$state == "scored")
-
-  exps = rr$experiments(seq_len(nrow(rr$data)))
-  checkmate::expect_list(exps, types = "Experiment", len = nrow(rr$data))
-
-  measures = rr$measures$measure
-  aggr = rr$aggregated
-  for (m in measures) {
-    y = rr$performance(m$id)
-    checkmate::expect_numeric(y, lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
-    checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
-  }
+  # aggr = rr$aggregated
+  # for (m in measures) {
+  #   y = rr$performance(m$id)
+  #   checkmate::expect_numeric(y, lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
+  #   checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
+  # }
 
   expect_prediction(rr$prediction)
 }
@@ -441,8 +390,8 @@ expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data"))
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
-  checkmate::expect_data_table(bmr$data, min.cols = nrow(mlr_reflections$experiment_slots) + 1L)
-  checkmate::expect_names(names(bmr$data), must.include = c(mlr_reflections$experiment_slots$name, "hash"))
+  checkmate::expect_data_table(bmr$data, min.cols = length(mlr_reflections$rr_names) + 1L)
+  checkmate::expect_names(names(bmr$data), must.include = c(mlr_reflections$rr_names, "hash"))
 
   tab = bmr$tasks
   checkmate::expect_data_table(tab, ncol = 3L)
@@ -465,22 +414,16 @@ expect_benchmark_result = function(bmr) {
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
 
-  tab = bmr$measures
-  checkmate::expect_data_table(tab, ncol = 3L)
-  checkmate::expect_names(names(tab), identical.to = c("measure_hash", "measure_id", "measure"))
-  expect_id(tab$measure_id)
-  checkmate::expect_list(tab$measure, "Measure")
-
   tab = bmr$aggregated()
-  checkmate::expect_data_table(tab, ncol = 7L + nrow(bmr$measures))
-  checkmate::expect_names(names(tab), permutation.of = c("hash", "resample_result", "resampling_id", "task", "task_id", "learner", "learner_id", "resampling_id", bmr$measures$measure_id))
+  checkmate::expect_data_table(tab, ncol = 7L)
+  checkmate::expect_names(names(tab), permutation.of = c("hash", "resample_result", "resampling_id", "task", "task_id", "learner", "learner_id", "resampling_id"))
   expect_hash(tab$hash)
   expect_list(tab$resample_result, "ResampleResult")
   expect_id(tab$task_id)
   expect_id(tab$learner_id)
   expect_id(tab$resampling_id)
-  for (m in bmr$measures$measure)
-    checkmate::expect_numeric(tab[[m$id]])
+  # for (m in bmr$measures$measure)
+  #   checkmate::expect_numeric(tab[[m$id]])
 
   tab = bmr$aggregated(params = TRUE)
   checkmate::assert_list(tab$params)

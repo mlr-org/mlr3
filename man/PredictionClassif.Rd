@@ -90,8 +90,8 @@ In case of ties in the ratio, one of the tied class labels is selected randomly.
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 learner$predict_type = "prob"
-e = Experiment$new(task, learner)$train()$predict()
-p = e$prediction
+learner$train(task)
+p = learner$predict(task)
 p$predict_types
 head(as.data.table(p))
 
@@ -104,11 +104,7 @@ names(th) = task$class_names
 
 # new predictions
 p$set_threshold(th)$response
-
-# update the threshold in the experiment
-e$score()$performance # score before thresholding
-e$prediction = e$prediction$set_threshold(th)
-e$score()$performance # score after thresholding
+score(p, measures = "classif.ce")
 }
 \seealso{
 Other Prediction: \code{\link{PredictionRegr}},

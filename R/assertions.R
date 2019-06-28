@@ -14,12 +14,6 @@ assert_backend = function(b, .var.name = vname(b)) {
   assert_class(b, "DataBackend", .var.name = .var.name)
 }
 
-#' @export
-#' @param e :: [Experiment].
-#' @rdname mlr_assertions
-assert_experiment = function(e, .var.name = vname(e)) {
-  assert_class(e, "Experiment", .var.name = .var.name)
-}
 
 #' @export
 #' @param task :: [Task].
@@ -160,6 +154,13 @@ assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
 assert_resamplings = function(resamplings, instantiated = NULL, clone = FALSE) {
   resamplings = cast_from_dict(resamplings, "Resampling", mlr_resamplings, clone, TRUE)
   lapply(resamplings, assert_resampling, instantiated = instantiated)
+}
+
+#' @export
+#' @param prediction :: [Prediction].
+#' @rdname mlr_assertions
+assert_prediction = function(prediction) {
+  assert_class(prediction, "Prediction")
 }
 
 #' @export

@@ -103,8 +103,6 @@ TaskClassif = R6Class("TaskClassif",
         self$positive = self$negative = NA_character_
         self$properties = "multiclass"
       }
-
-      self$measures = list(mlr_measures$get("classif.ce"))
     },
 
     truth = function(row_ids = NULL) {

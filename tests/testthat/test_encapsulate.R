@@ -19,28 +19,17 @@ test_that("encapsulate", {
     expect_data_table(log)
     expect_set_equal(as.character(log$class), c("output", "warning"))
     expect_true(log[class == "warning", grepl("\n", msg, fixed = TRUE)])
-    log = Log$new(log)
-    expect_log(log)
-    expect_true(log$has_condition("warning"))
-    expect_true(log$has_condition("output"))
-    expect_false(log$has_condition("error"))
 
     res = e(fun2)
     log = res$log
     expect_identical(res$result, 1L)
     expect_number(res$elapsed, lower = 0)
     expect_null(log)
-    log = Log$new(log)
-    expect_log(log)
-    expect_data_table(log$log, ncol = 2L, nrow = 0L)
   }
 })
 
 
 
-is_empty_log = function(log) {
-  test_data_table(log$log, nrow = 0L, ncol = 2L) && test_subset(log$log$class, mlr_reflections$log_classes)
-}
 disabled = mlr_control(encapsulate_train = "none")
 enabled = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
 task = mlr_tasks$get("iris")
@@ -49,38 +38,34 @@ learner$param_set$values = list(message_train = TRUE, warning_train = TRUE, mess
 
 test_that("evaluate / experiment", {
   row_ids = 1:120
-  e = Experiment$new(task = task, learner = learner)
 
-  expect_message(expect_warning(e$train(row_ids, disabled)))
-  log = e$log()
-  expect_output(print(log), "Empty <Log>")
-  expect_is(log, "Log")
-  expect_true(is_empty_log(log))
+  expect_message(expect_warning(learner$train(task, row_ids, ctrl = disabled)))
+  log = learner$log
+  expect_data_table(log)
 
-  expect_silent(e$train(row_ids, enabled))
-  log = e$log()
-  expect_is(log, "Log")
-  expect_output(print(log), "<Log> with 2")
-  expect_data_table(log$log, nrow = 2L, min.cols = 2L, any.missing = FALSE)
-  expect_character(log$log$class)
-  expect_set_equal(log$log$class, c("output", "warning"))
-  expect_true(all(grepl("->train()", log$log$msg, fixed = TRUE)))
-  expect_true(log$has_condition("output"))
-  expect_true(log$has_condition("warning"))
-  expect_false(log$has_condition("error"))
+  expect_silent(learner$train(task, row_ids, ctrl = enabled))
+  log = learner$log
+  expect_data_table(log)
+  expect_data_table(log, nrow = 2L, ncol = 3L, any.missing = FALSE)
+  expect_factor(log$class)
+  expect_set_equal(as.character(log$class), c("output", "warning"))
+  expect_true(all(grepl("->train()", log$msg, fixed = TRUE)))
+  expect_true("output" %in% log$class)
+  expect_true("warning" %in% log$class)
+  expect_false("error" %in% log$class)
 
-  expect_message(expect_warning(e$predict(row_ids = 101:150, ctrl = disabled)))
-  log = e$log("predict")
-  expect_is(log, "Log")
-  expect_true(is_empty_log(log))
+  expect_message(expect_warning(learner$predict(task, row_ids = 101:150, ctrl = disabled)))
+  log = learner$log[stage == "predict"]
+  expect_data_table(log)
+  expect_equal(nrow(log), 0)
 
-  e$predict(row_ids = 101:150, ctrl = enabled)
-  log = e$log("predict")
-  expect_is(log, "Log")
-  expect_data_table(log$log, nrow = 2L, min.cols = 2L, any.missing = FALSE)
-  expect_character(log$log$class)
-  expect_equal(log$log$class, c("output", "warning"))
-  expect_true(all(grepl("->predict()", log$log$msg, fixed = TRUE)))
+  learner$predict(task, row_ids = 101:150, ctrl = enabled)
+  log = learner$log[stage == "predict"]
+  expect_data_table(log)
+  expect_data_table(log, nrow = 2L, ncol = 3L, any.missing = FALSE)
+  expect_factor(log$class)
+  expect_equal(as.character(log$class), c("output", "warning"))
+  expect_true(all(grepl("->predict()", log$msg, fixed = TRUE)))
 })
 
 test_that("evaluate / resample", {

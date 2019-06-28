@@ -5,33 +5,31 @@ test_that("Simple training/predict", {
   learner = mlr_learners$get("classif.debug")
   expect_learner(learner, task)
 
-  e = Experiment$new(task, learner)
-  e$train()$predict()$score()
-  expect_class(e$model, "classif.debug_model")
-  expect_character(e$model$response, len = 1L, any.missing = FALSE)
-  expect_factor(e$prediction$response, any.missing = FALSE, levels = levels(e$model))
+  prediction = learner$train(task)$predict(task)
+  expect_class(learner$model, "classif.debug_model")
+  expect_character(learner$model$response, len = 1L, any.missing = FALSE)
+  expect_factor(prediction$response, any.missing = FALSE, levels = levels(learner$model))
 })
 
-test_that("updating model works / Experiment", {
+test_that("updating model works", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
-  e = Experiment$new(task, learner)
-  e$train(row_ids = 1:10)
-  expect_task(e$model$task_train)
-  e$predict(row_ids = 11:20)
-  expect_task(e$model$task_predict)
+  learner$train(task, 1:10)
+  expect_task(learner$model$task_train)
+  prediction = learner$predict(task, row_ids = 11:20)
+  expect_task(learner$model$task_predict)
 
   itrain = task$clone(TRUE)$filter(1:10)
   ipredict = task$clone(TRUE)$filter(11:20)
 
-  expect_equal(hashes(e$model[c("task_train", "task_predict")]), hashes(list(itrain, ipredict)))
+  expect_equal(hashes(learner$model[c("task_train", "task_predict")]), hashes(list(itrain, ipredict)))
 })
 
 test_that("updating model works / resample", {
   learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
   rr = resample("iris", learner, "holdout", ctrl = list(store_model = TRUE))
-  e = rr$experiment(1)
-  expect_list(e$model, len = 3)
+  new_learner = rr$learners[[1]]
+  expect_list(new_learner$model, len = 3)
 })
 
 test_that("NA predictions", {
@@ -48,10 +46,10 @@ test_that("NA predictions", {
   expect_equal(sum(is.na(p$response)), 75L)
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 
-  learner = mlr_learners$get("classif.debug", param_vals = list(predict_missing = 0.5), predict_type = "response")
-  e = Experiment$new(task, learner)$train()
-  expect_error(e$predict(), "missing predictions")
-  e$learner$fallback = "classif.featureless"
-  p = e$predict()$prediction
-  expect_false(anyMissing(p$response))
+  # learner = mlr_learners$get("classif.debug", param_vals = list(predict_missing = 0.5), predict_type = "response")
+  # learner$train(task)
+  # expect_error(learner$predict(task), "missing predictions")
+  # learner$fallback = "classif.featureless"
+  # p = e$predict()$prediction
+  # expect_false(anyMissing(p$response))
 })

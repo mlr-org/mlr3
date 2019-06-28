@@ -1,16 +1,15 @@
 context("benchmark")
 
 tasks = mlr_tasks$mget(c("iris", "sonar"))
-tasks$iris$measures = mlr_measures$mget("classif.acc")
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("cv")
 resamplings$cv$param_set$values = list(folds = 3)
 design = expand_grid(tasks, learners, resamplings)
-bmr = benchmark(design)
+bmr = benchmark(design, measures = c("classif.ce", "classif.acc"))
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
-  expect_names(names(bmr$data), permutation.of = c(mlr_reflections$experiment_slots$name, "hash"))
+  expect_names(names(bmr$data), permutation.of = c(mlr_reflections$rr_names, "hash"))
 
   tab = as.data.table(bmr)
   expect_data_table(tab, nrow = 12L)

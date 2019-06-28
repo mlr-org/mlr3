@@ -20,7 +20,7 @@ MeasureRegrMAE = R6Class("MeasureRegrMAE",
       )
     },
 
-    calculate = function(experiment = NULL, prediction = experiment$prediction) {
+    score_internal = function(prediction, ...) {
       Metrics::mae(actual = prediction$truth, predicted = prediction$response)
     }
   )

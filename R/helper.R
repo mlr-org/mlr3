@@ -43,7 +43,3 @@ translate_types = function(x) {
   p_types = names(mlr_reflections$task_feature_types)
   factor(map_values(x, r_types, p_types), levels = p_types)
 }
-
-as_state = function(state) {
-  ordered(state, levels = mlr_reflections$experiment_states)
-}

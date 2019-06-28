@@ -16,12 +16,11 @@
 #' ```
 #'
 #' * `data` :: [data.table::data.table()]\cr
-#'   Table with the data of one [Experiment] per row.
-#'   See description of field `data` of [Experiment] for the exact structure.
+#'   Table with the data of one resampling iteration per row.
 #'
 #' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
-#'   Experiment data with one [Experiment] per line.
+#'   Internal data storage.
 #'
 #' * `tasks` :: [data.table::data.table()]\cr
 #'   Table of used tasks with three columns:
@@ -34,10 +33,6 @@
 #' * `resamplings` :: [data.table::data.table()]\cr
 #'   Table of used resamplings with three columns:
 #'   "resampling_hash" (`character(1)`), "resampling_id" (`character(1)`) and "resampling" ([Resampling]).
-#'
-#' * `measures` :: [data.table::data.table()]\cr
-#'   Table of used measures with three columns:
-#'   "measure_hash" (`character(1)`), "measure_id" (`character(1)`) and "measure" ([Measure]).
 #'
 #' @section Methods:
 #' * `aggregated(objects = TRUE, ids = TRUE, params = FALSE)`\cr
@@ -79,7 +74,6 @@
 #'
 #' bmr$tasks
 #' bmr$learners
-#' bmr$measures
 #'
 #' # aggregated results
 #' bmr$aggregated()
@@ -99,7 +93,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     initialize = function(data) {
       assert_data_table(data)
-      slots = mlr_reflections$experiment_slots$name
+      slots = mlr_reflections$rr_names
       assert_names(names(data), must.include = c(slots, "hash"))
       self$data = setcolorder(data, slots)
     },
@@ -111,12 +105,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     print = function() {
       catf("%s of %i experiments in %i resamplings:",
         format(self), nrow(self$data), uniqueN(self$data$hash))
-      measure = self$measures$measure[[1L]]
       aggr = remove_named(self$aggregated(objects = FALSE, ids = TRUE, params = FALSE), c("resample_result", "hash"))
       setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
-      if (!is.na(measure$minimize)) {
-        setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
-      }
+      # if (!is.na(measure$minimize)) {
+      #   setorderv(aggr, measure$id, order = -1L + 2L * measure$minimize)
+      # }
       print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
     },
 
@@ -126,43 +119,27 @@ BenchmarkResult = R6Class("BenchmarkResult",
       invisible(self)
     },
 
-    get_best = function(id) {
-      measures = self$measures
-      assert_choice(id, measures$measure_id)
-      measure = measures[list(id), "measure", on = "measure_id"][[1]][[1L]]
-      if (is.na(measure$minimize)) {
-        stopf("Impossible to determine best value for measure '%s': '$minimize' is NA", id)
-      }
-      aggr = self$aggregated(ids = FALSE, objects = FALSE)
-      best = if (measure$minimize) which_min else which_max
-      aggr[best(get(id)), "resample_result"][[1L]][[1L]]
-    },
-
     aggregated = function(ids = TRUE, objects = TRUE, params = FALSE, unnest_params = FALSE) {
 
       res = self$data[, list(resample_result = list(ResampleResult$new(.SD))), by = hash]
 
       if (assert_flag(objects)) {
-        extract = function(x) list(task = list(x$task), learner = list(x$learner))
+        extract = function(x) list(task = list(x$task), learner = list(x$learners[[1L]]))
         res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
       }
 
       if (assert_flag(ids)) {
-        extract = function(x) list(task_id = x$task$id, learner_id = x$learner$id, resampling_id = x$resampling$id)
+        extract = function(x) list(task_id = x$task$id, learner_id = x$learners[[1L]]$id, resampling_id = x$resampling$id)
         res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
       }
 
       if (assert_flag(params)) {
-        res$params = map(res$resample_result, function(x) x$learner$param_set$values)
+        res$params = map(res$resample_result, function(x) x$learners[[1L]]$param_set$values)
       }
 
-      extract = function(x) as.list(x$aggregated)
-      res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
-
-      # if (!objects) {
-      #   remove_named(res, "resample_result")
-      # }
-      res[]
+      # extract = function(x) as.list(x$aggregated)
+      # ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))[]
+      res
     }
   ),
 
@@ -177,10 +154,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     resamplings = function() {
       unique(self$data[, list(resampling_hash = hashes(resampling), resampling_id = ids(resampling), resampling = resampling)], by = "resampling_hash")
-    },
-
-    measures = function() {
-      unique(map_dtr(self$data$measures, function(m) data.table(measure_hash = hashes(m), measure_id = ids(m), measure = m)), by = "measure_id")
     }
   ),
 
