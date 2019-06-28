@@ -77,21 +77,16 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
 }
 
 
-workhorse = function(iteration, task, learner, resampling, measures = NULL, ctrl = mlr_control()) {
+workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control()) {
   train_set = resampling$train_set(iteration)
   test_set = resampling$test_set(iteration)
   performance = NULL
 
   learner = learner_train(learner$clone(), task, train_set, ctrl)
   prediction = learner_predict(learner, task, test_set, ctrl)
-  performance = set_names(map(measures, function(m) m$score(prediction = prediction, learner = learner, task = task)), ids(measures))
 
   if (!ctrl$store_model) {
     learner$data$model = NULL
-  }
-
-  if (!ctrl$store_prediction) {
-    prediction = NULL
   }
 
   list(learner_data = learner$data, prediction_data = prediction$data, performance = performance)

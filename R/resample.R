@@ -12,9 +12,6 @@
 #' @param resampling :: ([Resampling] | `character(1)`)\cr
 #'   Object of type [Resampling].
 #'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
-#' @param measures :: list of [Measure]\cr
-#'   List of performance measures to calculate.
-#'   Defaults to the measures specified in the [Task] `task`.
 #' @param ctrl :: named `list()`\cr
 #'   Object to control experiment execution. See [mlr_control()] for details.
 #' @return [ResampleResult].
@@ -38,8 +35,8 @@
 #' set.seed(123)
 #' resampling$instantiate(task)
 #'
-#' rr = resample(task, learner, resampling, measures = "classif.ce")
-#' print(rr, digits = 2)
+#' rr = resample(task, learner, resampling)
+#' print(rr)
 #'
 #' # retrieve performance
 #' rr$performance("classif.ce")
@@ -55,11 +52,10 @@
 #' # Combine the ResampleResults into a BenchmarkResult
 #' bmr = rr$combine(rr.featureless)
 #' bmr$aggregated(objects = FALSE)
-resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
+resample = function(task, learner, resampling, ctrl = list()) {
   task = assert_task(task, clone = TRUE)
   learner = assert_learner(learner, task = task, clone = TRUE)
   resampling = assert_resampling(resampling)
-  measures = assert_measures(measures, task = task, learner = learner)
   ctrl = mlr_control(ctrl)
 
   instance = resampling$clone(deep = TRUE)
@@ -71,17 +67,17 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   if (use_future()) {
     lg$debug("Running resample() via future with %i iterations", n)
     res = future.apply::future_lapply(seq_len(n), workhorse,
-      task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl,
+      task = task, learner = learner, resampling = instance, ctrl = ctrl,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3")
   } else {
     lg$debug("Running resample() sequentially with %i iterations", n)
     res = lapply(seq_len(n), workhorse,
-      task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl)
+      task = task, learner = learner, resampling = instance, ctrl = ctrl)
   }
 
   res = map_dtr(res, reassemble, learner = learner)
-  res[, c("task", "resampling", "iteration", "measures") := list(list(task), list(resampling), seq_len(n), list(measures))]
+  res[, c("task", "resampling", "iteration") := list(list(task), list(resampling), seq_len(n))]
 
   ResampleResult$new(res)
 }

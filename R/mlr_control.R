@@ -6,9 +6,6 @@
 #' * `store_model` (`logical(1))`:\cr
 #'   If `FALSE`, the model fitted during `train()` is discarded after `predict()`.
 #'   Note that you will be unable to predict on new data afterwards.
-#' * `store_prediction` (`logical(1)`):\cr
-#'   If `FALSE`, the predictions are discarded after they have been scored in [resample()] or [benchmark()].
-#'   Note that you will be unable to calculate additional performance measures afterwards.
 #' * `encapsulate_train` (`character(1)`):\cr
 #'   How to call external code in third party packages during train.
 #'     - If set to `"none"` (default), the code is executed in the running session without error handling.
@@ -26,9 +23,6 @@
 #' **Defaults**
 #' ```
 #' $store_model
-#' TRUE
-#'
-#' $store_prediction
 #' TRUE
 #'
 #' $encapsulate_train
@@ -51,9 +45,6 @@
 #' @examples
 #' # get a list of the defaults
 #' mlr_control()
-#'
-#' # get a control object, with the default of store_prediction changed to FALSE
-#' mlr_control(store_prediction = FALSE)
 mlr_control = function(...) {
 
   ctrl = mlr_reflections$mlr_control_defaults
@@ -78,7 +69,6 @@ mlr_control = function(...) {
     stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
   }
   assert_flag(dots$store_model, null.ok = TRUE)
-  assert_flag(dots$store_prediction, null.ok = TRUE)
   assert_choice(dots$encapsulate_train, c("none", "evaluate", "callr"), null.ok = TRUE)
   assert_choice(dots$encapsulate_predict, c("none", "evaluate", "callr"), null.ok = TRUE)
   ctrl[names(dots)] = dots

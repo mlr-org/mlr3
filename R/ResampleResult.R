@@ -31,17 +31,11 @@
 #' * `resampling` :: [Resampling]\cr
 #'   The resampling splits [resample()] operated on.
 #'
-#' * `measures` :: `list()` of [Measure]\cr
-#'   The performance measures [resample()] operated on.
-#'
 #' * `errors` :: `logical()`\cr
 #'   Logical vector where the i-th element is `TRUE` if an error for the i-th resampling iteration has been captured.
 #'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
-#'
-#' * `aggregated` :: named `numeric()`\cr
-#'   Returns a single score for each measure, named with measure ids.
 #'
 #' * `prediction` :: [Prediction]\cr
 #'   Combined [Prediction] of all individual experiments.
@@ -53,9 +47,9 @@
 #'   [ResampleResult] -> [BenchmarkResult]\cr
 #'   Takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
 #'
-#' * `performance(id)`\cr
-#'   `character(1)` -> `numeric(1)`\cr
-#'   Retrieves the performance values for the measure with id `id` as numeric vector.
+#' * `performance(measures)`\cr
+#'   `list()` of [Measure] -> `data.table()`\cr
+#'   Retrieves the performance values for measures as [data.table()].
 #'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
@@ -78,15 +72,10 @@ ResampleResult = R6Class("ResampleResult",
       sprintf("<%s>", class(self)[1L])
     },
 
-    print = function(digits = 4L, ...) {
-      catf("%s of learner '%s' on task '%s' with %i iterations", format(self), self$task$id, self$data$learner[[1L]]$id, nrow(self$data))
-      perf = self$performance
-      if (ncol(perf)) {
-        tab = imap_dtr(perf, function(value, nn) {
-          c(list(measure = nn), as.list(summary(value)), list(Sd = sd(value)))
-        })
-        print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = digits, ...)
-      }
+    print = function() {
+      catf("%s of %i iterations", format(self), nrow(self$data))
+      catf(str_indent("Task:", self$task$id))
+      catf(str_indent("Learner:", self$data$learner[[1L]]$id))
     },
 
     combine = function(rr) {
@@ -95,6 +84,12 @@ ResampleResult = R6Class("ResampleResult",
         warningf("ResampleResult$combine(): Identical hashes detected. This is likely to be unintended.")
       }
       BenchmarkResult$new(rbind(cbind(self$data, data.table(hash = self$hash)), cbind(rr$data, data.table(hash = rr$hash))))
+    },
+
+    performance = function(measures) {
+      measures = assert_measures(measures)
+      f = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
+      pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], f)
     },
 
     aggregate = function(measures) {
@@ -118,10 +113,6 @@ ResampleResult = R6Class("ResampleResult",
 
     prediction = function() {
       do.call(c, self$data$prediction)
-    },
-
-    performance = function() {
-      rbindlist(self$data$performance, fill = TRUE, use.names = TRUE)
     },
 
     hash = function() {
