@@ -97,6 +97,9 @@ assert_learners = function(learners, task = NULL, properties = character(0L), cl
 #' @param measure :: [Measure].
 #' @rdname mlr_assertions
 assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
+  if (is.null(measure)) {
+    measure = mlr_reflections$default_measures[[task$task_type %??% learner$task_type]]
+  }
   measure = cast_from_dict(measure, "Measure", mlr_measures, clone, FALSE)[[1L]]
 
   if (!is.null(task)) {
@@ -126,8 +129,13 @@ assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
 #' @param measures :: list of [Measure].
 #' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, learner = NULL, clone = FALSE) {
-  measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
-  lapply(measures, assert_measure, task = task, learner = learner)
+  if (is.null(measures)) {
+    measures = mlr_reflections$default_measures[[task$task_type %??% learner$task_type]]
+  }
+  if (length(measures) == 0L) {
+    stopf("You must provide at least one measure")
+  }
+  measures = lapply(measures, assert_measure, task = task, learner = learner)
 }
 
 #' @export

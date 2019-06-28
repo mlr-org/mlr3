@@ -84,9 +84,7 @@ workhorse = function(iteration, task, learner, resampling, measures = NULL, ctrl
 
   learner = learner_train(learner$clone(), task, train_set, ctrl)
   prediction = learner_predict(learner, task, test_set, ctrl)
-  if (!is.null(measures)) {
-    performance = set_names(map(measures, function(m) m$score(prediction = prediction, learner = learner, task = task)), ids(measures))
-  }
+  performance = set_names(map(measures, function(m) m$score(prediction = prediction, learner = learner, task = task)), ids(measures))
 
   if (!ctrl$store_model) {
     learner$data$model = NULL

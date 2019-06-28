@@ -102,7 +102,7 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
-    measures = if (!is.null(measures)) assert_measures(measures, learner = learner)
+    measures = assert_measures(measures, task = task, learner = learner)
     hash = hash(task$hash, learner$hash, resampling$hash)
     data.table(task = list(task), learner = list(learner), resampling = list(resampling),
       measures = list(measures), iteration = seq_len(resampling$iters), hash = hash)

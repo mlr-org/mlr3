@@ -5,7 +5,7 @@ test_that("resample", {
   learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
 
-  rr = resample(task, learner, resampling, measures = "classif.ce")
+  rr = resample(task, learner, resampling)
 
   expect_resample_result(rr)
   expect_numeric(rr$performance$classif.ce, any.missing = FALSE)

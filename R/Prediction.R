@@ -64,7 +64,7 @@ Prediction = R6Class("Prediction",
       }
     },
 
-    score = function(measures, task = NULL, learner = NULL) {
+    score = function(measures = NULL, task = NULL, learner = NULL) {
       measures = assert_measures(measures)
       scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner))
       set_names(scores, ids(measures))

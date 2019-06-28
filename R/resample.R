@@ -56,12 +56,10 @@
 #' bmr = rr$combine(rr.featureless)
 #' bmr$aggregated(objects = FALSE)
 resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
-
   task = assert_task(task, clone = TRUE)
   learner = assert_learner(learner, task = task, clone = TRUE)
   resampling = assert_resampling(resampling)
-  if (!is.null(measures))
-    measures = assert_measures(measures, task = task, learner = learner)
+  measures = assert_measures(measures, task = task, learner = learner)
   ctrl = mlr_control(ctrl)
 
   instance = resampling$clone(deep = TRUE)
@@ -83,7 +81,7 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
   }
 
   res = map_dtr(res, reassemble, learner = learner)
-  res[, c("task", "resampling", "iteration") := list(list(task), list(resampling), seq_len(n))]
+  res[, c("task", "resampling", "iteration", "measures") := list(list(task), list(resampling), seq_len(n), list(measures))]
 
   ResampleResult$new(res)
 }
