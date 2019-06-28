@@ -155,8 +155,10 @@ Measure = R6Class("Measure",
     },
 
     aggregate = function(rr) {
-      fun = self$aggregator %??% mean
-      fun(rr$performance(self$id))
+      aggregator = self$aggregator %??% mean
+      score = function(prediction, task, learner) self$score(prediction, task = task, learner = learner)
+      performance = pmap_dbl(rr$data[, c("prediction", "task", "learner"), with = FALSE], score)
+      aggregator(performance)
     }
   ),
 

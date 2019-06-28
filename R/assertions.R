@@ -130,7 +130,9 @@ assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
 #' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, learner = NULL, clone = FALSE) {
   if (is.null(measures)) {
-    measures = mlr_reflections$default_measures[[task$task_type %??% learner$task_type]]
+    measures = list(mlr_reflections$default_measures[[task$task_type %??% learner$task_type]])
+  } else {
+    measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
   }
   if (length(measures) == 0L) {
     stopf("You must provide at least one measure")

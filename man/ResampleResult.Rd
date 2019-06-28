@@ -31,14 +31,10 @@ The task \code{\link[=resample]{resample()}} operated on.
 The learner \code{\link[=resample]{resample()}} operated on.
 \item \code{resampling} :: \link{Resampling}\cr
 The resampling splits \code{\link[=resample]{resample()}} operated on.
-\item \code{measures} :: \code{list()} of \link{Measure}\cr
-The performance measures \code{\link[=resample]{resample()}} operated on.
 \item \code{errors} :: \code{logical()}\cr
 Logical vector where the i-th element is \code{TRUE} if an error for the i-th resampling iteration has been captured.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
-\item \code{aggregated} :: named \code{numeric()}\cr
-Returns a single score for each measure, named with measure ids.
 \item \code{prediction} :: \link{Prediction}\cr
 Combined \link{Prediction} of all individual experiments.
 Note that the performance is not calculated on this object,
@@ -52,18 +48,26 @@ but instead on each experiment separately and then combined with an aggregate fu
 \item \code{combine(rr)}\cr
 \link{ResampleResult} -> \link{BenchmarkResult}\cr
 Takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
-\item \code{performance(id)}\cr
-\code{character(1)} -> \code{numeric(1)}\cr
-Retrieves the performance values for the measure with id \code{id} as numeric vector.
+\item \code{performance(measures = NULL)}\cr
+\code{list()} of \link{Measure} -> \code{data.table()}\cr
+Retrieves the performance values for provided measures as \code{\link[=data.table]{data.table()}}.
+If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
+(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
+\item \code{aggregated(measures = NULL)}\cr
+\code{list()} of \link{Measure} -> named \code{numeric()}\cr
+Calculates and aggregates performance values for all provided measures.
+See \link{Measure} for the aggregation function.
 }
 }
 
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(rr)}\cr
+\item \code{as.data.table(rr, measures = NULL)}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts the data to a \code{data.table()}.
+Converts the data to a \code{data.table()}, with performance of provided measures as separate columns.
+If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
+(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
 }
 }
 

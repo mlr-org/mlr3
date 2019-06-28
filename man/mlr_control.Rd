@@ -20,9 +20,6 @@ This function creates a named list of settings which control the execution of a 
 \item \code{store_model} (\code{logical(1))}:\cr
 If \code{FALSE}, the model fitted during \code{train()} is discarded after \code{predict()}.
 Note that you will be unable to predict on new data afterwards.
-\item \code{store_prediction} (\code{logical(1)}):\cr
-If \code{FALSE}, the predictions are discarded after they have been scored in \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}.
-Note that you will be unable to calculate additional performance measures afterwards.
 \item \code{encapsulate_train} (\code{character(1)}):\cr
 How to call external code in third party packages during train.
 \itemize{
@@ -43,9 +40,6 @@ See \link{Log} for an example.
 \strong{Defaults}\preformatted{$store_model
 TRUE
 
-$store_prediction
-TRUE
-
 $encapsulate_train
 "none"
 
@@ -59,7 +53,4 @@ $log_threshold
 \examples{
 # get a list of the defaults
 mlr_control()
-
-# get a control object, with the default of store_prediction changed to FALSE
-mlr_control(store_prediction = FALSE)
 }

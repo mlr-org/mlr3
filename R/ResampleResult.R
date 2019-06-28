@@ -47,14 +47,23 @@
 #'   [ResampleResult] -> [BenchmarkResult]\cr
 #'   Takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
 #'
-#' * `performance(measures)`\cr
+#' * `performance(measures = NULL)`\cr
 #'   `list()` of [Measure] -> `data.table()`\cr
-#'   Retrieves the performance values for measures as [data.table()].
+#'   Retrieves the performance values for provided measures as [data.table()].
+#'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
+#'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
+#'
+#' * `aggregated(measures = NULL)`\cr
+#'   `list()` of [Measure] -> named `numeric()`\cr
+#'   Calculates and aggregates performance values for all provided measures.
+#'   See [Measure] for the aggregation function.
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr)`\cr
+#' * `as.data.table(rr, measures = NULL)`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
-#'   Converts the data to a `data.table()`.
+#'   Converts the data to a `data.table()`, with performance of provided measures as separate columns.
+#'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
+#'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
 #' @export
 ResampleResult = R6Class("ResampleResult",
   public = list(
@@ -86,14 +95,14 @@ ResampleResult = R6Class("ResampleResult",
       BenchmarkResult$new(rbind(cbind(self$data, data.table(hash = self$hash)), cbind(rr$data, data.table(hash = rr$hash))))
     },
 
-    performance = function(measures) {
-      measures = assert_measures(measures)
+    performance = function(measures = NULL) {
+      measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]])
       f = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
-      pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], f)
+      cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], f))
     },
 
-    aggregate = function(measures) {
-      measures = assert_measures(measures)
+    aggregated = function(measures = NULL) {
+      measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]])
       set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
     }
   ),
@@ -117,8 +126,8 @@ ResampleResult = R6Class("ResampleResult",
 
     hash = function() {
       if (is.null(private$.hash)) {
-        row = as.list(self$data[1L])
-        private$.hash = hash(row$task$hash, row$learner$hash, row$resampling$hash)
+        data = self$data
+        private$.hash = hash(data$task[[1L]]$hash, data$learner[[1L]]$hash, data$resampling[[1L]]$hash)
       }
       private$.hash
     },
@@ -138,16 +147,9 @@ ResampleResult = R6Class("ResampleResult",
 )
 
 #' @export
-as.data.table.ResampleResult = function(x, ...) {
-  task = learner = resampling = iteration = performance = NULL
-  tab = x$data[order(iteration),
-    list(
-      hash = x$hash,
-      task = task, task_id = ids(task),
-      learner = learner, learner_id = ids(learner),
-      resampling = resampling, resampling_id = ids(resampling),
-      iteration = iteration, performance = performance
-    )
-  ]
-  unnest(tab, "performance")
+as.data.table.ResampleResult = function(x, measures = NULL, ...) {
+  task = learner = resampling = NULL
+  tab = x$performance(measures)
+  tab[, c("task_id", "learner_id", "resampling_id") := list(ids(task), ids(learner), ids(resampling))]
+  setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))[]
 }

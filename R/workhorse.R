@@ -80,7 +80,6 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
 workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control()) {
   train_set = resampling$train_set(iteration)
   test_set = resampling$test_set(iteration)
-  performance = NULL
 
   learner = learner_train(learner$clone(), task, train_set, ctrl)
   prediction = learner_predict(learner, task, test_set, ctrl)
@@ -89,12 +88,12 @@ workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control())
     learner$data$model = NULL
   }
 
-  list(learner_data = learner$data, prediction_data = prediction$data, performance = performance)
+  list(learner_data = learner$data, prediction_data = prediction$data)
 }
 
 reassemble = function(row, learner) {
   learner = learner$clone()
   learner$data = row$learner_data
   prediction = do.call(learner$new_prediction, row$prediction_data)
-  list(learner = list(learner), prediction = list(prediction), performance = list(row$performance))
+  list(learner = list(learner), prediction = list(prediction))
 }

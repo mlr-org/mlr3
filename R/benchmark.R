@@ -14,10 +14,6 @@
 #'   All resamplings must be properly instantiated.
 #'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
-#' @param measures :: list of [Measure]\cr
-#'   List of performance measures to calculate.
-#'   Defaults to the measures specified in the each respective [Task].
-#'   The measures will be cloned.
 #' @param ctrl :: (named `list()`)\cr
 #'   Object to control experiment execution. See [mlr_control()] for details.
 #'   Note that per default, fitted learner models are discarded after the prediction in order to save
@@ -53,14 +49,6 @@
 #' ## aggregated performance values
 #' bmr$aggregated(objects = FALSE)
 #'
-#' ## Overview of of resamplings that were conducted internally
-#' aggr = bmr$aggregated()
-#' print(aggr)
-#'
-#' ## Extract first ResampleResult
-#' rr = aggr[1, resample_result][[1]]
-#' print(rr)
-#'
 #' ## Extract predictions of first experiment of this resampling
 #' head(as.data.table(rr$experiment(1)$prediction))
 #'
@@ -86,7 +74,7 @@
 #' ## get the training set of the 2nd iteration of the featureless learner on iris
 #' rr = bmr$aggregated()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$experiment(2)$train_set
-benchmark = function(design, measures = NULL, ctrl = list()) {
+benchmark = function(design, ctrl = list()) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   assert_tasks(design$task)
@@ -102,10 +90,9 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
-    measures = assert_measures(measures, task = task, learner = learner)
-    hash = hash(task$hash, learner$hash, resampling$hash)
+        hash = hash(task$hash, learner$hash, resampling$hash)
     data.table(task = list(task), learner = list(learner), resampling = list(resampling),
-      measures = list(measures), iteration = seq_len(resampling$iters), hash = hash)
+      iteration = seq_len(resampling$iters), hash = hash)
   })
 
   lg$info("Benchmarking %i experiments", nrow(grid))
@@ -115,8 +102,7 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 
     res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, measures = grid$measures,
-      MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE,
+      iteration = grid$iteration, MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3"
     )
@@ -125,14 +111,12 @@ benchmark = function(design, measures = NULL, ctrl = list()) {
 
     res = mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, measures = grid$measures,
-      MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE
+      iteration = grid$iteration, MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   }
 
   res = rbindlist(Map(reassemble, row = res, learner = grid$learner), use.names = TRUE)
   res = insert_named(grid, res)
-  res[, "measures" := NULL]
 
   lg$info("Finished benchmark")
   BenchmarkResult$new(res)

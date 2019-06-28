@@ -40,7 +40,7 @@
 #'
 #' # retrieve performance
 #' rr$performance("classif.ce")
-#' rr$aggregated
+#' rr$aggregate("classif.ce")
 #'
 #' # merged prediction object for all experiments
 #' pred = rr$prediction
@@ -77,7 +77,7 @@ resample = function(task, learner, resampling, ctrl = list()) {
   }
 
   res = map_dtr(res, reassemble, learner = learner)
-  res[, c("task", "resampling", "iteration") := list(list(task), list(resampling), seq_len(n))]
+  res[, c("task", "resampling", "iteration") := list(list(task), list(instance), seq_len(n))]
 
-  ResampleResult$new(res)
+  ResampleResult$new(res[])
 }

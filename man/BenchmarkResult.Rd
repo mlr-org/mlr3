@@ -55,28 +55,26 @@ Return learner hyperparameter values as list column \code{params} in the result 
 \item \code{combine(bmr)}\cr
 \link{BenchmarkResult} -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself.
-\item \code{get_best(id)}\cr
-(\code{character(1)}) -> \link{ResampleResult}\cr
-Returns the \link{ResampleResult} with best performance according to \link{Measure} with the provided id.
 }
 }
 
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(bmr)}\cr
+\item \code{as.data.table(bmr, measures = NULL)}\cr
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts the data to a \code{data.table()}.
+Converts the data to a \code{data.table()}, with performance of provided measures as separate columns.
+If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
+(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
 }
 }
 
 \examples{
 set.seed(123)
-design = expand_grid(
-  tasks = "iris",
-  learners = c("classif.featureless", "classif.rpart"),
-  resamplings = "cv3"
-)
+tasks = mlr_tasks$mget(c("sonar", "spam"))
+learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"), predict_type = "prob")
+resamplings = mlr_resamplings$get("cv3")
+design = expand_grid(tasks = tasks, learners = learners, resamplings = resamplings)
 print(design)
 
 bmr = benchmark(design)
@@ -84,6 +82,9 @@ print(bmr)
 
 bmr$tasks
 bmr$learners
+
+# first 5 individual resamplings
+head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 
 # aggregated results
 bmr$aggregated()
@@ -96,6 +97,6 @@ rr = bmr$aggregated()[learner_id == "classif.rpart", resample_result][[1]]
 print(rr)
 
 # access the confusion matrix of the first resampling iteration
-rr$experiment(1)$prediction$confusion
+rr$data$prediction[[1]]$confusion
 }
 \keyword{datasets}

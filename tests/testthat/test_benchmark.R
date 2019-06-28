@@ -5,7 +5,7 @@ learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("cv")
 resamplings$cv$param_set$values = list(folds = 3)
 design = expand_grid(tasks, learners, resamplings)
-bmr = benchmark(design, measures = c("classif.ce", "classif.acc"))
+bmr = benchmark(design)
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
@@ -13,7 +13,7 @@ test_that("Basic benchmarking", {
 
   tab = as.data.table(bmr)
   expect_data_table(tab, nrow = 12L)
-  expect_names(names(tab), must.include = c("task_id", "learner_id", "resampling_id", ids(tasks[[1L]]$measures), ids(tasks[[2]]$measures)))
+  expect_names(names(tab), must.include = c("task_id", "learner_id", "resampling_id"))
   expect_numeric(tab$classif.ce, lower = 0, upper = 1, any.missing = TRUE)
   expect_numeric(tab$classif.acc, lower = 0, upper = 1, any.missing = TRUE)
   expect_equal(tab[task_id == "sonar", sum(is.na(classif.ce))], 0)

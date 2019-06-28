@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, measures = NULL, ctrl = list())
+benchmark(design, ctrl = list())
 }
 \arguments{
 \item{design}{:: \code{\link[=data.frame]{data.frame()}}\cr
@@ -13,11 +13,6 @@ Each row defines a set of resampled experiments by providing a \link{Task}, \lin
 All resamplings must be properly instantiated.
 The helper function \code{\link[=expand_grid]{expand_grid()}} can assist in generating an exhaustive design (see examples) and
 instantiate the \link{Resampling}s per \link{Task}.}
-
-\item{measures}{:: list of \link{Measure}\cr
-List of performance measures to calculate.
-Defaults to the measures specified in the each respective \link{Task}.
-The measures will be cloned.}
 
 \item{ctrl}{:: (named \code{list()})\cr
 Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}} for details.
@@ -64,14 +59,6 @@ head(as.data.table(bmr))
 
 ## aggregated performance values
 bmr$aggregated(objects = FALSE)
-
-## Overview of of resamplings that were conducted internally
-aggr = bmr$aggregated()
-print(aggr)
-
-## Extract first ResampleResult
-rr = aggr[1, resample_result][[1]]
-print(rr)
 
 ## Extract predictions of first experiment of this resampling
 head(as.data.table(rr$experiment(1)$prediction))

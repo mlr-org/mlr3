@@ -4,7 +4,7 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, measures = NULL, ctrl = list())
+resample(task, learner, resampling, ctrl = list())
 }
 \arguments{
 \item{task}{:: (\link{Task} | \code{character(1)})\cr
@@ -18,10 +18,6 @@ Instead if a \link{Learner} object, it is also possible to provide a key to retr
 \item{resampling}{:: (\link{Resampling} | \code{character(1)})\cr
 Object of type \link{Resampling}.
 Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a resampling from the \link{mlr_resamplings} dictionary.}
-
-\item{measures}{:: list of \link{Measure}\cr
-List of performance measures to calculate.
-Defaults to the measures specified in the \link{Task} \code{task}.}
 
 \item{ctrl}{:: named \code{list()}\cr
 Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}} for details.}
@@ -52,12 +48,12 @@ resampling = mlr_resamplings$get("cv")
 set.seed(123)
 resampling$instantiate(task)
 
-rr = resample(task, learner, resampling, measures = "classif.ce")
-print(rr, digits = 2)
+rr = resample(task, learner, resampling)
+print(rr)
 
 # retrieve performance
 rr$performance("classif.ce")
-rr$aggregated
+rr$aggregate("classif.ce")
 
 # merged prediction object for all experiments
 pred = rr$prediction
