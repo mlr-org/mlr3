@@ -104,7 +104,7 @@ names(th) = task$class_names
 
 # new predictions
 p$set_threshold(th)$response
-score(p, measures = "classif.ce")
+p$score(measures = "classif.ce")
 }
 \seealso{
 Other Prediction: \code{\link{PredictionRegr}},
