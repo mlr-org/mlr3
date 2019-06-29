@@ -103,11 +103,6 @@
 #'
 #'
 #' @section Methods:
-#' * `params(tag)`\cr
-#'   `character(1)` -> named `list()`\cr
-#'   Returns a list of hyperparameter settings from `param_set` where the corresponding parameters in `param_set` are tagged
-#'   with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters relevant in the training step.
-#'
 #' * `train(task)`\cr
 #'   [Task] -> [Learner]\cr
 #'   Train the learner on the complete [Task], sets `self$model` to the learner model and returns itself.
@@ -196,12 +191,6 @@ Learner = R6Class("Learner",
 
     print = function() {
       learner_print(self)
-    },
-
-    params = function(tag) {
-      assert_string(tag)
-      pv = self$param_set$values
-      pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = tag)]
     }
   ),
 
