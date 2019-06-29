@@ -18,8 +18,9 @@ Settings may be provided in a \code{name = value} fashion, or by providing a sin
 This function creates a named list of settings which control the execution of a \link{Learner}.
 \itemize{
 \item \code{store_model} (\code{logical(1))}:\cr
-If \code{FALSE}, the model fitted during \code{train()} is discarded after \code{predict()}.
-Note that you will be unable to predict on new data afterwards.
+If \code{FALSE} (default), models fitted during \code{\link[=resampling]{resampling()}} and \code{\link[=benchmark]{benchmark()}} are discarded.
+Note that you will be unable to predict on new data or extract additional information like
+variable importance from the learner.
 \item \code{encapsulate_train} (\code{character(1)}):\cr
 How to call external code in third party packages during train.
 \itemize{

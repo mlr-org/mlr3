@@ -4,8 +4,9 @@
 #' This function creates a named list of settings which control the execution of a [Learner].
 #'
 #' * `store_model` (`logical(1))`:\cr
-#'   If `FALSE`, the model fitted during `train()` is discarded after `predict()`.
-#'   Note that you will be unable to predict on new data afterwards.
+#'   If `FALSE` (default), models fitted during [resampling()] and [benchmark()] are discarded.
+#'   Note that you will be unable to predict on new data or extract additional information like
+#'   variable importance from the learner.
 #' * `encapsulate_train` (`character(1)`):\cr
 #'   How to call external code in third party packages during train.
 #'     - If set to `"none"` (default), the code is executed in the running session without error handling.

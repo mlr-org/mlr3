@@ -16,11 +16,14 @@
 #' ```
 #'
 #' * `data` :: [data.table::data.table()]\cr
-#'   Table with the data of one resampling iteration per row.
+#'   Table with data for one resampling iteration per row:
+#'   [Task], [Learner], [Resampling], iteration (`integer(1)`), [Prediction], and the hash (`character(1)`)
+#'   of the corresponding [ResampleResult].
 #'
 #' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
 #'   Internal data storage.
+#'   We discourage users to directly work with this field.
 #'
 #' * `tasks` :: [data.table::data.table()]\cr
 #'   Table of used tasks with three columns:
@@ -36,7 +39,7 @@
 #'
 #' @section Methods:
 #' * `aggregate(measures = NULL, ids = TRUE, params = FALSE)`\cr
-#'   (`logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
+#'   (`list()` of [Measure], `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where experiments are aggregated per [ResampleResult].
 #'   Arguments control the number of additional columns:
 #'     * `ids` :: `logical(1)`\cr
@@ -45,12 +48,16 @@
 #'       Return learner hyperparameter values as list column `params` in the result `data.table()`.
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
-#'   `list()` of [Measure] -> `data.table()`\cr
+#'   (`list()` of [Measure], `logical(1)`) -> `data.table()`\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects.
 #'   Additionally calculates the provided performance measures and binds the performance as extra column.
 #'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
 #'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
 #'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
+#'
+#' * `get_best(measure)`\cr
+#'   ([Measure]) -> [ResampleResult]\cr
+#'   Returns the [ResampleResult] with best performance according to [Measure] with the provided id.
 #'
 #' * `combine(bmr)`\cr
 #'   [BenchmarkResult] -> `self`\cr
@@ -118,7 +125,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     performance = function(measures = NULL, ids = TRUE) {
-      measures = assert_measures(measures, task = self$data$task[[1L]])
+      measures = assert_measures(measures, learner = self$data$learner[[1L]])
       assert_flag(ids)
       score = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
       tab = cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], score))
@@ -131,7 +138,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     aggregate = function(measures = NULL, ids = TRUE, params = FALSE) {
-      measures = assert_measures(measures, task = self$data$task[[1L]])
+      measures = assert_measures(measures, learner = self$data$learner[[1L]])
       res = self$data[, list(resample_result = list(ResampleResult$new(copy(.SD)))), by = hash]
 
 
@@ -145,6 +152,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       ref_cbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
+    },
+
+    get_best = function(measure) {
+      measure = assert_measure(measure, learner = self$data$learner[[1L]])
+      tab = self$aggregate(measure, ids = FALSE)
+      best = if (measure$minimize) which_min else which_max
+      tab$resample_result[[best(tab[[measure$id]])]]
     }
   ),
 

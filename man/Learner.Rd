@@ -73,6 +73,12 @@ A complete list of candidate properties, grouped by task type, is stored in \cod
 Stores the names of required packages.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
+\item \code{model} :: any\cr
+The fitted model. Only available after \code{$train()} has been called.
+\item \code{log} :: \code{data.table()}\cr
+Returns the output (including warning and errors) as table with columns
+\code{"stage"} (train or predict), \code{"class"} (output, warning, error) and
+\code{"msg"} (\code{character()}).
 \item \code{fallback} :: \link{Learner}\cr
 Learner which is used as a fallback to repair predictions in the following situations:
 \itemize{
@@ -101,12 +107,23 @@ and its output is not captured in the learner log.
 \code{character(1)} -> named \code{list()}\cr
 Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
 with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters relevant in the training step.
-\item \code{train(task)}\cr
-\link{Task} -> \link{Learner}\cr
-Train the learner on the complete \link{Task}, sets \code{self$model} to the learner model and returns itself.
-\item \code{predict(task)}\cr
-\link{Task} -> \link{Prediction}\cr
-Uses \code{self$model} (fitted and stored during \code{train()}) to create a new \link{Prediction} object via \code{self$new_prediction()}.
+\item \code{train(task, row_ids = NULL, ctrl = list())}\cr
+(\link{Task}, \code{vector()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Learner}\cr
+Train the learner on the row ids of the provided \link{Task}.
+Mutates the learner by reference, e.g. stores the model in field \code{$data}.
+\item \code{predict(task, row_ids = NULL, ctrl = list())}\cr
+(\link{Task}, \code{vector()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
+Uses the data stored during \code{$train()} to create a new \link{Prediction} based on the provided \code{row_ids}
+of the \code{task}.
+\item \code{predict_newdata(task, newdata, ctrl = list())}\cr
+(\link{Task}, \code{data.frame()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
+Uses the data stored during \code{$train()} to create a new \link{Prediction} based on the new data in \code{newdata}.
+Object \code{task} is the task used during \code{$train()} and required for conversions of \code{newdata}.
+\item \code{new_prediction(row_ids, truth, ...)}\cr
+\link[=`vector()`, any, ...]{vector(), any, ...} -> \link{Prediction}\cr
+Used internally to create a \link{Prediction} object.
+The arguments are described in the respective specialization of \link{Prediction}, e.g. in \link{PredictionClassif} for
+classification.
 }
 }
 

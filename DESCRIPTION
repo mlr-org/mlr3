@@ -155,5 +155,5 @@ Collate:
     'mlr_resamplings.R'
     'reexports.R'
     'resample.R'
-    'workhorse.R'
+    'worker.R'
     'zzz.R'

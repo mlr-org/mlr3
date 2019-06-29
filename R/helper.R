@@ -39,11 +39,6 @@ hash = function(...) {
 }
 
 hash_resample_iteration = function(task, learner, resampling) {
-  assert_class(task, "Task")
-  assert_class(learner, "Learner")
-  assert_class(resampling, "Resampling")
-  # sprintf("%s+%s+%s=%s", task$hash, learner$hash, resampling$hash, h)
-
   hash(task$hash, learner$hash, resampling$hash)
 }
 
@@ -52,4 +47,3 @@ translate_types = function(x) {
   p_types = names(mlr_reflections$task_feature_types)
   factor(map_values(x, r_types, p_types), levels = p_types)
 }
-

@@ -16,7 +16,8 @@ Do not modify any object without cloning it first.
 }
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with the data of one resampling iteration per row.
+Table with data for one resampling iteration per row:
+\link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), and \link{Prediction}.
 }
 }
 
@@ -25,10 +26,9 @@ Table with the data of one resampling iteration per row.
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Internal data storage.
+We discourage users to directly work with this field.
 \item \code{task} :: \link{Task}\cr
 The task \code{\link[=resample]{resample()}} operated on.
-\item \code{learner} :: \link{Learner}\cr
-The learner \code{\link[=resample]{resample()}} operated on.
 \item \code{resampling} :: \link{Resampling}\cr
 The resampling splits \code{\link[=resample]{resample()}} operated on.
 \item \code{errors} :: \code{logical()}\cr
@@ -49,7 +49,7 @@ but instead on each experiment separately and then combined with an aggregate fu
 \link{ResampleResult} -> \link{BenchmarkResult}\cr
 Takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
-\code{list()} of \link{Measure} -> \code{data.table()}\cr
+(\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects.
 Additionally calculates the provided performance measures and binds the performance as extra column.
 If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}

@@ -32,6 +32,15 @@
 #' * `missing` :: `logical()`\cr
 #'   Returns `row_ids` for which the predictions are missing or incomplete.
 #'
+#' @section Methods:
+#' * `score(measures = NULL, task = NULL, learner = NULL)`
+#'   (`list()` of [Measure], [Task], [Learner]) -> [Prediction]\cr
+#'   Calculates the performance for all provided measures
+#'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
+#'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
+#'   [Task] and [Learner] may be `NULL` for many measures, but some measures need to extract information
+#'   from these objects.
+#'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [Prediction] -> [data.table::data.table()]\cr
@@ -65,7 +74,7 @@ Prediction = R6Class("Prediction",
     },
 
     score = function(measures = NULL, task = NULL, learner = NULL) {
-      measures = assert_measures(measures)
+      measures = assert_measures(measures, task_type = self$task_type)
       scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner))
       set_names(scores, ids(measures))
     }

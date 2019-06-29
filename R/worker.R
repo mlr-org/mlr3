@@ -87,9 +87,11 @@ workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control())
   list(learner_data = learner$data, prediction_data = prediction$data)
 }
 
-reassemble = function(row, learner) {
+# called on the master, re-constructs objects from return value of
+# the workhorse function
+reassemble = function(result, learner) {
   learner = learner$clone()
-  learner$data = row$learner_data
-  prediction = do.call(learner$new_prediction, row$prediction_data)
+  learner$data = result$learner_data
+  prediction = do.call(learner$new_prediction, result$prediction_data)
   list(learner = list(learner), prediction = list(prediction))
 }

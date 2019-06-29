@@ -16,17 +16,16 @@
 #' ```
 #'
 #' * `data` :: [data.table::data.table()]\cr
-#'   Table with the data of one resampling iteration per row.
+#'   Table with data for one resampling iteration per row:
+#'   [Task], [Learner], [Resampling], iteration (`integer(1)`), and [Prediction].
 #'
 #' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
 #'   Internal data storage.
+#'   We discourage users to directly work with this field.
 #'
 #' * `task` :: [Task]\cr
 #'   The task [resample()] operated on.
-#'
-#' * `learner` :: [Learner]\cr
-#'   The learner [resample()] operated on.
 #'
 #' * `resampling` :: [Resampling]\cr
 #'   The resampling splits [resample()] operated on.
@@ -48,7 +47,7 @@
 #'   Takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
-#'   `list()` of [Measure] -> `data.table()`\cr
+#'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects.
 #'   Additionally calculates the provided performance measures and binds the performance as extra column.
 #'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]

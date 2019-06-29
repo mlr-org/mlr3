@@ -86,6 +86,14 @@
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
+#' * `model` :: any\cr
+#'   The fitted model. Only available after `$train()` has been called.
+#'
+#' * `log` :: `data.table()`\cr
+#'   Returns the output (including warning and errors) as table with columns
+#'   `"stage"` (train or predict), `"class"` (output, warning, error) and
+#'   `"msg"` (`character()`).
+#'
 #' * `fallback` :: [Learner]\cr
 #'   Learner which is used as a fallback to repair predictions in the following situations:
 #'   * The model fit fails during `train()`
@@ -108,13 +116,26 @@
 #'   Returns a list of hyperparameter settings from `param_set` where the corresponding parameters in `param_set` are tagged
 #'   with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters relevant in the training step.
 #'
-#' * `train(task)`\cr
-#'   [Task] -> [Learner]\cr
-#'   Train the learner on the complete [Task], sets `self$model` to the learner model and returns itself.
+#' * `train(task, row_ids = NULL, ctrl = list())`\cr
+#'   ([Task], `vector()`, [mlr_control()]) -> [Learner]\cr
+#'   Train the learner on the row ids of the provided [Task].
+#'   Mutates the learner by reference, e.g. stores the model in field `$data`.
 #'
-#' * `predict(task)`\cr
-#'   [Task] -> [Prediction]\cr
-#'   Uses `self$model` (fitted and stored during `train()`) to create a new [Prediction] object via `self$new_prediction()`.
+#' * `predict(task, row_ids = NULL, ctrl = list())`\cr
+#'   ([Task], `vector()`, [mlr_control()]) -> [Prediction]\cr
+#'   Uses the data stored during `$train()` to create a new [Prediction] based on the provided `row_ids`
+#'   of the `task`.
+#'
+#' * `predict_newdata(task, newdata, ctrl = list())`\cr
+#'   ([Task], `data.frame()`, [mlr_control()]) -> [Prediction]\cr
+#'   Uses the data stored during `$train()` to create a new [Prediction] based on the new data in `newdata`.
+#'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
+#'
+#' * `new_prediction(row_ids, truth, ...)`\cr
+#'   [`vector()`, any, ...] -> [Prediction]\cr
+#'   Used internally to create a [Prediction] object.
+#'   The arguments are described in the respective specialization of [Prediction], e.g. in [PredictionClassif] for
+#'   classification.
 #'
 #' @section Optional Extractors:
 #'

@@ -16,7 +16,9 @@ Do not modify any object without cloning it first.
 }
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with the data of one resampling iteration per row.
+Table with data for one resampling iteration per row:
+\link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), \link{Prediction}, and the hash (\code{character(1)})
+of the corresponding \link{ResampleResult}.
 }
 }
 
@@ -25,6 +27,7 @@ Table with the data of one resampling iteration per row.
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Internal data storage.
+We discourage users to directly work with this field.
 \item \code{tasks} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used tasks with three columns:
 "task_hash" (\code{character(1)}), "task_id" (\code{character(1)}) and "task" (\link{Task}).
@@ -41,7 +44,7 @@ Table of used resamplings with three columns:
 
 \itemize{
 \item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE)}\cr
-(\code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+(\code{list()} of \link{Measure}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where experiments are aggregated per \link{ResampleResult}.
 Arguments control the number of additional columns:
 \itemize{
@@ -51,12 +54,15 @@ Return object ids as columns in the result \code{data.table()}.
 Return learner hyperparameter values as list column \code{params} in the result \code{data.table()}.
 }
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
-\code{list()} of \link{Measure} -> \code{data.table()}\cr
+(\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{data.table()}\cr
 Returns a table with one row for each resampling iteration, including all involved objects.
 Additionally calculates the provided performance measures and binds the performance as extra column.
 If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
 (\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
 If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
+\item \code{get_best(measure)}\cr
+(\link{Measure}) -> \link{ResampleResult}\cr
+Returns the \link{ResampleResult} with best performance according to \link{Measure} with the provided id.
 \item \code{combine(bmr)}\cr
 \link{BenchmarkResult} -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself.

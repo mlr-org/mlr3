@@ -118,7 +118,7 @@ benchmark = function(design, ctrl = list()) {
     )
   }
 
-  res = rbindlist(Map(reassemble, row = res, learner = grid$learner), use.names = TRUE)
+  res = rbindlist(Map(reassemble, result = res, learner = grid$learner), use.names = TRUE)
   res = insert_named(grid, res)
 
   lg$info("Finished benchmark")
