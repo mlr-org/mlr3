@@ -5,6 +5,7 @@ test_that("selected_features", {
   lrn = mlr_learners$get("classif.rpart")
   measures = mlr_measures$mget(c("classif.ce", "selected_features"))
 
-  rr = resample(task, lrn, mlr_resamplings$get("holdout"), measures)
-  expect_count(rr$performance$selected_features)
+  rr = resample(task, lrn, mlr_resamplings$get("holdout"))
+  perf = rr$aggregate(measures)
+  expect_count(perf[["selected_features"]])
 })

@@ -73,10 +73,8 @@ test_that("evaluate / resample", {
   resampling$param_set$values = list(folds = 3)
 
   rr = expect_warning(resample(task, learner, resampling, ctrl = disabled))
-  expect_true(every(rr$data$train_log$log, is_empty_log))
-  expect_true(every(rr$data$predict_log$log, is_empty_log))
+  expect_true(all(map(rr$data$learner, function(x) nrow(x$log)) == 0L))
 
   rr = expect_silent(resample(task, learner, resampling, ctrl = enabled))
-  lapply(rr$data$train_log$log, expect_data_table, , nrow = 2L, ncol = 2L, any.missing = FALSE)
-  lapply(rr$data$predict_log$log, expect_data_table, nrow = 2L, ncol = 2L, any.missing = FALSE)
+  expect_true(all(map_lgl(rr$data$learner, function(x) all(table(x$log$stage) == 2))))
 })

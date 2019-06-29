@@ -163,7 +163,7 @@ registerS3method("sanity_check", "LearnerClassif", sanity_check.PredictionClassi
 
 
 sanity_check.PredictionRegr = function(prediction) {
-  prediction$score("regr.mse" <= 1)
+  prediction$score("regr.mse") <= 1
 }
 registerS3method("sanity_check", "LearnerRegr", sanity_check.PredictionRegr)
 

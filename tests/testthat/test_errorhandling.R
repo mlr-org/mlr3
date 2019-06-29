@@ -1,5 +1,7 @@
 context("error handling")
 
+skip("fallback not implemented")
+
 test_that("no encapsulation", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.debug")

@@ -29,7 +29,8 @@ test_that("multiclass", {
   measures = list(m, mlr_measures$get("classif.ce"))
 
   lrn = mlr_learners$get("classif.featureless")
-  perf = score(lrn$train(task)$predict(task), measures, task = task)
+  p = lrn$train(task)$predict(task)
+  perf = p$score(measures, task = task)
   expect_equal(perf[["classif.costs"]], perf[["classif.ce"]] * task$nrow)
 })
 
@@ -45,6 +46,6 @@ test_that("multiclass / level reordering", {
   measures = list(m1, m2)
 
   lrn = mlr_learners$get("classif.featureless")
-  perf = score(lrn$train(task)$predict(task), measures, task = task)
+  perf = lrn$train(task)$predict(task)$score(measures, task = task)
   expect_equal(perf[1], perf[2])
 })
