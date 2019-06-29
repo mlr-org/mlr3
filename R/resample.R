@@ -13,7 +13,7 @@
 #'   Object of type [Resampling].
 #'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
 #' @param ctrl :: named `list()`\cr
-#'   Object to control experiment execution. See [mlr_control()] for details.
+#'   Object to control learner execution. See [mlr_control()] for details.
 #' @return [ResampleResult].
 #'
 #' @section Parallelization:
@@ -22,7 +22,7 @@
 #' To select a parallel backend, use [future::plan()].
 #'
 #' @note
-#' The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+#' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_model` to `TRUE` via [mlr_control()].
 #'
 #' @export
@@ -42,7 +42,7 @@
 #' rr$performance("classif.ce")
 #' rr$aggregate("classif.ce")
 #'
-#' # merged prediction object for all experiments
+#' # merged prediction objects of all resampling iterations
 #' pred = rr$prediction
 #' pred$confusion
 #'
@@ -51,7 +51,7 @@
 #'
 #' # Combine the ResampleResults into a BenchmarkResult
 #' bmr = rr$combine(rr.featureless)
-#' bmr$aggregated(objects = FALSE)
+#' bmr$aggregate(objects = FALSE)
 resample = function(task, learner, resampling, ctrl = list()) {
   task = assert_task(task, clone = TRUE)
   learner = assert_learner(learner, task = task, clone = TRUE)
@@ -79,5 +79,5 @@ resample = function(task, learner, resampling, ctrl = list()) {
   res = map_dtr(res, reassemble, learner = learner)
   res[, c("task", "resampling", "iteration") := list(list(task), list(instance), seq_len(n))]
 
-  ResampleResult$new(res[])
+  ResampleResult$new(res)
 }

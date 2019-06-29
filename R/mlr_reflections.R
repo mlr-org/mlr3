@@ -12,7 +12,6 @@ local({
   ### options
   mlr_reflections$mlr_control_defaults = list(
     store_model = TRUE,
-    store_prediction = TRUE,
     encapsulate_train = "none",
     encapsulate_predict = "none",
     log_threshold = 400L

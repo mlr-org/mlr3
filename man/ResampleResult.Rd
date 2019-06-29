@@ -48,12 +48,14 @@ but instead on each experiment separately and then combined with an aggregate fu
 \item \code{combine(rr)}\cr
 \link{ResampleResult} -> \link{BenchmarkResult}\cr
 Takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
-\item \code{performance(measures = NULL)}\cr
+\item \code{performance(measures = NULL, ids = TRUE)}\cr
 \code{list()} of \link{Measure} -> \code{data.table()}\cr
-Retrieves the performance values for provided measures as \code{\link[=data.table]{data.table()}}.
+Returns a table with one row for each resampling iteration, including all involved objects.
+Additionally calculates the provided performance measures and binds the performance as extra column.
 If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
 (\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
-\item \code{aggregated(measures = NULL)}\cr
+If \code{ids} is \code{TRUE}, character column of id names are added to the table to allow convenient filtering.
+\item \code{aggregate(measures = NULL)}\cr
 \code{list()} of \link{Measure} -> named \code{numeric()}\cr
 Calculates and aggregates performance values for all provided measures.
 See \link{Measure} for the aggregation function.
@@ -63,11 +65,9 @@ See \link{Measure} for the aggregation function.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(rr, measures = NULL)}\cr
+\item \code{as.data.table(rr)}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts the data to a \code{data.table()}, with performance of provided measures as separate columns.
-If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
-(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
+Returns a copy of the internal data.
 }
 }
 

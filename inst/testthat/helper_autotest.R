@@ -8,7 +8,7 @@
 # `run_autotest(learner)` generates multiple tasks, depending on the properties of the learner.
 # and tests the learner on each task, with each predict type.
 # To debug, simply run `result = run_autotest(learner)` and proceed with investigating
-# `result$experiment`.
+# the task, learner and prediction of the returned `result`.
 #
 # NB: Extension packages need to specialize the S3 methods in the file.
 

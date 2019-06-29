@@ -40,18 +40,23 @@ Table of used resamplings with three columns:
 \section{Methods}{
 
 \itemize{
-\item \code{aggregated(objects = TRUE, ids = TRUE, params = FALSE)}\cr
+\item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE)}\cr
 (\code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where experiments are aggregated per \link{ResampleResult}.
 Arguments control the number of additional columns:
 \itemize{
-\item \code{objects} :: \code{logical(1)}\cr
-Return objects as columns in the result \code{data.table()}.
 \item \code{ids} :: \code{logical(1)}\cr
 Return object ids as columns in the result \code{data.table()}.
 \item \code{params} :: \code{logical(1)}\cr
 Return learner hyperparameter values as list column \code{params} in the result \code{data.table()}.
 }
+\item \code{performance(measures = NULL, ids = TRUE)}\cr
+\code{list()} of \link{Measure} -> \code{data.table()}\cr
+Returns a table with one row for each resampling iteration, including all involved objects.
+Additionally calculates the provided performance measures and binds the performance as extra column.
+If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
+(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
+If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
 \item \code{combine(bmr)}\cr
 \link{BenchmarkResult} -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself.
@@ -61,11 +66,9 @@ Fuses a second \link{BenchmarkResult} into itself.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(bmr, measures = NULL)}\cr
+\item \code{as.data.table(bmr)}\cr
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts the data to a \code{data.table()}, with performance of provided measures as separate columns.
-If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
-(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
+Returns a copy of the internal data.
 }
 }
 
@@ -86,14 +89,14 @@ bmr$learners
 # first 5 individual resamplings
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 
-# aggregated results
-bmr$aggregated()
+# aggregate results
+bmr$aggregate()
 
-# aggregated results with hyperparameters as separate columns
-mlr3misc::unnest(bmr$aggregated(params = TRUE), "params")
+# aggregate results with hyperparameters as separate columns
+mlr3misc::unnest(bmr$aggregate(params = TRUE), "params")
 
 # extract resample result for classif.rpart
-rr = bmr$aggregated()[learner_id == "classif.rpart", resample_result][[1]]
+rr = bmr$aggregate()[learner_id == "classif.rpart", resample_result][[1]]
 print(rr)
 
 # access the confusion matrix of the first resampling iteration

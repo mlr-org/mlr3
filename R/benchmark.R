@@ -10,12 +10,12 @@
 #'
 #' @param design :: [data.frame()]\cr
 #'   Data frame (or [data.table()]) with three columns: "task", "learner", and "resampling".
-#'   Each row defines a set of resampled experiments by providing a [Task], [Learner] and [Resampling] strategy.
+#'   Each row defines a resampling by providing a [Task], [Learner] and a [Resampling] strategy.
 #'   All resamplings must be properly instantiated.
 #'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
 #' @param ctrl :: (named `list()`)\cr
-#'   Object to control experiment execution. See [mlr_control()] for details.
+#'   Object to control learner execution. See [mlr_control()] for details.
 #'   Note that per default, fitted learner models are discarded after the prediction in order to save
 #'   some memory.
 #' @return [BenchmarkResult].
@@ -27,7 +27,7 @@
 #' To select a parallel backend, use [future::plan()].
 #'
 #' @note
-#' The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+#' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_model` to `TRUE` via [mlr_control()].
 #'
 #' @export
@@ -35,7 +35,7 @@
 #' # benchmarking with expand_grid()
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-#' resamplings = mlr_resamplings$mget("holdout")
+#' resamplings = mlr_resamplings$mget("cv3")
 #'
 #' design = expand_grid(tasks, learners, resamplings)
 #' print(design)
@@ -43,14 +43,14 @@
 #' set.seed(123)
 #' bmr = benchmark(design)
 #'
-#' ## performance for all conducted experiments
+#' ## data of all resamplings
 #' head(as.data.table(bmr))
 #'
 #' ## aggregated performance values
-#' bmr$aggregated(objects = FALSE)
+#' bmr$aggregate()
 #'
-#' ## Extract predictions of first experiment of this resampling
-#' head(as.data.table(rr$experiment(1)$prediction))
+#' ## Extract predictions of first resampling iteration
+#' head(as.data.table(rr$predictions[[1L]]))
 #'
 #' # benchmarking with a custom design:
 #' # - fit classif.featureless on iris with a 3-fold CV
@@ -72,7 +72,7 @@
 #' print(bmr)
 #'
 #' ## get the training set of the 2nd iteration of the featureless learner on iris
-#' rr = bmr$aggregated()[learner_id == "classif.featureless"]$resample_result[[1]]
+#' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$experiment(2)$train_set
 benchmark = function(design, ctrl = list()) {
   assert_data_frame(design, min.rows = 1L)
@@ -90,8 +90,9 @@ benchmark = function(design, ctrl = list()) {
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
-        hash = hash(task$hash, learner$hash, resampling$hash)
-    data.table(task = list(task), learner = list(learner), resampling = list(resampling),
+    hash = hash_resample_iteration(task, learner, resampling)
+    data.table(
+      task = list(task), learner = list(learner), resampling = list(resampling),
       iteration = seq_len(resampling$iters), hash = hash)
   })
 

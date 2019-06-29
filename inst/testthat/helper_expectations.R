@@ -369,19 +369,16 @@ expect_resample_result = function(rr) {
   expect_task(rr$task)
   expect_resampling(rr$resampling, task = rr$task)
 
-  data = rr$data
-  checkmate::expect_data_table(rr$data, nrow = rr$resampling$iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
-  checkmate::expect_names(names(rr$data), must.include = mlr3::mlr_reflections$rr_names)
+  data = as.data.table(rr)
+  checkmate::expect_data_table(rr$performance(), nrow = rr$resampling$iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
+  checkmate::expect_names(names(rr$performance()), must.include = mlr3::mlr_reflections$rr_names)
   expect_hash(rr$hash, 1L)
 
-  checkmate::expect_data_table(data.table::as.data.table(rr), nrow = nrow(rr$data))
-
-  # aggr = rr$aggregated
-  # for (m in measures) {
-  #   y = rr$performance(m$id)
-  #   checkmate::expect_numeric(y, lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
-  #   checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
-  # }
+  m = assert_measure(NULL, rr$task)
+  y = rr$performance(m)
+  aggr = rr$aggregate(m)
+  checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
+  checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
 
   expect_prediction(rr$prediction)
 }
@@ -414,27 +411,17 @@ expect_benchmark_result = function(bmr) {
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
 
-  tab = bmr$aggregated()
-  checkmate::expect_data_table(tab, ncol = 7L)
-  checkmate::expect_names(names(tab), permutation.of = c("hash", "resample_result", "resampling_id", "task", "task_id", "learner", "learner_id", "resampling_id"))
+  measure = assert_measure(NULL, task = bmr$data$task[[1L]])
+  tab = bmr$aggregate(measure, ids = TRUE)
+  checkmate::expect_data_table(tab, ncol = 6L)
+  checkmate::expect_names(names(tab), permutation.of = c("hash", "resample_result", "resampling_id", "task_id", "learner_id", "resampling_id", measure$id))
   expect_hash(tab$hash)
   expect_list(tab$resample_result, "ResampleResult")
   expect_id(tab$task_id)
   expect_id(tab$learner_id)
   expect_id(tab$resampling_id)
-  # for (m in bmr$measures$measure)
-  #   checkmate::expect_numeric(tab[[m$id]])
+  expect_numeric(tab[[measure$id]], any.missing = FALSE)
 
-  tab = bmr$aggregated(params = TRUE)
+  tab = bmr$aggregate(params = TRUE)
   checkmate::assert_list(tab$params)
-}
-
-expect_log = function(log) {
-  checkmate::expect_class(log, "Log")
-  checkmate::expect_data_table(log$log, ncol = 2L)
-  checkmate::expect_character(log$log$class, any.missing = FALSE)
-  checkmate::expect_subset(log$log$class, mlr_reflections$log_classes)
-  checkmate::expect_character(log$log$msg, any.missing = FALSE)
-  checkmate::expect_character(log$warnings, any.missing = FALSE)
-  checkmate::expect_character(log$errors, any.missing = FALSE)
 }

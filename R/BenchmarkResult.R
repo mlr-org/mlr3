@@ -35,27 +35,31 @@
 #'   "resampling_hash" (`character(1)`), "resampling_id" (`character(1)`) and "resampling" ([Resampling]).
 #'
 #' @section Methods:
-#' * `aggregated(objects = TRUE, ids = TRUE, params = FALSE)`\cr
+#' * `aggregate(measures = NULL, ids = TRUE, params = FALSE)`\cr
 #'   (`logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where experiments are aggregated per [ResampleResult].
 #'   Arguments control the number of additional columns:
-#'     * `objects` :: `logical(1)`\cr
-#'       Return objects as columns in the result `data.table()`.
 #'     * `ids` :: `logical(1)`\cr
 #'       Return object ids as columns in the result `data.table()`.
 #'     * `params` :: `logical(1)`\cr
 #'       Return learner hyperparameter values as list column `params` in the result `data.table()`.
+#'
+#' * `performance(measures = NULL, ids = TRUE)`\cr
+#'   `list()` of [Measure] -> `data.table()`\cr
+#'   Returns a table with one row for each resampling iteration, including all involved objects.
+#'   Additionally calculates the provided performance measures and binds the performance as extra column.
+#'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
+#'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
+#'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
 #'
 #' * `combine(bmr)`\cr
 #'   [BenchmarkResult] -> `self`\cr
 #'   Fuses a second [BenchmarkResult] into itself.
 #'
 #' @section S3 Methods:
-#' * `as.data.table(bmr, measures = NULL)`\cr
+#' * `as.data.table(bmr)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
-#'   Converts the data to a `data.table()`, with performance of provided measures as separate columns.
-#'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
-#'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
+#'   Returns a copy of the internal data.
 #'
 #' @export
 #' @examples
@@ -75,14 +79,14 @@
 #' # first 5 individual resamplings
 #' head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #'
-#' # aggregated results
-#' bmr$aggregated()
+#' # aggregate results
+#' bmr$aggregate()
 #'
-#' # aggregated results with hyperparameters as separate columns
-#' mlr3misc::unnest(bmr$aggregated(params = TRUE), "params")
+#' # aggregate results with hyperparameters as separate columns
+#' mlr3misc::unnest(bmr$aggregate(params = TRUE), "params")
 #'
 #' # extract resample result for classif.rpart
-#' rr = bmr$aggregated()[learner_id == "classif.rpart", resample_result][[1]]
+#' rr = bmr$aggregate()[learner_id == "classif.rpart", resample_result][[1]]
 #' print(rr)
 #'
 #' # access the confusion matrix of the first resampling iteration
@@ -103,11 +107,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     print = function() {
-      catf("%s of %i experiments in %i resamplings:",
+      catf("%s of %i iterations in %i resamplings:",
         format(self), nrow(self$data), uniqueN(self$data$hash))
-      aggr = remove_named(self$aggregated(objects = FALSE, ids = TRUE, params = FALSE), c("resample_result", "hash"))
-      setnames(aggr, c("task_id", "learner_id", "resampling_id"), c("task", "learner", "resampling"))
-      print(aggr, print.keys = FALSE, class = FALSE, row.names = FALSE)
     },
 
     combine = function(bmr) {
@@ -116,20 +117,23 @@ BenchmarkResult = R6Class("BenchmarkResult",
       invisible(self)
     },
 
-    performance = function(measures = NULL) {
+    performance = function(measures = NULL, ids = TRUE) {
       measures = assert_measures(measures, task = self$data$task[[1L]])
-      f = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
-      cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], f))
+      assert_flag(ids)
+      score = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
+      tab = cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], score))
+
+      if (ids) {
+        tab[, c("task_id", "learner_id", "resampling_id") := list(ids(get("task")), ids(get("learner")), ids(get("resampling")))]
+        setcolorder(tab, c("hash", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))[]
+      }
+      return(tab)
     },
 
-    aggregated = function(measures = NULL, ids = TRUE, objects = TRUE, params = FALSE, unnest_params = FALSE) {
+    aggregate = function(measures = NULL, ids = TRUE, params = FALSE) {
       measures = assert_measures(measures, task = self$data$task[[1L]])
-      res = self$data[, list(resample_result = list(ResampleResult$new(.SD))), by = hash]
+      res = self$data[, list(resample_result = list(ResampleResult$new(copy(.SD)))), by = hash]
 
-      if (assert_flag(objects)) {
-        extract = function(x) list(task = list(x$task), learner = list(x$learners[[1L]]))
-        res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
-      }
 
       if (assert_flag(ids)) {
         extract = function(x) list(task_id = x$task$id, learner_id = x$learners[[1L]]$id, resampling_id = x$resampling$id)
@@ -140,7 +144,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         res$params = map(res$resample_result, function(x) x$learners[[1L]]$param_set$values)
       }
 
-      ref_cbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregated(measures)), .fill = TRUE))
+      ref_cbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
     }
   ),
 
@@ -167,7 +171,5 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
 #' @export
 as.data.table.BenchmarkResult = function(x, measures = NULL, ...) {
-  tab = x$performance(measures)
-  tab[, c("task_id", "learner_id", "resampling_id") := list(ids(task), ids(learner), ids(resampling))]
-  setcolorder(tab, c("hash", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))[]
+  copy(x$data)
 }
