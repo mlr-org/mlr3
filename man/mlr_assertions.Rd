@@ -30,9 +30,11 @@ assert_learner(learner, task = NULL, properties = character(0L),
 assert_learners(learners, task = NULL, properties = character(0L),
   clone = FALSE)
 
-assert_measure(measure, task = NULL, learner = NULL, clone = FALSE)
+assert_measure(measure, task_type = NULL, task = NULL,
+  learner = NULL, clone = FALSE)
 
-assert_measures(measures, task = NULL, learner = NULL, clone = FALSE)
+assert_measures(measures, task_type = NULL, task = NULL,
+  learner = NULL, clone = FALSE)
 
 assert_resampling(resampling, instantiated = NULL, clone = FALSE)
 

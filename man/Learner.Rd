@@ -108,19 +108,17 @@ and its output is not captured in the learner log.
 Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
 with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters relevant in the training step.
 \item \code{train(task, row_ids = NULL, ctrl = list())}\cr
-(\link{Task}, \code{vector()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Learner}\cr
+(\link{Task}, \code{integer()} | \code{character()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Learner}\cr
 Train the learner on the row ids of the provided \link{Task}.
 Mutates the learner by reference, e.g. stores the model in field \code{$data}.
 \item \code{predict(task, row_ids = NULL, ctrl = list())}\cr
-(\link{Task}, \code{vector()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
-Uses the data stored during \code{$train()} to create a new \link{Prediction} based on the provided \code{row_ids}
-of the \code{task}.
+(\link{Task}, integer()\code{|}character()\code{, [mlr_control()]) -> [Prediction]\cr Uses the data stored during }$train()\code{to create a new [Prediction] based on the provided}row_ids\code{of the}task`.
 \item \code{predict_newdata(task, newdata, ctrl = list())}\cr
 (\link{Task}, \code{data.frame()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \code{$train()} and required for conversions of \code{newdata}.
 \item \code{new_prediction(row_ids, truth, ...)}\cr
-\link[=`vector()`, any, ...]{vector(), any, ...} -> \link{Prediction}\cr
+\link[=integer()` | `character()`, any, ...]{integer()|character()`, any, ...} -> \link{Prediction}\cr
 Used internally to create a \link{Prediction} object.
 The arguments are described in the respective specialization of \link{Prediction}, e.g. in \link{PredictionClassif} for
 classification.

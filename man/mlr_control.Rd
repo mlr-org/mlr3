@@ -18,7 +18,7 @@ Settings may be provided in a \code{name = value} fashion, or by providing a sin
 This function creates a named list of settings which control the execution of a \link{Learner}.
 \itemize{
 \item \code{store_model} (\code{logical(1))}:\cr
-If \code{FALSE} (default), models fitted during \code{\link[=resampling]{resampling()}} and \code{\link[=benchmark]{benchmark()}} are discarded.
+If \code{FALSE} (default), models fitted during \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} are discarded.
 Note that you will be unable to predict on new data or extract additional information like
 variable importance from the learner.
 \item \code{encapsulate_train} (\code{character(1)}):\cr

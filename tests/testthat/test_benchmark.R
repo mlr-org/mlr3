@@ -18,15 +18,6 @@ test_that("Basic benchmarking", {
   expect_data_table(tab, nrow = 12L, ncol = 7L)
   expect_names(names(tab), permutation.of = c("hash", "task", "learner", "resampling", "iteration", "prediction", "classif.ce"))
 
-  # expect_data_table(tab, nrow = 12L)
-  # expect_names(names(tab), must.include = c("task_id", "learner_id", "resampling_id"))
-  # expect_numeric(tab$classif.ce, lower = 0, upper = 1, any.missing = TRUE)
-  # expect_numeric(tab$classif.acc, lower = 0, upper = 1, any.missing = TRUE)
-  # expect_equal(tab[task_id == "sonar", sum(is.na(classif.ce))], 0)
-  # expect_equal(tab[task_id == "iris", sum(is.na(classif.ce))], 6)
-  # expect_equal(tab[task_id == "sonar", sum(is.na(classif.acc))], 6)
-  # expect_equal(tab[task_id == "iris", sum(is.na(classif.acc))], 0)
-
   tab = bmr$tasks
   expect_data_table(tab, nrow = 2, any.missing = FALSE)
   expect_names(names(tab), permutation.of = c("task_hash", "task", "task_id"))
@@ -45,8 +36,6 @@ test_that("Basic benchmarking", {
   tab = bmr$aggregate()
   expect_data_table(tab, nrow = 4L)
   expect_names(names(tab), type = "unique", permutation.of = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", "classif.ce"))
-  # expect_numeric(tab[task_id == "sonar", classif.ce], any.missing = FALSE)
-  # expect_numeric(tab[task_id == "iris", classif.acc], any.missing = FALSE)
 })
 
 test_that("ResampleResult / hash", {

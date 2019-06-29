@@ -117,12 +117,12 @@
 #'   with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters relevant in the training step.
 #'
 #' * `train(task, row_ids = NULL, ctrl = list())`\cr
-#'   ([Task], `vector()`, [mlr_control()]) -> [Learner]\cr
+#'   ([Task], `integer()` | `character()`, [mlr_control()]) -> [Learner]\cr
 #'   Train the learner on the row ids of the provided [Task].
 #'   Mutates the learner by reference, e.g. stores the model in field `$data`.
 #'
 #' * `predict(task, row_ids = NULL, ctrl = list())`\cr
-#'   ([Task], `vector()`, [mlr_control()]) -> [Prediction]\cr
+#'   ([Task], integer()` | `character()`, [mlr_control()]) -> [Prediction]\cr
 #'   Uses the data stored during `$train()` to create a new [Prediction] based on the provided `row_ids`
 #'   of the `task`.
 #'
@@ -132,7 +132,7 @@
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
 #'
 #' * `new_prediction(row_ids, truth, ...)`\cr
-#'   [`vector()`, any, ...] -> [Prediction]\cr
+#'   [integer()` | `character()`, any, ...] -> [Prediction]\cr
 #'   Used internally to create a [Prediction] object.
 #'   The arguments are described in the respective specialization of [Prediction], e.g. in [PredictionClassif] for
 #'   classification.

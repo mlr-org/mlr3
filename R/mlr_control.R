@@ -4,7 +4,7 @@
 #' This function creates a named list of settings which control the execution of a [Learner].
 #'
 #' * `store_model` (`logical(1))`:\cr
-#'   If `FALSE` (default), models fitted during [resampling()] and [benchmark()] are discarded.
+#'   If `FALSE` (default), models fitted during [resample()] and [benchmark()] are discarded.
 #'   Note that you will be unable to predict on new data or extract additional information like
 #'   variable importance from the learner.
 #' * `encapsulate_train` (`character(1)`):\cr
