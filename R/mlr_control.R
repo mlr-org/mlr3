@@ -18,7 +18,6 @@
 #'       This guards your session from segfaults, at the cost of some computational overhead.
 #' * `encapsulate_predict` (`character(1)`):\cr
 #'   How to call external code in third party packages during predict. Same format as `encapsulate_train`.
-#'   See [Log] for an example.
 #'
 #' **Defaults**
 #' ```

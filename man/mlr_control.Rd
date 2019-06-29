@@ -34,7 +34,6 @@ This guards your session from segfaults, at the cost of some computational overh
 }
 \item \code{encapsulate_predict} (\code{character(1)}):\cr
 How to call external code in third party packages during predict. Same format as \code{encapsulate_train}.
-See \link{Log} for an example.
 }
 
 \strong{Defaults}\preformatted{$store_model

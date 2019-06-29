@@ -107,7 +107,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     print = function() {
-      catf("%s of %i iterations in %i resamplings:",
+      catf("%s of %i iterations in %i resamplings",
         format(self), nrow(self$data), uniqueN(self$data$hash))
     },
 
@@ -170,6 +170,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
 )
 
 #' @export
-as.data.table.BenchmarkResult = function(x, measures = NULL, ...) {
+as.data.table.BenchmarkResult = function(x, ...) {
   copy(x$data)
 }

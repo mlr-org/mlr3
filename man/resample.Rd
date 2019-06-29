@@ -64,5 +64,5 @@ rr.featureless = resample(task, "classif.featureless", resampling)
 
 # Combine the ResampleResults into a BenchmarkResult
 bmr = rr$combine(rr.featureless)
-bmr$aggregate(objects = FALSE)
+print(bmr)
 }

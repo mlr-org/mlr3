@@ -51,7 +51,7 @@
 #'
 #' # Combine the ResampleResults into a BenchmarkResult
 #' bmr = rr$combine(rr.featureless)
-#' bmr$aggregate(objects = FALSE)
+#' print(bmr)
 resample = function(task, learner, resampling, ctrl = list()) {
   task = assert_task(task, clone = TRUE)
   learner = assert_learner(learner, task = task, clone = TRUE)

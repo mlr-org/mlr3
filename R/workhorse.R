@@ -1,5 +1,3 @@
-#' @export
-#' @keywords internal
 learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
@@ -35,8 +33,6 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
 }
 
 
-#' @export
-#' @keywords internal
 learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   wrapper = function(task, learner) {
     if (is.null(learner$data$model)) {

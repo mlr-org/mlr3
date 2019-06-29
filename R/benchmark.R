@@ -47,10 +47,12 @@
 #' head(as.data.table(bmr))
 #'
 #' ## aggregated performance values
-#' bmr$aggregate()
+#' aggr = bmr$aggregate()
+#' print(aggr)
 #'
-#' ## Extract predictions of first resampling iteration
-#' head(as.data.table(rr$predictions[[1L]]))
+#' ## Extract predictions of first resampling result
+#' rr = aggr$resample_result[[1]]
+#' as.data.table(rr$prediction)
 #'
 #' # benchmarking with a custom design:
 #' # - fit classif.featureless on iris with a 3-fold CV
@@ -73,7 +75,7 @@
 #'
 #' ## get the training set of the 2nd iteration of the featureless learner on iris
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
-#' rr$experiment(2)$train_set
+#' rr$resampling$train_set(2)
 benchmark = function(design, ctrl = list()) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
