@@ -36,9 +36,9 @@ Logical vector where the i-th element is \code{TRUE} if an error for the i-th re
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 \item \code{prediction} :: \link{Prediction}\cr
-Combined \link{Prediction} of all individual experiments.
-Note that the performance is not calculated on this object,
-but instead on each experiment separately and then combined with an aggregate function.
+Combined \link{Prediction} of all individual resampling iterations.
+Note that the performance of measures is not calculated on this object,
+but instead on each iterations separately and then combined with an aggregate function.
 }
 }
 

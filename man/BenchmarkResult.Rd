@@ -45,7 +45,7 @@ Table of used resamplings with three columns:
 \itemize{
 \item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a result table where experiments are aggregated per \link{ResampleResult}.
+Returns a result table where resampling iterations are aggregated together into \link{ResampleResult}s.
 Arguments control the number of additional columns:
 \itemize{
 \item \code{ids} :: \code{logical(1)}\cr

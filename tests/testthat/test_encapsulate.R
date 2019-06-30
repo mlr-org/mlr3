@@ -36,7 +36,7 @@ task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.debug")
 learner$param_set$values = list(message_train = TRUE, warning_train = TRUE, message_predict = TRUE, warning_predict = TRUE)
 
-test_that("evaluate / experiment", {
+test_that("evaluate / single step", {
   row_ids = 1:120
 
   expect_message(expect_warning(learner$train(task, row_ids, ctrl = disabled)))

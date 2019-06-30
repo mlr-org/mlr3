@@ -40,7 +40,7 @@
 #' @section Methods:
 #' * `aggregate(measures = NULL, ids = TRUE, params = FALSE)`\cr
 #'   (`list()` of [Measure], `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
-#'   Returns a result table where experiments are aggregated per [ResampleResult].
+#'   Returns a result table where resampling iterations are aggregated together into [ResampleResult]s.
 #'   Arguments control the number of additional columns:
 #'     * `ids` :: `logical(1)`\cr
 #'       Return object ids as columns in the result `data.table()`.

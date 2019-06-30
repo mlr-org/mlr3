@@ -96,7 +96,7 @@ c.PredictionRegr = function(..., keep_duplicates = TRUE) {
 
   se = discard(map(dots, function(p) p$data$se), is.null)
   if (length(se) > 0L && length(se) < length(dots)) {
-    stopf("Cannot rbind predictions: Standard error for some experiments, not all")
+    stopf("Cannot rbind predictions: Standard error for some predictions, not all")
   }
   se = do.call(c, se)
 

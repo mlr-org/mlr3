@@ -58,9 +58,8 @@ The field \code{task_type} is set to \code{"classif"}.
 
 \itemize{
 \item \code{set_threshold(th)}\cr
-\code{numeric()} -> named \code{list()}\cr
-Sets the prediction threshold, and returns a named list with updated \code{response} and \code{prob}.
-This list can be stored in the experiment (see examples).
+\code{numeric()} -> \code{self}\cr
+Sets the prediction response based on the provided threshold.
 See the section on thresholding for more information.
 }
 }

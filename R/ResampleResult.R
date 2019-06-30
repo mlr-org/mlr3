@@ -37,9 +37,9 @@
 #'   Hash (unique identifier) for this object.
 #'
 #' * `prediction` :: [Prediction]\cr
-#'   Combined [Prediction] of all individual experiments.
-#'   Note that the performance is not calculated on this object,
-#'   but instead on each experiment separately and then combined with an aggregate function.
+#'   Combined [Prediction] of all individual resampling iterations.
+#'   Note that the performance of measures is not calculated on this object,
+#'   but instead on each iterations separately and then combined with an aggregate function.
 #'
 #' @section Methods:
 #' * `combine(rr)`\cr

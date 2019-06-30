@@ -69,7 +69,7 @@
 #'   task = design$task, resampling = design$resampling
 #' )
 #'
-#' ## calculate experiments
+#' ## calculate benchmark
 #' bmr = benchmark(design)
 #' print(bmr)
 #'
@@ -98,7 +98,7 @@ benchmark = function(design, ctrl = list()) {
       iteration = seq_len(resampling$iters), hash = hash)
   })
 
-  lg$info("Benchmarking %i experiments", nrow(grid))
+  lg$info("Benchmark with %i resampling iterations", nrow(grid))
 
   if (use_future()) {
     lg$debug("Running benchmark() via future")

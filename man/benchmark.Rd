@@ -80,7 +80,7 @@ design$resampling = Map(
   task = design$task, resampling = design$resampling
 )
 
-## calculate experiments
+## calculate benchmark
 bmr = benchmark(design)
 print(bmr)
 
