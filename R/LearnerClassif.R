@@ -24,11 +24,10 @@
 #' @section Methods:
 #' All methods of [Learner], and additionally:
 #'
-#' * `new_prediction(task, response = NULL, prob = NULL)`\cr
-#'   ([Task], `factor()`, `matrix()`) -> [PredictionClassif]\cr
-#'   This method is intended to be called in `predict()` to create a [PredictionClassif] object.
-#'   Uses `task` to extract factor levels and `row_ids`.
-#'   To manually construct a [PredictionClassif] object, see its constructor.
+#' * `new_prediction(row_ids, truth, response = NULL, prob = NULL)`\cr
+#'   [integer()` | `character()`, any, `factor()`, `matrix()`] -> [PredictionClassif]\cr
+#'   Creates a new [PredictionClassif] object, after performing some basic type checks and transformations.
+#'   See [PredictionClassif] for a description of the arguments.
 #'
 #' @family Learner
 #' @seealso Example classification learner: [`classif.rpart`][mlr_learners_classif.rpart].

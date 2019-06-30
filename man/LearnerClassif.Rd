@@ -29,11 +29,10 @@ See \link{Learner}.
 
 All methods of \link{Learner}, and additionally:
 \itemize{
-\item \code{new_prediction(task, response = NULL, prob = NULL)}\cr
-(\link{Task}, \code{factor()}, \code{matrix()}) -> \link{PredictionClassif}\cr
-This method is intended to be called in \code{predict()} to create a \link{PredictionClassif} object.
-Uses \code{task} to extract factor levels and \code{row_ids}.
-To manually construct a \link{PredictionClassif} object, see its constructor.
+\item \code{new_prediction(row_ids, truth, response = NULL, prob = NULL)}\cr
+\link[=integer()` | `character()`, any, `factor()`, `matrix()`]{integer()|character(), any, factor(), matrix()`} -> \link{PredictionClassif}\cr
+Creates a new \link{PredictionClassif} object, after performing some basic type checks and transformations.
+See \link{PredictionClassif} for a description of the arguments.
 }
 }
 
