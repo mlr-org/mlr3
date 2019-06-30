@@ -25,7 +25,7 @@
 #' All methods of [Learner], and additionally:
 #'
 #' * `new_prediction(row_ids, truth, response = NULL, prob = NULL)`\cr
-#'   [integer()` | `character()`, any, `numeric()`, `numeric()`] -> [PredictionRegr]\cr
+#'   [integer()` | `character()`, `numeric()`, `numeric()`, `numeric()`] -> [PredictionRegr]\cr
 #'   Creates a new [PredictionRegr] object, after performing some basic type checks and transformations.
 #'   See [PredictionRegr] for a description of the arguments.
 #'
@@ -49,7 +49,7 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
     },
 
     new_prediction = function(row_ids, truth, response = NULL, se = NULL) {
-      assert_row_ids(row_ids)
+      row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
       assert_numeric(truth, len = n)
       assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)

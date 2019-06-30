@@ -25,7 +25,7 @@
 #' All methods of [Learner], and additionally:
 #'
 #' * `new_prediction(row_ids, truth, response = NULL, prob = NULL)`\cr
-#'   [integer()` | `character()`, any, `factor()`, `matrix()`] -> [PredictionClassif]\cr
+#'   [integer()` | `character()`, `factor()`, `factor()`, `matrix()`] -> [PredictionClassif]\cr
 #'   Creates a new [PredictionClassif] object, after performing some basic type checks and transformations.
 #'   See [PredictionClassif] for a description of the arguments.
 #'
@@ -49,7 +49,7 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
     },
 
     new_prediction = function(row_ids, truth, response = NULL, prob = NULL) {
-      assert_row_ids(row_ids)
+      row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
       assert_factor(truth, len = n)
       lvls = levels(truth)

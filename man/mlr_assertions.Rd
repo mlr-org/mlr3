@@ -14,6 +14,7 @@
 \alias{assert_prediction}
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
+\alias{assert_row_ids}
 \title{Assertion for mlr3 Objects}
 \usage{
 assert_backend(b, .var.name = vname(b))
@@ -46,6 +47,8 @@ assert_resample_result(resample_result,
   .var.name = vname(resample_result))
 
 assert_benchmark_result(bmr, .var.name = vname(bmr))
+
+assert_row_ids(row_ids, type = NULL, .var.name = vname(row_ids))
 }
 \arguments{
 \item{b}{:: \link{DataBackend}.}
@@ -83,6 +86,8 @@ Minimum amount of required features.}
 \item{resample_result}{:: \link{ResampleResult}.}
 
 \item{bmr}{:: \link{BenchmarkResult}.}
+
+\item{row_ids}{:: `vector().}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

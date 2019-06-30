@@ -190,6 +190,9 @@ assert_benchmark_result = function(bmr, .var.name = vname(bmr)) {
   assert_class(bmr, "BenchmarkResult", .var.name = .var.name)
 }
 
+#' @export
+#' @param row_ids :: `vector().
+#' @rdname mlr_assertions
 assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
   qassert(row_ids, c("X", "S[1,]"), .var.name = .var.name)
   if (is.double(row_ids)) {

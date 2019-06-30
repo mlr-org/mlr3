@@ -15,7 +15,7 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
-    assert_row_ids(row_ids)
+    row_ids = assert_row_ids(row_ids)
     prev_use = task$row_roles$use
     on.exit({ task$row_roles$use = prev_use }, add = TRUE)
     task$row_roles$use = row_ids
@@ -57,7 +57,7 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
   task = assert_task(task)
 
   if (!is.null(row_ids)) {
-    assert_row_ids(row_ids)
+    row_ids = assert_row_ids(row_ids)
     prev_use = task$row_roles$use
     on.exit({ task$row_roles$use = prev_use }, add = TRUE)
     task$row_roles$use = row_ids
