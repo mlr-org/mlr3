@@ -1,26 +1,22 @@
 context("benchmark")
 
 tasks = mlr_tasks$mget(c("iris", "sonar"))
-tasks$iris$measures = mlr_measures$mget("classif.acc")
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-resamplings = mlr_resamplings$mget("cv")
-resamplings$cv$param_set$values = list(folds = 3)
+resamplings = mlr_resamplings$mget("cv3")
 design = expand_grid(tasks, learners, resamplings)
 bmr = benchmark(design)
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
-  expect_names(names(bmr$data), permutation.of = c(mlr_reflections$experiment_slots$name, "hash"))
+  expect_names(names(bmr$data), permutation.of = c(mlr_reflections$rr_names, "hash"))
 
   tab = as.data.table(bmr)
-  expect_data_table(tab, nrow = 12L)
-  expect_names(names(tab), must.include = c("task_id", "learner_id", "resampling_id", ids(tasks[[1L]]$measures), ids(tasks[[2]]$measures)))
-  expect_numeric(tab$classif.ce, lower = 0, upper = 1, any.missing = TRUE)
-  expect_numeric(tab$classif.acc, lower = 0, upper = 1, any.missing = TRUE)
-  expect_equal(tab[task_id == "sonar", sum(is.na(classif.ce))], 0)
-  expect_equal(tab[task_id == "iris", sum(is.na(classif.ce))], 6)
-  expect_equal(tab[task_id == "sonar", sum(is.na(classif.acc))], 6)
-  expect_equal(tab[task_id == "iris", sum(is.na(classif.acc))], 0)
+  expect_data_table(tab, nrow = 12L, ncol = 6L)
+  expect_names(names(tab), permutation.of = c("hash", "task", "learner", "resampling", "iteration", "prediction"))
+
+  tab = bmr$performance(ids = FALSE)
+  expect_data_table(tab, nrow = 12L, ncol = 7L)
+  expect_names(names(tab), permutation.of = c("hash", "task", "learner", "resampling", "iteration", "prediction", "classif.ce"))
 
   tab = bmr$tasks
   expect_data_table(tab, nrow = 2, any.missing = FALSE)
@@ -37,38 +33,30 @@ test_that("Basic benchmarking", {
   expect_names(names(tab), permutation.of = c("resampling_hash", "resampling", "resampling_id"))
   expect_hash(tab$resampling_hash, len = 2L)
 
-  tab = bmr$measures
-  expect_data_table(tab, nrow = 2, any.missing = FALSE)
-  expect_names(names(tab), permutation.of = c("measure_hash", "measure_id", "measure"))
-  expect_character(tab$measure_id, len = 2L, unique = TRUE, any.missing = FALSE)
-
-  tab = bmr$aggregated(objects = FALSE)
+  tab = bmr$aggregate()
   expect_data_table(tab, nrow = 4L)
-  expect_names(names(tab), type = "unique", permutation.of = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", "classif.ce", "classif.acc"))
-  expect_numeric(tab[task_id == "sonar", classif.ce], any.missing = FALSE)
-  expect_numeric(tab[task_id == "iris", classif.acc], any.missing = FALSE)
+  expect_names(names(tab), type = "unique", permutation.of = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", "classif.ce"))
 })
 
-test_that("ResampleResult getter", {
-  aggr = bmr$aggregated()
+test_that("ResampleResult / hash", {
+  aggr = bmr$aggregate()
   hashes = aggr$hash
   expect_character(hashes, len = 4L, any.missing = FALSE, unique = TRUE)
+
   for (i in seq_along(hashes)) {
-    rr = aggr[i]$resample_result[[1L]]
+    rr = aggr$resample_result[[i]]
     expect_resample_result(rr)
-    expect_experiment(rr$experiment(1))
-    val1 = rr$aggregated
-    val2 = bmr$aggregated()[[names(val1)]][i]
-    expect_equivalent(val1, val2)
+    expect_equivalent(rr$aggregate(), aggr[["classif.ce"]][i])
     expect_equal(hashes[i], rr$hash)
   }
 })
 
 
 test_that("discarding model", {
-  bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings), ctrl = mlr_control(store_prediction = FALSE, store_model = FALSE))
-  expect_true(every(bmr$data$prediction, is.null))
-  expect_true(every(bmr$data$model, is.null))
+  bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings), ctrl = mlr_control(store_model = TRUE))
+  expect_false(every(map(bmr$data$learner, "model"), is.null))
+  bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings), ctrl = mlr_control(store_model = FALSE))
+  expect_true(every(map(bmr$data$learner, "model"), is.null))
 })
 
 test_that("bmr$combine()", {
@@ -88,11 +76,13 @@ test_that("bmr$combine()", {
   expect_true("pima" %in% bmr_combined$tasks$task_id)
 })
 
-
 test_that("bmr$get_best()", {
-  measure = tasks$iris$measures[[1L]]
-  best = bmr$get_best(measure$id)
-  expect_resample_result(best)
+  best_ce = bmr$get_best("classif.ce")
+  expect_resample_result(best_ce)
+  best_acc = bmr$get_best("classif.acc")
+  expect_resample_result(best_acc)
+
+  expect_equivalent(best_ce$aggregate("classif.ce"), 1 - best_acc$aggregate("classif.acc"))
 })
 
 test_that("inputs are cloned", {
@@ -102,11 +92,11 @@ test_that("inputs are cloned", {
 
   expect_error(benchmark(data.table(task = list(task), learner = list(learner), resampling = list(resampling))), "instantiated")
   bmr = benchmark(design = data.table(task = list(task), learner = list(learner), resampling = list(resampling$instantiate(task))))
-  e = bmr$aggregated()$resample_result[[1L]]$experiment(1)
+  rr = bmr$aggregate()$resample_result[[1L]]
 
-  expect_different_address(task, e$task)
-  expect_different_address(learner, e$learner)
-  expect_different_address(resampling, e$data$resampling)
+  expect_different_address(task, rr$task)
+  expect_different_address(learner, rr$data$learner[[1L]])
+  expect_different_address(resampling, rr$resampling)
 })
 
 test_that("memory footprint", {
@@ -115,28 +105,25 @@ test_that("memory footprint", {
   expect_equal(uniqueN(map_chr(design$resampling, address)), 2L)
 
   x = bmr$data
-  # FIXME: cloning!
-  # expect_equal(uniqueN(map_chr(x$learner, address)), 2L)
   expect_equal(uniqueN(map_chr(x$task, address)), 2L)
   expect_equal(uniqueN(map_chr(x$resampling, address)), 2L)
-  expect_equal(uniqueN(map_chr(x$measures, function(x) address(x[[1]]))), 2L)
 })
 
-test_that("resample with replacement measures", {
+test_that("multiple measures", {
   tasks = mlr_tasks$mget(c("iris", "sonar"))
   learner = mlr_learners$get("classif.featureless")
-  bmr = benchmark(design = expand_grid(tasks, learner, "cv3"), measures = mlr_measures$mget(c("classif.ce", "classif.acc")))
-  expect_equal(bmr$measures$measure_id, c("classif.ce", "classif.acc"))
-  expect_subset(c("classif.ce", "classif.acc"), names(bmr$aggregated()))
+  measures = mlr_measures$mget(c("classif.ce", "classif.acc"))
+  bmr = benchmark(design = expand_grid(tasks, learner, "cv3"))
+  expect_subset(c("classif.ce", "classif.acc"), names(bmr$aggregate(measures)))
 })
 
 test_that("predict_type is checked", {
   task = mlr_tasks$get("sonar")
   learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
-  measure = mlr_measures$get("classif.auc")
   design = expand_grid(task, learner, resampling)
-  expect_error(benchmark(design, measure = measure), "predict_type")
+  bmr = benchmark(design)
+  expect_error(bmr$aggregate("classif.auc", "predict_type"))
 })
 
 test_that("custom resampling (#245)", {
@@ -152,5 +139,31 @@ test_that("custom resampling (#245)", {
   expect_resample_result(mlr3::resample(task_boston, lrn, rdesc))
 
   design = data.table(task = list(task_boston), learner = list(lrn), resampling = list(rdesc))
-  expect_benchmark_result(benchmark(design))
+  bmr = benchmark(design)
+  expect_benchmark_result(bmr)
+})
+
+test_that("extract params", {
+  # some params, some not
+  lrns = mlr_learners$mget(c("classif.rpart", "classif.rpart", "classif.rpart"))
+  lrns[[1]]$param_set$values = list()
+  lrns[[2]]$param_set$values = list(xval = 0, cp = 0.1)
+  bmr = benchmark(expand_grid("wine", lrns, "cv3"))
+  aggr = bmr$aggregate(params = TRUE)
+  expect_list(aggr$params[[1]], names = "unique", len = 0L)
+  expect_list(aggr$params[[2]], names = "unique", len = 2L)
+  expect_list(aggr$params[[3]], names = "unique", len = 1L)
+
+
+  # only one params
+  lrns = mlr_learners$mget(c("classif.featureless"))
+  bmr = benchmark(expand_grid("wine", lrns, "cv3"))
+  aggr = bmr$aggregate(params = TRUE)
+  expect_list(aggr$params[[1]], names = "unique", len = 1L)
+
+  # no params
+  lrns = mlr_learners$mget(c("classif.debug"))
+  bmr = benchmark(expand_grid("wine", lrns, "cv3"))
+  aggr = bmr$aggregate(params = TRUE)
+  expect_list(aggr$params[[1]], names = "unique", len = 0L)
 })

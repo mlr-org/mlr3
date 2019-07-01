@@ -38,6 +38,19 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.
 }
 }
 
+\section{Methods}{
+
+\itemize{
+\item \code{score(measures = NULL, task = NULL, learner = NULL)}\cr
+(\code{list()} of \link{Measure}, \link{Task}, \link{Learner}) -> \link{Prediction}\cr
+Calculates the performance for all provided measures
+If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
+(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
+\link{Task} and \link{Learner} may be \code{NULL} for many measures, but some measures need to extract information
+from these objects.
+}
+}
+
 \section{S3 Methods}{
 
 \itemize{
@@ -47,7 +60,7 @@ Converts the data to a \code{data.table()}.
 \item \code{c(..., keep_duplicates = TRUE)}\cr
 (\link{Prediction}, \link{Prediction}, ...) -> \link{Prediction}\cr
 Combines multiple \code{Prediction}s to a single \code{Prediction}.
-If \code{keep_duplicates} is \code{TRUE} and there are duplicated row ids,
+If \code{keep_duplicates} is \code{FALSE} and there are duplicated row ids,
 the data of the former passed objects get overwritten by the data of the later passed objects.
 }
 }

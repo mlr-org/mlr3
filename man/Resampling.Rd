@@ -18,9 +18,8 @@ Predefined resamplings are stored in the \link{Dictionary} \link{mlr_resamplings
 e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}.
 }
 \section{Construction}{
-\preformatted{Note: This object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
 
-r = Resampling$new(id, param_set, param_vals)
+Note: This object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.\preformatted{r = Resampling$new(id, param_set, param_vals)
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -43,7 +42,7 @@ Description of available hyperparameters and hyperparameter settings.
 Hash (unique identifier) for this object.
 \item \code{instance} :: \code{any}\cr
 During \code{instantiate()}, the instance is stored in this slot.
-Types vary from resampling strategy to resampling strategy.
+The instance can be in any arbitrary format.
 \item \code{is_instantiated} :: \code{logical(1)}\cr
 Is \code{TRUE}, if the resampling has been instantiated.
 \item \code{duplicated_ids} :: \code{logical(1)}\cr

@@ -57,9 +57,8 @@
 #' @section Methods:
 #'
 #' * `set_threshold(th)`\cr
-#'   `numeric()` -> named `list()`\cr
-#'   Sets the prediction threshold, and returns a named list with updated `response` and `prob`.
-#'   This list can be stored in the experiment (see examples).
+#'   `numeric()` -> `self`\cr
+#'   Sets the prediction response based on the provided threshold.
 #'   See the section on thresholding for more information.
 #'
 #' @section Thresholding:
@@ -86,8 +85,8 @@
 #' task = mlr_tasks$get("iris")
 #' learner = mlr_learners$get("classif.rpart")
 #' learner$predict_type = "prob"
-#' e = Experiment$new(task, learner)$train()$predict()
-#' p = e$prediction
+#' learner$train(task)
+#' p = learner$predict(task)
 #' p$predict_types
 #' head(as.data.table(p))
 #'
@@ -100,11 +99,7 @@
 #'
 #' # new predictions
 #' p$set_threshold(th)$response
-#'
-#' # update the threshold in the experiment
-#' e$score()$performance # score before thresholding
-#' e$prediction = e$prediction$set_threshold(th)
-#' e$score()$performance # score after thresholding
+#' p$score(measures = "classif.ce")
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
@@ -189,7 +184,7 @@ c.PredictionClassif = function(..., keep_duplicates = TRUE) {
 
   prob = discard(map(dots, "prob"), is.null)
   if (length(prob) > 0L && length(prob) < length(dots)) {
-    stopf("Cannot rbind predictions: Probabilities for some experiments, not all")
+    stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
   }
 
   prob = Reduce(x = prob, f = function(x, y) {

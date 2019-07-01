@@ -26,18 +26,15 @@ test_that("Factor levels are preserved in prediction", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
   learner$predict_type = "prob"
-  e = Experiment$new(task, learner)
-  e$train(row_ids = 1:100)
+  learner$train(task, 1:100)
 
-  e$predict(1:10)
-  pred = as.data.table(e$prediction)
+  pred = as.data.table(learner$predict(task, 1:10))
   expect_factor(pred$truth, levels = levels(iris$Species), any.missing = FALSE)
   expect_factor(pred$response, levels = levels(iris$Species), any.missing = FALSE)
   expect_equal(levels(pred$truth), levels(pred$response))
   expect_numeric(pred$prob.virginica, lower = 0, upper = 0, any.missing = FALSE)
 
-  e$predict(101:150)
-  pred = as.data.table(e$prediction)
+  pred = as.data.table(learner$predict(task, 101:150))
   expect_factor(pred$truth, levels = levels(iris$Species), any.missing = FALSE)
   expect_factor(pred$response, levels = levels(iris$Species), any.missing = FALSE)
   expect_equal(levels(pred$truth), levels(pred$response))
@@ -71,10 +68,9 @@ test_that("0 feature task", {
   expect_data_table(task$data(), ncol = 1L)
 
   lrn = mlr_learners$get("classif.featureless")
-  e = Experiment$new(task, lrn)
-  e$train()$predict()$score()
-  expect_experiment(e)
-  expect_number(e$performance, lower = 0.6, upper = 0.7)
+  p = lrn$train(task)$predict(task)
+  expect_prediction(p)
+  # expect_number(e$performance, lower = 0.6, upper = 0.7)
 })
 
 test_that("Positive class always comes first", {
@@ -88,9 +84,9 @@ test_that("Positive class always comes first", {
     expect_equal(task$negative, lvls[2])
     expect_equal(task$class_names, lvls)
     expect_equal(levels(task$truth()), lvls)
-    e = Experiment$new(task, lrn)$train()$predict()
-    expect_equal(levels(e$prediction$truth), lvls)
-    expect_equal(levels(e$prediction$response), lvls)
-    expect_set_equal(colnames(e$prediction$prob), lvls)
+    preds = lrn$train(task)$predict(task)
+    expect_equal(levels(preds$truth), lvls)
+    expect_equal(levels(preds$response), lvls)
+    expect_set_equal(colnames(preds$prob), lvls)
   }
 })

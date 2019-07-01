@@ -18,6 +18,7 @@ MeasureOOBError = R6Class("MeasureOOBError",
       super$initialize(
         id = id,
         task_type = NA_character_,
+        properties = "requires_learner",
         predict_type = "response",
         range = c(-Inf, Inf),
         minimize = NA,
@@ -25,12 +26,11 @@ MeasureOOBError = R6Class("MeasureOOBError",
       )
     },
 
-    calculate = function(experiment = NULL, prediction = experiment$prediction) {
-      lrn = experiment$learner
-      if ("oob_error" %nin% lrn$properties) {
+    score_internal = function(prediction, learner, ...) {
+      if ("oob_error" %nin% learner$properties) {
         return(NA_real_)
       }
-      experiment$lrn$oob_error()
+      learner$oob_error()
     }
   )
 )

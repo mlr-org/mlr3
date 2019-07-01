@@ -43,7 +43,8 @@ costs = t(costs)
 # create measure which calculates the absolute costs
 m = MeasureClassifCosts$new(id = "german_credit_costs", costs, normalize = FALSE)
 
-# fit models and calculate the costs
-resample(task, "classif.rpart", "cv3", measure = m)
+# fit models and calculate costs
+rr = resample(task, "classif.rpart", "cv3")
+rr$aggregate(m)
 }
 \keyword{datasets}

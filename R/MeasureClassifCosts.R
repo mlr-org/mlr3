@@ -40,8 +40,9 @@
 #' # create measure which calculates the absolute costs
 #' m = MeasureClassifCosts$new(id = "german_credit_costs", costs, normalize = FALSE)
 #'
-#' # fit models and calculate the costs
-#' resample(task, "classif.rpart", "cv3", measure = m)
+#' # fit models and calculate costs
+#' rr = resample(task, "classif.rpart", "cv3")
+#' rr$aggregate(m)
 MeasureClassifCosts = R6Class("MeasureClassifCosts",
   inherit = MeasureClassif,
   public = list(
@@ -50,6 +51,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
     initialize = function(id = "classif.costs", costs = NULL, normalize = TRUE) {
       super$initialize(
         id = id,
+        properties = "requires_task",
         range = c(-Inf, Inf),
         minimize = TRUE
       )
@@ -60,9 +62,8 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       self$normalize = assert_flag(normalize)
     },
 
-    calculate = function(experiment = NULL, prediction = experiment$prediction) {
-
-      costs = assert_cost_matrix(private$.costs, experiment$task)
+    score_internal = function(prediction, task, ...) {
+      costs = assert_cost_matrix(private$.costs, task)
       confusion = prediction$confusion
 
       # reorder rows / cols if necessary

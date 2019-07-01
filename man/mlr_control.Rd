@@ -15,36 +15,29 @@ Settings may be provided in a \code{name = value} fashion, or by providing a sin
 (named \code{list()}) of all settings.
 }
 \description{
-This function creates a named list of settings which control the execution of an \link{Experiment}.
+This function creates a named list of settings which control the execution of a \link{Learner}.
 \itemize{
 \item \code{store_model} (\code{logical(1))}:\cr
-If \code{FALSE}, the model returned by the learner is discarded in order to save some memory after the experiment is completed.
-Note that you will be unable to further predict on new data.
-\item \code{store_prediction} (\code{logical(1)}):\cr
-If \code{FALSE}, the predictions are discarded in order to save some memory after the experiment is completed.
-Note that you will be unable to calculate additional performance measures.
+If \code{FALSE} (default), models fitted during \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} are discarded.
+Note that you will be unable to predict on new data or extract additional information like
+variable importance from the learner.
 \item \code{encapsulate_train} (\code{character(1)}):\cr
 How to call external code in third party packages during train.
 \itemize{
 \item If set to \code{"none"} (default), the code is executed in the running session without error handling.
 Output is not stored, just send to the console.
 \item If set to \code{"evaluate"}, the exceptions are caught using \code{\link[evaluate:evaluate]{evaluate::evaluate()}}.
-All output is stored in a \link{Log} of the corresponding \link{Experiment}.
+All output can be accessed via the learner field \code{$log}.
 \CRANpkg{evaluate} does not start a separate session, and thus cannot guard you against segfaults.
 \item If set to \code{"callr"}, the code is executed in an independent R session using the \CRANpkg{callr} package.
-All output is stored in a \link{Log} of the corresponding \link{Experiment}.
+All output can be accessed via the learner field \code{$log}.
 This guards your session from segfaults, at the cost of some computational overhead.
-See \link{Log} for an example.
 }
 \item \code{encapsulate_predict} (\code{character(1)}):\cr
 How to call external code in third party packages during predict. Same format as \code{encapsulate_train}.
-See \link{Log} for an example.
 }
 
 \strong{Defaults}\preformatted{$store_model
-FALSE
-
-$store_prediction
 TRUE
 
 $encapsulate_train
@@ -60,7 +53,4 @@ $log_threshold
 \examples{
 # get a list of the defaults
 mlr_control()
-
-# get a control object, with the default of store_prediction changed to FALSE
-mlr_control(store_prediction = FALSE)
 }

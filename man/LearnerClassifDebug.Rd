@@ -34,9 +34,11 @@ learner = LearnerClassifDebug$new()
 learner$param_set$values = list(message_train = TRUE, save_tasks = TRUE)
 
 # this should signal a message
-e = Experiment$new("iris", learner)$train()$predict()
+task = mlr_tasks$get("iris")
+learner$train(task)
+learner$predict(task)
 
 # task_train and task_predict are the input tasks for train() and predict()
-names(e$model)
+names(learner$model)
 }
 \keyword{datasets}

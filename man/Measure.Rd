@@ -10,8 +10,7 @@ This is the abstract base class for measures like \link{MeasureClassif} and \lin
 
 Measures are classes around tailored around two functions:
 \enumerate{
-\item A function \code{calculate} which calculates the predictive performance of an \link{Experiment}
-by comparing true and predicted response.
+\item A function \code{score} which quantifies the performance by comparing true and predicted response.
 \item A function \code{aggregator} which combines multiple performance values returned by
 \code{calculate} to a single numeric value.
 }
@@ -24,7 +23,7 @@ e.g. \code{\link[=mlr_measures_classif.auc]{classif.auc}} or \code{\link[=mlr_me
 \section{Construction}{
 
 Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type, range, minimize, predict_type = "response",
-     task_properties = character(0L), na_score = FALSE, packages = character(0L))
+     task_properties = character(), na_score = FALSE, packages = character())
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -40,7 +39,7 @@ and to \code{FALSE} if good predictions correspond to large values.
 If set to \code{NA}, tuning with this measure is not possible.
 \item \code{aggregator} :: \code{function(x)}\cr
 Function to aggregate individual performance values \code{x} where \code{x} is a numeric vector.
-If \code{NULL}, defaults to \code{\link[base:mean]{base::mean()}}.
+If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.
 \item \code{predict_type} :: \code{character(1)}\cr
 Required predict type of the \link{Learner}.
 Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.
@@ -79,9 +78,11 @@ Stores required properties of the \link{Task}.
 \link{ResampleResult} -> \code{numeric(1)}\cr
 Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
 Operates on a \link{ResampleResult} as returned by \link{resample}.
-\item \code{calculate(experiment = NULL, prediction = experiment$prediction)}\cr
-(\link{Experiment}, \link{Prediction}) -> \code{numeric(1)}\cr
-Takes an \link{Experiment} and a \link{Prediction} (defaults to prediction stored in experiment), and calculates a numeric score.
+\item \code{score(prediction, task = NULL, learner = NULL)}\cr
+(\link{Prediction}, \link{Task}, \link{Learner}) -> \code{numeric(1)}\cr
+Takes a \link{Prediction} and calculates a numeric score.
+If the measure if flagged with the properties \code{"requires_task"} or \code{"requires_learner"}, you must additionally
+pass the respective \link{Task} or the \link{Learner} for the measure to extract information from these objects.
 }
 }
 

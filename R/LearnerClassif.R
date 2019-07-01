@@ -24,11 +24,10 @@
 #' @section Methods:
 #' All methods of [Learner], and additionally:
 #'
-#' * `new_prediction(task, response = NULL, prob = NULL)`\cr
-#'   ([Task], `factor()`, `matrix()`) -> [PredictionClassif]\cr
-#'   This method is intended to be called in `predict()` to create a [PredictionClassif] object.
-#'   Uses `task` to extract factor levels and `row_ids`.
-#'   To manually construct a [PredictionClassif] object, see its constructor.
+#' * `new_prediction(row_ids, truth, response = NULL, prob = NULL)`\cr
+#'   (`integer()` | `character()`, `factor()`, `factor()`, `matrix()`) -> [PredictionClassif]\cr
+#'   Creates a new [PredictionClassif] object, after performing some basic type checks and transformations.
+#'   See [PredictionClassif] for a description of the arguments.
 #'
 #' @family Learner
 #' @seealso Example classification learner: [`classif.rpart`][mlr_learners_classif.rpart].
@@ -49,10 +48,10 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
         data_formats = data_formats, packages = packages)
     },
 
-    new_prediction = function(task, response = NULL, prob = NULL) {
-      row_ids = task$row_ids
-      truth = task$truth()
+    new_prediction = function(row_ids, truth, response = NULL, prob = NULL) {
+      row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
+      assert_factor(truth, len = n)
       lvls = levels(truth)
 
       if (!is.null(response)) {

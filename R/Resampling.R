@@ -16,9 +16,8 @@
 #' e.g. [`cv`][mlr_resamplings_cv] or [`bootstrap`][mlr_resamplings_bootstrap].
 #'
 #' @section Construction:
-#' ```
 #' Note: This object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
-#'
+#' ```
 #' r = Resampling$new(id, param_set, param_vals)
 #' ```
 #'
@@ -43,7 +42,7 @@
 #'
 #' * `instance` :: `any`\cr
 #'   During `instantiate()`, the instance is stored in this slot.
-#'   Types vary from resampling strategy to resampling strategy.
+#'   The instance can be in any arbitrary format.
 #'
 #' * `is_instantiated` :: `logical(1)`\cr
 #'   Is `TRUE`, if the resampling has been instantiated.

@@ -18,6 +18,7 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
       super$initialize(
         id = "selected_features",
         task_type = NA_character_,
+        properties = c("requires_task", "requires_learner"),
         predict_type = "response",
         range = c(0, Inf),
         minimize = TRUE
@@ -25,14 +26,13 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
       self$normalize = assert_flag(normalize)
     },
 
-    calculate = function(experiment = NULL, prediction = experiment$prediction) {
-      lrn = experiment$learner
-      if ("selected_features" %nin% lrn$properties) {
+    score_internal = function(prediction, task, learner, ...) {
+      if ("selected_features" %nin% learner$properties) {
         return(NA_integer_)
       }
-      n = length(lrn$selected_features())
+      n = length(learner$selected_features())
       if (self$normalize) {
-        n = n / length(experiment$task$feature_names)
+        n = n / length(task$feature_names)
       }
       n
     }

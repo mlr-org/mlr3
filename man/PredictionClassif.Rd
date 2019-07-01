@@ -58,9 +58,8 @@ The field \code{task_type} is set to \code{"classif"}.
 
 \itemize{
 \item \code{set_threshold(th)}\cr
-\code{numeric()} -> named \code{list()}\cr
-Sets the prediction threshold, and returns a named list with updated \code{response} and \code{prob}.
-This list can be stored in the experiment (see examples).
+\code{numeric()} -> \code{self}\cr
+Sets the prediction response based on the provided threshold.
 See the section on thresholding for more information.
 }
 }
@@ -90,8 +89,8 @@ In case of ties in the ratio, one of the tied class labels is selected randomly.
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")
 learner$predict_type = "prob"
-e = Experiment$new(task, learner)$train()$predict()
-p = e$prediction
+learner$train(task)
+p = learner$predict(task)
 p$predict_types
 head(as.data.table(p))
 
@@ -104,11 +103,7 @@ names(th) = task$class_names
 
 # new predictions
 p$set_threshold(th)$response
-
-# update the threshold in the experiment
-e$score()$performance # score before thresholding
-e$prediction = e$prediction$set_threshold(th)
-e$score()$performance # score after thresholding
+p$score(measures = "classif.ce")
 }
 \seealso{
 Other Prediction: \code{\link{PredictionRegr}},

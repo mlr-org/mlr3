@@ -38,19 +38,18 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       )
     },
 
-    train = function(task) {
-      pars = self$params("train")
+    train_internal = function(task) {
+      pv = self$param_set$get_values(tag = "train")
       if ("weights" %in% task$properties) {
-        pars = insert_named(pars, list(weights = task$weights$weight))
+        pv = insert_named(pv, list(weights = task$weights$weight))
       }
-      self$model = invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
-      invisible(self)
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv)
     },
 
-    predict = function(task) {
+    predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
       response = predict(self$model, newdata = newdata)
-      self$new_prediction(task, response = response)
+      list(response = response)
     },
 
     importance = function() {

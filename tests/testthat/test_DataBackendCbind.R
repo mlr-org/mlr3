@@ -70,12 +70,12 @@ test_that("Backends with mixed data_formats", {
   task = TaskRegr$new("sparse", X, "Y")
 
   rr = resample(task, mlr_learners$get("regr.rpart"), mlr_resamplings$get("holdout"))
-  expect_number(rr$aggregated)
+  expect_number(rr$aggregate())
 
   task$cbind(data.frame(z = runif(task$nrow)))
   expect_backend(task$backend)
   expect_set_equal(task$backend$data_formats, "data.table")
 
   rr = resample(task, mlr_learners$get("regr.rpart"), mlr_resamplings$get("holdout"))
-  expect_number(rr$aggregated)
+  expect_number(rr$aggregate())
 })

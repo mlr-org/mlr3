@@ -4,23 +4,18 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, measures = NULL, ctrl = list())
+benchmark(design, ctrl = list())
 }
 \arguments{
 \item{design}{:: \code{\link[=data.frame]{data.frame()}}\cr
 Data frame (or \code{\link[=data.table]{data.table()}}) with three columns: "task", "learner", and "resampling".
-Each row defines a set of resampled experiments by providing a \link{Task}, \link{Learner} and \link{Resampling} strategy.
+Each row defines a resampling by providing a \link{Task}, \link{Learner} and a \link{Resampling} strategy.
 All resamplings must be properly instantiated.
 The helper function \code{\link[=expand_grid]{expand_grid()}} can assist in generating an exhaustive design (see examples) and
 instantiate the \link{Resampling}s per \link{Task}.}
 
-\item{measures}{:: list of \link{Measure}\cr
-List of performance measures to calculate.
-Defaults to the measures specified in the each respective \link{Task}.
-The measures will be cloned.}
-
 \item{ctrl}{:: (named \code{list()})\cr
-Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}} for details.
+Object to control learner execution. See \code{\link[=mlr_control]{mlr_control()}} for details.
 Note that per default, fitted learner models are discarded after the prediction in order to save
 some memory.}
 }
@@ -36,7 +31,7 @@ work on different splits of the same task.
 To generate exhaustive designs and automatically instantiate resampling strategies per task, use \code{\link[=expand_grid]{expand_grid()}}.
 }
 \note{
-The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_model} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
 }
 \section{Parallelization}{
@@ -51,7 +46,7 @@ To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 # benchmarking with expand_grid()
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-resamplings = mlr_resamplings$mget("holdout")
+resamplings = mlr_resamplings$mget("cv3")
 
 design = expand_grid(tasks, learners, resamplings)
 print(design)
@@ -59,22 +54,16 @@ print(design)
 set.seed(123)
 bmr = benchmark(design)
 
-## performance for all conducted experiments
+## data of all resamplings
 head(as.data.table(bmr))
 
 ## aggregated performance values
-bmr$aggregated(objects = FALSE)
-
-## Overview of of resamplings that were conducted internally
-aggr = bmr$aggregated()
+aggr = bmr$aggregate()
 print(aggr)
 
-## Extract first ResampleResult
-rr = aggr[1, resample_result][[1]]
-print(rr)
-
-## Extract predictions of first experiment of this resampling
-head(as.data.table(rr$experiment(1)$prediction))
+## Extract predictions of first resampling result
+rr = aggr$resample_result[[1]]
+as.data.table(rr$prediction)
 
 # benchmarking with a custom design:
 # - fit classif.featureless on iris with a 3-fold CV
@@ -91,11 +80,11 @@ design$resampling = Map(
   task = design$task, resampling = design$resampling
 )
 
-## calculate experiments
+## calculate benchmark
 bmr = benchmark(design)
 print(bmr)
 
 ## get the training set of the 2nd iteration of the featureless learner on iris
-rr = bmr$aggregated()[learner_id == "classif.featureless"]$resample_result[[1]]
-rr$experiment(2)$train_set
+rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
+rr$resampling$train_set(2)
 }

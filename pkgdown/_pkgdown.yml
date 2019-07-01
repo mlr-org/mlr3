@@ -33,13 +33,11 @@ navbar:
 reference:
   - title: Building Blocks
     contents:
-      - Experiment
       - Task
       - Learner
       - Measure
       - Resampling
       - Prediction
-      - Dictionary
   - title: Data Backends
     contents:
       - starts_with("DataBackend")
@@ -87,5 +85,4 @@ reference:
   - title: Error Handling
     contents:
       - mlr_control
-      - Log
 

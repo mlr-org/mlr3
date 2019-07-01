@@ -21,12 +21,17 @@ A classification task for the German credit data set.
 The aim is to predict creditworthiness, labeled as "good" and "bad".
 Positive class is set to label "good".
 
-The default performance measure uses \link{MeasureClassifCosts}: Correct classifications
-have zero cost, while incorrectly predicting "good" yields a cost of 5 incorrectly
-predicting "bad" yields a cost of 1.
+See example for the creation of a \link{MeasureClassifCosts} as described misclassification costs.
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("german_credit")
 }
 }
 
+\examples{
+task = mlr_tasks$get("german_credit")
+costs = matrix(c(0, 1, 5, 0), nrow = 2)
+dimnames(costs) = list(predicted = task$class_names, truth = task$class_names)
+measure = MeasureClassifCosts$new("german_credit_costs", costs)
+print(measure)
+}

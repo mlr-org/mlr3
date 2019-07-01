@@ -65,9 +65,11 @@ confusion_measure_info = setindexv(rowwise_table(
 #'
 #' @export
 #' @examples
-#' e = Experiment$new("german_credit", "classif.rpart")$train()$predict()
-#' m = e$prediction$confusion
-#' round(confusion_measures(m), 2)
+#' task = mlr_tasks$get("german_credit")
+#' learner = mlr_learners$get("classif.rpart")
+#' p = learner$train(task)$predict(task)
+#' p$confusion
+#' round(confusion_measures(p$confusion), 2)
 MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
   inherit = MeasureClassif,
   public = list(
@@ -86,7 +88,7 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
       )
     },
 
-    calculate = function(experiment = NULL, prediction = experiment$prediction) {
+    score_internal = function(prediction, ...) {
       unname(confusion_measures(prediction$confusion, self$type))
     }
   )

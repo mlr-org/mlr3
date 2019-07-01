@@ -14,12 +14,6 @@ assert_backend = function(b, .var.name = vname(b)) {
   assert_class(b, "DataBackend", .var.name = .var.name)
 }
 
-#' @export
-#' @param e :: [Experiment].
-#' @rdname mlr_assertions
-assert_experiment = function(e, .var.name = vname(e)) {
-  assert_class(e, "Experiment", .var.name = .var.name)
-}
 
 #' @export
 #' @param task :: [Task].
@@ -102,7 +96,11 @@ assert_learners = function(learners, task = NULL, properties = character(0L), cl
 #' @export
 #' @param measure :: [Measure].
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
+assert_measure = function(measure, task_type = NULL, task = NULL, learner = NULL, clone = FALSE) {
+  task_type = task_type %??% task$task_type %??% learner$task_type
+  if (is.null(measure)) {
+    measure = mlr_reflections$default_measures[[task_type]]
+  }
   measure = cast_from_dict(measure, "Measure", mlr_measures, clone, FALSE)[[1L]]
 
   if (!is.null(task)) {
@@ -131,9 +129,18 @@ assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
 #' @export
 #' @param measures :: list of [Measure].
 #' @rdname mlr_assertions
-assert_measures = function(measures, task = NULL, learner = NULL, clone = FALSE) {
-  measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
-  lapply(measures, assert_measure, task = task, learner = learner)
+assert_measures = function(measures, task_type = NULL, task = NULL, learner = NULL, clone = FALSE) {
+  task_type = task_type %??% task$task_type %??% learner$task_type
+  if (is.null(measures)) {
+    measures = list(mlr_reflections$default_measures[[task_type]])
+  } else {
+    measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
+  }
+
+  if (length(measures) == 0L) {
+    stopf("You must provide at least one measure")
+  }
+  measures = lapply(measures, assert_measure, task = task, learner = learner)
 }
 
 #' @export
@@ -163,6 +170,13 @@ assert_resamplings = function(resamplings, instantiated = NULL, clone = FALSE) {
 }
 
 #' @export
+#' @param prediction :: [Prediction].
+#' @rdname mlr_assertions
+assert_prediction = function(prediction) {
+  assert_class(prediction, "Prediction")
+}
+
+#' @export
 #' @param resample_result :: [ResampleResult].
 #' @rdname mlr_assertions
 assert_resample_result = function(resample_result, .var.name = vname(resample_result)) {
@@ -176,6 +190,9 @@ assert_benchmark_result = function(bmr, .var.name = vname(bmr)) {
   assert_class(bmr, "BenchmarkResult", .var.name = .var.name)
 }
 
+#' @export
+#' @param row_ids :: `vector()`.
+#' @rdname mlr_assertions
 assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
   qassert(row_ids, c("X", "S[1,]"), .var.name = .var.name)
   if (is.double(row_ids)) {

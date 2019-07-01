@@ -16,8 +16,8 @@ Do not modify any object without cloning it first.
 }
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with the data of one \link{Experiment} per row.
-See description of field \code{data} of \link{Experiment} for the exact structure.
+Table with data for one resampling iteration per row:
+\link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), and \link{Prediction}.
 }
 }
 
@@ -25,25 +25,30 @@ See description of field \code{data} of \link{Experiment} for the exact structur
 
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Experiment data with one \link{Experiment} per line.
+Internal data storage.
+We discourage users to directly work with this field.
 \item \code{task} :: \link{Task}\cr
 The task \code{\link[=resample]{resample()}} operated on.
-\item \code{learner} :: \link{Learner}\cr
-The learner \code{\link[=resample]{resample()}} operated on.
+\item \code{learners} :: list of \link{Learner}\cr
+List of trained learners, sorted by resampling iteration.
 \item \code{resampling} :: \link{Resampling}\cr
-The resampling splits \code{\link[=resample]{resample()}} operated on.
-\item \code{measures} :: \code{list()} of \link{Measure}\cr
-The performance measures \code{\link[=resample]{resample()}} operated on.
-\item \code{errors} :: \code{logical()}\cr
-Logical vector where the i-th element is \code{TRUE} if an error for the i-th resampling iteration has been captured.
+Instantiated \link{Resampling} object which stores the splits into training and test.
+\item \code{predictions} :: list of \link{Prediction}\cr
+List of prediction objects, sorted by resampling iteration.
+\item \code{prediction} :: \link{Prediction}\cr
+Combined \link{Prediction} of all individual resampling iterations.
+Note that the performance of measures is not calculated on this object,
+but instead on each iterations separately and then combined with an aggregate function.
+\item \code{warnings} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Returns a table with all warning messages.
+Column names are \code{"iteration"} and \code{"msg"}.
+Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.
+\item \code{errors} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Returns a table with all error messages.
+Column names are \code{"iteration"} and \code{"msg"}.
+Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
-\item \code{aggregated} :: named \code{numeric()}\cr
-Returns a single score for each measure, named with measure ids.
-\item \code{prediction} :: \link{Prediction}\cr
-Combined \link{Prediction} of all individual experiments.
-Note that the performance is not calculated on this object,
-but instead on each experiment separately and then combined with an aggregate function.
 }
 }
 
@@ -53,16 +58,17 @@ but instead on each experiment separately and then combined with an aggregate fu
 \item \code{combine(rr)}\cr
 \link{ResampleResult} -> \link{BenchmarkResult}\cr
 Takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to a \link{BenchmarkResult}.
-\item \code{experiment(iter)}\cr
-\code{integer(1)} -> \link{Experiment}\cr
-Returns the \code{iter}-th \link{Experiment}.
-\item \code{experiments(iters)}\cr
-\code{integer()} -> \code{list()} of \link{Experiment}.
-Returns a slice of \link{Experiment}s with provided resampling iterations \code{iters}.
-Defaults to all experiments.
-\item \code{performance(id)}\cr
-\code{character(1)} -> \code{numeric(1)}\cr
-Retrieves the performance values for the measure with id \code{id} as numeric vector.
+\item \code{performance(measures = NULL, ids = TRUE)}\cr
+(\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Returns a table with one row for each resampling iteration, including all involved objects.
+Additionally calculates the provided performance measures and binds the performance as extra column.
+If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
+(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
+If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
+\item \code{aggregate(measures = NULL)}\cr
+\code{list()} of \link{Measure} -> named \code{numeric()}\cr
+Calculates and aggregates performance values for all provided measures.
+See \link{Measure} for the aggregation function.
 }
 }
 
@@ -71,8 +77,13 @@ Retrieves the performance values for the measure with id \code{id} as numeric ve
 \itemize{
 \item \code{as.data.table(rr)}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts the data to a \code{data.table()}.
+Returns a copy of the internal data.
 }
 }
 
+\examples{
+rr = resample("iris", "classif.featureless", "cv3")
+rr$warnings
+rr$errors
+}
 \keyword{datasets}

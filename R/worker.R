@@ -1,68 +1,54 @@
-train_worker = function(task, learner, train_set, ctrl, seed = NA_integer_) {
+learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   # This wrapper calls learner$train, and additionally performs some basic
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(learner, task) {
-    result = learner$train(task = task)
-    if (!inherits(result, "Learner")) {
-      stopf("Learner '%s' did not return a Learner during train()", learner$id)
+    model = learner$train_internal(task = task)
+    if (is.null(model)) {
+      stopf("Learner '%s' returned NULL during train_internal()", learner$id)
     }
-    if (is.null(learner$model)) {
-      stopf("Learner '%s' did not store a model during train()", learner$id)
-    }
-    result
+    model
   }
 
+  task = assert_task(task)
+
   # subset to train set w/o cloning
-  prev_use = task$row_roles$use
-  on.exit({ task$row_roles$use = prev_use }, add = TRUE)
-  task$row_roles$use = train_set
-
-  learner = learner$clone(deep = TRUE)
-
-  lg$debug("train_worker: Learner '%s', task '%s' [%ix%i]", learner$id, task$id, task$nrow, task$ncol)
+  if (!is.null(row_ids)) {
+    row_ids = assert_row_ids(row_ids)
+    prev_use = task$row_roles$use
+    on.exit({ task$row_roles$use = prev_use }, add = TRUE)
+    task$row_roles$use = row_ids
+  }
 
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
-  result = enc(wrapper, list(learner = learner, task = task), learner$packages, seed = seed)
-  names(result) = c("learner", "train_log", "train_time")
+  result = enc(wrapper, list(learner = learner$clone(), task = task), learner$packages, seed = NA_integer_)
 
-  if (is.null(result$learner)) {
-    # restore learner if something went wrong
-    # learner$model is NULL then
-    learner$model = NULL
-    result$learner = learner
-  }
+  learner$data$model = result$result
+  learner$data$train_log = result$log
+  learner$data$train_time = result$elapsed
+  learner$data$predict_log = NULL
+  learner$data$predict_time = NULL
 
-  # result is list(learner, train_log, train_time)
-  return(result)
+  learner
 }
 
 
-predict_worker = function(task, learner, train_set, test_set, ctrl, seed = NA_integer_) {
-  # This wrapper calls learner$predict, and additionally performs some basic
-  # checks that the prediction was successful.
-  # Exceptions here are possibly encapsulated, so that they get captured
-  # and turned into log messages.
+learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   wrapper = function(task, learner) {
-    if (is.null(learner$model)) {
+    if (is.null(learner$data$model)) {
       stopf("No trained model available")
     }
 
-    result = learner$predict(task = task)
+    result = learner$predict_internal(task = task)
 
-    if (is.null(result)) {
-      stopf("Learner '%s' returned NULL during predict()", learner$id)
-    }
-
-    if (!inherits(result, "Prediction")) {
-      stopf("Learner '%s' returned '%s' during predict(), but needs to return a Prediction object, usually constructed via the learner method `$new_prediction()`",
+    if (!test_list(result, names = "unique")) {
+      stopf("Learner '%s' did not return a named list of predictions, but instead: %s",
         learner$id, as_short_string(result))
-
     }
 
-    unsupported = setdiff(names(result$data), c("row_ids", "truth", learner$predict_types))
+    unsupported = setdiff(names(result), c("row_ids", "truth", learner$predict_types))
     if (length(unsupported)) {
       stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, head(unsupported, 1L))
     }
@@ -70,131 +56,44 @@ predict_worker = function(task, learner, train_set, test_set, ctrl, seed = NA_in
     return(result)
   }
 
-  if (is.null(learner$model)) {
-    if (is.null(learner$fallback))
-      stopf("Cannot predict without model, consider using a fallback learner")
-    result = list(prediction = NULL, predict_log = NULL, predict_time = NA_real_)
-  } else {
-    # subset to test set w/o cloning
+  task = assert_task(task)
+
+  if (!is.null(row_ids)) {
+    row_ids = assert_row_ids(row_ids)
     prev_use = task$row_roles$use
     on.exit({ task$row_roles$use = prev_use }, add = TRUE)
-    task$row_roles$use = test_set
-
-    # call predict with encapsulation
-    enc = encapsulate(ctrl$encapsulate_predict)
-    result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = seed)
-    names(result) = c("prediction", "predict_log", "predict_time")
+    task$row_roles$use = row_ids
   }
 
-  if (is.null(learner$fallback)) {
-    if (is.null(result$prediction)) {
-      stopf("Learner '%s' returned no Prediction object", learner$id)
-    }
-    if (length(result$prediction$missing)) {
-      stopf("Learner '%s' did returned missing predictions", learner$id)
-    }
-  } else {
-    if (is.null(result$prediction)) {
-      result$predict_log = rbind(result$predict_log, data.table(class = "warning", msg = "Using fallback learner for prediction"))
-      result$prediction = predict_fallback(task, learner, train_set, test_set)
-    } else {
-      miss = result$prediction$missing
-      if (length(miss)) {
-        result$predict_log = rbind(result$predict_log, data.table(class = "warning", msg = "Using fallback learner to augment predictions"))
-        prediction = predict_fallback(task, learner, train_set, miss)
-        result$prediction = c(result$prediction, prediction, keep_duplicates = FALSE)
-      }
-    }
-  }
+  # call predict with encapsulation
+  enc = encapsulate(ctrl$encapsulate_predict)
+  result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = NA_integer_)
 
-  # result is list(prediction, predict_log, predict_time)
-  return(result)
-}
-
-predict_fallback = function(task, learner, train_set, test_set) {
-  fallback = assert_learner(learner$fallback, clone = TRUE)
-  fallback$predict_type = learner$predict_type
-
-  prev_use = task$row_roles$use
-  on.exit({ task$row_roles$use = prev_use })
-  task$row_roles$use = train_set
-  fallback$train(task)
-  if (is.null(fallback$model))
-    stopf("Fallback learner '%s' did not fit a model", fallback$id)
-  task$row_roles$use = test_set
-  prediction = fallback$predict(task)
-  if (!inherits(prediction, "Prediction"))
-    stopf("Fallback learner '%s' did not return a Prediction object", fallback$id)
-  if (length(prediction$missing))
-    stopf("Fallback learner '%s' did returned missing predictions", fallback$id)
-  prediction
+  learner$data$predict_log = result$log
+  learner$data$predict_time = result$elapsed
+  invoke(learner$new_prediction, row_ids = task$row_ids, truth = task$truth(task$row_ids), .args = result$result)
 }
 
 
-score_worker = function(e, ctrl) {
-  data = e$data
-  measures = data$measures
-  pkgs = unique(unlist(map(measures, "packages")))
-
-  lg$debug("score_worker: Learner '%s' on task '%s' [%ix%i]", data$learner$id, data$task$id, data$task$nrow, data$task$ncol)
-
-
-  score_one = function(m) {
-    m$calculate(experiment = e, prediction = prediction)
-  }
-
-  score = function() {
-    set_names(lapply(measures, score_one), ids(measures))
-  }
-
-  # build the prediction object once
-  prediction = e$prediction
-
-  # call m$score with local encapsulation
-  enc = encapsulate("none")
-  result = enc(score, list(), pkgs, seed = e$seeds[["score"]])
-
-  return(list(performance = result$result, score_time = result$elapsed))
-}
-
-
-# this gem here is parallelized.
-# thus, we want the in- and output to be minimal
-experiment_worker = function(iteration, task, learner, resampling, measures, ctrl, remote = FALSE) {
-
-  if (remote) {
-    # restore the state of the master session
-    # currently, this only affects logging as we do not use any global options
-    lg$set_threshold(ctrl$log_threshold)
-  }
-
-  # Create a new experiment
-  # Results will be inserted into e$data in a piecemeal fashion
-  e = as_experiment(task = task, learner = learner, resampling = resampling, iteration = iteration, measures = measures)
-
-  lg$info("Running learner '%s' on task '%s' (iteration %i/%i)'", learner$id, task$id, iteration, resampling$iters)
-
+workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control()) {
   train_set = resampling$train_set(iteration)
-  tmp = train_worker(task, learner, train_set, ctrl)
-  e$data = insert_named(e$data, tmp)
-
   test_set = resampling$test_set(iteration)
-  tmp = predict_worker(task, e$data$learner, train_set, test_set, ctrl)
-  e$data = insert_named(e$data, tmp)
 
-  if (!is.null(e$data$prediction)) {
-    tmp = score_worker(e, ctrl)
-    e$data = insert_named(e$data, tmp)
-  }
-
-  if (!ctrl$store_prediction) {
-    e$data["prediction"] = list(NULL)
-  }
+  learner = learner_train(learner$clone(), task, train_set, ctrl)
+  prediction = learner_predict(learner, task, test_set, ctrl)
 
   if (!ctrl$store_model) {
-    e$data$learner$model = NULL
+    learner$data$model = NULL
   }
 
-  # Remove slots which are already known by the calling function and return data slot
-  remove_named(e$data, c("task", "resampling", "measures"))
+  list(learner_data = learner$data, prediction_data = prediction$data)
+}
+
+# called on the master, re-constructs objects from return value of
+# the workhorse function
+reassemble = function(result, learner) {
+  learner = learner$clone()
+  learner$data = result$learner_data
+  prediction = do.call(learner$new_prediction, result$prediction_data)
+  list(learner = list(learner), prediction = list(prediction))
 }

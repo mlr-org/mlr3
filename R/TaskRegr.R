@@ -54,7 +54,6 @@ TaskRegr = R6Class("TaskRegr",
       if (type %nin% c("integer", "numeric")) {
         stopf("Target column '%s' must be numeric", target)
       }
-      self$measures = list(mlr_measures$get("regr.mse"))
     },
 
     truth = function(row_ids = NULL) {

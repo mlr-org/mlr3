@@ -24,11 +24,10 @@
 #' @section Methods:
 #' All methods of [Learner], and additionally:
 #'
-#' * `new_prediction(task, response = NULL, prob = NULL)`\cr
-#'   ([Task], `numeric()`, `numeric()`) -> [PredictionRegr]\cr
-#'   This method is intended to be called in `predict()` to create a [PredictionRegr] object.
-#'   Uses `task` to extract `row_ids`.
-#'   To manually construct a [PredictionRegr] object, see its constructor.
+#' * `new_prediction(row_ids, truth, response = NULL, prob = NULL)`\cr
+#'   (`integer()` | `character()`, `numeric()`, `numeric()`, `numeric()`) -> [PredictionRegr]\cr
+#'   Creates a new [PredictionRegr] object, after performing some basic type checks and transformations.
+#'   See [PredictionRegr] for a description of the arguments.
 #'
 #' @family Learner
 #' @seealso Example regression learner: [`regr.rpart`][mlr_learners_regr.rpart].
@@ -49,13 +48,14 @@ LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
         data_formats = data_formats, packages = packages)
     },
 
-    new_prediction = function(task, response = NULL, se = NULL) {
-      row_ids = task$row_ids
+    new_prediction = function(row_ids, truth, response = NULL, se = NULL) {
+      row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
+      assert_numeric(truth, len = n)
       assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
       assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
 
-      PredictionRegr$new(row_ids = row_ids, truth = task$truth(), response = response, se = se)
+      PredictionRegr$new(row_ids = row_ids, truth = truth, response = response, se = se)
     }
   )
 )

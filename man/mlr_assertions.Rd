@@ -3,7 +3,6 @@
 \name{mlr_assertions}
 \alias{mlr_assertions}
 \alias{assert_backend}
-\alias{assert_experiment}
 \alias{assert_task}
 \alias{assert_tasks}
 \alias{assert_learner}
@@ -12,13 +11,13 @@
 \alias{assert_measures}
 \alias{assert_resampling}
 \alias{assert_resamplings}
+\alias{assert_prediction}
 \alias{assert_resample_result}
 \alias{assert_benchmark_result}
+\alias{assert_row_ids}
 \title{Assertion for mlr3 Objects}
 \usage{
 assert_backend(b, .var.name = vname(b))
-
-assert_experiment(e, .var.name = vname(e))
 
 assert_task(task, feature_types = NULL, task_properties = NULL,
   clone = FALSE, min_rows = 1, min_cols = 1)
@@ -32,23 +31,27 @@ assert_learner(learner, task = NULL, properties = character(0L),
 assert_learners(learners, task = NULL, properties = character(0L),
   clone = FALSE)
 
-assert_measure(measure, task = NULL, learner = NULL, clone = FALSE)
+assert_measure(measure, task_type = NULL, task = NULL,
+  learner = NULL, clone = FALSE)
 
-assert_measures(measures, task = NULL, learner = NULL, clone = FALSE)
+assert_measures(measures, task_type = NULL, task = NULL,
+  learner = NULL, clone = FALSE)
 
 assert_resampling(resampling, instantiated = NULL, clone = FALSE)
 
 assert_resamplings(resamplings, instantiated = NULL, clone = FALSE)
 
+assert_prediction(prediction)
+
 assert_resample_result(resample_result,
   .var.name = vname(resample_result))
 
 assert_benchmark_result(bmr, .var.name = vname(bmr))
+
+assert_row_ids(row_ids, type = NULL, .var.name = vname(row_ids))
 }
 \arguments{
 \item{b}{:: \link{DataBackend}.}
-
-\item{e}{:: \link{Experiment}.}
 
 \item{task}{:: \link{Task}.}
 
@@ -78,9 +81,13 @@ Minimum amount of required features.}
 
 \item{resamplings}{:: list of \link{Resampling}.}
 
+\item{prediction}{:: \link{Prediction}.}
+
 \item{resample_result}{:: \link{ResampleResult}.}
 
 \item{bmr}{:: \link{BenchmarkResult}.}
+
+\item{row_ids}{:: \code{vector()}.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

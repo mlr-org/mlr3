@@ -4,7 +4,7 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, measures = NULL, ctrl = list())
+resample(task, learner, resampling, ctrl = list())
 }
 \arguments{
 \item{task}{:: (\link{Task} | \code{character(1)})\cr
@@ -19,12 +19,8 @@ Instead if a \link{Learner} object, it is also possible to provide a key to retr
 Object of type \link{Resampling}.
 Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a resampling from the \link{mlr_resamplings} dictionary.}
 
-\item{measures}{:: list of \link{Measure}\cr
-List of performance measures to calculate.
-Defaults to the measures specified in the \link{Task} \code{task}.}
-
 \item{ctrl}{:: named \code{list()}\cr
-Object to control experiment execution. See \code{\link[=mlr_control]{mlr_control()}} for details.}
+Object to control learner execution. See \code{\link[=mlr_control]{mlr_control()}} for details.}
 }
 \value{
 \link{ResampleResult}.
@@ -33,7 +29,7 @@ Object to control experiment execution. See \code{\link[=mlr_control]{mlr_contro
 Runs a resampling (possibly in parallel).
 }
 \note{
-The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_model} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
 }
 \section{Parallelization}{
@@ -53,13 +49,13 @@ set.seed(123)
 resampling$instantiate(task)
 
 rr = resample(task, learner, resampling)
-print(rr, digits = 2)
+print(rr)
 
 # retrieve performance
 rr$performance("classif.ce")
-rr$aggregated
+rr$aggregate("classif.ce")
 
-# merged prediction object for all experiments
+# merged prediction objects of all resampling iterations
 pred = rr$prediction
 pred$confusion
 
@@ -68,5 +64,5 @@ rr.featureless = resample(task, "classif.featureless", resampling)
 
 # Combine the ResampleResults into a BenchmarkResult
 bmr = rr$combine(rr.featureless)
-bmr$aggregated(objects = FALSE)
+print(bmr)
 }

@@ -12,11 +12,8 @@
 #' @param resampling :: ([Resampling] | `character(1)`)\cr
 #'   Object of type [Resampling].
 #'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
-#' @param measures :: list of [Measure]\cr
-#'   List of performance measures to calculate.
-#'   Defaults to the measures specified in the [Task] `task`.
 #' @param ctrl :: named `list()`\cr
-#'   Object to control experiment execution. See [mlr_control()] for details.
+#'   Object to control learner execution. See [mlr_control()] for details.
 #' @return [ResampleResult].
 #'
 #' @section Parallelization:
@@ -25,7 +22,7 @@
 #' To select a parallel backend, use [future::plan()].
 #'
 #' @note
-#' The fitted models are discarded after the experiment has been scored in order to reduce memory consumption.
+#' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_model` to `TRUE` via [mlr_control()].
 #'
 #' @export
@@ -39,13 +36,13 @@
 #' resampling$instantiate(task)
 #'
 #' rr = resample(task, learner, resampling)
-#' print(rr, digits = 2)
+#' print(rr)
 #'
 #' # retrieve performance
 #' rr$performance("classif.ce")
-#' rr$aggregated
+#' rr$aggregate("classif.ce")
 #'
-#' # merged prediction object for all experiments
+#' # merged prediction objects of all resampling iterations
 #' pred = rr$prediction
 #' pred$confusion
 #'
@@ -54,13 +51,11 @@
 #'
 #' # Combine the ResampleResults into a BenchmarkResult
 #' bmr = rr$combine(rr.featureless)
-#' bmr$aggregated(objects = FALSE)
-resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
-
+#' print(bmr)
+resample = function(task, learner, resampling, ctrl = list()) {
   task = assert_task(task, clone = TRUE)
   learner = assert_learner(learner, task = task, clone = TRUE)
   resampling = assert_resampling(resampling)
-  measures = assert_measures(measures %??% task$measures, task = task, learner = learner, clone = TRUE)
   ctrl = mlr_control(ctrl)
 
   instance = resampling$clone(deep = TRUE)
@@ -71,18 +66,18 @@ resample = function(task, learner, resampling, measures = NULL, ctrl = list()) {
 
   if (use_future()) {
     lg$debug("Running resample() via future with %i iterations", n)
-    res = future.apply::future_lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl,
-      remote = TRUE, future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+    res = future.apply::future_lapply(seq_len(n), workhorse,
+      task = task, learner = learner, resampling = instance, ctrl = ctrl,
+      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3")
   } else {
     lg$debug("Running resample() sequentially with %i iterations", n)
-    res = lapply(seq_len(n), experiment_worker,
-      task = task, learner = learner, resampling = instance, measures = measures, ctrl = ctrl)
+    res = lapply(seq_len(n), workhorse,
+      task = task, learner = learner, resampling = instance, ctrl = ctrl)
   }
 
-  res = combine_experiments(res)
-  res[, c("task", "resampling", "measures") := list(list(task), list(instance), list(measures))]
+  res = map_dtr(res, reassemble, learner = learner)
+  res[, c("task", "resampling", "iteration") := list(list(task), list(instance), seq_len(n))]
 
   ResampleResult$new(res)
 }

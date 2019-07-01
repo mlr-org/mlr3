@@ -29,11 +29,10 @@ See \link{Learner}.
 
 All methods of \link{Learner}, and additionally:
 \itemize{
-\item \code{new_prediction(task, response = NULL, prob = NULL)}\cr
-(\link{Task}, \code{numeric()}, \code{numeric()}) -> \link{PredictionRegr}\cr
-This method is intended to be called in \code{predict()} to create a \link{PredictionRegr} object.
-Uses \code{task} to extract \code{row_ids}.
-To manually construct a \link{PredictionRegr} object, see its constructor.
+\item \code{new_prediction(row_ids, truth, response = NULL, prob = NULL)}\cr
+(\code{integer()} | \code{character()}, \code{numeric()}, \code{numeric()}, \code{numeric()}) -> \link{PredictionRegr}\cr
+Creates a new \link{PredictionRegr} object, after performing some basic type checks and transformations.
+See \link{PredictionRegr} for a description of the arguments.
 }
 }
 

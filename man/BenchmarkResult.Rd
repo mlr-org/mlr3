@@ -16,8 +16,9 @@ Do not modify any object without cloning it first.
 }
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with the data of one \link{Experiment} per row.
-See description of field \code{data} of \link{Experiment} for the exact structure.
+Table with data for one resampling iteration per row:
+\link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), \link{Prediction}, and the hash (\code{character(1)})
+of the corresponding \link{ResampleResult}.
 }
 }
 
@@ -25,43 +26,51 @@ See description of field \code{data} of \link{Experiment} for the exact structur
 
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Experiment data with one \link{Experiment} per line.
+Internal data storage.
+We discourage users to directly work with this field.
 \item \code{tasks} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used tasks with three columns:
-"task_hash" (\code{character(1)}), "task_id" (\code{character(1)}) and "task" (\link{Task}).
+\code{"task_hash"} (\code{character(1)}), \code{"task_id"} (\code{character(1)}) and \code{"task"} (\link{Task}).
 \item \code{learners} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used learners with three columns:
-"learner_hash" (\code{character(1)}), "learner_id" (\code{character(1)}) and "learner" (\link{Learner}).
+\code{"learner_hash"} (\code{character(1)}), \code{"learner_id"} (\code{character(1)}) and \code{"learner"} (\link{Learner}).
 \item \code{resamplings} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used resamplings with three columns:
-"resampling_hash" (\code{character(1)}), "resampling_id" (\code{character(1)}) and "resampling" (\link{Resampling}).
-\item \code{measures} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table of used measures with three columns:
-"measure_hash" (\code{character(1)}), "measure_id" (\code{character(1)}) and "measure" (\link{Measure}).
+\code{"resampling_hash"} (\code{character(1)}), \code{"resampling_id"} (\code{character(1)}) and \code{"resampling"} (\link{Resampling}).
 }
 }
 
 \section{Methods}{
 
 \itemize{
-\item \code{aggregated(objects = TRUE, ids = TRUE, params = FALSE)}\cr
-(\code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a result table where experiments are aggregated per \link{ResampleResult}.
+\item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)}\cr
+(\code{list()} of \link{Measure}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Returns a result table where resampling iterations are aggregated together into \link{ResampleResult}s.
 Arguments control the number of additional columns:
 \itemize{
-\item \code{objects} :: \code{logical(1)}\cr
-Return objects as columns in the result \code{data.table()}.
 \item \code{ids} :: \code{logical(1)}\cr
-Return object ids as columns in the result \code{data.table()}.
+Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as extra character columns.
 \item \code{params} :: \code{logical(1)}\cr
-Return learner hyperparameter values as list column \code{params} in the result \code{data.table()}.
+Adds the hyperparameter values as extra list column \code{"params"}.
+You can unnest them with \code{\link[mlr3misc:unnest]{mlr3misc::unnest()}}.
+\item \code{warnings} :: \code{logical(1)}\cr
+Adds the number of resampling iterations with at least one recorded warning as extra integer column \code{"warnings"}.
+\item \code{errors} :: \code{logical(1)}\cr
+Adds the number of resampling iterations with at least one recorded error as extra integer column \code{"errors"}.
 }
+\item \code{performance(measures = NULL, ids = TRUE)}\cr
+(\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{data.table()}\cr
+Returns a table with one row for each resampling iteration, including all involved objects.
+Additionally calculates the provided performance measures and binds the performance as extra column.
+If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
+(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
+If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
+\item \code{get_best(measure)}\cr
+(\link{Measure}) -> \link{ResampleResult}\cr
+Returns the \link{ResampleResult} with the best performance according to \link{Measure}.
 \item \code{combine(bmr)}\cr
 \link{BenchmarkResult} -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself.
-\item \code{get_best(id)}\cr
-(\code{character(1)}) -> \link{ResampleResult}\cr
-Returns the \link{ResampleResult} with best performance according to \link{Measure} with the provided id.
 }
 }
 
@@ -70,17 +79,16 @@ Returns the \link{ResampleResult} with best performance according to \link{Measu
 \itemize{
 \item \code{as.data.table(bmr)}\cr
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts the data to a \code{data.table()}.
+Returns a copy of the internal data.
 }
 }
 
 \examples{
 set.seed(123)
-design = expand_grid(
-  tasks = "iris",
-  learners = c("classif.featureless", "classif.rpart"),
-  resamplings = "cv3"
-)
+tasks = mlr_tasks$mget(c("sonar", "spam"))
+learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"), predict_type = "prob")
+resamplings = mlr_resamplings$get("cv3")
+design = expand_grid(tasks = tasks, learners = learners, resamplings = resamplings)
 print(design)
 
 bmr = benchmark(design)
@@ -88,19 +96,21 @@ print(bmr)
 
 bmr$tasks
 bmr$learners
-bmr$measures
 
-# aggregated results
-bmr$aggregated()
+# first 5 individual resamplings
+head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 
-# aggregated results with hyperparameters as separate columns
-mlr3misc::unnest(bmr$aggregated(params = TRUE), "params")
+# aggregate results
+bmr$aggregate()
+
+# aggregate results with hyperparameters as separate columns
+mlr3misc::unnest(bmr$aggregate(params = TRUE), "params")
 
 # extract resample result for classif.rpart
-rr = bmr$aggregated()[learner_id == "classif.rpart", resample_result][[1]]
+rr = bmr$aggregate()[learner_id == "classif.rpart", resample_result][[1]]
 print(rr)
 
 # access the confusion matrix of the first resampling iteration
-rr$experiment(1)$prediction$confusion
+rr$data$prediction[[1]]$confusion
 }
 \keyword{datasets}
