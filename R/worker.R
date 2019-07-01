@@ -93,7 +93,7 @@ workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control())
 # the workhorse function
 reassemble = function(result, learner) {
   learner = learner$clone()
-  learner$data = result$learner_data
+  learner$data = insert_named(learner$data, result$learner_data)
   prediction = do.call(learner$new_prediction, result$prediction_data)
   list(learner = list(learner), prediction = list(prediction))
 }
