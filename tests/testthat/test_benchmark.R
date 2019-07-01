@@ -76,12 +76,14 @@ test_that("bmr$combine()", {
   expect_true("pima" %in% bmr_combined$tasks$task_id)
 })
 
-test_that("bmr$get_best()", {
-  best_ce = bmr$get_best("classif.ce")
-  expect_resample_result(best_ce)
-  best_acc = bmr$get_best("classif.acc")
-  expect_resample_result(best_acc)
+test_that("bmr$resample_result() + bmr$best()", {
+  hashes = as.data.table(bmr)$hash
+  expect_resample_result(bmr$resample_result(hashes[1L]))
 
+  best_ce = bmr$best("classif.ce")
+  expect_resample_result(best_ce)
+  best_acc = bmr$best("classif.acc")
+  expect_resample_result(best_acc)
   expect_equivalent(best_ce$aggregate("classif.ce"), 1 - best_acc$aggregate("classif.acc"))
 })
 

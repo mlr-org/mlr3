@@ -60,9 +60,13 @@
 #'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
 #'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
 #'
-#' * `get_best(measure)`\cr
+#' * `best(measure)`\cr
 #'   ([Measure]) -> [ResampleResult]\cr
 #'   Returns the [ResampleResult] with the best performance according to [Measure].
+#'
+#' * `resample_result(hash)`\cr
+#'   (`character(1)` -> [ResampleResult])\cr
+#'   Retrieve the [ResampleResult] with `hash`.
 #'
 #' * `combine(bmr)`\cr
 #'   [BenchmarkResult] -> `self`\cr
@@ -168,7 +172,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
       ref_cbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
     },
 
-    get_best = function(measure) {
+    resample_result = function(hash) {
+      assert_choice(hash, self$data$hash)
+      needle = hash
+      ResampleResult$new(self$data[get("hash") == needle])
+    },
+
+    best = function(measure) {
       measure = assert_measure(measure, learner = self$data$learner[[1L]])
       tab = self$aggregate(measure, ids = FALSE)
       best = if (measure$minimize) which_min else which_max

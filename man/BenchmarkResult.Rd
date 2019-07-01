@@ -65,9 +65,12 @@ Additionally calculates the provided performance measures and binds the performa
 If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
 (\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
 If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
-\item \code{get_best(measure)}\cr
+\item \code{best(measure)}\cr
 (\link{Measure}) -> \link{ResampleResult}\cr
 Returns the \link{ResampleResult} with the best performance according to \link{Measure}.
+\item \code{resample_result(hash)}\cr
+(\code{character(1)} -> \link{ResampleResult})\cr
+Retrieve the \link{ResampleResult} with \code{hash}.
 \item \code{combine(bmr)}\cr
 \link{BenchmarkResult} -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself.
