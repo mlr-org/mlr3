@@ -23,7 +23,7 @@
 #'
 #' ```
 #' m = Measure$new(id, task_type, range, minimize, predict_type = "response",
-#'      task_properties = character(0L), na_score = FALSE, packages = character(0L))
+#'      task_properties = character(), na_score = FALSE, packages = character())
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -43,7 +43,7 @@
 #'
 #' * `aggregator` :: `function(x)`\cr
 #'   Function to aggregate individual performance values `x` where `x` is a numeric vector.
-#'   If `NULL`, defaults to [base::mean()].
+#'   If `NULL`, defaults to [mean()].
 #'
 #' * `predict_type` :: `character(1)`\cr
 #'   Required predict type of the [Learner].
@@ -108,7 +108,7 @@ Measure = R6Class("Measure",
     na_score = NULL,
     packages = NULL,
 
-    initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
+    initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", task_properties = character(), na_score = FALSE, packages = character()) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = task_type

@@ -33,7 +33,7 @@
 #'   Returns `row_ids` for which the predictions are missing or incomplete.
 #'
 #' @section Methods:
-#' * `score(measures = NULL, task = NULL, learner = NULL)`
+#' * `score(measures = NULL, task = NULL, learner = NULL)`\cr
 #'   (`list()` of [Measure], [Task], [Learner]) -> [Prediction]\cr
 #'   Calculates the performance for all provided measures
 #'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
@@ -49,7 +49,7 @@
 #' * `c(..., keep_duplicates = TRUE)`\cr
 #'   ([Prediction], [Prediction], ...) -> [Prediction]\cr
 #'   Combines multiple `Prediction`s to a single `Prediction`.
-#'   If `keep_duplicates` is `TRUE` and there are duplicated row ids,
+#'   If `keep_duplicates` is `FALSE` and there are duplicated row ids,
 #'   the data of the former passed objects get overwritten by the data of the later passed objects.
 #'
 #' @export

@@ -36,7 +36,7 @@ List of hyperparameter settings.
 \item \code{predict_types} :: \code{character()}\cr
 Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
 \item \code{feature_types} :: \code{character()}\cr
-Feature types the learner operates on. Must be a subset of \code{mlr_reflections$task_feature_types}.
+Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
 \item \code{properties} :: \code{character()}\cr
 Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
 \item \code{data_formats} :: \code{character()}\cr
@@ -79,46 +79,30 @@ The fitted model. Only available after \code{$train()} has been called.
 Returns the output (including warning and errors) as table with columns
 \code{"stage"} (train or predict), \code{"class"} (output, warning, error) and
 \code{"msg"} (\code{character()}).
-\item \code{fallback} :: \link{Learner}\cr
-Learner which is used as a fallback to repair predictions in the following situations:
-\itemize{
-\item The model fit fails during \code{train()}
-\item The prediction fails during \code{predict()}
-\item Prediction resulted in missing values for some observations (as reported by \code{$missing} of \link{Prediction})
-}
-
-If one of these cases is detected, the following applies during \code{predict()} of the top level learner:
-\itemize{
-\item \code{fallback$train()} is called on the training set of the top level learner
-\item \code{fallback$predict()} is called on the (subset of the) test set for which predictions are missing
-\item The predictions of the top level learner are augmented with the predictions of the fallback learner
-\item The fallback learner is discarded
-}
-
-Note that the fallback learner runs without any encapsulation (see \code{\link[=mlr_control]{mlr_control()}}),
-and its output is not captured in the learner log.
+\item \code{warnings} :: \code{character()}\cr
+Returns the logged warnings as vector.
+\item \code{errors} :: \code{character()}\cr
+Returns the logged errors as vector.
 }
 }
 
 \section{Methods}{
 
 \itemize{
-\item \code{params(tag)}\cr
-\code{character(1)} -> named \code{list()}\cr
-Returns a list of hyperparameter settings from \code{param_set} where the corresponding parameters in \code{param_set} are tagged
-with \code{tag}. I.e., \code{l$params("train")} returns all settings of hyperparameters relevant in the training step.
 \item \code{train(task, row_ids = NULL, ctrl = list())}\cr
 (\link{Task}, \code{integer()} | \code{character()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Learner}\cr
 Train the learner on the row ids of the provided \link{Task}.
 Mutates the learner by reference, e.g. stores the model in field \code{$data}.
 \item \code{predict(task, row_ids = NULL, ctrl = list())}\cr
-(\link{Task}, integer()\code{|}character()\code{, [mlr_control()]) -> [Prediction]\cr Uses the data stored during }$train()\code{to create a new [Prediction] based on the provided}row_ids\code{of the}task`.
+(\link{Task}, \code{integer()} | \code{character()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
+Uses the data stored during \code{$train()} to create a new \link{Prediction} based on the provided \code{row_ids}
+of the \code{task}.
 \item \code{predict_newdata(task, newdata, ctrl = list())}\cr
 (\link{Task}, \code{data.frame()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \code{$train()} and required for conversions of \code{newdata}.
 \item \code{new_prediction(row_ids, truth, ...)}\cr
-\link[=integer()` | `character()`, any, ...]{integer()|character()`, any, ...} -> \link{Prediction}\cr
+\link[=`integer()` | `character()`, any, ...]{integer() | character(), any, ...} -> \link{Prediction}\cr
 Used internally to create a \link{Prediction} object.
 The arguments are described in the respective specialization of \link{Prediction}, e.g. in \link{PredictionClassif} for
 classification.
@@ -133,16 +117,15 @@ of the model in the inherited subclasses.
 
 For the following operations, extractors are standardized:
 \itemize{
-\item \code{importance(...)}: Returns a feature importance score as \code{numeric()}.
-The learner must be tagged with property "importance".
-
+\item \code{importance(...)}: Returns the feature importance score as numeric vector.
 The higher the score, the more important the variable.
 The returned vector is named with feature names and sorted in decreasing order.
 Note that the model might omit features it has not used at all.
+The learner must be tagged with property \code{"importance"}.
 \item \code{selected_features(...)}: Returns a subset of selected features as \code{character()}.
-The learner must be tagged with property "selected_features".
+The learner must be tagged with property \code{"selected_features"}.
 \item \code{oob_error(...)}: Returns the out-of-bag error of the model as \code{numeric(1)}.
-The learner must be tagged with property "oob_error".
+The learner must be tagged with property \code{"oob_error"}.
 }
 }
 
@@ -156,12 +139,12 @@ To set hyperparameters, assign a named list to the subslot \code{values}:\prefor
 lrn$param_set$values = list(minsplit = 3, cp = 0.01)
 }
 
-Note that this operation erases all previously set hyperparameter values.
+Note that this operation replaces all previously set hyperparameter values.
 If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function \code{\link[mlr3misc:insert_named]{mlr3misc::insert_named()}}:\preformatted{lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
 }
 
 If the learner has additional hyperparameters which are not encoded in the \link[paradox:ParamSet]{ParamSet}, you can easily extend the learner.
-Here, we add a hyperparameter with id "foo" possible levels "a" and "b":\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
+Here, we add a hyperparameter with id \code{"foo"} possible levels \code{"a"} and \code{"b"}:\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 }
 }
 

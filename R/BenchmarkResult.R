@@ -27,25 +27,30 @@
 #'
 #' * `tasks` :: [data.table::data.table()]\cr
 #'   Table of used tasks with three columns:
-#'   "task_hash" (`character(1)`), "task_id" (`character(1)`) and "task" ([Task]).
+#'   `"task_hash"` (`character(1)`), `"task_id"` (`character(1)`) and `"task"` ([Task]).
 #'
 #' * `learners` :: [data.table::data.table()]\cr
 #'   Table of used learners with three columns:
-#'   "learner_hash" (`character(1)`), "learner_id" (`character(1)`) and "learner" ([Learner]).
+#'   `"learner_hash"` (`character(1)`), `"learner_id"` (`character(1)`) and `"learner"` ([Learner]).
 #'
 #' * `resamplings` :: [data.table::data.table()]\cr
 #'   Table of used resamplings with three columns:
-#'   "resampling_hash" (`character(1)`), "resampling_id" (`character(1)`) and "resampling" ([Resampling]).
+#'   `"resampling_hash"` (`character(1)`), `"resampling_id"` (`character(1)`) and `"resampling"` ([Resampling]).
 #'
 #' @section Methods:
-#' * `aggregate(measures = NULL, ids = TRUE, params = FALSE)`\cr
+#' * `aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)`\cr
 #'   (`list()` of [Measure], `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where resampling iterations are aggregated together into [ResampleResult]s.
 #'   Arguments control the number of additional columns:
 #'     * `ids` :: `logical(1)`\cr
-#'       Return object ids as columns in the result `data.table()`.
+#'       Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as extra character columns.
 #'     * `params` :: `logical(1)`\cr
-#'       Return learner hyperparameter values as list column `params` in the result `data.table()`.
+#'       Adds the hyperparameter values as extra list column `"params"`.
+#'       You can unnest them with [mlr3misc::unnest()].
+#'     * `warnings` :: `logical(1)`\cr
+#'       Adds the number of resampling iterations with at least one recorded warning as extra integer column `"warnings"`.
+#'     * `errors` :: `logical(1)`\cr
+#'       Adds the number of resampling iterations with at least one recorded error as extra integer column `"errors"`.
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
 #'   (`list()` of [Measure], `logical(1)`) -> `data.table()`\cr
@@ -57,7 +62,7 @@
 #'
 #' * `get_best(measure)`\cr
 #'   ([Measure]) -> [ResampleResult]\cr
-#'   Returns the [ResampleResult] with best performance according to [Measure] with the provided id.
+#'   Returns the [ResampleResult] with the best performance according to [Measure].
 #'
 #' * `combine(bmr)`\cr
 #'   [BenchmarkResult] -> `self`\cr
@@ -137,18 +142,27 @@ BenchmarkResult = R6Class("BenchmarkResult",
       return(tab)
     },
 
-    aggregate = function(measures = NULL, ids = TRUE, params = FALSE) {
+    aggregate = function(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE) {
       measures = assert_measures(measures, learner = self$data$learner[[1L]])
       res = self$data[, list(resample_result = list(ResampleResult$new(copy(.SD)))), by = hash]
 
-
       if (assert_flag(ids)) {
         extract = function(x) list(task_id = x$task$id, learner_id = x$learners[[1L]]$id, resampling_id = x$resampling$id)
-        res = ref_cbind(res, map_dtr(res$resample_result, extract, .fill = TRUE))
+        res = insert_named(res, map_dtr(res$resample_result, extract))
       }
 
       if (assert_flag(params)) {
-        res$params = map(res$resample_result, function(x) x$learners[[1L]]$param_set$values)
+        res[, "params" := list(map(get("resample_result"), function(x) x$learners[[1L]]$param_set$values))]
+      }
+
+      if (assert_flag(warnings)) {
+        extract = function(rr) uniqueN(rr$warnings, by = "iteration")
+        res[, "warnings" := map_int(get("resample_result"), extract)]
+      }
+
+      if (assert_flag(errors)) {
+        extract = function(rr) uniqueN(rr$errors, by = "iteration")
+        res[, "errors" := map_int(get("resample_result"), extract)]
       }
 
       ref_cbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))

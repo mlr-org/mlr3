@@ -27,19 +27,32 @@
 #' * `task` :: [Task]\cr
 #'   The task [resample()] operated on.
 #'
+#' * `learners` :: list of [Learner]\cr
+#'   List of trained learners, sorted by resampling iteration.
+#'
 #' * `resampling` :: [Resampling]\cr
-#'   The resampling splits [resample()] operated on.
+#'   Instantiated [Resampling] object which stores the splits into training and test.
 #'
-#' * `errors` :: `logical()`\cr
-#'   Logical vector where the i-th element is `TRUE` if an error for the i-th resampling iteration has been captured.
-#'
-#' * `hash` :: `character(1)`\cr
-#'   Hash (unique identifier) for this object.
+#' * `predictions` :: list of [Prediction]\cr
+#'   List of prediction objects, sorted by resampling iteration.
 #'
 #' * `prediction` :: [Prediction]\cr
 #'   Combined [Prediction] of all individual resampling iterations.
 #'   Note that the performance of measures is not calculated on this object,
 #'   but instead on each iterations separately and then combined with an aggregate function.
+#'
+#' * `warnings` :: [data.table::data.table()]\cr
+#'   Returns a table with all warning messages.
+#'   Column names are `"iteration"` and `"msg"`.
+#'   Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.
+#'
+#' * `errors` :: [data.table::data.table()]\cr
+#'   Returns a table with all error messages.
+#'   Column names are `"iteration"` and `"msg"`.
+#'   Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
+#'
+#' * `hash` :: `character(1)`\cr
+#'   Hash (unique identifier) for this object.
 #'
 #' @section Methods:
 #' * `combine(rr)`\cr
@@ -64,6 +77,10 @@
 #'   [ResampleResult] -> [data.table::data.table()]\cr
 #'   Returns a copy of the internal data.
 #' @export
+#' @examples
+#' rr = resample("iris", "classif.featureless", "cv3")
+#' rr$warnings
+#' rr$errors
 ResampleResult = R6Class("ResampleResult",
   public = list(
     data = NULL,
@@ -136,9 +153,14 @@ ResampleResult = R6Class("ResampleResult",
       hash_resample_iteration(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
     },
 
+    warnings = function() {
+      extract = function(learner) list(warning = learner$warnings)
+      rbindlist(map(self$data$learner, extract), idcol = "iteration", use.names = TRUE)
+    },
+
     errors = function() {
-      has_error = function(log) !is.null(log) && log[get("class") == "error", .N] > 0L
-      map_lgl(self$data$train_log, has_error)
+      extract = function(learner) list(warning = learner$errors)
+      rbindlist(map(self$data$learner, extract), idcol = "iteration", use.names = TRUE)
     }
   ),
 

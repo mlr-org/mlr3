@@ -28,6 +28,8 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   learner$data$model = result$result
   learner$data$train_log = result$log
   learner$data$train_time = result$elapsed
+  learner$data$predict_log = NULL
+  learner$data$predict_time = NULL
 
   learner
 }

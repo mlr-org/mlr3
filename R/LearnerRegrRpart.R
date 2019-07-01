@@ -39,11 +39,11 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     },
 
     train_internal = function(task) {
-      pars = self$params("train")
+      pv = self$param_set$get_values(tag = "train")
       if ("weights" %in% task$properties) {
-        pars = insert_named(pars, list(weights = task$weights$weight))
+        pv = insert_named(pv, list(weights = task$weights$weight))
       }
-      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pars)
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv)
     },
 
     predict_internal = function(task) {

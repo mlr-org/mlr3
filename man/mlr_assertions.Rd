@@ -87,7 +87,7 @@ Minimum amount of required features.}
 
 \item{bmr}{:: \link{BenchmarkResult}.}
 
-\item{row_ids}{:: `vector().}
+\item{row_ids}{:: \code{vector()}.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.

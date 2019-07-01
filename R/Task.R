@@ -44,15 +44,15 @@
 #'   - `"levels"` stores a vector of distinct values (levels) for factor and character variables.
 #'
 #' * `col_roles` :: named `list()`\cr
-#'   Each column (feature) can have an arbitrary number of roles in the learning task:
+#'   Each column (feature) can have an arbitrary number of the following roles:
 #'     - `"feature"`: Regular feature used in the model fitting process.
 #'     - `"target"`: Target variable.
 #'     - `"label"`: Observation labels. May be used in plots.
-#'     - `"order"`: Data returned by `data()` is ordered by this column (or these columns).
+#'     - `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
 #'     - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
-#'          or the test set for each resampling iteration. Only a single column may be marked as grouping column.
-#'     - `"weights"`: Observation weights. Only a single column may be marked as weights.
+#'          or in the test set for each resampling iteration. Only up to one column may have this role.
+#'     - `"weights"`: Observation weights. Only up to one column may have this role.
 #'
 #'   `col_roles` keeps track of the roles with a named list of vectors of feature names.
 #'   To alter the roles, use `t$set_col_role()`.
@@ -110,7 +110,7 @@
 #'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, data_format = NULL)`\cr
-#'   (`integer()` | `character()`, `character(1)`, `character()`) -> `any`\cr
+#'   (`integer()` | `character()`, `character(1)`, `character(1)`) -> `any`\cr
 #'   Returns a slice of the data from the [DataBackend] in the data format specified by `data_format`
 #'   (depending on the [DataBackend], but usually a [data.table::data.table()]).
 #'
@@ -119,26 +119,32 @@
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
 #'
 #' * `formula(rhs = NULL)`\cr
-#'   `character()` -> `formula`\cr
-#'   Constructs a [stats::formula], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
-#'   the features provided in argument `rhs` (defaults to all columns with role "feature").
+#'   `character()` -> [stats::formula()]\cr
+#'   Constructs a [stats::formula()], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
+#'   the features provided in argument `rhs` (defaults to all columns with role `"feature"`).
 #'
 #' * `levels(cols = NULL)`\cr
 #'   `character()` -> named `list()`\cr
 #'   Returns the distinct values for columns referenced in `cols` with storage type "character", "factor" or "ordered".
-#'   Argument `cols` defaults to all such columns with role "target" or "feature".
+#'   Argument `cols` defaults to all such columns with role `"target"` or `"feature"`.
 #'
 #'   Note that this function ignores the row roles, it returns all levels available in the [DataBackend].
 #'   To update the stored level information, e.g. after filtering a task, call `$droplevels()`.
 #'
+#' * `droplevels(cols = NULL)`\cr
+#'   `character()` -> `self`\cr
+#'   Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
+#'   `cols` defaults to all columns with storage type "character", "factor", or "ordered".
+#'
 #' * `missings(cols = NULL)`\cr
 #'   `character()` -> named `integer()`\cr
 #'   Returns the number of missing observations for columns referenced in `cols`.
+#'   Considers only active rows with row role `"use"`.
 #'   Argument `cols` defaults to all columns with role "target" or "feature".
 #'
 #' * `head(n = 6)`\cr
 #'   `integer()` -> [data.table::data.table()]\cr
-#'   Get the first `n` observations with role "use".
+#'   Get the first `n` observations with role `"use"`.
 #'
 #' * `set_col_role(cols, new_roles, exclusive = TRUE)`\cr
 #'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
@@ -152,13 +158,15 @@
 #'
 #' * `filter(rows)`\cr
 #'   (`integer()` | `character()`) -> `self`\cr
-#'   Subsets the task, reducing it to only keep the rows specified.
+#'   Subsets the task, reducing it to only keep the rows specified in `rows`.
+#'   This mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
 #' * `select(cols)`\cr
 #'   `character()` -> `self`\cr
-#'   Subsets the task, reducing it to only keep the features specified.
+#'   Subsets the task, reducing it to only keep the features specified in `cols`.
 #'   Note that you cannot deselect the target column, for obvious reasons.
+#'   This mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
 #' * `cbind(data)`\cr
@@ -166,6 +174,7 @@
 #'   Extends the [DataBackend] with additional columns.
 #'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
 #'   If this column is missing, it is assumed that the rows are exactly in the order of `t$row_ids`.
+#'   This mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
 #' * `rbind(data)`\cr
@@ -173,6 +182,7 @@
 #'   Extends the [DataBackend] with additional rows.
 #'   The new row ids must be provided as column in `data`.
 #'   If this column is missing, new row ids are constructed automatically.
+#'   This mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
 #' * `replace_features(data)`\cr
@@ -181,10 +191,6 @@
 #'   This operation is similar to calling `select()` and `cbind()`.
 #'   See the section on task mutators for more information.
 #'
-#' * `droplevels(cols = NULL)`\cr
-#'   `character` -> `self`\cr
-#'   Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
-#'   `cols` defaults to all columns with storage type "character", "factor", or "ordered".
 #'
 #' @section S3 methods:
 #' * `as.data.table(t)`\cr
@@ -206,11 +212,12 @@
 #' @family Task
 #' @export
 #' @examples
-#' task = Task$new("iris", task_type = "classif", backend = iris)
+#' # we use the inherited class TaskClassif here,
+#' # Class Task is not intended for direct use
+#' task = TaskClassif$new("iris", iris, target = "Species")
 #'
 #' task$nrow
 #' task$ncol
-#' task$head()
 #' task$feature_names
 #' task$formula()
 #'
@@ -224,6 +231,7 @@
 #'
 #' # Add new column "foo"
 #' task$cbind(data.frame(foo = 1:150))
+#' task$head()
 Task = R6Class("Task",
   public = list(
     id = NULL,

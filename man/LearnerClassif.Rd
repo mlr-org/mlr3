@@ -30,7 +30,7 @@ See \link{Learner}.
 All methods of \link{Learner}, and additionally:
 \itemize{
 \item \code{new_prediction(row_ids, truth, response = NULL, prob = NULL)}\cr
-\link[=integer()` | `character()`, `factor()`, `factor()`, `matrix()`]{integer()|character(), factor(), factor(), matrix()`} -> \link{PredictionClassif}\cr
+\link[=`integer()` | `character()`, `factor()`, `factor()`, `matrix()`]{integer() | character(), factor(), factor(), matrix()} -> \link{PredictionClassif}\cr
 Creates a new \link{PredictionClassif} object, after performing some basic type checks and transformations.
 See \link{PredictionClassif} for a description of the arguments.
 }

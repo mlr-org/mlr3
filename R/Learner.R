@@ -41,7 +41,7 @@
 #'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
 #'
 #' * `feature_types` :: `character()`\cr
-#'   Feature types the learner operates on. Must be a subset of `mlr_reflections$task_feature_types`.
+#'   Feature types the learner operates on. Must be a subset of [`mlr_reflections$task_feature_types`][mlr_reflections].
 #'
 #' * `properties` :: `character()`\cr
 #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
@@ -94,35 +94,20 @@
 #'   `"stage"` (train or predict), `"class"` (output, warning, error) and
 #'   `"msg"` (`character()`).
 #'
-#' * `fallback` :: [Learner]\cr
-#'   Learner which is used as a fallback to repair predictions in the following situations:
-#'   * The model fit fails during `train()`
-#'   * The prediction fails during `predict()`
-#'   * Prediction resulted in missing values for some observations (as reported by `$missing` of [Prediction])
+#' * `warnings` :: `character()`\cr
+#'   Returns the logged warnings as vector.
 #'
-#'   If one of these cases is detected, the following applies during `predict()` of the top level learner:
-#'   * `fallback$train()` is called on the training set of the top level learner
-#'   * `fallback$predict()` is called on the (subset of the) test set for which predictions are missing
-#'   * The predictions of the top level learner are augmented with the predictions of the fallback learner
-#'   * The fallback learner is discarded
-#'
-#'   Note that the fallback learner runs without any encapsulation (see [mlr_control()]),
-#'   and its output is not captured in the learner log.
-#'
+#' * `errors` :: `character()`\cr
+#'   Returns the logged errors as vector.
 #'
 #' @section Methods:
-#' * `params(tag)`\cr
-#'   `character(1)` -> named `list()`\cr
-#'   Returns a list of hyperparameter settings from `param_set` where the corresponding parameters in `param_set` are tagged
-#'   with `tag`. I.e., `l$params("train")` returns all settings of hyperparameters relevant in the training step.
-#'
 #' * `train(task, row_ids = NULL, ctrl = list())`\cr
 #'   ([Task], `integer()` | `character()`, [mlr_control()]) -> [Learner]\cr
 #'   Train the learner on the row ids of the provided [Task].
 #'   Mutates the learner by reference, e.g. stores the model in field `$data`.
 #'
 #' * `predict(task, row_ids = NULL, ctrl = list())`\cr
-#'   ([Task], integer()` | `character()`, [mlr_control()]) -> [Prediction]\cr
+#'   ([Task], `integer()` | `character()`, [mlr_control()]) -> [Prediction]\cr
 #'   Uses the data stored during `$train()` to create a new [Prediction] based on the provided `row_ids`
 #'   of the `task`.
 #'
@@ -132,7 +117,7 @@
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
 #'
 #' * `new_prediction(row_ids, truth, ...)`\cr
-#'   [integer()` | `character()`, any, ...] -> [Prediction]\cr
+#'   [`integer()` | `character()`, any, ...] -> [Prediction]\cr
 #'   Used internally to create a [Prediction] object.
 #'   The arguments are described in the respective specialization of [Prediction], e.g. in [PredictionClassif] for
 #'   classification.
@@ -144,18 +129,17 @@
 #'
 #' For the following operations, extractors are standardized:
 #'
-#' * `importance(...)`: Returns a feature importance score as `numeric()`.
-#'   The learner must be tagged with property "importance".
-#'
+#' * `importance(...)`: Returns the feature importance score as numeric vector.
 #'   The higher the score, the more important the variable.
 #'   The returned vector is named with feature names and sorted in decreasing order.
 #'   Note that the model might omit features it has not used at all.
+#'   The learner must be tagged with property `"importance"`.
 #'
 #' * `selected_features(...)`: Returns a subset of selected features as `character()`.
-#'   The learner must be tagged with property "selected_features".
+#'   The learner must be tagged with property `"selected_features"`.
 #'
 #' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
-#'   The learner must be tagged with property "oob_error".
+#'   The learner must be tagged with property `"oob_error"`.
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -167,13 +151,13 @@
 #' lrn = mlr_learners$get("classif.rpart")
 #' lrn$param_set$values = list(minsplit = 3, cp = 0.01)
 #' ```
-#' Note that this operation erases all previously set hyperparameter values.
+#' Note that this operation replaces all previously set hyperparameter values.
 #' If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function [mlr3misc::insert_named()]:
 #' ```
 #' lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
 #' ```
 #' If the learner has additional hyperparameters which are not encoded in the [ParamSet][paradox::ParamSet], you can easily extend the learner.
-#' Here, we add a hyperparameter with id "foo" possible levels "a" and "b":
+#' Here, we add a hyperparameter with id `"foo"` possible levels `"a"` and `"b"`:
 #' ```
 #' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 #' ```
@@ -235,12 +219,6 @@ Learner = R6Class("Learner",
       task = task$clone(deep = TRUE)$rbind(newdata)
       row_ids = setdiff(task$row_ids, old_row_ids)
       self$predict(task, row_ids, ctrl = ctrl)
-    },
-
-    params = function(tag) {
-      assert_string(tag)
-      pv = self$param_set$values
-      pv[map_lgl(self$param_set$tags[names(pv)], is.element, el = tag)]
     }
   ),
 
@@ -256,6 +234,14 @@ Learner = R6Class("Learner",
       tab$stage = as_factor(tab$stage, levels = c("train", "predict"))
       tab$class = as_factor(tab$class, levels = mlr_reflections$log_classes)
       tab
+    },
+
+    warnings = function() {
+      self$log[get("class") == "warning"]$msg
+    },
+
+    errors = function() {
+      self$log[get("class") == "error"]$msg
     },
 
     hash = function() {

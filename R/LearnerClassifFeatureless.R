@@ -36,7 +36,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
     },
 
     predict_internal = function(task) {
-      pv = self$params("predict")
+      pv = self$param_set$get_values(tag = "predict")
       tab = self$model$tab
       n = task$nrow
       response = prob = NULL

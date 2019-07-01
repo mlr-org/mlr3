@@ -23,7 +23,7 @@ e.g. \code{\link[=mlr_measures_classif.auc]{classif.auc}} or \code{\link[=mlr_me
 \section{Construction}{
 
 Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type, range, minimize, predict_type = "response",
-     task_properties = character(0L), na_score = FALSE, packages = character(0L))
+     task_properties = character(), na_score = FALSE, packages = character())
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -39,7 +39,7 @@ and to \code{FALSE} if good predictions correspond to large values.
 If set to \code{NA}, tuning with this measure is not possible.
 \item \code{aggregator} :: \code{function(x)}\cr
 Function to aggregate individual performance values \code{x} where \code{x} is a numeric vector.
-If \code{NULL}, defaults to \code{\link[base:mean]{base::mean()}}.
+If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.
 \item \code{predict_type} :: \code{character(1)}\cr
 Required predict type of the \link{Learner}.
 Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.

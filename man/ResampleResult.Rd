@@ -29,16 +29,26 @@ Internal data storage.
 We discourage users to directly work with this field.
 \item \code{task} :: \link{Task}\cr
 The task \code{\link[=resample]{resample()}} operated on.
+\item \code{learners} :: list of \link{Learner}\cr
+List of trained learners, sorted by resampling iteration.
 \item \code{resampling} :: \link{Resampling}\cr
-The resampling splits \code{\link[=resample]{resample()}} operated on.
-\item \code{errors} :: \code{logical()}\cr
-Logical vector where the i-th element is \code{TRUE} if an error for the i-th resampling iteration has been captured.
-\item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) for this object.
+Instantiated \link{Resampling} object which stores the splits into training and test.
+\item \code{predictions} :: list of \link{Prediction}\cr
+List of prediction objects, sorted by resampling iteration.
 \item \code{prediction} :: \link{Prediction}\cr
 Combined \link{Prediction} of all individual resampling iterations.
 Note that the performance of measures is not calculated on this object,
 but instead on each iterations separately and then combined with an aggregate function.
+\item \code{warnings} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Returns a table with all warning messages.
+Column names are \code{"iteration"} and \code{"msg"}.
+Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.
+\item \code{errors} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Returns a table with all error messages.
+Column names are \code{"iteration"} and \code{"msg"}.
+Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
+\item \code{hash} :: \code{character(1)}\cr
+Hash (unique identifier) for this object.
 }
 }
 
@@ -71,4 +81,9 @@ Returns a copy of the internal data.
 }
 }
 
+\examples{
+rr = resample("iris", "classif.featureless", "cv3")
+rr$warnings
+rr$errors
+}
 \keyword{datasets}

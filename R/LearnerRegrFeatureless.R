@@ -30,7 +30,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
     },
 
     train_internal = function(task) {
-      pv = self$params("train")
+      pv = self$param_set$get_values(tag = "train")
       x = task$data(cols = task$target_names)[[1L]]
       if (isFALSE(pv$robust)) {
         location = mean(x)

@@ -30,28 +30,33 @@ Internal data storage.
 We discourage users to directly work with this field.
 \item \code{tasks} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used tasks with three columns:
-"task_hash" (\code{character(1)}), "task_id" (\code{character(1)}) and "task" (\link{Task}).
+\code{"task_hash"} (\code{character(1)}), \code{"task_id"} (\code{character(1)}) and \code{"task"} (\link{Task}).
 \item \code{learners} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used learners with three columns:
-"learner_hash" (\code{character(1)}), "learner_id" (\code{character(1)}) and "learner" (\link{Learner}).
+\code{"learner_hash"} (\code{character(1)}), \code{"learner_id"} (\code{character(1)}) and \code{"learner"} (\link{Learner}).
 \item \code{resamplings} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used resamplings with three columns:
-"resampling_hash" (\code{character(1)}), "resampling_id" (\code{character(1)}) and "resampling" (\link{Resampling}).
+\code{"resampling_hash"} (\code{character(1)}), \code{"resampling_id"} (\code{character(1)}) and \code{"resampling"} (\link{Resampling}).
 }
 }
 
 \section{Methods}{
 
 \itemize{
-\item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE)}\cr
+\item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where resampling iterations are aggregated together into \link{ResampleResult}s.
 Arguments control the number of additional columns:
 \itemize{
 \item \code{ids} :: \code{logical(1)}\cr
-Return object ids as columns in the result \code{data.table()}.
+Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as extra character columns.
 \item \code{params} :: \code{logical(1)}\cr
-Return learner hyperparameter values as list column \code{params} in the result \code{data.table()}.
+Adds the hyperparameter values as extra list column \code{"params"}.
+You can unnest them with \code{\link[mlr3misc:unnest]{mlr3misc::unnest()}}.
+\item \code{warnings} :: \code{logical(1)}\cr
+Adds the number of resampling iterations with at least one recorded warning as extra integer column \code{"warnings"}.
+\item \code{errors} :: \code{logical(1)}\cr
+Adds the number of resampling iterations with at least one recorded error as extra integer column \code{"errors"}.
 }
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{data.table()}\cr
@@ -62,7 +67,7 @@ If no measure is provided, defaults to the measure defined in \link[=mlr_reflect
 If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
 \item \code{get_best(measure)}\cr
 (\link{Measure}) -> \link{ResampleResult}\cr
-Returns the \link{ResampleResult} with best performance according to \link{Measure} with the provided id.
+Returns the \link{ResampleResult} with the best performance according to \link{Measure}.
 \item \code{combine(bmr)}\cr
 \link{BenchmarkResult} -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself.
