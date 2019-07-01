@@ -126,7 +126,6 @@ Resampling = R6Class("Resampling",
       catf("%s with %i iterations", format(self), self$iters)
       catf(str_indent("Instantiated:", self$is_instantiated))
       catf(str_indent("Parameters:", as_short_string(pv, 1000L)))
-      catf(str_indent("\nPublic:", setdiff(ls(self), c("initialize", "print"))))
     },
 
     instantiate = function(task) {
