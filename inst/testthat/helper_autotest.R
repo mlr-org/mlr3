@@ -200,19 +200,21 @@ run_experiment = function(task, learner) {
   log = learner$log[stage == "predict"]
   if ("error" %in% log$class)
     return(err("predict log has errors: %s", mlr3misc::str_collapse(log[stage == "error", msg])))
-  if (!inherits(prediction, "Prediction"))
-    return(err("$prediction has wrong class"))
+  msg = checkmate::check_class(prediction, "Prediction")
+  if (!isTRUE(msg))
+    return(err(msg))
   if (prediction$task_type != learner$task_type)
     return(err("learner and prediction have different task_type"))
   if (!all(learner$predict_type %in% prediction$predict_types))
     return(err("prediction is missing predict_types"))
 
   stage = "score()"
-  perf = try(prediction$score(mlr_reflections$default_measures[[learner$task_type]]), silent = TRUE)
-  if (inherits(ok, "try-error"))
-    return(err(as.character(ok)))
-  if (!checkmate::test_numeric(perf, any.missing = FALSE))
-    return(err("score is not a numeric value"))
+  perf = try(prediction$score(mlr3::mlr_reflections$default_measures[[learner$task_type]]), silent = TRUE)
+  if (inherits(perf, "try-error"))
+    return(err(as.character(perf)))
+  msg = checkmate::check_numeric(perf, any.missing = FALSE)
+  if (!isTRUE(msg))
+    return(err(msg))
 
   # run sanity check on sanity task
   if (grepl("^sanity", task$id) && !sanity_check(prediction)) {
@@ -220,14 +222,14 @@ run_experiment = function(task, learner) {
   }
 
   if (grepl("^feat_all", task$id) && "importance" %in% learner$properties) {
-    imp = learner$importance()
-    if (!checkmate::test_numeric(imp, any.missing = FALSE, min.len = 1L))
-      return(err("importance is not numeric"))
-    if (!checkmate::test_names(names(imp), subset.of = task$feature_names))
-      return(err("importance is not properly named"))
-    if (is.unsorted(rev(imp)))
-      return(err("importance is not sorted"))
-    if ("unimportant" %in% head(names(imp), 1L))
+    importance = learner$importance()
+    msg = checkmate::check_numeric(rev(importance), any.missing = FALSE, min.len = 1L, sorted = TRUE)
+    if (!isTRUE(msg))
+      return(err(msg))
+    msg = checkmate::check_names(names(importance), subset.of = task$feature_names)
+    if (!isTRUE(msg))
+      return(err(msg))
+    if ("unimportant" %in% head(names(importance), 1L))
       return(err("unimportant feature is important"))
   }
 

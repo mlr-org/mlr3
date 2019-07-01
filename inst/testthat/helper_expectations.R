@@ -387,8 +387,8 @@ expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data"))
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
-  checkmate::expect_data_table(bmr$data, min.cols = length(mlr_reflections$rr_names) + 1L)
-  checkmate::expect_names(names(bmr$data), must.include = c(mlr_reflections$rr_names, "hash"))
+  checkmate::expect_data_table(bmr$data, min.cols = length(mlr3::mlr_reflections$rr_names) + 1L)
+  checkmate::expect_names(names(bmr$data), must.include = c(mlr3::mlr_reflections$rr_names, "hash"))
 
   tab = bmr$tasks
   checkmate::expect_data_table(tab, ncol = 3L)
