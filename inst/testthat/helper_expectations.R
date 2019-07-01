@@ -369,7 +369,7 @@ expect_resample_result = function(rr) {
   expect_task(rr$task)
   expect_resampling(rr$resampling, task = rr$task)
 
-  data = as.data.table(rr)
+  data = data.table::as.data.table(rr)
   checkmate::expect_data_table(rr$performance(), nrow = rr$resampling$iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
   checkmate::expect_names(names(rr$performance()), must.include = mlr3::mlr_reflections$rr_names)
   expect_hash(rr$hash, 1L)
