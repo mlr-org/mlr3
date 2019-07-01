@@ -76,6 +76,7 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
 
 
 workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control()) {
+  lg$info("Applying learner '%s' on task '%s' (iter %i/%i)", learner$id, task$id, iteration, resampling$iters)
   train_set = resampling$train_set(iteration)
   test_set = resampling$test_set(iteration)
 
