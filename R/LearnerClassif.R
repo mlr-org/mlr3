@@ -25,7 +25,7 @@
 #' All methods of [Learner], and additionally:
 #'
 #' * `new_prediction(row_ids, truth, response = NULL, prob = NULL)`\cr
-#'   [`integer()` | `character()`, `factor()`, `factor()`, `matrix()`] -> [PredictionClassif]\cr
+#'   (`integer()` | `character()`, `factor()`, `factor()`, `matrix()`) -> [PredictionClassif]\cr
 #'   Creates a new [PredictionClassif] object, after performing some basic type checks and transformations.
 #'   See [PredictionClassif] for a description of the arguments.
 #'

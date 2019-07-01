@@ -102,7 +102,7 @@ of the \code{task}.
 Uses the data stored during \code{$train()} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \code{$train()} and required for conversions of \code{newdata}.
 \item \code{new_prediction(row_ids, truth, ...)}\cr
-\link[=`integer()` | `character()`, any, ...]{integer() | character(), any, ...} -> \link{Prediction}\cr
+(\code{integer()} | \code{character()}, any, ...) -> \link{Prediction}\cr
 Used internally to create a \link{Prediction} object.
 The arguments are described in the respective specialization of \link{Prediction}, e.g. in \link{PredictionClassif} for
 classification.

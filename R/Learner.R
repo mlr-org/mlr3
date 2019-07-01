@@ -117,7 +117,7 @@
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
 #'
 #' * `new_prediction(row_ids, truth, ...)`\cr
-#'   [`integer()` | `character()`, any, ...] -> [Prediction]\cr
+#'   (`integer()` | `character()`, any, ...) -> [Prediction]\cr
 #'   Used internally to create a [Prediction] object.
 #'   The arguments are described in the respective specialization of [Prediction], e.g. in [PredictionClassif] for
 #'   classification.

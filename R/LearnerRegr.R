@@ -25,7 +25,7 @@
 #' All methods of [Learner], and additionally:
 #'
 #' * `new_prediction(row_ids, truth, response = NULL, prob = NULL)`\cr
-#'   [`integer()` | `character()`, `numeric()`, `numeric()`, `numeric()`] -> [PredictionRegr]\cr
+#'   (`integer()` | `character()`, `numeric()`, `numeric()`, `numeric()`) -> [PredictionRegr]\cr
 #'   Creates a new [PredictionRegr] object, after performing some basic type checks and transformations.
 #'   See [PredictionRegr] for a description of the arguments.
 #'
