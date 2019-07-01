@@ -374,7 +374,7 @@ expect_resample_result = function(rr) {
   checkmate::expect_names(names(rr$performance()), must.include = mlr3::mlr_reflections$rr_names)
   expect_hash(rr$hash, 1L)
 
-  m = assert_measure(NULL, task = rr$task)
+  m = mlr3::assert_measure(NULL, task = rr$task)
   y = rr$performance(m)
   aggr = rr$aggregate(m)
   checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
@@ -411,7 +411,7 @@ expect_benchmark_result = function(bmr) {
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
 
-  measure = assert_measure(NULL, task = bmr$data$task[[1L]])
+  measure = mlr3::assert_measure(NULL, task = bmr$data$task[[1L]])
   tab = bmr$aggregate(measure, ids = TRUE)
   checkmate::expect_data_table(tab, ncol = 6L)
   checkmate::expect_names(names(tab), permutation.of = c("hash", "resample_result", "resampling_id", "task_id", "learner_id", "resampling_id", measure$id))
