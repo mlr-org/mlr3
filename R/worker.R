@@ -23,7 +23,7 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
 
   # call wrapper with encapsulation
   enc = encapsulate(ctrl$encapsulate_train)
-  result = enc(wrapper, list(learner = learner$clone(), task = task), learner$packages, seed = NA_integer_)
+  result = enc(wrapper, list(learner = learner, task = task), learner$packages, seed = NA_integer_)
 
   learner$data$model = result$result
   learner$data$train_log = result$log
@@ -93,7 +93,7 @@ workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control())
 # the workhorse function
 reassemble = function(result, learner) {
   learner = learner$clone()
-  learner$data = insert_named(learner$data, result$learner_data)
+  learner$data = result$learner_data
   prediction = do.call(learner$new_prediction, result$prediction_data)
   list(learner = list(learner), prediction = list(prediction))
 }
