@@ -26,18 +26,18 @@ encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L), seed =
   parse_evaluate = function(log) {
     extract = function(x) {
       if (inherits(x, "message")) {
-        return(list(class = "output", msg = x$message))
+        return(list(class = "output", trimws(msg = x$message)))
       }
       if (inherits(x, "warning")) {
-        return(list(class = "warning", msg = x$message))
+        return(list(class = "warning", trimws(msg = x$message)))
       }
       if (inherits(x, "error")) {
-        return(list(class = "error", msg = x$message))
+        return(list(class = "error", msg = trimws(x$message)))
       }
       if (inherits(x, "recordedplot")) {
         return(NULL)
       }
-      return(list(class = "output", msg = x))
+      return(list(class = "output", msg = trimws(x)))
     }
 
     log = map_dtr(log[-1L], extract)
@@ -114,7 +114,7 @@ encapsulate_callr = function(fun, args = list(), pkgs = character(0L), seed = NA
   if (length(lines)) {
     msg = NULL
     log = data.table(class = "output", msg = lines)
-    parse_line = function(x) gsub("<br>", "\n", substr(x, 7L, nchar(x)), fixed = TRUE)
+    parse_line = function(x) trimws(gsub("<br>", "\n", substr(x, 7L, nchar(x)), fixed = TRUE))
     log[startsWith(get("msg"), "[WRN] "), c("class", "msg") := list("warning", parse_line(msg))]
     log[startsWith(get("msg"), "[ERR] "), c("class", "msg") := list("error", parse_line(msg))]
   } else {
