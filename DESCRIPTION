@@ -63,14 +63,10 @@ Suggests:
     future (>= 1.9.0),
     future.apply (>= 1.1.0),
     future.callr,
-    knitr,
     Matrix,
-    rmarkdown,
     rpart,
     testthat,
     titanic
-VignetteBuilder:
-    knitr
 Remotes:
     mlr-org/mlr3misc,
     mlr-org/paradox
