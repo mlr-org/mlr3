@@ -17,6 +17,8 @@ assert_backend = function(b, .var.name = vname(b)) {
 
 #' @export
 #' @param task :: [Task].
+#' @param task_type :: `character(1)`\cr
+#'   Task type, e.g. `"classif"` or `"regr"`.
 #' @param feature_types :: `character()`\cr
 #'   Set of allowed feature types.
 #' @param task_properties :: `character()`\cr
@@ -26,15 +28,12 @@ assert_backend = function(b, .var.name = vname(b)) {
 #' @param min_cols :: `integer()`\cr
 #'   Minimum amount of required features.
 #' @rdname mlr_assertions
-assert_task = function(task, feature_types = NULL, task_properties = NULL,
+assert_task = function(task, task_type = NULL, feature_types = NULL, task_properties = NULL,
   clone = FALSE, min_rows = 1, min_cols = 1) {
   task = cast_from_dict(task, "Task", mlr_tasks, clone, FALSE)[[1L]]
 
-  if (!is.null(feature_types)) {
-    tmp = setdiff(task$feature_types$type, feature_types)
-    if (length(tmp)) {
-      stopf("Task has the following unsupported feature types: %s", str_collapse(tmp))
-    }
+  if (!is.null(task_type) && task$task_type != task_type) {
+    stopf("Task must have type '%s'", task_type)
   }
 
   if (nrow(task$data()) < min_rows) {
@@ -42,6 +41,13 @@ assert_task = function(task, feature_types = NULL, task_properties = NULL,
   }
   if (ncol(task$data()) < min_cols) {
     stopf("Task needs to have at least %s features.", min_cols)
+  }
+
+  if (!is.null(feature_types)) {
+    tmp = setdiff(task$feature_types$type, feature_types)
+    if (length(tmp)) {
+      stopf("Task has the following unsupported feature types: %s", str_collapse(tmp))
+    }
   }
 
   if (!is.null(task_properties)) {

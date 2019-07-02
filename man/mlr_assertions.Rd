@@ -19,8 +19,9 @@
 \usage{
 assert_backend(b, .var.name = vname(b))
 
-assert_task(task, feature_types = NULL, task_properties = NULL,
-  clone = FALSE, min_rows = 1, min_cols = 1)
+assert_task(task, task_type = NULL, feature_types = NULL,
+  task_properties = NULL, clone = FALSE, min_rows = 1,
+  min_cols = 1)
 
 assert_tasks(tasks, feature_types = NULL, task_properties = NULL,
   clone = FALSE)
@@ -54,6 +55,9 @@ assert_row_ids(row_ids, type = NULL, .var.name = vname(row_ids))
 \item{b}{:: \link{DataBackend}.}
 
 \item{task}{:: \link{Task}.}
+
+\item{task_type}{:: \code{character(1)}\cr
+Task type, e.g. \code{"classif"} or \code{"regr"}.}
 
 \item{feature_types}{:: \code{character()}\cr
 Set of allowed feature types.}

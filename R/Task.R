@@ -473,6 +473,7 @@ task_print = function(self) {
 
   catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
   catf(str_indent("Target:", str_collapse(self$target_names)))
+  catf(str_indent("Properties:", str_collapse(self$properties)))
 
   types = self$feature_types
   if (nrow(types)) {

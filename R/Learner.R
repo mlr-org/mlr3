@@ -200,12 +200,21 @@ Learner = R6Class("Learner",
     },
 
     train = function(task, row_ids = NULL, ctrl = list()) {
+      assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
+      if (!is.null(row_ids))
+        row_ids = assert_row_ids(row_ids)
       ctrl = mlr_control(ctrl)
       learner_train(self, task, row_ids, ctrl)
     },
 
     predict = function(task, row_ids = NULL, ctrl = list()) {
+      assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
+      if (!is.null(row_ids))
+        row_ids = assert_row_ids(row_ids)
       ctrl = mlr_control(ctrl)
+      if (is.null(self$data$model)) {
+        stopf("No model available, call `train()` first")
+      }
       learner_predict(self, task, row_ids, ctrl)
     },
 

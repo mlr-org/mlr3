@@ -54,7 +54,7 @@
 #' print(bmr)
 resample = function(task, learner, resampling, ctrl = list()) {
   task = assert_task(task, clone = TRUE)
-  learner = assert_learner(learner, task = task, clone = TRUE)
+  learner = assert_learner(learner, task = task, properties = task$properties, clone = TRUE)
   resampling = assert_resampling(resampling)
   ctrl = mlr_control(ctrl)
 
@@ -68,7 +68,7 @@ resample = function(task, learner, resampling, ctrl = list()) {
     lg$debug("Running resample() via future with %i iterations", n)
     res = future.apply::future_lapply(seq_len(n), workhorse,
       task = task, learner = learner, resampling = instance, ctrl = ctrl,
-      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+      remote = TRUE, future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3")
   } else {
     lg$debug("Running resample() sequentially with %i iterations", n)
