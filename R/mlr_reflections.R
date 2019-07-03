@@ -1,6 +1,10 @@
 #' @title Reflections for mlr3
 #'
-#' @description Environment which stores various information for reflections.
+#' @format [environment].
+#' @description
+#' Environment which stores various information for reflections.
+#' Can be modified by third-party packages, e.g. by adding information about new task types.
+#'
 #' @keywords internal
 #' @export
 #' @examples
@@ -11,7 +15,7 @@ mlr_reflections = new.env(parent = emptyenv())
 local({
   ### options
   mlr_reflections$mlr_control_defaults = list(
-    store_model = FALSE,
+    store_models = FALSE,
     encapsulate_train = "none",
     encapsulate_predict = "none",
     log_threshold = 400L
@@ -63,6 +67,10 @@ local({
   mlr_reflections$default_measures = list(
     classif = "classif.ce",
     regr = "regr.mse"
+  )
+
+  mlr_reflections$measure_properties = c(
+    "requires_task", "requires_learner", "requires_train_set"
   )
 
   ### ResampleResult

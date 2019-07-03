@@ -26,3 +26,27 @@ test_that("Extra data slots of learners are kept", {
   learner$predict(task)
   expect_equal(learner$data$foo, "bar")
 })
+
+test_that("task is checked in train() / predict()", {
+  learner = mlr_learners$get("regr.rpart")
+  expect_error(learner$train("pima"), "type")
+  expect_error(learner$predict("pima"), "type")
+})
+
+test_that("learner timings", {
+  learner = mlr_learners$get("regr.rpart")
+  t = learner$timings
+  expect_equal(unname(t), as.double(c(NA, NA)))
+  expect_equal(names(t), c("train", "predict"))
+
+
+  learner$train("mtcars")
+  t = learner$timings
+  expect_number(t[["train"]])
+  expect_equal(t[["predict"]], NA_real_)
+
+  learner$predict("mtcars")
+  t = learner$timings
+  expect_number(t[["train"]])
+  expect_number(t[["predict"]])
+})

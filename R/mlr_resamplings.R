@@ -12,8 +12,7 @@
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
 #'   [Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a `data.table()` with fields "key", "hyperpars", and "iters"
-#'   as columns.
+#'   Returns a `data.table()` with columns `"key"`, `"params"`, and `"iters"`.
 #'
 #' @name mlr_resamplings
 #' @family Dictionary
@@ -51,6 +50,6 @@ mlr_resamplings = NULL
 as.data.table.DictionaryResampling = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
     r = x$get(key)
-    list(key = key, hyperpars = list(r$param_set$ids()), iters = r$iters)
+    list(key = key, params = list(r$param_set$ids()), iters = r$iters)
   }), "key")[]
 }

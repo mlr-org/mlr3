@@ -80,10 +80,10 @@ convert_matching_types = function(col_info, data) {
     cur_col = data[[id]]
     cur_type = class(cur_col)[1L]
 
-    if (type != cur_type && any(c(type, cur_type) %nin% c("character", "factor"))) {
+    if (type != cur_type && any(c(type, cur_type) %nin% c("character", "factor", "ordered"))) {
       if (allMissing(cur_col)) {
-        if (type == "factor") {
-          cur_col = as_factor(cur_col, levels = levels)
+        if (type %in% c("factor", "ordered")) {
+          cur_col = as_factor(cur_col, levels = levels, ordered = (type == "ordered"))
         } else {
           storage.mode(cur_col) = type
         }

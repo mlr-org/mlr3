@@ -28,7 +28,7 @@
 #'
 #' @note
 #' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
-#' If you need access to the models for later analysis, set `store_model` to `TRUE` via [mlr_control()].
+#' If you need access to the models for later analysis, set `store_models` to `TRUE` via [mlr_control()].
 #'
 #' @export
 #' @examples
@@ -79,10 +79,15 @@
 benchmark = function(design, ctrl = list()) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
-  assert_tasks(design$task)
-  assert_learners(design$learner)
-  assert_resamplings(design$resampling, instantiated = TRUE)
+  design$task = list(assert_tasks(design$task))
+  design$resampling = list(assert_resamplings(design$resampling, instantiated = TRUE))
   ctrl = mlr_control(ctrl)
+
+  # check for multiple task types
+  task_types = unique(map_chr(design$task, "task_type"))
+  if (length(task_types) > 1L) {
+    stopf("Multiple task types detected: %s", str_collapse(task_types))
+  }
 
   # clone inputs
   setDT(design)
@@ -92,6 +97,7 @@ benchmark = function(design, ctrl = list()) {
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
+    assert_learner(learner, task = task, properties = task$properties)
     hash = hash_resample_iteration(task, learner, resampling)
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
@@ -105,7 +111,8 @@ benchmark = function(design, ctrl = list()) {
 
     res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE,
+      iteration = grid$iteration, MoreArgs = list(ctrl = ctrl, remote = TRUE),
+      SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3"
     )

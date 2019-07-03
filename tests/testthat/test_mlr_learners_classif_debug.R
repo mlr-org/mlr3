@@ -27,7 +27,7 @@ test_that("updating model works", {
 
 test_that("updating model works / resample", {
   learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
-  rr = resample("iris", learner, "holdout", ctrl = list(store_model = TRUE))
+  rr = resample("iris", learner, "holdout", ctrl = list(store_models = TRUE))
   new_learner = rr$learners[[1]]
   expect_list(new_learner$model, len = 3)
 })

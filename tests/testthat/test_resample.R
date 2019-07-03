@@ -61,7 +61,7 @@ test_that("discarding model", {
   resampling = mlr_resamplings$get("cv")
   resampling$param_set$values = list(folds = 3)
 
-  rr = resample(task, learner, resampling, ctrl = mlr_control(store_model = FALSE))
+  rr = resample(task, learner, resampling, ctrl = mlr_control(store_models = FALSE))
   expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
 })
 

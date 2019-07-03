@@ -18,8 +18,7 @@ See \link{Dictionary}.
 \itemize{
 \item \code{as.data.table(dict)}\cr
 \link{Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a \code{data.table()} with fields "key", "hyperpars", and "iters"
-as columns.
+Returns a \code{data.table()} with columns \code{"key"}, \code{"params"}, and \code{"iters"}.
 }
 }
 

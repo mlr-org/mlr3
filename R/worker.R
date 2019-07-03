@@ -75,7 +75,10 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
 }
 
 
-workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control()) {
+workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control(), remote = FALSE) {
+  if (remote) {
+    lg$set_threshold(ctrl$log_threshold)
+  }
   lg$info("Applying learner '%s' on task '%s' (iter %i/%i)", learner$id, task$id, iteration, resampling$iters)
   train_set = resampling$train_set(iteration)
   test_set = resampling$test_set(iteration)
@@ -83,7 +86,7 @@ workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control())
   learner = learner_train(learner$clone(), task, train_set, ctrl)
   prediction = learner_predict(learner, task, test_set, ctrl)
 
-  if (!ctrl$store_model) {
+  if (!ctrl$store_models) {
     learner$data$model = NULL
   }
 

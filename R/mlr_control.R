@@ -3,7 +3,7 @@
 #' @description
 #' This function creates a named list of settings which control the execution of a [Learner].
 #'
-#' * `store_model` (`logical(1))`:\cr
+#' * `store_models` (`logical(1))`:\cr
 #'   If `FALSE` (default), models fitted during [resample()] and [benchmark()] are discarded.
 #'   Note that you will be unable to predict on new data or extract additional information like
 #'   variable importance from the learner.
@@ -22,7 +22,7 @@
 #'
 #' **Defaults**
 #' ```
-#' $store_model
+#' $store_models
 #' TRUE
 #'
 #' $encapsulate_train
@@ -68,7 +68,7 @@ mlr_control = function(...) {
   if (length(ii)) {
     stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
   }
-  assert_flag(dots$store_model, null.ok = TRUE)
+  assert_flag(dots$store_models, null.ok = TRUE)
   assert_choice(dots$encapsulate_train, c("none", "evaluate", "callr"), null.ok = TRUE)
   assert_choice(dots$encapsulate_predict, c("none", "evaluate", "callr"), null.ok = TRUE)
   ctrl[names(dots)] = dots

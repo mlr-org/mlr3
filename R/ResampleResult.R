@@ -112,8 +112,10 @@ ResampleResult = R6Class("ResampleResult",
     performance = function(measures = NULL, ids = TRUE) {
       measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]])
       assert_flag(ids)
-      score = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
-      tab = cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], score))
+      score = function(prediction, task, learner, resampling, iteration) {
+        as.list(prediction$score(measures, task = task, learner = learner, train_set = resampling$train_set(iteration)))
+      }
+      tab = cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score))
       if (ids) {
         tab[, c("task_id", "learner_id", "resampling_id") := list(ids(get("task")), ids(get("learner")), ids(get("resampling")))]
         setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))[]

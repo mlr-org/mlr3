@@ -17,7 +17,7 @@ Settings may be provided in a \code{name = value} fashion, or by providing a sin
 \description{
 This function creates a named list of settings which control the execution of a \link{Learner}.
 \itemize{
-\item \code{store_model} (\code{logical(1))}:\cr
+\item \code{store_models} (\code{logical(1))}:\cr
 If \code{FALSE} (default), models fitted during \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} are discarded.
 Note that you will be unable to predict on new data or extract additional information like
 variable importance from the learner.
@@ -37,7 +37,7 @@ This guards your session from segfaults, at the cost of some computational overh
 How to call external code in third party packages during predict. Same format as \code{encapsulate_train}.
 }
 
-\strong{Defaults}\preformatted{$store_model
+\strong{Defaults}\preformatted{$store_models
 TRUE
 
 $encapsulate_train

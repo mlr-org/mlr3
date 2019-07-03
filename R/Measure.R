@@ -122,7 +122,7 @@ Measure = R6Class("Measure",
         assert_choice(task_type, mlr_reflections$task_types)
         assert_choice(predict_type, names(mlr_reflections$learner_predict_types[[task_type]]))
       }
-      self$properties = assert_character(properties, any.missing = FALSE) # FIXME: reflection
+      self$properties = assert_subset(properties, mlr_reflections$measure_properties)
       self$predict_type = predict_type
       self$task_properties = assert_sorted_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       self$na_score = assert_flag(na_score)
@@ -142,7 +142,7 @@ Measure = R6Class("Measure",
       catf(str_indent("Predict type:", self$predict_type))
     },
 
-    score = function(prediction, task = NULL, learner = NULL) {
+    score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
       if (is.null(task) && "requires_task" %in% self$properties) {
         stopf("Measure '%s' requires a task", self$id)
       }
@@ -151,13 +151,19 @@ Measure = R6Class("Measure",
         stopf("Measure '%s' requires a learner", self$learner)
       }
 
-      self$score_internal(prediction = prediction, task = task, learner = learner)
+      if (is.null(train_set) && "requires_train" %in% self$properties) {
+        stopf("Measure '%s' requires the train_set", self$learner)
+      }
+
+      self$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
     },
 
     aggregate = function(rr) {
       aggregator = self$aggregator %??% mean
-      score = function(prediction, task, learner) self$score(prediction, task = task, learner = learner)
-      performance = pmap_dbl(rr$data[, c("prediction", "task", "learner"), with = FALSE], score)
+      score = function(prediction, task, learner, resampling, iteration) {
+        self$score(prediction, task = task, learner = learner, train_set = resampling$train_set(iteration))
+      }
+      performance = pmap_dbl(rr$data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score)
       aggregator(performance)
     }
   ),

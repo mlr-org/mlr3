@@ -89,6 +89,9 @@
 #' * `model` :: any\cr
 #'   The fitted model. Only available after `$train()` has been called.
 #'
+#' * `timings` :: `numeric(2)`\cr
+#'   Elapsed time in seconds for the steps `"train"` and `"predict"`.
+#'
 #' * `log` :: `data.table()`\cr
 #'   Returns the output (including warning and errors) as table with columns
 #'   `"stage"` (train or predict), `"class"` (output, warning, error) and
@@ -200,12 +203,21 @@ Learner = R6Class("Learner",
     },
 
     train = function(task, row_ids = NULL, ctrl = list()) {
+      assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
+      if (!is.null(row_ids))
+        row_ids = assert_row_ids(row_ids)
       ctrl = mlr_control(ctrl)
-      learner_train(self, task, row_ids, ctrl)
+      invisible(learner_train(self, task, row_ids, ctrl))
     },
 
     predict = function(task, row_ids = NULL, ctrl = list()) {
+      assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
+      if (!is.null(row_ids))
+        row_ids = assert_row_ids(row_ids)
       ctrl = mlr_control(ctrl)
+      if (is.null(self$data$model)) {
+        stopf("No model available, call `train()` first")
+      }
       learner_predict(self, task, row_ids, ctrl)
     },
 
@@ -225,6 +237,10 @@ Learner = R6Class("Learner",
   active = list(
     model = function() {
       self$data$model
+    },
+
+    timings = function() {
+      set_names(c(self$data$train_time %??% NA_real_, self$data$predict_time %??% NA_real_), c("train", "predict"))
     },
 
     log = function() {
