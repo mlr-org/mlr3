@@ -26,10 +26,10 @@ encapsulate_evaluate = function(fun, args = list(), pkgs = character(0L), seed =
   parse_evaluate = function(log) {
     extract = function(x) {
       if (inherits(x, "message")) {
-        return(list(class = "output", trimws(msg = x$message)))
+        return(list(class = "output", msg = trimws(x$message)))
       }
       if (inherits(x, "warning")) {
-        return(list(class = "warning", trimws(msg = x$message)))
+        return(list(class = "warning", msg = trimws(x$message)))
       }
       if (inherits(x, "error")) {
         return(list(class = "error", msg = trimws(x$message)))
