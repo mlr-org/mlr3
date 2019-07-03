@@ -26,7 +26,7 @@ navbar:
   - icon: fa-slack
     href: https://mlr-org.slack.com
   - icon: fa-stack-overflow
-    href: https://stackoverflow.com/questions/tagged/mlr
+    href: https://stackoverflow.com/questions/tagged/mlr3
   - icon: fa-rss
     href: https://mlr-org.com/
 
