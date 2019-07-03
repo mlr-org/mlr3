@@ -4,12 +4,13 @@
 \name{mlr_reflections}
 \alias{mlr_reflections}
 \title{Reflections for mlr3}
-\format{An object of class \code{environment} of length 12.}
+\format{\link{environment}.}
 \usage{
 mlr_reflections
 }
 \description{
 Environment which stores various information for reflections.
+Can be modified by third-party packages, e.g. by adding information about new task types.
 }
 \examples{
 ls.str(mlr_reflections)
