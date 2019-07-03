@@ -204,7 +204,7 @@ Learner = R6Class("Learner",
       if (!is.null(row_ids))
         row_ids = assert_row_ids(row_ids)
       ctrl = mlr_control(ctrl)
-      learner_train(self, task, row_ids, ctrl)
+      invisible(learner_train(self, task, row_ids, ctrl))
     },
 
     predict = function(task, row_ids = NULL, ctrl = list()) {
