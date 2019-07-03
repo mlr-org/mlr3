@@ -15,7 +15,7 @@ mlr_reflections = new.env(parent = emptyenv())
 local({
   ### options
   mlr_reflections$mlr_control_defaults = list(
-    store_model = FALSE,
+    store_models = FALSE,
     encapsulate_train = "none",
     encapsulate_predict = "none",
     log_threshold = 400L

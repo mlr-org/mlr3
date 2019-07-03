@@ -86,7 +86,7 @@ workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control(),
   learner = learner_train(learner$clone(), task, train_set, ctrl)
   prediction = learner_predict(learner, task, test_set, ctrl)
 
-  if (!ctrl$store_model) {
+  if (!ctrl$store_models) {
     learner$data$model = NULL
   }
 
