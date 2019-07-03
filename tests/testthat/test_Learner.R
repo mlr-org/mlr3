@@ -32,3 +32,21 @@ test_that("task is checked in train() / predict()", {
   expect_error(learner$train("pima"), "type")
   expect_error(learner$predict("pima"), "type")
 })
+
+test_that("learner timings", {
+  learner = mlr_learners$get("regr.rpart")
+  t = learner$timings
+  expect_equal(unname(t), as.double(c(NA, NA)))
+  expect_equal(names(t), c("train", "predict"))
+
+
+  learner$train("mtcars")
+  t = learner$timings
+  expect_number(t[["train"]])
+  expect_equal(t[["predict"]], NA_real_)
+
+  learner$predict("mtcars")
+  t = learner$timings
+  expect_number(t[["train"]])
+  expect_number(t[["predict"]])
+})

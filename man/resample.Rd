@@ -30,7 +30,7 @@ Runs a resampling (possibly in parallel).
 }
 \note{
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
-If you need access to the models for later analysis, set \code{store_model} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
+If you need access to the models for later analysis, set \code{store_models} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
 }
 \section{Parallelization}{
 

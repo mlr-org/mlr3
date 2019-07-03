@@ -75,6 +75,8 @@ Stores the names of required packages.
 Hash (unique identifier) for this object.
 \item \code{model} :: any\cr
 The fitted model. Only available after \code{$train()} has been called.
+\item \code{timings} :: \code{numeric(2)}\cr
+Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
 \item \code{log} :: \code{data.table()}\cr
 Returns the output (including warning and errors) as table with columns
 \code{"stage"} (train or predict), \code{"class"} (output, warning, error) and
