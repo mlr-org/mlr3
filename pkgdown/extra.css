@@ -1,6 +1,5 @@
-@import url(https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css);
-@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
 @import url(https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,400,400i,500,500i,600,700,700i);
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono&display=swap');
 
 body {
   font-family: 'Fira Sans', sans-serif;
@@ -8,7 +7,7 @@ body {
 }
 
 code, kbd, pre, samp {
-    font-family: 'Fira Code', monospace;
+    font-family: 'Fira Mono', monospace;
 }
 
 /* this shifts the github icon a little to the right so that the search button does not get shifted into a new line */
