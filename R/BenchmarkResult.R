@@ -169,7 +169,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         res[, "errors" := map_int(get("resample_result"), extract)]
       }
 
-      ref_cbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
+      rcbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
     },
 
     resample_result = function(hash) {

@@ -166,7 +166,7 @@ as.data.table.PredictionClassif = function(x, ...) {
   if (!is.null(data$prob)) {
     prob = as.data.table(data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
-    tab = ref_cbind(tab, prob)
+    tab = rcbind(tab, prob)
   }
 
   tab
