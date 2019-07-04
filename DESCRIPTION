@@ -2,8 +2,7 @@ Package: mlr3
 Title: Machine Learning in R - Next Generation
 Version: 0.1.0-9000
 Authors@R:
-    c(
-      person(given = "Michel",
+    c(person(given = "Michel",
              family = "Lang",
              role = c("cre", "aut"),
              email = "michellang@gmail.com",
