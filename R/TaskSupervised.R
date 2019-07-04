@@ -33,7 +33,7 @@
 #' @section Methods:
 #' All methods from [Task], and additionally:
 #'
-#' * `truth(row_ids = NULL)` :: any\cr
+#' * `truth(row_ids = NULL)` :: `any`\cr
 #'   True response for specified `row_ids`. Format depends on the task type.
 #'   Defaults to all rows with role "use".
 #'

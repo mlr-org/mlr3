@@ -11,7 +11,7 @@
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
 #'   [Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a `data.table()` with fields "key", "feature_types", "packages",
+#'   Returns a [data.table::data.table()] with fields "key", "feature_types", "packages",
 #'   "properties" and "predict_types" as columns.
 #'
 #' @family Dictionary

@@ -56,7 +56,7 @@ from these objects.
 \itemize{
 \item \code{as.data.table(rr)}\cr
 \link{Prediction} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Converts the data to a \code{data.table()}.
+Converts the data to a \code{\link[data.table:data.table]{data.table::data.table()}}.
 \item \code{c(..., keep_duplicates = TRUE)}\cr
 (\link{Prediction}, \link{Prediction}, ...) -> \link{Prediction}\cr
 Combines multiple \code{Prediction}s to a single \code{Prediction}.

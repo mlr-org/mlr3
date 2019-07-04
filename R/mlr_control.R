@@ -35,7 +35,7 @@
 #' 400
 #' ```
 #'
-#' @param ... :: any\cr
+#' @param ... :: `any`\cr
 #'   Named arguments to overwrite the defaults / options.
 #'   Settings may be provided in a `name = value` fashion, or by providing a single named `list()`.
 #'

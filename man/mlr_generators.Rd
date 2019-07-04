@@ -16,7 +16,7 @@ See \link{Dictionary}.
 \itemize{
 \item \code{as.data.table(dict)}\cr
 \link{Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a \code{data.table()} with fields "key" and "packages" as columns.
+Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields "key" and "packages" as columns.
 }
 }
 

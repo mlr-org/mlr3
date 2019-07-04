@@ -183,7 +183,7 @@ See the section on task mutators for more information.
 \itemize{
 \item \code{as.data.table(t)}\cr
 \link{Task} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns the complete data as \code{data.table()}.
+Returns the complete data as \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }
 

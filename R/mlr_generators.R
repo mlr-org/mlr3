@@ -10,7 +10,7 @@
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
 #'   [Dictionary] -> [data.table::data.table()]\cr
-#'   Returns a `data.table()` with fields "key" and "packages" as columns.
+#'   Returns a [data.table::data.table()] with fields "key" and "packages" as columns.
 #'
 #' @family Dictionary
 #' @family Task

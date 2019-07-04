@@ -195,7 +195,7 @@
 #' @section S3 methods:
 #' * `as.data.table(t)`\cr
 #'   [Task] -> [data.table::data.table()]\cr
-#'   Returns the complete data as `data.table()`.
+#'   Returns the complete data as [data.table::data.table()].
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:

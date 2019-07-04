@@ -44,7 +44,7 @@
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [Prediction] -> [data.table::data.table()]\cr
-#'   Converts the data to a `data.table()`.
+#'   Converts the data to a [data.table::data.table()].
 #'
 #' * `c(..., keep_duplicates = TRUE)`\cr
 #'   ([Prediction], [Prediction], ...) -> [Prediction]\cr

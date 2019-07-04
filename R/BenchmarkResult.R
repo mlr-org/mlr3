@@ -53,7 +53,7 @@
 #'       Adds the number of resampling iterations with at least one recorded error as extra integer column `"errors"`.
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
-#'   (`list()` of [Measure], `logical(1)`) -> `data.table()`\cr
+#'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects.
 #'   Additionally calculates the provided performance measures and binds the performance as extra column.
 #'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]

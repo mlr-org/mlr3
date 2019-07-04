@@ -3,13 +3,13 @@
 #' @description
 #' Wraps a [DataBackend] around data.
 #'
-#' @param data :: any\cr
+#' @param data :: `any`\cr
 #'   Data to create a [DataBackend] for.
-#'   For a `data.frame()` (this includes `tibble()` from \CRANpkg{tibble} and `data.table()`),
+#'   For a `data.frame()` (this includes `tibble()` from \CRANpkg{tibble} and [data.table::data.table()])
 #'   this function creates a [DataBackendDataTable].
 #'   See `methods("as_data_backend")` for possible input formats.
 #'   Note that third-party packages may extend this functionality.
-#' @param ... :: any\cr
+#' @param ... :: `any`\cr
 #'   Additional arguments passed to the respective [DataBackend] method.
 #'
 #' @return [DataBackend].

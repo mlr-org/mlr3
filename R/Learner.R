@@ -86,13 +86,13 @@
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
-#' * `model` :: any\cr
+#' * `model` :: `any`\cr
 #'   The fitted model. Only available after `$train()` has been called.
 #'
 #' * `timings` :: `numeric(2)`\cr
 #'   Elapsed time in seconds for the steps `"train"` and `"predict"`.
 #'
-#' * `log` :: `data.table()`\cr
+#' * `log` :: [data.table::data.table()]\cr
 #'   Returns the output (including warning and errors) as table with columns
 #'   `"stage"` (train or predict), `"class"` (output, warning, error) and
 #'   `"msg"` (`character()`).

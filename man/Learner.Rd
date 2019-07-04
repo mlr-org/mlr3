@@ -73,11 +73,11 @@ A complete list of candidate properties, grouped by task type, is stored in \cod
 Stores the names of required packages.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
-\item \code{model} :: any\cr
+\item \code{model} :: \code{any}\cr
 The fitted model. Only available after \code{$train()} has been called.
 \item \code{timings} :: \code{numeric(2)}\cr
 Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
-\item \code{log} :: \code{data.table()}\cr
+\item \code{log} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns the output (including warning and errors) as table with columns
 \code{"stage"} (train or predict), \code{"class"} (output, warning, error) and
 \code{"msg"} (\code{character()}).

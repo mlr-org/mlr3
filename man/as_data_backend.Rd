@@ -7,14 +7,14 @@
 as_data_backend(data, ...)
 }
 \arguments{
-\item{data}{:: any\cr
+\item{data}{:: \code{any}\cr
 Data to create a \link{DataBackend} for.
-For a \code{data.frame()} (this includes \code{tibble()} from \CRANpkg{tibble} and \code{data.table()}),
+For a \code{data.frame()} (this includes \code{tibble()} from \CRANpkg{tibble} and \code{\link[data.table:data.table]{data.table::data.table()}})
 this function creates a \link{DataBackendDataTable}.
 See \code{methods("as_data_backend")} for possible input formats.
 Note that third-party packages may extend this functionality.}
 
-\item{...}{:: any\cr
+\item{...}{:: \code{any}\cr
 Additional arguments passed to the respective \link{DataBackend} method.}
 }
 \value{
