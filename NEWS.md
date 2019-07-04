@@ -1,3 +1,3 @@
-# mlr3 0.1.0-9000
+# mlr3 0.9.0
 
 * Initial prototype.
