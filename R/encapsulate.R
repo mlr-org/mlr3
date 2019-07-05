@@ -68,7 +68,6 @@ encapsulate_callr = function(fun, args = list(), pkgs = character(0L), seed = NA
   wrapper = function(fun, args, pkgs, seed) {
     options(warn = 1L)
     suppressPackageStartupMessages({
-      library("backports")
       library("mlr3")
       lapply(pkgs, requireNamespace)
     })
@@ -79,11 +78,11 @@ encapsulate_callr = function(fun, args = list(), pkgs = character(0L), seed = NA
     result = withCallingHandlers(
       tryCatch(do.call(fun, args),
         error = function(e) {
-          cat("[ERR]", gsub("\r?\n|\r", "<br>", trimws(conditionMessage(e))), "\n")
+          cat("[ERR]", gsub("\r?\n|\r", "<br>", conditionMessage(e)), "\n")
           NULL
         }),
       warning = function(w) {
-        cat("[WRN]", gsub("\r?\n|\r", "<br>", trimws(conditionMessage(w))), "\n")
+        cat("[WRN]", gsub("\r?\n|\r", "<br>", conditionMessage(w)), "\n")
         invokeRestart("muffleWarning")
       })
     list(result = result, elapsed = proc.time()[[3L]] - now)
