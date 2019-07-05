@@ -38,7 +38,7 @@ Authors@R:
              email = "quayau@gmail.com",
              comment = c(ORCID = "0000-0002-5252-8902")))
 Description: Machine Learning in R. Next Generation.
-License: MIT + file LICENSE
+License: LGPL-3
 URL: https://github.com/mlr-org/mlr3
 BugReports: https://github.com/mlr-org/mlr3/issues
 Depends:
