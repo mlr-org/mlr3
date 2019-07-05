@@ -24,7 +24,7 @@ test_that("encapsulate", {
     log = res$log
     expect_identical(res$result, 1L)
     expect_number(res$elapsed, lower = 0)
-    expect_null(log)
+    expect_null(log$log)
   }
 })
 
