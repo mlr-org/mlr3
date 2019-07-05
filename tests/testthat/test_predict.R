@@ -65,7 +65,15 @@ test_that("predict on newdata works / titanic use case", {
 
   train$Survived = factor(train$Survived)
 
+  expect_error(TaskClassif$new(id = "titanic", train, target = "Survived", positive = "1"), "levels")
+
+  train$Embarked[train$Embarked == ""] = NA
+  train$Embarked = droplevels(train$Embarked)
+  test$Embarked[test$Embarked == ""] = NA
+  test$Embarked = droplevels(test$Embarked)
+
   task = TaskClassif$new(id = "titanic", train, target = "Survived", positive = "1")
+
   lrn = mlr_learners$get("classif.rpart")
 
   lrn$train(task)
