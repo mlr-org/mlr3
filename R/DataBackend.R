@@ -45,7 +45,7 @@
 #' * `colnames` :: `character()`\cr
 #'   Returns vector of all column names, including the primary key column.
 #'
-#' * `rownames` :: `integer()` | `character()`\cr
+#' * `rownames` :: (`integer()` | `character()`)\cr
 #'   Returns vector of all distinct row identifiers, i.e. the primary key column.
 #'
 #' * `hash` :: `character(1)`\cr
