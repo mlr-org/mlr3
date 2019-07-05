@@ -36,7 +36,11 @@ Authors@R:
              family = "Au",
              role = "aut",
              email = "quayau@gmail.com",
-             comment = c(ORCID = "0000-0002-5252-8902")))
+             comment = c(ORCID = "0000-0002-5252-8902")),
+      person(given = "Martin",
+             family = "Binder",
+             role = "aut",
+             email = "mlr.developer@mb706.com"))
 Description: Machine Learning in R. Next Generation.
 License: LGPL-3
 URL: https://github.com/mlr-org/mlr3
