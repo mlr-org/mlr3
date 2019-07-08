@@ -87,8 +87,9 @@ ResampleResult = R6Class("ResampleResult",
 
     initialize = function(data) {
       assert_data_table(data)
-      assert_names(names(data), must.include = mlr_reflections$rr_names)
-      self$data = setorderv(data, "iteration")[]
+      slots = mlr_reflections$rr_names
+      assert_names(names(data), must.include = slots)
+      self$data = setcolorder(setcolorder(data, "iteration"), slots)[]
     },
 
     format = function() {
