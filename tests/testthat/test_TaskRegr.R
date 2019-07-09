@@ -17,15 +17,6 @@ test_that("Target is numeric", {
   expect_error(TaskRegr$new("iris", backend = b, target = "Species"), "Target column")
 })
 
-test_that("Replace features", {
-  task = mlr_tasks$get("boston_housing")
-  data = task$data()[, task$feature_names[1:3], with = FALSE]
-  expect_task(task)
-  expect_task_regr(task)
-  expect_equal(task$nrow, mlr_tasks$get("boston_housing")$nrow)
-  expect_equal(task$ncol, 4L)
-})
-
 test_that("TaskRegr: 0 feature task", {
   b = as_data_backend(data.table(y = runif(20)))
   task = TaskRegr$new(id = "zero_feat_task", b, target = "y")
