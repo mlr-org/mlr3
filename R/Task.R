@@ -185,12 +185,6 @@
 #'   This mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
-#' * `replace_features(data)`\cr
-#'   `data.frame()` -> `self`\cr
-#'   Replaces some features of the task with features in `data`.
-#'   This operation is similar to calling `select()` and `cbind()`.
-#'   See the section on task mutators for more information.
-#'
 #'
 #' @section S3 methods:
 #' * `as.data.table(t)`\cr
@@ -206,8 +200,6 @@
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
 #'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
 #'   merge both backends into an abstract [DataBackend] which combines the results on-demand.
-#' * `replace_features()` is a convenience wrapper around `select()` and `cbind()`.
-#'   Again, the original [DataBackend] remains unchanged.
 #'
 #' @family Task
 #' @export
@@ -333,11 +325,6 @@ Task = R6Class("Task",
 
     cbind = function(data) {
       task_cbind(self, data)
-      invisible(self)
-    },
-
-    replace_features = function(data) {
-      task_replace_features(self, data)
       invisible(self)
     },
 

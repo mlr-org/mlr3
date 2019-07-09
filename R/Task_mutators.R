@@ -186,39 +186,3 @@ task_cbind = function(self, data) {
 
   invisible(self)
 }
-
-task_replace_features = function(self, data) {
-
-  assert_data_frame(data, nrows = self$nrow, min.cols = 1L)
-  data = as.data.table(data)
-  pk = self$backend$primary_key
-
-  ## 1.1 Check or create primary key column
-  if (pk %in% names(data)) {
-    check_new_row_ids(self, data, "setequal")
-  } else {
-    data[[pk]] = self$row_ids
-  }
-
-  # 1.2 Check for target column
-  i = which(self$target_names %in% names(data))
-  if (length(i)) {
-    stopf("Feature replacement data may not have target column %s", str_collapse(self$target_names[i], quote = "'"))
-  }
-
-  # 1.3 Remove old features
-  self$col_roles$feature = character(0L)
-  keep_cols = unlist(self$col_roles, use.names = FALSE)
-  new_features = setdiff(names(data), pk)
-
-  # 2. Cbind new features
-  b = DataBackendDataTable$new(data, primary_key = pk)
-  self$backend = DataBackendCbind$new(self$backend, b, keep_cols, new_features)
-  self$col_roles$feature = new_features
-
-  # 3. Update column info
-  ci = col_info(data)[get("id") != pk]
-  self$col_info = ujoin(self$col_info, ci, key = "id")
-
-  invisible(self)
-}

@@ -23,11 +23,15 @@ Authors:
 \itemize{
   \item Bernd Bischl \email{bernd_bischl@gmx.net} (0000-0001-6002-6980)
   \item Jakob Richter \email{jakob1richter@gmail.com} (0000-0003-4481-5554)
-  \item Giuseppe Casalicchio \email{giuseppe.casalicchio@stat.uni-muenchen.de} (0000-0001-5324-5966)
   \item Patrick Schratz \email{patrick.schratz@gmail.com} (0000-0003-0748-6624)
-  \item Stefan Coors \email{mail@stefancoors.de} (0000-0002-7465-2146)
-  \item Quay Au \email{quayau@gmail.com} (0000-0002-5252-8902)
   \item Martin Binder \email{mlr.developer@mb706.com}
+}
+
+Other contributors:
+\itemize{
+  \item Giuseppe Casalicchio \email{giuseppe.casalicchio@stat.uni-muenchen.de} (0000-0001-5324-5966) [contributor]
+  \item Stefan Coors \email{mail@stefancoors.de} (0000-0002-7465-2146) [contributor]
+  \item Quay Au \email{quayau@gmail.com} (0000-0002-5252-8902) [contributor]
 }
 
 }

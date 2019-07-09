@@ -170,11 +170,6 @@ The new row ids must be provided as column in \code{data}.
 If this column is missing, new row ids are constructed automatically.
 This mutates the task in-place.
 See the section on task mutators for more information.
-\item \code{replace_features(data)}\cr
-\code{data.frame()} -> \code{self}\cr
-Replaces some features of the task with features in \code{data}.
-This operation is similar to calling \code{select()} and \code{cbind()}.
-See the section on task mutators for more information.
 }
 }
 
@@ -198,8 +193,6 @@ This provides a different "view" on the data without altering the data itself.
 \item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
 Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
 merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
-\item \code{replace_features()} is a convenience wrapper around \code{select()} and \code{cbind()}.
-Again, the original \link{DataBackend} remains unchanged.
 }
 }
 

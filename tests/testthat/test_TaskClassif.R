@@ -46,16 +46,6 @@ test_that("Target is character/factor", {
   expect_error(TaskClassif$new("iris", backend = b, target = "Sepal.Length"), "Target column")
 })
 
-test_that("Replace features", {
-  task = mlr_tasks$get("iris")
-  data = task$data()[, c("Sepal.Length", "Petal.Length")]
-  task$replace_features(data)
-  expect_task(task)
-  expect_task_classif(task)
-  expect_equal(task$nrow, 150)
-  expect_equal(task$ncol, 3)
-})
-
 test_that("0 feature task", {
   b = as_data_backend(iris[, 5L, drop = FALSE])
   task = TaskClassif$new(id = "zero_feat_task", b, target = "Species")

@@ -36,14 +36,14 @@ generate_generic_tasks = function(learner, proto) {
     data = proto$data(cols = features)
     for (j in seq_along(features))
       data.table::set(data, rows[j], features[j], NA)
-    tasks$missings = proto$clone()$replace_features(data)
+    tasks$missings = proto$clone()$select(character())$cbind(data)
 
     # no row with no missing -> complete.cases() won't help
     features = sample(features, proto$nrow, replace = TRUE)
     data = proto$data(cols = proto$feature_names)
     for (i in seq_along(features))
       data.table::set(data, i = i, j = features[i], NA)
-    tasks$missings_each_row = proto$clone()$replace_features(data)
+    tasks$missings_each_row = proto$clone()$select(character())$cbind(data)
   }
 
   # task with weights
