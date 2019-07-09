@@ -83,13 +83,6 @@ test_that("Task cbind", {
   expect_equal(task$ncol, 7L)
 })
 
-test_that("task$replace_features", {
-  task = mlr_tasks$get("iris")$filter(1:120)
-  data = task$data(cols = c("Petal.Length", "Petal.Width"))
-  task$replace_features(data)
-  expect_task(task)
-})
-
 test_that("task$feature_types preserves key (#193)", {
   task = mlr_tasks$get("iris")$select(character(0))$cbind(iris[1:4])
   expect_data_table(task$feature_types, ncol = 2L, nrow = 4L, key = "id")
