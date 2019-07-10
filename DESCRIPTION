@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.1.1
+Version: 0.1.0
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -41,15 +41,12 @@ Authors@R:
              family = "Binder",
              role = "aut",
              email = "mlr.developer@mb706.com"))
-Description: The new 'mlr3 package' is a modular, from-scratch
-    reimplementation in 'R6'. Internally, it heavily relies on the
-    reference semantics of 'R6' and 'data.table', which enable efficient
-    and elegant programming on the provided machine learning building
-    blocks. The package is geared towards scalability and larger datasets
-    by natively supporting parallelization and out-of-memory data-backends
-    like databases. With a clear object-oriented design, 'mlr3' focuses on
-    core computational operations, while add-on packages allow seamless
-    integration of extended functionality.
+Description: Efficient, object-oriented programming on the building blocks of
+    machine learning. Provides 'R6' objects for tasks, learners, resamplings,
+    and measures. The package is geared towards scalability and larger datasets
+    by natively supporting parallelization and out-of-memory data-backends like
+    databases. While 'mlr3' focuses on the core computational operations,
+    add-on packages provide additional functionality.
 License: LGPL-3
 URL: https://github.com/mlr-org/mlr3
 BugReports: https://github.com/mlr-org/mlr3/issues
