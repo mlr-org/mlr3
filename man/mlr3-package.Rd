@@ -6,13 +6,14 @@
 \alias{mlr3-package}
 \title{mlr3: Machine Learning in R - Next Generation}
 \description{
-The new 'mlr3 package' is a modular, from-scratch reimplementation
-    in 'R6'. Internally, it heavily relies on the reference semantics of 'R6' and
-    'data.table', which enable efficient and elegant programming on the provided
-    machine learning building blocks. The package is geared towards scalability
-    and larger datasets by natively supporting parallelization and out-of-memory
-    data-backends like databases. With a clear object-oriented design, 'mlr3'
-    focuses on core computational operations, while add-on packages allow seamless
+The new 'mlr3 package' is a modular, from-scratch
+    reimplementation in 'R6'. Internally, it heavily relies on the
+    reference semantics of 'R6' and 'data.table', which enable efficient
+    and elegant programming on the provided machine learning building
+    blocks. The package is geared towards scalability and larger datasets
+    by natively supporting parallelization and out-of-memory data-backends
+    like databases. With a clear object-oriented design, 'mlr3' focuses on
+    core computational operations, while add-on packages allow seamless
     integration of extended functionality.
 }
 \seealso{

@@ -233,6 +233,20 @@ run_experiment = function(task, learner) {
       return(err("unimportant feature is important"))
   }
 
+  if (grepl("^feat_all", task$id) && "selected_features" %in% learner$properties) {
+    selected = learner$selected_features()
+    msg = checkmate::check_subset(selected, task$feature_names)
+    if (!isTRUE(msg))
+      return(err(msg))
+  }
+
+  if (grepl("^feat_all", task$id) && "oob_error" %in% learner$properties) {
+    err = learner$oob_error()
+    msg = checkmate::check_number(err)
+    if (!isTRUE(msg))
+      return(err(msg))
+  }
+
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(0)))
 }
 
