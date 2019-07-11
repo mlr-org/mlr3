@@ -52,3 +52,4 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * [Reference Manual](https://mlr3.mlr-org.com/reference/)
 * [Extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
 * We started to write a [book](https://mlr3book.mlr-org.com/), but it is still very unfinished.
+* [useR2019 talks](https://github.com/mlr-org/mlr-outreach/tree/master/2019_useR)
