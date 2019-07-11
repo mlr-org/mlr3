@@ -5,4 +5,4 @@ if (ci_has_env("BUILD_PKGDOWN")) {
 }
 
 get_stage("after_success") %>%
-  add_step(add_code_step(system("sh inst/trigger-mlr3book.sh"))))
+  add_step(add_code_step(system("sh inst/trigger-mlr3book.sh")))
