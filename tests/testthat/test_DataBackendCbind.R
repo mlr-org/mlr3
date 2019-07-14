@@ -13,7 +13,7 @@ test_that("DataBackendCbind", {
 
   expect_set_equal(b$rownames, 1:150)
   expect_set_equal(b$colnames, names(data))
-  expect_data_table(b$data(b$rownames, b$colnames), nrow = 150, ncol = 6)
+  expect_data_table(b$data(b$rownames, b$colnames), nrows = 150, ncols = 6)
   expect_set_equal(b$distinct(b$rownames, "Species")$Species, distinct(iris$Species, drop = FALSE))
 
   x = b$missings(b$rownames, c("Petal.Width", "Petal.Length"))
@@ -24,7 +24,7 @@ test_that("issue #124", {
   task = mlr_tasks$get("iris")
   newcols = cbind(data.table(col = 1:150))
   task$select(character(0))$cbind(newcols)
-  expect_data_table(task$data(cols = "col"), ncol = 1L, nrow = 150L)
+  expect_data_table(task$data(cols = "col"), ncols = 1L, nrows = 150L)
 })
 
 test_that("cbind backends with same columns", {
@@ -56,7 +56,7 @@ test_that("Backends with different rows", {
   expect_set_equal(b$colnames, c(names(iris), "id"))
   expect_set_equal(b$rownames, 1:10)
 
-  expect_data_table(b$head(12), nrow = 10, ncol = 6)
+  expect_data_table(b$head(12), nrows = 10, ncols = 6)
 })
 
 test_that("Backends with mixed data_formats", {

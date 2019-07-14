@@ -39,11 +39,11 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
     },
 
     train_internal = function(task) {
-      pv = self$param_set$get_values(tag = "train")
+      pv = self$param_set$get_values(tags = "train")
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
-      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv)
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
     },
 
     predict_internal = function(task) {
@@ -51,9 +51,10 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       response = prob = NULL
 
       if (self$predict_type == "response") {
-        response = as.character(predict(self$model, newdata = newdata, type = "class"))
+        response = invoke(predict, self$model, newdata = newdata, type = "class", .opts = allow_partial_matching)
+        # response = as.character(response)
       } else if (self$predict_type == "prob") {
-        prob = predict(self$model, newdata = newdata, type = "prob")
+        prob = invoke(predict, self$model, newdata = newdata, type = "prob", .opts = allow_partial_matching)
       }
 
       list(response = response, prob = prob)

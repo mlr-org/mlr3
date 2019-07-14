@@ -12,7 +12,7 @@ test_that("parallel resample", {
 
     rr = resample(task, learner, "cv3")
     expect_resample_result(rr)
-    expect_data_table(rr$errors, nrow = 0L)
+    expect_data_table(rr$errors, nrows = 0L)
   })
 })
 

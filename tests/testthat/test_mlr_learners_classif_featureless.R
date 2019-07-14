@@ -28,6 +28,6 @@ test_that("Predict with prob", {
   expect_learner(learner, task)
 
   p = learner$train(task)$predict(task)
-  expect_matrix(p$prob, nrow = 150L, ncol = 3L)
+  expect_matrix(p$prob, nrows = 150L, ncols = 3L)
   expect_names(colnames(p$prob), permutation.of = levels(iris$Species))
 })

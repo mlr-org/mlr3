@@ -83,7 +83,7 @@ test_that("confusion", {
   p = lrn$train(task)$predict(task)
   cm = p$confusion
 
-  expect_matrix(cm, nrow = 3, ncol = 3, any.missing = FALSE)
+  expect_matrix(cm, nrows = 3, ncols = 3, any.missing = FALSE)
   expect_equal(colnames(p$confusion), task$class_names)
   expect_equal(rownames(p$confusion), task$class_names)
   expect_equal(names(dimnames(cm)), c("response", "truth"))
@@ -100,7 +100,7 @@ test_that("c", {
   expect_prediction_classif(pred)
 
   dt = as.data.table(pred)
-  expect_data_table(dt, nrow = task$nrow, ncol = 6L, any.missing = FALSE)
+  expect_data_table(dt, nrows = task$nrow, ncols = 6L, any.missing = FALSE)
 
   conf = pred$confusion
   expect_equal(sum(conf), 150L)
@@ -115,5 +115,5 @@ test_that("c", {
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))
   expect_factor(p3$response, len = length(p1$response), any.missing = FALSE)
-  expect_matrix(p3$prob, nrow = nrow(p1$prob), ncol = ncol(p1$prob))
+  expect_matrix(p3$prob, nrows = nrow(p1$prob), ncols = ncol(p1$prob))
 })

@@ -26,7 +26,7 @@ test_that("resample with multiple measures", {
   rr = resample(task, learner, "cv3")
 
   tab = rr$performance(measures, ids = FALSE)
-  expect_data_table(tab, ncol = length(mlr_reflections$rr_names) + length(measures), nrow = 3L)
+  expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(measures), nrows = 3L)
   expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures)))
 
   perf = rr$aggregate(measures)
@@ -51,7 +51,7 @@ test_that("rr$combine()", {
   expect_set_equal(bmr$data$hash, c(rr1$hash, rr2$hash))
 
   aggr = bmr$aggregate()
-  expect_data_table(aggr, nrow = 2)
+  expect_data_table(aggr, nrows = 2)
   expect_set_equal(aggr$hash, c(rr1$hash, rr2$hash))
 })
 

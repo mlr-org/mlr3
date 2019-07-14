@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.1.0
+Version: 0.1.1
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -60,7 +60,7 @@ Imports:
     lgr (>= 0.3.0),
     Metrics,
     mlbench,
-    mlr3misc,
+    mlr3misc (>= 0.1.1),
     paradox,
     R6
 Suggests:

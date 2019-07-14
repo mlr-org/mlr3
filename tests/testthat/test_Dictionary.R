@@ -20,11 +20,11 @@ test_that("Dictionaries are populated", {
   expect_dictionary(mlr_resamplings, "Resampling", min_items = 1L)
   expect_dictionary(mlr_measures, "Measure", min_items = 1L)
 
-  expect_data_table(as.data.table(mlr_tasks), nrow = length(mlr_tasks$keys()), min.cols = 2L)
-  expect_data_table(as.data.table(mlr_generators), nrow = length(mlr_generators$keys()), min.cols = 2L)
-  expect_data_table(as.data.table(mlr_learners), nrow = length(mlr_learners$keys()), min.cols = 2L)
-  expect_data_table(as.data.table(mlr_resamplings), nrow = length(mlr_resamplings$keys()), min.cols = 2L)
-  expect_data_table(as.data.table(mlr_measures), nrow = length(mlr_measures$keys()), min.cols = 2L)
+  expect_data_table(as.data.table(mlr_tasks), nrows = length(mlr_tasks$keys()), min.cols = 2L)
+  expect_data_table(as.data.table(mlr_generators), nrows = length(mlr_generators$keys()), min.cols = 2L)
+  expect_data_table(as.data.table(mlr_learners), nrows = length(mlr_learners$keys()), min.cols = 2L)
+  expect_data_table(as.data.table(mlr_resamplings), nrows = length(mlr_resamplings$keys()), min.cols = 2L)
+  expect_data_table(as.data.table(mlr_measures), nrows = length(mlr_measures$keys()), min.cols = 2L)
 
   expect_true("classif.rpart" %in% mlr_learners$keys())
   mlr_learners$remove("classif.rpart")

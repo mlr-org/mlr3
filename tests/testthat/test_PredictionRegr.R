@@ -28,7 +28,7 @@ test_that("c", {
   expect_prediction_regr(pred)
 
   dt = as.data.table(pred)
-  expect_data_table(dt, nrow = task$nrow, ncol = 4L, any.missing = FALSE)
+  expect_data_table(dt, nrows = task$nrow, ncols = 4L, any.missing = FALSE)
 
   # duplicates are detected?
   p1 = rr$data$prediction[[1L]]

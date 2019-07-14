@@ -22,7 +22,7 @@ GeneratorXor = R6Class("GeneratorXor",
 
   private = list(
     .generate = function(n) {
-      data = invoke(mlbench::mlbench.xor, n = n, .args = self$param_set$values)
+      data = invoke(mlbench::mlbench.xor, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
       TaskClassif$new(sprintf("%s_%i", self$id, n), as.data.frame(data), target = "classes")
     }
   )
