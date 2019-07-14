@@ -10,8 +10,11 @@
 #'
 #' @section Construction:
 #' ```
-#' p = PredictionRegr$new(row_ids, truth, response = NULL, se = NULL)
+#' p = PredictionRegr$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL)
 #' ```
+#'
+#' * `task` :: [TaskRegr]\cr
+#'   Task, used to extract defaults for `row_ids` and `truth`.
 #'
 #' * `row_ids` :: (`integer()` | `character()`)\cr
 #'   Row ids of the observations in the test set.
@@ -50,7 +53,7 @@
 PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
-    initialize = function(row_ids, truth = NULL, response = NULL, se = NULL) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL) {
       self$data$row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
       self$data$truth = assert_numeric(truth, len = n, null.ok = TRUE)

@@ -43,12 +43,12 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
 
     result = learner$predict_internal(task = task)
 
-    if (!test_list(result, names = "unique")) {
-      stopf("Learner '%s' did not return a named list of predictions, but instead: %s",
+    if (!inherits(result, "Prediction")) {
+      stopf("Learner '%s' did not return a Prediction object, but instead: %s",
         learner$id, as_short_string(result))
     }
 
-    unsupported = setdiff(names(result), c("row_ids", "truth", learner$predict_types))
+    unsupported = setdiff(names(result$data), c("row_ids", "truth", learner$predict_types))
     if (length(unsupported)) {
       stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, head(unsupported, 1L))
     }
@@ -71,7 +71,7 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
 
   learner$data$predict_log = result$log
   learner$data$predict_time = result$elapsed
-  invoke(learner$new_prediction, row_ids = task$row_ids, truth = task$truth(task$row_ids), .args = result$result)
+  return(result$result)
 }
 
 
@@ -90,7 +90,7 @@ workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control(),
     learner$data$model = NULL
   }
 
-  list(learner_data = learner$data, prediction_data = prediction$data)
+  list(learner_data = learner$data, prediction = prediction)
 }
 
 # called on the master, re-constructs objects from return value of
@@ -98,6 +98,5 @@ workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control(),
 reassemble = function(result, learner) {
   learner = learner$clone()
   learner$data = result$learner_data
-  prediction = do.call(learner$new_prediction, result$prediction_data)
-  list(learner = list(learner), prediction = list(prediction))
+  list(learner = list(learner), prediction = list(result$prediction))
 }
