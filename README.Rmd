@@ -25,10 +25,11 @@ remotes::install_github("mlr-org/mlr3")
 
 ```{r}
 library(mlr3)
+set.seed(1)
 
 # create learning task
-task_mtcars = TaskRegr$new(id = "cars", backend = data, target = "mpg")
-task_mtcars
+task_iris = TaskClassif$new(id = "cars", backend = iris, target = "Species")
+task_iris
 
 # load learner
 learner = mlr_learners$get("classif.rpart")
@@ -37,14 +38,14 @@ learner = mlr_learners$get("classif.rpart")
 learner$param_set$values = list(cp = 0.01)
 
 # train/test split
-train_set = sample(task_mtcars$nrow, 0.8 * task_mtcars$nrow)
-test_set = setdiff(seq_len(task_mtcars$nrow), train_set)
+train_set = sample(task_iris$nrow, 0.8 * task_iris$nrow)
+test_set = setdiff(seq_len(task_iris$nrow), train_set)
 
 # train the model
-learner$train(task_mtcars, row_ids = train_set)
+learner$train(task_iris, row_ids = train_set)
 
 # predict data
-prediction = learner$predict(task_mtcars, row_ids = test_set)
+prediction = learner$predict(task_iris, row_ids = test_set)
 
 # calculate performance
 prediction$confusion
@@ -52,9 +53,10 @@ measure = mlr_measures$get("classif.acc")
 prediction$score(measure)
 
 # automatic resampling
-resampling = mlr_resamplings$get("cv", param_vals = list(folds = 10L))
-rr = resample(task_mtcars, learner, resampling)
+resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
+rr = resample(task_iris, learner, resampling)
 rr$performance(measure)
+rr$aggregate()
 ```
 
 ## Why a rewrite?
