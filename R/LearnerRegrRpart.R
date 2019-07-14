@@ -49,7 +49,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
       response = invoke(predict, self$model, newdata = newdata, .opts = allow_partial_matching)
-      list(response = response)
+      PredictionRegr$new(task = task, response = response)
     },
 
     importance = function() {

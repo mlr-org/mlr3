@@ -27,13 +27,7 @@ See \link{Learner}.
 
 \section{Methods}{
 
-All methods of \link{Learner}, and additionally:
-\itemize{
-\item \code{new_prediction(row_ids, truth, response = NULL, prob = NULL)}\cr
-(\code{integer()} | \code{character()}, \code{factor()}, \code{factor()}, \code{matrix()}) -> \link{PredictionClassif}\cr
-Creates a new \link{PredictionClassif} object, after performing some basic type checks and transformations.
-See \link{PredictionClassif} for a description of the arguments.
-}
+See \link{Learner}.
 }
 
 \examples{

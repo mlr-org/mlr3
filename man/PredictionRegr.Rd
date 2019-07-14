@@ -10,9 +10,11 @@ This object wraps the predictions returned by a learner of class \link{LearnerRe
 the predicted response and standard error.
 }
 \section{Construction}{
-\preformatted{p = PredictionRegr$new(row_ids, truth, response = NULL, se = NULL)
+\preformatted{p = PredictionRegr$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL)
 }
 \itemize{
+\item \code{task} :: \link{TaskRegr}\cr
+Task, used to extract defaults for \code{row_ids} and \code{truth}.
 \item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
 Row ids of the observations in the test set.
 \item \code{truth} :: \code{numeric()}\cr

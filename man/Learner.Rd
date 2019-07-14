@@ -10,7 +10,7 @@ This is the abstract base class for learner objects like \link{LearnerClassif} a
 
 Learners consist of the following parts:
 \itemize{
-\item Methods \code{train()} and \code{predict()} to perform the respective steps.
+\item Methods \code{train()} and \code{predict()} which call \code{train_internal()} and \code{predict_internal()}.
 \item The fitted model, after calling \code{train()}.
 \item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 \item Meta-information about the requirements and capabilities of the learner.
@@ -18,6 +18,7 @@ Learners consist of the following parts:
 
 Predefined learners are stored in the \link{Dictionary} \link{mlr_learners},
 e.g. \code{\link[=mlr_learners_classif.rpart]{classif.rpart}} or \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}.
+A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
 \section{Construction}{
 
@@ -103,11 +104,6 @@ of the \code{task}.
 (\link{Task}, \code{data.frame()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \code{$train()} and required for conversions of \code{newdata}.
-\item \code{new_prediction(row_ids, truth, ...)}\cr
-(\code{integer()} | \code{character()}, any, ...) -> \link{Prediction}\cr
-Used internally to create a \link{Prediction} object.
-The arguments are described in the respective specialization of \link{Prediction}, e.g. in \link{PredictionClassif} for
-classification.
 }
 }
 

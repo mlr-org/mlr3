@@ -14,14 +14,16 @@ the response is calculated from the probabilities: the class label with the high
 probability is chosen. In case of ties, a label is selected randomly.
 }
 \note{
-If this object is constructed manually, make sure that the factors for truth and response
-have the same levels, in the same order.
+If this object is constructed manually, make sure that the factor levels for \code{truth}
+have the same levels as the task, in the same order.
 In case of binary classification tasks, the positive class label must be the first level.
 }
 \section{Construction}{
-\preformatted{p = PredictionClassif$new(row_ids, truth, response = NULL, prob = NULL)
+\preformatted{p = PredictionClassif$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL)
 }
 \itemize{
+\item \code{task} :: \link{TaskClassif}\cr
+Task, used to extract defaults for \code{row_ids} and \code{truth}.
 \item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
 Row ids of the observations in the test set.
 \item \code{truth} :: \code{factor()}\cr

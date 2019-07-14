@@ -13,14 +13,17 @@
 #' probability is chosen. In case of ties, a label is selected randomly.
 #'
 #' @note
-#' If this object is constructed manually, make sure that the factors for truth and response
-#' have the same levels, in the same order.
+#' If this object is constructed manually, make sure that the factor levels for `truth`
+#' have the same levels as the task, in the same order.
 #' In case of binary classification tasks, the positive class label must be the first level.
 #'
 #' @section Construction:
 #' ```
-#' p = PredictionClassif$new(row_ids, truth, response = NULL, prob = NULL)
+#' p = PredictionClassif$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL)
 #' ```
+#'
+#' * `task` :: [TaskClassif]\cr
+#'   Task, used to extract defaults for `row_ids` and `truth`.
 #'
 #' * `row_ids` :: (`integer()` | `character()`)\cr
 #'   Row ids of the observations in the test set.
@@ -103,11 +106,36 @@
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
-    initialize = function(row_ids, truth = NULL, response = NULL, prob = NULL) {
-      self$data$row_ids = assert_atomic_vector(row_ids)
-      self$data$truth = assert_factor(truth)
-      self$data$response = assert_factor(response, null.ok = TRUE)
-      self$data$prob = assert_matrix(prob, null.ok = TRUE)
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL) {
+      row_ids = assert_row_ids(row_ids)
+      n = length(row_ids)
+
+      truth = assert_factor(truth, len = n, null.ok = TRUE)
+      lvls = levels(truth)
+
+      if (!is.null(response)) {
+        response = assert_factor(as_factor(response, levels = lvls), len = n)
+      }
+
+      if (!is.null(prob)) {
+        assert_matrix(prob, nrows = n, ncols = length(lvls))
+        assert_numeric(prob, lower = 0, upper = 1)
+        assert_names(colnames(prob), permutation.of = lvls)
+        if (!is.null(rownames(prob))) {
+          rownames(prob) = NULL
+        }
+
+        if (is.null(response)) {
+          # calculate response from prob
+          i = max.col(prob, ties.method = "random")
+          response = factor(colnames(prob)[i], levels = lvls)
+        }
+      }
+
+      self$data$row_ids = row_ids
+      self$data$truth = truth
+      self$data$response = response
+      self$data$prob = prob
       self$task_type = "classif"
     },
 

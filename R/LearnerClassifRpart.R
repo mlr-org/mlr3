@@ -57,7 +57,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         prob = invoke(predict, self$model, newdata = newdata, type = "prob", .opts = allow_partial_matching)
       }
 
-      list(response = response, prob = prob)
+      PredictionClassif$new(task = task, response = response, prob = prob)
     },
 
     importance = function() {

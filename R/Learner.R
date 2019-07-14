@@ -9,13 +9,15 @@
 #'
 #' Learners consist of the following parts:
 #'
-#' - Methods `train()` and `predict()` to perform the respective steps.
+#' - Methods `train()` and `predict()` which call `train_internal()` and `predict_internal()`.
 #' - The fitted model, after calling `train()`.
 #' - A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' - Meta-information about the requirements and capabilities of the learner.
 #'
 #' Predefined learners are stored in the [Dictionary] [mlr_learners],
 #' e.g. [`classif.rpart`][mlr_learners_classif.rpart] or [`regr.rpart`][mlr_learners_regr.rpart].
+#' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the [mlr3book](https://mlr3book.mlr-org.com).
+#'
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
@@ -118,12 +120,6 @@
 #'   ([Task], `data.frame()`, [mlr_control()]) -> [Prediction]\cr
 #'   Uses the data stored during `$train()` to create a new [Prediction] based on the new data in `newdata`.
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
-#'
-#' * `new_prediction(row_ids, truth, ...)`\cr
-#'   (`integer()` | `character()`, any, ...) -> [Prediction]\cr
-#'   Used internally to create a [Prediction] object.
-#'   The arguments are described in the respective specialization of [Prediction], e.g. in [PredictionClassif] for
-#'   classification.
 #'
 #' @section Optional Extractors:
 #'
