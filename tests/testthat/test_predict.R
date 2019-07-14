@@ -8,7 +8,7 @@ test_that("predict on newdata works / classif", {
 
   newdata = mlr_tasks$get("iris")$filter(121:150)$data()
   p = learner$predict_newdata(task, newdata = newdata)
-  expect_data_table(as.data.table(p), nrow = 30)
+  expect_data_table(as.data.table(p), nrows = 30)
   expect_set_equal(as.data.table(p)$row_id, 121:150)
 })
 
@@ -24,7 +24,7 @@ test_that("predict on newdata works / regr", {
   newdata = task$clone()$filter(test)$data()
   p = learner$predict_newdata(task, newdata = newdata)
 
-  expect_data_table(as.data.table(p), nrow = length(test))
+  expect_data_table(as.data.table(p), nrows = length(test))
   expect_set_equal(as.data.table(p)$row_id, 507:759)
 })
 
@@ -40,7 +40,7 @@ test_that("predict on newdata works / no target column", {
   newdata = remove_named(task$clone()$filter(test)$data(), task$target_names)
   p = learner$predict_newdata(task, newdata = newdata)
 
-  expect_data_table(as.data.table(p), nrow = length(test))
+  expect_data_table(as.data.table(p), nrows = length(test))
   expect_set_equal(as.data.table(p)$row_id, 507:759)
 })
 

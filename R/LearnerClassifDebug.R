@@ -62,7 +62,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     },
 
     train_internal = function(task) {
-      pv = self$param_set$get_values(tag = "train")
+      pv = self$param_set$get_values(tags = "train")
       if (isTRUE(pv$message_train)) {
         message("Message from classif.debug->train()")
       }
@@ -85,7 +85,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
     predict_internal = function(task) {
       n = task$nrow
-      pv = self$param_set$get_values(tag = "predict")
+      pv = self$param_set$get_values(tags = "predict")
       if (isTRUE(pv$message_predict)) {
         message("Message from classif.debug->predict()")
       }

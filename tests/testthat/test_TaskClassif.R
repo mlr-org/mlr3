@@ -55,7 +55,7 @@ test_that("0 feature task", {
   expect_task(task)
   expect_task_supervised(task)
   expect_task_classif(task)
-  expect_data_table(task$data(), ncol = 1L)
+  expect_data_table(task$data(), ncols = 1L)
 
   lrn = mlr_learners$get("classif.featureless")
   p = lrn$train(task)$predict(task)

@@ -39,16 +39,16 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     },
 
     train_internal = function(task) {
-      pv = self$param_set$get_values(tag = "train")
+      pv = self$param_set$get_values(tags = "train")
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
-      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv)
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
     },
 
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
-      response = predict(self$model, newdata = newdata)
+      response = invoke(predict, self$model, newdata = newdata, .opts = allow_partial_matching)
       list(response = response)
     },
 

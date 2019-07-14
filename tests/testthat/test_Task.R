@@ -3,7 +3,7 @@ context("Task")
 test_that("Task duplicates rows", {
   task = mlr_tasks$get("iris")
   data = task$data(c(1L, 1L))
-  expect_data_table(data, nrow = 2L, any.missing = FALSE)
+  expect_data_table(data, nrows = 2L, any.missing = FALSE)
 })
 
 test_that("Rows return ordered", {
@@ -85,7 +85,7 @@ test_that("Task cbind", {
 
 test_that("task$feature_types preserves key (#193)", {
   task = mlr_tasks$get("iris")$select(character(0))$cbind(iris[1:4])
-  expect_data_table(task$feature_types, ncol = 2L, nrow = 4L, key = "id")
+  expect_data_table(task$feature_types, ncols = 2L, nrows = 4L, key = "id")
 })
 
 test_that("cbind/rbind works", {
@@ -95,12 +95,12 @@ test_that("cbind/rbind works", {
   task$cbind(data)
   expect_task(task)
   expect_set_equal(c(task$feature_names, task$target_names), c(names(iris), "foo"))
-  expect_data_table(task$data(), ncol = 6, any.missing = FALSE)
+  expect_data_table(task$data(), ncols = 6, any.missing = FALSE)
 
   task$rbind(cbind(data.table(..row_id = 201:210, foo = 99L), iris[1:10, ]))
   expect_task(task)
   expect_set_equal(task$row_ids, c(1:150, 201:210))
-  expect_data_table(task$data(), ncol = 6, nrow = 160, any.missing = FALSE)
+  expect_data_table(task$data(), ncols = 6, nrows = 160, any.missing = FALSE)
 
   # auto generate char ids
   task = mlr_tasks$get("zoo")
@@ -143,7 +143,7 @@ test_that("groups/weights work", {
 
   task$set_col_role("w", "weights")
   expect_subset("weights", task$properties)
-  expect_data_table(task$weights, ncol = 2, nrow = 15)
+  expect_data_table(task$weights, ncols = 2, nrows = 15)
   expect_numeric(task$weights$weight, any.missing = FALSE)
 
   task$set_col_role("w", "feature", exclusive = TRUE)
@@ -151,7 +151,7 @@ test_that("groups/weights work", {
 
   task$set_col_role("g", "groups")
   expect_subset("groups", task$properties)
-  expect_data_table(task$groups, ncol = 2, nrow = 15)
+  expect_data_table(task$groups, ncols = 2, nrows = 15)
   expect_subset(task$groups$group, c("a", "b"))
 
   task$set_col_role("g", "feature", exclusive = TRUE)
@@ -171,7 +171,7 @@ test_that("ordered factors (#95)", {
 
 test_that("as.data.table", {
   task = mlr_tasks$get("iris")
-  expect_data_table(as.data.table(task), nrow = 150, ncol = 5)
+  expect_data_table(as.data.table(task), nrows = 150, ncols = 5)
 })
 
 test_that("extra factor levels are stored (#179)", {

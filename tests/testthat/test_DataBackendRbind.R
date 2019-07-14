@@ -13,7 +13,7 @@ test_that("DataBackendRbind", {
 
   expect_set_equal(b$rownames, 1:150)
   expect_set_equal(b$colnames, names(data))
-  expect_data_table(b$data(b$rownames, b$colnames), nrow = 150, ncol = 6)
+  expect_data_table(b$data(b$rownames, b$colnames), nrows = 150, ncols = 6)
   expect_set_equal(b$distinct(b$rownames, "Species")$Species, distinct(iris$Species, drop = FALSE))
 
   x = b$missings(b$rownames, c("Petal.Width", "Petal.Length"))
@@ -32,12 +32,12 @@ test_that("Backends with different cols", {
   expect_equal(b$ncol, length(fn))
 
   h = b$head(60)
-  expect_data_table(h, ncol = 3, nrow = 60)
+  expect_data_table(h, ncols = 3, nrows = 60)
 
   h = b$head(120)
-  expect_data_table(h, ncol = 3, nrow = 120)
+  expect_data_table(h, ncols = 3, nrows = 120)
 
-  expect_data_table(b$data(rows = 1:120, cols = b$colnames), nrow = 120, ncol = length(fn))
+  expect_data_table(b$data(rows = 1:120, cols = b$colnames), nrows = 120, ncols = length(fn))
 })
 
 test_that("Backends with mixed data_formats", {

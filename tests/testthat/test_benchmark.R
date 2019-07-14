@@ -11,30 +11,30 @@ test_that("Basic benchmarking", {
   expect_names(names(bmr$data), permutation.of = c(mlr_reflections$rr_names, "hash"))
 
   tab = as.data.table(bmr)
-  expect_data_table(tab, nrow = 12L, ncol = 6L)
+  expect_data_table(tab, nrows = 12L, ncols = 6L)
   expect_names(names(tab), permutation.of = c("hash", "task", "learner", "resampling", "iteration", "prediction"))
 
   tab = bmr$performance(ids = FALSE)
-  expect_data_table(tab, nrow = 12L, ncol = 7L)
+  expect_data_table(tab, nrows = 12L, ncols = 7L)
   expect_names(names(tab), permutation.of = c("hash", "task", "learner", "resampling", "iteration", "prediction", "classif.ce"))
 
   tab = bmr$tasks
-  expect_data_table(tab, nrow = 2, any.missing = FALSE)
+  expect_data_table(tab, nrows = 2, any.missing = FALSE)
   expect_names(names(tab), permutation.of = c("task_hash", "task", "task_id"))
   expect_hash(tab$task_hash, len = 2L)
 
   tab = bmr$learners
-  expect_data_table(tab, nrow = 2, any.missing = FALSE)
+  expect_data_table(tab, nrows = 2, any.missing = FALSE)
   expect_names(names(tab), permutation.of = c("learner_hash", "learner", "learner_id"))
   expect_hash(tab$learner_hash, len = 2L)
 
   tab = bmr$resamplings
-  expect_data_table(tab, nrow = 2, any.missing = FALSE)
+  expect_data_table(tab, nrows = 2, any.missing = FALSE)
   expect_names(names(tab), permutation.of = c("resampling_hash", "resampling", "resampling_id"))
   expect_hash(tab$resampling_hash, len = 2L)
 
   tab = bmr$aggregate()
-  expect_data_table(tab, nrow = 4L)
+  expect_data_table(tab, nrows = 4L)
   expect_names(names(tab), type = "unique", permutation.of = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", "classif.ce"))
 })
 
@@ -67,9 +67,9 @@ test_that("bmr$combine()", {
   expect_benchmark_result(bmr_new)
   expect_benchmark_result(bmr_combined)
 
-  expect_data_table(bmr$data, nrow = 12)
-  expect_data_table(bmr_new$data, nrow = 6)
-  expect_data_table(bmr_combined$data, nrow = 18)
+  expect_data_table(bmr$data, nrows = 12)
+  expect_data_table(bmr_new$data, nrows = 6)
+  expect_data_table(bmr_combined$data, nrows = 18)
 
   expect_false("pima" %in% bmr$tasks$task_id)
   expect_true("pima" %in% bmr_new$tasks$task_id)
