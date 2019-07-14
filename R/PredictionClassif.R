@@ -103,11 +103,44 @@
 PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
-    initialize = function(row_ids, truth = NULL, response = NULL, prob = NULL) {
-      self$data$row_ids = assert_atomic_vector(row_ids)
-      self$data$truth = assert_factor(truth)
-      self$data$response = assert_factor(response, null.ok = TRUE)
-      self$data$prob = assert_matrix(prob, null.ok = TRUE)
+    initialize = function(task = NULL, row_ids = NULL, truth = NULL, response = NULL, prob = NULL) {
+      if (!is.null(task)) {
+        if (is.null(row_ids)) {
+          row_ids = task$row_ids
+        }
+        if (is.null(truth)) {
+          truth = task$truth(row_ids)
+        }
+      }
+      row_ids = assert_row_ids(row_ids)
+      n = length(row_ids)
+
+      truth = assert_factor(truth, len = n, null.ok = TRUE)
+      lvls = levels(truth)
+
+      if (!is.null(response)) {
+        response = assert_factor(as_factor(response, levels = lvls), len = n)
+      }
+
+      if (!is.null(prob)) {
+        assert_matrix(prob, nrows = n, ncols = length(lvls))
+        assert_numeric(prob, lower = 0, upper = 1)
+        assert_names(colnames(prob), permutation.of = lvls)
+        if (!is.null(rownames(prob))) {
+          rownames(prob) = NULL
+        }
+
+        if (is.null(response)) {
+          # calculate response from prob
+          i = max.col(prob, ties.method = "random")
+          response = factor(colnames(prob)[i], levels = lvls)
+        }
+      }
+
+      self$data$row_ids = row_ids
+      self$data$truth = truth
+      self$data$response = response
+      self$data$prob = prob
       self$task_type = "classif"
     },
 

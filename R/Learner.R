@@ -119,12 +119,6 @@
 #'   Uses the data stored during `$train()` to create a new [Prediction] based on the new data in `newdata`.
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
 #'
-#' * `new_prediction(row_ids, truth, ...)`\cr
-#'   (`integer()` | `character()`, any, ...) -> [Prediction]\cr
-#'   Used internally to create a [Prediction] object.
-#'   The arguments are described in the respective specialization of [Prediction], e.g. in [PredictionClassif] for
-#'   classification.
-#'
 #' @section Optional Extractors:
 #'
 #' Specific learner implementations are free to implement additional getters to ease the access of certain parts

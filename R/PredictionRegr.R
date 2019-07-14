@@ -51,10 +51,11 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     initialize = function(row_ids, truth = NULL, response = NULL, se = NULL) {
-      self$data$row_ids = assert_atomic_vector(row_ids)
-      self$data$truth = assert_numeric(truth)
-      self$data$response = assert_numeric(response, null.ok = TRUE)
-      self$data$se = assert_numeric(se, null.ok = TRUE)
+      self$data$row_ids = assert_row_ids(row_ids)
+      n = length(row_ids)
+      self$data$truth = assert_numeric(truth, len = n, null.ok = TRUE)
+      self$data$response = assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
+      self$data$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
       self$task_type = "regr"
     }
   ),
