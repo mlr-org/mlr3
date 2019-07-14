@@ -75,6 +75,9 @@ Suggests:
     rpart,
     testthat,
     titanic
+Remotes:
+    mlr-org/mlr3misc,
+    mlr-org/paradox
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
