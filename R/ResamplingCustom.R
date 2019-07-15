@@ -27,17 +27,26 @@
 #'
 #' rc$train_set(1)
 #' rc$test_set(1)
+#'
+#' # Resampling with custom observation weights for the training set
+#' rc = mlr_resamplings$get("custom")
+#' train_sets = list(1:5, 1:6)
+#' test_sets = list(6:10, 7:10)
+#' obs_weights_train_sets =
+#'    list(train_sets[[1]] / sum(train_sets[[1]]), train_sets[[2]] / sum(train_sets[[2]]))
+#' rc$instantiate(task, train_sets, test_sets, obs_weights_train_sets)
+#' rc$train_set(1)
+#' rc$test_set(1)
+#' rc$obs_weights_train_set(1)
 ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   public = list(
     initialize = function() {
       super$initialize(id = "custom", duplicated_ids = TRUE)
     },
 
-    instantiate = function(task, train_sets = NULL, test_sets = NULL) {
+    instantiate = function(task, train_sets = NULL, test_sets = NULL, obs_weights_train_sets = NULL, class_weights_train_sets = NULL, class_costs_train_sets = NULL) {
       assert_task(task)
-      assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
-      assert_list(test_sets, types = "atomicvector", len = length(train_sets), any.missing = FALSE, null.ok = TRUE)
-      self$instance = list(train = train_sets, test = test_sets)
+      self$instance = instantiate_custom(self$instance, train_sets, test_sets, obs_weights_train_sets, class_weights_train_sets, class_costs_train_sets)
       self$task_hash = task$hash
       invisible(self)
     }
@@ -63,6 +72,57 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
 
     .get_test = function(i) {
       self$instance$test[[i]]
+    },
+
+    .get_obs_weights_train = function(i) {
+      self$instance$obs_weights_train[[i]]
+    },
+
+    .get_class_weights_train = function(i) {
+      self$instance$class_weights_train[[i]]
+    },
+
+    .get_class_costs_train = function(i) {
+      self$instance$class_costs_train[[i]]
     }
   )
 )
+
+
+instantiate_custom = function(instance, train_sets = NULL, test_sets = NULL, obs_weights_train_sets = NULL, class_weights_train_sets = NULL, class_costs_train_sets = NULL) {
+  if (is.null(train_sets) && is.null(test_sets)) {
+    stopf("At least one of 'train_sets' or 'test_sets' must be provided")
+  }
+  instance = instance %??% list(train = NULL, test = NULL, obs_weights_train_sets = NULL, class_weights_train_sets = NULL, class_costs_train_sets = NULL)
+
+  if (!is.null(train_sets)) {
+    # TODO: more assertions?
+    assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
+    instance$train = train_sets
+
+    if (!is.null(obs_weights_train_sets)) {
+      assert_list(obs_weights_train_sets, types = "atomicvector", any.missing = FALSE, len = length(train_sets))
+      instance$obs_weights_train = obs_weights_train_sets
+    }
+
+    if (!is.null(class_weights_train_sets)) {
+      assert_list(class_weights_train_sets, types = "atomicvector", any.missing = FALSE, len = length(train_sets))
+      instance$class_weights_train = class_weights_train_sets
+    }
+
+    if (!is.null(class_costs_train_sets)) {
+      assert_list(class_costs_train_sets, types = "atomicvector", any.missing = FALSE, len = length(train_sets))
+      instance$class_costs_train = class_costs_train_sets
+    }
+  }
+
+  if (!is.null(test_sets)) {
+    if (is.null(instance$train)) {
+      stopf("Cannot set test_set without train_set")
+    }
+    assert_list(test_sets, types = "atomicvector", len = length(instance$train), any.missing = FALSE, unique = TRUE)
+    instance$test = test_sets
+  }
+
+  return(instance)
+}
