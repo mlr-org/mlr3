@@ -1,4 +1,8 @@
-# mlr3
+---
+output: github_document
+---
+
+# mlr3 <img src="man/figures/logo_navbar.png" align="right" />
 
 Efficient, object-oriented programming on the building blocks of machine learning.
 Successor of [mlr](https://github.com/mlr-org/mlr).
@@ -7,13 +11,16 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 [![Build status](https://ci.appveyor.com/api/projects/status/m2tuhgdxo8is0nv0?svg=true)](https://ci.appveyor.com/project/mlr-org/mlr3)
 [![CRAN](https://www.r-pkg.org/badges/version/mlr3)](https://cran.r-project.org/package=mlr3)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
+[![Dependencies](https://tinyverse.netlify.com/badge/mlr3)](https://cran.r-project.org/package=mlr3)
 
 ## Resources
 
-* We started to write a [book](https://mlr3book.mlr-org.com/), but it is still very unfinished.
+* We _started_ writing a [book manual](https://mlr3book.mlr-org.com/), but it is still in early stages.
 * [Reference Manual](https://mlr3.mlr-org.com/reference/)
 * [Extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
-* [useR2019 talks](https://github.com/mlr-org/mlr-outreach/tree/master/2019_useR)
+* [useR!2019 talks](https://github.com/mlr-org/mlr-outreach/tree/master/2019_useR)
+* [Slack](https://join.slack.com/t/mlr-org/shared_invite/enQtMzc0ODAxNDI2MDIwLTM5OThhZTNlMWU3ZjJkZmZlMzE5NjI1MDQxOTM2YWI1Zjk5NTE2NzIxOGQyNDRmNzUxYzBiODQwOGI2ZWJhZjk) group
+* [Blog](https://mlr-org.com/) about _mlr_ and _mlr3_
 
 ## Installation
 
@@ -22,6 +29,8 @@ remotes::install_github("mlr-org/mlr3")
 ```
 
 ## Example
+
+### Basic train + predict
 
 ```{r}
 library(mlr3)
@@ -51,7 +60,11 @@ prediction = learner$predict(task_iris, row_ids = test_set)
 prediction$confusion
 measure = mlr_measures$get("classif.acc")
 prediction$score(measure)
+```
 
+### Resample
+
+```r
 # automatic resampling
 resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
 rr = resample(task_iris, learner, resampling)
