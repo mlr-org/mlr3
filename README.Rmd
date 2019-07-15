@@ -1,3 +1,7 @@
+---
+output: github_document
+---
+
 # mlr3 <img src="man/figures/logo_navbar.png" align="right" />
 
 Efficient, object-oriented programming on the building blocks of machine learning.
@@ -20,8 +24,7 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 
 ## Installation
 
-
-```r
+```{r, eval = FALSE}
 remotes::install_github("mlr-org/mlr3")
 ```
 
@@ -29,25 +32,14 @@ remotes::install_github("mlr-org/mlr3")
 
 ### Constructing Learners and Tasks
 
-
-```r
+```{r}
 library(mlr3)
 set.seed(1)
 
 # create learning task
 task_iris = TaskClassif$new(id = "iris", backend = iris, target = "Species")
 task_iris
-```
 
-```
-## <TaskClassif:iris> (150 x 5)
-## Target: Species
-## Properties: multiclass
-## Features (4):
-## * dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
-```
-
-```r
 # load learner
 learner = mlr_learners$get("classif.rpart")
 
@@ -57,8 +49,7 @@ learner$param_set$values = list(cp = 0.01)
 
 ### Basic train + predict
 
-
-```r
+```{r}
 # train/test split
 train_set = sample(task_iris$nrow, 0.8 * task_iris$nrow)
 test_set = setdiff(seq_len(task_iris$nrow), train_set)
@@ -71,24 +62,8 @@ prediction = learner$predict(task_iris, row_ids = test_set)
 
 # calculate performance
 prediction$confusion
-```
-
-```
-##             truth
-## response     setosa versicolor virginica
-##   setosa         11          0         0
-##   versicolor      0         12         1
-##   virginica       0          0         6
-```
-
-```r
 measure = mlr_measures$get("classif.acc")
 prediction$score(measure)
-```
-
-```
-## classif.acc
-##   0.9666667
 ```
 
 ### Resample
