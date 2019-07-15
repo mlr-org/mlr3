@@ -8,7 +8,7 @@
 #' Calls [Metrics::rmse()].
 #'
 #' @export
-MeasureRegrMSE = R6Class("MeasureRegrRMSE",
+MeasureRegrRMSE = R6Class("MeasureRegrRMSE",
   inherit = MeasureRegr,
   public = list(
     initialize = function() {
