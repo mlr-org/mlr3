@@ -85,6 +85,21 @@
 #' * `packages` :: `character()`\cr
 #'   Stores the names of required packages.
 #'
+#' * `encapsulate` (named `character()`)\cr
+#'   How to call the code in `train_internal()` and `predict_internal()`.
+#'   Must be a named character vector with names `"train"` and `"predict"`.
+#'     - If set to `"none"` (default), the code is executed in the running session without error handling.
+#'       Output is not stored, just send to the console.
+#'     - If set to `"evaluate"`, the exceptions are caught using [evaluate::evaluate()].
+#'       All output can be accessed via the learner field `$log`.
+#'       \CRANpkg{evaluate} does not start a separate session, and thus cannot guard you against segfaults.
+#'     - If set to `"callr"`, the code is executed in an independent R session using the \CRANpkg{callr} package.
+#'       All output can be accessed via the learner field `$log`.
+#'       This guards your session from segfaults, at the cost of some computational overhead.
+#' * `fallback` ([Learner])\cr
+#'   Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+#'   Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
+#'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
@@ -173,6 +188,7 @@ Learner = R6Class("Learner",
     properties = NULL,
     data_formats = NULL,
     packages = NULL,
+    encapsulate = NULL,
     fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),

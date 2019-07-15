@@ -22,7 +22,7 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   }
 
   # call wrapper with encapsulation
-  enc = encapsulate(ctrl$encapsulate_train)
+  enc = encapsulate(learner$encapsulate[["train"]])
   result = enc(wrapper, list(learner = learner, task = task), learner$packages, seed = NA_integer_)
 
   learner$data$model = result$result
@@ -66,7 +66,7 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
   }
 
   # call predict with encapsulation
-  enc = encapsulate(ctrl$encapsulate_predict)
+  enc = encapsulate(learner$encapsulate[["predict"]])
   result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = NA_integer_)
 
   learner$data$predict_log = result$log

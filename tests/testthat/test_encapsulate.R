@@ -30,20 +30,27 @@ test_that("encapsulate", {
 
 
 
-disabled = mlr_control(encapsulate_train = "none")
-enabled = mlr_control(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
+disable_encapsulation = function(learner) {
+  learner$encapsulate = NULL
+  learner
+}
+
+enable_encapsulation = function(learner) {
+  learner$encapsulate = c(train = "evaluate", predict = "evaluate")
+  learner
+}
+
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.debug")
 learner$param_set$values = list(message_train = TRUE, warning_train = TRUE, message_predict = TRUE, warning_predict = TRUE)
 
 test_that("evaluate / single step", {
   row_ids = 1:120
-
-  expect_message(expect_warning(learner$train(task, row_ids, ctrl = disabled)))
+  expect_message(expect_warning(disable_encapsulation(learner)$train(task, row_ids)))
   log = learner$log
   expect_data_table(log)
 
-  expect_silent(learner$train(task, row_ids, ctrl = enabled))
+  expect_silent(enable_encapsulation(learner)$train(task, row_ids))
   log = learner$log
   expect_data_table(log)
   expect_data_table(log, nrows = 2L, ncols = 3L, any.missing = FALSE)
@@ -54,12 +61,12 @@ test_that("evaluate / single step", {
   expect_true("warning" %in% log$class)
   expect_false("error" %in% log$class)
 
-  expect_message(expect_warning(learner$predict(task, row_ids = 101:150, ctrl = disabled)))
+  expect_message(expect_warning(disable_encapsulation(learner)$predict(task, row_ids = 101:150)))
   log = learner$log[stage == "predict"]
   expect_data_table(log)
   expect_equal(nrow(log), 0)
 
-  learner$predict(task, row_ids = 101:150, ctrl = enabled)
+  enable_encapsulation(learner)$predict(task, row_ids = 101:150)
   log = learner$log[stage == "predict"]
   expect_data_table(log)
   expect_data_table(log, nrows = 2L, ncols = 3L, any.missing = FALSE)
@@ -72,9 +79,9 @@ test_that("evaluate / resample", {
   resampling = mlr_resamplings$get("cv")
   resampling$param_set$values = list(folds = 3)
 
-  rr = expect_warning(resample(task, learner, resampling, ctrl = disabled))
+  rr = expect_warning(resample(task, disable_encapsulation(learner), resampling))
   expect_true(all(map(rr$data$learner, function(x) nrow(x$log)) == 0L))
 
-  rr = expect_silent(resample(task, learner, resampling, ctrl = enabled))
+  rr = expect_silent(resample(task, enable_encapsulation(learner), resampling))
   expect_true(all(map_lgl(rr$data$learner, function(x) all(table(x$log$stage) == 2))))
 })

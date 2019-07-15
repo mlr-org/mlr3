@@ -21,30 +21,10 @@ This function creates a named list of settings which control the execution of a 
 If \code{FALSE} (default), models fitted during \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} are discarded.
 Note that you will be unable to predict on new data or extract additional information like
 variable importance from the learner.
-\item \code{encapsulate_train} (\code{character(1)}):\cr
-How to call external code in third party packages during train.
-\itemize{
-\item If set to \code{"none"} (default), the code is executed in the running session without error handling.
-Output is not stored, just send to the console.
-\item If set to \code{"evaluate"}, the exceptions are caught using \code{\link[evaluate:evaluate]{evaluate::evaluate()}}.
-All output can be accessed via the learner field \code{$log}.
-\CRANpkg{evaluate} does not start a separate session, and thus cannot guard you against segfaults.
-\item If set to \code{"callr"}, the code is executed in an independent R session using the \CRANpkg{callr} package.
-All output can be accessed via the learner field \code{$log}.
-This guards your session from segfaults, at the cost of some computational overhead.
-}
-\item \code{encapsulate_predict} (\code{character(1)}):\cr
-How to call external code in third party packages during predict. Same format as \code{encapsulate_train}.
 }
 
 \strong{Defaults}\preformatted{$store_models
 TRUE
-
-$encapsulate_train
-"none"
-
-$encapsulate_predict
-"none"
 
 $log_threshold
 400
