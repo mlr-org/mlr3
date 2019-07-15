@@ -227,8 +227,8 @@ Learner = R6Class("Learner",
       if (!is.null(row_ids))
         row_ids = assert_row_ids(row_ids)
       ctrl = mlr_control(ctrl)
-      if (is.null(self$data$model)) {
-        stopf("No model available, call `train()` first")
+      if (is.null(self$data$predict_time)) {
+        stopf("Learner not trained yet")
       }
       learner_predict(self, task, row_ids, ctrl)
     },

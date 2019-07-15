@@ -25,6 +25,14 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   enc = encapsulate(learner$encapsulate[["train"]])
   result = enc(wrapper, list(learner = learner, task = task), learner$packages, seed = NA_integer_)
 
+  # fit fallback learner
+  fb = learner$fallback
+  if (!is.null(fb)) {
+    fb = assert_learner(fb)
+    require_namespaces(fb$packages)
+    learner$data$fallback_model = fb$train_internal(task)
+  }
+
   learner$data$model = result$result
   learner$data$train_log = result$log
   learner$data$train_time = result$elapsed
@@ -65,13 +73,26 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
     task$row_roles$use = row_ids
   }
 
-  # call predict with encapsulation
-  enc = encapsulate(learner$encapsulate[["predict"]])
-  result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = NA_integer_)
+  if (!is.null(learner$model)) {
+    # call predict with encapsulation
+    enc = encapsulate(learner$encapsulate[["predict"]])
+    result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = NA_integer_)
+    learner$data$predict_log = result$log
+    learner$data$predict_time = result$elapsed
+    prediction = result$result
+  } else {
+    fb = learner$fallback
+    if (is.null(fb)) {
+      stopf("No model available")
+    }
+    fb = assert_learner(fb)
+    require_namespaces(fb$packages)
+    learner$data$predict_log = data.table()
+    learner$data$predict_time = NA_real_
+    prediction = fb$predict(task)
+  }
 
-  learner$data$predict_log = result$log
-  learner$data$predict_time = result$elapsed
-  return(result$result)
+  return(prediction)
 }
 
 
