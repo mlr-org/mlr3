@@ -117,6 +117,7 @@ Collate:
     'MeasureRegr.R'
     'MeasureRegrMAE.R'
     'MeasureRegrMSE.R'
+    'MeasureRegrRMSE.R'
     'MeasureSelectedFeatures.R'
     'Prediction.R'
     'PredictionClassif.R'
