@@ -1,7 +1,3 @@
----
-output: github_document
----
-
 # mlr3 <img src="man/figures/logo_navbar.png" align="right" />
 
 Efficient, object-oriented programming on the building blocks of machine learning.
@@ -91,7 +87,7 @@ prediction$score(measure)
 ```
 
 ```
-## classif.acc 
+## classif.acc
 ##   0.9666667
 ```
 
