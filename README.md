@@ -30,7 +30,7 @@ remotes::install_github("mlr-org/mlr3")
 
 ## Example
 
-### Basic train + predict
+### Constructing Learners and Tasks
 
 
 ```r
@@ -38,12 +38,12 @@ library(mlr3)
 set.seed(1)
 
 # create learning task
-task_iris = TaskClassif$new(id = "cars", backend = iris, target = "Species")
+task_iris = TaskClassif$new(id = "iris", backend = iris, target = "Species")
 task_iris
 ```
 
 ```
-## <TaskClassif:cars> (150 x 5)
+## <TaskClassif:iris> (150 x 5)
 ## Target: Species
 ## Properties: multiclass
 ## Features (4):
@@ -56,7 +56,12 @@ learner = mlr_learners$get("classif.rpart")
 
 # set hyperparameter
 learner$param_set$values = list(cp = 0.01)
+```
 
+### Basic train + predict
+
+
+```r
 # train/test split
 train_set = sample(task_iris$nrow, 0.8 * task_iris$nrow)
 test_set = setdiff(seq_len(task_iris$nrow), train_set)
