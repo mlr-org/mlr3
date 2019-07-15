@@ -19,7 +19,6 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 * [Reference Manual](https://mlr3.mlr-org.com/reference/)
 * [Extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
 * [useR!2019 talks](https://github.com/mlr-org/mlr-outreach/tree/master/2019_useR)
-* [Slack](https://join.slack.com/t/mlr-org/shared_invite/enQtMzc0ODAxNDI2MDIwLTM5OThhZTNlMWU3ZjJkZmZlMzE5NjI1MDQxOTM2YWI1Zjk5NTE2NzIxOGQyNDRmNzUxYzBiODQwOGI2ZWJhZjk) group
 * [Blog](https://mlr-org.com/) about _mlr_ and _mlr3_
 
 ## Installation
