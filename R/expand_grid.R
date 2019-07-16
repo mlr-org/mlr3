@@ -7,11 +7,11 @@
 #' Resampling strategies may not be instantiated, and will be instantiated per task internally.
 #'
 #' @param tasks :: (list of [Task] | `character()`)\cr
-#'   Instead a [Task] object, it is also possible to provide a keys to retrieve tasks from the [mlr_tasks] dictionary.
+#'   Instead of a [Task] object, it is also possible to provide a keys to retrieve tasks from the [mlr_tasks] dictionary.
 #' @param learners (list of [Learner] | `character()`)\cr
-#'   Instead if a [Learner] object, it is also possible to provide keys to retrieve learners from the [mlr_learners] dictionary.
+#'   Instead of a [Learner] object, it is also possible to provide keys to retrieve learners from the [mlr_learners] dictionary.
 #' @param resamplings :: (list of [Resampling] | `character()`)\cr
-#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
+#'   Instead of a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
 #'
 #' @return ([data.table()]) with the cross product of the input vectors.
 #' @export

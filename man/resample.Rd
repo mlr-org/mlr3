@@ -8,16 +8,13 @@ resample(task, learner, resampling, ctrl = list())
 }
 \arguments{
 \item{task}{:: (\link{Task} | \code{character(1)})\cr
-Object of type \link{Task}.
-Instead if a \link{Task} object, it is also possible to provide a key to retrieve a task from the \link{mlr_tasks} dictionary.}
+Instead of a \link{Task} object, it is also possible to provide a key to retrieve a task from the \link{mlr_tasks} dictionary.}
 
 \item{learner}{:: (\link{Learner} | \code{character(1)})\cr
-Object of type \link{Learner}.
-Instead if a \link{Learner} object, it is also possible to provide a key to retrieve a learner from the \link{mlr_learners} dictionary.}
+Instead of a \link{Learner} object, it is also possible to provide a key to retrieve a learner from the \link{mlr_learners} dictionary.}
 
 \item{resampling}{:: (\link{Resampling} | \code{character(1)})\cr
-Object of type \link{Resampling}.
-Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a resampling from the \link{mlr_resamplings} dictionary.}
+Instead of a \link{Resampling} object, it is also possible to provide a key to retrieve a resampling from the \link{mlr_resamplings} dictionary.}
 
 \item{ctrl}{:: named \code{list()}\cr
 Object to control learner execution. See \code{\link[=mlr_control]{mlr_control()}} for details.}
