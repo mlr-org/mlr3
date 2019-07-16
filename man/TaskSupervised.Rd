@@ -47,7 +47,7 @@ task = TaskSupervised$new("iris", task_type = "classif", backend = iris, target 
 \seealso{
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskRegr}}, \code{\link{Task}},
-  \code{\link{mlr_generators}}, \code{\link{mlr_tasks}}
+  \code{\link{mlr_tasks}}
 }
 \concept{Task}
 \keyword{internal}

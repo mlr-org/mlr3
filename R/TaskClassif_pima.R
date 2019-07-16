@@ -19,3 +19,6 @@ load_task_pima = function(id = "pima") {
   b$hash = "_mlr3_tasks_pima_"
   TaskClassif$new(id, b, target = "diabetes", positive = "pos")
 }
+
+#' @include mlr_tasks.R
+mlr_tasks$add("pima", load_task_pima)

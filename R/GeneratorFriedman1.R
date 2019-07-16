@@ -29,3 +29,6 @@ GeneratorFriedman1 = R6Class("GeneratorFriedman1",
     }
   )
 )
+
+#' @include mlr_generators.R
+mlr_generators$add("friedman1", GeneratorFriedman1)

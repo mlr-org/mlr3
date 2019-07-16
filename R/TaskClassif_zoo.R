@@ -18,3 +18,6 @@ load_task_zoo = function(id = "zoo") {
   b$hash = "_mlr3_tasks_zoo_"
   TaskClassif$new(id, b, target = "type")
 }
+
+#' @include mlr_tasks.R
+mlr_tasks$add("zoo", load_task_zoo)

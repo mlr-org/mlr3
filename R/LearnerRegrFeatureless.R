@@ -62,3 +62,6 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
     }
   )
 )
+
+#' @include mlr_learners.R
+mlr_learners$add("regr.featureless", LearnerRegrFeatureless)

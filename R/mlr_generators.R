@@ -1,6 +1,7 @@
 #' @title Dictionary of Task Generators
 #'
-#' @name mlr_generators
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
 #' @description
 #' A simple [Dictionary] storing generator functions returning a [Task].
 #'
@@ -13,23 +14,18 @@
 #'   Returns a [data.table::data.table()] with fields "key" and "packages" as columns.
 #'
 #' @family Dictionary
-#' @family Task
 #' @family Generator
 #' @seealso Example generator [`xor`][mlr_generators_xor].
+#' @export
 #' @examples
 #' g = mlr_generators$get("smiley")
 #' task = g$generate(10)
 #' print(task)
 #' task$data()
-NULL
-
-DictionaryGenerator = R6Class("DictionaryGenerator",
+mlr_generators = DictionaryGenerator = R6Class("DictionaryGenerator",
   inherit = Dictionary,
   cloneable = FALSE
-)
-
-#' @export
-mlr_generators = NULL
+)$new()
 
 #' @export
 as.data.table.DictionaryGenerator = function(x, ...) {

@@ -1,6 +1,7 @@
 #' @title Dictionary of Performance Measures
 #'
-#' @format [R6::R6Class] object.
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
 #' @description
 #' A simple [Dictionary] storing objects of class [Measure].
 #' Each measure has an associated help page, see `mlr_measures_[id]`.
@@ -19,19 +20,15 @@
 #' @seealso Example measures:
 #' * [`classif.auc`][mlr_measures_classif.auc].
 #' * [`time_train`][mlr_measures_time_train].
-#' @name mlr_measures
+#' @export
 #' @examples
 #' as.data.table(mlr_measures)
 #' mlr_measures$get("classif.ce")
-NULL
 
-DictionaryMeasure = R6Class("DictionaryMeasure",
+mlr_measures = R6Class("DictionaryMeasure",
   inherit = Dictionary,
   cloneable = FALSE
-)
-
-#' @export
-mlr_measures = NULL
+)$new()
 
 #' @export
 as.data.table.DictionaryMeasure = function(x, ...) {

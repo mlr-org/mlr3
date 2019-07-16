@@ -32,3 +32,6 @@ load_task_wine = function(id = "wine") {
   b$hash = "_mlr3_tasks_wine_"
   TaskClassif$new(id, b, target = "type")
 }
+
+#' @include mlr_tasks.R
+mlr_tasks$add("wine", load_task_wine)

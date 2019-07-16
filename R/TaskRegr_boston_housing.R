@@ -18,3 +18,6 @@ load_task_boston_housing = function(id = "boston_housing") {
   b$hash = "_mlr3_tasks_boston_housing_"
   TaskRegr$new(id, b, target = "medv")
 }
+
+#' @include mlr_tasks.R
+mlr_tasks$add("boston_housing", load_task_boston_housing)

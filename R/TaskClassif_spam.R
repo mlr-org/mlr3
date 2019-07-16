@@ -37,3 +37,6 @@ load_task_spam = function(id = "spam") {
   b$hash = "_mlr3_tasks_spam_"
   TaskClassif$new(id, b, target = "type", positive = "spam")
 }
+
+#' @include mlr_tasks.R
+mlr_tasks$add("spam", load_task_spam)

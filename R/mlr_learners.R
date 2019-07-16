@@ -1,6 +1,7 @@
 #' @title Dictionary of Learners
 #'
-#' @format [R6::R6Class] object
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
 #' @description
 #' A simple [Dictionary] storing objects of class [Learner].
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
@@ -22,13 +23,11 @@
 #' * [`classif.featureless`][mlr_learners_classif.featureless]
 #' * [`regr.featureless`][mlr_learners_regr.featureless]
 #' * [`classif.debug`][mlr_learners_classif.debug]
-#' @name mlr_learners
+#' @export
 #' @examples
 #' as.data.table(mlr_learners)
 #' mlr_learners$get("classif.featureless")
-NULL
-
-DictionaryLearner = R6Class("DictionaryLearner",
+mlr_learners = R6Class("DictionaryLearner",
   inherit = Dictionary,
   cloneable = FALSE,
 
@@ -47,10 +46,7 @@ DictionaryLearner = R6Class("DictionaryLearner",
       obj
     }
   )
-)
-
-#' @export
-mlr_learners = NULL
+)$new()
 
 #' @export
 as.data.table.DictionaryLearner = function(x, ...) {
