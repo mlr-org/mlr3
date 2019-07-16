@@ -123,7 +123,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     print = function() {
-      catf("%s of %i iterations in %i resamplings",
+      catf("%s of %i rows with %i resampling runs",
         format(self), nrow(self$data), uniqueN(self$data$hash))
     },
 
