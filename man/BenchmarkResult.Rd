@@ -44,7 +44,7 @@ Table of used resamplings with three columns:
 
 \itemize{
 \item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)}\cr
-(\code{list()} of \link{Measure}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+(\code{list()} of \link{Measure}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where resampling iterations are aggregated together into \link{ResampleResult}s.
 Arguments control the number of additional columns:
 \itemize{
@@ -62,18 +62,16 @@ Adds the number of resampling iterations with at least one recorded error as ext
 (\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects.
 Additionally calculates the provided performance measures and binds the performance as extra column.
-If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
-(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
 If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
 \item \code{best(measure)}\cr
 (\link{Measure}) -> \link{ResampleResult}\cr
 Returns the \link{ResampleResult} with the best performance according to \link{Measure}.
 \item \code{resample_result(hash)}\cr
 (\code{character(1)} -> \link{ResampleResult})\cr
-Retrieve the \link{ResampleResult} with \code{hash}.
+Retrieve the \link{ResampleResult} with hash \code{hash}.
 \item \code{combine(bmr)}\cr
 \link{BenchmarkResult} -> \code{self}\cr
-Fuses a second \link{BenchmarkResult} into itself.
+Fuses a second \link{BenchmarkResult} into itself, mutating the BenchmarkResult in-place.
 }
 }
 
@@ -84,6 +82,23 @@ Fuses a second \link{BenchmarkResult} into itself.
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a copy of the internal data.
 }
+}
+
+\section{Syntactic Sugar}{
+
+
+The mlr3 package provides some shortcuts to ease the creation of its objects.
+
+First, instead of the objects themselves, it is possible to pass a \code{character()} vector which is used to lookup the provided keys in a \link[mlr3misc:Dictonary]{mlr3misc::Dictonary}:
+\itemize{
+\item \link{Task} in \link{mlr_tasks}.
+\item \link{Learner} in \link{mlr_learners}.
+\item \link{Resampling} in \link{mlr_resamplings}.
+\item \link{Measure} in \link{mlr_measures}.
+}
+
+Additionally, each task has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
+Classification tasks default to the classification error in \link[=mlr_measure_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measure_regr.mse]{"regr.mse"}.
 }
 
 \examples{

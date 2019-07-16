@@ -39,7 +39,7 @@
 #'
 #' @section Methods:
 #' * `aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)`\cr
-#'   (`list()` of [Measure], `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
+#'   (`list()` of [Measure], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where resampling iterations are aggregated together into [ResampleResult]s.
 #'   Arguments control the number of additional columns:
 #'     * `ids` :: `logical(1)`\cr
@@ -56,8 +56,6 @@
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects.
 #'   Additionally calculates the provided performance measures and binds the performance as extra column.
-#'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
-#'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
 #'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
 #'
 #' * `best(measure)`\cr
@@ -66,16 +64,18 @@
 #'
 #' * `resample_result(hash)`\cr
 #'   (`character(1)` -> [ResampleResult])\cr
-#'   Retrieve the [ResampleResult] with `hash`.
+#'   Retrieve the [ResampleResult] with hash `hash`.
 #'
 #' * `combine(bmr)`\cr
 #'   [BenchmarkResult] -> `self`\cr
-#'   Fuses a second [BenchmarkResult] into itself.
+#'   Fuses a second [BenchmarkResult] into itself, mutating the BenchmarkResult in-place.
 #'
 #' @section S3 Methods:
 #' * `as.data.table(bmr)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a copy of the internal data.
+#'
+#' @template section-sugar
 #'
 #' @export
 #' @examples

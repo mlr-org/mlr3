@@ -62,8 +62,6 @@ Takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to
 (\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects.
 Additionally calculates the provided performance measures and binds the performance as extra column.
-If no measure is provided, defaults to the measure defined in \link[=mlr_reflections]{mlr_reflections$default_measures}
-(\link{mlr_measures_classif.ce} for classification and \link{mlr_measures_regr.mse} for regression).
 If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
 \item \code{aggregate(measures = NULL)}\cr
 \code{list()} of \link{Measure} -> named \code{numeric()}\cr

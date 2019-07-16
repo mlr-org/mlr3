@@ -7,14 +7,11 @@
 resample(task, learner, resampling, ctrl = list())
 }
 \arguments{
-\item{task}{:: (\link{Task} | \code{character(1)})\cr
-Instead of a \link{Task} object, it is also possible to provide a key to retrieve a task from the \link{mlr_tasks} dictionary.}
+\item{task}{:: \link{Task}.}
 
-\item{learner}{:: (\link{Learner} | \code{character(1)})\cr
-Instead of a \link{Learner} object, it is also possible to provide a key to retrieve a learner from the \link{mlr_learners} dictionary.}
+\item{learner}{:: \link{Learner}.}
 
-\item{resampling}{:: (\link{Resampling} | \code{character(1)})\cr
-Instead of a \link{Resampling} object, it is also possible to provide a key to retrieve a resampling from the \link{mlr_resamplings} dictionary.}
+\item{resampling}{:: \link{Resampling}.}
 
 \item{ctrl}{:: named \code{list()}\cr
 Object to control learner execution. See \code{\link[=mlr_control]{mlr_control()}} for details.}
@@ -29,10 +26,29 @@ Runs a resampling (possibly in parallel).
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_models} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
 }
+\section{Syntactic Sugar}{
+
+
+The mlr3 package provides some shortcuts to ease the creation of its objects.
+
+First, instead of the objects themselves, it is possible to pass a \code{character()} vector which is used to lookup the provided keys in a \link[mlr3misc:Dictonary]{mlr3misc::Dictonary}:
+\itemize{
+\item \link{Task} in \link{mlr_tasks}.
+\item \link{Learner} in \link{mlr_learners}.
+\item \link{Resampling} in \link{mlr_resamplings}.
+\item \link{Measure} in \link{mlr_measures}.
+}
+
+Additionally, each task has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
+Classification tasks default to the classification error in \link[=mlr_measure_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measure_regr.mse]{"regr.mse"}.
+}
+
 \section{Parallelization}{
 
+
 This function can be parallelized with the \CRANpkg{future} package.
-One jobs is one resampling iteration, and all jobs are forwarded to the \CRANpkg{future} package together.
+One job is one resampling iteration, and all jobs are send to an apply function
+from \CRANpkg{future.apply} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 }
 

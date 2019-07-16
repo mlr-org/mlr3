@@ -20,15 +20,12 @@
 #'   some memory.
 #' @return [BenchmarkResult].
 #'
-#' @section Parallelization:
-#' This function can be parallelized with the \CRANpkg{future} package.
-#' Each row in the `design` creates as many jobs as there are resampling iterations.
-#' All jobs are forwarded to the \CRANpkg{future} package together.
-#' To select a parallel backend, use [future::plan()].
-#'
 #' @note
 #' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_models` to `TRUE` via [mlr_control()].
+#'
+#' @template section-parallelization
+#' @template section-sugar
 #'
 #' @export
 #' @examples
