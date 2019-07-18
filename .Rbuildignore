@@ -11,3 +11,4 @@
 ^attic$
 ^pkgdown$
 ^inst/extdata/.+\.R$
+^README\.Rmd$

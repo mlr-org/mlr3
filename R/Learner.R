@@ -122,9 +122,9 @@
 #'
 #' @section Methods:
 #' * `train(task, row_ids = NULL, ctrl = list())`\cr
-#'   ([Task], `integer()` | `character()`, [mlr_control()]) -> [Learner]\cr
+#'   ([Task], `integer()` | `character()`, [mlr_control()]) -> `self`\cr
 #'   Train the learner on the row ids of the provided [Task].
-#'   Mutates the learner by reference, e.g. stores the model in field `$data`.
+#'   Mutates the learner by reference, i.e. stores the model alongside other objects in field `$data`.
 #'
 #' * `predict(task, row_ids = NULL, ctrl = list())`\cr
 #'   ([Task], `integer()` | `character()`, [mlr_control()]) -> [Prediction]\cr

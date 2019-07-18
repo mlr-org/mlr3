@@ -1,7 +1,7 @@
 #' @title Dictionary of Resampling Strategies
 #'
-#' @format [R6::R6Class] object.
-#'
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
 #' @description
 #' A simple [Dictionary] storing objects of class [Resampling].
 #' Each resampling has an associated help page, see `mlr_resamplings_[id]`.
@@ -14,18 +14,16 @@
 #'   [Dictionary] -> [data.table::data.table()]\cr
 #'   Returns a [data.table::data.table()] with columns `"key"`, `"params"`, and `"iters"`.
 #'
-#' @name mlr_resamplings
 #' @family Dictionary
 #' @family Resampling
 #' @seealso Example resamplings:
 #' * [`cv`][mlr_resamplings_cv].
 #' * [`bootstrap`][mlr_resamplings_bootstrap].
+#' @export
 #' @examples
 #' as.data.table(mlr_resamplings)
 #' mlr_resamplings$get("cv")
-NULL
-
-DictionaryResampling = R6Class("DictionaryResampling",
+mlr_resamplings = R6Class("DictionaryResampling",
   inherit = Dictionary,
   cloneable = FALSE,
 
@@ -41,10 +39,7 @@ DictionaryResampling = R6Class("DictionaryResampling",
       obj
     }
   )
-)
-
-#' @export
-mlr_resamplings = NULL
+)$new()
 
 #' @export
 as.data.table.DictionaryResampling = function(x, ...) {

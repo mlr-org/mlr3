@@ -5,7 +5,7 @@ use_future = function() {
   }
 
   if (!requireNamespace("future.apply", quietly = TRUE)) {
-    lg$warn("Package future.apply could not be loaded. Parallelization disabled.")
+    lg$warn("Package 'future.apply' could not be loaded. Parallelization disabled.")
     return(FALSE)
   }
 

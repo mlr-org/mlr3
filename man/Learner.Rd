@@ -109,9 +109,9 @@ Returns the logged errors as vector.
 
 \itemize{
 \item \code{train(task, row_ids = NULL, ctrl = list())}\cr
-(\link{Task}, \code{integer()} | \code{character()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Learner}\cr
+(\link{Task}, \code{integer()} | \code{character()}, \code{\link[=mlr_control]{mlr_control()}}) -> \code{self}\cr
 Train the learner on the row ids of the provided \link{Task}.
-Mutates the learner by reference, e.g. stores the model in field \code{$data}.
+Mutates the learner by reference, i.e. stores the model alongside other objects in field \code{$data}.
 \item \code{predict(task, row_ids = NULL, ctrl = list())}\cr
 (\link{Task}, \code{integer()} | \code{character()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} to create a new \link{Prediction} based on the provided \code{row_ids}

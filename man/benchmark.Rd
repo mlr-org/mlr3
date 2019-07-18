@@ -36,10 +36,28 @@ If you need access to the models for later analysis, set \code{store_models} to 
 }
 \section{Parallelization}{
 
+
 This function can be parallelized with the \CRANpkg{future} package.
-Each row in the \code{design} creates as many jobs as there are resampling iterations.
-All jobs are forwarded to the \CRANpkg{future} package together.
+One job is one resampling iteration, and all jobs are send to an apply function
+from \CRANpkg{future.apply} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
+}
+
+\section{Syntactic Sugar}{
+
+
+The mlr3 package provides some shortcuts to ease the creation of its objects.
+
+First, instead of the objects themselves, it is possible to pass a \code{character()} vector which is used to lookup the provided keys in a \link[mlr3misc:Dictonary]{mlr3misc::Dictonary}:
+\itemize{
+\item \link{Task} in \link{mlr_tasks}.
+\item \link{Learner} in \link{mlr_learners}.
+\item \link{Resampling} in \link{mlr_resamplings}.
+\item \link{Measure} in \link{mlr_measures}.
+}
+
+Additionally, each task has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
+Classification tasks default to the classification error in \link[=mlr_measure_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measure_regr.mse]{"regr.mse"}.
 }
 
 \examples{

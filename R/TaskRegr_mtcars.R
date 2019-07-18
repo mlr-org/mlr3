@@ -19,3 +19,6 @@ load_task_mtcars = function(id = "mtcars") {
   b$hash = "_mlr3_tasks_mtcars_"
   TaskRegr$new(id, b, target = "mpg")
 }
+
+#' @include mlr_tasks.R
+mlr_tasks$add("mtcars", load_task_mtcars)

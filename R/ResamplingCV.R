@@ -77,3 +77,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
     }
   )
 )
+
+#' @include mlr_resamplings.R
+mlr_resamplings$add("cv", ResamplingCV)
+mlr_resamplings$add("cv3", ResamplingCV, id = "cv3", param_vals = list(folds = 3L))

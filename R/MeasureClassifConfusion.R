@@ -94,6 +94,12 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
   )
 )
 
+#' @include mlr_measures.R
+for (type in confusion_measure_info$id) {
+  id = sprintf("classif.%s", type)
+  mlr_measures$add(id, MeasureClassifConfusion, id = id, type = type)
+}
+
 #' @rdname MeasureClassifConfusion
 #'
 #' @param m :: `matrix()`\cr

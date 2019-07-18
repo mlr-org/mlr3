@@ -63,8 +63,6 @@
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects.
 #'   Additionally calculates the provided performance measures and binds the performance as extra column.
-#'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
-#'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
 #'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
 #'
 #' * `aggregate(measures = NULL)`\cr

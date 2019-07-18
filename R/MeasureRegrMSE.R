@@ -25,3 +25,6 @@ MeasureRegrMSE = R6Class("MeasureRegrMSE",
     }
   )
 )
+
+#' @include mlr_measures.R
+mlr_measures$add("regr.mse", MeasureRegrMSE)

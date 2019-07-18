@@ -66,3 +66,6 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       list(train = do.call(c, map(instances, "train")), test = do.call(c, map(instances, "test")))
     })
 )
+
+#' @include mlr_resamplings.R
+mlr_resamplings$add("holdout", ResamplingHoldout)

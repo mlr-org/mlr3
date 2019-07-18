@@ -18,3 +18,6 @@ load_task_iris = function(id = "iris") {
   b$hash = "_mlr3_tasks_iris_"
   TaskClassif$new(id, b, target = "Species")
 }
+
+#' @include mlr_tasks.R
+mlr_tasks$add("iris", load_task_iris)

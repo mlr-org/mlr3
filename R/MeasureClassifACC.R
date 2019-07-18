@@ -25,3 +25,6 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
     }
   )
 )
+
+#' @include mlr_measures.R
+mlr_measures$add("classif.acc", MeasureClassifACC)

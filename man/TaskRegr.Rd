@@ -50,7 +50,7 @@ Example regression task: \code{\link[=mlr_tasks_boston_housing]{boston_housing}}
 
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskSupervised}}, \code{\link{Task}},
-  \code{\link{mlr_generators}}, \code{\link{mlr_tasks}}
+  \code{\link{mlr_tasks}}
 }
 \concept{Task}
 \keyword{datasets}

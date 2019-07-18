@@ -40,3 +40,6 @@ load_task_german_credit = function(id = "german_credit") {
   b$hash = "_mlr3_tasks_german_credit_"
   TaskClassif$new(id, b, target = "credit_risk", positive = "good")
 }
+
+#' @include mlr_tasks.R
+mlr_tasks$add("german_credit", load_task_german_credit)

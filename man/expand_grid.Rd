@@ -7,14 +7,11 @@
 expand_grid(tasks, learners, resamplings)
 }
 \arguments{
-\item{tasks}{:: (list of \link{Task} | \code{character()})\cr
-Instead a \link{Task} object, it is also possible to provide a keys to retrieve tasks from the \link{mlr_tasks} dictionary.}
+\item{tasks}{:: list of \link{Task}.}
 
-\item{learners}{(list of \link{Learner} | \code{character()})\cr
-Instead if a \link{Learner} object, it is also possible to provide keys to retrieve learners from the \link{mlr_learners} dictionary.}
+\item{learners}{:: list of \link{Learner}.}
 
-\item{resamplings}{:: (list of \link{Resampling} | \code{character()})\cr
-Instead if a \link{Resampling} object, it is also possible to provide a key to retrieve a resampling from the \link{mlr_resamplings} dictionary.}
+\item{resamplings}{:: list of \link{Resampling}.}
 }
 \value{
 (\code{\link[=data.table]{data.table()}}) with the cross product of the input vectors.
@@ -25,3 +22,20 @@ generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a
 
 Resampling strategies may not be instantiated, and will be instantiated per task internally.
 }
+\section{Syntactic Sugar}{
+
+
+The mlr3 package provides some shortcuts to ease the creation of its objects.
+
+First, instead of the objects themselves, it is possible to pass a \code{character()} vector which is used to lookup the provided keys in a \link[mlr3misc:Dictonary]{mlr3misc::Dictonary}:
+\itemize{
+\item \link{Task} in \link{mlr_tasks}.
+\item \link{Learner} in \link{mlr_learners}.
+\item \link{Resampling} in \link{mlr_resamplings}.
+\item \link{Measure} in \link{mlr_measures}.
+}
+
+Additionally, each task has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
+Classification tasks default to the classification error in \link[=mlr_measure_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measure_regr.mse]{"regr.mse"}.
+}
+

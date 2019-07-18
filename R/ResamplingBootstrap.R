@@ -78,3 +78,6 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
     }
   )
 )
+
+#' @include mlr_resamplings.R
+mlr_resamplings$add("bootstrap", ResamplingBootstrap)

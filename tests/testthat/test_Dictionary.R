@@ -25,19 +25,4 @@ test_that("Dictionaries are populated", {
   expect_data_table(as.data.table(mlr_learners), nrows = length(mlr_learners$keys()), min.cols = 2L)
   expect_data_table(as.data.table(mlr_resamplings), nrows = length(mlr_resamplings$keys()), min.cols = 2L)
   expect_data_table(as.data.table(mlr_measures), nrows = length(mlr_measures$keys()), min.cols = 2L)
-
-  expect_true("classif.rpart" %in% mlr_learners$keys())
-  mlr_learners$remove("classif.rpart")
-  expect_false("classif.rpart" %in% mlr_learners$keys())
-  populate_dictionaries()
-  expect_true("classif.rpart" %in% mlr_learners$keys())
-})
-
-test_that("Error when a package containing the dataset is not installed", {
-  test_task = DictionaryTask$new()
-  test_task$add("missing_package", function() {
-    b = DataBackendDataTableVirtualKey$new(data = load_dataset("xxx", "missing_package_123"))
-    TaskClassif$new("missing_package", b, target = "x", positive = "y")
-  })
-  expect_error(test_task$get("missing_package"))
 })

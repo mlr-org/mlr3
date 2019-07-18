@@ -19,3 +19,6 @@ load_task_sonar = function(id = "sonar") {
   b$hash = "_mlr3_tasks_sonar_"
   TaskClassif$new(id, b, target = "Class", positive = "M")
 }
+
+#' @include mlr_tasks.R
+mlr_tasks$add("sonar", load_task_sonar)

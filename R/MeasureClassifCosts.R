@@ -102,6 +102,9 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
   )
 )
 
+#' @include mlr_measures.R
+mlr_measures$add("classif.costs", MeasureClassifCosts)
+
 assert_cost_matrix = function(costs, task = NULL) {
   if (is.null(task)) {
     assert_matrix(costs, mode = "numeric", any.missing = FALSE, col.names = "unique", row.names = "unique")

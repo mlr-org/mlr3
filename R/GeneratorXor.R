@@ -27,3 +27,6 @@ GeneratorXor = R6Class("GeneratorXor",
     }
   )
 )
+
+#' @include mlr_generators.R
+mlr_generators$add("xor", GeneratorXor)

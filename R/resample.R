@@ -3,23 +3,15 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task :: ([Task] | `character(1)`)\cr
-#'   Object of type [Task].
-#'   Instead if a [Task] object, it is also possible to provide a key to retrieve a task from the [mlr_tasks] dictionary.
-#' @param learner :: ([Learner] | `character(1)`)\cr
-#'   Object of type [Learner].
-#'   Instead if a [Learner] object, it is also possible to provide a key to retrieve a learner from the [mlr_learners] dictionary.
-#' @param resampling :: ([Resampling] | `character(1)`)\cr
-#'   Object of type [Resampling].
-#'   Instead if a [Resampling] object, it is also possible to provide a key to retrieve a resampling from the [mlr_resamplings] dictionary.
+#' @param task :: [Task].
+#' @param learner :: [Learner].
+#' @param resampling :: [Resampling].
 #' @param ctrl :: named `list()`\cr
 #'   Object to control learner execution. See [mlr_control()] for details.
 #' @return [ResampleResult].
 #'
-#' @section Parallelization:
-#' This function can be parallelized with the \CRANpkg{future} package.
-#' One jobs is one resampling iteration, and all jobs are forwarded to the \CRANpkg{future} package together.
-#' To select a parallel backend, use [future::plan()].
+#' @template section-sugar
+#' @template section-parallelization
 #'
 #' @note
 #' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
