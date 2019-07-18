@@ -1,6 +1,5 @@
 context("fallback")
 
-
 test_that("simple fallback", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.debug")
@@ -9,8 +8,9 @@ test_that("simple fallback", {
   learner$fallback = mlr_learners$get("classif.featureless")
   learner$train(task)
 
-  expect_is(learner$data$fallback_model, "classif.featureless_model")
+  expect_is(learner$data$fallback_data$model, "classif.featureless_model")
   expect_null(learner$data$model)
+  expect_number(learner$data$train_time, lower = 0)
 
-  learner$predict(task)
+  expect_prediction(learner$predict(task))
 })

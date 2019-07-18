@@ -30,7 +30,8 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   if (!is.null(fb)) {
     fb = assert_learner(fb)
     require_namespaces(fb$packages)
-    learner$data$fallback_model = fb$train_internal(task)
+    fb$train(task)
+    learner$data$fallback_data = fb$data
   }
 
   learner$data$model = result$result
@@ -86,6 +87,7 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
       stopf("No model available")
     }
     fb = assert_learner(fb)
+    fb$data = learner$data$fallback_data
     require_namespaces(fb$packages)
     learner$data$predict_log = data.table()
     learner$data$predict_time = NA_real_
