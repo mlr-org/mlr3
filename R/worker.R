@@ -22,7 +22,7 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   }
 
   # call wrapper with encapsulation
-  enc = encapsulate(learner$encapsulate[["train"]])
+  enc = encapsulate(learner$encapsulate["train"])
   result = enc(wrapper, list(learner = learner, task = task), learner$packages, seed = NA_integer_)
 
   # fit fallback learner
@@ -74,14 +74,17 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
     task$row_roles$use = row_ids
   }
 
+  prediction = NULL
   if (!is.null(learner$model)) {
     # call predict with encapsulation
-    enc = encapsulate(learner$encapsulate[["predict"]])
+    enc = encapsulate(learner$encapsulate["predict"])
     result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = NA_integer_)
     learner$data$predict_log = result$log
     learner$data$predict_time = result$elapsed
     prediction = result$result
-  } else {
+  }
+
+  if (is.null(prediction)) {
     fb = learner$fallback
     if (is.null(fb)) {
       stopf("No model available")

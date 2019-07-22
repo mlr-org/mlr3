@@ -1,5 +1,5 @@
 encapsulate = function(method) {
-  if (is.null(method))
+  if (is.na(method))
     return(encapsulate_dummy)
   switch(method,
     "none" = encapsulate_dummy,
