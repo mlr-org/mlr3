@@ -12,7 +12,7 @@
 #' Breiman, L. (1984).
 #' Classification and Regression Trees.
 #' New York: Routledge.
-#' \url{https://doi.org/10.1201/9781315139470}
+#' \doi{10.1201/9781315139470}.
 #'
 #' @export
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
