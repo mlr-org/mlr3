@@ -181,10 +181,10 @@ run_experiment = function(task, learner) {
   mlr3::assert_task(task)
   learner = mlr3::assert_learner(learner, task = task, clone = TRUE)
   prediction = NULL
-  ctrl = list(encapsulate_train = "evaluate", encapsulate_predict = "evaluate")
+  learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 
   stage = "train()"
-  ok = try(learner$train(task, ctrl = ctrl), silent = TRUE)
+  ok = try(learner$train(task), silent = TRUE)
   if (inherits(ok, "try-error"))
     return(err(as.character(ok)))
   log = learner$log[stage == "train"]

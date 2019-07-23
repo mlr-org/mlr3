@@ -85,6 +85,15 @@
 #' * `packages` :: `character()`\cr
 #'   Stores the names of required packages.
 #'
+#' * `encapsulate` (named `character()`)\cr
+#'   How to call the code in `train_internal()` and `predict_internal()`.
+#'   Must be a named character vector with names `"train"` and `"predict"`.
+#'   Possible values are `"none"`, `"evaluate"` and `"callr"`.
+#'   See [mlr3misc::encapsulate()] for more details.
+#' * `fallback` ([Learner])\cr
+#'   Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+#'   Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
+#'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
@@ -93,6 +102,7 @@
 #'
 #' * `timings` :: `numeric(2)`\cr
 #'   Elapsed time in seconds for the steps `"train"` and `"predict"`.
+#'   Measured via [mlr3misc::encapsulate()].
 #'
 #' * `log` :: [data.table::data.table()]\cr
 #'   Returns the output (including warning and errors) as table with columns
@@ -181,6 +191,7 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       private$.param_set = assert_param_set(param_set)
+      private$.encapsulate = c(train = "none", predict = "none")
       self$param_set$values = param_vals
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_sorted_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
@@ -211,9 +222,6 @@ Learner = R6Class("Learner",
       if (!is.null(row_ids))
         row_ids = assert_row_ids(row_ids)
       ctrl = mlr_control(ctrl)
-      if (is.null(self$data$model)) {
-        stopf("No model available, call `train()` first")
-      }
       learner_predict(self, task, row_ids, ctrl)
     },
 
@@ -244,7 +252,6 @@ Learner = R6Class("Learner",
       if (nrow(tab) == 0L)
         tab = data.table(stage = character(), class = character(), msg = character())
       tab$stage = as_factor(tab$stage, levels = c("train", "predict"))
-      tab$class = as_factor(tab$class, levels = mlr_reflections$log_classes)
       tab
     },
 
@@ -276,10 +283,19 @@ Learner = R6Class("Learner",
         stop("param_set is read-only.")
       }
       private$.param_set
+    },
+
+    encapsulate = function(rhs) {
+      if (missing(rhs))
+        return(private$.encapsulate)
+      assert_character(rhs)
+      assert_names(names(rhs), subset.of = c("train", "predict"))
+      private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
     }
   ),
 
   private = list(
+    .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL
   )
@@ -288,10 +304,10 @@ Learner = R6Class("Learner",
 
 learner_print = function(self) {
   catf(format(self))
-  catf(str_indent("Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
-  catf(str_indent("Parameters:", as_short_string(self$param_set$values, 1000L)))
-  catf(str_indent("Packages:", self$packages))
-  catf(str_indent("Predict Type:", self$predict_type))
-  catf(str_indent("Feature types:", self$feature_types))
-  catf(str_indent("Properties:", self$properties))
+  catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
+  catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+  catf(str_indent("* Packages:", self$packages))
+  catf(str_indent("* Predict Type:", self$predict_type))
+  catf(str_indent("* Feature types:", self$feature_types))
+  catf(str_indent("* Properties:", self$properties))
 }

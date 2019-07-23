@@ -4,10 +4,18 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
   wrapper = function(learner, task) {
-    model = learner$train_internal(task = task)
+    tryCatch(
+      { model = learner$train_internal(task = task) },
+      error = function(e) {
+        e$message = sprintf("Learner '%s' on task '%s' failed to fit: %s", learner$id, task$id, e$message)
+        stop(e)
+      }
+    )
+
     if (is.null(model)) {
-      stopf("Learner '%s' returned NULL during train_internal()", learner$id)
+      stopf("Learner '%s' on task '%s' returned NULL during train_internal()", learner$id, task$id)
     }
+
     model
   }
 
@@ -22,8 +30,25 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   }
 
   # call wrapper with encapsulation
-  enc = encapsulate(ctrl$encapsulate_train)
-  result = enc(wrapper, list(learner = learner, task = task), learner$packages, seed = NA_integer_)
+  result = encapsulate(learner$encapsulate["train"],
+    .f = wrapper,
+    .args = list(learner = learner, task = task),
+    .pkgs = learner$packages,
+    .seed = NA_integer_
+  )
+
+  if (is.null(result$result)) {
+    lg$debug("Learner '%s' on task '%s' did not fit a model", learner$id, task$id, learner = learner$clone(), task = task$clone())
+  }
+
+  # fit fallback learner
+  fb = learner$fallback
+  if (!is.null(fb)) {
+    fb = assert_learner(fb)
+    require_namespaces(fb$packages)
+    fb$train(task)
+    learner$data$fallback_data = fb$data
+  }
 
   learner$data$model = result$result
   learner$data$train_log = result$log
@@ -38,19 +63,25 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
 learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
   wrapper = function(task, learner) {
     if (is.null(learner$data$model)) {
-      stopf("No trained model available")
+      stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
     }
 
-    result = learner$predict_internal(task = task)
+    tryCatch(
+      { result = learner$predict_internal(task = task) },
+      error = function(e) {
+        e$message = sprintf("Learner '%s' on task '%s' failed to predict: %s", learner$id, task$id, e$message)
+        stop(e)
+      }
+    )
 
     if (!inherits(result, "Prediction")) {
-      stopf("Learner '%s' did not return a Prediction object, but instead: %s",
-        learner$id, as_short_string(result))
+      stopf("Learner '%s' on task '%s' did not return a Prediction object, but instead: %s",
+        learner$id, task$id, as_short_string(result))
     }
 
     unsupported = setdiff(names(result$data), c("row_ids", "truth", learner$predict_types))
     if (length(unsupported)) {
-      stopf("Learner '%s' returned result for unsupported predict type '%s'", learner$id, head(unsupported, 1L))
+      stopf("Learner '%s' on task '%s' returned result for unsupported predict type '%s'", learner$id, task$id, head(unsupported, 1L))
     }
 
     return(result)
@@ -65,13 +96,31 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
     task$row_roles$use = row_ids
   }
 
-  # call predict with encapsulation
-  enc = encapsulate(ctrl$encapsulate_predict)
-  result = enc(wrapper, list(task = task, learner = learner), learner$packages, seed = NA_integer_)
+  prediction = NULL
+  if (!is.null(learner$model)) {
+    # call predict with encapsulation
+    result = encapsulate(
+      learner$encapsulate["predict"],
+      .f = wrapper,
+      .args = list(task = task, learner = learner),
+      .pkgs = learner$packages,
+      .seed = NA_integer_
+    )
 
-  learner$data$predict_log = result$log
-  learner$data$predict_time = result$elapsed
-  return(result$result)
+    prediction = result$result
+    learner$data$predict_log = result$log
+    learner$data$predict_time = result$elapsed
+  }
+
+  fb = learner$fallback
+  if (is.null(prediction) && !is.null(fb)) {
+    fb = assert_learner(fb)
+    fb$data = learner$data$fallback_data
+    require_namespaces(fb$packages)
+    prediction = fb$predict(task)
+  }
+
+  return(prediction)
 }
 
 

@@ -77,6 +77,10 @@
 #' @export
 #' @examples
 #' rr = resample("iris", "classif.featureless", "cv3")
+#' print(rr)
+#' rr$aggregate("classif.acc")
+#' rr$prediction
+#' rr$prediction$confusion
 #' rr$warnings
 #' rr$errors
 ResampleResult = R6Class("ResampleResult",
@@ -96,8 +100,16 @@ ResampleResult = R6Class("ResampleResult",
 
     print = function() {
       catf("%s of %i iterations", format(self), nrow(self$data))
-      catf(str_indent("Task:", self$task$id))
-      catf(str_indent("Learner:", self$data$learner[[1L]]$id))
+      catf(str_indent("* Task:", self$task$id))
+      catf(str_indent("* Learner:", self$data$learner[[1L]]$id))
+      perf = self$aggregate()
+      catf(str_indent("* Performance:", sprintf("%.3f [%s]", perf, names(perf))))
+
+      warnings = self$warnings
+      catf(str_indent("* Warnings:", sprintf("%i in %i iterations", nrow(warnings), uniqueN(warnings, by = "iteration"))))
+
+      errors = self$errors
+      catf(str_indent("* Errors:", sprintf("%i in %i iterations", nrow(errors), uniqueN(errors, by = "iteration"))))
     },
 
     combine = function(rr) {
@@ -112,7 +124,11 @@ ResampleResult = R6Class("ResampleResult",
       measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]])
       assert_flag(ids)
       score = function(prediction, task, learner, resampling, iteration) {
+        if (is.null(prediction)) {
+          set_names(list(NA_real_), ids(measures))
+        } else {
         as.list(prediction$score(measures, task = task, learner = learner, train_set = resampling$train_set(iteration)))
+        }
       }
       tab = cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score))
       if (ids) {
@@ -155,12 +171,12 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     warnings = function() {
-      extract = function(learner) list(warning = learner$warnings)
+      extract = function(learner) list(msg = learner$warnings)
       rbindlist(map(self$data$learner, extract), idcol = "iteration", use.names = TRUE)
     },
 
     errors = function() {
-      extract = function(learner) list(warning = learner$errors)
+      extract = function(learner) list(msg = learner$errors)
       rbindlist(map(self$data$learner, extract), idcol = "iteration", use.names = TRUE)
     }
   ),

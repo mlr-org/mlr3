@@ -16,8 +16,6 @@ local({
   ### options
   mlr_reflections$mlr_control_defaults = list(
     store_models = FALSE,
-    encapsulate_train = "none",
-    encapsulate_predict = "none",
     log_threshold = 400L
   )
 
@@ -75,7 +73,4 @@ local({
 
   ### ResampleResult
   mlr_reflections$rr_names = c("task", "learner", "resampling", "iteration", "prediction")
-
-  ### Log
-  mlr_reflections$log_classes = c("output", "warning", "error")
 })

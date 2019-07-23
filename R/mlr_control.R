@@ -7,29 +7,11 @@
 #'   If `FALSE` (default), models fitted during [resample()] and [benchmark()] are discarded.
 #'   Note that you will be unable to predict on new data or extract additional information like
 #'   variable importance from the learner.
-#' * `encapsulate_train` (`character(1)`):\cr
-#'   How to call external code in third party packages during train.
-#'     - If set to `"none"` (default), the code is executed in the running session without error handling.
-#'       Output is not stored, just send to the console.
-#'     - If set to `"evaluate"`, the exceptions are caught using [evaluate::evaluate()].
-#'       All output can be accessed via the learner field `$log`.
-#'       \CRANpkg{evaluate} does not start a separate session, and thus cannot guard you against segfaults.
-#'     - If set to `"callr"`, the code is executed in an independent R session using the \CRANpkg{callr} package.
-#'       All output can be accessed via the learner field `$log`.
-#'       This guards your session from segfaults, at the cost of some computational overhead.
-#' * `encapsulate_predict` (`character(1)`):\cr
-#'   How to call external code in third party packages during predict. Same format as `encapsulate_train`.
 #'
 #' **Defaults**
 #' ```
 #' $store_models
 #' TRUE
-#'
-#' $encapsulate_train
-#' "none"
-#'
-#' $encapsulate_predict
-#' "none"
 #'
 #' $log_threshold
 #' 400
@@ -69,8 +51,6 @@ mlr_control = function(...) {
     stopf("Unknown option '%s'!%s", names(dots)[ii], did_you_mean(names(dots)[ii], names(ctrl)))
   }
   assert_flag(dots$store_models, null.ok = TRUE)
-  assert_choice(dots$encapsulate_train, c("none", "evaluate", "callr"), null.ok = TRUE)
-  assert_choice(dots$encapsulate_predict, c("none", "evaluate", "callr"), null.ok = TRUE)
   ctrl[names(dots)] = dots
   ctrl
 }
