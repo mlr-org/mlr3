@@ -81,6 +81,10 @@ Returns a copy of the internal data.
 
 \examples{
 rr = resample("iris", "classif.featureless", "cv3")
+print(rr)
+rr$aggregate("classif.acc")
+rr$prediction
+rr$prediction$confusion
 rr$warnings
 rr$errors
 }
