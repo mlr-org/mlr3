@@ -82,12 +82,12 @@ test_that("encapsulation / benchmark", {
 
   bmr = benchmark(expand_grid(task, learner, "cv3"))
   aggr = bmr$aggregate(warnings = TRUE, errors = TRUE)
-  expect_data_table(aggr$warnings[[1L]], nrows = 3L)
-  expect_data_table(aggr$errors[[1L]], nrows = 0L)
+  expect_equal(aggr$warnings, 3L)
+  expect_equal(aggr$errors, 0L)
 
   learner$param_set$values = list(warning_train = TRUE, error_predict = TRUE)
   bmr = benchmark(expand_grid(task, learner, "cv3"))
   aggr = bmr$aggregate(warnings = TRUE, errors = TRUE)
-  expect_data_table(aggr$warnings[[1]], nrows = 3L)
-  expect_data_table(aggr$errors[[1L]], nrows = 3L)
+  expect_equal(aggr$warnings, 3L)
+  expect_equal(aggr$errors, 3L)
 })

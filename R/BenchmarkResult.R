@@ -48,9 +48,9 @@
 #'       Adds the hyperparameter values as extra list column `"params"`.
 #'       You can unnest them with [mlr3misc::unnest()].
 #'     * `warnings` :: `logical(1)`\cr
-#'       Adds the log of warnings (as extracted from [ResampleResult]) as extra list column `"warnings"`.
+#'       Adds the number of resampling iterations with at least one warning as extra integer column `"warnings"`.
 #'     * `errors` :: `logical(1)`\cr
-#'       Adds the log of errors (as extracted from [ResampleResult]) as extra list column `"errors"`.
+#'       Adds the number of resampling iterations with errors as extra integer column `"errors"`.
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
@@ -126,10 +126,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       catf("%s of %i rows with %i resampling runs",
         format(self), nrow(self$data), uniqueN(self$data$hash))
       tab = self$aggregate(warnings = TRUE, errors = TRUE)
-      tab$wrn = map_int(tab$warnings, uniqueN, by = "iteration")
-      tab$err = map_int(tab$errors, uniqueN, by = "iteration")
-      tab = remove_named(tab, c("hash", "resample_result", "warnings", "errors"))
-      setcolorder(tab, c("task_id", "learner_id", "resampling_id", "wrn", "err"))
+      tab = remove_named(tab, c("hash", "resample_result"))
       print(tab, class = FALSE, print.keys = FALSE, row.names = FALSE, digits = 3)
     },
 
@@ -166,11 +163,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (assert_flag(warnings)) {
-        res[, "warnings" := list(map(get("resample_result"), "warnings"))]
+        res[, "warnings" := map_int(get("resample_result"), function(rr) uniqueN(rr$warnings, by = "iteration"))]
       }
 
       if (assert_flag(errors)) {
-        res[, "errors" := list(map(get("resample_result"), "errors"))]
+        res[, "errors" := map_int(get("resample_result"), function(rr) uniqueN(rr$errors, by = "iteration"))]
       }
 
       rcbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
