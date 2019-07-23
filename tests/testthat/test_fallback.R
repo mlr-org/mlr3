@@ -1,17 +1,25 @@
 context("fallback")
 
-# test_that("train fails gracefully", {
-#   task = mlr_tasks$get("iris")
-#   learner = mlr_learners$get("classif.debug")
-#   learner$param_set$values = list(error_train = TRUE)
-#   learner$train(task)
-# })
+test_that("train fails gracefully", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.debug")
+  learner$param_set$values = list(error_train = TRUE)
+  expect_error(learner$train(task), "'classif.debug'")
+})
+
+test_that("predict fails gracefully", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.debug")
+  learner$param_set$values = list(error_predict = TRUE)
+  learner$train(task)
+  expect_error(learner$predict(task), "'classif.debug'")
+})
 
 test_that("fail during train", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.debug")
   learner$param_set$values = list(error_train = TRUE)
-  learner$encapsulate = c(train = "evaluate")
+  learner$encapsulate = c(train = "evaluate", predict = "none")
   learner$fallback = mlr_learners$get("classif.featureless")
   learner$train(task)
 

@@ -88,14 +88,8 @@
 #' * `encapsulate` (named `character()`)\cr
 #'   How to call the code in `train_internal()` and `predict_internal()`.
 #'   Must be a named character vector with names `"train"` and `"predict"`.
-#'     - If set to `"none"` (default), the code is executed in the running session without error handling.
-#'       Output is not stored, just send to the console.
-#'     - If set to `"evaluate"`, the exceptions are caught using [evaluate::evaluate()].
-#'       All output can be accessed via the learner field `$log`.
-#'       \CRANpkg{evaluate} does not start a separate session, and thus cannot guard you against segfaults.
-#'     - If set to `"callr"`, the code is executed in an independent R session using the \CRANpkg{callr} package.
-#'       All output can be accessed via the learner field `$log`.
-#'       This guards your session from segfaults, at the cost of some computational overhead.
+#'   Possible values are `"none"`, `"evaluate"` and `"callr"`.
+#'   See [mlr3misc::encapsulate()] for more details.
 #' * `fallback` ([Learner])\cr
 #'   Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
 #'   Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
@@ -108,6 +102,7 @@
 #'
 #' * `timings` :: `numeric(2)`\cr
 #'   Elapsed time in seconds for the steps `"train"` and `"predict"`.
+#'   Measured via [mlr3misc::encapsulate()].
 #'
 #' * `log` :: [data.table::data.table()]\cr
 #'   Returns the output (including warning and errors) as table with columns
@@ -188,7 +183,6 @@ Learner = R6Class("Learner",
     properties = NULL,
     data_formats = NULL,
     packages = NULL,
-    encapsulate = character(),
     fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
@@ -197,6 +191,7 @@ Learner = R6Class("Learner",
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types)
       private$.param_set = assert_param_set(param_set)
+      private$.encapsulate = c(train = "none", predict = "none")
       self$param_set$values = param_vals
       self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_sorted_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
@@ -257,7 +252,6 @@ Learner = R6Class("Learner",
       if (nrow(tab) == 0L)
         tab = data.table(stage = character(), class = character(), msg = character())
       tab$stage = as_factor(tab$stage, levels = c("train", "predict"))
-      tab$class = as_factor(tab$class, levels = mlr_reflections$log_classes)
       tab
     },
 
@@ -289,10 +283,19 @@ Learner = R6Class("Learner",
         stop("param_set is read-only.")
       }
       private$.param_set
+    },
+
+    encapsulate = function(rhs) {
+      if (missing(rhs))
+        return(private$.encapsulate)
+      assert_character(rhs)
+      assert_names(names(rhs), subset.of = c("train", "predict"))
+      private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
     }
   ),
 
   private = list(
+    .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL
   )

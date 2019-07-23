@@ -1,37 +1,7 @@
 context("encapsulate")
 
-test_that("encapsulate", {
-  fun1 = function(...) {
-    message("foo")
-    warning("bar\nfoobar")
-    return(99L)
-  }
-
-  fun2 = function(...) {
-    1L
-  }
-
-  for (e in list(encapsulate_callr, encapsulate_evaluate)) {
-    res = e(fun1)
-    log = res$log
-    expect_identical(res$result, 99L)
-    expect_number(res$elapsed, lower = 0)
-    expect_data_table(log)
-    expect_set_equal(as.character(log$class), c("output", "warning"))
-    expect_true(log[class == "warning", grepl("\n", msg, fixed = TRUE)])
-
-    res = e(fun2)
-    log = res$log
-    expect_identical(res$result, 1L)
-    expect_number(res$elapsed, lower = 0)
-    expect_null(log$log)
-  }
-})
-
-
-
 disable_encapsulation = function(learner) {
-  learner$encapsulate = NULL
+  learner$encapsulate = c(train = "none", predict = "none")
   learner
 }
 

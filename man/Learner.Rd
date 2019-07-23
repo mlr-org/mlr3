@@ -75,16 +75,8 @@ Stores the names of required packages.
 \item \code{encapsulate} (named \code{character()})\cr
 How to call the code in \code{train_internal()} and \code{predict_internal()}.
 Must be a named character vector with names \code{"train"} and \code{"predict"}.
-\itemize{
-\item If set to \code{"none"} (default), the code is executed in the running session without error handling.
-Output is not stored, just send to the console.
-\item If set to \code{"evaluate"}, the exceptions are caught using \code{\link[evaluate:evaluate]{evaluate::evaluate()}}.
-All output can be accessed via the learner field \code{$log}.
-\CRANpkg{evaluate} does not start a separate session, and thus cannot guard you against segfaults.
-\item If set to \code{"callr"}, the code is executed in an independent R session using the \CRANpkg{callr} package.
-All output can be accessed via the learner field \code{$log}.
-This guards your session from segfaults, at the cost of some computational overhead.
-}
+Possible values are \code{"none"}, \code{"evaluate"} and \code{"callr"}.
+See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.
 \item \code{fallback} (\link{Learner})\cr
 Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
 Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
@@ -94,6 +86,7 @@ Hash (unique identifier) for this object.
 The fitted model. Only available after \code{$train()} has been called.
 \item \code{timings} :: \code{numeric(2)}\cr
 Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
+Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
 \item \code{log} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns the output (including warning and errors) as table with columns
 \code{"stage"} (train or predict), \code{"class"} (output, warning, error) and

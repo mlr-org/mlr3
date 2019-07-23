@@ -73,7 +73,4 @@ local({
 
   ### ResampleResult
   mlr_reflections$rr_names = c("task", "learner", "resampling", "iteration", "prediction")
-
-  ### Log
-  mlr_reflections$log_classes = c("output", "warning", "error")
 })
