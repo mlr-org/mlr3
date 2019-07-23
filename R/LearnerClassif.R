@@ -35,6 +35,13 @@
 #' # get a specific learner from mlr_learners:
 #' lrn = mlr_learners$get("classif.rpart")
 #' print(lrn)
+#'
+#' # train the learner:
+#' task = mlr_tasks$get("iris")
+#' lrn$train(task, 1:120)
+#'
+#' # predict on new observations:
+#' lrn$predict(task, 121:150)$confusion
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
