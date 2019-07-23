@@ -25,7 +25,5 @@ expand_grid = function(tasks, learners, resamplings) {
   grid$instance = seq_row(grid)
   grid = grid[CJ(task = seq_along(tasks), learner = seq_along(learners)), on = "task", allow.cartesian = TRUE]
 
-  design = data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
-  attr(design, "exhaustive_grid") = TRUE
-  design
+  data.table(task = tasks[grid$task], learner = learners[grid$learner], resampling = instances[grid$instance])
 }
