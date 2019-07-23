@@ -54,9 +54,9 @@ Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) 
 Adds the hyperparameter values as extra list column \code{"params"}.
 You can unnest them with \code{\link[mlr3misc:unnest]{mlr3misc::unnest()}}.
 \item \code{warnings} :: \code{logical(1)}\cr
-Adds the number of resampling iterations with at least one recorded warning as extra integer column \code{"warnings"}.
+Adds the log of warnings (as extracted from \link{ResampleResult}) as extra list column \code{"warnings"}.
 \item \code{errors} :: \code{logical(1)}\cr
-Adds the number of resampling iterations with at least one recorded error as extra integer column \code{"errors"}.
+Adds the log of errors (as extracted from \link{ResampleResult}) as extra list column \code{"errors"}.
 }
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
