@@ -12,6 +12,12 @@ test_that("no encapsulation", {
   expect_error(learner$predict(task), "classif.debug->predict")
 })
 
+test_that("no encapsulation / resampling", {
+  learner = mlr_learners$get("classif.debug", param_vals = list(error_train = TRUE))
+  expect_error(resample("iris", learner, "cv3"), "'classif.debug'")
+})
+
+
 test_that("encapsulation", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.debug")
@@ -63,6 +69,9 @@ test_that("encapsulation / resample", {
   rr = resample(task, learner, "cv3")
   expect_data_table(rr$warnings, nrows = 3L)
   expect_data_table(rr$errors, nrows = 3L)
+
+  expect_equal(unname(rr$aggregate()), NA_real_)
+  expect_equal(rr$performance()$classif.ce, rep(NA_real_, 3L))
 })
 
 test_that("encapsulation / benchmark", {

@@ -466,8 +466,8 @@ task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table")
 task_print = function(self) {
 
   catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
-  catf(str_indent("Target:", self$target_names))
-  catf(str_indent("Properties:", self$properties))
+  catf(str_indent("* Target:", self$target_names))
+  catf(str_indent("* Properties:", self$properties))
 
   types = self$feature_types
   if (nrow(types)) {
@@ -478,13 +478,13 @@ task_print = function(self) {
   }
 
   if (length(self$col_roles$order)) {
-    catf(str_indent("Order by:", self$col_roles$order))
+    catf(str_indent("* Order by:", self$col_roles$order))
   }
   if ("groups" %in% self$properties) {
-    catf(str_indent("Groups:", self$col_roles$groups))
+    catf(str_indent("* Groups:", self$col_roles$groups))
   }
   if ("weights" %in% self$properties) {
-    catf(str_indent("Weights:", self$col_roles$weights))
+    catf(str_indent("* Weights:", self$col_roles$weights))
   }
 }
 

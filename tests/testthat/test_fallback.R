@@ -44,3 +44,16 @@ test_that("fail during predict", {
 
   expect_prediction(learner$predict(task))
 })
+
+test_that("fail during resample", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.debug")
+  learner$param_set$values = list(error_predict = TRUE)
+  learner$encapsulate = c(predict = "evaluate")
+  learner$fallback = mlr_learners$get("classif.featureless")
+
+  rr = resample("iris", learner, "cv3")
+  expect_data_table(rr$errors, nrows = 3)
+  expect_number(rr$aggregate())
+  expect_number(rr$aggregate())
+})

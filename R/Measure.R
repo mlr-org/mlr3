@@ -136,11 +136,11 @@ Measure = R6Class("Measure",
 
     print = function() {
       catf(format(self))
-      catf(str_indent("Packages:", self$packages))
-      catf(str_indent("Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
-      catf(str_indent("Minimize:", self$minimize))
-      catf(str_indent("Properties:", self$properties))
-      catf(str_indent("Predict type:", self$predict_type))
+      catf(str_indent("* Packages:", self$packages))
+      catf(str_indent("* Range:", sprintf("[%g, %g]", self$range[1L], self$range[2L])))
+      catf(str_indent("* Minimize:", self$minimize))
+      catf(str_indent("* Properties:", self$properties))
+      catf(str_indent("* Predict type:", self$predict_type))
     },
 
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
@@ -162,7 +162,11 @@ Measure = R6Class("Measure",
     aggregate = function(rr) {
       aggregator = self$aggregator %??% mean
       score = function(prediction, task, learner, resampling, iteration) {
-        self$score(prediction, task = task, learner = learner, train_set = resampling$train_set(iteration))
+        if (is.null(prediction)) {
+          NA_real_
+        } else {
+          self$score(prediction, task = task, learner = learner, train_set = resampling$train_set(iteration))
+        }
       }
       performance = pmap_dbl(rr$data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score)
       aggregator(performance)

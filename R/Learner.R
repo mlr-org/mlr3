@@ -304,10 +304,10 @@ Learner = R6Class("Learner",
 
 learner_print = function(self) {
   catf(format(self))
-  catf(str_indent("Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
-  catf(str_indent("Parameters:", as_short_string(self$param_set$values, 1000L)))
-  catf(str_indent("Packages:", self$packages))
-  catf(str_indent("Predict Type:", self$predict_type))
-  catf(str_indent("Feature types:", self$feature_types))
-  catf(str_indent("Properties:", self$properties))
+  catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
+  catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+  catf(str_indent("* Packages:", self$packages))
+  catf(str_indent("* Predict Type:", self$predict_type))
+  catf(str_indent("* Feature types:", self$feature_types))
+  catf(str_indent("* Properties:", self$properties))
 }

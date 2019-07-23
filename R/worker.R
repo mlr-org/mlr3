@@ -106,9 +106,10 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
       .pkgs = learner$packages,
       .seed = NA_integer_
     )
+
+    prediction = result$result
     learner$data$predict_log = result$log
     learner$data$predict_time = result$elapsed
-    prediction = result$result
   }
 
   fb = learner$fallback
@@ -116,8 +117,6 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
     fb = assert_learner(fb)
     fb$data = learner$data$fallback_data
     require_namespaces(fb$packages)
-    learner$data$predict_log = data.table()
-    learner$data$predict_time = NA_real_
     prediction = fb$predict(task)
   }
 
