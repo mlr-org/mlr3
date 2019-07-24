@@ -41,35 +41,14 @@ confusion_measure_info = setindexv(rowwise_table(
 #' @include MeasureClassif.R
 #'
 #' @description
-#' Based on a confusion matrix for binary classification problems, allows to calculate various performance measures.
-#' Implemented are the following measures based on \url{https://en.wikipedia.org/wiki/Template:DiagnosticTesting_Diagram}:
-#'
-#' * `"tp"`: True Positives.
-#' * `"fn"`: False Negatives.
-#' * `"fp"`: False Positives.
-#' * `"tn"`: True Negatives.
-#' * `"tpr"`: True Positive Rate.
-#' * `"fnr"`: False Negative Rate.
-#' * `"fpr"`: False Positive Rate.
-#' * `"tnr"`: True Negative Rate.
-#' * `"ppv"`: Positive Predictive Value.
-#' * `"fdr"`: False Discovery Rate.
-#' * `"for"`: False Omission Rate.
-#' * `"npv"`: Negative Predictive Value.
-#' * `"precision"`: Alias for `"ppv"`.
-#' * `"recall"`: Alias for `"tpr"`.
-#' * `"sensitivity"`: Alias for `"tpr"`.
-#' * `"specificity"`: Alias for `"tnr"`.
-#'
-#' If the denominator is 0, the score is returned as `NA`.
+#' All implemented [Measure]s call [confusion_measures()] with the respective `type` internally.
 #'
 #' @export
 #' @examples
 #' task = mlr_tasks$get("german_credit")
 #' learner = mlr_learners$get("classif.rpart")
 #' p = learner$train(task)$predict(task)
-#' p$confusion
-#' round(confusion_measures(p$confusion), 2)
+#' round(p$score(c("classif.sensitivity", "classif.specificity")), 2)
 MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
   inherit = MeasureClassif,
   public = list(
@@ -100,15 +79,43 @@ for (type in confusion_measure_info$id) {
   mlr_measures$add(id, MeasureClassifConfusion, id = id, type = type)
 }
 
-#' @rdname MeasureClassifConfusion
+#' @title Calculate Confusion Measures
+#'
+#' @description
+#' Based on a 2x2 confusion matrix for binary classification problems, allows to calculate various performance measures.
+#' Implemented are the following measures based on \url{https://en.wikipedia.org/wiki/Template:DiagnosticTesting_Diagram}:
+#'
+#' * `"tp"`: True Positives.
+#' * `"fn"`: False Negatives.
+#' * `"fp"`: False Positives.
+#' * `"tn"`: True Negatives.
+#' * `"tpr"`: True Positive Rate.
+#' * `"fnr"`: False Negative Rate.
+#' * `"fpr"`: False Positive Rate.
+#' * `"tnr"`: True Negative Rate.
+#' * `"ppv"`: Positive Predictive Value.
+#' * `"fdr"`: False Discovery Rate.
+#' * `"for"`: False Omission Rate.
+#' * `"npv"`: Negative Predictive Value.
+#' * `"precision"`: Alias for `"ppv"`.
+#' * `"recall"`: Alias for `"tpr"`.
+#' * `"sensitivity"`: Alias for `"tpr"`.
+#' * `"specificity"`: Alias for `"tnr"`.
+#'
+#' If the denominator is 0, the returned score is `NA`.
 #'
 #' @param m :: `matrix()`\cr
 #'   Confusion matrix, e.g. as returned by field `confusion` of [PredictionClassif].
 #'   Truth is in columns, predicted response is in rows.
 #' @param type :: `character()`\cr
-#'   Selects the measure to use. See description.
-#'
+#'   Selects the measure to use. See description for possible values.
+#' @return (named `numeric()`) of confusion measures.
 #' @export
+#' @examples
+#' task = mlr_tasks$get("german_credit")
+#' learner = mlr_learners$get("classif.rpart")
+#' p = learner$train(task)$predict(task)
+#' round(confusion_measures(p$confusion), 2)
 confusion_measures = function(m, type = NULL) {
   assert_matrix(m, nrows = 2L, ncols = 2L, row.names = "unique", col.names = "unique")
   assert_names(rownames(m), identical.to = colnames(m))
