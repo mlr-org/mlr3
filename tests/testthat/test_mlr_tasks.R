@@ -8,3 +8,14 @@ test_that("mlr_tasks", {
     expect_task_supervised(t)
   }
 })
+
+test_that("load_x", {
+  ns = getNamespace("mlr3")
+  nn = names(ns)
+  nn = nn[startsWith(names(ns), "load_task")]
+
+  for (fun in nn) {
+    fun = match.fun(fun)
+    expect_task_supervised(fun())
+  }
+})

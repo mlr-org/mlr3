@@ -89,7 +89,7 @@ Returns a copy of the internal data.
 
 The mlr3 package provides some shortcuts to ease the creation of its objects.
 
-First, instead of the objects themselves, it is possible to pass a \code{character()} vector which is used to lookup the provided keys in a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
+First, instead of an object, it is possible to pass a string identifier which is used to lookup the object in a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
 \itemize{
 \item \link{Task} in \link{mlr_tasks}.
 \item \link{Learner} in \link{mlr_learners}.
@@ -97,7 +97,7 @@ First, instead of the objects themselves, it is possible to pass a \code{charact
 \item \link{Measure} in \link{mlr_measures}.
 }
 
-Additionally, each task has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
+Additionally, each task type has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
 Classification tasks default to the classification error in \link[=mlr_measures_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measures_regr.mse]{"regr.mse"}.
 }
 

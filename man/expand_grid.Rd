@@ -14,7 +14,7 @@ expand_grid(tasks, learners, resamplings)
 \item{resamplings}{:: list of \link{Resampling}.}
 }
 \value{
-(\code{\link[=data.table]{data.table()}}) with the cross product of the input vectors.
+(\code{\link[data.table:data.table]{data.table::data.table()}}) with the cross product of the input vectors.
 }
 \description{
 Takes a lists of \link{Task}, a list of \link{Learner} and a list of \link{Resampling} to
@@ -27,7 +27,7 @@ Resampling strategies may not be instantiated, and will be instantiated per task
 
 The mlr3 package provides some shortcuts to ease the creation of its objects.
 
-First, instead of the objects themselves, it is possible to pass a \code{character()} vector which is used to lookup the provided keys in a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
+First, instead of an object, it is possible to pass a string identifier which is used to lookup the object in a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
 \itemize{
 \item \link{Task} in \link{mlr_tasks}.
 \item \link{Learner} in \link{mlr_learners}.
@@ -35,7 +35,7 @@ First, instead of the objects themselves, it is possible to pass a \code{charact
 \item \link{Measure} in \link{mlr_measures}.
 }
 
-Additionally, each task has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
+Additionally, each task type has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
 Classification tasks default to the classification error in \link[=mlr_measures_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measures_regr.mse]{"regr.mse"}.
 }
 

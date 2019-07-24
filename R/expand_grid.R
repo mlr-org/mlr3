@@ -11,7 +11,7 @@
 #' @param resamplings :: list of [Resampling].
 #'
 #' @template section-sugar
-#' @return ([data.table()]) with the cross product of the input vectors.
+#' @return ([data.table::data.table()]) with the cross product of the input vectors.
 #' @export
 expand_grid = function(tasks, learners, resamplings) {
 
