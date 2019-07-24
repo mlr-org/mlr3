@@ -15,7 +15,7 @@ test_that("load_x", {
   nn = nn[startsWith(names(ns), "load_task")]
 
   for (fun in nn) {
-    fun = match.fun(fun)
+    fun = get(fun, envir = ns, mode = "function")
     expect_task_supervised(fun())
   }
 })
