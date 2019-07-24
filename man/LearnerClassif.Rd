@@ -38,6 +38,13 @@ names(lrns)
 # get a specific learner from mlr_learners:
 lrn = mlr_learners$get("classif.rpart")
 print(lrn)
+
+# train the learner:
+task = mlr_tasks$get("iris")
+lrn$train(task, 1:120)
+
+# predict on new observations:
+lrn$predict(task, 121:150)$confusion
 }
 \seealso{
 Example classification learner: \code{\link[=mlr_learners_classif.rpart]{classif.rpart}}.

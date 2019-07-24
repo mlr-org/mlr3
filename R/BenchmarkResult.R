@@ -48,9 +48,9 @@
 #'       Adds the hyperparameter values as extra list column `"params"`.
 #'       You can unnest them with [mlr3misc::unnest()].
 #'     * `warnings` :: `logical(1)`\cr
-#'       Adds the number of resampling iterations with at least one recorded warning as extra integer column `"warnings"`.
+#'       Adds the number of resampling iterations with at least one warning as extra integer column `"warnings"`.
 #'     * `errors` :: `logical(1)`\cr
-#'       Adds the number of resampling iterations with at least one recorded error as extra integer column `"errors"`.
+#'       Adds the number of resampling iterations with errors as extra integer column `"errors"`.
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
@@ -113,8 +113,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     initialize = function(data) {
       assert_data_table(data)
-      slots = mlr_reflections$rr_names
-      assert_names(names(data), must.include = c(slots, "hash"))
+      slots = c("hash", mlr_reflections$rr_names)
+      assert_names(names(data), must.include = slots)
       self$data = setcolorder(data, slots)
     },
 
@@ -125,6 +125,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
     print = function() {
       catf("%s of %i rows with %i resampling runs",
         format(self), nrow(self$data), uniqueN(self$data$hash))
+      tab = self$aggregate(warnings = TRUE, errors = TRUE)
+      tab = remove_named(tab, c("hash", "resample_result"))
+      print(tab, class = FALSE, print.keys = FALSE, row.names = FALSE, digits = 3)
     },
 
     combine = function(bmr) {
@@ -160,13 +163,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (assert_flag(warnings)) {
-        extract = function(rr) uniqueN(rr$warnings, by = "iteration")
-        res[, "warnings" := map_int(get("resample_result"), extract)]
+        res[, "warnings" := map_int(get("resample_result"), function(rr) uniqueN(rr$warnings, by = "iteration"))]
       }
 
       if (assert_flag(errors)) {
-        extract = function(rr) uniqueN(rr$errors, by = "iteration")
-        res[, "errors" := map_int(get("resample_result"), extract)]
+        res[, "errors" := map_int(get("resample_result"), function(rr) uniqueN(rr$errors, by = "iteration"))]
       }
 
       rcbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))

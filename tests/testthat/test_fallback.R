@@ -55,5 +55,22 @@ test_that("fail during resample", {
   rr = resample("iris", learner, "cv3")
   expect_data_table(rr$errors, nrows = 3)
   expect_number(rr$aggregate())
-  expect_number(rr$aggregate())
+})
+
+test_that("incomplete predictions", {
+  task = mlr_tasks$get("iris")
+  learner = mlr_learners$get("classif.debug", predict_type = "prob")
+  learner$param_set$values = list(predict_missing = 0.5)
+  learner$fallback = mlr_learners$get("classif.featureless")
+
+  learner$train(task)
+  p = learner$predict(task)
+  expect_prediction(p)
+  expect_factor(p$response, any.missing = FALSE)
+  expect_matrix(p$prob, any.missing = FALSE)
+
+  rr = resample("iris", learner, "cv3")
+  expect_prediction(rr$prediction)
+  expect_factor(rr$prediction$response, any.missing = FALSE)
+  expect_matrix(rr$prediction$prob, any.missing = FALSE)
 })

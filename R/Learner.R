@@ -310,4 +310,10 @@ learner_print = function(self) {
   catf(str_indent("* Predict Type:", self$predict_type))
   catf(str_indent("* Feature types:", self$feature_types))
   catf(str_indent("* Properties:", self$properties))
+  w = self$warnings
+  e = self$errors
+  if (length(w))
+    catf(str_indent("* Warnings:", w))
+  if (length(e))
+    catf(str_indent("* Errors:", e))
 }
