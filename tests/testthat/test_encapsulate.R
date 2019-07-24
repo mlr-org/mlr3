@@ -12,7 +12,7 @@ enable_encapsulation = function(learner) {
 
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.debug")
-learner$param_set$values = list(message_train = TRUE, warning_train = TRUE, message_predict = TRUE, warning_predict = TRUE)
+learner$param_set$values = list(message_train = 1, warning_train = 1, message_predict = 1, warning_predict = 1)
 
 test_that("evaluate / single step", {
   row_ids = 1:120

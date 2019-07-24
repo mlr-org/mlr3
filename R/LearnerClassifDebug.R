@@ -9,14 +9,14 @@
 #' If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 #' The following hyperparameters trigger the following actions:
 #' \describe{
-#'    \item{message_train:}{Outputs a message during train.}
-#'    \item{message_predict:}{Outputs a message during predict.}
-#'    \item{warning_train:}{Signals a warning during train.}
-#'    \item{warning_predict:}{Signals a warning during predict.}
-#'    \item{error_train:}{Raises an exception during train.}
-#'    \item{error_predict:}{Raises an exception during predict.}
-#'    \item{segfault_train:}{Provokes a segfault during train.}
-#'    \item{segfault_predict:}{Provokes a segfault during predict.}
+#'    \item{message_train:}{Outputs a message during train if `runif(1)` exceeds its value.}
+#'    \item{message_predict:}{Outputs a message during predict if `runif(1)` exceeds its value.}
+#'    \item{warning_train:}{Signals a warning during train if `runif(1)` exceeds its value.}
+#'    \item{warning_predict:}{Signals a warning during predict if `runif(1)` exceeds its value.}
+#'    \item{error_train:}{Raises an exception during train if `runif(1)` exceeds its value.}
+#'    \item{error_predict:}{Raises an exception during predict if `runif(1)` exceeds its value.}
+#'    \item{segfault_train:}{Provokes a segfault during train if `runif(1)` exceeds its value.}
+#'    \item{segfault_predict:}{Provokes a segfault during predict if `runif(1)` exceeds its value.}
 #'    \item{predict_missing}{Ratio of predictions which will be NA.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
 #'    \item{x:}{Numeric parameter. Ignored.}
@@ -44,14 +44,14 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(
           params = list(
-            ParamLgl$new("message_train", tags = "train"),
-            ParamLgl$new("message_predict", tags = "predict"),
-            ParamLgl$new("warning_train", tags = "train"),
-            ParamLgl$new("warning_predict", tags = "predict"),
-            ParamLgl$new("error_train", tags = "train"),
-            ParamLgl$new("error_predict", tags = "predict"),
-            ParamLgl$new("segfault_train", tags = "train"),
-            ParamLgl$new("segfault_predict", tags = "predict"),
+            ParamDbl$new("message_train", lower = 0, upper = 1, default = 0, tags = "train"),
+            ParamDbl$new("message_predict", lower = 0, upper = 1, default = 0, tags = "predict"),
+            ParamDbl$new("warning_train", lower = 0, upper = 1, default = 0, tags = "train"),
+            ParamDbl$new("warning_predict", lower = 0, upper = 1, default = 0, tags = "predict"),
+            ParamDbl$new("error_train", lower = 0, upper = 1, default = 0, tags = "train"),
+            ParamDbl$new("error_predict", lower = 0, upper = 1, default = 0, tags = "predict"),
+            ParamDbl$new("segfault_train", lower = 0, upper = 1, default = 0, tags = "train"),
+            ParamDbl$new("segfault_predict", lower = 0, upper = 1, default = 0, tags = "predict"),
             ParamDbl$new("predict_missing", lower = 0, upper = 1, default = 0, tags = "predict"),
             ParamLgl$new("save_tasks", tags = c("train", "predict")),
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
@@ -63,17 +63,19 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
 
     train_internal = function(task) {
       pv = self$param_set$get_values(tags = "train")
-      if (isTRUE(pv$message_train)) {
+      lookup = function(name) { name %in% names(pv) && pv[[name]] > runif(1L) }
+
+      if (lookup("message_train")) {
         message("Message from classif.debug->train()")
       }
-      if (isTRUE(pv$warning_train)) {
+      if (lookup("warning_train")) {
         warning("Warning from classif.debug->train()")
       }
-      if (isTRUE(pv$error_train)) {
+      if (lookup("error_train")) {
         stop("Error from classif.debug->train()")
       }
-      if (isTRUE(pv$segfault_train)) {
-        get("attach")(structure(list(), class = "UserDefinedDatabase"))
+      if (lookup("segfault_train")) {
+        get("attach")(structure(liut(), class = "UserDefinedDatabase"))
       }
 
       model = list(response = as.character(sample(task$truth(), 1L)))
@@ -86,16 +88,18 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
     predict_internal = function(task) {
       n = task$nrow
       pv = self$param_set$get_values(tags = "predict")
-      if (isTRUE(pv$message_predict)) {
+      lookup = function(name) { name %in% names(pv) && pv[[name]] > runif(1L) }
+
+      if (lookup("message_predict")) {
         message("Message from classif.debug->predict()")
       }
-      if (isTRUE(pv$warning_predict)) {
+      if (lookup("warning_predict")) {
         warning("Warning from classif.debug->predict()")
       }
-      if (isTRUE(pv$error_predict)) {
+      if (lookup("error_predict")) {
         stop("Error from classif.debug->predict()")
       }
-      if (isTRUE(pv$segfault_predict)) {
+      if (lookup("segfault_predict")) {
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
