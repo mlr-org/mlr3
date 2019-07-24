@@ -31,7 +31,7 @@ Also note that if they work, they will tear down your R session immediately!
 }
 \examples{
 learner = LearnerClassifDebug$new()
-learner$param_set$values = list(message_train = TRUE, save_tasks = TRUE)
+learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
 
 # this should signal a message
 task = mlr_tasks$get("iris")

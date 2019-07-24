@@ -26,7 +26,7 @@
 #' @export
 #' @examples
 #' learner = LearnerClassifDebug$new()
-#' learner$param_set$values = list(message_train = TRUE, save_tasks = TRUE)
+#' learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
 #'
 #' # this should signal a message
 #' task = mlr_tasks$get("iris")
@@ -53,7 +53,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("segfault_train", lower = 0, upper = 1, default = 0, tags = "train"),
             ParamDbl$new("segfault_predict", lower = 0, upper = 1, default = 0, tags = "predict"),
             ParamDbl$new("predict_missing", lower = 0, upper = 1, default = 0, tags = "predict"),
-            ParamLgl$new("save_tasks", tags = c("train", "predict")),
+            ParamLgl$new("save_tasks", default = FALSE, tags = c("train", "predict")),
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),
@@ -75,7 +75,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         stop("Error from classif.debug->train()")
       }
       if (lookup("segfault_train")) {
-        get("attach")(structure(liut(), class = "UserDefinedDatabase"))
+        get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
       model = list(response = as.character(sample(task$truth(), 1L)))
