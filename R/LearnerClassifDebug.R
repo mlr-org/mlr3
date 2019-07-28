@@ -9,17 +9,17 @@
 #' If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 #' The following hyperparameters trigger the following actions:
 #' \describe{
-#'    \item{message_train:}{Outputs a message during train if `runif(1)` exceeds its value.}
-#'    \item{message_predict:}{Outputs a message during predict if `runif(1)` exceeds its value.}
-#'    \item{warning_train:}{Signals a warning during train if `runif(1)` exceeds its value.}
-#'    \item{warning_predict:}{Signals a warning during predict if `runif(1)` exceeds its value.}
-#'    \item{error_train:}{Raises an exception during train if `runif(1)` exceeds its value.}
-#'    \item{error_predict:}{Raises an exception during predict if `runif(1)` exceeds its value.}
-#'    \item{segfault_train:}{Provokes a segfault during train if `runif(1)` exceeds its value.}
-#'    \item{segfault_predict:}{Provokes a segfault during predict if `runif(1)` exceeds its value.}
+#'    \item{message_train:}{Outputs a message during train if the parameter value exceeds `runif(1)`.}
+#'    \item{message_predict:}{Outputs a message during predict if the parameter value exceeds `runif(1)`.}
+#'    \item{warning_train:}{Signals a warning during train if the parameter value exceeds `runif(1)`.}
+#'    \item{warning_predict:}{Signals a warning during predict if the parameter value exceeds `runif(1)`.}
+#'    \item{error_train:}{Raises an exception during train if the parameter value exceeds `runif(1)`.}
+#'    \item{error_predict:}{Raises an exception during predict if the parameter value exceeds `runif(1)`.}
+#'    \item{segfault_train:}{Provokes a segfault during train if the parameter value exceeds `runif(1)`.}
+#'    \item{segfault_predict:}{Provokes a segfault during predict if the parameter value exceeds `runif(1)`.}
 #'    \item{predict_missing}{Ratio of predictions which will be NA.}
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
-#'    \item{x:}{Numeric parameter. Ignored.}
+#'    \item{x:}{Numeric parameter. Has no effect.}
 #' }
 #' Note that segfaults may not work on your operating system.
 #' Also note that if they work, they will tear down your R session immediately!
