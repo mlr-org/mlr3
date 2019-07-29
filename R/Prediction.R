@@ -69,7 +69,7 @@ Prediction = R6Class("Prediction",
       } else {
         data = as.data.table(self)
         catf("%s for %i observations:", format(self), nrow(data))
-        print(data, nrows = 10L, topn = 3L, print.class = TRUE, print.keys = FALSE)
+        print(data, nrows = 10L, topn = 3L, class = FALSE, row.names = FALSE, print.keys = FALSE)
       }
     },
 

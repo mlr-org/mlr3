@@ -127,7 +127,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         format(self), nrow(self$data), uniqueN(self$data$hash))
       tab = self$aggregate(warnings = TRUE, errors = TRUE)
       tab = remove_named(tab, c("hash", "resample_result"))
-      print(tab, class = FALSE, print.keys = FALSE, row.names = FALSE, digits = 3)
+      print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
     },
 
     combine = function(bmr) {
