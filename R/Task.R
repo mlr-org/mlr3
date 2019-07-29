@@ -255,11 +255,9 @@ Task = R6Class("Task",
       )
 
       rn = self$backend$rownames
-      cn = self$col_info$id
-
       self$row_roles = list(use = rn, validation = rn[0L])
       self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character(0L))
-      self$col_roles$feature = setdiff(cn, self$backend$primary_key)
+      self$col_roles$feature = setdiff(self$backend$colnames, self$backend$primary_key)
     },
 
     format = function() {
