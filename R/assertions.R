@@ -25,22 +25,17 @@ assert_backend = function(b, .var.name = vname(b)) {
 #'   Set of required task properties.
 #' @param min_rows :: `integer()`\cr
 #'   Minimum amount of required observations.
-#' @param min_cols :: `integer()`\cr
-#'   Minimum amount of required features.
 #' @rdname mlr_assertions
 assert_task = function(task, task_type = NULL, feature_types = NULL, task_properties = NULL,
-  clone = FALSE, min_rows = 1, min_cols = 1) {
+  clone = FALSE, min_rows = 0L) {
   task = cast_from_dict(task, "Task", mlr_tasks, clone, FALSE)[[1L]]
 
   if (!is.null(task_type) && task$task_type != task_type) {
     stopf("Task must have type '%s'", task_type)
   }
 
-  if (nrow(task$data()) < min_rows) {
+  if (min_rows > 0L && task$nrow < min_rows) {
     stopf("Task needs to have at least %s rows.", min_rows)
-  }
-  if (ncol(task$data()) < min_cols) {
-    stopf("Task needs to have at least %s features.", min_cols)
   }
 
   if (!is.null(feature_types)) {
@@ -146,7 +141,8 @@ assert_measures = function(measures, task_type = NULL, task = NULL, learner = NU
   if (length(measures) == 0L) {
     stopf("You must provide at least one measure")
   }
-  measures = lapply(measures, assert_measure, task = task, learner = learner)
+
+  lapply(measures, assert_measure, task = task, learner = learner)
 }
 
 #' @export

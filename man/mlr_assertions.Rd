@@ -20,8 +20,7 @@
 assert_backend(b, .var.name = vname(b))
 
 assert_task(task, task_type = NULL, feature_types = NULL,
-  task_properties = NULL, clone = FALSE, min_rows = 1,
-  min_cols = 1)
+  task_properties = NULL, clone = FALSE, min_rows = 0L)
 
 assert_tasks(tasks, feature_types = NULL, task_properties = NULL,
   clone = FALSE)
@@ -67,9 +66,6 @@ Set of required task properties.}
 
 \item{min_rows}{:: \code{integer()}\cr
 Minimum amount of required observations.}
-
-\item{min_cols}{:: \code{integer()}\cr
-Minimum amount of required features.}
 
 \item{tasks}{:: list of \link{Task}.}
 
