@@ -226,11 +226,10 @@ expect_task_classif = function(task) {
   y = task$truth()
   checkmate::expect_factor(y)
 
-  checkmate::expect_int(task$class_n, lower = 2L)
-  testthat::expect_equal(task$class_n, length(unique(y)))
+  testthat::expect_gte(length(task$class_names), 2L)
   checkmate::expect_character(task$class_names, any.missing = FALSE)
   checkmate::expect_subset(task$class_names, as.character(y))
-  if (task$class_n > 2L) {
+  if (length(task$class_names) > 2L) {
     testthat::expect_identical(task$positive, NA_character_)
     testthat::expect_identical(task$negative, NA_character_)
   } else {

@@ -28,6 +28,8 @@
 #'
 #' * `positive` :: `character(1)`\cr
 #'   Only for binary classification: Name of the positive class.
+#'   The levels of the target columns are reordered accordingly, so that the first element of `$class_names` is the
+#'   positive class, and the second element is the negative class.
 #'
 #' @section Fields:
 #' All methods from [TaskSupervised], and additionally:
@@ -35,14 +37,12 @@
 #' * `class_names` :: `character()`\cr
 #'   Returns all class labels of the target column.
 #'
-#' * `class_n` :: `integer(1)`\cr
-#'   Returns the number of classes.
+#' * `positive` :: `character(1)`\cr
+#'   Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
+#'   To switch the positive class, assign a level to this field.
 #'
 #' * `negative` :: `character(1)`\cr
 #'   Stores the negative class for binary classification tasks, and `NA` for multiclass tasks.
-#'
-#' * `positive` :: `character(1)`\cr
-#'   Stores the positive class for binary classification tasks, and `NA` for multiclass tasks.
 #'
 #' @section Methods:
 #' See [TaskSupervised].
@@ -59,16 +59,12 @@
 #' task$truth()
 #' task$class_names
 #' task$positive
-#' task$negative
 #'
 #' # possible properties:
 #' mlr_reflections$task_properties$classif
 TaskClassif = R6Class("TaskClassif",
   inherit = TaskSupervised,
   public = list(
-    positive = NULL,
-    negative = NULL,
-
     initialize = function(id, backend, target, positive = NULL) {
 
       assert_string(target)
@@ -84,24 +80,9 @@ TaskClassif = R6Class("TaskClassif",
         stopf("Target column '%s' must have at least two levels", target)
       }
 
-      if (length(levels) == 2L) {
-        if (is.null(positive)) {
-          self$positive = levels[1L]
-          self$negative = levels[2L]
-          lg$debug("Setting positive class to '%s'", self$positive)
-        } else {
-          self$positive = assert_choice(positive, levels)
-          self$negative = setdiff(levels, self$positive)
-          self$col_info[list(target), levels := list(list(c(self$positive, self$negative))), on = "id"][]
-        }
-
-        self$properties = "twoclass"
-      } else {
-        if (!is.null(positive)) {
-          stopf("Setting the positive class is only feasible for binary classification")
-        }
-        self$positive = self$negative = NA_character_
-        self$properties = "multiclass"
+      self$properties = union(self$properties, if (length(levels) == 2L) "twoclass" else "multiclass")
+      if (!is.null(positive)) {
+        self$positive = positive
       }
     },
 
@@ -116,6 +97,26 @@ TaskClassif = R6Class("TaskClassif",
       self$col_info[list(self$target_names), "levels", with = FALSE][[1L]][[1L]]
     },
 
-    class_n = function() length(self$class_names)
+    positive = function(rhs) {
+      lvls = self$class_names
+      if (missing(rhs)) {
+        if (length(lvls) != 2L)
+          return(NA_character_)
+        return(lvls[1L])
+      }
+
+      if (length(lvls) != 2L)
+        stopf("Setting the positive class is only feasible for binary classification")
+      positive = assert_choice(rhs, lvls)
+      negative = setdiff(lvls, rhs)
+      self$col_info[list(self$target_names), levels := list(list(c(positive, negative))), on = "id"][]
+    },
+
+    negative = function() {
+      lvls = self$class_names
+      if (length(lvls) != 2L)
+        return(NA_character_)
+      return(lvls[2L])
+    }
   )
 )

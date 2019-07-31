@@ -25,6 +25,8 @@ E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.
 Name of the target column.
 \item \code{positive} :: \code{character(1)}\cr
 Only for binary classification: Name of the positive class.
+The levels of the target columns are reordered accordingly, so that the first element of \code{$class_names} is the
+positive class, and the second element is the negative class.
 }
 }
 
@@ -34,12 +36,11 @@ All methods from \link{TaskSupervised}, and additionally:
 \itemize{
 \item \code{class_names} :: \code{character()}\cr
 Returns all class labels of the target column.
-\item \code{class_n} :: \code{integer(1)}\cr
-Returns the number of classes.
-\item \code{negative} :: \code{character(1)}\cr
-Stores the negative class for binary classification tasks, and \code{NA} for multiclass tasks.
 \item \code{positive} :: \code{character(1)}\cr
 Stores the positive class for binary classification tasks, and \code{NA} for multiclass tasks.
+To switch the positive class, assign a level to this field.
+\item \code{negative} :: \code{character(1)}\cr
+Stores the negative class for binary classification tasks, and \code{NA} for multiclass tasks.
 }
 }
 
@@ -57,7 +58,6 @@ task$formula()
 task$truth()
 task$class_names
 task$positive
-task$negative
 
 # possible properties:
 mlr_reflections$task_properties$classif

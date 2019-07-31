@@ -12,7 +12,7 @@ test_that("Classification measures", {
     m = mlr_measures$get(key)
     if (is.na(m$task_type) || m$task_type == "classif") {
       if (key == "classif.costs") {
-        costs = 1 - diag(task$class_n)
+        costs = 1 - diag(length(task$class_names))
         rownames(costs) = colnames(costs) = task$class_names
         m$costs = costs
       }
