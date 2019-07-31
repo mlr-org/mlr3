@@ -1,6 +1,7 @@
 context("mlr_generators")
 
 test_that("mlr_generators", {
+  expect_dictionary(mlr_generators, min_items = 1L)
   keys = mlr_generators$keys()
   n = 30L
 

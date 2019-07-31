@@ -19,11 +19,15 @@ expect_hash = function(x, len = NULL) {
 expect_dictionary = function(d, contains = NA_character_, min_items = 0L) {
   checkmate::expect_r6(d, "Dictionary")
   testthat::expect_output(print(d), "Dictionary")
+  keys = d$keys()
 
   checkmate::expect_environment(d$items)
-  checkmate::expect_character(d$keys(), any.missing = FALSE, min.len = min_items, min.chars = 1L)
+  checkmate::expect_character(keys, any.missing = FALSE, min.len = min_items, min.chars = 1L)
   if (!is.na(contains)) {
-    checkmate::expect_list(d$mget(d$keys()), types = contains, names = "unique")
+    checkmate::expect_list(d$mget(keys), types = contains, names = "unique")
+  }
+  if (length(keys) > 1L) {
+    expect_error(do.call(d$mget, as.list(keys)) , "additional arguments")
   }
   expect_data_table(data.table::as.data.table(d), key = "key")
 }

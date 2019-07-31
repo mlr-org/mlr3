@@ -1,6 +1,7 @@
 context("mlr_measures")
 
 test_that("mlr_measures", {
+  expect_dictionary(mlr_measures, min_items = 1L)
   keys = mlr_measures$keys()
 
   for (key in keys) {

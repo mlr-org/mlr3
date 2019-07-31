@@ -28,8 +28,8 @@ mlr_resamplings = R6Class("DictionaryResampling",
   cloneable = FALSE,
 
   public = list(
-    get = function(key, id = NULL, param_vals = NULL) {
-      obj = super$get(key)
+    get = function(key, ..., id = NULL, param_vals = NULL) {
+      obj = super$get(key, ...)
       if (!is.null(id)) {
         obj$id = id
       }

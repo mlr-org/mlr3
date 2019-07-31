@@ -1,6 +1,7 @@
 context("mlr_learners")
 
 test_that("mlr_learners", {
+  expect_dictionary(mlr_learners, min_items = 1L)
   keys = mlr_learners$keys()
 
   for (key in keys) {
@@ -26,3 +27,4 @@ test_that("mlr_learners: sugar", {
   expect_equal(lrns[[1]]$predict_type, "prob")
   expect_equal(lrns[[2]]$predict_type, "prob")
 })
+

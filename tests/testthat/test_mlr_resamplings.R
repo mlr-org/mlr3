@@ -1,7 +1,9 @@
 context("mlr_resamplings")
 
 test_that("mlr_resamplings", {
+  expect_dictionary(mlr_resamplings, min_items = 1L)
   keys = mlr_resamplings$keys()
+
   task = mlr_tasks$get("iris")
   for (key in keys) {
     r = mlr_resamplings$get(key)
