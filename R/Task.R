@@ -257,7 +257,7 @@ Task = R6Class("Task",
       rn = self$backend$rownames
       self$row_roles = list(use = rn, validation = rn[0L])
       self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character(0L))
-      self$col_roles$feature = setdiff(self$backend$colnames, self$backend$primary_key)
+      self$col_roles$feature = setdiff(self$col_info$id, self$backend$primary_key)
     },
 
     format = function() {
@@ -374,7 +374,7 @@ Task = R6Class("Task",
     },
 
     feature_types = function() {
-      self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"]
+      setkeyv(self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"], "id")
     },
 
     data_formats = function() {

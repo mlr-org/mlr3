@@ -199,3 +199,8 @@ test_that("task$missings() works", {
   y = map_int(task$data(), function(x) sum(is.na(x)))
   expect_equal(x, y[match(names(x), names(y))])
 })
+
+test_that("task$feature_types preserves key (#193)", {
+  task = mlr_tasks$get("iris")$select(character(0))$cbind(iris[1:4])
+  expect_data_table(task$feature_types, ncols = 2L, nrows = 4L, key = "id")
+})

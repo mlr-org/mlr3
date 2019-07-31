@@ -187,7 +187,7 @@ expect_task = function(task) {
   lapply(task$row_roles, checkmate::expect_atomic_vector, any.missing = FALSE, unique = TRUE)
 
   types = task$feature_types
-  checkmate::expect_data_table(types, ncols  = 2, nrows  = length(task$feature_names))
+  checkmate::expect_data_table(types, ncols  = 2, nrows  = length(task$feature_names), key = "id")
   checkmate::expect_set_equal(types$id, task$feature_names)
   checkmate::expect_subset(types$type, mlr3::mlr_reflections$task_feature_types)
 
