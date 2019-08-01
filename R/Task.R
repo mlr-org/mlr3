@@ -118,10 +118,10 @@
 #'   columns are filtered to only contain features with roles "target" and "feature".
 #'   If invalid `rows` or `cols` are specified, an exception is raised.
 #'
-#' * `formula(rhs = NULL)`\cr
+#' * `formula(rhs = ".")`\cr
 #'   `character()` -> [stats::formula()]\cr
 #'   Constructs a [stats::formula()], e.g. `[target] ~ [feature_1] + [feature_2] + ... + [feature_k]`, using
-#'   the features provided in argument `rhs` (defaults to all columns with role `"feature"`).
+#'   the features provided in argument `rhs` (defaults to all columns with role `"feature"`, symbolized by `"."`).
 #'
 #' * `levels(cols = NULL)`\cr
 #'   `character()` -> named `list()`\cr
@@ -272,8 +272,8 @@ Task = R6Class("Task",
       task_data(self, rows, cols, data_format)
     },
 
-    formula = function(rhs = NULL) {
-      formulate(self$target_names, rhs %??% ".")
+    formula = function(rhs = ".") {
+      formulate(self$target_names, rhs)
     },
 
     head = function(n = 6L) {

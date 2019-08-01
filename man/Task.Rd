@@ -114,10 +114,10 @@ Returns a slice of the data from the \link{DataBackend} in the data format speci
 Rows are additionally subsetted to only contain observations with role "use", and
 columns are filtered to only contain features with roles "target" and "feature".
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
-\item \code{formula(rhs = NULL)}\cr
+\item \code{formula(rhs = ".")}\cr
 \code{character()} -> \code{\link[stats:formula]{stats::formula()}}\cr
 Constructs a \code{\link[stats:formula]{stats::formula()}}, e.g. \code{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]}, using
-the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}).
+the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
 \item \code{levels(cols = NULL)}\cr
 \code{character()} -> named \code{list()}\cr
 Returns the distinct values for columns referenced in \code{cols} with storage type "character", "factor" or "ordered".
