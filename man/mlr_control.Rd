@@ -21,6 +21,12 @@ This function creates a named list of settings which control the execution of a 
 If \code{FALSE} (default), models fitted during \code{\link[=resample]{resample()}} and \code{\link[=benchmark]{benchmark()}} are discarded.
 Note that you will be unable to predict on new data or extract additional information like
 variable importance from the learner.
+\item \code{log_threshold} (\code{integer(1)}):\cr The verbosity of logging output. Numeric
+values correspond to different verbosity levels. See \href{https://s-fleck.github.io/lgr/articles/lgr.html#log-levels}{the lgr vignette} for
+more information. A log-level dictionary is available with
+\code{getOption("lgr.log_levels")}. To change the log level for \emph{mlr3} either use
+\code{lgr::get_logger("mlr3")$set_threshold("<level>")} or set it globally via
+\code{options("lgr.default_threshold")}.
 }
 
 \strong{Defaults}\preformatted{$store_models

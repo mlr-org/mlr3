@@ -8,6 +8,15 @@
 #'   Note that you will be unable to predict on new data or extract additional information like
 #'   variable importance from the learner.
 #'
+#' * `log_threshold` (`integer(1)`):\cr The verbosity of logging output. Numeric
+#' values correspond to different verbosity levels. See [the lgr
+#' vignette](https://s-fleck.github.io/lgr/articles/lgr.html#log-levels) for
+#' more information. A log-level dictionary is available with
+#' `getOption("lgr.log_levels")`. To change the log level for _mlr3_ either use
+#' `lgr::get_logger("mlr3")$set_threshold("<level>")` or set it globally via
+#' `options("lgr.default_threshold")`.
+#'
+#'
 #' **Defaults**
 #' ```
 #' $store_models
