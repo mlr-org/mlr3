@@ -59,6 +59,10 @@ test_that("Task rbind", {
   task = mlr_tasks$get("iris")
   task$select("Petal.Length")
   task$rbind(task$data())
+  expect_set_equal(task$row_ids, 1:300)
+
+  task$rbind(data.table())
+  expect_equal(task$nrow, 300L)
 })
 
 test_that("Task cbind", {
@@ -80,6 +84,9 @@ test_that("Task cbind", {
   expect_equal(task$ncol, 7L)
 
   task$cbind(iris[, character(0)])
+  expect_equal(task$ncol, 7L)
+
+  task$cbind(data.table())
   expect_equal(task$ncol, 7L)
 })
 
