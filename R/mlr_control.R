@@ -16,7 +16,6 @@
 #' `lgr::get_logger("mlr3")$set_threshold("<level>")` or set it globally via
 #' `options("lgr.default_threshold")`.
 #'
-#'
 #' **Defaults**
 #' ```
 #' $store_models
