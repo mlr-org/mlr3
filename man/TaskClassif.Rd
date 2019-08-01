@@ -63,7 +63,7 @@ task$positive
 mlr_reflections$task_properties$classif
 }
 \seealso{
-Example classification task: \code{\link[=mlr_tasks_iris]{iris}}.
+Example classification tasks: \code{\link[=mlr_tasks_iris]{iris}}
 
 Other Task: \code{\link{TaskRegr}},
   \code{\link{TaskSupervised}}, \code{\link{Task}},

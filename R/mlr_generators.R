@@ -15,7 +15,8 @@
 #'
 #' @family Dictionary
 #' @family Generator
-#' @seealso Example generator [`xor`][mlr_generators_xor].
+#' @seealso
+#' Example generators: [`xor`][mlr_generators_xor]
 #' @export
 #' @examples
 #' g = mlr_generators$get("smiley")

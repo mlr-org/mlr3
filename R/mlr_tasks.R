@@ -17,10 +17,8 @@
 #'
 #' @family Dictionary
 #' @family Task
-#' @seealso Example tasks:
-#' * [`iris`][mlr_tasks_iris] (multi-class classification)
-#' * [`spam`][mlr_tasks_spam] (binary classification)
-#' * [`boston_housing`][mlr_tasks_boston_housing] (regression)
+#' @seealso
+#' Example tasks: [`iris`][mlr_tasks_iris] (multi-class classification), [`spam`][mlr_tasks_spam] (binary classification), [`boston_housing`][mlr_tasks_boston_housing] (regression)
 #' @export
 #' @examples
 #' as.data.table(mlr_tasks)

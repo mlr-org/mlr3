@@ -48,7 +48,8 @@
 #' See [TaskSupervised].
 #'
 #' @family Task
-#' @seealso Example classification task: [`iris`][mlr_tasks_iris].
+#' @seealso
+#' Example classification tasks: [`iris`][mlr_tasks_iris]
 #' @export
 #' @examples
 #' data("Sonar", package = "mlbench")
