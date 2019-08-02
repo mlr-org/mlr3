@@ -8,12 +8,13 @@
 #' This is the abstract base class for data backends.
 #'
 #' Data Backends provide a layer of abstraction for various data storage systems.
-#' The required set of operations to implement is listed in the Methods section.
-#'
-#' Note that all data access is handled transparently via the [Task].
 #' It is not recommended to work directly with the DataBackend.
+#' Instead, all data access is handled transparently via the [Task].
 #'
-#' See [DataBackendDataTable] or [DataBackendMatrix] for exemplary implementations of this interface.
+#' To connect to out-of-memory database management systems such as SQL servers, see \CRANpkg{mlr3db}.
+#'
+#' The required set of fields and methods to implement a custom DataBackend is listed in the respective sections.
+#' See [DataBackendDataTable] or [DataBackendMatrix] for exemplary implementations of the interface.
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [DataBackendDataTable] or [DataBackendMatrix],
@@ -80,6 +81,7 @@
 #'   Non-existing rows and columns are silently ignored.
 #'
 #' @family DataBackend
+#' @seealso Package \CRANpkg{mlr3db}.
 #' @export
 #' @examples
 #' data = data.table::data.table(id = 1:5, x = runif(5), y = sample(letters[1:3], 5, replace = TRUE))
