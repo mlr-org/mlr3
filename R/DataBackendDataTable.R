@@ -113,7 +113,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
   private = list(
     .calculate_hash = function() {
-      hash(list(self$compact_seq, private$.data))
+      hash(self$compact_seq, private$.data)
     }
   )
 )

@@ -94,7 +94,7 @@ TaskClassif = R6Class("TaskClassif",
 
   active = list(
     class_names = function() {
-      self$col_info[list(self$target_names), "levels", with = FALSE][[1L]][[1L]]
+      self$col_info[list(self$target_names), "levels", on = "id", with = FALSE][[1L]][[1L]]
     },
 
     positive = function(rhs) {
