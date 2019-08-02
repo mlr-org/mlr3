@@ -17,14 +17,17 @@ test_that("Learners are called with invoke / small footprint of call", {
 })
 
 
-test_that("Extra data slots of learners are kept", {
+test_that("Extra data slots of learners are kept / reset", {
   task = mlr_tasks$get("boston_housing")
   learner = mlr_learners$get("regr.rpart")
-  learner$data$foo = "bar"
   learner$train(task)
-  expect_equal(learner$data$foo, "bar")
+  learner$state$foo = "bar"
+  expect_equal(learner$state$foo, "bar")
   learner$predict(task)
-  expect_equal(learner$data$foo, "bar")
+  expect_equal(learner$state$foo, "bar")
+
+  learner$train(task)
+  expect_null(learner$state$foo)
 })
 
 test_that("task is checked in train() / predict()", {

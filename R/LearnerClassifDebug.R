@@ -104,7 +104,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       if (isTRUE(pv$save_tasks)) {
-        self$data$model$task_predict = task$clone(deep = TRUE)
+        self$state$model$task_predict = task$clone(deep = TRUE)
       }
 
       response = prob = NULL
