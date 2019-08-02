@@ -42,7 +42,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
         d2 = private$.data$b2$data(qrows, intersect(qcols, self$cols$b2), data_format = data_format)
         d1 = d1[d2, on = self$primary_key, nomatch = 0L]
       }
-      d1[list(rows), intersect(cols, names(d1)), with = FALSE, on = self$primary_key, nomatch = 0L]
+      d1[list(rows), intersect(cols, names(d1)), on = self$primary_key, with = FALSE, nomatch = 0L]
     },
 
     head = function(n = 6L) {
@@ -88,7 +88,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
   private = list(
     .calculate_hash = function() {
       data = private$.data
-      hash(c(data$b1$hash, data$b2$hash))
+      hash(data$b1$hash, data$b2$hash)
     }
   )
 )

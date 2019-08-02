@@ -60,9 +60,10 @@ A specific format of these supported formats can be picked in the \code{$data()}
 \item \code{data(rows = NULL, cols = NULL, format = "data.table")}\cr
 (\code{integer()} | \code{character()}, \code{character()}) -> \code{any}\cr
 Returns a slice of the data in the specified format.
-Currently, the only supported format is "data.table".
+Currently, the only supported formats are \code{"data.table"} and \code{"Matrix"}.
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
+Rows are guaranteed to be returned in the same order as \code{rows}, columns may be returned in an arbitrary order.
 \item \code{distinct(rows, cols)}\cr
 (\code{integer()} | \code{character()}, \code{character()}) -> named \code{list()}\cr
 Returns a named list of vectors of distinct values for each column specified.

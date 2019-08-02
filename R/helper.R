@@ -53,3 +53,12 @@ allow_partial_matching = list(
   warnPartialMatchAttr = FALSE,
   warnPartialMatchDollar = FALSE
 )
+
+# TODO: move to mlr3misc
+set_col_names = function (x, nm = x, ...) {
+    if (is.function(nm)) {
+      nm = map_chr(names2(x), nm)
+    }
+    colnames(x) = nm
+    x
+}

@@ -18,9 +18,9 @@ generate_generic_tasks = function(learner, proto) {
 
   if (length(proto$feature_names) > 1L) {
     # individual tasks with each supported feature type
-    for (type in learner$feature_types) {
-      sel = proto$feature_types[type, "id", on = "type", with = FALSE][[1L]]
-      tasks[[sprintf("feat_single_%s", type)]] = proto$clone()$select(sel)
+    for (ftype in learner$feature_types) {
+      sel = proto$feature_types[ftype, "id", on = "type", with = FALSE][[1L]]
+      tasks[[sprintf("feat_single_%s", ftype)]] = proto$clone()$select(sel)
     }
   }
 

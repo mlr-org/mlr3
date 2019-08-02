@@ -135,6 +135,17 @@ test_that("select works", {
   expect_error(task$select(1:4), "subset")
 })
 
+test_that("rename works", {
+  task = mlr_tasks$get("iris")
+  old = names(iris)
+  new = paste0("xx_", old)
+  task$rename(old, new)
+
+  expect_set_equal(task$feature_names, setdiff(new, "xx_Species"))
+  expect_equal(task$target_names, "xx_Species")
+  expect_task_classif(task)
+})
+
 test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
