@@ -9,12 +9,13 @@
 This is the abstract base class for data backends.
 
 Data Backends provide a layer of abstraction for various data storage systems.
-The required set of operations to implement is listed in the Methods section.
-
-Note that all data access is handled transparently via the \link{Task}.
 It is not recommended to work directly with the DataBackend.
+Instead, all data access is handled transparently via the \link{Task}.
 
-See \link{DataBackendDataTable} or \link{DataBackendMatrix} for exemplary implementations of this interface.
+To connect to out-of-memory database management systems such as SQL servers, see \CRANpkg{mlr3db}.
+
+The required set of fields and methods to implement a custom DataBackend is listed in the respective sections.
+See \link{DataBackendDataTable} or \link{DataBackendMatrix} for exemplary implementations of the interface.
 }
 \section{Construction}{
 
@@ -89,6 +90,8 @@ b$distinct(rows = b$rownames, "y")
 b$missings(rows = b$rownames, cols = names(data))
 }
 \seealso{
+Package \CRANpkg{mlr3db}.
+
 Other DataBackend: \code{\link{DataBackendDataTable}},
   \code{\link{DataBackendMatrix}},
   \code{\link{as_data_backend}}
