@@ -7,7 +7,7 @@
 #' @description
 #' This Learner specializes [Learner] for regression problems.
 #'
-#' Predefined learners can be found in the [Dictionary] [mlr_learners].
+#' Many predefined learners can be found in the [Dictionary] [mlr_learners] after loading the \CRANpkg{mlr3learners} package.
 #'
 #' @section Construction:
 #' ```
@@ -25,7 +25,8 @@
 #' See [Learner].
 #'
 #' @family Learner
-#' @seealso Example regression learner: [`regr.rpart`][mlr_learners_regr.rpart].
+#' @seealso
+#' Example regression learners: [`regr.rpart`][mlr_learners_regr.rpart]
 #' @export
 #' @examples
 #' # get all regression learners from mlr_learners:

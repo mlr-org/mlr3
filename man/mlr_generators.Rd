@@ -29,7 +29,7 @@ print(task)
 task$data()
 }
 \seealso{
-Example generator \code{\link[=mlr_generators_xor]{xor}}.
+Example generators: \code{\link[=mlr_generators_xor]{xor}}
 
 Other Dictionary: \code{\link{mlr_learners}},
   \code{\link{mlr_measures}},

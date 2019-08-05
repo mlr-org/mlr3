@@ -7,7 +7,7 @@
 #' @description
 #' This Learner specializes [Learner] for classification problems.
 #'
-#' Predefined learners can be found in the [Dictionary] [mlr_learners].
+#' Many predefined learners can be found in the [Dictionary] [mlr_learners] after loading the \CRANpkg{mlr3learners} package.
 #'
 #' @section Construction:
 #' ```
@@ -25,7 +25,8 @@
 #' See [Learner].
 #'
 #' @family Learner
-#' @seealso Example classification learner: [`classif.rpart`][mlr_learners_classif.rpart].
+#' @seealso
+#' Example classification learners: [`classif.rpart`][mlr_learners_classif.rpart]
 #' @export
 #' @examples
 #' # get all classification learners from mlr_learners:

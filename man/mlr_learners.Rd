@@ -8,6 +8,9 @@
 \description{
 A simple \link{Dictionary} storing objects of class \link{Learner}.
 Each learner has an associated help page, see \code{mlr_learners_[id]}.
+
+This dictionary can get populated with additional learners by add-on packages.
+For more classification and regression learners, load the \CRANpkg{mlr3learners} package.
 }
 \section{Methods}{
 
@@ -29,14 +32,10 @@ as.data.table(mlr_learners)
 mlr_learners$get("classif.featureless")
 }
 \seealso{
-Example learners:
-\itemize{
-\item \code{\link[=mlr_learners_classif.rpart]{classif.rpart}}
-\item \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}
-\item \code{\link[=mlr_learners_classif.featureless]{classif.featureless}}
-\item \code{\link[=mlr_learners_regr.featureless]{regr.featureless}}
-\item \code{\link[=mlr_learners_classif.debug]{classif.debug}}
-}
+Example learners: \code{\link[=mlr_learners_classif.rpart]{classif.rpart}}, \code{\link[=mlr_learners_regr.rpart]{regr.rpart}},
+\code{\link[=mlr_learners_classif.featureless]{classif.featureless}}, \code{\link[=mlr_learners_regr.featureless]{regr.featureless}}, \code{\link[=mlr_learners_classif.debug]{classif.debug}}
+
+Extension Packages: \CRANpkg{mlr3learners}
 
 Other Dictionary: \code{\link{mlr_generators}},
   \code{\link{mlr_measures}},

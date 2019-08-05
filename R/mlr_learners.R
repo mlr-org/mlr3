@@ -6,6 +6,9 @@
 #' A simple [Dictionary] storing objects of class [Learner].
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
+#' This dictionary can get populated with additional learners by add-on packages.
+#' For more classification and regression learners, load the \CRANpkg{mlr3learners} package.
+#'
 #' @section Methods:
 #' See [Dictionary].
 #'
@@ -17,12 +20,11 @@
 #'
 #' @family Dictionary
 #' @family Learner
-#' @seealso Example learners:
-#' * [`classif.rpart`][mlr_learners_classif.rpart]
-#' * [`regr.rpart`][mlr_learners_regr.rpart]
-#' * [`classif.featureless`][mlr_learners_classif.featureless]
-#' * [`regr.featureless`][mlr_learners_regr.featureless]
-#' * [`classif.debug`][mlr_learners_classif.debug]
+#' @seealso
+#' Example learners: [`classif.rpart`][mlr_learners_classif.rpart], [`regr.rpart`][mlr_learners_regr.rpart],
+#'   [`classif.featureless`][mlr_learners_classif.featureless], [`regr.featureless`][mlr_learners_regr.featureless], [`classif.debug`][mlr_learners_classif.debug]
+#'
+#' Extension Packages: \CRANpkg{mlr3learners}
 #' @export
 #' @examples
 #' as.data.table(mlr_learners)

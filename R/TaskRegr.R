@@ -33,7 +33,8 @@
 #' See [TaskSupervised].
 #'
 #' @family Task
-#' @seealso Example regression task: [`boston_housing`][mlr_tasks_boston_housing].
+#' @seealso
+#' Example regression tasks: [`boston_housing`][mlr_tasks_boston_housing]
 #' @export
 #' @examples
 #' task = TaskRegr$new("iris", backend = iris, target = "Sepal.Length")
