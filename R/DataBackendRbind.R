@@ -1,7 +1,6 @@
 #' @include DataBackend.R
 DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
-
     initialize = function(b1, b2) {
       assert_backend(b1)
       assert_backend(b2)
@@ -31,6 +30,8 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
         d2 = private$.data$b2$data(qrows2, qcols, data_format = data_format)
         d1 = rbindlist(list(d1, d2), use.names = TRUE, fill = TRUE)
       }
+
+      # duplicate rows / reorder columns
       d1[list(rows), intersect(cols, names(d1)), nomatch = 0L, on = pk, with = FALSE]
     },
 
@@ -65,11 +66,11 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     },
 
     nrow = function() {
-      length(self$rownames)
+      uniqueN(c(private$.data$b1$rownames, private$.data$b2$rownames))
     },
 
     ncol = function() {
-      length(self$colnames)
+      uniqueN(c(private$.data$b1$colnames, private$.data$b2$colnames))
     }
   ),
 

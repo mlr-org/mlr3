@@ -54,7 +54,7 @@
 #'
 #' * `data_formats` :: `character()`\cr
 #'   Vector of supported data formats.
-#'   A specific format of these supported formats can be picked in the `$data()` method.
+#'   A specific format can be chosen in the `$data()` method.
 #'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, format = "data.table")`\cr
@@ -64,12 +64,13 @@
 #'   The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 #'   Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
 #'   Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
+#'   Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
 #'
 #' * `distinct(rows, cols)`\cr
 #'   (`integer()` | `character()`, `character()`) -> named `list()`\cr
 #'   Returns a named list of vectors of distinct values for each column specified.
-#'   Non-existing columns are silently ignored.
-#'   If `rows` is `NULL`, all possible distinct values will be returned, even if they do not present in the data.
+#'   Non-existing rows and columns are silently ignored.
+#'   If `rows` is `NULL`, all possible distinct values will be returned, even if the value is not present in the data.
 #'   This affects factor-like variables with empty levels.
 #'
 #' * `head(n = 6)`\cr
@@ -82,7 +83,8 @@
 #'   Non-existing rows and columns are silently ignored.
 #'
 #' @family DataBackend
-#' @seealso Package \CRANpkg{mlr3db}.
+#' @seealso
+#' Package \CRANpkg{mlr3db}.
 #' @export
 #' @examples
 #' data = data.table::data.table(id = 1:5, x = runif(5), y = sample(letters[1:3], 5, replace = TRUE))

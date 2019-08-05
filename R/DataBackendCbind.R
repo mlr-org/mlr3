@@ -19,25 +19,25 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     },
 
     data = function(rows, cols, data_format = self$data_formats[1L]) {
-      qrows = unique(assert_atomic_vector(rows))
-      assert_choice(data_format, self$data_formats)
       pk = self$primary_key
-
+      qrows = unique(assert_atomic_vector(rows))
       qcols1 = union(assert_names(cols, type = "unique"), self$primary_key)
-      d1 = private$.data$b1$data(qrows, qcols1, data_format = data_format)
+      assert_choice(data_format, self$data_formats)
 
+      d1 = private$.data$b1$data(qrows, qcols1, data_format = data_format)
       qcols2 = setdiff(qcols1, colnames(d1))
-      if (length(qcols2)) {
+      if (length(qcols2) > 0L) {
         d2 = private$.data$b2$data(qrows, union(qcols2, pk), data_format = data_format)
         d1 = merge(d1, d2, by = pk, all = TRUE, sort = TRUE)
       }
+
+      # duplicate rows / reorder columns
       d1[list(rows), intersect(cols, names(d1)), on = pk, with = FALSE, nomatch = 0L]
     },
 
     head = function(n = 6L) {
-      rows = head(private$.data$b1$rownames, n)
-      cols = unique(c(private$.data$b1$colnames, private$.data$b2$colnames))
-      self$data(rows = rows, cols = cols)
+      rows = head(self$rownames, n)
+      self$data(rows = rows, cols = self$colnames)
     },
 
     distinct = function(rows, cols) {
@@ -48,9 +48,9 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     },
 
     missings = function(rows, cols) {
-      d1 = private$.data$b1$missings(rows, cols)
-      d2 = private$.data$b2$missings(rows, setdiff(cols, names(d1)))
-      res = c(d1, d2)
+      m1 = private$.data$b1$missings(rows, cols)
+      m2 = private$.data$b2$missings(rows, setdiff(cols, names(m1)))
+      res = c(m1, m2)
       res[match(cols, names(res), nomatch = 0L)]
     }
   ),
@@ -65,11 +65,11 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
     },
 
     nrow = function() {
-      length(self$rownames)
+      uniqueN(c(private$.data$b1$rownames, private$.data$b2$rownames))
     },
 
     ncol = function() {
-      length(self$colnames)
+      uniqueN(c(private$.data$b1$colnames, private$.data$b2$colnames))
     }
   ),
 
