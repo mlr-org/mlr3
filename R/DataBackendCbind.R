@@ -2,7 +2,6 @@
 DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
     initialize = function(b1, b2) {
-
       assert_backend(b1)
       assert_backend(b2)
       pk = b1$primary_key
