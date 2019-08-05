@@ -15,24 +15,24 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
         stopf("All backends to rbind must have the primary_key '%s'", pk)
       }
 
-      super$initialize(list(b1 = b1, b2 = b2), b1$primary_key, "data.table")
+      super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
     },
 
     data = function(rows, cols, data_format = self$data_formats[1L]) {
       pk = self$primary_key
-      qrows1 = unique(assert_atomic_vector(rows))
+      qrows = unique(assert_atomic_vector(rows))
       qcols = union(assert_names(cols, type = "unique"), pk)
       assert_choice(data_format, self$data_formats)
 
-      d1 = private$.data$b1$data(qrows1, qcols, data_format = data_format)
-      if (nrow(d1) < length(qrows1)) {
-        qrows2 = setdiff(qrows1, d1[[pk]])
-        d2 = private$.data$b2$data(qrows2, qcols, data_format = data_format)
-        d1 = rbindlist(list(d1, d2), use.names = TRUE, fill = TRUE)
+      data = private$.data$b2$data(qrows, qcols, data_format = data_format)
+      if (nrow(data) < length(qrows)) {
+        qrows = setdiff(rows, data[[pk]])
+        tmp = private$.data$b1$data(qrows, qcols, data_format = data_format)
+        data = rbindlist(list(data, tmp), use.names = TRUE, fill = TRUE)
       }
 
       # duplicate rows / reorder columns
-      d1[list(rows), intersect(cols, names(d1)), nomatch = 0L, on = pk, with = FALSE]
+      data[list(rows), intersect(cols, names(data)), nomatch = 0L, on = pk, with = FALSE]
     },
 
     head = function(n = 6L) {

@@ -46,8 +46,8 @@ test_that("cbind backends with same columns", {
   b = DataBackendCbind$new(b1, b2)
   expect_backend(b)
   data = b$head(Inf)
-  expect_true(allMissing(data$Petal.Width))
-  expect_false(anyMissing(data$Sepal.Width))
+  expect_false(anyMissing(data$Petal.Width))
+  expect_true(allMissing(data$Sepal.Width))
 })
 
 test_that("Backends with different rows", {
