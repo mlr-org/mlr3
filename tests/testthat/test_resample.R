@@ -1,9 +1,9 @@
 context("resample")
 
 test_that("resample", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.featureless")
-  resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsp("cv", folds = 3L)
 
   rr = resample(task, learner, resampling)
 
@@ -38,8 +38,7 @@ test_that("rr$combine()", {
   task = mlr_tasks$get("iris")
   measures = mlr_measures$mget(c("classif.ce", "classif.acc"))
   learner = mlr_learners$get("classif.featureless")
-  resampling = mlr_resamplings$get("cv")
-  resampling$param_set$values = list(folds = 3)
+  resampling = rsp("cv", folds = 3)
   rr1 = resample(task, learner, resampling)
 
   learner = mlr_learners$get("classif.rpart")
@@ -58,8 +57,7 @@ test_that("rr$combine()", {
 test_that("discarding model", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
-  resampling = mlr_resamplings$get("cv")
-  resampling$param_set$values = list(folds = 3)
+  resampling = rsp("cv", folds = 3)
 
   rr = resample(task, learner, resampling, ctrl = mlr_control(store_models = FALSE))
   expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
@@ -92,7 +90,7 @@ test_that("memory footprint", {
 test_that("predict_type is checked", {
   task = mlr_tasks$get("sonar")
   learner = mlr_learners$get("classif.featureless")
-  resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
+  resampling = rsp("cv", folds = 3L)
   measure = mlr_measures$get("classif.auc")
   rr = resample(task, learner, resampling)
 

@@ -64,7 +64,7 @@ test_that("0 feature task", {
 test_that("Positive class always comes first", {
   sonar = load_dataset("Sonar", package = "mlbench")
   tmp = list(c("M", "R"), c("R", "M"))
-  lrn = mlr_learners$get("classif.featureless", predict_type = "prob", param_vals = list(method = "sample"))
+  lrn = lrn("classif.featureless", predict_type = "prob", method = "sample")
 
   for (lvls in tmp) {
     task = TaskClassif$new("sonar", backend = sonar, target = "Class", positive = lvls[[1]])

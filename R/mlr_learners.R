@@ -2,12 +2,14 @@
 #'
 #' @usage NULL
 #' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
+#'
 #' @description
 #' A simple [Dictionary] storing objects of class [Learner].
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
 #' This dictionary can get populated with additional learners by add-on packages.
 #' For more classification and regression learners, load the \CRANpkg{mlr3learners} package.
+#' For a convient way to retrieve objects, see [tsk()].
 #'
 #' @section Methods:
 #' See [Dictionary].
@@ -29,25 +31,10 @@
 #' @examples
 #' as.data.table(mlr_learners)
 #' mlr_learners$get("classif.featureless")
+#' lrn("classif.rpart")
 mlr_learners = R6Class("DictionaryLearner",
   inherit = Dictionary,
   cloneable = FALSE,
-
-  public = list(
-    get = function(key, ..., id = NULL, param_vals = NULL, predict_type = NULL) {
-      obj = super$get(key, ...)
-      if (!is.null(id)) {
-        obj$id = id
-      }
-      if (!is.null(param_vals)) {
-        obj$param_set$values = insert_named(obj$param_set$values, param_vals)
-      }
-      if (!is.null(predict_type)) {
-        obj$predict_type = predict_type
-      }
-      obj
-    }
-  )
 )$new()
 
 #' @export

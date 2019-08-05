@@ -1,8 +1,7 @@
 test_that("mlr_measures_auc", {
-  task = mlr_tasks$get("sonar")
-  lrn = mlr_learners$get("classif.featureless")
-  lrn$predict_type = "prob"
-  m = mlr_measures$get("classif.auc")
+  task = tsk("sonar")
+  lrn = lrn("classif.featureless", predict_type = "prob")
+  m = mea("classif.auc")
   measures = list(m)
 
   p = lrn$train(task)$predict(task)

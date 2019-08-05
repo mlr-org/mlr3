@@ -29,8 +29,8 @@ MeasureClassifConfusion
 All implemented \link{Measure}s call \code{\link[=confusion_measures]{confusion_measures()}} with the respective \code{type} internally.
 }
 \examples{
-task = mlr_tasks$get("german_credit")
-learner = mlr_learners$get("classif.rpart")
+task = tsk("german_credit")
+learner = lrn("classif.rpart")
 p = learner$train(task)$predict(task)
 round(p$score(c("classif.sensitivity", "classif.specificity")), 2)
 }

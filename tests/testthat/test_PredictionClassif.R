@@ -17,8 +17,8 @@ test_that("Internally constructed Prediction", {
 })
 
 test_that("setting threshold binaryclass", {
-  task = mlr_tasks$get("sonar")
-  lrn = mlr_learners$get("classif.rpart", predict_type = "prob")
+  task = tsk("sonar")
+  lrn = lrn("classif.rpart", predict_type = "prob")
   p = lrn$train(task)$predict(task)
   expect_factor(p$response, levels = task$class_names)
   expect_equal(as.character(p$response), colnames(p$prob)[max.col(p$prob)])
@@ -45,8 +45,8 @@ test_that("setting threshold binaryclass", {
 })
 
 test_that("setting threshold multiclass", {
-  task = mlr_tasks$get("zoo")
-  lrn = mlr_learners$get("classif.rpart", predict_type = "prob")
+  task = tsk("zoo")
+  lrn = lrn("classif.rpart", predict_type = "prob")
   p = lrn$train(task)$predict(task)
 
   # a small fix for our tests ... Add a small number to all probabilities so that

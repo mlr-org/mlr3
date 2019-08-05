@@ -33,8 +33,7 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rrcv = mlr_resamplings$get("repeated_cv")
-#' rrcv$param_set$values = list(repeats = 2, folds = 3)
+#' rrcv = rsp("repeated_cv", repeats = 2, folds = 3)
 #' rrcv$instantiate(task)
 #' rrcv$iters
 #' rrcv$folds(1:6)

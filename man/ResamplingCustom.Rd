@@ -28,7 +28,7 @@ task = mlr_tasks$get("iris")
 task$filter(1:10)
 
 # Instantiate Resampling
-rc = mlr_resamplings$get("custom")
+rc = rsp("custom")
 train_sets = list(1:5, 5:10)
 test_sets = list(5:10, 1:5)
 rc$instantiate(task, train_sets, test_sets)

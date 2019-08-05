@@ -88,9 +88,8 @@ In case of ties in the ratio, one of the tied class labels is selected randomly.
 }
 
 \examples{
-task = mlr_tasks$get("iris")
-learner = mlr_learners$get("classif.rpart")
-learner$predict_type = "prob"
+task = tsk("iris")
+learner = lrn("classif.rpart", predict_type = "prob")
 learner$train(task)
 p = learner$predict(task)
 p$predict_types

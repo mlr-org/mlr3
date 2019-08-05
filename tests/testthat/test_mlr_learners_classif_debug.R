@@ -12,8 +12,8 @@ test_that("Simple training/predict", {
 })
 
 test_that("updating model works", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
+  task = tsk("iris")
+  learner = lrn("classif.debug", save_tasks = TRUE)
   learner$train(task, 1:10)
   expect_task(learner$model$task_train)
   prediction = learner$predict(task, row_ids = 11:20)
@@ -26,7 +26,7 @@ test_that("updating model works", {
 })
 
 test_that("updating model works / resample", {
-  learner = mlr_learners$get("classif.debug", param_vals = list(save_tasks = TRUE))
+  learner = lrn("classif.debug", save_tasks = TRUE)
   rr = resample("iris", learner, "holdout", ctrl = list(store_models = TRUE))
   new_learner = rr$learners[[1]]
   expect_list(new_learner$model, len = 3)
@@ -35,18 +35,18 @@ test_that("updating model works / resample", {
 test_that("NA predictions", {
   task = mlr_tasks$get("iris")
 
-  learner = mlr_learners$get("classif.debug", param_vals = list(predict_missing = 0.5), predict_type = "response")
+  learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "response")
   learner$train(task)
   p = learner$predict(task)
   expect_equal(sum(is.na(p$response)), 75L)
 
-  learner = mlr_learners$get("classif.debug", param_vals = list(predict_missing = 0.5), predict_type = "prob")
+  learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "prob")
   learner$train(task)
   p = learner$predict(task)
   expect_equal(sum(is.na(p$response)), 75L)
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
 
-  # learner = mlr_learners$get("classif.debug", param_vals = list(predict_missing = 0.5), predict_type = "response")
+  # learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "response")
   # learner$train(task)
   # expect_error(learner$predict(task), "missing predictions")
   # learner$fallback = "classif.featureless"
