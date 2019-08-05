@@ -170,6 +170,11 @@ The new row ids must be provided as column in \code{data}.
 If this column is missing, new row ids are constructed automatically.
 This mutates the task in-place.
 See the section on task mutators for more information.
+\item \code{rename(from, to)}\cr
+(\code{character()}, \code{character()}) -> \code{self}\cr
+Renames columns by mapping column names in \code{old} to new column names in \code{new}.
+This mutates the task in-place.
+See the section on task mutators for more information.
 }
 }
 
@@ -193,6 +198,7 @@ This provides a different "view" on the data without altering the data itself.
 \item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
 Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
 merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
+\item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \code{col_roles} and \code{col_info}.
 }
 }
 

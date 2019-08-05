@@ -85,11 +85,17 @@
 #' * `packages` :: `character()`\cr
 #'   Stores the names of required packages.
 #'
+#' * `state` :: `NULL` | named `list()`\cr
+#'   Current (internal) state of the learner.
+#'   Contains all information learnt during `train()` and `predict()`.
+#'   Do not access elements from here directly.
+#'
 #' * `encapsulate` (named `character()`)\cr
 #'   How to call the code in `train_internal()` and `predict_internal()`.
 #'   Must be a named character vector with names `"train"` and `"predict"`.
 #'   Possible values are `"none"`, `"evaluate"` and `"callr"`.
 #'   See [mlr3misc::encapsulate()] for more details.
+#'
 #' * `fallback` ([Learner])\cr
 #'   Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
 #'   Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
@@ -119,16 +125,16 @@
 #' * `train(task, row_ids = NULL, ctrl = list())`\cr
 #'   ([Task], `integer()` | `character()`, [mlr_control()]) -> `self`\cr
 #'   Train the learner on the row ids of the provided [Task].
-#'   Mutates the learner by reference, i.e. stores the model alongside other objects in field `$data`.
+#'   Mutates the learner by reference, i.e. stores the model alongside other objects in field `$state`.
 #'
 #' * `predict(task, row_ids = NULL, ctrl = list())`\cr
 #'   ([Task], `integer()` | `character()`, [mlr_control()]) -> [Prediction]\cr
-#'   Uses the data stored during `$train()` to create a new [Prediction] based on the provided `row_ids`
+#'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the provided `row_ids`
 #'   of the `task`.
 #'
 #' * `predict_newdata(task, newdata, ctrl = list())`\cr
 #'   ([Task], `data.frame()`, [mlr_control()]) -> [Prediction]\cr
-#'   Uses the data stored during `$train()` to create a new [Prediction] based on the new data in `newdata`.
+#'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the new data in `newdata`.
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
 #'
 #' @section Optional Extractors:
@@ -176,7 +182,7 @@
 Learner = R6Class("Learner",
   public = list(
     id = NULL,
-    data = list(),
+    state = NULL,
     task_type = NULL,
     predict_types = NULL,
     feature_types = NULL,
@@ -240,15 +246,15 @@ Learner = R6Class("Learner",
 
   active = list(
     model = function() {
-      self$data$model
+      self$state$model
     },
 
     timings = function() {
-      set_names(c(self$data$train_time %??% NA_real_, self$data$predict_time %??% NA_real_), c("train", "predict"))
+      set_names(c(self$state$train_time %??% NA_real_, self$state$predict_time %??% NA_real_), c("train", "predict"))
     },
 
     log = function() {
-      tab = rbindlist(list(train = self$data$train_log, predict = self$data$predict_log), idcol = "stage", use.names = TRUE)
+      tab = rbindlist(list(train = self$state$train_log, predict = self$state$predict_log), idcol = "stage", use.names = TRUE)
       if (nrow(tab) == 0L)
         tab = data.table(stage = character(), class = character(), msg = character())
       tab$stage = as_factor(tab$stage, levels = c("train", "predict"))

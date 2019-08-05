@@ -185,6 +185,11 @@
 #'   This mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
+#' * `rename(from, to)`\cr
+#'   (`character()`, `character()`) -> `self`\cr
+#'   Renames columns by mapping column names in `old` to new column names in `new`.
+#'   This mutates the task in-place.
+#'   See the section on task mutators for more information.
 #'
 #' @section S3 methods:
 #' * `as.data.table(t)`\cr
@@ -200,6 +205,7 @@
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
 #'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
 #'   merge both backends into an abstract [DataBackend] which combines the results on-demand.
+#' * `rename()` wraps the [DataBackend] of the Task in an additional [DataBackend] which deals with the renaming. Also updates `col_roles` and `col_info`.
 #'
 #' @family Task
 #' @export
@@ -291,7 +297,7 @@ Task = R6Class("Task",
         assert_subset(cols, self$col_info$id)
       }
 
-      set_names(self$col_info[list(cols), "levels", with = FALSE][[1L]], cols)
+      set_names(self$col_info[list(cols), "levels", on = "id", with = FALSE][[1L]], cols)
     },
 
     missings = function(cols = NULL) {
@@ -326,6 +332,10 @@ Task = R6Class("Task",
       invisible(self)
     },
 
+    rename = function(old, new) {
+      task_rename(self, old, new)
+    },
+
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
       task_set_row_role(self, rows, new_roles, exclusive)
       invisible(self)
@@ -347,10 +357,10 @@ Task = R6Class("Task",
 
   active = list(
     hash = function() {
-      hash(list(
+      hash(
         class(self), self$id, self$backend$hash, self$row_roles, self$col_roles,
-        self$col_info$levels, self$properties
-      ))
+        self$col_info$type, self$col_info$levels, self$properties
+      )
     },
 
     row_ids = function() {

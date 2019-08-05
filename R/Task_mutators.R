@@ -192,3 +192,10 @@ task_cbind = function(self, data) {
 
   invisible(self)
 }
+
+task_rename = function(self, old, new) {
+  self$backend = DataBackendRename$new(self$backend, old, new)
+  setkeyv(self$col_info[old, ("id") := new, on = "id"], "id")
+  self$col_roles = map(self$col_roles, map_values, old = old, new = new)
+  invisible(self)
+}

@@ -23,9 +23,9 @@ test_that("fail during train", {
   learner$fallback = mlr_learners$get("classif.featureless")
   learner$train(task)
 
-  expect_is(learner$data$fallback_data$model, "classif.featureless_model")
-  expect_null(learner$data$model)
-  expect_number(learner$data$train_time, lower = 0)
+  expect_is(learner$state$fallback_state$model, "classif.featureless_model")
+  expect_null(learner$state$model)
+  expect_number(learner$state$train_time, lower = 0)
 
   expect_prediction(learner$predict(task))
 })
@@ -38,9 +38,9 @@ test_that("fail during predict", {
   learner$fallback = mlr_learners$get("classif.featureless")
   learner$train(task)
 
-  expect_is(learner$data$fallback_data$model, "classif.featureless_model")
-  expect_is(learner$data$model, "classif.debug_model")
-  expect_number(learner$data$train_time, lower = 0)
+  expect_is(learner$state$fallback_state$model, "classif.featureless_model")
+  expect_is(learner$state$model, "classif.debug_model")
+  expect_number(learner$state$train_time, lower = 0)
 
   expect_prediction(learner$predict(task))
 })
