@@ -33,7 +33,7 @@ test_that("nested backends", {
   data = as.data.table(iris)
   b1 = as_data_backend(data)
   b2 = DataBackendRename$new(as_data_backend(data), old = names(iris), new = paste0("new_", names(iris)))
-  b = DataBackendCbind$new(b1, b2, b1$colnames, b2$colnames)
+  b = DataBackendCbind$new(b1, b2)
   expect_backend(b1)
   expect_backend(b2)
   expect_backend(b)

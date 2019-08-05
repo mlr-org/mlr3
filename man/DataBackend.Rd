@@ -68,7 +68,7 @@ Rows are guaranteed to be returned in the same order as \code{rows}, columns may
 (\code{integer()} | \code{character()}, \code{character()}) -> named \code{list()}\cr
 Returns a named list of vectors of distinct values for each column specified.
 Non-existing columns are silently ignored.
-If \code{rows} is \code{NULL}, all possible distinct values will be returned, even if they do not occur.
+If \code{rows} is \code{NULL}, all possible distinct values will be returned, even if they do not present in the data.
 This affects factor-like variables with empty levels.
 \item \code{head(n = 6)}\cr
 \code{integer(1)} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr

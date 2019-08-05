@@ -11,8 +11,9 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
       assert_character(new, any.missing = FALSE, len = length(old))
       assert_names(new, "strict")
 
-      self$old = old
-      self$new = new
+      ii = old != new
+      self$old = old[ii]
+      self$new = new[ii]
     },
 
     data = function(rows, cols, data_format = self$data_formats[1L]) {

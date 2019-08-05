@@ -69,7 +69,7 @@
 #'   (`integer()` | `character()`, `character()`) -> named `list()`\cr
 #'   Returns a named list of vectors of distinct values for each column specified.
 #'   Non-existing columns are silently ignored.
-#'   If `rows` is `NULL`, all possible distinct values will be returned, even if they do not occur.
+#'   If `rows` is `NULL`, all possible distinct values will be returned, even if they do not present in the data.
 #'   This affects factor-like variables with empty levels.
 #'
 #' * `head(n = 6)`\cr
