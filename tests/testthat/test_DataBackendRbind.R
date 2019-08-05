@@ -8,16 +8,6 @@ test_that("DataBackendRbind", {
   b1 = as_data_backend(data[1:100, ], primary_key = "id")
   b2 = as_data_backend(data[101:150, ], primary_key = "id")
   b = DataBackendRbind$new(b1, b2)
-
-  self = b
-  rows = 80:120
-  cols = names(iris)
-  data_format = "data.table"
-  private = private(self)
-
-  b$data(rows, cols)
-  b$head(Inf)
-
   expect_backend(b)
   expect_iris_backend(b, n_missing = 30L)
 
@@ -36,18 +26,17 @@ test_that("Backends with different cols", {
   fn = c("Sepal.Width", "Species", "id")
   b1 = as_data_backend(data[1:100, c("Sepal.Length", "Sepal.Width", "Species", "id"), with = FALSE], primary_key = "id")
   b2 = as_data_backend(data[101:150, fn, with = FALSE], primary_key = "id")
-  b = DataBackendRbind$new(b1, b2, b1$rownames, b2$rownames)
+  b = DataBackendRbind$new(b1, b2)
 
-  expect_set_equal(b$colnames, fn)
-  expect_equal(b$ncol, length(fn))
+  expect_equal(b$ncol, 4)
 
   h = b$head(60)
-  expect_data_table(h, ncols = 3, nrows = 60)
+  expect_data_table(h, ncols = 4, nrows = 60)
 
   h = b$head(120)
-  expect_data_table(h, ncols = 3, nrows = 120)
+  expect_data_table(h, ncols = 4, nrows = 120)
 
-  expect_data_table(b$data(rows = 1:120, cols = b$colnames), nrows = 120, ncols = length(fn))
+  expect_data_table(b$data(rows = 1:120, cols = b$colnames), nrows = 120, ncols = 4)
 })
 
 test_that("Backends with mixed data_formats", {

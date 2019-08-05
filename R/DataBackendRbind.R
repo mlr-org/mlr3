@@ -41,17 +41,17 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     },
 
     distinct = function(rows, cols) {
-      cols = intersect(cols, self$cols)
+      cols = intersect(cols, self$colnames)
       d1 = private$.data$b1$distinct(rows, cols)
       d2 = private$.data$b2$distinct(rows, cols)
-      Map(function(nn) union(d1[[nn]], d2[[nn]]), names(d1))
+      set_names(map(cols, function(nn) union(d1[[nn]], d2[[nn]])), cols)
     },
 
     missings = function(rows, cols) {
-      cols = intersect(cols, self$cols)
-      m1 = private$.data$b1$missings(rows, cols)
-      m2 = private$.data$b2$missings(rows, cols)
-      m1 + m2[match(names(m1), names(m2))]
+      cols = intersect(cols, self$colnames)
+      m1 = as.list(private$.data$b1$missings(rows, cols))
+      m2 = as.list(private$.data$b2$missings(rows, cols))
+      set_names(map_int(cols, function(nn) m1[[nn]] %??% 0L + m2[[nn]] %??% 0L), cols)
     }
   ),
 
@@ -65,11 +65,11 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     },
 
     nrow = function() {
-      sum(lengths(self$rows))
+      length(self$rownames)
     },
 
     ncol = function() {
-      length(self$cols)
+      length(self$colnames)
     }
   ),
 
