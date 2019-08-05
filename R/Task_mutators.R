@@ -179,9 +179,7 @@ task_cbind = function(self, data) {
 
   # 2. Overwrite self$backend with new backend
   b2 = DataBackendDataTable$new(data, pk)
-  cols_b1 = unlist(self$col_roles, use.names = FALSE)
-  cols_b2 = setdiff(colnames(data), pk)
-  self$backend = DataBackendCbind$new(self$backend, b2, cols_b1, cols_b2)
+  self$backend = DataBackendCbind$new(self$backend, b2)
 
   # 3. Update col_info
   ci = col_info(data)
