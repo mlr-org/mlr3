@@ -46,7 +46,7 @@ task$truth()
 mlr_reflections$task_properties$regr
 }
 \seealso{
-Example regression task: \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
+Example regression tasks: \code{\link[=mlr_tasks_boston_housing]{boston_housing}}
 
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskSupervised}}, \code{\link{Task}},

@@ -92,7 +92,7 @@ b$distinct(rows = b$rownames, "y")
 b$missings(rows = b$rownames, cols = names(data))
 }
 \seealso{
-Package \CRANpkg{mlr3db}.
+Extension Packages: \CRANpkg{mlr3db}
 
 Other DataBackend: \code{\link{DataBackendDataTable}},
   \code{\link{DataBackendMatrix}},

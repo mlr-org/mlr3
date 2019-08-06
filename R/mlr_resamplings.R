@@ -16,9 +16,8 @@
 #'
 #' @family Dictionary
 #' @family Resampling
-#' @seealso Example resamplings:
-#' * [`cv`][mlr_resamplings_cv].
-#' * [`bootstrap`][mlr_resamplings_bootstrap].
+#' @seealso
+#' Example resamplings: [`cv`][mlr_resamplings_cv], [`bootstrap`][mlr_resamplings_bootstrap]
 #' @export
 #' @examples
 #' as.data.table(mlr_resamplings)
