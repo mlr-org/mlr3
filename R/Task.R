@@ -159,36 +159,45 @@
 #' * `filter(rows)`\cr
 #'   (`integer()` | `character()`) -> `self`\cr
 #'   Subsets the task, reducing it to only keep the rows specified in `rows`.
-#'   This mutates the task in-place.
+#'
+#'   This operation mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
 #' * `select(cols)`\cr
 #'   `character()` -> `self`\cr
 #'   Subsets the task, reducing it to only keep the features specified in `cols`.
 #'   Note that you cannot deselect the target column, for obvious reasons.
-#'   This mutates the task in-place.
+#'
+#'   This operation mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
 #' * `cbind(data)`\cr
 #'   `data.frame()` -> `self`\cr
-#'   Extends the [DataBackend] with additional columns.
+#'   Adds additional columns to the [DataBackend].
 #'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
 #'   If this column is missing, it is assumed that the rows are exactly in the order of `t$row_ids`.
-#'   This mutates the task in-place.
+#'   In case of name clashes of column names in `data` and [DataBackend], columns in `data` have higher precedence
+#'   and virtually overwrite the columns in the [DataBackend].
+#'
+#'   This operation mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
 #' * `rbind(data)`\cr
 #'   `data.frame()` -> `self`\cr
-#'   Extends the [DataBackend] with additional rows.
+#'   Adds additional rows to the [DataBackend].
 #'   The new row ids must be provided as column in `data`.
 #'   If this column is missing, new row ids are constructed automatically.
-#'   This mutates the task in-place.
+#'   In case of name clashes of row ids, rows in `data` have higher precedence
+#'   and virtually overwrite the rows in the [DataBackend].
+#'
+#'   This operation mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
 #' * `rename(from, to)`\cr
 #'   (`character()`, `character()`) -> `self`\cr
 #'   Renames columns by mapping column names in `old` to new column names in `new`.
-#'   This mutates the task in-place.
+#'
+#'   This operation mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
 #' @section S3 methods:

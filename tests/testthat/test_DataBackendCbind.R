@@ -33,7 +33,6 @@ test_that("cbind backends with same columns", {
   data1 = copy(data)
   data2 = copy(data)
 
-  format = "data.table"
   data1$Petal.Width = NA
   b1 = as_data_backend(data1[, -"Sepal.Length"], primary_key = "id")
 

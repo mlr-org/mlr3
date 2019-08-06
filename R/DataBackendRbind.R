@@ -36,9 +36,8 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     },
 
     head = function(n = 6L) {
-      h1 = private$.data$b1$head(n)
-      h2 = private$.data$b2$head(n - nrow(h1))
-      rbindlist(list(h1, h2), use.names = TRUE, fill = TRUE)
+      rows = head(self$rownames, n)
+      self$data(rows, cols = self$colnames)
     },
 
     distinct = function(rows, cols) {
