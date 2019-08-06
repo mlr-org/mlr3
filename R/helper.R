@@ -18,7 +18,7 @@ distinct = function(x, drop = TRUE) {
   if (is.logical(x) && !drop) {
     lvls = c(FALSE, TRUE)
   } else if (is.factor(x)) {
-    lvls = levels(x)
+    lvls = as.character(levels(x))
     if (drop) {
       lvls = lvls[lvls %in% x]
     }

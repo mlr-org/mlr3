@@ -1,15 +1,9 @@
 #' @include DataBackend.R
 DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
-    rows = NULL,
-    cols = NULL,
-
-    initialize = function(b1, b2, rows_b1, rows_b2) {
-
+    initialize = function(b1, b2) {
       assert_backend(b1)
       assert_backend(b2)
-      assert_subset(rows_b1, b1$rownames)
-      assert_subset(rows_b2, b2$rownames)
       pk = b1$primary_key
 
       data_formats = intersect(b1$data_formats, b2$data_formats)
@@ -18,78 +12,64 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       }
 
       if (pk != b2$primary_key) {
-        stopf("All backends to rbind must have the same primary_key '%s'", pk)
+        stopf("All backends to rbind must have the primary_key '%s'", pk)
       }
 
-      i = which(rows_b1 %in% rows_b2)
-      if (length(i)) {
-        stopf("Ambiguous row ids: %s", str_collapse(rows_b1[i], quote = "'", n = 10L))
-      }
-
-      self$rows = list(b1 = rows_b1, b2 = rows_b2)
-      self$cols = intersect(b1$colnames, b2$colnames)
-      super$initialize(list(b1 = b1, b2 = b2), b1$primary_key, "data.table")
+      super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
     },
 
     data = function(rows, cols, data_format = self$data_formats[1L]) {
-      assert_atomic_vector(rows)
-      assert_names(cols, type = "unique")
+      pk = self$primary_key
+      qrows = unique(assert_atomic_vector(rows))
+      qcols = union(assert_names(cols, type = "unique"), pk)
       assert_choice(data_format, self$data_formats)
-      cols = intersect(cols, self$cols)
 
-      query_rows = unique(rows)
-      query_cols = union(cols, self$primary_key)
-      data = rbind(
-        private$.data$b1$data(intersect(query_rows, self$rows$b1), query_cols, data_format = data_format),
-        private$.data$b2$data(intersect(query_rows, self$rows$b2), query_cols, data_format = data_format)
-      )
-      data[list(rows), intersect(cols, names(data)), nomatch = 0L, on = self$primary_key, with = FALSE]
+      data = private$.data$b2$data(qrows, qcols, data_format = data_format)
+      if (nrow(data) < length(qrows)) {
+        qrows = setdiff(rows, data[[pk]])
+        tmp = private$.data$b1$data(qrows, qcols, data_format = data_format)
+        data = rbindlist(list(data, tmp), use.names = TRUE, fill = TRUE)
+      }
+
+      # duplicate rows / reorder columns
+      data[list(rows), intersect(cols, names(data)), nomatch = 0L, on = pk, with = FALSE]
     },
 
     head = function(n = 6L) {
-      n = assert_count(n, coerce = TRUE)
-
-      cols = self$cols
-      h1 = private$.data$b1$head(n)
-      h2 = private$.data$b2$head(n)
-
-      if (nrow(h1) < n) {
-        rbind(h1[, cols, with = FALSE], head(h2[, cols, with = FALSE], n - nrow(h1)))
-      } else {
-        h1[, cols, with = FALSE]
-      }
+      rows = head(self$rownames, n)
+      self$data(rows, cols = self$colnames)
     },
 
     distinct = function(rows, cols) {
-      cols = intersect(cols, self$cols)
+      cols = intersect(cols, self$colnames)
       d1 = private$.data$b1$distinct(rows, cols)
       d2 = private$.data$b2$distinct(rows, cols)
-      Map(function(nn) union(d1[[nn]], d2[[nn]]), names(d1))
+      set_names(map(cols, function(nn) union(d1[[nn]], d2[[nn]])), cols)
     },
 
     missings = function(rows, cols) {
-      cols = intersect(cols, self$cols)
-      m1 = private$.data$b1$missings(rows, cols)
-      m2 = private$.data$b2$missings(rows, cols)
-      m1 + m2[match(names(m1), names(m2))]
+      cols = intersect(cols, self$colnames)
+      m1 = as.list(private$.data$b1$missings(rows, cols))
+      m2 = as.list(private$.data$b2$missings(rows, cols))
+      set_names(map_int(cols, function(nn) m1[[nn]] %??% 0L + m2[[nn]] %??% 0L), cols)
     }
   ),
 
   active = list(
     rownames = function() {
-      c(self$rows$b1, self$rows$b2)
+      union(private$.data$b1$rownames, private$.data$b2$rownames)
     },
 
     colnames = function() {
-      self$cols
+      union(private$.data$b1$colnames, private$.data$b2$colnames)
     },
 
     nrow = function() {
-      sum(lengths(self$rows))
+      uniqueN(c(private$.data$b1$rownames, private$.data$b2$rownames))
     },
 
     ncol = function() {
-      length(self$cols)
+      uniqueN(c(private$.data$b1$colnames, private$.data$b2$colnames))
     }
   ),
 

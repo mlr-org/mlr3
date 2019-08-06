@@ -137,7 +137,7 @@ task_rbind = function(self, data) {
 
   # 2. Overwrite self$backend with new backend
   rows_self = unlist(self$row_roles, use.names = FALSE)
-  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk), rows_self, data[[pk]])
+  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk))
 
   # 3. Update row_roles
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
@@ -179,9 +179,7 @@ task_cbind = function(self, data) {
 
   # 2. Overwrite self$backend with new backend
   b2 = DataBackendDataTable$new(data, pk)
-  cols_b1 = unlist(self$col_roles, use.names = FALSE)
-  cols_b2 = setdiff(colnames(data), pk)
-  self$backend = DataBackendCbind$new(self$backend, b2, cols_b1, cols_b2)
+  self$backend = DataBackendCbind$new(self$backend, b2)
 
   # 3. Update col_info
   ci = col_info(data)

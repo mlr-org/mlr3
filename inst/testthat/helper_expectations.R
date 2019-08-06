@@ -100,7 +100,7 @@ expect_backend = function(b) {
 
   d = b$distinct(rn[1L], cn)
   expect_list(d, len = length(cn), names = "unique", any.missing = FALSE)
-  expect_true(all(lengths(d) == 1L))
+  expect_true(all(lengths(d) <= 1L)) # NA -> 0 zero length
 
   # $missings()
   x = b$missings(b$rownames, b$colnames)
@@ -111,7 +111,7 @@ expect_backend = function(b) {
   checkmate::expect_integer(b$missings(b$rownames[0L], "_not_existing_"), len = 0L, names = "unique")
 
   # $hash
-  checkmate::expect_string(b$hash)
+ checkmate::expect_string(b$hash)
 }
 
 expect_iris_backend = function(b, n_missing = 0L) {
