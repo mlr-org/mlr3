@@ -89,11 +89,16 @@ Returns a copy of the internal data.
 
 \examples{
 set.seed(123)
-tasks = mlr_tasks$mget(c("sonar", "spam"))
-learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-learners = lapply(learners, function(x) x$predict_type = "prob")
-resamplings = mlr_resamplings$get("cv3")
-design = expand_grid(tasks = tasks, learners = learners, resamplings = resamplings)
+learners = list(
+  lrn("classif.featureless", predict_type = "prob"),
+  lrn("classif.rpart", predict_type = "prob")
+)
+
+design = expand_grid(
+  tasks = c("sonar", "spam"),
+  learners = learners,
+  resamplings = "cv3"
+)
 print(design)
 
 bmr = benchmark(design)
