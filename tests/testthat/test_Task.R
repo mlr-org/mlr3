@@ -222,3 +222,11 @@ test_that("task$feature_types preserves key (#193)", {
   task = mlr_tasks$get("iris")$select(character(0))$cbind(iris[1:4])
   expect_data_table(task$feature_types, ncols = 2L, nrows = 4L, key = "id")
 })
+
+test_that("switch columns on and off (#301)", {
+  task = mlr_tasks$get("iris")$
+    set_col_role("Sepal.Length", character(0))$
+    cbind(data.table(x = 1:150))$
+    set_col_role("Sepal.Length", "feature")
+  expect_data_table(task$data(), ncol = 6, nrow = 150, any.missing = FALSE)
+})
