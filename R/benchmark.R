@@ -108,7 +108,7 @@ benchmark = function(design, ctrl = list()) {
 
     res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, MoreArgs = list(ctrl = ctrl, remote = TRUE),
+      iteration = grid$iteration, MoreArgs = list(ctrl = ctrl, lgr_threshold = lg$threshold),
       SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3"

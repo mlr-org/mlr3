@@ -149,9 +149,9 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
 }
 
 
-workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control(), remote = FALSE) {
-  if (remote) {
-    lg$set_threshold(ctrl$log_threshold)
+workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control(), lgr_threshold = NULL) {
+  if (!is.null(lgr_threshold)) {
+     lg$set_threshold(lgr_threshold)
   }
   lg$info("Applying learner '%s' on task '%s' (iter %i/%i)", learner$id, task$id, iteration, resampling$iters)
   train_set = resampling$train_set(iteration)
