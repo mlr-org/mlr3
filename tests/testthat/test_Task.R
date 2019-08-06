@@ -47,6 +47,7 @@ test_that("Rows return ordered with multiple order cols", {
 
 test_that("Task rbind", {
   task = mlr_tasks$get("iris")
+  expect_error(task$rbind(task), "data.frame")
   data = iris[1:10, ]
   task$rbind(iris[1:10, ])
   expect_task(task)
@@ -67,6 +68,7 @@ test_that("Task rbind", {
 
 test_that("Task cbind", {
   task = mlr_tasks$get("iris")
+  expect_error(task$cbind(task), "data.frame")
   data = cbind(data.frame(foo = 150:1), data.frame(..row_id = task$row_ids))
   task$cbind(data)
   expect_task(task)
@@ -221,4 +223,12 @@ test_that("task$missings() works", {
 test_that("task$feature_types preserves key (#193)", {
   task = mlr_tasks$get("iris")$select(character(0))$cbind(iris[1:4])
   expect_data_table(task$feature_types, ncols = 2L, nrows = 4L, key = "id")
+})
+
+test_that("switch columns on and off (#301)", {
+  task = mlr_tasks$get("iris")$
+    set_col_role("Sepal.Length", character(0))$
+    cbind(data.table(x = 1:150))$
+    set_col_role("Sepal.Length", "feature")
+  expect_data_table(task$data(), ncols = 6, nrows = 150, any.missing = FALSE)
 })

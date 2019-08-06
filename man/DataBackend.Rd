@@ -50,7 +50,7 @@ Returns vector of all distinct row identifiers, i.e. the primary key column.
 Returns a unique hash for this backend. This hash is cached.
 \item \code{data_formats} :: \code{character()}\cr
 Vector of supported data formats.
-A specific format of these supported formats can be picked in the \code{$data()} method.
+A specific format can be chosen in the \code{$data()} method.
 }
 }
 
@@ -64,11 +64,12 @@ Currently, the only supported formats are \code{"data.table"} and \code{"Matrix"
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
 Rows are guaranteed to be returned in the same order as \code{rows}, columns may be returned in an arbitrary order.
+Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
 \item \code{distinct(rows, cols)}\cr
 (\code{integer()} | \code{character()}, \code{character()}) -> named \code{list()}\cr
 Returns a named list of vectors of distinct values for each column specified.
-Non-existing columns are silently ignored.
-If \code{rows} is \code{NULL}, all possible distinct values will be returned, even if they do not occur.
+Non-existing rows and columns are silently ignored.
+If \code{rows} is \code{NULL}, all possible distinct values will be returned, even if the value is not present in the data.
 This affects factor-like variables with empty levels.
 \item \code{head(n = 6)}\cr
 \code{integer(1)} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr

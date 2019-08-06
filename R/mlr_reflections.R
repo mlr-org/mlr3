@@ -15,8 +15,7 @@ mlr_reflections = new.env(parent = emptyenv())
 local({
   ### options
   mlr_reflections$mlr_control_defaults = list(
-    store_models = FALSE,
-    log_threshold = 400L
+    store_models = FALSE
   )
 
   ### Task

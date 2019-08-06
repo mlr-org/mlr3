@@ -25,9 +25,6 @@ variable importance from the learner.
 
 \strong{Defaults}\preformatted{$store_models
 TRUE
-
-$log_threshold
-400
 }
 }
 \examples{

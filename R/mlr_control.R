@@ -12,9 +12,6 @@
 #' ```
 #' $store_models
 #' TRUE
-#'
-#' $log_threshold
-#' 400
 #' ```
 #'
 #' @param ... :: `any`\cr
@@ -30,7 +27,6 @@
 mlr_control = function(...) {
 
   ctrl = mlr_reflections$mlr_control_defaults
-  ctrl$log_threshold = lg$threshold
 
   ldots = ...length()
   if (ldots == 0L) {

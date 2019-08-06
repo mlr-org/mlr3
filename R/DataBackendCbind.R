@@ -1,15 +1,9 @@
 #' @include DataBackend.R
 DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
-    rows = NULL,
-    cols = NULL,
-
-    initialize = function(b1, b2, cols_b1, cols_b2) {
-
+    initialize = function(b1, b2) {
       assert_backend(b1)
       assert_backend(b2)
-      assert_subset(cols_b1, b1$colnames)
-      assert_subset(cols_b2, b2$colnames)
       pk = b1$primary_key
 
       data_formats = intersect(b1$data_formats, b2$data_formats)
@@ -18,70 +12,64 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       }
 
       if (pk != b2$primary_key) {
-        stopf("All backends to rbind must have the same primary_key '%s'", pk)
+        stopf("All backends to rbind must have the primary_key '%s'", pk)
       }
 
-      i = which(cols_b1 %in% setdiff(cols_b2, pk))
-      if (length(i)) {
-        stopf("Ambiguous column membership: %s", str_collapse(cols_b1[i], quote = "'"))
-      }
-
-      self$rows = intersect(b1$rownames, b2$rownames)
-      self$cols = list(b1 = union(pk, cols_b1), b2 = union(pk, cols_b2))
       super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
     },
 
     data = function(rows, cols, data_format = self$data_formats[1L]) {
-      qrows = intersect(assert_atomic_vector(rows), self$rows)
+      pk = self$primary_key
+      qrows = unique(assert_atomic_vector(rows))
       qcols = union(assert_names(cols, type = "unique"), self$primary_key)
       assert_choice(data_format, self$data_formats)
 
-      d1 = private$.data$b1$data(qrows, intersect(qcols, self$cols$b1), data_format = data_format)
-
-      if (ncol(d1) < length(qcols)) {
-        d2 = private$.data$b2$data(qrows, intersect(qcols, self$cols$b2), data_format = data_format)
-        d1 = d1[d2, on = self$primary_key, nomatch = 0L]
+      data = private$.data$b2$data(qrows, qcols, data_format = data_format)
+      if (ncol(data) < length(qcols)) {
+        qcols = setdiff(cols, names(data))
+        tmp = private$.data$b1$data(qrows, union(qcols, pk), data_format = data_format)
+        data = merge(data, tmp, by = pk, all = TRUE, sort = TRUE)
       }
-      d1[list(rows), intersect(cols, names(d1)), on = self$primary_key, with = FALSE, nomatch = 0L]
+
+      # duplicate rows / reorder columns
+      data[list(rows), intersect(cols, names(data)), on = pk, with = FALSE, nomatch = 0L]
     },
 
     head = function(n = 6L) {
-      rows = head(self$rows, n)
+      rows = head(self$rownames, n)
       self$data(rows = rows, cols = self$colnames)
     },
 
     distinct = function(rows, cols) {
-      res = c(
-        private$.data$b1$distinct(rows, intersect(cols, self$cols$b1)),
-        private$.data$b2$distinct(rows, setdiff(intersect(cols, self$cols$b2), self$primary_key))
-      )
+      d2 = private$.data$b2$distinct(rows, cols)
+      d1 = private$.data$b1$distinct(rows, setdiff(cols, names(d2)))
+      res = c(d1, d2)
       res[match(cols, names(res), nomatch = 0L)]
     },
 
     missings = function(rows, cols) {
-      rows = intersect(rows, self$rows)
-      c(
-        private$.data$b1$missings(rows, intersect(cols, self$cols$b1)),
-        private$.data$b2$missings(rows, setdiff(intersect(cols, self$cols$b2), self$primary_key))
-      )
+      m2 = private$.data$b2$missings(rows, cols)
+      m1 = private$.data$b1$missings(rows, setdiff(cols, names(m2)))
+      res = c(m1, m2)
+      res[match(cols, names(res), nomatch = 0L)]
     }
   ),
 
   active = list(
     rownames = function() {
-      self$rows
+      union(private$.data$b1$rownames, private$.data$b2$rownames)
     },
 
     colnames = function() {
-      c(self$cols$b1, setdiff(self$cols$b2, self$primary_key))
+      union(private$.data$b1$colnames, private$.data$b2$colnames)
     },
 
     nrow = function() {
-      length(self$rows)
+      uniqueN(c(private$.data$b1$rownames, private$.data$b2$rownames))
     },
 
     ncol = function() {
-      sum(lengths(self$cols)) - 1L
+      uniqueN(c(private$.data$b1$colnames, private$.data$b2$colnames))
     }
   ),
 

@@ -101,12 +101,13 @@ convert_matching_types = function(col_info, data) {
 # 3. Update row_roles
 # 4. Update col_info
 task_rbind = function(self, data) {
+  assert_data_frame(data)
+
   if (all(dim(data) == 0L)) {
     return(invisible(self))
   }
 
   # 1. Check that an rbind is feasible
-  assert_data_frame(data, min.cols = 1L)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
@@ -137,7 +138,7 @@ task_rbind = function(self, data) {
 
   # 2. Overwrite self$backend with new backend
   rows_self = unlist(self$row_roles, use.names = FALSE)
-  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk), rows_self, data[[pk]])
+  self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk))
 
   # 3. Update row_roles
   self$row_roles$use = c(self$row_roles$use, data[[pk]])
@@ -156,12 +157,13 @@ task_rbind = function(self, data) {
 # 2. Overwrite self$backend with new backend
 # 3. Update col_info
 task_cbind = function(self, data) {
+  assert_data_frame(data)
+
   if (all(dim(data) == 0L)) {
     return(invisible(self))
   }
 
   # 1. Check that an cbind is feasible
-  assert_data_frame(data, nrows = self$nrow)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
@@ -179,9 +181,7 @@ task_cbind = function(self, data) {
 
   # 2. Overwrite self$backend with new backend
   b2 = DataBackendDataTable$new(data, pk)
-  cols_b1 = unlist(self$col_roles, use.names = FALSE)
-  cols_b2 = setdiff(colnames(data), pk)
-  self$backend = DataBackendCbind$new(self$backend, b2, cols_b1, cols_b2)
+  self$backend = DataBackendCbind$new(self$backend, b2)
 
   # 3. Update col_info
   ci = col_info(data)
