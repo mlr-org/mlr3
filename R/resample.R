@@ -12,6 +12,7 @@
 #'
 #' @template section-sugar
 #' @template section-parallelization
+#' @template section-logging
 #'
 #' @note
 #' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.

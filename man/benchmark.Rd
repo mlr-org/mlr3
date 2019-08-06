@@ -60,6 +60,24 @@ Additionally, each task type has an associated default measure (stored in \link{
 Classification tasks default to the classification error in \link[=mlr_measures_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measures_regr.mse]{"regr.mse"}.
 }
 
+\section{Logging}{
+
+
+The \CRANpkg{mlr3} uses the \CRANpkg{lgr} package for logging.
+\CRANpkg{lgr} supports multiple log levels which can be queried with
+\code{getOption("lgr.log_levels")}.
+
+To suppress output and reduce verbosity, you can lower the log from the
+default level \code{"info"} to \code{"warn"}:\preformatted{lgr::get_logger("mlr3")$set_threshold("warn")
+}
+
+To get additional log output for debugging, increase the log level to \code{"debug"}
+or \code{"trace"}:\preformatted{lgr::get_logger("mlr3")$set_threshold("debug")
+}
+
+To log to a file or a data base, see the documentation of \link[lgr:lgr-package]{lgr::lgr-package}.
+}
+
 \examples{
 # benchmarking with expand_grid()
 tasks = mlr_tasks$mget(c("iris", "sonar"))

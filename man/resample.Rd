@@ -52,6 +52,24 @@ from \CRANpkg{future.apply} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 }
 
+\section{Logging}{
+
+
+The \CRANpkg{mlr3} uses the \CRANpkg{lgr} package for logging.
+\CRANpkg{lgr} supports multiple log levels which can be queried with
+\code{getOption("lgr.log_levels")}.
+
+To suppress output and reduce verbosity, you can lower the log from the
+default level \code{"info"} to \code{"warn"}:\preformatted{lgr::get_logger("mlr3")$set_threshold("warn")
+}
+
+To get additional log output for debugging, increase the log level to \code{"debug"}
+or \code{"trace"}:\preformatted{lgr::get_logger("mlr3")$set_threshold("debug")
+}
+
+To log to a file or a data base, see the documentation of \link[lgr:lgr-package]{lgr::lgr-package}.
+}
+
 \examples{
 task = mlr_tasks$get("iris")
 learner = mlr_learners$get("classif.rpart")

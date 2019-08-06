@@ -26,6 +26,7 @@
 #'
 #' @template section-parallelization
 #' @template section-sugar
+#' @template section-logging
 #'
 #' @export
 #' @examples
