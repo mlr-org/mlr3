@@ -333,12 +333,10 @@ Task = R6Class("Task",
 
     rbind = function(data) {
       task_rbind(self, data)
-      invisible(self)
     },
 
     cbind = function(data) {
       task_cbind(self, data)
-      invisible(self)
     },
 
     rename = function(old, new) {

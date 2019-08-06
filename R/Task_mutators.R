@@ -101,12 +101,13 @@ convert_matching_types = function(col_info, data) {
 # 3. Update row_roles
 # 4. Update col_info
 task_rbind = function(self, data) {
+  assert_data_frame(data)
+
   if (all(dim(data) == 0L)) {
     return(invisible(self))
   }
 
   # 1. Check that an rbind is feasible
-  assert_data_frame(data, min.cols = 1L)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
@@ -156,12 +157,13 @@ task_rbind = function(self, data) {
 # 2. Overwrite self$backend with new backend
 # 3. Update col_info
 task_cbind = function(self, data) {
+  assert_data_frame(data)
+
   if (all(dim(data) == 0L)) {
     return(invisible(self))
   }
 
   # 1. Check that an cbind is feasible
-  assert_data_frame(data, nrows = self$nrow)
   data = as.data.table(data)
   pk = self$backend$primary_key
 
