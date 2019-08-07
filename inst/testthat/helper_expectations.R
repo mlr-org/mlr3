@@ -437,4 +437,8 @@ expect_benchmark_result = function(bmr) {
 
   tab = bmr$aggregate(params = TRUE)
   checkmate::assert_list(tab$params)
+
+  hashes = bmr$hashes
+  expect_hash(hashes, len = uniqueN(bmr$data$hash))
+  expect_set_equal(hashes, bmr$data$hash)
 }

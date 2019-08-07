@@ -37,6 +37,9 @@
 #'   Table of used resamplings with three columns:
 #'   `"resampling_hash"` (`character(1)`), `"resampling_id"` (`character(1)`) and `"resampling"` ([Resampling]).
 #'
+#' * `hashes` :: `character()`\cr
+#'   Vector of hashes of all included [ResampleResult]s.
+#'
 #' @section Methods:
 #' * `aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)`\cr
 #'   (`list()` of [Measure], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
@@ -198,6 +201,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     resamplings = function() {
       unique(self$data[, list(resampling_hash = hashes(resampling), resampling_id = ids(resampling), resampling = resampling)], by = "resampling_hash")
+    },
+
+    hashes = function() {
+      hash = NULL
+      self$data[, unique(hash)]
     }
   ),
 
