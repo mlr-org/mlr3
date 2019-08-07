@@ -25,3 +25,4 @@ doc
 inst/doc
 .DS_Store
 .Rproj.user
+revdep

@@ -65,10 +65,12 @@ The rows must be addressed as vector of primary key values, columns must be refe
 Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
 Rows are guaranteed to be returned in the same order as \code{rows}, columns may be returned in an arbitrary order.
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
-\item \code{distinct(rows, cols)}\cr
-(\code{integer()} | \code{character()}, \code{character()}) -> named \code{list()}\cr
-Returns a named list of vectors of distinct, non-missing values for each column specified.
+\item \code{distinct(rows, cols, na_rm = TRUE)}\cr
+(\code{integer()} | \code{character()}, \code{character()}, \code{logical(1)}) -> named \code{list()}\cr
+Returns a named list of vectors of distinct values for each column specified.
+If \code{na_rm} is \code{TRUE}, missing values are removed from the returned vectors of distinct values.
 Non-existing rows and columns are silently ignored.
+
 If \code{rows} is \code{NULL}, all possible distinct values will be returned, even if the value is not present in the data.
 This affects factor-like variables with empty levels, if supported by the backend.
 \item \code{head(n = 6)}\cr

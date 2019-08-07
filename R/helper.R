@@ -14,17 +14,40 @@ ujoin = function(x, y, key) {
   x[y, eval(expr), on = key]
 }
 
-distinct = function(x, drop = TRUE) {
-  if (is.logical(x) && !drop) {
-    lvls = c(FALSE, TRUE)
-  } else if (is.factor(x)) {
-    lvls = as.character(levels(x))
-    if (drop) {
-      lvls = lvls[lvls %in% x]
-    }
+
+distinct = function(x, drop = TRUE, na_rm = TRUE) {
+  assert_flag(drop)
+  assert_flag(na_rm)
+  UseMethod("distinct")
+}
+
+distinct.default = function(x, drop = TRUE, na_rm = TRUE) {
+  lvls = unique(x)
+  if (na_rm)
+    lvls = lvls[!is.na(lvls)]
+  lvls
+}
+
+distinct.logical = function(x, drop = TRUE, na_rm = TRUE) {
+  if (!drop) {
+    lvls = c(TRUE, FALSE)
+    if (!na_rm && anyMissing(x))
+      lvls = c(lvls, NA)
   } else {
     lvls = unique(x)
-    lvls = lvls[!is.na(lvls)]
+  }
+  lvls
+}
+
+distinct.factor = function(x, drop = TRUE, na_rm = TRUE) {
+  if (drop) {
+    lvls = as.character(unique(x))
+    if (na_rm)
+      lvls = lvls[!is.na(lvls)]
+  } else {
+    lvls = levels(x)
+    if (!na_rm && anyMissing(x))
+      lvls = c(lvls, NA_character_)
   }
   lvls
 }

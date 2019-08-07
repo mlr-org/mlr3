@@ -78,12 +78,12 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       head(private$.data, n)
     },
 
-    distinct = function(rows, cols) {
+    distinct = function(rows, cols, na_rm = TRUE) {
       cols = intersect(cols, colnames(private$.data))
       if (is.null(rows)) {
-        set_names(lapply(cols, function(x) distinct(private$.data[[x]], drop = FALSE)), cols)
+        set_names(lapply(cols, function(x) distinct(private$.data[[x]], drop = FALSE, na_rm = na_rm)), cols)
       } else {
-        lapply(self$data(rows, cols), distinct, drop = TRUE)
+        lapply(self$data(rows, cols), distinct, drop = TRUE, na_rm = na_rm)
       }
     },
 
