@@ -102,6 +102,12 @@ expect_backend = function(b) {
   expect_list(d, len = length(cn), names = "unique", any.missing = FALSE)
   expect_true(all(lengths(d) <= 1L)) # NA -> 0 zero length
 
+  ## missings are removed from distinct?
+  if (!isNamespaceLoaded("mlr3db") || packageVersion("mlr3db") > "0.1.1") {
+    d = b$distinct(rn, cn)
+    qexpectr(d, "V")
+  }
+
   # $missings()
   x = b$missings(b$rownames, b$colnames)
   checkmate::expect_integer(x, lower = 0L, upper = b$nrow, any.missing = FALSE)
