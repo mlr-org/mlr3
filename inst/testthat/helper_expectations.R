@@ -264,7 +264,7 @@ expect_learner = function(lrn, task = NULL) {
   checkmate::expect_r6(lrn, "Learner", cloneable = TRUE)
   testthat::expect_output(print(lrn))
 
-  checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types)
+  checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types$type)
   checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   checkmate::expect_class(lrn$param_set, "ParamSet")
   checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
@@ -330,7 +330,7 @@ expect_measure = function(m) {
   testthat::expect_output(print(m), "Measure")
 
   expect_id(m$id)
-  checkmate::expect_subset(m$task_type, c(NA_character_, mlr3::mlr_reflections$task_types), empty.ok = FALSE)
+  checkmate::expect_subset(m$task_type, c(NA_character_, mlr3::mlr_reflections$task_types$type), empty.ok = FALSE)
   checkmate::expect_numeric(m$range, len = 2, any.missing = FALSE)
   testthat::expect_lt(m$range[1], m$range[2])
   checkmate::expect_flag(m$minimize, na.ok = TRUE)

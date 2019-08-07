@@ -39,7 +39,7 @@ Stores the names of required packages.
 Description of available hyperparameters and hyperparameter settings.
 \item \code{task_type} :: \code{character(1)}\cr
 Stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
-A complete list of task types is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_types}}.
+A complete list of task types is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.
 }
 }
 

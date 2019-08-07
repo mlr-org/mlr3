@@ -195,7 +195,7 @@ Learner = R6Class("Learner",
       feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
 
       self$id = assert_string(id, min.chars = 1L)
-      self$task_type = assert_choice(task_type, mlr_reflections$task_types)
+      self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
       private$.encapsulate = c(train = "none", predict = "none")
       self$param_set$values = param_vals

@@ -22,7 +22,7 @@
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Set in the classes which inherit from this class.
-#'   Must be an element of [mlr_reflections$task_types][mlr_reflections].
+#'   Must be an element of [mlr_reflections$task_types$type][mlr_reflections].
 #'
 #' * `target` :: `character(1)`\cr
 #'   Name of the target column.

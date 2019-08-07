@@ -20,7 +20,7 @@ Either a \link{DataBackend}, or any object which is convertible to a DataBackend
 E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.
 \item \code{task_type} :: \code{character(1)}\cr
 Set in the classes which inherit from this class.
-Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types}.
+Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.
 \item \code{target} :: \code{character(1)}\cr
 Name of the target column.
 }
