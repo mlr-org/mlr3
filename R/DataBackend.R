@@ -68,10 +68,10 @@
 #'
 #' * `distinct(rows, cols)`\cr
 #'   (`integer()` | `character()`, `character()`) -> named `list()`\cr
-#'   Returns a named list of vectors of distinct values for each column specified.
+#'   Returns a named list of vectors of distinct, non-missing values for each column specified.
 #'   Non-existing rows and columns are silently ignored.
 #'   If `rows` is `NULL`, all possible distinct values will be returned, even if the value is not present in the data.
-#'   This affects factor-like variables with empty levels.
+#'   This affects factor-like variables with empty levels, if supported by the backend.
 #'
 #' * `head(n = 6)`\cr
 #'   `integer(1)` -> [data.table::data.table()]\cr

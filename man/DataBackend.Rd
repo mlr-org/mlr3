@@ -67,10 +67,10 @@ Rows are guaranteed to be returned in the same order as \code{rows}, columns may
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
 \item \code{distinct(rows, cols)}\cr
 (\code{integer()} | \code{character()}, \code{character()}) -> named \code{list()}\cr
-Returns a named list of vectors of distinct values for each column specified.
+Returns a named list of vectors of distinct, non-missing values for each column specified.
 Non-existing rows and columns are silently ignored.
 If \code{rows} is \code{NULL}, all possible distinct values will be returned, even if the value is not present in the data.
-This affects factor-like variables with empty levels.
+This affects factor-like variables with empty levels, if supported by the backend.
 \item \code{head(n = 6)}\cr
 \code{integer(1)} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns the first up-to \code{n} rows of the data as \code{\link[data.table:data.table]{data.table::data.table()}}.

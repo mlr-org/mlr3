@@ -83,7 +83,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       if (is.null(rows)) {
         set_names(lapply(cols, function(x) distinct(private$.data[[x]], drop = FALSE)), cols)
       } else {
-        lapply(self$data(rows, cols), distinct)
+        lapply(self$data(rows, cols), distinct, drop = TRUE)
       }
     },
 
