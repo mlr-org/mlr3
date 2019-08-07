@@ -54,7 +54,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
         stopf("No model stored")
       }
       fn = self$model$features
-      set_names(double(length(fn)), fn)
+      named_vector(fn, 0)
     },
 
     selected_features = function() {

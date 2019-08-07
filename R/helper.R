@@ -14,49 +14,6 @@ ujoin = function(x, y, key) {
   x[y, eval(expr), on = key]
 }
 
-
-distinct = function(x, drop = TRUE, na_rm = TRUE) {
-  assert_flag(drop)
-  assert_flag(na_rm)
-  UseMethod("distinct")
-}
-
-distinct.default = function(x, drop = TRUE, na_rm = TRUE) {
-  lvls = unique(x)
-  if (na_rm)
-    lvls = lvls[!is.na(lvls)]
-  lvls
-}
-
-distinct.logical = function(x, drop = TRUE, na_rm = TRUE) {
-  if (!drop) {
-    lvls = c(TRUE, FALSE)
-    if (!na_rm && anyMissing(x))
-      lvls = c(lvls, NA)
-  } else {
-    lvls = unique(x)
-  }
-  lvls
-}
-
-distinct.factor = function(x, drop = TRUE, na_rm = TRUE) {
-  if (drop) {
-    lvls = as.character(unique(x))
-    if (na_rm)
-      lvls = lvls[!is.na(lvls)]
-  } else {
-    lvls = levels(x)
-    if (!na_rm && anyMissing(x))
-      lvls = c(lvls, NA_character_)
-  }
-  lvls
-}
-
-filter_oob_index = function(x, lower, upper) {
-  x = assert_integerish(x, coerce = TRUE)
-  x[!is.na(x) & x >= lower & x <= upper]
-}
-
 hash = function(...) {
   digest::digest(list(...), algo = "xxhash64")
 }
@@ -76,12 +33,3 @@ allow_partial_matching = list(
   warnPartialMatchAttr = FALSE,
   warnPartialMatchDollar = FALSE
 )
-
-# TODO: move to mlr3misc
-set_col_names = function (x, nm = x, ...) {
-    if (is.function(nm)) {
-      nm = map_chr(names2(x), nm)
-    }
-    colnames(x) = nm
-    x
-}
