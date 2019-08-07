@@ -60,7 +60,7 @@ Imports:
     lgr (>= 0.3.0),
     Metrics,
     mlbench,
-    mlr3misc (>= 0.1.1-9000),
+    mlr3misc (>= 0.1.2),
     paradox,
     R6
 Suggests:
