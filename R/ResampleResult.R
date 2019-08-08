@@ -156,7 +156,7 @@ ResampleResult = R6Class("ResampleResult",
 
     hash = function() {
       data = self$data
-      hash_resample_iteration(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
+      hash_resample_result(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
     },
 
     warnings = function() {

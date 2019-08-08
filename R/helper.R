@@ -10,7 +10,18 @@ hash = function(...) {
   digest::digest(list(...), algo = "xxhash64")
 }
 
-hash_resample_iteration = function(task, learner, resampling) {
+#' @title Calculate the Hash for a ResampleResult
+#'
+#' @description
+#' Internally used, exported for addon-packages.
+#'
+#' @param task :: [Task].
+#' @param learner :: [Learner].
+#' @param resampling :: [Resampling].
+#' @return (`character(1)`) hash value.
+#' @keywords internal
+#' @export
+hash_resample_result = function(task, learner, resampling) {
   hash(task$hash, learner$hash, resampling$hash)
 }
 
