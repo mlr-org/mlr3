@@ -45,8 +45,8 @@ confusion_measure_info = setindexv(rowwise_table(
 #'
 #' @export
 #' @examples
-#' task = mlr_tasks$get("german_credit")
-#' learner = mlr_learners$get("classif.rpart")
+#' task = tsk("german_credit")
+#' learner = lrn("classif.rpart")
 #' p = learner$train(task)$predict(task)
 #' round(p$score(c("classif.sensitivity", "classif.specificity")), 2)
 MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
@@ -112,8 +112,8 @@ for (type in confusion_measure_info$id) {
 #' @return (named `numeric()`) of confusion measures.
 #' @export
 #' @examples
-#' task = mlr_tasks$get("german_credit")
-#' learner = mlr_learners$get("classif.rpart")
+#' task = tsk("german_credit")
+#' learner = lrn("classif.rpart")
 #' p = learner$train(task)$predict(task)
 #' round(confusion_measures(p$confusion), 2)
 confusion_measures = function(m, type = NULL) {

@@ -25,7 +25,6 @@
 #' If you need access to the models for later analysis, set `store_models` to `TRUE` via [mlr_control()].
 #'
 #' @template section-parallelization
-#' @template section-sugar
 #' @template section-logging
 #'
 #' @export

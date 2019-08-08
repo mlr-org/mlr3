@@ -3,14 +3,16 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task :: [Task].
-#' @param learner :: [Learner].
-#' @param resampling :: [Resampling].
+#' @param task :: [Task]\cr
+#'   See also [mlr_sugar].
+#' @param learner :: [Learner]\cr
+#'   See also [mlr_sugar].
+#' @param resampling :: [Resampling]\cr
+#'   See also [mlr_sugar].
 #' @param ctrl :: named `list()`\cr
 #'   Object to control learner execution. See [mlr_control()] for details.
 #' @return [ResampleResult].
 #'
-#' @template section-sugar
 #' @template section-parallelization
 #' @template section-logging
 #'
@@ -20,9 +22,9 @@
 #'
 #' @export
 #' @examples
-#' task = mlr_tasks$get("iris")
-#' learner = mlr_learners$get("classif.rpart")
-#' resampling = mlr_resamplings$get("cv")
+#' task = tsk("iris")
+#' learner = lrn("classif.rpart")
+#' resampling = rsp("cv")
 #'
 #' # explicitly instantiate the resampling for this task for reproduciblity
 #' set.seed(123)

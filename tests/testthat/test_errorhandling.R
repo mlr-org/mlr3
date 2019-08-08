@@ -13,7 +13,7 @@ test_that("no encapsulation", {
 })
 
 test_that("no encapsulation / resampling", {
-  learner = mlr_learners$get("classif.debug", param_vals = list(error_train = 1))
+  learner = lrn("classif.debug", error_train = 1)
   expect_error(resample("iris", learner, "cv3"), "'classif.debug'")
 })
 

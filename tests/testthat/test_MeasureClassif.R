@@ -3,8 +3,7 @@ context("MeasureClassif")
 test_that("Classification measures", {
   keys = mlr_measures$keys()
   task = mlr_tasks$get("sonar")
-  learner = mlr_learners$get("classif.featureless")
-  learner$predict_type = "prob"
+  learner = lrn("classif.featureless", predict_type = "prob")
   learner$train(task)
   p = learner$predict(task)
 

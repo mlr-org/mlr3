@@ -7,11 +7,14 @@
 resample(task, learner, resampling, ctrl = list())
 }
 \arguments{
-\item{task}{:: \link{Task}.}
+\item{task}{:: \link{Task}\cr
+See also \link{mlr_sugar}.}
 
-\item{learner}{:: \link{Learner}.}
+\item{learner}{:: \link{Learner}\cr
+See also \link{mlr_sugar}.}
 
-\item{resampling}{:: \link{Resampling}.}
+\item{resampling}{:: \link{Resampling}\cr
+See also \link{mlr_sugar}.}
 
 \item{ctrl}{:: named \code{list()}\cr
 Object to control learner execution. See \code{\link[=mlr_control]{mlr_control()}} for details.}
@@ -26,23 +29,6 @@ Runs a resampling (possibly in parallel).
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_models} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
 }
-\section{Syntactic Sugar}{
-
-
-The mlr3 package provides some shortcuts to ease the creation of its objects.
-
-First, instead of an object, it is possible to pass a string identifier which is used to lookup the object in a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
-\itemize{
-\item \link{Task} in \link{mlr_tasks}.
-\item \link{Learner} in \link{mlr_learners}.
-\item \link{Resampling} in \link{mlr_resamplings}.
-\item \link{Measure} in \link{mlr_measures}.
-}
-
-Additionally, each task type has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
-Classification tasks default to the classification error in \link[=mlr_measures_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measures_regr.mse]{"regr.mse"}.
-}
-
 \section{Parallelization}{
 
 
@@ -71,9 +57,9 @@ To log to a file or a data base, see the documentation of \link[lgr:lgr-package]
 }
 
 \examples{
-task = mlr_tasks$get("iris")
-learner = mlr_learners$get("classif.rpart")
-resampling = mlr_resamplings$get("cv")
+task = tsk("iris")
+learner = lrn("classif.rpart")
+resampling = rsp("cv")
 
 # explicitly instantiate the resampling for this task for reproduciblity
 set.seed(123)

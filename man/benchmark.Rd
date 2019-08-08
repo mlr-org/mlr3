@@ -43,23 +43,6 @@ from \CRANpkg{future.apply} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 }
 
-\section{Syntactic Sugar}{
-
-
-The mlr3 package provides some shortcuts to ease the creation of its objects.
-
-First, instead of an object, it is possible to pass a string identifier which is used to lookup the object in a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
-\itemize{
-\item \link{Task} in \link{mlr_tasks}.
-\item \link{Learner} in \link{mlr_learners}.
-\item \link{Resampling} in \link{mlr_resamplings}.
-\item \link{Measure} in \link{mlr_measures}.
-}
-
-Additionally, each task type has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
-Classification tasks default to the classification error in \link[=mlr_measures_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measures_regr.mse]{"regr.mse"}.
-}
-
 \section{Logging}{
 
 

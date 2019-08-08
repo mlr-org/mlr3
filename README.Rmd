@@ -61,15 +61,14 @@ prediction = learner$predict(task_iris, row_ids = test_set)
 
 # calculate performance
 prediction$confusion
-measure = mlr_measures$get("classif.acc")
-prediction$score(measure)
+prediction$score("classif.acc")
 ```
 
 ### Resample
 
 ```r
 # automatic resampling
-resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
+resampling = rsp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 rr$performance(measure)
 rr$aggregate()

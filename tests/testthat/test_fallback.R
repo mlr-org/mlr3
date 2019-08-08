@@ -58,10 +58,8 @@ test_that("fail during resample", {
 })
 
 test_that("incomplete predictions", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.debug", predict_type = "prob")
-  learner$param_set$values = list(predict_missing = 0.5)
-  learner$fallback = mlr_learners$get("classif.featureless")
+  task = tsk("iris")
+  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5, fallback = "classif.featureless")
 
   learner$train(task)
   p = learner$predict(task)

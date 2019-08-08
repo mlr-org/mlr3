@@ -6,11 +6,13 @@
 #'
 #' Resampling strategies may not be instantiated, and will be instantiated per task internally.
 #'
-#' @param tasks :: list of [Task].
-#' @param learners :: list of [Learner].
-#' @param resamplings :: list of [Resampling].
+#' @param tasks :: list of [Task]\cr
+#'   See also [mlr_sugar].
+#' @param learners :: list of [Learner]\cr
+#'   See also [mlr_sugar].
+#' @param resamplings :: list of [Resampling]\cr
+#'   See also [mlr_sugar].
 #'
-#' @template section-sugar
 #' @return ([data.table::data.table()]) with the cross product of the input vectors.
 #' @export
 expand_grid = function(tasks, learners, resamplings) {

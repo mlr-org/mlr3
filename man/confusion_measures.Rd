@@ -42,8 +42,8 @@ Implemented are the following measures based on \url{https://en.wikipedia.org/wi
 If the denominator is 0, the returned score is \code{NA}.
 }
 \examples{
-task = mlr_tasks$get("german_credit")
-learner = mlr_learners$get("classif.rpart")
+task = tsk("german_credit")
+learner = lrn("classif.rpart")
 p = learner$train(task)$predict(task)
 round(confusion_measures(p$confusion), 2)
 }

@@ -1,10 +1,9 @@
 context("Resampling")
 
 test_that("param_vals", {
-  r = mlr_resamplings$get("bootstrap")
-  task = mlr_tasks$get("iris")
+  task = tsk("iris")
+  r = rsp("bootstrap", repeats = 100L, ratio = 1)
 
-  r$param_set$values = insert_named(r$param_set$values, list(repeats = 100L))
   expect_identical(r$param_set$values$ratio, 1)
   expect_identical(r$param_set$values$repeats, 100L)
 

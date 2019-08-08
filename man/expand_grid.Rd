@@ -7,11 +7,14 @@
 expand_grid(tasks, learners, resamplings)
 }
 \arguments{
-\item{tasks}{:: list of \link{Task}.}
+\item{tasks}{:: list of \link{Task}\cr
+See also \link{mlr_sugar}.}
 
-\item{learners}{:: list of \link{Learner}.}
+\item{learners}{:: list of \link{Learner}\cr
+See also \link{mlr_sugar}.}
 
-\item{resamplings}{:: list of \link{Resampling}.}
+\item{resamplings}{:: list of \link{Resampling}\cr
+See also \link{mlr_sugar}.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with the cross product of the input vectors.
@@ -22,20 +25,3 @@ generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a
 
 Resampling strategies may not be instantiated, and will be instantiated per task internally.
 }
-\section{Syntactic Sugar}{
-
-
-The mlr3 package provides some shortcuts to ease the creation of its objects.
-
-First, instead of an object, it is possible to pass a string identifier which is used to lookup the object in a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
-\itemize{
-\item \link{Task} in \link{mlr_tasks}.
-\item \link{Learner} in \link{mlr_learners}.
-\item \link{Resampling} in \link{mlr_resamplings}.
-\item \link{Measure} in \link{mlr_measures}.
-}
-
-Additionally, each task type has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
-Classification tasks default to the classification error in \link[=mlr_measures_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measures_regr.mse]{"regr.mse"}.
-}
-

@@ -156,6 +156,7 @@ Collate:
     'helper-parallelization.R'
     'helper.R'
     'mlr_control.R'
+    'mlr_sugar.R'
     'reexports.R'
     'resample.R'
     'worker.R'

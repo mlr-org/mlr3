@@ -11,6 +11,7 @@ Each learner has an associated help page, see \code{mlr_learners_[id]}.
 
 This dictionary can get populated with additional learners by add-on packages.
 For more classification and regression learners, load the \CRANpkg{mlr3learners} package.
+For a convient way to retrieve objects, see \code{\link[=tsk]{tsk()}}.
 }
 \section{Methods}{
 
@@ -30,6 +31,7 @@ Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fie
 \examples{
 as.data.table(mlr_learners)
 mlr_learners$get("classif.featureless")
+lrn("classif.rpart")
 }
 \seealso{
 Example learners: \code{\link[=mlr_learners_classif.rpart]{classif.rpart}}, \code{\link[=mlr_learners_regr.rpart]{regr.rpart}},

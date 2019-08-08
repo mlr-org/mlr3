@@ -61,15 +61,18 @@ You can unnest them with \code{\link[mlr3misc:unnest]{mlr3misc::unnest()}}.
 Adds the number of resampling iterations with at least one warning as extra integer column \code{"warnings"}.
 \item \code{errors} :: \code{logical(1)}\cr
 Adds the number of resampling iterations with errors as extra integer column \code{"errors"}.
+See \link{mlr_sugar} for the default of \code{measures}.
 }
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects.
 Additionally calculates the provided performance measures and binds the performance as extra column.
 If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
+See \link{mlr_sugar} for the default of \code{measures}.
 \item \code{best(measure)}\cr
 (\link{Measure}) -> \link{ResampleResult}\cr
 Returns the \link{ResampleResult} with the best performance according to \link{Measure}.
+See \link{mlr_sugar} for the default of \code{measure}.
 \item \code{resample_result(hash)}\cr
 (\code{character(1)} -> \link{ResampleResult})\cr
 Retrieve the \link{ResampleResult} with hash \code{hash}.
@@ -88,29 +91,18 @@ Returns a copy of the internal data.
 }
 }
 
-\section{Syntactic Sugar}{
-
-
-The mlr3 package provides some shortcuts to ease the creation of its objects.
-
-First, instead of an object, it is possible to pass a string identifier which is used to lookup the object in a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
-\itemize{
-\item \link{Task} in \link{mlr_tasks}.
-\item \link{Learner} in \link{mlr_learners}.
-\item \link{Resampling} in \link{mlr_resamplings}.
-\item \link{Measure} in \link{mlr_measures}.
-}
-
-Additionally, each task type has an associated default measure (stored in \link{mlr_reflections}) which is used as a fallback if no other measure is provided.
-Classification tasks default to the classification error in \link[=mlr_measures_classif.ce]{"classif.ce"}, regression tasks to the mean squared error in \link[=mlr_measures_regr.mse]{"regr.mse"}.
-}
-
 \examples{
 set.seed(123)
-tasks = mlr_tasks$mget(c("sonar", "spam"))
-learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"), predict_type = "prob")
-resamplings = mlr_resamplings$get("cv3")
-design = expand_grid(tasks = tasks, learners = learners, resamplings = resamplings)
+learners = list(
+  lrn("classif.featureless", predict_type = "prob"),
+  lrn("classif.rpart", predict_type = "prob")
+)
+
+design = expand_grid(
+  tasks = c("sonar", "spam"),
+  learners = learners,
+  resamplings = "cv3"
+)
 print(design)
 
 bmr = benchmark(design)

@@ -56,16 +56,19 @@
 #'       Adds the number of resampling iterations with at least one warning as extra integer column `"warnings"`.
 #'     * `errors` :: `logical(1)`\cr
 #'       Adds the number of resampling iterations with errors as extra integer column `"errors"`.
+#'   See [mlr_sugar] for the default of `measures`.
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects.
 #'   Additionally calculates the provided performance measures and binds the performance as extra column.
 #'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
+#'   See [mlr_sugar] for the default of `measures`.
 #'
 #' * `best(measure)`\cr
 #'   ([Measure]) -> [ResampleResult]\cr
 #'   Returns the [ResampleResult] with the best performance according to [Measure].
+#'   See [mlr_sugar] for the default of `measure`.
 #'
 #' * `resample_result(hash)`\cr
 #'   (`character(1)` -> [ResampleResult])\cr
@@ -80,15 +83,19 @@
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a copy of the internal data.
 #'
-#' @template section-sugar
-#'
 #' @export
 #' @examples
 #' set.seed(123)
-#' tasks = mlr_tasks$mget(c("sonar", "spam"))
-#' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"), predict_type = "prob")
-#' resamplings = mlr_resamplings$get("cv3")
-#' design = expand_grid(tasks = tasks, learners = learners, resamplings = resamplings)
+#' learners = list(
+#'   lrn("classif.featureless", predict_type = "prob"),
+#'   lrn("classif.rpart", predict_type = "prob")
+#' )
+#'
+#' design = expand_grid(
+#'   tasks = c("sonar", "spam"),
+#'   learners = learners,
+#'   resamplings = "cv3"
+#' )
 #' print(design)
 #'
 #' bmr = benchmark(design)
