@@ -120,7 +120,7 @@ Measure = R6Class("Measure",
       }
 
       if (!is_scalar_na(task_type)) {
-        assert_choice(task_type, mlr_reflections$task_types)
+        assert_choice(task_type, mlr_reflections$task_types$type)
         assert_choice(predict_type, names(mlr_reflections$learner_predict_types[[task_type]]))
       }
       self$properties = assert_subset(properties, mlr_reflections$measure_properties)

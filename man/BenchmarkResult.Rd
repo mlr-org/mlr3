@@ -37,6 +37,8 @@ Table of used learners with three columns:
 \item \code{resamplings} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used resamplings with three columns:
 \code{"resampling_hash"} (\code{character(1)}), \code{"resampling_id"} (\code{character(1)}) and \code{"resampling"} (\link{Resampling}).
+\item \code{hashes} :: \code{character()}\cr
+Vector of hashes of all included \link{ResampleResult}s.
 }
 }
 
@@ -46,7 +48,9 @@ Table of used resamplings with three columns:
 \item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where resampling iterations are aggregated together into \link{ResampleResult}s.
-Arguments control the number of additional columns:
+A column with the aggregated performance is added for each \link{Measure}, named with the id of the respective measure.
+
+Additional arguments control the number of additional columns:
 \itemize{
 \item \code{ids} :: \code{logical(1)}\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as extra character columns.

@@ -28,7 +28,7 @@
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Set in the classes which inherit from this class.
-#'   Must be an element of [mlr_reflections$task_types][mlr_reflections].
+#'   Must be an element of [mlr_reflections$task_types$type][mlr_reflections].
 #'
 #' * `backend` :: [DataBackend]\cr
 #'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
@@ -252,7 +252,7 @@ Task = R6Class("Task",
     initialize = function(id, task_type, backend) {
 
       self$id = assert_string(id, min.chars = 1L)
-      self$task_type = assert_choice(task_type, mlr_reflections$task_types)
+      self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       if (!inherits(backend, "DataBackend")) {
         self$backend = as_data_backend(backend)
       } else {
@@ -514,7 +514,7 @@ col_info = function(x, ...) {
 col_info.data.table = function(x, primary_key = character(0L), ...) {
   types = map_chr(x, function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], primary_key)
-  levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct, drop = FALSE))
+  levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct_values, drop = FALSE))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 

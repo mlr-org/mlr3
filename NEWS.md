@@ -4,6 +4,7 @@
 * Added functions to ease the creation of objects stored in dictionaries:
   `tsk()`, `gen()`, `lrn()`, `rsp()`, `mea()`
 * New method `Task$rename()`.
+* New method `BenchmarkResult$hashes()`.
 
 # mlr3 0.1.1
 

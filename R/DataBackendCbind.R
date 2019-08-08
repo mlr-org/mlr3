@@ -40,9 +40,9 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       self$data(rows = rows, cols = self$colnames)
     },
 
-    distinct = function(rows, cols) {
-      d2 = private$.data$b2$distinct(rows, cols)
-      d1 = private$.data$b1$distinct(rows, setdiff(cols, names(d2)))
+    distinct = function(rows, cols, na_rm = TRUE) {
+      d2 = private$.data$b2$distinct(rows, cols, na_rm = na_rm)
+      d1 = private$.data$b1$distinct(rows, setdiff(cols, names(d2)), na_rm = na_rm)
       res = c(d1, d2)
       res[match(cols, names(res), nomatch = 0L)]
     },

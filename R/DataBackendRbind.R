@@ -40,10 +40,10 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       self$data(rows, cols = self$colnames)
     },
 
-    distinct = function(rows, cols) {
+    distinct = function(rows, cols, na_rm = TRUE) {
       cols = intersect(cols, self$colnames)
-      d1 = private$.data$b1$distinct(rows, cols)
-      d2 = private$.data$b2$distinct(rows, cols)
+      d1 = private$.data$b1$distinct(rows, cols, na_rm = na_rm)
+      d2 = private$.data$b2$distinct(rows, cols, na_rm = na_rm)
       set_names(map(cols, function(nn) union(d1[[nn]], d2[[nn]])), cols)
     },
 

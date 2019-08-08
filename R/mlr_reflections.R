@@ -18,11 +18,14 @@ local({
     store_models = FALSE
   )
 
-  ### Task
-  mlr_reflections$task_types = c(
-    "regr", "classif"
+  # task types + constructors
+  mlr_reflections$task_types = rowwise_table(.key = "type",
+    ~type,     ~package, ~task,         ~learner,         ~prediction,         ~measure,
+    "regr",    "mlr3",   "TaskRegr",    "LearnerRegr",    "PredictionRegr",    "MeasureRegr",
+    "classif", "mlr3",   "TaskClassif", "LearnerClassif", "PredictionClassif", "MeasureClassif"
   )
 
+  ### Task
   mlr_reflections$task_feature_types = c(
     lgl = "logical", int = "integer", dbl = "numeric", chr = "character", fct = "factor", ord = "ordered", pxc = "POSIXct"
   )

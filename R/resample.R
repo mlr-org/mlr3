@@ -44,9 +44,10 @@
 #' # Repeat resampling with featureless learner
 #' rr.featureless = resample(task, "classif.featureless", resampling)
 #'
-#' # Combine the ResampleResults into a BenchmarkResult
-#' bmr = rr$combine(rr.featureless)
-#' print(bmr)
+#' # Convert results to BenchmarkResult, then combine them
+#' bmr1 = as_benchmark_result(rr)
+#' bmr2 = as_benchmark_result(rr.featureless)
+#' print(bmr1$combine(bmr2))
 resample = function(task, learner, resampling, ctrl = list()) {
   task = assert_task(task, clone = TRUE)
   learner = assert_learner(learner, task = task, properties = task$properties, clone = TRUE)

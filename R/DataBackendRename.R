@@ -30,9 +30,9 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
       set_col_names(data, map_values(names(data), self$old, self$new))
     },
 
-    distinct = function(rows, cols) {
+    distinct = function(rows, cols, na_rm = TRUE) {
       cols = map_values(intersect(cols, self$colnames), self$new, self$old)
-      x = private$.data$distinct(rows, cols)
+      x = private$.data$distinct(rows, cols, na_rm = na_rm)
       set_names(x, map_values(names(x), self$old, self$new))
     },
 

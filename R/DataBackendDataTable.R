@@ -65,7 +65,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
       if (self$compact_seq) {
         # https://github.com/Rdatatable/data.table/issues/3109
-        rows = filter_oob_index(rows, 1L, nrow(private$.data))
+        rows = keep_in_bounds(rows, 1L, nrow(private$.data))
         data = private$.data[rows, cols, with = FALSE]
       } else {
         assert_atomic_vector(rows)
@@ -78,12 +78,12 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       head(private$.data, n)
     },
 
-    distinct = function(rows, cols) {
+    distinct = function(rows, cols, na_rm = TRUE) {
       cols = intersect(cols, colnames(private$.data))
       if (is.null(rows)) {
-        set_names(lapply(cols, function(x) distinct(private$.data[[x]], drop = FALSE)), cols)
+        set_names(lapply(cols, function(x) distinct_values(private$.data[[x]], drop = FALSE, na_rm = na_rm)), cols)
       } else {
-        lapply(self$data(rows, cols), distinct)
+        lapply(self$data(rows, cols), distinct_values, drop = TRUE, na_rm = na_rm)
       }
     },
 

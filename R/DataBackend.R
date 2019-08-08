@@ -66,12 +66,14 @@
 #'   Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
 #'   Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
 #'
-#' * `distinct(rows, cols)`\cr
-#'   (`integer()` | `character()`, `character()`) -> named `list()`\cr
+#' * `distinct(rows, cols, na_rm = TRUE)`\cr
+#'   (`integer()` | `character()`, `character()`, `logical(1)`) -> named `list()`\cr
 #'   Returns a named list of vectors of distinct values for each column specified.
+#'   If `na_rm` is `TRUE`, missing values are removed from the returned vectors of distinct values.
 #'   Non-existing rows and columns are silently ignored.
+#'
 #'   If `rows` is `NULL`, all possible distinct values will be returned, even if the value is not present in the data.
-#'   This affects factor-like variables with empty levels.
+#'   This affects factor-like variables with empty levels, if supported by the backend.
 #'
 #' * `head(n = 6)`\cr
 #'   `integer(1)` -> [data.table::data.table()]\cr

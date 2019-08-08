@@ -42,7 +42,7 @@
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
-#'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections].
+#'   A complete list of task types is stored in [`mlr_reflections$task_types$type`][mlr_reflections].
 #'
 #' @section Methods:
 #' * `generate(n)`\cr
@@ -62,7 +62,7 @@ Generator = R6Class("Generator",
       self$param_set = assert_param_set(param_set)
       self$param_set$values = param_vals
       self$packages = assert_set(packages)
-      self$task_type = assert_choice(task_type, mlr_reflections$task_types)
+      self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
     },
 
     generate = function(n) {

@@ -37,11 +37,16 @@
 #'   Table of used resamplings with three columns:
 #'   `"resampling_hash"` (`character(1)`), `"resampling_id"` (`character(1)`) and `"resampling"` ([Resampling]).
 #'
+#' * `hashes` :: `character()`\cr
+#'   Vector of hashes of all included [ResampleResult]s.
+#'
 #' @section Methods:
 #' * `aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)`\cr
 #'   (`list()` of [Measure], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where resampling iterations are aggregated together into [ResampleResult]s.
-#'   Arguments control the number of additional columns:
+#'   A column with the aggregated performance is added for each [Measure], named with the id of the respective measure.
+#'
+#'   Additional arguments control the number of additional columns:
 #'     * `ids` :: `logical(1)`\cr
 #'       Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as extra character columns.
 #'     * `params` :: `logical(1)`\cr
@@ -126,7 +131,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     format = function() {
-      "<BenchmarkResult>"
+      sprintf("<%s>", class(self)[1L])
     },
 
     print = function() {
@@ -139,6 +144,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     combine = function(bmr) {
       assert_benchmark_result(bmr)
+      if (any(self$hashes %in% bmr$hashes)) {
+        warningf("BenchmarkResult$combine(): Identical hashes detected. This is likely to be unintended.")
+      }
+
       self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
       invisible(self)
     },
@@ -205,6 +214,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     resamplings = function() {
       unique(self$data[, list(resampling_hash = hashes(resampling), resampling_id = ids(resampling), resampling = resampling)], by = "resampling_hash")
+    },
+
+    hashes = function() {
+      hash = NULL
+      self$data[, unique(hash)]
     }
   ),
 
@@ -218,4 +232,20 @@ BenchmarkResult = R6Class("BenchmarkResult",
 #' @export
 as.data.table.BenchmarkResult = function(x, ...) {
   copy(x$data)
+}
+
+#' @title Convert to BenchmarkResult
+#'
+#' @description
+#' Simple S3 method to convert objects to a [BenchmarkResult].
+#'
+#' @param x :: `any`\cr
+#'  Object to dispatch on, e.g. a [ResampleResult].
+#' @param ... :: `any`\cr
+#'  Currently not used.
+#'
+#' @return ([BenchmarkResult]).
+#' @export
+as_benchmark_result = function(x, ...) {
+  UseMethod("as_benchmark_result")
 }
