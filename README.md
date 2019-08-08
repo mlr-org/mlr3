@@ -79,8 +79,7 @@ prediction$confusion
     ##   virginica       0          0         6
 
 ``` r
-measure = mlr_measures$get("classif.acc")
-prediction$score(measure)
+prediction$score("classif.acc")
 ```
 
     ## classif.acc 
@@ -90,7 +89,7 @@ prediction$score(measure)
 
 ``` r
 # automatic resampling
-resampling = mlr_resamplings$get("cv", param_vals = list(folds = 3L))
+resampling = rsp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 rr$performance(measure)
 rr$aggregate()
@@ -165,3 +164,8 @@ would result in non-trivial API changes.
       - To capture output, warnings and exceptions,
         [`evaluate`](https://cran.r-project.org/package=evaluate) and
         [`callr`](https://cran.r-project.org/package=callr) can be used.
+
+# Talks, Workshops, etc.
+
+[mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all
+outreach activities related to *mlr* and *mlr3*.
