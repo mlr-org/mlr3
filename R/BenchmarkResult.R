@@ -76,7 +76,11 @@
 #'
 #' * `combine(bmr)`\cr
 #'   [BenchmarkResult] -> `self`\cr
-#'   Fuses a second [BenchmarkResult] into itself, mutating the BenchmarkResult in-place.
+#'   Fuses a second [BenchmarkResult] into itself, mutating the [BenchmarkResult] in-place.
+#'   Note that in case of duplicated [ResampleResult]s, an exception is raised.
+#'   Two [ResampleResult]s are identical iff the hashes of the respective [Task], [Learner] and [Resampling] are identical.
+#'   I.e., they must operate on the exactly same data, with the same learner with the same hyperparameters and
+#'   the same splits into training and test sets.
 #'
 #' @section S3 Methods:
 #' * `as.data.table(bmr)`\cr
