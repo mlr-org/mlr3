@@ -93,7 +93,8 @@ pred$confusion
 # Repeat resampling with featureless learner
 rr.featureless = resample(task, "classif.featureless", resampling)
 
-# Combine the ResampleResults into a BenchmarkResult
-bmr = rr$combine(rr.featureless)
-print(bmr)
+# Convert results to BenchmarkResult, then combine them
+bmr1 = as_benchmark_result(rr)
+bmr2 = as_benchmark_result(rr.featureless)
+print(bmr1$combine(bmr2))
 }

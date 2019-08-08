@@ -34,26 +34,22 @@ test_that("resample with multiple measures", {
   expect_equal(names(perf), ids(measures))
 })
 
-test_that("rr$combine()", {
+test_that("as_benchmark_result.ResampleResult", {
   task = mlr_tasks$get("iris")
   measures = mlr_measures$mget(c("classif.ce", "classif.acc"))
   learner = mlr_learners$get("classif.featureless")
   resampling = mlr_resamplings$get("cv")
   resampling$param_set$values = list(folds = 3)
-  rr1 = resample(task, learner, resampling)
-
-  learner = mlr_learners$get("classif.rpart")
-  rr2 = resample(task, learner, resampling)
-
-  bmr = rr1$combine(rr2)
+  rr = resample(task, learner, resampling)
+  bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
-  expect_equal(nrow(bmr$data), nrow(rr1$data) + nrow(rr2$data))
-  expect_set_equal(bmr$data$hash, c(rr1$hash, rr2$hash))
-
+  expect_equal(nrow(bmr$data), nrow(rr$data))
+  expect_set_equal(bmr$data$hash, rr$hash)
   aggr = bmr$aggregate()
-  expect_data_table(aggr, nrows = 2)
-  expect_set_equal(aggr$hash, c(rr1$hash, rr2$hash))
+  expect_data_table(aggr, nrows = 1)
+  expect_set_equal(aggr$hash, rr$hash)
 })
+
 
 test_that("discarding model", {
   task = mlr_tasks$get("iris")

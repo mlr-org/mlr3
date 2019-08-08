@@ -380,6 +380,7 @@ expect_resample_result = function(rr) {
   checkmate::expect_r6(rr, "ResampleResult")
   testthat::expect_output(print(rr), "ResampleResult")
   expect_task(rr$task)
+  lapply(rr$learners, expect_learner, task = rr$task)
   expect_resampling(rr$resampling, task = rr$task)
 
   data = data.table::as.data.table(rr)

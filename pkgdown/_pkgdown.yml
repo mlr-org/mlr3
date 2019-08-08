@@ -80,6 +80,7 @@ reference:
       - benchmark
       - expand_grid
       - BenchmarkResult
+      - as_benchmark_result
   - title: Reflections
     contents:
       - mlr_reflections

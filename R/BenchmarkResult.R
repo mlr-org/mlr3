@@ -124,7 +124,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     format = function() {
-      "<BenchmarkResult>"
+      sprintf("<%s>", class(self)[1L])
     },
 
     print = function() {
@@ -137,6 +137,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     combine = function(bmr) {
       assert_benchmark_result(bmr)
+      if (any(self$hashes %in% bmr$hashes)) {
+        warningf("BenchmarkResult$combine(): Identical hashes detected. This is likely to be unintended.")
+      }
+
       self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
       invisible(self)
     },
@@ -221,4 +225,20 @@ BenchmarkResult = R6Class("BenchmarkResult",
 #' @export
 as.data.table.BenchmarkResult = function(x, ...) {
   copy(x$data)
+}
+
+#' @title Convert to BenchmarkResult
+#'
+#' @description
+#' Simple S3 method to convert objects to a [BenchmarkResult].
+#'
+#' @param x :: `any`\cr
+#'  Object to dispatch on, e.g. a [ResampleResult].
+#' @param ... :: `any`\cr
+#'  Currently not used.
+#'
+#' @return ([BenchmarkResult]).
+#' @export
+as_benchmark_result = function(x, ...) {
+  UseMethod("as_benchmark_result")
 }

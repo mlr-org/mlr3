@@ -55,10 +55,6 @@
 #'   Hash (unique identifier) for this object.
 #'
 #' @section Methods:
-#' * `combine(rr)`\cr
-#'   [ResampleResult] -> [BenchmarkResult]\cr
-#'   Takes a second [ResampleResult] and combines both [ResampleResult]s to a [BenchmarkResult].
-#'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects.
@@ -111,14 +107,6 @@ ResampleResult = R6Class("ResampleResult",
 
       errors = self$errors
       catf(str_indent("* Errors:", sprintf("%i in %i iterations", nrow(errors), uniqueN(errors, by = "iteration"))))
-    },
-
-    combine = function(rr) {
-      assert_resample_result(rr)
-      if (self$hash == rr$hash) {
-        warningf("ResampleResult$combine(): Identical hashes detected. This is likely to be unintended.")
-      }
-      BenchmarkResult$new(rbind(cbind(self$data, data.table(hash = self$hash)), cbind(rr$data, data.table(hash = rr$hash))))
     },
 
     performance = function(measures = NULL, ids = TRUE) {
@@ -192,4 +180,10 @@ ResampleResult = R6Class("ResampleResult",
 #' @export
 as.data.table.ResampleResult = function(x, ...) {
   copy(x$data)
+}
+
+#' @rdname as_benchmark_result
+#' @export
+as_benchmark_result.ResampleResult = function(x, ...) {
+  BenchmarkResult$new(cbind(x$data, data.table(hash = x$hash)))
 }
