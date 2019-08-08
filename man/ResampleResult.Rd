@@ -61,8 +61,9 @@ Takes a second \link{ResampleResult} and combines both \link{ResampleResult}s to
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects.
-Additionally calculates the provided performance measures and binds the performance as extra column.
-If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
+A column with the individual (per resampling iteration) performance is added for each \link{Measure}, named with the id of the respective measure.
+If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"})
+are binded to the table to allow a more convenient subsetting.
 \item \code{aggregate(measures = NULL)}\cr
 \code{list()} of \link{Measure} -> named \code{numeric()}\cr
 Calculates and aggregates performance values for all provided measures.

@@ -62,8 +62,9 @@
 #' * `performance(measures = NULL, ids = TRUE)`\cr
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects.
-#'   Additionally calculates the provided performance measures and binds the performance as extra column.
-#'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
+#'   A column with the individual (per resampling iteration) performance is added for each [Measure], named with the id of the respective measure.
+#'   If `ids` is `TRUE`, extra columns with the ids of objects (`"task_id"`, `"learner_id"`, `"resampling_id"`)
+#'   are binded to the table to allow a more convenient subsetting.
 #'
 #' * `aggregate(measures = NULL)`\cr
 #'   `list()` of [Measure] -> named `numeric()`\cr

@@ -6,20 +6,20 @@ hashes = function(x) {
   map_chr(unname(x), "hash")
 }
 
-# updating join:
-# replaces values in x with values in y
-ujoin = function(x, y, key) {
-  cn = setdiff(intersect(names(x), names(y)), key)
-  expr = parse(text = paste0("`:=`(", paste0(sprintf("%1$s=i.%1$s", cn), collapse = ","), ")"))
-  x[y, eval(expr), on = key]
-}
-
 hash = function(...) {
   digest::digest(list(...), algo = "xxhash64")
 }
 
 hash_resample_iteration = function(task, learner, resampling) {
   hash(task$hash, learner$hash, resampling$hash)
+}
+
+# updating join:
+# replaces values in x with values in y
+ujoin = function(x, y, key) {
+  cn = setdiff(intersect(names(x), names(y)), key)
+  expr = parse(text = paste0("`:=`(", paste0(sprintf("%1$s=i.%1$s", cn), collapse = ","), ")"))
+  x[y, eval(expr), on = key]
 }
 
 translate_types = function(x) {

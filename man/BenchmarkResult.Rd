@@ -48,7 +48,9 @@ Vector of hashes of all included \link{ResampleResult}s.
 \item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where resampling iterations are aggregated together into \link{ResampleResult}s.
-Arguments control the number of additional columns:
+A column with the aggregated performance is added for each \link{Measure}, named with the id of the respective measure.
+
+Additional arguments control the number of additional columns:
 \itemize{
 \item \code{ids} :: \code{logical(1)}\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as extra character columns.

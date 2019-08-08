@@ -44,7 +44,9 @@
 #' * `aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)`\cr
 #'   (`list()` of [Measure], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where resampling iterations are aggregated together into [ResampleResult]s.
-#'   Arguments control the number of additional columns:
+#'   A column with the aggregated performance is added for each [Measure], named with the id of the respective measure.
+#'
+#'   Additional arguments control the number of additional columns:
 #'     * `ids` :: `logical(1)`\cr
 #'       Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as extra character columns.
 #'     * `params` :: `logical(1)`\cr
