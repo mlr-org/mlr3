@@ -137,7 +137,6 @@ task_rbind = function(self, data) {
   ci = col_info(data, primary_key = pk)
 
   # 2. Overwrite self$backend with new backend
-  rows_self = unlist(self$row_roles, use.names = FALSE)
   self$backend = DataBackendRbind$new(self$backend, DataBackendDataTable$new(data, pk))
 
   # 3. Update row_roles

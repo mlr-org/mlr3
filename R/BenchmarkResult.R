@@ -139,13 +139,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
         format(self), nrow(self$data), uniqueN(self$data$hash))
       tab = self$aggregate(warnings = TRUE, errors = TRUE)
       tab = remove_named(tab, c("hash", "resample_result"))
-      print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
+      print(tab, class = FALSE, row.names = TRUE, print.keys = FALSE, digits = 3)
     },
 
     combine = function(bmr) {
       assert_benchmark_result(bmr)
       if (any(self$hashes %in% bmr$hashes)) {
-        warningf("BenchmarkResult$combine(): Identical hashes detected. This is likely to be unintended.")
+        stop("BenchmarkResult$combine(): Identical hashes detected. Duplicated ResampleResults can not be combined into a single BenchmarkResult.")
       }
 
       self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
@@ -158,16 +158,20 @@ BenchmarkResult = R6Class("BenchmarkResult",
       score = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
       tab = cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], score))
 
+      # replace hash with nr
+      tab[, ("nr") := .GRP, by = "hash"][, ("hash") := NULL]
+
       if (ids) {
-        tab[, c("task_id", "learner_id", "resampling_id") := list(ids(get("task")), ids(get("learner")), ids(get("resampling")))]
-        setcolorder(tab, c("hash", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))[]
+        tab[, c("task_id", "learner_id", "resampling_id") := list(ids(task), ids(learner), ids(resampling))]
+        setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))
       }
-      return(tab)
+
+      setcolorder(tab, "nr")[]
     },
 
     aggregate = function(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE) {
       measures = assert_measures(measures, learner = self$data$learner[[1L]])
-      res = self$data[, list(resample_result = list(ResampleResult$new(copy(.SD)))), by = hash]
+      res = self$data[, list(nr = .GRP, resample_result = list(ResampleResult$new(copy(.SD)))), by = hash][, ("hash") := NULL]
 
       if (assert_flag(ids)) {
         extract = function(x) list(task_id = x$task$id, learner_id = x$learners[[1L]]$id, resampling_id = x$resampling$id)
@@ -175,24 +179,24 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (assert_flag(params)) {
-        res[, "params" := list(map(get("resample_result"), function(x) x$learners[[1L]]$param_set$values))]
+        res[, "params" := list(map(resample_result, function(x) x$learners[[1L]]$param_set$values))]
       }
 
       if (assert_flag(warnings)) {
-        res[, "warnings" := map_int(get("resample_result"), function(rr) uniqueN(rr$warnings, by = "iteration"))]
+        res[, "warnings" := map_int(resample_result, function(rr) uniqueN(rr$warnings, by = "iteration"))]
       }
 
       if (assert_flag(errors)) {
-        res[, "errors" := map_int(get("resample_result"), function(rr) uniqueN(rr$errors, by = "iteration"))]
+        res[, "errors" := map_int(resample_result, function(rr) uniqueN(rr$errors, by = "iteration"))]
       }
 
       rcbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
     },
 
-    resample_result = function(hash) {
-      assert_choice(hash, self$data$hash)
-      needle = hash
-      ResampleResult$new(self$data[get("hash") == needle])
+    resample_result = function(i) {
+      hashes = self$hashes
+      i = assert_int(i, lower = 1L, upper = length(hashes), coerce = TRUE)
+      ResampleResult$new(self$data[hash == hashes[i]])
     },
 
     best = function(measure) {
@@ -231,7 +235,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
 #' @export
 as.data.table.BenchmarkResult = function(x, ...) {
-  copy(x$data)
+  tab = copy(x$data)
 }
 
 #' @title Convert to BenchmarkResult

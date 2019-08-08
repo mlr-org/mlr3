@@ -130,7 +130,7 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
     fb = assert_learner(fb)
     fb$predict_type = learner$predict_type
     fb$state = learner$state$fallback_state
-    prediction = fb$predict(task, row_ids)
+    fb$predict(task, row_ids)
   }
 
   fb = learner$fallback

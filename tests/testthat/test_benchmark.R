@@ -16,7 +16,7 @@ test_that("Basic benchmarking", {
 
   tab = bmr$performance(ids = FALSE)
   expect_data_table(tab, nrows = 12L, ncols = 7L)
-  expect_names(names(tab), permutation.of = c("hash", "task", "learner", "resampling", "iteration", "prediction", "classif.ce"))
+  expect_names(names(tab), permutation.of = c("nr", "task", "learner", "resampling", "iteration", "prediction", "classif.ce"))
 
   tab = bmr$tasks
   expect_data_table(tab, nrows = 2, any.missing = FALSE)
@@ -35,19 +35,19 @@ test_that("Basic benchmarking", {
 
   tab = bmr$aggregate()
   expect_data_table(tab, nrows = 4L)
-  expect_names(names(tab), type = "unique", permutation.of = c("hash", "resample_result", "task_id", "learner_id", "resampling_id", "classif.ce"))
+  expect_names(names(tab), type = "unique", permutation.of = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", "classif.ce"))
 })
 
 test_that("ResampleResult / hash", {
   aggr = bmr$aggregate()
-  hashes = aggr$hash
-  expect_character(hashes, len = 4L, any.missing = FALSE, unique = TRUE)
+  nr = aggr$nr
+  expect_integer(nr, len = 4L, any.missing = FALSE, unique = TRUE)
 
-  for (i in seq_along(hashes)) {
+  for (i in nr) {
     rr = aggr$resample_result[[i]]
     expect_resample_result(rr)
     expect_equivalent(rr$aggregate(), aggr[["classif.ce"]][i])
-    expect_equal(hashes[i], rr$hash)
+    expect_equal(bmr$hashes[i], rr$hash)
   }
 })
 
@@ -63,6 +63,12 @@ test_that("bmr$combine()", {
   bmr_new = benchmark(expand_grid(mlr_tasks$mget("pima"), learners, resamplings))
   bmr_combined = bmr$clone(deep = TRUE)$combine(bmr_new)
 
+
+  # new bmr gets pasted at the end of data so hashes do net get mixed up?
+  pos_old = match(bmr$hashes, bmr_combined$hashes)
+  pos_new = match(bmr_new$hashes, bmr_combined$hashes)
+  expect_true(all(pos_old < min(pos_new)))
+
   expect_benchmark_result(bmr)
   expect_benchmark_result(bmr_new)
   expect_benchmark_result(bmr_combined)
@@ -77,8 +83,7 @@ test_that("bmr$combine()", {
 })
 
 test_that("bmr$resample_result() + bmr$best()", {
-  hashes = as.data.table(bmr)$hash
-  expect_resample_result(bmr$resample_result(hashes[1L]))
+  expect_resample_result(bmr$resample_result(1L))
 
   best_ce = bmr$best("classif.ce")
   expect_resample_result(best_ce)
