@@ -189,7 +189,7 @@ run_experiment = function(task, learner) {
     return(err(as.character(ok)))
   log = learner$log[stage == "train"]
   if ("error" %in% log$class)
-    return(err("train log has errors: %s", mlr3misc::str_collapse(log[stage == "error", msg])))
+    return(err("train log has errors: %s", mlr3misc::str_collapse(log[class == "error", msg])))
   if (is.null(learner$model))
     return(err("model is NULL"))
 
@@ -199,7 +199,7 @@ run_experiment = function(task, learner) {
     return(err(as.character(ok)))
   log = learner$log[stage == "predict"]
   if ("error" %in% log$class)
-    return(err("predict log has errors: %s", mlr3misc::str_collapse(log[stage == "error", msg])))
+    return(err("predict log has errors: %s", mlr3misc::str_collapse(log[class == "error", msg])))
   msg = checkmate::check_class(prediction, "Prediction")
   if (!isTRUE(msg))
     return(err(msg))
