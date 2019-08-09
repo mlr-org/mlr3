@@ -37,6 +37,9 @@
 #'   Table of used resamplings with three columns:
 #'   `"resampling_hash"` (`character(1)`), `"resampling_id"` (`character(1)`) and `"resampling"` ([Resampling]).
 #'
+#' * `resample_results` :: `integer(1)`\cr
+#'   Returns the number of stored [ResampleResult]s.
+#'
 #' * `hashes` :: `character()`\cr
 #'   Vector of hashes of all included [ResampleResult]s.
 #'
@@ -65,9 +68,9 @@
 #'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
 #'   See [mlr_sugar] for the default of `measures`.
 #'
-#' * `resample_result(hash)`\cr
-#'   (`character(1)` -> [ResampleResult])\cr
-#'   Retrieve the [ResampleResult] with hash `hash`.
+#' * `resample_result(i)`\cr
+#'   (`integer(1)` -> [ResampleResult])\cr
+#'   Retrieve the i-th [ResampleResult].
 #'
 #' * `combine(bmr)`\cr
 #'   [BenchmarkResult] -> `self`\cr
@@ -134,11 +137,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     print = function() {
+      tab = remove_named(self$aggregate(warnings = TRUE, errors = TRUE), c("hash", "resample_result"))
       catf("%s of %i rows with %i resampling runs",
-        format(self), nrow(self$data), uniqueN(self$data$hash))
-      tab = self$aggregate(warnings = TRUE, errors = TRUE)
-      tab = remove_named(tab, c("hash", "resample_result"))
-      print(tab, class = FALSE, row.names = TRUE, print.keys = FALSE, digits = 3)
+        format(self), nrow(self$data), nrow(tab))
+      print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
     },
 
     combine = function(bmr) {
@@ -212,8 +214,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
       unique(self$data[, list(resampling_hash = hashes(resampling), resampling_id = ids(resampling), resampling = resampling)], by = "resampling_hash")
     },
 
+    resample_results = function() {
+      self$data[, uniqueN(hash)]
+    },
+
     hashes = function() {
-      hash = NULL
       self$data[, unique(hash)]
     }
   ),

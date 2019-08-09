@@ -7,7 +7,9 @@
   persistent order. Thus, `ResampleResult`s are now addressed by their position
   instead of their hash.
 
-* New method `BenchmarkResult$hashes()`.
+* New field `BenchmarkResult$resample_results`.
+
+* New field `BenchmarkResult$hashes`.
 
 * New method `Task$rename()`.
 
