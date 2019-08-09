@@ -16,6 +16,7 @@ Efficient, object-oriented programming on the building blocks of
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://mlr3.mlr-org.com}
   \item \url{https://github.com/mlr-org/mlr3}
   \item Report bugs at \url{https://github.com/mlr-org/mlr3/issues}
 }
