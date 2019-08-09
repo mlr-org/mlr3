@@ -67,9 +67,11 @@ See \link{mlr_sugar} for the default of \code{measures}.
 }
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a table with one row for each resampling iteration, including all involved objects.
-Additionally calculates the provided performance measures and binds the performance as extra column.
-If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
+Returns a table with one row for each resampling iteration, including all involved objects:
+\link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
+If \code{ids} is set to \code{TRUE}, character column of extracted ids are added to the table for convenient filtering: \code{"task_id"}, \code{"learner_id"}, and \code{"resampling_id"}.
+Additionally calculates the provided performance measures and binds the performance as extra columns.
+These columns are named using the id of the respective \link{Measure}.
 See \link{mlr_sugar} for the default of \code{measures}.
 \item \code{resample_result(i)}\cr
 (\code{integer(1)} -> \link{ResampleResult})\cr

@@ -63,9 +63,11 @@
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
-#'   Returns a table with one row for each resampling iteration, including all involved objects.
-#'   Additionally calculates the provided performance measures and binds the performance as extra column.
-#'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
+#'   Returns a table with one row for each resampling iteration, including all involved objects:
+#'   [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
+#'   If `ids` is set to `TRUE`, character column of extracted ids are added to the table for convenient filtering: `"task_id"`, `"learner_id"`, and `"resampling_id"`.
+#'   Additionally calculates the provided performance measures and binds the performance as extra columns.
+#'   These columns are named using the id of the respective [Measure].
 #'   See [mlr_sugar] for the default of `measures`.
 #'
 #' * `resample_result(i)`\cr
