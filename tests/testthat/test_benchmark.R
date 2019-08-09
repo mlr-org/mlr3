@@ -82,14 +82,8 @@ test_that("bmr$combine()", {
   expect_true("pima" %in% bmr_combined$tasks$task_id)
 })
 
-test_that("bmr$resample_result() + bmr$best()", {
+test_that("bmr$resample_result()", {
   expect_resample_result(bmr$resample_result(1L))
-
-  best_ce = bmr$best("classif.ce")
-  expect_resample_result(best_ce)
-  best_acc = bmr$best("classif.acc")
-  expect_resample_result(best_acc)
-  expect_equivalent(best_ce$aggregate("classif.ce"), 1 - best_acc$aggregate("classif.acc"))
 })
 
 test_that("inputs are cloned", {

@@ -65,11 +65,6 @@
 #'   If `ids` is `TRUE`, character column of id names are added to the table for convenient filtering.
 #'   See [mlr_sugar] for the default of `measures`.
 #'
-#' * `best(measure)`\cr
-#'   ([Measure]) -> [ResampleResult]\cr
-#'   Returns the [ResampleResult] with the best performance according to [Measure].
-#'   See [mlr_sugar] for the default of `measure`.
-#'
 #' * `resample_result(hash)`\cr
 #'   (`character(1)` -> [ResampleResult])\cr
 #'   Retrieve the [ResampleResult] with hash `hash`.
@@ -201,13 +196,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       hashes = self$hashes
       i = assert_int(i, lower = 1L, upper = length(hashes), coerce = TRUE)
       ResampleResult$new(self$data[hash == hashes[i]])
-    },
-
-    best = function(measure) {
-      measure = assert_measure(measure, learner = self$data$learner[[1L]])
-      tab = self$aggregate(measure, ids = FALSE)
-      best = if (measure$minimize) which_min else which_max
-      tab$resample_result[[best(tab[[measure$id]])]]
     }
   ),
 

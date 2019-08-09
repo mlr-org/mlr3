@@ -69,10 +69,6 @@ Returns a table with one row for each resampling iteration, including all involv
 Additionally calculates the provided performance measures and binds the performance as extra column.
 If \code{ids} is \code{TRUE}, character column of id names are added to the table for convenient filtering.
 See \link{mlr_sugar} for the default of \code{measures}.
-\item \code{best(measure)}\cr
-(\link{Measure}) -> \link{ResampleResult}\cr
-Returns the \link{ResampleResult} with the best performance according to \link{Measure}.
-See \link{mlr_sugar} for the default of \code{measure}.
 \item \code{resample_result(hash)}\cr
 (\code{character(1)} -> \link{ResampleResult})\cr
 Retrieve the \link{ResampleResult} with hash \code{hash}.
