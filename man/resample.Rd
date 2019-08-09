@@ -4,7 +4,7 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, ctrl = list())
+resample(task, learner, resampling, store_models = FALSE)
 }
 \arguments{
 \item{task}{:: \link{Task}\cr
@@ -16,8 +16,10 @@ See also \link{mlr_sugar}.}
 \item{resampling}{:: \link{Resampling}\cr
 See also \link{mlr_sugar}.}
 
-\item{ctrl}{:: named \code{list()}\cr
-Object to control learner execution. See \code{\link[=mlr_control]{mlr_control()}} for details.}
+\item{store_models}{:: \code{logical(1)}\cr
+Keep the fitted model after the test set has been predicted?
+Set to \code{TRUE} if you want to further analyse the models or want to
+extract information like variable importance.}
 }
 \value{
 \link{ResampleResult}.
@@ -27,7 +29,7 @@ Runs a resampling (possibly in parallel).
 }
 \note{
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
-If you need access to the models for later analysis, set \code{store_models} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
+If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
 }
 \section{Parallelization}{
 

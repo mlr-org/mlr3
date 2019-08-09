@@ -122,18 +122,18 @@
 #'   Returns the logged errors as vector.
 #'
 #' @section Methods:
-#' * `train(task, row_ids = NULL, ctrl = list())`\cr
-#'   ([Task], `integer()` | `character()`, [mlr_control()]) -> `self`\cr
+#' * `train(task, row_ids = NULL))`\cr
+#'   ([Task], `integer()` | `character()`) -> `self`\cr
 #'   Train the learner on the row ids of the provided [Task].
 #'   Mutates the learner by reference, i.e. stores the model alongside other objects in field `$state`.
 #'
-#' * `predict(task, row_ids = NULL, ctrl = list())`\cr
-#'   ([Task], `integer()` | `character()`, [mlr_control()]) -> [Prediction]\cr
+#' * `predict(task, row_ids = NULL)`\cr
+#'   ([Task], `integer()` | `character()`) -> [Prediction]\cr
 #'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the provided `row_ids`
 #'   of the `task`.
 #'
-#' * `predict_newdata(task, newdata, ctrl = list())`\cr
-#'   ([Task], `data.frame()`, [mlr_control()]) -> [Prediction]\cr
+#' * `predict_newdata(task, newdata)`\cr
+#'   ([Task], `data.frame()`) -> [Prediction]\cr
 #'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the new data in `newdata`.
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
 #'
@@ -215,23 +215,21 @@ Learner = R6Class("Learner",
       learner_print(self)
     },
 
-    train = function(task, row_ids = NULL, ctrl = list()) {
+    train = function(task, row_ids = NULL) {
       assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
       if (!is.null(row_ids))
         row_ids = assert_row_ids(row_ids)
-      ctrl = mlr_control(ctrl)
-      invisible(learner_train(self, task, row_ids, ctrl))
+      invisible(learner_train(self, task, row_ids))
     },
 
-    predict = function(task, row_ids = NULL, ctrl = list()) {
+    predict = function(task, row_ids = NULL) {
       assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
       if (!is.null(row_ids))
         row_ids = assert_row_ids(row_ids)
-      ctrl = mlr_control(ctrl)
-      learner_predict(self, task, row_ids, ctrl)
+      learner_predict(self, task, row_ids)
     },
 
-    predict_newdata = function(task, newdata, ctrl = list()) {
+    predict_newdata = function(task, newdata) {
       assert_data_frame(newdata, min.rows = 1L)
       tn = task$target_names
       if (any(tn %nin% colnames(newdata))) {
@@ -240,7 +238,7 @@ Learner = R6Class("Learner",
       old_row_ids = task$row_ids
       task = task$clone(deep = TRUE)$rbind(newdata)
       row_ids = setdiff(task$row_ids, old_row_ids)
-      self$predict(task, row_ids, ctrl = ctrl)
+      self$predict(task, row_ids)
     }
   ),
 

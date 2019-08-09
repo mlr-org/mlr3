@@ -14,15 +14,15 @@
 #'   All resamplings must be properly instantiated.
 #'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
-#' @param ctrl :: (named `list()`)\cr
-#'   Object to control learner execution. See [mlr_control()] for details.
-#'   Note that per default, fitted learner models are discarded after the prediction in order to save
-#'   some memory.
+#' @param store_models :: `logical(1)`\cr
+#'   Keep the fitted model after the test set has been predicted?
+#'   Set to `TRUE` if you want to further analyse the models or want to
+#'   extract information like variable importance.
 #' @return [BenchmarkResult].
 #'
 #' @note
 #' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
-#' If you need access to the models for later analysis, set `store_models` to `TRUE` via [mlr_control()].
+#' If you need access to the models for later analysis, set `store_models` to `TRUE`.
 #'
 #' @template section-parallelization
 #' @template section-logging
@@ -73,12 +73,12 @@
 #' ## get the training set of the 2nd iteration of the featureless learner on iris
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, ctrl = list()) {
+benchmark = function(design, store_models = FALSE) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(design$task))
   design$resampling = list(assert_resamplings(design$resampling, instantiated = TRUE))
-  ctrl = mlr_control(ctrl)
+  assert_flag(store_models)
 
   # check for multiple task types
   task_types = unique(map_chr(design$task, "task_type"))
@@ -108,7 +108,7 @@ benchmark = function(design, ctrl = list()) {
 
     res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, MoreArgs = list(ctrl = ctrl, lgr_threshold = lg$threshold),
+      iteration = grid$iteration, MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold),
       SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3"
@@ -118,7 +118,7 @@ benchmark = function(design, ctrl = list()) {
 
     res = mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, MoreArgs = list(ctrl = ctrl), SIMPLIFY = FALSE, USE.NAMES = FALSE
+      iteration = grid$iteration, MoreArgs = list(store_models = store_models), SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   }
 

@@ -56,7 +56,7 @@ test_that("discarding model", {
   learner = mlr_learners$get("classif.featureless")
   resampling = rsp("cv", folds = 3)
 
-  rr = resample(task, learner, resampling, ctrl = mlr_control(store_models = FALSE))
+  rr = resample(task, learner, resampling)
   expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
 })
 

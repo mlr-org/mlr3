@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, ctrl = list())
+benchmark(design, store_models = FALSE)
 }
 \arguments{
 \item{design}{:: \code{\link[=data.frame]{data.frame()}}\cr
@@ -14,10 +14,10 @@ All resamplings must be properly instantiated.
 The helper function \code{\link[=expand_grid]{expand_grid()}} can assist in generating an exhaustive design (see examples) and
 instantiate the \link{Resampling}s per \link{Task}.}
 
-\item{ctrl}{:: (named \code{list()})\cr
-Object to control learner execution. See \code{\link[=mlr_control]{mlr_control()}} for details.
-Note that per default, fitted learner models are discarded after the prediction in order to save
-some memory.}
+\item{store_models}{:: \code{logical(1)}\cr
+Keep the fitted model after the test set has been predicted?
+Set to \code{TRUE} if you want to further analyse the models or want to
+extract information like variable importance.}
 }
 \value{
 \link{BenchmarkResult}.
@@ -32,7 +32,7 @@ To generate exhaustive designs and automatically instantiate resampling strategi
 }
 \note{
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
-If you need access to the models for later analysis, set \code{store_models} to \code{TRUE} via \code{\link[=mlr_control]{mlr_control()}}.
+If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
 }
 \section{Parallelization}{
 

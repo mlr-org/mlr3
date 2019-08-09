@@ -105,16 +105,16 @@ Returns the logged errors as vector.
 \section{Methods}{
 
 \itemize{
-\item \code{train(task, row_ids = NULL, ctrl = list())}\cr
-(\link{Task}, \code{integer()} | \code{character()}, \code{\link[=mlr_control]{mlr_control()}}) -> \code{self}\cr
+\item \code{train(task, row_ids = NULL))}\cr
+(\link{Task}, \code{integer()} | \code{character()}) -> \code{self}\cr
 Train the learner on the row ids of the provided \link{Task}.
 Mutates the learner by reference, i.e. stores the model alongside other objects in field \code{$state}.
-\item \code{predict(task, row_ids = NULL, ctrl = list())}\cr
-(\link{Task}, \code{integer()} | \code{character()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
+\item \code{predict(task, row_ids = NULL)}\cr
+(\link{Task}, \code{integer()} | \code{character()}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} in \code{$state} to create a new \link{Prediction} based on the provided \code{row_ids}
 of the \code{task}.
-\item \code{predict_newdata(task, newdata, ctrl = list())}\cr
-(\link{Task}, \code{data.frame()}, \code{\link[=mlr_control]{mlr_control()}}) -> \link{Prediction}\cr
+\item \code{predict_newdata(task, newdata)}\cr
+(\link{Task}, \code{data.frame()}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} in \code{$state} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \code{$train()} and required for conversions of \code{newdata}.
 }

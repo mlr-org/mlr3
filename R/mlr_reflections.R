@@ -13,11 +13,6 @@ mlr_reflections = new.env(parent = emptyenv())
 
 
 local({
-  ### options
-  mlr_reflections$mlr_control_defaults = list(
-    store_models = FALSE
-  )
-
   # task types + constructors
   mlr_reflections$task_types = rowwise_table(.key = "type",
     ~type,     ~package, ~task,         ~learner,         ~prediction,         ~measure,

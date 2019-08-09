@@ -49,7 +49,7 @@ predict_wrapper = function(task, learner) {
 }
 
 
-learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
+learner_train = function(learner, task, row_ids = NULL) {
   task = assert_task(task)
 
   # subset to train set w/o cloning
@@ -93,7 +93,7 @@ learner_train = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
 }
 
 
-learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) {
+learner_predict = function(learner, task, row_ids = NULL) {
   task = assert_task(task)
 
   # subset to test set w/o cloning
@@ -149,7 +149,7 @@ learner_predict = function(learner, task, row_ids = NULL, ctrl = mlr_control()) 
 }
 
 
-workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control(), lgr_threshold = NULL) {
+workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE) {
   if (!is.null(lgr_threshold)) {
      lg$set_threshold(lgr_threshold)
   }
@@ -157,10 +157,10 @@ workhorse = function(iteration, task, learner, resampling, ctrl = mlr_control(),
   train_set = resampling$train_set(iteration)
   test_set = resampling$test_set(iteration)
 
-  learner = learner_train(learner$clone(), task, train_set, ctrl)
-  prediction = learner_predict(learner, task, test_set, ctrl)
+  learner = learner_train(learner$clone(), task, train_set)
+  prediction = learner_predict(learner, task, test_set)
 
-  if (!ctrl$store_models) {
+  if (!store_models) {
     learner$state$model = NULL
   }
 

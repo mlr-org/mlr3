@@ -53,10 +53,10 @@ test_that("ResampleResult / hash", {
 
 
 test_that("discarding model", {
-  bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings), ctrl = mlr_control(store_models = TRUE))
-  expect_false(every(map(bmr$data$learner, "model"), is.null))
-  bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings), ctrl = mlr_control(store_models = FALSE))
+  bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings))
   expect_true(every(map(bmr$data$learner, "model"), is.null))
+  bmr = benchmark(expand_grid(tasks[1L], learners[1L], resamplings), store_models = TRUE)
+  expect_false(every(map(bmr$data$learner, "model"), is.null))
 })
 
 test_that("bmr$combine()", {
