@@ -15,6 +15,8 @@
 
 * New S3 generic `as_benchmark_result()`.
 
+* Removed the control object `mlr_control()`.
+
 * Removed `ResampleResult$combine()`.
 
 * Removed `BenchmarkResult$best()`.
