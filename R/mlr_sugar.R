@@ -7,7 +7,7 @@
 #' 1. Whenever an specific object has to passed or created, it is possible to just pass a scalar string.
 #'    This string is used as key to retrieve the object form the respective dictionary.
 #'
-#' 2. Functions to retrieve objects, set hyperparameters and assign to fields in one go:
+#' 2. Functions to retrieve objects, set hyperparameters and assign to fields in one go (c.f. [mlr3misc::dictionary_sugar()]):
 #'     * `tsk()` for a [Task] from [mlr_tasks].
 #'     * `tgen()` for a [TaskGenerator] from [mlr_task_generators].
 #'     * `lrn()` for a [Learner] from [mlr_learners].

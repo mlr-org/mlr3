@@ -35,7 +35,7 @@ Currently, there are three mechanisms in place to ease the construction of objec
 \enumerate{
 \item Whenever an specific object has to passed or created, it is possible to just pass a scalar string.
 This string is used as key to retrieve the object form the respective dictionary.
-\item Functions to retrieve objects, set hyperparameters and assign to fields in one go:
+\item Functions to retrieve objects, set hyperparameters and assign to fields in one go (c.f. \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}}):
 \itemize{
 \item \code{tsk()} for a \link{Task} from \link{mlr_tasks}.
 \item \code{tgen()} for a \link{TaskGenerator} from \link{mlr_task_generators}.
