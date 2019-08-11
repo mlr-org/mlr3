@@ -27,7 +27,7 @@
 #' @examples
 #' task = tsk("iris")
 #' learner = lrn("classif.rpart")
-#' resampling = rsp("cv")
+#' resampling = rsmp("cv")
 #'
 #' # explicitly instantiate the resampling for this task for reproduciblity
 #' set.seed(123)

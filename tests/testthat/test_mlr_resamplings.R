@@ -21,7 +21,7 @@ test_that("mlr_resamplings", {
 })
 
 test_that("mlr_resamplings: sugar", {
-  r = rsp("cv", id = "cv3", folds = 3L)
+  r = rsmp("cv", id = "cv3", folds = 3L)
   expect_equal(r$id, "cv3")
   expect_equal(r$param_set$values$folds, 3L)
 })

@@ -26,10 +26,10 @@ expect_dictionary = function(d, contains = NA_character_, min_items = 0L) {
   if (!is.na(contains)) {
     checkmate::expect_list(d$mget(keys), types = contains, names = "unique")
   }
-  if (length(keys) > 1L) {
-    expect_error(do.call(d$mget, as.list(keys)) , "additional arguments")
+  if (length(keys) >= 1L) {
+    expect_error(d$get(keys[1], 1), "names")
   }
-  expect_data_table(data.table::as.data.table(d), key = "key")
+  expect_data_table(data.table::as.data.table(d), key = "key", nrows = length(keys))
 }
 
 expect_backend = function(b) {

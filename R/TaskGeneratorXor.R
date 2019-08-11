@@ -1,16 +1,16 @@
 #' @title XOR Classification Task Generator
 #'
-#' @aliases mlr_generators_xor
-#' @format [R6::R6Class] inheriting from [Generator].
-#' @include Generator.R
+#' @aliases mlr_task_generators_xor
+#' @format [R6::R6Class] inheriting from [TaskGenerator].
+#' @include TaskGenerator.R
 #'
 #' @description
-#' A [Generator] for the xor task in [mlbench::mlbench.xor()].
+#' A [TaskGenerator] for the xor task in [mlbench::mlbench.xor()].
 #' @export
 #' @examples
-#' mlr_generators$get("xor")$generate(10)$data()
-GeneratorXor = R6Class("GeneratorXor",
-  inherit = Generator,
+#' mlr_task_generators$get("xor")$generate(10)$data()
+TaskGeneratorXor = R6Class("TaskGeneratorXor",
+  inherit = TaskGenerator,
   public = list(
     initialize = function(id = "xor") {
       param_set = ParamSet$new(list(
@@ -28,5 +28,5 @@ GeneratorXor = R6Class("GeneratorXor",
   )
 )
 
-#' @include mlr_generators.R
-mlr_generators$add("xor", GeneratorXor)
+#' @include mlr_task_generators.R
+mlr_task_generators$add("xor", TaskGeneratorXor)

@@ -60,7 +60,7 @@ Imports:
     lgr (>= 0.3.0),
     Metrics,
     mlbench,
-    mlr3misc (>= 0.1.2),
+    mlr3misc (>= 0.1.2-9000),
     paradox,
     R6
 Suggests:
@@ -74,6 +74,8 @@ Suggests:
     rpart,
     testthat,
     titanic
+Remotes:
+    mlr-org/mlr3misc
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
@@ -88,12 +90,6 @@ Collate:
     'DataBackendMatrix.R'
     'DataBackendRbind.R'
     'DataBackendRename.R'
-    'Generator.R'
-    'mlr_generators.R'
-    'Generator2DNormals.R'
-    'GeneratorFriedman1.R'
-    'GeneratorSmiley.R'
-    'GeneratorXor.R'
     'Learner.R'
     'LearnerClassif.R'
     'mlr_learners.R'
@@ -142,6 +138,12 @@ Collate:
     'TaskClassif_spam.R'
     'TaskClassif_wine.R'
     'TaskClassif_zoo.R'
+    'TaskGenerator.R'
+    'mlr_task_generators.R'
+    'TaskGenerator2DNormals.R'
+    'TaskGeneratorFriedman1.R'
+    'TaskGeneratorSmiley.R'
+    'TaskGeneratorXor.R'
     'TaskRegr.R'
     'TaskRegr_boston_housing.R'
     'TaskRegr_mtcars.R'

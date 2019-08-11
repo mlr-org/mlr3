@@ -1,16 +1,16 @@
 #' @title Smiley Classification Task Generator
 #'
-#' @aliases mlr_generators_smiley
-#' @format [R6::R6Class] inheriting from [Generator].
-#' @include Generator.R
+#' @aliases mlr_task_generators_smiley
+#' @format [R6::R6Class] inheriting from [TaskGenerator].
+#' @include TaskGenerator.R
 #'
 #' @description
-#' A [Generator] for the smiley task in [mlbench::mlbench.smiley()].
+#' A [TaskGenerator] for the smiley task in [mlbench::mlbench.smiley()].
 #' @export
 #' @examples
-#' mlr_generators$get("smiley")$generate(10)$data()
-GeneratorSmiley = R6Class("GeneratorSmiley",
-  inherit = Generator,
+#' mlr_task_generators$get("smiley")$generate(10)$data()
+TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
+  inherit = TaskGenerator,
   public = list(
     initialize = function(id = "smiley") {
       param_set = ParamSet$new(list(
@@ -31,5 +31,5 @@ GeneratorSmiley = R6Class("GeneratorSmiley",
   )
 )
 
-#' @include mlr_generators.R
-mlr_generators$add("smiley", GeneratorSmiley)
+#' @include mlr_task_generators.R
+mlr_task_generators$add("smiley", TaskGeneratorSmiley)

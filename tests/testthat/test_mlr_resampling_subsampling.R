@@ -10,7 +10,7 @@ test_that("stratification", {
   b = as_data_backend(data)
   task = TaskClassif$new("stratify_data", b, target = "y")
 
-  r = rsp("subsampling", ratio = 0.5, repeats = 3, stratify = TRUE)
+  r = rsmp("subsampling", ratio = 0.5, repeats = 3, stratify = TRUE)
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {
@@ -22,6 +22,6 @@ test_that("stratification", {
 })
 
 test_that("grouping", {
-  r = rsp("subsampling", ratio = 0.5, repeats = 3)
+  r = rsmp("subsampling", ratio = 0.5, repeats = 3)
   expect_grouping_works(r)
 })

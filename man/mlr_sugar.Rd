@@ -3,21 +3,21 @@
 \name{mlr_sugar}
 \alias{mlr_sugar}
 \alias{tsk}
-\alias{gen}
+\alias{tgen}
 \alias{lrn}
-\alias{rsp}
-\alias{mea}
+\alias{rsmp}
+\alias{msr}
 \title{Syntactic Sugar for Object Construction}
 \usage{
 tsk(.key, ...)
 
-gen(.key, ...)
+tgen(.key, ...)
 
 lrn(.key, ...)
 
-rsp(.key, ...)
+rsmp(.key, ...)
 
-mea(.key, ...)
+msr(.key, ...)
 }
 \arguments{
 \item{.key}{:: \code{character(1)}\cr
@@ -38,10 +38,10 @@ This string is used as key to retrieve the object form the respective dictionary
 \item Functions to retrieve objects, set hyperparameters and assign to fields in one go:
 \itemize{
 \item \code{tsk()} for a \link{Task} from \link{mlr_tasks}.
-\item \code{gen()} for a \link{Generator} from \link{mlr_generators}.
+\item \code{tgen()} for a \link{TaskGenerator} from \link{mlr_task_generators}.
 \item \code{lrn()} for a \link{Learner} from \link{mlr_learners}.
-\item \code{rsp()} for a \link{Resampling} from \link{mlr_resamplings}.
-\item \code{mea()} for a \link{Measure} from \link{mlr_measures}.
+\item \code{rsmp()} for a \link{Resampling} from \link{mlr_resamplings}.
+\item \code{msr()} for a \link{Measure} from \link{mlr_measures}.
 }
 \item Each task type has an associated default \link{Measure} (stored in \link{mlr_reflections}) which is used if no measure is provided.
 Classification tasks default to the classification error in \link[=mlr_measures_classif.ce]{"classif.ce"},

@@ -1,4 +1,4 @@
-#' @title Generator Class
+#' @title TaskGenerator Class
 #'
 #' @usage NULL
 #' @format [R6::R6Class] object.
@@ -6,12 +6,12 @@
 #'
 #' @description
 #' Creates a [Task] of arbitrary size.
-#' Predefined task generators are stored in the [Dictionary] [mlr_generators],
-#' e.g. [`xor`][mlr_generators_xor].
+#' Predefined task generators are stored in the [Dictionary] [mlr_task_generators],
+#' e.g. [`xor`][mlr_task_generators_xor].
 #'
 #' @section Construction:
 #' ```
-#' g = Generator$new(id, task_type, packages = character(0L), param_set = ParamSet$new(), param_vals = list())
+#' g = TaskGenerator$new(id, task_type, packages = character(0L), param_set = ParamSet$new(), param_vals = list())
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -49,9 +49,9 @@
 #'   `integer(1)` -> [Task]\cr
 #'   Creates a task of type `task_type` with `n` observations, possibly using additional settings stored in `param_set`.
 #'
-#' @family Generator
+#' @family TaskGenerator
 #' @export
-Generator = R6Class("Generator",
+TaskGenerator = R6Class("TaskGenerator",
   public = list(
     id = NULL,
     task_type = NULL,

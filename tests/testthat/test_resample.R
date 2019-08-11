@@ -3,7 +3,7 @@ context("resample")
 test_that("resample", {
   task = tsk("iris")
   learner = lrn("classif.featureless")
-  resampling = rsp("cv", folds = 3L)
+  resampling = rsmp("cv", folds = 3L)
 
   rr = resample(task, learner, resampling)
 
@@ -54,7 +54,7 @@ test_that("as_benchmark_result.ResampleResult", {
 test_that("discarding model", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
-  resampling = rsp("cv", folds = 3)
+  resampling = rsmp("cv", folds = 3)
 
   rr = resample(task, learner, resampling)
   expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
@@ -87,7 +87,7 @@ test_that("memory footprint", {
 test_that("predict_type is checked", {
   task = mlr_tasks$get("sonar")
   learner = mlr_learners$get("classif.featureless")
-  resampling = rsp("cv", folds = 3L)
+  resampling = rsmp("cv", folds = 3L)
   measure = mlr_measures$get("classif.auc")
   rr = resample(task, learner, resampling)
 

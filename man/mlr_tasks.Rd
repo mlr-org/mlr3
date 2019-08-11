@@ -49,9 +49,10 @@ mlr_tasks$remove("iris.binary")
 \seealso{
 Example tasks: \code{\link[=mlr_tasks_iris]{iris}} (multi-class classification), \code{\link[=mlr_tasks_spam]{spam}} (binary classification), \code{\link[=mlr_tasks_boston_housing]{boston_housing}} (regression)
 
-Other Dictionary: \code{\link{mlr_generators}},
-  \code{\link{mlr_learners}}, \code{\link{mlr_measures}},
-  \code{\link{mlr_resamplings}}
+Other Dictionary: \code{\link{mlr_learners}},
+  \code{\link{mlr_measures}},
+  \code{\link{mlr_resamplings}},
+  \code{\link{mlr_task_generators}}
 
 Other Task: \code{\link{TaskClassif}},
   \code{\link{TaskRegr}}, \code{\link{TaskSupervised}},

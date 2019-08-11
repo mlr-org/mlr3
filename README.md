@@ -82,14 +82,14 @@ prediction$confusion
 prediction$score("classif.acc")
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9666667
 
 ### Resample
 
 ``` r
 # automatic resampling
-resampling = rsp("cv", folds = 3L)
+resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 rr$performance(measure)
 rr$aggregate()

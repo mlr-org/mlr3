@@ -9,10 +9,10 @@
 #'
 #' 2. Functions to retrieve objects, set hyperparameters and assign to fields in one go:
 #'     * `tsk()` for a [Task] from [mlr_tasks].
-#'     * `gen()` for a [Generator] from [mlr_generators].
+#'     * `tgen()` for a [TaskGenerator] from [mlr_task_generators].
 #'     * `lrn()` for a [Learner] from [mlr_learners].
-#'     * `rsp()` for a [Resampling] from [mlr_resamplings].
-#'     * `mea()` for a [Measure] from [mlr_measures].
+#'     * `rsmp()` for a [Resampling] from [mlr_resamplings].
+#'     * `msr()` for a [Measure] from [mlr_measures].
 #'
 #' 3. Each task type has an associated default [Measure] (stored in [mlr_reflections]) which is used if no measure is provided.
 #'    Classification tasks default to the classification error in ["classif.ce"][mlr_measures_classif.ce],
@@ -33,53 +33,32 @@
 #' print(learner)
 NULL
 
-get_from_dict = function(dict, .key, ...) {
-  x = dict$get(.key)
-  ddd = assert_list(list(...), names = "unique")
-
-  if (length(ddd)) {
-    if (exists("param_set", envir = x, inherits = FALSE)) {
-      pn = intersect(x$param_set$ids(), names(ddd))
-      #TODO: insert or overwrite parameters?
-      x$param_set$values = insert_named(x$param_set$values, ddd[pn])
-      ddd = remove_named(ddd, pn)
-    }
-
-    for (i in seq_along(ddd)) {
-      x[[names(ddd)[i]]] = ddd[[i]]
-    }
-  }
-
-  x
-}
-
-
 #' @rdname mlr_sugar
 #' @export
 tsk = function(.key, ...) {
-  get_from_dict(mlr_tasks, .key, ...)
+  dictionary_sugar(mlr_tasks, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
-gen = function(.key, ...) {
-  get_from_dict(mlr_generators, .key, ...)
+tgen = function(.key, ...) {
+  dictionary_sugar(mlr_task_generators, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 lrn = function(.key, ...) {
-  get_from_dict(mlr_learners, .key, ...)
+  dictionary_sugar(mlr_learners, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
-rsp = function(.key, ...) {
-  get_from_dict(mlr_resamplings, .key, ...)
+rsmp = function(.key, ...) {
+  dictionary_sugar(mlr_resamplings, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
-mea = function(.key, ...) {
-  get_from_dict(mlr_measures, .key, ...)
+msr = function(.key, ...) {
+  dictionary_sugar(mlr_measures, .key, ...)
 }

@@ -68,7 +68,7 @@ prediction$score("classif.acc")
 
 ```r
 # automatic resampling
-resampling = rsp("cv", folds = 3L)
+resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 rr$performance(measure)
 rr$aggregate()

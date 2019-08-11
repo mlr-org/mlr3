@@ -14,22 +14,22 @@
 #'   Returns a [data.table::data.table()] with fields "key" and "packages" as columns.
 #'
 #' @family Dictionary
-#' @family Generator
+#' @family TaskGenerator
 #' @seealso
-#' Example generators: [`xor`][mlr_generators_xor]
+#' Example generators: [`xor`][mlr_task_generators_xor]
 #' @export
 #' @examples
-#' g = mlr_generators$get("smiley")
+#' g = mlr_task_generators$get("smiley")
 #' task = g$generate(10)
 #' print(task)
 #' task$data()
-mlr_generators = DictionaryGenerator = R6Class("DictionaryGenerator",
+mlr_task_generators = R6Class("DictionaryTaskGenerator",
   inherit = Dictionary,
   cloneable = FALSE
 )$new()
 
 #' @export
-as.data.table.DictionaryGenerator = function(x, ...) {
+as.data.table.DictionaryTaskGenerator = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
     g = x$get(key)
     list(

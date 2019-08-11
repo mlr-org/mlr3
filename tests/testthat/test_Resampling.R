@@ -2,7 +2,7 @@ context("Resampling")
 
 test_that("param_vals", {
   task = tsk("iris")
-  r = rsp("bootstrap", repeats = 100L, ratio = 1)
+  r = rsmp("bootstrap", repeats = 100L, ratio = 1)
 
   expect_identical(r$param_set$values$ratio, 1)
   expect_identical(r$param_set$values$repeats, 100L)

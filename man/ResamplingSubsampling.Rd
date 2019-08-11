@@ -29,7 +29,7 @@ task = mlr_tasks$get("iris")
 task$filter(1:10)
 
 # Instantiate Resampling
-rss = rsp("subsampling", repeats = 2, ratio = 0.5)
+rss = rsmp("subsampling", repeats = 2, ratio = 0.5)
 rss$instantiate(task)
 
 # Individual sets:

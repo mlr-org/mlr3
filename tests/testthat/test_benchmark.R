@@ -121,7 +121,7 @@ test_that("multiple measures", {
 test_that("predict_type is checked", {
   task = tsk("sonar")
   learner = lrn("classif.featureless")
-  resampling = rsp("cv", folds = 3L)
+  resampling = rsmp("cv", folds = 3L)
   design = expand_grid(task, learner, resampling)
   bmr = benchmark(design)
   expect_error(bmr$aggregate("classif.auc", "predict_type"))

@@ -10,7 +10,7 @@ test_that("stratification", {
   b = as_data_backend(data)
   task = TaskClassif$new("stratify_data", b, target = "y")
 
-  r = rsp("cv", folds = 5L, stratify = TRUE)
+  r = rsmp("cv", folds = 5L, stratify = TRUE)
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {

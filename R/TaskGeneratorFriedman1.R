@@ -1,16 +1,16 @@
 #' @title Friedman1 Regression Task Generator
 #'
-#' @aliases mlr_generators_friedman1
-#' @format [R6::R6Class] inheriting from [Generator].
-#' @include Generator.R
+#' @aliases mlr_task_generators_friedman1
+#' @format [R6::R6Class] inheriting from [TaskGenerator].
+#' @include TaskGenerator.R
 #'
 #' @description
-#' A [Generator] for the friedman1 task in [mlbench::mlbench.friedman1()].
+#' A [TaskGenerator] for the friedman1 task in [mlbench::mlbench.friedman1()].
 #' @export
 #' @examples
-#' mlr_generators$get("friedman1")$generate(10)$data()
-GeneratorFriedman1 = R6Class("GeneratorFriedman1",
-  inherit = Generator,
+#' mlr_task_generators$get("friedman1")$generate(10)$data()
+TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
+  inherit = TaskGenerator,
   public = list(
     initialize = function(id = "friedman1") {
       param_set = ParamSet$new(list(
@@ -30,5 +30,5 @@ GeneratorFriedman1 = R6Class("GeneratorFriedman1",
   )
 )
 
-#' @include mlr_generators.R
-mlr_generators$add("friedman1", GeneratorFriedman1)
+#' @include mlr_task_generators.R
+mlr_task_generators$add("friedman1", TaskGeneratorFriedman1)

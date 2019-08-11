@@ -31,9 +31,10 @@ mlr_measures$get("classif.ce")
 \seealso{
 Example measures: \code{\link[=mlr_measures_classif.auc]{classif.auc}}, \code{\link[=mlr_measures_time_train]{time_train}}
 
-Other Dictionary: \code{\link{mlr_generators}},
-  \code{\link{mlr_learners}},
-  \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
+Other Dictionary: \code{\link{mlr_learners}},
+  \code{\link{mlr_resamplings}},
+  \code{\link{mlr_task_generators}},
+  \code{\link{mlr_tasks}}
 
 Other Measure: \code{\link{MeasureClassif}},
   \code{\link{MeasureRegr}}, \code{\link{Measure}}

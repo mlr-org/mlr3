@@ -30,8 +30,9 @@ mlr_resamplings$get("cv")
 \seealso{
 Example resamplings: \code{\link[=mlr_resamplings_cv]{cv}}, \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}
 
-Other Dictionary: \code{\link{mlr_generators}},
-  \code{\link{mlr_learners}}, \code{\link{mlr_measures}},
+Other Dictionary: \code{\link{mlr_learners}},
+  \code{\link{mlr_measures}},
+  \code{\link{mlr_task_generators}},
   \code{\link{mlr_tasks}}
 
 Other Resampling: \code{\link{Resampling}}

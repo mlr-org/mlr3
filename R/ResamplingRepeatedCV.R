@@ -33,7 +33,7 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rrcv = rsp("repeated_cv", repeats = 2, folds = 3)
+#' rrcv = rsmp("repeated_cv", repeats = 2, folds = 3)
 #' rrcv$instantiate(task)
 #' rrcv$iters
 #' rrcv$folds(1:6)
