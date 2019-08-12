@@ -67,10 +67,12 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     se = function() self$data$se %??% rep(NA_real_, length(self$data$row_ids)),
     missing = function() {
       miss = logical(length(self$data$row_ids))
-      if (!is.null(self$data$response))
+      if (!is.null(self$data$response)) {
         miss = miss | is.na(self$data$response)
-      if (!is.null(self$data$se))
+      }
+      if (!is.null(self$data$se)) {
         miss = miss | is.na(self$data$se)
+      }
 
       self$data$row_ids[miss]
     }
@@ -89,6 +91,7 @@ as.data.table.PredictionRegr = function(x, ...) {
 
 #' @export
 c.PredictionRegr = function(..., keep_duplicates = TRUE) {
+
   dots = list(...)
   assert_list(dots, "PredictionRegr")
   assert_flag(keep_duplicates)

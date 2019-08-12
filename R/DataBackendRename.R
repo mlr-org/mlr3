@@ -37,7 +37,7 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
     },
 
     missings = function(rows, cols) {
-      cols = map_values(intersect(cols, self$colnames),self$new, self$old)
+      cols = map_values(intersect(cols, self$colnames), self$new, self$old)
       x = private$.data$missings(rows, cols)
       set_names(x, map_values(names(x), self$old, self$new))
     }

@@ -156,6 +156,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     performance = function(measures = NULL, ids = TRUE) {
+
       measures = assert_measures(measures, learner = self$data$learner[[1L]])
       assert_flag(ids)
       score = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
@@ -173,6 +174,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     aggregate = function(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE) {
+
       measures = assert_measures(measures, learner = self$data$learner[[1L]])
       res = self$data[, list(nr = .GRP, resample_result = list(ResampleResult$new(copy(.SD)))), by = hash][, ("hash") := NULL]
 

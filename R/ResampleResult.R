@@ -96,6 +96,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     print = function() {
+
       catf("%s of %i iterations", format(self), nrow(self$data))
       catf(str_indent("* Task:", self$task$id))
       catf(str_indent("* Learner:", self$data$learner[[1L]]$id))
@@ -116,7 +117,7 @@ ResampleResult = R6Class("ResampleResult",
         if (is.null(prediction)) {
           set_names(list(NA_real_), ids(measures))
         } else {
-        as.list(prediction$score(measures, task = task, learner = learner, train_set = resampling$train_set(iteration)))
+          as.list(prediction$score(measures, task = task, learner = learner, train_set = resampling$train_set(iteration)))
         }
       }
       tab = cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score))

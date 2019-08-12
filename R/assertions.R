@@ -28,6 +28,7 @@ assert_backend = function(b, .var.name = vname(b)) {
 #' @rdname mlr_assertions
 assert_task = function(task, task_type = NULL, feature_types = NULL, task_properties = NULL,
   clone = FALSE, min_rows = 0L) {
+
   task = cast_from_dict(task, "Task", mlr_tasks, clone, FALSE)[[1L]]
 
   if (!is.null(task_type) && task$task_type != task_type) {

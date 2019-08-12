@@ -3,12 +3,13 @@
 # Exceptions here are possibly encapsulated, so that they get captured
 # and turned into log messages.
 train_wrapper = function(learner, task) {
-  tryCatch(
-    { model = learner$train_internal(task = task) },
-    error = function(e) {
-      e$message = sprintf("Learner '%s' on task '%s' failed to fit: %s", learner$id, task$id, e$message)
-      stop(e)
-    }
+  tryCatch({
+    model = learner$train_internal(task = task)
+  },
+  error = function(e) {
+    e$message = sprintf("Learner '%s' on task '%s' failed to fit: %s", learner$id, task$id, e$message)
+    stop(e)
+  }
   )
 
   if (is.null(model)) {
@@ -23,6 +24,7 @@ train_wrapper = function(learner, task) {
 # checks that the prediction was successful.
 # Exceptions here are possibly encapsulated, so that they get captured and turned into log messages.
 predict_wrapper = function(task, learner) {
+
   if (is.null(learner$state$model)) {
     stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
   }
@@ -50,13 +52,16 @@ predict_wrapper = function(task, learner) {
 
 
 learner_train = function(learner, task, row_ids = NULL) {
+
   task = assert_task(task)
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
     row_ids = assert_row_ids(row_ids)
     prev_use = task$row_roles$use
-    on.exit({ task$row_roles$use = prev_use }, add = TRUE)
+    on.exit({
+      task$row_roles$use = prev_use
+    }, add = TRUE)
     task$row_roles$use = row_ids
   }
 
@@ -94,13 +99,16 @@ learner_train = function(learner, task, row_ids = NULL) {
 
 
 learner_predict = function(learner, task, row_ids = NULL) {
+
   task = assert_task(task)
 
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {
     row_ids = assert_row_ids(row_ids)
     prev_use = task$row_roles$use
-    on.exit({ task$row_roles$use = prev_use }, add = TRUE)
+    on.exit({
+      task$row_roles$use = prev_use
+    }, add = TRUE)
     task$row_roles$use = row_ids
   }
 
@@ -150,8 +158,9 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
 
 workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE) {
+
   if (!is.null(lgr_threshold)) {
-     lg$set_threshold(lgr_threshold)
+    lg$set_threshold(lgr_threshold)
   }
   lg$info("Applying learner '%s' on task '%s' (iter %i/%i)", learner$id, task$id, iteration, resampling$iters)
   train_set = resampling$train_set(iteration)

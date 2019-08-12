@@ -23,7 +23,6 @@
 #' @examples
 #' as.data.table(mlr_measures)
 #' mlr_measures$get("classif.ce")
-
 mlr_measures = R6Class("DictionaryMeasure",
   inherit = Dictionary,
   cloneable = FALSE

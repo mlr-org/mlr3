@@ -106,6 +106,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL) {
+
       row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
 
@@ -173,10 +174,12 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     confusion = function() table(response = self$response, truth = self$truth, useNA = "ifany"),
     missing = function() {
       miss = logical(length(self$data$row_ids))
-      if (!is.null(self$data$response))
+      if (!is.null(self$data$response)) {
         miss = miss | is.na(self$data$response)
-      if (!is.null(self$data$prob))
+      }
+      if (!is.null(self$data$prob)) {
         miss = miss | apply(self$data$prob, 1L, anyMissing)
+      }
 
       self$data$row_ids[miss]
     }
@@ -201,6 +204,7 @@ as.data.table.PredictionClassif = function(x, ...) {
 
 #' @export
 c.PredictionClassif = function(..., keep_duplicates = TRUE) {
+
   dots = list(...)
   assert_list(dots, "PredictionClassif")
   assert_flag(keep_duplicates)
@@ -222,7 +226,7 @@ c.PredictionClassif = function(..., keep_duplicates = TRUE) {
   if (!keep_duplicates) {
     keep = !duplicated(x$row_ids, fromLast = TRUE)
     x = x[keep]
-    prob = prob[keep,, drop = FALSE]
+    prob = prob[keep, , drop = FALSE]
   }
   PredictionClassif$new(row_ids = x$row_ids, truth = x$truth, response = x$response, prob = prob)
 }

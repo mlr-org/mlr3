@@ -101,13 +101,15 @@ TaskClassif = R6Class("TaskClassif",
     positive = function(rhs) {
       lvls = self$class_names
       if (missing(rhs)) {
-        if (length(lvls) != 2L)
+        if (length(lvls) != 2L) {
           return(NA_character_)
+        }
         return(lvls[1L])
       }
 
-      if (length(lvls) != 2L)
+      if (length(lvls) != 2L) {
         stopf("Setting the positive class is only feasible for binary classification")
+      }
       positive = assert_choice(rhs, lvls)
       negative = setdiff(lvls, rhs)
       self$col_info[list(self$target_names), levels := list(list(c(positive, negative))), on = "id"][]
@@ -115,8 +117,9 @@ TaskClassif = R6Class("TaskClassif",
 
     negative = function() {
       lvls = self$class_names
-      if (length(lvls) != 2L)
+      if (length(lvls) != 2L) {
         return(NA_character_)
+      }
       return(lvls[2L])
     }
   )

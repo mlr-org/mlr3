@@ -217,15 +217,17 @@ Learner = R6Class("Learner",
 
     train = function(task, row_ids = NULL) {
       assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
-      if (!is.null(row_ids))
+      if (!is.null(row_ids)) {
         row_ids = assert_row_ids(row_ids)
+      }
       invisible(learner_train(self, task, row_ids))
     },
 
     predict = function(task, row_ids = NULL) {
       assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
-      if (!is.null(row_ids))
+      if (!is.null(row_ids)) {
         row_ids = assert_row_ids(row_ids)
+      }
       learner_predict(self, task, row_ids)
     },
 
@@ -253,8 +255,9 @@ Learner = R6Class("Learner",
 
     log = function() {
       tab = rbindlist(list(train = self$state$train_log, predict = self$state$predict_log), idcol = "stage", use.names = TRUE)
-      if (nrow(tab) == 0L)
+      if (nrow(tab) == 0L) {
         tab = data.table(stage = character(), class = character(), msg = character())
+      }
       tab$stage = as_factor(tab$stage, levels = c("train", "predict"))
       tab
     },
@@ -290,8 +293,9 @@ Learner = R6Class("Learner",
     },
 
     encapsulate = function(rhs) {
-      if (missing(rhs))
+      if (missing(rhs)) {
         return(private$.encapsulate)
+      }
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
       private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
@@ -307,6 +311,7 @@ Learner = R6Class("Learner",
 
 
 learner_print = function(self) {
+
   catf(format(self))
   catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
   catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
@@ -316,8 +321,10 @@ learner_print = function(self) {
   catf(str_indent("* Properties:", self$properties))
   w = self$warnings
   e = self$errors
-  if (length(w))
+  if (length(w)) {
     catf(str_indent("* Warnings:", w))
-  if (length(e))
+  }
+  if (length(e)) {
     catf(str_indent("* Errors:", e))
+  }
 }
