@@ -122,7 +122,7 @@ ResampleResult = R6Class("ResampleResult",
       }
       tab = cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score))
       if (ids) {
-        tab[, c("task_id", "learner_id", "resampling_id") := list(ids(get("task")), ids(get("learner")), ids(get("resampling")))]
+        tab[, c("task_id", "learner_id", "resampling_id") := list(ids(task), ids(learner), ids(resampling))]
         setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))[]
       }
       return(tab)

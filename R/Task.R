@@ -487,7 +487,7 @@ task_print = function(self) {
   types = self$feature_types
   if (nrow(types)) {
     catf("Features (%i):", nrow(types))
-    types = types[, list(N = .N, feats = str_collapse(get("id"), n = 100L)), by = "type"][, "type" := translate_types(get("type"))]
+    types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
     setorderv(types, "N", order = -1L)
     pmap(types, function(type, N, feats) catf(str_indent(sprintf("* %s (%i):", type, N), feats)))
   }

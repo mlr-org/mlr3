@@ -263,11 +263,11 @@ Learner = R6Class("Learner",
     },
 
     warnings = function() {
-      self$log[get("class") == "warning"]$msg
+      self$log[class == "warning"]$msg
     },
 
     errors = function() {
-      self$log[get("class") == "error"]$msg
+      self$log[class == "error"]$msg
     },
 
     hash = function() {
