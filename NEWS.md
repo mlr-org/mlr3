@@ -7,7 +7,7 @@
   persistent order. Thus, `ResampleResult`s are now addressed by their position
   instead of their hash.
 
-* New field `BenchmarkResult$resample_results`.
+* New field `BenchmarkResult$size`.
 
 * New field `BenchmarkResult$hashes`.
 
