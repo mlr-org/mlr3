@@ -37,7 +37,7 @@
 #'   Table of used resamplings with three columns:
 #'   `"resampling_hash"` (`character(1)`), `"resampling_id"` (`character(1)`) and `"resampling"` ([Resampling]).
 #'
-#' * `size` :: `integer(1)`\cr
+#' * `n_resample_results` :: `integer(1)`\cr
 #'   Returns the number of stored [ResampleResult]s.
 #'
 #' * `hashes` :: `character()`\cr
@@ -218,7 +218,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       unique(self$data[, list(resampling_hash = hashes(resampling), resampling_id = ids(resampling), resampling = resampling)], by = "resampling_hash")
     },
 
-    size = function() {
+    n_resample_results = function() {
       self$data[, uniqueN(hash)]
     },
 
