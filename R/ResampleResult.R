@@ -55,14 +55,14 @@
 #'   Hash (unique identifier) for this object.
 #'
 #' @section Methods:
-#' * `performance(measures = NULL, ids = TRUE)`\cr
+#' * `performance(measures = list(), ids = TRUE)`\cr
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects.
 #'   A column with the individual (per resampling iteration) performance is added for each [Measure], named with the id of the respective measure.
 #'   If `ids` is `TRUE`, extra columns with the ids of objects (`"task_id"`, `"learner_id"`, `"resampling_id"`)
 #'   are binded to the table to allow a more convenient subsetting.
 #'
-#' * `aggregate(measures = NULL)`\cr
+#' * `aggregate(measures = list())`\cr
 #'   `list()` of [Measure] -> named `numeric()`\cr
 #'   Calculates and aggregates performance values for all provided measures.
 #'   See [Measure] for the aggregation function.
@@ -110,25 +110,31 @@ ResampleResult = R6Class("ResampleResult",
       catf(str_indent("* Errors:", sprintf("%i in %i iterations", nrow(errors), uniqueN(errors, by = "iteration"))))
     },
 
-    performance = function(measures = NULL, ids = TRUE) {
+    performance = function(measures = list(), ids = TRUE) {
       measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]])
       assert_flag(ids)
-      score = function(prediction, task, learner, resampling, iteration) {
-        if (is.null(prediction)) {
-          set_names(list(NA_real_), ids(measures))
-        } else {
-          as.list(prediction$score(measures, task = task, learner = learner, train_set = resampling$train_set(iteration)))
+      tab = copy(self$data)
+
+      if (!is.null(measures)) {
+        score = function(prediction, task, learner, resampling, iteration) {
+          if (is.null(prediction)) {
+            set_names(list(NA_real_), ids(measures))
+          } else {
+            as.list(prediction$score(measures, task = task, learner = learner, train_set = resampling$train_set(iteration)))
+          }
         }
+        tab = rcbind(tab, pmap_dtr(self$data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score))
       }
-      tab = cbind(self$data, pmap_dtr(self$data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score))
+
       if (ids) {
         tab[, c("task_id", "learner_id", "resampling_id") := list(ids(task), ids(learner), ids(resampling))]
         setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))[]
       }
-      return(tab)
+
+      tab[]
     },
 
-    aggregate = function(measures = NULL) {
+    aggregate = function(measures = list()) {
       measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]])
       set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
     }

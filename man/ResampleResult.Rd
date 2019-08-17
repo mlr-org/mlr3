@@ -55,13 +55,13 @@ Hash (unique identifier) for this object.
 \section{Methods}{
 
 \itemize{
-\item \code{performance(measures = NULL, ids = TRUE)}\cr
+\item \code{performance(measures = list(), ids = TRUE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects.
 A column with the individual (per resampling iteration) performance is added for each \link{Measure}, named with the id of the respective measure.
 If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"})
 are binded to the table to allow a more convenient subsetting.
-\item \code{aggregate(measures = NULL)}\cr
+\item \code{aggregate(measures = list())}\cr
 \code{list()} of \link{Measure} -> named \code{numeric()}\cr
 Calculates and aggregates performance values for all provided measures.
 See \link{Measure} for the aggregation function.

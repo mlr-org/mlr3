@@ -388,7 +388,7 @@ expect_resample_result = function(rr) {
   checkmate::expect_names(names(rr$performance()), must.include = mlr3::mlr_reflections$rr_names)
   expect_hash(rr$hash, 1L)
 
-  m = mlr3::assert_measure(NULL, task = rr$task)
+  m = mlr3::assert_measure(mlr3::mlr_reflections$default_measures[[rr$task$task_type]])
   y = rr$performance(m)
   aggr = rr$aggregate(m)
   checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
@@ -425,16 +425,22 @@ expect_benchmark_result = function(bmr) {
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
 
-  measure = mlr3::assert_measure(NULL, task = bmr$data$task[[1L]])
+  if (nrow(bmr$data) > 0L) {
+    measure = assert_measure(mlr3::mlr_reflections$default_measures[[bmr$data$task[[1L]]$task_type]])
+  } else {
+    measure = list()
+  }
   tab = bmr$aggregate(measure, ids = TRUE)
-  checkmate::expect_data_table(tab, ncols = 6L)
+  checkmate::expect_data_table(tab, ncols = 5L + inherits(measure, "Measure"))
   checkmate::expect_names(names(tab), permutation.of = c("nr", "resample_result", "resampling_id", "task_id", "learner_id", "resampling_id", measure$id))
-  expect_equal(tab$nr, seq_len(nrow(tab)))
-  expect_list(tab$resample_result, "ResampleResult")
+  testthat::expect_equal(tab$nr, seq_len(nrow(tab)))
+  checkmate::expect_list(tab$resample_result, "ResampleResult")
   expect_id(tab$task_id)
   expect_id(tab$learner_id)
   expect_id(tab$resampling_id)
-  expect_numeric(tab[[measure$id]], any.missing = FALSE)
+  if (inherits(measure, "Measure")) {
+    checkmate::expect_numeric(tab[[measure$id]], any.missing = FALSE)
+  }
 
   tab = bmr$aggregate(params = TRUE)
   checkmate::assert_list(tab$params)
@@ -442,4 +448,6 @@ expect_benchmark_result = function(bmr) {
   hashes = bmr$hashes
   expect_hash(hashes, len = data.table::uniqueN(bmr$data$hash))
   checkmate::expect_set_equal(hashes, bmr$data$hash)
+
+  expect_equal(bmr$n_resample_results, length(bmr$hashes))
 }

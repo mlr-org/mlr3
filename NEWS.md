@@ -3,6 +3,8 @@
 * Added functions to ease the creation of objects stored in dictionaries:
   `tsk()`, `tgen()`, `lrn()`, `rsmp()`, `msr()`.
 
+* Default measures are not calculated anymore per default.
+
 * `BenchmarkResult` now ensures that the stored `ResampleResult`s are in a
   persistent order. Thus, `ResampleResult`s are now addressed by their position
   instead of their hash.

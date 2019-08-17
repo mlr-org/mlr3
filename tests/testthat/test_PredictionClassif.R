@@ -36,12 +36,12 @@ test_that("setting threshold binaryclass", {
   set_thresh(p, 0)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_true(all(as.character(p$response) == task$positive | p$prob[, task$positive] == 0))
-  expect_gt(p$score(), 0.25)
+  expect_gt(p$score("classif.ce"), 0.25)
 
   set_thresh(p, 1)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_true(all(as.character(p$response) == task$negative | p$prob[, task$negative] == 0))
-  expect_gt(p$score(), 0.25)
+  expect_gt(p$score("classif.ce"), 0.25)
 })
 
 test_that("setting threshold multiclass", {

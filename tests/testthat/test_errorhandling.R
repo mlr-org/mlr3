@@ -70,8 +70,8 @@ test_that("encapsulation / resample", {
   expect_data_table(rr$warnings, nrows = 3L)
   expect_data_table(rr$errors, nrows = 3L)
 
-  expect_equal(unname(rr$aggregate()), NA_real_)
-  expect_equal(rr$performance()$classif.ce, rep(NA_real_, 3L))
+  expect_equal(unname(rr$aggregate("classif.ce")), NA_real_)
+  expect_equal(rr$performance("classif.ce")$classif.ce, rep(NA_real_, 3L))
 })
 
 test_that("encapsulation / benchmark", {

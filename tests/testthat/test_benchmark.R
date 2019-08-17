@@ -15,8 +15,8 @@ test_that("Basic benchmarking", {
   expect_names(names(tab), permutation.of = c("hash", "task", "learner", "resampling", "iteration", "prediction"))
 
   tab = bmr$performance(ids = FALSE)
-  expect_data_table(tab, nrows = 12L, ncols = 7L)
-  expect_names(names(tab), permutation.of = c("nr", "task", "learner", "resampling", "iteration", "prediction", "classif.ce"))
+  expect_data_table(tab, nrows = 12L, ncols = 6L)
+  expect_names(names(tab), permutation.of = c("nr", "task", "learner", "resampling", "iteration", "prediction"))
 
   tab = bmr$tasks
   expect_data_table(tab, nrows = 2, any.missing = FALSE)
@@ -35,18 +35,19 @@ test_that("Basic benchmarking", {
 
   tab = bmr$aggregate()
   expect_data_table(tab, nrows = 4L)
-  expect_names(names(tab), type = "unique", permutation.of = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", "classif.ce"))
+  expect_names(names(tab), type = "unique", permutation.of = c("nr", "resample_result", "task_id", "learner_id", "resampling_id"))
 })
 
 test_that("ResampleResult / hash", {
-  aggr = bmr$aggregate()
+  m = assert_measure("classif.ce")
+  aggr = bmr$aggregate(m)
   nr = aggr$nr
   expect_integer(nr, len = 4L, any.missing = FALSE, unique = TRUE)
 
   for (i in nr) {
     rr = aggr$resample_result[[i]]
     expect_resample_result(rr)
-    expect_equivalent(rr$aggregate(), aggr[["classif.ce"]][i])
+    expect_equivalent(rr$aggregate(m), aggr[["classif.ce"]][i])
     expect_equal(bmr$hashes[i], rr$hash)
   }
 })
@@ -80,6 +81,15 @@ test_that("bmr$combine()", {
   expect_false("pima" %in% bmr$tasks$task_id)
   expect_true("pima" %in% bmr_new$tasks$task_id)
   expect_true("pima" %in% bmr_combined$tasks$task_id)
+})
+
+test_that("empty bmr", {
+  bmr_new = BenchmarkResult$new()
+  expect_benchmark_result(bmr_new)
+
+  bmr_new$combine(bmr)
+  expect_benchmark_result(bmr_new)
+  expect_data_table(bmr_new$data, nrows = nrow(bmr$data))
 })
 
 test_that("bmr$resample_result()", {

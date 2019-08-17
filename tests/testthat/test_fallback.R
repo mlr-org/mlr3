@@ -54,7 +54,7 @@ test_that("fail during resample", {
 
   rr = resample("iris", learner, "cv3")
   expect_data_table(rr$errors, nrows = 3)
-  expect_number(rr$aggregate())
+  expect_number(rr$aggregate("classif.ce"))
 })
 
 test_that("incomplete predictions", {
