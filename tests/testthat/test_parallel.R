@@ -26,7 +26,7 @@ test_that("parallel benchmark", {
     task = mlr_tasks$get("iris")
     learner = mlr_learners$get("classif.rpart")
 
-    bmr = benchmark(expand_grid(task, learner, "cv3"))
+    bmr = benchmark(benchmark_grid(task, learner, "cv3"))
     expect_benchmark_result(bmr)
     expect_equal(bmr$aggregate(warnings = TRUE)$warnings, 0L)
     expect_equal(bmr$aggregate(errors = TRUE)$errors, 0L)

@@ -1,4 +1,4 @@
-#' @title Generate a Benchmark Design
+#' @title Generate a Benchmark Grid Design
 #'
 #' @description
 #' Takes a lists of [Task], a list of [Learner] and a list of [Resampling] to
@@ -15,7 +15,7 @@
 #'
 #' @return ([data.table::data.table()]) with the cross product of the input vectors.
 #' @export
-expand_grid = function(tasks, learners, resamplings) {
+benchmark_grid = function(tasks, learners, resamplings) {
 
   tasks = assert_tasks(tasks)
   learners = assert_learners(learners)

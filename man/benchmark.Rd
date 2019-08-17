@@ -11,7 +11,7 @@ benchmark(design, store_models = FALSE)
 Data frame (or \code{\link[=data.table]{data.table()}}) with three columns: "task", "learner", and "resampling".
 Each row defines a resampling by providing a \link{Task}, \link{Learner} and a \link{Resampling} strategy.
 All resamplings must be properly instantiated.
-The helper function \code{\link[=expand_grid]{expand_grid()}} can assist in generating an exhaustive design (see examples) and
+The helper function \code{\link[=benchmark_grid]{benchmark_grid()}} can assist in generating an exhaustive design (see examples) and
 instantiate the \link{Resampling}s per \link{Task}.}
 
 \item{store_models}{:: \code{logical(1)}\cr
@@ -28,7 +28,7 @@ Resamplings which are not already instantiated will be instantiated automaticall
 However, these auto-instantiated resamplings will not be synchronized per task, i.e. different learners will
 work on different splits of the same task.
 
-To generate exhaustive designs and automatically instantiate resampling strategies per task, use \code{\link[=expand_grid]{expand_grid()}}.
+To generate exhaustive designs and automatically instantiate resampling strategies per task, use \code{\link[=benchmark_grid]{benchmark_grid()}}.
 }
 \note{
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
@@ -62,12 +62,12 @@ To log to a file or a data base, see the documentation of \link[lgr:lgr-package]
 }
 
 \examples{
-# benchmarking with expand_grid()
+# benchmarking with benchmark_grid()
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = mlr_resamplings$mget("cv3")
 
-design = expand_grid(tasks, learners, resamplings)
+design = benchmark_grid(tasks, learners, resamplings)
 print(design)
 
 set.seed(123)

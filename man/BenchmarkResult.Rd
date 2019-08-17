@@ -100,7 +100,7 @@ learners = list(
   lrn("classif.rpart", predict_type = "prob")
 )
 
-design = expand_grid(
+design = benchmark_grid(
   tasks = c("sonar", "spam"),
   learners = learners,
   resamplings = "cv3"

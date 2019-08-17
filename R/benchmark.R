@@ -6,13 +6,13 @@
 #' However, these auto-instantiated resamplings will not be synchronized per task, i.e. different learners will
 #' work on different splits of the same task.
 #'
-#' To generate exhaustive designs and automatically instantiate resampling strategies per task, use [expand_grid()].
+#' To generate exhaustive designs and automatically instantiate resampling strategies per task, use [benchmark_grid()].
 #'
 #' @param design :: [data.frame()]\cr
 #'   Data frame (or [data.table()]) with three columns: "task", "learner", and "resampling".
 #'   Each row defines a resampling by providing a [Task], [Learner] and a [Resampling] strategy.
 #'   All resamplings must be properly instantiated.
-#'   The helper function [expand_grid()] can assist in generating an exhaustive design (see examples) and
+#'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
 #' @param store_models :: `logical(1)`\cr
 #'   Keep the fitted model after the test set has been predicted?
@@ -29,12 +29,12 @@
 #'
 #' @export
 #' @examples
-#' # benchmarking with expand_grid()
+#' # benchmarking with benchmark_grid()
 #' tasks = mlr_tasks$mget(c("iris", "sonar"))
 #' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 #' resamplings = mlr_resamplings$mget("cv3")
 #'
-#' design = expand_grid(tasks, learners, resamplings)
+#' design = benchmark_grid(tasks, learners, resamplings)
 #' print(design)
 #'
 #' set.seed(123)
