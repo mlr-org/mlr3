@@ -28,6 +28,9 @@ of the corresponding \link{ResampleResult}.
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Internal data storage.
 We discourage users to directly work with this field.
+\item \code{task_type} :: \code{character(1)}\cr
+Task type of objects in the \code{BenchmarkResult}.
+All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are required to have the same task type, e.g., \code{"classif"} or \code{"regr"}.
 \item \code{tasks} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used tasks with three columns:
 \code{"task_hash"} (\code{character(1)}), \code{"task_id"} (\code{character(1)}) and \code{"task"} (\link{Task}).
@@ -47,10 +50,11 @@ Vector of hashes of all included \link{ResampleResult}s.
 \section{Methods}{
 
 \itemize{
-\item \code{aggregate(measures = list(), ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)}\cr
+\item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where resampling iterations are aggregated together into \link{ResampleResult}s.
 A column with the aggregated performance is added for each \link{Measure}, named with the id of the respective measure.
+If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
 
 Additional arguments control the number of additional columns:
 \itemize{
@@ -64,13 +68,14 @@ Adds the number of resampling iterations with at least one warning as extra inte
 \item \code{errors} :: \code{logical(1)}\cr
 Adds the number of resampling iterations with errors as extra integer column \code{"errors"}.
 }
-\item \code{performance(measures = list(), ids = TRUE)}\cr
+\item \code{performance(measures = NULL, ids = TRUE)}\cr
 (\code{list()} of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
 If \code{ids} is set to \code{TRUE}, character column of extracted ids are added to the table for convenient filtering: \code{"task_id"}, \code{"learner_id"}, and \code{"resampling_id"}.
 Additionally calculates the provided performance measures and binds the performance as extra columns.
 These columns are named using the id of the respective \link{Measure}.
+If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
 \item \code{resample_result(i)}\cr
 (\code{integer(1)} -> \link{ResampleResult})\cr
 Retrieve the i-th \link{ResampleResult}.

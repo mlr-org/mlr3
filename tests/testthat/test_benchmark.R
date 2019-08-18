@@ -12,11 +12,12 @@ test_that("Basic benchmarking", {
 
   tab = as.data.table(bmr)
   expect_data_table(tab, nrows = 12L, ncols = 6L)
-  expect_names(names(tab), permutation.of = c("hash", "task", "learner", "resampling", "iteration", "prediction"))
+  expect_names(names(tab), must.include = c("hash", "task", "learner", "resampling", "iteration", "prediction"))
+  measures = mlr_measures$mget("classif.acc")
 
-  tab = bmr$performance(ids = FALSE)
-  expect_data_table(tab, nrows = 12L, ncols = 6L)
-  expect_names(names(tab), permutation.of = c("nr", "task", "learner", "resampling", "iteration", "prediction"))
+  tab = bmr$performance(measures, ids = FALSE)
+  expect_data_table(tab, nrows = 12L, ncols = 6L + length(measures))
+  expect_names(names(tab), must.include = c("nr", "task", "learner", "resampling", "iteration", "prediction", ids(measures)))
 
   tab = bmr$tasks
   expect_data_table(tab, nrows = 2, any.missing = FALSE)
@@ -33,13 +34,13 @@ test_that("Basic benchmarking", {
   expect_names(names(tab), permutation.of = c("resampling_hash", "resampling", "resampling_id"))
   expect_hash(tab$resampling_hash, len = 2L)
 
-  tab = bmr$aggregate()
+  tab = bmr$aggregate(measures)
   expect_data_table(tab, nrows = 4L)
-  expect_names(names(tab), type = "unique", permutation.of = c("nr", "resample_result", "task_id", "learner_id", "resampling_id"))
+  expect_names(names(tab), type = "unique", must.include = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", ids(measures)))
 })
 
 test_that("ResampleResult / hash", {
-  m = assert_measure("classif.ce")
+  m = mlr_measures$get("classif.ce")
   aggr = bmr$aggregate(m)
   nr = aggr$nr
   expect_integer(nr, len = 4L, any.missing = FALSE, unique = TRUE)

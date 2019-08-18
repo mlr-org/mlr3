@@ -68,6 +68,7 @@ reference:
     contents:
       - starts_with("mlr_measures")
       - confusion_measures
+      - default_measure
   - title: Resampling Strategies
     contents:
       - starts_with("mlr_resamplings")

@@ -19,19 +19,19 @@ test_that("resample", {
   expect_equal(uniqueN(hashes(rr$data$resampling)), 1L)
 })
 
-test_that("resample with multiple measures", {
+test_that("resample with no or multiple measures", {
   task = mlr_tasks$get("iris")
-  measures = mlr_measures$mget(c("classif.ce", "classif.acc"))
   learner = mlr_learners$get("classif.featureless")
   rr = resample(task, learner, "cv3")
 
-  tab = rr$performance(measures, ids = FALSE)
-  expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(measures), nrows = 3L)
-  expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures)))
-
-  perf = rr$aggregate(measures)
-  expect_numeric(perf, any.missing = FALSE, len = length(measures), names = "unique")
-  expect_equal(names(perf), ids(measures))
+  for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
+    tab = rr$performance(measures, ids = FALSE)
+    expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(measures), nrows = 3L)
+    expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures)))
+    perf = rr$aggregate(measures)
+    expect_numeric(perf, any.missing = FALSE, len = length(measures), names = "unique")
+    expect_equal(names(perf), ids(measures))
+  }
 })
 
 test_that("as_benchmark_result.ResampleResult", {

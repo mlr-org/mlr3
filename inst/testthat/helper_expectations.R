@@ -388,7 +388,7 @@ expect_resample_result = function(rr) {
   checkmate::expect_names(names(rr$performance()), must.include = mlr3::mlr_reflections$rr_names)
   expect_hash(rr$hash, 1L)
 
-  m = mlr3::assert_measure(mlr3::mlr_reflections$default_measures[[rr$task$task_type]])
+  m = default_measures(rr$task)[[1L]]
   y = rr$performance(m)
   aggr = rr$aggregate(m)
   checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
@@ -425,20 +425,17 @@ expect_benchmark_result = function(bmr) {
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
 
-  if (nrow(bmr$data) > 0L) {
-    measure = assert_measure(mlr3::mlr_reflections$default_measures[[bmr$data$task[[1L]]$task_type]])
-  } else {
-    measure = list()
-  }
-  tab = bmr$aggregate(measure, ids = TRUE)
-  checkmate::expect_data_table(tab, ncols = 5L + inherits(measure, "Measure"))
-  checkmate::expect_names(names(tab), permutation.of = c("nr", "resample_result", "resampling_id", "task_id", "learner_id", "resampling_id", measure$id))
+  measures = mlr3::default_measures(bmr$task_type)
+  tab = bmr$aggregate(measures, ids = TRUE)
+  checkmate::expect_data_table(tab, ncols = 5L + length(measures))
+  checkmate::expect_names(names(tab), must.include = c("nr", "resample_result", "resampling_id", "task_id", "learner_id", "resampling_id", mlr3misc::map_chr(measures, "id")))
   testthat::expect_equal(tab$nr, seq_len(nrow(tab)))
   checkmate::expect_list(tab$resample_result, "ResampleResult")
   expect_id(tab$task_id)
   expect_id(tab$learner_id)
   expect_id(tab$resampling_id)
-  if (inherits(measure, "Measure")) {
+  if (length(measures)) {
+    measure = measures[[1L]]
     checkmate::expect_numeric(tab[[measure$id]], any.missing = FALSE)
   }
 
@@ -450,4 +447,6 @@ expect_benchmark_result = function(bmr) {
   checkmate::expect_set_equal(hashes, bmr$data$hash)
 
   expect_equal(bmr$n_resample_results, length(bmr$hashes))
+
+  expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data) == 0L)
 }

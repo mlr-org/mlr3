@@ -114,10 +114,17 @@ assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
     }
   }
 
-  if (!is.null(learner) && !is_scalar_na(measure$predict_type)) {
-    predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
-    if (measure$predict_type %nin% predict_types) {
-      stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
+  if (!is.null(learner)) {
+    if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type) {
+      stopf("Measure '%s' is not compatible with type of learner '%s' (type: %s)",
+        measure$id, learner$id, learner$task_type)
+    }
+
+    if (!is_scalar_na(measure$predict_type)) {
+      predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
+      if (measure$predict_type %nin% predict_types) {
+        stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
+      }
     }
   }
 
@@ -126,9 +133,15 @@ assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
 
 #' @export
 #' @param measures :: list of [Measure].
+#' @param default :: `character(1)`\cr
+#'   Object passed to [default_measures()] to construct the default measures in case `measures` is `NULL`.
 #' @rdname mlr_assertions
-assert_measures = function(measures, task = NULL, learner = NULL, min_len = 0L, clone = FALSE) {
-  measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
+assert_measures = function(measures, default = NULL, task = NULL, learner = NULL, min_len = 0L, clone = FALSE) {
+  if (is.null(measures) && !is.null(default)) {
+    measures = default_measures(default)
+  } else {
+    measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
+  }
 
   if (min_len > length(measures)) {
     if (min_len == 1L)

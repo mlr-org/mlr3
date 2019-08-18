@@ -25,6 +25,10 @@
 #'   Internal data storage.
 #'   We discourage users to directly work with this field.
 #'
+#' * `task_type` :: `character(1)`\cr
+#'   Task type of objects in the `BenchmarkResult`.
+#'   All stored objects ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are required to have the same task type, e.g., `"classif"` or `"regr"`.
+#'
 #' * `tasks` :: [data.table::data.table()]\cr
 #'   Table of used tasks with three columns:
 #'   `"task_hash"` (`character(1)`), `"task_id"` (`character(1)`) and `"task"` ([Task]).
@@ -44,10 +48,11 @@
 #'   Vector of hashes of all included [ResampleResult]s.
 #'
 #' @section Methods:
-#' * `aggregate(measures = list(), ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)`\cr
+#' * `aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)`\cr
 #'   (`list()` of [Measure], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where resampling iterations are aggregated together into [ResampleResult]s.
 #'   A column with the aggregated performance is added for each [Measure], named with the id of the respective measure.
+#'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'
 #'   Additional arguments control the number of additional columns:
 #'     * `ids` :: `logical(1)`\cr
@@ -60,13 +65,14 @@
 #'     * `errors` :: `logical(1)`\cr
 #'       Adds the number of resampling iterations with errors as extra integer column `"errors"`.
 #'
-#' * `performance(measures = list(), ids = TRUE)`\cr
+#' * `performance(measures = NULL, ids = TRUE)`\cr
 #'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects:
 #'   [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
 #'   If `ids` is set to `TRUE`, character column of extracted ids are added to the table for convenient filtering: `"task_id"`, `"learner_id"`, and `"resampling_id"`.
 #'   Additionally calculates the provided performance measures and binds the performance as extra columns.
 #'   These columns are named using the id of the respective [Measure].
+#'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'
 #' * `resample_result(i)`\cr
 #'   (`integer(1)` -> [ResampleResult])\cr
@@ -134,6 +140,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
       } else {
         assert_names(names(data), must.include = slots)
       }
+
+
       self$data = setcolorder(data, slots)
     },
 
@@ -160,12 +168,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
       invisible(self)
     },
 
-    performance = function(measures = list(), ids = TRUE) {
-      measures = assert_measures(measures, learner = self$data$learner[[1L]])
+    performance = function(measures = NULL, ids = TRUE) {
       assert_flag(ids)
       tab = copy(self$data)
 
-      if (!is.null(measures)) {
+      if (nrow(tab)) {
+        measures = assert_measures(measures, learner = self$data$learner[[1L]], default = self$task_type)
         score = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
         tab = rcbind(tab, pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], score))
       }
@@ -183,8 +191,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       tab[]
     },
 
-    aggregate = function(measures = list(), ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE) {
-      measures = assert_measures(measures, learner = self$data$learner[[1L]])
+    aggregate = function(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE) {
       res = self$data[, list(nr = .GRP, resample_result = list(ResampleResult$new(copy(.SD)))), by = hash][, ("hash") := NULL]
 
       if (assert_flag(ids)) {
@@ -205,7 +212,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
         res[, "errors" := map_int(resample_result, function(rr) uniqueN(rr$errors, by = "iteration"))]
       }
 
-      if (length(measures)) {
+      if (nrow(res)) {
+        measures = assert_measures(measures, learner = self$data$learner[[1L]], default = self$task_type)
         res = rcbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
       }
 
@@ -220,6 +228,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   active = list(
+    task_type = function() {
+      if (nrow(self$data) == 0L)
+        return(NULL)
+      self$data$task[[1L]]$task_type
+    },
+
     tasks = function() {
       unique(self$data[, list(task_hash = hashes(task), task_id = ids(task), task = task)], by = "task_hash")
     },
