@@ -209,7 +209,7 @@ run_experiment = function(task, learner) {
     return(err("prediction is missing predict_types"))
 
   stage = "score()"
-  perf = try(prediction$score(default_measures(learner$task_type)), silent = TRUE)
+  perf = try(prediction$score(mlr3::default_measures(learner$task_type)), silent = TRUE)
   if (inherits(perf, "try-error"))
     return(err(as.character(perf)))
   msg = checkmate::check_numeric(perf, any.missing = FALSE)

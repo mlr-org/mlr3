@@ -14,7 +14,6 @@
 #' @examples
 #' default_measures("classif")
 #' default_measures("regr")
-#' @export
 default_measures = function(task_type) {
   if (is.null(task_type))
     return(list())
