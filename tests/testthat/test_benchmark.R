@@ -88,6 +88,9 @@ test_that("empty bmr", {
   bmr_new = BenchmarkResult$new()
   expect_benchmark_result(bmr_new)
 
+  bmr_new$combine(NULL)
+  expect_benchmark_result(bmr_new)
+
   bmr_new$combine(bmr)
   expect_benchmark_result(bmr_new)
   expect_data_table(bmr_new$data, nrows = nrow(bmr$data))

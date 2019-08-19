@@ -79,9 +79,11 @@
 #'   Retrieve the i-th [ResampleResult].
 #'
 #' * `combine(bmr)`\cr
-#'   [BenchmarkResult] -> `self`\cr
+#'   ([BenchmarkResult] | `NULL`) -> `self`\cr
 #'   Fuses a second [BenchmarkResult] into itself, mutating the [BenchmarkResult] in-place.
-#'   Note that in case of duplicated [ResampleResult]s, an exception is raised.
+#'   If `bmr` is `NULL`, simply returns `self`.
+#'
+#'   In case of duplicated [ResampleResult]s, an exception is raised.
 #'   Two [ResampleResult]s are identical iff the hashes of the respective [Task], [Learner] and [Resampling] are identical.
 #'   I.e., they must operate on the exactly same data, with the same learner with the same hyperparameters and
 #'   the same splits into training and test sets.
@@ -159,12 +161,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     combine = function(bmr) {
-      assert_benchmark_result(bmr)
-      if (any(self$hashes %in% bmr$hashes)) {
-        stop("BenchmarkResult$combine(): Identical hashes detected. Duplicated ResampleResults can not be combined into a single BenchmarkResult.")
+      if (!is.null(bmr)) {
+        assert_benchmark_result(bmr)
+        if (any(self$hashes %in% bmr$hashes)) {
+          stop("BenchmarkResult$combine(): Identical hashes detected. Duplicated ResampleResults can not be combined into a single BenchmarkResult.")
+        }
+        self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
       }
-
-      self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
       invisible(self)
     },
 

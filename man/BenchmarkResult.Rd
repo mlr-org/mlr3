@@ -80,9 +80,11 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 (\code{integer(1)} -> \link{ResampleResult})\cr
 Retrieve the i-th \link{ResampleResult}.
 \item \code{combine(bmr)}\cr
-\link{BenchmarkResult} -> \code{self}\cr
+(\link{BenchmarkResult} | \code{NULL}) -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself, mutating the \link{BenchmarkResult} in-place.
-Note that in case of duplicated \link{ResampleResult}s, an exception is raised.
+If \code{bmr} is \code{NULL}, simply returns \code{self}.
+
+In case of duplicated \link{ResampleResult}s, an exception is raised.
 Two \link{ResampleResult}s are identical iff the hashes of the respective \link{Task}, \link{Learner} and \link{Resampling} are identical.
 I.e., they must operate on the exactly same data, with the same learner with the same hyperparameters and
 the same splits into training and test sets.
