@@ -4,13 +4,12 @@
 \alias{default_measures}
 \title{Get a Default Measure}
 \usage{
-default_measures(x)
+default_measures(task_type)
 }
 \arguments{
-\item{x}{:: \code{character(1)} | \link{Task} | \link{Learner}\cr
-Get the default measure for the task type \code{x}, e.g., \code{"classif"} or \code{"regr"}.
-If you pass an object of type \link{Task} or \link{Learner}, the corresponding task type is extracted.
-If \code{x} is \code{NULL}, an empty list is returned.}
+\item{task_type}{:: \code{character(1)}\cr
+Get the default measure for the task type \code{task_type}, e.g., \code{"classif"} or \code{"regr"}.
+If \code{task_type} is \code{NULL}, an empty list is returned.}
 }
 \value{
 list of \link{Measure}.
@@ -18,9 +17,9 @@ list of \link{Measure}.
 \description{
 Gets the default measures using the information in \link[=mlr_reflections]{mlr_reflections$default_measures}:
 \itemize{
-\item \code{\link[=mlr_measures_classif.ce]{"classif.ce"}} for classification
-\item \code{\link[=mlr_measures_regr.mse]{"regr.mse"}} for regression
-\item Add-on package may register additional default measures for their own task types
+\item \code{\link[=mlr_measures_classif.ce]{"classif.ce"}} for classification (\code{"classif"}).
+\item \code{\link[=mlr_measures_regr.mse]{"regr.mse"}} for regression (\code{"regr"}).
+\item Add-on package may register additional default measures for their own task types.
 }
 }
 \examples{

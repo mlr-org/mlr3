@@ -112,7 +112,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     performance = function(measures = NULL, ids = TRUE) {
-      measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]], default = self$task)
+      measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]], default = self$task$task_type)
       assert_flag(ids)
       tab = copy(self$data)
 
@@ -136,7 +136,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     aggregate = function(measures = NULL) {
-      measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]], default = self$task)
+      measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]], default = self$task$task_type)
       set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
     }
   ),
