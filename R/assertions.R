@@ -29,7 +29,7 @@ assert_backend = function(b, .var.name = vname(b)) {
 assert_task = function(task, task_type = NULL, feature_types = NULL, task_properties = NULL,
   clone = FALSE, min_rows = 0L) {
 
-  task = cast_from_dict(task, "Task", mlr_tasks, clone, FALSE)[[1L]]
+  task = dictionary_cast(mlr_tasks, task, "Task", clone, FALSE)[[1L]]
 
   if (!is.null(task_type) && task$task_type != task_type) {
     stopf("Task must have type '%s'", task_type)
@@ -60,7 +60,7 @@ assert_task = function(task, task_type = NULL, feature_types = NULL, task_proper
 #' @param tasks :: list of [Task].
 #' @rdname mlr_assertions
 assert_tasks = function(tasks, feature_types = NULL, task_properties = NULL, clone = FALSE) {
-  tasks = cast_from_dict(tasks, "Task", mlr_tasks, clone, TRUE)
+  tasks = dictionary_cast(mlr_tasks, tasks, "Task", clone, TRUE)
   lapply(tasks, assert_task, feature_types = feature_types, task_properties = task_properties)
 }
 
@@ -68,7 +68,7 @@ assert_tasks = function(tasks, feature_types = NULL, task_properties = NULL, clo
 #' @param learner :: [Learner].
 #' @rdname mlr_assertions
 assert_learner = function(learner, task = NULL, properties = character(0L), clone = FALSE) {
-  learner = cast_from_dict(learner, "Learner", mlr_learners, clone, FALSE)[[1L]]
+  learner = dictionary_cast(mlr_learners, learner, "Learner", clone, FALSE)[[1L]]
 
   if (!is.null(task)) {
     if (!identical(task$task_type, learner$task_type)) {
@@ -91,7 +91,7 @@ assert_learner = function(learner, task = NULL, properties = character(0L), clon
 #' @param learners :: list of [Learner].
 #' @rdname mlr_assertions
 assert_learners = function(learners, task = NULL, properties = character(0L), clone = FALSE) {
-  learners = cast_from_dict(learners, "Learner", mlr_learners, clone, TRUE)
+  learners = dictionary_cast(mlr_learners, learners, "Learner", clone, TRUE)
   lapply(learners, assert_learner, task = task, properties = properties)
 }
 
@@ -104,7 +104,7 @@ assert_measure = function(measure, default = NULL, task = NULL, learner = NULL, 
   if (is.null(measure) && !is.null(default)) {
     measure = default_measures(default)[[1L]]
   } else {
-    measure = cast_from_dict(measure, "Measure", mlr_measures, clone, FALSE)[[1L]]
+    measure = dictionary_cast(mlr_measures, measure, "Measure", clone, FALSE)[[1L]]
   }
 
   if (!is.null(task)) {
@@ -144,7 +144,7 @@ assert_measures = function(measures, default = NULL, task = NULL, learner = NULL
   if (is.null(measures) && !is.null(default)) {
     measures = default_measures(default)
   } else {
-    measures = cast_from_dict(measures, "Measure", mlr_measures, clone, TRUE)
+    measures = dictionary_cast(mlr_measures, measures, "Measure", clone, TRUE)
   }
 
   if (min_len > length(measures)) {
@@ -159,7 +159,7 @@ assert_measures = function(measures, default = NULL, task = NULL, learner = NULL
 #' @param resampling :: [Resampling].
 #' @rdname mlr_assertions
 assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
-  resampling = cast_from_dict(resampling, "Resampling", mlr_resamplings, clone, FALSE)[[1L]]
+  resampling = dictionary_cast(mlr_resamplings, resampling, "Resampling", clone, FALSE)[[1L]]
   if (!is.null(instantiated)) {
     assert_flag(instantiated)
     if (instantiated && !resampling$is_instantiated) {
@@ -177,7 +177,7 @@ assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
 #' @param resamplings :: list of [Resampling].
 #' @rdname mlr_assertions
 assert_resamplings = function(resamplings, instantiated = NULL, clone = FALSE) {
-  resamplings = cast_from_dict(resamplings, "Resampling", mlr_resamplings, clone, TRUE)
+  resamplings = dictionary_cast(mlr_resamplings, resamplings, "Resampling", clone, TRUE)
   lapply(resamplings, assert_resampling, instantiated = instantiated)
 }
 

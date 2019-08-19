@@ -388,7 +388,7 @@ expect_resample_result = function(rr) {
   checkmate::expect_names(names(rr$performance()), must.include = mlr3::mlr_reflections$rr_names)
   expect_hash(rr$hash, 1L)
 
-  m = mlr3::default_measure(rr$task)
+  m = mlr3::default_measures(rr$task)[[1L]]
   y = rr$performance(m)
   aggr = rr$aggregate(m)
   checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
