@@ -5,11 +5,11 @@
 #' Currently, there are three mechanisms in place to ease the construction of objects.
 #'
 #' 1. Instead of creating and passing an object manually, it is often possible to pass a character vector.
-#'    The elements of this vector are used as keys to retrieve objects form the respective dictionaries.
+#'    The elements of this vector are used as keys to retrieve objects form the respective dictionaries (c.f. [mlr3misc::dictionary_sugar()]).
 #'    E.g., `resample(task = "iris", learner = "classif.rpart", resampling = "cv3")` automatically fetches the following:
-#'    * The [iris task][mlr_tasks_iris] from [mlr_tasks]
-#'    * A [classification decision tree][mlr_learners_classif.rpart] from [mlr_learners]
-#'    * A [3-fold cross validation][mlr_resamplings_cv3] from [mlr_resamplings]
+#'    * The [iris task][mlr_tasks_iris] from [mlr_tasks].
+#'    * A [classification decision tree][mlr_learners_classif.rpart] from [mlr_learners].
+#'    * A [3-fold cross validation][mlr_resamplings_cv3] from [mlr_resamplings].
 #'
 #'
 #' 2. Functions to retrieve objects, set hyperparameters and assign to fields in one go (c.f. [mlr3misc::dictionary_sugar()]):
@@ -20,7 +20,8 @@
 #'     * `msr()` for a [Measure] from [mlr_measures].
 #'
 #' 3. Each task type has an associated default [Measure] which is used if no measure is provided (i.e., the measure is `NULL`).
-#'    This is done internally via call to [default_measures()]
+#'    This is done internally via call to [default_measures()].
+#'
 #'
 #' @param .key :: `character(1)`\cr
 #'   Key passed to the respective [mlr3misc::Dictionary] to retrieve the object.

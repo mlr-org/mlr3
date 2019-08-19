@@ -14,21 +14,6 @@ hash = function(...) {
   digest::digest(list(...), algo = "xxhash64")
 }
 
-#' @title Calculate the Hash for a ResampleResult
-#'
-#' @description
-#' Internally used, exported for addon-packages.
-#'
-#' @param task :: [Task].
-#' @param learner :: [Learner].
-#' @param resampling :: [Resampling].
-#' @return (`character(1)`) hash value.
-#' @keywords internal
-#' @export
-hash_resample_result = function(task, learner, resampling) {
-  hash(task$hash, learner$hash, resampling$hash)
-}
-
 # updating join:
 # replaces values in x with values in y
 ujoin = function(x, y, key) {

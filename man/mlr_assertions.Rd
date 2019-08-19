@@ -94,5 +94,8 @@ Object passed to \code{\link[=default_measures]{default_measures()}} to construc
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
+All functions assert on the respective class, and optionally additional properties.
+If an assertion fails, an exception is raised.
+Otherwise, the (possibly altered) object is returned invisibly.
 }
 \keyword{internal}

@@ -57,10 +57,10 @@ reference:
   - title: Tasks
     contents:
       - starts_with("mlr_tasks")
-  - title: Generators
+  - title: Task Generators
     contents:
-      - Generator
-      - starts_with("mlr_generators")
+      - TaskGenerator
+      - starts_with("mlr_task_generators")
   - title: Learners
     contents:
       - starts_with("mlr_learners")
@@ -68,7 +68,7 @@ reference:
     contents:
       - starts_with("mlr_measures")
       - confusion_measures
-      - default_measure
+      - default_measures
   - title: Resampling Strategies
     contents:
       - starts_with("mlr_resamplings")
@@ -79,13 +79,12 @@ reference:
   - title: Benchmarking
     contents:
       - benchmark
-      - expand_grid
+      - benchmark_grid
       - BenchmarkResult
       - as_benchmark_result
-  - title: Reflections
+  - title: Extending
     contents:
+      - mlr_sugar
+      - mlr_assertions
       - mlr_reflections
-  - title: Error Handling
-    contents:
-      - mlr_control
-
+      - hash_resample_result

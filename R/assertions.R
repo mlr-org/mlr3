@@ -2,6 +2,9 @@
 #'
 #' @description
 #' Functions intended to be used in packages extending \pkg{mlr3}.
+#' All functions assert on the respective class, and optionally additional properties.
+#' If an assertion fails, an exception is raised.
+#' Otherwise, the (possibly altered) object is returned invisibly.
 #'
 #' @name mlr_assertions
 #' @keywords internal
@@ -53,7 +56,7 @@ assert_task = function(task, task_type = NULL, feature_types = NULL, task_proper
     }
   }
 
-  task
+  invisible(task)
 }
 
 #' @export
@@ -61,7 +64,7 @@ assert_task = function(task, task_type = NULL, feature_types = NULL, task_proper
 #' @rdname mlr_assertions
 assert_tasks = function(tasks, feature_types = NULL, task_properties = NULL, clone = FALSE) {
   tasks = dictionary_cast(mlr_tasks, tasks, "Task", clone, TRUE)
-  lapply(tasks, assert_task, feature_types = feature_types, task_properties = task_properties)
+  invisible(lapply(tasks, assert_task, feature_types = feature_types, task_properties = task_properties))
 }
 
 #' @export
@@ -84,7 +87,7 @@ assert_learner = function(learner, task = NULL, properties = character(0L), clon
     }
   }
 
-  learner
+  invisible(learner)
 }
 
 #' @export
@@ -92,7 +95,7 @@ assert_learner = function(learner, task = NULL, properties = character(0L), clon
 #' @rdname mlr_assertions
 assert_learners = function(learners, task = NULL, properties = character(0L), clone = FALSE) {
   learners = dictionary_cast(mlr_learners, learners, "Learner", clone, TRUE)
-  lapply(learners, assert_learner, task = task, properties = properties)
+  invisible(lapply(learners, assert_learner, task = task, properties = properties))
 }
 
 #' @export
@@ -134,7 +137,7 @@ assert_measure = function(measure, default = NULL, task = NULL, learner = NULL, 
     }
   }
 
-  return(measure)
+  invisible(measure)
 }
 
 #' @export
@@ -152,7 +155,8 @@ assert_measures = function(measures, default = NULL, task = NULL, learner = NULL
       stopf("You must provide at least one measures")
     stopf("You must provide at least %i measures", min_len)
   }
-  lapply(measures, assert_measure, task = task, learner = learner)
+
+  invisible(lapply(measures, assert_measure, task = task, learner = learner))
 }
 
 #' @export
@@ -170,7 +174,7 @@ assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
     }
   }
 
-  return(resampling)
+  invisible(resampling)
 }
 
 #' @export
@@ -178,7 +182,7 @@ assert_resampling = function(resampling, instantiated = NULL, clone = FALSE) {
 #' @rdname mlr_assertions
 assert_resamplings = function(resamplings, instantiated = NULL, clone = FALSE) {
   resamplings = dictionary_cast(mlr_resamplings, resamplings, "Resampling", clone, TRUE)
-  lapply(resamplings, assert_resampling, instantiated = instantiated)
+  invisible(lapply(resamplings, assert_resampling, instantiated = instantiated))
 }
 
 #' @export
@@ -213,7 +217,8 @@ assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
   if (!is.null(type) && typeof(row_ids) != type) {
     stopf("Assertion on '%s' failed: Must be of type '%s', not '%s'", .var.name, type, typeof(row_ids))
   }
-  return(row_ids)
+
+  invisible(row_ids)
 }
 
 assert_set = function(x, empty = TRUE, .var.name = vname(x)) {
@@ -225,7 +230,8 @@ assert_range = function(range, .var.name = vname(range)) {
   if (diff(range) <= 0) {
     stopf("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
   }
-  range
+
+  invisible(range)
 }
 
 assert_sorted_subset = function(x, choices, ..., .var.name = vname(x)) {

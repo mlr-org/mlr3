@@ -153,6 +153,7 @@ Collate:
     'benchmark.R'
     'benchmark_grid.R'
     'default_measures.R'
+    'hash_resample_result.R'
     'helper-parallelization.R'
     'helper.R'
     'mlr_sugar.R'

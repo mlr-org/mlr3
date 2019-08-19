@@ -34,12 +34,12 @@ See \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}} for mo
 Currently, there are three mechanisms in place to ease the construction of objects.
 \enumerate{
 \item Instead of creating and passing an object manually, it is often possible to pass a character vector.
-The elements of this vector are used as keys to retrieve objects form the respective dictionaries.
+The elements of this vector are used as keys to retrieve objects form the respective dictionaries (c.f. \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}}).
 E.g., \code{resample(task = "iris", learner = "classif.rpart", resampling = "cv3")} automatically fetches the following:
 \itemize{
-\item The \link[=mlr_tasks_iris]{iris task} from \link{mlr_tasks}
-\item A \link[=mlr_learners_classif.rpart]{classification decision tree} from \link{mlr_learners}
-\item A \link[=mlr_resamplings_cv3]{3-fold cross validation} from \link{mlr_resamplings}
+\item The \link[=mlr_tasks_iris]{iris task} from \link{mlr_tasks}.
+\item A \link[=mlr_learners_classif.rpart]{classification decision tree} from \link{mlr_learners}.
+\item A \link[=mlr_resamplings_cv3]{3-fold cross validation} from \link{mlr_resamplings}.
 }
 \item Functions to retrieve objects, set hyperparameters and assign to fields in one go (c.f. \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}}):
 \itemize{
@@ -50,7 +50,7 @@ E.g., \code{resample(task = "iris", learner = "classif.rpart", resampling = "cv3
 \item \code{msr()} for a \link{Measure} from \link{mlr_measures}.
 }
 \item Each task type has an associated default \link{Measure} which is used if no measure is provided (i.e., the measure is \code{NULL}).
-This is done internally via call to \code{\link[=default_measures]{default_measures()}}
+This is done internally via call to \code{\link[=default_measures]{default_measures()}}.
 }
 }
 \examples{
