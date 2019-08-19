@@ -31,7 +31,8 @@ assert_learner(learner, task = NULL, properties = character(0L),
 assert_learners(learners, task = NULL, properties = character(0L),
   clone = FALSE)
 
-assert_measure(measure, task = NULL, learner = NULL, clone = FALSE)
+assert_measure(measure, default = NULL, task = NULL, learner = NULL,
+  clone = FALSE)
 
 assert_measures(measures, default = NULL, task = NULL,
   learner = NULL, min_len = 0L, clone = FALSE)
@@ -74,10 +75,10 @@ Minimum amount of required observations.}
 
 \item{measure}{:: \link{Measure}.}
 
-\item{measures}{:: list of \link{Measure}.}
-
 \item{default}{:: \code{character(1)}\cr
-Object passed to \code{\link[=default_measures]{default_measures()}} to construct the default measures in case \code{measures} is \code{NULL}.}
+Object passed to \code{\link[=default_measures]{default_measures()}} to construct the default measure in case \code{measure}/\code{measures} is \code{NULL}.}
+
+\item{measures}{:: list of \link{Measure}.}
 
 \item{resampling}{:: \link{Resampling}.}
 

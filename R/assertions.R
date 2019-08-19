@@ -97,9 +97,15 @@ assert_learners = function(learners, task = NULL, properties = character(0L), cl
 
 #' @export
 #' @param measure :: [Measure].
+#' @param default :: `character(1)`\cr
+#'   Object passed to [default_measures()] to construct the default measure in case `measure`/`measures` is `NULL`.
 #' @rdname mlr_assertions
-assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
-  measure = cast_from_dict(measure, "Measure", mlr_measures, clone, FALSE)[[1L]]
+assert_measure = function(measure, default = NULL, task = NULL, learner = NULL, clone = FALSE) {
+  if (is.null(measure) && !is.null(default)) {
+    measure = default_measures(default)[[1L]]
+  } else {
+    measure = cast_from_dict(measure, "Measure", mlr_measures, clone, FALSE)[[1L]]
+  }
 
   if (!is.null(task)) {
     if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
@@ -133,8 +139,6 @@ assert_measure = function(measure, task = NULL, learner = NULL, clone = FALSE) {
 
 #' @export
 #' @param measures :: list of [Measure].
-#' @param default :: `character(1)`\cr
-#'   Object passed to [default_measures()] to construct the default measures in case `measures` is `NULL`.
 #' @rdname mlr_assertions
 assert_measures = function(measures, default = NULL, task = NULL, learner = NULL, min_len = 0L, clone = FALSE) {
   if (is.null(measures) && !is.null(default)) {
