@@ -9,7 +9,7 @@
 #' To generate exhaustive designs and automatically instantiate resampling strategies per task, use [benchmark_grid()].
 #'
 #' @param design :: [data.frame()]\cr
-#'   Data frame (or [data.table()]) with three columns: "task", "learner", and "resampling".
+#'   Data frame (or [data.table::data.table()]) with three columns: "task", "learner", and "resampling".
 #'   Each row defines a resampling by providing a [Task], [Learner] and a [Resampling] strategy.
 #'   All resamplings must be properly instantiated.
 #'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and

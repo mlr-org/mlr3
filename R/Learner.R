@@ -123,17 +123,17 @@
 #'
 #' @section Methods:
 #' * `train(task, row_ids = NULL))`\cr
-#'   ([Task], `integer()` | `character()`) -> `self`\cr
+#'   ([Task] | [mlr_sugar], `integer()` | `character()`) -> `self`\cr
 #'   Train the learner on the row ids of the provided [Task].
 #'   Mutates the learner by reference, i.e. stores the model alongside other objects in field `$state`.
 #'
 #' * `predict(task, row_ids = NULL)`\cr
-#'   ([Task], `integer()` | `character()`) -> [Prediction]\cr
+#'   ([Task] | [mlr_sugar], `integer()` | `character()`) -> [Prediction]\cr
 #'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the provided `row_ids`
 #'   of the `task`.
 #'
 #' * `predict_newdata(task, newdata)`\cr
-#'   ([Task], `data.frame()`) -> [Prediction]\cr
+#'   ([Task] | [mlr_sugar], `data.frame()`) -> [Prediction]\cr
 #'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the new data in `newdata`.
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
 #'

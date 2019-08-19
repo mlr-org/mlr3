@@ -49,10 +49,9 @@
 #'
 #' @section Methods:
 #' * `aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)`\cr
-#'   (`list()` of [Measure], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
+#'   (list of [Measure] | [mlr_sugar], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where resampling iterations are aggregated together into [ResampleResult]s.
 #'   A column with the aggregated performance is added for each [Measure], named with the id of the respective measure.
-#'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'
 #'   Additional arguments control the number of additional columns:
 #'     * `ids` :: `logical(1)`\cr
@@ -66,13 +65,12 @@
 #'       Adds the number of resampling iterations with errors as extra integer column `"errors"`.
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
-#'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
+#'   (list of [Measure] | [mlr_sugar], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects:
 #'   [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
 #'   If `ids` is set to `TRUE`, character column of extracted ids are added to the table for convenient filtering: `"task_id"`, `"learner_id"`, and `"resampling_id"`.
 #'   Additionally calculates the provided performance measures and binds the performance as extra columns.
 #'   These columns are named using the id of the respective [Measure].
-#'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'
 #' * `resample_result(i)`\cr
 #'   (`integer(1)` -> [ResampleResult])\cr

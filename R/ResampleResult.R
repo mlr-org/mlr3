@@ -56,7 +56,7 @@
 #'
 #' @section Methods:
 #' * `performance(measures = NULL, ids = TRUE)`\cr
-#'   (`list()` of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
+#'   (list of [Measure] | [mlr_sugar], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects:
 #'   [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
 #'   A column with the individual (per resampling iteration) performance is added for each [Measure], named with the id of the respective measure.
@@ -64,7 +64,7 @@
 #'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'
 #' * `aggregate(measures = NULL)`\cr
-#'   `list()` of [Measure] -> named `numeric()`\cr
+#'   list of [Measure] | [mlr_sugar] -> named `numeric()`\cr
 #'   Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in [Measure].
 #'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'

@@ -59,7 +59,7 @@
 #'
 #' @section Methods:
 #' * `instantiate(task)`\cr
-#'   [Task] -> `self`\cr
+#'   [Task] | [mlr_sugar] -> `self`\cr
 #'   Materializes fixed training and test splits for a given task and stores them in `r$instance`.
 #'
 #' * `train_set(i)`\cr

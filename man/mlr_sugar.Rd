@@ -24,17 +24,23 @@ msr(.key, ...)
 Key passed to the respective \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} to retrieve the object.}
 
 \item{...}{:: named \code{list()}\cr
-Parameter values are added to the \link[paradox:ParamSet]{paradox::ParamSet} of the object if applicable.
-Additional parameters are assigned to the respective field of the object.}
+Named arguments passed to the constructor, to be set as parameters in the \link[paradox:ParamSet]{paradox::ParamSet}, or to be set as public field.
+See \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}} for more details.}
 }
 \value{
 \link[R6:R6Class]{R6::R6Class} of the respective type.
 }
 \description{
-Currently, there are three mechanisms in place to ease the construction of objects stored in a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.
+Currently, there are three mechanisms in place to ease the construction of objects.
 \enumerate{
-\item Whenever an specific object has to passed or created, it is possible to just pass a scalar string.
-This string is used as key to retrieve the object form the respective dictionary.
+\item Instead of creating and passing an object manually, it is often possible to pass a character vector.
+The elements of this vector are used as keys to retrieve objects form the respective dictionaries.
+E.g., \code{resample(task = "iris", learner = "classif.rpart", resampling = "cv3")} automatically fetches the following:
+\itemize{
+\item The \link[=mlr_tasks_iris]{iris task} from \link{mlr_tasks}
+\item A \link[=mlr_learners_classif.rpart]{classification decision tree} from \link{mlr_learners}
+\item A \link[=mlr_resamplings_cv3]{3-fold cross validation} from \link{mlr_resamplings}
+}
 \item Functions to retrieve objects, set hyperparameters and assign to fields in one go (c.f. \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}}):
 \itemize{
 \item \code{tsk()} for a \link{Task} from \link{mlr_tasks}.
@@ -43,9 +49,8 @@ This string is used as key to retrieve the object form the respective dictionary
 \item \code{rsmp()} for a \link{Resampling} from \link{mlr_resamplings}.
 \item \code{msr()} for a \link{Measure} from \link{mlr_measures}.
 }
-\item Each task type has an associated default \link{Measure} (stored in \link{mlr_reflections}) which is used if no measure is provided.
-Classification tasks default to the classification error in \link[=mlr_measures_classif.ce]{"classif.ce"},
-regression tasks to the mean squared error in \link[=mlr_measures_regr.mse]{"regr.mse"}.
+\item Each task type has an associated default \link{Measure} which is used if no measure is provided (i.e., the measure is \code{NULL}).
+This is done internally via call to \code{\link[=default_measures]{default_measures()}}
 }
 }
 \examples{

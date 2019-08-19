@@ -8,7 +8,7 @@ benchmark(design, store_models = FALSE)
 }
 \arguments{
 \item{design}{:: \code{\link[=data.frame]{data.frame()}}\cr
-Data frame (or \code{\link[=data.table]{data.table()}}) with three columns: "task", "learner", and "resampling".
+Data frame (or \code{\link[data.table:data.table]{data.table::data.table()}}) with three columns: "task", "learner", and "resampling".
 Each row defines a resampling by providing a \link{Task}, \link{Learner} and a \link{Resampling} strategy.
 All resamplings must be properly instantiated.
 The helper function \code{\link[=benchmark_grid]{benchmark_grid()}} can assist in generating an exhaustive design (see examples) and

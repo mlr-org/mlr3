@@ -34,11 +34,9 @@
 #'
 #' @section Methods:
 #' * `score(measures = NULL, task = NULL, learner = NULL)`\cr
-#'   (`list()` of [Measure], [Task], [Learner]) -> [Prediction]\cr
+#'   (list of [Measure] | [mlr_sugar], [Task] | [mlr_sugar], [Learner] | [mlr_sugar]) -> [Prediction]\cr
 #'   Calculates the performance for all provided measures
-#'   If no measure is provided, defaults to the measure defined in [mlr_reflections$default_measures][mlr_reflections]
-#'   ([mlr_measures_classif.ce] for classification and [mlr_measures_regr.mse] for regression).
-#'   [Task] and [Learner] may be `NULL` for many measures, but some measures need to extract information
+#'   [Task] and [Learner] may be `NULL` for most measures, but some measures need to extract information
 #'   from these objects.
 #'
 #' @section S3 Methods:

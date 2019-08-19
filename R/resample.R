@@ -3,12 +3,9 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task :: [Task]\cr
-#'   See also [mlr_sugar].
-#' @param learner :: [Learner]\cr
-#'   See also [mlr_sugar].
-#' @param resampling :: [Resampling]\cr
-#'   See also [mlr_sugar].
+#' @param task :: [Task] | [mlr_sugar].
+#' @param learner :: [Learner] | [mlr_sugar]\cr
+#' @param resampling :: [Resampling] | [mlr_sugar]\cr
 #' @param store_models :: `logical(1)`\cr
 #'   Keep the fitted model after the test set has been predicted?
 #'   Set to `TRUE` if you want to further analyse the models or want to
