@@ -5,4 +5,4 @@ if (ci_has_env("BUILD_PKGDOWN")) {
 }
 
 get_stage("after_success") %>%
-  add_code_step(system("bash ./inst/trigger-mlr3book.sh"))
+  add_code_step(system("bash  <(curl -s https://raw.githubusercontent.com/mlr-org/mlr3orga/master/trigger-mlr3book.sh)"))
