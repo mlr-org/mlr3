@@ -4,31 +4,41 @@
 \alias{mlr_coercions}
 \alias{as_task}
 \alias{as_task.Task}
+\alias{as_task.character}
 \alias{as_tasks}
 \alias{as_tasks.list}
 \alias{as_tasks.Task}
+\alias{as_tasks.character}
 \alias{as_learner}
 \alias{as_learner.Learner}
+\alias{as_learner.character}
 \alias{as_learners}
 \alias{as_learners.list}
 \alias{as_learners.Learner}
+\alias{as_learners.character}
 \alias{as_resampling}
 \alias{as_resampling.Resampling}
+\alias{as_resampling.character}
 \alias{as_resamplings}
 \alias{as_resamplings.list}
 \alias{as_resamplings.Resampling}
+\alias{as_resamplings.character}
 \alias{as_measure}
 \alias{as_measure.NULL}
 \alias{as_measure.Measure}
+\alias{as_measure.character}
 \alias{as_measures}
 \alias{as_measures.NULL}
 \alias{as_measures.list}
 \alias{as_measures.Measure}
+\alias{as_measures.character}
 \title{Object Coercion}
 \usage{
 as_task(x, clone = FALSE)
 
 \method{as_task}{Task}(x, clone = FALSE)
+
+\method{as_task}{character}(x, clone = FALSE)
 
 as_tasks(x, clone = FALSE)
 
@@ -36,9 +46,13 @@ as_tasks(x, clone = FALSE)
 
 \method{as_tasks}{Task}(x, clone = FALSE)
 
+\method{as_tasks}{character}(x, clone = FALSE)
+
 as_learner(x, clone = FALSE)
 
 \method{as_learner}{Learner}(x, clone = FALSE)
+
+\method{as_learner}{character}(x, clone = FALSE)
 
 as_learners(x, clone = FALSE)
 
@@ -46,9 +60,13 @@ as_learners(x, clone = FALSE)
 
 \method{as_learners}{Learner}(x, clone = FALSE)
 
+\method{as_learners}{character}(x, clone = FALSE)
+
 as_resampling(x, clone = FALSE)
 
 \method{as_resampling}{Resampling}(x, clone = FALSE)
+
+\method{as_resampling}{character}(x, clone = FALSE)
 
 as_resamplings(x, clone = FALSE)
 
@@ -56,11 +74,15 @@ as_resamplings(x, clone = FALSE)
 
 \method{as_resamplings}{Resampling}(x, clone = FALSE)
 
+\method{as_resamplings}{character}(x, clone = FALSE)
+
 as_measure(x, task_type = NULL, clone = FALSE)
 
 \method{as_measure}{NULL}(x, task_type = NULL, clone = FALSE)
 
 \method{as_measure}{Measure}(x, task_type = NULL, clone = FALSE)
+
+\method{as_measure}{character}(x, task_type = NULL, clone = FALSE)
 
 as_measures(x, task_type = NULL, clone = FALSE)
 
@@ -69,6 +91,8 @@ as_measures(x, task_type = NULL, clone = FALSE)
 \method{as_measures}{list}(x, task_type = NULL, clone = FALSE)
 
 \method{as_measures}{Measure}(x, task_type = NULL, clone = FALSE)
+
+\method{as_measures}{character}(x, task_type = NULL, clone = FALSE)
 }
 \arguments{
 \item{x}{:: \code{any}\cr
@@ -90,6 +114,9 @@ Failed coercions have to be handled by on of the assertions in \link{mlr_asserti
 S3 generics and methods to coerce to (lists of) \link{Task}, \link{Learner}, \link{Resampling}, and \link{Measure}.
 }
 \examples{
+# convert a dictionary key to object
+as_task("iris")
+
 # convert single measure to list of measures
 measure = msr("classif.ce")
 as_measures(measure)
