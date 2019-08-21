@@ -1,7 +1,7 @@
 context("mlr_resampling_cv")
 
 test_that("cv has no duplicated ids", {
-  r = mlr_resamplings$get("cv")
+  r = rsmp("cv")
   expect_identical(r$duplicated_ids, FALSE)
 })
 
@@ -22,6 +22,6 @@ test_that("stratification", {
 })
 
 test_that("grouping", {
-  r = mlr_resamplings$get("cv3")
+  r = rsmp("cv", folds = 3)
   expect_grouping_works(r)
 })

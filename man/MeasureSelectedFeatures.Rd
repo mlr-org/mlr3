@@ -6,11 +6,18 @@
 \alias{mlr_measures_selected_features}
 \title{Selected Features Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
-\usage{
-MeasureSelectedFeatures
-}
 \description{
 Measures the number of selected features.
-If field \code{normalize} is set to \code{TRUE}, divides the number of features by the total number of available features.
 }
+\section{Construction}{
+\preformatted{MeasureSelectedFeatures$new(normalize = FALSE)
+mlr_measures$get("selected_features")
+msr("selected_features")
+}
+\itemize{
+\item \code{normalize} :: \code{logical(1)}\cr
+If \code{normalize} is set to \code{TRUE}, divides the number of features by the total number of features.
+}
+}
+
 \keyword{datasets}

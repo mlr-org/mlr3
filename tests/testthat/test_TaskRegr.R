@@ -1,7 +1,7 @@
 context("TaskRegr")
 
 test_that("Basic ops on BostonHousing task", {
-  task = mlr_tasks$get("boston_housing")
+  task = tsk("boston_housing")
   expect_task(task)
   expect_task_supervised(task)
   expect_task_regr(task)
@@ -28,7 +28,7 @@ test_that("TaskRegr: 0 feature task", {
   expect_task_regr(task)
   expect_data_table(task$data(), ncols = 1L)
 
-  lrn = mlr_learners$get("regr.featureless")
+  lrn = lrn("regr.featureless")
   p = lrn$train(task)$predict(task)
   expect_prediction(p)
   # expect_number(e$performance)

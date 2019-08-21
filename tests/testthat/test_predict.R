@@ -2,11 +2,11 @@ context("predict")
 
 
 test_that("predict on newdata works / classif", {
-  task = mlr_tasks$get("iris")$filter(1:120)
-  learner = mlr_learners$get("classif.featureless")
+  task = tsk("iris")$filter(1:120)
+  learner = lrn("classif.featureless")
   learner$train(task)
 
-  newdata = mlr_tasks$get("iris")$filter(121:150)$data()
+  newdata = tsk("iris")$filter(121:150)$data()
   p = learner$predict_newdata(task, newdata = newdata)
   expect_data_table(as.data.table(p), nrows = 30)
   expect_set_equal(as.data.table(p)$row_id, 121:150)
@@ -14,11 +14,11 @@ test_that("predict on newdata works / classif", {
 
 
 test_that("predict on newdata works / regr", {
-  task = mlr_tasks$get("boston_housing")
+  task = tsk("boston_housing")
   train = which(seq_len(task$nrow) %% 2 == 0L)
   test = setdiff(seq_len(task$nrow), train)
 
-  learner = mlr_learners$get("regr.featureless")
+  learner = lrn("regr.featureless")
   learner$train(task)
 
   newdata = task$clone()$filter(test)$data()
@@ -30,11 +30,11 @@ test_that("predict on newdata works / regr", {
 
 
 test_that("predict on newdata works / no target column", {
-  task = mlr_tasks$get("boston_housing")
+  task = tsk("boston_housing")
   train = which(seq_len(task$nrow) %% 2 == 0L)
   test = setdiff(seq_len(task$nrow), train)
 
-  learner = mlr_learners$get("regr.featureless")
+  learner = lrn("regr.featureless")
   learner$train(task$clone()$filter(train))
 
   newdata = remove_named(task$clone()$filter(test)$data(), task$target_names)
@@ -72,7 +72,7 @@ test_that("predict on newdata works / titanic use case", {
 
   task = TaskClassif$new(id = "titanic", train, target = "Survived", positive = "1")
 
-  lrn = mlr_learners$get("classif.rpart")
+  lrn = lrn("classif.rpart")
 
   lrn$train(task)
   p = lrn$predict_newdata(task, newdata = test)

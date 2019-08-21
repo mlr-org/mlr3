@@ -51,7 +51,7 @@ Vector of hashes of all included \link{ResampleResult}s.
 
 \itemize{
 \item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)}\cr
-(list of \link{Measure} | \link{mlr_sugar}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+(list of \link{Measure}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where resampling iterations are aggregated together into \link{ResampleResult}s.
 A column with the aggregated performance is added for each \link{Measure}, named with the id of the respective measure.
 
@@ -68,7 +68,7 @@ Adds the number of resampling iterations with at least one warning as extra inte
 Adds the number of resampling iterations with errors as extra integer column \code{"errors"}.
 }
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
-(list of \link{Measure} | \link{mlr_sugar}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+(list of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
 If \code{ids} is set to \code{TRUE}, character column of extracted ids are added to the table for convenient filtering: \code{"task_id"}, \code{"learner_id"}, and \code{"resampling_id"}.
@@ -108,7 +108,7 @@ learners = list(
 design = benchmark_grid(
   tasks = c("sonar", "spam"),
   learners = learners,
-  resamplings = "cv3"
+  resamplings = rsmp("cv", folds = 3)
 )
 print(design)
 

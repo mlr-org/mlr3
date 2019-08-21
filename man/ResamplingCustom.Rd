@@ -10,8 +10,15 @@
 ResamplingCustom
 }
 \description{
-A custom resampling class where the training and test indices can be set manually.
+A custom resampling class where the training and test indices can be set manually during
+instantiation.
 }
+\section{Construction}{
+\preformatted{ResamplingCustom$new()
+mlr_resamplings$get("custom")
+}
+}
+
 \section{Fields}{
 
 See \link{Resampling}.
@@ -24,7 +31,7 @@ See \link{Resampling}.
 
 \examples{
 # Create a task with 10 observations
-task = mlr_tasks$get("iris")
+task = tsk("iris")
 task$filter(1:10)
 
 # Instantiate Resampling

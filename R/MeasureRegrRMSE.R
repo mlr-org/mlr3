@@ -1,8 +1,16 @@
 #' @title Root Mean Squared Error Regression Measure
 #'
+#' @usage NULL
 #' @aliases mlr_measures_regr.rmse
 #' @format [R6::R6Class] inheriting from [MeasureClassif].
 #' @include MeasureRegr.R
+#'
+#' @section Construction:
+#' ```
+#' MeasureRegrRMSE$new()
+#' mlr_measures$get("regr.rmse")
+#' msr("regr.rmse")
+#' ```
 #'
 #' @description
 #' Calls [Metrics::rmse()].

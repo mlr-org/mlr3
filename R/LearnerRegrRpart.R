@@ -4,6 +4,13 @@
 #' @format [R6::R6Class] inheriting from [LearnerRegr].
 #' @include LearnerRegr.R
 #'
+#' @section Construction:
+#' ```
+#' LearnerRegrRpart$new()
+#' mlr_learners$get("regr.rpart")
+#' lrn("regr.rpart")
+#' ```
+#'
 #' @description
 #' A [LearnerRegr] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
 #' Parameter `xval` is set to 0 in order to save some computation time.
@@ -17,9 +24,9 @@
 #' @export
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(
-    initialize = function(id = "regr.rpart") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "regr.rpart",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = "response",
         packages = "rpart",

@@ -49,7 +49,7 @@
 #'
 #' @section Methods:
 #' * `aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)`\cr
-#'   (list of [Measure] | [mlr_sugar], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
+#'   (list of [Measure], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where resampling iterations are aggregated together into [ResampleResult]s.
 #'   A column with the aggregated performance is added for each [Measure], named with the id of the respective measure.
 #'
@@ -65,7 +65,7 @@
 #'       Adds the number of resampling iterations with errors as extra integer column `"errors"`.
 #'
 #' * `performance(measures = NULL, ids = TRUE)`\cr
-#'   (list of [Measure] | [mlr_sugar], `logical(1)`) -> [data.table::data.table()]\cr
+#'   (list of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects:
 #'   [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
 #'   If `ids` is set to `TRUE`, character column of extracted ids are added to the table for convenient filtering: `"task_id"`, `"learner_id"`, and `"resampling_id"`.
@@ -102,7 +102,7 @@
 #' design = benchmark_grid(
 #'   tasks = c("sonar", "spam"),
 #'   learners = learners,
-#'   resamplings = "cv3"
+#'   resamplings = rsmp("cv", folds = 3)
 #' )
 #' print(design)
 #'
@@ -141,7 +141,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
         assert_names(names(data), must.include = slots)
       }
 
-
       self$data = setcolorder(data, slots)
     },
 
@@ -174,7 +173,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       tab = copy(self$data)
 
       if (nrow(tab)) {
-        measures = assert_measures(measures, learner = self$data$learner[[1L]], default = self$task_type)
         score = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
         tab = rcbind(tab, pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], score))
       }
@@ -214,7 +212,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (nrow(res)) {
-        measures = assert_measures(measures, learner = self$data$learner[[1L]], default = self$task_type)
         res = rcbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
       }
 

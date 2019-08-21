@@ -7,8 +7,9 @@
 \description{
 A classification task for the popular \link[datasets:iris]{datasets::iris} data set.
 }
-\section{Usage}{
+\section{Construction}{
 \preformatted{mlr_tasks$get("iris")
+tsk("iris")
 }
 }
 

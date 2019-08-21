@@ -21,8 +21,9 @@ Data set collected at Hewlett-Packard Labs to classify emails as spam or non-spa
 57 variables indicate the frequency of certain words and characters in the e-mail.
 The positive class is set to "spam".
 }
-\section{Usage}{
+\section{Construction}{
 \preformatted{mlr_tasks$get("spam")
+tsk("spam")
 }
 }
 

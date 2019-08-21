@@ -12,7 +12,14 @@ TaskGeneratorFriedman1
 \description{
 A \link{TaskGenerator} for the friedman1 task in \code{\link[mlbench:mlbench.friedman1]{mlbench::mlbench.friedman1()}}.
 }
+\section{Construction}{
+\preformatted{TaskGeneratorFriedman1$new()
+mlr_task_generators$get("friedman1")
+tgen("friedman1")
+}
+}
+
 \examples{
-mlr_task_generators$get("friedman1")$generate(10)$data()
+tgen("friedman1")$generate(10)$data()
 }
 \keyword{datasets}

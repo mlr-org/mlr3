@@ -13,6 +13,13 @@ LearnerRegrRpart
 A \link{LearnerRegr} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
 Parameter \code{xval} is set to 0 in order to save some computation time.
 }
+\section{Construction}{
+\preformatted{LearnerRegrRpart$new()
+mlr_learners$get("regr.rpart")
+lrn("regr.rpart")
+}
+}
+
 \references{
 Breiman, L. (1984).
 Classification and Regression Trees.

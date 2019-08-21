@@ -13,6 +13,12 @@ ResamplingSubsampling
 \code{repeats} (default: 30) times repeated splits into training and test set
 with a ratio of \code{ratio} (default: 2/3) observations in the training set.
 }
+\section{Construction}{
+\preformatted{ResamplingSubsampling$new()
+mlr_resamplings$get("subsampling")
+}
+}
+
 \section{Fields}{
 
 See \link{Resampling}.
@@ -25,7 +31,7 @@ See \link{Resampling}.
 
 \examples{
 # Create a task with 10 observations
-task = mlr_tasks$get("iris")
+task = tsk("iris")
 task$filter(1:10)
 
 # Instantiate Resampling

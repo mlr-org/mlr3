@@ -3,9 +3,9 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task :: [Task] | [mlr_sugar].
-#' @param learner :: [Learner] | [mlr_sugar]\cr
-#' @param resampling :: [Resampling] | [mlr_sugar]\cr
+#' @param task :: [Task].
+#' @param learner :: [Learner].
+#' @param resampling :: [Resampling].
 #' @param store_models :: `logical(1)`\cr
 #'   Keep the fitted model after the test set has been predicted?
 #'   Set to `TRUE` if you want to further analyse the models or want to
@@ -49,10 +49,9 @@
 #' bmr2 = as_benchmark_result(rr.featureless)
 #' print(bmr1$combine(bmr2))
 resample = function(task, learner, resampling, store_models = FALSE) {
-
-  task = assert_task(task, clone = TRUE)
-  learner = assert_learner(learner, task = task, properties = task$properties, clone = TRUE)
-  resampling = assert_resampling(resampling)
+  task = assert_task(as_task(task, clone = TRUE))
+  learner = assert_learner(as_learner(learner, clone = TRUE), task = task, properties = task$properties)
+  resampling = assert_resampling(as_resampling(resampling))
   assert_flag(store_models)
 
   instance = resampling$clone(deep = TRUE)

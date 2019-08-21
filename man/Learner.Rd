@@ -106,15 +106,15 @@ Returns the logged errors as vector.
 
 \itemize{
 \item \code{train(task, row_ids = NULL))}\cr
-(\link{Task} | \link{mlr_sugar}, \code{integer()} | \code{character()}) -> \code{self}\cr
+(\link{Task}, \code{integer()} | \code{character()}) -> \code{self}\cr
 Train the learner on the row ids of the provided \link{Task}.
 Mutates the learner by reference, i.e. stores the model alongside other objects in field \code{$state}.
 \item \code{predict(task, row_ids = NULL)}\cr
-(\link{Task} | \link{mlr_sugar}, \code{integer()} | \code{character()}) -> \link{Prediction}\cr
+(\link{Task}, \code{integer()} | \code{character()}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} in \code{$state} to create a new \link{Prediction} based on the provided \code{row_ids}
 of the \code{task}.
 \item \code{predict_newdata(task, newdata)}\cr
-(\link{Task} | \link{mlr_sugar}, \code{data.frame()}) -> \link{Prediction}\cr
+(\link{Task}, \code{data.frame()}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} in \code{$state} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \code{$train()} and required for conversions of \code{newdata}.
 }
@@ -146,7 +146,7 @@ The learner must be tagged with property \code{"oob_error"}.
 All information about hyperparameters is stored in the slot \code{param_set} which is a \link[paradox:ParamSet]{paradox::ParamSet}.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot \code{values}:\preformatted{lrn = mlr_learners$get("classif.rpart")
+To set hyperparameters, assign a named list to the subslot \code{values}:\preformatted{lrn = lrn("classif.rpart")
 lrn$param_set$values = list(minsplit = 3, cp = 0.01)
 }
 

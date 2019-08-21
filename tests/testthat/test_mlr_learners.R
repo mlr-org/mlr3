@@ -5,7 +5,7 @@ test_that("mlr_learners", {
   keys = mlr_learners$keys()
 
   for (key in keys) {
-    l = mlr_learners$get(key)
+    l = lrn(key)
     expect_learner(l)
     if (inherits(l, "TaskClassif")) {
       expect_true(startsWith(l$id, "classif."))
@@ -21,8 +21,4 @@ test_that("mlr_learners: sugar", {
   expect_equal(lrn$id, "foo")
   expect_equal(lrn$param_set$values$cp, 0.001)
   expect_equal(lrn$predict_type, "prob")
-
-  # lrns = mlr_learners$mget(c("classif.rpart", "classif.featureless"), predict_type = "prob")
-  # expect_equal(lrns[[1]]$predict_type, "prob")
-  # expect_equal(lrns[[2]]$predict_type, "prob")
 })

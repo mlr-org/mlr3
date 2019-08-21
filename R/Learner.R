@@ -123,17 +123,17 @@
 #'
 #' @section Methods:
 #' * `train(task, row_ids = NULL))`\cr
-#'   ([Task] | [mlr_sugar], `integer()` | `character()`) -> `self`\cr
+#'   ([Task], `integer()` | `character()`) -> `self`\cr
 #'   Train the learner on the row ids of the provided [Task].
 #'   Mutates the learner by reference, i.e. stores the model alongside other objects in field `$state`.
 #'
 #' * `predict(task, row_ids = NULL)`\cr
-#'   ([Task] | [mlr_sugar], `integer()` | `character()`) -> [Prediction]\cr
+#'   ([Task], `integer()` | `character()`) -> [Prediction]\cr
 #'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the provided `row_ids`
 #'   of the `task`.
 #'
 #' * `predict_newdata(task, newdata)`\cr
-#'   ([Task] | [mlr_sugar], `data.frame()`) -> [Prediction]\cr
+#'   ([Task], `data.frame()`) -> [Prediction]\cr
 #'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the new data in `newdata`.
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
 #'
@@ -163,7 +163,7 @@
 #' possible levels (for factors), default values and assigned values.
 #' To set hyperparameters, assign a named list to the subslot `values`:
 #' ```
-#' lrn = mlr_learners$get("classif.rpart")
+#' lrn = lrn("classif.rpart")
 #' lrn$param_set$values = list(minsplit = 3, cp = 0.01)
 #' ```
 #' Note that this operation replaces all previously set hyperparameter values.
@@ -199,8 +199,8 @@ Learner = R6Class("Learner",
       private$.param_set = assert_param_set(param_set)
       private$.encapsulate = c(train = "none", predict = "none")
       self$param_set$values = param_vals
-      self$feature_types = assert_sorted_subset(feature_types, mlr_reflections$task_feature_types)
-      self$predict_types = assert_sorted_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
+      self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
+      self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
@@ -216,7 +216,7 @@ Learner = R6Class("Learner",
     },
 
     train = function(task, row_ids = NULL) {
-      assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
+      task = assert_task(as_task(task), task_type = self$task_type, feature_types = self$feature_types)
       if (!is.null(row_ids)) {
         row_ids = assert_row_ids(row_ids)
       }
@@ -224,7 +224,7 @@ Learner = R6Class("Learner",
     },
 
     predict = function(task, row_ids = NULL) {
-      assert_task(task, task_type = self$task_type, feature_types = self$feature_types)
+      task = assert_task(as_task(task), task_type = self$task_type, feature_types = self$feature_types)
       if (!is.null(row_ids)) {
         row_ids = assert_row_ids(row_ids)
       }
@@ -232,6 +232,7 @@ Learner = R6Class("Learner",
     },
 
     predict_newdata = function(task, newdata) {
+      task = assert_task(as_task(task), task_type = self$task_type, feature_types = self$feature_types)
       assert_data_frame(newdata, min.rows = 1L)
       tn = task$target_names
       if (any(tn %nin% colnames(newdata))) {

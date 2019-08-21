@@ -24,11 +24,11 @@ test_that("param_vals", {
 })
 
 test_that("hashing", {
-  task = mlr_tasks$get("iris")
+  task = tsk("iris")
   keys = setdiff(mlr_resamplings$keys(), "custom")
 
   for (key in keys) {
-    r = mlr_resamplings$get(key)
+    r = rsmp(key)
 
     with_seed(123L, r$instantiate(task))
     hash = r$hash

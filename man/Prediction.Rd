@@ -42,7 +42,7 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.
 
 \itemize{
 \item \code{score(measures = NULL, task = NULL, learner = NULL)}\cr
-(list of \link{Measure} | \link{mlr_sugar}, \link{Task} | \link{mlr_sugar}, \link{Learner} | \link{mlr_sugar}) -> \link{Prediction}\cr
+(list of \link{Measure}, \link{Task}, \link{Learner}) -> \link{Prediction}\cr
 Calculates the performance for all provided measures
 \link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
 from these objects.

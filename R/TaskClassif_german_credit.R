@@ -4,9 +4,10 @@
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
 #' mlr_tasks$get("german_credit")
+#' tsk("german_credit")
 #' ```
 #'
 #' @description
@@ -28,10 +29,10 @@
 #' Von-Melle-Park 5\cr
 #' 2000 Hamburg 13
 #' @examples
-#' task = mlr_tasks$get("german_credit")
+#' task = tsk("german_credit")
 #' costs = matrix(c(0, 1, 5, 0), nrow = 2)
 #' dimnames(costs) = list(predicted = task$class_names, truth = task$class_names)
-#' measure = MeasureClassifCosts$new("german_credit_costs", costs)
+#' measure = msr("classif.costs", id = "german_credit_costs", costs = costs)
 #' print(measure)
 NULL
 

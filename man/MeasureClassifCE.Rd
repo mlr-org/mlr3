@@ -6,10 +6,14 @@
 \alias{mlr_measures_classif.ce}
 \title{Classification Error Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
-\usage{
-MeasureClassifCE
-}
 \description{
 Calls \code{\link[Metrics:ce]{Metrics::ce()}}.
 }
+\section{Construction}{
+\preformatted{MeasureClassifCE$new()
+mlr_measures$get("classif.ce")
+msr("classif.ce")
+}
+}
+
 \keyword{datasets}

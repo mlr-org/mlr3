@@ -12,7 +12,14 @@ TaskGeneratorSmiley
 \description{
 A \link{TaskGenerator} for the smiley task in \code{\link[mlbench:mlbench.smiley]{mlbench::mlbench.smiley()}}.
 }
+\section{Construction}{
+\preformatted{TaskGeneratorSmiley$new()
+mlr_task_generators$get("smiley")
+tgen("smiley")
+}
+}
+
 \examples{
-mlr_task_generators$get("smiley")$generate(10)$data()
+tgen("smiley")$generate(10)$data()
 }
 \keyword{datasets}

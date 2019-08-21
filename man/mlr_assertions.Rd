@@ -17,36 +17,42 @@
 \alias{assert_row_ids}
 \title{Assertion for mlr3 Objects}
 \usage{
-assert_backend(b, .var.name = vname(b))
+assert_backend(b, .var.name = checkmate::vname(b), add = NULL)
 
 assert_task(task, task_type = NULL, feature_types = NULL,
-  task_properties = NULL, clone = FALSE, min_rows = 0L)
+  task_properties = NULL, .var.name = checkmate::vname(task),
+  add = NULL)
 
-assert_tasks(tasks, feature_types = NULL, task_properties = NULL,
-  clone = FALSE)
+assert_tasks(tasks, task_type = NULL, feature_types = NULL,
+  task_properties = NULL, .var.name = checkmate::vname(tasks),
+  add = NULL)
 
-assert_learner(learner, task = NULL, properties = character(0L),
-  clone = FALSE)
+assert_learner(learner, task = NULL, properties = character(),
+  .var.name = checkmate::vname(learner), add = NULL)
 
-assert_learners(learners, task = NULL, properties = character(0L),
-  clone = FALSE)
+assert_learners(learners, task = NULL, properties = character(),
+  .var.name = checkmate::vname(learners), add = NULL)
 
-assert_measure(measure, default = NULL, task = NULL, learner = NULL,
-  clone = FALSE)
+assert_measure(measure, task = NULL, learner = NULL,
+  .var.name = checkmate::vname(measure), add = NULL)
 
-assert_measures(measures, default = NULL, task = NULL,
-  learner = NULL, min_len = 0L, clone = FALSE)
+assert_measures(measures, task = NULL, learner = NULL,
+  .var.name = checkmate::vname(measures), add = NULL)
 
-assert_resampling(resampling, instantiated = NULL, clone = FALSE)
+assert_resampling(resampling, instantiated = NULL,
+  .var.name = checkmate::vname(resampling), add = NULL)
 
-assert_resamplings(resamplings, instantiated = NULL, clone = FALSE)
+assert_resamplings(resamplings, instantiated = NULL,
+  .var.name = checkmate::vname(resamplings), add = NULL)
 
-assert_prediction(prediction)
+assert_prediction(prediction, .var.name = checkmate::vname(prediction),
+  add = NULL)
 
-assert_resample_result(resample_result,
-  .var.name = vname(resample_result))
+assert_resample_result(rr, .var.name = checkmate::vname(rr),
+  add = NULL)
 
-assert_benchmark_result(bmr, .var.name = vname(bmr))
+assert_benchmark_result(bmr, .var.name = checkmate::vname(bmr),
+  add = NULL)
 
 assert_row_ids(row_ids, type = NULL, .var.name = vname(row_ids))
 }
@@ -55,17 +61,11 @@ assert_row_ids(row_ids, type = NULL, .var.name = vname(row_ids))
 
 \item{task}{:: \link{Task}.}
 
-\item{task_type}{:: \code{character(1)}\cr
-Task type, e.g. \code{"classif"} or \code{"regr"}.}
-
 \item{feature_types}{:: \code{character()}\cr
 Set of allowed feature types.}
 
 \item{task_properties}{:: \code{character()}\cr
 Set of required task properties.}
-
-\item{min_rows}{:: \code{integer()}\cr
-Minimum amount of required observations.}
 
 \item{tasks}{:: list of \link{Task}.}
 
@@ -75,9 +75,6 @@ Minimum amount of required observations.}
 
 \item{measure}{:: \link{Measure}.}
 
-\item{default}{:: \code{character(1)}\cr
-Object passed to \code{\link[=default_measures]{default_measures()}} to construct the default measure in case \code{measure}/\code{measures} is \code{NULL}.}
-
 \item{measures}{:: list of \link{Measure}.}
 
 \item{resampling}{:: \link{Resampling}.}
@@ -86,16 +83,16 @@ Object passed to \code{\link[=default_measures]{default_measures()}} to construc
 
 \item{prediction}{:: \link{Prediction}.}
 
-\item{resample_result}{:: \link{ResampleResult}.}
-
 \item{bmr}{:: \link{BenchmarkResult}.}
 
 \item{row_ids}{:: \code{vector()}.}
+
+\item{resample_result}{:: \link{ResampleResult}.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
 All functions assert on the respective class, and optionally additional properties.
 If an assertion fails, an exception is raised.
-Otherwise, the (possibly altered) object is returned invisibly.
+Otherwise, the input object is returned invisibly.
 }
 \keyword{internal}

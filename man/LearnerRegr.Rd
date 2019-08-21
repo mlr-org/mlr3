@@ -36,8 +36,8 @@ lrns = mlr_learners$mget(mlr_learners$keys("^regr"))
 names(lrns)
 
 # get a specific learner from mlr_learners:
-lrn = mlr_learners$get("regr.rpart")
-print(lrn)
+mlr_learners$get("regr.rpart")
+lrn("classif.featureless")
 }
 \seealso{
 Example regression learners: \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}

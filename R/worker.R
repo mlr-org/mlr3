@@ -52,8 +52,7 @@ predict_wrapper = function(task, learner) {
 
 
 learner_train = function(learner, task, row_ids = NULL) {
-
-  task = assert_task(task)
+  assert_task(task)
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
@@ -88,7 +87,7 @@ learner_train = function(learner, task, row_ids = NULL) {
   # fit fallback learner
   fb = learner$fallback
   if (!is.null(fb)) {
-    fb = assert_learner(fb)
+    fb = assert_learner(as_learner(fb))
     require_namespaces(fb$packages)
     fb$train(task)
     learner$state$fallback_state = fb$state
@@ -99,8 +98,7 @@ learner_train = function(learner, task, row_ids = NULL) {
 
 
 learner_predict = function(learner, task, row_ids = NULL) {
-
-  task = assert_task(task)
+  assert_task(task)
 
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {
@@ -135,7 +133,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
   }
 
   predict_fb = function(row_ids) {
-    fb = assert_learner(fb)
+    fb = assert_learner(as_learner(fb))
     fb$predict_type = learner$predict_type
     fb$state = learner$state$fallback_state
     fb$predict(task, row_ids)

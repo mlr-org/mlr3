@@ -1,8 +1,16 @@
 #' @title Absolute Errors Regression Measure
 #'
+#' @usage NULL
 #' @aliases mlr_measures_regr.mae
 #' @format [R6::R6Class] inheriting from [MeasureClassif].
 #' @include MeasureRegr.R
+#'
+#' @section Construction:
+#' ```
+#' MeasureRegrMAE$new()
+#' mlr_measures$get("regr.mae")
+#' msr("regr.mae")
+#' ```
 #'
 #' @description
 #' Calls [Metrics::mae()].

@@ -156,6 +156,7 @@ Collate:
     'hash_resample_result.R'
     'helper-parallelization.R'
     'helper.R'
+    'mlr_coercions.R'
     'mlr_sugar.R'
     'reexports.R'
     'resample.R'

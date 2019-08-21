@@ -1,8 +1,8 @@
 context("mlr_learners_classif.debug")
 
 test_that("Simple training/predict", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.debug")
+  task = tsk("iris")
+  learner = lrn("classif.debug")
   expect_learner(learner, task)
 
   prediction = learner$train(task)$predict(task)
@@ -33,7 +33,7 @@ test_that("updating model works / resample", {
 })
 
 test_that("NA predictions", {
-  task = mlr_tasks$get("iris")
+  task = tsk("iris")
 
   learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "response")
   learner$train(task)

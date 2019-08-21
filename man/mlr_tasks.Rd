@@ -8,6 +8,10 @@
 \description{
 A simple \link{Dictionary} storing objects of class \link{Task}.
 Each task has an associated help page, see \code{mlr_tasks_[id]}.
+
+This dictionary can get populated with additional tasks by add-on packages.
+
+For a more convenient way to retrieve and construct tasks, see \code{\link[=tsk]{tsk()}}.
 }
 \section{Methods}{
 
@@ -26,8 +30,8 @@ the number of features of type \code{"lgl"}, \code{"int"}, \code{"dbl"}, \code{"
 
 \examples{
 as.data.table(mlr_tasks)
-mlr_tasks$get("iris")
-head(mlr_tasks$get("iris")$data())
+task = mlr_tasks$get("iris") # same as tsk("iris")
+head(task$data())
 
 # Add a new task, based on a subset of iris:
 data = iris
@@ -48,6 +52,8 @@ mlr_tasks$remove("iris.binary")
 }
 \seealso{
 Example tasks: \code{\link[=mlr_tasks_iris]{iris}} (multi-class classification), \code{\link[=mlr_tasks_spam]{spam}} (binary classification), \code{\link[=mlr_tasks_boston_housing]{boston_housing}} (regression)
+
+Sugar function: \code{\link[=tsk]{tsk()}}
 
 Other Dictionary: \code{\link{mlr_learners}},
   \code{\link{mlr_measures}},

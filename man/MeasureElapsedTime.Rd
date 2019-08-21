@@ -8,10 +8,27 @@
 \alias{mlr_measures_time_both}
 \title{Elapsed Time Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
-\usage{
-MeasureElapsedTime
-}
 \description{
 Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
 }
+\section{Construction}{
+\preformatted{MeasureElapsedTime$new(id, stages)
+
+mlr_measures$get("time_train")
+mlr_measures$get("time_predict")
+mlr_measures$get("time_both")
+
+msr$get("time_train")
+msr$get("time_predict")
+msr$get("time_both")
+}
+\itemize{
+\item \code{id} :: \code{character(1)}\cr
+Id for the created measure.
+\item \code{stages} :: \code{character()}\cr
+Subset of \code{("train", "predict")}.
+The runtime of all stages will be summed.
+}
+}
+
 \keyword{datasets}

@@ -8,8 +8,9 @@
 A classification task for the \link[mlbench:Sonar]{mlbench::Sonar} data set.
 Positive class is set to "M" (Mine).
 }
-\section{Usage}{
+\section{Construction}{
 \preformatted{mlr_tasks$get("sonar")
+tsk("sonar")
 }
 }
 

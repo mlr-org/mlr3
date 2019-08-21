@@ -85,7 +85,7 @@ generate_data = function(learner, N) {
 #' @keywords internal
 #' @export
 #' @examples
-#' tasks = generate_tasks(mlr_learners$get("classif.rpart"))
+#' tasks = generate_tasks(lrn("classif.rpart"))
 #' tasks$missings_binary$data()
 generate_tasks = function(learner, N = 30L) {
   N = checkmate::assert_int(N, lower = 10L, coerce = TRUE)
@@ -179,7 +179,7 @@ run_experiment = function(task, learner) {
   }
 
   mlr3::assert_task(task)
-  learner = mlr3::assert_learner(learner, task = task, clone = TRUE)
+  learner = mlr3::assert_learner(as_learner(learner, clone = TRUE), task = task)
   prediction = NULL
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 

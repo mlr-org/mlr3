@@ -1,7 +1,7 @@
 context("mlr_resampling_bootstrap")
 
 test_that("bootstrap has duplicated ids", {
-  r = mlr_resamplings$get("bootstrap")
+  r = rsmp("bootstrap")
   expect_identical(r$duplicated_ids, TRUE)
 })
 
@@ -10,8 +10,7 @@ test_that("stratification", {
   b = as_data_backend(data)
   task = TaskClassif$new("stratify_data", b, target = "y")
 
-  r = mlr_resamplings$get("bootstrap")
-  r$param_set$values = list(ratio = 1, repeats = 3, stratify = TRUE)
+  r = rsmp("bootstrap", ratio = 1, repeats = 3, stratify = TRUE)
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {
@@ -21,7 +20,6 @@ test_that("stratification", {
 })
 
 test_that("grouping", {
-  r = mlr_resamplings$get("bootstrap")
-  r$param_set$values = list(ratio = 1, repeats = 3)
+  r = rsmp("bootstrap", ratio = 1, repeats = 3)
   expect_grouping_works(r)
 })

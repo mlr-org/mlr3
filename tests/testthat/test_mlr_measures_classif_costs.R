@@ -1,7 +1,7 @@
 context("mlr_measures_classif.costs")
 
 test_that("binary task", {
-  task = mlr_tasks$get("sonar")
+  task = tsk("sonar")
   costs = matrix(c(0, 5, 10, 0), nrow = 2)
   rownames(costs) = colnames(costs) = task$class_names
 
@@ -14,28 +14,28 @@ test_that("binary task", {
   m3$id = "m3"
   measures = list(m1, m2, m3)
 
-  lrn = mlr_learners$get("classif.featureless")
+  lrn = lrn("classif.featureless")
   perf = lrn$train(task)$predict(task)$score(measures, task = task)
   expect_equal(perf[[1]], -perf[[2]])
   expect_equal(perf[[3]], 0)
 })
 
 test_that("multiclass", {
-  task = mlr_tasks$get("iris")
+  task = tsk("iris")
   costs = 1 - diag(3)
   rownames(costs) = colnames(costs) = task$class_names
 
   m = mlr_measures$get("classif.costs", costs = costs, normalize = FALSE)
   measures = list(m, mlr_measures$get("classif.ce"))
 
-  lrn = mlr_learners$get("classif.featureless")
+  lrn = lrn("classif.featureless")
   p = lrn$train(task)$predict(task)
   perf = p$score(measures, task = task)
   expect_equal(perf[["classif.costs"]], perf[["classif.ce"]] * task$nrow)
 })
 
 test_that("multiclass / level reordering", {
-  task = mlr_tasks$get("iris")
+  task = tsk("iris")
   costs = matrix(runif(9), nrow = 3)
   diag(costs) = 0
   rownames(costs) = colnames(costs) = task$class_names
@@ -45,7 +45,7 @@ test_that("multiclass / level reordering", {
   m2 = mlr_measures$get("classif.costs", costs = costs, normalize = FALSE)
   measures = list(m1, m2)
 
-  lrn = mlr_learners$get("classif.featureless")
+  lrn = lrn("classif.featureless")
   perf = lrn$train(task)$predict(task)$score(measures, task = task)
   expect_equal(perf[1], perf[2])
 })

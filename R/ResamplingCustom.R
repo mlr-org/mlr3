@@ -4,8 +4,15 @@
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'
+#' @section Construction:
+#' ```
+#' ResamplingCustom$new()
+#' mlr_resamplings$get("custom")
+#' ```
+#'
 #' @description
-#' A custom resampling class where the training and test indices can be set manually.
+#' A custom resampling class where the training and test indices can be set manually during
+#' instantiation.
 #'
 #' @section Fields:
 #' See [Resampling].
@@ -16,7 +23,7 @@
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = mlr_tasks$get("iris")
+#' task = tsk("iris")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
@@ -34,7 +41,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
     },
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
-      assert_task(task)
+      assert_task(as_task(task))
       assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
       assert_list(test_sets, types = "atomicvector", len = length(train_sets), any.missing = FALSE, null.ok = TRUE)
       self$instance = list(train = train_sets, test = test_sets)

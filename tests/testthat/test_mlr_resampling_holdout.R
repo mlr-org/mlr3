@@ -1,7 +1,7 @@
 context("mlr_resampling_holdout")
 
 test_that("holdout has no duplicated ids", {
-  r = mlr_resamplings$get("holdout")
+  r = rsmp("holdout")
   expect_identical(r$duplicated_ids, FALSE)
 })
 
@@ -22,6 +22,6 @@ test_that("stratification", {
 })
 
 test_that("grouping", {
-  r = mlr_resamplings$get("holdout")
+  r = rsmp("holdout")
   expect_grouping_works(r)
 })

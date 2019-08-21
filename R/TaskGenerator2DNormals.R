@@ -4,22 +4,29 @@
 #' @format [R6::R6Class] inheriting from [TaskGenerator].
 #' @include TaskGenerator.R
 #'
+#' @section Construction:
+#' ```
+#' TaskGenerator2DNormals$new()
+#' mlr_task_generators$get("2dnormals")
+#' tgen("2dnormals")
+#' ```
+#'
 #' @description
 #' A [TaskGenerator] for the 2d normals task in [mlbench::mlbench.2dnormals()].
 #'
 #' @export
 #' @examples
-#' mlr_task_generators$get("2dnormals")$generate(10)$data()
+#' tgen("2dnormals")$generate(10)$data()
 TaskGenerator2DNormals = R6Class("TaskGenerator2DNormals",
   inherit = TaskGenerator,
   public = list(
-    initialize = function(id = "2dnormals") {
+    initialize = function() {
       param_set = ParamSet$new(list(
         ParamInt$new("cl", lower = 2L),
         ParamDbl$new("r", lower = 1L),
         ParamDbl$new("sd", lower = 0L)
       ))
-      super$initialize(id = id, "classif", "mlbench", param_set)
+      super$initialize(id = "2dnormals", "classif", "mlbench", param_set)
     }
   ),
 

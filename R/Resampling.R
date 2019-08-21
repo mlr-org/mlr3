@@ -59,7 +59,7 @@
 #'
 #' @section Methods:
 #' * `instantiate(task)`\cr
-#'   [Task] | [mlr_sugar] -> `self`\cr
+#'   [Task] -> `self`\cr
 #'   Materializes fixed training and test splits for a given task and stores them in `r$instance`.
 #'
 #' * `train_set(i)`\cr
@@ -73,7 +73,7 @@
 #' @export
 #' @family Resampling
 #' @examples
-#' r = mlr_resamplings$get("subsampling")
+#' r = rsmp("subsampling")
 #'
 #' # Default parametrization
 #' r$param_set$values
@@ -83,7 +83,7 @@
 #' r$param_set$values
 #'
 #' # Instantiate on iris task
-#' task = mlr_tasks$get("iris")
+#' task = tsk("iris")
 #' r$instantiate(task)
 #'
 #' # Extract train/test sets
@@ -92,14 +92,14 @@
 #' intersect(train_set, r$test_set(1))
 #'
 #' # Another example: 10-fold CV
-#' r = mlr_resamplings$get("cv")$instantiate(task)
+#' r = rsmp("cv")$instantiate(task)
 #' r$train_set(1)
 #'
 #' # Stratification
-#' task = mlr_tasks$get("pima")
+#' task = tsk("pima")
 #' prop.table(table(task$truth())) # moderately unbalanced
 #'
-#' r = mlr_resamplings$get("subsampling")
+#' r = rsmp("subsampling")
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 Resampling = R6Class("Resampling",
@@ -129,7 +129,7 @@ Resampling = R6Class("Resampling",
     },
 
     instantiate = function(task) {
-      assert_task(task)
+      task = assert_task(as_task(task))
       groups = task$groups
 
       stratify = self$param_set$values$stratify

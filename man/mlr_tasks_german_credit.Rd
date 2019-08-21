@@ -23,15 +23,16 @@ Positive class is set to label "good".
 
 See example for the creation of a \link{MeasureClassifCosts} as described misclassification costs.
 }
-\section{Usage}{
+\section{Construction}{
 \preformatted{mlr_tasks$get("german_credit")
+tsk("german_credit")
 }
 }
 
 \examples{
-task = mlr_tasks$get("german_credit")
+task = tsk("german_credit")
 costs = matrix(c(0, 1, 5, 0), nrow = 2)
 dimnames(costs) = list(predicted = task$class_names, truth = task$class_names)
-measure = MeasureClassifCosts$new("german_credit_costs", costs)
+measure = msr("classif.costs", id = "german_credit_costs", costs = costs)
 print(measure)
 }

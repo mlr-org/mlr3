@@ -16,6 +16,12 @@ The iteration counter translates to \code{repeats} blocks of \code{folds}
 cross-validations, i.e., the first \code{folds} iterations belong to
 a single cross-validation.
 }
+\section{Construction}{
+\preformatted{ResamplingRepeatedCV$new()
+mlr_resamplings$get("repeated_cv")
+}
+}
+
 \section{Fields}{
 
 See \link{Resampling}.
@@ -37,7 +43,7 @@ Translates iteration numbers to repetition number.
 
 \examples{
 # Create a task with 10 observations
-task = mlr_tasks$get("iris")
+task = tsk("iris")
 task$filter(1:10)
 
 # Instantiate Resampling

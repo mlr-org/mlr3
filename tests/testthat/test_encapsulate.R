@@ -10,8 +10,8 @@ enable_encapsulation = function(learner) {
   learner
 }
 
-task = mlr_tasks$get("iris")
-learner = mlr_learners$get("classif.debug")
+task = tsk("iris")
+learner = lrn("classif.debug")
 learner$param_set$values = list(message_train = 1, warning_train = 1, message_predict = 1, warning_predict = 1)
 
 test_that("evaluate / single step", {
@@ -46,8 +46,7 @@ test_that("evaluate / single step", {
 })
 
 test_that("evaluate / resample", {
-  resampling = mlr_resamplings$get("cv")
-  resampling$param_set$values = list(folds = 3)
+  resampling = rsmp("cv", folds = 3)
 
   rr = expect_warning(resample(task, disable_encapsulation(learner), resampling))
   expect_true(all(map(rr$data$learner, function(x) nrow(x$log)) == 0L))

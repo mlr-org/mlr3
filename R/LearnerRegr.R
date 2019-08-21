@@ -34,8 +34,8 @@
 #' names(lrns)
 #'
 #' # get a specific learner from mlr_learners:
-#' lrn = mlr_learners$get("regr.rpart")
-#' print(lrn)
+#' mlr_learners$get("regr.rpart")
+#' lrn("classif.featureless")
 LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
   public = list(
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {

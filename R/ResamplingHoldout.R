@@ -4,6 +4,12 @@
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'
+#' @section Construction:
+#' ```
+#' ResamplingHoldout$new()
+#' mlr_resamplings$get("holdout")
+#' ```
+#'
 #' @description
 #' Splits data into a single training set and a test set.
 #' Parameter `ratio` determines the ratio of observation in the train set (default: 2/3).
@@ -17,11 +23,11 @@
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = mlr_tasks$get("iris")
+#' task = tsk("iris")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rho = mlr_resamplings$get("holdout")
+#' rho = rsmp("holdout", ratio = 0.5)
 #' rho$instantiate(task)
 #'
 #' # Individual sets:
@@ -33,14 +39,14 @@
 #' rho$instance # simple list
 ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
   public = list(
-    initialize = function(id = "holdout", param_vals = list(ratio = 2 / 3)) {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "holdout",
         param_set = ParamSet$new(params = list(
           ParamUty$new("stratify", default = NULL),
           ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required")
         )),
-        param_vals = param_vals
+        param_vals = list(ratio = 2 / 3)
       )
     },
 

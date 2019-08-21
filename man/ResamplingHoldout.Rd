@@ -13,6 +13,12 @@ ResamplingHoldout
 Splits data into a single training set and a test set.
 Parameter \code{ratio} determines the ratio of observation in the train set (default: 2/3).
 }
+\section{Construction}{
+\preformatted{ResamplingHoldout$new()
+mlr_resamplings$get("holdout")
+}
+}
+
 \section{Fields}{
 
 See \link{Resampling}.
@@ -25,11 +31,11 @@ See \link{Resampling}.
 
 \examples{
 # Create a task with 10 observations
-task = mlr_tasks$get("iris")
+task = tsk("iris")
 task$filter(1:10)
 
 # Instantiate Resampling
-rho = mlr_resamplings$get("holdout")
+rho = rsmp("holdout", ratio = 0.5)
 rho$instantiate(task)
 
 # Individual sets:

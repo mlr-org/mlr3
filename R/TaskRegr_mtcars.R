@@ -4,9 +4,10 @@
 #' @format [R6::R6Class] inheriting from [TaskRegr].
 #' @include mlr_tasks.R
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
 #' mlr_tasks$get("mtcars")
+#' tsk("mtcars")
 #' ```
 #'
 #' @description

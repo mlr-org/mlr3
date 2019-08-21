@@ -1,15 +1,15 @@
 context("PredictionRegr")
 
 test_that("Construction", {
-  task = mlr_tasks$get("boston_housing")
+  task = tsk("boston_housing")
   p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
   expect_prediction(p)
   expect_prediction_regr(p)
 })
 
 test_that("Internally constructed Prediction", {
-  task = mlr_tasks$get("boston_housing")
-  lrn = mlr_learners$get("regr.featureless")
+  task = tsk("boston_housing")
+  lrn = lrn("regr.featureless")
   lrn$predict_type = "se"
   p = lrn$train(task)$predict(task)
   expect_prediction(p)
@@ -18,10 +18,10 @@ test_that("Internally constructed Prediction", {
 
 
 test_that("c", {
-  task = mlr_tasks$get("boston_housing")
-  lrn = mlr_learners$get("regr.featureless")
+  task = tsk("boston_housing")
+  lrn = lrn("regr.featureless")
   lrn$predict_type = "se"
-  rr = resample(task, lrn, "cv3")
+  rr = resample(task, lrn, rsmp("cv", folds = 3))
 
   pred = do.call(c, rr$data$prediction)
   expect_prediction(pred)
@@ -41,9 +41,9 @@ test_that("c", {
 })
 
 test_that("c drops se (#250)", {
-  task = mlr_tasks$get("boston_housing")
-  lrn = mlr_learners$get("regr.featureless")
-  rr = resample(task, lrn, "cv3")
+  task = tsk("boston_housing")
+  lrn = lrn("regr.featureless")
+  rr = resample(task, lrn, rsmp("cv", folds = 3))
 
   pred = do.call(c, rr$data$prediction)
   expect_null(pred$data$se)

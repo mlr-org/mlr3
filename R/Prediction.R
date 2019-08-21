@@ -34,7 +34,7 @@
 #'
 #' @section Methods:
 #' * `score(measures = NULL, task = NULL, learner = NULL)`\cr
-#'   (list of [Measure] | [mlr_sugar], [Task] | [mlr_sugar], [Learner] | [mlr_sugar]) -> [Prediction]\cr
+#'   (list of [Measure], [Task], [Learner]) -> [Prediction]\cr
 #'   Calculates the performance for all provided measures
 #'   [Task] and [Learner] may be `NULL` for most measures, but some measures need to extract information
 #'   from these objects.
@@ -72,7 +72,7 @@ Prediction = R6Class("Prediction",
     },
 
     score = function(measures = NULL, task = NULL, learner = NULL, train_set = NULL) {
-      measures = assert_measures(measures, task = task, learner = learner, default = self$task_type)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type), task = task, learner = learner)
       scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner, train_set = train_set))
       set_names(scores, ids(measures))
     }

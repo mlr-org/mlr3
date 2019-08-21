@@ -4,6 +4,12 @@
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'
+#' @section Construction:
+#' ```
+#' ResamplingSubsampling$new()
+#' mlr_resamplings$get("subsampling")
+#' ```
+#'
 #' @description
 #' `repeats` (default: 30) times repeated splits into training and test set
 #' with a ratio of `ratio` (default: 2/3) observations in the training set.
@@ -17,7 +23,7 @@
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = mlr_tasks$get("iris")
+#' task = tsk("iris")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
@@ -33,15 +39,15 @@
 #' rss$instance$train # list of index vectors
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
-    initialize = function(id = "subsampling", param_vals = list(repeats = 30L, ratio = 2 / 3)) {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "subsampling",
         param_set = ParamSet$new(params = list(
           ParamUty$new("stratify", default = NULL),
           ParamInt$new("repeats", lower = 1, tags = "required"),
           ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
         ),
-        param_vals = param_vals
+        param_vals = list(repeats = 30L, ratio = 2 / 3)
       )
     }
   ),

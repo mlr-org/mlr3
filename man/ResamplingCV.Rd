@@ -4,15 +4,20 @@
 \name{ResamplingCV}
 \alias{ResamplingCV}
 \alias{mlr_resamplings_cv}
-\alias{mlr_resamplings_cv3}
 \title{Cross Validation Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \usage{
 ResamplingCV
 }
 \description{
-Cross validation with \code{folds} folds (cv: 10 folds, cv3: 3 folds).
+Cross validation with \code{folds} folds (default: 10 folds).
 }
+\section{Construction}{
+\preformatted{ResamplingCV$new()
+mlr_resamplings$get("cv")
+}
+}
+
 \section{Fields}{
 
 See \link{Resampling}.
@@ -25,12 +30,11 @@ See \link{Resampling}.
 
 \examples{
 # Create a task with 10 observations
-task = mlr_tasks$get("iris")
+task = tsk("iris")
 task$filter(1:10)
 
 # Instantiate Resampling
-rcv = mlr_resamplings$get("cv")
-rcv$param_set$values = list(folds = 3)
+rcv = rsmp("cv", folds = 3)
 rcv$instantiate(task)
 
 # Individual sets:
