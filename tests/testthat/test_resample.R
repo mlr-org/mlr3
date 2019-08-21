@@ -8,8 +8,8 @@ test_that("resample", {
   rr = resample(task, learner, resampling)
 
   expect_resample_result(rr)
-  expect_numeric(rr$performance("classif.ce")$classif.ce, any.missing = FALSE)
-  expect_number(rr$aggregate("classif.ce"))
+  expect_numeric(rr$performance(msr("classif.ce"))$classif.ce, any.missing = FALSE)
+  expect_number(rr$aggregate(msr("classif.ce")))
   expect_different_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
   expect_same_address(rr$data$task[[1L]], rr$data$task[[2L]])
   expect_same_address(rr$data$resampling[[1L]], rr$data$resampling[[2L]])

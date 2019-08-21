@@ -157,13 +157,13 @@ sanity_check = function(prediction) {
 }
 
 sanity_check.PredictionClassif = function(prediction) {
-  prediction$score("classif.ce") <= 0.3
+  prediction$score(mlr3::msr("classif.ce")) <= 0.3
 }
 registerS3method("sanity_check", "LearnerClassif", sanity_check.PredictionClassif)
 
 
 sanity_check.PredictionRegr = function(prediction) {
-  prediction$score("regr.mse") <= 1
+  prediction$score(mlr3::msr("regr.mse")) <= 1
 }
 registerS3method("sanity_check", "LearnerRegr", sanity_check.PredictionRegr)
 

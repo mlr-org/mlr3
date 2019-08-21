@@ -163,22 +163,21 @@ test_that("extract params", {
   lrns = mlr_learners$mget(c("classif.rpart", "classif.rpart", "classif.rpart"))
   lrns[[1]]$param_set$values = list()
   lrns[[2]]$param_set$values = list(xval = 0, cp = 0.1)
-  bmr = benchmark(benchmark_grid("wine", lrns, rsmp("cv", folds = 3)))
+  bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
   expect_list(aggr$params[[2]], names = "unique", len = 2L)
   expect_list(aggr$params[[3]], names = "unique", len = 1L)
 
-
   # only one params
   lrns = mlr_learners$mget(c("classif.featureless"))
-  bmr = benchmark(benchmark_grid("wine", lrns, rsmp("cv", folds = 3)))
+  bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 1L)
 
   # no params
   lrns = mlr_learners$mget(c("classif.debug"))
-  bmr = benchmark(benchmark_grid("wine", lrns, rsmp("cv", folds = 3)))
+  bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
 })

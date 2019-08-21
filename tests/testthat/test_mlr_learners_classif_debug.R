@@ -27,14 +27,13 @@ test_that("updating model works", {
 
 test_that("updating model works / resample", {
   learner = lrn("classif.debug", save_tasks = TRUE)
-  rr = resample("iris", learner, "holdout", store_models = TRUE)
+  rr = resample(tsk("iris"), learner, rsmp("holdout"), store_models = TRUE)
   new_learner = rr$learners[[1]]
   expect_list(new_learner$model, len = 3)
 })
 
 test_that("NA predictions", {
   task = tsk("iris")
-
   learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "response")
   learner$train(task)
   p = learner$predict(task)
@@ -45,11 +44,4 @@ test_that("NA predictions", {
   p = learner$predict(task)
   expect_equal(sum(is.na(p$response)), 75L)
   expect_equal(is.na(p$response), apply(p$prob, 1, anyMissing))
-
-  # learner = lrn("classif.debug", predict_missing = 0.5, predict_type = "response")
-  # learner$train(task)
-  # expect_error(learner$predict(task), "missing predictions")
-  # learner$fallback = "classif.featureless"
-  # p = e$predict()$prediction
-  # expect_false(anyMissing(p$response))
 })

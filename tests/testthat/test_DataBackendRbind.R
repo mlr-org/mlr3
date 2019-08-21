@@ -54,8 +54,8 @@ test_that("Backends with mixed data_formats", {
   expect_backend(task$backend)
   expect_set_equal(task$backend$data_formats, "data.table")
 
-  rr = resample(task, "regr.rpart", "holdout")
-  expect_number(rr$aggregate("regr.mse"))
+  rr = resample(task, lrn("regr.rpart"), rsmp("holdout"))
+  expect_number(rr$aggregate(msr("regr.mse")))
 })
 
 test_that("Backends with same rows", {

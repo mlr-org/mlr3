@@ -32,8 +32,8 @@ test_that("Extra data slots of learners are kept / reset", {
 
 test_that("task is checked in train() / predict()", {
   learner = lrn("regr.rpart")
-  expect_error(learner$train("pima"), "type")
-  expect_error(learner$predict("pima"), "type")
+  expect_error(learner$train(tsk("pima")), "type")
+  expect_error(learner$predict(tsk("pima")), "type")
 })
 
 test_that("learner timings", {
@@ -43,12 +43,12 @@ test_that("learner timings", {
   expect_equal(names(t), c("train", "predict"))
 
 
-  learner$train("mtcars")
+  learner$train(tsk("mtcars"))
   t = learner$timings
   expect_number(t[["train"]])
   expect_equal(t[["predict"]], NA_real_)
 
-  learner$predict("mtcars")
+  learner$predict(tsk("mtcars"))
   t = learner$timings
   expect_number(t[["train"]])
   expect_number(t[["predict"]])

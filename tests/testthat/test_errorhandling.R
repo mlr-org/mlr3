@@ -14,7 +14,7 @@ test_that("no encapsulation", {
 
 test_that("no encapsulation / resampling", {
   learner = lrn("classif.debug", error_train = 1)
-  expect_error(resample("iris", learner, rsmp("cv", folds = 3)), "'classif.debug'")
+  expect_error(resample(tsk("iris"), learner, rsmp("cv", folds = 3)), "'classif.debug'")
 })
 
 
@@ -70,8 +70,8 @@ test_that("encapsulation / resample", {
   expect_data_table(rr$warnings, nrows = 3L)
   expect_data_table(rr$errors, nrows = 3L)
 
-  expect_equal(unname(rr$aggregate("classif.ce")), NA_real_)
-  expect_equal(rr$performance("classif.ce")$classif.ce, rep(NA_real_, 3L))
+  expect_equal(unname(rr$aggregate(msr("classif.ce"))), NA_real_)
+  expect_equal(rr$performance(msr("classif.ce"))$classif.ce, rep(NA_real_, 3L))
 })
 
 test_that("encapsulation / benchmark", {

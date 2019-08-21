@@ -47,14 +47,14 @@ test_that("fail during resample", {
   learner$encapsulate = c(predict = "evaluate")
   learner$fallback = lrn("classif.featureless")
 
-  rr = resample("iris", learner, rsmp("cv", folds = 3))
+  rr = resample(tsk("iris"), learner, rsmp("cv", folds = 3))
   expect_data_table(rr$errors, nrows = 3)
-  expect_number(rr$aggregate("classif.ce"))
+  expect_number(rr$aggregate(msr("classif.ce")))
 })
 
 test_that("incomplete predictions", {
   task = tsk("iris")
-  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5, fallback = "classif.featureless")
+  learner = lrn("classif.debug", predict_type = "prob", predict_missing = 0.5, fallback = lrn("classif.featureless"))
 
   learner$train(task)
   p = learner$predict(task)
@@ -62,7 +62,7 @@ test_that("incomplete predictions", {
   expect_factor(p$response, any.missing = FALSE)
   expect_matrix(p$prob, any.missing = FALSE)
 
-  rr = resample("iris", learner, rsmp("cv", folds = 3))
+  rr = resample(tsk("iris"), learner, rsmp("cv", folds = 3))
   expect_prediction(rr$prediction)
   expect_factor(rr$prediction$response, any.missing = FALSE)
   expect_matrix(rr$prediction$prob, any.missing = FALSE)
