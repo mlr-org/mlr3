@@ -42,9 +42,13 @@ Relies on \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}} 
 }
 }
 \examples{
-task = tsk("iris", id = "iris2")
-print(task)
+# iris task with new id
+tsk("iris", id = "iris2")
 
-learner = lrn("classif.rpart", cp = 0.1, predict_type = "prob")
-print(learner)
+# classification tree with different hyperparameters
+# and predict type set to predict probabilities
+lrn("classif.rpart", cp = 0.1, predict_type = "prob")
+
+# multiple learners with predict type 'prob'
+lapply(c("classif.featureless", "classif.rpart"), lrn, predict_type = "prob")
 }

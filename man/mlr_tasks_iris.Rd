@@ -9,6 +9,7 @@ A classification task for the popular \link[datasets:iris]{datasets::iris} data 
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("iris")
+tsk("iris")
 }
 }
 

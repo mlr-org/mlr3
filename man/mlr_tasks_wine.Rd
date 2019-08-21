@@ -18,6 +18,7 @@ Results of a chemical analysis of three types of wines grown in the same region 
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("wine")
+tsk("wine")
 }
 }
 

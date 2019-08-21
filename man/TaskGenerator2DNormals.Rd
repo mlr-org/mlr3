@@ -13,6 +13,6 @@ TaskGenerator2DNormals
 A \link{TaskGenerator} for the 2d normals task in \code{\link[mlbench:mlbench.2dnormals]{mlbench::mlbench.2dnormals()}}.
 }
 \examples{
-mlr_task_generators$get("2dnormals")$generate(10)$data()
+tget("2dnormals")$generate(10)$data()
 }
 \keyword{datasets}

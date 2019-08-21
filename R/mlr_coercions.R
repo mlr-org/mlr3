@@ -17,7 +17,7 @@
 #' as_task("iris")
 #'
 #' # convert single measure to list of measures
-#' measure = mlr_measures$get("classif.ce")
+#' measure = msr("classif.ce")
 #' as_measures(measure)
 NULL
 

@@ -8,6 +8,10 @@
 \description{
 A simple \link{Dictionary} storing objects of class \link{Resampling}.
 Each resampling has an associated help page, see \code{mlr_resamplings_[id]}.
+
+This dictionary can get populated with additional resampling strategies by add-on packages.
+
+For a more convenient way to retrieve and construct resampling strategies, see \code{\link[=rsmp]{rsmp()}}.
 }
 \section{Methods}{
 
@@ -26,9 +30,12 @@ Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with col
 \examples{
 as.data.table(mlr_resamplings)
 mlr_resamplings$get("cv")
+rsmp("subsampling")
 }
 \seealso{
 Example resamplings: \code{\link[=mlr_resamplings_cv]{cv}}, \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}
+
+Sugar function: \code{\link[=rsmp]{rsmp()}}
 
 Other Dictionary: \code{\link{mlr_learners}},
   \code{\link{mlr_measures}},

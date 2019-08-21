@@ -42,7 +42,7 @@ The field \code{task_type} is set to \code{"regr"}.
 }
 
 \examples{
-task = mlr_tasks$get("boston_housing")
+task = tsk("boston_housing")
 learner = lrn("regr.featureless", predict_type = "se")
 p = learner$train(task)$predict(task)
 p$predict_types

@@ -10,6 +10,7 @@ Target variable is \code{mpg} (Miles/(US) gallon).
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("mtcars")
+tsk("mtcars")
 }
 }
 

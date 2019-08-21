@@ -1,9 +1,9 @@
 context("mlr_measures_selected_features")
 
 test_that("selected_features", {
-  task = mlr_tasks$get("sonar")
-  lrn = mlr_learners$get("classif.rpart")
-  measures = mlr_measures$mget(c("classif.ce", "selected_features"))
+  task = tsk("sonar")
+  lrn = lrn("classif.rpart")
+  measures = list(msr("classif.ce"), msr("selected_features"))
 
   rr = resample(task, lrn, "holdout", store_models = TRUE)
   perf = rr$aggregate(measures)

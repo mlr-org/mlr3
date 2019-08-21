@@ -17,11 +17,11 @@
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = mlr_tasks$get("iris")
+#' task = tsk("iris")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rho = mlr_resamplings$get("holdout")
+#' rho = rsmp("holdout")
 #' rho$instantiate(task)
 #'
 #' # Individual sets:

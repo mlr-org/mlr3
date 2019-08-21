@@ -1,7 +1,7 @@
 context("TaskClassif")
 
 test_that("Basic ops on iris task", {
-  task = mlr_tasks$get("iris")
+  task = tsk("iris")
   expect_task(task)
   expect_task_supervised(task)
   expect_task_classif(task)
@@ -14,15 +14,15 @@ test_that("Basic ops on iris task", {
 })
 
 test_that("$class_names consider also inactive rows", {
-  task = mlr_tasks$get("iris")
+  task = tsk("iris")
   task$set_row_role(1:100, character(0L))
 
   expect_set_equal(task$class_names, levels(iris$Species))
 })
 
 test_that("Factor levels are preserved in prediction", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.featureless")
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
   learner$predict_type = "prob"
   learner$train(task, 1:100)
 
@@ -55,7 +55,7 @@ test_that("0 feature task", {
   expect_task_classif(task)
   expect_data_table(task$data(), ncols = 1L)
 
-  lrn = mlr_learners$get("classif.featureless")
+  lrn = lrn("classif.featureless")
   p = lrn$train(task)$predict(task)
   expect_prediction(p)
   # expect_number(e$performance, lower = 0.6, upper = 0.7)

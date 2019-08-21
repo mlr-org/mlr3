@@ -23,8 +23,8 @@ generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a
 Resampling strategies may not be instantiated, and will be instantiated per task internally.
 }
 \examples{
-tasks = mlr_tasks$mget(c("iris", "sonar"))
-learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-resamplings = mlr_resamplings$mget(c("cv", "subsampling"))
+tasks = list(tsk("iris"), tsk("sonar"))
+learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
+resamplings = list(rsmp("cv"), rsmp("subsampling"))
 benchmark_grid(tasks, learners, resamplings)
 }

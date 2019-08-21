@@ -7,8 +7,8 @@ test_that("parallel resample", {
   with_future(future.callr::callr, {
     expect_true(use_future())
 
-    task = mlr_tasks$get("iris")
-    learner = mlr_learners$get("classif.rpart")
+    task = tsk("iris")
+    learner = lrn("classif.rpart")
 
     rr = resample(task, learner, rsmp("cv", folds = 3))
     expect_resample_result(rr)
@@ -23,8 +23,8 @@ test_that("parallel benchmark", {
   with_future(future.callr::callr, {
     expect_true(use_future())
 
-    task = mlr_tasks$get("iris")
-    learner = mlr_learners$get("classif.rpart")
+    task = tsk("iris")
+    learner = lrn("classif.rpart")
 
     bmr = benchmark(benchmark_grid(task, learner, rsmp("cv", folds = 3)))
     expect_benchmark_result(bmr)

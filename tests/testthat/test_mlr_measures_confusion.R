@@ -3,7 +3,7 @@ context("mlr_measures_confusion")
 test_that("precision +  recall", {
   task = tsk("pima")
   lrn = lrn("classif.featureless", method = "sample")
-  measures = mlr_measures$mget(c("classif.precision", "classif.recall"))
+  measures = list(msr("classif.precision"), msr("classif.recall"))
 
   p = lrn$train(task)$predict(task)
   perf = p$score(measures)

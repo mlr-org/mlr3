@@ -13,6 +13,6 @@ TaskGeneratorXor
 A \link{TaskGenerator} for the xor task in \code{\link[mlbench:mlbench.xor]{mlbench::mlbench.xor()}}.
 }
 \examples{
-mlr_task_generators$get("xor")$generate(10)$data()
+tgen("xor")$generate(10)$data()
 }
 \keyword{datasets}

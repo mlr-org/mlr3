@@ -7,6 +7,7 @@
 #' @section Usage:
 #' ```
 #' mlr_tasks$get("wine")
+#' tsk("wine")
 #' ```
 #'
 #' @description

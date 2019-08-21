@@ -25,11 +25,11 @@
 #' Also note that if they work, they will tear down your R session immediately!
 #' @export
 #' @examples
-#' learner = LearnerClassifDebug$new()
+#' learner = lrn("classif.debug")
 #' learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
 #'
 #' # this should signal a message
-#' task = mlr_tasks$get("iris")
+#' task = tsk("iris")
 #' learner$train(task)
 #' learner$predict(task)
 #'

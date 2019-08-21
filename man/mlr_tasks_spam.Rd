@@ -23,6 +23,7 @@ The positive class is set to "spam".
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("spam")
+tsk("spam")
 }
 }
 

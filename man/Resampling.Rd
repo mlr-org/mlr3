@@ -71,7 +71,7 @@ Returns the row ids of the i-th test set.
 }
 
 \examples{
-r = mlr_resamplings$get("subsampling")
+r = rsmp("subsampling")
 
 # Default parametrization
 r$param_set$values
@@ -81,7 +81,7 @@ r$param_set$values = list(ratio = 0.1, repeats = 3)
 r$param_set$values
 
 # Instantiate on iris task
-task = mlr_tasks$get("iris")
+task = tsk("iris")
 r$instantiate(task)
 
 # Extract train/test sets
@@ -90,14 +90,14 @@ print(train_set)
 intersect(train_set, r$test_set(1))
 
 # Another example: 10-fold CV
-r = mlr_resamplings$get("cv")$instantiate(task)
+r = rsmp("cv")$instantiate(task)
 r$train_set(1)
 
 # Stratification
-task = mlr_tasks$get("pima")
+task = tsk("pima")
 prop.table(table(task$truth())) # moderately unbalanced
 
-r = mlr_resamplings$get("subsampling")
+r = rsmp("subsampling")
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 }

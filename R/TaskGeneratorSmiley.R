@@ -8,7 +8,7 @@
 #' A [TaskGenerator] for the smiley task in [mlbench::mlbench.smiley()].
 #' @export
 #' @examples
-#' mlr_task_generators$get("smiley")$generate(10)$data()
+#' tgen("smiley")$generate(10)$data()
 TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
   inherit = TaskGenerator,
   public = list(

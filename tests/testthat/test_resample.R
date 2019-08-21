@@ -20,8 +20,8 @@ test_that("resample", {
 })
 
 test_that("resample with no or multiple measures", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.featureless")
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
   rr = resample(task, learner, rsmp("cv", folds = 3))
 
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
@@ -35,11 +35,10 @@ test_that("resample with no or multiple measures", {
 })
 
 test_that("as_benchmark_result.ResampleResult", {
-  task = mlr_tasks$get("iris")
-  measures = mlr_measures$mget(c("classif.ce", "classif.acc"))
-  learner = mlr_learners$get("classif.featureless")
-  resampling = mlr_resamplings$get("cv")
-  resampling$param_set$values = list(folds = 3)
+  task = tsk("iris")
+  measures = list(msr("classif.ce"), msr("classif.acc"))
+  learner = lrn("classif.featureless")
+  resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling)
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
@@ -52,8 +51,8 @@ test_that("as_benchmark_result.ResampleResult", {
 
 
 test_that("discarding model", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.featureless")
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
   resampling = rsmp("cv", folds = 3)
 
   rr = resample(task, learner, resampling)
@@ -61,9 +60,9 @@ test_that("discarding model", {
 })
 
 test_that("inputs are cloned", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.featureless")
-  resampling = mlr_resamplings$get("holdout")
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsmp("holdout")
   resampling$instantiate(task)
 
   rr = resample(task, learner, resampling)
@@ -73,8 +72,8 @@ test_that("inputs are cloned", {
 })
 
 test_that("memory footprint", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.featureless")
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
   resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling)
   x = rr$data
@@ -85,10 +84,10 @@ test_that("memory footprint", {
 })
 
 test_that("predict_type is checked", {
-  task = mlr_tasks$get("sonar")
-  learner = mlr_learners$get("classif.featureless")
+  task = tsk("sonar")
+  learner = lrn("classif.featureless")
   resampling = rsmp("cv", folds = 3L)
-  measure = mlr_measures$get("classif.auc")
+  measure = msr("classif.auc")
   rr = resample(task, learner, resampling)
 
   expect_error(rr$performance(measure), "predict_type")

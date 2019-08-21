@@ -2,9 +2,14 @@
 #'
 #' @usage NULL
 #' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
+#'
 #' @description
 #' A simple [Dictionary] storing objects of class [Measure].
 #' Each measure has an associated help page, see `mlr_measures_[id]`.
+#'
+#' This dictionary can get populated with additional measures by add-on packages.
+#'
+#' For a more convenient way to retrieve and construct measures, see [msr()].
 #'
 #' @section Methods:
 #' See [Dictionary].
@@ -19,10 +24,12 @@
 #' @family Measure
 #' @seealso
 #' Example measures: [`classif.auc`][mlr_measures_classif.auc], [`time_train`][mlr_measures_time_train]
+#' Sugar function: [msr()]
 #' @export
 #' @examples
 #' as.data.table(mlr_measures)
 #' mlr_measures$get("classif.ce")
+#' msr("regr.mse")
 mlr_measures = R6Class("DictionaryMeasure",
   inherit = Dictionary,
   cloneable = FALSE

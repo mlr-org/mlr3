@@ -6,6 +6,10 @@
 #' A simple [Dictionary] storing objects of class [Task].
 #' Each task has an associated help page, see `mlr_tasks_[id]`.
 #'
+#' This dictionary can get populated with additional tasks by add-on packages.
+#'
+#' For a more convenient way to retrieve and construct tasks, see [tsk()].
+#'
 #' @section Methods:
 #' See [Dictionary].
 #'
@@ -19,11 +23,13 @@
 #' @family Task
 #' @seealso
 #' Example tasks: [`iris`][mlr_tasks_iris] (multi-class classification), [`spam`][mlr_tasks_spam] (binary classification), [`boston_housing`][mlr_tasks_boston_housing] (regression)
+#'
+#' Sugar function: [tsk()]
 #' @export
 #' @examples
 #' as.data.table(mlr_tasks)
-#' mlr_tasks$get("iris")
-#' head(mlr_tasks$get("iris")$data())
+#' task = mlr_tasks$get("iris") # same as tsk("iris")
+#' head(task$data())
 #'
 #' # Add a new task, based on a subset of iris:
 #' data = iris

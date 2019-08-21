@@ -6,8 +6,8 @@ test_that("construction", {
 })
 
 test_that("Learners are called with invoke / small footprint of call", {
-  task = mlr_tasks$get("boston_housing")
-  learner = mlr_learners$get("regr.rpart")
+  task = tsk("boston_housing")
+  learner = lrn("regr.rpart")
   learner$train(task)
   call = as.character(learner$model$call)
   expect_character(call, min.len = 1L, any.missing = FALSE)
@@ -18,8 +18,8 @@ test_that("Learners are called with invoke / small footprint of call", {
 
 
 test_that("Extra data slots of learners are kept / reset", {
-  task = mlr_tasks$get("boston_housing")
-  learner = mlr_learners$get("regr.rpart")
+  task = tsk("boston_housing")
+  learner = lrn("regr.rpart")
   learner$train(task)
   learner$state$foo = "bar"
   expect_equal(learner$state$foo, "bar")
@@ -31,13 +31,13 @@ test_that("Extra data slots of learners are kept / reset", {
 })
 
 test_that("task is checked in train() / predict()", {
-  learner = mlr_learners$get("regr.rpart")
+  learner = lrn("regr.rpart")
   expect_error(learner$train("pima"), "type")
   expect_error(learner$predict("pima"), "type")
 })
 
 test_that("learner timings", {
-  learner = mlr_learners$get("regr.rpart")
+  learner = lrn("regr.rpart")
   t = learner$timings
   expect_equal(unname(t), as.double(c(NA, NA)))
   expect_equal(names(t), c("train", "predict"))

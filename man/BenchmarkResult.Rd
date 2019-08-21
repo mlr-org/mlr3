@@ -108,7 +108,7 @@ learners = list(
 design = benchmark_grid(
   tasks = c("sonar", "spam"),
   learners = learners,
-  resamplings = "cv3"
+  resamplings = rsmp("cv", folds = 3)
 )
 print(design)
 

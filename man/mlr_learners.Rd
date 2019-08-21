@@ -11,7 +11,8 @@ Each learner has an associated help page, see \code{mlr_learners_[id]}.
 
 This dictionary can get populated with additional learners by add-on packages.
 For more classification and regression learners, load the \CRANpkg{mlr3learners} package.
-For a convient way to retrieve objects, see \code{\link[=tsk]{tsk()}}.
+
+For a more convenient way to retrieve and construct learners, see \code{\link[=lrn]{lrn()}}.
 }
 \section{Methods}{
 
@@ -36,6 +37,8 @@ lrn("classif.rpart")
 \seealso{
 Example learners: \code{\link[=mlr_learners_classif.rpart]{classif.rpart}}, \code{\link[=mlr_learners_regr.rpart]{regr.rpart}},
 \code{\link[=mlr_learners_classif.featureless]{classif.featureless}}, \code{\link[=mlr_learners_regr.featureless]{regr.featureless}}, \code{\link[=mlr_learners_classif.debug]{classif.debug}}
+
+Sugar function: \code{\link[=lrn]{lrn()}}
 
 Extension Packages: \CRANpkg{mlr3learners}
 

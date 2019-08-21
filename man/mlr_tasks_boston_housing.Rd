@@ -9,6 +9,7 @@ A regression task for the \link[mlbench:BostonHousing2]{mlbench::BostonHousing2}
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("boston_housing")
+tsk("boston_housing")
 }
 }
 

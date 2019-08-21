@@ -163,7 +163,7 @@
 #' possible levels (for factors), default values and assigned values.
 #' To set hyperparameters, assign a named list to the subslot `values`:
 #' ```
-#' lrn = mlr_learners$get("classif.rpart")
+#' lrn = lrn("classif.rpart")
 #' lrn$param_set$values = list(minsplit = 3, cp = 0.01)
 #' ```
 #' Note that this operation replaces all previously set hyperparameter values.

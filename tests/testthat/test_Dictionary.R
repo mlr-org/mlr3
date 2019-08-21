@@ -1,9 +1,9 @@
 context("Dictionary")
 
 test_that("Dictionary: clone works", {
-  t1 = mlr_tasks$get("iris")
+  t1 = tsk("iris")
   expect_task(t1)
-  t2 = mlr_tasks$get("iris")
+  t2 = tsk("iris")
   expect_task(t2)
   expect_different_address(t1, t2)
 })

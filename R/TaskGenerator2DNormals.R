@@ -9,7 +9,7 @@
 #'
 #' @export
 #' @examples
-#' mlr_task_generators$get("2dnormals")$generate(10)$data()
+#' tget("2dnormals")$generate(10)$data()
 TaskGenerator2DNormals = R6Class("TaskGenerator2DNormals",
   inherit = TaskGenerator,
   public = list(

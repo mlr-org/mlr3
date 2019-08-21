@@ -79,7 +79,7 @@ Returns a copy of the internal data.
 }
 
 \examples{
-rr = resample("iris", "classif.featureless", "cv3")
+rr = resample("iris", "classif.featureless", rsmp("cv", folds = 3))
 print(rr)
 rr$aggregate("classif.acc")
 rr$prediction

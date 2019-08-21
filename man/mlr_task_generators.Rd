@@ -6,7 +6,12 @@
 \title{Dictionary of Task Generators}
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.}
 \description{
-A simple \link{Dictionary} storing generator functions returning a \link{Task}.
+A simple \link{Dictionary} storing objects of class \link{TaskGenerator}.
+Each task generator has an associated help page, see \code{mlr_task_generators_[id]}.
+
+This dictionary can get populated with additional task generators by add-on packages.
+
+For a more convenient way to retrieve and construct task generators, see \code{\link[=tgen]{tgen()}}.
 }
 \section{Methods}{
 
@@ -18,18 +23,18 @@ See \link{Dictionary}.
 \itemize{
 \item \code{as.data.table(dict)}\cr
 \link{Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields "key" and "packages" as columns.
+Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields \code{"key"} and \code{"packages"} as columns.
 }
 }
 
 \examples{
-g = mlr_task_generators$get("smiley")
-task = g$generate(10)
-print(task)
-task$data()
+mlr_task_generators$get("smiley")
+tgen("2dnormals")
 }
 \seealso{
 Example generators: \code{\link[=mlr_task_generators_xor]{xor}}
+
+Sugar function: \code{\link[=tgen]{tgen()}}
 
 Other Dictionary: \code{\link{mlr_learners}},
   \code{\link{mlr_measures}},

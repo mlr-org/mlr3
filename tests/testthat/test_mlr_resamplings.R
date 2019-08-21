@@ -4,9 +4,9 @@ test_that("mlr_resamplings", {
   expect_dictionary(mlr_resamplings, min_items = 1L)
   keys = mlr_resamplings$keys()
 
-  task = mlr_tasks$get("iris")
+  task = tsk("iris")
   for (key in keys) {
-    r = mlr_resamplings$get(key)
+    r = rsmp(key)
     expect_resampling(r) # construction works
     expect_false(r$is_instantiated)
     if (key == "custom") {

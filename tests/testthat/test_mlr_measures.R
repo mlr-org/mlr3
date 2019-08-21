@@ -22,13 +22,13 @@ test_that("as.data.table(mlr_measures)", {
 })
 
 test_that("custom aggregation", {
-  task = mlr_tasks$get("wine")
-  lrn = mlr_learners$get("classif.featureless")
+  task = tsk("wine")
+  lrn = lrn("classif.featureless")
 
-  m = mlr_measures$get("classif.ce")
+  m = msr("classif.ce")
   m$id = "max_ce"
   m$aggregator = max
-  measures = list(mlr_measures$get("classif.ce"), m)
+  measures = list(msr("classif.ce"), m)
 
   rr = resample(task, lrn, rsmp("cv", folds = 3))
   perf = rr$performance(measures)

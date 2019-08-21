@@ -93,6 +93,6 @@ Set of required task properties.}
 Functions intended to be used in packages extending \pkg{mlr3}.
 All functions assert on the respective class, and optionally additional properties.
 If an assertion fails, an exception is raised.
-Otherwise, the (possibly altered) object is returned invisibly.
+Otherwise, the input object is returned invisibly.
 }
 \keyword{internal}

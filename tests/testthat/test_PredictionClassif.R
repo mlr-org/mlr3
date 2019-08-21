@@ -1,15 +1,15 @@
 context("PredictionClassif")
 
 test_that("Construction", {
-  task = mlr_tasks$get("iris")
+  task = tsk("iris")
   p = PredictionClassif$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
   expect_prediction(p)
   expect_prediction_classif(p)
 })
 
 test_that("Internally constructed Prediction", {
-  task = mlr_tasks$get("iris")
-  lrn = mlr_learners$get("classif.featureless")
+  task = tsk("iris")
+  lrn = lrn("classif.featureless")
   lrn$predict_type = "prob"
   p = lrn$train(task)$predict(task)
   expect_prediction(p)
@@ -77,8 +77,8 @@ test_that("setting threshold multiclass", {
 })
 
 test_that("confusion", {
-  task = mlr_tasks$get("iris")
-  lrn = mlr_learners$get("classif.featureless")
+  task = tsk("iris")
+  lrn = lrn("classif.featureless")
   lrn$predict_type = "prob"
   p = lrn$train(task)$predict(task)
   cm = p$confusion
@@ -90,8 +90,8 @@ test_that("confusion", {
 })
 
 test_that("c", {
-  task = mlr_tasks$get("iris")
-  lrn = mlr_learners$get("classif.featureless")
+  task = tsk("iris")
+  lrn = lrn("classif.featureless")
   lrn$predict_type = "prob"
   rr = resample(task, lrn, rsmp("cv", folds = 3))
 

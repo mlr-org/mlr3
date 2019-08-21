@@ -1,7 +1,7 @@
 context("mlr_resampling_subsampling")
 
 test_that("subsampling has no duplicated ids", {
-  r = mlr_resamplings$get("subsampling")
+  r = rsmp("subsampling")
   expect_identical(r$duplicated_ids, FALSE)
 })
 

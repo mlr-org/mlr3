@@ -8,7 +8,7 @@
 #' A [TaskGenerator] for the xor task in [mlbench::mlbench.xor()].
 #' @export
 #' @examples
-#' mlr_task_generators$get("xor")$generate(10)$data()
+#' tgen("xor")$generate(10)$data()
 TaskGeneratorXor = R6Class("TaskGeneratorXor",
   inherit = TaskGenerator,
   public = list(

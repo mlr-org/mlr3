@@ -39,11 +39,8 @@ set.seed(1)
 task_iris = TaskClassif$new(id = "iris", backend = iris, target = "Species")
 task_iris
 
-# load learner
-learner = mlr_learners$get("classif.rpart")
-
-# set hyperparameter
-learner$param_set$values = list(cp = 0.01)
+# load learner and set hyperparamter
+learner = lrn("classif.rpart", cp = 0.01)
 ```
 
 ### Basic train + predict

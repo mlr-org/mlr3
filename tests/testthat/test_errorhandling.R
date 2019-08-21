@@ -1,8 +1,8 @@
 context("error handling")
 
 test_that("no encapsulation", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.debug")
+  task = tsk("iris")
+  learner = lrn("classif.debug")
 
   learner$param_set$values = list(error_train = 1)
   expect_error(learner$train(task), "classif.debug->train")
@@ -19,8 +19,8 @@ test_that("no encapsulation / resampling", {
 
 
 test_that("encapsulation", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.debug")
+  task = tsk("iris")
+  learner = lrn("classif.debug")
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 
   learner$param_set$values = list(warning_train = 1)
@@ -56,8 +56,8 @@ test_that("encapsulation", {
 
 
 test_that("encapsulation / resample", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.debug")
+  task = tsk("iris")
+  learner = lrn("classif.debug")
   learner$param_set$values = list(warning_train = 1)
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 
@@ -75,8 +75,8 @@ test_that("encapsulation / resample", {
 })
 
 test_that("encapsulation / benchmark", {
-  task = mlr_tasks$get("iris")
-  learner = mlr_learners$get("classif.debug")
+  task = tsk("iris")
+  learner = lrn("classif.debug")
   learner$param_set$values = list(warning_train = 1)
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 

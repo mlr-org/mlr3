@@ -29,7 +29,7 @@ If \code{TRUE}, calculate the mean costs instead of the total costs.
 
 \examples{
 # get a cost sensitive task
-task = mlr_tasks$get("german_credit")
+task = tsk("german_credit")
 
 # cost matrix as given on the UCI page of the german credit data set
 # https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)
@@ -41,10 +41,11 @@ print(costs)
 costs = t(costs)
 
 # create measure which calculates the absolute costs
-m = MeasureClassifCosts$new(id = "german_credit_costs", costs, normalize = FALSE)
+m = msr("classif.costs", id = "german_credit_costs", costs = costs, normalize = FALSE)
 
 # fit models and calculate costs
-rr = resample(task, "classif.rpart", "cv3")
+learner = lrn("classif.rpart")
+rr = resample(task, learner, rsmp("cv", folds = 3))
 rr$aggregate(m)
 }
 \keyword{datasets}

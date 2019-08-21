@@ -10,6 +10,7 @@ Positive class is set to \code{"pos"}.
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("pima")
+tsk("pima")
 }
 }
 

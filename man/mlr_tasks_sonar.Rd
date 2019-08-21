@@ -10,6 +10,7 @@ Positive class is set to "M" (Mine).
 }
 \section{Usage}{
 \preformatted{mlr_tasks$get("sonar")
+tsk("sonar")
 }
 }
 

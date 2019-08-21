@@ -7,6 +7,7 @@
 #' @section Usage:
 #' ```
 #' mlr_tasks$get("sonar")
+#' tsk("sonar")
 #' ```
 #'
 #' @description

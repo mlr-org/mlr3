@@ -8,7 +8,7 @@
 #' A [TaskGenerator] for the friedman1 task in [mlbench::mlbench.friedman1()].
 #' @export
 #' @examples
-#' mlr_task_generators$get("friedman1")$generate(10)$data()
+#' tgen("friedman1")$generate(10)$data()
 TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
   inherit = TaskGenerator,
   public = list(

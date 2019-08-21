@@ -146,7 +146,7 @@ The learner must be tagged with property \code{"oob_error"}.
 All information about hyperparameters is stored in the slot \code{param_set} which is a \link[paradox:ParamSet]{paradox::ParamSet}.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot \code{values}:\preformatted{lrn = mlr_learners$get("classif.rpart")
+To set hyperparameters, assign a named list to the subslot \code{values}:\preformatted{lrn = lrn("classif.rpart")
 lrn$param_set$values = list(minsplit = 3, cp = 0.01)
 }
 

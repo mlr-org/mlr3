@@ -7,6 +7,7 @@
 #' @section Usage:
 #' ```
 #' mlr_tasks$get("boston_housing")
+#' tsk("boston_housing")
 #' ```
 #'
 #' @description

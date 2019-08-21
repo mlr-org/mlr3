@@ -13,9 +13,9 @@
 #' @return ([data.table::data.table()]) with the cross product of the input vectors.
 #' @export
 #' @examples
-#' tasks = mlr_tasks$mget(c("iris", "sonar"))
-#' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-#' resamplings = mlr_resamplings$mget(c("cv", "subsampling"))
+#' tasks = list(tsk("iris"), tsk("sonar"))
+#' learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
+#' resamplings = list(rsmp("cv"), rsmp("subsampling"))
 #' benchmark_grid(tasks, learners, resamplings)
 benchmark_grid = function(tasks, learners, resamplings) {
   tasks = assert_tasks(as_tasks(tasks))
