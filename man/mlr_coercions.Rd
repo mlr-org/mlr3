@@ -76,13 +76,13 @@ as_resamplings(x, clone = FALSE)
 
 \method{as_resamplings}{character}(x, clone = FALSE)
 
-as_measure(x, clone = FALSE)
+as_measure(x, task_type = NULL, clone = FALSE)
 
-\method{as_measure}{NULL}(x, clone = FALSE)
+\method{as_measure}{NULL}(x, task_type = NULL, clone = FALSE)
 
-\method{as_measure}{Measure}(x, clone = FALSE)
+\method{as_measure}{Measure}(x, task_type = NULL, clone = FALSE)
 
-\method{as_measure}{character}(x, clone = FALSE)
+\method{as_measure}{character}(x, task_type = NULL, clone = FALSE)
 
 as_measures(x, task_type = NULL, clone = FALSE)
 

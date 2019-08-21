@@ -151,34 +151,34 @@ as_resamplings.character = function(x, clone = FALSE) {
 }
 
 #' @export
+#' @param task_type :: `character(1)`\cr
+#'   Used if `x` is `NULL` to construct a default measure for the respective task type.
+#'   The default measures are stored in [`mlr_reflections$default_measures`][mlr_reflections].
 #' @rdname mlr_coercions
-as_measure = function(x, clone = FALSE) {
+as_measure = function(x, task_type = NULL, clone = FALSE) {
   UseMethod("as_measure")
 }
 
 #' @export
 #' @rdname mlr_coercions
-as_measure.NULL = function(x, clone = FALSE) {
+as_measure.NULL = function(x, task_type = NULL, clone = FALSE) {
   default_measures(task_type)[[1L]]
 }
 
 #' @export
 #' @rdname mlr_coercions
-as_measure.Measure = function(x, clone = FALSE) {
+as_measure.Measure = function(x, task_type = NULL, clone = FALSE) {
   if (clone) x$clone() else x
 }
 
 #' @export
 #' @rdname mlr_coercions
-as_measure.character = function(x, clone = FALSE) {
+as_measure.character = function(x, task_type = NULL, clone = FALSE) {
   assert_string(x)
   mlr_measures$get(x)
 }
 
 #' @export
-#' @param task_type :: `character(1)`\cr
-#'   Used if `x` is `NULL` to construct a default measure for the respective task type.
-#'   The default measures are stored in [`mlr_reflections$default_measures`][mlr_reflections].
 #' @rdname mlr_coercions
 as_measures = function(x, task_type = NULL, clone = FALSE) {
   UseMethod("as_measures")
