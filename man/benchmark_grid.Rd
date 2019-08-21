@@ -7,11 +7,11 @@
 benchmark_grid(tasks, learners, resamplings)
 }
 \arguments{
-\item{tasks}{:: list of \link{Task} | \link{mlr_sugar}.}
+\item{tasks}{:: list of \link{Task}.}
 
-\item{learners}{:: list of \link{Learner} | \link{mlr_sugar}.}
+\item{learners}{:: list of \link{Learner}.}
 
-\item{resamplings}{:: list of \link{Resampling} | \link{mlr_sugar}.}
+\item{resamplings}{:: list of \link{Resampling}.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with the cross product of the input vectors.
@@ -21,4 +21,10 @@ Takes a lists of \link{Task}, a list of \link{Learner} and a list of \link{Resam
 generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a. cross join or Cartesian product).
 
 Resampling strategies may not be instantiated, and will be instantiated per task internally.
+}
+\examples{
+tasks = mlr_tasks$mget(c("iris", "sonar"))
+learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
+resamplings = mlr_resamplings$mget(c("cv", "subsampling"))
+benchmark_grid(tasks, learners, resamplings)
 }

@@ -80,7 +80,7 @@ Stores required properties of the \link{Task}.
 Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
 Operates on a \link{ResampleResult} as returned by \link{resample}.
 \item \code{score(prediction, task = NULL, learner = NULL)}\cr
-(\link{Prediction}, \link{Task} | \link{mlr_sugar}, \link{Learner} | \link{mlr_sugar}) -> \code{numeric(1)}\cr
+(\link{Prediction}, \link{Task}, \link{Learner}) -> \code{numeric(1)}\cr
 Takes a \link{Prediction} and calculates a numeric score.
 If the measure if flagged with the properties \code{"requires_task"} or \code{"requires_learner"}, you must additionally
 pass the respective \link{Task} or the \link{Learner} for the measure to extract information from these objects.

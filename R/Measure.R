@@ -88,7 +88,7 @@
 #'   Operates on a [ResampleResult] as returned by [resample].
 #'
 #' * `score(prediction, task = NULL, learner = NULL)`\cr
-#'   ([Prediction], [Task] | [mlr_sugar], [Learner] | [mlr_sugar]) -> `numeric(1)`\cr
+#'   ([Prediction], [Task], [Learner]) -> `numeric(1)`\cr
 #'   Takes a [Prediction] and calculates a numeric score.
 #'   If the measure if flagged with the properties `"requires_task"` or `"requires_learner"`, you must additionally
 #'   pass the respective [Task] or the [Learner] for the measure to extract information from these objects.
@@ -125,7 +125,7 @@ Measure = R6Class("Measure",
       }
       self$properties = assert_subset(properties, mlr_reflections$measure_properties)
       self$predict_type = predict_type
-      self$task_properties = assert_sorted_subset(task_properties, mlr_reflections$task_properties[[task_type]])
+      self$task_properties = assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       self$na_score = assert_flag(na_score)
       self$packages = assert_set(packages)
     },

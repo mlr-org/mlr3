@@ -59,7 +59,7 @@ The hash of the task which was passed to \code{r$instantiate()}.
 
 \itemize{
 \item \code{instantiate(task)}\cr
-\link{Task} | \link{mlr_sugar} -> \code{self}\cr
+\link{Task} -> \code{self}\cr
 Materializes fixed training and test splits for a given task and stores them in \code{r$instance}.
 \item \code{train_set(i)}\cr
 \code{integer(1)} -> (\code{integer()} | \code{character()})\cr

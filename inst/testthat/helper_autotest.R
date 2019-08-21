@@ -179,7 +179,7 @@ run_experiment = function(task, learner) {
   }
 
   mlr3::assert_task(task)
-  learner = mlr3::assert_learner(learner, task = task, clone = TRUE)
+  learner = mlr3::assert_learner(as_learner(learner, clone = TRUE), task = task)
   prediction = NULL
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 

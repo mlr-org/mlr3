@@ -7,11 +7,11 @@
 resample(task, learner, resampling, store_models = FALSE)
 }
 \arguments{
-\item{task}{:: \link{Task} | \link{mlr_sugar}.}
+\item{task}{:: \link{Task}.}
 
-\item{learner}{:: \link{Learner} | \link{mlr_sugar}\cr}
+\item{learner}{:: \link{Learner}.}
 
-\item{resampling}{:: \link{Resampling} | \link{mlr_sugar}\cr}
+\item{resampling}{:: \link{Resampling}.}
 
 \item{store_models}{:: \code{logical(1)}\cr
 Keep the fitted model after the test set has been predicted?

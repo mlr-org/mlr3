@@ -6,18 +6,21 @@
 #'
 #' Resampling strategies may not be instantiated, and will be instantiated per task internally.
 #'
-#' @param tasks :: list of [Task] | [mlr_sugar].
-#' @param learners :: list of [Learner] | [mlr_sugar].
-#' @param resamplings :: list of [Resampling] | [mlr_sugar].
+#' @param tasks :: list of [Task].
+#' @param learners :: list of [Learner].
+#' @param resamplings :: list of [Resampling].
 #'
 #' @return ([data.table::data.table()]) with the cross product of the input vectors.
 #' @export
+#' @examples
+#' tasks = mlr_tasks$mget(c("iris", "sonar"))
+#' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
+#' resamplings = mlr_resamplings$mget(c("cv", "subsampling"))
+#' benchmark_grid(tasks, learners, resamplings)
 benchmark_grid = function(tasks, learners, resamplings) {
-
-  tasks = assert_tasks(tasks)
-  learners = assert_learners(learners)
-  resamplings = assert_resamplings(resamplings)
-  assert_resamplings(resamplings, instantiated = FALSE)
+  tasks = assert_tasks(as_tasks(tasks))
+  learners = assert_learners(as_learners(learners))
+  resamplings = assert_resamplings(as_resamplings(resamplings), instantiated = FALSE)
 
   grid = CJ(task = seq_along(tasks), resampling = seq_along(resamplings))
   instances = pmap(grid, function(task, resampling) resamplings[[resampling]]$clone()$instantiate(tasks[[task]]))

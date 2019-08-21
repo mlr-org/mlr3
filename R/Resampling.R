@@ -59,7 +59,7 @@
 #'
 #' @section Methods:
 #' * `instantiate(task)`\cr
-#'   [Task] | [mlr_sugar] -> `self`\cr
+#'   [Task] -> `self`\cr
 #'   Materializes fixed training and test splits for a given task and stores them in `r$instance`.
 #'
 #' * `train_set(i)`\cr
@@ -129,7 +129,7 @@ Resampling = R6Class("Resampling",
     },
 
     instantiate = function(task) {
-      assert_task(task)
+      task = assert_task(as_task(task))
       groups = task$groups
 
       stratify = self$param_set$values$stratify

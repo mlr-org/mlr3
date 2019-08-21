@@ -56,7 +56,7 @@
 #'
 #' @section Methods:
 #' * `performance(measures = NULL, ids = TRUE)`\cr
-#'   (list of [Measure] | [mlr_sugar], `logical(1)`) -> [data.table::data.table()]\cr
+#'   (list of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects:
 #'   [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
 #'   A column with the individual (per resampling iteration) performance is added for each [Measure], named with the id of the respective measure.
@@ -64,7 +64,7 @@
 #'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'
 #' * `aggregate(measures = NULL)`\cr
-#'   list of [Measure] | [mlr_sugar] -> named `numeric()`\cr
+#'   list of [Measure] -> named `numeric()`\cr
 #'   Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in [Measure].
 #'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'
@@ -97,7 +97,6 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     print = function() {
-
       catf("%s of %i iterations", format(self), nrow(self$data))
       catf(str_indent("* Task:", self$task$id))
       catf(str_indent("* Learner:", self$data$learner[[1L]]$id))
@@ -112,11 +111,12 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     performance = function(measures = NULL, ids = TRUE) {
-      measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]], default = self$task$task_type)
+      measures = as_measures(measures, task_type = self$task$task_type)
+      assert_measures(measures, task = self$task, learner = self$learners[[1L]])
       assert_flag(ids)
       tab = copy(self$data)
 
-      if (!is.null(measures)) {
+      if (length(measures)) {
         score = function(prediction, task, learner, resampling, iteration) {
           if (is.null(prediction)) {
             set_names(list(NA_real_), ids(measures))
@@ -136,7 +136,8 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     aggregate = function(measures = NULL) {
-      measures = assert_measures(measures, task = self$task, learner = self$data$learner[[1L]], default = self$task$task_type)
+      measures = as_measures(measures, task_type = self$task$task_type)
+      assert_measures(measures, task = self$task, learner = self$learners[[1L]])
       set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
     }
   ),
