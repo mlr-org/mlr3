@@ -68,18 +68,18 @@ rr = resample(task, learner, resampling)
 print(rr)
 
 # retrieve performance
-rr$performance("classif.ce")
-rr$aggregate("classif.ce")
+rr$performance(msr("classif.ce"))
+rr$aggregate(msr("classif.ce"))
 
 # merged prediction objects of all resampling iterations
 pred = rr$prediction
 pred$confusion
 
 # Repeat resampling with featureless learner
-rr.featureless = resample(task, "classif.featureless", resampling)
+rr_featureless = resample(task, lrn("classif.featureless"), resampling)
 
 # Convert results to BenchmarkResult, then combine them
 bmr1 = as_benchmark_result(rr)
-bmr2 = as_benchmark_result(rr.featureless)
+bmr2 = as_benchmark_result(rr_featureless)
 print(bmr1$combine(bmr2))
 }

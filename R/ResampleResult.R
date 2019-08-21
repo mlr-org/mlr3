@@ -74,9 +74,13 @@
 #'   Returns a copy of the internal data.
 #' @export
 #' @examples
-#' rr = resample("iris", "classif.featureless", rsmp("cv", folds = 3))
+#' task = tsk("iris")
+#' learner = lrn("classif.rpart")
+#' resampling = rsmp("cv", folds = 3)
+#' rr = resample(task, learner, resampling)
 #' print(rr)
-#' rr$aggregate("classif.acc")
+#'
+#' rr$aggregate(msr("classif.acc"))
 #' rr$prediction
 #' rr$prediction$confusion
 #' rr$warnings
