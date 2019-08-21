@@ -4,6 +4,13 @@
 #' @format [R6::R6Class] inheriting from [TaskGenerator].
 #' @include TaskGenerator.R
 #'
+#' @section Construction:
+#' ```
+#' TaskGeneratorFriedman1$new()
+#' mlr_task_generators$get("friedman1")
+#' tgen("friedman1")
+#' ```
+#'
 #' @description
 #' A [TaskGenerator] for the friedman1 task in [mlbench::mlbench.friedman1()].
 #' @export
@@ -12,11 +19,11 @@
 TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
   inherit = TaskGenerator,
   public = list(
-    initialize = function(id = "friedman1") {
+    initialize = function() {
       param_set = ParamSet$new(list(
         ParamDbl$new("sd", lower = 0L, default = 1)
       ))
-      super$initialize(id = id, "regr", "mlbench", param_set)
+      super$initialize(id = "friedman1", "regr", "mlbench", param_set)
     }
   ),
 

@@ -4,6 +4,12 @@
 #' @format [R6::R6Class()] inheriting from [Resampling].
 #' @include Resampling.R
 #'
+#' @section Construction:
+#' ```
+#' ResamplingRepeatedCV$new()
+#' mlr_resamplings$get("repeated_cv")
+#' ```
+#'
 #' @description
 #' `repeats` (default: 10) times repeated `folds`-fold (default: 10) cross-validation.
 #'
@@ -48,15 +54,15 @@
 #' rrcv$instance # table
 ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
   public = list(
-    initialize = function(id = "repeated_cv", param_vals = list(repeats = 10L, folds = 10L)) {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "repeated_cv",
         param_set = ParamSet$new(params = list(
           ParamUty$new("stratify", default = NULL),
           ParamInt$new("repeats", lower = 1),
           ParamInt$new("folds", lower = 1L, tags = "required")
         )),
-        param_vals = param_vals
+        param_vals = list(repeats = 10L, folds = 10L)
       )
     },
 

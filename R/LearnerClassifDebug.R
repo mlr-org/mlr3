@@ -4,6 +4,13 @@
 #' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @include LearnerClassif.R
 #'
+#' @section Construction:
+#' ```
+#' LearnerClassifDebug$new()
+#' mlr_learners$get("classif.debug")
+#' lrn("classif.debug")
+#' ```
+#'
 #' @description
 #' A simple [LearnerClassif] used primarily in the unit tests and for debugging purposes.
 #' If no hyperparameter is set, it simply constantly predicts a randomly selected label.
@@ -37,9 +44,9 @@
 #' names(learner$model)
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "classif.debug") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "classif.debug",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(

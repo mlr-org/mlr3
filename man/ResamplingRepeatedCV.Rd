@@ -16,6 +16,12 @@ The iteration counter translates to \code{repeats} blocks of \code{folds}
 cross-validations, i.e., the first \code{folds} iterations belong to
 a single cross-validation.
 }
+\section{Construction}{
+\preformatted{ResamplingRepeatedCV$new()
+mlr_resamplings$get("repeated_cv")
+}
+}
+
 \section{Fields}{
 
 See \link{Resampling}.

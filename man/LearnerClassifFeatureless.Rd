@@ -18,4 +18,11 @@ Hyperparameter \code{method} determines the mode of operation during prediction:
 \item{weighed.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
 }
 }
+\section{Construction}{
+\preformatted{LearnerClassifFeatureless$new()
+mlr_learners$get("classif.featureless")
+lrn("classif.featureless")
+}
+}
+
 \keyword{datasets}

@@ -4,6 +4,13 @@
 #' @format [R6::R6Class] inheriting from [TaskGenerator].
 #' @include TaskGenerator.R
 #'
+#' @section Construction:
+#' ```
+#' TaskGeneratorSmiley$new()
+#' mlr_task_generators$get("smiley")
+#' tgen("smiley")
+#' ```
+#'
 #' @description
 #' A [TaskGenerator] for the smiley task in [mlbench::mlbench.smiley()].
 #' @export
@@ -12,12 +19,12 @@
 TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
   inherit = TaskGenerator,
   public = list(
-    initialize = function(id = "smiley") {
+    initialize = function() {
       param_set = ParamSet$new(list(
         ParamDbl$new("sd1", lower = 0L),
         ParamDbl$new("sd2", lower = 0L)
       ))
-      super$initialize(id = id, "classif", "mlbench", param_set)
+      super$initialize(id = "smiley", "classif", "mlbench", param_set)
     }
   ),
 

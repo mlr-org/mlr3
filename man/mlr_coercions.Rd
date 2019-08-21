@@ -78,7 +78,7 @@ as_resamplings(x, clone = FALSE)
 
 as_measure(x, clone = FALSE)
 
-\method{as_measure}{NULL}(x, task_type = NULL, clone = FALSE)
+\method{as_measure}{NULL}(x, clone = FALSE)
 
 \method{as_measure}{Measure}(x, clone = FALSE)
 

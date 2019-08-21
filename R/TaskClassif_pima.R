@@ -4,7 +4,7 @@
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
 #'
-#' @section Usage:
+#' @section Construction:
 #' ```
 #' mlr_tasks$get("pima")
 #' tsk("pima")

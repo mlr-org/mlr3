@@ -4,6 +4,13 @@
 #' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @include LearnerClassif.R
 #'
+#' @section Construction:
+#' ```
+#' LearnerClassifRpart$new()
+#' mlr_learners$get("classif.rpart")
+#' lrn("classif.rpart")
+#' ```
+#'
 #' @description
 #' A [LearnerClassif] for a classification tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
 #' Parameter `xval` is set to 0 in order to save some computation time.
@@ -17,9 +24,9 @@
 #' @export
 LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "classif.rpart") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "classif.rpart",
         packages = "rpart",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),

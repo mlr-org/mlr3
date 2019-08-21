@@ -6,10 +6,14 @@
 \alias{mlr_measures_classif.acc}
 \title{Accuracy Classification Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
-\usage{
-MeasureClassifACC
-}
 \description{
 Calls \code{\link[Metrics:accuracy]{Metrics::accuracy()}}.
 }
+\section{Construction}{
+\preformatted{MeasureClassifACC$new()
+mlr_measures$get("classif.acc")
+msr("classif.acc")
+}
+}
+
 \keyword{datasets}

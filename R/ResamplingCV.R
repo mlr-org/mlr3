@@ -4,6 +4,12 @@
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'
+#' @section Construction:
+#' ```
+#' ResamplingCV$new()
+#' mlr_resamplings$get("cv")
+#' ```
+#'
 #' @description
 #' Cross validation with `folds` folds (default: 10 folds).
 #'
@@ -32,14 +38,14 @@
 #' rcv$instance # table
 ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
-    initialize = function(id = "cv", param_vals = list(folds = 10L)) {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "cv",
         param_set = ParamSet$new(params = list(
           ParamUty$new("stratify", default = NULL),
           ParamInt$new("folds", lower = 1L, tags = "required")
         )),
-        param_vals = param_vals
+        param_vals = list(folds = 10L)
       )
     }
   ),

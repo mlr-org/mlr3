@@ -1,12 +1,22 @@
 #' @title Selected Features Measure
 #'
+#' @usage NULL
 #' @aliases mlr_measures_selected_features
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'
+#' @section Construction:
+#' ```
+#' MeasureSelectedFeatures$new(normalize = FALSE)
+#' mlr_measures$get("selected_features")
+#' msr("selected_features")
+#' ```
+#'
+#' * `normalize` :: `logical(1)`\cr
+#' If `normalize` is set to `TRUE`, divides the number of features by the total number of features.
+#'
 #' @description
 #' Measures the number of selected features.
-#' If field `normalize` is set to `TRUE`, divides the number of features by the total number of available features.
 #'
 #' @export
 MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",

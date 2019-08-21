@@ -4,6 +4,13 @@
 #' @format [R6::R6Class] inheriting from [TaskGenerator].
 #' @include TaskGenerator.R
 #'
+#' @section Construction:
+#' ```
+#' TaskGeneratorXor$new()
+#' mlr_task_generators$get("xor")
+#' tgen("xor")
+#' ```
+#'
 #' @description
 #' A [TaskGenerator] for the xor task in [mlbench::mlbench.xor()].
 #' @export
@@ -12,11 +19,11 @@
 TaskGeneratorXor = R6Class("TaskGeneratorXor",
   inherit = TaskGenerator,
   public = list(
-    initialize = function(id = "xor") {
+    initialize = function() {
       param_set = ParamSet$new(list(
         ParamInt$new("d", lower = 1L)
       ))
-      super$initialize(id = id, "classif", "mlbench", param_set)
+      super$initialize(id = "xor", "classif", "mlbench", param_set)
     }
   ),
 

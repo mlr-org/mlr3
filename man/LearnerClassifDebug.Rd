@@ -29,6 +29,13 @@ The following hyperparameters trigger the following actions:
 Note that segfaults may not work on your operating system.
 Also note that if they work, they will tear down your R session immediately!
 }
+\section{Construction}{
+\preformatted{LearnerClassifDebug$new()
+mlr_learners$get("classif.debug")
+lrn("classif.debug")
+}
+}
+
 \examples{
 learner = lrn("classif.debug")
 learner$param_set$values = list(message_train = 1, save_tasks = TRUE)

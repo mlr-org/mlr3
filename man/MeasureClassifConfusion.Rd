@@ -22,16 +22,57 @@
 \alias{mlr_measures_classif.specificity}
 \title{Binary Classification Measures Derived from a Confusion Matrix}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
-\usage{
-MeasureClassifConfusion
-}
 \description{
 All implemented \link{Measure}s call \code{\link[=confusion_measures]{confusion_measures()}} with the respective \code{type} internally.
 }
+\section{Construction}{
+\preformatted{MeasureClassifConfusion$new(id = type, type)
+
+mlr_measures("classif.tp")
+mlr_measures("classif.fn")
+mlr_measures("classif.fp")
+mlr_measures("classif.tn")
+mlr_measures("classif.tpr")
+mlr_measures("classif.fnr")
+mlr_measures("classif.fpr")
+mlr_measures("classif.tnr")
+mlr_measures("classif.ppv")
+mlr_measures("classif.fdr")
+mlr_measures("classif.for")
+mlr_measures("classif.npv")
+mlr_measures("classif.precision")
+mlr_measures("classif.recall")
+mlr_measures("classif.sensitivity")
+mlr_measures("classif.specificity")
+
+msr("classif.tp")
+msr("classif.fn")
+msr("classif.fp")
+msr("classif.tn")
+msr("classif.tpr")
+msr("classif.fnr")
+msr("classif.fpr")
+msr("classif.tnr")
+msr("classif.ppv")
+msr("classif.fdr")
+msr("classif.for")
+msr("classif.npv")
+msr("classif.precision")
+msr("classif.recall")
+msr("classif.sensitivity")
+msr("classif.specificity")
+}
+\itemize{
+\item \code{type} :: \code{character(1)}\cr
+See \code{\link[=confusion_measures]{confusion_measures()}}.
+}
+}
+
 \examples{
 task = tsk("german_credit")
 learner = lrn("classif.rpart")
 p = learner$train(task)$predict(task)
-round(p$score(c("classif.sensitivity", "classif.specificity")), 2)
+measures = list(msr("classif.sensitivity"), msr("classif.specificity"))
+round(p$score(measures), 2)
 }
 \keyword{datasets}

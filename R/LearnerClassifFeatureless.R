@@ -4,6 +4,13 @@
 #' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @include LearnerClassif.R
 #'
+#' @section Construction:
+#' ```
+#' LearnerClassifFeatureless$new()
+#' mlr_learners$get("classif.featureless")
+#' lrn("classif.featureless")
+#' ```
+#'
 #' @description
 #' A simple [LearnerClassif] which only analyses the labels during train, ignoring all features.
 #' Hyperparameter `method` determines the mode of operation during prediction:
@@ -15,9 +22,9 @@
 #' @export
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
   public = list(
-    initialize = function(id = "classif.featureless") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "classif.featureless",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "prob"),
         param_set = ParamSet$new(

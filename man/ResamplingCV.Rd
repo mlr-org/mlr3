@@ -12,6 +12,12 @@ ResamplingCV
 \description{
 Cross validation with \code{folds} folds (default: 10 folds).
 }
+\section{Construction}{
+\preformatted{ResamplingCV$new()
+mlr_resamplings$get("cv")
+}
+}
+
 \section{Fields}{
 
 See \link{Resampling}.

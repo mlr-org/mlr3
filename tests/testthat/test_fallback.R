@@ -2,23 +2,20 @@ context("fallback")
 
 test_that("train fails gracefully", {
   task = tsk("iris")
-  learner = lrn("classif.debug")
-  learner$param_set$values = list(error_train = 1)
+  learner = lrn("classif.debug", error_train = 1)
   expect_error(learner$train(task), "'classif.debug'")
 })
 
 test_that("predict fails gracefully", {
   task = tsk("iris")
-  learner = lrn("classif.debug")
-  learner$param_set$values = list(error_predict = 1)
+  learner = lrn("classif.debug", error_predict = 1)
   learner$train(task)
   expect_error(learner$predict(task), "'classif.debug'")
 })
 
 test_that("fail during train", {
   task = tsk("iris")
-  learner = lrn("classif.debug")
-  learner$param_set$values = list(error_train = 1)
+  learner = lrn("classif.debug", error_train = 1)
   learner$encapsulate = c(train = "evaluate", predict = "none")
   learner$fallback = lrn("classif.featureless")
   learner$train(task)
@@ -32,8 +29,7 @@ test_that("fail during train", {
 
 test_that("fail during predict", {
   task = tsk("iris")
-  learner = lrn("classif.debug")
-  learner$param_set$values = list(error_predict = 1)
+  learner = lrn("classif.debug", error_predict = 1)
   learner$encapsulate = c(predict = "evaluate")
   learner$fallback = lrn("classif.featureless")
   learner$train(task)
@@ -47,8 +43,7 @@ test_that("fail during predict", {
 
 test_that("fail during resample", {
   task = tsk("iris")
-  learner = lrn("classif.debug")
-  learner$param_set$values = list(error_predict = 1)
+  learner = lrn("classif.debug", error_predict = 1)
   learner$encapsulate = c(predict = "evaluate")
   learner$fallback = lrn("classif.featureless")
 

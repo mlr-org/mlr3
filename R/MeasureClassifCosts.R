@@ -1,27 +1,28 @@
 #' @title Cost-sensitive Classification Measure
 #'
+#' @usage NULL
 #' @aliases mlr_measures_classif.costs
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'
-#' @description
-#' Uses a cost matrix to create a classification measure.
-#' The cost matrix is stored as slot "costs".
-#' Costs are aggregated with the mean.
-#'
 #' @section Construction:
 #' ```
 #' MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
+#' mlr_measures$get("classif.costs")
+#' msr("classif.costs")
 #' ```
-#'
-#' * `id` :: `character(1)`\cr
-#'   Identifier for the measure.
 #'
 #' * `costs` :: `matrix()`\cr
 #'   Numeric matrix of costs (truth in columns, predicted response in rows).
 #'
 #' * `normalize` :: `logical(1)`\cr
 #'   If `TRUE`, calculate the mean costs instead of the total costs.
+#'
+#' @description
+#' Uses a cost matrix to create a classification measure.
+#' True labels must be arranged in columns, predicted labels must be arranged  in rows.
+#' The cost matrix is stored as slot `$costs`.
+#' Costs are aggregated with the mean.
 #'
 #' @export
 #' @examples
@@ -49,9 +50,9 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
   public = list(
     normalize = NULL,
 
-    initialize = function(id = "classif.costs", costs = NULL, normalize = TRUE) {
+    initialize = function(costs = NULL, normalize = TRUE) {
       super$initialize(
-        id = id,
+        id = "classif.costs",
         properties = "requires_task",
         range = c(-Inf, Inf),
         minimize = TRUE

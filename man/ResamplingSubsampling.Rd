@@ -13,6 +13,12 @@ ResamplingSubsampling
 \code{repeats} (default: 30) times repeated splits into training and test set
 with a ratio of \code{ratio} (default: 2/3) observations in the training set.
 }
+\section{Construction}{
+\preformatted{ResamplingSubsampling$new()
+mlr_resamplings$get("subsampling")
+}
+}
+
 \section{Fields}{
 
 See \link{Resampling}.

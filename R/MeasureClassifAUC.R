@@ -1,8 +1,16 @@
 #' @title Area Under the Curve Classification Measure
 #'
+#' @usage NULL
 #' @aliases mlr_measures_classif.auc
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
+#'
+#' @section Construction:
+#' ```
+#' MeasureClassifAUC$new()
+#' mlr_measures$get("classif.auc")
+#' msr("classif.auc")
+#' ```
 #'
 #' @description
 #' Calls [Metrics::auc()].

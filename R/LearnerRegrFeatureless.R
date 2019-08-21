@@ -4,6 +4,13 @@
 #' @format [R6::R6Class] inheriting from [LearnerRegr].
 #' @include LearnerRegr.R
 #'
+#' @section Construction:
+#' ```
+#' LearnerRegrFeatureless$new()
+#' mlr_learners$get("regr.featureless")
+#' lrn("regr.featureless")
+#' ```
+#'
 #' @description
 #' A simple [LearnerRegr] which only analyses the response during train, ignoring all features.
 #' If hyperparameter `robust` is `FALSE` (default), constantly predicts `mean(y)` as response
@@ -13,9 +20,9 @@
 #' @export
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(
-    initialize = function(id = "regr.featureless") {
+    initialize = function() {
       super$initialize(
-        id = id,
+        id = "regr.featureless",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "se"),
         param_set = ParamSet$new(

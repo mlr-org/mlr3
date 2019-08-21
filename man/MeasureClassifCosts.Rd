@@ -6,20 +6,18 @@
 \alias{mlr_measures_classif.costs}
 \title{Cost-sensitive Classification Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
-\usage{
-MeasureClassifCosts
-}
 \description{
 Uses a cost matrix to create a classification measure.
-The cost matrix is stored as slot "costs".
+True labels must be arranged in columns, predicted labels must be arranged  in rows.
+The cost matrix is stored as slot \code{$costs}.
 Costs are aggregated with the mean.
 }
 \section{Construction}{
 \preformatted{MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
+mlr_measures$get("classif.costs")
+msr("classif.costs")
 }
 \itemize{
-\item \code{id} :: \code{character(1)}\cr
-Identifier for the measure.
 \item \code{costs} :: \code{matrix()}\cr
 Numeric matrix of costs (truth in columns, predicted response in rows).
 \item \code{normalize} :: \code{logical(1)}\cr

@@ -7,8 +7,7 @@ test_that("repeated cv has no duplicated ids", {
 
 test_that("folds first, then repetitions", {
   task = tsk("iris")
-  rrcv = rsmp("repeated_cv")
-  rrcv$param_set$values = list(repeats = 2, folds = 3)
+  rrcv = rsmp("repeated_cv", repeats = 2, folds = 3)
   rrcv$instantiate(task)
 
   expect_integer(intersect(intersect(rrcv$test_set(1), rrcv$test_set(2)), rrcv$test_set(3)), len = 0L)
@@ -21,8 +20,7 @@ test_that("stratification", {
   data = data.table(y = rep(letters[1:2], times = c(90, 10)), x1 = runif(100), x2 = rep(LETTERS[1:2], times = c(50, 50)))
   task = TaskClassif$new("stratify_data", data, target = "y")
 
-  r = rsmp("repeated_cv")
-  r$param_set$values = list(folds = 5, repeats = 2, stratify = TRUE)
+  r = rsmp("repeated_cv", folds = 5, repeats = 2, stratify = TRUE)
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {
@@ -34,7 +32,6 @@ test_that("stratification", {
 })
 
 test_that("grouping", {
-  r = rsmp("repeated_cv")
-  r$param_set$values = list(folds = 5, repeats = 2)
+  r = rsmp("repeated_cv", folds = 5, repeats = 2)
   expect_grouping_works(r)
 })

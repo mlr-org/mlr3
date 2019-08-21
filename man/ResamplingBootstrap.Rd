@@ -14,6 +14,12 @@ Simple Bootstrap sampling.
 Hyperparameters are the number of bootstrap iterations (\code{repeats}, default: 30)
 and the ratio of observations to draw per iteration (\code{ratio}, default: 1).
 }
+\section{Construction}{
+\preformatted{ResamplingBootstrap$new()
+mlr_resamplings$get("bootstrap")
+}
+}
+
 \section{Fields}{
 
 See \link{Resampling}.
@@ -30,8 +36,7 @@ task = tsk("iris")
 task$filter(1:10)
 
 # Instantiate Resampling
-rb = rsmp("bootstrap")
-rb$param_set$values = list(repeats = 2, ratio = 1)
+rb = rsmp("bootstrap", repeats = 2, ratio = 1)
 rb$instantiate(task)
 
 # Individual sets:

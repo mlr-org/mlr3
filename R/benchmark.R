@@ -57,7 +57,7 @@
 #' tasks = list(tsk("iris"), tsk("sonar"))
 #' learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
 #' resamplings = list(rsmp("cv", folds = 3), rsmp("holdout"))
-#' )
+#'
 #' design = data.table::data.table(
 #'   task = tasks,
 #'   learner = learners,

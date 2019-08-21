@@ -1,8 +1,16 @@
 #' @title F1 Classification Measure
 #'
+#' @usage NULL
 #' @aliases mlr_measures_classif.f1
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
+#'
+#' @section Construction:
+#' ```
+#' MeasureClassifF1$new()
+#' mlr_measures$get("classif.f1")
+#' msr("classif.f1")
+#' ```
 #'
 #' @description
 #' Calls [Metrics::f1()].

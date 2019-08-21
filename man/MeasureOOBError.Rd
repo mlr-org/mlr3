@@ -6,11 +6,16 @@
 \alias{mlr_measures_oob_error}
 \title{Out-of-bag Error Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
-\usage{
-MeasureOOBError
-}
 \description{
-Returns the out-of-bag error of the learner for learners that support it
-(these learners have property "oob_error").
+Returns the out-of-bag error of the \link{Learner} for learners that support it
+(learners with property \code{"oob_error"}).
+Returns \code{NA} for unsupported learners.
 }
+\section{Construction}{
+\preformatted{MeasureOOBError$new()
+mlr_measures$get("oob_error")
+msr("oob_error")
+}
+}
+
 \keyword{datasets}

@@ -19,8 +19,7 @@ test_that("variable importance", {
 
 test_that("selected_features", {
   task = TaskRegr$new("foo", as_data_backend(cbind(iris, data.frame(unimportant = runif(150)))), target = "Sepal.Length")
-  learner = lrn("regr.rpart")
-  learner$param_set$values = insert_named(learner$param_set$values, list(maxdepth = 2))
+  learner = lrn("regr.rpart", maxdepth = 2)
   sf = learner$train(task)$selected_features()
   expect_subset(sf, task$feature_names, empty.ok = FALSE)
 })

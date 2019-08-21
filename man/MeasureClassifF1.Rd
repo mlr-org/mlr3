@@ -6,10 +6,14 @@
 \alias{mlr_measures_classif.f1}
 \title{F1 Classification Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
-\usage{
-MeasureClassifF1
-}
 \description{
 Calls \code{\link[Metrics:f1]{Metrics::f1()}}.
 }
+\section{Construction}{
+\preformatted{MeasureClassifF1$new()
+mlr_measures$get("classif.f1")
+msr("classif.f1")
+}
+}
+
 \keyword{datasets}

@@ -13,6 +13,13 @@ LearnerClassifRpart
 A \link{LearnerClassif} for a classification tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
 Parameter \code{xval} is set to 0 in order to save some computation time.
 }
+\section{Construction}{
+\preformatted{LearnerClassifRpart$new()
+mlr_learners$get("classif.rpart")
+lrn("classif.rpart")
+}
+}
+
 \references{
 Breiman, L. (1984).
 Classification and Regression Trees.
