@@ -6,9 +6,6 @@
 \alias{mlr_learners_classif.rpart}
 \title{Classification Tree Learner}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerClassif}.}
-\usage{
-LearnerClassifRpart
-}
 \description{
 A \link{LearnerClassif} for a classification tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
 Parameter \code{xval} is set to 0 in order to save some computation time.

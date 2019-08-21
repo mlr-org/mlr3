@@ -1,5 +1,6 @@
 #' @title Bootstrap Resampling
 #'
+#' @usage NULL
 #' @aliases mlr_resamplings_bootstrap
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
@@ -8,6 +9,7 @@
 #' ```
 #' ResamplingBootstrap$new()
 #' mlr_resamplings$get("bootstrap")
+#' rsmp("bootstrap")
 #' ```
 #'
 #' @description

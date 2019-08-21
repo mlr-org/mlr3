@@ -1,5 +1,6 @@
 #' @title Repeated Cross Validation Resampling
 #'
+#' @usage NULL
 #' @aliases mlr_resamplings_repeated_cv
 #' @format [R6::R6Class()] inheriting from [Resampling].
 #' @include Resampling.R
@@ -8,6 +9,7 @@
 #' ```
 #' ResamplingRepeatedCV$new()
 #' mlr_resamplings$get("repeated_cv")
+#' rsmp("repeated_cv")
 #' ```
 #'
 #' @description

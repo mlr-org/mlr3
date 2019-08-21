@@ -6,9 +6,6 @@
 \alias{mlr_resamplings_holdout}
 \title{Holdout Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
-\usage{
-ResamplingHoldout
-}
 \description{
 Splits data into a single training set and a test set.
 Parameter \code{ratio} determines the ratio of observation in the train set (default: 2/3).
@@ -16,6 +13,7 @@ Parameter \code{ratio} determines the ratio of observation in the train set (def
 \section{Construction}{
 \preformatted{ResamplingHoldout$new()
 mlr_resamplings$get("holdout")
+rsmp("holdout")
 }
 }
 

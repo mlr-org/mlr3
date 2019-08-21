@@ -6,15 +6,13 @@
 \alias{mlr_resamplings_cv}
 \title{Cross Validation Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
-\usage{
-ResamplingCV
-}
 \description{
 Cross validation with \code{folds} folds (default: 10 folds).
 }
 \section{Construction}{
 \preformatted{ResamplingCV$new()
 mlr_resamplings$get("cv")
+rsmp("cv")
 }
 }
 

@@ -6,9 +6,6 @@
 \alias{mlr_learners_classif.featureless}
 \title{Featureless Classification Learner}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerClassif}.}
-\usage{
-LearnerClassifFeatureless
-}
 \description{
 A simple \link{LearnerClassif} which only analyses the labels during train, ignoring all features.
 Hyperparameter \code{method} determines the mode of operation during prediction:

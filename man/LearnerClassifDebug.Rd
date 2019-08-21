@@ -6,9 +6,6 @@
 \alias{mlr_learners_classif.debug}
 \title{Classification Learner for Debugging}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerClassif}.}
-\usage{
-LearnerClassifDebug
-}
 \description{
 A simple \link{LearnerClassif} used primarily in the unit tests and for debugging purposes.
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.

@@ -6,9 +6,6 @@
 \alias{mlr_resamplings_custom}
 \title{Custom Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
-\usage{
-ResamplingCustom
-}
 \description{
 A custom resampling class where the training and test indices can be set manually during
 instantiation.
@@ -16,6 +13,7 @@ instantiation.
 \section{Construction}{
 \preformatted{ResamplingCustom$new()
 mlr_resamplings$get("custom")
+rsmp("custom")
 }
 }
 

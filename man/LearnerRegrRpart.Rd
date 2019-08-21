@@ -6,9 +6,6 @@
 \alias{mlr_learners_regr.rpart}
 \title{Regression Tree Learner}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerRegr}.}
-\usage{
-LearnerRegrRpart
-}
 \description{
 A \link{LearnerRegr} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
 Parameter \code{xval} is set to 0 in order to save some computation time.

@@ -6,9 +6,6 @@
 \alias{mlr_resamplings_repeated_cv}
 \title{Repeated Cross Validation Resampling}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Resampling}.}
-\usage{
-ResamplingRepeatedCV
-}
 \description{
 \code{repeats} (default: 10) times repeated \code{folds}-fold (default: 10) cross-validation.
 
@@ -19,6 +16,7 @@ a single cross-validation.
 \section{Construction}{
 \preformatted{ResamplingRepeatedCV$new()
 mlr_resamplings$get("repeated_cv")
+rsmp("repeated_cv")
 }
 }
 

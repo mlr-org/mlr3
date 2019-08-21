@@ -1,5 +1,6 @@
 #' @title Classification Learner for Debugging
 #'
+#' @usage NULL
 #' @aliases mlr_learners_classif.debug
 #' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @include LearnerClassif.R

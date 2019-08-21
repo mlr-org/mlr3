@@ -1,5 +1,6 @@
 #' @title Subsampling Resampling
 #'
+#' @usage NULL
 #' @aliases mlr_resamplings_subsampling
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
@@ -8,6 +9,7 @@
 #' ```
 #' ResamplingSubsampling$new()
 #' mlr_resamplings$get("subsampling")
+#' rsmp("subsampling")
 #' ```
 #'
 #' @description

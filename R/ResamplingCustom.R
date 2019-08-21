@@ -1,5 +1,6 @@
 #' @title Custom Resampling
 #'
+#' @usage NULL
 #' @aliases mlr_resamplings_custom
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
@@ -8,6 +9,7 @@
 #' ```
 #' ResamplingCustom$new()
 #' mlr_resamplings$get("custom")
+#' rsmp("custom")
 #' ```
 #'
 #' @description

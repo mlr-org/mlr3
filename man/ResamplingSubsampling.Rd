@@ -6,9 +6,6 @@
 \alias{mlr_resamplings_subsampling}
 \title{Subsampling Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
-\usage{
-ResamplingSubsampling
-}
 \description{
 \code{repeats} (default: 30) times repeated splits into training and test set
 with a ratio of \code{ratio} (default: 2/3) observations in the training set.
@@ -16,6 +13,7 @@ with a ratio of \code{ratio} (default: 2/3) observations in the training set.
 \section{Construction}{
 \preformatted{ResamplingSubsampling$new()
 mlr_resamplings$get("subsampling")
+rsmp("subsampling")
 }
 }
 

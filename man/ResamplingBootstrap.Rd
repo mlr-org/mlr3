@@ -6,9 +6,6 @@
 \alias{mlr_resamplings_bootstrap}
 \title{Bootstrap Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
-\usage{
-ResamplingBootstrap
-}
 \description{
 Simple Bootstrap sampling.
 Hyperparameters are the number of bootstrap iterations (\code{repeats}, default: 30)
@@ -17,6 +14,7 @@ and the ratio of observations to draw per iteration (\code{ratio}, default: 1).
 \section{Construction}{
 \preformatted{ResamplingBootstrap$new()
 mlr_resamplings$get("bootstrap")
+rsmp("bootstrap")
 }
 }
 
