@@ -101,6 +101,10 @@ Object to coerce.}
 \item{clone}{:: \code{logical(1)}\cr
 If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}, e.g.
 by cloning it or constructing it from a \link{Dictionary}.}
+
+\item{task_type}{:: \code{character(1)}\cr
+Used if \code{x} is \code{NULL} to construct a default measure for the respective task type.
+The default measures are stored in \code{\link[=mlr_reflections]{mlr_reflections$default_measures}}.}
 }
 \value{
 Coerced object. The default method will return the object as-is.
