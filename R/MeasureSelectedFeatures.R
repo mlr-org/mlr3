@@ -18,6 +18,7 @@
 #' @description
 #' Measures the number of selected features.
 #'
+#' @template seealso_measure
 #' @export
 MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
   inherit = Measure,

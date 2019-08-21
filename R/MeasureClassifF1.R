@@ -15,6 +15,7 @@
 #' @description
 #' Calls [Metrics::f1()].
 #'
+#' @template seealso_measure
 #' @export
 MeasureClassifF1 = R6Class("MeasureClassifF1",
   inherit = MeasureClassif,

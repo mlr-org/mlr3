@@ -22,4 +22,7 @@ tgen("2dnormals")
 \examples{
 tgen("2dnormals")$generate(10)$data()
 }
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=TaskGenerator]{TaskGenerators}: \link{mlr_task_generators}
+}
 \keyword{datasets}

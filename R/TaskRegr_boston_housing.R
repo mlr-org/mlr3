@@ -12,6 +12,8 @@
 #'
 #' @description
 #' A regression task for the [mlbench::BostonHousing2] data set.
+#'
+#' @template seealso_task
 NULL
 
 load_task_boston_housing = function(id = "boston_housing") {

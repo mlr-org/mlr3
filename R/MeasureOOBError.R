@@ -17,6 +17,7 @@
 #' (learners with property `"oob_error"`).
 #' Returns `NA` for unsupported learners.
 #'
+#' @template seealso_measure
 #' @export
 MeasureOOBError = R6Class("MeasureOOBError",
   inherit = Measure,

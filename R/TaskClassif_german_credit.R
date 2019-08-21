@@ -28,6 +28,8 @@
 #' FB Wirtschaftswissenschaften\cr
 #' Von-Melle-Park 5\cr
 #' 2000 Hamburg 13
+#'
+#' @template seealso_task
 #' @examples
 #' task = tsk("german_credit")
 #' costs = matrix(c(0, 1, 5, 0), nrow = 2)

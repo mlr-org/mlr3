@@ -13,8 +13,8 @@
 #' ```
 #'
 #' @description
-#' `repeats` (default: 30) times repeated splits into training and test set
-#' with a ratio of `ratio` (default: 2/3) observations in the training set.
+#' Splits data `repeats` (default: 30) times into training and test set
+#' with a ratio of `ratio` (default: 2/3) observations going into the training set.
 #'
 #' @section Fields:
 #' See [Resampling].
@@ -22,6 +22,7 @@
 #' @section Methods:
 #' See [Resampling].
 #'
+#' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations

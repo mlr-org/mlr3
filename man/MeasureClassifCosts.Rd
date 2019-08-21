@@ -46,4 +46,7 @@ learner = lrn("classif.rpart")
 rr = resample(task, learner, rsmp("cv", folds = 3))
 rr$aggregate(m)
 }
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
+}
 \keyword{datasets}

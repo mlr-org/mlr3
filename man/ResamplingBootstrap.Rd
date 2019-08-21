@@ -7,9 +7,9 @@
 \title{Bootstrap Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \description{
-Simple Bootstrap sampling.
+Splits data into bootstrap samples (sampling with replacement).
 Hyperparameters are the number of bootstrap iterations (\code{repeats}, default: 30)
-and the ratio of observations to draw per iteration (\code{ratio}, default: 1).
+and the ratio of observations to draw per iteration (\code{ratio}, default: 1) for the training set.
 }
 \section{Construction}{
 \preformatted{ResamplingBootstrap$new()
@@ -44,5 +44,8 @@ intersect(rb$train_set(1), rb$test_set(1))
 
 # Internal storage:
 rb$instance$M # Matrix of counts
+}
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 }
 \keyword{datasets}

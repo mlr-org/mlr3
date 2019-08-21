@@ -14,3 +14,6 @@ tsk("sonar")
 }
 }
 
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
+}

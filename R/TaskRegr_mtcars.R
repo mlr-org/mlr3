@@ -13,6 +13,8 @@
 #' @description
 #' A regression task for the [datasets::mtcars] data set.
 #' Target variable is `mpg` (Miles/(US) gallon).
+#'
+#' @template seealso_task
 NULL
 
 load_task_mtcars = function(id = "mtcars") {

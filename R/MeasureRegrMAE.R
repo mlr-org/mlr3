@@ -15,6 +15,7 @@
 #' @description
 #' Calls [Metrics::mae()].
 #'
+#' @template seealso_measure
 #' @export
 MeasureRegrMAE = R6Class("MeasureRegrMAE",
   inherit = MeasureRegr,

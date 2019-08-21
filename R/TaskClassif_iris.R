@@ -12,6 +12,8 @@
 #'
 #' @description
 #' A classification task for the popular [datasets::iris] data set.
+#'
+#' @template seealso_task
 NULL
 
 load_task_iris = function(id = "iris") {

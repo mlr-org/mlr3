@@ -7,8 +7,8 @@
 \title{Holdout Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \description{
-Splits data into a single training set and a test set.
-Parameter \code{ratio} determines the ratio of observation in the train set (default: 2/3).
+Splits data into a training set and a test set.
+Parameter \code{ratio} determines the ratio of observation going into the training set (default: 2/3).
 }
 \section{Construction}{
 \preformatted{ResamplingHoldout$new()
@@ -43,5 +43,8 @@ intersect(rho$train_set(1), rho$test_set(1))
 
 # Internal storage:
 rho$instance # simple list
+}
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 }
 \keyword{datasets}

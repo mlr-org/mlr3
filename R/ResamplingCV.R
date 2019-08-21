@@ -13,7 +13,7 @@
 #' ```
 #'
 #' @description
-#' Cross validation with `folds` folds (default: 10 folds).
+#' Splits data using a `folds`-folds (default: 10 folds) cross-validation.
 #'
 #' @section Fields:
 #' See [Resampling].
@@ -21,6 +21,7 @@
 #' @section Methods:
 #' See [Resampling].
 #'
+#' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations

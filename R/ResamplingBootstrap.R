@@ -13,9 +13,9 @@
 #' ```
 #'
 #' @description
-#' Simple Bootstrap sampling.
+#' Splits data into bootstrap samples (sampling with replacement).
 #' Hyperparameters are the number of bootstrap iterations (`repeats`, default: 30)
-#' and the ratio of observations to draw per iteration (`ratio`, default: 1).
+#' and the ratio of observations to draw per iteration (`ratio`, default: 1) for the training set.
 #'
 #' @section Fields:
 #' See [Resampling].
@@ -23,6 +23,7 @@
 #' @section Methods:
 #' See [Resampling].
 #'
+#' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations

@@ -12,6 +12,8 @@
 #'
 #' @description
 #' A classification task for the [mlbench::Zoo] data set.
+#'
+#' @template seealso_task
 NULL
 
 load_task_zoo = function(id = "zoo") {

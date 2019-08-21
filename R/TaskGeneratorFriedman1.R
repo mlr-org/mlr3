@@ -13,6 +13,8 @@
 #'
 #' @description
 #' A [TaskGenerator] for the friedman1 task in [mlbench::mlbench.friedman1()].
+#'
+#' @template seealso_task_generator
 #' @export
 #' @examples
 #' tgen("friedman1")$generate(10)$data()

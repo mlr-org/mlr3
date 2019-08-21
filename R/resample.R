@@ -13,8 +13,8 @@
 #' @return [ResampleResult].
 #'
 #'
-#' @template section-parallelization
-#' @template section-logging
+#' @template section_parallelization
+#' @template section_logging
 #'
 #' @note
 #' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.

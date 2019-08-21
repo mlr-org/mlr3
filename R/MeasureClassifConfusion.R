@@ -86,6 +86,7 @@ confusion_measure_info = setindexv(rowwise_table(
 #' @description
 #' All implemented [Measure]s call [confusion_measures()] with the respective `type` internally.
 #'
+#' @template seealso_measure
 #' @export
 #' @examples
 #' task = tsk("german_credit")

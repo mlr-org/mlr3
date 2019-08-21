@@ -13,7 +13,7 @@
 #' ```
 #'
 #' @description
-#' `repeats` (default: 10) times repeated `folds`-fold (default: 10) cross-validation.
+#' Splits data `repeats` (default: 10) times using a `folds`-fold (default: 10) cross-validation.
 #'
 #' The iteration counter translates to `repeats` blocks of `folds`
 #' cross-validations, i.e., the first `folds` iterations belong to
@@ -34,6 +34,7 @@
 #'   `integer()` -> `integer()`\cr
 #'   Translates iteration numbers to repetition number.
 #'
+#' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations

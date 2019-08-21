@@ -7,8 +7,7 @@
 \title{Custom Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \description{
-A custom resampling class where the training and test indices can be set manually during
-instantiation.
+Splits data into training and test sets using manually provided indices.
 }
 \section{Construction}{
 \preformatted{ResamplingCustom$new()
@@ -40,5 +39,8 @@ rc$instantiate(task, train_sets, test_sets)
 
 rc$train_set(1)
 rc$test_set(1)
+}
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 }
 \keyword{datasets}

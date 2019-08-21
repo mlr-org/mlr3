@@ -13,6 +13,8 @@
 #' @description
 #' A classification task for the [mlbench::PimaIndiansDiabetes2] data set.
 #' Positive class is set to `"pos"`.
+#'
+#' @template seealso_task
 NULL
 
 load_task_pima = function(id = "pima") {

@@ -36,3 +36,6 @@ dimnames(costs) = list(predicted = task$class_names, truth = task$class_names)
 measure = msr("classif.costs", id = "german_credit_costs", costs = costs)
 print(measure)
 }
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
+}

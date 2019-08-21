@@ -13,6 +13,8 @@
 #'
 #' @description
 #' A [TaskGenerator] for the xor task in [mlbench::mlbench.xor()].
+#'
+#' @template seealso_task_generator
 #' @export
 #' @examples
 #' tgen("xor")$generate(10)$data()

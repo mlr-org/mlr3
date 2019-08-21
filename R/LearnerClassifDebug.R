@@ -31,6 +31,8 @@
 #' }
 #' Note that segfaults may not work on your operating system.
 #' Also note that if they work, they will tear down your R session immediately!
+#'
+#' @template seealso_learner
 #' @export
 #' @examples
 #' learner = lrn("classif.debug")

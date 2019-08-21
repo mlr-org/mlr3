@@ -15,6 +15,7 @@
 #' @description
 #' Calls [Metrics::accuracy()].
 #'
+#' @template seealso_measure
 #' @export
 MeasureClassifACC = R6Class("MeasureClassifACC",
   inherit = MeasureClassif,

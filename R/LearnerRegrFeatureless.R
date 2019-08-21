@@ -18,6 +18,8 @@
 #' and `sd(y)` as standard error.
 #' If `robust` is `TRUE`, `median()` and `madn()` are used instead of `mean()` and `sd()`,
 #' respectively.
+#'
+#' @template seealso_learner
 #' @export
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(

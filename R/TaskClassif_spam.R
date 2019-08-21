@@ -31,6 +31,8 @@
 #' Dua, D. and Graff, C. (2019).
 #' \emph{UCI Machine Learning Repository} \url{http://archive.ics.uci.edu/ml}.
 #' Irvine, CA: University of California, School of Information and Computer Science.
+#'
+#' @template seealso_task
 NULL
 
 load_task_spam = function(id = "spam") {

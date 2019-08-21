@@ -15,6 +15,7 @@
 #' @description
 #' Calls [Metrics::auc()].
 #'
+#' @template seealso_measure
 #' @export
 MeasureClassifAUC = R6Class("MeasureClassifAUC",
   inherit = MeasureClassif,

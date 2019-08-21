@@ -13,6 +13,8 @@
 #'
 #' @description
 #' A [TaskGenerator] for the smiley task in [mlbench::mlbench.smiley()].
+#'
+#' @template seealso_task_generator
 #' @export
 #' @examples
 #' tgen("smiley")$generate(10)$data()

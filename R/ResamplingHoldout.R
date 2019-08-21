@@ -13,8 +13,8 @@
 #' ```
 #'
 #' @description
-#' Splits data into a single training set and a test set.
-#' Parameter `ratio` determines the ratio of observation in the train set (default: 2/3).
+#' Splits data into a training set and a test set.
+#' Parameter `ratio` determines the ratio of observation going into the training set (default: 2/3).
 #'
 #' @section Fields:
 #' See [Resampling].
@@ -22,6 +22,7 @@
 #' @section Methods:
 #' See [Resampling].
 #'
+#' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations

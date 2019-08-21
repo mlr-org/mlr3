@@ -29,6 +29,7 @@
 #' @description
 #' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
 #'
+#' @template seealso_measure
 #' @export
 MeasureElapsedTime = R6Class("MeasureElapsedTime",
   inherit = Measure,

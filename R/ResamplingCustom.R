@@ -13,8 +13,7 @@
 #' ```
 #'
 #' @description
-#' A custom resampling class where the training and test indices can be set manually during
-#' instantiation.
+#' Splits data into training and test sets using manually provided indices.
 #'
 #' @section Fields:
 #' See [Resampling].
@@ -22,6 +21,7 @@
 #' @section Methods:
 #' See [Resampling].
 #'
+#' @template seealso_resampling
 #' @export
 #' @examples
 #' # Create a task with 10 observations

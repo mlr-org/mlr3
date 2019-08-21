@@ -7,7 +7,7 @@
 \title{Cross Validation Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \description{
-Cross validation with \code{folds} folds (default: 10 folds).
+Splits data using a \code{folds}-folds (default: 10 folds) cross-validation.
 }
 \section{Construction}{
 \preformatted{ResamplingCV$new()
@@ -42,5 +42,8 @@ intersect(rcv$train_set(1), rcv$test_set(1))
 
 # Internal storage:
 rcv$instance # table
+}
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 }
 \keyword{datasets}

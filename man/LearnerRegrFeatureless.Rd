@@ -20,4 +20,7 @@ lrn("regr.featureless")
 }
 }
 
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
+}
 \keyword{datasets}

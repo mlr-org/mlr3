@@ -24,6 +24,7 @@
 #' The cost matrix is stored as slot `$costs`.
 #' Costs are aggregated with the mean.
 #'
+#' @template seealso_measure
 #' @export
 #' @examples
 #' # get a cost sensitive task

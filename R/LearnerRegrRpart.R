@@ -22,6 +22,7 @@
 #' New York: Routledge.
 #' \doi{10.1201/9781315139470}.
 #'
+#' @template seealso_learner
 #' @export
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(

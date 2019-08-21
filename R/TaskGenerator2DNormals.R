@@ -14,6 +14,7 @@
 #' @description
 #' A [TaskGenerator] for the 2d normals task in [mlbench::mlbench.2dnormals()].
 #'
+#' @template seealso_task_generator
 #' @export
 #' @examples
 #' tgen("2dnormals")$generate(10)$data()

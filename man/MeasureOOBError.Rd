@@ -18,4 +18,7 @@ msr("oob_error")
 }
 }
 
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
+}
 \keyword{datasets}

@@ -22,4 +22,7 @@ tgen("xor")
 \examples{
 tgen("xor")$generate(10)$data()
 }
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=TaskGenerator]{TaskGenerators}: \link{mlr_task_generators}
+}
 \keyword{datasets}

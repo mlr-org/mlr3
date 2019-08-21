@@ -45,4 +45,7 @@ learner$predict(task)
 # task_train and task_predict are the input tasks for train() and predict()
 names(learner$model)
 }
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
+}
 \keyword{datasets}

@@ -75,4 +75,7 @@ p = learner$train(task)$predict(task)
 measures = list(msr("classif.sensitivity"), msr("classif.specificity"))
 round(p$score(measures), 2)
 }
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
+}
 \keyword{datasets}

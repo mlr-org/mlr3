@@ -7,7 +7,7 @@
 \title{Repeated Cross Validation Resampling}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Resampling}.}
 \description{
-\code{repeats} (default: 10) times repeated \code{folds}-fold (default: 10) cross-validation.
+Splits data \code{repeats} (default: 10) times using a \code{folds}-fold (default: 10) cross-validation.
 
 The iteration counter translates to \code{repeats} blocks of \code{folds}
 cross-validations, i.e., the first \code{folds} iterations belong to
@@ -58,5 +58,8 @@ intersect(rrcv$train_set(1), rrcv$test_set(1))
 
 # Internal storage:
 rrcv$instance # table
+}
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 }
 \keyword{datasets}

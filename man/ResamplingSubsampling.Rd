@@ -7,8 +7,8 @@
 \title{Subsampling Resampling}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \description{
-\code{repeats} (default: 30) times repeated splits into training and test set
-with a ratio of \code{ratio} (default: 2/3) observations in the training set.
+Splits data \code{repeats} (default: 30) times into training and test set
+with a ratio of \code{ratio} (default: 2/3) observations going into the training set.
 }
 \section{Construction}{
 \preformatted{ResamplingSubsampling$new()
@@ -43,5 +43,8 @@ intersect(rss$train_set(1), rss$test_set(1))
 
 # Internal storage:
 rss$instance$train # list of index vectors
+}
+\seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 }
 \keyword{datasets}
