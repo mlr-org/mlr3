@@ -93,7 +93,7 @@ test_that("c", {
   task = mlr_tasks$get("iris")
   lrn = mlr_learners$get("classif.featureless")
   lrn$predict_type = "prob"
-  rr = resample(task, lrn, "cv3")
+  rr = resample(task, lrn, rsmp("cv", folds = 3))
 
   pred = do.call(c, rr$data$prediction)
   expect_prediction(pred)

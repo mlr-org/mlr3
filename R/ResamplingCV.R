@@ -1,11 +1,11 @@
 #' @title Cross Validation Resampling
 #'
-#' @aliases mlr_resamplings_cv mlr_resamplings_cv3
+#' @aliases mlr_resamplings_cv
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'
 #' @description
-#' Cross validation with `folds` folds (cv: 10 folds, cv3: 3 folds).
+#' Cross validation with `folds` folds (default: 10 folds).
 #'
 #' @section Fields:
 #' See [Resampling].
@@ -80,4 +80,3 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
 
 #' @include mlr_resamplings.R
 mlr_resamplings$add("cv", ResamplingCV)
-mlr_resamplings$add("cv3", ResamplingCV, id = "cv3", param_vals = list(folds = 3L))

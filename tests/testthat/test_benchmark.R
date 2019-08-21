@@ -2,7 +2,7 @@ context("benchmark")
 
 tasks = mlr_tasks$mget(c("iris", "sonar"))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-resamplings = mlr_resamplings$mget("cv3")
+resamplings = rsmp("cv", folds = 3)
 design = benchmark_grid(tasks, learners, resamplings)
 bmr = benchmark(design)
 
@@ -128,7 +128,7 @@ test_that("multiple measures", {
   tasks = mlr_tasks$mget(c("iris", "sonar"))
   learner = mlr_learners$get("classif.featureless")
   measures = mlr_measures$mget(c("classif.ce", "classif.acc"))
-  bmr = benchmark(design = benchmark_grid(tasks, learner, "cv3"))
+  bmr = benchmark(design = benchmark_grid(tasks, learner, rsmp("cv", folds = 3)))
   expect_subset(c("classif.ce", "classif.acc"), names(bmr$aggregate(measures)))
 })
 
@@ -163,7 +163,7 @@ test_that("extract params", {
   lrns = mlr_learners$mget(c("classif.rpart", "classif.rpart", "classif.rpart"))
   lrns[[1]]$param_set$values = list()
   lrns[[2]]$param_set$values = list(xval = 0, cp = 0.1)
-  bmr = benchmark(benchmark_grid("wine", lrns, "cv3"))
+  bmr = benchmark(benchmark_grid("wine", lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
   expect_list(aggr$params[[2]], names = "unique", len = 2L)
@@ -172,13 +172,13 @@ test_that("extract params", {
 
   # only one params
   lrns = mlr_learners$mget(c("classif.featureless"))
-  bmr = benchmark(benchmark_grid("wine", lrns, "cv3"))
+  bmr = benchmark(benchmark_grid("wine", lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 1L)
 
   # no params
   lrns = mlr_learners$mget(c("classif.debug"))
-  bmr = benchmark(benchmark_grid("wine", lrns, "cv3"))
+  bmr = benchmark(benchmark_grid("wine", lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
 })

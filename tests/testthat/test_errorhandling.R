@@ -14,7 +14,7 @@ test_that("no encapsulation", {
 
 test_that("no encapsulation / resampling", {
   learner = lrn("classif.debug", error_train = 1)
-  expect_error(resample("iris", learner, "cv3"), "'classif.debug'")
+  expect_error(resample("iris", learner, rsmp("cv", folds = 3)), "'classif.debug'")
 })
 
 
@@ -61,12 +61,12 @@ test_that("encapsulation / resample", {
   learner$param_set$values = list(warning_train = 1)
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 
-  rr = resample(task, learner, "cv3")
+  rr = resample(task, learner, rsmp("cv", folds = 3))
   expect_data_table(rr$warnings, nrows = 3L)
   expect_data_table(rr$errors, nrows = 0L)
 
   learner$param_set$values = list(warning_train = 1, error_predict = 1)
-  rr = resample(task, learner, "cv3")
+  rr = resample(task, learner, rsmp("cv", folds = 3))
   expect_data_table(rr$warnings, nrows = 3L)
   expect_data_table(rr$errors, nrows = 3L)
 
@@ -80,13 +80,13 @@ test_that("encapsulation / benchmark", {
   learner$param_set$values = list(warning_train = 1)
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 
-  bmr = benchmark(benchmark_grid(task, learner, "cv3"))
+  bmr = benchmark(benchmark_grid(task, learner, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(warnings = TRUE, errors = TRUE)
   expect_equal(aggr$warnings, 3L)
   expect_equal(aggr$errors, 0L)
 
   learner$param_set$values = list(warning_train = 1, error_predict = 1)
-  bmr = benchmark(benchmark_grid(task, learner, "cv3"))
+  bmr = benchmark(benchmark_grid(task, learner, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(warnings = TRUE, errors = TRUE)
   expect_equal(aggr$warnings, 3L)
   expect_equal(aggr$errors, 3L)

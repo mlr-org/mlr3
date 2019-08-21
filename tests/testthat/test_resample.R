@@ -22,7 +22,7 @@ test_that("resample", {
 test_that("resample with no or multiple measures", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
-  rr = resample(task, learner, "cv3")
+  rr = resample(task, learner, rsmp("cv", folds = 3))
 
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
     tab = rr$performance(measures, ids = FALSE)
@@ -75,7 +75,7 @@ test_that("inputs are cloned", {
 test_that("memory footprint", {
   task = mlr_tasks$get("iris")
   learner = mlr_learners$get("classif.featureless")
-  resampling = mlr_resamplings$get("cv3")
+  resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling)
   x = rr$data
 

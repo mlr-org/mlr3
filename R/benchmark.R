@@ -30,9 +30,9 @@
 #' @export
 #' @examples
 #' # benchmarking with benchmark_grid()
-#' tasks = mlr_tasks$mget(c("iris", "sonar"))
-#' learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-#' resamplings = mlr_resamplings$mget("cv3")
+#' tasks = lapply(c("iris", "sonar"), tsk)
+#' learners = lapply(c("classif.featureless", "classif.rpart"), lrn)
+#' resamplings = rsmp("cv", folds = 3)
 #'
 #' design = benchmark_grid(tasks, learners, resamplings)
 #' print(design)
@@ -54,10 +54,14 @@
 #' # benchmarking with a custom design:
 #' # - fit classif.featureless on iris with a 3-fold CV
 #' # - fit classif.rpart on sonar using a holdout
+#' tasks = list(tsk("iris"), tsk("sonar"))
+#' learners = list(lrn("classif.featureless"), lrn("classif.rpart"))
+#' resamplings = list(rsmp("cv", folds = 3), rsmp("holdout"))
+#' )
 #' design = data.table::data.table(
-#'   task = mlr_tasks$mget(c("iris", "sonar")),
-#'   learner = mlr_learners$mget(c("classif.featureless", "classif.rpart")),
-#'   resampling = mlr_resamplings$mget(c("cv3", "holdout"))
+#'   task = tasks,
+#'   learner = learners,
+#'   resampling = resamplings
 #' )
 #'
 #' ## instantiate resamplings

@@ -139,13 +139,30 @@ check_benchmark_result = function(bmr) {
   check_class(bmr, "BenchmarkResult")
 }
 
+check_set = function(x, empty = TRUE) {
+  check_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE)
+}
+
+check_range = function(range) {
+  msg = check_numeric(range, len = 2L, any.missing = FALSE)
+  if (!isTRUE(msg)) {
+    return(msg)
+  }
+
+  if (diff(range) <= 0) {
+    return(sprintf("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L]))
+  }
+
+  TRUE
+}
+
 #' @title Assertion for mlr3 Objects
 #'
 #' @description
 #' Functions intended to be used in packages extending \pkg{mlr3}.
 #' All functions assert on the respective class, and optionally additional properties.
 #' If an assertion fails, an exception is raised.
-#' Otherwise, the (possibly altered) object is returned invisibly.
+#' Otherwise, the input object is returned invisibly.
 #'
 #' @name mlr_assertions
 #' @keywords internal
@@ -221,6 +238,8 @@ assert_benchmark_result = makeAssertionFunction(check_benchmark_result)
 #' @param row_ids :: `vector()`.
 #' @rdname mlr_assertions
 assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
+  # TODO: make this a proper check function
+  # TODO: coercion in checkmate does not work here
   qassert(row_ids, c("X", "S[1,]"), .var.name = .var.name)
   if (is.double(row_ids)) {
     row_ids = as.integer(row_ids)
@@ -232,15 +251,6 @@ assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
   invisible(row_ids)
 }
 
-assert_set = function(x, empty = TRUE, .var.name = vname(x)) {
-  assert_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE, .var.name = .var.name)
-}
+assert_set = makeAssertionFunction(check_set)
 
-assert_range = function(range, .var.name = vname(range)) {
-  assert_numeric(range, len = 2L, any.missing = FALSE, .var.name = .var.name)
-  if (diff(range) <= 0) {
-    stopf("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
-  }
-
-  invisible(range)
-}
+assert_range = makeAssertionFunction(check_range)

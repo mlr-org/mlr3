@@ -41,7 +41,7 @@
 #' m = MeasureClassifCosts$new(id = "german_credit_costs", costs, normalize = FALSE)
 #'
 #' # fit models and calculate costs
-#' rr = resample(task, "classif.rpart", "cv3")
+#' rr = resample(task, "classif.rpart", rsmp("cv", folds = 3))
 #' rr$aggregate(m)
 MeasureClassifCosts = R6Class("MeasureClassifCosts",
   inherit = MeasureClassif,

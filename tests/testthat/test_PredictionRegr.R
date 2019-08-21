@@ -21,7 +21,7 @@ test_that("c", {
   task = mlr_tasks$get("boston_housing")
   lrn = mlr_learners$get("regr.featureless")
   lrn$predict_type = "se"
-  rr = resample(task, lrn, "cv3")
+  rr = resample(task, lrn, rsmp("cv", folds = 3))
 
   pred = do.call(c, rr$data$prediction)
   expect_prediction(pred)
@@ -43,7 +43,7 @@ test_that("c", {
 test_that("c drops se (#250)", {
   task = mlr_tasks$get("boston_housing")
   lrn = mlr_learners$get("regr.featureless")
-  rr = resample(task, lrn, "cv3")
+  rr = resample(task, lrn, rsmp("cv", folds = 3))
 
   pred = do.call(c, rr$data$prediction)
   expect_null(pred$data$se)
