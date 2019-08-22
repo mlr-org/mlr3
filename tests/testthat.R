@@ -1,4 +1,4 @@
-if (requireNamespace("testtthat", quietly = TRUE)) {
+if (requireNamespace("testthat", quietly = TRUE)) {
   library(checkmate)
   library(testthat)
   library(mlr3)
