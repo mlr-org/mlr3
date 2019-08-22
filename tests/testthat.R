@@ -1,5 +1,7 @@
-library(checkmate)
-library(testthat)
-library(mlr3)
+if (requireNamespace("testtthat", quietly = TRUE)) {
+  library(checkmate)
+  library(testthat)
+  library(mlr3)
 
-test_check("mlr3")
+  test_check("mlr3")
+}
