@@ -204,7 +204,7 @@ Learner = R6Class("Learner",
       private$.predict_type = predict_types[1L]
       self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
-      self$data_formats = assert_subset(data_formats, mlr_reflections$task_data_formats)
+      self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
     },
 
     format = function() {

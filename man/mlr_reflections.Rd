@@ -9,8 +9,43 @@
 mlr_reflections
 }
 \description{
-Environment which stores various information for reflections.
-Can be modified by third-party packages, e.g. by adding information about new task types.
+Environment which stores various information to allow objects to examine and introspect their structure and properties
+(c.f. \href{https://www.wikiwand.com/en/Reflection_(computer_programming)}{Reflections}).
+
+This environment be modified by third-party packages, e.g. by adding information about new task types
+or by extending the set of allowed feature types.
+
+The following objects are set by \CRANpkg{mlr3}:
+\itemize{
+\item \code{data_formats} :: \code{character()}\cr
+Vectors of supported data formats, e.g. \code{"data.table"} or \code{"Matrix"}.
+\item \code{task_types} :: \code{data.table()}\cr
+Table with task type (\code{"type"}), the implementing package (\code{"pkg"}), and the names of the generators
+of the corresponding \link{Task} (\code{"task"}), \link{Learner} (\code{"learner"}),
+\link{Prediction} (\code{"prediction"}) and \link{Measure} (\code{"measure"}).
+\item \code{task_feature_types} :: named \code{character()}\cr
+Vector of base R types supported as \link{Task} features, named with a 3 letter abbreviation.
+\item \code{task_row_roles} :: \code{character()}\cr
+Vector of supported row roles for a \link{Task}.
+\item \code{task_col_roles} :: list of \code{character()}\cr
+List of vectors of supported column roles for a \link{Task}, named by their task type.
+\item \code{task_properties} :: list of \code{character()}\cr
+List of vectors of supported \link{Task} properties, named by their task type.
+\item \code{learner_properties} :: list of \code{character()}\cr
+List of vectors of supported \link{Learner} properties, named by their task type.
+\item \code{learner_predict_types} :: list of list of \code{character()}\cr
+List of lists of supported \link{Learner} predict_types, named by their task type.
+The inner list translates the \code{"predict_type"} to all predict types returned, e.g.
+predict type \code{"prob"} for a \link{LearnerClassif} provides the probabilities as well as the predicted labels, therefore \code{"prob"} maps to \code{c("response", "prob")}.
+\item \code{learner_predict_types} :: list of list of \code{character()}\cr
+List of lists of supported \link{Learner} predict_types, named by their task type.
+\item \code{measure_properties} :: list of \code{character()}\cr
+List of vectors of supported \link{Measure} properties, named by their task type.
+\item \code{default_measures} :: list of \code{character()}\cr
+List of keys for the default \link{Measure}s, named by their task type.
+\item \code{rr_names} :: \code{character()}\cr
+Names of the elements of a \link{ResampleResult}.
+}
 }
 \examples{
 ls.str(mlr_reflections)
