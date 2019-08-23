@@ -35,13 +35,6 @@ as_task.Task = function(x, clone = FALSE) {
 
 #' @export
 #' @rdname mlr_coercions
-as_task.character = function(x, clone = FALSE) {
-  assert_string(x)
-  mlr_tasks$get(x)
-}
-
-#' @export
-#' @rdname mlr_coercions
 as_tasks = function(x, clone = FALSE) {
   UseMethod("as_tasks")
 }
@@ -60,12 +53,6 @@ as_tasks.Task = function(x, clone = FALSE) {
 
 #' @export
 #' @rdname mlr_coercions
-as_tasks.character = function(x, clone = FALSE) {
-  mlr_tasks$mget(x)
-}
-
-#' @export
-#' @rdname mlr_coercions
 as_learner = function(x, clone = FALSE) {
   UseMethod("as_learner")
 }
@@ -74,13 +61,6 @@ as_learner = function(x, clone = FALSE) {
 #' @rdname mlr_coercions
 as_learner.Learner = function(x, clone = FALSE) {
   if (clone) x$clone() else x
-}
-
-#' @rdname mlr_coercions
-#' @export
-as_learner.character = function(x, clone = FALSE)  {
-  assert_string(x)
-  mlr_learners$get(x)
 }
 
 #' @export
@@ -103,12 +83,6 @@ as_learners.Learner = function(x, clone = FALSE) {
 
 #' @export
 #' @rdname mlr_coercions
-as_learners.character = function(x, clone = FALSE)  {
-  mlr_learners$mget(x)
-}
-
-#' @export
-#' @rdname mlr_coercions
 as_resampling = function(x, clone = FALSE) {
   UseMethod("as_resampling")
 }
@@ -117,13 +91,6 @@ as_resampling = function(x, clone = FALSE) {
 #' @rdname mlr_coercions
 as_resampling.Resampling = function(x, clone = FALSE) {
   if (clone) x$clone() else x
-}
-
-#' @export
-#' @rdname mlr_coercions
-as_resampling.character = function(x, clone = FALSE) {
-  assert_string(x)
-  mlr_resamplings$get(x)
 }
 
 #' @export
@@ -142,12 +109,6 @@ as_resamplings.list = function(x, clone = FALSE) {
 #' @rdname mlr_coercions
 as_resamplings.Resampling = function(x, clone = FALSE) {
   list(if (clone) x$clone() else x)
-}
-
-#' @export
-#' @rdname mlr_coercions
-as_resamplings.character = function(x, clone = FALSE) {
-  mlr_resamplings$mget(x)
 }
 
 #' @export
@@ -173,13 +134,6 @@ as_measure.Measure = function(x, task_type = NULL, clone = FALSE) {
 
 #' @export
 #' @rdname mlr_coercions
-as_measure.character = function(x, task_type = NULL, clone = FALSE) {
-  assert_string(x)
-  mlr_measures$get(x)
-}
-
-#' @export
-#' @rdname mlr_coercions
 as_measures = function(x, task_type = NULL, clone = FALSE) {
   UseMethod("as_measures")
 }
@@ -200,10 +154,4 @@ as_measures.list = function(x, task_type = NULL, clone = FALSE) {
 #' @rdname mlr_coercions
 as_measures.Measure = function(x, task_type = NULL, clone = FALSE) {
   list(if (clone) x$clone() else x)
-}
-
-#' @export
-#' @rdname mlr_coercions
-as_measures.character = function(x, task_type = NULL, clone = FALSE) {
-  mlr_measures$mget(x)
 }

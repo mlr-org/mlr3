@@ -74,8 +74,6 @@ Suggests:
     rpart,
     testthat,
     titanic
-Remotes:
-    mlr-org/mlr3misc
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
@@ -153,6 +151,7 @@ Collate:
     'benchmark.R'
     'benchmark_grid.R'
     'default_measures.R'
+    'deprecated.R'
     'hash_resample_result.R'
     'helper-parallelization.R'
     'helper.R'
