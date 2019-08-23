@@ -58,17 +58,18 @@ prediction = learner$predict(task_iris, row_ids = test_set)
 
 # calculate performance
 prediction$confusion
-prediction$score("classif.acc")
+measure = msr("classif.acc")
+prediction$score(measure)
 ```
 
 ### Resample
 
-```r
+```{r}
 # automatic resampling
 resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 rr$performance(measure)
-rr$aggregate()
+rr$aggregate(measure)
 ```
 
 ## Why a rewrite?

@@ -48,11 +48,8 @@ task_iris
     ## * dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
 
 ``` r
-# load learner
-learner = mlr_learners$get("classif.rpart")
-
-# set hyperparameter
-learner$param_set$values = list(cp = 0.01)
+# load learner and set hyperparamter
+learner = lrn("classif.rpart", cp = 0.01)
 ```
 
 ### Basic train + predict
@@ -79,10 +76,11 @@ prediction$confusion
     ##   virginica       0          0         6
 
 ``` r
-prediction$score("classif.acc")
+measure = msr("classif.acc")
+prediction$score(measure)
 ```
 
-    ## classif.acc
+    ## classif.acc 
     ##   0.9666667
 
 ### Resample
@@ -91,9 +89,33 @@ prediction$score("classif.acc")
 # automatic resampling
 resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
-rr$performance(measure)
-rr$aggregate()
 ```
+
+    ## INFO  [11:45:23.583] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [11:45:23.775] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [11:45:23.804] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+
+``` r
+rr$performance(measure)
+```
+
+    ##             task task_id               learner    learner_id
+    ##           <list>  <char>                <list>        <char>
+    ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
+    ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
+    ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
+    ##        resampling resampling_id iteration          prediction classif.acc
+    ##            <list>        <char>     <int>              <list>       <num>
+    ## 1: <ResamplingCV>            cv         1 <PredictionClassif>        0.92
+    ## 2: <ResamplingCV>            cv         2 <PredictionClassif>        0.92
+    ## 3: <ResamplingCV>            cv         3 <PredictionClassif>        0.94
+
+``` r
+rr$aggregate(measure)
+```
+
+    ## classif.acc 
+    ##   0.9266667
 
 ## Why a rewrite?
 
