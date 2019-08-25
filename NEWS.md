@@ -1,13 +1,13 @@
 # mlr3 0.1.2
 
-* Added functions to ease the creation of objects stored in dictionaries:
+* Deprecated support of automatically creating objects from strings.
+  Instead, `mlr3` provides the following helper functions intended to ease the
+  creation of objects stored in dictionaries:
   `tsk()`, `tgen()`, `lrn()`, `rsmp()`, `msr()`.
 
-* Default measures are not calculated anymore per default.
-
 * `BenchmarkResult` now ensures that the stored `ResampleResult`s are in a
-  persistent order. Thus, `ResampleResult`s are now addressed by their position
-  instead of their hash.
+  persistent order. Thus, `ResampleResult`s can now be addressed by their
+  position instead of their hash.
 
 * New field `BenchmarkResult$n_resample_results`.
 
