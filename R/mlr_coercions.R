@@ -13,9 +13,6 @@
 #' @return Coerced object. The default method will return the object as-is.
 #'   Failed coercions have to be handled by on of the assertions in [mlr_assertions].
 #' @examples
-#' # convert a dictionary key to object
-#' as_task("iris")
-#'
 #' # convert single measure to list of measures
 #' measure = msr("classif.ce")
 #' as_measures(measure)
