@@ -17,7 +17,7 @@ Measures are classes around tailored around two functions:
 
 In addition to these two functions, meta-information about the performance measure is stored.
 
-Predefined measures are stored in the \link{Dictionary} \link{mlr_measures},
+Predefined measures are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_measures},
 e.g. \code{\link[=mlr_measures_classif.auc]{classif.auc}} or \code{\link[=mlr_measures_time_train]{time_train}}.
 A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }

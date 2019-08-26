@@ -14,7 +14,7 @@
 #' - A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' - Meta-information about the requirements and capabilities of the learner.
 #'
-#' Predefined learners are stored in the [Dictionary] [mlr_learners],
+#' Predefined learners are stored in the [mlr3misc::Dictionary] [mlr_learners],
 #' e.g. [`classif.rpart`][mlr_learners_classif.rpart] or [`regr.rpart`][mlr_learners_regr.rpart].
 #' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the [mlr3book](https://mlr3book.mlr-org.com).
 #'

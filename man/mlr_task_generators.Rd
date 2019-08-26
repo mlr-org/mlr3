@@ -6,7 +6,7 @@
 \title{Dictionary of Task Generators}
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.}
 \description{
-A simple \link{Dictionary} storing objects of class \link{TaskGenerator}.
+A simple \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} storing objects of class \link{TaskGenerator}.
 Each task generator has an associated help page, see \code{mlr_task_generators_[id]}.
 
 This dictionary can get populated with additional task generators by add-on packages.
@@ -15,14 +15,14 @@ For a more convenient way to retrieve and construct task generators, see \code{\
 }
 \section{Methods}{
 
-See \link{Dictionary}.
+See \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.
 }
 
 \section{S3 methods}{
 
 \itemize{
 \item \code{as.data.table(dict)}\cr
-\link{Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+\link[mlr3misc:Dictionary]{mlr3misc::Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields \code{"key"} and \code{"packages"} as columns.
 }
 }

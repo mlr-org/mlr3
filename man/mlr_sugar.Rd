@@ -32,7 +32,7 @@ See \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}} for mo
 }
 \description{
 Functions to retrieve objects, set hyperparameters and assign to fields in one go.
-Relies on \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}} to extract objects from the respective \link{Dictionary}:
+Relies on \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}} to extract objects from the respective \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
 \itemize{
 \item \code{tsk()} for a \link{Task} from \link{mlr_tasks}.
 \item \code{tgen()} for a \link{TaskGenerator} from \link{mlr_task_generators}.

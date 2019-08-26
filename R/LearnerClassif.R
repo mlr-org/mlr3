@@ -7,7 +7,7 @@
 #' @description
 #' This Learner specializes [Learner] for classification problems.
 #'
-#' Many predefined learners can be found in the [Dictionary] [mlr_learners] after loading the \CRANpkg{mlr3learners} package.
+#' Many predefined learners can be found in the [mlr3misc::Dictionary] [mlr_learners] after loading the \CRANpkg{mlr3learners} package.
 #'
 #' @section Construction:
 #' ```

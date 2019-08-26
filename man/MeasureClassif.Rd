@@ -8,7 +8,7 @@
 \description{
 This measure specializes \link{Measure} for classification problems.
 
-Predefined measures can be found in the \link{Dictionary} \link{mlr_measures}.
+Predefined measures can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_measures}.
 }
 \section{Construction}{
 \preformatted{m = MeasureClassif$new(id, range, minimize, predict_type = "response",

@@ -6,9 +6,6 @@
 \alias{mlr_task_generators_smiley}
 \title{Smiley Classification Task Generator}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskGenerator}.}
-\usage{
-TaskGeneratorSmiley
-}
 \description{
 A \link{TaskGenerator} for the smiley task in \code{\link[mlbench:mlbench.smiley]{mlbench::mlbench.smiley()}}.
 }

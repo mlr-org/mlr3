@@ -1,5 +1,6 @@
 #' @title 2d Normals Classification Task Generator
 #'
+#' @usage NULL
 #' @aliases mlr_task_generators_2dnormals
 #' @format [R6::R6Class] inheriting from [TaskGenerator].
 #' @include TaskGenerator.R

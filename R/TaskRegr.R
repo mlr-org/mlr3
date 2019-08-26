@@ -9,7 +9,7 @@
 #' The target column is assumed to be numeric.
 #' The `task_type` is set to `"classif"`.
 #'
-#' Predefined tasks are stored in the [Dictionary] [mlr_tasks].
+#' Predefined tasks are stored in the [mlr3misc::Dictionary] [mlr_tasks].
 #'
 #' @section Construction:
 #' ```

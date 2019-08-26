@@ -6,9 +6,6 @@
 \alias{mlr_task_generators_2dnormals}
 \title{2d Normals Classification Task Generator}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskGenerator}.}
-\usage{
-TaskGenerator2DNormals
-}
 \description{
 A \link{TaskGenerator} for the 2d normals task in \code{\link[mlbench:mlbench.2dnormals]{mlbench::mlbench.2dnormals()}}.
 }

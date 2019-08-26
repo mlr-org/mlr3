@@ -6,7 +6,7 @@
 #'
 #' @description
 #' This measure specializes [Measure] for regression problems.
-#' Predefined measures can be found in the [Dictionary] [mlr_measures].
+#' Predefined measures can be found in the [mlr3misc::Dictionary] [mlr_measures].
 #'
 #' @section Construction:
 #' ```

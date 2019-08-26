@@ -6,7 +6,7 @@
 \title{Dictionary of Performance Measures}
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.}
 \description{
-A simple \link{Dictionary} storing objects of class \link{Measure}.
+A simple \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} storing objects of class \link{Measure}.
 Each measure has an associated help page, see \code{mlr_measures_[id]}.
 
 This dictionary can get populated with additional measures by add-on packages.
@@ -15,14 +15,14 @@ For a more convenient way to retrieve and construct measures, see \code{\link[=m
 }
 \section{Methods}{
 
-See \link{Dictionary}.
+See \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.
 }
 
 \section{S3 methods}{
 
 \itemize{
 \item \code{as.data.table(dict)}\cr
-\link{Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+\link[mlr3misc:Dictionary]{mlr3misc::Dictionary} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a \code{\link[data.table:data.table]{data.table::data.table()}} with fields "key", "task_type", "predict_type",
 and "packages" as columns.
 }

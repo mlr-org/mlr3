@@ -6,9 +6,6 @@
 \alias{mlr_task_generators_xor}
 \title{XOR Classification Task Generator}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskGenerator}.}
-\usage{
-TaskGeneratorXor
-}
 \description{
 A \link{TaskGenerator} for the xor task in \code{\link[mlbench:mlbench.xor]{mlbench::mlbench.xor()}}.
 }

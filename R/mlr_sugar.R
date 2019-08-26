@@ -3,7 +3,7 @@
 #' @name mlr_sugar
 #' @description
 #' Functions to retrieve objects, set hyperparameters and assign to fields in one go.
-#' Relies on [mlr3misc::dictionary_sugar()] to extract objects from the respective [Dictionary]:
+#' Relies on [mlr3misc::dictionary_sugar()] to extract objects from the respective [mlr3misc::Dictionary]:
 #'
 #' * `tsk()` for a [Task] from [mlr_tasks].
 #' * `tgen()` for a [TaskGenerator] from [mlr_task_generators].

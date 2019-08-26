@@ -10,7 +10,7 @@ This task specializes \link{Task} and \link{TaskSupervised} for classification p
 The target column is assumed to be a factor.
 The \code{task_type} is set to \code{"classif"}.
 
-Predefined tasks are stored in the \link{Dictionary} \link{mlr_tasks}.
+Predefined tasks are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_tasks}.
 }
 \section{Construction}{
 \preformatted{t = TaskClassif$new(id, backend, target, positive = NULL)

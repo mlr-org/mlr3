@@ -4,7 +4,7 @@
 #' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
 #'
 #' @description
-#' A simple [Dictionary] storing objects of class [TaskGenerator].
+#' A simple [mlr3misc::Dictionary] storing objects of class [TaskGenerator].
 #' Each task generator has an associated help page, see `mlr_task_generators_[id]`.
 #'
 #' This dictionary can get populated with additional task generators by add-on packages.
@@ -12,11 +12,11 @@
 #' For a more convenient way to retrieve and construct task generators, see [tgen()].
 #'
 #' @section Methods:
-#' See [Dictionary].
+#' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
-#'   [Dictionary] -> [data.table::data.table()]\cr
+#'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
 #'   Returns a [data.table::data.table()] with fields `"key"` and `"packages"` as columns.
 #'
 #' @family Dictionary

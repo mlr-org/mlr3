@@ -6,9 +6,6 @@
 \alias{mlr_task_generators_friedman1}
 \title{Friedman1 Regression Task Generator}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskGenerator}.}
-\usage{
-TaskGeneratorFriedman1
-}
 \description{
 A \link{TaskGenerator} for the friedman1 task in \code{\link[mlbench:mlbench.friedman1]{mlbench::mlbench.friedman1()}}.
 }

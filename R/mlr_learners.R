@@ -4,7 +4,7 @@
 #' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
 #'
 #' @description
-#' A simple [Dictionary] storing objects of class [Learner].
+#' A simple [mlr3misc::Dictionary] storing objects of class [Learner].
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
 #' This dictionary can get populated with additional learners by add-on packages.
@@ -13,11 +13,11 @@
 #' For a more convenient way to retrieve and construct learners, see [lrn()].
 #'
 #' @section Methods:
-#' See [Dictionary].
+#' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
-#'   [Dictionary] -> [data.table::data.table()]\cr
+#'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
 #'   Returns a [data.table::data.table()] with fields "key", "feature_types", "packages",
 #'   "properties" and "predict_types" as columns.
 #'

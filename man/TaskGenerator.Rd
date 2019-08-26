@@ -7,7 +7,7 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 Creates a \link{Task} of arbitrary size.
-Predefined task generators are stored in the \link{Dictionary} \link{mlr_task_generators},
+Predefined task generators are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_task_generators},
 e.g. \code{\link[=mlr_task_generators_xor]{xor}}.
 }
 \section{Construction}{

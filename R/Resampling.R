@@ -12,7 +12,7 @@
 #' Resampling objects can be instantiated on a [Task], which applies the strategy on the task and manifests in a
 #' fixed partition of `row_ids` of the [Task].
 #'
-#' Predefined resamplings are stored in the [Dictionary] [mlr_resamplings],
+#' Predefined resamplings are stored in the [mlr3misc::Dictionary] [mlr_resamplings],
 #' e.g. [`cv`][mlr_resamplings_cv] or [`bootstrap`][mlr_resamplings_bootstrap].
 #'
 #' @section Construction:

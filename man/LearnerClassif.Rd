@@ -8,7 +8,7 @@
 \description{
 This Learner specializes \link{Learner} for classification problems.
 
-Many predefined learners can be found in the \link{Dictionary} \link{mlr_learners} after loading the \CRANpkg{mlr3learners} package.
+Many predefined learners can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_learners} after loading the \CRANpkg{mlr3learners} package.
 }
 \section{Construction}{
 \preformatted{l = LearnerClassif$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),

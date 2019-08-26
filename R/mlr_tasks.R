@@ -3,7 +3,7 @@
 #' @usage NULL
 #' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
 #' @description
-#' A simple [Dictionary] storing objects of class [Task].
+#' A simple [mlr3misc::Dictionary] storing objects of class [Task].
 #' Each task has an associated help page, see `mlr_tasks_[id]`.
 #'
 #' This dictionary can get populated with additional tasks by add-on packages.
@@ -11,11 +11,11 @@
 #' For a more convenient way to retrieve and construct tasks, see [tsk()].
 #'
 #' @section Methods:
-#' See [Dictionary].
+#' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
-#'   [Dictionary] -> [data.table::data.table()]\cr
+#'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
 #'   Returns a [data.table::data.table()] with columns `"key"`, `"task_type"`, `"measures"`, `"nrow"`, `"ncol"` and
 #'   the number of features of type `"lgl"`, `"int"`, `"dbl"`, `"chr"`, `"fct"` and `"ord"` as columns.
 #'

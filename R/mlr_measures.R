@@ -4,7 +4,7 @@
 #' @format [R6::R6Class] object inheriting from [mlr3misc::Dictionary].
 #'
 #' @description
-#' A simple [Dictionary] storing objects of class [Measure].
+#' A simple [mlr3misc::Dictionary] storing objects of class [Measure].
 #' Each measure has an associated help page, see `mlr_measures_[id]`.
 #'
 #' This dictionary can get populated with additional measures by add-on packages.
@@ -12,11 +12,11 @@
 #' For a more convenient way to retrieve and construct measures, see [msr()].
 #'
 #' @section Methods:
-#' See [Dictionary].
+#' See [mlr3misc::Dictionary].
 #'
 #' @section S3 methods:
 #' * `as.data.table(dict)`\cr
-#'   [Dictionary] -> [data.table::data.table()]\cr
+#'   [mlr3misc::Dictionary] -> [data.table::data.table()]\cr
 #'   Returns a [data.table::data.table()] with fields "key", "task_type", "predict_type",
 #'   and "packages" as columns.
 #'
