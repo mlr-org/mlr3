@@ -160,11 +160,11 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     prediction = function() {
-      do.call(c, self$data$prediction)
+      do.call(c, self$predictions)
     },
 
     predictions = function() {
-      self$data$prediction
+      map(self$data$prediction, "test")
     },
 
     hash = function() {

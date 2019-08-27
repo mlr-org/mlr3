@@ -23,7 +23,7 @@ test_that("c", {
   lrn$predict_type = "se"
   rr = resample(task, lrn, rsmp("cv", folds = 3))
 
-  pred = do.call(c, rr$data$prediction)
+  pred = do.call(c, map(rr$data$prediction, "test"))
   expect_prediction(pred)
   expect_prediction_regr(pred)
 
@@ -31,8 +31,8 @@ test_that("c", {
   expect_data_table(dt, nrows = task$nrow, ncols = 4L, any.missing = FALSE)
 
   # duplicates are detected?
-  p1 = rr$data$prediction[[1L]]
-  p2 = rr$data$prediction[[1L]]
+  p1 = rr$data$prediction[[1L]]$test
+  p2 = rr$data$prediction[[1L]]$test
   p3 = c(p1, p2, keep_duplicates = FALSE)
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))
@@ -45,7 +45,7 @@ test_that("c drops se (#250)", {
   lrn = lrn("regr.featureless")
   rr = resample(task, lrn, rsmp("cv", folds = 3))
 
-  pred = do.call(c, rr$data$prediction)
+  pred = do.call(c, map(rr$data$prediction, "test"))
   expect_null(pred$data$se)
   expect_false("se" %in% pred$predict_types)
   expect_true(allMissing(pred$se))

@@ -189,6 +189,7 @@ Learner = R6Class("Learner",
     properties = NULL,
     data_formats = NULL,
     packages = NULL,
+    predict_on = "test",
     fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),

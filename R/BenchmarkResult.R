@@ -126,7 +126,7 @@
 #' print(rr)
 #'
 #' # access the confusion matrix of the first resampling iteration
-#' rr$data$prediction[[1]]$confusion
+#' rr$predictions[[1]]$confusion
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
     data = NULL,

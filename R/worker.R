@@ -161,11 +161,13 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
     lg$set_threshold(lgr_threshold)
   }
   lg$info("Applying learner '%s' on task '%s' (iter %i/%i)", learner$id, task$id, iteration, resampling$iters)
-  train_set = resampling$train_set(iteration)
-  test_set = resampling$test_set(iteration)
 
-  learner = learner_train(learner$clone(), task, train_set)
-  prediction = learner_predict(learner, task, test_set)
+  sets = list(train = resampling$train_set(iteration), test = resampling$test_set(iteration))
+  learner = learner_train(learner$clone(), task, sets[["train"]])
+
+  prediction = set_names(map(learner$predict_on, function(set) {
+    learner_predict(learner, task, sets[[set]])
+  }), learner$predict_on)
 
   if (!store_models) {
     learner$state$model = NULL
