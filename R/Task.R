@@ -479,17 +479,16 @@ task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table")
 }
 
 task_print = function(self) {
-
   catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
   catf(str_indent("* Target:", self$target_names))
   catf(str_indent("* Properties:", self$properties))
 
   types = self$feature_types
   if (nrow(types)) {
-    catf("Features (%i):", nrow(types))
+    catf("* Features (%i):", nrow(types))
     types = types[, list(N = .N, feats = str_collapse(id, n = 100L)), by = "type"][, "type" := translate_types(type)]
     setorderv(types, "N", order = -1L)
-    pmap(types, function(type, N, feats) catf(str_indent(sprintf("* %s (%i):", type, N), feats)))
+    pmap(types, function(type, N, feats) catf(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L)))
   }
 
   if (length(self$col_roles$order)) {
