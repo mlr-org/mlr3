@@ -63,7 +63,7 @@ test_that("incomplete predictions", {
   expect_matrix(p$prob, any.missing = FALSE)
 
   rr = resample(tsk("iris"), learner, rsmp("cv", folds = 3))
-  expect_prediction(rr$prediction)
-  expect_factor(rr$prediction$response, any.missing = FALSE)
-  expect_matrix(rr$prediction$prob, any.missing = FALSE)
+  expect_prediction(rr$prediction())
+  expect_factor(rr$prediction()$response, any.missing = FALSE)
+  expect_matrix(rr$prediction()$prob, any.missing = FALSE)
 })

@@ -95,7 +95,7 @@ test_that("c", {
   lrn$predict_type = "prob"
   rr = resample(task, lrn, rsmp("cv", folds = 3))
 
-  pred = do.call(c, rr$predictions)
+  pred = do.call(c, rr$predictions())
   expect_prediction(pred)
   expect_prediction_classif(pred)
 

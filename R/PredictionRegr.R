@@ -91,10 +91,13 @@ as.data.table.PredictionRegr = function(x, ...) {
 
 #' @export
 c.PredictionRegr = function(..., keep_duplicates = TRUE) {
-
   dots = list(...)
   assert_list(dots, "PredictionRegr")
   assert_flag(keep_duplicates)
+
+  if (length(dots) == 1L) {
+    return(dots[[1L]])
+  }
 
   x = map_dtr(dots, function(p) {
     list(row_ids = p$data$row_ids, truth = p$data$truth, response = p$data$response)

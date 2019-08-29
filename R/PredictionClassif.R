@@ -164,6 +164,15 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       ind = max.col(prob, ties.method = "random")
       self$data$response = factor(lvls[ind], levels = lvls)
       self
+    },
+
+    filter = function(row_ids) {
+      i = which(self$data$row_ids %in% row_ids)
+      self$data$row_ids = self$data$row_ids[i]
+      self$data$truth = self$data$truth[i]
+      self$data$response = self$data$response[i]
+      self$data$prob = self$data$prob[i,, drop = FALSE]
+      invisible(self)
     }
   ),
 
@@ -204,10 +213,13 @@ as.data.table.PredictionClassif = function(x, ...) {
 
 #' @export
 c.PredictionClassif = function(..., keep_duplicates = TRUE) {
-
   dots = list(...)
   assert_list(dots, "PredictionClassif")
   assert_flag(keep_duplicates)
+
+  if (length(dots) == 1L) {
+    return(dots[[1L]])
+  }
 
   x = map_dtr(dots, function(p) {
     list(row_ids = p$row_ids, truth = p$truth, response = p$response)

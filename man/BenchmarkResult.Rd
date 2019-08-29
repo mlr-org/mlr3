@@ -132,6 +132,6 @@ rr = bmr$aggregate()[learner_id == "classif.rpart", resample_result][[1]]
 print(rr)
 
 # access the confusion matrix of the first resampling iteration
-rr$data$prediction[[1]]$confusion
+rr$predictions[[1]]$confusion
 }
 \keyword{datasets}

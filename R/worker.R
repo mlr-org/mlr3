@@ -156,7 +156,6 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
 
 workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE) {
-
   if (!is.null(lgr_threshold)) {
     lg$set_threshold(lgr_threshold)
   }
@@ -165,9 +164,10 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
   sets = list(train = resampling$train_set(iteration), test = resampling$test_set(iteration))
   learner = learner_train(learner$clone(), task, sets[["train"]])
 
-  prediction = set_names(map(learner$predict_on, function(set) {
-    learner_predict(learner, task, sets[[set]])
-  }), learner$predict_on)
+  prediction = lapply(sets[learner$predict_sets], function(set) {
+    learner_predict(learner, task, set)
+  })
+  names(prediction) = learner$predict_sets
 
   if (!store_models) {
     learner$state$model = NULL

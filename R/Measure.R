@@ -80,16 +80,21 @@
 #' * `task_properties` :: `character()`\cr
 #'   Stores required properties of the [Task].
 #'
+#' * `predict_sets` :: `character()`\cr
+#'   Sets to score predictions on.
+#'   Must be a non-empty subset of `c("train", "test")`.
+#'   Default is `"test"`.
 #'
 #' @section Methods:
 #' * `aggregate(rr)`\cr
 #'   [ResampleResult] -> `numeric(1)`\cr
 #'   Aggregates multiple performance scores into a single score using the `aggregator` function of the measure.
-#'   Operates on a [ResampleResult] as returned by [resample].
+#'   Operates on the [Prediction]s of [ResampleResult] with matching `predict_sets`.
 #'
 #' * `score(prediction, task = NULL, learner = NULL)`\cr
-#'   ([Prediction], [Task], [Learner]) -> `numeric(1)`\cr
-#'   Takes a [Prediction] and calculates a numeric score.
+#'   ((named list of) [Prediction], [Task], [Learner]) -> `numeric(1)`\cr
+#'   Takes a [Prediction] (or a list of [Prediction] objects named with valid `predict_sets`)
+#'   and calculates a numeric score.
 #'   If the measure if flagged with the properties `"requires_task"` or `"requires_learner"`, you must additionally
 #'   pass the respective [Task] or the [Learner] for the measure to extract information from these objects.
 #'
@@ -101,6 +106,7 @@ Measure = R6Class("Measure",
     id = NULL,
     task_type = NULL,
     predict_type = NULL,
+    predict_sets = "test",
     aggregator = NULL,
     task_properties = NULL,
     range = NULL,
@@ -156,12 +162,17 @@ Measure = R6Class("Measure",
         stopf("Measure '%s' requires the train_set", self$learner)
       }
 
+      if (is.list(prediction)) {
+        prediction = do.call(c, prediction[self$predict_sets])
+      }
+
       self$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
     },
 
     aggregate = function(rr) {
       aggregator = self$aggregator %??% mean
       score = function(prediction, task, learner, resampling, iteration) {
+        prediction = do.call(c, prediction[self$predict_sets])
         if (is.null(prediction)) {
           NA_real_
         } else {

@@ -42,6 +42,10 @@
 #' * `predict_types` :: `character()`\cr
 #'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
 #'
+#' * `predict_sets` :: `character()`\cr
+#'   Sets to predict on. Must be a non-empty subset of `c("train", "test")`.
+#'   Default is `"test"`.
+#'
 #' * `feature_types` :: `character()`\cr
 #'   Feature types the learner operates on. Must be a subset of [`mlr_reflections$task_feature_types`][mlr_reflections].
 #'
@@ -189,7 +193,7 @@ Learner = R6Class("Learner",
     properties = NULL,
     data_formats = NULL,
     packages = NULL,
-    predict_on = "test",
+    predict_sets = "test",
     fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),

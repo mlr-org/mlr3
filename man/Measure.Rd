@@ -69,6 +69,10 @@ Stores the feasible range of the measure.
 Stores the required type of the \link{Task}.
 \item \code{task_properties} :: \code{character()}\cr
 Stores required properties of the \link{Task}.
+\item \code{predict_sets} :: \code{character()}\cr
+Sets to score predictions on.
+Must be a non-empty subset of \code{c("train", "test")}.
+Default is \code{"test"}.
 }
 }
 
@@ -78,10 +82,11 @@ Stores required properties of the \link{Task}.
 \item \code{aggregate(rr)}\cr
 \link{ResampleResult} -> \code{numeric(1)}\cr
 Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
-Operates on a \link{ResampleResult} as returned by \link{resample}.
+Operates on the \link{Prediction}s of \link{ResampleResult} with matching \code{predict_sets}.
 \item \code{score(prediction, task = NULL, learner = NULL)}\cr
-(\link{Prediction}, \link{Task}, \link{Learner}) -> \code{numeric(1)}\cr
-Takes a \link{Prediction} and calculates a numeric score.
+((named list of) \link{Prediction}, \link{Task}, \link{Learner}) -> \code{numeric(1)}\cr
+Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
+and calculates a numeric score.
 If the measure if flagged with the properties \code{"requires_task"} or \code{"requires_learner"}, you must additionally
 pass the respective \link{Task} or the \link{Learner} for the measure to extract information from these objects.
 }
