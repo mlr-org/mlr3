@@ -42,10 +42,10 @@ predict_wrapper = function(task, learner) {
       learner$id, task$id, as_short_string(result))
   }
 
-  unsupported = setdiff(names(result$data), c("row_ids", "truth", learner$predict_types))
-  if (length(unsupported)) {
-    stopf("Learner '%s' on task '%s' returned result for unsupported predict type '%s'", learner$id, task$id, head(unsupported, 1L))
-  }
+  # unsupported = setdiff(names(result$data), c("row_ids", "truth", learner$predict_types))
+  # if (length(unsupported)) {
+  #   stopf("Learner '%s' on task '%s' returned result for unsupported predict type '%s'", learner$id, task$id, head(unsupported, 1L))
+  # }
 
   return(result)
 }
@@ -132,15 +132,16 @@ learner_predict = function(learner, task, row_ids = NULL) {
     learner$state$predict_time = result$elapsed
   }
 
-  predict_fb = function(row_ids) {
-    fb = assert_learner(as_learner(fb))
-    fb$predict_type = learner$predict_type
-    fb$state = learner$state$fallback_state
-    fb$predict(task, row_ids)
-  }
 
   fb = learner$fallback
   if (!is.null(fb)) {
+    predict_fb = function(row_ids) {
+      fb = assert_learner(as_learner(fb))
+      fb$predict_type = learner$predict_type
+      fb$state = learner$state$fallback_state
+      fb$predict(task, row_ids)
+    }
+
     if (is.null(prediction)) {
       prediction = predict_fb(task$row_ids)
     } else {

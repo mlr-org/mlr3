@@ -106,7 +106,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL) {
-
       row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
 
@@ -132,11 +131,14 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         }
       }
 
-      self$data$row_ids = row_ids
-      self$data$truth = truth
-      self$data$response = response
-      self$data$prob = prob
       self$task_type = "classif"
+      self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(prob))]
+      self$data$tab = data.table(
+        row_id = row_ids,
+        truth = truth,
+        response = response
+      )
+      self$data$prob = prob
     },
 
     set_threshold = function(threshold) {
@@ -158,19 +160,17 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
         # multiply all rows by threshold, then get index of max element per row
         w = ifelse(threshold > 0, 1 / threshold, Inf)
-        prob = self$prob %*% diag(w)
+        prob = self$data$prob %*% diag(w)
       }
 
       ind = max.col(prob, ties.method = "random")
-      self$data$response = factor(lvls[ind], levels = lvls)
+      self$data$tab$response = factor(lvls[ind], levels = lvls)
       self
     },
 
     filter = function(row_ids) {
-      i = which(self$data$row_ids %in% row_ids)
-      self$data$row_ids = self$data$row_ids[i]
-      self$data$truth = self$data$truth[i]
-      self$data$response = self$data$response[i]
+      i = self$data$tab[row_ids, on = "row_id", nomatch = 0L, which = TRUE]
+      self$data$tab = tab[i]
       self$data$prob = self$data$prob[i,, drop = FALSE]
       invisible(self)
     }
@@ -178,32 +178,37 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
 
   active = list(
-    response = function() self$data$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth)),
-    prob = function() self$data$prob,
-    confusion = function() table(response = self$response, truth = self$truth, useNA = "ifany"),
+    response = function() {
+      self$data$tab$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth))
+    },
+
+    prob = function() {
+      self$data$prob
+    },
+
+    confusion = function() {
+      self$data$tab[, table(response, truth, useNA = "ifany")]
+    },
+
     missing = function() {
-      miss = logical(length(self$data$row_ids))
-      if (!is.null(self$data$response)) {
-        miss = miss | is.na(self$data$response)
+      miss = logical(nrow(self$data$tab))
+      if ("response" %in% self$predict_types) {
+        miss = is.na(self$data$tab$response)
       }
-      if (!is.null(self$data$prob)) {
+      if ("prob" %in% self$predict_types) {
         miss = miss | apply(self$data$prob, 1L, anyMissing)
       }
 
-      self$data$row_ids[miss]
+      self$data$tab$row_id[miss]
     }
   )
 )
 
 #' @export
 as.data.table.PredictionClassif = function(x, ...) {
-  data = x$data
-  if (is.null(data$row_ids)) {
-    return(data.table())
-  }
-  tab = data.table(row_id = data$row_ids, truth = data$truth, response = data$response)
-  if (!is.null(data$prob)) {
-    prob = as.data.table(data$prob)
+  tab = copy(x$data$tab)
+  if ("prob" %in% x$predict_types) {
+    prob = as.data.table(x$data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
     tab = rcbind(tab, prob)
   }
@@ -216,29 +221,23 @@ c.PredictionClassif = function(..., keep_duplicates = TRUE) {
   dots = list(...)
   assert_list(dots, "PredictionClassif")
   assert_flag(keep_duplicates)
-
   if (length(dots) == 1L) {
     return(dots[[1L]])
   }
 
-  x = map_dtr(dots, function(p) {
-    list(row_ids = p$row_ids, truth = p$truth, response = p$response)
-  }, .fill = FALSE)
-
-  prob = discard(map(dots, "prob"), is.null)
-  if (length(prob) > 0L && length(prob) < length(dots)) {
+  predict_types = map(dots, "predict_types")
+  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
     stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
   }
 
-  prob = Reduce(x = prob, f = function(x, y) {
-    assert_set_equal(colnames(x), colnames(y))
-    rbind(x, y[, match(colnames(x), colnames(y)), drop = FALSE])
-  })
+  tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
+  prob = do.call(rbind, map(dots, "prob"))
 
   if (!keep_duplicates) {
-    keep = !duplicated(x$row_ids, fromLast = TRUE)
-    x = x[keep]
-    prob = prob[keep, , drop = FALSE]
+    keep = !duplicated(tab, by = "row_id", fromLast = TRUE)
+    tab = tab[keep]
+    prob = prob[keep,, drop = FALSE]
   }
-  PredictionClassif$new(row_ids = x$row_ids, truth = x$truth, response = x$response, prob = prob)
+
+  PredictionClassif$new(row_ids = tab$row_id, truth = tab$truth, response = tab$response, prob = prob)
 }

@@ -56,13 +56,14 @@ Prediction = R6Class("Prediction",
   public = list(
     data = list(),
     task_type = NULL,
+    predict_types = character(),
 
     format = function() {
       sprintf("<%s>", class(self)[1L])
     },
 
     print = function(...) {
-      if (is.null(self$data$row_ids)) {
+      if (!nrow(self$data$tab)) {
         catf("%s for 0 observations", format(self))
       } else {
         data = as.data.table(self)
@@ -79,12 +80,9 @@ Prediction = R6Class("Prediction",
   ),
 
   active = list(
-    row_ids = function() self$data$row_ids,
-    truth = function() self$data$truth,
-    predict_types = function() setdiff(names(self$data), c("row_ids", "truth")),
-    missing = function() {
-      self$data$row_ids[0L]
-    } # empty vector
+    row_ids = function() self$data$tab$row_id,
+    truth = function() self$data$tab$truth,
+    missing = function() self$data$tab$row_id[0L] # empty vector
   )
 )
 

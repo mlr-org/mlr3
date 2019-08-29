@@ -205,8 +205,15 @@ run_experiment = function(task, learner) {
     return(err(msg))
   if (prediction$task_type != learner$task_type)
     return(err("learner and prediction have different task_type"))
-  if (!all(learner$predict_type %in% prediction$predict_types))
-    return(err("prediction is missing predict_types"))
+
+  allowed_types = mlr3::mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
+  checkmate::check_subset(prediction$predict_types, allowed_types, empty.ok = FALSE)
+  if (!isTRUE(msg))
+    return(err(msg))
+
+  checkmate::check_subset(learner$predict_type, prediction$predict_types, empty.ok = FALSE)
+  if (!isTRUE(msg))
+    return(err(msg))
 
   stage = "score()"
   perf = try(prediction$score(mlr3::default_measures(learner$task_type)), silent = TRUE)

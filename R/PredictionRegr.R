@@ -53,67 +53,73 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL) {
-      self$data$row_ids = assert_row_ids(row_ids)
+      assert_row_ids(row_ids)
       n = length(row_ids)
-      self$data$truth = assert_numeric(truth, len = n, null.ok = TRUE)
-      self$data$response = assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
-      self$data$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
+
       self$task_type = "regr"
+      self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(se))]
+      self$data$tab = data.table(
+        row_id = row_ids,
+        truth = assert_numeric(truth, len = n, null.ok = TRUE)
+      )
+
+      if (!is.null(response)) {
+        self$data$tab$response = assert_numeric(response, len = n, any.missing = FALSE)
+      }
+
+      if (!is.null(se)) {
+        self$data$tab$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE)
+      }
     }
   ),
 
   active = list(
-    response = function() self$data$response %??% rep(NA_real_, length(self$data$row_ids)),
-    se = function() self$data$se %??% rep(NA_real_, length(self$data$row_ids)),
+    response = function() {
+      self$data$tab$response %??% rep(NA_real_, length(self$data$row_ids))
+    },
+
+    se = function() {
+      self$data$tab$se %??% rep(NA_real_, length(self$data$row_ids))
+    },
+
     missing = function() {
-      miss = logical(length(self$data$row_ids))
-      if (!is.null(self$data$response)) {
-        miss = miss | is.na(self$data$response)
+      miss = logical(nrow(self$data$tab))
+      if ("response" %in% self$predict_types) {
+        miss = is.na(self$response)
       }
-      if (!is.null(self$data$se)) {
-        miss = miss | is.na(self$data$se)
+      if ("se" %in% self$predict_types) {
+        miss = miss | is.na(self$data$tab$se)
       }
 
-      self$data$row_ids[miss]
+      self$data$tab$row_id[miss]
     }
   )
 )
 
 #' @export
 as.data.table.PredictionRegr = function(x, ...) {
-  data = x$data
-  if (is.null(data$row_ids)) {
-    return(data.table())
-  }
-  data.table(row_id = data$row_ids, truth = data$truth, response = data$response, se = data$se)
+  copy(x$data$tab)
 }
-
 
 #' @export
 c.PredictionRegr = function(..., keep_duplicates = TRUE) {
   dots = list(...)
   assert_list(dots, "PredictionRegr")
   assert_flag(keep_duplicates)
-
   if (length(dots) == 1L) {
     return(dots[[1L]])
   }
 
-  x = map_dtr(dots, function(p) {
-    list(row_ids = p$data$row_ids, truth = p$data$truth, response = p$data$response)
-  }, .fill = FALSE)
-
-  se = discard(map(dots, function(p) p$data$se), is.null)
-  if (length(se) > 0L && length(se) < length(dots)) {
-    stopf("Cannot rbind predictions: Standard error for some predictions, not all")
+  predict_types = map(dots, "predict_types")
+  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
+    stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
   }
-  se = do.call(c, se)
+
+  tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
 
   if (!keep_duplicates) {
-    keep = !duplicated(x$row_ids, fromLast = TRUE)
-    x = x[keep]
-    se = se[keep]
+    tab = unique(tab, by = "row_id", fromLast = TRUE)
   }
 
-  PredictionRegr$new(row_ids = x$row_ids, truth = x$truth, response = x$response, se = se)
+  PredictionRegr$new(row_ids = tab$row_id, truth = tab$truth, response = tab$response, se = tab$se)
 }
