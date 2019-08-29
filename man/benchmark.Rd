@@ -82,7 +82,7 @@ print(aggr)
 
 ## Extract predictions of first resampling result
 rr = aggr$resample_result[[1]]
-as.data.table(rr$prediction)
+as.data.table(rr$prediction())
 
 # benchmarking with a custom design:
 # - fit classif.featureless on iris with a 3-fold CV
@@ -103,7 +103,7 @@ design$resampling = Map(
   task = design$task, resampling = design$resampling
 )
 
-## calculate benchmark
+## run benchmark
 bmr = benchmark(design)
 print(bmr)
 

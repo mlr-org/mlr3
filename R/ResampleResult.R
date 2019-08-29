@@ -119,7 +119,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     prediction = function(predict_sets = "test") {
-      do.call(c, self$predictions(predict_sets))
+      do.call(c, self$predictions(predict_sets = predict_sets))
     },
 
     predictions = function(predict_sets = "test") {

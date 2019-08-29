@@ -72,7 +72,7 @@ rr$performance(msr("classif.ce"))
 rr$aggregate(msr("classif.ce"))
 
 # merged prediction objects of all resampling iterations
-pred = rr$prediction
+pred = rr$prediction()
 pred$confusion
 
 # Repeat resampling with featureless learner
