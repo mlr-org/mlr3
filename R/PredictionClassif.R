@@ -166,13 +166,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       ind = max.col(prob, ties.method = "random")
       self$data$tab$response = factor(lvls[ind], levels = lvls)
       self
-    },
-
-    filter = function(row_ids) {
-      i = self$data$tab[row_ids, on = "row_id", nomatch = 0L, which = TRUE]
-      self$data$tab = tab[i]
-      self$data$prob = self$data$prob[i,, drop = FALSE]
-      invisible(self)
     }
   ),
 

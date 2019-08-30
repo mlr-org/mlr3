@@ -260,20 +260,23 @@ Learner = R6Class("Learner",
     },
 
     log = function() {
-      tab = rbindlist(list(train = self$state$train_log, predict = self$state$predict_log), idcol = "stage", use.names = TRUE)
-      if (nrow(tab) == 0L) {
-        tab = data.table(stage = character(), class = character(), msg = character())
-      }
-      tab$stage = as_factor(tab$stage, levels = c("train", "predict"))
-      tab
+      self$state$log$data %??% Log$new()$data
     },
 
     warnings = function() {
-      self$log[class == "warning"]$msg
+      if (is.null(self$state$log)) {
+        character(0L)
+      } else {
+        self$log[class == "warning", msg]
+      }
     },
 
     errors = function() {
-      self$log[class == "error"]$msg
+      if (is.null(self$state$log)) {
+        character(0L)
+      } else {
+        self$log[class == "error", msg]
+      }
     },
 
     hash = function() {

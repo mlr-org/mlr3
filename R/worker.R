@@ -78,9 +78,8 @@ learner_train = function(learner, task, row_ids = NULL) {
 
   learner$state = list(
     model = result$result,
-    train_log = result$log,
+    log = Log$new()$append("train", result$log),
     train_time = result$elapsed,
-    predict_log = NULL,
     predict_time = NULL
   )
 
@@ -112,10 +111,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   if (is.null(learner$model)) {
     prediction = NULL
-    learner$state$predict_log = data.table(
-      class = factor("warning", levels = c("output", "warning", "error"), ordered = TRUE),
-      msg = "No model trained"
-    )
+    learner$state$log$append("predict", data.table(class = "warning", msg = "No model trained"))
     learner$state$predict_time = NA_real_
   } else {
     # call predict with encapsulation
@@ -128,7 +124,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     )
 
     prediction = result$result
-    learner$state$predict_log = result$log
+    learner$state$log$append("predict", result$log)
     learner$state$predict_time = result$elapsed
   }
 

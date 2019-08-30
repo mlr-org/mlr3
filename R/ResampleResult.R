@@ -136,7 +136,7 @@ ResampleResult = R6Class("ResampleResult",
 
       if (length(measures)) {
         tab = rcbind(tab, map_dtr(tab$prediction, function(p) {
-          set_names(map(measures, function(m) m$score(p)), ids(measures))
+          set_names(map(measures, function(m) m$score(p[names(p) %in% m$predict_sets])), ids(measures))
         }))
       }
 

@@ -186,7 +186,7 @@ Measure = R6Class("Measure",
 
   active = list(
     hash = function() {
-      hash(list(class(self), self$id, as.character(body(self$score_internal))))
+      hash(class(self), self$id, self$predict_sets, as.character(body(self$score_internal)))
     }
   )
 )
