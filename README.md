@@ -91,9 +91,9 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [11:45:23.583] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [11:45:23.775] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [11:45:23.804] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [17:21:51.807] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [17:21:51.916] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [17:21:51.931] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$performance(measure)
@@ -104,11 +104,11 @@ rr$performance(measure)
     ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
-    ##        resampling resampling_id iteration          prediction classif.acc
-    ##            <list>        <char>     <int>              <list>       <num>
-    ## 1: <ResamplingCV>            cv         1 <PredictionClassif>        0.92
-    ## 2: <ResamplingCV>            cv         2 <PredictionClassif>        0.92
-    ## 3: <ResamplingCV>            cv         3 <PredictionClassif>        0.94
+    ##        resampling resampling_id iteration prediction classif.acc
+    ##            <list>        <char>     <int>     <list>       <num>
+    ## 1: <ResamplingCV>            cv         1     <list>        0.92
+    ## 2: <ResamplingCV>            cv         2     <list>        0.92
+    ## 3: <ResamplingCV>            cv         3     <list>        0.94
 
 ``` r
 rr$aggregate(measure)
@@ -177,7 +177,7 @@ would result in non-trivial API changes.
         collection of machine learning data sets. No dependencies.
   - [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
     Objects are queryable for properties and capabilities, allowing you
-    to programm on them.
+    to program on them.
   - Additional functionality that comes with extra dependencies:
       - For parallelization, `mlr3` utilizes the
         [`future`](https://cran.r-project.org/package=future) and
