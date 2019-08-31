@@ -111,4 +111,4 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 
 mlr3 talk at useR! 2019 conference in Toulouse, France:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/wsP2hiFnDQs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Watch the video](https://img.youtube.com/vi/wsP2hiFnDQs/maxresdefault.jpg)](https://www.youtube.com/watch?v=wsP2hiFnDQs&feature=youtu.be)
