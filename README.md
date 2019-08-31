@@ -44,8 +44,8 @@ task_iris
     ## <TaskClassif:iris> (150 x 5)
     ## * Target: Species
     ## * Properties: multiclass
-    ## Features (4):
-    ## * dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
+    ## * Features (4):
+    ##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
 
 ``` r
 # load learner and set hyperparamter
@@ -91,24 +91,22 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [17:21:51.807] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [17:21:51.916] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [17:21:51.931] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [08:56:43.090] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [08:56:43.198] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [08:56:43.215] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$performance(measure)
 ```
 
     ##             task task_id               learner    learner_id
-    ##           <list>  <char>                <list>        <char>
     ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
-    ##        resampling resampling_id iteration prediction classif.acc
-    ##            <list>        <char>     <int>     <list>       <num>
-    ## 1: <ResamplingCV>            cv         1     <list>        0.92
-    ## 2: <ResamplingCV>            cv         2     <list>        0.92
-    ## 3: <ResamplingCV>            cv         3     <list>        0.94
+    ##        resampling resampling_id iteration          prediction classif.acc
+    ## 1: <ResamplingCV>            cv         1 <PredictionClassif>        0.92
+    ## 2: <ResamplingCV>            cv         2 <PredictionClassif>        0.92
+    ## 3: <ResamplingCV>            cv         3 <PredictionClassif>        0.94
 
 ``` r
 rr$aggregate(measure)
@@ -174,7 +172,8 @@ would result in non-trivial API changes.
         which implements performance measures. No recursive
         dependencies.
       - [`mlbench`](https://cran.r-project.org/package=mlbench): A
-        collection of machine learning data sets. No dependencies.
+        collection of machine learning data sets. No
+    dependencies.
   - [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
     Objects are queryable for properties and capabilities, allowing you
     to program on them.
@@ -191,3 +190,10 @@ would result in non-trivial API changes.
 
 [mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all
 outreach activities related to *mlr* and *mlr3*.
+
+mlr3 talk at useR\! 2019 conference in Toulouse,
+France:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wsP2hiFnDQs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
+</iframe>

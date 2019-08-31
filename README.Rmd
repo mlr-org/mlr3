@@ -108,3 +108,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 # Talks, Workshops, etc.
 
 [mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all outreach activities related to _mlr_ and _mlr3_.
+
+mlr3 talk at useR! 2019 conference in Toulouse, France:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wsP2hiFnDQs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
