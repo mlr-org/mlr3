@@ -11,7 +11,7 @@ Predefined task generators are stored in the \link[mlr3misc:Dictionary]{mlr3misc
 e.g. \code{\link[=mlr_task_generators_xor]{xor}}.
 }
 \section{Construction}{
-\preformatted{g = TaskGenerator$new(id, task_type, packages = character(0L), param_set = ParamSet$new(), param_vals = list())
+\preformatted{g = TaskGenerator$new(id, task_type, packages = character(), param_set = ParamSet$new(), param_vals = list())
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr

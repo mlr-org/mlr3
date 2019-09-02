@@ -86,7 +86,7 @@ Takes a \link{Prediction} (or a list of \link{Prediction} objects named with val
 and calculates a numeric score.
 If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"} or \code{"requires_train_set"}, you must additionally
 pass the respective \link{Task}, the trained \link{Learner} or the training set indices.
-This is handled internally during \code{\link[=resampling]{resampling()}}/\code{\link[=benchmark]{benchmark()}}.
+This is handled internally during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 }
 }
 

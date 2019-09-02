@@ -23,7 +23,7 @@ test_that("DataBackendCbind", {
 test_that("issue #124", {
   task = tsk("iris")
   newcols = cbind(data.table(col = 1:150))
-  task$select(character(0))$cbind(newcols)
+  task$select(character())$cbind(newcols)
   expect_data_table(task$data(cols = "col"), ncols = 1L, nrows = 150L)
 })
 

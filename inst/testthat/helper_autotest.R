@@ -254,7 +254,7 @@ run_experiment = function(task, learner) {
       return(err(msg))
   }
 
-  return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(0)))
+  return(list(ok = TRUE, learner = learner, prediction = prediction, error = character()))
 }
 
 run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types) {

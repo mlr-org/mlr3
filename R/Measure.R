@@ -88,7 +88,7 @@
 #'   and calculates a numeric score.
 #'   If the measure if flagged with the properties `"requires_task"`, `"requires_learner"` or `"requires_train_set"`, you must additionally
 #'   pass the respective [Task], the trained [Learner] or the training set indices.
-#'   This is handled internally during [resampling()]/[benchmark()].
+#'   This is handled internally during [resample()]/[benchmark()].
 #'
 #' @family Measure
 #' @export
@@ -163,6 +163,10 @@ Measure = R6Class("Measure",
         prediction = do.call(c, sets)
       } else {
         assert_prediction(prediction)
+      }
+
+      if (nrow(prediction$data$tab) == 0L) {
+        return(NaN)
       }
 
       self$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)

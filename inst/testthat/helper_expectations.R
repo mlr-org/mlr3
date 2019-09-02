@@ -214,7 +214,7 @@ expect_task = function(task) {
   expect_hash(task$hash, 1L)
 
   # query zero columns
-  data = task$data(cols = character(0L), data_format = "data.table")
+  data = task$data(cols = character(), data_format = "data.table")
   checkmate::expect_data_table(data, ncols  = 0L)
 
   # query zero rows

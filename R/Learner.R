@@ -268,7 +268,7 @@ Learner = R6Class("Learner",
 
     warnings = function() {
       if (is.null(self$state$log)) {
-        character(0L)
+        character()
       } else {
         self$log[class == "warning", msg]
       }
@@ -276,7 +276,7 @@ Learner = R6Class("Learner",
 
     errors = function() {
       if (is.null(self$state$log)) {
-        character(0L)
+        character()
       } else {
         self$log[class == "error", msg]
       }

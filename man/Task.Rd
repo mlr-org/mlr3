@@ -222,7 +222,7 @@ task$feature_names
 task$formula()
 
 # Remove "Petal.Length"
-task$set_col_role("Petal.Length", character(0L))
+task$set_col_role("Petal.Length", character())
 
 # Remove "Petal.Width", alternative way
 task$select(setdiff(task$feature_names, "Petal.Width"))
