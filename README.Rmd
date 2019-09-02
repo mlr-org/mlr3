@@ -100,7 +100,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`lgr`](https://github.com/s-fleck/lgr): Logging facility. No extra recursive dependencies.
     - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No recursive dependencies.
     - [`mlbench`](https://cran.r-project.org/package=mlbench): A collection of machine learning data sets. No dependencies.
-* [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29): Objects are queryable for properties and capabilities, allowing you to programm on them.
+* [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29): Objects are queryable for properties and capabilities, allowing you to program on them.
 * Additional functionality that comes with extra dependencies:
     - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
     - To capture output, warnings and exceptions, [`evaluate`](https://cran.r-project.org/package=evaluate) and [`callr`](https://cran.r-project.org/package=callr) can be used.
@@ -108,3 +108,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 # Talks, Workshops, etc.
 
 [mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all outreach activities related to _mlr_ and _mlr3_.
+
+mlr3 talk at useR! 2019 conference in Toulouse, France:
+
+[![Watch the video](https://img.youtube.com/vi/wsP2hiFnDQs/maxresdefault.jpg)](https://www.youtube.com/watch?v=wsP2hiFnDQs&feature=youtu.be)
