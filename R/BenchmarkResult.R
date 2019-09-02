@@ -175,10 +175,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       tab = copy(self$data)
 
       for (m in measures) {
-        score = map_dbl(tab$prediction, function(p) {
-          m$score(p[names(p) %in% m$predict_sets])
-        })
-        set(tab, j = m$id, value = score)
+        set(tab, j = m$id, value = measure_score_data(m, self$data))
       }
 
       # replace hash with nr

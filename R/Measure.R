@@ -142,43 +142,12 @@ Measure = R6Class("Measure",
     },
 
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
-      if (is.null(task) && "requires_task" %in% self$properties) {
-        stopf("Measure '%s' requires a task", self$id)
-      }
-
-      if (is.null(learner) && "requires_learner" %in% self$properties) {
-        stopf("Measure '%s' requires a learner", self$learner)
-      }
-
-      if (is.null(train_set) && "requires_train_set" %in% self$properties) {
-        stopf("Measure '%s' requires the train_set", self$learner)
-      }
-
-      if (is.list(prediction)) {
-        assert_list(prediction, "Prediction", names = "unique")
-        ii = match(self$predict_sets, names(prediction), nomatch = NA)
-        if (anyMissing(ii)) {
-          return(NaN)
-        }
-        prediction = do.call(c, prediction[ii])
-      } else {
-        assert_prediction(prediction)
-      }
-
-      self$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
+      measure_score(self, prediction, task, learner, train_set)
     },
 
     aggregate = function(rr) {
       aggregator = self$aggregator %??% mean
-      score = function(prediction, task, learner, resampling, iteration) {
-        if (is.null(prediction)) {
-          NaN
-        } else {
-          self$score(prediction, task = task, learner = learner, train_set = resampling$train_set(iteration))
-        }
-      }
-      performance = pmap_dbl(rr$data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score)
-      aggregator(performance)
+      aggregator(measure_score_data(self, rr$data))
     }
   ),
 
@@ -188,3 +157,41 @@ Measure = R6Class("Measure",
     }
   )
 )
+
+measure_score = function(measure, prediction, task = NULL, learner = NULL, train_set = NULL) {
+  if (is.null(task) && "requires_task" %in% measure$properties) {
+    stopf("Measure '%s' requires a task", measure$id)
+  }
+
+  if (is.null(learner) && "requires_learner" %in% measure$properties) {
+    stopf("Measure '%s' requires a learner", measure$learner)
+  }
+
+  if (is.null(train_set) && "requires_train_set" %in% measure$properties) {
+    stopf("Measure '%s' requires the train_set", measure$learner)
+  }
+
+  if (is.null(prediction)) {
+    return(NaN)
+  }
+
+  if (is.list(prediction)) {
+    assert_list(prediction, "Prediction", names = "unique")
+    ii = measure$predict_sets %in% names(prediction)
+    if (!all(ii)) {
+      return(NaN)
+    }
+    prediction = do.call(c, prediction[ii])
+  } else {
+    assert_prediction(prediction)
+  }
+
+  measure$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
+}
+
+measure_score_data = function(measure, data) {
+  score = function(prediction, task, learner, resampling, iteration) {
+    measure$score(prediction, task = task, learner = learner, train_set = resampling$train_set(iteration))
+  }
+  pmap_dbl(data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score)
+}
