@@ -29,9 +29,9 @@
 #' @export
 MeasureRegr = R6Class("MeasureRegr", inherit = Measure, cloneable = FALSE,
   public = list(
-    initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", task_properties = character(0L), na_score = FALSE, packages = character(0L)) {
+    initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", task_properties = character(0L), packages = character(0L)) {
       super$initialize(id, task_type = "regr", range = range, minimize = minimize, aggregator = aggregator,
-        properties = properties, predict_type = predict_type, task_properties = task_properties, na_score = na_score, packages = packages)
+        properties = properties, predict_type = predict_type, task_properties = task_properties, packages = packages)
     }
   )
 )

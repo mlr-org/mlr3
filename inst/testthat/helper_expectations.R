@@ -334,7 +334,6 @@ expect_measure = function(m) {
   checkmate::expect_numeric(m$range, len = 2, any.missing = FALSE)
   testthat::expect_lt(m$range[1], m$range[2])
   checkmate::expect_flag(m$minimize, na.ok = TRUE)
-  checkmate::expect_flag(m$na_score)
   checkmate::expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
   checkmate::expect_function(m$score_internal, args = c("prediction", "..."))
   checkmate::expect_function(m$aggregate, args = "rr")

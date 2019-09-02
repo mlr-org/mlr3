@@ -23,8 +23,8 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 }
 \section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type, range, minimize, predict_type = "response",
-     task_properties = character(), na_score = FALSE, packages = character())
+Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
+     task_properties = character(), packages = character())
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -37,17 +37,31 @@ Both bounds may be infinite.
 \item \code{minimize} :: \code{logical(1)}\cr
 Set to \code{TRUE} if good predictions correspond to small values,
 and to \code{FALSE} if good predictions correspond to large values.
-If set to \code{NA}, tuning with this measure is not possible.
+If set to \code{NA}, tuning this measure is not possible.
 \item \code{aggregator} :: \code{function(x)}\cr
 Function to aggregate individual performance values \code{x} where \code{x} is a numeric vector.
 If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.
+\item \code{properties} :: \code{character()}\cr
+Properties of the measure.
+Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
+Supported by \code{mlr3}:
+\itemize{
+\item \code{"requires_task"} (requires the complete \link{Task}),
+\item \code{"requires_learner"} (requires the trained \link{Learner}),
+\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA}).
+}
 \item \code{predict_type} :: \code{character(1)}\cr
 Required predict type of the \link{Learner}.
 Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.
+\item \code{predict_sets} :: \code{character()}\cr
+Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
+Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Must be a non-empty subset of \code{c("train", "test")}.
+If multiple sets are provided, these are first combined to a single prediction object.
+Default is \code{"test"}.
 \item \code{task_properties} :: \code{character()}\cr
 Required task properties, see \link{Task}.
-\item \code{na_score} :: \code{logical(1)}\cr
-Is the measure expected to return \code{NA} in some cases? Default is \code{FALSE}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
 Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
@@ -56,25 +70,7 @@ Note that these packages will be loaded via \code{\link[=requireNamespace]{requi
 
 \section{Fields}{
 
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Identifier of the measure.
-\item \code{minimize} :: \code{logical(1)}\cr
-Is \code{TRUE} if the best value is reached via minimization and \code{FALSE} by maximization.
-\item \code{packages} :: \code{character()}\cr
-Stores the names of required packages.
-\item \code{range} :: \code{numeric(2)}\cr
-Stores the feasible range of the measure.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the required type of the \link{Task}.
-\item \code{task_properties} :: \code{character()}\cr
-Stores required properties of the \link{Task}.
-\item \code{predict_sets} :: \code{character()}\cr
-Sets to score predictions on.
-Must be a non-empty subset of \code{c("train", "test")}.
-Used in \code{aggregate()} to extract the right \code{predict_sets} from the \link{ResampleResult}.
-Default is \code{"test"}.
-}
+All variables passed to the constructor.
 }
 
 \section{Methods}{
@@ -84,12 +80,13 @@ Default is \code{"test"}.
 \link{ResampleResult} -> \code{numeric(1)}\cr
 Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
 Operates on the \link{Prediction}s of \link{ResampleResult} with matching \code{predict_sets}.
-\item \code{score(prediction, task = NULL, learner = NULL)}\cr
-((named list of) \link{Prediction}, \link{Task}, \link{Learner}) -> \code{numeric(1)}\cr
+\item \code{score(prediction, task = NULL, learner = NULL, train_set = NULL)}\cr
+((named list of) \link{Prediction}, \link{Task}, \link{Learner}, \code{integer()} | \code{character()}) -> \code{numeric(1)}\cr
 Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
 and calculates a numeric score.
-If the measure if flagged with the properties \code{"requires_task"} or \code{"requires_learner"}, you must additionally
-pass the respective \link{Task} or the \link{Learner} for the measure to extract information from these objects.
+If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"} or \code{"requires_train_set"}, you must additionally
+pass the respective \link{Task}, the trained \link{Learner} or the training set indices.
+This is handled internally during \code{\link[=resampling]{resampling()}}/\code{\link[=benchmark]{benchmark()}}.
 }
 }
 

@@ -28,11 +28,10 @@ MeasureOOBError = R6Class("MeasureOOBError",
       super$initialize(
         id = "oob_error",
         task_type = NA_character_,
-        properties = "requires_learner",
+        properties = c("na_score", "requires_learner"),
         predict_type = "response",
         range = c(-Inf, Inf),
-        minimize = NA,
-        na_score = TRUE
+        minimize = NA
       )
     },
 

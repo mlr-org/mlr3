@@ -105,10 +105,10 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
       super$initialize(
         id = sprintf("classif.%s", type),
         range = c(row$lower, row$upper),
+        properties = if (row$na_score) "na_score" else character(),
         minimize = row$minimize,
         predict_type = "response",
-        task_properties = "twoclass",
-        na_score = row$na_score
+        task_properties = "twoclass"
       )
     },
 
