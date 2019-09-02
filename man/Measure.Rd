@@ -72,6 +72,7 @@ Stores required properties of the \link{Task}.
 \item \code{predict_sets} :: \code{character()}\cr
 Sets to score predictions on.
 Must be a non-empty subset of \code{c("train", "test")}.
+Used in \code{aggregate()} to extract the right \code{predict_sets} from the \link{ResampleResult}.
 Default is \code{"test"}.
 }
 }

@@ -107,7 +107,7 @@ Measure = R6Class("Measure",
     id = NULL,
     task_type = NULL,
     predict_type = NULL,
-    predict_sets = "test",
+    predict_sets = NULL,
     aggregator = NULL,
     task_properties = NULL,
     range = NULL,
@@ -116,7 +116,7 @@ Measure = R6Class("Measure",
     na_score = NULL,
     packages = NULL,
 
-    initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", task_properties = character(), na_score = FALSE, packages = character()) {
+    initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test", task_properties = character(), na_score = FALSE, packages = character()) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = task_type
@@ -132,6 +132,7 @@ Measure = R6Class("Measure",
         self$properties = assert_subset(properties, mlr_reflections$measure_properties[[task_type]])
       }
       self$predict_type = predict_type
+      self$predict_sets = assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
       self$task_properties = assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       self$na_score = assert_flag(na_score)
       self$packages = assert_set(packages)

@@ -174,10 +174,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_flag(ids)
       tab = copy(self$data)
 
-      if (nrow(tab) && length(measures)) {
-        tab = rcbind(tab, map_dtr(tab$prediction, function(p) {
-          set_names(map(measures, function(m) m$score(p)), ids(measures))
-        }))
+      for (m in measures) {
+        score = map_dbl(tab$prediction, function(p) {
+          m$score(p[names(p) %in% m$predict_sets])
+        })
+        set(tab, j = m$id, value = score)
       }
 
       # replace hash with nr

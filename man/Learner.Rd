@@ -37,7 +37,10 @@ List of hyperparameter settings.
 \item \code{predict_types} :: \code{character()}\cr
 Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
 \item \code{predict_sets} :: \code{character()}\cr
-Sets to predict on. Must be a non-empty subset of \code{c("train", "test")}.
+Sets to predict on during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Creates and stores a separate \link{Prediction} object for each set.
+The individual sets can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be set to operate on subsets of the calculated prediction sets.
+Must be a non-empty subset of \code{("train", "test")}.
 Default is \code{"test"}.
 \item \code{feature_types} :: \code{character()}\cr
 Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.

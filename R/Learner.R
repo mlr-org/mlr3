@@ -43,7 +43,10 @@
 #'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
 #'
 #' * `predict_sets` :: `character()`\cr
-#'   Sets to predict on. Must be a non-empty subset of `c("train", "test")`.
+#'   Sets to predict on during [resample()]/[benchmark()].
+#'   Creates and stores a separate [Prediction] object for each set.
+#'   The individual sets can be combined via getters in [ResampleResult]/[BenchmarkResult], or [Measure]s can be set to operate on subsets of the calculated prediction sets.
+#'   Must be a non-empty subset of `("train", "test")`.
 #'   Default is `"test"`.
 #'
 #' * `feature_types` :: `character()`\cr
@@ -320,7 +323,6 @@ Learner = R6Class("Learner",
 
 
 learner_print = function(self) {
-
   catf(format(self))
   catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
   catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
