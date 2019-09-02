@@ -82,7 +82,7 @@ test_that("predict on newdata works / titanic use case", {
   expect_true(allMissing(p$truth))
 })
 
-test_that("predict no train + test set", {
+test_that("predict train + test set", {
   task = tsk("iris")
   learner = lrn("classif.rpart")
   rr = resample(task, learner, rsmp("holdout"))
@@ -92,6 +92,6 @@ test_that("predict no train + test set", {
   m3 = msr("classif.ce", id = "trte", predict_sets = c("train", "test"))
   measures = list(m1, m2, m3)
 
-  rr$performance()
+  rr$performance(measures = measures)
 
 })

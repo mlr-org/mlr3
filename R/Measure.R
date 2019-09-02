@@ -83,6 +83,7 @@
 #' * `predict_sets` :: `character()`\cr
 #'   Sets to score predictions on.
 #'   Must be a non-empty subset of `c("train", "test")`.
+#'   Used in `aggregate()` to extract the right `predict_sets` from the [ResampleResult].
 #'   Default is `"test"`.
 #'
 #' @section Methods:
@@ -163,7 +164,14 @@ Measure = R6Class("Measure",
       }
 
       if (is.list(prediction)) {
-        prediction = do.call(c, prediction[self$predict_sets])
+        assert_list(prediction, "Prediction", names = "unique")
+        sets = prediction[names(prediction) %in% self$predict_sets]
+        if (length(sets) == 0L) {
+          return(NaN)
+        }
+        prediction = do.call(c, sets)
+      } else {
+        assert_prediction(prediction)
       }
 
       self$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
@@ -172,7 +180,7 @@ Measure = R6Class("Measure",
     aggregate = function(rr) {
       aggregator = self$aggregator %??% mean
       score = function(prediction, task, learner, resampling, iteration) {
-        prediction = do.call(c, prediction[self$predict_sets])
+        prediction = do.call(c, prediction[names(prediction) %in% self$predict_sets])
         if (is.null(prediction)) {
           NA_real_
         } else {

@@ -165,6 +165,7 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
     learner_predict(learner, task, set)
   })
   names(prediction) = learner$predict_sets
+  prediction = prediction[!vapply(prediction, is.null, NA)]
 
   if (!store_models) {
     learner$state$model = NULL

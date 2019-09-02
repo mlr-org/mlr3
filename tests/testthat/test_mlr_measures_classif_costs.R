@@ -40,12 +40,12 @@ test_that("multiclass / level reordering", {
   diag(costs) = 0
   rownames(costs) = colnames(costs) = task$class_names
 
-  m1 = mlr_measures$get("classif.costs", costs = costs, normalize = FALSE)
+  m1 = msr("classif.costs", id = "c1", costs = costs, normalize = FALSE)
   costs = costs[c(2, 1, 3), c(3, 2, 1)]
-  m2 = mlr_measures$get("classif.costs", costs = costs, normalize = FALSE)
+  m2 = msr("classif.costs", id = "c2", costs = costs, normalize = FALSE)
   measures = list(m1, m2)
 
   lrn = lrn("classif.featureless")
   perf = lrn$train(task)$predict(task)$score(measures, task = task)
-  expect_equal(perf[1], perf[2])
+  expect_equal(unname(perf[1]), unname(perf[2]))
 })
