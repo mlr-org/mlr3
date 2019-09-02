@@ -126,7 +126,7 @@
 #' print(rr)
 #'
 #' # access the confusion matrix of the first resampling iteration
-#' rr$data$prediction[[1]]$confusion
+#' rr$predictions()[[1]]$confusion
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
     data = NULL,
@@ -169,12 +169,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     performance = function(measures = NULL, ids = TRUE) {
+      measures = as_measures(measures, task_type = self$task_type)
+      assert_measures(measures)
       assert_flag(ids)
       tab = copy(self$data)
 
-      if (nrow(tab)) {
-        score = function(prediction, task, learner) as.list(prediction$score(measures, task = task, learner = learner))
-        tab = rcbind(tab, pmap_dtr(self$data[, c("prediction", "task", "learner"), with = FALSE], score))
+      for (m in measures) {
+        score = map_dbl(tab$prediction, function(p) {
+          m$score(p[names(p) %in% m$predict_sets])
+        })
+        set(tab, j = m$id, value = score)
       }
 
       # replace hash with nr

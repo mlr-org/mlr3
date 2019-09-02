@@ -103,7 +103,12 @@ check_measure = function(measure, task = NULL, learner = NULL) {
 }
 
 check_measures = function(measures, task = NULL, learner = NULL) {
-  map_check(measures, check_measure, task = task, learner = learner)
+  msg = map_check(measures, check_measure, task = task, learner = learner)
+  if (!isTRUE(msg))
+    return(msg)
+  if (anyDuplicated(ids(measures)))
+    return("Measures need to have unique IDs")
+  return(TRUE)
 }
 
 check_resampling = function(resampling, instantiated = NULL) {

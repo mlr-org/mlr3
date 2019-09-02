@@ -229,7 +229,7 @@
 #' task$formula()
 #'
 #' # Remove "Petal.Length"
-#' task$set_col_role("Petal.Length", character(0L))
+#' task$set_col_role("Petal.Length", character())
 #'
 #' # Remove "Petal.Width", alternative way
 #' task$select(setdiff(task$feature_names, "Petal.Width"))
@@ -244,7 +244,7 @@ Task = R6Class("Task",
     id = NULL,
     task_type = NULL,
     backend = NULL,
-    properties = character(0L),
+    properties = character(),
     row_roles = NULL,
     col_roles = NULL,
     col_info = NULL,
@@ -271,7 +271,7 @@ Task = R6Class("Task",
 
       rn = self$backend$rownames
       self$row_roles = list(use = rn, validation = rn[0L])
-      self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character(0L))
+      self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       self$col_roles$feature = setdiff(self$col_info$id, self$backend$primary_key)
     },
 
@@ -510,7 +510,7 @@ col_info = function(x, ...) {
   UseMethod("col_info")
 }
 
-col_info.data.table = function(x, primary_key = character(0L), ...) {
+col_info.data.table = function(x, primary_key = character(), ...) {
   types = map_chr(x, function(x) class(x)[1L])
   discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct_values, drop = FALSE))

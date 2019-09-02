@@ -33,12 +33,6 @@ The task \code{\link[=resample]{resample()}} operated on.
 List of trained learners, sorted by resampling iteration.
 \item \code{resampling} :: \link{Resampling}\cr
 Instantiated \link{Resampling} object which stores the splits into training and test.
-\item \code{predictions} :: list of \link{Prediction}\cr
-List of prediction objects, sorted by resampling iteration.
-\item \code{prediction} :: \link{Prediction}\cr
-Combined \link{Prediction} of all individual resampling iterations.
-Note that the performance of measures is not calculated on this object,
-but instead on each iterations separately and then combined with an aggregate function.
 \item \code{warnings} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with all warning messages.
 Column names are \code{"iteration"} and \code{"msg"}.
@@ -55,6 +49,16 @@ Hash (unique identifier) for this object.
 \section{Methods}{
 
 \itemize{
+\item \code{predictions(predict_sets = "test")}\cr
+\code{character()} -> list of \link{Prediction}\cr
+List of prediction objects, sorted by resampling iteration.
+If multiple sets are given, these are combined to a single one for each iteration.
+\item \code{prediction(predict_sets = "test")}\cr
+\code{character()} -> \link{Prediction}\cr
+Combined \link{Prediction} of all individual resampling iterations, and all provided predict sets.
+Note that performance measures do not operate on this object,
+but instead on each prediction object separately and then combine the performance scores
+with the aggregate function of the respective \link{Measure}.
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
 (list of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects:
@@ -86,8 +90,8 @@ rr = resample(task, learner, resampling)
 print(rr)
 
 rr$aggregate(msr("classif.acc"))
-rr$prediction
-rr$prediction$confusion
+rr$prediction()
+rr$prediction()$confusion
 rr$warnings
 rr$errors
 }

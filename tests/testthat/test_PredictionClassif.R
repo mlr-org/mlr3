@@ -95,8 +95,7 @@ test_that("c", {
   lrn$predict_type = "prob"
   rr = resample(task, lrn, rsmp("cv", folds = 3))
 
-  pred = do.call(c, rr$data$prediction)
-  expect_prediction(pred)
+  pred = do.call(c, rr$predictions())
   expect_prediction_classif(pred)
 
   dt = as.data.table(pred)
@@ -106,11 +105,11 @@ test_that("c", {
   expect_equal(sum(conf), 150L)
   expect_equal(rownames(conf), task$class_names)
   expect_equal(colnames(conf), task$class_names)
-  expect_equal(conf, Reduce("+", map(rr$data$prediction, "confusion")))
+  expect_equal(conf, Reduce("+", map(rr$data$prediction, function(x) x$test$confusion)))
 
   # duplicates are detected?
-  p1 = rr$data$prediction[[1]]
-  p2 = rr$data$prediction[[1]]
+  p1 = rr$data$prediction[[1]]$test
+  p2 = rr$data$prediction[[1]]$test
   p3 = c(p1, p2, keep_duplicates = FALSE)
   expect_equal(sort(p1$data$row_ids), sort(p2$data$row_ids))
   expect_equal(sort(p1$data$row_ids), sort(p3$data$row_ids))

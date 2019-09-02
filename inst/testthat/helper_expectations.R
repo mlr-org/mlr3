@@ -214,7 +214,7 @@ expect_task = function(task) {
   expect_hash(task$hash, 1L)
 
   # query zero columns
-  data = task$data(cols = character(0L), data_format = "data.table")
+  data = task$data(cols = character(), data_format = "data.table")
   checkmate::expect_data_table(data, ncols  = 0L)
 
   # query zero rows
@@ -334,7 +334,6 @@ expect_measure = function(m) {
   checkmate::expect_numeric(m$range, len = 2, any.missing = FALSE)
   testthat::expect_lt(m$range[1], m$range[2])
   checkmate::expect_flag(m$minimize, na.ok = TRUE)
-  checkmate::expect_flag(m$na_score)
   checkmate::expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
   checkmate::expect_function(m$score_internal, args = c("prediction", "..."))
   checkmate::expect_function(m$aggregate, args = "rr")
@@ -394,7 +393,9 @@ expect_resample_result = function(rr) {
   checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
   checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
 
-  expect_prediction(rr$prediction)
+  lapply(rr$data$prediction, expect_list, types = "Prediction", names = "unique")
+  expect_prediction(rr$prediction())
+  expect_list(rr$predictions(), "Prediction")
 }
 
 expect_benchmark_result = function(bmr) {

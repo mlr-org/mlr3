@@ -68,7 +68,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
     },
 
     selected_features = function() {
-      character(0L)
+      character()
     }
   )
 )

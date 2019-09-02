@@ -42,6 +42,13 @@
 #' * `predict_types` :: `character()`\cr
 #'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
 #'
+#' * `predict_sets` :: `character()`\cr
+#'   Sets to predict on during [resample()]/[benchmark()].
+#'   Creates and stores a separate [Prediction] object for each set.
+#'   The individual sets can be combined via getters in [ResampleResult]/[BenchmarkResult], or [Measure]s can be set to operate on subsets of the calculated prediction sets.
+#'   Must be a non-empty subset of `("train", "test")`.
+#'   Default is `"test"`.
+#'
 #' * `feature_types` :: `character()`\cr
 #'   Feature types the learner operates on. Must be a subset of [`mlr_reflections$task_feature_types`][mlr_reflections].
 #'
@@ -189,6 +196,7 @@ Learner = R6Class("Learner",
     properties = NULL,
     data_formats = NULL,
     packages = NULL,
+    predict_sets = "test",
     fallback = NULL,
 
     initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
@@ -255,20 +263,23 @@ Learner = R6Class("Learner",
     },
 
     log = function() {
-      tab = rbindlist(list(train = self$state$train_log, predict = self$state$predict_log), idcol = "stage", use.names = TRUE)
-      if (nrow(tab) == 0L) {
-        tab = data.table(stage = character(), class = character(), msg = character())
-      }
-      tab$stage = as_factor(tab$stage, levels = c("train", "predict"))
-      tab
+      self$state$log$data %??% Log$new()$data
     },
 
     warnings = function() {
-      self$log[class == "warning"]$msg
+      if (is.null(self$state$log)) {
+        character()
+      } else {
+        self$log[class == "warning", msg]
+      }
     },
 
     errors = function() {
-      self$log[class == "error"]$msg
+      if (is.null(self$state$log)) {
+        character()
+      } else {
+        self$log[class == "error", msg]
+      }
     },
 
     hash = function() {
@@ -312,7 +323,6 @@ Learner = R6Class("Learner",
 
 
 learner_print = function(self) {
-
   catf(format(self))
   catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
   catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))

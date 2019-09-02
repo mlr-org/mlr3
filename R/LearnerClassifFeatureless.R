@@ -81,7 +81,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
     },
 
     selected_features = function() {
-      character(0L)
+      character()
     }
   )
 )

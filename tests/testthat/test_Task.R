@@ -53,7 +53,7 @@ test_that("Task rbind", {
   expect_task(task)
   expect_equal(task$nrow, 160)
 
-  task$rbind(iris[integer(0), ])
+  task$rbind(iris[integer(), ])
   expect_equal(task$nrow, 160)
 
   # 185
@@ -85,7 +85,7 @@ test_that("Task cbind", {
   task$cbind(data)
   expect_equal(task$ncol, 7L)
 
-  task$cbind(iris[, character(0)])
+  task$cbind(iris[, character()])
   expect_equal(task$ncol, 7L)
 
   task$cbind(data.table())
@@ -151,7 +151,7 @@ test_that("rename works", {
 test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")
-  task$set_row_role(16:20, character(0))
+  task$set_row_role(16:20, character())
 
   expect_null(task$groups)
   expect_null(task$weights)
@@ -221,13 +221,13 @@ test_that("task$missings() works", {
 })
 
 test_that("task$feature_types preserves key (#193)", {
-  task = tsk("iris")$select(character(0))$cbind(iris[1:4])
+  task = tsk("iris")$select(character())$cbind(iris[1:4])
   expect_data_table(task$feature_types, ncols = 2L, nrows = 4L, key = "id")
 })
 
 test_that("switch columns on and off (#301)", {
   task = tsk("iris")$
-    set_col_role("Sepal.Length", character(0))$
+    set_col_role("Sepal.Length", character())$
     cbind(data.table(x = 1:150))$
     set_col_role("Sepal.Length", "feature")
   expect_data_table(task$data(), ncols = 6, nrows = 150, any.missing = FALSE)
