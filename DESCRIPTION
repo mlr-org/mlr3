@@ -108,6 +108,7 @@ Collate:
     'MeasureClassifCosts.R'
     'MeasureClassifF1.R'
     'MeasureElapsedTime.R'
+    'MeasureNumberObservations.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
     'MeasureRegrMAE.R'

@@ -1,10 +1,3 @@
-if (getOption("mlr3.debug", FALSE)) {
-  options(
-    warnPartialMatchAttr = TRUE,
-    warnPartialMatchDollar = TRUE
-  )
-}
-
 `[[.R6` = function(x, i, ...) {
   if (exists(i, envir = x, inherits = FALSE))
     return(get(i, envir = x))
