@@ -156,17 +156,13 @@ Measure = R6Class("Measure",
 
       if (is.list(prediction)) {
         assert_list(prediction, "Prediction", names = "unique")
-        sets = prediction[names(prediction) %in% self$predict_sets]
-        if (length(sets) == 0L) {
+        ii = match(self$predict_sets, names(prediction), nomatch = NA)
+        if (anyMissing(ii)) {
           return(NaN)
         }
-        prediction = do.call(c, sets)
+        prediction = do.call(c, prediction[ii])
       } else {
         assert_prediction(prediction)
-      }
-
-      if (nrow(prediction$data$tab) == 0L) {
-        return(NaN)
       }
 
       self$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
@@ -175,9 +171,8 @@ Measure = R6Class("Measure",
     aggregate = function(rr) {
       aggregator = self$aggregator %??% mean
       score = function(prediction, task, learner, resampling, iteration) {
-        prediction = do.call(c, prediction[names(prediction) %in% self$predict_sets])
         if (is.null(prediction)) {
-          NA_real_
+          NaN
         } else {
           self$score(prediction, task = task, learner = learner, train_set = resampling$train_set(iteration))
         }
