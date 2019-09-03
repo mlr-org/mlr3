@@ -71,19 +71,19 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
 
     folds = function(iters) {
       iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
-      ((iters - 1L) %% self$param_set$values$repeats) + 1L
+      ((iters - 1L) %% as.integer(self$param_set$values$repeats)) + 1L
     },
 
     repeats = function(iters) {
       iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
-      ((iters - 1L) %/% self$param_set$values$folds) + 1L
+      ((iters - 1L) %/% as.integer(self$param_set$values$folds)) + 1L
     }
   ),
 
   active = list(
     iters = function() {
       pv = self$param_set$values
-      pv$repeats * pv$folds
+      as.integer(pv$repeats) * as.integer(pv$folds)
     }
   ),
 
@@ -91,26 +91,26 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     .sample = function(ids) {
       pv = self$param_set$values
       n = length(ids)
-      folds = pv$folds
+      folds = as.integer(pv$folds)
       map_dtr(seq_len(pv$repeats), function(i) {
         data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
       })
     },
 
     .get_train = function(i) {
-      i = i - 1L
+      i = as.integer(i) - 1L
       folds = as.integer(self$param_set$values$folds)
-      rep = as.integer(i %/% folds) + 1L
-      fold = as.integer(i %% folds) + 1L
+      rep = i %/% folds + 1L
+      fold = i %% folds + 1L
       ii = data.table(rep = rep, fold = seq_len(folds)[-fold])
       self$instance[ii, "row_id", on = names(ii), nomatch = 0L][[1L]]
     },
 
     .get_test = function(i) {
-      i = i - 1L
+      i = as.integer(i) - 1L
       folds = as.integer(self$param_set$values$folds)
-      rep = as.integer(i %/% folds) + 1L
-      fold = as.integer(i %% folds) + 1L
+      rep = i %/% folds + 1L
+      fold = i %% folds + 1L
       ii = data.table(rep = rep, fold = fold)
       self$instance[ii, "row_id", on = names(ii), nomatch = 0L][[1L]]
     },

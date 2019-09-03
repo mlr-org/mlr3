@@ -57,7 +57,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
 
   active = list(
     iters = function() {
-      self$param_set$values$repeats
+      as.integer(self$param_set$values$repeats)
     }
   ),
 

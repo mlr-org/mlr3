@@ -61,7 +61,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
       if (is.null(self$instance$test)) {
         return(NA_character_)
       }
-      hash(list(class(self), self$id, self$param_set$values, self$instance))
+      hash(class(self), self$id, self$param_set$values, self$instance)
     }
   ),
 

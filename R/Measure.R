@@ -191,7 +191,7 @@ measure_score = function(measure, prediction, task = NULL, learner = NULL, train
 
 measure_score_data = function(measure, data) {
   score = function(prediction, task, learner, resampling, iteration) {
-    measure$score(prediction, task = task, learner = learner, train_set = resampling$train_set(iteration))
+    measure_score(measure, prediction, task, learner, resampling$train_set(iteration))
   }
   pmap_dbl(data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score)
 }
