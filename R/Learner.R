@@ -283,7 +283,7 @@ Learner = R6Class("Learner",
     },
 
     hash = function() {
-      hash(list(class(self), self$id, self$param_set$values, private$.predict_type))
+      hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
     },
 
     predict_type = function(rhs) {

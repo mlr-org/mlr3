@@ -1,31 +1,29 @@
-#' @title Number of Observations in Prediction Measure
+#' @title Debug Measure
 #'
 #' @usage NULL
-#' @aliases mlr_measures_n_predict
+#' @aliases mlr_measures_debug
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'
 #' @section Construction:
 #' ```
-#' MeasureNPredict$new()
-#' mlr_measures$get("n_predict")
-#' msr("n_predict")
+#' MeasureDebug$new()
+#' mlr_measures$get("debug")
+#' msr("debug")
 #' ```
 #'
 #' @description
-#' Returns the number of observations in the [Prediction] object.
+#' This measure returns the number of observations in the [Prediction] object.
 #' Its main purpose is debugging.
 #'
 #' @template seealso_measure
 #' @export
-MeasureNPredict = R6Class("MeasureNPredict",
+MeasureDebug = R6Class("MeasureDebug",
   inherit = Measure,
   public = list(
-    parts = NULL,
-
     initialize = function() {
       super$initialize(
-        id = "n_predict",
+        id = "debug",
         task_type = NA_character_,
         predict_type = "response",
         range = c(0, Inf),
@@ -40,4 +38,4 @@ MeasureNPredict = R6Class("MeasureNPredict",
 )
 
 #' @include mlr_measures.R
-mlr_measures$add("n_predict", MeasureNPredict)
+mlr_measures$add("debug", MeasureDebug)

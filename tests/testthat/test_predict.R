@@ -84,9 +84,9 @@ test_that("predict on newdata works / titanic use case", {
 
 test_that("predict train + test set", {
   task = tsk("iris")
-  m1 = msr("n_predict", id = "tr", predict_sets = "train")
-  m2 = msr("n_predict", id = "te", predict_sets = "test")
-  m3 = msr("n_predict", id = "trte", predict_sets = c("train", "test"))
+  m1 = msr("debug", id = "tr", predict_sets = "train")
+  m2 = msr("debug", id = "te", predict_sets = "test")
+  m3 = msr("debug", id = "trte", predict_sets = c("train", "test"))
   measures = list(m1, m2, m3)
   hout = rsmp("holdout")$instantiate(task)
   n_train = length(hout$train_set(1))
