@@ -428,7 +428,7 @@ expect_benchmark_result = function(bmr) {
 
   measures = mlr3::default_measures(bmr$task_type)
   tab = bmr$aggregate(measures, ids = TRUE)
-  checkmate::expect_data_table(tab, ncols = 5L + length(measures))
+  checkmate::expect_data_table(tab, min.cols = 5L + length(measures))
   checkmate::expect_names(names(tab), must.include = c("nr", "resample_result", "resampling_id", "task_id", "learner_id", "resampling_id", mlr3misc::map_chr(measures, "id")))
   testthat::expect_equal(tab$nr, seq_len(nrow(tab)))
   checkmate::expect_list(tab$resample_result, "ResampleResult")
