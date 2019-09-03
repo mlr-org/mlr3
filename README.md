@@ -6,7 +6,11 @@ learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 
 [![Build
 Status](https://travis-ci.org/mlr-org/mlr3.svg?branch=master)](https://travis-ci.org/mlr-org/mlr3)
-[![CRAN](https://www.r-pkg.org/badges/version/mlr3)](https://cran.r-project.org/package=mlr3)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
+[![cran
+checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
+[![CRAN
+Downloads](https://cranlogs.r-pkg.org/badges/mlr3)](https://cran.rstudio.com/web/packages/mlr3/index.html)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Dependencies](https://tinyverse.netlify.com/badge/mlr3)](https://cran.r-project.org/package=mlr3)
@@ -91,9 +95,9 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [09:01:01.955] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [09:01:02.063] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [09:01:02.080] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [12:14:23.170] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [12:14:23.295] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [12:14:23.312] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$performance(measure)
@@ -103,10 +107,10 @@ rr$performance(measure)
     ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
-    ##        resampling resampling_id iteration          prediction classif.acc
-    ## 1: <ResamplingCV>            cv         1 <PredictionClassif>        0.92
-    ## 2: <ResamplingCV>            cv         2 <PredictionClassif>        0.92
-    ## 3: <ResamplingCV>            cv         3 <PredictionClassif>        0.94
+    ##        resampling resampling_id iteration prediction classif.acc
+    ## 1: <ResamplingCV>            cv         1     <list>        0.92
+    ## 2: <ResamplingCV>            cv         2     <list>        0.92
+    ## 3: <ResamplingCV>            cv         3     <list>        0.94
 
 ``` r
 rr$aggregate(measure)
