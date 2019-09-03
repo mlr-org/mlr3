@@ -28,7 +28,7 @@ test_that("parallel benchmark", {
 
     bmr = benchmark(benchmark_grid(task, learner, rsmp("cv", folds = 3)))
     expect_benchmark_result(bmr)
-    expect_equal(bmr$aggregate(warnings = TRUE)$warnings, 0L)
-    expect_equal(bmr$aggregate(errors = TRUE)$errors, 0L)
+    expect_equal(bmr$aggregate(conditions = TRUE)$warnings, 0L)
+    expect_equal(bmr$aggregate(conditions = TRUE)$errors, 0L)
   })
 })

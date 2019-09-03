@@ -7,6 +7,8 @@
 \format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the result container object returned by \code{\link[=benchmark]{benchmark()}}.
+A \link{BenchmarkResult} consists of the data row-binded data of multiple \link{ResampleResult}s,
+which can easily be re-constructed.
 
 Note that all stored objects are accessed by reference.
 Do not modify any object without cloning it first.
@@ -19,6 +21,7 @@ Do not modify any object without cloning it first.
 Table with data for one resampling iteration per row:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), \link{Prediction}, and the hash (\code{character(1)})
 of the corresponding \link{ResampleResult}.
+Additional columns are kept in the resulting object.
 }
 }
 
@@ -26,8 +29,19 @@ of the corresponding \link{ResampleResult}.
 
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Internal data storage.
-We discourage users to directly work with this field.
+Internal data storage with one row per resampling iteration.
+Can be joined with \code{$rr_data} by joining on column \code{"hash"}.
+We discourage users to directly work with this table.
+
+Package develops on the other hand may opt to add additional columns here.
+These columns are preserved in all mutators.
+\item \code{rr_data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+Internal data storage with one row per \link{ResampleResult}.
+Can be joined with \code{$data} by joining on column \code{"hash"}.
+Not used in \code{mlr3} directly, but can be exploited by add-on packages.
+
+Package develops may opt to add additional columns here.
+These columns are preserved in all mutators.
 \item \code{task_type} :: \code{character(1)}\cr
 Task type of objects in the \code{BenchmarkResult}.
 All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are required to have the same task type, e.g., \code{"classif"} or \code{"regr"}.
@@ -50,22 +64,23 @@ Vector of hashes of all included \link{ResampleResult}s.
 \section{Methods}{
 
 \itemize{
-\item \code{aggregate(measures = NULL, ids = TRUE, params = FALSE, warnings = FALSE, errors = FALSE)}\cr
+\item \code{aggregate(measures = NULL, ids = TRUE, hashes = FALSE, params = FALSE, conditions = FALSE)}\cr
 (list of \link{Measure}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a result table where resampling iterations are aggregated together into \link{ResampleResult}s.
+Returns a result table where resampling iterations are combined into \link{ResampleResult}s.
 A column with the aggregated performance is added for each \link{Measure}, named with the id of the respective measure.
 
-Additional arguments control the number of additional columns:
+For convenience, the following parameters can be set to extract more information from the returned \link{ResampleResult}:
 \itemize{
+\item \code{hashes} :: \code{logical(1)}\cr
+Adds the hash values of the \link{ResampleResult} as extra character column \code{"hash"}.
 \item \code{ids} :: \code{logical(1)}\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as extra character columns.
 \item \code{params} :: \code{logical(1)}\cr
 Adds the hyperparameter values as extra list column \code{"params"}.
 You can unnest them with \code{\link[mlr3misc:unnest]{mlr3misc::unnest()}}.
-\item \code{warnings} :: \code{logical(1)}\cr
-Adds the number of resampling iterations with at least one warning as extra integer column \code{"warnings"}.
-\item \code{errors} :: \code{logical(1)}\cr
-Adds the number of resampling iterations with errors as extra integer column \code{"errors"}.
+\item \code{conditions} :: \code{logical(1)}\cr
+Adds the number of resampling iterations with at least one warning as extra integer column \code{"warnings"}, and
+the number of resampling iterations with errors as extra integer column \code{"errors"}.
 }
 \item \code{performance(measures = NULL, ids = TRUE)}\cr
 (list of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
@@ -74,9 +89,10 @@ Returns a table with one row for each resampling iteration, including all involv
 If \code{ids} is set to \code{TRUE}, character column of extracted ids are added to the table for convenient filtering: \code{"task_id"}, \code{"learner_id"}, and \code{"resampling_id"}.
 Additionally calculates the provided performance measures and binds the performance as extra columns.
 These columns are named using the id of the respective \link{Measure}.
-\item \code{resample_result(i)}\cr
-(\code{integer(1)} -> \link{ResampleResult})\cr
-Retrieve the i-th \link{ResampleResult}.
+\item \code{resample_result(i = NULL, hash = NULL)}\cr
+(\code{integer(1)}, \code{character(1)}) -> \link{ResampleResult}\cr
+Retrieve the i-th \link{ResampleResult}, by position or by hash.
+\code{i} and \code{hash} are mutually exclusive.
 \item \code{combine(bmr)}\cr
 (\link{BenchmarkResult} | \code{NULL}) -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself, mutating the \link{BenchmarkResult} in-place.

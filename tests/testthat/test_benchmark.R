@@ -97,7 +97,13 @@ test_that("empty bmr", {
 })
 
 test_that("bmr$resample_result()", {
+  hashes = bmr$hashes
   expect_resample_result(bmr$resample_result(1L))
+  expect_resample_result(bmr$resample_result(hash = hashes[1]))
+  expect_error(bmr$resample_result(0))
+  expect_error(bmr$resample_result(100))
+  expect_error(bmr$resample_result(hash = "a"))
+  expect_error(bmr$resample_result(i = 1, hash = hashes[1]))
 })
 
 test_that("inputs are cloned", {
@@ -180,4 +186,29 @@ test_that("extract params", {
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
+})
+
+test_that("rr_info", {
+  tasks = mlr_tasks$mget(c("iris", "sonar"))
+  learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
+  resamplings = rsmp("cv", folds = 3)
+  design = benchmark_grid(tasks, learners, resamplings)
+  bmr = benchmark(design)
+
+  tasks = mlr_tasks$mget("wine")
+  learners = mlr_learners$mget("classif.featureless")
+  resamplings = rsmp("cv", folds = 3)
+  design = benchmark_grid(tasks, learners, resamplings)
+  new_bmr = benchmark(design)
+
+  bmr$rr_data = data.table(bmr$data[, list(hash = unique(hash))], source = "old")
+  new_bmr$rr_data = data.table(new_bmr$data[, list(hash = unique(hash))], source = "new")
+
+  bmr$combine(new_bmr)
+  expect_set_equal(bmr$rr_data$hash, bmr$data$hash)
+  expect_set_equal(bmr$rr_data$hash, c(bmr$hashes, new_bmr$hashes))
+  expect_equal(anyDuplicated(bmr$rr_data$hash), 0)
+
+  tab = bmr$aggregate()
+  expect_equal(tab$source, c(rep("old", 4), "new"))
 })
