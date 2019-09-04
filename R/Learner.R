@@ -156,6 +156,7 @@
 #'   The returned vector is named with feature names and sorted in decreasing order.
 #'   Note that the model might omit features it has not used at all.
 #'   The learner must be tagged with property `"importance"`.
+#'   To filter variables using the importance scores, use package \CRANpkg{mlr3filters}.
 #'
 #' * `selected_features(...)`: Returns a subset of selected features as `character()`.
 #'   The learner must be tagged with property `"selected_features"`.

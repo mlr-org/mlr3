@@ -139,6 +139,7 @@ The higher the score, the more important the variable.
 The returned vector is named with feature names and sorted in decreasing order.
 Note that the model might omit features it has not used at all.
 The learner must be tagged with property \code{"importance"}.
+To filter variables using the importance scores, use package \CRANpkg{mlr3filters}.
 \item \code{selected_features(...)}: Returns a subset of selected features as \code{character()}.
 The learner must be tagged with property \code{"selected_features"}.
 \item \code{oob_error(...)}: Returns the out-of-bag error of the model as \code{numeric(1)}.
