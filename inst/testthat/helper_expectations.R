@@ -103,14 +103,12 @@ expect_backend = function(b) {
   expect_true(all(lengths(d) <= 1L)) # NA -> 0 zero length
 
   ## missings are handled by distinct?
-  if (!isNamespaceLoaded("mlr3db") || packageVersion("mlr3db") > "0.1.1") {
-    d = b$distinct(rn, cn, na_rm = TRUE)
-    checkmate::qexpectr(d, "V")
+  d = b$distinct(rn, cn, na_rm = TRUE)
+  checkmate::qexpectr(d, "V")
 
-    d = b$distinct(rn, cn, na_rm = FALSE)
-    m = b$missings(rn, cn)
-    expect_equal(sapply(d, checkmate::anyMissing), m > 0L)
-  }
+  d = b$distinct(rn, cn, na_rm = FALSE)
+  m = b$missings(rn, cn)
+  expect_equal(sapply(d, checkmate::anyMissing), m > 0L)
 
   # $missings()
   x = b$missings(b$rownames, b$colnames)
