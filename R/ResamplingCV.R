@@ -42,14 +42,13 @@
 ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
     initialize = function() {
-      super$initialize(
-        id = "cv",
-        param_set = ParamSet$new(params = list(
-          ParamUty$new("stratify", default = NULL),
-          ParamInt$new("folds", lower = 1L, tags = "required")
-        )),
-        param_vals = list(folds = 10L)
-      )
+      ps = ParamSet$new(list(
+        ParamUty$new("stratify", default = NULL),
+        ParamInt$new("folds", lower = 1L, tags = "required")
+      ))
+      ps$values = list(folds = 10L)
+
+      super$initialize(id = "cv", param_set = ps)
     }
   ),
 

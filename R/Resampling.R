@@ -113,7 +113,10 @@ Resampling = R6Class("Resampling",
     initialize = function(id, param_set = ParamSet$new(), param_vals = list(), duplicated_ids = FALSE) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
-      self$param_set$values = param_vals
+      if (length(param_vals) > 0L) {
+        .Deprecated(msg = "Do not use `param_vals`, set parameter values directly in the ParamSet")
+        self$param_set$values = insert_named(self$param_set$values, param_vals)
+      }
       self$duplicated_ids = assert_flag(duplicated_ids)
     },
 

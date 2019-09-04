@@ -24,16 +24,16 @@
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(
     initialize = function() {
+      ps = ParamSet$new(list(
+        ParamLgl$new("robust", default = TRUE, tags = "train")
+      ))
+      ps$values = list(robust = FALSE)
+
       super$initialize(
         id = "regr.featureless",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = c("response", "se"),
-        param_set = ParamSet$new(
-          params = list(
-            ParamLgl$new("robust", default = TRUE, tags = "train")
-          )
-        ),
-        param_vals = list(robust = FALSE),
+        param_set = ps,
         properties = c("missings", "importance", "selected_features"),
         packages = "stats"
       )

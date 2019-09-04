@@ -60,7 +60,10 @@ TaskGenerator = R6Class("TaskGenerator",
     initialize = function(id, task_type, packages = character(), param_set = ParamSet$new(), param_vals = list()) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
-      self$param_set$values = param_vals
+      if (length(param_vals) > 0L) {
+        .Deprecated(msg = "Do not use `param_vals`, set parameter values directly in the ParamSet")
+        self$param_set$values = insert_named(self$param_set$values, param_vals)
+      }
       self$packages = assert_set(packages)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
     },

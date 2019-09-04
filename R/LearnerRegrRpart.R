@@ -27,22 +27,22 @@
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(
     initialize = function() {
+      ps = ParamSet$new(list(
+        ParamInt$new(id = "minsplit", default = 20L, lower = 1L, tags = "train"),
+        ParamDbl$new(id = "cp", default = 0.01, lower = 0, upper = 1, tags = "train"),
+        ParamInt$new(id = "maxcompete", default = 4L, lower = 0L, tags = "train"),
+        ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L, tags = "train"),
+        ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
+        ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
+      ))
+      ps$values = list(xval = 0L)
+
       super$initialize(
         id = "regr.rpart",
         feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
         predict_types = "response",
         packages = "rpart",
-        param_set = ParamSet$new(
-          params = list(
-            ParamInt$new(id = "minsplit", default = 20L, lower = 1L, tags = "train"),
-            ParamDbl$new(id = "cp", default = 0.01, lower = 0, upper = 1, tags = "train"),
-            ParamInt$new(id = "maxcompete", default = 4L, lower = 0L, tags = "train"),
-            ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L, tags = "train"),
-            ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
-            ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
-          )
-        ),
-        param_vals = list(xval = 0L),
+        param_set = ps,
         properties = c("weights", "missings", "importance", "selected_features")
       )
     },
