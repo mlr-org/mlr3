@@ -43,15 +43,14 @@
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
     initialize = function() {
-      super$initialize(
-        id = "subsampling",
-        param_set = ParamSet$new(params = list(
-          ParamUty$new("stratify", default = NULL),
-          ParamInt$new("repeats", lower = 1, tags = "required"),
-          ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required"))
-        ),
-        param_vals = list(repeats = 30L, ratio = 2 / 3)
-      )
+      ps = ParamSet$new(list(
+        ParamUty$new("stratify", default = NULL),
+        ParamInt$new("repeats", lower = 1, tags = "required"),
+        ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required")
+      ))
+      ps$values = list(repeats = 30L, ratio = 2 / 3)
+
+      super$initialize(id = "subsampling", param_set = ps)
     }
   ),
 

@@ -207,7 +207,10 @@ Learner = R6Class("Learner",
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
       private$.encapsulate = c(train = "none", predict = "none")
-      self$param_set$values = param_vals
+      if (length(param_vals) > 0L) {
+        .Deprecated(msg = "Do not use `param_vals`, set parameter values directly in the ParamSet")
+        self$param_set$values = insert_named(self$param_set$values, param_vals)
+      }
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]

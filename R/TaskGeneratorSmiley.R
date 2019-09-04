@@ -23,11 +23,12 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
   inherit = TaskGenerator,
   public = list(
     initialize = function() {
-      param_set = ParamSet$new(list(
+      ps = ParamSet$new(list(
         ParamDbl$new("sd1", lower = 0L),
         ParamDbl$new("sd2", lower = 0L)
       ))
-      super$initialize(id = "smiley", "classif", "mlbench", param_set)
+
+      super$initialize(id = "smiley", "classif", "mlbench", ps)
     }
   ),
 
