@@ -168,7 +168,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     print = function() {
-      tab = remove_named(self$aggregate(conditions = TRUE), c("hash", "resample_result"))
+      tab = remove_named(self$aggregate(measures = list(), conditions = TRUE), c("hash", "resample_result"))
       catf("%s of %i rows with %i resampling runs",
         format(self), nrow(self$data), nrow(tab))
       if (nrow(tab)) {
@@ -213,13 +213,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     aggregate = function(measures = NULL, ids = TRUE, hashes = FALSE, params = FALSE, conditions = FALSE) {
-      res = self$data[, list(nr = .GRP, resample_result = list(ResampleResult$new(copy(.SD)))), by = hash]
+      res = self$data[, list(nr = .GRP, iters = .N, resample_result = list(ResampleResult$new(copy(.SD)))), by = hash]
 
       if (assert_flag(ids)) {
         res[, "task_id" := map_chr(resample_result, function(x) x$task$id)]
         res[, "learner_id" := map_chr(resample_result, function(x) x$learners[[1L]]$id)]
         res[, "resampling_id" := map_chr(resample_result, function(x) x$resampling$id)]
       }
+
+      # move iters to last column
+      setcolorder(res, names(res)[-3L])
 
       if (assert_flag(params)) {
         res[, "params" := list(map(resample_result, function(x) x$learners[[1L]]$param_set$values))]
