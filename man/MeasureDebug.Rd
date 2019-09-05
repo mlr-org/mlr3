@@ -11,12 +11,31 @@ This measure returns the number of observations in the \link{Prediction} object.
 Its main purpose is debugging.
 }
 \section{Construction}{
-\preformatted{MeasureDebug$new()
+\preformatted{MeasureDebug$new(na_ratio = 0)
 mlr_measures$get("debug")
 msr("debug")
 }
+\itemize{
+\item \code{na_ratio} :: \code{numeric(1)}\cr
+Ratio of scores which should be \code{NA}.
+Default is 0.
+}
 }
 
+\section{Fields}{
+
+\itemize{
+\item \code{na_ratio} :: \code{numeric(1)}.
+}
+}
+
+\examples{
+task = tsk("wine")
+learner = lrn("classif.featureless", predict_sets = "test")
+measure = msr("debug")
+rr = resample(task, learner, rsmp("cv", folds = 3))
+rr$performance(measure)
+}
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 }

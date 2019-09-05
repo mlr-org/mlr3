@@ -23,7 +23,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 }
 \section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
+Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
      task_properties = character(), packages = character())
 }
 \itemize{
@@ -37,7 +37,7 @@ Both bounds may be infinite.
 \item \code{minimize} :: \code{logical(1)}\cr
 Set to \code{TRUE} if good predictions correspond to small values,
 and to \code{FALSE} if good predictions correspond to large values.
-If set to \code{NA}, tuning this measure is not possible.
+If set to \code{NA} (default), tuning this measure is not possible.
 \item \code{aggregator} :: \code{function(x)}\cr
 Function to aggregate individual performance values \code{x} where \code{x} is a numeric vector.
 If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.

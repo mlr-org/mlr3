@@ -23,7 +23,7 @@
 #' Note: This object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
 #'
 #' ```
-#' m = Measure$new(id, task_type, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
+#' m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
 #'      task_properties = character(), packages = character())
 #' ```
 #'
@@ -40,7 +40,7 @@
 #' * `minimize` :: `logical(1)`\cr
 #'   Set to `TRUE` if good predictions correspond to small values,
 #'   and to `FALSE` if good predictions correspond to large values.
-#'   If set to `NA`, tuning this measure is not possible.
+#'   If set to `NA` (default), tuning this measure is not possible.
 #'
 #' * `aggregator` :: `function(x)`\cr
 #'   Function to aggregate individual performance values `x` where `x` is a numeric vector.
@@ -106,7 +106,7 @@ Measure = R6Class("Measure",
     minimize = NULL,
     packages = NULL,
 
-    initialize = function(id, task_type, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test", task_properties = character(), packages = character()) {
+    initialize = function(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test", task_properties = character(), packages = character()) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = task_type
