@@ -111,7 +111,6 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   if (is.null(learner$model)) {
     prediction = NULL
-    learner$state$log$append("predict", data.table(class = "warning", msg = "No model trained"))
     learner$state$predict_time = NA_real_
   } else {
     # call predict with encapsulation
@@ -139,10 +138,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
     }
 
     if (is.null(prediction)) {
+      learner$state$log$append("predict", data.table(class = "message", msg = "Using fallback learner for predictions"))
       prediction = predict_fb(task$row_ids)
     } else {
       miss_ids = prediction$missing
       if (length(miss_ids)) {
+        learner$state$log$append("predict", data.table(class = "message", msg = "Using fallback learner to impute predictions"))
         prediction = c(prediction, predict_fb(miss_ids), keep_duplicates = FALSE)
       }
     }
