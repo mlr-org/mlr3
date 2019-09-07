@@ -11,6 +11,8 @@ Status](https://travis-ci.org/mlr-org/mlr3.svg?branch=master)](https://travis-ci
 checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
 [![CRAN
 Downloads](https://cranlogs.r-pkg.org/badges/mlr3)](https://cran.rstudio.com/web/packages/mlr3/index.html)
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Dependencies](https://tinyverse.netlify.com/badge/mlr3)](https://cran.r-project.org/package=mlr3)
@@ -95,9 +97,9 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [12:14:23.170] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [12:14:23.295] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [12:14:23.312] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [21:46:50.086] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [21:46:50.221] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [21:46:50.271] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$performance(measure)
