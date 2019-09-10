@@ -47,8 +47,3 @@ use_future = function() {
 
   return(TRUE)
 }
-#' @export
-#' @export
-print.mlr3obj = function(, ...) {
-  list(title = title, list(title))
-}
