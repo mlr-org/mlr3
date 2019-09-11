@@ -38,7 +38,7 @@ assert_measures(measures, task = NULL, learner = NULL,
   .var.name = vname(measures))
 
 assert_resampling(resampling, instantiated = NULL,
-  .var.name = vname(x))
+  .var.name = vname(resampling))
 
 assert_resamplings(resamplings, instantiated = NULL,
   .var.name = vname(resamplings))
