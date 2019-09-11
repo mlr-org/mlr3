@@ -17,42 +17,37 @@
 \alias{assert_row_ids}
 \title{Assertion for mlr3 Objects}
 \usage{
-assert_backend(b, .var.name = checkmate::vname(b), add = NULL)
+assert_backend(b, .var.name = vname(b))
 
 assert_task(task, task_type = NULL, feature_types = NULL,
-  task_properties = NULL, .var.name = checkmate::vname(task),
-  add = NULL)
+  task_properties = NULL, .var.name = vname(task))
 
 assert_tasks(tasks, task_type = NULL, feature_types = NULL,
-  task_properties = NULL, .var.name = checkmate::vname(tasks),
-  add = NULL)
+  task_properties = NULL, .var.name = vname(tasks))
 
 assert_learner(learner, task = NULL, properties = character(),
-  .var.name = checkmate::vname(learner), add = NULL)
+  .var.name = vname(learner))
 
 assert_learners(learners, task = NULL, properties = character(),
-  .var.name = checkmate::vname(learners), add = NULL)
+  .var.name = vname(learners))
 
 assert_measure(measure, task = NULL, learner = NULL,
-  .var.name = checkmate::vname(measure), add = NULL)
+  .var.name = vname(measure))
 
 assert_measures(measures, task = NULL, learner = NULL,
-  .var.name = checkmate::vname(measures), add = NULL)
+  .var.name = vname(measures))
 
 assert_resampling(resampling, instantiated = NULL,
-  .var.name = checkmate::vname(resampling), add = NULL)
+  .var.name = vname(x))
 
 assert_resamplings(resamplings, instantiated = NULL,
-  .var.name = checkmate::vname(resamplings), add = NULL)
+  .var.name = vname(resamplings))
 
-assert_prediction(prediction, .var.name = checkmate::vname(prediction),
-  add = NULL)
+assert_prediction(prediction, .var.name = vname(prediction))
 
-assert_resample_result(rr, .var.name = checkmate::vname(rr),
-  add = NULL)
+assert_resample_result(rr, .var.name = vname(rr))
 
-assert_benchmark_result(bmr, .var.name = checkmate::vname(bmr),
-  add = NULL)
+assert_benchmark_result(bmr, .var.name = vname(bmr))
 
 assert_row_ids(row_ids, type = NULL, .var.name = vname(row_ids))
 }

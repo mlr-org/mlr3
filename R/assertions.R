@@ -1,166 +1,3 @@
-map_check = function(x, checker, ...) {
-  for (xi in x) {
-    msg = checker(xi, ...)
-    if (!isTRUE(msg))
-      return(msg)
-  }
-  TRUE
-}
-
-check_backend = function(b) {
-  check_r6(b, "DataBackend")
-}
-
-
-check_task = function(task, task_type = NULL, feature_types = NULL, task_properties = NULL) {
-  if (!inherits(task, "Task")) {
-    return("Must be of class 'Task'")
-  }
-
-  if (!is.null(task_type) && task$task_type != task_type) {
-    return(sprintf("Task '%s' must have type '%s'", task$id, task_type))
-  }
-
-  if (!is.null(feature_types)) {
-    tmp = setdiff(task$feature_types$type, feature_types)
-    if (length(tmp)) {
-      return(sprintf("Task '%s' has the following unsupported feature types: %s", task$id, str_collapse(tmp)))
-    }
-  }
-
-  if (!is.null(task_properties)) {
-    tmp = setdiff(task_properties, task$properties)
-    if (length(tmp)) {
-      return(sprintf("Task '%s' is missing the following properties: %s", task$id, str_collapse(tmp)))
-    }
-  }
-
-  TRUE
-}
-
-check_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_properties = NULL) {
-  map_check(tasks, check_task, task_type = task_type, feature_types = feature_types, task_properties = task_properties)
-}
-
-check_learner = function(learner, task = NULL, properties = character()) {
-  if (!inherits(learner, "Learner")) {
-    return("Must be of class 'Learner'")
-  }
-
-  if (!is.null(task)) {
-    if (!identical(task$task_type, learner$task_type)) {
-      return(sprintf("Learner '%s' is not compatible with type '%s' of task '%s'",
-        learner$id, task$task_type, task$id))
-    }
-  }
-
-  if (length(properties)) {
-    miss = setdiff(properties, learner$properties)
-    if (length(miss)) {
-      return(sprintf("Learner '%s' must have the properties: %s", learner$id, str_collapse(miss)))
-    }
-  }
-
-  TRUE
-}
-
-check_learners = function(learners, task = NULL, properties = character()) {
-  map_check(learners, check_learner, task = task, properties = properties)
-}
-
-check_measure = function(measure, task = NULL, learner = NULL) {
-  if (!inherits(measure, "Measure")) {
-    return("Must be of class 'Measure'")
-  }
-
-  if (!is.null(task)) {
-    if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
-      return(sprintf("Measure '%s' is not compatible with type '%s' of task '%s'",
-        measure$id, task$task_type, task$id))
-    }
-
-    miss = setdiff(measure$task_properties, task$properties)
-    if (length(miss)) {
-      return(sprintf("Measure '%s' needs task properties: %s", measure$id, str_collapse(miss)))
-    }
-  }
-
-  if (!is.null(learner)) {
-    if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type) {
-      return(sprintf("Measure '%s' is not compatible with type '%s' of learner '%s'",
-        measure$id, learner$task_type, learner$id))
-    }
-
-    if (!is_scalar_na(measure$predict_type)) {
-      predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
-      if (measure$predict_type %nin% predict_types) {
-        return(sprintf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type))
-      }
-    }
-  }
-
-  TRUE
-}
-
-check_measures = function(measures, task = NULL, learner = NULL) {
-  msg = map_check(measures, check_measure, task = task, learner = learner)
-  if (!isTRUE(msg))
-    return(msg)
-  if (anyDuplicated(ids(measures)))
-    return("Measures need to have unique IDs")
-  return(TRUE)
-}
-
-check_resampling = function(resampling, instantiated = NULL) {
-  if (!inherits(resampling, "Resampling")) {
-    return("Must be of class 'Resampling'")
-  }
-
-  if (!is.null(instantiated)) {
-    if (instantiated && !resampling$is_instantiated) {
-      return(sprintf("Resampling '%s' must be instantiated", resampling$id))
-    }
-    if (!instantiated && resampling$is_instantiated) {
-      return(sprintf("Resampling '%s' may not be instantiated", resampling$id))
-    }
-  }
-
-  TRUE
-}
-
-check_resamplings = function(resamplings, instantiated = NULL) {
-  map_check(resamplings, check_resampling, instantiated = instantiated)
-}
-
-check_prediction = function(prediction) {
-  check_class(prediction, "Prediction")
-}
-
-check_resample_result = function(rr) {
-  check_class(rr, "ResampleResult")
-}
-
-check_benchmark_result = function(bmr) {
-  check_class(bmr, "BenchmarkResult")
-}
-
-check_set = function(x, empty = TRUE) {
-  check_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE)
-}
-
-check_range = function(range) {
-  msg = check_numeric(range, len = 2L, any.missing = FALSE)
-  if (!isTRUE(msg)) {
-    return(msg)
-  }
-
-  if (diff(range) <= 0) {
-    return(sprintf("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L]))
-  }
-
-  TRUE
-}
-
 #' @title Assertion for mlr3 Objects
 #'
 #' @description
@@ -174,11 +11,13 @@ check_range = function(range) {
 NULL
 
 
-
 #' @export
 #' @param b :: [DataBackend].
 #' @rdname mlr_assertions
-assert_backend = makeAssertionFunction(check_backend)
+assert_backend = function(b, .var.name = vname(b)) {
+  assert_r6(b, .var.name = .var.name)
+}
+
 
 #' @param task :: [Task].
 #' @param feature_types :: `character()`\cr
@@ -187,57 +26,184 @@ assert_backend = makeAssertionFunction(check_backend)
 #'   Set of required task properties.
 #' @rdname mlr_assertions
 #' @export
-assert_task = makeAssertionFunction(check_task)
+assert_task = function(task, task_type = NULL, feature_types = NULL, task_properties = NULL, .var.name = vname(task)) {
+  assert_class(task, "Task", .var.name = .var.name)
+
+  if (!is.null(task_type) && task$task_type != task_type) {
+    stopf("Task '%s' must have type '%s'", task$id, task_type)
+  }
+
+  if (!is.null(feature_types)) {
+    tmp = setdiff(task$feature_types$type, feature_types)
+    if (length(tmp)) {
+      stopf("Task '%s' has the following unsupported feature types: %s", task$id, str_collapse(tmp))
+    }
+  }
+
+  if (!is.null(task_properties)) {
+    tmp = setdiff(task_properties, task$properties)
+    if (length(tmp)) {
+      stopf("Task '%s' is missing the following properties: %s", task$id, str_collapse(tmp))
+    }
+  }
+
+  invisible(task)
+}
+
 
 #' @export
 #' @param tasks :: list of [Task].
 #' @rdname mlr_assertions
-assert_tasks = makeAssertionFunction(check_tasks)
+assert_tasks = function(tasks, task_type = NULL, feature_types = NULL, task_properties = NULL, .var.name = vname(tasks)) {
+  invisible(lapply(tasks, assert_task, task_type = task_type, feature_types = feature_types, task_properties = task_properties, .var.name = .var.name))
+}
+
 
 #' @export
 #' @param learner :: [Learner].
 #' @rdname mlr_assertions
-assert_learner = makeAssertionFunction(check_learner)
+assert_learner = function(learner, task = NULL, properties = character(), .var.name = vname(learner)) {
+  assert_class(learner, "Learner", .var.name = .var.name)
+
+  if (!is.null(task)) {
+    if (!identical(task$task_type, learner$task_type)) {
+      stopf("Learner '%s' is not compatible with type '%s' of task '%s'",
+        learner$id, task$task_type, task$id)
+    }
+  }
+
+  if (length(properties)) {
+    miss = setdiff(properties, learner$properties)
+    if (length(miss)) {
+      stopf("Learner '%s' must have the properties: %s", learner$id, str_collapse(miss))
+    }
+  }
+
+  invisible(learner)
+}
+
 
 #' @export
 #' @param learners :: list of [Learner].
 #' @rdname mlr_assertions
-assert_learners = makeAssertionFunction(check_learners)
+assert_learners = function(learners, task = NULL, properties = character(), .var.name = vname(learners)) {
+  invisible(lapply(learners, assert_learner, task = task, properties = properties, .var.name = .var.name))
+}
+
 
 #' @export
 #' @param measure :: [Measure].
 #' @rdname mlr_assertions
-assert_measure = makeAssertionFunction(check_measure)
+assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vname(measure)) {
+  assert_class(measure, "Measure", .var.name = .var.name)
+
+  if (!is.null(task)) {
+    if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
+      stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
+        measure$id, task$task_type, task$id)
+    }
+
+    miss = setdiff(measure$task_properties, task$properties)
+    if (length(miss)) {
+      stopf("Measure '%s' needs task properties: %s", measure$id, str_collapse(miss))
+    }
+  }
+
+  if (!is.null(learner)) {
+    if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type) {
+      stopf("Measure '%s' is not compatible with type '%s' of learner '%s'",
+        measure$id, learner$task_type, learner$id)
+    }
+
+    if (!is_scalar_na(measure$predict_type)) {
+      predict_types = mlr_reflections$learner_predict_types[[learner$task_type]][[learner$predict_type]]
+      if (measure$predict_type %nin% predict_types) {
+        stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
+      }
+    }
+  }
+
+  invisible(measure)
+}
+
 
 #' @export
 #' @param measures :: list of [Measure].
 #' @rdname mlr_assertions
-assert_measures = makeAssertionFunction(check_measures)
+assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vname(measures)) {
+  lapply(measures, assert_measure, task = task, learner = learner, .var.name = .var.name)
+  if (anyDuplicated(ids(measures)))
+    stopf("Measures need to have unique IDs")
+  invisible(measures)
+}
+
 
 #' @export
 #' @param resampling :: [Resampling].
 #' @rdname mlr_assertions
-assert_resampling = makeAssertionFunction(check_resampling)
+assert_resampling = function(resampling, instantiated = NULL, .var.name = vname(resampling)) {
+  assert_class(resampling, "Resampling", .var.name = .var.name)
+
+  if (!is.null(instantiated)) {
+    if (instantiated && !resampling$is_instantiated) {
+      stopf("Resampling '%s' must be instantiated", resampling$id)
+    }
+    if (!instantiated && resampling$is_instantiated) {
+      stopf("Resampling '%s' may not be instantiated", resampling$id)
+    }
+  }
+
+  invisible(resampling)
+}
+
 
 #' @export
 #' @param resamplings :: list of [Resampling].
 #' @rdname mlr_assertions
-assert_resamplings = makeAssertionFunction(check_resamplings)
+assert_resamplings = function(resamplings, instantiated = NULL, .var.name = vname(resamplings)) {
+  invisible(lapply(resamplings, assert_resampling, instantiated = instantiated, .var.name = .var.name))
+}
+
 
 #' @export
 #' @param prediction :: [Prediction].
 #' @rdname mlr_assertions
-assert_prediction = makeAssertionFunction(check_prediction)
+assert_prediction = function(prediction, .var.name = vname(prediction)) {
+  assert_class(prediction, "Prediction", .var.name = .var.name)
+}
+
 
 #' @export
 #' @param resample_result :: [ResampleResult].
 #' @rdname mlr_assertions
-assert_resample_result = makeAssertionFunction(check_resample_result)
+assert_resample_result = function(rr, .var.name = vname(rr)) {
+  assert_class(rr, "ResampleResult", .var.name = .var.name)
+}
+
 
 #' @export
 #' @param bmr :: [BenchmarkResult].
 #' @rdname mlr_assertions
-assert_benchmark_result = makeAssertionFunction(check_benchmark_result)
+assert_benchmark_result = function(bmr, .var.name = vname(bmr)) {
+  assert_class(bmr, "BenchmarkResult", .var.name = .var.name)
+}
+
+
+assert_set = function(x, empty = TRUE, .var.name = vname(x)) {
+  assert_character(x, min.len = as.integer(!empty), any.missing = FALSE, min.chars = 1L, unique = TRUE, .var.name = .var.name)
+}
+
+
+assert_range = function(range, .var.name = vname(range)) {
+  assert_numeric(range, len = 2L, any.missing = FALSE, .var.name = .var.name)
+
+  if (diff(range) <= 0) {
+    stopf("Invalid range specified. First value (%f) must be greater than second value (%f)", range[1L], range[2L])
+  }
+
+  invisible(range)
+}
+
 
 #' @export
 #' @param row_ids :: `vector()`.
@@ -255,7 +221,3 @@ assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
 
   invisible(row_ids)
 }
-
-assert_set = makeAssertionFunction(check_set)
-
-assert_range = makeAssertionFunction(check_range)

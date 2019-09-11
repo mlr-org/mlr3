@@ -1,6 +1,6 @@
 library(bench)
 # library(mlr3)
-devtools::load_all()
+pkgload::load_all()
 lgr::get_logger("mlr3")$set_threshold("warn")
 
 
@@ -10,7 +10,7 @@ resamplings = mlr_resamplings$mget("subsampling")
 measures = mlr_measures$mget(c("classif.acc", "time_train"))
 
 profvis::profvis(
-  benchmark(expand_grid(tasks, learners, resamplings))
+  benchmark(benchmark_grid(tasks, learners, resamplings))
 )
 
 
@@ -21,5 +21,5 @@ b = as_data_backend(data[!is.na(arr_delay)])
 task = TaskRegr$new("flights", b, target = "arr_delay")
 
 profvis::profvis(
-  resample(task, mlr_learners$get("regr.featureless"), mlr_resamplings$get("cv", param_vals = list(folds = 3)))
+  resample(task, lrn("regr.featureless"), rsmp("cv", folds = 3))
 )
