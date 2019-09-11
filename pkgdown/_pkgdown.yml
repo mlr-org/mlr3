@@ -84,6 +84,7 @@ reference:
       - as_benchmark_result
   - title: Extending
     contents:
+      - mlr_coercions
       - mlr_sugar
       - mlr_assertions
       - mlr_reflections
