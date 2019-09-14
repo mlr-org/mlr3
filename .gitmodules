@@ -1,0 +1,3 @@
+[submodule "mlr-ci"]
+	path = mlr-ci
+	url = git@github.com:mlr-org/mlr-ci.git
