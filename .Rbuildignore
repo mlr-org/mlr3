@@ -13,3 +13,4 @@
 ^inst/extdata/.+\.R$
 ^README\.Rmd$
 ^revdep$
+mlr-ci/
