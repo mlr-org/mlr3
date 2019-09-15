@@ -13,7 +13,9 @@ after_failure: R -q -e 'tic::after_failure()'
 before_deploy: R -q -e 'tic::before_deploy()'
 deploy:
   provider: script
-  script: R -q -e 'tic::deploy()'
+  script:
+    - git submodule update --init --recursive --remote
+    - R -q -e 'tic::deploy()'
   on:
     all_branches: true
 after_deploy: R -q -e 'tic::after_deploy()'
