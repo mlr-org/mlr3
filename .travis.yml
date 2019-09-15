@@ -34,7 +34,6 @@ pandoc_version: 2.5
 # with defaults to the HEAD of the submodule
 git:
   submodules: false
-  clone: false
 
 env:
   global:
