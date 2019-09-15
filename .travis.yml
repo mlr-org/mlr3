@@ -1,6 +1,6 @@
 # DO NOT CHANGE THE CODE BELOW
 before_install:
-  - git submodule update --init --recursive --update --remote
+  - git submodule update --init --recursive --remote
   - R -q -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")'
   - R -q -e 'if (!requireNamespace("curl", quietly = TRUE)) install.packages("curl")'
   - R -q -e 'remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
@@ -30,6 +30,10 @@ dist: xenial
 cache: packages
 latex: true
 pandoc_version: 2.5
+# we run our our submodule clone command in the "before_install" stage
+# with defaults to the HEAD of the submodule
+git:
+  submodules: false
 
 env:
   global:
