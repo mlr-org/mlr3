@@ -16,7 +16,6 @@ deploy:
   script: R -q -e 'tic::deploy()'
   on:
     all_branches: true
-    skip_cleanup: true
 after_deploy: R -q -e 'tic::after_deploy()'
 after_script: R -q -e 'tic::after_script()'
 # DO NOT CHANGE THE CODE ABOVE
@@ -30,7 +29,6 @@ sudo: false
 dist: xenial
 cache: packages
 latex: true
-pandoc_version: 2.5
 # we run our our submodule clone command in the "before_install" stage
 # with defaults to the HEAD of the submodule
 git:
