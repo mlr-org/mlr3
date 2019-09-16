@@ -58,7 +58,6 @@ test_that("0 feature task", {
   lrn = lrn("classif.featureless")
   p = lrn$train(task)$predict(task)
   expect_prediction(p)
-  # expect_number(e$performance, lower = 0.6, upper = 0.7)
 })
 
 test_that("Positive class always comes first", {

@@ -15,7 +15,7 @@ test_that("Basic benchmarking", {
   expect_names(names(tab), must.include = c("hash", "task", "learner", "resampling", "iteration", "prediction"))
   measures = list(msr("classif.acc"))
 
-  tab = bmr$performance(measures, ids = FALSE)
+  tab = bmr$score(measures, ids = FALSE)
   expect_data_table(tab, nrows = 12L, ncols = 6L + length(measures))
   expect_names(names(tab), must.include = c("nr", "task", "learner", "resampling", "iteration", "prediction", ids(measures)))
 

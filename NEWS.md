@@ -10,6 +10,12 @@
   instead of fields, and allow to extract predictions for different predict
   sets.
 
+* `ResampleResult$performance()` has been renamed to `ResampleResult$score()`
+  for consistency.
+
+* `BenchmarkResult$performance()` has been renamed to `BenchmarkResult$score()`
+  for consistency.
+
 
 # mlr3 0.1.2
 

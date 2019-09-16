@@ -67,7 +67,7 @@ Vector of hashes of all included \link{ResampleResult}s.
 \item \code{aggregate(measures = NULL, ids = TRUE, hashes = FALSE, params = FALSE, conditions = FALSE)}\cr
 (list of \link{Measure}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where resampling iterations are combined into \link{ResampleResult}s.
-A column with the aggregated performance is added for each \link{Measure}, named with the id of the respective measure.
+A column with the aggregated performance score is added for each \link{Measure}, named with the id of the respective measure.
 
 For convenience, the following parameters can be set to extract more information from the returned \link{ResampleResult}:
 \itemize{
@@ -82,7 +82,7 @@ You can unnest them with \code{\link[mlr3misc:unnest]{mlr3misc::unnest()}}.
 Adds the number of resampling iterations with at least one warning as extra integer column \code{"warnings"}, and
 the number of resampling iterations with errors as extra integer column \code{"errors"}.
 }
-\item \code{performance(measures = NULL, ids = TRUE)}\cr
+\item \code{score(measures = NULL, ids = TRUE)}\cr
 (list of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.

@@ -11,7 +11,7 @@ This is the abstract base class for measures like \link{MeasureClassif} and \lin
 Measures are classes around tailored around two functions:
 \enumerate{
 \item A function \code{score} which quantifies the performance by comparing true and predicted response.
-\item A function \code{aggregator} which combines multiple performance values returned by
+\item A function \code{aggregator} which combines multiple performance scores returned by
 \code{calculate} to a single numeric value.
 }
 
@@ -39,7 +39,7 @@ Set to \code{TRUE} if good predictions correspond to small values,
 and to \code{FALSE} if good predictions correspond to large values.
 If set to \code{NA} (default), tuning this measure is not possible.
 \item \code{aggregator} :: \code{function(x)}\cr
-Function to aggregate individual performance values \code{x} where \code{x} is a numeric vector.
+Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
 If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.
 \item \code{properties} :: \code{character()}\cr
 Properties of the measure.

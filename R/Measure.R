@@ -10,7 +10,7 @@
 #' Measures are classes around tailored around two functions:
 #'
 #' 1. A function `score` which quantifies the performance by comparing true and predicted response.
-#' 2. A function `aggregator` which combines multiple performance values returned by
+#' 2. A function `aggregator` which combines multiple performance scores returned by
 #'    `calculate` to a single numeric value.
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
@@ -43,7 +43,7 @@
 #'   If set to `NA` (default), tuning this measure is not possible.
 #'
 #' * `aggregator` :: `function(x)`\cr
-#'   Function to aggregate individual performance values `x` where `x` is a numeric vector.
+#'   Function to aggregate individual performance scores `x` where `x` is a numeric vector.
 #'   If `NULL`, defaults to [mean()].
 #'
 #' * `properties` :: `character()`\cr

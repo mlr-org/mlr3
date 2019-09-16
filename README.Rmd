@@ -71,7 +71,7 @@ prediction$score(measure)
 # automatic resampling
 resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
-rr$performance(measure)
+rr$score(measure)
 rr$aggregate(measure)
 ```
 

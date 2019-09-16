@@ -59,7 +59,7 @@
 #'   but instead on each prediction object separately and then combine the performance scores
 #'   with the aggregate function of the respective [Measure].
 #'
-#' * `performance(measures = NULL, ids = TRUE)`\cr
+#' * `score(measures = NULL, ids = TRUE)`\cr
 #'   (list of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects:
 #'   [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
@@ -128,7 +128,7 @@ ResampleResult = R6Class("ResampleResult",
       })
     },
 
-    performance = function(measures = NULL, ids = TRUE) {
+    score = function(measures = NULL, ids = TRUE) {
       measures = as_measures(measures, task_type = self$task$task_type)
       assert_measures(measures, task = self$task, learner = self$learners[[1L]])
       assert_flag(ids)

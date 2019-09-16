@@ -381,12 +381,12 @@ expect_resample_result = function(rr) {
   expect_resampling(rr$resampling, task = rr$task)
 
   data = data.table::as.data.table(rr)
-  checkmate::expect_data_table(rr$performance(), nrows  = rr$resampling$iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
-  checkmate::expect_names(names(rr$performance()), must.include = mlr3::mlr_reflections$rr_names)
+  checkmate::expect_data_table(rr$score(), nrows  = rr$resampling$iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
+  checkmate::expect_names(names(rr$score()), must.include = mlr3::mlr_reflections$rr_names)
   expect_hash(rr$hash, 1L)
 
   m = mlr3::default_measures(rr$task$task_type)[[1L]]
-  y = rr$performance(m)
+  y = rr$score(m)
   aggr = rr$aggregate(m)
   checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
   checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))

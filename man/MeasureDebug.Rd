@@ -34,7 +34,7 @@ task = tsk("wine")
 learner = lrn("classif.featureless", predict_sets = "test")
 measure = msr("debug")
 rr = resample(task, learner, rsmp("cv", folds = 3))
-rr$performance(measure)
+rr$score(measure)
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
