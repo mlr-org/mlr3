@@ -48,8 +48,7 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
     },
 
     score_internal = function(prediction, learner, ...) {
-      stages = c("train", "predict")
-      sum(unlist(learner$state[sprintf("%s_time", stages)][stages %in% self$stages]))
+      sum(unlist(learner$state[sprintf("%s_time", self$stages)]))
     }
   )
 )

@@ -267,7 +267,7 @@ Learner = R6Class("Learner",
     },
 
     log = function() {
-      self$state$log$data %??% Log$new()$data
+      self$state$log
     },
 
     warnings = function() {
@@ -321,7 +321,15 @@ Learner = R6Class("Learner",
   private = list(
     .encapsulate = NULL,
     .predict_type = NULL,
-    .param_set = NULL
+    .param_set = NULL,
+
+    deep_clone = function(name, value) {
+      switch(name,
+        .param_set = value$clone(deep = TRUE),
+        state = { value$log = copy(value$log); value },
+        value
+      )
+    }
   )
 )
 

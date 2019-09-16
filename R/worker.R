@@ -78,9 +78,8 @@ learner_train = function(learner, task, row_ids = NULL) {
 
   learner$state = list(
     model = result$result,
-    log = Log$new()$append("train", result$log),
-    train_time = result$elapsed,
-    predict_time = NULL
+    log = append_log(NULL, "train", result$log$class, result$log$msg),
+    train_time = result$elapsed
   )
 
   # fit fallback learner
@@ -123,7 +122,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     )
 
     prediction = result$result
-    learner$state$log$append("predict", result$log)
+    learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg)
     learner$state$predict_time = result$elapsed
   }
 
@@ -138,12 +137,12 @@ learner_predict = function(learner, task, row_ids = NULL) {
     }
 
     if (is.null(prediction)) {
-      learner$state$log$append("predict", data.table(class = "message", msg = "Using fallback learner for predictions"))
+      learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner for predictions")
       prediction = predict_fb(task$row_ids)
     } else {
       miss_ids = prediction$missing
       if (length(miss_ids)) {
-        learner$state$log$append("predict", data.table(class = "message", msg = "Using fallback learner to impute predictions"))
+        learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner to impute predictions")
         prediction = c(prediction, predict_fb(miss_ids), keep_duplicates = FALSE)
       }
     }
@@ -181,4 +180,20 @@ reassemble = function(result, learner) {
   learner = learner$clone()
   learner$state = result$learner_state
   list(learner = list(learner), prediction = list(result$prediction))
+}
+
+append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {
+  if (is.null(log)) {
+    log = data.table(
+      stage = factor(levels = c("train", "predict")),
+      class = factor(levels = c("output", "warning", "error"), ordered = TRUE),
+      msg = character()
+    )
+  }
+
+  if (length(msg)) {
+    log = rbindlist(list(log, data.table(stage = stage, class = class, msg = msg)), use.names = TRUE)
+  }
+
+  log
 }

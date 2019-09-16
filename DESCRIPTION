@@ -97,7 +97,6 @@ Collate:
     'LearnerRegr.R'
     'LearnerRegrFeatureless.R'
     'LearnerRegrRpart.R'
-    'Log.R'
     'Measure.R'
     'MeasureClassif.R'
     'mlr_measures.R'

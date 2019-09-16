@@ -57,7 +57,7 @@ as_learner = function(x, clone = FALSE) {
 #' @export
 #' @rdname mlr_coercions
 as_learner.Learner = function(x, clone = FALSE) {
-  if (clone) x$clone() else x
+  if (clone) x$clone(deep = TRUE) else x
 }
 
 #' @export
@@ -75,7 +75,7 @@ as_learners.list = function(x, clone = FALSE) {
 #' @export
 #' @rdname mlr_coercions
 as_learners.Learner = function(x, clone = FALSE) {
-  list(if (clone) x$clone() else x)
+  list(if (clone) x$clone(deep = TRUE) else x)
 }
 
 #' @export
