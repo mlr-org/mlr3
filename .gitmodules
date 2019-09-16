@@ -1,4 +1,0 @@
-[submodule "mlr-ci"]
-	path = mlr-ci
-	url = https://github.com/mlr-org/mlr-ci.git
-	branch = master
