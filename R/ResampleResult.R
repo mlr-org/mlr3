@@ -12,12 +12,16 @@
 #'
 #' @section Construction:
 #' ```
-#' rr = ResampleResult$new(data)
+#' rr = ResampleResult$new(data, uhash = NULL)
 #' ```
 #'
 #' * `data` :: [data.table::data.table()]\cr
 #'   Table with data for one resampling iteration per row:
 #'   [Task], [Learner], [Resampling], iteration (`integer(1)`), and [Prediction].
+#'
+#' * `uhash` :: `character(1)`\cr
+#'   Unique hash for this `ResampleResult`. If `NULL`, a new unique hash is generated.
+#'   This unique hash is primarily needed to group information in [BenchmarkResult]s.
 #'
 #' @section Fields:
 #' * `data` :: [data.table::data.table()]\cr
@@ -43,8 +47,8 @@
 #'   Column names are `"iteration"` and `"msg"`.
 #'   Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
 #'
-#' * `hash` :: `character(1)`\cr
-#'   Hash (unique identifier) for this object.
+#' * `uhash` :: `character(1)`\cr
+#'   Unique hash for this object.
 #'
 #' @section Methods:
 #' * `predictions(predict_sets = "test")`\cr
@@ -93,11 +97,16 @@ ResampleResult = R6Class("ResampleResult",
   public = list(
     data = NULL,
 
-    initialize = function(data) {
+    initialize = function(data, uhash = NULL) {
       assert_data_table(data)
       slots = mlr_reflections$rr_names
       assert_names(names(data), must.include = slots)
       self$data = setcolorder(setcolorder(data, "iteration"), slots)[]
+      if (is.null(uhash)) {
+        private$.uhash = UUIDgenerate()
+      } else {
+        private$.uhash = assert_string(uhash)
+      }
     },
 
     format = function() {
@@ -166,9 +175,11 @@ ResampleResult = R6Class("ResampleResult",
       self$data$resampling[[1L]]
     },
 
-    hash = function() {
-      data = self$data
-      hash_resample_result(data$task[[1L]], data$learner[[1L]], data$resampling[[1L]])
+    uhash = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.uhash)
+      }
+      private$.uhash = assert_string(rhs)
     },
 
     warnings = function() {
@@ -183,6 +194,8 @@ ResampleResult = R6Class("ResampleResult",
   ),
 
   private = list(
+    .uhash = NULL,
+
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
     }
@@ -197,5 +210,5 @@ as.data.table.ResampleResult = function(x, ...) {
 #' @rdname as_benchmark_result
 #' @export
 as_benchmark_result.ResampleResult = function(x, ...) {
-  BenchmarkResult$new(cbind(x$data, data.table(hash = x$hash)))
+  BenchmarkResult$new(cbind(x$data, data.table(uhash = x$uhash)))
 }

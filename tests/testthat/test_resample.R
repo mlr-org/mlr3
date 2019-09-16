@@ -43,10 +43,10 @@ test_that("as_benchmark_result.ResampleResult", {
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
   expect_equal(nrow(bmr$data), nrow(rr$data))
-  expect_set_equal(bmr$data$hash, rr$hash)
+  expect_set_equal(bmr$data$uhash, rr$uhash)
   aggr = bmr$aggregate()
   expect_data_table(aggr, nrows = 1)
-  expect_set_equal(bmr$hashes, rr$hash)
+  expect_set_equal(bmr$uhashes, rr$uhash)
 })
 
 

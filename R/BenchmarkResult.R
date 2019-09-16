@@ -19,8 +19,8 @@
 #'
 #' * `data` :: [data.table::data.table()]\cr
 #'   Table with data for one resampling iteration per row:
-#'   [Task], [Learner], [Resampling], iteration (`integer(1)`), [Prediction], and the hash (`character(1)`)
-#'   of the corresponding [ResampleResult].
+#'   [Task], [Learner], [Resampling], iteration (`integer(1)`), [Prediction], and the unique
+#'   hash `uhash` (`character(1)`) of the corresponding [ResampleResult].
 #'   Additional columns are kept in the resulting object.
 #'
 #' @section Fields:
@@ -59,18 +59,18 @@
 #' * `n_resample_results` :: `integer(1)`\cr
 #'   Returns the number of stored [ResampleResult]s.
 #'
-#' * `hashes` :: `character()`\cr
-#'   Vector of hashes of all included [ResampleResult]s.
+#' * `uhashes` :: `character()`\cr
+#'   Vector of unique hashes of all included [ResampleResult]s.
 #'
 #' @section Methods:
-#' * `aggregate(measures = NULL, ids = TRUE, hashes = FALSE, params = FALSE, conditions = FALSE)`\cr
+#' * `aggregate(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE)`\cr
 #'   (list of [Measure], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where resampling iterations are combined into [ResampleResult]s.
 #'   A column with the aggregated performance score is added for each [Measure], named with the id of the respective measure.
 #'
 #'   For convenience, the following parameters can be set to extract more information from the returned [ResampleResult]:
-#'     * `hashes` :: `logical(1)`\cr
-#'       Adds the hash values of the [ResampleResult] as extra character column `"hash"`.
+#'     * `uhashes` :: `logical(1)`\cr
+#'       Adds the uhash values of the [ResampleResult] as extra character column `"uhash"`.
 #'     * `ids` :: `logical(1)`\cr
 #'       Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as extra character columns.
 #'     * `params` :: `logical(1)`\cr
@@ -88,20 +88,15 @@
 #'   Additionally calculates the provided performance measures and binds the performance as extra columns.
 #'   These columns are named using the id of the respective [Measure].
 #'
-#' * `resample_result(i = NULL, hash = NULL)`\cr
+#' * `resample_result(i = NULL, uhash = NULL)`\cr
 #'   (`integer(1)`, `character(1)`) -> [ResampleResult]\cr
-#'   Retrieve the i-th [ResampleResult], by position or by hash.
-#'   `i` and `hash` are mutually exclusive.
+#'   Retrieve the i-th [ResampleResult], by position or by unique hash `uhash`.
+#'   `i` and `uhash` are mutually exclusive.
 #'
 #' * `combine(bmr)`\cr
 #'   ([BenchmarkResult] | `NULL`) -> `self`\cr
 #'   Fuses a second [BenchmarkResult] into itself, mutating the [BenchmarkResult] in-place.
 #'   If `bmr` is `NULL`, simply returns `self`.
-#'
-#'   In case of duplicated [ResampleResult]s, an exception is raised.
-#'   Two [ResampleResult]s are identical iff the hashes of the respective [Task], [Learner] and [Resampling] are identical.
-#'   I.e., they must operate on the exactly same data, with the same learner with the same hyperparameters and
-#'   the same splits into training and test sets.
 #'
 #' @section S3 Methods:
 #' * `as.data.table(bmr)`\cr
@@ -151,16 +146,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     initialize = function(data = data.table()) {
       assert_data_table(data)
-      slots = c("hash", mlr_reflections$rr_names)
+      slots = c("uhash", mlr_reflections$rr_names)
       if (any(dim(data) == 0L)) {
-        data = data.table(hash = character(), task = list(), learner = list(), resampling = list(),
+        data = data.table(uhash = character(), task = list(), learner = list(), resampling = list(),
           iteration = integer(), prediction = list())
       } else {
         assert_names(names(data), must.include = slots)
       }
 
       self$data = setcolorder(data, slots)
-      self$rr_data = data[, list(hash = unique(hash))]
+      self$rr_data = data[, list(uhash = unique(uhash))]
     },
 
     format = function() {
@@ -168,7 +163,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     print = function() {
-      tab = remove_named(self$aggregate(measures = list(), conditions = TRUE), c("hash", "resample_result"))
+      tab = remove_named(self$aggregate(measures = list(), conditions = TRUE), c("uhash", "resample_result"))
       catf("%s of %i rows with %i resampling runs",
         format(self), nrow(self$data), nrow(tab))
       if (nrow(tab)) {
@@ -179,9 +174,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
     combine = function(bmr) {
       if (!is.null(bmr)) {
         assert_benchmark_result(bmr)
-        if (any(self$hashes %in% bmr$hashes)) {
-          stop("BenchmarkResult$combine(): Identical hashes detected. Duplicated ResampleResults can not be combined into a single BenchmarkResult.")
-        }
         self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
         self$rr_data = rbindlist(list(self$rr_data, bmr$rr_data), fill = TRUE, use.names = TRUE)
       }
@@ -200,7 +192,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       # replace hash with nr
-      tab[, ("nr") := .GRP, by = "hash"][, ("hash") := NULL]
+      tab[, ("nr") := .GRP, by = "uhash"][, ("uhash") := NULL]
 
       if (ids) {
         tab[, c("task_id", "learner_id", "resampling_id") := list(ids(task), ids(learner), ids(resampling))]
@@ -212,8 +204,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
       tab[]
     },
 
-    aggregate = function(measures = NULL, ids = TRUE, hashes = FALSE, params = FALSE, conditions = FALSE) {
-      res = self$data[, list(nr = .GRP, iters = .N, resample_result = list(ResampleResult$new(copy(.SD)))), by = hash]
+    aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE) {
+      res = self$data[, list(
+        nr = .GRP,
+        iters = .N,
+        resample_result = list(if (.N > 0L) ResampleResult$new(copy(.SD), uhash[1L]) else NULL)
+      ), by = uhash]
 
       if (assert_flag(ids)) {
         res[, "task_id" := map_chr(resample_result, function(x) x$task$id)]
@@ -238,31 +234,31 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (ncol(self$rr_data) >= 2L) {
-        res = merge(res, self$rr_data, on = "hash", all.x = TRUE, all.y = FALSE, sort = FALSE)
+        res = merge(res, self$rr_data, on = "uhash", all.x = TRUE, all.y = FALSE, sort = FALSE)
       }
 
-      if (!assert_flag(hashes)) {
-        res[, ("hash") := NULL]
+      if (!assert_flag(uhashes)) {
+        res[, ("uhash") := NULL]
       } else {
-        setcolorder(res, c("nr", "hash"))
+        setcolorder(res, c("nr", "uhash"))
       }
 
       return(res[])
     },
 
-    resample_result = function(i = NULL, hash = NULL) {
-      if (!xor(is.null(i), is.null(hash))) {
-        stopf("Either `i` or `hash` must be provided")
+    resample_result = function(i = NULL, uhash = NULL) {
+      if (!xor(is.null(i), is.null(uhash))) {
+        stopf("Either `i` or `uhash` must be provided")
       }
 
-      hashes = self$hashes
+      uhashes = self$uhashes
       if (is.null(i)) {
-        needle = assert_choice(hash, hashes)
+        needle = assert_choice(uhash, uhashes)
       } else {
-        i = assert_int(i, lower = 1L, upper = length(hashes), coerce = TRUE)
-        needle = hashes[i]
+        i = assert_int(i, lower = 1L, upper = length(uhashes), coerce = TRUE)
+        needle = uhashes[i]
       }
-      ResampleResult$new(self$data[hash == needle])
+      ResampleResult$new(self$data[uhash == needle])
     }
   ),
 
@@ -289,8 +285,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
       nrow(self$rr_data)
     },
 
-    hashes = function() {
-      self$rr_data$hash
+    uhashes = function() {
+      self$rr_data$uhash
     }
   ),
 

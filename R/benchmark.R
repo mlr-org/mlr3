@@ -95,10 +95,10 @@ benchmark = function(design, store_models = FALSE) {
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
     assert_learner(learner, task = task, properties = task$properties)
-    hash = hash_resample_result(task, learner, resampling)
+    uhash = UUIDgenerate()
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
-      iteration = seq_len(resampling$iters), hash = hash)
+      iteration = seq_len(resampling$iters), uhash = uhash)
   })
 
   lg$info("Benchmark with %i resampling iterations", nrow(grid))
