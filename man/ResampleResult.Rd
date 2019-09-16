@@ -59,7 +59,7 @@ Combined \link{Prediction} of all individual resampling iterations, and all prov
 Note that performance measures do not operate on this object,
 but instead on each prediction object separately and then combine the performance scores
 with the aggregate function of the respective \link{Measure}.
-\item \code{performance(measures = NULL, ids = TRUE)}\cr
+\item \code{score(measures = NULL, ids = TRUE)}\cr
 (list of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a table with one row for each resampling iteration, including all involved objects:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.

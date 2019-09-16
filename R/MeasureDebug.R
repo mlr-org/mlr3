@@ -30,7 +30,7 @@
 #' learner = lrn("classif.featureless", predict_sets = "test")
 #' measure = msr("debug")
 #' rr = resample(task, learner, rsmp("cv", folds = 3))
-#' rr$performance(measure)
+#' rr$score(measure)
 MeasureDebug = R6Class("MeasureDebug",
   inherit = Measure,
   public = list(

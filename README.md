@@ -86,7 +86,7 @@ measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9666667
 
 ### Resample
@@ -97,12 +97,12 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [21:46:50.086] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [21:46:50.221] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [21:46:50.086] Applying learner 'classif.rpart' on task 'iris' (iter 1/3)
+    ## INFO  [21:46:50.221] Applying learner 'classif.rpart' on task 'iris' (iter 2/3)
     ## INFO  [21:46:50.271] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
-rr$performance(measure)
+rr$score(measure)
 ```
 
     ##             task task_id               learner    learner_id
@@ -118,7 +118,7 @@ rr$performance(measure)
 rr$aggregate(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9266667
 
 ## Why a rewrite?

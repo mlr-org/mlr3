@@ -66,7 +66,7 @@
 #' * `aggregate(measures = NULL, ids = TRUE, hashes = FALSE, params = FALSE, conditions = FALSE)`\cr
 #'   (list of [Measure], `logical(1)`, `logical(1)`, `logical(1)`, `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a result table where resampling iterations are combined into [ResampleResult]s.
-#'   A column with the aggregated performance is added for each [Measure], named with the id of the respective measure.
+#'   A column with the aggregated performance score is added for each [Measure], named with the id of the respective measure.
 #'
 #'   For convenience, the following parameters can be set to extract more information from the returned [ResampleResult]:
 #'     * `hashes` :: `logical(1)`\cr
@@ -80,7 +80,7 @@
 #'       Adds the number of resampling iterations with at least one warning as extra integer column `"warnings"`, and
 #'       the number of resampling iterations with errors as extra integer column `"errors"`.
 #'
-#' * `performance(measures = NULL, ids = TRUE)`\cr
+#' * `score(measures = NULL, ids = TRUE)`\cr
 #'   (list of [Measure], `logical(1)`) -> [data.table::data.table()]\cr
 #'   Returns a table with one row for each resampling iteration, including all involved objects:
 #'   [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
@@ -189,7 +189,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       invisible(self)
     },
 
-    performance = function(measures = NULL, ids = TRUE) {
+    score = function(measures = NULL, ids = TRUE) {
       measures = as_measures(measures, task_type = self$task_type)
       assert_measures(measures)
       assert_flag(ids)

@@ -31,5 +31,4 @@ test_that("TaskRegr: 0 feature task", {
   lrn = lrn("regr.featureless")
   p = lrn$train(task)$predict(task)
   expect_prediction(p)
-  # expect_number(e$performance)
 })
