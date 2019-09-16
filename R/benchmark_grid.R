@@ -4,7 +4,7 @@
 #' Takes a lists of [Task], a list of [Learner] and a list of [Resampling] to
 #' generate a design in an [expand.grid()] fashion (a.k.a. cross join or Cartesian product).
 #'
-#' Resampling strategies may not be instantiated, and will be instantiated per task internally.
+#' Resampling strategies are not allowed to be instantiated when passing the argument, and instead will be instantiated per task internally.
 #'
 #' @param tasks :: list of [Task].
 #' @param learners :: list of [Learner].
