@@ -174,6 +174,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
     combine = function(bmr) {
       if (!is.null(bmr)) {
         assert_benchmark_result(bmr)
+        if (nrow(self$data) && self$task_type != bmr$task_type) {
+          stopf("BenchmarkResult is of task type '%s', but must be '%s'", bmr$task_type, self$task_type)
+        }
         self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
         self$rr_data = rbindlist(list(self$rr_data, bmr$rr_data), fill = TRUE, use.names = TRUE)
       }
