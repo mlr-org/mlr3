@@ -22,7 +22,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the
 }
 \section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+Note: This object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), predict_types = character(),
      feature_types = character(), properties = character(), packages = character())
 }
 \itemize{
@@ -32,8 +32,6 @@ Identifier for the learner.
 Type of the task the learner can operator on. E.g., \code{"classif"} or \code{"regr"}.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Set of hyperparameters.
-\item \code{param_vals} :: named \code{list()}\cr
-List of hyperparameter settings.
 \item \code{predict_types} :: \code{character()}\cr
 Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
 \item \code{predict_sets} :: \code{character()}\cr
