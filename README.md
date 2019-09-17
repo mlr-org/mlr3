@@ -6,14 +6,9 @@ learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 
 [![Build
 Status](https://travis-ci.org/mlr-org/mlr3.svg?branch=master)](https://travis-ci.org/mlr-org/mlr3)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
-[![cran
-checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
-[![CRAN
-Downloads](https://cranlogs.r-pkg.org/badges/mlr3)](https://cran.rstudio.com/web/packages/mlr3/index.html)
-[![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
+[![CRAN Status
+Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
+[![Codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Dependencies](https://tinyverse.netlify.com/badge/mlr3)](https://cran.r-project.org/package=mlr3)
 
@@ -86,7 +81,7 @@ measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc
+    ## classif.acc 
     ##   0.9666667
 
 ### Resample
@@ -97,19 +92,21 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [21:46:50.086] Applying learner 'classif.rpart' on task 'iris' (iter 1/3)
-    ## INFO  [21:46:50.221] Applying learner 'classif.rpart' on task 'iris' (iter 2/3)
-    ## INFO  [21:46:50.271] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [21:11:08.322] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [21:11:08.350] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [21:11:08.364] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
 ```
 
     ##             task task_id               learner    learner_id
+    ##           <list>  <char>                <list>        <char>
     ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ##        resampling resampling_id iteration prediction classif.acc
+    ##            <list>        <char>     <int>     <list>       <num>
     ## 1: <ResamplingCV>            cv         1     <list>        0.92
     ## 2: <ResamplingCV>            cv         2     <list>        0.92
     ## 3: <ResamplingCV>            cv         3     <list>        0.94
@@ -118,7 +115,7 @@ rr$score(measure)
 rr$aggregate(measure)
 ```
 
-    ## classif.acc
+    ## classif.acc 
     ##   0.9266667
 
 ## Why a rewrite?
@@ -178,8 +175,7 @@ would result in non-trivial API changes.
         which implements performance measures. No recursive
         dependencies.
       - [`mlbench`](https://cran.r-project.org/package=mlbench): A
-        collection of machine learning data sets. No
-    dependencies.
+        collection of machine learning data sets. No dependencies.
   - [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
     Objects are queryable for properties and capabilities, allowing you
     to program on them.
