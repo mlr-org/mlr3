@@ -17,7 +17,12 @@ Many predefined learners can be found in the \link[mlr3misc:Dictionary]{mlr3misc
 
 For a description of the arguments, see \link{Learner}.
 \code{task_type} is set to \code{"regr"}.
-Possible values for \code{predict_types} are a subset of \code{c("response", "se")}.
+
+Possible values for \code{predict_types} are passed to and converted by \link{PredictionRegr}:
+\itemize{
+\item \code{"response"}: Predicts a numeric response for each observation in the test set.
+\item \code{"se"}: Predicts the standard error for each value of response for each observation in the test set.
+}
 }
 
 \section{Fields}{

@@ -97,6 +97,9 @@
 #' * `properties` :: `character()`\cr
 #'   Set of task properties. Possible properties are are stored in
 #'   [mlr_reflections$task_properties][mlr_reflections].
+#'   The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
+#'   * `"weights"`: The task comes with observation weights.
+#'   * `"groups"`: The task comes with grouping/blocking information.
 #'
 #' * `groups` :: [data.table::data.table()]\cr
 #'   If the task has a designated column role "groups", table with two columns:

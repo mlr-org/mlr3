@@ -19,8 +19,8 @@ Do not modify any object without cloning it first.
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table with data for one resampling iteration per row:
-\link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), \link{Prediction}, and the hash (\code{character(1)})
-of the corresponding \link{ResampleResult}.
+\link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), \link{Prediction}, and the unique
+hash \code{uhash} (\code{character(1)}) of the corresponding \link{ResampleResult}.
 Additional columns are kept in the resulting object.
 }
 }
@@ -56,23 +56,23 @@ Table of used resamplings with three columns:
 \code{"resampling_hash"} (\code{character(1)}), \code{"resampling_id"} (\code{character(1)}) and \code{"resampling"} (\link{Resampling}).
 \item \code{n_resample_results} :: \code{integer(1)}\cr
 Returns the number of stored \link{ResampleResult}s.
-\item \code{hashes} :: \code{character()}\cr
-Vector of hashes of all included \link{ResampleResult}s.
+\item \code{uhashes} :: \code{character()}\cr
+Vector of unique hashes of all included \link{ResampleResult}s.
 }
 }
 
 \section{Methods}{
 
 \itemize{
-\item \code{aggregate(measures = NULL, ids = TRUE, hashes = FALSE, params = FALSE, conditions = FALSE)}\cr
+\item \code{aggregate(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE)}\cr
 (list of \link{Measure}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a result table where resampling iterations are combined into \link{ResampleResult}s.
 A column with the aggregated performance score is added for each \link{Measure}, named with the id of the respective measure.
 
 For convenience, the following parameters can be set to extract more information from the returned \link{ResampleResult}:
 \itemize{
-\item \code{hashes} :: \code{logical(1)}\cr
-Adds the hash values of the \link{ResampleResult} as extra character column \code{"hash"}.
+\item \code{uhashes} :: \code{logical(1)}\cr
+Adds the uhash values of the \link{ResampleResult} as extra character column \code{"uhash"}.
 \item \code{ids} :: \code{logical(1)}\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as extra character columns.
 \item \code{params} :: \code{logical(1)}\cr
@@ -89,19 +89,14 @@ Returns a table with one row for each resampling iteration, including all involv
 If \code{ids} is set to \code{TRUE}, character column of extracted ids are added to the table for convenient filtering: \code{"task_id"}, \code{"learner_id"}, and \code{"resampling_id"}.
 Additionally calculates the provided performance measures and binds the performance as extra columns.
 These columns are named using the id of the respective \link{Measure}.
-\item \code{resample_result(i = NULL, hash = NULL)}\cr
+\item \code{resample_result(i = NULL, uhash = NULL)}\cr
 (\code{integer(1)}, \code{character(1)}) -> \link{ResampleResult}\cr
-Retrieve the i-th \link{ResampleResult}, by position or by hash.
-\code{i} and \code{hash} are mutually exclusive.
+Retrieve the i-th \link{ResampleResult}, by position or by unique hash \code{uhash}.
+\code{i} and \code{uhash} are mutually exclusive.
 \item \code{combine(bmr)}\cr
 (\link{BenchmarkResult} | \code{NULL}) -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself, mutating the \link{BenchmarkResult} in-place.
 If \code{bmr} is \code{NULL}, simply returns \code{self}.
-
-In case of duplicated \link{ResampleResult}s, an exception is raised.
-Two \link{ResampleResult}s are identical iff the hashes of the respective \link{Task}, \link{Learner} and \link{Resampling} are identical.
-I.e., they must operate on the exactly same data, with the same learner with the same hyperparameters and
-the same splits into training and test sets.
 }
 }
 

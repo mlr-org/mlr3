@@ -5,6 +5,7 @@
 #' @importFrom R6 R6Class is.R6
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate
+#' @importFrom uuid UUIDgenerate
 "_PACKAGE"
 
 dummy_import = function() {

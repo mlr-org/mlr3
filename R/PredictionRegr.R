@@ -27,7 +27,7 @@
 #'   One element for each observation in the test set.
 #'
 #' * `se` :: `numeric()`\cr
-#'   Numeric vector of predicted standard error.
+#'   Numeric vector of predicted standard errors.
 #'   One element for each observation in the test set.
 #'
 #' @section Fields:

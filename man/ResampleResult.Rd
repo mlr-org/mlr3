@@ -12,12 +12,15 @@ Note that all stored objects are accessed by reference.
 Do not modify any object without cloning it first.
 }
 \section{Construction}{
-\preformatted{rr = ResampleResult$new(data)
+\preformatted{rr = ResampleResult$new(data, uhash = NULL)
 }
 \itemize{
 \item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table with data for one resampling iteration per row:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), and \link{Prediction}.
+\item \code{uhash} :: \code{character(1)}\cr
+Unique hash for this \code{ResampleResult}. If \code{NULL}, a new unique hash is generated.
+This unique hash is primarily needed to group information in \link{BenchmarkResult}s.
 }
 }
 
@@ -41,8 +44,8 @@ Note that there can be multiple rows per resampling iteration if multiple warnin
 Returns a table with all error messages.
 Column names are \code{"iteration"} and \code{"msg"}.
 Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
-\item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) for this object.
+\item \code{uhash} :: \code{character(1)}\cr
+Unique hash for this object.
 }
 }
 

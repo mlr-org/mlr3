@@ -10,6 +10,12 @@ This task specializes \link{Task} and \link{TaskSupervised} for classification p
 The target column is assumed to be a factor.
 The \code{task_type} is set to \code{"classif"}.
 
+Additional task properties include:
+\itemize{
+\item \code{"twoclass"}: The task is a binary classification problem.
+\item \code{"multiclass"}: The task is a multiclass classification problem.
+}
+
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_tasks}.
 }
 \section{Construction}{
