@@ -11,8 +11,8 @@
 #'
 #' @section Construction:
 #' ```
-#' l = LearnerRegr$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
-#'      feature_types = character(), properties = character(), data_formats = "data.table", packages = character())
+#' l = LearnerRegr$new(id, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
+#'     properties = character(), data_formats = "data.table", packages = character())
 #' ```
 #' For a description of the arguments, see [Learner].
 #' `task_type` is set to `"regr"`.
@@ -38,10 +38,9 @@
 #' lrn("classif.featureless")
 LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
   public = list(
-    initialize = function(id, param_set = ParamSet$new(), param_vals = list(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
-      super$initialize(id = id, task_type = "regr", param_set = param_set, param_vals = param_vals,
-        feature_types = feature_types, predict_types = predict_types, properties = properties,
-        data_formats = data_formats, packages = packages)
+    initialize = function(id, param_set = ParamSet$new(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
+      super$initialize(id = id, task_type = "regr", param_set = param_set, feature_types = feature_types,
+        predict_types = predict_types, properties = properties, data_formats = data_formats, packages = packages)
     }
   )
 )

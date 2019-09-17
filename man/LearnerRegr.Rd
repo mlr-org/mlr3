@@ -11,8 +11,8 @@ This Learner specializes \link{Learner} for regression problems.
 Many predefined learners can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_learners} after loading the \CRANpkg{mlr3learners} package.
 }
 \section{Construction}{
-\preformatted{l = LearnerRegr$new(id, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
-     feature_types = character(), properties = character(), data_formats = "data.table", packages = character())
+\preformatted{l = LearnerRegr$new(id, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
+    properties = character(), data_formats = "data.table", packages = character())
 }
 
 For a description of the arguments, see \link{Learner}.

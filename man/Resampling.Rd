@@ -19,15 +19,13 @@ e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_boots
 }
 \section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.\preformatted{r = Resampling$new(id, param_set, param_vals)
+Note: This object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.\preformatted{r = Resampling$new(id, param_set)
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Identifier for the resampling strategy.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Set of hyperparameters.
-\item \code{param_vals} :: named \code{list()}\cr
-List of hyperparameter settings.
 }
 }
 
