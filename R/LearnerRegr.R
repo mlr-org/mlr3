@@ -16,7 +16,10 @@
 #' ```
 #' For a description of the arguments, see [Learner].
 #' `task_type` is set to `"regr"`.
-#' Possible values for `predict_types` are a subset of `c("response", "se")`.
+#'
+#' Possible values for `predict_types` are passed to and converted by [PredictionRegr]:
+#' * `"response"`: Predicts a numeric response for each observation in the test set.
+#' * `"se"`: Predicts the standard error for each value of response for each observation in the test set.
 #'
 #' @section Fields:
 #' See [Learner].

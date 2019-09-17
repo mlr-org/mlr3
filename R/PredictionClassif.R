@@ -38,9 +38,11 @@
 #'   See the note on manual construction.
 #'
 #' * `prob` :: `matrix()`\cr
-#'   Numeric matrix of class probabilities with one column for each class
+#'   Numeric matrix of posterior class probabilities with one column for each class
 #'   and one row for each observation in the test set.
-#'   Columns must be named with class labels, rownames are automatically removed.
+#'   Columns must be named with class labels, row names are automatically removed.
+#'   If `prob` is provided, but `response` is not, the class labels are calculated from
+#'   the probabilities using [mlr3misc::which_max()] with `ties_method` set to `"random"`.
 #'
 #' @section Fields:
 #' All fields from [Prediction], and additionally:

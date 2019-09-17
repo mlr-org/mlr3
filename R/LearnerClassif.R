@@ -16,7 +16,15 @@
 #' ```
 #' For a description of the arguments, see [Learner].
 #' `task_type` is set to `"classif"`.
-#' Possible values for `predict_types` are a subset of `c("response", "prob")`.
+#'
+#' Possible values for `predict_types` are passed to and converted by [PredictionClassif]:
+#'
+#' * `"response"`: Predicts a class label for each observation in the test set.
+#' * `"prob"`: Predicts the posterior probability for each class for each observation in the test set.
+#'
+#' Additional learner properties include:
+#' * `"twoclass"`: The learner works on binary classification problems.
+#' * `"multiclass"`: The learner works on multiclass classification problems.
 #'
 #' @section Fields:
 #' See [Learner].

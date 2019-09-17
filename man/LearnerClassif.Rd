@@ -17,7 +17,18 @@ Many predefined learners can be found in the \link[mlr3misc:Dictionary]{mlr3misc
 
 For a description of the arguments, see \link{Learner}.
 \code{task_type} is set to \code{"classif"}.
-Possible values for \code{predict_types} are a subset of \code{c("response", "prob")}.
+
+Possible values for \code{predict_types} are passed to and converted by \link{PredictionClassif}:
+\itemize{
+\item \code{"response"}: Predicts a class label for each observation in the test set.
+\item \code{"prob"}: Predicts the posterior probability for each class for each observation in the test set.
+}
+
+Additional learner properties include:
+\itemize{
+\item \code{"twoclass"}: The learner works on binary classification problems.
+\item \code{"multiclass"}: The learner works on multiclass classification problems.
+}
 }
 
 \section{Fields}{

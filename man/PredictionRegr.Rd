@@ -23,7 +23,7 @@ True (observed) response.
 Vector of numeric response values.
 One element for each observation in the test set.
 \item \code{se} :: \code{numeric()}\cr
-Numeric vector of predicted standard error.
+Numeric vector of predicted standard errors.
 One element for each observation in the test set.
 }
 }
