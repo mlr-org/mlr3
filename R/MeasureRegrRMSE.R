@@ -2,7 +2,7 @@
 #'
 #' @usage NULL
 #' @aliases mlr_measures_regr.rmse
-#' @format [R6::R6Class] inheriting from [MeasureClassif].
+#' @format [R6::R6Class] inheriting from [MeasureRegr].
 #' @include MeasureRegr.R
 #'
 #' @section Construction:
