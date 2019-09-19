@@ -81,7 +81,7 @@ measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9666667
 
 ### Resample
@@ -92,8 +92,8 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [21:11:08.322] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [21:11:08.350] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [21:11:08.322] Applying learner 'classif.rpart' on task 'iris' (iter 1/3)
+    ## INFO  [21:11:08.350] Applying learner 'classif.rpart' on task 'iris' (iter 2/3)
     ## INFO  [21:11:08.364] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
@@ -115,7 +115,7 @@ rr$score(measure)
 rr$aggregate(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9266667
 
 ## Why a rewrite?
@@ -169,6 +169,8 @@ would result in non-trivial API changes.
         Extension of R’s `data.frame`. No recursive dependencies.
       - [`digest`](https://cran.r-project.org/package=digest): Hash
         digests. No recursive dependencies.
+      - [`uuid`](https://cran.r-project.org/package=uuid): Generate unique
+        string identifiers. No recursive dependencies.
       - [`lgr`](https://github.com/s-fleck/lgr): Logging facility. No
         extra recursive dependencies.
       - [`Metrics`](https://cran.r-project.org/package=Metrics): Package
