@@ -1,3 +1,9 @@
+# mlr3 0.1.4
+
+* Replaced `MeasureClassifF1` with `MeasureClassifFScore` and fixed a bug in the
+  F1 performance calculation (#353). Thanks to @001ben for reporting.
+
+
 # mlr3 0.1.3
 
 * It is now possible to predict and score results on the training set or on both

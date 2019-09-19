@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.1.3
+Version: 0.1.3-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -106,7 +106,7 @@ Collate:
     'MeasureClassifCE.R'
     'MeasureClassifConfusion.R'
     'MeasureClassifCosts.R'
-    'MeasureClassifF1.R'
+    'MeasureClassifFScore.R'
     'MeasureDebug.R'
     'MeasureElapsedTime.R'
     'MeasureOOBError.R'
