@@ -5,7 +5,7 @@
 \alias{MeasureRegrRMSE}
 \alias{mlr_measures_regr.rmse}
 \title{Root Mean Squared Error Regression Measure}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{MeasureClassif}.}
+\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{MeasureRegr}.}
 \description{
 Calls \code{\link[Metrics:rmse]{Metrics::rmse()}}.
 }
