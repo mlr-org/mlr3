@@ -3,21 +3,36 @@
 \name{mlr_sugar}
 \alias{mlr_sugar}
 \alias{tsk}
+\alias{tsks}
 \alias{tgen}
+\alias{tgens}
 \alias{lrn}
+\alias{lrns}
 \alias{rsmp}
+\alias{rsmps}
 \alias{msr}
+\alias{msrs}
 \title{Syntactic Sugar for Object Construction}
 \usage{
 tsk(.key, ...)
 
+tsks(.keys, ...)
+
 tgen(.key, ...)
+
+tgens(.keys, ...)
 
 lrn(.key, ...)
 
+lrns(.keys, ...)
+
 rsmp(.key, ...)
 
+rsmps(.keys, ...)
+
 msr(.key, ...)
+
+msrs(.keys, ...)
 }
 \arguments{
 \item{.key}{:: \code{character(1)}\cr
@@ -25,14 +40,14 @@ Key passed to the respective \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} to
 
 \item{...}{:: named \code{list()}\cr
 Named arguments passed to the constructor, to be set as parameters in the \link[paradox:ParamSet]{paradox::ParamSet}, or to be set as public field.
-See \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}} for more details.}
+See \code{\link[mlr3misc:dictionary_sugar_get]{mlr3misc::dictionary_sugar_get()}} for more details.}
 }
 \value{
 \link[R6:R6Class]{R6::R6Class} of the respective type.
 }
 \description{
 Functions to retrieve objects, set hyperparameters and assign to fields in one go.
-Relies on \code{\link[mlr3misc:dictionary_sugar]{mlr3misc::dictionary_sugar()}} to extract objects from the respective \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
+Relies on \code{\link[mlr3misc:dictionary_sugar_get]{mlr3misc::dictionary_sugar_get()}} to extract objects from the respective \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
 \itemize{
 \item \code{tsk()} for a \link{Task} from \link{mlr_tasks}.
 \item \code{tgen()} for a \link{TaskGenerator} from \link{mlr_task_generators}.

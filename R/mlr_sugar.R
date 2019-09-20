@@ -3,7 +3,7 @@
 #' @name mlr_sugar
 #' @description
 #' Functions to retrieve objects, set hyperparameters and assign to fields in one go.
-#' Relies on [mlr3misc::dictionary_sugar()] to extract objects from the respective [mlr3misc::Dictionary]:
+#' Relies on [mlr3misc::dictionary_sugar_get()] to extract objects from the respective [mlr3misc::Dictionary]:
 #'
 #' * `tsk()` for a [Task] from [mlr_tasks].
 #' * `tgen()` for a [TaskGenerator] from [mlr_task_generators].
@@ -15,7 +15,7 @@
 #'   Key passed to the respective [mlr3misc::Dictionary] to retrieve the object.
 #' @param ... :: named `list()`\cr
 #'   Named arguments passed to the constructor, to be set as parameters in the [paradox::ParamSet], or to be set as public field.
-#'   See [mlr3misc::dictionary_sugar()] for more details.
+#'   See [mlr3misc::dictionary_sugar_get()] for more details.
 #'
 #' @return [R6::R6Class] of the respective type.
 #' @examples
@@ -33,29 +33,59 @@ NULL
 #' @rdname mlr_sugar
 #' @export
 tsk = function(.key, ...) {
-  dictionary_sugar(mlr_tasks, .key, ...)
+  dictionary_sugar_get(mlr_tasks, .key, ...)
+}
+
+#' @rdname mlr_sugar
+#' @export
+tsks = function(.keys, ...) {
+  dictionary_sugar_mget(mlr_tasks, .keys, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 tgen = function(.key, ...) {
-  dictionary_sugar(mlr_task_generators, .key, ...)
+  dictionary_sugar_get(mlr_task_generators, .key, ...)
+}
+
+#' @rdname mlr_sugar
+#' @export
+tgens = function(.keys, ...) {
+  dictionary_sugar_mget(mlr_task_generators, .keys, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 lrn = function(.key, ...) {
-  dictionary_sugar(mlr_learners, .key, ...)
+  dictionary_sugar_get(mlr_learners, .key, ...)
+}
+
+#' @rdname mlr_sugar
+#' @export
+lrns = function(.keys, ...) {
+  dictionary_sugar_mget(mlr_learners, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 rsmp = function(.key, ...) {
-  dictionary_sugar(mlr_resamplings, .key, ...)
+  dictionary_sugar_get(mlr_resamplings, .key, ...)
+}
+
+#' @rdname mlr_sugar
+#' @export
+rsmps = function(.keys, ...) {
+  dictionary_sugar_mget(mlr_resamplings, .key, ...)
 }
 
 #' @rdname mlr_sugar
 #' @export
 msr = function(.key, ...) {
-  dictionary_sugar(mlr_measures, .key, ...)
+  dictionary_sugar_get(mlr_measures, .key, ...)
+}
+
+#' @rdname mlr_sugar
+#' @export
+msrs = function(.keys, ...) {
+  dictionary_sugar_mget(mlr_measures, .key, ...)
 }
