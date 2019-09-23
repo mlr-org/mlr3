@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Install package dependencies
           command: |
-            sudo apt update && sudo apt upgrade -y
+            sudo apt update
             echo -e 'options(Ncpus = 6, repos = structure(c(CRAN = "https://cloud.r-project.org/")))' > $HOME/.Rprofile
             R -q -e 'print(parallel::detectCores())'
             R -q -e 'if (!requireNamespace("remotes")) install.packages("remotes")'
