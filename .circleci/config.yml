@@ -18,6 +18,7 @@ jobs:
           name: Install package dependencies
           command: |
             sudo apt update
+            cd project
             echo -e 'options(Ncpus = 6, repos = structure(c(CRAN = "https://cloud.r-project.org/")))' > $HOME/.Rprofile
             R -q -e 'print(parallel::detectCores())'
             R -q -e 'if (!requireNamespace("remotes")) install.packages("remotes")'
@@ -29,7 +30,7 @@ jobs:
           name: Check package
           no_output_timeout: 60m
           command: |
-            cd project && R -q -e 'tic::before_script()'
+            R -q -e 'tic::before_script()'
             R -q -e 'tic::script()'
 
       # save R pkg cache -------------------------------------------------------
