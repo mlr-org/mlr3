@@ -5,7 +5,6 @@ jobs:
       - image: rocker/verse
     steps:
       - checkout
-
       # create a unique env var for the cache. Unfortunately normal env vars
       # are not picked up by the cache, therefore this workaround is needed.
       # See https://discuss.circleci.com/t/cannot-use-circle-yml-environment-variables-in-cache-keys/10994/7
@@ -18,9 +17,7 @@ jobs:
           name: Install package dependencies
           command: |
             sudo apt update
-            cd project
             echo -e 'options(Ncpus = 6, repos = structure(c(CRAN = "https://cloud.r-project.org/")))' > $HOME/.Rprofile
-            R -q -e 'print(parallel::detectCores())'
             R -q -e 'if (!requireNamespace("remotes")) install.packages("remotes")'
             R -q -e 'if (getRversion() < "3.2" && !requireNamespace("curl")) install.packages("curl")'
             R -q -e 'remotes::install_github("ropenscilabs/tic", upgrade = "always"); print(tic::dsl_load()); tic::prepare_all_stages()'
