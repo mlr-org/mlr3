@@ -1,19 +1,14 @@
 #' @title Benchmark Multiple Learners on Multiple Tasks
 #'
 #' @description
-#' Runs a benchmark on arbitrary combinations of learners, tasks, and resampling strategies (possibly in parallel).
-#' Resamplings which are not already instantiated will be instantiated automatically.
-#' However, these auto-instantiated resamplings will not be synchronized per task, i.e. different learners will
-#' work on different splits of the same task.
-#'
-#' To generate exhaustive designs and automatically instantiate resampling strategies per task, use [benchmark_grid()].
+#' Runs a benchmark on arbitrary combinations of tasks ([Task]), learners ([Learner]), and resampling strategies ([Resampling]), possibly in parallel.
 #'
 #' @param design :: [data.frame()]\cr
 #'   Data frame (or [data.table::data.table()]) with three columns: "task", "learner", and "resampling".
-#'   Each row defines a resampling by providing a [Task], [Learner] and a [Resampling] strategy.
-#'   All resamplings must be properly instantiated.
+#'   Each row defines a resampling by providing a [Task], [Learner] and an instantiated [Resampling] strategy.
 #'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
+#'
 #' @param store_models :: `logical(1)`\cr
 #'   Keep the fitted model after the test set has been predicted?
 #'   Set to `TRUE` if you want to further analyse the models or want to
@@ -100,10 +95,10 @@ benchmark = function(design, store_models = FALSE) {
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
     assert_learner(learner, task = task, properties = task$properties)
-    hash = hash_resample_result(task, learner, resampling)
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
-      iteration = seq_len(resampling$iters), hash = hash)
+      iteration = seq_len(resampling$iters), uhash = UUIDgenerate()
+    )
   })
 
   lg$info("Benchmark with %i resampling iterations", nrow(grid))

@@ -23,7 +23,7 @@
 #' Note: This object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
 #'
 #' ```
-#' l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+#' l = Learner$new(id, task_type, param_set = ParamSet$new(), predict_types = character(),
 #'      feature_types = character(), properties = character(), packages = character())
 #' ```
 #'
@@ -35,9 +35,6 @@
 #'
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Set of hyperparameters.
-#'
-#' * `param_vals` :: named `list()`\cr
-#'   List of hyperparameter settings.
 #'
 #' * `predict_types` :: `character()`\cr
 #'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
@@ -54,6 +51,12 @@
 #'
 #' * `properties` :: `character()`\cr
 #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
+#'   The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
+#'   * `"missings"`: The learner can handle missing values in the data.
+#'   * `"weights"`: The learner supports observation weights.
+#'   * `"importance"`: The learner supports extraction of importance scores, i.e. comes with a `importance()` extractor function (see section on optional extractors).
+#'   * `"selected_features"`: The learner supports extraction of the set of selected features, i.e. comes with a `selected_features()` extractor function (see section on optional extractors).
+#'   * `"oob_error"`: The learner supports extraction of estimated out of bag error, i.e. comes with a `oob_error()` extractor function (see section on optional extractors).
 #'
 #' * `data_formats` :: `character()`\cr
 #'   Vector of supported data formats which can be processed during `$train()` and `$predict()`.
@@ -200,17 +203,13 @@ Learner = R6Class("Learner",
     predict_sets = "test",
     fallback = NULL,
 
-    initialize = function(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+    initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(),
       feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
       private$.encapsulate = c(train = "none", predict = "none")
-      if (length(param_vals) > 0L) {
-        .Deprecated(msg = "Do not use `param_vals`, set parameter values directly in the ParamSet")
-        self$param_set$values = insert_named(self$param_set$values, param_vals)
-      }
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
@@ -267,7 +266,7 @@ Learner = R6Class("Learner",
     },
 
     log = function() {
-      self$state$log$data %??% Log$new()$data
+      self$state$log
     },
 
     warnings = function() {
@@ -321,7 +320,15 @@ Learner = R6Class("Learner",
   private = list(
     .encapsulate = NULL,
     .predict_type = NULL,
-    .param_set = NULL
+    .param_set = NULL,
+
+    deep_clone = function(name, value) {
+      switch(name,
+        .param_set = value$clone(deep = TRUE),
+        state = { value$log = copy(value$log); value },
+        value
+      )
+    }
   )
 )
 

@@ -11,7 +11,7 @@
 #'
 #' @section Construction:
 #' ```
-#' g = TaskGenerator$new(id, task_type, packages = character(), param_set = ParamSet$new(), param_vals = list())
+#' g = TaskGenerator$new(id, task_type, packages = character(), param_set = ParamSet$new())
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -26,9 +26,6 @@
 #'
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Set of hyperparameters.
-#'
-#' * `param_vals` :: named `list()`\cr
-#'   List of hyperparameter settings.
 #'
 #' @section Fields:
 #' * `id` :: `character(1)`\cr
@@ -57,13 +54,9 @@ TaskGenerator = R6Class("TaskGenerator",
     task_type = NULL,
     param_set = NULL,
     packages = NULL,
-    initialize = function(id, task_type, packages = character(), param_set = ParamSet$new(), param_vals = list()) {
+    initialize = function(id, task_type, packages = character(), param_set = ParamSet$new()) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
-      if (length(param_vals) > 0L) {
-        .Deprecated(msg = "Do not use `param_vals`, set parameter values directly in the ParamSet")
-        self$param_set$values = insert_named(self$param_set$values, param_vals)
-      }
       self$packages = assert_set(packages)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
     },

@@ -22,7 +22,7 @@ A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the
 }
 \section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), param_vals = list(), predict_types = character(),
+Note: This object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), predict_types = character(),
      feature_types = character(), properties = character(), packages = character())
 }
 \itemize{
@@ -32,8 +32,6 @@ Identifier for the learner.
 Type of the task the learner can operator on. E.g., \code{"classif"} or \code{"regr"}.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Set of hyperparameters.
-\item \code{param_vals} :: named \code{list()}\cr
-List of hyperparameter settings.
 \item \code{predict_types} :: \code{character()}\cr
 Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
 \item \code{predict_sets} :: \code{character()}\cr
@@ -46,6 +44,14 @@ Default is \code{"test"}.
 Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
 \item \code{properties} :: \code{character()}\cr
 Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
+\itemize{
+\item \code{"missings"}: The learner can handle missing values in the data.
+\item \code{"weights"}: The learner supports observation weights.
+\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with a \code{importance()} extractor function (see section on optional extractors).
+\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \code{selected_features()} extractor function (see section on optional extractors).
+\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors).
+}
 \item \code{data_formats} :: \code{character()}\cr
 Vector of supported data formats which can be processed during \code{$train()} and \code{$predict()}.
 Defaults to \code{"data.table"}.

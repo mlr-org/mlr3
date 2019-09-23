@@ -20,7 +20,7 @@ benchmark_grid(tasks, learners, resamplings)
 Takes a lists of \link{Task}, a list of \link{Learner} and a list of \link{Resampling} to
 generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a. cross join or Cartesian product).
 
-Resampling strategies may not be instantiated, and will be instantiated per task internally.
+Resampling strategies are not allowed to be instantiated when passing the argument, and instead will be instantiated per task internally.
 }
 \examples{
 tasks = list(tsk("iris"), tsk("sonar"))

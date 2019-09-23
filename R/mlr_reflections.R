@@ -51,7 +51,7 @@
 #'   List of keys for the default [Measure]s, named by their task type.
 #'
 #' * `rr_names` :: `character()`\cr
-#'   Names of the elements of a [ResampleResult].
+#'   Names of the objects stored in a [ResampleResult].
 #'
 #' @keywords internal
 #' @export
@@ -95,7 +95,7 @@ local({
   )
 
   ### Learner
-  tmp = c("missings", "weights", "parallel", "importance", "selected_features", "oob_error")
+  tmp = c("missings", "weights", "importance", "selected_features", "oob_error")
   mlr_reflections$learner_properties = list(
     classif = c(tmp, "twoclass", "multiclass"),
     regr = tmp

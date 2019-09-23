@@ -10,7 +10,7 @@
 #' Measures are classes around tailored around two functions:
 #'
 #' 1. A function `score` which quantifies the performance by comparing true and predicted response.
-#' 2. A function `aggregator` which combines multiple performance values returned by
+#' 2. A function `aggregator` which combines multiple performance scores returned by
 #'    `calculate` to a single numeric value.
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
@@ -43,7 +43,7 @@
 #'   If set to `NA` (default), tuning this measure is not possible.
 #'
 #' * `aggregator` :: `function(x)`\cr
-#'   Function to aggregate individual performance values `x` where `x` is a numeric vector.
+#'   Function to aggregate individual performance scores `x` where `x` is a numeric vector.
 #'   If `NULL`, defaults to [mean()].
 #'
 #' * `properties` :: `character()`\cr
@@ -147,11 +147,19 @@ Measure = R6Class("Measure",
       }
 
       if (is.null(learner) && "requires_learner" %in% self$properties) {
-        stopf("Measure '%s' requires a learner", self$learner)
+        stopf("Measure '%s' requires a learner", self$id)
       }
 
       if (is.null(train_set) && "requires_train_set" %in% self$properties) {
-        stopf("Measure '%s' requires the train_set", self$learner)
+        stopf("Measure '%s' requires the train_set", self$id)
+      }
+
+      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
+        stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
+      }
+
+      if (self$predict_type %nin% prediction$predict_types) {
+        stopf("Measure '%s' requires predict type '%s'", self$id, self$predict_type)
       }
 
       measure_score(self, prediction, task, learner, train_set)

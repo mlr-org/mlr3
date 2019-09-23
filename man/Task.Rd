@@ -92,6 +92,11 @@ Stores the type of the \link{Task}.
 \item \code{properties} :: \code{character()}\cr
 Set of task properties. Possible properties are are stored in
 \link[=mlr_reflections]{mlr_reflections$task_properties}.
+The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
+\itemize{
+\item \code{"weights"}: The task comes with observation weights.
+\item \code{"groups"}: The task comes with grouping/blocking information.
+}
 \item \code{groups} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 If the task has a designated column role "groups", table with two columns:
 \code{row_id} (\code{integer()} | \code{character()}) and the grouping variable \code{group} (\code{vector()}).

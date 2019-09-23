@@ -11,7 +11,7 @@ Predefined task generators are stored in the \link[mlr3misc:Dictionary]{mlr3misc
 e.g. \code{\link[=mlr_task_generators_xor]{xor}}.
 }
 \section{Construction}{
-\preformatted{g = TaskGenerator$new(id, task_type, packages = character(), param_set = ParamSet$new(), param_vals = list())
+\preformatted{g = TaskGenerator$new(id, task_type, packages = character(), param_set = ParamSet$new())
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -23,8 +23,6 @@ Set of required packages.
 Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Set of hyperparameters.
-\item \code{param_vals} :: named \code{list()}\cr
-List of hyperparameter settings.
 }
 }
 

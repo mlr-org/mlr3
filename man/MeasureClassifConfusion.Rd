@@ -16,6 +16,7 @@
 \alias{mlr_measures_classif.fdr}
 \alias{mlr_measures_classif.for}
 \alias{mlr_measures_classif.npv}
+\alias{mlr_measures_classif.dor}
 \alias{mlr_measures_classif.precision}
 \alias{mlr_measures_classif.recall}
 \alias{mlr_measures_classif.sensitivity}
@@ -24,6 +25,7 @@
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
 \description{
 All implemented \link{Measure}s call \code{\link[=confusion_measures]{confusion_measures()}} with the respective \code{type} internally.
+For the F1 measure, use \link{MeasureClassifFScore}.
 }
 \section{Construction}{
 \preformatted{MeasureClassifConfusion$new(id = type, type)
@@ -40,6 +42,7 @@ mlr_measures("classif.ppv")
 mlr_measures("classif.fdr")
 mlr_measures("classif.for")
 mlr_measures("classif.npv")
+mlr_measures("classif.dor")
 mlr_measures("classif.precision")
 mlr_measures("classif.recall")
 mlr_measures("classif.sensitivity")
@@ -57,6 +60,7 @@ msr("classif.ppv")
 msr("classif.fdr")
 msr("classif.for")
 msr("classif.npv")
+msr("classif.dor")
 msr("classif.precision")
 msr("classif.recall")
 msr("classif.sensitivity")

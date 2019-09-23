@@ -5,6 +5,18 @@ test_that("construction", {
   expect_class(l, "Learner")
 })
 
+test_that("clone", {
+  l1 = lrn("classif.rpart")$train(tsk("iris"))
+  l2 = l1$clone(deep = TRUE)
+
+  expect_different_address(l1$state$log, l2$state$log)
+  expect_different_address(l1$param_set, l2$param_set)
+
+  l1$param_set$values = list(xval = 10L)
+  expect_equal(l1$param_set$values$xval, 10L)
+  expect_equal(l2$param_set$values$xval, 0L)
+})
+
 test_that("Learners are called with invoke / small footprint of call", {
   task = tsk("boston_housing")
   learner = lrn("regr.rpart")

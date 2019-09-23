@@ -8,16 +8,16 @@ bmr = benchmark(design)
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
-  expect_names(names(bmr$data), permutation.of = c(mlr_reflections$rr_names, "hash"))
+  expect_names(names(bmr$data), permutation.of = c(mlr_reflections$rr_names, "uhash"))
 
   tab = as.data.table(bmr)
   expect_data_table(tab, nrows = 12L, ncols = 6L)
-  expect_names(names(tab), must.include = c("hash", "task", "learner", "resampling", "iteration", "prediction"))
+  expect_names(names(tab), must.include = c("uhash", mlr_reflections$rr_names))
   measures = list(msr("classif.acc"))
 
-  tab = bmr$performance(measures, ids = FALSE)
+  tab = bmr$score(measures, ids = FALSE)
   expect_data_table(tab, nrows = 12L, ncols = 6L + length(measures))
-  expect_names(names(tab), must.include = c("nr", "task", "learner", "resampling", "iteration", "prediction", ids(measures)))
+  expect_names(names(tab), must.include = c("nr", mlr_reflections$rr_names, ids(measures)))
 
   tab = bmr$tasks
   expect_data_table(tab, nrows = 2, any.missing = FALSE)
@@ -41,7 +41,7 @@ test_that("Basic benchmarking", {
 
 test_that("ResampleResult / hash", {
   m = msr("classif.ce")
-  aggr = bmr$aggregate(m)
+  aggr = bmr$aggregate(m, uhashes = TRUE)
   nr = aggr$nr
   expect_integer(nr, len = 4L, any.missing = FALSE, unique = TRUE)
 
@@ -49,7 +49,7 @@ test_that("ResampleResult / hash", {
     rr = aggr$resample_result[[i]]
     expect_resample_result(rr)
     expect_equivalent(rr$aggregate(m), aggr[["classif.ce"]][i])
-    expect_equal(bmr$hashes[i], rr$hash)
+    expect_equal(bmr$uhashes[i], rr$uhash)
   }
 })
 
@@ -67,8 +67,8 @@ test_that("bmr$combine()", {
 
 
   # new bmr gets pasted at the end of data so hashes do net get mixed up?
-  pos_old = match(bmr$hashes, bmr_combined$hashes)
-  pos_new = match(bmr_new$hashes, bmr_combined$hashes)
+  pos_old = match(bmr$uhashes, bmr_combined$uhashes)
+  pos_new = match(bmr_new$uhashes, bmr_combined$uhashes)
   expect_true(all(pos_old < min(pos_new)))
 
   expect_benchmark_result(bmr)
@@ -97,13 +97,13 @@ test_that("empty bmr", {
 })
 
 test_that("bmr$resample_result()", {
-  hashes = bmr$hashes
+  uhashes = bmr$uhashes
   expect_resample_result(bmr$resample_result(1L))
-  expect_resample_result(bmr$resample_result(hash = hashes[1]))
+  expect_resample_result(bmr$resample_result(uhash = uhashes[1]))
   expect_error(bmr$resample_result(0))
   expect_error(bmr$resample_result(100))
-  expect_error(bmr$resample_result(hash = "a"))
-  expect_error(bmr$resample_result(i = 1, hash = hashes[1]))
+  expect_error(bmr$resample_result(uhash = "a"))
+  expect_error(bmr$resample_result(i = 1, uhash = uhashes[1]))
 })
 
 test_that("inputs are cloned", {
@@ -201,13 +201,13 @@ test_that("rr_info", {
   design = benchmark_grid(tasks, learners, resamplings)
   new_bmr = benchmark(design)
 
-  bmr$rr_data = data.table(bmr$data[, list(hash = unique(hash))], source = "old")
-  new_bmr$rr_data = data.table(new_bmr$data[, list(hash = unique(hash))], source = "new")
+  bmr$rr_data = data.table(bmr$data[, list(uhash = unique(uhash))], source = "old")
+  new_bmr$rr_data = data.table(new_bmr$data[, list(uhash = unique(uhash))], source = "new")
 
   bmr$combine(new_bmr)
   expect_set_equal(bmr$rr_data$hash, bmr$data$hash)
-  expect_set_equal(bmr$rr_data$hash, c(bmr$hashes, new_bmr$hashes))
-  expect_equal(anyDuplicated(bmr$rr_data$hash), 0)
+  expect_set_equal(bmr$rr_data$uhash, c(bmr$uhashes, new_bmr$uhashes))
+  expect_equal(anyDuplicated(bmr$rr_data$uhash), 0)
 
   tab = bmr$aggregate()
   expect_equal(tab$source, c(rep("old", 4), "new"))

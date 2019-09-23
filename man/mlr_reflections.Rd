@@ -46,7 +46,7 @@ List of vectors of supported \link{Measure} properties, named by their task type
 \item \code{default_measures} :: list of \code{character()}\cr
 List of keys for the default \link{Measure}s, named by their task type.
 \item \code{rr_names} :: \code{character()}\cr
-Names of the elements of a \link{ResampleResult}.
+Names of the objects stored in a \link{ResampleResult}.
 }
 }
 \examples{

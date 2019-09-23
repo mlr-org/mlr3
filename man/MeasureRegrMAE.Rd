@@ -5,7 +5,7 @@
 \alias{MeasureRegrMAE}
 \alias{mlr_measures_regr.mae}
 \title{Absolute Errors Regression Measure}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{MeasureClassif}.}
+\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{MeasureRegr}.}
 \description{
 Calls \code{\link[Metrics:mae]{Metrics::mae()}}.
 }

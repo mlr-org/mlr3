@@ -8,7 +8,7 @@ test_that("resample", {
   rr = resample(task, learner, resampling)
 
   expect_resample_result(rr)
-  expect_numeric(rr$performance(msr("classif.ce"))$classif.ce, any.missing = FALSE)
+  expect_numeric(rr$score(msr("classif.ce"))$classif.ce, any.missing = FALSE)
   expect_number(rr$aggregate(msr("classif.ce")))
   expect_different_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
   expect_same_address(rr$data$task[[1L]], rr$data$task[[2L]])
@@ -25,7 +25,7 @@ test_that("resample with no or multiple measures", {
   rr = resample(task, learner, rsmp("cv", folds = 3))
 
   for (measures in list(mlr_measures$mget(c("classif.ce", "classif.acc")), list())) {
-    tab = rr$performance(measures, ids = FALSE)
+    tab = rr$score(measures, ids = FALSE)
     expect_data_table(tab, ncols = length(mlr_reflections$rr_names) + length(measures), nrows = 3L)
     expect_set_equal(names(tab), c(mlr_reflections$rr_names, ids(measures)))
     perf = rr$aggregate(measures)
@@ -43,10 +43,10 @@ test_that("as_benchmark_result.ResampleResult", {
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
   expect_equal(nrow(bmr$data), nrow(rr$data))
-  expect_set_equal(bmr$data$hash, rr$hash)
+  expect_set_equal(bmr$data$uhash, rr$uhash)
   aggr = bmr$aggregate()
   expect_data_table(aggr, nrows = 1)
-  expect_set_equal(bmr$hashes, rr$hash)
+  expect_set_equal(bmr$uhashes, rr$uhash)
 })
 
 
@@ -90,6 +90,6 @@ test_that("predict_type is checked", {
   measure = msr("classif.auc")
   rr = resample(task, learner, resampling)
 
-  expect_error(rr$performance(measure), "predict_type")
+  expect_error(rr$score(measure), "predict_type")
   expect_error(rr$aggregate(measure), "predict_type")
 })

@@ -13,7 +13,13 @@ expect_id = function(x, len = NULL) {
 }
 
 expect_hash = function(x, len = NULL) {
-  checkmate::expect_character(x, len = len, any.missing = FALSE, min.chars = 4L, pattern = "^[0-9a-z]{16}$", unique = TRUE)
+  pattern = "^[0-9a-z]{16}$"
+  checkmate::expect_character(x, len = len, any.missing = FALSE, pattern = pattern, unique = TRUE)
+}
+
+expect_uhash = function(x, len = NULL) {
+  pattern = "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
+  checkmate::expect_character(x, len = len, any.missing = FALSE, pattern = pattern, unique = TRUE)
 }
 
 expect_dictionary = function(d, contains = NA_character_, min_items = 0L) {
@@ -381,12 +387,12 @@ expect_resample_result = function(rr) {
   expect_resampling(rr$resampling, task = rr$task)
 
   data = data.table::as.data.table(rr)
-  checkmate::expect_data_table(rr$performance(), nrows  = rr$resampling$iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
-  checkmate::expect_names(names(rr$performance()), must.include = mlr3::mlr_reflections$rr_names)
-  expect_hash(rr$hash, 1L)
+  checkmate::expect_data_table(rr$score(), nrows  = rr$resampling$iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
+  checkmate::expect_names(names(rr$score()), must.include = mlr3::mlr_reflections$rr_names)
+  expect_uhash(rr$uhash, 1L)
 
   m = mlr3::default_measures(rr$task$task_type)[[1L]]
-  y = rr$performance(m)
+  y = rr$score(m)
   aggr = rr$aggregate(m)
   checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
   checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
@@ -401,7 +407,7 @@ expect_benchmark_result = function(bmr) {
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
   checkmate::expect_data_table(bmr$data, min.cols = length(mlr3::mlr_reflections$rr_names) + 1L)
-  checkmate::expect_names(names(bmr$data), must.include = c(mlr3::mlr_reflections$rr_names, "hash"))
+  checkmate::expect_names(names(bmr$data), must.include = c(mlr3::mlr_reflections$rr_names, "uhash"))
 
   tab = bmr$tasks
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -441,11 +447,11 @@ expect_benchmark_result = function(bmr) {
   tab = bmr$aggregate(params = TRUE)
   checkmate::assert_list(tab$params)
 
-  hashes = bmr$hashes
-  expect_hash(hashes, len = data.table::uniqueN(bmr$data$hash))
-  checkmate::expect_set_equal(hashes, bmr$data$hash)
+  uhashes = bmr$uhashes
+  expect_uhash(uhashes, len = data.table::uniqueN(bmr$data$uhash))
+  checkmate::expect_set_equal(uhashes, bmr$data$uhash)
 
-  expect_equal(bmr$n_resample_results, length(bmr$hashes))
+  expect_equal(bmr$n_resample_results, length(bmr$uhashes))
 
   checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data) == 0L)
 }

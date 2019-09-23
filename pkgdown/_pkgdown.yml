@@ -82,10 +82,9 @@ reference:
       - benchmark_grid
       - BenchmarkResult
       - as_benchmark_result
-  - title: Extending
+  - title: Extending mlr3
     contents:
-      - mlr_coercions
-      - mlr_sugar
       - mlr_assertions
+      - mlr_coercions
       - mlr_reflections
-      - hash_resample_result
+      - mlr_sugar

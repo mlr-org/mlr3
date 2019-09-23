@@ -34,9 +34,11 @@ One element for each observation in the test set.
 Character vectors are automatically converted to factors.
 See the note on manual construction.
 \item \code{prob} :: \code{matrix()}\cr
-Numeric matrix of class probabilities with one column for each class
+Numeric matrix of posterior class probabilities with one column for each class
 and one row for each observation in the test set.
-Columns must be named with class labels, rownames are automatically removed.
+Columns must be named with class labels, row names are automatically removed.
+If \code{prob} is provided, but \code{response} is not, the class labels are calculated from
+the probabilities using \code{\link[mlr3misc:which_max]{mlr3misc::which_max()}} with \code{ties_method} set to \code{"random"}.
 }
 }
 

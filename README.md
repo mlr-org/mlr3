@@ -98,9 +98,9 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [17:00:06.661] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [17:00:06.686] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [17:00:06.702] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [18:02:21.597] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [18:02:21.624] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [18:02:21.638] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)

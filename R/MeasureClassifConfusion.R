@@ -1,21 +1,23 @@
 confusion_measure_info = setindexv(rowwise_table(
-  ~id, ~lower, ~upper, ~minimize, ~na_score,
-  "tp", 0, Inf, FALSE, FALSE,
-  "fn", 0, Inf, TRUE, FALSE,
-  "fp", 0, Inf, TRUE, FALSE,
-  "tn", 0, Inf, FALSE, FALSE,
-  "tpr", 0, 1, FALSE, TRUE,
-  "fnr", 0, 1, TRUE, TRUE,
-  "fpr", 0, 1, TRUE, TRUE,
-  "tnr", 0, 1, FALSE, TRUE,
-  "ppv", 0, 1, FALSE, TRUE,
-  "fdr", 0, 1, TRUE, TRUE,
-  "for", 0, 1, TRUE, TRUE,
-  "npv", 0, 1, FALSE, TRUE,
-  "precision", 0, 1, FALSE, TRUE,
-  "recall", 0, 1, FALSE, TRUE,
-  "sensitivity", 0, 1, FALSE, TRUE,
-  "specificity", 0, 1, FALSE, TRUE
+  ~id,           ~lower, ~upper, ~minimize, ~na_score,
+  "tp",          0,      Inf,    FALSE,     FALSE,
+  "fn",          0,      Inf,    TRUE,      FALSE,
+  "fp",          0,      Inf,    TRUE,      FALSE,
+  "tn",          0,      Inf,    FALSE,     FALSE,
+  "tpr",         0,      1,      FALSE,     TRUE,
+  "fnr",         0,      1,      TRUE,      TRUE,
+  "fpr",         0,      1,      TRUE,      TRUE,
+  "tnr",         0,      1,      FALSE,     TRUE,
+  "ppv",         0,      1,      FALSE,     TRUE,
+  "fdr",         0,      1,      TRUE,      TRUE,
+  "for",         0,      1,      TRUE,      TRUE,
+  "npv",         0,      1,      FALSE,     TRUE,
+  "dor",         0,      Inf,    FALSE,     TRUE,
+  "f1",          0,      1,      FALSE,     TRUE,
+  "precision",   0,      1,      FALSE,     TRUE,
+  "recall",      0,      1,      FALSE,     TRUE,
+  "sensitivity", 0,      1,      FALSE,     TRUE,
+  "specificity", 0,      1,      FALSE,     TRUE
 ), "id")
 
 #' @title Binary Classification Measures Derived from a Confusion Matrix
@@ -34,6 +36,7 @@ confusion_measure_info = setindexv(rowwise_table(
 #'  mlr_measures_classif.fdr
 #'  mlr_measures_classif.for
 #'  mlr_measures_classif.npv
+#'  mlr_measures_classif.dor
 #'  mlr_measures_classif.precision
 #'  mlr_measures_classif.recall
 #'  mlr_measures_classif.sensitivity
@@ -57,6 +60,7 @@ confusion_measure_info = setindexv(rowwise_table(
 #' mlr_measures("classif.fdr")
 #' mlr_measures("classif.for")
 #' mlr_measures("classif.npv")
+#' mlr_measures("classif.dor")
 #' mlr_measures("classif.precision")
 #' mlr_measures("classif.recall")
 #' mlr_measures("classif.sensitivity")
@@ -74,6 +78,7 @@ confusion_measure_info = setindexv(rowwise_table(
 #' msr("classif.fdr")
 #' msr("classif.for")
 #' msr("classif.npv")
+#' msr("classif.dor")
 #' msr("classif.precision")
 #' msr("classif.recall")
 #' msr("classif.sensitivity")
@@ -85,6 +90,7 @@ confusion_measure_info = setindexv(rowwise_table(
 #'
 #' @description
 #' All implemented [Measure]s call [confusion_measures()] with the respective `type` internally.
+#' For the F1 measure, use [MeasureClassifFScore].
 #'
 #' @template seealso_measure
 #' @export
@@ -119,7 +125,7 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
 )
 
 #' @include mlr_measures.R
-for (type in confusion_measure_info$id) {
+for (type in setdiff(confusion_measure_info$id, "f1")) {
   id = sprintf("classif.%s", type)
   mlr_measures$add(id, MeasureClassifConfusion, type = type)
 }
@@ -142,6 +148,8 @@ for (type in confusion_measure_info$id) {
 #' * `"fdr"`: False Discovery Rate.
 #' * `"for"`: False Omission Rate.
 #' * `"npv"`: Negative Predictive Value.
+#' * `"dor"`: Diagnostic Odds Ratio.
+#' * `"f1"`:  F1 Measure.
 #' * `"precision"`: Alias for `"ppv"`.
 #' * `"recall"`: Alias for `"tpr"`.
 #' * `"sensitivity"`: Alias for `"tpr"`.
@@ -191,7 +199,13 @@ confusion_measures = function(m, type = NULL) {
       "ppv" = , "precision" = div(m[1L, 1L], sum(m[1L, ])),
       "fdr" = div(m[1L, 2L], sum(m[1L, ])),
       "for" = div(m[2L, 1L], sum(m[2L, ])),
-      "npv" = div(m[2L, 2L], sum(m[2L, ]))
+      "npv" = div(m[2L, 2L], sum(m[2L, ])),
+      "dor" = div(m[1L, 1L] * m[2L, 2L], m[1L, 2L] * m[2L, 1L]),
+      "f1"  = {
+        P = div(m[1L, 1L], sum(m[1L, ]))
+        R = div(m[1L, 1L], sum(m[, 1L]))
+        2L * R * P / (R + P)
+      }
     )
   }), type)
 }

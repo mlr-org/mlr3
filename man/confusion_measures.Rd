@@ -33,6 +33,8 @@ Implemented are the following measures based on \url{https://en.wikipedia.org/wi
 \item \code{"fdr"}: False Discovery Rate.
 \item \code{"for"}: False Omission Rate.
 \item \code{"npv"}: Negative Predictive Value.
+\item \code{"dor"}: Diagnostic Odds Ratio.
+\item \code{"f1"}:  F1 Measure.
 \item \code{"precision"}: Alias for \code{"ppv"}.
 \item \code{"recall"}: Alias for \code{"tpr"}.
 \item \code{"sensitivity"}: Alias for \code{"tpr"}.
