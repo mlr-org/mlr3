@@ -110,3 +110,13 @@ test_that("predict train + test set", {
   expect_equal(unname(is.nan(aggr)), c(FALSE, FALSE, FALSE))
   expect_equal(unname(aggr), c(n_train, n_test, n_train + n_test))
 })
+
+test_that("assertions work (#357)", {
+  measures = lapply(c("classif.auc","classif.acc"), msr)
+  task = tsk("iris")
+  lrn = lrn("classif.featureless")
+  p = lrn$train(task)$predict(task)
+
+  expect_error(p$score(msr("classif.auc"), "predict.type"))
+  expect_error(p$score(msr("regr.mse"), "task.type"))
+})
