@@ -63,7 +63,7 @@ lrn = function(.key, ...) {
 #' @rdname mlr_sugar
 #' @export
 lrns = function(.keys, ...) {
-  dictionary_sugar_mget(mlr_learners, .key, ...)
+  dictionary_sugar_mget(mlr_learners, .keys, ...)
 }
 
 #' @rdname mlr_sugar
@@ -75,7 +75,7 @@ rsmp = function(.key, ...) {
 #' @rdname mlr_sugar
 #' @export
 rsmps = function(.keys, ...) {
-  dictionary_sugar_mget(mlr_resamplings, .key, ...)
+  dictionary_sugar_mget(mlr_resamplings, .keys, ...)
 }
 
 #' @rdname mlr_sugar
@@ -87,5 +87,5 @@ msr = function(.key, ...) {
 #' @rdname mlr_sugar
 #' @export
 msrs = function(.keys, ...) {
-  dictionary_sugar_mget(mlr_measures, .key, ...)
+  dictionary_sugar_mget(mlr_measures, .keys, ...)
 }
