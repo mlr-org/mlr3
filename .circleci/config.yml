@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: rocker/verse:3.6.1
+      - image: rocker/verse
     steps:
       - checkout
 
