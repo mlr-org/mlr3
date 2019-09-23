@@ -35,4 +35,3 @@ jobs:
           key: R-package-library-{{ checksum "/tmp/_tmp_file" }}
           paths:
             - /usr/local/lib/R/site-library
-
