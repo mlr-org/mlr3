@@ -23,22 +23,18 @@ test_that("setting threshold binaryclass", {
   expect_factor(p$response, levels = task$class_names)
   expect_equal(as.character(p$response), colnames(p$prob)[max.col(p$prob)])
 
-  set_thresh = function(p, th) {
-    p$set_threshold(th)
-  }
-
   response_before = p$response
-  p = set_thresh(p, 0.5)
+  expect_false(withVisible(p$set_threshold(0.5))$visible) #356
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_equal(p$response, response_before)
   expect_lt(p$score(msr("classif.ce")), 0.25)
 
-  set_thresh(p, 0)
+  p$set_threshold(0)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_true(all(as.character(p$response) == task$positive | p$prob[, task$positive] == 0))
   expect_gt(p$score(msr("classif.ce")), 0.25)
 
-  set_thresh(p, 1)
+  p$set_threshold(1)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_true(all(as.character(p$response) == task$negative | p$prob[, task$negative] == 0))
   expect_gt(p$score(msr("classif.ce")), 0.25)

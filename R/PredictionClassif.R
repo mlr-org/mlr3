@@ -167,7 +167,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
       ind = max.col(prob, ties.method = "random")
       self$data$tab$response = factor(lvls[ind], levels = lvls)
-      self
+      invisible(self)
     }
   ),
 
