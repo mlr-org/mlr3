@@ -4,6 +4,7 @@ context("predict")
 test_that("predict on newdata works / classif", {
   task = tsk("iris")$filter(1:120)
   learner = lrn("classif.featureless")
+  expect_error(learner$predict(task), "trained")
   learner$train(task)
 
   newdata = tsk("iris")$filter(121:150)$data()
