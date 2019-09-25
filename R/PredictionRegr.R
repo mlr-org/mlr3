@@ -57,7 +57,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       n = length(row_ids)
 
       self$task_type = "regr"
-      self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(se))]
+      self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
       self$data$tab = data.table(
         row_id = row_ids,
         truth = assert_numeric(truth, len = n, null.ok = TRUE)
