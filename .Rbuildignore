@@ -14,3 +14,4 @@
 ^README\.Rmd$
 ^revdep$
 mlr-ci
+.circleci
