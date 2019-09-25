@@ -26,6 +26,16 @@ See \link{Resampling}.
 See \link{Resampling}.
 }
 
+\section{Parameters}{
+
+\itemize{
+\item \code{stratify} :: \code{logical(1)} | \code{character()}\cr
+Enables stratification. See \link{Resampling}.
+\item \code{folds} :: \code{integer(1)}\cr
+Number of folds.
+}
+}
+
 \examples{
 # Create a task with 10 observations
 task = tsk("iris")

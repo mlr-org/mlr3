@@ -28,6 +28,18 @@ See \link{Resampling}.
 See \link{Resampling}.
 }
 
+\section{Parameters}{
+
+\itemize{
+\item \code{stratify} :: \code{logical(1)} | \code{character()}\cr
+Enables stratification. See \link{Resampling}.
+\item \code{repeats} :: \code{integer(1)}\cr
+Number of repetitions.
+\item \code{ratio} :: \code{numeric(1)}\cr
+Ratio of observations to put into the training set.
+}
+}
+
 \examples{
 # Create a task with 10 observations
 task = tsk("iris")

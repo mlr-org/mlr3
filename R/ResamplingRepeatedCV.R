@@ -34,6 +34,14 @@
 #'   `integer()` -> `integer()`\cr
 #'   Translates iteration numbers to repetition number.
 #'
+#' @section Parameters:
+#' * `stratify` :: `logical(1)` | `character()`\cr
+#'   Enables stratification. See [Resampling].
+#' * `repeats` :: `integer(1)`\cr
+#'   Number of repetitions.
+#' * `folds` :: `integer(1)`\cr
+#'   Number of folds.
+#'
 #' @template seealso_resampling
 #' @export
 #' @examples

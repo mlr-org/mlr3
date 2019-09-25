@@ -22,6 +22,14 @@
 #' @section Methods:
 #' See [Resampling].
 #'
+#' @section Parameters:
+#' * `stratify` :: `logical(1)` | `character()`\cr
+#'   Enables stratification. See [Resampling].
+#' * `repeats` :: `integer(1)`\cr
+#'   Number of repetitions.
+#' * `ratio` :: `numeric(1)`\cr
+#'   Ratio of observations to put into the training set.
+#'
 #' @template seealso_resampling
 #' @export
 #' @examples

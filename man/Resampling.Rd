@@ -36,20 +36,21 @@ Set of hyperparameters.
 Identifier of the learner.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Description of available hyperparameters and hyperparameter settings.
-\item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) for this object.
+\item \code{iters} :: \code{integer(1)}\cr
+Return the number of resampling iterations, depending on the values stored in the \code{param_set}.
 \item \code{instance} :: \code{any}\cr
 During \code{instantiate()}, the instance is stored in this slot.
 The instance can be in any arbitrary format.
 \item \code{is_instantiated} :: \code{logical(1)}\cr
 Is \code{TRUE}, if the resampling has been instantiated.
+\item \code{task_hash} :: \code{character(1)}\cr
+The hash of the task which was passed to \code{r$instantiate()}.
+\item \code{hash} :: \code{character(1)}\cr
+Hash (unique identifier) for this object.
 \item \code{duplicated_ids} :: \code{logical(1)}\cr
 Is \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.
 E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross validation.
-\item \code{iters} :: \code{integer(1)}\cr
-Return the number of resampling iterations, depending on the values stored in the \code{param_set}.
-\item \code{task_hash} :: \code{character(1)}\cr
-The hash of the task which was passed to \code{r$instantiate()}.
+Only used internally.
 }
 }
 
@@ -66,6 +67,35 @@ Returns the row ids of the i-th training set.
 \code{integer(1)} -> (\code{integer()} | \code{character()})\cr
 Returns the row ids of the i-th test set.
 }
+}
+
+\section{Stratification}{
+
+All derived classes support stratified sampling.
+
+First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete, i.e. \code{factor()}, \code{ordered()} or \code{character()}).
+The stratification variables must be included in the task and can be specified via parameter \code{stratify} by providing column names.
+Setting \code{stratify} to \code{TRUE} is an alias for \code{stratify = task$target_names}.
+In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
+
+Second, the sampling is performed in each of the \code{k} subpopulations separately.
+Each subgroup is divided into \code{iter} training sets and \code{iter} test sets by the derived \code{Resampling}.
+These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
+Same is done for all test sets.
+The merged sets can be accessed via \code{$train_set(i)} and \code{test_set(i)}, respectively.
+}
+
+\section{Grouping / Blocking}{
+
+All derived classes support grouping of observations.
+
+Observations in the same group are treated like a "block" of observations which must be kept together.
+These observations either all go together into the training set or together into the test set.
+The grouping variable is assumed to be discrete (i.e. \code{factor()}, \code{ordered()} or \code{character()}) and must be stored in the \link{Task} with column role \code{"grouping"}.
+
+The sampling is performed by the derived \link{Resampling} on the grouping variable.
+Next, the grouping information is replaced with the respective row ids to generate training and test sets.
+The sets can be accessed via \code{$train_set(i)} and \code{test_set(i)}, respectively.
 }
 
 \examples{
@@ -95,7 +125,7 @@ r$train_set(1)
 task = tsk("pima")
 prop.table(table(task$truth())) # moderately unbalanced
 
-r = rsmp("subsampling")
+r = rsmp("subsampling", stratify = TRUE)
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 }
