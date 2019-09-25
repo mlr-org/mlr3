@@ -73,8 +73,8 @@ Returns the row ids of the i-th test set.
 
 All derived classes support stratified sampling.
 
-First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete, i.e. \code{factor()}, \code{ordered()} or \code{character()}).
-The stratification variables must be included in the task and can be specified via parameter \code{stratify} by providing column names.
+First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete).
+The stratification variables must be included in the task and the \code{stratify} parameter can be set to the respective column names.
 Setting \code{stratify} to \code{TRUE} is an alias for \code{stratify = task$target_names}.
 In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
 
@@ -82,7 +82,7 @@ Second, the sampling is performed in each of the \code{k} subpopulations separat
 Each subgroup is divided into \code{iter} training sets and \code{iter} test sets by the derived \code{Resampling}.
 These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 Same is done for all test sets.
-The merged sets can be accessed via \code{$train_set(i)} and \code{test_set(i)}, respectively.
+The merged sets can be accessed via \code{$train_set(i)} and \code{$test_set(i)}, respectively.
 }
 
 \section{Grouping / Blocking}{
@@ -91,11 +91,11 @@ All derived classes support grouping of observations.
 
 Observations in the same group are treated like a "block" of observations which must be kept together.
 These observations either all go together into the training set or together into the test set.
-The grouping variable is assumed to be discrete (i.e. \code{factor()}, \code{ordered()} or \code{character()}) and must be stored in the \link{Task} with column role \code{"grouping"}.
+The grouping variable is assumed to be discrete and must be stored in the \link{Task} with column role \code{"groups"}.
 
 The sampling is performed by the derived \link{Resampling} on the grouping variable.
 Next, the grouping information is replaced with the respective row ids to generate training and test sets.
-The sets can be accessed via \code{$train_set(i)} and \code{test_set(i)}, respectively.
+The sets can be accessed via \code{$train_set(i)} and \code{$test_set(i)}, respectively.
 }
 
 \examples{

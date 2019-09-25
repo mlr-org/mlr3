@@ -71,8 +71,8 @@
 #' @section Stratification:
 #' All derived classes support stratified sampling.
 #'
-#' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete, i.e. `factor()`, `ordered()` or `character()`).
-#' The stratification variables must be included in the task and can be specified via parameter `stratify` by providing column names.
+#' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete).
+#' The stratification variables must be included in the task and the `stratify` parameter can be set to the respective column names.
 #' Setting `stratify` to `TRUE` is an alias for `stratify = task$target_names`.
 #' In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
 #'
@@ -80,18 +80,18 @@
 #' Each subgroup is divided into `iter` training sets and `iter` test sets by the derived `Resampling`.
 #' These sets are merged based on their iteration number: all training sets from all subpopulations with iteration 1 are combined, then all training sets with iteration 2, and so on.
 #' Same is done for all test sets.
-#' The merged sets can be accessed via `$train_set(i)` and `test_set(i)`, respectively.
+#' The merged sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
 #' @section Grouping / Blocking:
 #' All derived classes support grouping of observations.
 #'
 #' Observations in the same group are treated like a "block" of observations which must be kept together.
 #' These observations either all go together into the training set or together into the test set.
-#' The grouping variable is assumed to be discrete (i.e. `factor()`, `ordered()` or `character()`) and must be stored in the [Task] with column role `"grouping"`.
+#' The grouping variable is assumed to be discrete and must be stored in the [Task] with column role `"groups"`.
 #'
 #' The sampling is performed by the derived [Resampling] on the grouping variable.
 #' Next, the grouping information is replaced with the respective row ids to generate training and test sets.
-#' The sets can be accessed via `$train_set(i)` and `test_set(i)`, respectively.
+#' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
 #' @export
 #' @family Resampling
