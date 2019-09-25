@@ -117,8 +117,6 @@ ResampleResult = R6Class("ResampleResult",
       catf("%s of %i iterations", format(self), nrow(self$data))
       catf(str_indent("* Task:", self$task$id))
       catf(str_indent("* Learner:", self$data$learner[[1L]]$id))
-      perf = self$aggregate()
-      catf(str_indent("* Performance:", sprintf("%.3f [%s]", perf, names(perf))))
 
       warnings = self$warnings
       catf(str_indent("* Warnings:", sprintf("%i in %i iterations", nrow(warnings), uniqueN(warnings, by = "iteration"))))
