@@ -14,7 +14,7 @@ test_that("no encapsulation", {
 
 test_that("no encapsulation / resampling", {
   learner = lrn("classif.debug", error_train = 1)
-  expect_error(resample(tsk("iris"), learner, rsmp("cv", folds = 3)), "'classif.debug'")
+  expect_error(resample(tsk("iris"), learner, rsmp("cv", folds = 3)), "classif.debug")
 })
 
 

@@ -3,14 +3,7 @@
 # Exceptions here are possibly encapsulated, so that they get captured
 # and turned into log messages.
 train_wrapper = function(learner, task) {
-  tryCatch({
-    model = learner$train_internal(task = task)
-  },
-  error = function(e) {
-    e$message = sprintf("Learner '%s' on task '%s' failed to fit: %s", learner$id, task$id, e$message)
-    stop(e)
-  }
-  )
+  model = learner$train_internal(task = task)
 
   if (is.null(model)) {
     stopf("Learner '%s' on task '%s' returned NULL during train_internal()", learner$id, task$id)
@@ -24,28 +17,16 @@ train_wrapper = function(learner, task) {
 # checks that the prediction was successful.
 # Exceptions here are possibly encapsulated, so that they get captured and turned into log messages.
 predict_wrapper = function(task, learner) {
-
   if (is.null(learner$state$model)) {
     stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
   }
 
-  result = tryCatch(
-    learner$predict_internal(task = task),
-    error = function(e) {
-      e$message = sprintf("Learner '%s' on task '%s' failed to predict: %s", learner$id, task$id, e$message)
-      stop(e)
-    }
-  )
+  result = learner$predict_internal(task = task)
 
   if (!inherits(result, "Prediction")) {
     stopf("Learner '%s' on task '%s' did not return a Prediction object, but instead: %s",
       learner$id, task$id, as_short_string(result))
   }
-
-  # unsupported = setdiff(names(result$data), c("row_ids", "truth", learner$predict_types))
-  # if (length(unsupported)) {
-  #   stopf("Learner '%s' on task '%s' returned result for unsupported predict type '%s'", learner$id, task$id, head(unsupported, 1L))
-  # }
 
   return(result)
 }
