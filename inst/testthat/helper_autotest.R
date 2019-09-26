@@ -121,11 +121,15 @@ generate_tasks.LearnerClassif = function(learner, N = 30L) {
   }
 
   # generate sanity task
-  with_seed(100, {
+  data = with_seed(100, {
     data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = rep(as.factor(c("A", "B")), each = 100))
-    data$unimportant = runif(nrow(data))
+    data$unimportant = runif(nrow(data), min = 0, max = 1000)
+    data
   })
   tasks$sanity = mlr3::TaskClassif$new("sanity", mlr3::as_data_backend(data), target = "y", positive = "A")
+
+  # sanity task, but reorder columns between train and predict in run_experiment()
+  tasks$sanity_reordered = mlr3::TaskClassif$new("sanity_reordered", mlr3::as_data_backend(data), target = "y")
 
   # sanity task, but with other label as positive class to detect label switches
   tasks$sanity_switched = mlr3::TaskClassif$new("sanity_switched", mlr3::as_data_backend(data), target = "y", positive = "B")
@@ -143,12 +147,18 @@ generate_tasks.LearnerRegr = function(learner, N = 30L) {
   tasks = generate_generic_tasks(learner, task)
 
   # generate sanity task
-  with_seed(100, {
-    data = data.table::data.table(x = c(rnorm(100, 0, 1), rnorm(100, 10, 1)), y = c(rep(0, 100), rep(1, 100)))
-    data$unimportant = runif(nrow(data))
+  data = with_seed(100, {
+    x = seq(from = -10, to = 10, length.out = 100)
+    data.table::data.table(
+      y = rnorm(length(x), mean = 1),
+      x = x,
+      unimportant = runif(length(x), min = 0, max = 1000)
+    )
   })
-  task = mlr3misc::set_names(list(mlr3::TaskRegr$new("sanity", mlr3::as_data_backend(data), target = "y")), "sanity")
-  tasks = c(tasks, task)
+  tasks$sanity = mlr3::TaskRegr$new("sanity", mlr3::as_data_backend(data), target = "y")
+  tasks$sanity_reordered = mlr3::TaskRegr$new("sanity_reordered", mlr3::as_data_backend(data), target = "y")
+
+  tasks
 }
 registerS3method("generate_tasks", "LearnerRegr", generate_tasks.LearnerRegr)
 
@@ -163,7 +173,7 @@ registerS3method("sanity_check", "LearnerClassif", sanity_check.PredictionClassi
 
 
 sanity_check.PredictionRegr = function(prediction) {
-  prediction$score(mlr3::msr("regr.mse")) <= 1
+  prediction$score(mlr3::msr("regr.mse")) <= 2
 }
 registerS3method("sanity_check", "LearnerRegr", sanity_check.PredictionRegr)
 
@@ -172,7 +182,7 @@ run_experiment = function(task, learner) {
     info = sprintf(info, ...)
     list(
       ok = FALSE,
-      task = task, learner = learner, prediction = prediction,
+      task = task, learner = learner, prediction = prediction, score = score,
       error = sprintf("[%s] learner '%s' on task '%s' failed: %s",
         stage, learner$id, task$id, info)
     )
@@ -181,6 +191,7 @@ run_experiment = function(task, learner) {
   mlr3::assert_task(task)
   learner = mlr3::assert_learner(mlr3::as_learner(learner, clone = TRUE), task = task)
   prediction = NULL
+  score = NULL
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
 
   stage = "train()"
@@ -194,8 +205,10 @@ run_experiment = function(task, learner) {
     return(err("model is NULL"))
 
   stage = "predict()"
-  # reorder features in task
-  task$col_roles$feature = mlr3misc::shuffle(task$col_roles$feature)
+
+  if (grepl("reordered", task$id)) {
+    task$col_roles$feature = rev(task$col_roles$feature)
+  }
 
   prediction = try(learner$predict(task), silent = TRUE)
   if (inherits(ok, "try-error"))
@@ -219,10 +232,10 @@ run_experiment = function(task, learner) {
     return(err(msg))
 
   stage = "score()"
-  perf = try(prediction$score(mlr3::default_measures(learner$task_type)), silent = TRUE)
-  if (inherits(perf, "try-error"))
-    return(err(as.character(perf)))
-  msg = checkmate::check_numeric(perf, any.missing = FALSE)
+  score = try(prediction$score(mlr3::default_measures(learner$task_type)), silent = TRUE)
+  if (inherits(score, "try-error"))
+    return(err(as.character(score)))
+  msg = checkmate::check_numeric(score, any.missing = FALSE)
   if (!isTRUE(msg))
     return(err(msg))
 
