@@ -21,6 +21,12 @@
 #' @section Methods:
 #' See [Resampling].
 #'
+#' @section Parameters:
+#' * `stratify` :: `logical(1)` | `character()`\cr
+#'   Enables stratification. See [Resampling].
+#' * `folds` :: `integer(1)`\cr
+#'   Number of folds.
+#'
 #' @template seealso_resampling
 #' @export
 #' @examples

@@ -236,9 +236,15 @@ Learner = R6Class("Learner",
 
     predict = function(task, row_ids = NULL) {
       task = assert_task(as_task(task), task_type = self$task_type, feature_types = self$feature_types)
+
       if (!is.null(row_ids)) {
         row_ids = assert_row_ids(row_ids)
       }
+
+      if (is.null(self$model) && is.null(self$state$fallback_state$model)) {
+        stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
+      }
+
       learner_predict(self, task, row_ids)
     },
 

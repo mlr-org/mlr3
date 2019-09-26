@@ -4,6 +4,7 @@ context("predict")
 test_that("predict on newdata works / classif", {
   task = tsk("iris")$filter(1:120)
   learner = lrn("classif.featureless")
+  expect_error(learner$predict(task), "trained")
   learner$train(task)
 
   newdata = tsk("iris")$filter(121:150)$data()
@@ -94,19 +95,25 @@ test_that("predict train + test set", {
 
   learner = lrn("classif.rpart")
   rr = resample(task, learner, hout)
-  aggr = rr$aggregate(measures = measures)
-  expect_equal(unname(is.nan(aggr)), c(TRUE, FALSE, TRUE))
-  expect_equal(aggr[["te"]], n_test)
+  expect_error(rr$aggregate(measures = measures), "predict.set")
 
   learner = lrn("classif.rpart", predict_sets = "train")
   rr = resample(task, learner, hout)
-  aggr = rr$aggregate(measures = measures)
-  expect_equal(unname(is.nan(aggr)), c(FALSE, TRUE, TRUE))
-  expect_equal(aggr[["tr"]], n_train)
+  expect_error(rr$aggregate(measures = measures), "predict.set")
 
   learner = lrn("classif.rpart", predict_sets = c("train", "test"))
   rr = resample(task, learner, hout)
   aggr = rr$aggregate(measures = measures)
-  expect_equal(unname(is.nan(aggr)), c(FALSE, FALSE, FALSE))
+  expect_equal(unname(is.na(aggr)), c(FALSE, FALSE, FALSE))
   expect_equal(unname(aggr), c(n_train, n_test, n_train + n_test))
+})
+
+test_that("assertions work (#357)", {
+  measures = lapply(c("classif.auc","classif.acc"), msr)
+  task = tsk("iris")
+  lrn = lrn("classif.featureless")
+  p = lrn$train(task)$predict(task)
+
+  expect_error(p$score(msr("classif.auc"), "predict.type"))
+  expect_error(p$score(msr("regr.mse"), "task.type"))
 })

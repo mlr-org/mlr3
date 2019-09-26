@@ -147,11 +147,19 @@ Measure = R6Class("Measure",
       }
 
       if (is.null(learner) && "requires_learner" %in% self$properties) {
-        stopf("Measure '%s' requires a learner", self$learner)
+        stopf("Measure '%s' requires a learner", self$id)
       }
 
       if (is.null(train_set) && "requires_train_set" %in% self$properties) {
-        stopf("Measure '%s' requires the train_set", self$learner)
+        stopf("Measure '%s' requires the train_set", self$id)
+      }
+
+      if (!is_scalar_na(self$task_type) && self$task_type != prediction$task_type) {
+        stopf("Measure '%s' incompatible with task type '%s'", self$id, prediction$task_type)
+      }
+
+      if (self$predict_type %nin% prediction$predict_types) {
+        stopf("Measure '%s' requires predict type '%s'", self$id, self$predict_type)
       }
 
       measure_score(self, prediction, task, learner, train_set)

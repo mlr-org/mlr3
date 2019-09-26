@@ -64,6 +64,8 @@ learner_train = function(learner, task, row_ids = NULL) {
     task$row_roles$use = row_ids
   }
 
+  learner$state = list()
+
   # call train_wrapper with encapsulation
   result = encapsulate(learner$encapsulate["train"],
     .f = train_wrapper,
@@ -76,11 +78,11 @@ learner_train = function(learner, task, row_ids = NULL) {
     lg$debug("Learner '%s' on task '%s' did not fit a model", learner$id, task$id, learner = learner$clone(), task = task$clone())
   }
 
-  learner$state = list(
+  learner$state = insert_named(learner$state, list(
     model = result$result,
     log = append_log(NULL, "train", result$log$class, result$log$msg),
     train_time = result$elapsed
-  )
+  ))
 
   # fit fallback learner
   fb = learner$fallback

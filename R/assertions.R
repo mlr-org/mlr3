@@ -121,6 +121,11 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
         stopf("Measure '%s' needs predict_type '%s'", measure$id, measure$predict_type)
       }
     }
+
+    miss = setdiff(measure$predict_sets, learner$predict_sets)
+    if (length(miss)) {
+      stopf("Measure '%s' needs predict set '%s'", measure$id, str_collapse(miss))
+    }
   }
 
   invisible(measure)
