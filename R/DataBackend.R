@@ -21,7 +21,7 @@
 #' or via the S3 method [as_data_backend()].
 #'
 #' ```
-#' DataBackend$new(data, primary_key = NULL, data_formats = "data.table", converters = list())
+#' DataBackend$new(data, primary_key = NULL, data_formats = "data.table")
 #' ```
 #'
 #' * `data` :: `any`\cr
