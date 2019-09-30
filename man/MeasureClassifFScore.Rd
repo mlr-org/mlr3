@@ -23,10 +23,7 @@ Passed down to \code{\link[Metrics:fbeta_score]{Metrics::fbeta_score()}}
 }
 
 \references{
-Sasaki, Yutaka (2007).
-The truth of the F-measure.
-Teach Tutor mater 1.5: 1-5.
-\url{https://www.cs.odu.edu/~mukka/cs795sum09dm/Lecturenotes/Day3/F-measure-YS-26Oct07.pdf}
+\cite{mlr3}{sasaki_2007}
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}

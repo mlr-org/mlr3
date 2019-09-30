@@ -23,9 +23,7 @@ tsk("wine")
 }
 
 \references{
-Dua, D. and Graff, C. (2019).
-\emph{UCI Machine Learning Repository} \url{http://archive.ics.uci.edu/ml}.
-Irvine, CA: University of California, School of Information and Computer Science.
+\cite{mlr3}{uci}
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}

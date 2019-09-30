@@ -17,10 +17,7 @@
 #' Parameter `xval` is set to 0 in order to save some computation time.
 #'
 #' @references
-#' Breiman, L. (1984).
-#' Classification and Regression Trees.
-#' New York: Routledge.
-#' \doi{10.1201/9781315139470}.
+#' \cite{mlr3}{breiman_2017}
 #'
 #' @template seealso_learner
 #' @export
