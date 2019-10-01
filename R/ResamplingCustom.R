@@ -21,6 +21,7 @@
 #' @section Methods:
 #' See [Resampling].
 #'
+#' @family Resampling
 #' @template seealso_resampling
 #' @export
 #' @examples

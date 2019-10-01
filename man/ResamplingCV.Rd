@@ -55,5 +55,13 @@ rcv$instance # table
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+
+Other Resampling: \code{\link{ResamplingBootstrap}},
+  \code{\link{ResamplingCustom}},
+  \code{\link{ResamplingHoldout}},
+  \code{\link{ResamplingRepeatedCV}},
+  \code{\link{ResamplingSubsampling}},
+  \code{\link{Resampling}}, \code{\link{mlr_resamplings}}
 }
+\concept{Resampling}
 \keyword{datasets}

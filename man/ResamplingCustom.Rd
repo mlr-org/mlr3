@@ -42,5 +42,13 @@ rc$test_set(1)
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+
+Other Resampling: \code{\link{ResamplingBootstrap}},
+  \code{\link{ResamplingCV}},
+  \code{\link{ResamplingHoldout}},
+  \code{\link{ResamplingRepeatedCV}},
+  \code{\link{ResamplingSubsampling}},
+  \code{\link{Resampling}}, \code{\link{mlr_resamplings}}
 }
+\concept{Resampling}
 \keyword{datasets}

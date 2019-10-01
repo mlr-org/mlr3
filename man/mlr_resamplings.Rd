@@ -42,7 +42,13 @@ Other Dictionary: \code{\link{mlr_learners}},
   \code{\link{mlr_task_generators}},
   \code{\link{mlr_tasks}}
 
-Other Resampling: \code{\link{Resampling}}
+Other Resampling: \code{\link{ResamplingBootstrap}},
+  \code{\link{ResamplingCV}},
+  \code{\link{ResamplingCustom}},
+  \code{\link{ResamplingHoldout}},
+  \code{\link{ResamplingRepeatedCV}},
+  \code{\link{ResamplingSubsampling}},
+  \code{\link{Resampling}}
 }
 \concept{Dictionary}
 \concept{Resampling}

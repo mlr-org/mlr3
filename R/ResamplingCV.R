@@ -27,6 +27,7 @@
 #' * `folds` :: `integer(1)`\cr
 #'   Number of folds.
 #'
+#' @family Resampling
 #' @template seealso_resampling
 #' @export
 #' @examples

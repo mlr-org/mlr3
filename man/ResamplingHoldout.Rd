@@ -56,5 +56,13 @@ rho$instance # simple list
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+
+Other Resampling: \code{\link{ResamplingBootstrap}},
+  \code{\link{ResamplingCV}},
+  \code{\link{ResamplingCustom}},
+  \code{\link{ResamplingRepeatedCV}},
+  \code{\link{ResamplingSubsampling}},
+  \code{\link{Resampling}}, \code{\link{mlr_resamplings}}
 }
+\concept{Resampling}
 \keyword{datasets}

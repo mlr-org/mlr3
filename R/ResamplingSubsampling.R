@@ -30,6 +30,7 @@
 #' * `ratio` :: `numeric(1)`\cr
 #'   Ratio of observations to put into the training set.
 #'
+#' @family Resampling
 #' @template seealso_resampling
 #' @export
 #' @examples
