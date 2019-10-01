@@ -21,5 +21,7 @@ tgen("friedman1")$generate(10)$data()
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=TaskGenerator]{TaskGenerators}: \link{mlr_task_generators}
+
+\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{TaskGenerator} implementations.
 }
 \keyword{datasets}

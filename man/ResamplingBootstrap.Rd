@@ -60,12 +60,6 @@ rb$instance$M # Matrix of counts
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 
-Other Resampling: \code{\link{ResamplingCV}},
-  \code{\link{ResamplingCustom}},
-  \code{\link{ResamplingHoldout}},
-  \code{\link{ResamplingRepeatedCV}},
-  \code{\link{ResamplingSubsampling}},
-  \code{\link{Resampling}}, \code{\link{mlr_resamplings}}
+\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
 }
-\concept{Resampling}
 \keyword{datasets}

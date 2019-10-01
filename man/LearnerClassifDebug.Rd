@@ -47,5 +47,7 @@ names(learner$model)
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
+
+\code{as.data.table(mlr_learners)} for a complete table of all (also dynamically created) \link{Learner} implementations.
 }
 \keyword{datasets}

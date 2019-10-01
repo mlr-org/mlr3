@@ -132,13 +132,9 @@ prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 
-Other Resampling: \code{\link{ResamplingBootstrap}},
-  \code{\link{ResamplingCV}},
-  \code{\link{ResamplingCustom}},
-  \code{\link{ResamplingHoldout}},
-  \code{\link{ResamplingRepeatedCV}},
-  \code{\link{ResamplingSubsampling}},
-  \code{\link{mlr_resamplings}}
+\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
+
+Other Resampling: \code{\link{mlr_resamplings}}
 }
 \concept{Resampling}
 \keyword{datasets}
