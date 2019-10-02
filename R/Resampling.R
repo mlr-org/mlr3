@@ -70,11 +70,11 @@
 #'
 #' @section Stratification:
 #' All derived classes support stratified sampling.
-#'
-#' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete).
-#' The stratification variables must be included in the task and the `stratify` parameter can be set to the respective column names.
-#' Setting `stratify` to `TRUE` is an alias for `stratify = task$target_names`.
+#' The stratification variables are assumed to be discrete and must be stored in the [Task] with column role `"stratify"`.
 #' In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
+#'
+#' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. `task$stratify`.
+#'
 #'
 #' Second, the sampling is performed in each of the `k` subpopulations separately.
 #' Each subgroup is divided into `iter` training sets and `iter` test sets by the derived `Resampling`.
@@ -82,19 +82,21 @@
 #' Same is done for all test sets.
 #' The merged sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
+#'
 #' @section Grouping / Blocking:
 #' All derived classes support grouping of observations.
+#' The grouping variable is assumed to be discrete and must be stored in the [Task] with column role `"groups"`.
 #'
 #' Observations in the same group are treated like a "block" of observations which must be kept together.
 #' These observations either all go together into the training set or together into the test set.
-#' The grouping variable is assumed to be discrete and must be stored in the [Task] with column role `"groups"`.
 #'
 #' The sampling is performed by the derived [Resampling] on the grouping variable.
 #' Next, the grouping information is replaced with the respective row ids to generate training and test sets.
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
-#' @export
 #' @family Resampling
+#' @template seealso_resampling
+#' @export
 #' @examples
 #' r = rsmp("subsampling")
 #'
@@ -121,8 +123,9 @@
 #' # Stratification
 #' task = tsk("pima")
 #' prop.table(table(task$truth())) # moderately unbalanced
+#' task$set_col_role(task$target_names, "stratify", exclusive = FALSE)
 #'
-#' r = rsmp("subsampling", stratify = TRUE)
+#' r = rsmp("subsampling")
 #' r$instantiate(task)
 #' prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 Resampling = R6Class("Resampling",
@@ -152,10 +155,10 @@ Resampling = R6Class("Resampling",
 
     instantiate = function(task) {
       task = assert_task(as_task(task))
+      stratify = task$stratify
       groups = task$groups
 
-      stratify = self$param_set$values$stratify
-      if (length(stratify) == 0L || isFALSE(stratify)) {
+      if (is.null(stratify)) {
         if (is.null(groups)) {
           instance = private$.sample(task$row_ids)
         } else {
@@ -166,8 +169,7 @@ Resampling = R6Class("Resampling",
         if (!is.null(groups)) {
           stopf("Cannot combine stratification with grouping")
         }
-        instances = stratify(task, stratify)
-        instance = private$.combine(lapply(instances$..row_id, private$.sample))
+        instance = private$.combine(lapply(stratify$row_id, private$.sample))
       }
 
       self$instance = instance
@@ -209,12 +211,3 @@ Resampling = R6Class("Resampling",
   )
 )
 
-stratify = function(task, stratify) {
-  if (isTRUE(stratify)) {
-    stratify = task$target_names
-  } else {
-    assert_subset(stratify, c(task$target_names, task$feature_names), empty.ok = FALSE)
-  }
-  row_ids = task$row_ids
-  cbind(task$data(rows = row_ids, cols = stratify), ..row_id = row_ids)[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = stratify]
-}

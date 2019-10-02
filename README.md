@@ -1,5 +1,5 @@
 
-# mlr3 <img src="man/figures/logo_navbar.png" align="right" />
+# mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
 Efficient, object-oriented programming on the building blocks of machine
 learning. Successor of [mlr](https://github.com/mlr-org/mlr).
@@ -87,7 +87,7 @@ measure = msr("classif.acc")
 prediction$score(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9666667
 
 ### Resample
@@ -98,19 +98,21 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [18:02:21.597] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [18:02:21.624] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [18:02:21.638] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [09:43:04.890] Applying learner 'classif.rpart' on task 'iris' (iter 1/3)
+    ## INFO  [09:43:04.917] Applying learner 'classif.rpart' on task 'iris' (iter 2/3)
+    ## INFO  [09:43:04.931] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
 ```
 
     ##             task task_id               learner    learner_id
+    ##           <list>  <char>                <list>        <char>
     ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ##        resampling resampling_id iteration prediction classif.acc
+    ##            <list>        <char>     <int>     <list>       <num>
     ## 1: <ResamplingCV>            cv         1     <list>        0.92
     ## 2: <ResamplingCV>            cv         2     <list>        0.92
     ## 3: <ResamplingCV>            cv         3     <list>        0.94
@@ -119,7 +121,7 @@ rr$score(measure)
 rr$aggregate(measure)
 ```
 
-    ## classif.acc 
+    ## classif.acc
     ##   0.9266667
 
 ## Why a rewrite?

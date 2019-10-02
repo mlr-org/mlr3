@@ -2,6 +2,8 @@
 
 * Replaced `MeasureClassifF1` with `MeasureClassifFScore` and fixed a bug in the
   F1 performance calculation (#353). Thanks to @001ben for reporting.
+* Stratification is now controlled via a task column role (was a parameter of
+  `Resampling` before).
 
 
 # mlr3 0.1.3
