@@ -156,7 +156,7 @@ test_that("stratify works", {
   task$set_col_role(task$target_names, "stratify", FALSE)
   expect_true("stratify" %in% task$properties)
   tab = task$stratify
-  expect_data_table(tab, ncol = 2, nrow = 3)
+  expect_data_table(tab, ncols = 2, nrows = 3)
   expect_list(tab$row_id, "integer")
 })
 
