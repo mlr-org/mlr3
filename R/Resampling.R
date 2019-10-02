@@ -93,8 +93,9 @@
 #' Next, the grouping information is replaced with the respective row ids to generate training and test sets.
 #' The sets can be accessed via `$train_set(i)` and `$test_set(i)`, respectively.
 #'
-#' @export
 #' @family Resampling
+#' @template seealso_resampling
+#' @export
 #' @examples
 #' r = rsmp("subsampling")
 #'
