@@ -42,8 +42,6 @@ Translates iteration numbers to repetition number.
 \section{Parameters}{
 
 \itemize{
-\item \code{stratify} :: \code{logical(1)} | \code{character()}\cr
-Enables stratification. See \link{Resampling}.
 \item \code{repeats} :: \code{integer(1)}\cr
 Number of repetitions.
 \item \code{folds} :: \code{integer(1)}\cr

@@ -19,8 +19,9 @@ test_that("folds first, then repetitions", {
 test_that("stratification", {
   data = data.table(y = rep(letters[1:2], times = c(90, 10)), x1 = runif(100), x2 = rep(LETTERS[1:2], times = c(50, 50)))
   task = TaskClassif$new("stratify_data", data, target = "y")
+  task$set_col_role(task$target_names, "stratify", FALSE)
 
-  r = rsmp("repeated_cv", folds = 5, repeats = 2, stratify = TRUE)
+  r = rsmp("repeated_cv", folds = 5, repeats = 2)
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {
