@@ -30,8 +30,6 @@ See \link{Resampling}.
 \section{Parameters}{
 
 \itemize{
-\item \code{stratify} :: \code{logical(1)} | \code{character()}\cr
-Enables stratification. See \link{Resampling}.
 \item \code{ratio} :: \code{numeric(1)}\cr
 Ratio of observations to put into the training set.
 }

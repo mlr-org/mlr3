@@ -9,8 +9,9 @@ test_that("stratification", {
   data = data.table(y = rep(letters[1:2], times = c(90, 10)), x1 = runif(100), x2 = rep(LETTERS[1:2], times = c(50, 50)))
   b = as_data_backend(data)
   task = TaskClassif$new("stratify_data", b, target = "y")
+  task$set_col_role(task$target_names, "stratify", FALSE)
 
-  r = rsmp("subsampling", ratio = 0.5, repeats = 3, stratify = TRUE)
+  r = rsmp("subsampling", ratio = 0.5, repeats = 3)
   r$instantiate(task)
 
   for (i in seq_len(r$iters)) {

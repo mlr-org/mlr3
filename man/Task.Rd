@@ -55,7 +55,8 @@ Each column (feature) can have an arbitrary number of the following roles:
 \item \code{"groups"}: During resampling, observations with the same value of the variable with role "groups"
 are marked as "belonging together". They will be exclusively assigned to be either in the training set
 or in the test set for each resampling iteration. Only up to one column may have this role.
-\item \code{"weights"}: Observation weights. Only up to one column may have this role.
+\item \code{"stratify"}: Stratification variables. Multiple discrete columns may have this role.
+\item \code{"weights"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
 }
 
 \code{col_roles} keeps track of the roles with a named list of vectors of feature names.
@@ -94,13 +95,23 @@ Set of task properties. Possible properties are are stored in
 \link[=mlr_reflections]{mlr_reflections$task_properties}.
 The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
 \itemize{
-\item \code{"weights"}: The task comes with observation weights.
+\item \code{"stratify"}: The task is resampled using one or more stratification variables.
 \item \code{"groups"}: The task comes with grouping/blocking information.
+\item \code{"weights"}: The task comes with observation weights.
 }
+\item \code{stratify} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
+If the task has designated columns with role "stratify", returns a table with one subpopulation per row and two columns:
+\code{N} (\code{integer()}) with the number of observations in the subpopulation and \code{row_id} (list of \code{integer()} | list of \code{character()}) as list
+column with the row ids in the respective subpopulation.
+Returns \code{NULL} if there are is no stratification variables.
+
+See \link{Resampling} for more information on stratification.
 \item \code{groups} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 If the task has a designated column role "groups", table with two columns:
 \code{row_id} (\code{integer()} | \code{character()}) and the grouping variable \code{group} (\code{vector()}).
 Returns \code{NULL} if there are is no grouping column.
+
+See \link{Resampling} for more information on grouping.
 \item \code{weights} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 If the task has a designated column role "weights", table with two columns:
 \code{row_id} (\code{integer()} | \code{character()}) and the observation weights \code{weight} (\code{numeric()}).

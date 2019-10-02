@@ -22,8 +22,6 @@
 #' See [Resampling].
 #'
 #' @section Parameters:
-#' * `stratify` :: `logical(1)` | `character()`\cr
-#'   Enables stratification. See [Resampling].
 #' * `folds` :: `integer(1)`\cr
 #'   Number of folds.
 #'
@@ -49,7 +47,6 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
     initialize = function() {
       ps = ParamSet$new(list(
-        ParamUty$new("stratify", default = NULL),
         ParamInt$new("folds", lower = 1L, tags = "required")
       ))
       ps$values = list(folds = 10L)
