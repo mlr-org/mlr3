@@ -31,8 +31,6 @@ See \link{Resampling}.
 \section{Parameters}{
 
 \itemize{
-\item \code{stratify} :: \code{logical(1)} | \code{character()}\cr
-Enables stratification. See \link{Resampling}.
 \item \code{repeats} :: \code{integer(1)}\cr
 Number of repetitions.
 \item \code{ratio} :: \code{numeric(1)}\cr
@@ -59,5 +57,7 @@ rb$instance$M # Matrix of counts
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+
+\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
 }
 \keyword{datasets}

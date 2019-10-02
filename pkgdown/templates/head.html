@@ -5,6 +5,16 @@
 <meta name="google-site-verification" content="BrjL5fpoyHZu1rR8rwnnM2MBO3u3iIFB8NsmSuOsY84" />
 <title>{{{pagetitle}}} • {{#site}}{{title}}{{/site}}</title>
 
+{{#has_favicons}}
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="{{#site}}{{root}}{{/site}}favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="{{#site}}{{root}}{{/site}}favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="{{#site}}{{root}}{{/site}}apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="{{#site}}{{root}}{{/site}}apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="{{#site}}{{root}}{{/site}}apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="{{#site}}{{root}}{{/site}}apple-touch-icon-60x60.png" />
+{{/has_favicons}}
+
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -71,5 +81,3 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
 {{/docsearch}}{{/yaml}}
 
-<link rel="icon" type="image/png" href="https://mlr-org.github.io/mlr/favicon.ico">
-<link rel="apple-touch-icon" type="image/png" href="https://mlr-org.github.io/mlr/favicon.ico">

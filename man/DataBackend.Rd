@@ -20,7 +20,7 @@ See \link{DataBackendDataTable} or \link{DataBackendMatrix} for exemplary implem
 \section{Construction}{
 
 Note: This object is typically constructed via a derived classes, e.g. \link{DataBackendDataTable} or \link{DataBackendMatrix},
-or via the S3 method \code{\link[=as_data_backend]{as_data_backend()}}.\preformatted{DataBackend$new(data, primary_key = NULL, data_formats = "data.table", converters = list())
+or via the S3 method \code{\link[=as_data_backend]{as_data_backend()}}.\preformatted{DataBackend$new(data, primary_key = NULL, data_formats = "data.table")
 }
 \itemize{
 \item \code{data} :: \code{any}\cr

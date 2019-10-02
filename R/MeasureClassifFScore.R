@@ -38,7 +38,7 @@ MeasureClassifFScore = R6Class("MeasureClassifFScore",
         id = "classif.f_score",
         range = 0:1,
         minimize = FALSE,
-        predict_type = "prob",
+        predict_type = "response",
         task_properties = "twoclass",
         packages = "Metrics"
       )

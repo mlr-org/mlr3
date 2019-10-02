@@ -52,7 +52,8 @@
 #'     - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
 #'          or in the test set for each resampling iteration. Only up to one column may have this role.
-#'     - `"weights"`: Observation weights. Only up to one column may have this role.
+#'     - `"stratify"`: Stratification variables. Multiple discrete columns may have this role.
+#'     - `"weights"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
 #'
 #'   `col_roles` keeps track of the roles with a named list of vectors of feature names.
 #'   To alter the roles, use `t$set_col_role()`.
@@ -98,13 +99,24 @@
 #'   Set of task properties. Possible properties are are stored in
 #'   [mlr_reflections$task_properties][mlr_reflections].
 #'   The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
-#'   * `"weights"`: The task comes with observation weights.
+#'   * `"stratify"`: The task is resampled using one or more stratification variables.
 #'   * `"groups"`: The task comes with grouping/blocking information.
+#'   * `"weights"`: The task comes with observation weights.
+#'
+#' * `stratify` :: [data.table::data.table()]\cr
+#'   If the task has designated columns with role "stratify", returns a table with one subpopulation per row and two columns:
+#'   `N` (`integer()`) with the number of observations in the subpopulation and `row_id` (list of `integer()` | list of `character()`) as list
+#'   column with the row ids in the respective subpopulation.
+#'   Returns `NULL` if there are is no stratification variables.
+#'
+#'   See [Resampling] for more information on stratification.
 #'
 #' * `groups` :: [data.table::data.table()]\cr
 #'   If the task has a designated column role "groups", table with two columns:
 #'   `row_id` (`integer()` | `character()`) and the grouping variable `group` (`vector()`).
 #'   Returns `NULL` if there are is no grouping column.
+#'
+#'   See [Resampling] for more information on grouping.
 #'
 #' * `weights` :: [data.table::data.table()]\cr
 #'   If the task has a designated column role "weights", table with two columns:
@@ -401,6 +413,19 @@ Task = R6Class("Task",
       self$backend$data_formats
     },
 
+    stratify = function() {
+      cols = self$col_roles$stratify
+      if (length(cols) == 0L) {
+        return(NULL)
+      }
+
+      row_ids = self$row_ids
+      tab = self$data(rows = row_ids, cols = cols)
+      tab$..row_id = row_ids
+      tab = tab[, list(..N = .N, ..row_id = list(.SD$..row_id)), by = cols, .SDcols = "..row_id"][, (cols) := NULL]
+      setnames(tab, c("..N", "..row_id"), c("N", "row_id"))[]
+    },
+
     groups = function() {
       groups = self$col_roles$groups
       if (length(groups) == 0L) {
@@ -429,14 +454,16 @@ Task = R6Class("Task",
   )
 )
 
-task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table") {
+task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", subset_active = c("rows", "cols")) {
 
   assert_choice(data_format, self$backend$data_formats)
 
   if (is.null(rows)) {
     selected_rows = self$row_roles$use
   } else {
-    assert_subset(rows, self$row_roles$use)
+    if ("rows" %in% subset_active) {
+      assert_subset(rows, self$row_roles$use)
+    }
     if (is.double(rows)) {
       rows = as.integer(rows)
     }
@@ -446,7 +473,9 @@ task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table")
   if (is.null(cols)) {
     selected_cols = c(self$col_roles$target, self$col_roles$feature)
   } else {
-    assert_subset(cols, c(self$col_roles$target, self$col_roles$feature))
+    if ("cols" %in% subset_active) {
+      assert_subset(cols, c(self$col_roles$target, self$col_roles$feature))
+    }
     selected_cols = cols
   }
 
@@ -496,6 +525,9 @@ task_print = function(self) {
 
   if (length(self$col_roles$order)) {
     catf(str_indent("* Order by:", self$col_roles$order))
+  }
+  if ("stratify" %in% self$properties) {
+    catf(str_indent("* Stratification:", self$col_roles$stratify))
   }
   if ("groups" %in% self$properties) {
     catf(str_indent("* Groups:", self$col_roles$groups))

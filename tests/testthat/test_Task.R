@@ -148,6 +148,18 @@ test_that("rename works", {
   expect_task_classif(task)
 })
 
+test_that("stratify works", {
+  task = tsk("iris")
+  expect_false("stratify" %in% task$properties)
+  expect_null(task$stratify)
+
+  task$set_col_role(task$target_names, "stratify", FALSE)
+  expect_true("stratify" %in% task$properties)
+  tab = task$stratify
+  expect_data_table(tab, ncols = 2, nrows = 3)
+  expect_list(tab$row_id, "integer")
+})
+
 test_that("groups/weights work", {
   b = as_data_backend(data.table(x = runif(20), y = runif(20), w = runif(20), g = sample(letters[1:2], 20, replace = TRUE)))
   task = TaskRegr$new("test", b, target = "y")

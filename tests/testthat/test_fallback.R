@@ -3,14 +3,14 @@ context("fallback")
 test_that("train fails gracefully", {
   task = tsk("iris")
   learner = lrn("classif.debug", error_train = 1)
-  expect_error(learner$train(task), "'classif.debug'")
+  expect_error(learner$train(task), "classif.debug")
 })
 
 test_that("predict fails gracefully", {
   task = tsk("iris")
   learner = lrn("classif.debug", error_predict = 1)
   learner$train(task)
-  expect_error(learner$predict(task), "'classif.debug'")
+  expect_error(learner$predict(task), "classif.debug")
 })
 
 test_that("fail during train", {

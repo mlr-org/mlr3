@@ -22,5 +22,7 @@ If \code{normalize} is set to \code{TRUE}, divides the number of features by the
 
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
+
+\code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 }
 \keyword{datasets}

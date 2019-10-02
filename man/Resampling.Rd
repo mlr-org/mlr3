@@ -72,11 +72,10 @@ Returns the row ids of the i-th test set.
 \section{Stratification}{
 
 All derived classes support stratified sampling.
-
-First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete).
-The stratification variables must be included in the task and the \code{stratify} parameter can be set to the respective column names.
-Setting \code{stratify} to \code{TRUE} is an alias for \code{stratify = task$target_names}.
+The stratification variables are assumed to be discrete and must be stored in the \link{Task} with column role \code{"stratify"}.
 In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
+
+First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. \code{task$stratify}.
 
 Second, the sampling is performed in each of the \code{k} subpopulations separately.
 Each subgroup is divided into \code{iter} training sets and \code{iter} test sets by the derived \code{Resampling}.
@@ -88,10 +87,10 @@ The merged sets can be accessed via \code{$train_set(i)} and \code{$test_set(i)}
 \section{Grouping / Blocking}{
 
 All derived classes support grouping of observations.
+The grouping variable is assumed to be discrete and must be stored in the \link{Task} with column role \code{"groups"}.
 
 Observations in the same group are treated like a "block" of observations which must be kept together.
 These observations either all go together into the training set or together into the test set.
-The grouping variable is assumed to be discrete and must be stored in the \link{Task} with column role \code{"groups"}.
 
 The sampling is performed by the derived \link{Resampling} on the grouping variable.
 Next, the grouping information is replaced with the respective row ids to generate training and test sets.
@@ -124,12 +123,17 @@ r$train_set(1)
 # Stratification
 task = tsk("pima")
 prop.table(table(task$truth())) # moderately unbalanced
+task$set_col_role(task$target_names, "stratify", exclusive = FALSE)
 
-r = rsmp("subsampling", stratify = TRUE)
+r = rsmp("subsampling")
 r$instantiate(task)
 prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 }
 \seealso{
+\link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+
+\code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
+
 Other Resampling: \code{\link{mlr_resamplings}}
 }
 \concept{Resampling}

@@ -6,6 +6,8 @@
 \alias{mlr3-package}
 \title{mlr3: Machine Learning in R - Next Generation}
 \description{
+\if{html}{\figure{logo.png}{options: align='right'}}
+
 Efficient, object-oriented programming on the building blocks of
     machine learning. Provides 'R6' objects for tasks, learners, resamplings,
     and measures. The package is geared towards scalability and larger datasets

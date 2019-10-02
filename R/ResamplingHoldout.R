@@ -23,8 +23,6 @@
 #' See [Resampling].
 #'
 #' @section Parameters:
-#' * `stratify` :: `logical(1)` | `character()`\cr
-#'   Enables stratification. See [Resampling].
 #' * `ratio` :: `numeric(1)`\cr
 #'   Ratio of observations to put into the training set.
 #'
@@ -50,7 +48,6 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
   public = list(
     initialize = function() {
       ps = ParamSet$new(list(
-        ParamUty$new("stratify", default = NULL),
         ParamDbl$new("ratio", lower = 0, upper = 1, tags = "required")
       ))
       ps$values = list(ratio = 2 / 3)
