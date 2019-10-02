@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-# mlr3 <img src="man/figures/logo_navbar.png" align="right" />
+# mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
 Efficient, object-oriented programming on the building blocks of machine learning.
 Successor of [mlr](https://github.com/mlr-org/mlr).
