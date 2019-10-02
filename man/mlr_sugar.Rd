@@ -41,19 +41,28 @@ Key passed to the respective \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} to
 \item{...}{:: named \code{list()}\cr
 Named arguments passed to the constructor, to be set as parameters in the \link[paradox:ParamSet]{paradox::ParamSet}, or to be set as public field.
 See \code{\link[mlr3misc:dictionary_sugar_get]{mlr3misc::dictionary_sugar_get()}} for more details.}
+
+\item{.keys}{:: \code{character()}\cr
+Keys passed to the respective \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} to retrieve multiple objects.}
 }
 \value{
-\link[R6:R6Class]{R6::R6Class} of the respective type.
+\link[R6:R6Class]{R6::R6Class} object of the respective type,
+or a list of \link[R6:R6Class]{R6::R6Class} objects for the plural versions.
 }
 \description{
 Functions to retrieve objects, set hyperparameters and assign to fields in one go.
 Relies on \code{\link[mlr3misc:dictionary_sugar_get]{mlr3misc::dictionary_sugar_get()}} to extract objects from the respective \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}:
 \itemize{
 \item \code{tsk()} for a \link{Task} from \link{mlr_tasks}.
+\item \code{tsks()} for a list of \link{Task}s from \link{mlr_tasks}.
 \item \code{tgen()} for a \link{TaskGenerator} from \link{mlr_task_generators}.
+\item \code{tgens()} for a list of \link{TaskGenerator}s from \link{mlr_task_generators}.
 \item \code{lrn()} for a \link{Learner} from \link{mlr_learners}.
+\item \code{lrns()} for a list of \link{Learner}s from \link{mlr_learners}.
 \item \code{rsmp()} for a \link{Resampling} from \link{mlr_resamplings}.
+\item \code{rsmps()} for a list of \link{Resampling}s from \link{mlr_resamplings}.
 \item \code{msr()} for a \link{Measure} from \link{mlr_measures}.
+\item \code{msrs()} for a list of \link{Measure}s from \link{mlr_measures}.
 }
 }
 \examples{

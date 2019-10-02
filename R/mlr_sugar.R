@@ -6,18 +6,26 @@
 #' Relies on [mlr3misc::dictionary_sugar_get()] to extract objects from the respective [mlr3misc::Dictionary]:
 #'
 #' * `tsk()` for a [Task] from [mlr_tasks].
+#' * `tsks()` for a list of [Task]s from [mlr_tasks].
 #' * `tgen()` for a [TaskGenerator] from [mlr_task_generators].
+#' * `tgens()` for a list of [TaskGenerator]s from [mlr_task_generators].
 #' * `lrn()` for a [Learner] from [mlr_learners].
+#' * `lrns()` for a list of [Learner]s from [mlr_learners].
 #' * `rsmp()` for a [Resampling] from [mlr_resamplings].
+#' * `rsmps()` for a list of [Resampling]s from [mlr_resamplings].
 #' * `msr()` for a [Measure] from [mlr_measures].
+#' * `msrs()` for a list of [Measure]s from [mlr_measures].
 #'
 #' @param .key :: `character(1)`\cr
 #'   Key passed to the respective [mlr3misc::Dictionary] to retrieve the object.
+#' @param .keys :: `character()`\cr
+#'   Keys passed to the respective [mlr3misc::Dictionary] to retrieve multiple objects.
 #' @param ... :: named `list()`\cr
 #'   Named arguments passed to the constructor, to be set as parameters in the [paradox::ParamSet], or to be set as public field.
 #'   See [mlr3misc::dictionary_sugar_get()] for more details.
 #'
-#' @return [R6::R6Class] of the respective type.
+#' @return [R6::R6Class] object of the respective type,
+#'   or a list of [R6::R6Class] objects for the plural versions.
 #' @examples
 #' # iris task with new id
 #' tsk("iris", id = "iris2")
