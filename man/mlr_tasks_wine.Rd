@@ -23,7 +23,7 @@ tsk("wine")
 }
 
 \references{
-\cite{mlr3}{uci}
+\cite{mlr3}{dua_2017}
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
