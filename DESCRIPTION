@@ -65,6 +65,7 @@ Imports:
     uuid,
     R6
 Suggests:
+    bibtex,
     callr,
     datasets,
     evaluate,
@@ -75,6 +76,7 @@ Suggests:
     rpart,
     testthat,
     titanic
+RdMacros: mlr3misc
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no

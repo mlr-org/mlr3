@@ -18,10 +18,7 @@ lrn("regr.rpart")
 }
 
 \references{
-Breiman, L. (1984).
-Classification and Regression Trees.
-New York: Routledge.
-\doi{10.1201/9781315139470}.
+\cite{mlr3}{breiman_2017}
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}

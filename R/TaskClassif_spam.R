@@ -28,9 +28,7 @@
 #' Columns have been renamed. Preprocessed data taken from the \CRANpkg{kernlab} package.
 #'
 #' @references
-#' Dua, D. and Graff, C. (2019).
-#' \emph{UCI Machine Learning Repository} \url{http://archive.ics.uci.edu/ml}.
-#' Irvine, CA: University of California, School of Information and Computer Science.
+#' \cite{mlr3}{dua_2017}
 #'
 #' @template seealso_task
 NULL
