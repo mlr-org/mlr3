@@ -65,6 +65,7 @@ Imports:
     uuid,
     R6
 Suggests:
+    bibtex,
     callr,
     datasets,
     evaluate,
