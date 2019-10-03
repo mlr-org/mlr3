@@ -1,11 +1,9 @@
 url: https://mlr3.mlr-org.com
 
 template:
+  package: mlr3pkgdowntemplate
   params:
     bootswatch: cosmo
-  path: pkgdown/templates
-  assets: pkgdown/assets
-  default_assets: false
 
 development:
   mode: unreleased

@@ -7,7 +7,7 @@ learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 [![Build
 Status](https://travis-ci.org/mlr-org/mlr3.svg?branch=master)](https://travis-ci.org/mlr-org/mlr3)
 [![CircleCI](https://circleci.com/gh/mlr-org/mlr3.svg?style=svg)](https://circleci.com/gh/mlr-org/mlr3)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
+[![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
 [![cran
 checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
 [![CRAN
