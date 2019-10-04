@@ -46,7 +46,7 @@ use_future = function() {
 
 open_help = function(man) {
   if (!test_string(man)) {
-    messagef("No help for object '%s' available")
+    message("No help  available")
     return(invisible())
   }
 
