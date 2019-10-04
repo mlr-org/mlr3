@@ -1,22 +1,24 @@
 #' @include mlr_reflections.R
 
-task_set_row_role = function(self, rows, new_roles, exclusive = TRUE) {
+# old, deprecated, will be removed soon
+task_set_row_role = function(self, private, rows, new_roles, exclusive = TRUE) {
   rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
   assert_subset(rows, self$backend$rownames)
   assert_subset(new_roles, mlr_reflections$task_row_roles)
   assert_flag(exclusive)
 
   for (role in new_roles) {
-    self$row_roles[[role]] = union(self$row_roles[[role]], rows)
+    private$.row_roles[[role]] = union(private$.row_roles[[role]], rows)
   }
 
   if (exclusive) {
     for (role in setdiff(names(self$row_roles), new_roles)) {
-      self$row_roles[[role]] = setdiff(self$row_roles[[role]], rows)
+      private$.row_roles[[role]] = setdiff(private$.row_roles[[role]], rows)
     }
   }
 }
 
+# old, deprecated, will be removed soon
 task_set_col_role = function(self, private, cols, new_roles, exclusive = TRUE) {
   assert_character(cols, any.missing = FALSE)
   assert_subset(cols, self$col_info$id)
@@ -57,8 +59,7 @@ task_set_col_role = function(self, private, cols, new_roles, exclusive = TRUE) {
   self$col_roles = col_roles
 }
 
-
-task_set_roles = function(self, private, roles) {
+task_set_col_roles = function(self, private, roles) {
     if (length(roles$groups) > 1L) {
       stopf("There may only be up to one group column")
     }

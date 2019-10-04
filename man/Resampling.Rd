@@ -123,7 +123,7 @@ r$train_set(1)
 # Stratification
 task = tsk("pima")
 prop.table(table(task$truth())) # moderately unbalanced
-task$set_col_role(task$target_names, "stratify", exclusive = FALSE)
+task$col_roles$stratify = task$target_names
 
 r = rsmp("subsampling")
 r$instantiate(task)
