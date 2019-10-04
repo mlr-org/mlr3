@@ -3,6 +3,7 @@
 \docType{data}
 \name{MeasureElapsedTime}
 \alias{MeasureElapsedTime}
+\alias{mlr_measures_elapsed_time}
 \alias{mlr_measures_time_train}
 \alias{mlr_measures_time_predict}
 \alias{mlr_measures_time_both}

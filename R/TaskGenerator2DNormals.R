@@ -29,7 +29,7 @@ TaskGenerator2DNormals = R6Class("TaskGenerator2DNormals",
         ParamDbl$new("sd", lower = 0L)
       ))
 
-      super$initialize(id = "2dnormals", "classif", "mlbench", ps)
+      super$initialize(id = "2dnormals", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_2dnormals")
     }
   ),
 

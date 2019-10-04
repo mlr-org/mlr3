@@ -70,6 +70,10 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       if (!is.null(se)) {
         self$data$tab$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE)
       }
+    },
+
+    help = function() {
+      open_help("mlr3::PredictionRegr")
     }
   ),
 

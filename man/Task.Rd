@@ -116,6 +116,8 @@ See \link{Resampling} for more information on grouping.
 If the task has a designated column role "weights", table with two columns:
 \code{row_id} (\code{integer()} | \code{character()}) and the observation weights \code{weight} (\code{numeric()}).
 Returns \code{NULL} if there are is no weight column.
+\item \code{man} :: \code{character(1)}\cr
+String in the format \code{[pkg]::[topic]} pointing to a manual page for this object.
 }
 }
 
@@ -200,6 +202,9 @@ Renames columns by mapping column names in \code{old} to new column names in \co
 
 This operation mutates the task in-place.
 See the section on task mutators for more information.
+\item \code{help()}\cr
+() -> \code{NULL}\cr
+Opens the corresponding help page referenced by \code{$man}.
 }
 }
 

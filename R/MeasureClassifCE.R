@@ -25,7 +25,8 @@ MeasureClassifCE = R6Class("MeasureClassifCE",
         id = "classif.ce",
         range = 0:1,
         minimize = TRUE,
-        packages = "Metrics"
+        packages = "Metrics",
+        man = "mlr3::mlr_measures_classif.auc"
       )
     },
 

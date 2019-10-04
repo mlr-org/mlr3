@@ -39,6 +39,10 @@
 #'   [Task] and [Learner] may be `NULL` for most measures, but some measures need to extract information
 #'   from these objects.
 #'
+#' * `help()`\cr
+#'   () -> `NULL`\cr
+#'   Opens the help page for this object.
+#'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [Prediction] -> [data.table::data.table()]\cr
@@ -57,6 +61,10 @@ Prediction = R6Class("Prediction",
     data = list(),
     task_type = NULL,
     predict_types = character(),
+
+    help = function() {
+      open_help("mlr3::Prediction")
+    },
 
     format = function() {
       sprintf("<%s>", class(self)[1L])

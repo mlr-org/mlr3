@@ -46,6 +46,9 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.
 Calculates the performance for all provided measures
 \link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
 from these objects.
+\item \code{help()}\cr
+() -> \code{NULL}\cr
+Opens the help page for this object.
 }
 }
 

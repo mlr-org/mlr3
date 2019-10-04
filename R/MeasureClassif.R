@@ -10,8 +10,8 @@
 #'
 #' @section Construction:
 #' ```
-#' m = MeasureClassif$new(id, range, minimize = NA, aggregator = NULL, properties = character(),
-#'      predict_type = "response", task_properties = character(), packages = character())
+#' m = MeasureClassif$new(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
+#'     predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_)
 #' ```
 #' For a description of the arguments, see [Measure].
 #' The `task_type` is set to `"classif"`.
@@ -29,9 +29,11 @@
 #' @export
 MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
   public = list(
-    initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", task_properties = character(), packages = character()) {
+    initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
+      predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
       super$initialize(id, task_type = "classif", range = range, minimize = minimize, aggregator = aggregator,
-        properties = properties, predict_type = predict_type, task_properties = task_properties, packages = packages)
+        properties = properties, predict_type = predict_type, predict_sets = predict_sets,
+        task_properties = task_properties, packages = packages, man = man)
     }
   )
 )

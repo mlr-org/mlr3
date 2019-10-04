@@ -39,7 +39,7 @@
 ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   public = list(
     initialize = function() {
-      super$initialize(id = "custom", duplicated_ids = TRUE)
+      super$initialize(id = "custom", duplicated_ids = TRUE, man = "mlr3::mlr_resamplings_custom")
     },
 
     instantiate = function(task, train_sets = NULL, test_sets = NULL) {
