@@ -31,7 +31,8 @@ MeasureOOBError = R6Class("MeasureOOBError",
         properties = c("na_score", "requires_learner"),
         predict_type = "response",
         range = c(-Inf, Inf),
-        minimize = NA
+        minimize = NA,
+        man = "mlr3::mlr_measures_oob_error"
       )
     },
 

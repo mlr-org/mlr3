@@ -37,7 +37,8 @@ MeasureClassifFScore = R6Class("MeasureClassifFScore",
         minimize = FALSE,
         predict_type = "response",
         task_properties = "twoclass",
-        packages = "Metrics"
+        packages = "Metrics",
+        man = "mlr3::mlr_measures_classif.f_score"
       )
 
       self$beta = assert_number(beta, lower = 0)

@@ -114,7 +114,8 @@ MeasureClassifConfusion = R6Class("MeasureClassifConfusion",
         properties = if (row$na_score) "na_score" else character(),
         minimize = row$minimize,
         predict_type = "response",
-        task_properties = "twoclass"
+        task_properties = "twoclass",
+        man = "mlr3::mlr_measures_classif.confusion"
       )
     },
 

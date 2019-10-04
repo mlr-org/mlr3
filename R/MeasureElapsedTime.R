@@ -1,7 +1,8 @@
 #' @title Elapsed Time Measure
 #'
 #' @usage NULL
-#' @aliases mlr_measures_time_train
+#' @aliases mlr_measures_elapsed_time
+#'   mlr_measures_time_train
 #'   mlr_measures_time_predict
 #'   mlr_measures_time_both
 #' @format [R6::R6Class()] inheriting from [Measure].
@@ -42,7 +43,8 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
         task_type = NA_character_,
         predict_type = "response",
         range = c(0, Inf),
-        minimize = TRUE
+        minimize = TRUE,
+        man = "mlr3::mlr_measures_elapsed_time"
       )
       self$stages = assert_subset(stages, c("train", "predict"), empty.ok = FALSE)
     },

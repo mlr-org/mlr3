@@ -43,3 +43,14 @@ use_future = function() {
 
   return(TRUE)
 }
+
+open_help = function(man) {
+  if (!test_string(man)) {
+    messagef("No help for object '%s' available")
+    return(invisible())
+  }
+
+  parts = strsplit(man, split = "::", fixed = TRUE)[[1L]]
+  # pkgload overloads help
+  match.fun("help")(parts[2L], parts[1L])
+}

@@ -40,7 +40,8 @@ MeasureDebug = R6Class("MeasureDebug",
         id = "debug",
         predict_type = "response",
         range = c(0, Inf),
-        properties = "na_score"
+        properties = "na_score",
+        man = "mlr3::mlr_measures_debug"
       )
       self$na_ratio = assert_number(na_ratio, lower = 0, upper = 1)
     },

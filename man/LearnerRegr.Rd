@@ -12,7 +12,7 @@ Many predefined learners can be found in the \link[mlr3misc:Dictionary]{mlr3misc
 }
 \section{Construction}{
 \preformatted{l = LearnerRegr$new(id, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
-    properties = character(), data_formats = "data.table", packages = character())
+    properties = character(), data_formats = "data.table", packages = character(), man = NA_character_)
 }
 
 For a description of the arguments, see \link{Learner}.

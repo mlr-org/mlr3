@@ -18,8 +18,9 @@ NULL
 
 load_task_zoo = function(id = "zoo") {
   b = as_data_backend(load_dataset("Zoo", "mlbench", keep_rownames = TRUE))
-  b$hash = "_mlr3_tasks_zoo_"
-  TaskClassif$new(id, b, target = "type")
+  task = TaskClassif$new(id, b, target = "type")
+  b$hash = task$man = "mlr3::mlr_tasks_zoo"
+  task
 }
 
 #' @include mlr_tasks.R

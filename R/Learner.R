@@ -66,6 +66,9 @@
 #'   Set of required packages.
 #'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
 #'
+#' * `man` :: `character(1)`\cr
+#'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+#'
 #' @section Fields:
 #' * `id` :: `character(1)`\cr
 #'   Identifier of the learner.
@@ -147,6 +150,10 @@
 #'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the new data in `newdata`.
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
 #'
+#' * `help()`\cr
+#'   () -> `NULL`\cr
+#'   Opens the corresponding help page referenced by `$man`.
+#'
 #' @section Optional Extractors:
 #'
 #' Specific learner implementations are free to implement additional getters to ease the access of certain parts
@@ -202,9 +209,10 @@ Learner = R6Class("Learner",
     packages = NULL,
     predict_sets = "test",
     fallback = NULL,
+    man = NULL,
 
-    initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(),
-      feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
+    initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
+      properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
@@ -213,9 +221,14 @@ Learner = R6Class("Learner",
       self$feature_types = assert_subset(feature_types, mlr_reflections$task_feature_types)
       self$predict_types = assert_subset(predict_types, names(mlr_reflections$learner_predict_types[[task_type]]), empty.ok = FALSE)
       private$.predict_type = predict_types[1L]
-      self$packages = assert_set(packages)
       self$properties = sort(assert_subset(properties, mlr_reflections$learner_properties[[task_type]]))
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
+      self$packages = assert_set(packages)
+      self$man = assert_string(man, na.ok = TRUE)
+    },
+
+    help = function() {
+      open_help(self$man)
     },
 
     format = function() {

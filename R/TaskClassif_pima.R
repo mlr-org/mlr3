@@ -19,8 +19,9 @@ NULL
 
 load_task_pima = function(id = "pima") {
   b = as_data_backend(load_dataset("PimaIndiansDiabetes2", "mlbench"))
-  b$hash = "_mlr3_tasks_pima_"
-  TaskClassif$new(id, b, target = "diabetes", positive = "pos")
+  task = TaskClassif$new(id, b, target = "diabetes", positive = "pos")
+  b$hash = task$man = "mlr3::mlr_tasks_pima"
+  task
 }
 
 #' @include mlr_tasks.R

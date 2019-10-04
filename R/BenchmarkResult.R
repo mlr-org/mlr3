@@ -98,6 +98,10 @@
 #'   Fuses a second [BenchmarkResult] into itself, mutating the [BenchmarkResult] in-place.
 #'   If `bmr` is `NULL`, simply returns `self`.
 #'
+#' * `help()`\cr
+#'   () -> `NULL`\cr
+#'   Opens the help page for this object.
+#'
 #' @section S3 Methods:
 #' * `as.data.table(bmr)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
@@ -156,6 +160,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       self$data = setcolorder(data, slots)
       self$rr_data = data[, list(uhash = unique(uhash))]
+    },
+
+    help = function() {
+      open_help("mlr3::BenchmarkResult")
     },
 
     format = function() {

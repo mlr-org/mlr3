@@ -69,7 +69,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
         ParamInt$new("folds", lower = 1L, tags = "required")
       ))
       ps$values = list(repeats = 10L, folds = 10L)
-      super$initialize(id = "repeated_cv", param_set = ps)
+      super$initialize(id = "repeated_cv", param_set = ps, man = "mlr3::mlr_resamplings_repeated_cv")
     },
 
     folds = function(iters) {

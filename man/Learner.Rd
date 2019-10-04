@@ -58,6 +58,8 @@ Defaults to \code{"data.table"}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
 Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
+\item \code{man} :: \code{character(1)}\cr
+String in the format \code{[pkg]::[topic]} pointing to a manual page for this object.
 }
 }
 
@@ -129,6 +131,9 @@ of the \code{task}.
 (\link{Task}, \code{data.frame()}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} in \code{$state} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \code{$train()} and required for conversions of \code{newdata}.
+\item \code{help()}\cr
+() -> \code{NULL}\cr
+Opens the corresponding help page referenced by \code{$man}.
 }
 }
 

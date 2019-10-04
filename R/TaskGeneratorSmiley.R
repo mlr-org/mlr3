@@ -28,7 +28,7 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
         ParamDbl$new("sd2", lower = 0L)
       ))
 
-      super$initialize(id = "smiley", "classif", "mlbench", ps)
+      super$initialize(id = "smiley", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_smiley")
     }
   ),
 

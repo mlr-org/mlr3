@@ -123,6 +123,9 @@
 #'   `row_id` (`integer()` | `character()`) and the observation weights `weight` (`numeric()`).
 #'   Returns `NULL` if there are is no weight column.
 #'
+#' * `man` :: `character(1)`\cr
+#'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+#'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, data_format = NULL)`\cr
 #'   (`integer()` | `character()`, `character(1)`, `character(1)`) -> `any`\cr
@@ -215,6 +218,10 @@
 #'   This operation mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
+#' * `help()`\cr
+#'   () -> `NULL`\cr
+#'   Opens the corresponding help page referenced by `$man`.
+#'
 #' @section S3 methods:
 #' * `as.data.table(t)`\cr
 #'   [Task] -> [data.table::data.table()]\cr
@@ -263,6 +270,7 @@ Task = R6Class("Task",
     row_roles = NULL,
     col_roles = NULL,
     col_info = NULL,
+    man = NA_character_,
 
     initialize = function(id, task_type, backend) {
 
@@ -288,6 +296,10 @@ Task = R6Class("Task",
       self$row_roles = list(use = rn, validation = rn[0L])
       self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       self$col_roles$feature = setdiff(self$col_info$id, self$backend$primary_key)
+    },
+
+    help = function() {
+      open_help(self$man)
     },
 
     format = function() {

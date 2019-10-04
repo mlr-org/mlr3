@@ -25,7 +25,8 @@ MeasureRegrMSE = R6Class("MeasureRegrMSE",
         id = "regr.mse",
         range = c(0, Inf),
         minimize = TRUE,
-        packages = "Metrics"
+        packages = "Metrics",
+        man = "mlr3::mlr_measures_regr.mse"
       )
     },
 
