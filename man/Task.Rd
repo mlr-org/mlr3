@@ -59,8 +59,11 @@ or in the test set for each resampling iteration. Only up to one column may have
 \item \code{"weights"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
 }
 
-\code{col_roles} keeps track of the roles with a named list of vectors of feature names.
+\code{col_roles} keeps track of the roles with a named list, elements are named by column role and elements are character vectors of column names.
 To alter the roles, use \code{t$set_col_role()}.
+\item \code{col_roles_by_name} :: named \code{list()}\cr
+Provides the same information like \code{col_roles}, but with the list transposed:
+List elements are named by column names, elements are character vectors of column roles.
 \item \code{row_roles} :: named \code{list()}\cr
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
@@ -98,6 +101,7 @@ The following properties are currently standardized and understood by tasks in \
 \item \code{"stratify"}: The task is resampled using one or more stratification variables.
 \item \code{"groups"}: The task comes with grouping/blocking information.
 \item \code{"weights"}: The task comes with observation weights.
+Note that above listed properties are calculated from the \code{$col_roles} and must not be set explicitly.
 }
 \item \code{stratify} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 If the task has designated columns with role "stratify", returns a table with one subpopulation per row and two columns:

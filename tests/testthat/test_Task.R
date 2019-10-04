@@ -246,3 +246,15 @@ test_that("switch columns on and off (#301)", {
     set_col_role("Sepal.Length", "feature")
   expect_data_table(task$data(), ncols = 6, nrows = 150, any.missing = FALSE)
 })
+
+test_that("col roles getters/setters", {
+  task = tsk("iris")
+
+  expect_error({ task$col_roles$feature = "foo" })
+  expect_error({ task$col_roles$foo = "Species" })
+  expect_error({ task$col_roles_by_name$Species = "feature" }, "target")
+  expect_error({ task$col_roles_by_name$Species = iris })
+
+  task$col_roles_by_name$Sepal.Length = character()
+  expect_false("Sepal.Length" %in% task$feature_names)
+})

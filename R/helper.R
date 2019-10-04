@@ -43,3 +43,10 @@ use_future = function() {
 
   return(TRUE)
 }
+
+# inverts a named list:
+# elements become names, names become elements
+invert = function(x, lvls) {
+  f = factor(unlist(x, use.names = FALSE), levels = lvls)
+  split(rep(names(x), lengths(x)), f, drop = FALSE)
+}
