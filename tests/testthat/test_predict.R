@@ -6,11 +6,28 @@ test_that("predict on newdata works / classif", {
   learner = lrn("classif.featureless")
   expect_error(learner$predict(task), "trained")
   learner$train(task)
-
+  expect_task(learner$state$train_task)
   newdata = tsk("iris")$filter(121:150)$data()
-  p = learner$predict_newdata(task, newdata = newdata)
+
+  # passing the task
+  p = learner$predict_newdata(newdata = newdata, task = task)
   expect_data_table(as.data.table(p), nrows = 30)
-  expect_set_equal(as.data.table(p)$row_id, 121:150)
+  expect_set_equal(as.data.table(p)$row_id, 1:30)
+  expect_factor(p$truth, any.missing = FALSE, levels = task$class_names)
+
+  # rely on internally stored task representation
+  p = learner$predict_newdata(newdata = newdata, task = NULL)
+  expect_data_table(as.data.table(p), nrows = 30)
+  expect_set_equal(as.data.table(p)$row_id, 1:30)
+  expect_factor(p$truth, any.missing = FALSE, levels = task$class_names)
+
+  # with missing target column
+  newdata$Species = NULL
+  p = learner$predict_newdata(newdata = newdata, task = task)
+  expect_data_table(as.data.table(p), nrows = 30)
+  expect_set_equal(as.data.table(p)$row_id, 1:30)
+  expect_factor(p$truth, levels = task$class_names)
+  expect_true(allMissing(p$truth))
 })
 
 
@@ -23,10 +40,10 @@ test_that("predict on newdata works / regr", {
   learner$train(task)
 
   newdata = task$clone()$filter(test)$data()
-  p = learner$predict_newdata(task, newdata = newdata)
+  p = learner$predict_newdata(newdata)
 
   expect_data_table(as.data.table(p), nrows = length(test))
-  expect_set_equal(as.data.table(p)$row_id, 507:759)
+  expect_set_equal(as.data.table(p)$row_id, seq_along(test))
 })
 
 
@@ -39,10 +56,10 @@ test_that("predict on newdata works / no target column", {
   learner$train(task$clone()$filter(train))
 
   newdata = remove_named(task$clone()$filter(test)$data(), task$target_names)
-  p = learner$predict_newdata(task, newdata = newdata)
+  p = learner$predict_newdata(newdata = newdata)
 
   expect_data_table(as.data.table(p), nrows = length(test))
-  expect_set_equal(as.data.table(p)$row_id, 507:759)
+  expect_set_equal(as.data.table(p)$row_id, seq_along(test))
 })
 
 
@@ -76,7 +93,7 @@ test_that("predict on newdata works / titanic use case", {
   lrn = lrn("classif.rpart")
 
   lrn$train(task)
-  p = lrn$predict_newdata(task, newdata = test)
+  p = lrn$predict_newdata(newdata = test)
   expect_prediction_classif(p)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_factor(p$truth, levels = task$class_names)

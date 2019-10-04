@@ -125,10 +125,13 @@ Mutates the learner by reference, i.e. stores the model alongside other objects 
 (\link{Task}, \code{integer()} | \code{character()}) -> \link{Prediction}\cr
 Uses the data stored during \code{$train()} in \code{$state} to create a new \link{Prediction} based on the provided \code{row_ids}
 of the \code{task}.
-\item \code{predict_newdata(task, newdata)}\cr
-(\link{Task}, \code{data.frame()}) -> \link{Prediction}\cr
-Uses the data stored during \code{$train()} in \code{$state} to create a new \link{Prediction} based on the new data in \code{newdata}.
+\item \code{predict_newdata(newdata, task = NULL)}\cr
+(\code{data.frame()}, \link{Task}) -> \link{Prediction}\cr
+Uses the model fitted during \code{$train()} in to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \code{$train()} and required for conversions of \code{newdata}.
+If the learner's \code{$train()} method has been called, there is a (size reduced) version of the training task stored in the learner.
+If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
+in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
 }
 }
 
