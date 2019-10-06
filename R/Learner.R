@@ -145,10 +145,13 @@
 #'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the provided `row_ids`
 #'   of the `task`.
 #'
-#' * `predict_newdata(task, newdata)`\cr
-#'   ([Task], `data.frame()`) -> [Prediction]\cr
-#'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the new data in `newdata`.
+#' * `predict_newdata(newdata, task = NULL)`\cr
+#'   (`data.frame()`, [Task]) -> [Prediction]\cr
+#'   Uses the model fitted during `$train()` in to create a new [Prediction] based on the new data in `newdata`.
 #'   Object `task` is the task used during `$train()` and required for conversions of `newdata`.
+#'   If the learner's `$train()` method has been called, there is a (size reduced) version of the training task stored in the learner.
+#'   If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
+#'   in the [ResampleResult] or [BenchmarkResult], respectively.
 #'
 #' * `help()`\cr
 #'   () -> `NULL`\cr
@@ -244,7 +247,12 @@ Learner = R6Class("Learner",
       if (!is.null(row_ids)) {
         row_ids = assert_row_ids(row_ids)
       }
-      invisible(learner_train(self, task, row_ids))
+      learner_train(self, task, row_ids)
+
+      # store the task w/o the data
+      self$state$train_task = task_rm_data(task$clone(deep = TRUE))
+
+      invisible(self)
     },
 
     predict = function(task, row_ids = NULL) {
@@ -261,17 +269,22 @@ Learner = R6Class("Learner",
       learner_predict(self, task, row_ids)
     },
 
-    predict_newdata = function(task, newdata) {
-      task = assert_task(as_task(task), task_type = self$task_type, feature_types = self$feature_types)
-      assert_data_frame(newdata, min.rows = 1L)
+    predict_newdata = function(newdata, task = NULL) {
+      if (is.null(task)) {
+        if (is.null(self$state$train_task))
+          stopf("No task stored, and no task provided")
+        task = self$state$train_task
+      } else {
+        task = assert_task(as_task(task, clone = TRUE), task_type = self$task_type, feature_types = self$feature_types)
+        task = task_rm_data(task)
+      }
+
+      newdata = assert_data_frame(newdata, min.rows = 1L)
       tn = task$target_names
       if (any(tn %nin% colnames(newdata))) {
         newdata[, tn] = NA
       }
-      old_row_ids = task$row_ids
-      task = task$clone(deep = TRUE)$rbind(newdata)
-      row_ids = setdiff(task$row_ids, old_row_ids)
-      self$predict(task, row_ids)
+      self$predict(task$rbind(newdata))
     }
   ),
 

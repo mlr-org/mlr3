@@ -23,3 +23,9 @@ test_that("DataBackendDataTable construction", {
   x = b$missings(b$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 30L), c("Petal.Width", "Petal.Length")))
 })
+
+
+test_that("DataBackendDataTable with 0 rows", {
+  b = as_data_backend(iris[integer(), ])
+  expect_backend(b)
+})

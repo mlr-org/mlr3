@@ -575,3 +575,10 @@ col_info.DataBackend = function(x, ...) {
 as.data.table.Task = function(x, ...) {
   x$head(x$nrow)
 }
+
+task_rm_data = function(task) {
+  no_row = task$row_roles$use[0L]
+  task$backend = as_data_backend(task$head(0L))
+  task$row_roles = list(use = no_row, validation = no_row)
+  task
+}
