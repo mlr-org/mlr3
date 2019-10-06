@@ -144,7 +144,7 @@ task_rbind = function(self, data) {
   } else {
     rids = self$row_ids
     if (is.integer(rids)) {
-      data[[pk]] = max(rids) + seq_row(data)
+      data[[pk]] = (if (length(rids)) max(rids) else 0L) + seq_row(data)
     } else {
       data[[pk]] = sprintf("%s_%i", basename(tempfile("rbind_")), seq_row(data))
     }

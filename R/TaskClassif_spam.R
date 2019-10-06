@@ -35,8 +35,9 @@ NULL
 
 load_task_spam = function(id = "spam") {
   b = as_data_backend(readRDS(system.file("extdata", "spam.rds", package = "mlr3")))
-  b$hash = "_mlr3_tasks_spam_"
-  TaskClassif$new(id, b, target = "type", positive = "spam")
+  task = TaskClassif$new(id, b, target = "type", positive = "spam")
+  b$hash = task$man = "mlr3::mlr_tasks_spam"
+  task
 }
 
 #' @include mlr_tasks.R

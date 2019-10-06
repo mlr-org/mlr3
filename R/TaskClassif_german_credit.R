@@ -40,8 +40,9 @@ NULL
 
 load_task_german_credit = function(id = "german_credit") {
   b = as_data_backend(readRDS(system.file("extdata", "german_credit.rds", package = "mlr3")))
-  b$hash = "_mlr3_tasks_german_credit_"
-  TaskClassif$new(id, b, target = "credit_risk", positive = "good")
+  task = TaskClassif$new(id, b, target = "credit_risk", positive = "good")
+  b$hash = task$man = "mlr3::mlr_tasks_german_credit"
+  task
 }
 
 #' @include mlr_tasks.R

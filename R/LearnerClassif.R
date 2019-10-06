@@ -12,7 +12,7 @@
 #' @section Construction:
 #' ```
 #' l = LearnerClassif$new(id, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
-#'     properties = character(), data_formats = "data.table", packages = character())
+#'     properties = character(), data_formats = "data.table", packages = character(), man = NA_character_)
 #' ```
 #' For a description of the arguments, see [Learner].
 #' `task_type` is set to `"classif"`.
@@ -53,9 +53,9 @@
 #' lrn$predict(task, 121:150)$confusion
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
-    initialize = function(id, param_set = ParamSet$new(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character()) {
+    initialize = function(id, param_set = ParamSet$new(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
-        feature_types = feature_types, properties = properties, data_formats = data_formats, packages = packages)
+        feature_types = feature_types, properties = properties, data_formats = data_formats, packages = packages, man = man)
     }
   )
 )

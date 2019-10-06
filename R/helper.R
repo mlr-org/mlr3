@@ -50,3 +50,14 @@ invert = function(x, lvls) {
   f = factor(unlist(x, use.names = FALSE), levels = lvls)
   split(rep(names(x), lengths(x)), f, drop = FALSE)
 }
+
+open_help = function(man) {
+  if (!test_string(man)) {
+    message("No help available")
+    return(invisible())
+  }
+
+  parts = strsplit(man, split = "::", fixed = TRUE)[[1L]]
+  # pkgload overloads help
+  match.fun("help")(parts[2L], parts[1L])
+}

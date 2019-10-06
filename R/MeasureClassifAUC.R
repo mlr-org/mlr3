@@ -27,7 +27,8 @@ MeasureClassifAUC = R6Class("MeasureClassifAUC",
         minimize = FALSE,
         predict_type = "prob",
         task_properties = "twoclass",
-        packages = "Metrics"
+        packages = "Metrics",
+        man = "mlr3::mlr_measures_classif.auc"
       )
     },
 

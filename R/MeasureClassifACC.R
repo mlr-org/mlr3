@@ -25,7 +25,8 @@ MeasureClassifACC = R6Class("MeasureClassifACC",
         id = "classif.acc",
         range = 0:1,
         minimize = FALSE,
-        packages = "Metrics"
+        packages = "Metrics",
+        man = "mlr3::mlr_measures_classif.acc"
       )
     },
 

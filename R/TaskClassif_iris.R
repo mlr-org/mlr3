@@ -18,8 +18,9 @@ NULL
 
 load_task_iris = function(id = "iris") {
   b = as_data_backend(load_dataset("iris", "datasets"))
-  b$hash = "_mlr3_tasks_iris_"
-  TaskClassif$new(id, b, target = "Species")
+  task = TaskClassif$new(id, b, target = "Species")
+  b$hash = task$man = "mlr3::mlr_tasks_iris"
+  task
 }
 
 #' @include mlr_tasks.R

@@ -23,8 +23,8 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 }
 \section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
-     task_properties = character(), packages = character())
+Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
+    predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_)
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -65,6 +65,8 @@ Required task properties, see \link{Task}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
 Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
+\item \code{man} :: \code{character(1)}\cr
+String in the format \code{[pkg]::[topic]} pointing to a manual page for this object.
 }
 }
 
@@ -87,6 +89,9 @@ and calculates a numeric score.
 If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"} or \code{"requires_train_set"}, you must additionally
 pass the respective \link{Task}, the trained \link{Learner} or the training set indices.
 This is handled internally during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+\item \code{help()}\cr
+() -> \code{NULL}\cr
+Opens the corresponding help page referenced by \code{$man}.
 }
 }
 

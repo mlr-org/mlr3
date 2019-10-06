@@ -1,3 +1,11 @@
+expect_man_exists = function(man) {
+  checkmate::expect_string(man, na.ok = TRUE, fixed = "::")
+  if (!is.na(man)) {
+    parts = strsplit(man, "::", fixed = TRUE)[[1L]]
+    matches = help.search(parts[2L], package = parts[1L], ignore.case = FALSE)
+    expect_data_frame(matches$matches, min.rows = 1L)
+  }
+}
 expect_same_address = function(x, y) {
   requireNamespace("data.table")
   testthat::expect_identical(data.table::address(x), data.table::address(y))
@@ -49,6 +57,7 @@ expect_backend = function(b) {
   p = checkmate::expect_count(b$ncol)
   cn = checkmate::expect_atomic_vector(b$colnames, any.missing = FALSE, len = p, unique = TRUE)
   rn = checkmate::expect_atomic_vector(b$rownames, any.missing = FALSE, len = n, unique = TRUE)
+  rn1 = head(rn, 1L)
   pk = b$primary_key
 
   x = b$data(rows = rn, cols = pk, data_format = "data.table")
@@ -62,17 +71,17 @@ expect_backend = function(b) {
   checkmate::expect_atomic_vector(x, len = n)
 
   # extra cols are ignored
-  x = b$data(rows = rn[1L], cols = c(cn[1L], "_not_existing_"), data_format = "data.table")
-  checkmate::expect_data_table(x, nrows = 1L, ncols = 1L)
+  x = b$data(rows = rn1, cols = c(cn[1L], "_not_existing_"), data_format = "data.table")
+  checkmate::expect_data_table(x, nrows = length(rn1), ncols = 1L)
 
   # zero cols matching
-  x = b$data(rows = rn[1L], cols = "_not_existing_", data_format = "data.table")
+  x = b$data(rows = rn1, cols = "_not_existing_", data_format = "data.table")
   checkmate::expect_data_table(x, nrows = 0L, ncols = 0L)
 
   # extra rows are ignored
-  query_rows = c(rn[1L], if (is.integer(rn)) -1L else "_not_existing_")
+  query_rows = c(rn1, if (is.integer(rn)) -1L else "_not_existing_")
   x = b$data(query_rows, cols = cn[1L], data_format = "data.table")
-  checkmate::expect_data_table(x, nrows = 1L, ncols = 1L)
+  checkmate::expect_data_table(x, nrows = length(rn1), ncols = 1L)
 
   # zero rows matching
   query_rows = if (is.integer(rn)) -1L else "_not_existing_"
@@ -80,8 +89,8 @@ expect_backend = function(b) {
   checkmate::expect_data_table(x, nrows = 0L, ncols = 1L)
 
   # rows are duplicated
-  x = b$data(rows = rep(rn[1L], 2L), cols = b$colnames, data_format = "data.table")
-  checkmate::expect_data_table(x, nrows = 2L, ncols = p)
+  x = b$data(rows = rep(rn1, 2L), cols = b$colnames, data_format = "data.table")
+  checkmate::expect_data_table(x, nrows = 2L*length(rn1), ncols = p)
 
   # rows are returned in the right order
   i = sample(rn, min(n, 10L))
@@ -89,12 +98,12 @@ expect_backend = function(b) {
   testthat::expect_equal(i, x[[1L]])
 
   # duplicated cols raise exception
-  testthat::expect_error(b$data(rows = rn[1L], cols = rep(cn[1L], 2L), data_format = "data.table"), "unique")
+  testthat::expect_error(b$data(rows = rn1, cols = rep(cn[1L], 2L), data_format = "data.table"), "unique")
 
   # $head()
   checkmate::expect_data_table(b$head(9999L), nrows = n, ncols = p)
-  checkmate::expect_data_table(b$head(2L), nrows = 2L, ncols  = p)
-  checkmate::expect_data_table(b$head(0L), nrows  = 0, ncols  = p)
+  checkmate::expect_data_table(b$head(0L), nrows = 0, ncols = p)
+  checkmate::expect_data_table(b$head(2L), nrows = min(2L, b$nrow), ncols = p)
 
   # $distinct()
   d = b$distinct(rn, b$primary_key)[[1L]]
@@ -104,7 +113,7 @@ expect_backend = function(b) {
   checkmate::expect_list(d, names = "unique")
   testthat::expect_equal(names(d), rev(cn))
 
-  d = b$distinct(rn[1L], cn)
+  d = b$distinct(rn1, cn)
   expect_list(d, len = length(cn), names = "unique", any.missing = FALSE)
   expect_true(all(lengths(d) <= 1L)) # NA -> 0 zero length
 
@@ -179,10 +188,12 @@ expect_task = function(task) {
   checkmate::expect_r6(task, "Task", cloneable = TRUE, public = c("id", "backend", "task_type", "row_roles", "col_roles", "col_info", "head", "row_ids", "feature_names", "target_names", "formula", "nrow", "ncol", "feature_types"))
   testthat::expect_output(print(task), "Task")
   expect_id(task$id)
+  expect_man_exists(task$man)
   checkmate::expect_count(task$nrow)
   checkmate::expect_count(task$ncol)
   checkmate::expect_data_table(task$data(data_format = "data.table"))
-  checkmate::expect_data_table(task$head(1), nrows  = 1L)
+  if (task$nrow > 0L)
+    checkmate::expect_data_table(task$head(1), nrows = 1L)
 
   cols = c("id", "type", "levels")
   checkmate::expect_data_table(task$col_info, key = "id", ncols  = length(cols))
@@ -270,8 +281,20 @@ expect_task_regr = function(task) {
   expect_hash(task$hash, 1L)
 }
 
+expect_task_generator = function(gen) {
+  checkmate::expect_r6(gen, "TaskGenerator", private = ".generate")
+  expect_id(gen$id)
+  expect_man_exists(gen$man)
+  checkmate::expect_choice(gen$task_type, mlr_reflections$task_types$type)
+  checkmate::expect_function(gen$generate, args = "n")
+  checkmate::expect_class(gen$param_set, "ParamSet")
+  checkmate::expect_list(gen$param_set$values, names = "unique")
+}
+
 expect_learner = function(lrn, task = NULL) {
   checkmate::expect_r6(lrn, "Learner", cloneable = TRUE)
+  expect_id(lrn$id)
+  expect_man_exists(lrn$man)
   testthat::expect_output(print(lrn))
 
   checkmate::expect_choice(lrn$task_type, mlr3::mlr_reflections$task_types$type)
@@ -299,6 +322,7 @@ expect_resampling = function(r, task = NULL) {
   checkmate::expect_r6(r, "Resampling")
   testthat::expect_output(print(r), "Resampling")
   expect_id(r$id)
+  expect_man_exists(r$man)
 
   instance = r$instance
   if (is.null(instance)) {
@@ -337,6 +361,8 @@ expect_resampling = function(r, task = NULL) {
 
 expect_measure = function(m) {
   checkmate::expect_r6(m, "Measure", public = c("aggregate", "score", "score_internal", "id", "minimize", "packages", "range", "task_type", "task_properties"))
+  expect_id(m$id)
+  expect_man_exists(m$man)
   testthat::expect_output(print(m), "Measure")
 
   expect_id(m$id)

@@ -27,8 +27,8 @@
 #' * `data` :: [data.table::data.table()]\cr
 #'   Internal data storage.
 #'   We discourage users to directly work with this field.
-#'
 #' * `task` :: [Task]\cr
+#'
 #'   The task [resample()] operated on.
 #'
 #' * `learners` :: list of [Learner]\cr
@@ -76,6 +76,10 @@
 #'   Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in [Measure].
 #'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'
+#' * `help()`\cr
+#'   () -> `NULL`\cr
+#'   Opens the help page for this object.
+#'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
@@ -107,6 +111,10 @@ ResampleResult = R6Class("ResampleResult",
       } else {
         private$.uhash = assert_string(uhash)
       }
+    },
+
+    help = function() {
+      open_help("mlr3::BenchmarkResult")
     },
 
     format = function() {
