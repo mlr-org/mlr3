@@ -1,23 +1,25 @@
 #' @include mlr_reflections.R
 
-task_set_row_role = function(self, rows, new_roles, exclusive = TRUE) {
+# old, deprecated, will be removed soon
+task_set_row_role = function(self, private, rows, new_roles, exclusive = TRUE) {
   rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
   assert_subset(rows, self$backend$rownames)
   assert_subset(new_roles, mlr_reflections$task_row_roles)
   assert_flag(exclusive)
 
   for (role in new_roles) {
-    self$row_roles[[role]] = union(self$row_roles[[role]], rows)
+    private$.row_roles[[role]] = union(private$.row_roles[[role]], rows)
   }
 
   if (exclusive) {
     for (role in setdiff(names(self$row_roles), new_roles)) {
-      self$row_roles[[role]] = setdiff(self$row_roles[[role]], rows)
+      private$.row_roles[[role]] = setdiff(private$.row_roles[[role]], rows)
     }
   }
 }
 
-task_set_col_role = function(self, cols, new_roles, exclusive = TRUE) {
+# old, deprecated, will be removed soon
+task_set_col_role = function(self, private, cols, new_roles, exclusive = TRUE) {
   assert_character(cols, any.missing = FALSE)
   assert_subset(cols, self$col_info$id)
   assert_subset(new_roles, mlr_reflections$task_col_roles[[self$task_type]])
@@ -48,13 +50,27 @@ task_set_col_role = function(self, cols, new_roles, exclusive = TRUE) {
   for (role in c("stratify", "groups", "weights")) {
     n = length(col_roles[[role]])
     if (n == 0L) {
-      self$properties = setdiff(self$properties, role)
+      private$.properties = setdiff(private$.properties, role)
     } else if (n == 1L) {
-      self$properties = union(self$properties, role)
+      private$.properties = union(private$.properties, role)
     }
   }
 
   self$col_roles = col_roles
+}
+
+task_set_col_roles = function(self, private, roles) {
+    if (length(roles$groups) > 1L) {
+      stopf("There may only be up to one group column")
+    }
+    if (length(roles$weights) > 1L) {
+      stopf("There may only be up to one weights column")
+    }
+    if (inherits(self, "TaskSupervised") && length(roles$target) == 0L) {
+      stopf("Supervised tasks need at least one target column")
+    }
+
+    private$.col_roles = roles
 }
 
 check_new_row_ids = function(task, data, type) {

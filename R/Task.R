@@ -55,8 +55,13 @@
 #'     - `"stratify"`: Stratification variables. Multiple discrete columns may have this role.
 #'     - `"weights"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
 #'
-#'   `col_roles` keeps track of the roles with a named list of vectors of feature names.
-#'   To alter the roles, use `t$set_col_role()`.
+#'   `col_roles` keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
+#'   To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
+#'
+#' * `col_roles_by_name` :: named `list()`\cr
+#'   Provides the same information like `$col_roles`, but with the list transposed:
+#'   List elements are named by column names, elements are character vectors of column roles.
+#'   Can be modified just like `$col_roles` to alter the column roles.
 #'
 #' * `row_roles` :: named `list()`\cr
 #'   Each row (observation) can have an arbitrary number of roles in the learning task:
@@ -64,8 +69,8 @@
 #'     - `"validation"`: Hold the observations back unless explicitly requested.
 #'       Validation sets are not yet completely integrated into the package.
 #'
-#'   `row_roles` keeps track of the roles with a named list of vectors of feature names.
-#'   To alter the role, use `set_row_role()`.
+#'   `row_roles` keeps track of the roles with a named list, elements are named by row role and each element is a `integer()` or `character()` vector of row ids.
+#'   To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
 #'
 #' * `feature_names` :: `character()`\cr
 #'   Return all column names with `role == "feature"`.
@@ -102,6 +107,7 @@
 #'   * `"stratify"`: The task is resampled using one or more stratification variables.
 #'   * `"groups"`: The task comes with grouping/blocking information.
 #'   * `"weights"`: The task comes with observation weights.
+#'   Note that above listed properties are calculated from the `$col_roles` and must not be set explicitly.
 #'
 #' * `stratify` :: [data.table::data.table()]\cr
 #'   If the task has designated columns with role "stratify", returns a table with one subpopulation per row and two columns:
@@ -164,15 +170,20 @@
 #'   `integer()` -> [data.table::data.table()]\cr
 #'   Get the first `n` observations with role `"use"`.
 #'
-#' * `set_col_role(cols, new_roles, exclusive = TRUE)`\cr
-#'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
-#'   Adds the roles `new_roles` to columns referred to by `cols`.
-#'   If `exclusive` is `TRUE`, the referenced columns will be removed from all other roles.
-#'
 #' * `set_row_role(rows, new_roles, exclusive = TRUE)`\cr
 #'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
 #'   Adds the roles `new_roles` to rows referred to by `rows`.
 #'   If `exclusive` is `TRUE`, the referenced rows will be removed from all other roles.
+#'
+#'   This function is deprecated and will be removed in the next version in favor of directly modifying `$row_roles`.
+#'
+#' * `set_col_role(cols, new_roles, exclusive = TRUE)`\cr
+#'
+#'   (`character()`, `character()`, `logical(1)`) -> `self`\cr
+#'   Adds the roles `new_roles` to columns referred to by `cols`.
+#'   If `exclusive` is `TRUE`, the referenced columns will be removed from all other roles.
+#'
+#'   This function is deprecated and will be removed in the next version in favor of directly modifying `$col_roles`.
 #'
 #' * `filter(rows)`\cr
 #'   (`integer()` | `character()`) -> `self`\cr
@@ -229,7 +240,7 @@
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:
-#' * `set_row_role()` and `set_col_role()` alter the row or column information in `row_roles` or `col_roles`, respectively.
+#' * Any modification to `$col_roles` and `row_roles`.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * `filter()` and `select()` subset the set of active rows or features in `row_roles` or `col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
@@ -251,7 +262,7 @@
 #' task$formula()
 #'
 #' # Remove "Petal.Length"
-#' task$set_col_role("Petal.Length", character())
+#' task$col_roles_by_name$Petal.Length = character()
 #'
 #' # Remove "Petal.Width", alternative way
 #' task$select(setdiff(task$feature_names, "Petal.Width"))
@@ -266,9 +277,6 @@ Task = R6Class("Task",
     id = NULL,
     task_type = NULL,
     backend = NULL,
-    properties = character(),
-    row_roles = NULL,
-    col_roles = NULL,
     col_info = NULL,
     man = NA_character_,
 
@@ -293,9 +301,9 @@ Task = R6Class("Task",
       )
 
       rn = self$backend$rownames
-      self$row_roles = list(use = rn, validation = rn[0L])
-      self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
-      self$col_roles$feature = setdiff(self$col_info$id, self$backend$primary_key)
+      private$.row_roles = list(use = rn, validation = rn[0L])
+      private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
+      private$.col_roles$feature = setdiff(self$col_info$id, self$backend$primary_key)
     },
 
     help = function() {
@@ -311,7 +319,7 @@ Task = R6Class("Task",
     },
 
     data = function(rows = NULL, cols = NULL, data_format = "data.table") {
-      task_data(self, rows, cols, data_format)
+      task_data(self, private, rows, cols, data_format)
     },
 
     formula = function(rhs = ".") {
@@ -320,14 +328,14 @@ Task = R6Class("Task",
 
     head = function(n = 6L) {
       assert_count(n)
-      ids = head(self$row_roles$use, n)
-      cols = c(self$col_roles$target, self$col_roles$feature)
+      ids = head(private$.row_roles$use, n)
+      cols = c(private$.col_roles$target, private$.col_roles$feature)
       self$data(rows = ids, cols = cols)
     },
 
     levels = function(cols = NULL) {
       if (is.null(cols)) {
-        cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
+        cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
         cols = self$col_info[id %in% cols & type %in% c("character", "factor", "ordered"), "id", with = FALSE][[1L]]
       } else {
         assert_subset(cols, self$col_info$id)
@@ -338,7 +346,7 @@ Task = R6Class("Task",
 
     missings = function(cols = NULL) {
       if (is.null(cols)) {
-        cols = unlist(self$col_roles[c("target", "feature")], use.names = FALSE)
+        cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
       } else {
         assert_subset(cols, self$col_info$id)
       }
@@ -347,14 +355,14 @@ Task = R6Class("Task",
     },
 
     filter = function(rows) {
-      rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
-      self$row_roles$use = intersect(self$row_roles$use, rows)
+      rows = assert_row_ids(rows, type = typeof(private$.row_roles$use))
+      private$.row_roles$use = intersect(private$.row_roles$use, rows)
       invisible(self)
     },
 
     select = function(cols) {
-      assert_subset(cols, self$col_roles$feature)
-      self$col_roles$feature = intersect(self$col_roles$feature, cols)
+      assert_subset(cols, private$.col_roles$feature)
+      private$.col_roles$feature = intersect(private$.col_roles$feature, cols)
       invisible(self)
     },
 
@@ -371,12 +379,12 @@ Task = R6Class("Task",
     },
 
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
-      task_set_row_role(self, rows, new_roles, exclusive)
+      task_set_row_role(self, private, rows, new_roles, exclusive)
       invisible(self)
     },
 
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
-      task_set_col_role(self, cols, new_roles, exclusive)
+      task_set_col_role(self, private, cols, new_roles, exclusive)
       invisible(self)
     },
 
@@ -392,33 +400,85 @@ Task = R6Class("Task",
   active = list(
     hash = function() {
       hash(
-        class(self), self$id, self$backend$hash, self$row_roles, self$col_roles,
+        class(self), self$id, self$backend$hash, private$.row_roles, private$.col_roles,
         self$col_info$type, self$col_info$levels, self$properties
       )
     },
 
     row_ids = function() {
-      self$row_roles$use
+      private$.row_roles$use
     },
 
     feature_names = function() {
-      self$col_roles$feature
+      private$.col_roles$feature
     },
 
     target_names = function() {
-      self$col_roles$target
+      private$.col_roles$target
+    },
+
+    properties = function(rhs) {
+      if (missing(rhs)) {
+        col_roles = private$.col_roles
+        c(
+          private$.properties,
+          if (length(col_roles$groups)) "groups" else NULL,
+          if (length(col_roles$stratify)) "stratify" else NULL,
+          if (length(col_roles$weights)) "weights" else NULL
+        )
+      } else {
+        private$.properties = assert_set(rhs, .var.name = "properties")
+      }
+    },
+
+    row_roles = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.row_roles)
+      }
+
+      assert_list(rhs, .var.name = "row_roles")
+      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
+      rhs = map(rhs, assert_row_ids, type = typeof(self$row_roles$use), .var.name = "elements of row_roles")
+
+      private$.row_roles = rhs
+    },
+
+    col_roles = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.col_roles)
+      }
+
+      qassertr(rhs, "S[1,]", .var.name = "col_roles")
+      assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
+      assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
+
+      task_set_col_roles(self, private, rhs)
+    },
+
+    col_roles_by_name = function(rhs) {
+      if (missing(rhs)) {
+        return(invert(private$.col_roles, setdiff(self$col_info$id, self$backend$primary_key)))
+      }
+
+      roles = mlr_reflections$task_col_roles[[self$task_type]]
+      qassertr(rhs, "S[1,]", .var.name = "col_roles_by_name")
+      assert_names(names(rhs), "unique", .var.name = "names of col_roles_by_name")
+      assert_subset(unlist(rhs, use.names = FALSE), roles, .var.name = "elements of col_roles_by_name")
+
+
+      task_set_col_roles(self, private, invert(rhs, roles))
     },
 
     nrow = function() {
-      length(self$row_roles$use)
+      length(private$.row_roles$use)
     },
 
     ncol = function() {
-      length(self$col_roles$feature) + length(self$col_roles$target)
+      length(private$.col_roles$feature) + length(private$.col_roles$target)
     },
 
     feature_types = function() {
-      setkeyv(self$col_info[list(self$col_roles$feature), c("id", "type"), on = "id"], "id")
+      setkeyv(self$col_info[list(private$.col_roles$feature), c("id", "type"), on = "id"], "id")
     },
 
     data_formats = function() {
@@ -426,7 +486,7 @@ Task = R6Class("Task",
     },
 
     stratify = function() {
-      cols = self$col_roles$stratify
+      cols = private$.col_roles$stratify
       if (length(cols) == 0L) {
         return(NULL)
       }
@@ -439,25 +499,29 @@ Task = R6Class("Task",
     },
 
     groups = function() {
-      groups = self$col_roles$groups
+      groups = private$.col_roles$groups
       if (length(groups) == 0L) {
         return(NULL)
       }
-      data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, groups))
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, groups))
       setnames(data, names(data), c("row_id", "group"))[]
     },
 
     weights = function() {
-      weights = self$col_roles$weights
+      weights = private$.col_roles$weights
       if (length(weights) == 0L) {
         return(NULL)
       }
-      data = self$backend$data(self$row_roles$use, c(self$backend$primary_key, weights))
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weights))
       setnames(data, names(data), c("row_id", "weight"))[]
     }
   ),
 
   private = list(
+    .properties = NULL,
+    .col_roles = NULL,
+    .row_roles = NULL,
+
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
       # TODO: check if we can assume col_info to be read-only
@@ -466,15 +530,17 @@ Task = R6Class("Task",
   )
 )
 
-task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", subset_active = c("rows", "cols")) {
+task_data = function(self, private, rows = NULL, cols = NULL, data_format = "data.table", subset_active = c("rows", "cols")) {
 
   assert_choice(data_format, self$backend$data_formats)
+  row_roles = private$.row_roles
+  col_roles = private$.col_roles
 
   if (is.null(rows)) {
-    selected_rows = self$row_roles$use
+    selected_rows = row_roles$use
   } else {
     if ("rows" %in% subset_active) {
-      assert_subset(rows, self$row_roles$use)
+      assert_subset(rows, row_roles$use)
     }
     if (is.double(rows)) {
       rows = as.integer(rows)
@@ -483,15 +549,15 @@ task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table",
   }
 
   if (is.null(cols)) {
-    selected_cols = c(self$col_roles$target, self$col_roles$feature)
+    selected_cols = c(col_roles$target, col_roles$feature)
   } else {
     if ("cols" %in% subset_active) {
-      assert_subset(cols, c(self$col_roles$target, self$col_roles$feature))
+      assert_subset(cols, c(col_roles$target, col_roles$feature))
     }
     selected_cols = cols
   }
 
-  order = self$col_roles$order
+  order = col_roles$order
   if (length(order)) {
     if (data_format != "data.table") {
       stopf("Ordering only supported for data_format 'data.table'")
@@ -535,17 +601,18 @@ task_print = function(self) {
     pmap(types, function(type, N, feats) catf(str_indent(sprintf("  - %s (%i):", type, N), feats, exdent = 4L)))
   }
 
-  if (length(self$col_roles$order)) {
-    catf(str_indent("* Order by:", self$col_roles$order))
+  roles = self$col_roles
+  if (length(roles$order)) {
+    catf(str_indent("* Order by:", roles$order))
   }
   if ("stratify" %in% self$properties) {
-    catf(str_indent("* Stratification:", self$col_roles$stratify))
+    catf(str_indent("* Stratification:", roles$stratify))
   }
   if ("groups" %in% self$properties) {
-    catf(str_indent("* Groups:", self$col_roles$groups))
+    catf(str_indent("* Groups:", roles$groups))
   }
   if ("weights" %in% self$properties) {
-    catf(str_indent("* Weights:", self$col_roles$weights))
+    catf(str_indent("* Weights:", roles$weights))
   }
 }
 

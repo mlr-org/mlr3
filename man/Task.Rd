@@ -59,8 +59,12 @@ or in the test set for each resampling iteration. Only up to one column may have
 \item \code{"weights"}: Observation weights. Only up to one column (assumed to be discrete) may have this role.
 }
 
-\code{col_roles} keeps track of the roles with a named list of vectors of feature names.
-To alter the roles, use \code{t$set_col_role()}.
+\code{col_roles} keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
+To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
+\item \code{col_roles_by_name} :: named \code{list()}\cr
+Provides the same information like \code{$col_roles}, but with the list transposed:
+List elements are named by column names, elements are character vectors of column roles.
+Can be modified just like \code{$col_roles} to alter the column roles.
 \item \code{row_roles} :: named \code{list()}\cr
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
@@ -69,8 +73,8 @@ Each row (observation) can have an arbitrary number of roles in the learning tas
 Validation sets are not yet completely integrated into the package.
 }
 
-\code{row_roles} keeps track of the roles with a named list of vectors of feature names.
-To alter the role, use \code{set_row_role()}.
+\code{row_roles} keeps track of the roles with a named list, elements are named by row role and each element is a \code{integer()} or \code{character()} vector of row ids.
+To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
 \item \code{feature_names} :: \code{character()}\cr
 Return all column names with \code{role == "feature"}.
 \item \code{feature_types} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
@@ -98,6 +102,7 @@ The following properties are currently standardized and understood by tasks in \
 \item \code{"stratify"}: The task is resampled using one or more stratification variables.
 \item \code{"groups"}: The task comes with grouping/blocking information.
 \item \code{"weights"}: The task comes with observation weights.
+Note that above listed properties are calculated from the \code{$col_roles} and must not be set explicitly.
 }
 \item \code{stratify} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 If the task has designated columns with role "stratify", returns a table with one subpopulation per row and two columns:
@@ -155,14 +160,19 @@ Argument \code{cols} defaults to all columns with role "target" or "feature".
 \item \code{head(n = 6)}\cr
 \code{integer()} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Get the first \code{n} observations with role \code{"use"}.
-\item \code{set_col_role(cols, new_roles, exclusive = TRUE)}\cr
-(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}\cr
-Adds the roles \code{new_roles} to columns referred to by \code{cols}.
-If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
 \item \code{set_row_role(rows, new_roles, exclusive = TRUE)}\cr
 (\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}\cr
 Adds the roles \code{new_roles} to rows referred to by \code{rows}.
 If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
+
+This function is deprecated and will be removed in the next version in favor of directly modifying \code{$row_roles}.
+\item \code{set_col_role(cols, new_roles, exclusive = TRUE)}\cr
+
+(\code{character()}, \code{character()}, \code{logical(1)}) -> \code{self}\cr
+Adds the roles \code{new_roles} to columns referred to by \code{cols}.
+If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
+
+This function is deprecated and will be removed in the next version in favor of directly modifying \code{$col_roles}.
 \item \code{filter(rows)}\cr
 (\code{integer()} | \code{character()}) -> \code{self}\cr
 Subsets the task, reducing it to only keep the rows specified in \code{rows}.
@@ -221,7 +231,7 @@ Returns the complete data as \code{\link[data.table:data.table]{data.table::data
 
 The following methods change the task in-place:
 \itemize{
-\item \code{set_row_role()} and \code{set_col_role()} alter the row or column information in \code{row_roles} or \code{col_roles}, respectively.
+\item Any modification to \code{$col_roles} and \code{row_roles}.
 This provides a different "view" on the data without altering the data itself.
 \item \code{filter()} and \code{select()} subset the set of active rows or features in \code{row_roles} or \code{col_roles}, respectively.
 This provides a different "view" on the data without altering the data itself.
@@ -243,7 +253,7 @@ task$feature_names
 task$formula()
 
 # Remove "Petal.Length"
-task$set_col_role("Petal.Length", character())
+task$col_roles_by_name$Petal.Length = character()
 
 # Remove "Petal.Width", alternative way
 task$select(setdiff(task$feature_names, "Petal.Width"))
