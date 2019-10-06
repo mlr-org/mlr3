@@ -18,7 +18,7 @@
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
 #' ```
-#' r = Resampling$new(id, param_set)
+#' r = Resampling$new(id, param_set, duplicated_ids = FALSE, man = NA_character_)
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -27,12 +27,14 @@
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Set of hyperparameters.
 #'
-#' @section Fields:
-#' * `id` :: `character(1)`\cr
-#'   Identifier of the learner.
+#' * `duplicated_ids` :: `logical(1)`\cr
+#'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
 #'
-#' * `param_set` :: [paradox::ParamSet]\cr
-#'   Description of available hyperparameters and hyperparameter settings.
+#' * `man` :: `character(1)`\cr
+#'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+#'
+#' @section Fields:
+#' All variables passed to the constructor, and additionally:
 #'
 #' * `iters` :: `integer(1)`\cr
 #'   Return the number of resampling iterations, depending on the values stored in the `param_set`.
@@ -50,8 +52,6 @@
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
 #'
-#' * `duplicated_ids` :: `logical(1)`\cr
-#'   Is `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
 #'   E.g., this is `TRUE` for Bootstrap, and `FALSE` for cross validation.
 #'   Only used internally.
 #'
@@ -67,6 +67,10 @@
 #' * `test_set(i)`\cr
 #'   `integer(1)` -> (`integer()` | `character()`)\cr
 #'   Returns the row ids of the i-th test set.
+#'
+#' * `help()`\cr
+#'   () -> `NULL`\cr
+#'   Opens the corresponding help page referenced by `$man`.
 #'
 #' @section Stratification:
 #' All derived classes support stratified sampling.
@@ -135,11 +139,13 @@ Resampling = R6Class("Resampling",
     instance = NULL,
     task_hash = NA_character_,
     duplicated_ids = NULL,
+    man = NULL,
 
-    initialize = function(id, param_set = ParamSet$new(), duplicated_ids = FALSE) {
+    initialize = function(id, param_set = ParamSet$new(), duplicated_ids = FALSE, man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
       self$duplicated_ids = assert_flag(duplicated_ids)
+      self$man = assert_string(man, na.ok = TRUE)
     },
 
     format = function() {

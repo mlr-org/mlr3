@@ -23,8 +23,8 @@
 #' Note: This object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
 #'
 #' ```
-#' m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
-#'      task_properties = character(), packages = character())
+#' m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
+#'     predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_)
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -73,6 +73,9 @@
 #'   Set of required packages.
 #'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
 #'
+#' * `man` :: `character(1)`\cr
+#'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+#'
 #' @section Fields:
 #' All variables passed to the constructor.
 #'
@@ -90,6 +93,10 @@
 #'   pass the respective [Task], the trained [Learner] or the training set indices.
 #'   This is handled internally during [resample()]/[benchmark()].
 #'
+#' * `help()`\cr
+#'   () -> `NULL`\cr
+#'   Opens the corresponding help page referenced by `$man`.
+#'
 #' @family Measure
 #' @export
 Measure = R6Class("Measure",
@@ -105,8 +112,10 @@ Measure = R6Class("Measure",
     properties = NULL,
     minimize = NULL,
     packages = NULL,
+    man = NULL,
 
-    initialize = function(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test", task_properties = character(), packages = character()) {
+    initialize = function(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
+      predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = task_type
@@ -126,6 +135,11 @@ Measure = R6Class("Measure",
       self$predict_sets = assert_subset(predict_sets, mlr_reflections$predict_sets, empty.ok = FALSE)
       self$task_properties = assert_subset(task_properties, mlr_reflections$task_properties[[task_type]])
       self$packages = assert_set(packages)
+      self$man = assert_string(man, na.ok = TRUE)
+    },
+
+    help = function() {
+      open_help(self$man)
     },
 
     format = function() {

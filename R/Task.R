@@ -47,7 +47,7 @@
 #'   Each column (feature) can have an arbitrary number of the following roles:
 #'     - `"feature"`: Regular feature used in the model fitting process.
 #'     - `"target"`: Target variable.
-#'     - `"label"`: Observation labels. May be used in plots.
+#'     - `"name"`: Row names / observation labels. To be used in plots.
 #'     - `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
 #'     - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
@@ -122,6 +122,9 @@
 #'   If the task has a designated column role "weights", table with two columns:
 #'   `row_id` (`integer()` | `character()`) and the observation weights `weight` (`numeric()`).
 #'   Returns `NULL` if there are is no weight column.
+#'
+#' * `man` :: `character(1)`\cr
+#'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
 #'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, data_format = NULL)`\cr
@@ -215,6 +218,10 @@
 #'   This operation mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
+#' * `help()`\cr
+#'   () -> `NULL`\cr
+#'   Opens the corresponding help page referenced by `$man`.
+#'
 #' @section S3 methods:
 #' * `as.data.table(t)`\cr
 #'   [Task] -> [data.table::data.table()]\cr
@@ -263,6 +270,7 @@ Task = R6Class("Task",
     row_roles = NULL,
     col_roles = NULL,
     col_info = NULL,
+    man = NA_character_,
 
     initialize = function(id, task_type, backend) {
 
@@ -288,6 +296,10 @@ Task = R6Class("Task",
       self$row_roles = list(use = rn, validation = rn[0L])
       self$col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
       self$col_roles$feature = setdiff(self$col_info$id, self$backend$primary_key)
+    },
+
+    help = function() {
+      open_help(self$man)
     },
 
     format = function() {

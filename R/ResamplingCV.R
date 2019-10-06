@@ -51,7 +51,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
       ))
       ps$values = list(folds = 10L)
 
-      super$initialize(id = "cv", param_set = ps)
+      super$initialize(id = "cv", param_set = ps, man = "mlr3::mlr_resamplings_cv")
     }
   ),
 

@@ -67,7 +67,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
             ParamDbl$new("x", lower = 0, upper = 1, tags = "train")
           )
         ),
-        properties = c("twoclass", "multiclass", "missings")
+        properties = c("twoclass", "multiclass", "missings"),
+        man = "mlr3::mlr_learners_classif.debug"
       )
     },
 

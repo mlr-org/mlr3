@@ -19,23 +19,24 @@ e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_boots
 }
 \section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.\preformatted{r = Resampling$new(id, param_set)
+Note: This object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.\preformatted{r = Resampling$new(id, param_set, duplicated_ids = FALSE, man = NA_character_)
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
 Identifier for the resampling strategy.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Set of hyperparameters.
+\item \code{duplicated_ids} :: \code{logical(1)}\cr
+Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.
+\item \code{man} :: \code{character(1)}\cr
+String in the format \code{[pkg]::[topic]} pointing to a manual page for this object.
 }
 }
 
 \section{Fields}{
 
+All variables passed to the constructor, and additionally:
 \itemize{
-\item \code{id} :: \code{character(1)}\cr
-Identifier of the learner.
-\item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
-Description of available hyperparameters and hyperparameter settings.
 \item \code{iters} :: \code{integer(1)}\cr
 Return the number of resampling iterations, depending on the values stored in the \code{param_set}.
 \item \code{instance} :: \code{any}\cr
@@ -47,8 +48,7 @@ Is \code{TRUE}, if the resampling has been instantiated.
 The hash of the task which was passed to \code{r$instantiate()}.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
-\item \code{duplicated_ids} :: \code{logical(1)}\cr
-Is \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.
+
 E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross validation.
 Only used internally.
 }
@@ -66,6 +66,9 @@ Returns the row ids of the i-th training set.
 \item \code{test_set(i)}\cr
 \code{integer(1)} -> (\code{integer()} | \code{character()})\cr
 Returns the row ids of the i-th test set.
+\item \code{help()}\cr
+() -> \code{NULL}\cr
+Opens the corresponding help page referenced by \code{$man}.
 }
 }
 

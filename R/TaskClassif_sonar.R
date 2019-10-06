@@ -19,8 +19,9 @@ NULL
 
 load_task_sonar = function(id = "sonar") {
   b = as_data_backend(load_dataset("Sonar", "mlbench"))
-  b$hash = "_mlr3_tasks_sonar_"
-  TaskClassif$new(id, b, target = "Class", positive = "M")
+  task = TaskClassif$new(id, b, target = "Class", positive = "M")
+  b$hash = task$man = "mlr3::mlr_tasks_sonar"
+  task
 }
 
 #' @include mlr_tasks.R

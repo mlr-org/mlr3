@@ -32,7 +32,8 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
         properties = c("requires_task", "requires_learner"),
         predict_type = "response",
         range = c(0, Inf),
-        minimize = TRUE
+        minimize = TRUE,
+        man = "mlr3::mlr_measures_selected_features"
       )
       self$normalize = assert_flag(normalize)
     },

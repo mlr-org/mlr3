@@ -97,6 +97,9 @@ Retrieve the i-th \link{ResampleResult}, by position or by unique hash \code{uha
 (\link{BenchmarkResult} | \code{NULL}) -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself, mutating the \link{BenchmarkResult} in-place.
 If \code{bmr} is \code{NULL}, simply returns \code{self}.
+\item \code{help()}\cr
+() -> \code{NULL}\cr
+Opens the help page for this object.
 }
 }
 

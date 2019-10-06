@@ -143,6 +143,10 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       self$data$prob = prob
     },
 
+    help = function() {
+      open_help("mlr3::PredictionClassif")
+    },
+
     set_threshold = function(threshold) {
       if (!is.matrix(self$data$prob)) {
         stopf("Cannot set threshold, no probabilities available")

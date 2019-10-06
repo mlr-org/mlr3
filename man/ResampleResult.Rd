@@ -31,6 +31,7 @@ This unique hash is primarily needed to group information in \link{BenchmarkResu
 Internal data storage.
 We discourage users to directly work with this field.
 \item \code{task} :: \link{Task}\cr
+
 The task \code{\link[=resample]{resample()}} operated on.
 \item \code{learners} :: list of \link{Learner}\cr
 List of trained learners, sorted by resampling iteration.
@@ -73,6 +74,9 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 list of \link{Measure} -> named \code{numeric()}\cr
 Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in \link{Measure}.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
+\item \code{help()}\cr
+() -> \code{NULL}\cr
+Opens the help page for this object.
 }
 }
 

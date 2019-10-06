@@ -10,8 +10,8 @@ This measure specializes \link{Measure} for regression problems.
 Predefined measures can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_measures}.
 }
 \section{Construction}{
-\preformatted{m = MeasureRegr$new(id, range, minimize = NA, aggregator = NULL, properties = character(),
-     predict_type = "response", task_properties = character(), packages = character())
+\preformatted{m = MeasureRegr$new(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
+    predict_sets = "test", task_properties = character(), packages = character())
 }
 
 For a description of the arguments, see \link{Measure}.

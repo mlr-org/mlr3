@@ -11,7 +11,7 @@
 #'
 #' @section Construction:
 #' ```
-#' g = TaskGenerator$new(id, task_type, packages = character(), param_set = ParamSet$new())
+#' g = TaskGenerator$new(id, task_type, packages = character(), param_set = ParamSet$new(), man = NA_character_)
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -27,15 +27,11 @@
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Set of hyperparameters.
 #'
+#' * `man` :: `character(1)`\cr
+#'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+#'
 #' @section Fields:
-#' * `id` :: `character(1)`\cr
-#'   Identifier of the learner.
-#'
-#' * `packages` :: `character()`\cr
-#'   Stores the names of required packages.
-#'
-#' * `param_set` :: [paradox::ParamSet]\cr
-#'   Description of available hyperparameters and hyperparameter settings.
+#' All variables passed to the constructor, and additionally:
 #'
 #' * `task_type` :: `character(1)`\cr
 #'   Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
@@ -46,6 +42,10 @@
 #'   `integer(1)` -> [Task]\cr
 #'   Creates a task of type `task_type` with `n` observations, possibly using additional settings stored in `param_set`.
 #'
+#' * `help()`\cr
+#'   () -> `NULL`\cr
+#'   Opens the corresponding help page referenced by `$man`.
+#'
 #' @family TaskGenerator
 #' @export
 TaskGenerator = R6Class("TaskGenerator",
@@ -54,11 +54,14 @@ TaskGenerator = R6Class("TaskGenerator",
     task_type = NULL,
     param_set = NULL,
     packages = NULL,
-    initialize = function(id, task_type, packages = character(), param_set = ParamSet$new()) {
+    man = NULL,
+
+    initialize = function(id, task_type, packages = character(), param_set = ParamSet$new(), man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
       self$packages = assert_set(packages)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
+      self$man = assert_string(man, na.ok = TRUE)
     },
 
     generate = function(n) {
