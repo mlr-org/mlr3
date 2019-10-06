@@ -50,7 +50,7 @@ Each column (feature) can have an arbitrary number of the following roles:
 \itemize{
 \item \code{"feature"}: Regular feature used in the model fitting process.
 \item \code{"target"}: Target variable.
-\item \code{"label"}: Observation labels. May be used in plots.
+\item \code{"name"}: Row names / observation labels. To be used in plots.
 \item \code{"order"}: Data returned by \code{$data()} is ordered by this column (or these columns).
 \item \code{"groups"}: During resampling, observations with the same value of the variable with role "groups"
 are marked as "belonging together". They will be exclusively assigned to be either in the training set

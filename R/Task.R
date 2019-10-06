@@ -47,7 +47,7 @@
 #'   Each column (feature) can have an arbitrary number of the following roles:
 #'     - `"feature"`: Regular feature used in the model fitting process.
 #'     - `"target"`: Target variable.
-#'     - `"label"`: Observation labels. May be used in plots.
+#'     - `"name"`: Row names / observation labels. To be used in plots.
 #'     - `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
 #'     - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
