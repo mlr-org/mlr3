@@ -149,7 +149,6 @@ test_that("predict_type is checked", {
 
 test_that("custom resampling (#245)", {
   task_boston = tsk("boston_housing")
-  task_boston$col_roles$label = c("chas", "town")
   lrn = lrn("regr.featureless")
 
   rdesc = rsmp("custom")
