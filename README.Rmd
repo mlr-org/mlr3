@@ -93,17 +93,41 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * Embrace [R6](https://cran.r-project.org/package=R6), clean OO-design, object state-changes and reference semantics. This might be less "traditional R", but seems to fit `mlr` nicely.
 * Embrace [`data.table`](https://cran.r-project.org/package=data.table) for fast and convenient data frame computations.
 * Combine `data.table` and `R6`, for this we will make heavy use of list columns in data.tables.
-* Be light on dependencies. `mlr3` requires the following packages:
-    - [`backports`](https://cran.r-project.org/package=backports): Ensures backward compatibility with older R releases. Developed by members of the `mlr` team. No recursive dependencies.
-    - [`checkmate`](https://cran.r-project.org/package=checkmate): Fast argument checks. Developed by members of the `mlr` team. No extra recursive dependencies.
-    - [`mlr3misc`](https://github.com/mlr-org/mlr3misc) Miscellaneous functions used in multiple mlr3 [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages). Developed by the `mlr` team. No extra recursive dependencies.
-    - [`paradox`](https://github.com/mlr-org/paradox): Descriptions for parameters and parameter sets. Developed by the `mlr` team. No extra recursive dependencies.
-    - [`R6`](https://cran.r-project.org/package=R6): Reference class objects. No recursive dependencies.
-    - [`data.table`](https://cran.r-project.org/package=data.table): Extension of R's `data.frame`. No recursive dependencies.
-    - [`digest`](https://cran.r-project.org/package=digest): Hash digests. No recursive dependencies.
-    - [`lgr`](https://github.com/s-fleck/lgr): Logging facility. No extra recursive dependencies.
-    - [`Metrics`](https://cran.r-project.org/package=Metrics): Package which implements performance measures. No recursive dependencies.
-    - [`mlbench`](https://cran.r-project.org/package=mlbench): A collection of machine learning data sets. No dependencies.
+* Be light on dependencies. `mlr3` requires the following packages at runtime:
+    - [`backports`](https://cran.r-project.org/package=backports):
+      Ensures backward compatibility with older R releases. Developed by members of the `mlr` team.
+      No recursive dependencies.
+    - [`checkmate`](https://cran.r-project.org/package=checkmate):
+      Fast argument checks. Developed by members of the `mlr` team.
+      No extra recursive dependencies.
+    - [`mlr3misc`](https://cran.r-project.org/package=mlr3misc):
+      Miscellaneous functions used in multiple mlr3 [extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
+      Developed by the `mlr` team.
+      No extra recursive dependencies.
+    - [`paradox`](https://cran.r-project.org/package=paradox):
+      Descriptions for parameters and parameter sets. Developed by the `mlr` team.
+      No extra recursive dependencies.
+    - [`R6`](https://cran.r-project.org/package=R6):
+      Reference class objects.
+      No recursive dependencies.
+    - [`data.table`](https://cran.r-project.org/package=data.table):
+      Extension of R's `data.frame`.
+      No recursive dependencies.
+    - [`digest`](https://cran.r-project.org/package=digest):
+      Hash digests.
+      No recursive dependencies.
+    - [`uuid`](https://cran.r-project.org/package=uuid):
+      Create unique string identifiers.
+      No recursive dependencies.
+    - [`lgr`](https://cran.r-project.org/package=lgr):
+      Logging facility.
+      No extra recursive dependencies.
+    - [`Metrics`](https://cran.r-project.org/package=Metrics):
+      Package which implements performance measures.
+      No recursive dependencies.
+    - [`mlbench`](https://cran.r-project.org/package=mlbench):
+      A collection of machine learning data sets.
+      No dependencies.
 * [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29): Objects are queryable for properties and capabilities, allowing you to program on them.
 * Additional functionality that comes with extra dependencies:
     - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
