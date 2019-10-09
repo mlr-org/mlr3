@@ -3,7 +3,7 @@ expect_man_exists = function(man) {
   if (!is.na(man)) {
     parts = strsplit(man, "::", fixed = TRUE)[[1L]]
     matches = help.search(parts[2L], package = parts[1L], ignore.case = FALSE)
-    expect_data_frame(matches$matches, min.rows = 1L)
+    checkmate::expect_data_frame(matches$matches, min.rows = 1L)
   }
 }
 expect_same_address = function(x, y) {
@@ -210,7 +210,7 @@ expect_task = function(task) {
   checkmate::expect_list(task$col_roles_by_name, names = "unique", any.missing = FALSE)
   checkmate::expect_names(names(task$col_roles_by_name), permutation.of = setdiff(task$col_info$id, task$backend$primary_key))
   lapply(task$col_roles_by_name, checkmate::expect_character, any.missing = FALSE, unique = TRUE, min.chars = 1L)
-  checkmate::expect_subset(unlist(task$col_roles_by_name, use.names = FALSE), mlr_reflections$task_col_roles[[task$task_type]])
+  checkmate::expect_subset(unlist(task$col_roles_by_name, use.names = FALSE), mlr3::mlr_reflections$task_col_roles[[task$task_type]])
 
 
   checkmate::expect_list(task$row_roles, names = "unique", types = c("integer", "character"), any.missing = FALSE)
@@ -285,7 +285,7 @@ expect_task_generator = function(gen) {
   checkmate::expect_r6(gen, "TaskGenerator", private = ".generate")
   expect_id(gen$id)
   expect_man_exists(gen$man)
-  checkmate::expect_choice(gen$task_type, mlr_reflections$task_types$type)
+  checkmate::expect_choice(gen$task_type, mlr3::mlr_reflections$task_types$type)
   checkmate::expect_function(gen$generate, args = "n")
   checkmate::expect_class(gen$param_set, "ParamSet")
   checkmate::expect_list(gen$param_set$values, names = "unique")
