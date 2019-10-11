@@ -156,15 +156,17 @@ Measure = R6Class("Measure",
     },
 
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
-      if (is.null(task) && "requires_task" %in% self$properties) {
+      assert_prediction(prediction)
+
+      if ("requires_task" %in% self$properties && is.null(task)) {
         stopf("Measure '%s' requires a task", self$id)
       }
 
-      if (is.null(learner) && "requires_learner" %in% self$properties) {
+      if ("requires_learner" %in% self$properties && is.null(learner)) {
         stopf("Measure '%s' requires a learner", self$id)
       }
 
-      if (is.null(train_set) && "requires_train_set" %in% self$properties) {
+      if ("requires_train_set" %in% self$properties && is.null(train_set)) {
         stopf("Measure '%s' requires the train_set", self$id)
       }
 
