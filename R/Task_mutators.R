@@ -216,7 +216,7 @@ task_cbind = function(self, data) {
   self$col_info = ujoin(self$col_info, ci, key = "id")
   self$col_info = rbind(self$col_info, ci[!list(self$col_info$id), on = "id"])
   setkeyv(self$col_info, "id")
-  self$col_roles$feature = union(self$col_roles$feature, setdiff(names(data), pk))
+  self$col_roles$feature = setdiff(union(self$col_roles$feature, names(data)), c(pk, self$col_roles$target))
 
   invisible(self)
 }

@@ -89,6 +89,11 @@ test_that("Task cbind", {
 
   task$cbind(data.table())
   expect_equal(task$ncol, 7L)
+
+  y = task$data(cols = task$target_names, rows = shuffle(task$row_ids))
+  task$cbind(y)
+  expect_equal(task$ncol, 7L)
+  expect_disjunct(task$feature_names, task$target_names)
 })
 
 test_that("cbind/rbind works", {

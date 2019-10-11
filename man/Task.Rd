@@ -248,10 +248,7 @@ task$ncol
 task$feature_names
 task$formula()
 
-# Remove "Petal.Length"
-task$col_roles_by_name$Petal.Length = character()
-
-# Remove "Petal.Width", alternative way
+# de-select "Petal.Width"
 task$select(setdiff(task$feature_names, "Petal.Width"))
 
 task$feature_names
