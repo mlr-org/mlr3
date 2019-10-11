@@ -273,7 +273,7 @@ Learner = R6Class("Learner",
       if (is.null(task)) {
         if (is.null(self$state$train_task))
           stopf("No task stored, and no task provided")
-        task = self$state$train_task
+        task = self$state$train_task$clone()
       } else {
         task = assert_task(as_task(task, clone = TRUE), task_type = self$task_type, feature_types = self$feature_types)
         task = task_rm_data(task)

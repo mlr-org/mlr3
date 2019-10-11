@@ -31,6 +31,14 @@ test_that("predict on newdata works / classif", {
 })
 
 
+test_that("train task is properly cloned (#383)", {
+  lr = lrn("classif.rpart")$train(tsk("iris"))
+  p = lr$predict_newdata(iris[1:3, 1:4])
+  expect_equal(length(p$row_ids), 3)
+  p = lr$predict_newdata(iris[1:3, 1:4])
+  expect_equal(length(p$row_ids), 3)
+})
+
 test_that("predict on newdata works / regr", {
   task = tsk("boston_housing")
   train = which(seq_len(task$nrow) %% 2 == 0L)
