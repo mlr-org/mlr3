@@ -240,9 +240,9 @@ test_that("task$feature_types preserves key (#193)", {
 
 test_that("switch columns on and off (#301)", {
   task = tsk("iris")
-  task$col_roles_by_name$Sepal.Length = character()
+  task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
   task$cbind(data.table(x = 1:150))
-  task$col_roles_by_name$Sepal.Length = "feature"
+  task$col_roles$feature = union(task$col_roles$feature, "Sepal.Length")
   expect_data_table(task$data(), ncols = 6, nrows = 150, any.missing = FALSE)
 })
 
@@ -261,9 +261,7 @@ test_that("col roles getters/setters", {
 
   expect_error({ task$col_roles$feature = "foo" })
   expect_error({ task$col_roles$foo = "Species" })
-  expect_error({ task$col_roles_by_name$Species = "feature" }, "target")
-  expect_error({ task$col_roles_by_name$Species = iris })
 
-  task$col_roles_by_name$Sepal.Length = character()
+  task$col_roles$feature = setdiff(task$col_roles$feature, "Sepal.Length")
   expect_false("Sepal.Length" %in% task$feature_names)
 })

@@ -1,9 +1,8 @@
 # mlr3 0.1.4
 
 * `Task$set_col_roles()` and `Task$set_row_roles()` are now deprecated.
-  Instead, `Task$col_roles` and `Task$row_roles` are now an active binding,
-  sou you can directly work with these lists (#370).
-  `Task$col_roles_by_name` provides a new interface to the same list.
+  Instead it is recommended to work with the lists `Task$col_roles` and
+  `Task$row_roles` directly.
 * `Learner$predict_newdata()` now works without argument `task` if the learner
   has been fitted with `Learner$train()` (#375).
 * Column role `"label"` has been renamed to column role `"name"` to avoid

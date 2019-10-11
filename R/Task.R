@@ -58,11 +58,6 @@
 #'   `col_roles` keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
 #'   To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
 #'
-#' * `col_roles_by_name` :: named `list()`\cr
-#'   Provides the same information like `$col_roles`, but with the list transposed:
-#'   List elements are named by column names, elements are character vectors of column roles.
-#'   Can be modified just like `$col_roles` to alter the column roles.
-#'
 #' * `row_roles` :: named `list()`\cr
 #'   Each row (observation) can have an arbitrary number of roles in the learning task:
 #'     - `"use"`: Use in train / predict / resampling.
@@ -261,10 +256,7 @@
 #' task$feature_names
 #' task$formula()
 #'
-#' # Remove "Petal.Length"
-#' task$col_roles_by_name$Petal.Length = character()
-#'
-#' # Remove "Petal.Width", alternative way
+#' # de-select "Petal.Width"
 #' task$select(setdiff(task$feature_names, "Petal.Width"))
 #'
 #' task$feature_names
@@ -453,20 +445,6 @@ Task = R6Class("Task",
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
       task_set_col_roles(self, private, rhs)
-    },
-
-    col_roles_by_name = function(rhs) {
-      if (missing(rhs)) {
-        return(invert(private$.col_roles, setdiff(self$col_info$id, self$backend$primary_key)))
-      }
-
-      roles = mlr_reflections$task_col_roles[[self$task_type]]
-      qassertr(rhs, "S[1,]", .var.name = "col_roles_by_name")
-      assert_names(names(rhs), "unique", .var.name = "names of col_roles_by_name")
-      assert_subset(unlist(rhs, use.names = FALSE), roles, .var.name = "elements of col_roles_by_name")
-
-
-      task_set_col_roles(self, private, invert(rhs, roles))
     },
 
     nrow = function() {

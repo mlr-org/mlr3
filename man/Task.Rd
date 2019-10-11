@@ -61,10 +61,6 @@ or in the test set for each resampling iteration. Only up to one column may have
 
 \code{col_roles} keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
 To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).
-\item \code{col_roles_by_name} :: named \code{list()}\cr
-Provides the same information like \code{$col_roles}, but with the list transposed:
-List elements are named by column names, elements are character vectors of column roles.
-Can be modified just like \code{$col_roles} to alter the column roles.
 \item \code{row_roles} :: named \code{list()}\cr
 Each row (observation) can have an arbitrary number of roles in the learning task:
 \itemize{
