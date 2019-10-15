@@ -201,6 +201,7 @@
 #' @family Learner
 #' @export
 Learner = R6Class("Learner",
+  inherit = Representable_In_Dict,
   public = list(
     id = NULL,
     state = NULL,
@@ -216,7 +217,6 @@ Learner = R6Class("Learner",
 
     initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
       properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
-
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       private$.param_set = assert_param_set(param_set)
@@ -228,6 +228,7 @@ Learner = R6Class("Learner",
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
       self$packages = assert_set(packages)
       self$man = assert_string(man, na.ok = TRUE)
+      super$initialize()
     },
 
     help = function() {
@@ -353,6 +354,7 @@ Learner = R6Class("Learner",
     .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL,
+    .repr_dictionary = "lrn",
 
     deep_clone = function(name, value) {
       switch(name,
