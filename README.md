@@ -5,12 +5,13 @@ Efficient, object-oriented programming on the building blocks of machine
 learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 
 [![Build
-Status](https://travis-ci.org/mlr-org/mlr3.svg?branch=master)](https://travis-ci.org/mlr-org/mlr3)
-[![CircleCI](https://circleci.com/gh/mlr-org/mlr3.svg?style=svg)](https://circleci.com/gh/mlr-org/mlr3)
-[![CRAN Status
-Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
+Status](https://img.shields.io/travis/mlr-org/mlr3/master?label=Linux&logo=travis&style=flat-square)](https://travis-ci.org/mlr-org/mlr3)
+[![CircleCI](https://img.shields.io/circleci/build/gh/mlr-org/mlr3/master?label=Linux&logo=circle&logoColor=green&style=flat-square)](https://circleci.com/gh/mlr-org/mlr3)
 [![cran
 checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
+
+[![CRAN Status
+Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
 [![CRAN
 Downloads](https://cranlogs.r-pkg.org/badges/mlr3)](https://cran.rstudio.com/web/packages/mlr3/index.html)
 [![Lifecycle:
@@ -99,21 +100,19 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [15:50:38.817] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [15:50:38.843] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [15:50:38.861] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [13:33:15.014] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [13:33:15.039] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [13:33:15.057] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
 ```
 
     ##             task task_id               learner    learner_id
-    ##           <list>  <char>                <list>        <char>
     ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ##        resampling resampling_id iteration prediction classif.acc
-    ##            <list>        <char>     <int>     <list>       <num>
     ## 1: <ResamplingCV>            cv         1     <list>        0.92
     ## 2: <ResamplingCV>            cv         2     <list>        0.92
     ## 3: <ResamplingCV>            cv         3     <list>        0.94
@@ -148,7 +147,7 @@ would result in non-trivial API changes.
   - Overcome the limitations of R’s [S3
     classes](https://adv-r.hadley.nz/s3.html) with the help of
     [R6](https://cran.r-project.org/package=R6).
-  - Embrace [R6](https://cran.r-project.org/package=R6), clean
+  - Embrace [R6](https://cran.r-project.org/package=R6) for a clean
     OO-design, object state-changes and reference semantics. This might
     be less “traditional R”, but seems to fit `mlr` nicely.
   - Embrace
