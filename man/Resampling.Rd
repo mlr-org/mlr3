@@ -75,10 +75,10 @@ Opens the corresponding help page referenced by \code{$man}.
 \section{Stratification}{
 
 All derived classes support stratified sampling.
-The stratification variables are assumed to be discrete and must be stored in the \link{Task} with column role \code{"stratify"}.
+The stratification variables are assumed to be discrete and must be stored in the \link{Task} with column role \code{"stratum"}.
 In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
 
-First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. \code{task$stratify}.
+First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. \code{task$strata}.
 
 Second, the sampling is performed in each of the \code{k} subpopulations separately.
 Each subgroup is divided into \code{iter} training sets and \code{iter} test sets by the derived \code{Resampling}.
@@ -126,7 +126,7 @@ r$train_set(1)
 # Stratification
 task = tsk("pima")
 prop.table(table(task$truth())) # moderately unbalanced
-task$col_roles$stratify = task$target_names
+task$col_roles$stratum = task$target_names
 
 r = rsmp("subsampling")
 r$instantiate(task)

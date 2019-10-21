@@ -49,11 +49,11 @@
 #'     - `"target"`: Target variable.
 #'     - `"name"`: Row names / observation labels. To be used in plots.
 #'     - `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
-#'     - `"groups"`: During resampling, observations with the same value of the variable with role "groups"
+#'     - `"group"`: During resampling, observations with the same value of the variable with role "group"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
 #'          or in the test set for each resampling iteration. Only up to one column may have this role.
-#'     - `"stratify"`: Stratification variables. Multiple discrete columns may have this role.
-#'     - `"weights"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
+#'     - `"stratum"`: Stratification variables. Multiple discrete columns may have this role.
+#'     - `"weight"`: Observation weights. Only up to one column (assumed to be discrete) may have this role.
 #'
 #'   `col_roles` keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
 #'   To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
@@ -99,28 +99,28 @@
 #'   Set of task properties. Possible properties are are stored in
 #'   [mlr_reflections$task_properties][mlr_reflections].
 #'   The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
-#'   * `"stratify"`: The task is resampled using one or more stratification variables.
-#'   * `"groups"`: The task comes with grouping/blocking information.
-#'   * `"weights"`: The task comes with observation weights.
+#'   * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
+#'   * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
+#'   * `"weights"`: The task comes with observation weights (role `"weight"`).
 #'   Note that above listed properties are calculated from the `$col_roles` and must not be set explicitly.
 #'
-#' * `stratify` :: [data.table::data.table()]\cr
-#'   If the task has designated columns with role "stratify", returns a table with one subpopulation per row and two columns:
+#' * `strata` :: [data.table::data.table()]\cr
+#'   If the task has columns designated with role `"stratum"`, returns a table with one subpopulation per row and two columns:
 #'   `N` (`integer()`) with the number of observations in the subpopulation and `row_id` (list of `integer()` | list of `character()`) as list
 #'   column with the row ids in the respective subpopulation.
-#'   Returns `NULL` if there are is no stratification variables.
+#'   Returns `NULL` if there are is no stratification variable.
 #'
 #'   See [Resampling] for more information on stratification.
 #'
 #' * `groups` :: [data.table::data.table()]\cr
-#'   If the task has a designated column role "groups", table with two columns:
+#'   If the task has a column with designated role "group", table with two columns:
 #'   `row_id` (`integer()` | `character()`) and the grouping variable `group` (`vector()`).
 #'   Returns `NULL` if there are is no grouping column.
 #'
 #'   See [Resampling] for more information on grouping.
 #'
 #' * `weights` :: [data.table::data.table()]\cr
-#'   If the task has a designated column role "weights", table with two columns:
+#'   If the task has a column with designated role "weight", table with two columns:
 #'   `row_id` (`integer()` | `character()`) and the observation weights `weight` (`numeric()`).
 #'   Returns `NULL` if there are is no weight column.
 #'
@@ -414,9 +414,9 @@ Task = R6Class("Task",
         col_roles = private$.col_roles
         c(
           private$.properties,
-          if (length(col_roles$groups)) "groups" else NULL,
-          if (length(col_roles$stratify)) "stratify" else NULL,
-          if (length(col_roles$weights)) "weights" else NULL
+          if (length(col_roles$group)) "groups" else NULL,
+          if (length(col_roles$stratum)) "strata" else NULL,
+          if (length(col_roles$weight)) "weights" else NULL
         )
       } else {
         private$.properties = assert_set(rhs, .var.name = "properties")
@@ -463,8 +463,8 @@ Task = R6Class("Task",
       self$backend$data_formats
     },
 
-    stratify = function() {
-      cols = private$.col_roles$stratify
+    strata = function() {
+      cols = private$.col_roles$stratum
       if (length(cols) == 0L) {
         return(NULL)
       }
@@ -477,21 +477,21 @@ Task = R6Class("Task",
     },
 
     groups = function() {
-      groups = private$.col_roles$groups
+      groups = private$.col_roles$group
       if (length(groups) == 0L) {
         return(NULL)
       }
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, groups))
-      setnames(data, names(data), c("row_id", "group"))[]
+      setnames(data, c("row_id", "group"))[]
     },
 
     weights = function() {
-      weights = private$.col_roles$weights
+      weights = private$.col_roles$weight
       if (length(weights) == 0L) {
         return(NULL)
       }
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weights))
-      setnames(data, names(data), c("row_id", "weight"))[]
+      setnames(data, c("row_id", "weight"))[]
     }
   ),
 
@@ -583,14 +583,14 @@ task_print = function(self) {
   if (length(roles$order)) {
     catf(str_indent("* Order by:", roles$order))
   }
-  if ("stratify" %in% self$properties) {
-    catf(str_indent("* Stratification:", roles$stratify))
+  if ("strata" %in% self$properties) {
+    catf(str_indent("* Strata:", roles$stratum))
   }
   if ("groups" %in% self$properties) {
-    catf(str_indent("* Groups:", roles$groups))
+    catf(str_indent("* Groups:", roles$group))
   }
   if ("weights" %in% self$properties) {
-    catf(str_indent("* Weights:", roles$weights))
+    catf(str_indent("* Weights:", roles$weight))
   }
 }
 

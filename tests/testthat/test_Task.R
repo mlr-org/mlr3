@@ -154,12 +154,12 @@ test_that("rename works", {
 
 test_that("stratify works", {
   task = tsk("iris")
-  expect_false("stratify" %in% task$properties)
-  expect_null(task$stratify)
+  expect_false("strata" %in% task$properties)
+  expect_null(task$strata)
 
-  task$col_roles$stratify = task$target_names
-  expect_true("stratify" %in% task$properties)
-  tab = task$stratify
+  task$col_roles$stratum = task$target_names
+  expect_true("strata" %in% task$properties)
+  tab = task$strata
   expect_data_table(tab, ncols = 2, nrows = 3)
   expect_list(tab$row_id, "integer")
 })
@@ -174,23 +174,23 @@ test_that("groups/weights work", {
   expect_null(task$groups)
   expect_null(task$weights)
 
-  task$col_roles$weights = "w"
+  task$col_roles$weight = "w"
   expect_subset("weights", task$properties)
   expect_data_table(task$weights, ncols = 2, nrows = 15)
   expect_numeric(task$weights$weight, any.missing = FALSE)
 
-  task$col_roles$weights = character()
+  task$col_roles$weight = character()
   expect_true("weights" %nin% task$properties)
 
-  task$col_roles$groups = "g"
+  task$col_roles$group = "g"
   expect_subset("groups", task$properties)
   expect_data_table(task$groups, ncols = 2, nrows = 15)
   expect_subset(task$groups$group, c("a", "b"))
 
-  task$col_roles$groups = character()
+  task$col_roles$group = character()
   expect_true("groups" %nin% task$properties)
 
-  expect_error({task$col_roles$weights = c("w", "g")}, "up to one")
+  expect_error({task$col_roles$weight = c("w", "g")}, "up to one")
 })
 
 test_that("ordered factors (#95)", {

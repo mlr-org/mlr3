@@ -74,10 +74,10 @@
 #'
 #' @section Stratification:
 #' All derived classes support stratified sampling.
-#' The stratification variables are assumed to be discrete and must be stored in the [Task] with column role `"stratify"`.
+#' The stratification variables are assumed to be discrete and must be stored in the [Task] with column role `"stratum"`.
 #' In case of multiple stratification variables, each combination of the values of the stratification variables forms a strata.
 #'
-#' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. `task$stratify`.
+#' First, the observations are divided into subpopulations based one or multiple stratification variables (assumed to be discrete), c.f. `task$strata`.
 #'
 #'
 #' Second, the sampling is performed in each of the `k` subpopulations separately.
@@ -89,7 +89,7 @@
 #'
 #' @section Grouping / Blocking:
 #' All derived classes support grouping of observations.
-#' The grouping variable is assumed to be discrete and must be stored in the [Task] with column role `"groups"`.
+#' The grouping variable is assumed to be discrete and must be stored in the [Task] with column role `"group"`.
 #'
 #' Observations in the same group are treated like a "block" of observations which must be kept together.
 #' These observations either all go together into the training set or together into the test set.
@@ -127,7 +127,7 @@
 #' # Stratification
 #' task = tsk("pima")
 #' prop.table(table(task$truth())) # moderately unbalanced
-#' task$col_roles$stratify = task$target_names
+#' task$col_roles$stratum = task$target_names
 #'
 #' r = rsmp("subsampling")
 #' r$instantiate(task)
@@ -161,10 +161,10 @@ Resampling = R6Class("Resampling",
 
     instantiate = function(task) {
       task = assert_task(as_task(task))
-      stratify = task$stratify
+      strata = task$strata
       groups = task$groups
 
-      if (is.null(stratify)) {
+      if (is.null(strata)) {
         if (is.null(groups)) {
           instance = private$.sample(task$row_ids)
         } else {
@@ -175,7 +175,7 @@ Resampling = R6Class("Resampling",
         if (!is.null(groups)) {
           stopf("Cannot combine stratification with grouping")
         }
-        instance = private$.combine(lapply(stratify$row_id, private$.sample))
+        instance = private$.combine(lapply(strata$row_id, private$.sample))
       }
 
       self$instance = instance

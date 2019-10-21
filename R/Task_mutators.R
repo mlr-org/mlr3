@@ -41,18 +41,19 @@ task_set_col_role = function(self, private, cols, new_roles, exclusive = TRUE) {
     stopf("Supervised tasks need a target column")
   }
 
-  for (role in c("groups", "weights")) {
+  for (role in c("group", "weight")) {
     if (length(col_roles[[role]]) > 1L)
       stopf("Multiple columns with role '%s' not supported", role)
   }
 
-  # update weights and groups property
-  for (role in c("stratify", "groups", "weights")) {
-    n = length(col_roles[[role]])
+  role = c("stratum", "group", "weight")
+  property = c("strata", "groups", "weights")
+  for (i in seq_along(role)) {
+    n = length(col_roles[[role[i]]])
     if (n == 0L) {
-      private$.properties = setdiff(private$.properties, role)
+      private$.properties = setdiff(private$.properties, property[i])
     } else if (n == 1L) {
-      private$.properties = union(private$.properties, role)
+      private$.properties = union(private$.properties, property[i])
     }
   }
 
@@ -60,11 +61,11 @@ task_set_col_role = function(self, private, cols, new_roles, exclusive = TRUE) {
 }
 
 task_set_col_roles = function(self, private, roles) {
-    if (length(roles$groups) > 1L) {
+    if (length(roles$group) > 1L) {
       stopf("There may only be up to one group column")
     }
-    if (length(roles$weights) > 1L) {
-      stopf("There may only be up to one weights column")
+    if (length(roles$weight) > 1L) {
+      stopf("There may only be up to one weight column")
     }
     if (inherits(self, "TaskSupervised") && length(roles$target) == 0L) {
       stopf("Supervised tasks need at least one target column")

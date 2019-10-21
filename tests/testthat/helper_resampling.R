@@ -1,7 +1,7 @@
 expect_grouping_works = function(r) {
   data = insert_named(as.data.table(iris), list(grp = rep_len(letters[1:10], 150)))
   task = TaskClassif$new("iris-grp", as_data_backend(data), target = "Species")
-  task$col_roles$groups = "grp"
+  task$col_roles$group = "grp"
 
   r$instantiate(task)
   for (i in seq_len(r$iters)) {
