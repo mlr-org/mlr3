@@ -3,7 +3,6 @@ doc
 # History files
 .Rhistory
 .Rapp.history
-
 # Session Data files
 .RData
 # Example code in package build process
@@ -26,3 +25,4 @@ inst/doc
 .DS_Store
 .Rproj.user
 revdep
+.pre-commit-config.yaml
