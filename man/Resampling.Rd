@@ -90,7 +90,7 @@ The merged sets can be accessed via \code{$train_set(i)} and \code{$test_set(i)}
 \section{Grouping / Blocking}{
 
 All derived classes support grouping of observations.
-The grouping variable is assumed to be discrete and must be stored in the \link{Task} with column role \code{"groups"}.
+The grouping variable is assumed to be discrete and must be stored in the \link{Task} with column role \code{"group"}.
 
 Observations in the same group are treated like a "block" of observations which must be kept together.
 These observations either all go together into the training set or together into the test set.
