@@ -3,13 +3,16 @@ url: https://mlr3.mlr-org.com
 template:
   package: mlr3pkgdowntemplate
   params:
-    bootswatch: cosmo
+    bootswatch: journal
+  default_assets: false
 
 development:
-  mode: unreleased
-  destination: devel
+  destination: dev
   version_label: default
-  version_tooltip: "Github version"
+  version_tooltip: "Development version"
+
+home:
+  strip_header: true
 
 toc:
   depth: 3
