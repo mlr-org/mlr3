@@ -89,3 +89,4 @@ reference:
       - mlr_coercions
       - mlr_reflections
       - mlr_sugar
+      - predict.Learner

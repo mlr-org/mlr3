@@ -159,6 +159,7 @@ Collate:
     'helper.R'
     'mlr_coercions.R'
     'mlr_sugar.R'
+    'predict.R'
     'reexports.R'
     'resample.R'
     'worker.R'
