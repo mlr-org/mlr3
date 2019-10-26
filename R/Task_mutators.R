@@ -174,7 +174,7 @@ task_rbind = function(self, data) {
   vunion = function(x, y) Map(union, x, y)
   i.levels = NULL
   self$col_info = self$col_info[ci[, c("id", "levels"), with = FALSE], on = "id", nomatch = 0L]
-  self$col_info[type %in% c("factor", "ordered", "character"), "levels" := list(vunion(levels, i.levels))]
+  self$col_info[get("type") %in% c("factor", "ordered", "character"), "levels" := list(vunion(levels, i.levels))]
   self$col_info[, "i.levels" := NULL]
 
   invisible(self)

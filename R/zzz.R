@@ -11,8 +11,8 @@
 dummy_import = function() {
   # nocov start
   # this function is required to silence R CMD check
-  Metrics::ce
   mlbench::mlbench.xor
+  mlr3measures::mse
 } # nocov end
 
 

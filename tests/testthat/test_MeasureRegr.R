@@ -1,9 +1,9 @@
 context("MeasureRegr")
 
 test_that("Regression measures", {
-  keys = mlr_measures$keys()
+  keys = setdiff(mlr_measures$keys(), "oob_error")
   task = tsk("boston_housing")
-  learner = lrn("regr.featureless")
+  learner = lrn("regr.rpart")
   learner$train(task)
   p = learner$predict(task)
 
@@ -11,7 +11,7 @@ test_that("Regression measures", {
     m = mlr_measures$get(key)
     if (is.na(m$task_type) || m$task_type == "regr") {
       perf = m$score(prediction = p, task = task, learner = learner)
-      expect_number(perf, na.ok = "na_score" %in% m$properties, lower = m$range[1], upper = m$range[2])
+      expect_number(perf, na.ok = FALSE, lower = m$range[1], upper = m$range[2])
     }
   }
 })
