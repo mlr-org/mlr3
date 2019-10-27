@@ -5,8 +5,8 @@
   `Task$row_roles` directly.
 * `Learner$predict_newdata()` now works without argument `task` if the learner
   has been fitted with `Learner$train()` (#375).
-* Column role `"label"` has been renamed to column role `"name"` to avoid
-  confusion with the target column.
+* Names of column roles have been unified (affected are `"weights"`, `"label"`,
+  `"stratify"`, and `"groups"`.
 * Replaced `MeasureClassifF1` with `MeasureClassifFScore` and fixed a bug in the
   F1 performance calculation (#353). Thanks to @001ben for reporting.
 * Stratification is now controlled via a task column role (was a parameter of
