@@ -11,6 +11,9 @@
   F1 performance calculation (#353). Thanks to @001ben for reporting.
 * Stratification is now controlled via a task column role (was a parameter of
   class `Resampling` before).
+* Added a S3 `predict()` method for class `Learner` to increase
+  interoperability with other packages.
+* Many objects now come with a `$help()` which opens the respective manual page.
 
 
 # mlr3 0.1.3
