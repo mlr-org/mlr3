@@ -1,16 +1,19 @@
 # mlr3 0.1.4
 
 * `Task$set_col_roles()` and `Task$set_row_roles()` are now deprecated.
-  Instead it is recommended to work with the lists `Task$col_roles` and
+  Instead it is recommended for now to work with the lists `Task$col_roles` and
   `Task$row_roles` directly.
 * `Learner$predict_newdata()` now works without argument `task` if the learner
   has been fitted with `Learner$train()` (#375).
-* Names of column roles have been unified (affected are `"weights"`, `"label"`,
-  `"stratify"`, and `"groups"`.
+* Names of column roles have been unified (`"weights"`, `"label"`,
+  `"stratify"` and `"groups"` have been renamed).
 * Replaced `MeasureClassifF1` with `MeasureClassifFScore` and fixed a bug in the
   F1 performance calculation (#353). Thanks to @001ben for reporting.
 * Stratification is now controlled via a task column role (was a parameter of
-  `Resampling` before).
+  class `Resampling` before).
+* Added a S3 `predict()` method for class `Learner` to increase
+  interoperability with other packages.
+* Many objects now come with a `$help()` which opens the respective manual page.
 
 
 # mlr3 0.1.3
