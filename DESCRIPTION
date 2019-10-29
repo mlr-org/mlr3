@@ -60,7 +60,7 @@ Imports:
     lgr (>= 0.3.0),
     mlbench,
     mlr3misc (>= 0.1.5),
-    mlr3measures (>= 0.1.1),
+    mlr3measures (>= 0.1.0),
     paradox,
     uuid,
     R6
