@@ -207,7 +207,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
 #'
 #' Details about the implementation of the respective measures can be found on the corresponding
 #' help page in \CRANpkg{mlr3measures}.
-#' It is possible to adjust the value of each measure which is returned if the measure
+#' It is possible to customize the value of each measure which is returned if the measure
 #' is not defined for the input by setting the public field `na_value` to an arbitrary `numeric(1)` (default is `NaN`).
 #'
 #' @template seealso_measure
@@ -237,6 +237,7 @@ local({
     "fn", "fp", "fdr", "fomr", "fnr", "mcc", "logloss", "pbias",
     "maxae", "rmse", "mape", "smape", "rrse", "npv", "acc", "bias",
     "maxse", "rae", "ktau", "mae", "rmsle", "srho")
+  stopifnot(all(.measures %in% names(mlr3measures::measures)))
 
   for (x in mget(.measures, envir = mlr3measures::measures)) {
     switch(x$type,

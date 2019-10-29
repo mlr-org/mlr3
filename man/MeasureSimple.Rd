@@ -109,7 +109,7 @@ Regression (inheriting from \link{MeasureRegr}):
 
 Details about the implementation of the respective measures can be found on the corresponding
 help page in \CRANpkg{mlr3measures}.
-It is possible to adjust the value of each measure which is returned if the measure
+It is possible to customize the value of each measure which is returned if the measure
 is not defined for the input by setting the public field \code{na_value} to an arbitrary \code{numeric(1)} (default is \code{NaN}).
 }
 \section{Construction}{
