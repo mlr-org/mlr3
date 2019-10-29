@@ -120,7 +120,6 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
 #' @export
 as_data_backend.data.frame = function(data, primary_key = NULL, ...) {
-
   assert_data_frame(data, min.cols = 1L)
 
   if (!is.null(primary_key)) {
@@ -132,6 +131,9 @@ as_data_backend.data.frame = function(data, primary_key = NULL, ...) {
 
   rn = attr(data, "row.names")
   if (is.character(rn)) {
+    if (all(grepl("^[0-9]+$", rn))) {
+      warningf("Using character row ids although the rownames of 'data' looks like integers")
+    }
     data = insert_named(as.data.table(data), list("..row_id" = make.unique(rn)))
     return(DataBackendDataTable$new(data, primary_key = "..row_id"))
   }
