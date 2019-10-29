@@ -12,8 +12,6 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 [![cran checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
 
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
-[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/mlr3)](https://cran.rstudio.com/web/packages/mlr3/index.html)
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Dependencies](https://tinyverse.netlify.com/badge/mlr3)](https://cran.r-project.org/package=mlr3)
