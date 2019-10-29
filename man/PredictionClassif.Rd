@@ -38,7 +38,7 @@ Numeric matrix of posterior class probabilities with one column for each class
 and one row for each observation in the test set.
 Columns must be named with class labels, row names are automatically removed.
 If \code{prob} is provided, but \code{response} is not, the class labels are calculated from
-the probabilities using \code{\link[mlr3misc:which_max]{mlr3misc::which_max()}} with \code{ties_method} set to \code{"random"}.
+the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method} set to \code{"random"}.
 }
 }
 
