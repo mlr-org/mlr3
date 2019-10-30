@@ -96,19 +96,21 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [13:33:15.014] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [13:33:15.039] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [13:33:15.057] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [22:03:10.192] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [22:03:10.247] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [22:03:10.274] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
 ```
 
     ##             task task_id               learner    learner_id
+    ##           <list>  <char>                <list>        <char>
     ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
     ##        resampling resampling_id iteration prediction classif.acc
+    ##            <list>        <char>     <int>     <list>       <num>
     ## 1: <ResamplingCV>            cv         1     <list>        0.92
     ## 2: <ResamplingCV>            cv         2     <list>        0.92
     ## 3: <ResamplingCV>            cv         3     <list>        0.94
@@ -176,9 +178,8 @@ would result in non-trivial API changes.
         string identifiers. No recursive dependencies.
       - [`lgr`](https://cran.r-project.org/package=lgr): Logging
         facility. No extra recursive dependencies.
-      - [`Metrics`](https://cran.r-project.org/package=Metrics): Package
-        which implements performance measures. No recursive
-        dependencies.
+      - [`mlr3measures`](https://cran.r-project.org/package=mlr3measures):
+        Performance measures. No extra recursive dependencies.
       - [`mlbench`](https://cran.r-project.org/package=mlbench): A
         collection of machine learning data sets. No dependencies.
   - [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
