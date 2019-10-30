@@ -33,7 +33,7 @@ MeasureRegr = R6Class("MeasureRegr", inherit = Measure, cloneable = FALSE,
       predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
       super$initialize(id, task_type = "regr", range = range, minimize = minimize, aggregator = aggregator,
         properties = properties, predict_type = predict_type, predict_sets = predict_sets,
-        task_properties = task_properties, packages = packages)
+        task_properties = task_properties, packages = packages, man = man)
     }
   )
 )

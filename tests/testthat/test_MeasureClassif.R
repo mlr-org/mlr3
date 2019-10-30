@@ -1,9 +1,9 @@
 context("MeasureClassif")
 
 test_that("Classification measures", {
-  keys = mlr_measures$keys()
+  keys = setdiff(mlr_measures$keys(), "oob_error")
   task = tsk("sonar")
-  learner = lrn("classif.featureless", predict_type = "prob")
+  learner = lrn("classif.rpart", predict_type = "prob")
   learner$train(task)
   p = learner$predict(task)
 
@@ -16,7 +16,7 @@ test_that("Classification measures", {
         m$costs = costs
       }
       perf = m$score(prediction = p, task = task, learner = learner)
-      expect_number(perf, na.ok = "na_score" %in% m$properties, lower = m$range[1], upper = m$range[2])
+      expect_number(perf, na.ok = FALSE, lower = m$range[1], upper = m$range[2])
     }
   }
 })
