@@ -58,9 +58,9 @@ Imports:
     data.table,
     digest,
     lgr (>= 0.3.0),
-    Metrics,
     mlbench,
     mlr3misc (>= 0.1.5),
+    mlr3measures (>= 0.1.0),
     paradox,
     uuid,
     R6
@@ -103,20 +103,13 @@ Collate:
     'Measure.R'
     'MeasureClassif.R'
     'mlr_measures.R'
-    'MeasureClassifACC.R'
-    'MeasureClassifAUC.R'
-    'MeasureClassifCE.R'
-    'MeasureClassifConfusion.R'
     'MeasureClassifCosts.R'
-    'MeasureClassifFScore.R'
     'MeasureDebug.R'
     'MeasureElapsedTime.R'
     'MeasureOOBError.R'
     'MeasureRegr.R'
-    'MeasureRegrMAE.R'
-    'MeasureRegrMSE.R'
-    'MeasureRegrRMSE.R'
     'MeasureSelectedFeatures.R'
+    'MeasureSimple.R'
     'Prediction.R'
     'PredictionClassif.R'
     'PredictionRegr.R'

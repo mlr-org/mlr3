@@ -121,9 +121,9 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - [`lgr`](https://cran.r-project.org/package=lgr):
       Logging facility.
       No extra recursive dependencies.
-    - [`Metrics`](https://cran.r-project.org/package=Metrics):
-      Package which implements performance measures.
-      No recursive dependencies.
+    - [`mlr3measures`](https://cran.r-project.org/package=mlr3measures):
+      Performance measures.
+      No extra recursive dependencies.
     - [`mlbench`](https://cran.r-project.org/package=mlbench):
       A collection of machine learning data sets.
       No dependencies.
