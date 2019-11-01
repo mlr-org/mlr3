@@ -230,9 +230,15 @@ run_experiment = function(task, learner) {
   if (!isTRUE(msg))
     return(err(msg))
 
-  msg = checkmate::check_subset(learner$predict_type, prediction$predict_types, empty.ok = FALSE)
-  if (!isTRUE(msg))
-    return(err(msg))
+  if(learner$predict_type == "response"){
+    msg = checkmate::check_set_equal(learner$predict_type, prediction$predict_types)
+    if (!isTRUE(msg))
+      return(err(msg))
+  } else {
+    msg = checkmate::check_subset(learner$predict_type, prediction$predict_types, empty.ok = FALSE)
+    if (!isTRUE(msg))
+      return(err(msg))
+  }
 
   stage = "score()"
   score = try(prediction$score(mlr3::default_measures(learner$task_type)), silent = TRUE)
