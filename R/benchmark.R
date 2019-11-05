@@ -95,7 +95,7 @@ benchmark = function(design, store_models = FALSE) {
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learner, resampling) {
     # we do not need to clone the learner here because we clone it before training
-    assert_learner(as_learner(learner), task = task, properties = task$properties)
+    learner = assert_learner(as_learner(learner), task = task, properties = task$properties)
     data.table(
       task = list(task), learner = list(learner), resampling = list(resampling),
       iteration = seq_len(resampling$iters), uhash = UUIDgenerate()

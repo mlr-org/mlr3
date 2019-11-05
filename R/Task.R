@@ -412,7 +412,7 @@ Task = R6Class("Task",
     properties = function(rhs) {
       if (missing(rhs)) {
         col_roles = private$.col_roles
-        c(
+        c(character(),
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
