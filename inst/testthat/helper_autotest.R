@@ -191,8 +191,9 @@ run_experiment = function(task, learner) {
     )
   }
 
-  mlr3::assert_task(task)
-  learner = mlr3::assert_learner(mlr3::as_learner(learner, clone = TRUE), task = task)
+  task = mlr3::assert_task(mlr3::as_task(task))
+  learner = mlr3::assert_learner(mlr3::as_learner(learner, clone = TRUE))
+  mlr3::assert_learnable(task, learner)
   prediction = NULL
   score = NULL
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")

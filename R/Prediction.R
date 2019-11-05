@@ -26,6 +26,9 @@
 #' * `task_type` :: `character(1)`\cr
 #'    Stores the type of the [Task].
 #'
+#' * `task_properties` :: `character()`\cr
+#'    Stores properties of the [Task].
+#'
 #' * `predict_types` :: `character()`\cr
 #'   Vector of predict types this object stores.
 #'
@@ -60,6 +63,7 @@ Prediction = R6Class("Prediction",
   public = list(
     data = list(),
     task_type = NULL,
+    task_properties = NULL,
     predict_types = character(),
 
     help = function() {

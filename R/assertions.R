@@ -2,7 +2,14 @@
 #'
 #' @description
 #' Functions intended to be used in packages extending \pkg{mlr3}.
-#' All functions assert on the respective class, and optionally additional properties.
+#' Most functions assert on the respective class, and optionally additional properties.
+#' Additionally, the following compound assertions are implemented:
+#'
+#' * assert_learnable(task, learner)\cr
+#'   ([Task], [Learner]) -> NULL\cr
+#'   Checks if the learner is applicable to the task.
+#'   This includes type checks on the type, the feature types, and properties.
+#'
 #' If an assertion fails, an exception is raised.
 #' Otherwise, the input object is returned invisibly.
 #'
@@ -66,10 +73,7 @@ assert_learner = function(learner, task = NULL, properties = character(), .var.n
   assert_class(learner, "Learner", .var.name = .var.name)
 
   if (!is.null(task)) {
-    if (!identical(task$task_type, learner$task_type)) {
-      stopf("Learner '%s' is not compatible with type '%s' of task '%s'",
-        learner$id, task$task_type, task$id)
-    }
+    assert_learnable(task, learner)
   }
 
   if (length(properties)) {
@@ -90,6 +94,24 @@ assert_learners = function(learners, task = NULL, properties = character(), .var
   invisible(lapply(learners, assert_learner, task = task, properties = properties, .var.name = .var.name))
 }
 
+#' @export
+#' @rdname mlr_assertions
+assert_learnable = function(task, learner) {
+  if (task$task_type != learner$task_type) {
+    stopf("Type '%s' of %s does not match type '%s' of %s",
+      task$type, task$format(), learner$type, learner$format())
+  }
+
+  tmp = setdiff(task$feature_types$type, learner$feature_types)
+  if (length(tmp)) {
+    stopf("%s has the following unsupported feature types: %s", task$format(), str_collapse(tmp))
+  }
+
+  tmp = setdiff(task$properties, learner$properties)
+  if (length(tmp)) {
+    stopf("%s is missing the following properties for %s: %s", learner$format(), task$format(), str_collapse(tmp))
+  }
+}
 
 #' @export
 #' @param measure :: [Measure].
@@ -141,7 +163,6 @@ assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vn
     stopf("Measures need to have unique IDs")
   invisible(measures)
 }
-
 
 #' @export
 #' @param resampling :: [Resampling].

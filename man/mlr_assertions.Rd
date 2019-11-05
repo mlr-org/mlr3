@@ -7,6 +7,7 @@
 \alias{assert_tasks}
 \alias{assert_learner}
 \alias{assert_learners}
+\alias{assert_learnable}
 \alias{assert_measure}
 \alias{assert_measures}
 \alias{assert_resampling}
@@ -30,6 +31,8 @@ assert_learner(learner, task = NULL, properties = character(),
 
 assert_learners(learners, task = NULL, properties = character(),
   .var.name = vname(learners))
+
+assert_learnable(task, learner)
 
 assert_measure(measure, task = NULL, learner = NULL,
   .var.name = vname(measure))
@@ -86,7 +89,18 @@ Set of required task properties.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
-All functions assert on the respective class, and optionally additional properties.
+Most functions assert on the respective class, and optionally additional properties.
+Additionally, the following compound assertions are implemented:
+\itemize{
+\item assert_learnable(task, learner)\cr
+(\link{Task}, \link{Learner}) -> NULL
+Checks if the learner is applicable to the task.
+This includes type checks on the type, the feature types, and properties.
+\item assert_measurable(prediction, measure)\cr
+(\link{Prediction}, \link{Measure}) -> NULL
+Checks if the measure is applicable to the prediction.
+}
+
 If an assertion fails, an exception is raised.
 Otherwise, the input object is returned invisibly.
 }

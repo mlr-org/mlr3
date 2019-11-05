@@ -27,7 +27,7 @@
 #' @export
 #' @examples
 #' task = tsk("wine")
-#' learner = lrn("classif.featureless", predict_sets = "test")
+#' learner = lrn("classif.featureless")
 #' measure = msr("debug")
 #' rr = resample(task, learner, rsmp("cv", folds = 3))
 #' rr$score(measure)
