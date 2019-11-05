@@ -279,7 +279,7 @@ Learner = R6Class("Learner",
         task = self$state$train_task$clone()
       } else {
         task = assert_task(as_task(task, clone = TRUE))
-        assert_learnable(task, learner)
+        assert_learnable(task, self)
         task = task_rm_data(task)
       }
 

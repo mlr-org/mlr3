@@ -219,7 +219,7 @@ test_that("extra factor levels are stored (#179)", {
 
 test_that("task$droplevels works", {
   dt = data.table(
-    x1 = letters[1:3],
+    x1 = factor(letters[1:3]),
     target = 1:3
   )
   task = TaskRegr$new("droplevels", as_data_backend(dt), "target")

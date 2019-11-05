@@ -31,6 +31,8 @@ Vector of row ids for which predictions are stored.
 True (observed) outcome.
 \item \code{task_type} :: \code{character(1)}\cr
 Stores the type of the \link{Task}.
+\item \code{task_properties} :: \code{character()}\cr
+Stores properties of the \link{Task}.
 \item \code{predict_types} :: \code{character()}\cr
 Vector of predict types this object stores.
 \item \code{missing} :: \code{logical()}\cr

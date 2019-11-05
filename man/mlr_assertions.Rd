@@ -93,12 +93,9 @@ Most functions assert on the respective class, and optionally additional propert
 Additionally, the following compound assertions are implemented:
 \itemize{
 \item assert_learnable(task, learner)\cr
-(\link{Task}, \link{Learner}) -> NULL
+(\link{Task}, \link{Learner}) -> NULL\cr
 Checks if the learner is applicable to the task.
 This includes type checks on the type, the feature types, and properties.
-\item assert_measurable(prediction, measure)\cr
-(\link{Prediction}, \link{Measure}) -> NULL
-Checks if the measure is applicable to the prediction.
 }
 
 If an assertion fails, an exception is raised.

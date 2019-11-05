@@ -43,7 +43,7 @@ Table with with 3 columns:
 \itemize{
 \item \code{"id"} stores the name of the column.
 \item \code{"type"} holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
-\item \code{"levels"} stores a vector of distinct values (levels) for factor and character variables.
+\item \code{"levels"} stores a vector of distinct values (levels) for factor variables.
 }
 \item \code{col_roles} :: named \code{list()}\cr
 Each column (feature) can have an arbitrary number of the following roles:
@@ -126,7 +126,7 @@ String in the format \code{[pkg]::[topic]} pointing to a manual page for this ob
 
 \itemize{
 \item \code{data(rows = NULL, cols = NULL, data_format = NULL)}\cr
-(\code{integer()} | \code{character()}, \code{character(1)}, \code{character(1)}) -> \code{any}\cr
+(\code{integer()} | \code{character()}, \code{character()}, \code{character(1)}) -> \code{any}\cr
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}
 (depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.table]{data.table::data.table()}}).
 
@@ -139,7 +139,7 @@ Constructs a \code{\link[stats:formula]{stats::formula()}}, e.g. \code{[target] 
 the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
 \item \code{levels(cols = NULL)}\cr
 \code{character()} -> named \code{list()}\cr
-Returns the distinct values for columns referenced in \code{cols} with storage type "character", "factor" or "ordered".
+Returns the distinct values for columns referenced in \code{cols} with storage type "factor" or "ordered".
 Argument \code{cols} defaults to all such columns with role \code{"target"} or \code{"feature"}.
 
 Note that this function ignores the row roles, it returns all levels available in the \link{DataBackend}.
@@ -147,7 +147,7 @@ To update the stored level information, e.g. after filtering a task, call \code{
 \item \code{droplevels(cols = NULL)}\cr
 \code{character()} -> \code{self}\cr
 Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
-\code{cols} defaults to all columns with storage type "character", "factor", or "ordered".
+\code{cols} defaults to all columns with storage type "factor" or "ordered".
 \item \code{missings(cols = NULL)}\cr
 \code{character()} -> named \code{integer()}\cr
 Returns the number of missing observations for columns referenced in \code{cols}.

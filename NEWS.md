@@ -1,5 +1,7 @@
 # mlr3 0.1.5
 
+* Character columns are now treated different from factor columns.
+  In the long term, these are supposed to store text.
 * Fixed a bug triggered by integer grouping variables in `Task` (#396).
 
 # mlr3 0.1.4

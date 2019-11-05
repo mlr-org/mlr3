@@ -37,7 +37,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       super$initialize(
         id = "classif.rpart",
         packages = "rpart",
-        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        feature_types = c("logical", "integer", "numeric", "factor", "ordered"),
         predict_types = c("response", "prob"),
         param_set = ps,
         properties = c("twoclass", "multiclass", "weights", "missings", "importance", "selected_features"),
