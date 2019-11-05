@@ -1,3 +1,7 @@
+# mlr3 0.1.5
+
+* Fixed a bug triggered by integer grouping variables in `Task` (#396).
+
 # mlr3 0.1.4
 
 * `Task$set_col_roles()` and `Task$set_row_roles()` are now deprecated.
