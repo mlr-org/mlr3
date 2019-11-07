@@ -45,7 +45,9 @@ The instance can be in any arbitrary format.
 \item \code{is_instantiated} :: \code{logical(1)}\cr
 Is \code{TRUE}, if the resampling has been instantiated.
 \item \code{task_hash} :: \code{character(1)}\cr
-The hash of the task which was passed to \code{r$instantiate()}.
+The hash of the \link{Task} which was passed to \code{r$instantiate()}.
+\item \code{task_nrow} :: \code{integer(1)}\cr
+The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.
 \item \code{hash} :: \code{character(1)}\cr
 Hash (unique identifier) for this object.
 

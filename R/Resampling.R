@@ -47,7 +47,10 @@
 #'   Is `TRUE`, if the resampling has been instantiated.
 #'
 #' * `task_hash` :: `character(1)`\cr
-#'   The hash of the task which was passed to `r$instantiate()`.
+#'   The hash of the [Task] which was passed to `r$instantiate()`.
+#'
+#' * `task_nrow` :: `integer(1)`\cr
+#'   The number of observations of the [Task] which was passed to `r$instantiate()`.
 #'
 #' * `hash` :: `character(1)`\cr
 #'   Hash (unique identifier) for this object.
@@ -138,6 +141,7 @@ Resampling = R6Class("Resampling",
     param_set = NULL,
     instance = NULL,
     task_hash = NA_character_,
+    task_nrow = NA_integer_,
     duplicated_ids = NULL,
     man = NULL,
 
@@ -180,6 +184,7 @@ Resampling = R6Class("Resampling",
 
       self$instance = instance
       self$task_hash = task$hash
+      self$task_nrow = task$nrow
       invisible(self)
     },
 

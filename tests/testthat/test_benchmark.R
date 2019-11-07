@@ -211,3 +211,15 @@ test_that("rr_info", {
   tab = bmr$aggregate()
   expect_equal(tab$source, c(rep("old", 4), "new"))
 })
+
+test_that("benchmark_grid", {
+  learner = lrn("classif.rpart")
+
+  tasks = tsks(c("iris", "iris"))
+  resamp = rsmp("cv")$instantiate(tasks[[1]])
+  expect_data_table(benchmark_grid(tasks, learner, resamp))
+
+  tasks = tsks(c("iris", "sonar"))
+  resamp = rsmp("cv")$instantiate(tasks[[1]])
+  expect_error(benchmark_grid(tasks, learner, resamp), "rows")
+})

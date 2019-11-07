@@ -21,6 +21,7 @@ Takes a lists of \link{Task}, a list of \link{Learner} and a list of \link{Resam
 generate a design in an \code{\link[=expand.grid]{expand.grid()}} fashion (a.k.a. cross join or Cartesian product).
 
 Resampling strategies are not allowed to be instantiated when passing the argument, and instead will be instantiated per task internally.
+The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.
 }
 \examples{
 tasks = list(tsk("iris"), tsk("sonar"))

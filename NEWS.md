@@ -3,6 +3,8 @@
 * Character columns are now treated different from factor columns.
   In the long term, these are supposed to store text.
 * Fixed a bug triggered by integer grouping variables in `Task` (#396).
+* `benchmark_grid()` now accepts instantiated resamplings under certain
+  conditions.
 
 # mlr3 0.1.4
 
