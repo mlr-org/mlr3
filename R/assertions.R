@@ -99,7 +99,7 @@ assert_learners = function(learners, task = NULL, properties = character(), .var
 assert_learnable = function(task, learner) {
   if (task$task_type != learner$task_type) {
     stopf("Type '%s' of %s does not match type '%s' of %s",
-      task$type, task$format(), learner$type, learner$format())
+      task$task_type, task$format(), learner$task_type, learner$format())
   }
 
   tmp = setdiff(task$feature_types$type, learner$feature_types)

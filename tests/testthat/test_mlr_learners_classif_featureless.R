@@ -32,3 +32,11 @@ test_that("Predict with prob", {
   expect_matrix(p$prob, nrows = 150L, ncols = 3L)
   expect_names(colnames(p$prob), permutation.of = levels(iris$Species))
 })
+
+test_that("classif.featureless works on featureless task", {
+  task = tsk("wine")$select(character())
+  learner = lrn("classif.featureless")
+  rr = resample(task, learner, rsmp("holdout"))
+  expect_resample_result(rr)
+  expect_number(rr$aggregate())
+})
