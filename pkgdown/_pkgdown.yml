@@ -11,25 +11,24 @@ development:
   version_label: default
   version_tooltip: "Development version"
 
-home:
-  strip_header: true
-
 toc:
   depth: 3
 
 navbar:
-  title:
-  type: default
-
-  right:
-  - icon: fa-github fa-lg
-    href: https://github.com/mlr-org/mlr3
-  - icon: fa-slack
-    href: https://mlr-org.slack.com
-  - icon: fa-stack-overflow
-    href: https://stackoverflow.com/questions/tagged/mlr3
-  - icon: fa-rss
-    href: https://mlr-org.com/
+  structure:
+    left:  [reference, news]
+    right: [github, slack, stackoverflow, rss]
+  components:
+    home: ~
+    slack:
+      icon: fab fa-slack
+      href: https://mlr-org.slack.com
+    stackoverflow:
+      icon: fab fa-stack-overflow
+      href: https://stackoverflow.com/questions/tagged/mlr
+    rss:
+      icon: fa-rss
+      href: https://mlr-org.com/
 
 reference:
   - title: Building Blocks
