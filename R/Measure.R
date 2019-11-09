@@ -186,8 +186,7 @@ Measure = R6Class("Measure",
         aggregator = self$aggregator %??% mean
         aggregator(measure_score_data(self, rr$data))
       } else { # "micro"
-        print("micro")
-        m$score(rr$prediction(self$predict_sets))
+        self$score(rr$prediction(self$predict_sets))
       }
     }
   ),
