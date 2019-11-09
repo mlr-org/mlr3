@@ -106,6 +106,7 @@ Measure = R6Class("Measure",
     task_type = NULL,
     predict_type = NULL,
     predict_sets = NULL,
+    average = NULL,
     aggregator = NULL,
     task_properties = NULL,
     range = NULL,
@@ -114,16 +115,15 @@ Measure = R6Class("Measure",
     packages = NULL,
     man = NULL,
 
-    initialize = function(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
+    initialize = function(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
 
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = task_type
       self$range = assert_range(range)
       self$minimize = assert_flag(minimize, na.ok = TRUE)
-      if (!is.null(aggregator)) {
-        self$aggregator = assert_function(aggregator)
-      }
+      self$average = assert_choice(average, c("macro", "micro"))
+      self$aggregator = assert_function(aggregator, null.ok = TRUE)
 
       if (!is_scalar_na(task_type)) {
         assert_choice(task_type, mlr_reflections$task_types$type)
@@ -182,8 +182,13 @@ Measure = R6Class("Measure",
     },
 
     aggregate = function(rr) {
-      aggregator = self$aggregator %??% mean
-      aggregator(measure_score_data(self, rr$data))
+      if (self$average == "macro") {
+        aggregator = self$aggregator %??% mean
+        aggregator(measure_score_data(self, rr$data))
+      } else { # "micro"
+        print("micro")
+        m$score(rr$prediction(self$predict_sets))
+      }
     }
   ),
 
