@@ -47,8 +47,8 @@ lrn("classif.featureless")
 \seealso{
 Example regression learners: \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}
 
-Other Learner: \code{\link{LearnerClassif}},
-  \code{\link{Learner}}, \code{\link{mlr_learners}}
+Other Learner: \code{\link{Learner}},
+  \code{\link{mlr_learners}}
 }
 \concept{Learner}
 \keyword{datasets}

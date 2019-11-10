@@ -181,8 +181,8 @@ Here, we add a hyperparameter with id \code{"foo"} possible levels \code{"a"} an
 }
 
 \seealso{
-Other Learner: \code{\link{LearnerClassif}},
-  \code{\link{LearnerRegr}}, \code{\link{mlr_learners}}
+Other Learner: \code{\link{LearnerRegr}},
+  \code{\link{mlr_learners}}
 }
 \concept{Learner}
 \keyword{datasets}

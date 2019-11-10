@@ -1,12 +1,6 @@
-#' @title Classification Learner
+#' Classification Learner
 #'
-#' @usage NULL
-#' @format [R6::R6Class] object inheriting from [Learner].
-#' @include Learner.R
-#'
-#' @description
 #' This Learner specializes [Learner] for classification problems.
-#'
 #' Many predefined learners can be found in the [mlr3misc::Dictionary] [mlr_learners] after loading the \CRANpkg{mlr3learners} package.
 #'
 #' @section Construction:
@@ -26,16 +20,6 @@
 #' * `"twoclass"`: The learner works on binary classification problems.
 #' * `"multiclass"`: The learner works on multiclass classification problems.
 #'
-#' @section Fields:
-#' See [Learner].
-#'
-#' @section Methods:
-#' See [Learner].
-#'
-#' @family Learner
-#' @seealso
-#' Example classification learners: [`classif.rpart`][mlr_learners_classif.rpart]
-#' @export
 #' @examples
 #' # get all classification learners from mlr_learners:
 #' lrns = mlr_learners$mget(mlr_learners$keys("^classif"))
