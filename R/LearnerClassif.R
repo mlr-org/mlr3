@@ -35,6 +35,8 @@
 #'
 #' # predict on new observations:
 #' lrn$predict(task, 121:150)$confusion
+#'
+#' @inherit Learner
 #' @export
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
