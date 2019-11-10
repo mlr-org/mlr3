@@ -3,6 +3,10 @@
 #' This Learner specializes [Learner] for classification problems.
 #' Many predefined learners can be found in the [mlr3misc::Dictionary] [mlr_learners] after loading the \CRANpkg{mlr3learners} package.
 #'
+#' @usage NULL
+#' @format [R6::R6Class] object inheriting from [Learner].
+#' @inherit Learner
+#'
 #' @section Construction:
 #' ```
 #' l = LearnerClassif$new(id, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
@@ -36,7 +40,9 @@
 #' # predict on new observations:
 #' lrn$predict(task, 121:150)$confusion
 #'
-#' @inherit Learner
+#' @seealso
+#' Example classification learners: [LearnerClassifRpart]
+#'
 #' @export
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(

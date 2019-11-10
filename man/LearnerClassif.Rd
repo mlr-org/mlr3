@@ -4,10 +4,7 @@
 \name{LearnerClassif}
 \alias{LearnerClassif}
 \title{Classification Learner}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
-\usage{
-LearnerClassif
-}
+\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Learner}.}
 \description{
 This Learner specializes \link{Learner} for classification problems.
 Many predefined learners can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_learners} after loading the \CRANpkg{mlr3learners} package.
@@ -168,7 +165,6 @@ lrn$predict(task, 121:150)$confusion
 
 }
 \seealso{
-Other Learner: \code{\link{LearnerRegr}},
-  \code{\link{mlr_learners}}
+Example classification learners: \link{LearnerClassifRpart}
 }
 \keyword{datasets}
