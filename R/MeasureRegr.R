@@ -10,7 +10,7 @@
 #'
 #' @section Construction:
 #' ```
-#' m = MeasureRegr$new(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
+#' m = MeasureRegr$new(id, range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
 #'     predict_sets = "test", task_properties = character(), packages = character())
 #' ```
 #' For a description of the arguments, see [Measure].
@@ -29,9 +29,9 @@
 #' @export
 MeasureRegr = R6Class("MeasureRegr", inherit = Measure, cloneable = FALSE,
   public = list(
-    initialize = function(id, range, minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
+    initialize = function(id, range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
-      super$initialize(id, task_type = "regr", range = range, minimize = minimize, aggregator = aggregator,
+      super$initialize(id, task_type = "regr", range = range, minimize = minimize, average = average, aggregator = aggregator,
         properties = properties, predict_type = predict_type, predict_sets = predict_sets,
         task_properties = task_properties, packages = packages, man = man)
     }

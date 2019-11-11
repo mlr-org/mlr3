@@ -106,11 +106,6 @@ assert_learnable = function(task, learner) {
   if (length(tmp)) {
     stopf("%s has the following unsupported feature types: %s", task$format(), str_collapse(tmp))
   }
-
-  tmp = setdiff(task$properties, learner$properties)
-  if (length(tmp)) {
-    stopf("%s is missing the following properties for %s: %s", learner$format(), task$format(), str_collapse(tmp))
-  }
 }
 
 #' @export
