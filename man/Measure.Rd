@@ -23,8 +23,9 @@ A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the
 }
 \section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
-    predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_)
+Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro",
+    aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
+    task_properties = character(), packages = character(), man = NA_character_)
 }
 \itemize{
 \item \code{id} :: \code{character(1)}\cr
@@ -38,6 +39,14 @@ Both bounds may be infinite.
 Set to \code{TRUE} if good predictions correspond to small values,
 and to \code{FALSE} if good predictions correspond to large values.
 If set to \code{NA} (default), tuning this measure is not possible.
+\item \code{average} :: \code{character(1)}\cr
+How to average multiple \link{Prediction}s from a \link{ResampleResult}.
+
+The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
+function defined in \code{aggregator} to average them to a single number.
+
+If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
+The function \code{aggregator} is not used in this case.
 \item \code{aggregator} :: \code{function(x)}\cr
 Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
 If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.

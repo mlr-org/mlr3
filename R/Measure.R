@@ -23,8 +23,9 @@
 #' Note: This object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
 #'
 #' ```
-#' m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
-#'     predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_)
+#' m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro",
+#'     aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
+#'     task_properties = character(), packages = character(), man = NA_character_)
 #' ```
 #'
 #' * `id` :: `character(1)`\cr
@@ -41,6 +42,15 @@
 #'   Set to `TRUE` if good predictions correspond to small values,
 #'   and to `FALSE` if good predictions correspond to large values.
 #'   If set to `NA` (default), tuning this measure is not possible.
+#'
+#' * `average` :: `character(1)`\cr
+#'   How to average multiple [Prediction]s from a [ResampleResult].
+#'
+#'   The default, `"macro"`, calculates the individual performances scores for each [Prediction] and then uses the
+#'   function defined in `aggregator` to average them to a single number.
+#'
+#'   If set to `"micro"`, the individual [Prediction] objects are first combined into a single new [Prediction] object which is then used to assess the performance.
+#'   The function `aggregator` is not used in this case.
 #'
 #' * `aggregator` :: `function(x)`\cr
 #'   Function to aggregate individual performance scores `x` where `x` is a numeric vector.
