@@ -91,8 +91,8 @@ TaskClassif = R6Class("TaskClassif",
       }
     },
 
-    truth = function(row_ids = NULL) {
-      truth = super$truth(row_ids)[[1L]]
+    truth = function(rows = NULL) {
+      truth = super$truth(rows)[[1L]]
       as_factor(truth, levels = self$class_names)
     }
   ),

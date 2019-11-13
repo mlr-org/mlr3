@@ -35,7 +35,7 @@ See \link{Task}.
 
 All methods from \link{Task}, and additionally:
 \itemize{
-\item \code{truth(row_ids = NULL)} :: \code{any}\cr
+\item \code{truth(rows = NULL)} :: \code{any}\cr
 True response for specified \code{row_ids}. Format depends on the task type.
 Defaults to all rows with role "use".
 }

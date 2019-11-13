@@ -57,8 +57,8 @@ TaskRegr = R6Class("TaskRegr",
       }
     },
 
-    truth = function(row_ids = NULL) {
-      super$truth(row_ids)[[1L]]
+    truth = function(rows = NULL) {
+      super$truth(rows)[[1L]]
     }
   )
 )

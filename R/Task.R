@@ -199,7 +199,7 @@
 #'   `data.frame()` -> `self`\cr
 #'   Adds additional columns to the [DataBackend].
 #'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
-#'   If this column is missing, it is assumed that the rows are exactly in the order of `t$row_ids`.
+#'   If this column is missing, it is assumed that the rows are exactly in the order of `t$ow_ids`.
 #'   In case of name clashes of column names in `data` and [DataBackend], columns in `data` have higher precedence
 #'   and virtually overwrite the columns in the [DataBackend].
 #'

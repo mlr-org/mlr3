@@ -33,7 +33,7 @@
 #' @section Methods:
 #' All methods from [Task], and additionally:
 #'
-#' * `truth(row_ids = NULL)` :: `any`\cr
+#' * `truth(rows = NULL)` :: `any`\cr
 #'   True response for specified `row_ids`. Format depends on the task type.
 #'   Defaults to all rows with role "use".
 #'
@@ -51,8 +51,8 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
       self$col_roles$feature = setdiff(self$col_roles$feature, target)
     },
 
-    truth = function(row_ids = NULL) {
-      self$data(row_ids, cols = self$target_names)
+    truth = function(rows = NULL) {
+      self$data(rows, cols = self$target_names)
     }
   )
 )
