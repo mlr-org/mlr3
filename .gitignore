@@ -26,3 +26,4 @@ inst/doc
 .Rproj.user
 revdep
 .pre-commit-config.yaml
+/README.html

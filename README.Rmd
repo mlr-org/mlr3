@@ -143,7 +143,7 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 ## Extension Packages
 
 
-<img src="man/figures/mlr3verse.svg" />
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/extension_image/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
 Consult the [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for short descriptions and links to the respective repositories.
 

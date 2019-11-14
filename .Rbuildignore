@@ -16,3 +16,4 @@
 mlr-ci
 .circleci
 ^paper$
+^README.html$

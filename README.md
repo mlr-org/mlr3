@@ -105,9 +105,9 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [22:53:14.771] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [22:53:14.795] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [22:53:14.810] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [23:00:14.912] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [23:00:14.938] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [23:00:14.952] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
@@ -205,7 +205,7 @@ would result in non-trivial API changes.
 
 ## Extension Packages
 
-<img src="man/figures/mlr3verse.svg" />
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/extension_image/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
 Consult the
 [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
