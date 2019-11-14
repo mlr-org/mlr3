@@ -143,9 +143,6 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 
 [mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all outreach activities related to _mlr_ and _mlr3_.
 
-mlr3 talk at useR! 2019 conference in Toulouse, France:
-
-[![Watch the video](https://img.youtube.com/vi/wsP2hiFnDQs/maxresdefault.jpg)](https://www.youtube.com/watch?v=wsP2hiFnDQs&feature=youtu.be)
 
 ## Contributing to mlr3
 This R package is licensed under the [LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html).

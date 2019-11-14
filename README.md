@@ -105,9 +105,9 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [14:51:51.535] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [14:51:51.547] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [14:51:51.559] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [14:53:20.306] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [14:53:20.331] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [14:53:20.347] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
@@ -207,11 +207,6 @@ would result in non-trivial API changes.
 
 [mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all
 outreach activities related to *mlr* and *mlr3*.
-
-mlr3 talk at useR\! 2019 conference in Toulouse, France:
-
-[![Watch the
-video](https://img.youtube.com/vi/wsP2hiFnDQs/maxresdefault.jpg)](https://www.youtube.com/watch?v=wsP2hiFnDQs&feature=youtu.be)
 
 ## Contributing to mlr3
 
