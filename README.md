@@ -18,8 +18,8 @@ Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.or
 
 ## Resources
 
-  - We *started* writing a [book manual](https://mlr3book.mlr-org.com/),
-    but it is still in early stages.
+  - We *started* writing a [book](https://mlr3book.mlr-org.com/), but it
+    is still in early stages.
   - [Reference Manual](https://mlr3.mlr-org.com/reference/)
   - [Extension
     packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
@@ -105,9 +105,9 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [14:53:20.306] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [14:53:20.331] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [14:53:20.347] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [14:57:52.727] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [14:57:52.754] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [14:57:52.771] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
@@ -203,7 +203,7 @@ would result in non-trivial API changes.
         [`evaluate`](https://cran.r-project.org/package=evaluate) and
         [`callr`](https://cran.r-project.org/package=callr) can be used.
 
-# Talks, Workshops, etc.
+## Talks, Workshops, etc.
 
 [mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all
 outreach activities related to *mlr* and *mlr3*.
