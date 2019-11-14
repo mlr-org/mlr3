@@ -23,8 +23,8 @@ Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.or
   - [Reference Manual](https://mlr3.mlr-org.com/reference/)
   - [Extension
     packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
-  - [useR\!2019
-    talks](https://github.com/mlr-org/mlr-outreach/tree/master/2019_useR)
+  - [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
+    talks and slides
   - [Blog](https://mlr-org.com/) about *mlr* and *mlr3*
   - [Wiki](https://github.com/mlr-org/mlr3/wiki)
 
@@ -105,9 +105,9 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [14:57:52.727] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [14:57:52.754] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [14:57:52.771] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [22:53:14.771] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [22:53:14.795] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [22:53:14.810] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
@@ -203,10 +203,13 @@ would result in non-trivial API changes.
         [`evaluate`](https://cran.r-project.org/package=evaluate) and
         [`callr`](https://cran.r-project.org/package=callr) can be used.
 
-## Talks, Workshops, etc.
+## Extension Packages
 
-[mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all
-outreach activities related to *mlr* and *mlr3*.
+<img src="man/figures/mlr3verse.svg" />
+
+Consult the
+[wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
+short descriptions and links to the respective repositories.
 
 ## Contributing to mlr3
 
