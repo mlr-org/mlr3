@@ -26,8 +26,17 @@ Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.or
   - [useR\!2019
     talks](https://github.com/mlr-org/mlr-outreach/tree/master/2019_useR)
   - [Blog](https://mlr-org.com/) about *mlr* and *mlr3*
+  - [Wiki](https://github.com/mlr-org/mlr3/wiki)
 
 ## Installation
+
+Install the last release from CRAN:
+
+``` r
+install.packages("mlr3")
+```
+
+Install the development version from GitHub:
 
 ``` r
 remotes::install_github("mlr-org/mlr3")
@@ -96,9 +105,9 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [22:03:10.192] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [22:03:10.247] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [22:03:10.274] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [14:51:51.535] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [14:51:51.547] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [14:51:51.559] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
@@ -203,3 +212,19 @@ mlr3 talk at useR\! 2019 conference in Toulouse, France:
 
 [![Watch the
 video](https://img.youtube.com/vi/wsP2hiFnDQs/maxresdefault.jpg)](https://www.youtube.com/watch?v=wsP2hiFnDQs&feature=youtu.be)
+
+## Contributing to mlr3
+
+This R package is licensed under the
+[LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html). If you
+encounter problems using this software (lack of documentation,
+misleading or wrong documentation, unexpected behaviour, bugs, …) or
+just want to suggest features, please open an issue in the [issue
+tracker](https://github.com/mlr-org/mlr3/issues). Pull requests are
+welcome and will be included at the discretion of the maintainers.
+
+Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a
+[style guide](https://github.com/mlr-org/mlr3/wiki/Style-Guide), a
+[roxygen guide](https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide) and
+a [pull request
+guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).

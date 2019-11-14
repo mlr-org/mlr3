@@ -23,9 +23,16 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 * [Extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
 * [useR!2019 talks](https://github.com/mlr-org/mlr-outreach/tree/master/2019_useR)
 * [Blog](https://mlr-org.com/) about _mlr_ and _mlr3_
+* [Wiki](https://github.com/mlr-org/mlr3/wiki)
 
 ## Installation
 
+Install the last release from CRAN:
+```{r, eval = FALSE}
+install.packages("mlr3")
+```
+
+Install the development version from GitHub:
 ```{r, eval = FALSE}
 remotes::install_github("mlr-org/mlr3")
 ```
@@ -139,3 +146,10 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 mlr3 talk at useR! 2019 conference in Toulouse, France:
 
 [![Watch the video](https://img.youtube.com/vi/wsP2hiFnDQs/maxresdefault.jpg)](https://www.youtube.com/watch?v=wsP2hiFnDQs&feature=youtu.be)
+
+## Contributing to mlr3
+This R package is licensed under the [LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html).
+If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behaviour, bugs, ...) or just want to suggest features, please open an issue in the [issue tracker](https://github.com/mlr-org/mlr3/issues).
+Pull requests are welcome and will be included at the discretion of the maintainers.
+
+Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a [style guide](https://github.com/mlr-org/mlr3/wiki/Style-Guide), a [roxygen guide](https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide) and a [pull request guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).
