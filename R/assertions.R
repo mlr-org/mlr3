@@ -22,7 +22,7 @@ NULL
 #' @param b :: [DataBackend].
 #' @rdname mlr_assertions
 assert_backend = function(b, .var.name = vname(b)) {
-  assert_class(b, "Backend", .var.name = .var.name)
+  assert_class(b, "DataBackend", .var.name = .var.name)
 }
 
 
