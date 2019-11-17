@@ -55,14 +55,17 @@ Example tasks: \code{\link[=mlr_tasks_iris]{iris}} (multi-class classification),
 
 Sugar function: \code{\link[=tsk]{tsk()}}
 
-Other Dictionary: \code{\link{mlr_learners}},
-  \code{\link{mlr_measures}},
-  \code{\link{mlr_resamplings}},
-  \code{\link{mlr_task_generators}}
+Other Dictionary: 
+\code{\link{mlr_learners}},
+\code{\link{mlr_measures}},
+\code{\link{mlr_resamplings}},
+\code{\link{mlr_task_generators}}
 
-Other Task: \code{\link{TaskClassif}},
-  \code{\link{TaskRegr}}, \code{\link{TaskSupervised}},
-  \code{\link{Task}}
+Other Task: 
+\code{\link{TaskClassif}},
+\code{\link{TaskRegr}},
+\code{\link{TaskSupervised}},
+\code{\link{Task}}
 }
 \concept{Dictionary}
 \concept{Task}

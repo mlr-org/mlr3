@@ -80,8 +80,8 @@ RdMacros: mlr3misc
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE, r6 = FALSE)
+RoxygenNote: 7.0.0
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'

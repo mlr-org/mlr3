@@ -15,7 +15,7 @@ New data to predict on.}
 
 \item{predict_type}{:: \code{character(1)}\cr
 The predict type to return.
-Set to \code{<Prediction>} to retrieve the complete \link{Prediction} object.
+Set to \verb{<Prediction>} to retrieve the complete \link{Prediction} object.
 If set to \code{NULL} (default), the first predict type for the respective class of the \link{Learner}
 as stored in \link{mlr_reflections} is used.}
 

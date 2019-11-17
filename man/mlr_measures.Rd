@@ -37,13 +37,16 @@ msr("regr.mse")
 Example measures: \code{\link[=mlr_measures_classif.auc]{classif.auc}}, \code{\link[=mlr_measures_time_train]{time_train}}
 Sugar function: \code{\link[=msr]{msr()}}
 
-Other Dictionary: \code{\link{mlr_learners}},
-  \code{\link{mlr_resamplings}},
-  \code{\link{mlr_task_generators}},
-  \code{\link{mlr_tasks}}
+Other Dictionary: 
+\code{\link{mlr_learners}},
+\code{\link{mlr_resamplings}},
+\code{\link{mlr_task_generators}},
+\code{\link{mlr_tasks}}
 
-Other Measure: \code{\link{MeasureClassif}},
-  \code{\link{MeasureRegr}}, \code{\link{Measure}}
+Other Measure: 
+\code{\link{MeasureClassif}},
+\code{\link{MeasureRegr}},
+\code{\link{Measure}}
 }
 \concept{Dictionary}
 \concept{Measure}
