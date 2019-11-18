@@ -99,6 +99,9 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * Embrace [R6](https://cran.r-project.org/package=R6) for a clean OO-design, object state-changes and reference semantics. This might be less "traditional R", but seems to fit `mlr` nicely.
 * Embrace [`data.table`](https://cran.r-project.org/package=data.table) for fast and convenient data frame computations.
 * Combine `data.table` and `R6`, for this we will make heavy use of list columns in data.tables.
+* Defensive programming and type safety.
+  All user input is checked with [`checkmate`](https://cran.r-project.org/package=checkmate).
+  Return types are documented, and mechanisms popular in base R which "simplify" the result unpredictably (e.g., `sapply()` or `drop` argument in `[.data.frame`) are avoided.
 * Be light on dependencies. `mlr3` requires the following packages at runtime:
     - [`backports`](https://cran.r-project.org/package=backports):
       Ensures backward compatibility with older R releases. Developed by members of the `mlr` team.

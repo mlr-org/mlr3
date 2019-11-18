@@ -105,24 +105,24 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [23:07:19.534] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [23:07:19.558] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [23:07:19.574] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [20:06:32.605] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [20:06:32.654] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [20:06:32.685] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
 ```
 
-    ##             task task_id               learner    learner_id
-    ##           <list>  <char>                <list>        <char>
-    ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
-    ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
-    ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
-    ##        resampling resampling_id iteration prediction classif.acc
-    ##            <list>        <char>     <int>     <list>       <num>
-    ## 1: <ResamplingCV>            cv         1     <list>        0.92
-    ## 2: <ResamplingCV>            cv         2     <list>        0.92
-    ## 3: <ResamplingCV>            cv         3     <list>        0.94
+    ##             task task_id               learner    learner_id     resampling
+    ##           <list>  <char>                <list>        <char>         <list>
+    ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart <ResamplingCV>
+    ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart <ResamplingCV>
+    ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart <ResamplingCV>
+    ##    resampling_id iteration prediction classif.acc
+    ##           <char>     <int>     <list>       <num>
+    ## 1:            cv         1     <list>        0.92
+    ## 2:            cv         2     <list>        0.92
+    ## 3:            cv         3     <list>        0.94
 
 ``` r
 rr$aggregate(measure)
@@ -162,6 +162,11 @@ would result in non-trivial API changes.
     fast and convenient data frame computations.
   - Combine `data.table` and `R6`, for this we will make heavy use of
     list columns in data.tables.
+  - Defensive programming and type safety. All user input is checked
+    with [`checkmate`](https://cran.r-project.org/package=checkmate).
+    Return types are documented, and mechanisms popular in base R which
+    “simplify” the result unpredictably (e.g., `sapply()` or `drop`
+    argument in `[.data.frame`) are avoided.
   - Be light on dependencies. `mlr3` requires the following packages at
     runtime:
       - [`backports`](https://cran.r-project.org/package=backports):
