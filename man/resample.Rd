@@ -4,7 +4,7 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, store_models = FALSE)
+resample(task, learner, resampling, store_models = "no")
 }
 \arguments{
 \item{task}{:: \link{Task}.}
@@ -13,8 +13,12 @@ resample(task, learner, resampling, store_models = FALSE)
 
 \item{resampling}{:: \link{Resampling}.}
 
-\item{store_models}{:: \code{logical(1)}\cr
+\item{store_models}{:: \code{character(1)} | \code{logical(1)}\cr
 Keep the fitted model after the test set has been predicted?
+Possible values are \code{"yes"}, \code{"no"} (remove the model after prediction) and
+\code{"condense"} (cut off unimportant parts of the model, see \link{Learner}).
+For backward compatibility, it is also possible to provide a logical flag here
+(\code{TRUE} for \code{"yes"}, \code{FALSE} for \code{"no"}).
 Set to \code{TRUE} if you want to further analyse the models or want to
 extract information like variable importance.}
 }
@@ -26,7 +30,7 @@ Runs a resampling (possibly in parallel).
 }
 \note{
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
-If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
+If you need access to the models for later analysis, set \code{store_models} to \code{"yes"} or `"condense".
 }
 \section{Parallelization}{
 

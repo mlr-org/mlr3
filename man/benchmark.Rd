@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, store_models = FALSE)
+benchmark(design, store_models = "no")
 }
 \arguments{
 \item{design}{:: \code{\link[=data.frame]{data.frame()}}\cr
@@ -13,8 +13,12 @@ Each row defines a resampling by providing a \link{Task}, \link{Learner} and an 
 The helper function \code{\link[=benchmark_grid]{benchmark_grid()}} can assist in generating an exhaustive design (see examples) and
 instantiate the \link{Resampling}s per \link{Task}.}
 
-\item{store_models}{:: \code{logical(1)}\cr
+\item{store_models}{:: \code{character(1)} | \code{logical(1)}\cr
 Keep the fitted model after the test set has been predicted?
+Possible values are \code{"yes"}, \code{"no"} (remove the model after prediction) and
+\code{"condense"} (cut off unimportant parts of the model, see \link{Learner}).
+For backward compatibility, it is also possible to provide a logical flag here
+(\code{TRUE} for \code{"yes"}, \code{FALSE} for \code{"no"}).
 Set to \code{TRUE} if you want to further analyse the models or want to
 extract information like variable importance.}
 }
@@ -26,7 +30,7 @@ Runs a benchmark on arbitrary combinations of tasks (\link{Task}), learners (\li
 }
 \note{
 The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
-If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
+If you need access to the models for later analysis, set \code{store_models} to \code{"yes"} or `"condense".
 }
 \section{Parallelization}{
 

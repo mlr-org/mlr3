@@ -8,19 +8,12 @@
 #'   Each row defines a resampling by providing a [Task], [Learner] and an instantiated [Resampling] strategy.
 #'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
-#'
-#' @param store_models :: `logical(1)`\cr
-#'   Keep the fitted model after the test set has been predicted?
-#'   Set to `TRUE` if you want to further analyse the models or want to
-#'   extract information like variable importance.
+#' @inheritParams resample
 #' @return [BenchmarkResult].
-#'
-#' @note
-#' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
-#' If you need access to the models for later analysis, set `store_models` to `TRUE`.
 #'
 #' @template section_parallelization
 #' @template section_logging
+#' @template note_store_models
 #'
 #' @export
 #' @examples
@@ -72,13 +65,19 @@
 #' ## get the training set of the 2nd iteration of the featureless learner on iris
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE) {
+benchmark = function(design, store_models = "no") {
 
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
-  assert_flag(store_models)
+  if (is.logical(store_models)) {
+    # TODO: deprecate this in the future
+    assert_flag(store_models)
+    store_models = c("no", "yes")[store_models + 1L]
+  } else {
+    assert_choice(store_models, c("no", "yes", "condense"))
+  }
 
   # check for multiple task types
   task_types = unique(map_chr(design$task, "task_type"))

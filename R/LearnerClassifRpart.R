@@ -67,6 +67,13 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       PredictionClassif$new(task = task, response = response, prob = prob)
     },
 
+    condense = function() {
+      self$state$model$functions = list()
+      self$state$model$control = list(usesurrogate = self$state$model$control$usesurrogate)
+      self$state$model$x = matrix()
+      self$state$model$y = numeric()
+    },
+
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")

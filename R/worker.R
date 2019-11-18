@@ -150,9 +150,10 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
   names(prediction) = learner$predict_sets
   prediction = prediction[!vapply(prediction, is.null, NA)]
 
-  if (!store_models) {
-    learner$state$model = NULL
-  }
+  switch(store_models,
+    "no" = { learner$state["model"] = list(NULL) },
+    "condense" = { learner$condense() }
+  )
 
   list(learner_state = learner$state, prediction = prediction)
 }

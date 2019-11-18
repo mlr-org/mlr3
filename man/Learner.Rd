@@ -133,6 +133,10 @@ Object \code{task} is the task used during \verb{$train()} and required for conv
 If the learner's \verb{$train()} method has been called, there is a (size reduced) version of the training task stored in the learner.
 If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
 in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
+\item \code{condense()}\cr
+() -> \code{self}\cr
+Cuts off superfluous data from the stored model, so that it can still be used for predictions, but other operations may no longer work.
+The original model is replaced by the condensed model in-place.
 \item \code{help()}\cr
 () -> \code{NULL}\cr
 Opens the corresponding help page referenced by \verb{$man}.

@@ -59,6 +59,13 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       PredictionRegr$new(task = task, response = response)
     },
 
+    condense = function() {
+      self$state$model$functions = list()
+      self$state$model$control = list(usesurrogate = self$state$model$control$usesurrogate)
+      self$state$model$x = matrix()
+      self$state$model$y = numeric()
+    },
+
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")

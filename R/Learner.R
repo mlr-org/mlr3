@@ -153,6 +153,11 @@
 #'   If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
 #'   in the [ResampleResult] or [BenchmarkResult], respectively.
 #'
+#' * `condense()`\cr
+#'   () -> `self`\cr
+#'   Cuts off superfluous data from the stored model, so that it can still be used for predictions, but other operations may no longer work.
+#'   The original model is replaced by the condensed model in-place.
+#'
 #' * `help()`\cr
 #'   () -> `NULL`\cr
 #'   Opens the corresponding help page referenced by `$man`.
@@ -289,6 +294,10 @@ Learner = R6Class("Learner",
         newdata[, tn] = NA
       }
       self$predict(task$rbind(newdata))
+    },
+
+    condense = function() {
+      invisible(self)
     }
   ),
 

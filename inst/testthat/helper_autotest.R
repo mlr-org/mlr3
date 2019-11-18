@@ -214,6 +214,10 @@ run_experiment = function(task, learner) {
     task$col_roles$feature = rev(task$col_roles$feature)
   }
 
+  ok = try(learner$condense(), silent = TRUE)
+  if (inherits(ok, "try-error"))
+    return(err(as.character(ok)))
+
   prediction = try(learner$predict(task), silent = TRUE)
   if (inherits(ok, "try-error"))
     return(err(as.character(ok)))
