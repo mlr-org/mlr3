@@ -4,6 +4,9 @@ template:
   package: mlr3pkgdowntemplate
   params:
     bootswatch: journal
+    docsearch:
+      api_key: 9c3abd63d461245fb19ebd2d2645c5b0
+      index_name: mlr3
   default_assets: false
 
 development:
