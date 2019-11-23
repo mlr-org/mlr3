@@ -1,6 +1,9 @@
 
 # mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
+Package website: [release](https://mlr3.mlr-org.com/) |
+[dev](https://mlr3.mlr-org.com/dev)
+
 Efficient, object-oriented programming on the building blocks of machine
 learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 
@@ -105,21 +108,19 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [20:06:32.605] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [20:06:32.654] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [20:06:32.685] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [17:40:07.709] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [17:40:07.744] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [17:40:07.762] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
 ```
 
     ##             task task_id               learner    learner_id     resampling
-    ##           <list>  <char>                <list>        <char>         <list>
     ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart <ResamplingCV>
     ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart <ResamplingCV>
     ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart <ResamplingCV>
     ##    resampling_id iteration prediction classif.acc
-    ##           <char>     <int>     <list>       <num>
     ## 1:            cv         1     <list>        0.92
     ## 2:            cv         2     <list>        0.92
     ## 3:            cv         3     <list>        0.94
