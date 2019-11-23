@@ -46,7 +46,22 @@
     <loc>https://mlr3.mlr-org.com/reference/MeasureClassif.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifACC.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifAUC.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifCE.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifConfusion.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/MeasureClassifCosts.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifFScore.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/MeasureDebug.html</loc>
@@ -61,10 +76,16 @@
     <loc>https://mlr3.mlr-org.com/reference/MeasureRegr.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureSelectedFeatures.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureRegrMAE.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureSimple.html</loc>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureRegrMSE.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureRegrRMSE.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/MeasureSelectedFeatures.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/Prediction.html</loc>
@@ -140,6 +161,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/benchmark_grid.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/confusion_measures.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/default_measures.html</loc>

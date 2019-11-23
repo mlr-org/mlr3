@@ -41,12 +41,6 @@
 <script src="../pkgdown.js"></script>
 
 
-<!-- docsearch -->
-<script src="../docsearch.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
-<link href="../docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
-
 
 
 <meta property="og:title" content="Abstract Prediction Object — Prediction" />
@@ -92,13 +86,19 @@ E.g., the class probabilities for classification or the estimated standard error
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Development version">0.1.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Development version">0.1.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -108,19 +108,19 @@ E.g., the class probabilities for classification or the estimated standard error
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://mlr-org.slack.com">
-    <span class="fab fa fab fa-slack"></span>
+    <span class="fa fa-slack"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr">
-    <span class="fab fa fab fa-stack-overflow"></span>
+  <a href="https://stackoverflow.com/questions/tagged/mlr3">
+    <span class="fa fa-stack-overflow"></span>
      
   </a>
 </li>
@@ -131,12 +131,6 @@ E.g., the class probabilities for classification or the estimated standard error
   </a>
 </li>
       </ul>
-      
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
-        <div class="form-group">
-          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
-        </div>
-      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -187,8 +181,6 @@ Vector of row ids for which predictions are stored.</p></li>
 True (observed) outcome.</p></li>
 <li><p><code>task_type</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
 Stores the type of the <a href='Task.html'>Task</a>.</p></li>
-<li><p><code>task_properties</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Stores properties of the <a href='Task.html'>Task</a>.</p></li>
 <li><p><code>predict_types</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Vector of predict types this object stores.</p></li>
 <li><p><code>missing</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical()</a></code><br />
@@ -227,9 +219,8 @@ the data of the former passed objects get overwritten by the data of the later p
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Prediction: 
-<code><a href='PredictionClassif.html'>PredictionClassif</a></code>,
-<code><a href='PredictionRegr.html'>PredictionRegr</a></code></p></div>
+    <div class='dont-index'><p>Other Prediction: <code><a href='PredictionClassif.html'>PredictionClassif</a></code>,
+  <code><a href='PredictionRegr.html'>PredictionRegr</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -253,30 +244,13 @@ the data of the former passed objects get overwritten by the data of the later p
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>
    </div>
 
   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
-<script>
-  docsearch({
-    
-    
-    apiKey: '9c3abd63d461245fb19ebd2d2645c5b0',
-    indexName: 'mlr3',
-    inputSelector: 'input#search-input.form-control',
-    transformData: function(hits) {
-      return hits.map(function (hit) {
-        hit.url = updateHitURL(hit);
-        return hit;
-      });
-    }
-  });
-</script>
-
 
 
   </body>

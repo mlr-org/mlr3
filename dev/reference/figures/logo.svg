@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600px" height="600px" viewBox="0 0 600 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-Copy">
+            <g id="Group" transform="translate(190.000000, 181.000000)" font-size="175" font-family="OpenSans-Bold, Open Sans" fill="#B7B7B7" font-weight="bold">
+                <text id="m">
+                    <tspan x="0" y="187">m</tspan>
+                </text>
+                <text id="l">
+                    <tspan x="162" y="187">l</tspan>
+                </text>
+                <text id="r">
+                    <tspan x="206" y="187">r</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(114.000000, 183.000000)" fill="#03638E">
+                <rect id="Rectangle" x="60" y="60" width="20" height="20"></rect>
+                <rect id="Rectangle" x="35" y="60" width="20" height="20"></rect>
+                <rect id="Rectangle" x="10" y="60" width="20" height="20"></rect>
+                <rect id="Rectangle" x="60" y="35" width="20" height="20"></rect>
+                <rect id="Rectangle" x="35" y="35" width="20" height="20"></rect>
+                <rect id="Rectangle" x="10" y="35" width="20" height="20"></rect>
+                <rect id="Rectangle" transform="translate(10.000000, 10.000000) rotate(45.000000) translate(-10.000000, -10.000000) " x="0" y="0" width="20" height="20"></rect>
+                <rect id="Rectangle" x="60" y="10" width="20" height="20"></rect>
+                <rect id="Rectangle" x="35" y="10" width="20" height="20"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
