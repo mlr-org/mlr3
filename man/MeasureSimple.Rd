@@ -39,6 +39,7 @@
 \alias{mlr_measures_regr.rrse}
 \alias{mlr_measures_classif.npv}
 \alias{mlr_measures_classif.acc}
+\alias{mlr_measures_classif.bacc}
 \alias{mlr_measures_regr.bias}
 \alias{mlr_measures_regr.maxse}
 \alias{mlr_measures_regr.rae}
@@ -78,6 +79,7 @@ Binary classification (inheriting from \link{MeasureClassif}):
 Multiclass classification (inheriting from \link{MeasureClassif}):
 \itemize{
 \item \link[mlr3measures:acc]{acc}: Classification Accuracy
+\item \link[mlr3measures:bacc]{bacc}: Balanced Classification Accuracy
 \item \link[mlr3measures:ce]{ce}: Classification Error
 \item \link[mlr3measures:logloss]{logloss}: Log Loss
 }

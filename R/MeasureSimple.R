@@ -135,6 +135,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
 #'   mlr_measures_regr.rrse
 #'   mlr_measures_classif.npv
 #'   mlr_measures_classif.acc
+#'   mlr_measures_classif.bacc
 #'   mlr_measures_regr.bias
 #'   mlr_measures_regr.maxse
 #'   mlr_measures_regr.rae
@@ -179,6 +180,7 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
 #'
 #' Multiclass classification (inheriting from [MeasureClassif]):
 #' * [acc][mlr3measures::acc]: Classification Accuracy
+#' * [bacc][mlr3measures::bacc]: Balanced Classification Accuracy
 #' * [ce][mlr3measures::ce]: Classification Error
 #' * [logloss][mlr3measures::logloss]: Log Loss
 #'
@@ -235,7 +237,7 @@ local({
     "specificity", "sensitivity", "fbeta", "tnr", "dor", "recall",
     "msle", "medae", "sae", "rsq", "fpr", "sse", "medse", "ppv",
     "fn", "fp", "fdr", "fomr", "fnr", "mcc", "logloss", "pbias",
-    "maxae", "rmse", "mape", "smape", "rrse", "npv", "acc", "bias",
+    "maxae", "rmse", "mape", "smape", "rrse", "npv", "acc", "bacc", "bias",
     "maxse", "rae", "ktau", "mae", "rmsle", "srho")
   stopifnot(all(.measures %in% names(mlr3measures::measures)))
 

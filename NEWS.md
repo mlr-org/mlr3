@@ -1,7 +1,8 @@
 # mlr3 0.1.5
 
+* New measure `"classif.bacc"` (balanced accuracy).
 * Measures can now calculate all scores using micro or macro averaging (#400).
-* Character columns are now treated different from factor columns.
+* Character columns are now treated differently from factor columns.
   In the long term, these are supposed to store text.
 * Fixed a bug triggered by integer grouping variables in `Task` (#396).
 * `benchmark_grid()` now accepts instantiated resamplings under certain
