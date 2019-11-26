@@ -261,7 +261,7 @@ run_experiment = function(task, learner) {
       return(err(msg))
     msg = checkmate::check_names(names(importance), subset.of = task$feature_names)
     if (!isTRUE(msg))
-      return(err(msg))
+      return(err("Names of returned importance scores do not match task names: %s", str_collapse(names(importance))))
     if ("unimportant" %in% head(names(importance), 1L))
       return(err("unimportant feature is important"))
   }
