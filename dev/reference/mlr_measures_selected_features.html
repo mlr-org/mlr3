@@ -50,7 +50,9 @@
 
 
 <meta property="og:title" content="Selected Features Measure — mlr_measures_selected_features" />
-<meta property="og:description" content="Measures the number of selected features." />
+<meta property="og:description" content="Measures the number of selected features by extracting it from learners with property &quot;selected_features&quot;.
+If the learner does not support this, NA is returned.
+This measure requires the Task and the Learner for scoring." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -158,7 +160,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Measures the number of selected features.</p>
+    <p>Measures the number of selected features by extracting it from learners with property <code>"selected_features"</code>.
+If the learner does not support this, <code>NA</code> is returned.</p>
+<p>This measure requires the <a href='Task.html'>Task</a> and the <a href='Learner.html'>Learner</a> for scoring.</p>
     </div>
 
 
@@ -178,6 +182,17 @@ msr("selected_features")
 If <code>normalize</code> is set to <code>TRUE</code>, divides the number of features by the total number of features.</p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
+
+    
+
+<ul>
+<li><p>Type: <code>NA</code></p></li>
+<li><p>Range: \([0, \infty)\)</p></li>
+<li><p>Minimize: <code>TRUE</code></p></li>
+<li><p>Required prediction: 'response'</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
@@ -189,6 +204,7 @@ If <code>normalize</code> is set to <code>TRUE</code>, divides the number of fea
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
       <li><a href="#construction">Construction</a></li>
+      <li><a href="#meta-information">Meta Information</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

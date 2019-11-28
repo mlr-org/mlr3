@@ -53,7 +53,9 @@
 <meta property="og:description" content="Uses a cost matrix to create a classification measure.
 True labels must be arranged in columns, predicted labels must be arranged  in rows.
 The cost matrix is stored as slot $costs.
-Costs are aggregated with the mean." />
+For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
+The costs are then summed up (and potentially divided by the number of observations if normalize is set to TRUE).
+This measure requires the Task during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -163,8 +165,10 @@ Costs are aggregated with the mean." />
     <div class="ref-description">
     <p>Uses a cost matrix to create a classification measure.
 True labels must be arranged in columns, predicted labels must be arranged  in rows.
-The cost matrix is stored as slot <code>$costs</code>.
-Costs are aggregated with the mean.</p>
+The cost matrix is stored as slot <code>$costs</code>.</p>
+<p>For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
+The costs are then summed up (and potentially divided by the number of observations if <code>normalize</code> is set to <code>TRUE</code>).</p>
+<p>This measure requires the <a href='Task.html'>Task</a> during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.</p>
     </div>
 
 
@@ -183,13 +187,54 @@ msr("classif.costs")
 <li><p><code>costs</code> :: <code><a href='https://rdrr.io/r/base/matrix.html'>matrix()</a></code><br />
 Numeric matrix of costs (truth in columns, predicted response in rows).</p></li>
 <li><p><code>normalize</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-If <code>TRUE</code>, calculate the mean costs instead of the total costs.</p></li>
+If <code>TRUE</code>, calculate the mean cost per observation instead of the total costs.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
+
+    
+
+<ul>
+<li><p>Type: <code>"classif"</code></p></li>
+<li><p>Range: \([0, \infty)\)</p></li>
+<li><p>Minimize: <code>TRUE</code></p></li>
+<li><p>Required prediction: 'response'</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p></div>
+<p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
+<p>Other classification measures: 
+<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
+<code><a href='mlr_measures_classif.auc.html'>mlr_measures_classif.auc</a></code>,
+<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
+<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
+<code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
+<code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
+<code><a href='mlr_measures_classif.fdr.html'>mlr_measures_classif.fdr</a></code>,
+<code><a href='mlr_measures_classif.fnr.html'>mlr_measures_classif.fnr</a></code>,
+<code><a href='mlr_measures_classif.fn.html'>mlr_measures_classif.fn</a></code>,
+<code><a href='mlr_measures_classif.fomr.html'>mlr_measures_classif.fomr</a></code>,
+<code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
+<code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
+<code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code>,
+<code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
+<code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
+<code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
+<code><a href='mlr_measures_classif.precision.html'>mlr_measures_classif.precision</a></code>,
+<code><a href='mlr_measures_classif.recall.html'>mlr_measures_classif.recall</a></code>,
+<code><a href='mlr_measures_classif.sensitivity.html'>mlr_measures_classif.sensitivity</a></code>,
+<code><a href='mlr_measures_classif.specificity.html'>mlr_measures_classif.specificity</a></code>,
+<code><a href='mlr_measures_classif.tnr.html'>mlr_measures_classif.tnr</a></code>,
+<code><a href='mlr_measures_classif.tn.html'>mlr_measures_classif.tn</a></code>,
+<code><a href='mlr_measures_classif.tpr.html'>mlr_measures_classif.tpr</a></code>,
+<code><a href='mlr_measures_classif.tp.html'>mlr_measures_classif.tp</a></code></p>
+<p>Other multiclass classification measures: 
+<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
+<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
+<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
+<code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get a cost sensitive task</span>
@@ -220,6 +265,7 @@ If <code>TRUE</code>, calculate the mean costs instead of the total costs.</p></
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
       <li><a href="#construction">Construction</a></li>
+      <li><a href="#meta-information">Meta Information</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
