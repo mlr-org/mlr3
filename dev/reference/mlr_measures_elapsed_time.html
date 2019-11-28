@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cost-sensitive Classification Measure — MeasureClassifCosts • mlr3</title>
+<title>Elapsed Time Measure — mlr_measures_elapsed_time • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,11 +49,8 @@
 
 
 
-<meta property="og:title" content="Cost-sensitive Classification Measure — MeasureClassifCosts" />
-<meta property="og:description" content="Uses a cost matrix to create a classification measure.
-True labels must be arranged in columns, predicted labels must be arranged  in rows.
-The cost matrix is stored as slot $costs.
-Costs are aggregated with the mean." />
+<meta property="og:title" content="Elapsed Time Measure — mlr_measures_elapsed_time" />
+<meta property="og:description" content="Measures the elapsed time during train (&quot;time_train&quot;), predict (&quot;time_predict&quot;), or both (&quot;time_both&quot;)." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -155,35 +152,39 @@ Costs are aggregated with the mean." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Cost-sensitive Classification Measure</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureClassifCosts.R'><code>R/MeasureClassifCosts.R</code></a></small>
-    <div class="hidden name"><code>MeasureClassifCosts.Rd</code></div>
+    <h1>Elapsed Time Measure</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureElapsedTime.R'><code>R/MeasureElapsedTime.R</code></a></small>
+    <div class="hidden name"><code>mlr_measures_elapsed_time.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Uses a cost matrix to create a classification measure.
-True labels must be arranged in columns, predicted labels must be arranged  in rows.
-The cost matrix is stored as slot <code>$costs</code>.
-Costs are aggregated with the mean.</p>
+    <p>Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><code><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class()</a></code> inheriting from <a href='MeasureClassif.html'>MeasureClassif</a>.</p>
+    <p><code><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class()</a></code> inheriting from <a href='Measure.html'>Measure</a>.</p>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
-mlr_measures$get("classif.costs")
-msr("classif.costs")
+<pre>MeasureElapsedTime$new(id, stages)
+
+mlr_measures$get("time_train")
+mlr_measures$get("time_predict")
+mlr_measures$get("time_both")
+
+msr$get("time_train")
+msr$get("time_predict")
+msr$get("time_both")
 </pre>
 <ul>
-<li><p><code>costs</code> :: <code><a href='https://rdrr.io/r/base/matrix.html'>matrix()</a></code><br />
-Numeric matrix of costs (truth in columns, predicted response in rows).</p></li>
-<li><p><code>normalize</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-If <code>TRUE</code>, calculate the mean costs instead of the total costs.</p></li>
+<li><p><code>id</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
+Id for the created measure.</p></li>
+<li><p><code>stages</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Subset of <code>("train", "predict")</code>.
+The runtime of all stages will be summed.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -191,29 +192,6 @@ If <code>TRUE</code>, calculate the mean costs instead of the total costs.</p></
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
 <p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># get a cost sensitive task</span>
-<span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"german_credit"</span>)
-
-<span class='co'># cost matrix as given on the UCI page of the german credit data set</span>
-<span class='co'># https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)</span>
-<span class='no'>costs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>0</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>costs</span>) <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>class_names</span>, <span class='kw'>predicted</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>class_names</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>costs</span>)</div><div class='output co'>#&gt;       predicted
-#&gt; truth  good bad
-#&gt;   good    0   1
-#&gt;   bad     5   0</div><div class='input'>
-<span class='co'># mlr3 needs truth in columns, predictions in rows</span>
-<span class='no'>costs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>costs</span>)
-
-<span class='co'># create measure which calculates the absolute costs</span>
-<span class='no'>m</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.costs"</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"german_credit_costs"</span>, <span class='kw'>costs</span> <span class='kw'>=</span> <span class='no'>costs</span>, <span class='kw'>normalize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># fit models and calculate costs</span>
-<span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))
-<span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>m</span>)</div><div class='output co'>#&gt; german_credit_costs 
-#&gt;            300.6667 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -221,7 +199,6 @@ If <code>TRUE</code>, calculate the mean costs instead of the total costs.</p></
       <li><a href="#format">Format</a></li>
       <li><a href="#construction">Construction</a></li>
       <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
