@@ -1,7 +1,7 @@
 #' @title Debug Measure
 #'
 #' @usage NULL
-#' @aliases mlr_measures_debug
+#' @name mlr_measures_debug
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'

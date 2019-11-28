@@ -1,7 +1,8 @@
 #' @title Elapsed Time Measure
 #'
 #' @usage NULL
-#' @aliases mlr_measures_elapsed_time
+#' @name mlr_measures_elapsed_time
+#' @aliases
 #'   mlr_measures_time_train
 #'   mlr_measures_time_predict
 #'   mlr_measures_time_both

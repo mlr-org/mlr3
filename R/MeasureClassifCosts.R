@@ -1,7 +1,7 @@
 #' @title Cost-sensitive Classification Measure
 #'
 #' @usage NULL
-#' @aliases mlr_measures_classif.costs
+#' @name mlr_measures_classif.costs
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'
