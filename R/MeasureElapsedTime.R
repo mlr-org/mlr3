@@ -9,6 +9,9 @@
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'
+#' @description
+#' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
+#'
 #' @section Construction:
 #' ```
 #' MeasureElapsedTime$new(id, stages)
@@ -28,8 +31,11 @@
 #'   Subset of `("train", "predict")`.
 #'   The runtime of all stages will be summed.
 #'
-#' @description
-#' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
+#' @section Meta Information:
+#' * Type: `NA`
+#' * Range: \eqn{[0, \infty)}{[0, Inf)}
+#' * Minimize: `TRUE`
+#' * Required prediction: 'response'
 #'
 #' @template seealso_measure
 #' @export

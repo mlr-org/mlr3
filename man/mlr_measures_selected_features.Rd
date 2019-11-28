@@ -6,7 +6,10 @@
 \title{Selected Features Measure}
 \format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
-Measures the number of selected features.
+Measures the number of selected features by extracting it from learners with property \code{"selected_features"}.
+If the learner does not support this, \code{NA} is returned.
+
+This measure requires the \link{Task} and the \link{Learner} for scoring.
 }
 \section{Construction}{
 \preformatted{MeasureSelectedFeatures$new(normalize = FALSE)
@@ -16,6 +19,16 @@ msr("selected_features")
 \itemize{
 \item \code{normalize} :: \code{logical(1)}\cr
 If \code{normalize} is set to \code{TRUE}, divides the number of features by the total number of features.
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{NA}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: \code{TRUE}
+\item Required prediction: 'response'
 }
 }
 

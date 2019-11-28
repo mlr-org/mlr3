@@ -31,6 +31,16 @@ The runtime of all stages will be summed.
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{NA}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: \code{TRUE}
+\item Required prediction: 'response'
+}
+}
+
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 

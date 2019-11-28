@@ -17,6 +17,16 @@ msr("oob_error")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{NA}
+\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
+\item Minimize: \code{NA}
+\item Required prediction: 'response'
+}
+}
+
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 

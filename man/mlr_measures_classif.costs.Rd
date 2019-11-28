@@ -9,7 +9,11 @@
 Uses a cost matrix to create a classification measure.
 True labels must be arranged in columns, predicted labels must be arranged  in rows.
 The cost matrix is stored as slot \verb{$costs}.
-Costs are aggregated with the mean.
+
+For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
+The costs are then summed up (and potentially divided by the number of observations if \code{normalize} is set to \code{TRUE}).
+
+This measure requires the \link{Task} during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.
 }
 \section{Construction}{
 \preformatted{MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
@@ -20,7 +24,17 @@ msr("classif.costs")
 \item \code{costs} :: \code{matrix()}\cr
 Numeric matrix of costs (truth in columns, predicted response in rows).
 \item \code{normalize} :: \code{logical(1)}\cr
-If \code{TRUE}, calculate the mean costs instead of the total costs.
+If \code{TRUE}, calculate the mean cost per observation instead of the total costs.
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{"classif"}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: \code{TRUE}
+\item Required prediction: 'response'
 }
 }
 
@@ -49,4 +63,38 @@ rr$aggregate(m)
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
+
+Other classification measures: 
+\code{\link{mlr_measures_classif.acc}},
+\code{\link{mlr_measures_classif.auc}},
+\code{\link{mlr_measures_classif.bacc}},
+\code{\link{mlr_measures_classif.ce}},
+\code{\link{mlr_measures_classif.dor}},
+\code{\link{mlr_measures_classif.fbeta}},
+\code{\link{mlr_measures_classif.fdr}},
+\code{\link{mlr_measures_classif.fnr}},
+\code{\link{mlr_measures_classif.fn}},
+\code{\link{mlr_measures_classif.fomr}},
+\code{\link{mlr_measures_classif.fpr}},
+\code{\link{mlr_measures_classif.fp}},
+\code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mcc}},
+\code{\link{mlr_measures_classif.npv}},
+\code{\link{mlr_measures_classif.ppv}},
+\code{\link{mlr_measures_classif.precision}},
+\code{\link{mlr_measures_classif.recall}},
+\code{\link{mlr_measures_classif.sensitivity}},
+\code{\link{mlr_measures_classif.specificity}},
+\code{\link{mlr_measures_classif.tnr}},
+\code{\link{mlr_measures_classif.tn}},
+\code{\link{mlr_measures_classif.tpr}},
+\code{\link{mlr_measures_classif.tp}}
+
+Other multiclass classification measures: 
+\code{\link{mlr_measures_classif.acc}},
+\code{\link{mlr_measures_classif.bacc}},
+\code{\link{mlr_measures_classif.ce}},
+\code{\link{mlr_measures_classif.logloss}}
 }
+\concept{classification measures}
+\concept{multiclass classification measures}

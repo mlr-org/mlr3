@@ -55,6 +55,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.auc}},
 \code{\link{mlr_measures_classif.ce}},
+\code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fbeta}},
 \code{\link{mlr_measures_classif.fdr}},
@@ -79,6 +80,7 @@ Other classification measures:
 Other multiclass classification measures: 
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.ce}},
+\code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_classif.logloss}}
 }
 \concept{classification measures}

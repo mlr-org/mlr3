@@ -5,6 +5,16 @@
 #' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'
+#' @description
+#' Uses a cost matrix to create a classification measure.
+#' True labels must be arranged in columns, predicted labels must be arranged  in rows.
+#' The cost matrix is stored as slot `$costs`.
+#'
+#' For calculation of the score, the confusion matrix is multiplied element-wise with the cost matrix.
+#' The costs are then summed up (and potentially divided by the number of observations if `normalize` is set to `TRUE`).
+#'
+#' This measure requires the [Task] during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.
+#'
 #' @section Construction:
 #' ```
 #' MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
@@ -16,15 +26,17 @@
 #'   Numeric matrix of costs (truth in columns, predicted response in rows).
 #'
 #' * `normalize` :: `logical(1)`\cr
-#'   If `TRUE`, calculate the mean costs instead of the total costs.
+#'   If `TRUE`, calculate the mean cost per observation instead of the total costs.
 #'
-#' @description
-#' Uses a cost matrix to create a classification measure.
-#' True labels must be arranged in columns, predicted labels must be arranged  in rows.
-#' The cost matrix is stored as slot `$costs`.
-#' Costs are aggregated with the mean.
+#' @section Meta Information:
+#' * Type: `"classif"`
+#' * Range: \eqn{[0, \infty)}{[0, Inf)}
+#' * Minimize: `TRUE`
+#' * Required prediction: 'response'
 #'
 #' @template seealso_measure
+#' @family classification measures
+#' @family multiclass classification measures
 #' @export
 #' @examples
 #' # get a cost sensitive task

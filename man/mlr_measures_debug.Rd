@@ -28,6 +28,16 @@ Default is 0.
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Type: \code{NA}
+\item Range: \eqn{[0, \infty)}{[0, Inf)}
+\item Minimize: \code{NA}
+\item Required prediction: 'response'
+}
+}
+
 \examples{
 task = tsk("wine")
 learner = lrn("classif.featureless")
