@@ -263,19 +263,19 @@ Returns a copy of the internal data.</p></li>
 #&gt; * Warnings: 0 in 0 iterations
 #&gt; * Errors: 0 in 0 iterations</div><div class='input'>
 <span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.acc"</span>))</div><div class='output co'>#&gt; classif.acc 
-#&gt;        0.94 </div><div class='input'><span class='no'>rr</span>$<span class='fu'>prediction</span>()</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 150 observations:
+#&gt;   0.9466667 </div><div class='input'><span class='no'>rr</span>$<span class='fu'>prediction</span>()</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 150 observations:
 #&gt;     row_id     truth  response
 #&gt;          1    setosa    setosa
 #&gt;          2    setosa    setosa
-#&gt;          6    setosa    setosa
+#&gt;          4    setosa    setosa
 #&gt; ---                           
-#&gt;        140 virginica virginica
+#&gt;        143 virginica virginica
 #&gt;        146 virginica virginica
-#&gt;        149 virginica virginica</div><div class='input'><span class='no'>rr</span>$<span class='fu'>prediction</span>()$<span class='no'>confusion</span></div><div class='output co'>#&gt;             truth
+#&gt;        148 virginica virginica</div><div class='input'><span class='no'>rr</span>$<span class='fu'>prediction</span>()$<span class='no'>confusion</span></div><div class='output co'>#&gt;             truth
 #&gt; response     setosa versicolor virginica
 #&gt;   setosa         50          0         0
-#&gt;   versicolor      0         45         4
-#&gt;   virginica       0          5        46</div><div class='input'><span class='no'>rr</span>$<span class='no'>warnings</span></div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div><div class='input'><span class='no'>rr</span>$<span class='no'>errors</span></div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div></pre>
+#&gt;   versicolor      0         46         4
+#&gt;   virginica       0          4        46</div><div class='input'><span class='no'>rr</span>$<span class='no'>warnings</span></div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div><div class='input'><span class='no'>rr</span>$<span class='no'>errors</span></div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

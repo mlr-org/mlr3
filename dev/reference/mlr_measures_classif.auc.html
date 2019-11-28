@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Classification Measure — MeasureClassif • mlr3</title>
+<title>Area Under the ROC Curve — mlr_measures_classif.auc • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,9 +49,10 @@
 
 
 
-<meta property="og:title" content="Classification Measure — MeasureClassif" />
-<meta property="og:description" content="This measure specializes Measure for classification problems.
-Predefined measures can be found in the mlr3misc::Dictionary mlr_measures." />
+<meta property="og:title" content="Area Under the ROC Curve — mlr_measures_classif.auc" />
+<meta property="og:description" content="Computes the area under the Receiver Operator Characteristic (ROC) curve.
+The AUC can be interpreted as the probability that a randomly chosen positive observation
+has a higher predicted probability than a randomly chosen negative observation." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -153,57 +154,105 @@ Predefined measures can be found in the mlr3misc::Dictionary mlr_measures." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Classification Measure</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureClassif.R'><code>R/MeasureClassif.R</code></a></small>
-    <div class="hidden name"><code>MeasureClassif.Rd</code></div>
+    <h1>Area Under the ROC Curve</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
+    <div class="hidden name"><code>mlr_measures_classif.auc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This measure specializes <a href='Measure.html'>Measure</a> for classification problems.
-Predefined measures can be found in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>.</p>
+    <p>Computes the area under the Receiver Operator Characteristic (ROC) curve.
+The AUC can be interpreted as the probability that a randomly chosen positive observation
+has a higher predicted probability than a randomly chosen negative observation.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> object inheriting from <a href='Measure.html'>Measure</a>.</p>
+    <p><code><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class()</a></code> inheriting from <a href='Measure.html'>Measure</a>.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The score function calls <code><a href='https://rdrr.io/pkg/mlr3measures/man/auc.html'>mlr3measures::auc()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
+<p>If the measure is undefined for the input, <code>NaN</code> is returned.
+This can be customized by setting the field <code>na_value</code>.</p>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>m = MeasureClassif$new(id, range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
-    predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_)
+
+<p>This measures can be retrieved from the dictionary <a href='mlr_measures.html'>mlr_measures</a>:</p><pre>mlr_measures$get("classif.auc")
+msr("classif.auc")
 </pre>
 
-<p>For a description of the arguments, see <a href='Measure.html'>Measure</a>.
-The <code>task_type</code> is set to <code>"classif"</code>.
-Possible values for <code>predict_type</code> are <code>"response"</code> and <code>"prob"</code>.</p>
-    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
+    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
     
 
-<p>See <a href='Measure.html'>Measure</a>.</p>
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    
+<ul>
+<li><p>Type: <code>"binary"</code></p></li>
+<li><p>Range: \([0, 1]\)</p></li>
+<li><p>Minimize: <code>FALSE</code></p></li>
+<li><p>Required prediction: <code>prob</code></p></li>
+</ul>
 
-<p>See <a href='Measure.html'>Measure</a>.</p>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Example classification measures: <code><a href='mlr_measures_classif.ce.html'>classif.ce</a></code></p>
-<p>Other Measure: 
-<code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
-<code><a href='Measure.html'>Measure</a></code>,
-<code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
+    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
+<p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
+<p>Other classification measures: 
+<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
+<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
+<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
+<code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
+<code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
+<code><a href='mlr_measures_classif.fdr.html'>mlr_measures_classif.fdr</a></code>,
+<code><a href='mlr_measures_classif.fnr.html'>mlr_measures_classif.fnr</a></code>,
+<code><a href='mlr_measures_classif.fn.html'>mlr_measures_classif.fn</a></code>,
+<code><a href='mlr_measures_classif.fomr.html'>mlr_measures_classif.fomr</a></code>,
+<code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
+<code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
+<code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code>,
+<code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
+<code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
+<code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
+<code><a href='mlr_measures_classif.precision.html'>mlr_measures_classif.precision</a></code>,
+<code><a href='mlr_measures_classif.recall.html'>mlr_measures_classif.recall</a></code>,
+<code><a href='mlr_measures_classif.sensitivity.html'>mlr_measures_classif.sensitivity</a></code>,
+<code><a href='mlr_measures_classif.specificity.html'>mlr_measures_classif.specificity</a></code>,
+<code><a href='mlr_measures_classif.tnr.html'>mlr_measures_classif.tnr</a></code>,
+<code><a href='mlr_measures_classif.tn.html'>mlr_measures_classif.tn</a></code>,
+<code><a href='mlr_measures_classif.tpr.html'>mlr_measures_classif.tpr</a></code>,
+<code><a href='mlr_measures_classif.tp.html'>mlr_measures_classif.tp</a></code></p>
+<p>Other binary classification measures: 
+<code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
+<code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
+<code><a href='mlr_measures_classif.fdr.html'>mlr_measures_classif.fdr</a></code>,
+<code><a href='mlr_measures_classif.fnr.html'>mlr_measures_classif.fnr</a></code>,
+<code><a href='mlr_measures_classif.fn.html'>mlr_measures_classif.fn</a></code>,
+<code><a href='mlr_measures_classif.fomr.html'>mlr_measures_classif.fomr</a></code>,
+<code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
+<code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
+<code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
+<code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
+<code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
+<code><a href='mlr_measures_classif.precision.html'>mlr_measures_classif.precision</a></code>,
+<code><a href='mlr_measures_classif.recall.html'>mlr_measures_classif.recall</a></code>,
+<code><a href='mlr_measures_classif.sensitivity.html'>mlr_measures_classif.sensitivity</a></code>,
+<code><a href='mlr_measures_classif.specificity.html'>mlr_measures_classif.specificity</a></code>,
+<code><a href='mlr_measures_classif.tnr.html'>mlr_measures_classif.tnr</a></code>,
+<code><a href='mlr_measures_classif.tn.html'>mlr_measures_classif.tn</a></code>,
+<code><a href='mlr_measures_classif.tpr.html'>mlr_measures_classif.tpr</a></code>,
+<code><a href='mlr_measures_classif.tp.html'>mlr_measures_classif.tp</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
+      <li><a href="#note">Note</a></li>
       <li><a href="#construction">Construction</a></li>
-      <li><a href="#fields">Fields</a></li>
-      <li><a href="#methods">Methods</a></li>
+      <li><a href="#meta-information">Meta Information</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

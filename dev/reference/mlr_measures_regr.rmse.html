@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • mlr3</title>
+<title>Root Mean Squared Error — mlr_measures_regr.rmse • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,7 +49,10 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Root Mean Squared Error — mlr_measures_regr.rmse" />
+<meta property="og:description" content="Regression measure defined as $$
+  \sqrt{\frac{1}{n} \sum_{i=1}^n \left( t_i - r_i \right)^2}.
+$$" />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -70,7 +73,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -151,92 +154,85 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Root Mean Squared Error</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
+    <div class="hidden name"><code>mlr_measures_regr.rmse.Rd</code></div>
     </div>
 
-    <div id="mlr3-0-1-5" class="section level1">
-<h1 class="page-header">
-<a href="#mlr3-0-1-5" class="anchor"></a>mlr3 0.1.5<small> Unreleased </small>
-</h1>
-<ul>
-<li>Switched from package <code>Metrics</code> to package <code>mlr3measures</code> for the implementation of performance measures.</li>
-<li>Measures can now calculate all scores using micro or macro averaging (<a href='https://github.com/mlr-org/mlr3/issues/400'>#400</a>).</li>
-<li>Measures can now return a customizable performance score instead of <code>NA</code> if they are not defined for a certain input.</li>
-<li>Character columns are now treated differently from factor columns. In the long term, these are supposed to store text.</li>
-<li>Fixed a bug triggered by integer grouping variables in <code>Task</code> (<a href='https://github.com/mlr-org/mlr3/issues/396'>#396</a>).</li>
-<li>
-<code><a href="../reference/benchmark_grid.html">benchmark_grid()</a></code> now accepts instantiated resamplings under certain conditions.</li>
-</ul>
-</div>
-    <div id="mlr3-0-1-4" class="section level1">
-<h1 class="page-header">
-<a href="#mlr3-0-1-4" class="anchor"></a>mlr3 0.1.4<small> 2019-10-28 </small>
-</h1>
-<ul>
-<li>
-<code>Task$set_col_roles()</code> and <code>Task$set_row_roles()</code> are now deprecated. Instead it is recommended for now to work with the lists <code>Task$col_roles</code> and <code>Task$row_roles</code> directly.</li>
-<li>
-<code>Learner$predict_newdata()</code> now works without argument <code>task</code> if the learner has been fitted with <code>Learner$train()</code> (<a href='https://github.com/mlr-org/mlr3/issues/375'>#375</a>).</li>
-<li>Names of column roles have been unified (<code>"weights"</code>, <code>"label"</code>, <code>"stratify"</code> and <code>"groups"</code> have been renamed).</li>
-<li>Replaced <code>MeasureClassifF1</code> with <code>MeasureClassifFScore</code> and fixed a bug in the F1 performance calculation (<a href='https://github.com/mlr-org/mlr3/issues/353'>#353</a>). Thanks to <a href='https://github.com/001ben'>@001ben</a> for reporting.</li>
-<li>Stratification is now controlled via a task column role (was a parameter of class <code>Resampling</code> before).</li>
-<li>Added a S3 <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method for class <code>Learner</code> to increase interoperability with other packages.</li>
-<li>Many objects now come with a <code>$help()</code> which opens the respective manual page.</li>
-</ul>
-</div>
-    <div id="mlr3-0-1-3" class="section level1">
-<h1 class="page-header">
-<a href="#mlr3-0-1-3" class="anchor"></a>mlr3 0.1.3<small> 2019-09-18 </small>
-</h1>
-<ul>
-<li><p>It is now possible to predict and score results on the training set or on both training and test set. Learners can be instructed to predict on multiple sets by setting <code>predict_sets</code> (default: <code>"test"</code>). Measures operate on all sets specified in their field <code>predict_sets</code> (default: <code>"test"</code>.</p></li>
-<li><p><code>ResampleResult$prediction</code> and <code>ResampleResult$predictions()</code> are now methods instead of fields, and allow to extract predictions for different predict sets.</p></li>
-<li><p><code>ResampleResult$performance()</code> has been renamed to <code>ResampleResult$score()</code> for consistency.</p></li>
-<li><p><code>BenchmarkResult$performance()</code> has been renamed to <code>BenchmarkResult$score()</code> for consistency.</p></li>
-<li><p>Changed API for (internal) constructors accepting <code><a href="https://paradox.mlr-org.com/reference/ParamSet.html">paradox::ParamSet()</a></code>. Instead of passing the initial values separately, the initial values must now be set directly in the <code>ParamSet</code>.</p></li>
-</ul>
-</div>
-    <div id="mlr3-0-1-2" class="section level1">
-<h1 class="page-header">
-<a href="#mlr3-0-1-2" class="anchor"></a>mlr3 0.1.2<small> 2019-08-25 </small>
-</h1>
-<ul>
-<li><p>Deprecated support of automatically creating objects from strings. Instead, <code>mlr3</code> provides the following helper functions intended to ease the creation of objects stored in dictionaries: <code><a href="../reference/mlr_sugar.html">tsk()</a></code>, <code><a href="../reference/mlr_sugar.html">tgen()</a></code>, <code><a href="../reference/mlr_sugar.html">lrn()</a></code>, <code><a href="../reference/mlr_sugar.html">rsmp()</a></code>, <code><a href="../reference/mlr_sugar.html">msr()</a></code>.</p></li>
-<li><p><code>BenchmarkResult</code> now ensures that the stored <code>ResampleResult</code>s are in a persistent order. Thus, <code>ResampleResult</code>s can now be addressed by their position instead of their hash.</p></li>
-<li><p>New field <code>BenchmarkResult$n_resample_results</code>.</p></li>
-<li><p>New field <code>BenchmarkResult$hashes</code>.</p></li>
-<li><p>New method <code>Task$rename()</code>.</p></li>
-<li><p>New S3 generic <code><a href="../reference/as_benchmark_result.html">as_benchmark_result()</a></code>.</p></li>
-<li><p>Renamed <code>Generator</code> to <code>TaskGenerator</code>.</p></li>
-<li><p>Removed the control object <code>mlr_control()</code>.</p></li>
-<li><p>Removed <code>ResampleResult$combine()</code>.</p></li>
-<li><p>Removed <code>BenchmarkResult$best()</code>.</p></li>
-</ul>
-</div>
-    <div id="mlr3-0-1-1" class="section level1">
-<h1 class="page-header">
-<a href="#mlr3-0-1-1" class="anchor"></a>mlr3 0.1.1<small> 2019-07-25 </small>
-</h1>
-<ul>
-<li>Initial upload to CRAN.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Regression measure defined as $$
+  \sqrt{\frac{1}{n} \sum_{i=1}^n \left( t_i - r_i \right)^2}.
+$$</p>
+    </div>
 
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p><code><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class()</a></code> inheriting from <a href='Measure.html'>Measure</a>.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The score function calls <code><a href='https://rdrr.io/pkg/mlr3measures/man/rmse.html'>mlr3measures::rmse()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
+<p>If the measure is undefined for the input, <code>NaN</code> is returned.
+This can be customized by setting the field <code>na_value</code>.</p>
+    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
+
+    
+
+<p>This measures can be retrieved from the dictionary <a href='mlr_measures.html'>mlr_measures</a>:</p><pre>mlr_measures$get("classif.rmse")
+msr("classif.rmse")
+</pre>
+
+    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
+
+    
+
+
+<ul>
+<li><p>Type: <code>"regr"</code></p></li>
+<li><p>Range: \([0, \infty)\)</p></li>
+<li><p>Minimize: <code>TRUE</code></p></li>
+<li><p>Required prediction: <code>response</code></p></li>
+</ul>
+
+
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
+<p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
+<p>Other regression measures: 
+<code><a href='mlr_measures_regr.bias.html'>mlr_measures_regr.bias</a></code>,
+<code><a href='mlr_measures_regr.ktau.html'>mlr_measures_regr.ktau</a></code>,
+<code><a href='mlr_measures_regr.mae.html'>mlr_measures_regr.mae</a></code>,
+<code><a href='mlr_measures_regr.mape.html'>mlr_measures_regr.mape</a></code>,
+<code><a href='mlr_measures_regr.maxae.html'>mlr_measures_regr.maxae</a></code>,
+<code><a href='mlr_measures_regr.medae.html'>mlr_measures_regr.medae</a></code>,
+<code><a href='mlr_measures_regr.medse.html'>mlr_measures_regr.medse</a></code>,
+<code><a href='mlr_measures_regr.mse.html'>mlr_measures_regr.mse</a></code>,
+<code><a href='mlr_measures_regr.msle.html'>mlr_measures_regr.msle</a></code>,
+<code><a href='mlr_measures_regr.pbias.html'>mlr_measures_regr.pbias</a></code>,
+<code><a href='mlr_measures_regr.rae.html'>mlr_measures_regr.rae</a></code>,
+<code><a href='mlr_measures_regr.rmsle.html'>mlr_measures_regr.rmsle</a></code>,
+<code><a href='mlr_measures_regr.rrse.html'>mlr_measures_regr.rrse</a></code>,
+<code><a href='mlr_measures_regr.rse.html'>mlr_measures_regr.rse</a></code>,
+<code><a href='mlr_measures_regr.rsq.html'>mlr_measures_regr.rsq</a></code>,
+<code><a href='mlr_measures_regr.sae.html'>mlr_measures_regr.sae</a></code>,
+<code><a href='mlr_measures_regr.smape.html'>mlr_measures_regr.smape</a></code>,
+<code><a href='mlr_measures_regr.srho.html'>mlr_measures_regr.srho</a></code>,
+<code><a href='mlr_measures_regr.sse.html'>mlr_measures_regr.sse</a></code></p></div>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#mlr3-0-1-5">0.1.5</a></li>
-        <li><a href="#mlr3-0-1-4">0.1.4</a></li>
-        <li><a href="#mlr3-0-1-3">0.1.3</a></li>
-        <li><a href="#mlr3-0-1-2">0.1.2</a></li>
-        <li><a href="#mlr3-0-1-1">0.1.1</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#format">Format</a></li>
+      <li><a href="#note">Note</a></li>
+      <li><a href="#construction">Construction</a></li>
+      <li><a href="#meta-information">Meta Information</a></li>
+      <li><a href="#see-also">See also</a></li>
+    </ul>
 
+  </div>
 </div>
 
 
