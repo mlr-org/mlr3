@@ -1,7 +1,10 @@
 # mlr3 0.1.5
 
-* New measure `"classif.bacc"` (balanced accuracy).
+* Switched from package `Metrics` to package `mlr3measures` for the
+  implementation of performance measures.
 * Measures can now calculate all scores using micro or macro averaging (#400).
+* Measures can now return a customizable performance score instead of `NA` if
+  they are not defined for a certain input.
 * Character columns are now treated differently from factor columns.
   In the long term, these are supposed to store text.
 * Fixed a bug triggered by integer grouping variables in `Task` (#396).
