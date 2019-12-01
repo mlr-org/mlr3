@@ -85,7 +85,7 @@ In addition, we simplified the API considerably by unifying container and result
 In addition to the main [`mlr3`](https://cran.r-project.org/package=mlr3) package, [`mlr3learners`](https://cran.r-project.org/package=mlr3learners) provides integrations to a careful selection of the most important ML algorithms and packages in `R`.
 Complex ML workflows (using directed acyclic graphs) that can incorporate preprocessing, (stacking) ensembles, alternative-branch execution, and much more can be built with the [`mlr3pipelines`](https://cran.r-project.org/package=mlr3pipelines) package.
 Funtionality for hyperparameter tuning and nested resampling of learners and complex pipelines is provided by the [`mlr3tuning`](https://cran.r-project.org/package=mlr3tuning) package.
-[`mlr3filters`](https://cran.r-project.org/package=mlr3filters) integrates many feature filtering technqiues and [`mlr3db`](https://cran.r-project.org/package=mlr3db) allows direct use of databases as data sources for out-of-memory data.
+[`mlr3filters`](https://cran.r-project.org/package=mlr3filters) integrates many feature filtering techniques and [`mlr3db`](https://cran.r-project.org/package=mlr3db) allows direct use of databases as data sources for out-of-memory data.
 We are planning and working on many more packages; for example for Bayesian optimization, Hyperband, probabilistic regression, survival analysis, and spatial and temporal data.
 A complete list of existing and planned extension packages can be found on the [mlr3 wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
 
