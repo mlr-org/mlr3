@@ -1,9 +1,15 @@
 #' @title Out-of-bag Error Measure
 #'
 #' @usage NULL
-#' @aliases mlr_measures_oob_error
+#' @name mlr_measures_oob_error
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
+#'
+#' @description
+#' Returns the out-of-bag error of the [Learner] for learners that support it
+#' (learners with property `"oob_error"`).
+#' Returns `NA` for unsupported learners.
+#'
 #'
 #' @section Construction:
 #' ```
@@ -12,10 +18,11 @@
 #' msr("oob_error")
 #' ```
 #'
-#' @description
-#' Returns the out-of-bag error of the [Learner] for learners that support it
-#' (learners with property `"oob_error"`).
-#' Returns `NA` for unsupported learners.
+#' @section Meta Information:
+#' * Type: `NA`
+#' * Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
+#' * Minimize: `NA`
+#' * Required prediction: 'response'
 #'
 #' @template seealso_measure
 #' @export

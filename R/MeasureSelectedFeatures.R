@@ -1,9 +1,15 @@
 #' @title Selected Features Measure
 #'
 #' @usage NULL
-#' @aliases mlr_measures_selected_features
+#' @name mlr_measures_selected_features
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
+#'
+#' @description
+#' Measures the number of selected features by extracting it from learners with property `"selected_features"`.
+#' If the learner does not support this, `NA` is returned.
+#'
+#' This measure requires the [Task] and the [Learner] for scoring.
 #'
 #' @section Construction:
 #' ```
@@ -15,8 +21,11 @@
 #' * `normalize` :: `logical(1)`\cr
 #' If `normalize` is set to `TRUE`, divides the number of features by the total number of features.
 #'
-#' @description
-#' Measures the number of selected features.
+#' @section Meta Information:
+#' * Type: `NA`
+#' * Range: \eqn{[0, \infty)}{[0, Inf)}
+#' * Minimize: `TRUE`
+#' * Required prediction: 'response'
 #'
 #' @template seealso_measure
 #' @export

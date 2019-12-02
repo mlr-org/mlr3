@@ -60,7 +60,7 @@ Imports:
     lgr (>= 0.3.0),
     mlbench,
     mlr3misc (>= 0.1.5),
-    mlr3measures (>= 0.1.0),
+    mlr3measures (>= 0.1.1),
     paradox,
     uuid,
     R6
@@ -81,7 +81,7 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = FALSE)
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.1
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
