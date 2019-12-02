@@ -3,51 +3,9 @@
 \name{LearnerClassif}
 \alias{LearnerClassif}
 \title{Classification Learner}
-\arguments{
-\item{id}{Identifier for the learner.}
-
-\item{param_Set}{Set of hyperparameters.}
-
-\item{predict_types}{Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
-Possible values for \code{predict_types} are passed to and converted by \link{PredictionClassif}:
-\itemize{
-\item \code{"response"}: Predicts a class label for each observation in the test set.
-\item \code{"prob"}: Predicts the posterior probability for each class for each observation in the test set.
-}}
-
-\item{feature_types}{Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
-
-\item{properties}{Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
-The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
-\itemize{
-\item \code{"missings"}: The learner can handle missing values in the data.
-\item \code{"weights"}: The learner supports observation weights.
-\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with a \code{importance()} extractor function (see section on optional extractors).
-\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \code{selected_features()} extractor function (see section on optional extractors).
-\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors).
-}}
-
-\item{data_formats}{Vector of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}. Defaults to \code{"data.table"}.}
-
-\item{packages}{Set of required packages. Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.}
-
-\item{man}{String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.}
-}
-\value{
-An object representing the learner.
-}
 \description{
 This Learner specializes \link{Learner} for classification problems.
 Many predefined learners can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_learners} after loading the \CRANpkg{mlr3learners} package.
-
-For a description of the arguments, see \link{Learner}.
-\code{task_type} is set to \code{"classif"}.
-
-Additional learner properties include:
-\itemize{
-\item \code{"twoclass"}: The learner works on binary classification problems.
-\item \code{"multiclass"}: The learner works on multiclass classification problems.
-}
 }
 \examples{
 # get all classification learners from mlr_learners:
@@ -68,4 +26,68 @@ lrn$predict(task, 121:150)$confusion
 }
 \seealso{
 Example classification learners: \link{LearnerClassifRpart}
+}
+\section{Super class}{
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{LearnerClassif}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{LearnerClassif$new()}}
+\item \href{#method-clone}{\code{LearnerClassif$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format">}\href{../../mlr3/html/Learner.html#method-format}{\code{mlr3::Learner$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help">}\href{../../mlr3/html/Learner.html#method-help}{\code{mlr3::Learner$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict">}\href{../../mlr3/html/Learner.html#method-predict}{\code{mlr3::Learner$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata">}\href{../../mlr3/html/Learner.html#method-predict_newdata}{\code{mlr3::Learner$predict_newdata()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print">}\href{../../mlr3/html/Learner.html#method-print}{\code{mlr3::Learner$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train">}\href{../../mlr3/html/Learner.html#method-train}{\code{mlr3::Learner$train()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+For a description of the arguments, see \link{Learner}.
+\code{task_type} is set to \code{"classif"}.
+
+Additional learner properties include:
+\itemize{
+\item \code{"twoclass"}: The learner works on binary classification problems.
+\item \code{"multiclass"}: The learner works on multiclass classification problems.
+}
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassif$new(
+  id,
+  param_set = ParamSet$new(),
+  predict_types = "response",
+  feature_types = character(),
+  properties = character(),
+  data_formats = "data.table",
+  packages = character(),
+  man = NA_character_
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassif$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
 }
