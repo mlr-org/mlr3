@@ -37,12 +37,14 @@ Example resamplings: \code{\link[=mlr_resamplings_cv]{cv}}, \code{\link[=mlr_res
 
 Sugar function: \code{\link[=rsmp]{rsmp()}}
 
-Other Dictionary: \code{\link{mlr_learners}},
-  \code{\link{mlr_measures}},
-  \code{\link{mlr_task_generators}},
-  \code{\link{mlr_tasks}}
+Other Dictionary: 
+\code{\link{mlr_learners}},
+\code{\link{mlr_measures}},
+\code{\link{mlr_task_generators}},
+\code{\link{mlr_tasks}}
 
-Other Resampling: \code{\link{Resampling}}
+Other Resampling: 
+\code{\link{Resampling}}
 }
 \concept{Dictionary}
 \concept{Resampling}

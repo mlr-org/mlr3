@@ -7,6 +7,7 @@
 \alias{assert_tasks}
 \alias{assert_learner}
 \alias{assert_learners}
+\alias{assert_learnable}
 \alias{assert_measure}
 \alias{assert_measures}
 \alias{assert_resampling}
@@ -19,29 +20,63 @@
 \usage{
 assert_backend(b, .var.name = vname(b))
 
-assert_task(task, task_type = NULL, feature_types = NULL,
-  task_properties = NULL, .var.name = vname(task))
+assert_task(
+  task,
+  task_type = NULL,
+  feature_types = NULL,
+  task_properties = NULL,
+  .var.name = vname(task)
+)
 
-assert_tasks(tasks, task_type = NULL, feature_types = NULL,
-  task_properties = NULL, .var.name = vname(tasks))
+assert_tasks(
+  tasks,
+  task_type = NULL,
+  feature_types = NULL,
+  task_properties = NULL,
+  .var.name = vname(tasks)
+)
 
-assert_learner(learner, task = NULL, properties = character(),
-  .var.name = vname(learner))
+assert_learner(
+  learner,
+  task = NULL,
+  properties = character(),
+  .var.name = vname(learner)
+)
 
-assert_learners(learners, task = NULL, properties = character(),
-  .var.name = vname(learners))
+assert_learners(
+  learners,
+  task = NULL,
+  properties = character(),
+  .var.name = vname(learners)
+)
 
-assert_measure(measure, task = NULL, learner = NULL,
-  .var.name = vname(measure))
+assert_learnable(task, learner)
 
-assert_measures(measures, task = NULL, learner = NULL,
-  .var.name = vname(measures))
+assert_measure(
+  measure,
+  task = NULL,
+  learner = NULL,
+  .var.name = vname(measure)
+)
 
-assert_resampling(resampling, instantiated = NULL,
-  .var.name = vname(resampling))
+assert_measures(
+  measures,
+  task = NULL,
+  learner = NULL,
+  .var.name = vname(measures)
+)
 
-assert_resamplings(resamplings, instantiated = NULL,
-  .var.name = vname(resamplings))
+assert_resampling(
+  resampling,
+  instantiated = NULL,
+  .var.name = vname(resampling)
+)
+
+assert_resamplings(
+  resamplings,
+  instantiated = NULL,
+  .var.name = vname(resamplings)
+)
 
 assert_prediction(prediction, .var.name = vname(prediction))
 
@@ -86,7 +121,15 @@ Set of required task properties.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
-All functions assert on the respective class, and optionally additional properties.
+Most functions assert on the respective class, and optionally additional properties.
+Additionally, the following compound assertions are implemented:
+\itemize{
+\item assert_learnable(task, learner)\cr
+(\link{Task}, \link{Learner}) -> NULL\cr
+Checks if the learner is applicable to the task.
+This includes type checks on the type, the feature types, and properties.
+}
+
 If an assertion fails, an exception is raised.
 Otherwise, the input object is returned invisibly.
 }

@@ -107,7 +107,7 @@ convert_matching_types = function(col_info, data) {
     cur_col = data[[id]]
     cur_type = class(cur_col)[1L]
 
-    if (type != cur_type && any(c(type, cur_type) %nin% c("character", "factor", "ordered"))) {
+    if (type != cur_type && any(c(type, cur_type) %nin% c("factor", "ordered"))) {
       if (allMissing(cur_col)) {
         if (type %in% c("factor", "ordered")) {
           cur_col = as_factor(cur_col, levels = levels, ordered = (type == "ordered"))
@@ -174,7 +174,7 @@ task_rbind = function(self, data) {
   vunion = function(x, y) Map(union, x, y)
   i.levels = NULL
   self$col_info = self$col_info[ci[, c("id", "levels"), with = FALSE], on = "id", nomatch = 0L]
-  self$col_info[get("type") %in% c("factor", "ordered", "character"), "levels" := list(vunion(levels, i.levels))]
+  self$col_info[get("type") %in% c("factor", "ordered"), "levels" := list(vunion(levels, i.levels))]
   self$col_info[, "i.levels" := NULL]
 
   invisible(self)

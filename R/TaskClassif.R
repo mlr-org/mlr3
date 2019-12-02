@@ -78,8 +78,8 @@ TaskClassif = R6Class("TaskClassif",
       info = self$col_info[id == target]
       levels = info$levels[[1L]]
 
-      if (info$type %nin% c("factor", "character")) {
-        stopf("Target column '%s' must be a factor or character", target)
+      if (info$type != "factor") {
+        stopf("Target column '%s' must be a factor", target)
       }
       if (length(levels) < 2L) {
         stopf("Target column '%s' must have at least two levels", target)
@@ -91,8 +91,8 @@ TaskClassif = R6Class("TaskClassif",
       }
     },
 
-    truth = function(row_ids = NULL) {
-      truth = super$truth(row_ids)[[1L]]
+    truth = function(rows = NULL) {
+      truth = super$truth(rows)[[1L]]
       as_factor(truth, levels = self$class_names)
     }
   ),

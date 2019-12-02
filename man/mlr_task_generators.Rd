@@ -36,11 +36,14 @@ Example generators: \code{\link[=mlr_task_generators_xor]{xor}}
 
 Sugar function: \code{\link[=tgen]{tgen()}}
 
-Other Dictionary: \code{\link{mlr_learners}},
-  \code{\link{mlr_measures}},
-  \code{\link{mlr_resamplings}}, \code{\link{mlr_tasks}}
+Other Dictionary: 
+\code{\link{mlr_learners}},
+\code{\link{mlr_measures}},
+\code{\link{mlr_resamplings}},
+\code{\link{mlr_tasks}}
 
-Other TaskGenerator: \code{\link{TaskGenerator}}
+Other TaskGenerator: 
+\code{\link{TaskGenerator}}
 }
 \concept{Dictionary}
 \concept{TaskGenerator}

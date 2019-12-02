@@ -82,13 +82,13 @@ as_resamplings(x, clone = FALSE)
 
 as_measure(x, task_type = NULL, clone = FALSE)
 
-\method{as_measure}{NULL}(x, task_type = NULL, clone = FALSE)
+\method{as_measure}{`NULL`}(x, task_type = NULL, clone = FALSE)
 
 \method{as_measure}{Measure}(x, task_type = NULL, clone = FALSE)
 
 as_measures(x, task_type = NULL, clone = FALSE)
 
-\method{as_measures}{NULL}(x, task_type = NULL, clone = FALSE)
+\method{as_measures}{`NULL`}(x, task_type = NULL, clone = FALSE)
 
 \method{as_measures}{list}(x, task_type = NULL, clone = FALSE)
 

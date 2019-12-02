@@ -28,8 +28,9 @@ Wraps a \link{DataBackend} around data.
 as_data_backend(iris)
 }
 \seealso{
-Other DataBackend: \code{\link{DataBackendDataTable}},
-  \code{\link{DataBackendMatrix}},
-  \code{\link{DataBackend}}
+Other DataBackend: 
+\code{\link{DataBackendDataTable}},
+\code{\link{DataBackendMatrix}},
+\code{\link{DataBackend}}
 }
 \concept{DataBackend}

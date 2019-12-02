@@ -243,7 +243,9 @@ Learner = R6Class("Learner",
     },
 
     train = function(task, row_ids = NULL) {
-      task = assert_task(as_task(task), task_type = self$task_type, feature_types = self$feature_types)
+      task = assert_task(as_task(task))
+      assert_learnable(task, self)
+
       if (!is.null(row_ids)) {
         row_ids = assert_row_ids(row_ids)
       }
@@ -256,7 +258,8 @@ Learner = R6Class("Learner",
     },
 
     predict = function(task, row_ids = NULL) {
-      task = assert_task(as_task(task), task_type = self$task_type, feature_types = self$feature_types)
+      task = assert_task(as_task(task))
+      assert_learnable(task, self)
 
       if (!is.null(row_ids)) {
         row_ids = assert_row_ids(row_ids)
@@ -275,7 +278,8 @@ Learner = R6Class("Learner",
           stopf("No task stored, and no task provided")
         task = self$state$train_task$clone()
       } else {
-        task = assert_task(as_task(task, clone = TRUE), task_type = self$task_type, feature_types = self$feature_types)
+        task = assert_task(as_task(task, clone = TRUE))
+        assert_learnable(task, self)
         task = task_rm_data(task)
       }
 

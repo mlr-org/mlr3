@@ -1,6 +1,9 @@
 
 # mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
+Package website: [release](https://mlr3.mlr-org.com/) |
+[dev](https://mlr3.mlr-org.com/dev)
+
 Efficient, object-oriented programming on the building blocks of machine
 learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 
@@ -18,16 +21,25 @@ Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.or
 
 ## Resources
 
-  - We *started* writing a [book manual](https://mlr3book.mlr-org.com/),
-    but it is still in early stages.
+  - We *started* writing a [book](https://mlr3book.mlr-org.com/), but it
+    is still in early stages.
   - [Reference Manual](https://mlr3.mlr-org.com/reference/)
   - [Extension
     packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
-  - [useR\!2019
-    talks](https://github.com/mlr-org/mlr-outreach/tree/master/2019_useR)
+  - [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
+    talks and slides
   - [Blog](https://mlr-org.com/) about *mlr* and *mlr3*
+  - [Wiki](https://github.com/mlr-org/mlr3/wiki)
 
 ## Installation
+
+Install the last release from CRAN:
+
+``` r
+install.packages("mlr3")
+```
+
+Install the development version from GitHub:
 
 ``` r
 remotes::install_github("mlr-org/mlr3")
@@ -96,24 +108,22 @@ resampling = rsmp("cv", folds = 3L)
 rr = resample(task_iris, learner, resampling)
 ```
 
-    ## INFO  [22:03:10.192] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-    ## INFO  [22:03:10.247] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-    ## INFO  [22:03:10.274] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
+    ## INFO  [17:40:07.709] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+    ## INFO  [17:40:07.744] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+    ## INFO  [17:40:07.762] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)
 
 ``` r
 rr$score(measure)
 ```
 
-    ##             task task_id               learner    learner_id
-    ##           <list>  <char>                <list>        <char>
-    ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
-    ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
-    ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart
-    ##        resampling resampling_id iteration prediction classif.acc
-    ##            <list>        <char>     <int>     <list>       <num>
-    ## 1: <ResamplingCV>            cv         1     <list>        0.92
-    ## 2: <ResamplingCV>            cv         2     <list>        0.92
-    ## 3: <ResamplingCV>            cv         3     <list>        0.94
+    ##             task task_id               learner    learner_id     resampling
+    ## 1: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart <ResamplingCV>
+    ## 2: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart <ResamplingCV>
+    ## 3: <TaskClassif>    iris <LearnerClassifRpart> classif.rpart <ResamplingCV>
+    ##    resampling_id iteration prediction classif.acc
+    ## 1:            cv         1     <list>        0.92
+    ## 2:            cv         2     <list>        0.92
+    ## 3:            cv         3     <list>        0.94
 
 ``` r
 rr$aggregate(measure)
@@ -153,6 +163,11 @@ would result in non-trivial API changes.
     fast and convenient data frame computations.
   - Combine `data.table` and `R6`, for this we will make heavy use of
     list columns in data.tables.
+  - Defensive programming and type safety. All user input is checked
+    with [`checkmate`](https://cran.r-project.org/package=checkmate).
+    Return types are documented, and mechanisms popular in base R which
+    “simplify” the result unpredictably (e.g., `sapply()` or `drop`
+    argument in `[.data.frame`) are avoided.
   - Be light on dependencies. `mlr3` requires the following packages at
     runtime:
       - [`backports`](https://cran.r-project.org/package=backports):
@@ -194,12 +209,26 @@ would result in non-trivial API changes.
         [`evaluate`](https://cran.r-project.org/package=evaluate) and
         [`callr`](https://cran.r-project.org/package=callr) can be used.
 
-# Talks, Workshops, etc.
+## Extension Packages
 
-[mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all
-outreach activities related to *mlr* and *mlr3*.
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
-mlr3 talk at useR\! 2019 conference in Toulouse, France:
+Consult the
+[wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
+short descriptions and links to the respective repositories.
 
-[![Watch the
-video](https://img.youtube.com/vi/wsP2hiFnDQs/maxresdefault.jpg)](https://www.youtube.com/watch?v=wsP2hiFnDQs&feature=youtu.be)
+## Contributing to mlr3
+
+This R package is licensed under the
+[LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html). If you
+encounter problems using this software (lack of documentation,
+misleading or wrong documentation, unexpected behaviour, bugs, …) or
+just want to suggest features, please open an issue in the [issue
+tracker](https://github.com/mlr-org/mlr3/issues). Pull requests are
+welcome and will be included at the discretion of the maintainers.
+
+Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a
+[style guide](https://github.com/mlr-org/mlr3/wiki/Style-Guide), a
+[roxygen guide](https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide) and
+a [pull request
+guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).

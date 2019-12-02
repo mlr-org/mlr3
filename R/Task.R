@@ -41,7 +41,7 @@
 #'   Table with with 3 columns:
 #'   - `"id"` stores the name of the column.
 #'   - `"type"` holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
-#'   - `"levels"` stores a vector of distinct values (levels) for factor and character variables.
+#'   - `"levels"` stores a vector of distinct values (levels) for factor variables.
 #'
 #' * `col_roles` :: named `list()`\cr
 #'   Each column (feature) can have an arbitrary number of the following roles:
@@ -129,7 +129,7 @@
 #'
 #' @section Methods:
 #' * `data(rows = NULL, cols = NULL, data_format = NULL)`\cr
-#'   (`integer()` | `character()`, `character(1)`, `character(1)`) -> `any`\cr
+#'   (`integer()` | `character()`, `character()`, `character(1)`) -> `any`\cr
 #'   Returns a slice of the data from the [DataBackend] in the data format specified by `data_format`
 #'   (depending on the [DataBackend], but usually a [data.table::data.table()]).
 #'
@@ -144,7 +144,7 @@
 #'
 #' * `levels(cols = NULL)`\cr
 #'   `character()` -> named `list()`\cr
-#'   Returns the distinct values for columns referenced in `cols` with storage type "character", "factor" or "ordered".
+#'   Returns the distinct values for columns referenced in `cols` with storage type "factor" or "ordered".
 #'   Argument `cols` defaults to all such columns with role `"target"` or `"feature"`.
 #'
 #'   Note that this function ignores the row roles, it returns all levels available in the [DataBackend].
@@ -153,7 +153,7 @@
 #' * `droplevels(cols = NULL)`\cr
 #'   `character()` -> `self`\cr
 #'   Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
-#'   `cols` defaults to all columns with storage type "character", "factor", or "ordered".
+#'   `cols` defaults to all columns with storage type "factor" or "ordered".
 #'
 #' * `missings(cols = NULL)`\cr
 #'   `character()` -> named `integer()`\cr
@@ -199,7 +199,7 @@
 #'   `data.frame()` -> `self`\cr
 #'   Adds additional columns to the [DataBackend].
 #'   The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
-#'   If this column is missing, it is assumed that the rows are exactly in the order of `t$row_ids`.
+#'   If this column is missing, it is assumed that the rows are exactly in the order of `t$ow_ids`.
 #'   In case of name clashes of column names in `data` and [DataBackend], columns in `data` have higher precedence
 #'   and virtually overwrite the columns in the [DataBackend].
 #'
@@ -328,7 +328,7 @@ Task = R6Class("Task",
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
-        cols = self$col_info[id %in% cols & type %in% c("character", "factor", "ordered"), "id", with = FALSE][[1L]]
+        cols = self$col_info[id %in% cols & type %in% c("factor", "ordered"), "id", with = FALSE][[1L]]
       } else {
         assert_subset(cols, self$col_info$id)
       }
@@ -381,7 +381,7 @@ Task = R6Class("Task",
     },
 
     droplevels = function(cols = NULL) {
-      ids = self$col_info[type %in% c("character", "factor", "ordered"), "id", with = FALSE][[1L]]
+      ids = self$col_info[type %in% c("factor", "ordered"), "id", with = FALSE][[1L]]
       cols = if (is.null(cols)) ids else intersect(cols, ids)
       lvls = self$backend$distinct(rows = self$row_ids, cols = cols)
       self$col_info = ujoin(self$col_info, enframe(lvls, "id", "levels"), key = "id")
@@ -412,7 +412,7 @@ Task = R6Class("Task",
     properties = function(rhs) {
       if (missing(rhs)) {
         col_roles = private$.col_roles
-        c(
+        c(character(),
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
@@ -605,14 +605,14 @@ col_info = function(x, ...) {
 
 col_info.data.table = function(x, primary_key = character(), ...) {
   types = map_chr(x, function(x) class(x)[1L])
-  discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], primary_key)
+  discrete = setdiff(names(types)[types %in% c("factor", "ordered")], primary_key)
   levels = insert_named(named_list(names(types)), lapply(x[, discrete, with = FALSE], distinct_values, drop = FALSE))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }
 
 col_info.DataBackend = function(x, ...) {
   types = map_chr(x$head(1L), function(x) class(x)[1L])
-  discrete = setdiff(names(types)[types %in% c("character", "factor", "ordered")], x$primary_key)
+  discrete = setdiff(names(types)[types %in% c("factor", "ordered")], x$primary_key)
   levels = insert_named(named_list(names(types)), x$distinct(rows = NULL, cols = discrete))
   data.table(id = names(types), type = unname(types), levels = levels, key = "id")
 }

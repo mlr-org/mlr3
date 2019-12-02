@@ -342,7 +342,9 @@ expect_resampling = function(r, task = NULL) {
       test = r$test_set(1L)
       checkmate::expect_atomic_vector(train, any.missing = FALSE)
       checkmate::expect_atomic_vector(test, any.missing = FALSE)
-      testthat::expect_length(intersect(train, test), 0L)
+      if (!inherits(r, "ResamplingCustom")) {
+        testthat::expect_length(intersect(train, test), 0L)
+      }
       if (!is.null(task)) {
         checkmate::expect_subset(train, ids)
         checkmate::expect_subset(train, ids)

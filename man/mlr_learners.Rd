@@ -42,13 +42,16 @@ Sugar function: \code{\link[=lrn]{lrn()}}
 
 Extension Packages: \CRANpkg{mlr3learners}
 
-Other Dictionary: \code{\link{mlr_measures}},
-  \code{\link{mlr_resamplings}},
-  \code{\link{mlr_task_generators}},
-  \code{\link{mlr_tasks}}
+Other Dictionary: 
+\code{\link{mlr_measures}},
+\code{\link{mlr_resamplings}},
+\code{\link{mlr_task_generators}},
+\code{\link{mlr_tasks}}
 
-Other Learner: \code{\link{LearnerRegr}},
-  \code{\link{Learner}}
+Other Learner: 
+\code{\link{LearnerClassif}},
+\code{\link{LearnerRegr}},
+\code{\link{Learner}}
 }
 \concept{Dictionary}
 \concept{Learner}

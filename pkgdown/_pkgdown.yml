@@ -4,32 +4,42 @@ template:
   package: mlr3pkgdowntemplate
   params:
     bootswatch: journal
+    docsearch:
+      api_key: 9c3abd63d461245fb19ebd2d2645c5b0
+      index_name: mlr3
   default_assets: false
 
 development:
-  destination: dev
+  mode: auto
   version_label: default
-  version_tooltip: "Development version"
-
-home:
-  strip_header: true
+  version_tooltip: "Version"
 
 toc:
   depth: 3
 
 navbar:
-  title:
-  type: default
-
-  right:
-  - icon: fa-github fa-lg
-    href: https://github.com/mlr-org/mlr3
-  - icon: fa-slack
-    href: https://mlr-org.slack.com
-  - icon: fa-stack-overflow
-    href: https://stackoverflow.com/questions/tagged/mlr3
-  - icon: fa-rss
-    href: https://mlr-org.com/
+  structure:
+    left:  [reference, news, book]
+    right: [github, slack, stackoverflow, rss]
+  components:
+    home: ~
+    reference:
+      icon: fa fa-file-alt
+      text: Reference
+      href: reference/index.html
+    slack:
+      icon: fab fa-slack
+      href: https://mlr-org.slack.com
+    book:
+      text: mlr3book
+      icon: fa fa-link
+      href: https://mlr3book.mlr-org.com
+    stackoverflow:
+      icon: fab fa-stack-overflow
+      href: https://stackoverflow.com/questions/tagged/mlr
+    rss:
+      icon: fa-rss
+      href: https://mlr-org.com/
 
 reference:
   - title: Building Blocks

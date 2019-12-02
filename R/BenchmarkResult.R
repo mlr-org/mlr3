@@ -193,8 +193,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     score = function(measures = NULL, ids = TRUE) {
-      measures = as_measures(measures, task_type = self$task_type)
-      assert_measures(measures)
+      measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
       tab = copy(self$data)
 

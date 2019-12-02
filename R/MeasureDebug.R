@@ -1,9 +1,13 @@
 #' @title Debug Measure
 #'
 #' @usage NULL
-#' @aliases mlr_measures_debug
+#' @name mlr_measures_debug
 #' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
+#'
+#' @description
+#' This measure returns the number of observations in the [Prediction] object.
+#' Its main purpose is debugging.
 #'
 #' @section Construction:
 #' ```
@@ -16,18 +20,20 @@
 #'   Ratio of scores which should be `NA`.
 #'   Default is 0.
 #'
-#' @description
-#' This measure returns the number of observations in the [Prediction] object.
-#' Its main purpose is debugging.
-#'
 #' @section Fields:
 #' * `na_ratio` :: `numeric(1)`.
+#'
+#' @section Meta Information:
+#' * Type: `NA`
+#' * Range: \eqn{[0, \infty)}{[0, Inf)}
+#' * Minimize: `NA`
+#' * Required prediction: 'response'
 #'
 #' @template seealso_measure
 #' @export
 #' @examples
 #' task = tsk("wine")
-#' learner = lrn("classif.featureless", predict_sets = "test")
+#' learner = lrn("classif.featureless")
 #' measure = msr("debug")
 #' rr = resample(task, learner, rsmp("cv", folds = 3))
 #' rr$score(measure)

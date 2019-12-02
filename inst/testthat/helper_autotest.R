@@ -191,8 +191,9 @@ run_experiment = function(task, learner) {
     )
   }
 
-  mlr3::assert_task(task)
-  learner = mlr3::assert_learner(mlr3::as_learner(learner, clone = TRUE), task = task)
+  task = mlr3::assert_task(mlr3::as_task(task))
+  learner = mlr3::assert_learner(mlr3::as_learner(learner, clone = TRUE))
+  mlr3::assert_learnable(task, learner)
   prediction = NULL
   score = NULL
   learner$encapsulate = c(train = "evaluate", predict = "evaluate")
@@ -260,7 +261,7 @@ run_experiment = function(task, learner) {
       return(err(msg))
     msg = checkmate::check_names(names(importance), subset.of = task$feature_names)
     if (!isTRUE(msg))
-      return(err(msg))
+      return(err("Names of returned importance scores do not match task names: %s", str_collapse(names(importance))))
     if ("unimportant" %in% head(names(importance), 1L))
       return(err("unimportant feature is important"))
   }

@@ -4,6 +4,8 @@ output: github_document
 
 # mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
+Package website: [release](https://mlr3.mlr-org.com/) | [dev](https://mlr3.mlr-org.com/dev)
+
 Efficient, object-oriented programming on the building blocks of machine learning.
 Successor of [mlr](https://github.com/mlr-org/mlr).
 
@@ -18,14 +20,21 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 
 ## Resources
 
-* We _started_ writing a [book manual](https://mlr3book.mlr-org.com/), but it is still in early stages.
+* We _started_ writing a [book](https://mlr3book.mlr-org.com/), but it is still in early stages.
 * [Reference Manual](https://mlr3.mlr-org.com/reference/)
 * [Extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
-* [useR!2019 talks](https://github.com/mlr-org/mlr-outreach/tree/master/2019_useR)
+* [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains talks and slides
 * [Blog](https://mlr-org.com/) about _mlr_ and _mlr3_
+* [Wiki](https://github.com/mlr-org/mlr3/wiki)
 
 ## Installation
 
+Install the last release from CRAN:
+```{r, eval = FALSE}
+install.packages("mlr3")
+```
+
+Install the development version from GitHub:
 ```{r, eval = FALSE}
 remotes::install_github("mlr-org/mlr3")
 ```
@@ -92,6 +101,9 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
 * Embrace [R6](https://cran.r-project.org/package=R6) for a clean OO-design, object state-changes and reference semantics. This might be less "traditional R", but seems to fit `mlr` nicely.
 * Embrace [`data.table`](https://cran.r-project.org/package=data.table) for fast and convenient data frame computations.
 * Combine `data.table` and `R6`, for this we will make heavy use of list columns in data.tables.
+* Defensive programming and type safety.
+  All user input is checked with [`checkmate`](https://cran.r-project.org/package=checkmate).
+  Return types are documented, and mechanisms popular in base R which "simplify" the result unpredictably (e.g., `sapply()` or `drop` argument in `[.data.frame`) are avoided.
 * Be light on dependencies. `mlr3` requires the following packages at runtime:
     - [`backports`](https://cran.r-project.org/package=backports):
       Ensures backward compatibility with older R releases. Developed by members of the `mlr` team.
@@ -132,10 +144,18 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
     - To capture output, warnings and exceptions, [`evaluate`](https://cran.r-project.org/package=evaluate) and [`callr`](https://cran.r-project.org/package=callr) can be used.
 
-# Talks, Workshops, etc.
 
-[mlr-outreach](https://github.com/mlr-org/mlr-outreach) holds all outreach activities related to _mlr_ and _mlr3_.
+## Extension Packages
 
-mlr3 talk at useR! 2019 conference in Toulouse, France:
 
-[![Watch the video](https://img.youtube.com/vi/wsP2hiFnDQs/maxresdefault.jpg)](https://www.youtube.com/watch?v=wsP2hiFnDQs&feature=youtu.be)
+<a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
+
+Consult the [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for short descriptions and links to the respective repositories.
+
+
+## Contributing to mlr3
+This R package is licensed under the [LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html).
+If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behaviour, bugs, ...) or just want to suggest features, please open an issue in the [issue tracker](https://github.com/mlr-org/mlr3/issues).
+Pull requests are welcome and will be included at the discretion of the maintainers.
+
+Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a [style guide](https://github.com/mlr-org/mlr3/wiki/Style-Guide), a [roxygen guide](https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide) and a [pull request guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).

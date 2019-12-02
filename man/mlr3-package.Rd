@@ -6,7 +6,7 @@
 \alias{mlr3-package}
 \title{mlr3: Machine Learning in R - Next Generation}
 \description{
-\if{html}{\figure{logo.png}{options: align='right'}}
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 Efficient, object-oriented programming on the building blocks of
     machine learning. Provides 'R6' objects for tasks, learners, resamplings,
@@ -25,21 +25,21 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Michel Lang \email{michellang@gmail.com} (0000-0001-9754-0393)
+\strong{Maintainer}: Michel Lang \email{michellang@gmail.com} (\href{https://orcid.org/0000-0001-9754-0393}{ORCID})
 
 Authors:
 \itemize{
-  \item Bernd Bischl \email{bernd_bischl@gmx.net} (0000-0001-6002-6980)
-  \item Jakob Richter \email{jakob1richter@gmail.com} (0000-0003-4481-5554)
-  \item Patrick Schratz \email{patrick.schratz@gmail.com} (0000-0003-0748-6624)
+  \item Bernd Bischl \email{bernd_bischl@gmx.net} (\href{https://orcid.org/0000-0001-6002-6980}{ORCID})
+  \item Jakob Richter \email{jakob1richter@gmail.com} (\href{https://orcid.org/0000-0003-4481-5554}{ORCID})
+  \item Patrick Schratz \email{patrick.schratz@gmail.com} (\href{https://orcid.org/0000-0003-0748-6624}{ORCID})
   \item Martin Binder \email{mlr.developer@mb706.com}
 }
 
 Other contributors:
 \itemize{
-  \item Giuseppe Casalicchio \email{giuseppe.casalicchio@stat.uni-muenchen.de} (0000-0001-5324-5966) [contributor]
-  \item Stefan Coors \email{mail@stefancoors.de} (0000-0002-7465-2146) [contributor]
-  \item Quay Au \email{quayau@gmail.com} (0000-0002-5252-8902) [contributor]
+  \item Giuseppe Casalicchio \email{giuseppe.casalicchio@stat.uni-muenchen.de} (\href{https://orcid.org/0000-0001-5324-5966}{ORCID}) [contributor]
+  \item Stefan Coors \email{mail@stefancoors.de} (\href{https://orcid.org/0000-0002-7465-2146}{ORCID}) [contributor]
+  \item Quay Au \email{quayau@gmail.com} (\href{https://orcid.org/0000-0002-5252-8902}{ORCID}) [contributor]
 }
 
 }
