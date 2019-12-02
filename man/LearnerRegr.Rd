@@ -3,37 +3,10 @@
 \name{LearnerRegr}
 \alias{LearnerRegr}
 \title{Regression Learner}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Learner}.}
 \description{
 This Learner specializes \link{Learner} for regression problems.
-
 Many predefined learners can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_learners} after loading the \CRANpkg{mlr3learners} package.
 }
-\section{Construction}{
-\preformatted{l = LearnerRegr$new(id, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
-    properties = character(), data_formats = "data.table", packages = character(), man = NA_character_)
-}
-
-For a description of the arguments, see \link{Learner}.
-\code{task_type} is set to \code{"regr"}.
-
-Possible values for \code{predict_types} are passed to and converted by \link{PredictionRegr}:
-\itemize{
-\item \code{"response"}: Predicts a numeric response for each observation in the test set.
-\item \code{"se"}: Predicts the standard error for each value of response for each observation in the test set.
-}
-}
-
-\section{Fields}{
-
-See \link{Learner}.
-}
-
-\section{Methods}{
-
-See \link{Learner}.
-}
-
 \examples{
 # get all regression learners from mlr_learners:
 lrns = mlr_learners$mget(mlr_learners$keys("^regr"))
@@ -42,12 +15,66 @@ names(lrns)
 # get a specific learner from mlr_learners:
 mlr_learners$get("regr.rpart")
 lrn("classif.featureless")
+
 }
 \seealso{
 Example regression learners: \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}
-
-Other Learner: 
-\code{\link{Learner}},
-\code{\link{mlr_learners}}
 }
-\concept{Learner}
+\section{Super class}{
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{LearnerRegr}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{LearnerRegr$new()}}
+\item \href{#method-clone}{\code{LearnerRegr$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format">}\href{../../mlr3/html/Learner.html#method-format}{\code{mlr3::Learner$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help">}\href{../../mlr3/html/Learner.html#method-help}{\code{mlr3::Learner$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict">}\href{../../mlr3/html/Learner.html#method-predict}{\code{mlr3::Learner$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata">}\href{../../mlr3/html/Learner.html#method-predict_newdata}{\code{mlr3::Learner$predict_newdata()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print">}\href{../../mlr3/html/Learner.html#method-print}{\code{mlr3::Learner$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train">}\href{../../mlr3/html/Learner.html#method-train}{\code{mlr3::Learner$train()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+For a description of the arguments, see \link{Learner}.
+\code{task_type} is set to \code{"regr"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegr$new(
+  id,
+  param_set = ParamSet$new(),
+  predict_types = "response",
+  feature_types = character(),
+  properties = character(),
+  data_formats = "data.table",
+  packages = character(),
+  man = NA_character_
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerRegr$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}
