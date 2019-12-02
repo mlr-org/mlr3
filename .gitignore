@@ -25,5 +25,4 @@ inst/doc
 .DS_Store
 .Rproj.user
 revdep
-.pre-commit-config.yaml
 /README.html
