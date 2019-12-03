@@ -76,6 +76,8 @@ Suggests:
     rpart,
     testthat,
     titanic
+Remotes:
+    mlr-org/mlr3misc@repr
 RdMacros: mlr3misc
 Encoding: UTF-8
 LazyData: true
