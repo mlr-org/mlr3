@@ -41,6 +41,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Measure Class — Measure" />
@@ -88,41 +94,46 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Development version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+  <a href="../reference/index.html">
+    <span class="fa fa fa fa-file-alt"></span>
      
+    Reference
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="https://mlr3book.mlr-org.com">
+    <span class="fa fa fa fa-link"></span>
+     
+    mlr3book
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://mlr-org.slack.com">
-    <span class="fa fa-slack"></span>
+    <span class="fab fa fab fa-slack"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr3">
-    <span class="fa fa-stack-overflow"></span>
+  <a href="https://stackoverflow.com/questions/tagged/mlr">
+    <span class="fab fa fab fa-stack-overflow"></span>
      
   </a>
 </li>
@@ -133,6 +144,12 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -160,7 +177,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
 <p>In addition to these two functions, meta-information about the performance measure is stored.</p>
 <p>Predefined measures are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>,
-e.g. <code><a href='MeasureSimple.html'>classif.auc</a></code> or <code><a href='MeasureElapsedTime.html'>time_train</a></code>.
+e.g. <code><a href='mlr_measures_classif.auc.html'>classif.auc</a></code> or <code><a href='mlr_measures_elapsed_time.html'>time_train</a></code>.
 A guide on how to extend <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> with custom measures can be found in the <a href='https://mlr3book.mlr-org.com'>mlr3book</a>.</p>
     </div>
 
@@ -173,8 +190,9 @@ A guide on how to extend <a href='https://CRAN.R-project.org/package=mlr3'><span
 
     
 
-<p>Note: This object is typically constructed via a derived classes, e.g. <a href='MeasureClassif.html'>MeasureClassif</a> or <a href='MeasureRegr.html'>MeasureRegr</a>.</p><pre>m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, aggregator = NULL, properties = character(), predict_type = "response",
-    predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_)
+<p>Note: This object is typically constructed via a derived classes, e.g. <a href='MeasureClassif.html'>MeasureClassif</a> or <a href='MeasureRegr.html'>MeasureRegr</a>.</p><pre>m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro",
+    aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
+    task_properties = character(), packages = character(), man = NA_character_)
 </pre>
 <ul>
 <li><p><code>id</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
@@ -188,6 +206,12 @@ Both bounds may be infinite.</p></li>
 Set to <code>TRUE</code> if good predictions correspond to small values,
 and to <code>FALSE</code> if good predictions correspond to large values.
 If set to <code>NA</code> (default), tuning this measure is not possible.</p></li>
+<li><p><code>average</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
+How to average multiple <a href='Prediction.html'>Prediction</a>s from a <a href='ResampleResult.html'>ResampleResult</a>.</p>
+<p>The default, <code>"macro"</code>, calculates the individual performances scores for each <a href='Prediction.html'>Prediction</a> and then uses the
+function defined in <code>aggregator</code> to average them to a single number.</p>
+<p>If set to <code>"micro"</code>, the individual <a href='Prediction.html'>Prediction</a> objects are first combined into a single new <a href='Prediction.html'>Prediction</a> object which is then used to assess the performance.
+The function <code>aggregator</code> is not used in this case.</p></li>
 <li><p><code>aggregator</code> :: <code>function(x)</code><br />
 Function to aggregate individual performance scores <code>x</code> where <code>x</code> is a numeric vector.
 If <code>NULL</code>, defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code>.</p></li>
@@ -246,8 +270,10 @@ Opens the corresponding help page referenced by <code>$man</code>.</p></li>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Measure: <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
-  <code><a href='MeasureRegr.html'>MeasureRegr</a></code>, <code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
+    <div class='dont-index'><p>Other Measure: 
+<code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
+<code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
+<code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -270,13 +296,30 @@ Opens the corresponding help page referenced by <code>$man</code>.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '9c3abd63d461245fb19ebd2d2645c5b0',
+    indexName: 'mlr3',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>

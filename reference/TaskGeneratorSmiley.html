@@ -41,6 +41,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Smiley Classification Task Generator — TaskGeneratorSmiley" />
@@ -78,41 +84,46 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Development version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+  <a href="../reference/index.html">
+    <span class="fa fa fa fa-file-alt"></span>
      
+    Reference
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="https://mlr3book.mlr-org.com">
+    <span class="fa fa fa fa-link"></span>
+     
+    mlr3book
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://mlr-org.slack.com">
-    <span class="fa fa-slack"></span>
+    <span class="fab fa fab fa-slack"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr3">
-    <span class="fa fa-stack-overflow"></span>
+  <a href="https://stackoverflow.com/questions/tagged/mlr">
+    <span class="fab fa fab fa-stack-overflow"></span>
      
   </a>
 </li>
@@ -123,6 +134,12 @@
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -164,16 +181,16 @@ tgen("smiley")
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"smiley"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes          x.1         x.2
-#&gt;  1:       1 -0.820969728  1.09234436
-#&gt;  2:       1 -0.815265622  1.20529242
-#&gt;  3:       2  0.840520795  0.95931822
-#&gt;  4:       2  1.008101016  1.04924050
-#&gt;  5:       3 -0.001110415  0.74013777
-#&gt;  6:       3  0.031468485  0.55108080
-#&gt;  7:       4 -0.219844055 -0.92945853
-#&gt;  8:       4  0.471707838 -0.77516318
-#&gt;  9:       4  0.993179577 -0.03669216
-#&gt; 10:       4  0.469939063 -0.81467965</div></pre>
+#&gt;  1:       1 -0.543733013  0.66530975
+#&gt;  2:       1 -0.924601567  1.01851033
+#&gt;  3:       2  0.833696766  0.87925643
+#&gt;  4:       2  0.826694190  0.93649701
+#&gt;  5:       3  0.009402837  0.16543292
+#&gt;  6:       3 -0.152068977  0.07860196
+#&gt;  7:       4  0.103098735 -0.99561938
+#&gt;  8:       4 -0.446378491 -0.79864263
+#&gt;  9:       4 -0.640495934 -0.63371935
+#&gt; 10:       4 -0.670304051 -0.52376559</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -194,13 +211,30 @@ tgen("smiley")
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '9c3abd63d461245fb19ebd2d2645c5b0',
+    indexName: 'mlr3',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>

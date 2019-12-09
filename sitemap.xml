@@ -46,46 +46,7 @@
     <loc>https://mlr3.mlr-org.com/reference/MeasureClassif.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifACC.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifAUC.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifCE.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifConfusion.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifCosts.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureClassifFScore.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureDebug.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureElapsedTime.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureOOBError.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/MeasureRegr.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureRegrMAE.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureRegrMSE.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureRegrRMSE.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/MeasureSelectedFeatures.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/Prediction.html</loc>
@@ -163,9 +124,6 @@
     <loc>https://mlr3.mlr-org.com/reference/benchmark_grid.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/confusion_measures.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/default_measures.html</loc>
   </url>
   <url>
@@ -182,6 +140,153 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.acc.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.auc.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.bacc.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.ce.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.costs.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.dor.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.fbeta.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.fdr.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.fn.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.fnr.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.fomr.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.fp.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.fpr.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.logloss.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mcc.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.npv.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.ppv.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.precision.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.recall.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.sensitivity.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.specificity.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.tn.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.tnr.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.tp.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.tpr.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_debug.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_elapsed_time.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_oob_error.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.bias.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.ktau.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.mae.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.mape.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.maxae.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.medae.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.medse.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.mse.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.msle.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.pbias.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rae.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rmse.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rmsle.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rrse.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rse.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.rsq.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.sae.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.smape.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.srho.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_regr.sse.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_selected_features.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_reflections.html</loc>

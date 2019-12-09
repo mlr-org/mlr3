@@ -41,6 +41,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Resampling Class — Resampling" />
@@ -84,41 +90,46 @@ e.g. cv or bootstrap." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Development version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+  <a href="../reference/index.html">
+    <span class="fa fa fa fa-file-alt"></span>
      
+    Reference
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="https://mlr3book.mlr-org.com">
+    <span class="fa fa fa fa-link"></span>
+     
+    mlr3book
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://mlr-org.slack.com">
-    <span class="fa fa-slack"></span>
+    <span class="fab fa fab fa-slack"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr3">
-    <span class="fa fa-stack-overflow"></span>
+  <a href="https://stackoverflow.com/questions/tagged/mlr">
+    <span class="fab fa fab fa-stack-overflow"></span>
      
   </a>
 </li>
@@ -129,6 +140,12 @@ e.g. cv or bootstrap." />
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -191,7 +208,9 @@ The instance can be in any arbitrary format.</p></li>
 <li><p><code>is_instantiated</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
 Is <code>TRUE</code>, if the resampling has been instantiated.</p></li>
 <li><p><code>task_hash</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-The hash of the task which was passed to <code>r$instantiate()</code>.</p></li>
+The hash of the <a href='Task.html'>Task</a> which was passed to <code>r$instantiate()</code>.</p></li>
+<li><p><code>task_nrow</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
+The number of observations of the <a href='Task.html'>Task</a> which was passed to <code>r$instantiate()</code>.</p></li>
 <li><p><code>hash</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
 Hash (unique identifier) for this object.</p>
 <p>E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross validation.
@@ -245,7 +264,8 @@ The sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</
 
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Resamplings: <a href='mlr_resamplings.html'>mlr_resamplings</a></p>
 <p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) Resampling implementations.</p>
-<p>Other Resampling: <code><a href='mlr_resamplings.html'>mlr_resamplings</a></code></p></div>
+<p>Other Resampling: 
+<code><a href='mlr_resamplings.html'>mlr_resamplings</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>r</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>)
@@ -271,17 +291,17 @@ The sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</
 
 <span class='co'># Extract train/test sets</span>
 <span class='no'>train_set</span> <span class='kw'>=</span> <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]  17  65  39  21 145 115  58  81  50 124  90  95  85 114  69</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1] 142  81 125  25  88 146 122  40 133  89 118 112 119  13  94</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Another example: 10-fold CV</span>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>)$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]   5  15  29  55  57  58  59  64  71  75  99 102 115 126 142  14  18  27
-#&gt;  [19]  47  51  70  72  81  96  97 107 112 116 123 128   7   8  10  21  23  35
-#&gt;  [37]  36  62  65  73  78  95 108 124 137   4  12  13  22  34  76  89  90  93
-#&gt;  [55] 104 131 134 135 145 149   2   6  19  20  30  31  60  84  92 117 118 132
-#&gt;  [73] 133 141 147   1   9  32  33  44  50  68  79  80  82 109 127 129 139 144
-#&gt;  [91]  16  24  37  43  46  54  67  69  87 100 119 122 130 136 148  17  25  38
-#&gt; [109]  39  41  48  61  66  85  86  98 105 114 143 150  11  26  28  49  52  74
-#&gt; [127]  77  83  88 101 103 110 111 120 146</div><div class='input'>
+<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]  14  28  43  55  59  66  76  78  79  82  89  95 109 122 146  21  22  37
+#&gt;  [19]  47  67  73  74  99 119 127 128 133 138 139 144   9  12  13  15  36  39
+#&gt;  [37]  58  62  75  88  93  98 113 114 136   2  24  32  50  69  90 100 110 115
+#&gt;  [55] 116 118 123 125 134 137   1  11  20  31  48  57  68  72 105 112 117 130
+#&gt;  [73] 135 140 142   7  18  29  30  34  53  60  61  85  86  87 104 121 141 149
+#&gt;  [91]  27  40  44  45  54  71  80  83  92  97 102 107 108 143 148   4  17  19
+#&gt; [109]  33  42  46  56  64  65  81  84  94 101 124 150   6  10  16  25  26  38
+#&gt; [127]  41  49  52  77 111 120 131 145 147</div><div class='input'>
 <span class='co'># Stratification</span>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"pima"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/prop.table.html'>prop.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>())) <span class='co'># moderately unbalanced</span></div><div class='output co'>#&gt; 
@@ -317,13 +337,30 @@ The sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '9c3abd63d461245fb19ebd2d2645c5b0',
+    indexName: 'mlr3',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>

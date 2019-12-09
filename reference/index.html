@@ -41,6 +41,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Function reference" />
@@ -77,41 +83,46 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Development version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+  <a href="../reference/index.html">
+    <span class="fa fa fa fa-file-alt"></span>
      
+    Reference
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="https://mlr3book.mlr-org.com">
+    <span class="fa fa fa fa-link"></span>
+     
+    mlr3book
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://mlr-org.slack.com">
-    <span class="fa fa-slack"></span>
+    <span class="fab fa fab fa-slack"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr3">
-    <span class="fa fa-stack-overflow"></span>
+  <a href="https://stackoverflow.com/questions/tagged/mlr">
+    <span class="fab fa fab fa-stack-overflow"></span>
      
   </a>
 </li>
@@ -122,6 +133,12 @@
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -445,93 +462,303 @@
       <tr>
         
         <td>
-          <p><code><a href="MeasureClassifACC.html">MeasureClassifACC</a></code> </p>
-        </td>
-        <td><p>Accuracy Classification Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureClassifAUC.html">MeasureClassifAUC</a></code> </p>
-        </td>
-        <td><p>Area Under the Curve Classification Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureClassifCE.html">MeasureClassifCE</a></code> </p>
-        </td>
-        <td><p>Classification Error Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureClassifConfusion.html">MeasureClassifConfusion</a></code> </p>
-        </td>
-        <td><p>Binary Classification Measures Derived from a Confusion Matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureClassifCosts.html">MeasureClassifCosts</a></code> </p>
-        </td>
-        <td><p>Cost-sensitive Classification Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureClassifFScore.html">MeasureClassifFScore</a></code> </p>
-        </td>
-        <td><p>F-score Classification Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureDebug.html">MeasureDebug</a></code> </p>
-        </td>
-        <td><p>Debug Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureElapsedTime.html">MeasureElapsedTime</a></code> </p>
-        </td>
-        <td><p>Elapsed Time Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureOOBError.html">MeasureOOBError</a></code> </p>
-        </td>
-        <td><p>Out-of-bag Error Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureRegrMAE.html">MeasureRegrMAE</a></code> </p>
-        </td>
-        <td><p>Absolute Errors Regression Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureRegrMSE.html">MeasureRegrMSE</a></code> </p>
-        </td>
-        <td><p>Mean Squared Error Regression Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureRegrRMSE.html">MeasureRegrRMSE</a></code> </p>
-        </td>
-        <td><p>Root Mean Squared Error Regression Measure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="MeasureSelectedFeatures.html">MeasureSelectedFeatures</a></code> </p>
-        </td>
-        <td><p>Selected Features Measure</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="mlr_measures.html">mlr_measures</a></code> </p>
         </td>
         <td><p>Dictionary of Performance Measures</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="confusion_measures.html">confusion_measures()</a></code> </p>
+          <p><code><a href="mlr_measures_classif.acc.html">mlr_measures_classif.acc</a></code> </p>
         </td>
-        <td><p>Calculate Confusion Measures</p></td>
+        <td><p>Classification Accuracy</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.auc.html">mlr_measures_classif.auc</a></code> </p>
+        </td>
+        <td><p>Area Under the ROC Curve</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.bacc.html">mlr_measures_classif.bacc</a></code> </p>
+        </td>
+        <td><p>Balanced Accuracy</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.ce.html">mlr_measures_classif.ce</a></code> </p>
+        </td>
+        <td><p>Classification Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.costs.html">mlr_measures_classif.costs</a></code> </p>
+        </td>
+        <td><p>Cost-sensitive Classification Measure</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.dor.html">mlr_measures_classif.dor</a></code> </p>
+        </td>
+        <td><p>Diagnostic Odds Ratio</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.fbeta.html">mlr_measures_classif.fbeta</a></code> </p>
+        </td>
+        <td><p>F-beta Score</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.fdr.html">mlr_measures_classif.fdr</a></code> </p>
+        </td>
+        <td><p>False Discovery Rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.fn.html">mlr_measures_classif.fn</a></code> </p>
+        </td>
+        <td><p>False Negatives</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.fnr.html">mlr_measures_classif.fnr</a></code> </p>
+        </td>
+        <td><p>False Negative Rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.fomr.html">mlr_measures_classif.fomr</a></code> </p>
+        </td>
+        <td><p>False Omission Rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.fp.html">mlr_measures_classif.fp</a></code> </p>
+        </td>
+        <td><p>False Positives</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.fpr.html">mlr_measures_classif.fpr</a></code> </p>
+        </td>
+        <td><p>False Positive Rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.logloss.html">mlr_measures_classif.logloss</a></code> </p>
+        </td>
+        <td><p>Log Loss</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.mcc.html">mlr_measures_classif.mcc</a></code> </p>
+        </td>
+        <td><p>Matthews Correlation Coefficient</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.npv.html">mlr_measures_classif.npv</a></code> </p>
+        </td>
+        <td><p>Negative Predictive Value</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.ppv.html">mlr_measures_classif.ppv</a></code> </p>
+        </td>
+        <td><p>Positive Predictive Value</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.precision.html">mlr_measures_classif.precision</a></code> </p>
+        </td>
+        <td><p>Positive Predictive Value</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.recall.html">mlr_measures_classif.recall</a></code> </p>
+        </td>
+        <td><p>True Positive Rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.sensitivity.html">mlr_measures_classif.sensitivity</a></code> </p>
+        </td>
+        <td><p>True Positive Rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.specificity.html">mlr_measures_classif.specificity</a></code> </p>
+        </td>
+        <td><p>True Negative Rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.tn.html">mlr_measures_classif.tn</a></code> </p>
+        </td>
+        <td><p>True Negatives</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.tnr.html">mlr_measures_classif.tnr</a></code> </p>
+        </td>
+        <td><p>True Negative Rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.tp.html">mlr_measures_classif.tp</a></code> </p>
+        </td>
+        <td><p>True Positives</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_classif.tpr.html">mlr_measures_classif.tpr</a></code> </p>
+        </td>
+        <td><p>True Positive Rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_debug.html">mlr_measures_debug</a></code> </p>
+        </td>
+        <td><p>Debug Measure</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_elapsed_time.html">mlr_measures_elapsed_time</a></code> </p>
+        </td>
+        <td><p>Elapsed Time Measure</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_oob_error.html">mlr_measures_oob_error</a></code> </p>
+        </td>
+        <td><p>Out-of-bag Error Measure</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.bias.html">mlr_measures_regr.bias</a></code> </p>
+        </td>
+        <td><p>Bias</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.ktau.html">mlr_measures_regr.ktau</a></code> </p>
+        </td>
+        <td><p>Kendall's tau</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.mae.html">mlr_measures_regr.mae</a></code> </p>
+        </td>
+        <td><p>Mean Absolute Errors</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.mape.html">mlr_measures_regr.mape</a></code> </p>
+        </td>
+        <td><p>Mean Absolute Percent Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.maxae.html">mlr_measures_regr.maxae</a></code> </p>
+        </td>
+        <td><p>Max Absolute Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.medae.html">mlr_measures_regr.medae</a></code> </p>
+        </td>
+        <td><p>Median Absolute Errors</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.medse.html">mlr_measures_regr.medse</a></code> </p>
+        </td>
+        <td><p>Median Squared Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.mse.html">mlr_measures_regr.mse</a></code> </p>
+        </td>
+        <td><p>Mean Squared Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.msle.html">mlr_measures_regr.msle</a></code> </p>
+        </td>
+        <td><p>Mean Squared Log Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.pbias.html">mlr_measures_regr.pbias</a></code> </p>
+        </td>
+        <td><p>Percent Bias</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.rae.html">mlr_measures_regr.rae</a></code> </p>
+        </td>
+        <td><p>Relative Absolute Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.rmse.html">mlr_measures_regr.rmse</a></code> </p>
+        </td>
+        <td><p>Root Mean Squared Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.rmsle.html">mlr_measures_regr.rmsle</a></code> </p>
+        </td>
+        <td><p>Root Mean Squared Log Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.rrse.html">mlr_measures_regr.rrse</a></code> </p>
+        </td>
+        <td><p>Root Relative Squared Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.rse.html">mlr_measures_regr.rse</a></code> </p>
+        </td>
+        <td><p>Relative Squared Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.rsq.html">mlr_measures_regr.rsq</a></code> </p>
+        </td>
+        <td><p>R Squared</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.sae.html">mlr_measures_regr.sae</a></code> </p>
+        </td>
+        <td><p>Sum of Absolute Errors</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.smape.html">mlr_measures_regr.smape</a></code> </p>
+        </td>
+        <td><p>Symmetric Mean Absolute Percent Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.srho.html">mlr_measures_regr.srho</a></code> </p>
+        </td>
+        <td><p>Spearman's rho</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_regr.sse.html">mlr_measures_regr.sse</a></code> </p>
+        </td>
+        <td><p>Sum of Squared Errors</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mlr_measures_selected_features.html">mlr_measures_selected_features</a></code> </p>
+        </td>
+        <td><p>Selected Features Measure</p></td>
       </tr><tr>
         
         <td>
@@ -651,7 +878,7 @@
       <tr>
         
         <td>
-          <p><code><a href="mlr_assertions.html">assert_backend()</a></code> <code><a href="mlr_assertions.html">assert_task()</a></code> <code><a href="mlr_assertions.html">assert_tasks()</a></code> <code><a href="mlr_assertions.html">assert_learner()</a></code> <code><a href="mlr_assertions.html">assert_learners()</a></code> <code><a href="mlr_assertions.html">assert_measure()</a></code> <code><a href="mlr_assertions.html">assert_measures()</a></code> <code><a href="mlr_assertions.html">assert_resampling()</a></code> <code><a href="mlr_assertions.html">assert_resamplings()</a></code> <code><a href="mlr_assertions.html">assert_prediction()</a></code> <code><a href="mlr_assertions.html">assert_resample_result()</a></code> <code><a href="mlr_assertions.html">assert_benchmark_result()</a></code> <code><a href="mlr_assertions.html">assert_row_ids()</a></code> </p>
+          <p><code><a href="mlr_assertions.html">assert_backend()</a></code> <code><a href="mlr_assertions.html">assert_task()</a></code> <code><a href="mlr_assertions.html">assert_tasks()</a></code> <code><a href="mlr_assertions.html">assert_learner()</a></code> <code><a href="mlr_assertions.html">assert_learners()</a></code> <code><a href="mlr_assertions.html">assert_learnable()</a></code> <code><a href="mlr_assertions.html">assert_measure()</a></code> <code><a href="mlr_assertions.html">assert_measures()</a></code> <code><a href="mlr_assertions.html">assert_resampling()</a></code> <code><a href="mlr_assertions.html">assert_resamplings()</a></code> <code><a href="mlr_assertions.html">assert_prediction()</a></code> <code><a href="mlr_assertions.html">assert_resample_result()</a></code> <code><a href="mlr_assertions.html">assert_benchmark_result()</a></code> <code><a href="mlr_assertions.html">assert_row_ids()</a></code> </p>
         </td>
         <td><p>Assertion for mlr3 Objects</p></td>
       </tr><tr>
@@ -709,13 +936,30 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '9c3abd63d461245fb19ebd2d2645c5b0',
+    indexName: 'mlr3',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>
