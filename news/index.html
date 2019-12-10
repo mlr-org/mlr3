@@ -160,10 +160,10 @@
 <a href="#mlr3-0-1-5" class="anchor"></a>mlr3 0.1.5<small> Unreleased </small>
 </h1>
 <ul>
-<li>Switched from package <code>Metrics</code> to package <code>mlr3measures</code> for the implementation of performance measures.</li>
+<li>Switched from package <code>Metrics</code> to package <code>mlr3measures</code>.</li>
 <li>Measures can now calculate all scores using micro or macro averaging (<a href='https://github.com/mlr-org/mlr3/issues/400'>#400</a>).</li>
-<li>Measures can now return a customizable performance score instead of <code>NA</code> if they are not defined for a certain input.</li>
-<li>Character columns are now treated differently from factor columns. In the long term, these are supposed to store text.</li>
+<li>Measures can now be configured to return a customizable performance score (instead of <code>NA</code>) in case the score cannot be calculated.</li>
+<li>Character columns are now treated differently from factor columns. In the long term, <code><a href="https://rdrr.io/r/base/character.html">character()</a></code> columns are supposed to store text.</li>
 <li>Fixed a bug triggered by integer grouping variables in <code>Task</code> (<a href='https://github.com/mlr-org/mlr3/issues/396'>#396</a>).</li>
 <li>
 <code><a href="../reference/benchmark_grid.html">benchmark_grid()</a></code> now accepts instantiated resamplings under certain conditions.</li>
