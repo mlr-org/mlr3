@@ -1,3 +1,8 @@
+# mlr3 0.1.6
+
+* Fix ordering of levels in `PredictionClassif$set_threshold()` (triggered an
+  assertion).
+
 # mlr3 0.1.5
 
 * Switched from package `Metrics` to package `mlr3measures`.

@@ -151,7 +151,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       if (!is.matrix(self$data$prob)) {
         stopf("Cannot set threshold, no probabilities available")
       }
-      lvls = colnames(self$data$prob)
+      lvls = levels(self$truth)
 
       if (length(threshold) == 1L) {
         assert_number(threshold, lower = 0, upper = 1)
