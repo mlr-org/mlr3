@@ -16,9 +16,9 @@ bibentry(
   ),
   journal = "Journal of Open Source Software",
   year = 2019,
-  month = "dec"
+  month = "dec",
   doi = "10.21105/joss.01903",
-  url = "https://joss.theoj.org/papers/10.21105/joss.01903",
+  url = "https://joss.theoj.org/papers/10.21105/joss.01903"
 )
 
 # vim: ft=r
