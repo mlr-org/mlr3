@@ -166,3 +166,10 @@ If you encounter problems using this software (lack of documentation, misleading
 Pull requests are welcome and will be included at the discretion of the maintainers.
 
 Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a [style guide](https://github.com/mlr-org/mlr3/wiki/Style-Guide), a [roxygen guide](https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide) and a [pull request guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).
+
+## Citing mlr3
+
+If you use mlr3, please cite our [JOSS article](https://doi.org/10.21105/joss.01903):
+```{r, echo = FALSE, comment = ""}
+toBibtex(citation("mlr3"))
+```

@@ -225,3 +225,18 @@ Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a
 [roxygen guide](https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide) and
 a [pull request
 guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).
+
+## Citing mlr3
+
+If you use mlr3, please cite our [JOSS
+article](https://doi.org/10.21105/joss.01903):
+
+    @Article{mlr3,
+      title = {{mlr3}: A modern object-oriented machine learning framework in {R}},
+      author = {Michel Lang and Martin Binder and Jakob Richter and Patrick Schratz and Florian Pfisterer and Stefan Coors and Quay Au and Giuseppe Casalicchio and Lars Kotthoff and Bernd Bischl},
+      journal = {Journal of Open Source Software},
+      year = {2019},
+      month = {dec},
+      doi = {10.21105/joss.01903},
+      url = {https://joss.theoj.org/papers/10.21105/joss.01903},
+    }
