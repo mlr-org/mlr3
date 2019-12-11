@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.1.5
+Version: 0.1.5-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
