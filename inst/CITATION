@@ -1,0 +1,24 @@
+bibentry(
+  bibtype = "Article",
+  key = "mlr3",
+  title = "{mlr3}: A modern object-oriented machine learning framework in {R}",
+  author = c(
+    person(given = "Michel", family = "Lang"),
+    person(given = "Martin", family = "Binder"),
+    person(given = "Jakob", family = "Richter"),
+    person(given = "Patrick", family = "Schratz"),
+    person(given = "Florian", family = "Pfisterer"),
+    person(given = "Stefan", family = "Coors"),
+    person(given = "Quay", family = "Au"),
+    person(given = "Giuseppe", family = "Casalicchio"),
+    person(given = "Lars", family = "Kotthoff"),
+    person(given = "Bernd", family = "Bischl")
+  ),
+  journal = "Journal of Open Source Software",
+  year = 2019,
+  month = "dec"
+  doi = "10.21105/joss.01903",
+  url = "https://joss.theoj.org/papers/10.21105/joss.01903",
+)
+
+# vim: ft=r

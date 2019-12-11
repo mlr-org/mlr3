@@ -2,6 +2,13 @@
 output: github_document
 ---
 
+```{r, include = FALSE}
+lgr::get_logger("mlr3")$set_threshold("warn")
+set.seed(1)
+options(datatable.print.class = FALSE, datatable.print.keys = FALSE)
+```
+
+
 # mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
 Package website: [release](https://mlr3.mlr-org.com/) | [dev](https://mlr3.mlr-org.com/dev)
@@ -13,6 +20,7 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 [![CircleCI](https://img.shields.io/circleci/build/gh/mlr-org/mlr3/master?label=Linux&logo=circle&logoColor=green&style=flat-square)](https://circleci.com/gh/mlr-org/mlr3)
 [![cran checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
 
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.01903/status.svg)](https://doi.org/10.21105/joss.01903)
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
@@ -45,7 +53,6 @@ remotes::install_github("mlr-org/mlr3")
 
 ```{r}
 library(mlr3)
-set.seed(1)
 
 # create learning task
 task_iris = TaskClassif$new(id = "iris", backend = iris, target = "Species")
