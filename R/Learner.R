@@ -196,29 +196,25 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
-    #' @description
-    #'   The fitted model. Only available after `$train()` has been called.
+    #' @field model The fitted model. Only available after `$train()` has been called.
     model = function() {
       self$state$model
     },
 
-    #' @description
-    #'   Elapsed time in seconds for the steps `"train"` and `"predict"`.
+    #' @field timings Elapsed time in seconds for the steps `"train"` and `"predict"`.
     #'   Measured via [mlr3misc::encapsulate()].
     timings = function() {
       set_names(c(self$state$train_time %??% NA_real_, self$state$predict_time %??% NA_real_), c("train", "predict"))
     },
 
-    #' @description
-    #'   Returns the output (including warning and errors) as table with columns
+    #' @field log Returns the output (including warning and errors) as table with columns
     #'   `"stage"` (train or predict), `"class"` (output, warning, error) and
     #'   `"msg"` (`character()`).
     log = function() {
       self$state$log
     },
 
-    #' @description
-    #'   Returns the logged warnings as vector.
+    #' @field warnings Returns the logged warnings as vector.
     warnings = function() {
       if (is.null(self$state$log)) {
         character()
@@ -227,8 +223,7 @@ Learner = R6Class("Learner",
       }
     },
 
-    #' @description
-    #'   Returns the logged errors as vector.
+    #' @field errors Returns the logged errors as vector.
     errors = function() {
       if (is.null(self$state$log)) {
         character()
@@ -237,14 +232,12 @@ Learner = R6Class("Learner",
       }
     },
 
-    #' @description
-    #'   Hash (unique identifier) for this object.
+    #' @field hash Hash (unique identifier) for this object.
     hash = function() {
       hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
     },
 
-    #' @description
-    #'   Stores the currently selected predict type. Must be an element of `l$predict_types`.
+    #' @field predict_type Stores the currently selected predict type. Must be an element of `l$predict_types`.
     predict_type = function(rhs) {
       if (missing(rhs)) {
         return(private$.predict_type)
@@ -256,8 +249,7 @@ Learner = R6Class("Learner",
       private$.predict_type = rhs
     },
 
-    #' @description
-    #'   Description of available hyperparameters and hyperparameter settings.
+    #' @field param_set Description of available hyperparameters and hyperparameter settings.
     param_set = function(rhs) {
       if (!missing(rhs) && !identical(rhs, private$.param_set)) {
         stop("param_set is read-only.")
@@ -265,8 +257,7 @@ Learner = R6Class("Learner",
       private$.param_set
     },
 
-    #' @description
-    #'   How to call the code in `train_internal()` and `predict_internal()`.
+    #' @field encapsulate How to call the code in `train_internal()` and `predict_internal()`.
     #'   Must be a named character vector with names `"train"` and `"predict"`.
     #'   Possible values are `"none"`, `"evaluate"` and `"callr"`.
     #'   See [mlr3misc::encapsulate()] for more details.
