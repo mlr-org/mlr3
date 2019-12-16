@@ -101,7 +101,7 @@
 #' * `state` :: `NULL` | named `list()`\cr
 #'   Current (internal) state of the learner.
 #'   Contains all information learnt during `train()` and `predict()`.
-#'   Do not access elements from here directly.
+#'   It is not recommended to access elements from `state` directly, this is an internal data structure which may change in the future.
 #'
 #' * `encapsulate` (named `character()`)\cr
 #'   How to call the code in `train_internal()` and `predict_internal()`.
@@ -152,6 +152,10 @@
 #'   If the learner's `$train()` method has been called, there is a (size reduced) version of the training task stored in the learner.
 #'   If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
 #'   in the [ResampleResult] or [BenchmarkResult], respectively.
+#'
+#' * `reset()`\cr
+#'   () -> `self`\cr
+#'   Reset the learner, i.e. un-train by resetting the `state`.
 #'
 #' * `help()`\cr
 #'   () -> `NULL`\cr
@@ -289,6 +293,11 @@ Learner = R6Class("Learner",
         newdata[, tn] = NA
       }
       self$predict(task$rbind(newdata))
+    },
+
+    reset = function() {
+      self$state = NULL
+      invisible(self)
     }
   ),
 

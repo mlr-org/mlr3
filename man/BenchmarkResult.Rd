@@ -50,6 +50,8 @@ Table of used tasks with three columns:
 \item \code{learners} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used learners with three columns:
 \code{"learner_hash"} (\code{character(1)}), \code{"learner_id"} (\code{character(1)}) and \code{"learner"} (\link{Learner}).
+Note that it is not feasible to access learnt models via this getter, as the training task would be ambiguous.
+Instead, select a row from the table returned by \verb{$score()}.
 \item \code{resamplings} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Table of used resamplings with three columns:
 \code{"resampling_hash"} (\code{character(1)}), \code{"resampling_id"} (\code{character(1)}) and \code{"resampling"} (\link{Resampling}).

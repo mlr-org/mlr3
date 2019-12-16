@@ -51,6 +51,8 @@
 #' * `learners` :: [data.table::data.table()]\cr
 #'   Table of used learners with three columns:
 #'   `"learner_hash"` (`character(1)`), `"learner_id"` (`character(1)`) and `"learner"` ([Learner]).
+#'   Note that it is not feasible to access learnt models via this getter, as the training task would be ambiguous.
+#'   Instead, select a row from the table returned by `$score()`.
 #'
 #' * `resamplings` :: [data.table::data.table()]\cr
 #'   Table of used resamplings with three columns:
@@ -284,7 +286,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     learners = function() {
-      unique(self$data[, list(learner_hash = hashes(learner), learner_id = ids(learner), learner = learner)], by = "learner_hash")
+      tab = unique(self$data[, list(learner_hash = hashes(learner), learner_id = ids(learner), learner = learner)], by = "learner_hash")
+      tab[, learner := lapply(learner, function(x) x$clone(deep = TRUE)$reset())][]
     },
 
     resamplings = function() {

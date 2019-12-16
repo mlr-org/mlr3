@@ -88,7 +88,7 @@ Stores the names of required packages.
 \item \code{state} :: \code{NULL} | named \code{list()}\cr
 Current (internal) state of the learner.
 Contains all information learnt during \code{train()} and \code{predict()}.
-Do not access elements from here directly.
+It is not recommended to access elements from \code{state} directly, this is an internal data structure which may change in the future.
 \item \code{encapsulate} (named \code{character()})\cr
 How to call the code in \code{train_internal()} and \code{predict_internal()}.
 Must be a named character vector with names \code{"train"} and \code{"predict"}.
@@ -133,6 +133,9 @@ Object \code{task} is the task used during \verb{$train()} and required for conv
 If the learner's \verb{$train()} method has been called, there is a (size reduced) version of the training task stored in the learner.
 If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
 in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
+\item \code{reset()}\cr
+() -> \code{self}\cr
+Reset the learner, i.e. un-train by resetting the \code{state}.
 \item \code{help()}\cr
 () -> \code{NULL}\cr
 Opens the corresponding help page referenced by \verb{$man}.

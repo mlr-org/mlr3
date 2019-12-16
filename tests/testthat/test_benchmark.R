@@ -28,6 +28,7 @@ test_that("Basic benchmarking", {
   expect_data_table(tab, nrows = 2, any.missing = FALSE)
   expect_names(names(tab), permutation.of = c("learner_hash", "learner", "learner_id"))
   expect_hash(tab$learner_hash, len = 2L)
+  qexpectr(map(tab$learner, "state"), "0")
 
   tab = bmr$resamplings
   expect_data_table(tab, nrows = 2, any.missing = FALSE)

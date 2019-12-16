@@ -208,3 +208,13 @@ test_that("assertions work (#357)", {
   expect_error(p$score(msr("classif.auc"), "predict.type"))
   expect_error(p$score(msr("regr.mse"), "task.type"))
 })
+
+test_that("reset()", {
+  task = tsk("iris")
+  lrn = lrn("classif.rpart")
+
+  lrn$train(task)
+  expect_list(lrn$state, names = "unique")
+  expect_learner(lrn$reset())
+  expect_null(lrn$state)
+})
