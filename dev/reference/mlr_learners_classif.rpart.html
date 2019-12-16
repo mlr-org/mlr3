@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Featureless Regression Learner — LearnerRegrFeatureless • mlr3</title>
+<title>Classification Tree Learner — mlr_learners_classif.rpart • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,12 +49,9 @@
 
 
 
-<meta property="og:title" content="Featureless Regression Learner — LearnerRegrFeatureless" />
-<meta property="og:description" content="A simple LearnerRegr which only analyses the response during train, ignoring all features.
-If hyperparameter robust is FALSE (default), constantly predicts mean(y) as response
-and sd(y) as standard error.
-If robust is TRUE, median() and madn() are used instead of mean() and sd(),
-respectively." />
+<meta property="og:title" content="Classification Tree Learner — mlr_learners_classif.rpart" />
+<meta property="og:description" content="A LearnerClassif for a classification tree implemented in rpart::rpart() in package rpart.
+Parameter xval is set to 0 in order to save some computation time." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -156,32 +153,36 @@ respectively." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Featureless Regression Learner</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerRegrFeatureless.R'><code>R/LearnerRegrFeatureless.R</code></a></small>
-    <div class="hidden name"><code>LearnerRegrFeatureless.Rd</code></div>
+    <h1>Classification Tree Learner</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerClassifRpart.R'><code>R/LearnerClassifRpart.R</code></a></small>
+    <div class="hidden name"><code>mlr_learners_classif.rpart.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A simple <a href='LearnerRegr.html'>LearnerRegr</a> which only analyses the response during train, ignoring all features.
-If hyperparameter <code>robust</code> is <code>FALSE</code> (default), constantly predicts <code><a href='https://rdrr.io/r/base/mean.html'>mean(y)</a></code> as response
-and <code><a href='https://rdrr.io/r/stats/sd.html'>sd(y)</a></code> as standard error.
-If <code>robust</code> is <code>TRUE</code>, <code><a href='https://rdrr.io/r/stats/median.html'>median()</a></code> and <code>madn()</code> are used instead of <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code> and <code><a href='https://rdrr.io/r/stats/sd.html'>sd()</a></code>,
-respectively.</p>
+    <p>A <a href='LearnerClassif.html'>LearnerClassif</a> for a classification tree implemented in <code><a href='https://rdrr.io/pkg/rpart/man/rpart.html'>rpart::rpart()</a></code> in package <a href='https://CRAN.R-project.org/package=rpart'><span class="pkg">rpart</span></a>.
+Parameter <code>xval</code> is set to 0 in order to save some computation time.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='LearnerRegr.html'>LearnerRegr</a>.</p>
+    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='LearnerClassif.html'>LearnerClassif</a>.</p>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>LearnerRegrFeatureless$new()
-mlr_learners$get("regr.featureless")
-lrn("regr.featureless")
+<pre>LearnerClassifRpart$new()
+mlr_learners$get("classif.rpart")
+lrn("classif.rpart")
 </pre>
 
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Breiman L, Friedman JH, Olshen RA, Stone CJ (2017).
+<em>Classification And Regression Trees</em>.
+Routledge.
+doi: <a href='https://doi.org/10.1201/9781315139470'>10.1201/9781315139470</a>
+.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p>
@@ -193,6 +194,7 @@ lrn("regr.featureless")
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
       <li><a href="#construction">Construction</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

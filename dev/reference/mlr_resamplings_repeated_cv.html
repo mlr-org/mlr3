@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Friedman1 Regression Task Generator — TaskGeneratorFriedman1 • mlr3</title>
+<title>Repeated Cross Validation Resampling — mlr_resamplings_repeated_cv • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,11 @@
 
 
 
-<meta property="og:title" content="Friedman1 Regression Task Generator — TaskGeneratorFriedman1" />
-<meta property="og:description" content="A TaskGenerator for the friedman1 task in mlbench::mlbench.friedman1()." />
+<meta property="og:title" content="Repeated Cross Validation Resampling — mlr_resamplings_repeated_cv" />
+<meta property="og:description" content="Splits data repeats (default: 10) times using a folds-fold (default: 10) cross-validation.
+The iteration counter translates to repeats blocks of folds
+cross-validations, i.e., the first folds iterations belong to
+a single cross-validation." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -152,62 +155,108 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Friedman1 Regression Task Generator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorFriedman1.R'><code>R/TaskGeneratorFriedman1.R</code></a></small>
-    <div class="hidden name"><code>TaskGeneratorFriedman1.Rd</code></div>
+    <h1>Repeated Cross Validation Resampling</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/ResamplingRepeatedCV.R'><code>R/ResamplingRepeatedCV.R</code></a></small>
+    <div class="hidden name"><code>mlr_resamplings_repeated_cv.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the friedman1 task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.friedman1.html'>mlbench::mlbench.friedman1()</a></code>.</p>
+    <p>Splits data <code>repeats</code> (default: 10) times using a <code>folds</code>-fold (default: 10) cross-validation.</p>
+<p>The iteration counter translates to <code>repeats</code> blocks of <code>folds</code>
+cross-validations, i.e., the first <code>folds</code> iterations belong to
+a single cross-validation.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='TaskGenerator.html'>TaskGenerator</a>.</p>
+    <p><code><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class()</a></code> inheriting from <a href='Resampling.html'>Resampling</a>.</p>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>TaskGeneratorFriedman1$new()
-mlr_task_generators$get("friedman1")
-tgen("friedman1")
+<pre>ResamplingRepeatedCV$new()
+mlr_resamplings$get("repeated_cv")
+rsmp("repeated_cv")
 </pre>
+
+    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
+
+    
+
+<p>See <a href='Resampling.html'>Resampling</a>.</p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<p>See <a href='Resampling.html'>Resampling</a>.
+Additionally, the class provides two helper function to translate iteration numbers to folds / repeats:</p><ul>
+<li><p><code>folds(iters)</code><br />
+<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> -&gt; <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
+Translates iteration numbers to fold number.</p></li>
+<li><p><code>repeats(iters)</code><br />
+<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> -&gt; <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
+Translates iteration numbers to repetition number.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
+
+    
+
+<ul>
+<li><p><code>repeats</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
+Number of repetitions.</p></li>
+<li><p><code>folds</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
+Number of folds.</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='TaskGenerator.html'>TaskGenerators</a>: <a href='mlr_task_generators.html'>mlr_task_generators</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) <a href='TaskGenerator.html'>TaskGenerator</a> implementations.</p></div>
+    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Resampling.html'>Resamplings</a>: <a href='mlr_resamplings.html'>mlr_resamplings</a></p>
+<p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) <a href='Resampling.html'>Resampling</a> implementations.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"friedman1"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;            y important1 important2 important3 important4  important5
-#&gt;  1: 16.88227 0.39171829 0.82793881  0.6900640  0.5058626 0.408123377
-#&gt;  2: 20.62184 0.57541133 0.42498899  0.9833387  0.4192681 0.939092736
-#&gt;  3: 14.07844 0.58028206 0.38898204  0.4204770  0.6379103 0.003840035
-#&gt;  4: 19.02906 0.47526373 0.96989545  0.8815107  0.5011038 0.224380666
-#&gt;  5: 18.11094 0.61291566 0.45067802  0.8354057  0.6035983 0.622683418
-#&gt;  6: 12.58947 0.61929213 0.06125598  0.7923736  0.6094066 0.499003443
-#&gt;  7: 21.50294 0.77662436 0.41602212  0.3179790  0.7418190 0.801949723
-#&gt;  8: 10.21965 0.28566220 0.21813340  0.9242151  0.5674669 0.040721616
-#&gt;  9: 13.01065 0.09859692 0.32692656  0.5524111  0.7416280 0.845156312
-#&gt; 10: 13.74431 0.74361344 0.73093708  0.4682370  0.1506372 0.541517424
-#&gt;     unimportant1 unimportant2 unimportant3 unimportant4 unimportant5
-#&gt;  1:  0.645806298   0.09272447    0.5476307    0.6277948   0.36741474
-#&gt;  2:  0.344968864   0.42543431    0.1941349    0.1053015   0.38289952
-#&gt;  3:  0.477095736   0.66782291    0.3108463    0.6394444   0.82648889
-#&gt;  4:  0.131842147   0.32275573    0.2062907    0.7811817   0.61067511
-#&gt;  5:  0.517387035   0.53192348    0.1042286    0.8987871   0.27236765
-#&gt;  6:  0.847776928   0.13320938    0.7016101    0.2827870   0.06917767
-#&gt;  7:  0.291413360   0.80280793    0.9732092    0.3476955   0.19221619
-#&gt;  8:  0.005960531   0.59767198    0.3987731    0.2659544   0.42026373
-#&gt;  9:  0.043979959   0.36553986    0.3415519    0.4116073   0.35656713
-#&gt; 10:  0.190171169   0.34319353    0.4231899    0.6606364   0.31910899</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
+<span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
+<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
+
+<span class='co'># Instantiate Resampling</span>
+<span class='no'>rrcv</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"repeated_cv"</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='no'>rrcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
+<span class='no'>rrcv</span>$<span class='no'>iters</span></div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>folds</span>(<span class='fl'>1</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 1 2 1 2 1 2</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>repeats</span>(<span class='fl'>1</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 1 1 1 2 2 2</div><div class='input'>
+<span class='co'># Individual sets:</span>
+<span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  4  8  7  9 10</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 2 3 5 6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='co'># Internal storage:</span>
+<span class='no'>rrcv</span>$<span class='no'>instance</span> <span class='co'># table</span></div><div class='output co'>#&gt;     row_id rep fold
+#&gt;  1:      1   1    2
+#&gt;  2:      2   1    1
+#&gt;  3:      3   1    1
+#&gt;  4:      4   1    2
+#&gt;  5:      5   1    1
+#&gt;  6:      6   1    1
+#&gt;  7:      7   1    3
+#&gt;  8:      8   1    2
+#&gt;  9:      9   1    3
+#&gt; 10:     10   1    3
+#&gt; 11:      1   2    3
+#&gt; 12:      2   2    1
+#&gt; 13:      3   2    1
+#&gt; 14:      4   2    2
+#&gt; 15:      5   2    3
+#&gt; 16:      6   2    1
+#&gt; 17:      7   2    1
+#&gt; 18:      8   2    2
+#&gt; 19:      9   2    2
+#&gt; 20:     10   2    3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
       <li><a href="#construction">Construction</a></li>
+      <li><a href="#fields">Fields</a></li>
+      <li><a href="#methods">Methods</a></li>
+      <li><a href="#parameters">Parameters</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

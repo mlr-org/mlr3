@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>2d Normals Classification Task Generator — TaskGenerator2DNormals • mlr3</title>
+<title>Smiley Classification Task Generator — mlr_task_generators_smiley • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,8 @@
 
 
 
-<meta property="og:title" content="2d Normals Classification Task Generator — TaskGenerator2DNormals" />
-<meta property="og:description" content="A TaskGenerator for the 2d normals task in mlbench::mlbench.2dnormals()." />
+<meta property="og:title" content="Smiley Classification Task Generator — mlr_task_generators_smiley" />
+<meta property="og:description" content="A TaskGenerator for the smiley task in mlbench::mlbench.smiley()." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -152,13 +152,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>2d Normals Classification Task Generator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGenerator2DNormals.R'><code>R/TaskGenerator2DNormals.R</code></a></small>
-    <div class="hidden name"><code>TaskGenerator2DNormals.Rd</code></div>
+    <h1>Smiley Classification Task Generator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorSmiley.R'><code>R/TaskGeneratorSmiley.R</code></a></small>
+    <div class="hidden name"><code>mlr_task_generators_smiley.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the 2d normals task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.2dnormals.html'>mlbench::mlbench.2dnormals()</a></code>.</p>
+    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the smiley task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.smiley.html'>mlbench::mlbench.smiley()</a></code>.</p>
     </div>
 
 
@@ -169,9 +169,9 @@
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>TaskGenerator2DNormals$new()
-mlr_task_generators$get("2dnormals")
-tgen("2dnormals")
+<pre>TaskGeneratorSmiley$new()
+mlr_task_generators$get("smiley")
+tgen("smiley")
 </pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -180,17 +180,17 @@ tgen("2dnormals")
 <p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) <a href='TaskGenerator.html'>TaskGenerator</a> implementations.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"2dnormals"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes        x.1        x.2
-#&gt;  1:       1  1.4104480  0.1156279
-#&gt;  2:       2  0.7703650 -0.4280831
-#&gt;  3:       2  0.9163945 -1.3328696
-#&gt;  4:       1  1.8162924  1.0279809
-#&gt;  5:       1  2.1530564  0.7562585
-#&gt;  6:       2 -1.8182938 -2.3153126
-#&gt;  7:       2 -2.9279555 -1.6263456
-#&gt;  8:       2  0.3271080  1.4994717
-#&gt;  9:       1  0.2521734  1.2440284
-#&gt; 10:       1  0.8807771  0.3463938</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"smiley"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes         x.1           x.2
+#&gt;  1:       1 -0.82815298  0.9205201314
+#&gt;  2:       1 -0.80555026  0.7765675002
+#&gt;  3:       2  1.00175232  1.1022061172
+#&gt;  4:       2  0.71835266  0.9382352325
+#&gt;  5:       3  0.05096501  0.3341817624
+#&gt;  6:       3  0.16393585  0.0005638405
+#&gt;  7:       4  0.45240961 -0.7834416805
+#&gt;  8:       4  0.88407445 -0.2258778416
+#&gt;  9:       4 -0.93553675 -0.0554042588
+#&gt; 10:       4 -0.58797657 -0.6708496169</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

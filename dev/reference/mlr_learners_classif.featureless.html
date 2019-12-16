@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Regression Tree Learner — LearnerRegrRpart • mlr3</title>
+<title>Featureless Classification Learner — mlr_learners_classif.featureless • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,9 +49,15 @@
 
 
 
-<meta property="og:title" content="Regression Tree Learner — LearnerRegrRpart" />
-<meta property="og:description" content="A LearnerRegr for a regression tree implemented in rpart::rpart() in package rpart.
-Parameter xval is set to 0 in order to save some computation time." />
+<meta property="og:title" content="Featureless Classification Learner — mlr_learners_classif.featureless" />
+<meta property="og:description" content="A simple LearnerClassif which only analyses the labels during train, ignoring all features.
+Hyperparameter method determines the mode of operation during prediction:
+mode:Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.
+sample:Randomly predict a label uniformly.
+weighed.sample:Randomly predict a label, with probability estimated from the training distribution.
+
+
+" />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -153,36 +159,35 @@ Parameter xval is set to 0 in order to save some computation time." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Regression Tree Learner</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerRegrRpart.R'><code>R/LearnerRegrRpart.R</code></a></small>
-    <div class="hidden name"><code>LearnerRegrRpart.Rd</code></div>
+    <h1>Featureless Classification Learner</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerClassifFeatureless.R'><code>R/LearnerClassifFeatureless.R</code></a></small>
+    <div class="hidden name"><code>mlr_learners_classif.featureless.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <a href='LearnerRegr.html'>LearnerRegr</a> for a regression tree implemented in <code><a href='https://rdrr.io/pkg/rpart/man/rpart.html'>rpart::rpart()</a></code> in package <a href='https://CRAN.R-project.org/package=rpart'><span class="pkg">rpart</span></a>.
-Parameter <code>xval</code> is set to 0 in order to save some computation time.</p>
+    <p>A simple <a href='LearnerClassif.html'>LearnerClassif</a> which only analyses the labels during train, ignoring all features.
+Hyperparameter <code>method</code> determines the mode of operation during prediction:</p><dl class='dl-horizontal'>
+<dt>mode:</dt><dd><p>Predicts the most frequent label. If there are two or more labels tied, randomly selects one per prediction.</p></dd>
+<dt>sample:</dt><dd><p>Randomly predict a label uniformly.</p></dd>
+<dt>weighed.sample:</dt><dd><p>Randomly predict a label, with probability estimated from the training distribution.</p></dd>
+
+</dl>
+
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='LearnerRegr.html'>LearnerRegr</a>.</p>
+    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='LearnerClassif.html'>LearnerClassif</a>.</p>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>LearnerRegrRpart$new()
-mlr_learners$get("regr.rpart")
-lrn("regr.rpart")
+<pre>LearnerClassifFeatureless$new()
+mlr_learners$get("classif.featureless")
+lrn("classif.featureless")
 </pre>
 
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Breiman L, Friedman JH, Olshen RA, Stone CJ (2017).
-<em>Classification And Regression Trees</em>.
-Routledge.
-doi: <a href='https://doi.org/10.1201/9781315139470'>10.1201/9781315139470</a>
-.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p>
@@ -194,7 +199,6 @@ doi: <a href='https://doi.org/10.1201/9781315139470'>10.1201/9781315139470</a>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
       <li><a href="#construction">Construction</a></li>
-      <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 
