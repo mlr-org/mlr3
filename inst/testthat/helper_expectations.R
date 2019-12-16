@@ -392,11 +392,12 @@ expect_prediction_classif = function(p, task = NULL) {
   expect_prediction(p)
   checkmate::expect_r6(p, "PredictionClassif", public = c("row_ids", "response", "truth", "predict_types", "prob"))
   n = length(p$row_ids)
-  lvls = if (is.null(task)) NULL else task$class_names
+  lvls = if (is.null(task)) levels(p$truth) else task$class_names
   checkmate::expect_factor(p$truth, len = n, levels = lvls, null.ok = TRUE)
   checkmate::expect_factor(p$response, len = n, levels = lvls, null.ok = TRUE)
   if ("prob" %in% p$predict_types) {
     checkmate::expect_matrix(p$prob, "numeric", any.missing = FALSE, ncols = nlevels(p$response), nrows = n)
+    testthat::expect_identical(colnames(p$prob), lvls)
   }
   confusion = p$confusion
   checkmate::expect_matrix(confusion)

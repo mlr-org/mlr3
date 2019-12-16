@@ -121,7 +121,10 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       if (!is.null(prob)) {
         assert_matrix(prob, nrows = n, ncols = length(lvls))
         assert_numeric(prob, lower = 0, upper = 1)
-        assert_names(colnames(prob), permutation.of = lvls)
+        if (!identical(colnames(prob), lvls)) {
+          assert_names(colnames(prob), permutation.of = lvls)
+          prob = prob[, match(colnames(prob), lvls), drop = FALSE]
+        }
         if (!is.null(rownames(prob))) {
           rownames(prob) = NULL
         }
