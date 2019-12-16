@@ -212,7 +212,9 @@ Table of used tasks with three columns:
 <code>"task_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"task_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"task"</code> (<a href='Task.html'>Task</a>).</p></li>
 <li><p><code>learners</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Table of used learners with three columns:
-<code>"learner_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"learner_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"learner"</code> (<a href='Learner.html'>Learner</a>).</p></li>
+<code>"learner_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"learner_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"learner"</code> (<a href='Learner.html'>Learner</a>).
+Note that it is not feasible to access learnt models via this getter, as the training task would be ambiguous.
+Instead, select a row from the table returned by <code>$score()</code>.</p></li>
 <li><p><code>resamplings</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Table of used resamplings with three columns:
 <code>"resampling_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"resampling_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"resampling"</code> (<a href='Resampling.html'>Resampling</a>).</p></li>
@@ -305,11 +307,11 @@ Returns a copy of the internal data.</p></li>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 37b06fb8-f746-45e8-8c34-40b4dc56b4a4 &lt;TaskClassif&gt;
-#&gt; 2: 37b06fb8-f746-45e8-8c34-40b4dc56b4a4 &lt;TaskClassif&gt;
-#&gt; 3: 37b06fb8-f746-45e8-8c34-40b4dc56b4a4 &lt;TaskClassif&gt;
-#&gt; 4: 08fa6ab4-0a88-41d8-a09f-8d996e41d970 &lt;TaskClassif&gt;
-#&gt; 5: 08fa6ab4-0a88-41d8-a09f-8d996e41d970 &lt;TaskClassif&gt;
+#&gt; 1: 3c0c5356-0f91-45a3-9a64-907a7d5b9edb &lt;TaskClassif&gt;
+#&gt; 2: 3c0c5356-0f91-45a3-9a64-907a7d5b9edb &lt;TaskClassif&gt;
+#&gt; 3: 3c0c5356-0f91-45a3-9a64-907a7d5b9edb &lt;TaskClassif&gt;
+#&gt; 4: e7dab23c-ed4a-4211-8fe8-9a638d464378 &lt;TaskClassif&gt;
+#&gt; 5: e7dab23c-ed4a-4211-8fe8-9a638d464378 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;

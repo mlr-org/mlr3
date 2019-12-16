@@ -257,7 +257,7 @@ Stores the names of required packages.</p></li>
 <li><p><code>state</code> :: <code>NULL</code> | named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code><br />
 Current (internal) state of the learner.
 Contains all information learnt during <code>train()</code> and <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code>.
-Do not access elements from here directly.</p></li>
+It is not recommended to access elements from <code>state</code> directly, this is an internal data structure which may change in the future.</p></li>
 <li><p><code>encapsulate</code> (named <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 How to call the code in <code>train_internal()</code> and <code>predict_internal()</code>.
 Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
@@ -303,6 +303,9 @@ Object <code>task</code> is the task used during <code>$train()</code> and requi
 If the learner's <code>$train()</code> method has been called, there is a (size reduced) version of the training task stored in the learner.
 If the learner has been fitted via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>, you need to pass the corresponding task stored
 in the <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkResult.html'>BenchmarkResult</a>, respectively.</p></li>
+<li><p><code>reset()</code><br />
+() -&gt; <code>self</code><br />
+Reset the learner, i.e. un-train by resetting the <code>state</code>.</p></li>
 <li><p><code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code><br />
 () -&gt; <code>NULL</code><br />
 Opens the corresponding help page referenced by <code>$man</code>.</p></li>
