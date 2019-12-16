@@ -1,7 +1,7 @@
 #' @title Friedman1 Regression Task Generator
 #'
 #' @usage NULL
-#' @aliases mlr_task_generators_friedman1
+#' @name mlr_task_generators_friedman1
 #' @format [R6::R6Class] inheriting from [TaskGenerator].
 #' @include TaskGenerator.R
 #'

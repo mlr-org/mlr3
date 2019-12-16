@@ -1,4 +1,4 @@
-#' @title "Motor Trend" Car Road Tests Task
+#' @title Motor Trend Regression Task
 #'
 #' @name mlr_tasks_mtcars
 #' @format [R6::R6Class] inheriting from [TaskRegr].

@@ -1,7 +1,7 @@
 #' @title Subsampling Resampling
 #'
 #' @usage NULL
-#' @aliases mlr_resamplings_subsampling
+#' @name mlr_resamplings_subsampling
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'

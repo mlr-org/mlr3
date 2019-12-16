@@ -1,7 +1,7 @@
 #' @title Smiley Classification Task Generator
 #'
 #' @usage NULL
-#' @aliases mlr_task_generators_smiley
+#' @name mlr_task_generators_smiley
 #' @format [R6::R6Class] inheriting from [TaskGenerator].
 #' @include TaskGenerator.R
 #'

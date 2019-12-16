@@ -2,7 +2,7 @@
 % Please edit documentation in R/TaskRegr_mtcars.R
 \name{mlr_tasks_mtcars}
 \alias{mlr_tasks_mtcars}
-\title{"Motor Trend" Car Road Tests Task}
+\title{Motor Trend Regression Task}
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskRegr}.}
 \description{
 A regression task for the \link[datasets:mtcars]{datasets::mtcars} data set.

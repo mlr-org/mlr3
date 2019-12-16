@@ -1,7 +1,7 @@
 #' @title Bootstrap Resampling
 #'
 #' @usage NULL
-#' @aliases mlr_resamplings_bootstrap
+#' @name mlr_resamplings_bootstrap
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'

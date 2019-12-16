@@ -1,7 +1,7 @@
 #' @title Holdout Resampling
 #'
 #' @usage NULL
-#' @aliases mlr_resamplings_holdout
+#' @name mlr_resamplings_holdout
 #' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'
