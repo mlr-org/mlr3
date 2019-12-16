@@ -15,6 +15,9 @@ Efficient, object-oriented programming on the building blocks of
     databases. While 'mlr3' focuses on the core computational operations,
     add-on packages provide additional functionality.
 }
+\references{
+\cite{mlr3}{pkg::citation}
+}
 \seealso{
 Useful links:
 \itemize{

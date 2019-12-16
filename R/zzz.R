@@ -6,6 +6,8 @@
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate
 #' @importFrom uuid UUIDgenerate
+#' @references
+#' \cite{mlr3}{pkg::citation}
 "_PACKAGE"
 
 dummy_import = function() {
