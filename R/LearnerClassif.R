@@ -34,18 +34,18 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
     #' * `"twoclass"`: The learner works on binary classification problems.
     #' * `"multiclass"`: The learner works on multiclass classification problems.
     #'
-    #' @param id Identifier of the learner.
-    #' @param param_set Description of available hyperparameters and hyperparameter settings.
-    #' @param predict_types Stores the possible predict types the learner is capable of.
+    #' @param id `character(1)` :: Identifier of the learner.
+    #' @param param_set `[paradox::ParamSet]` :: Description of available hyperparameters and hyperparameter settings.
+    #' @param predict_types `character()` :: Stores the possible predict types the learner is capable of.
     #'   A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
-    #' @param feature_types Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+    #' @param feature_types `character()` :: Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
     #'   A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
-    #' @param properties Stores a set of properties/capabilities the learner has.
+    #' @param properties `character()` :: Stores a set of properties/capabilities the learner has.
     #'   A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
-    #' @param data_formats Vector of supported data formats which can be processed during `$train()` and `$predict()`.
+    #' @param data_formats `character()` :: Vector of supported data formats which can be processed during `$train()` and `$predict()`.
     #'   Defaults to `"data.table"`.
-    #' @param packages Stores the names of required packages.
-    #' @param man String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+    #' @param packages `character()` :: Stores the names of required packages.
+    #' @param man `character(1)` :: String in the format `[pkg]::[topic]` pointing to a manual page for this object.
     initialize = function(id, param_set = ParamSet$new(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
         feature_types = feature_types, properties = properties, data_formats = data_formats, packages = packages, man = man)

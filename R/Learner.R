@@ -56,67 +56,67 @@
 #' @export
 Learner = R6Class("Learner",
   public = list(
-    #' @field id Identifier of the learner.
+    #' @field id `character(1)` :: Identifier of the learner.
     id = NULL,
 
-    #' @field state Current (internal) state of the learner.
+    #' @field state `NULL` | `named [list()]` :: Current (internal) state of the learner.
     #'   Contains all information learnt during `train()` and `predict()`.
     #'   Do not access elements from here directly.
     state = NULL,
 
-    #' @field task_type Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
+    #' @field task_type `character(1)` :: Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
     #'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections].
     task_type = NULL,
 
-    #' @field predict_types Stores the possible predict types the learner is capable of.
+    #' @field predict_types `character(0)` :: Stores the possible predict types the learner is capable of.
     #'   A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
     predict_types = NULL,
 
-    #' @field feature_types Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+    #' @field feature_types `character()` :: Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
     #'   A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
     feature_types = NULL,
 
-    #' @field properties Stores a set of properties/capabilities the learner has.
+    #' @field properties `character()` :: Stores a set of properties/capabilities the learner has.
     #'   A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
     properties = NULL,
 
-    #' @field data_formats Vector of supported data formats which can be processed during `$train()` and `$predict()`.
+    #' @field data_formats `character()` :: Vector of supported data formats which can be processed during `$train()` and `$predict()`.
     #'   Defaults to `"data.table"`.
     data_formats = NULL,
 
-    #' @field packages Stores the names of required packages.
+    #' @field packages `character()` :: Stores the names of required packages.
     packages = NULL,
 
-    #' @field predict_sets Sets to predict on during [resample()]/[benchmark()].
+    #' @field predict_sets `character()` :: Sets to predict on during [resample()]/[benchmark()].
     #'   Creates and stores a separate [Prediction] object for each set.
     #'   The individual sets can be combined via getters in [ResampleResult]/[BenchmarkResult], or [Measure]s can be set to operate on subsets of the calculated prediction sets.
     #'   Must be a non-empty subset of `("train", "test")`.
     #'   Default is `"test"`.
     predict_sets = "test",
 
-    #' @field fallback Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+    #' @field fallback `mlr3::Learner` :: Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
     #'   Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
     fallback = NULL,
 
-    #' @field man String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+    #' @field man `character(1)` :: String in the format `[pkg]::[topic]` pointing to a manual page for this object.
     man = NULL,
 
     #' @description
     #' This object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
-    #' @param id Identifier of the learner.
-    #' @param task_type Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
+    #' @param id `character(1)` :: Identifier of the learner.
+    #' @param task_type `character(1)` :: Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
     #'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections].
-    #' @param param_set Description of available hyperparameters and hyperparameter settings.
-    #' @param predict_types Stores the possible predict types the learner is capable of.
+    #' @param param_set `[paradox::ParamSet]` :: Description of available hyperparameters and hyperparameter settings.
+    #' @param predict_types `character()` :: Stores the possible predict types the learner is capable of.
     #'   A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
-    #' @param feature_types Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+    #' @param feature_types `character()` :: Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
     #'   A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
-    #' @param properties Stores a set of properties/capabilities the learner has.
+    #' @param properties `character()` :: Stores a set of properties/capabilities the learner has.
     #'   A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
-    #' @param data_formats Vector of supported data formats which can be processed during `$train()` and `$predict()`.
+    #' @param data_formats `character()` :: Vector of supported data formats which can be processed during `$train()` and `$predict()`.
     #'   Defaults to `"data.table"`.
-    #' @param packages Stores the names of required packages.
-    #' @param man String in the format `[pkg]::[topic]` pointing to a manual page for this object.
+    #' @param packages `character()` :: Stores the names of required packages.
+    #' @param man `character(1)` :: String in the format `[pkg]::[topic]` pointing to a manual page for this object.
     initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
       properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
 
@@ -222,25 +222,25 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
-    #' @field model The fitted model. Only available after `$train()` has been called.
+    #' @field model `any` :: The fitted model. Only available after `$train()` has been called.
     model = function() {
       self$state$model
     },
 
-    #' @field timings Elapsed time in seconds for the steps `"train"` and `"predict"`.
+    #' @field timings `numeric(2)` :: Elapsed time in seconds for the steps `"train"` and `"predict"`.
     #'   Measured via [mlr3misc::encapsulate()].
     timings = function() {
       set_names(c(self$state$train_time %??% NA_real_, self$state$predict_time %??% NA_real_), c("train", "predict"))
     },
 
-    #' @field log Returns the output (including warning and errors) as table with columns
+    #' @field log `[data.table::data.table()]` :: Returns the output (including warning and errors) as table with columns
     #'   `"stage"` (train or predict), `"class"` (output, warning, error) and
     #'   `"msg"` (`character()`).
     log = function() {
       self$state$log
     },
 
-    #' @field warnings Returns the logged warnings as vector.
+    #' @field warnings `character()` :: Returns the logged warnings as vector.
     warnings = function() {
       if (is.null(self$state$log)) {
         character()
@@ -249,7 +249,7 @@ Learner = R6Class("Learner",
       }
     },
 
-    #' @field errors Returns the logged errors as vector.
+    #' @field errors `character()` :: Returns the logged errors as vector.
     errors = function() {
       if (is.null(self$state$log)) {
         character()
@@ -258,12 +258,12 @@ Learner = R6Class("Learner",
       }
     },
 
-    #' @field hash Hash (unique identifier) for this object.
+    #' @field hash `character(1)` :: Hash (unique identifier) for this object.
     hash = function() {
       hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
     },
 
-    #' @field predict_type Stores the currently selected predict type. Must be an element of `l$predict_types`.
+    #' @field predict_type `character(1)` :: Stores the currently selected predict type. Must be an element of `l$predict_types`.
     predict_type = function(rhs) {
       if (missing(rhs)) {
         return(private$.predict_type)
@@ -275,7 +275,7 @@ Learner = R6Class("Learner",
       private$.predict_type = rhs
     },
 
-    #' @field param_set Description of available hyperparameters and hyperparameter settings.
+    #' @field param_set `[paradox::ParamSet]` :: Description of available hyperparameters and hyperparameter settings.
     param_set = function(rhs) {
       if (!missing(rhs) && !identical(rhs, private$.param_set)) {
         stop("param_set is read-only.")
@@ -283,7 +283,7 @@ Learner = R6Class("Learner",
       private$.param_set
     },
 
-    #' @field encapsulate How to call the code in `train_internal()` and `predict_internal()`.
+    #' @field encapsulate `named character()` :: How to call the code in `train_internal()` and `predict_internal()`.
     #'   Must be a named character vector with names `"train"` and `"predict"`.
     #'   Possible values are `"none"`, `"evaluate"` and `"callr"`.
     #'   See [mlr3misc::encapsulate()] for more details.

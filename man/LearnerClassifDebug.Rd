@@ -2,10 +2,13 @@
 % Please edit documentation in R/LearnerClassifDebug.R
 \name{LearnerClassifDebug}
 \alias{LearnerClassifDebug}
-\alias{mlr_learners_classif.debug}
 \title{Classification Learner for Debugging}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{LearnerClassif}.}
 \description{
+Classification Learner for Debugging
+
+Classification Learner for Debugging
+}
+\details{
 A simple \link{LearnerClassif} used primarily in the unit tests and for debugging purposes.
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 The following hyperparameters trigger the following actions:
@@ -25,13 +28,6 @@ The following hyperparameters trigger the following actions:
 Note that segfaults may not work on your operating system.
 Also note that if they work, they will tear down your R session immediately!
 }
-\section{Construction}{
-\preformatted{LearnerClassifDebug$new()
-mlr_learners$get("classif.debug")
-lrn("classif.debug")
-}
-}
-
 \examples{
 learner = lrn("classif.debug")
 learner$param_set$values = list(message_train = 1, save_tasks = TRUE)
@@ -48,4 +44,92 @@ names(learner$model)
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
 
 \code{as.data.table(mlr_learners)} for a complete table of all (also dynamically created) \link{Learner} implementations.
+}
+\section{Super classes}{
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerClassif]{mlr3::LearnerClassif}} -> \code{LearnerClassifDebug}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{LearnerClassifDebug$new()}}
+\item \href{#method-train_internal}{\code{LearnerClassifDebug$train_internal()}}
+\item \href{#method-predict_internal}{\code{LearnerClassifDebug$predict_internal()}}
+\item \href{#method-clone}{\code{LearnerClassifDebug$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format">}\href{../../mlr3/html/Learner.html#method-format}{\code{mlr3::Learner$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help">}\href{../../mlr3/html/Learner.html#method-help}{\code{mlr3::Learner$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict">}\href{../../mlr3/html/Learner.html#method-predict}{\code{mlr3::Learner$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata">}\href{../../mlr3/html/Learner.html#method-predict_newdata}{\code{mlr3::Learner$predict_newdata()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print">}\href{../../mlr3/html/Learner.html#method-print}{\code{mlr3::Learner$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train">}\href{../../mlr3/html/Learner.html#method-train}{\code{mlr3::Learner$train()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Overrides the method to construct this learner.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-train_internal"></a>}}
+\subsection{Method \code{train_internal()}}{
+Overrides the method to train this learner.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$train_internal(task)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{The task to be used to train the learner.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The trained model.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict_internal"></a>}}
+\subsection{Method \code{predict_internal()}}{
+Overrides this learner's method to predict.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$predict_internal(task)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{The task to be used for prediction.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The predicted data.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{LearnerClassifDebug$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
 }

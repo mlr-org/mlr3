@@ -73,6 +73,31 @@ Additional learner properties include:
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{\code{character(1)} :: Identifier of the learner.}
+
+\item{\code{param_set}}{\verb{[paradox::ParamSet]} :: Description of available hyperparameters and hyperparameter settings.}
+
+\item{\code{predict_types}}{\code{character()} :: Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
+
+\item{\code{feature_types}}{\code{character()} :: Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+
+\item{\code{properties}}{\code{character()} :: Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
+
+\item{\code{data_formats}}{\code{character()} :: Vector of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}.
+Defaults to \code{"data.table"}.}
+
+\item{\code{packages}}{\code{character()} :: Stores the names of required packages.}
+
+\item{\code{man}}{\code{character(1)} :: String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
