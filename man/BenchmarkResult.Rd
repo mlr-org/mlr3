@@ -98,6 +98,11 @@ Retrieve the i-th \link{ResampleResult}, by position or by unique hash \code{uha
 (\link{BenchmarkResult} | \code{NULL}) -> \code{self}\cr
 Fuses a second \link{BenchmarkResult} into itself, mutating the \link{BenchmarkResult} in-place.
 If \code{bmr} is \code{NULL}, simply returns \code{self}.
+\item \code{filter(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL)}\cr
+(\code{character()}, \code{character()}, \code{character()}) -> \code{self}\cr
+Subsets the benchmark result.
+If \code{task_ids} is not \code{NULL}, keeps all tasks with provided task ids while discards all others.
+Same procedure for \code{learner_ids} and \code{resampling_ids}.
 \item \code{help()}\cr
 () -> \code{NULL}\cr
 Opens the help page for this object.

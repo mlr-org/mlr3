@@ -100,6 +100,12 @@
 #'   Fuses a second [BenchmarkResult] into itself, mutating the [BenchmarkResult] in-place.
 #'   If `bmr` is `NULL`, simply returns `self`.
 #'
+#' * `filter(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL)`\cr
+#'   (`character()`, `character()`, `character()`) -> `self`\cr
+#'   Subsets the benchmark result.
+#'   If `task_ids` is not `NULL`, keeps all tasks with provided task ids while discards all others.
+#'   Same procedure for `learner_ids` and `resampling_ids`.
+#'
 #' * `help()`\cr
 #'   () -> `NULL`\cr
 #'   Opens the help page for this object.
@@ -230,7 +236,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       # move iters to last column
-      setcolorder(res, names(res)[-3L])
+      setcolorder(res, setdiff(names(res), "iters"))
 
       if (assert_flag(params)) {
         res[, "params" := list(map(resample_result, function(x) x$learners[[1L]]$param_set$values))]
@@ -256,6 +262,25 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       return(res[])
+    },
+
+    filter = function(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL) {
+      if (!is.null(task_ids)) {
+        assert_character(task_ids, any.missing = FALSE)
+        self$data = self$data[ids(task) %in% task_ids]
+      }
+
+      if (!is.null(learner_ids)) {
+        assert_character(learner_ids, any.missing = FALSE)
+        self$data = self$data[ids(learner) %in% learner_ids]
+      }
+
+      if (!is.null(resampling_ids)) {
+        assert_character(resampling_ids, any.missing = FALSE)
+        self$data = self$data[ids(resampling) %in% resampling_ids]
+      }
+
+      invisible(self)
     },
 
     resample_result = function(i = NULL, uhash = NULL) {
