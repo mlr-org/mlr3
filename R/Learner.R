@@ -103,6 +103,20 @@ Learner = R6Class("Learner",
 
     #' @description
     #' This object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
+    #' @param id Identifier of the learner.
+    #' @param task_type Stores the type of class this learner can operate on, e.g. `"classif"` or `"regr"`.
+    #'   A complete list of task types is stored in [`mlr_reflections$task_types`][mlr_reflections].
+    #' @param param_set Description of available hyperparameters and hyperparameter settings.
+    #' @param predict_types Stores the possible predict types the learner is capable of.
+    #'   A complete list of candidate predict types, grouped by task type, is stored in [`mlr_reflections$learner_predict_types`][mlr_reflections].
+    #' @param feature_types Stores the feature types the learner can handle, e.g. `"logical"`, `"numeric"`, or `"factor"`.
+    #'   A complete list of candidate feature types, grouped by task type, is stored in [`mlr_reflections$task_feature_types`][mlr_reflections].
+    #' @param properties Stores a set of properties/capabilities the learner has.
+    #'   A complete list of candidate properties, grouped by task type, is stored in [`mlr_reflections$learner_properties`][mlr_reflections].
+    #' @param data_formats Vector of supported data formats which can be processed during `$train()` and `$predict()`.
+    #'   Defaults to `"data.table"`.
+    #' @param packages Stores the names of required packages.
+    #' @param man String in the format `[pkg]::[topic]` pointing to a manual page for this object.
     initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
       properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
 
@@ -125,10 +139,14 @@ Learner = R6Class("Learner",
       open_help(self$man)
     },
 
+    #' @description
+    #' Returns a string representing this learner.
     format = function() {
       sprintf("<%s:%s>", class(self)[1L], self$id)
     },
 
+    #' @description
+    #' Prints this learner.
     print = function() {
       learner_print(self)
     },
@@ -136,6 +154,8 @@ Learner = R6Class("Learner",
     #' @description
     #' Train the learner on the row ids of the provided [Task].
     #' Mutates the learner by reference, i.e. stores the model alongside other objects in field `$state`.
+    #' @param task The data to use for training.
+    #' @param row_ids A set of row ids to use.
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
@@ -154,6 +174,9 @@ Learner = R6Class("Learner",
     #' @description
     #'   Uses the data stored during `$train()` in `$state` to create a new [Prediction] based on the provided `row_ids`
     #'   of the `task`.
+    #' @param task The data to predict for.
+    #' @param row_ids A set of row ids to use.
+    #' @return The predicted data.
     predict = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
@@ -175,6 +198,9 @@ Learner = R6Class("Learner",
     #'   If the learner's `$train()` method has been called, there is a (size reduced) version of the training task stored in the learner.
     #'   If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
     #'   in the [ResampleResult] or [BenchmarkResult], respectively.
+    #' @param newdata The new data to predict values for.
+    #' @param task The task used in the `$train()` method.
+    #' @return The predicted data.
     predict_newdata = function(newdata, task = NULL) {
       if (is.null(task)) {
         if (is.null(self$state$train_task))

@@ -1,9 +1,4 @@
-#' @title Classification Tree Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_classif.rpart
-#' @format [R6::R6Class] inheriting from [LearnerClassif].
-#' @include LearnerClassif.R
+#' Classification Tree Learner
 #'
 #' @section Construction:
 #' ```
@@ -23,6 +18,7 @@
 #' @export
 LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
   public = list(
+    #' @description Overrides the method to construct this learner.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamInt$new(id = "minsplit", default = 20L, lower = 1L, tags = "train"),
@@ -45,6 +41,9 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       )
     },
 
+    #' @description Overrides the method to train this learner.
+    #' @param task The task to be used to train the learner.
+    #' @return The trained model.
     train_internal = function(task) {
       pv = self$param_set$get_values(tags = "train")
       if ("weights" %in% task$properties) {
@@ -53,6 +52,9 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
     },
 
+    #' @description Overrides this learner's method to predict.
+    #' @param task The task to be used for prediction.
+    #' @return The predicted data.
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
       response = prob = NULL
@@ -67,6 +69,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       PredictionClassif$new(task = task, response = response, prob = prob)
     },
 
+    #' @description Overrides this learner's importance method.
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
@@ -75,6 +78,8 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       sort(self$model$variable.importance %??% set_names(numeric()), decreasing = TRUE)
     },
 
+    #' @description Overrides the method which returns the selected features.
+    #' @return A vector of feature names containing the selected features.
     selected_features = function() {
       if (is.null(self$model)) {
         stopf("No model stored")

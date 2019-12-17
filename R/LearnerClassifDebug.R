@@ -1,18 +1,5 @@
-#' @title Classification Learner for Debugging
+#' Classification Learner for Debugging
 #'
-#' @usage NULL
-#' @aliases mlr_learners_classif.debug
-#' @format [R6::R6Class] inheriting from [LearnerClassif].
-#' @include LearnerClassif.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerClassifDebug$new()
-#' mlr_learners$get("classif.debug")
-#' lrn("classif.debug")
-#' ```
-#'
-#' @description
 #' A simple [LearnerClassif] used primarily in the unit tests and for debugging purposes.
 #' If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 #' The following hyperparameters trigger the following actions:
@@ -47,6 +34,7 @@
 #' names(learner$model)
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
+    #' @description Overrides the method to construct this learner.
     initialize = function() {
       super$initialize(
         id = "classif.debug",
@@ -72,8 +60,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       )
     },
 
+    #' @description Overrides the method to train this learner.
+    #' @param task The task to be used to train the learner.
+    #' @return The trained model.
     train_internal = function(task) {
-
       pv = self$param_set$get_values(tags = "train")
       lookup = function(name) {
         name %in% names(pv) && pv[[name]] > runif(1L)
@@ -99,6 +89,9 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       set_class(model, "classif.debug_model")
     },
 
+    #' @description Overrides this learner's method to predict.
+    #' @param task The task to be used for prediction.
+    #' @return The predicted data.
     predict_internal = function(task) {
 
       n = task$nrow

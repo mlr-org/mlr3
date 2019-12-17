@@ -1,9 +1,4 @@
-#' @title Featureless Classification Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_classif.featureless
-#' @format [R6::R6Class] inheriting from [LearnerClassif].
-#' @include LearnerClassif.R
+#' Featureless Classification Learner
 #'
 #' @section Construction:
 #' ```
@@ -12,7 +7,6 @@
 #' lrn("classif.featureless")
 #' ```
 #'
-#' @description
 #' A simple [LearnerClassif] which only analyses the labels during train, ignoring all features.
 #' Hyperparameter `method` determines the mode of operation during prediction:
 #' \describe{
@@ -24,6 +18,7 @@
 #' @export
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
   public = list(
+    #' @description Overrides the method to construct this learner.
     initialize = function() {
       ps = ParamSet$new(list(ParamFct$new("method", levels = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")))
       ps$values = list(method = "mode")
@@ -37,11 +32,17 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       )
     },
 
+    #' @description Overrides the method to train this learner.
+    #' @param task The task to be used to train the learner.
+    #' @return The trained model.
     train_internal = function(task) {
       tn = task$target_names
       set_class(list(tab = table(task$data(cols = tn)[[1L]]), features = task$feature_names), "classif.featureless_model")
     },
 
+    #' @description Overrides this learner's method to predict.
+    #' @param task The task to be used for prediction.
+    #' @return The predicted data.
     predict_internal = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       tab = self$model$tab
@@ -70,6 +71,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       }
     },
 
+    #' @description Overrides this learner's importance method.
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
@@ -78,6 +80,8 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       named_vector(fn, 0)
     },
 
+    #' @description Overrides the method which returns the selected features.
+    #' @return A vector of feature names containing the selected features.
     selected_features = function() {
       character()
     }

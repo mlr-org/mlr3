@@ -1,9 +1,4 @@
-#' @title Regression Tree Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_regr.rpart
-#' @format [R6::R6Class] inheriting from [LearnerRegr].
-#' @include LearnerRegr.R
+#' Regression Tree Learner
 #'
 #' @section Construction:
 #' ```
@@ -23,6 +18,7 @@
 #' @export
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(
+    #' @description Overrides the method to construct this learner.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamInt$new(id = "minsplit", default = 20L, lower = 1L, tags = "train"),
@@ -45,6 +41,9 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       )
     },
 
+    #' @description Overrides the method to train this learner.
+    #' @param task The task to be used to train the learner.
+    #' @return The trained model.
     train_internal = function(task) {
       pv = self$param_set$get_values(tags = "train")
       if ("weights" %in% task$properties) {
@@ -53,12 +52,16 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
     },
 
+    #' @description Overrides this learner's method to predict.
+    #' @param task The task to be used for prediction.
+    #' @return The predicted data.
     predict_internal = function(task) {
       newdata = task$data(cols = task$feature_names)
       response = invoke(predict, self$model, newdata = newdata, .opts = allow_partial_matching)
       PredictionRegr$new(task = task, response = response)
     },
 
+    #' @description Overrides this learner's importance method.
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
@@ -67,6 +70,8 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       sort(self$model$variable.importance %??% set_names(numeric()), decreasing = TRUE)
     },
 
+    #' @description Overrides the method which returns the selected features.
+    #' @return A vector of feature names containing the selected features.
     selected_features = function() {
       if (is.null(self$model)) {
         stopf("No model stored")

@@ -1,9 +1,4 @@
-#' @title Featureless Regression Learner
-#'
-#' @usage NULL
-#' @aliases mlr_learners_regr.featureless
-#' @format [R6::R6Class] inheriting from [LearnerRegr].
-#' @include LearnerRegr.R
+#' Featureless Regression Learner
 #'
 #' @section Construction:
 #' ```
@@ -23,6 +18,7 @@
 #' @export
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(
+    #' @description Overrides the method to construct this learner.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamLgl$new("robust", default = TRUE, tags = "train")
@@ -40,6 +36,9 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       )
     },
 
+    #' @description Overrides the method to train this learner.
+    #' @param task The task to be used to train the learner.
+    #' @return The trained model.
     train_internal = function(task) {
       pv = self$param_set$get_values(tags = "train")
       x = task$data(cols = task$target_names)[[1L]]
@@ -53,6 +52,9 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "regr.featureless_model")
     },
 
+    #' @description Overrides this learner's method to predict.
+    #' @param task The task to be used for prediction.
+    #' @return The predicted data.
     predict_internal = function(task) {
       n = task$nrow
       response = rep(self$model$location, n)
@@ -60,6 +62,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       PredictionRegr$new(task = task, response = response, se = se)
     },
 
+    #' @description Overrides this learner's importance method.
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
@@ -68,6 +71,8 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       named_vector(fn, 0)
     },
 
+    #' @description Overrides the method which returns the selected features.
+    #' @return A vector of feature names containing the selected features.
     selected_features = function() {
       character()
     }
