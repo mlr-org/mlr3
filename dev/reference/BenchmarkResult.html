@@ -260,6 +260,11 @@ Retrieve the i-th <a href='ResampleResult.html'>ResampleResult</a>, by position 
 (BenchmarkResult | <code>NULL</code>) -&gt; <code>self</code><br />
 Fuses a second BenchmarkResult into itself, mutating the BenchmarkResult in-place.
 If <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.</p></li>
+<li><p><code><a href='https://rdrr.io/r/stats/filter.html'>filter(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL)</a></code><br />
+(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) -&gt; <code>self</code><br />
+Subsets the benchmark result.
+If <code>task_ids</code> is not <code>NULL</code>, keeps all tasks with provided task ids while discards all others.
+Same procedure for <code>learner_ids</code> and <code>resampling_ids</code>.</p></li>
 <li><p><code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code><br />
 () -&gt; <code>NULL</code><br />
 Opens the help page for this object.</p></li>
@@ -307,11 +312,11 @@ Returns a copy of the internal data.</p></li>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: cf47c69e-9d05-4f06-8a36-98916a819bba &lt;TaskClassif&gt;
-#&gt; 2: cf47c69e-9d05-4f06-8a36-98916a819bba &lt;TaskClassif&gt;
-#&gt; 3: cf47c69e-9d05-4f06-8a36-98916a819bba &lt;TaskClassif&gt;
-#&gt; 4: 281e357b-ea12-4304-8501-07fa93e407d1 &lt;TaskClassif&gt;
-#&gt; 5: 281e357b-ea12-4304-8501-07fa93e407d1 &lt;TaskClassif&gt;
+#&gt; 1: 11910939-ee4e-4409-83d0-0a6e5a0f741f &lt;TaskClassif&gt;
+#&gt; 2: 11910939-ee4e-4409-83d0-0a6e5a0f741f &lt;TaskClassif&gt;
+#&gt; 3: 11910939-ee4e-4409-83d0-0a6e5a0f741f &lt;TaskClassif&gt;
+#&gt; 4: b7ec51b3-8ee9-422a-abbd-e245ab43d17d &lt;TaskClassif&gt;
+#&gt; 5: b7ec51b3-8ee9-422a-abbd-e245ab43d17d &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
