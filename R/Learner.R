@@ -338,9 +338,8 @@ Learner = R6Class("Learner",
       if (missing(rhs)) {
         return(private$.predict_type)
       }
-      assert_choice(rhs, names(mlr_reflections$learner_predict_types[[self$task_type]]))
       if (rhs %nin% self$predict_types) {
-        stopf("Learner does not support predict type '%s'", rhs)
+        stopf("Learner '%s' does not support predict type '%s'", self$id, rhs)
       }
       private$.predict_type = rhs
     },

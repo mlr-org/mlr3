@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.1.6
+Version: 0.1.6-9000
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -77,7 +77,7 @@ Suggests:
     rpart,
     testthat,
     titanic
-RdMacros: 
+RdMacros:
     mlr3misc
 Encoding: UTF-8
 LazyData: true

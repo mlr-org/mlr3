@@ -1,3 +1,5 @@
+# mlr3 0.1.7
+
 # mlr3 0.1.6
 
 * We have published an article about mlr3 in the Journal of Open Source
