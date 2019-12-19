@@ -1,6 +1,6 @@
 Package: mlr3
 Title: Machine Learning in R - Next Generation
-Version: 0.1.5-9000
+Version: 0.1.6
 Authors@R:
     c(person(given = "Michel",
              family = "Lang",
@@ -41,12 +41,13 @@ Authors@R:
              family = "Binder",
              role = "aut",
              email = "mlr.developer@mb706.com"))
-Description: Efficient, object-oriented programming on the building blocks of
-    machine learning. Provides 'R6' objects for tasks, learners, resamplings,
-    and measures. The package is geared towards scalability and larger datasets
-    by supporting parallelization and out-of-memory data-backends like
-    databases. While 'mlr3' focuses on the core computational operations,
-    add-on packages provide additional functionality.
+Description: Efficient, object-oriented programming on the
+    building blocks of machine learning. Provides 'R6' objects for tasks,
+    learners, resamplings, and measures. The package is geared towards
+    scalability and larger datasets by supporting parallelization and
+    out-of-memory data-backends like databases. While 'mlr3' focuses on
+    the core computational operations, add-on packages provide additional
+    functionality.
 License: LGPL-3
 URL: https://mlr3.mlr-org.com, https://github.com/mlr-org/mlr3
 BugReports: https://github.com/mlr-org/mlr3/issues
@@ -59,11 +60,11 @@ Imports:
     digest,
     lgr (>= 0.3.0),
     mlbench,
-    mlr3misc (>= 0.1.6),
     mlr3measures (>= 0.1.1),
+    mlr3misc (>= 0.1.6),
     paradox,
-    uuid,
-    R6
+    R6,
+    uuid
 Suggests:
     bibtex,
     callr,
@@ -76,7 +77,8 @@ Suggests:
     rpart,
     testthat,
     titanic
-RdMacros: mlr3misc
+RdMacros: 
+    mlr3misc
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
