@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Subsampling Resampling — ResamplingSubsampling • mlr3</title>
+<title>Friedman1 Regression Task Generator — mlr_task_generators_friedman1 • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,9 +49,8 @@
 
 
 
-<meta property="og:title" content="Subsampling Resampling — ResamplingSubsampling" />
-<meta property="og:description" content="Splits data repeats (default: 30) times into training and test set
-with a ratio of ratio (default: 2/3) observations going into the training set." />
+<meta property="og:title" content="Friedman1 Regression Task Generator — mlr_task_generators_friedman1" />
+<meta property="og:description" content="A TaskGenerator for the friedman1 task in mlbench::mlbench.friedman1()." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -85,7 +84,7 @@ with a ratio of ratio (default: 2/3) observations going into the training set." 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
       </span>
     </div>
 
@@ -153,82 +152,62 @@ with a ratio of ratio (default: 2/3) observations going into the training set." 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Subsampling Resampling</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/ResamplingSubsampling.R'><code>R/ResamplingSubsampling.R</code></a></small>
-    <div class="hidden name"><code>ResamplingSubsampling.Rd</code></div>
+    <h1>Friedman1 Regression Task Generator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorFriedman1.R'><code>R/TaskGeneratorFriedman1.R</code></a></small>
+    <div class="hidden name"><code>mlr_task_generators_friedman1.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Splits data <code>repeats</code> (default: 30) times into training and test set
-with a ratio of <code>ratio</code> (default: 2/3) observations going into the training set.</p>
+    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the friedman1 task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.friedman1.html'>mlbench::mlbench.friedman1()</a></code>.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='Resampling.html'>Resampling</a>.</p>
+    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='TaskGenerator.html'>TaskGenerator</a>.</p>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>ResamplingSubsampling$new()
-mlr_resamplings$get("subsampling")
-rsmp("subsampling")
+<pre>TaskGeneratorFriedman1$new()
+mlr_task_generators$get("friedman1")
+tgen("friedman1")
 </pre>
-
-    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
-
-    
-
-<p>See <a href='Resampling.html'>Resampling</a>.</p>
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<p>See <a href='Resampling.html'>Resampling</a>.</p>
-    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
-
-    
-
-<ul>
-<li><p><code>repeats</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
-Number of repetitions.</p></li>
-<li><p><code>ratio</code> :: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code><br />
-Ratio of observations to put into the training set.</p></li>
-</ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Resampling.html'>Resamplings</a>: <a href='mlr_resamplings.html'>mlr_resamplings</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) <a href='Resampling.html'>Resampling</a> implementations.</p></div>
+    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='TaskGenerator.html'>TaskGenerators</a>: <a href='mlr_task_generators.html'>mlr_task_generators</a></p>
+<p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) <a href='TaskGenerator.html'>TaskGenerator</a> implementations.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
-<span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
-<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
-
-<span class='co'># Instantiate Resampling</span>
-<span class='no'>rss</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
-<span class='no'>rss</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-
-<span class='co'># Individual sets:</span>
-<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 8 2 7 9 4</div><div class='input'><span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  3  5  6 10</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>rss</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rss</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
-<span class='co'># Internal storage:</span>
-<span class='no'>rss</span>$<span class='no'>instance</span>$<span class='no'>train</span> <span class='co'># list of index vectors</span></div><div class='output co'>#&gt; [[1]]
-#&gt; [1] 8 2 7 9 4
-#&gt; 
-#&gt; [[2]]
-#&gt; [1] 10  6  8  4  2
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"friedman1"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;             y important1 important2 important3 important4 important5
+#&gt;  1: 16.943848 0.23955434  0.7110222  0.1879916  0.4031160 0.90674514
+#&gt;  2: 17.461115 0.91097103  0.3600283  0.3164464  0.2865138 0.86937212
+#&gt;  3: 14.588092 0.81540078  0.1245518  0.4309087  0.8672962 0.45848995
+#&gt;  4: 11.773327 0.71881999  0.8016087  0.6442489  0.1453436 0.02534216
+#&gt;  5: 17.891892 0.72771778  0.7658110  0.1389937  0.2679227 0.52601399
+#&gt;  6:  8.011005 0.08094889  0.5481055  0.0935091  0.1760928 0.23853918
+#&gt;  7: 11.171473 0.21338926  0.4978300  0.4904305  0.4473637 0.86414528
+#&gt;  8: 14.044312 0.69634329  0.3004999  0.6650128  0.7268815 0.14294954
+#&gt;  9: 18.564767 0.70477084  0.4053861  0.4471942  0.8061643 0.62545351
+#&gt; 10: 11.451290 0.46092413  0.4271916  0.8308704  0.1508970 0.49562674
+#&gt;     unimportant1 unimportant2 unimportant3 unimportant4 unimportant5
+#&gt;  1:    0.6299900   0.44222862 0.1446169016    0.8761557    0.8470165
+#&gt;  2:    0.1744078   0.44805073 0.0007360573    0.8916445    0.7299627
+#&gt;  3:    0.3974171   0.37934982 0.8873595039    0.0980194    0.4186931
+#&gt;  4:    0.7695083   0.03246628 0.1499343407    0.6408948    0.4046943
+#&gt;  5:    0.5397561   0.47011544 0.4958328137    0.5527113    0.8307160
+#&gt;  6:    0.9423638   0.55705869 0.0445529586    0.9182962    0.5724273
+#&gt;  7:    0.5028886   0.32303813 0.0216628171    0.1097287    0.7669853
+#&gt;  8:    0.7134387   0.91847416 0.3498590766    0.5664817    0.1052325
+#&gt;  9:    0.7176965   0.93920163 0.2929193743    0.5322978    0.8867539
+#&gt; 10:    0.8379953   0.77851112 0.0322928987    0.2506135    0.1110687</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
       <li><a href="#construction">Construction</a></li>
-      <li><a href="#fields">Fields</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#parameters">Parameters</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

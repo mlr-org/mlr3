@@ -22,22 +22,7 @@
     <loc>https://mlr3.mlr-org.com/reference/LearnerClassif.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerClassifDebug.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerClassifFeatureless.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerClassifRpart.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/LearnerRegr.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerRegrFeatureless.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/LearnerRegrRpart.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/Measure.html</loc>
@@ -64,24 +49,6 @@
     <loc>https://mlr3.mlr-org.com/reference/Resampling.html</loc>
   </url>
   <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingBootstrap.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingCV.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingCustom.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingHoldout.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingRepeatedCV.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/ResamplingSubsampling.html</loc>
-  </url>
-  <url>
     <loc>https://mlr3.mlr-org.com/reference/Task.html</loc>
   </url>
   <url>
@@ -89,18 +56,6 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/TaskGenerator.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/TaskGenerator2DNormals.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/TaskGeneratorFriedman1.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/TaskGeneratorSmiley.html</loc>
-  </url>
-  <url>
-    <loc>https://mlr3.mlr-org.com/reference/TaskGeneratorXor.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/TaskRegr.html</loc>
@@ -137,6 +92,21 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_learners.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif.debug.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif.featureless.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_classif.rpart.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_regr.featureless.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_learners_regr.rpart.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures.html</loc>
@@ -295,10 +265,40 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_bootstrap.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_custom.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_cv.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_holdout.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_repeated_cv.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_subsampling.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_sugar.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_2dnormals.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_friedman1.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_smiley.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_xor.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_tasks.html</loc>

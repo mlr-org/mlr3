@@ -84,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
       </span>
     </div>
 
@@ -234,12 +234,12 @@ or <code>"trace"</code>:</p><pre>lgr::get_logger("mlr3")$set_threshold("debug")
 
 <span class='co'>## data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: dc31ae3b-dc8b-4275-b69f-086f1ae02d08 &lt;TaskClassif&gt;
-#&gt; 2: dc31ae3b-dc8b-4275-b69f-086f1ae02d08 &lt;TaskClassif&gt;
-#&gt; 3: dc31ae3b-dc8b-4275-b69f-086f1ae02d08 &lt;TaskClassif&gt;
-#&gt; 4: 7263e0fe-eba6-4ecd-afc6-e2709421147c &lt;TaskClassif&gt;
-#&gt; 5: 7263e0fe-eba6-4ecd-afc6-e2709421147c &lt;TaskClassif&gt;
-#&gt; 6: 7263e0fe-eba6-4ecd-afc6-e2709421147c &lt;TaskClassif&gt;
+#&gt; 1: e3e77b85-18a1-47e4-a4d1-a0def6d783b3 &lt;TaskClassif&gt;
+#&gt; 2: e3e77b85-18a1-47e4-a4d1-a0def6d783b3 &lt;TaskClassif&gt;
+#&gt; 3: e3e77b85-18a1-47e4-a4d1-a0def6d783b3 &lt;TaskClassif&gt;
+#&gt; 4: 2e70a8a7-f33a-4ec2-b820-3cd99f87499f &lt;TaskClassif&gt;
+#&gt; 5: 2e70a8a7-f33a-4ec2-b820-3cd99f87499f &lt;TaskClassif&gt;
+#&gt; 6: 2e70a8a7-f33a-4ec2-b820-3cd99f87499f &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
@@ -255,24 +255,24 @@ or <code>"trace"</code>:</p><pre>lgr::get_logger("mlr3")$set_threshold("debug")
 #&gt; 3:  3 &lt;ResampleResult&gt;   sonar classif.featureless            cv     3
 #&gt; 4:  4 &lt;ResampleResult&gt;   sonar       classif.rpart            cv     3
 #&gt;    classif.ce
-#&gt; 1: 0.72666667
-#&gt; 2: 0.05333333
-#&gt; 3: 0.54292616
-#&gt; 4: 0.30296756</div><div class='input'>
+#&gt; 1: 0.70666667
+#&gt; 2: 0.06666667
+#&gt; 3: 0.46645963
+#&gt; 4: 0.37964113</div><div class='input'>
 <span class='co'>## Extract predictions of first resampling result</span>
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>aggr</span>$<span class='no'>resample_result</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>rr</span>$<span class='fu'>prediction</span>())</div><div class='output co'>#&gt;      row_id     truth   response
-#&gt;   1:      2    setosa versicolor
-#&gt;   2:      4    setosa versicolor
-#&gt;   3:      9    setosa versicolor
-#&gt;   4:     10    setosa versicolor
-#&gt;   5:     13    setosa versicolor
-#&gt;  ---                            
-#&gt; 146:    138 virginica  virginica
-#&gt; 147:    141 virginica  virginica
-#&gt; 148:    143 virginica  virginica
-#&gt; 149:    146 virginica  virginica
-#&gt; 150:    150 virginica  virginica</div><div class='input'>
+<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>rr</span>$<span class='fu'>prediction</span>())</div><div class='output co'>#&gt;      row_id     truth response
+#&gt;   1:      1    setosa   setosa
+#&gt;   2:      4    setosa   setosa
+#&gt;   3:      7    setosa   setosa
+#&gt;   4:      9    setosa   setosa
+#&gt;   5:     11    setosa   setosa
+#&gt;  ---                          
+#&gt; 146:    139 virginica   setosa
+#&gt; 147:    141 virginica   setosa
+#&gt; 148:    142 virginica   setosa
+#&gt; 149:    145 virginica   setosa
+#&gt; 150:    147 virginica   setosa</div><div class='input'>
 <span class='co'># benchmarking with a custom design:</span>
 <span class='co'># - fit classif.featureless on iris with a 3-fold CV</span>
 <span class='co'># - fit classif.rpart on sonar using a holdout</span>

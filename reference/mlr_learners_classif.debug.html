@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Smiley Classification Task Generator — TaskGeneratorSmiley • mlr3</title>
+<title>Classification Learner for Debugging — mlr_learners_classif.debug • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,24 @@
 
 
 
-<meta property="og:title" content="Smiley Classification Task Generator — TaskGeneratorSmiley" />
-<meta property="og:description" content="A TaskGenerator for the smiley task in mlbench::mlbench.smiley()." />
+<meta property="og:title" content="Classification Learner for Debugging — mlr_learners_classif.debug" />
+<meta property="og:description" content="A simple LearnerClassif used primarily in the unit tests and for debugging purposes.
+If no hyperparameter is set, it simply constantly predicts a randomly selected label.
+The following hyperparameters trigger the following actions:
+message_train:Outputs a message during train if the parameter value exceeds runif(1).
+message_predict:Outputs a message during predict if the parameter value exceeds runif(1).
+warning_train:Signals a warning during train if the parameter value exceeds runif(1).
+warning_predict:Signals a warning during predict if the parameter value exceeds runif(1).
+error_train:Raises an exception during train if the parameter value exceeds runif(1).
+error_predict:Raises an exception during predict if the parameter value exceeds runif(1).
+segfault_train:Provokes a segfault during train if the parameter value exceeds runif(1).
+segfault_predict:Provokes a segfault during predict if the parameter value exceeds runif(1).
+predict_missingRatio of predictions which will be NA.
+save_tasks:Saves input task in model slot during training and prediction.
+x:Numeric parameter. Has no effect.
+
+Note that segfaults may not work on your operating system.
+Also note that if they work, they will tear down your R session immediately!" />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -84,7 +100,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
       </span>
     </div>
 
@@ -152,45 +168,66 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Smiley Classification Task Generator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorSmiley.R'><code>R/TaskGeneratorSmiley.R</code></a></small>
-    <div class="hidden name"><code>TaskGeneratorSmiley.Rd</code></div>
+    <h1>Classification Learner for Debugging</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerClassifDebug.R'><code>R/LearnerClassifDebug.R</code></a></small>
+    <div class="hidden name"><code>mlr_learners_classif.debug.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the smiley task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.smiley.html'>mlbench::mlbench.smiley()</a></code>.</p>
+    <p>A simple <a href='LearnerClassif.html'>LearnerClassif</a> used primarily in the unit tests and for debugging purposes.
+If no hyperparameter is set, it simply constantly predicts a randomly selected label.
+The following hyperparameters trigger the following actions:</p><dl class='dl-horizontal'>
+<dt>message_train:</dt><dd><p>Outputs a message during train if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
+<dt>message_predict:</dt><dd><p>Outputs a message during predict if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
+<dt>warning_train:</dt><dd><p>Signals a warning during train if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
+<dt>warning_predict:</dt><dd><p>Signals a warning during predict if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
+<dt>error_train:</dt><dd><p>Raises an exception during train if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
+<dt>error_predict:</dt><dd><p>Raises an exception during predict if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
+<dt>segfault_train:</dt><dd><p>Provokes a segfault during train if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
+<dt>segfault_predict:</dt><dd><p>Provokes a segfault during predict if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
+<dt>predict_missing</dt><dd><p>Ratio of predictions which will be NA.</p></dd>
+<dt>save_tasks:</dt><dd><p>Saves input task in <code>model</code> slot during training and prediction.</p></dd>
+<dt>x:</dt><dd><p>Numeric parameter. Has no effect.</p></dd>
+
+</dl><p>Note that segfaults may not work on your operating system.
+Also note that if they work, they will tear down your R session immediately!</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='TaskGenerator.html'>TaskGenerator</a>.</p>
+    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='LearnerClassif.html'>LearnerClassif</a>.</p>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>TaskGeneratorSmiley$new()
-mlr_task_generators$get("smiley")
-tgen("smiley")
+<pre>LearnerClassifDebug$new()
+mlr_learners$get("classif.debug")
+lrn("classif.debug")
 </pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='TaskGenerator.html'>TaskGenerators</a>: <a href='mlr_task_generators.html'>mlr_task_generators</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) <a href='TaskGenerator.html'>TaskGenerator</a> implementations.</p></div>
+    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p>
+<p><code><a href='as.data.table.html'>as.data.table(mlr_learners)</a></code> for a complete table of all (also dynamically created) <a href='Learner.html'>Learner</a> implementations.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"smiley"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes          x.1         x.2
-#&gt;  1:       1 -0.543733013  0.66530975
-#&gt;  2:       1 -0.924601567  1.01851033
-#&gt;  3:       2  0.833696766  0.87925643
-#&gt;  4:       2  0.826694190  0.93649701
-#&gt;  5:       3  0.009402837  0.16543292
-#&gt;  6:       3 -0.152068977  0.07860196
-#&gt;  7:       4  0.103098735 -0.99561938
-#&gt;  8:       4 -0.446378491 -0.79864263
-#&gt;  9:       4 -0.640495934 -0.63371935
-#&gt; 10:       4 -0.670304051 -0.52376559</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.debug"</span>)
+<span class='no'>learner</span>$<span class='no'>param_set</span>$<span class='no'>values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>message_train</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>save_tasks</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># this should signal a message</span>
+<span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
+<span class='no'>learner</span>$<span class='fu'>train</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; <span class='message'>Message from classif.debug-&gt;train()</span></div><div class='input'><span class='no'>learner</span>$<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 150 observations:
+#&gt;     row_id     truth   response
+#&gt;          1    setosa versicolor
+#&gt;          2    setosa versicolor
+#&gt;          3    setosa versicolor
+#&gt; ---                            
+#&gt;        148 virginica versicolor
+#&gt;        149 virginica versicolor
+#&gt;        150 virginica versicolor</div><div class='input'>
+<span class='co'># task_train and task_predict are the input tasks for train() and predict()</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>learner</span>$<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] "response"     "task_train"   "task_predict"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

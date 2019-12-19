@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Repeated Cross Validation Resampling — ResamplingRepeatedCV • mlr3</title>
+<title>Classification Tree Learner — mlr_learners_classif.rpart • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,11 +49,9 @@
 
 
 
-<meta property="og:title" content="Repeated Cross Validation Resampling — ResamplingRepeatedCV" />
-<meta property="og:description" content="Splits data repeats (default: 10) times using a folds-fold (default: 10) cross-validation.
-The iteration counter translates to repeats blocks of folds
-cross-validations, i.e., the first folds iterations belong to
-a single cross-validation." />
+<meta property="og:title" content="Classification Tree Learner — mlr_learners_classif.rpart" />
+<meta property="og:description" content="A LearnerClassif for a classification tree implemented in rpart::rpart() in package rpart.
+Parameter xval is set to 0 in order to save some computation time." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -87,7 +85,7 @@ a single cross-validation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
       </span>
     </div>
 
@@ -155,110 +153,49 @@ a single cross-validation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Repeated Cross Validation Resampling</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/ResamplingRepeatedCV.R'><code>R/ResamplingRepeatedCV.R</code></a></small>
-    <div class="hidden name"><code>ResamplingRepeatedCV.Rd</code></div>
+    <h1>Classification Tree Learner</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/LearnerClassifRpart.R'><code>R/LearnerClassifRpart.R</code></a></small>
+    <div class="hidden name"><code>mlr_learners_classif.rpart.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Splits data <code>repeats</code> (default: 10) times using a <code>folds</code>-fold (default: 10) cross-validation.</p>
-<p>The iteration counter translates to <code>repeats</code> blocks of <code>folds</code>
-cross-validations, i.e., the first <code>folds</code> iterations belong to
-a single cross-validation.</p>
+    <p>A <a href='LearnerClassif.html'>LearnerClassif</a> for a classification tree implemented in <code><a href='https://rdrr.io/pkg/rpart/man/rpart.html'>rpart::rpart()</a></code> in package <a href='https://CRAN.R-project.org/package=rpart'><span class="pkg">rpart</span></a>.
+Parameter <code>xval</code> is set to 0 in order to save some computation time.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><code><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class()</a></code> inheriting from <a href='Resampling.html'>Resampling</a>.</p>
+    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='LearnerClassif.html'>LearnerClassif</a>.</p>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>ResamplingRepeatedCV$new()
-mlr_resamplings$get("repeated_cv")
-rsmp("repeated_cv")
+<pre>LearnerClassifRpart$new()
+mlr_learners$get("classif.rpart")
+lrn("classif.rpart")
 </pre>
 
-    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    
-
-<p>See <a href='Resampling.html'>Resampling</a>.</p>
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<p>See <a href='Resampling.html'>Resampling</a>.
-Additionally, the class provides two helper function to translate iteration numbers to folds / repeats:</p><ul>
-<li><p><code>folds(iters)</code><br />
-<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> -&gt; <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
-Translates iteration numbers to fold number.</p></li>
-<li><p><code>repeats(iters)</code><br />
-<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> -&gt; <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
-Translates iteration numbers to repetition number.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
-
-    
-
-<ul>
-<li><p><code>repeats</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
-Number of repetitions.</p></li>
-<li><p><code>folds</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
-Number of folds.</p></li>
-</ul>
-
+    <p>Breiman L, Friedman JH, Olshen RA, Stone CJ (2017).
+<em>Classification And Regression Trees</em>.
+Routledge.
+doi: <a href='https://doi.org/10.1201/9781315139470'>10.1201/9781315139470</a>
+.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Resampling.html'>Resamplings</a>: <a href='mlr_resamplings.html'>mlr_resamplings</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) <a href='Resampling.html'>Resampling</a> implementations.</p></div>
+    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p>
+<p><code><a href='as.data.table.html'>as.data.table(mlr_learners)</a></code> for a complete table of all (also dynamically created) <a href='Learner.html'>Learner</a> implementations.</p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
-<span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
-<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
-
-<span class='co'># Instantiate Resampling</span>
-<span class='no'>rrcv</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"repeated_cv"</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='no'>rrcv</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-<span class='no'>rrcv</span>$<span class='no'>iters</span></div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>folds</span>(<span class='fl'>1</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 1 2 1 2 1 2</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>repeats</span>(<span class='fl'>1</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 1 1 1 2 2 2</div><div class='input'>
-<span class='co'># Individual sets:</span>
-<span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  1  6 10  2  3  7</div><div class='input'><span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 4 5 8 9</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>rrcv</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rrcv</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
-<span class='co'># Internal storage:</span>
-<span class='no'>rrcv</span>$<span class='no'>instance</span> <span class='co'># table</span></div><div class='output co'>#&gt;     row_id rep fold
-#&gt;  1:      1   1    2
-#&gt;  2:      2   1    3
-#&gt;  3:      3   1    3
-#&gt;  4:      4   1    1
-#&gt;  5:      5   1    1
-#&gt;  6:      6   1    2
-#&gt;  7:      7   1    3
-#&gt;  8:      8   1    1
-#&gt;  9:      9   1    1
-#&gt; 10:     10   1    2
-#&gt; 11:      1   2    1
-#&gt; 12:      2   2    3
-#&gt; 13:      3   2    3
-#&gt; 14:      4   2    1
-#&gt; 15:      5   2    1
-#&gt; 16:      6   2    2
-#&gt; 17:      7   2    2
-#&gt; 18:      8   2    1
-#&gt; 19:      9   2    2
-#&gt; 20:     10   2    3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
       <li><a href="#construction">Construction</a></li>
-      <li><a href="#fields">Fields</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#parameters">Parameters</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

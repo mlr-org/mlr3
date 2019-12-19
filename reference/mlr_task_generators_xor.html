@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Friedman1 Regression Task Generator — TaskGeneratorFriedman1 • mlr3</title>
+<title>XOR Classification Task Generator — mlr_task_generators_xor • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,8 @@
 
 
 
-<meta property="og:title" content="Friedman1 Regression Task Generator — TaskGeneratorFriedman1" />
-<meta property="og:description" content="A TaskGenerator for the friedman1 task in mlbench::mlbench.friedman1()." />
+<meta property="og:title" content="XOR Classification Task Generator — mlr_task_generators_xor" />
+<meta property="og:description" content="A TaskGenerator for the xor task in mlbench::mlbench.xor()." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -84,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
       </span>
     </div>
 
@@ -152,13 +152,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Friedman1 Regression Task Generator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorFriedman1.R'><code>R/TaskGeneratorFriedman1.R</code></a></small>
-    <div class="hidden name"><code>TaskGeneratorFriedman1.Rd</code></div>
+    <h1>XOR Classification Task Generator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorXor.R'><code>R/TaskGeneratorXor.R</code></a></small>
+    <div class="hidden name"><code>mlr_task_generators_xor.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the friedman1 task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.friedman1.html'>mlbench::mlbench.friedman1()</a></code>.</p>
+    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the xor task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.xor.html'>mlbench::mlbench.xor()</a></code>.</p>
     </div>
 
 
@@ -169,9 +169,9 @@
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>TaskGeneratorFriedman1$new()
-mlr_task_generators$get("friedman1")
-tgen("friedman1")
+<pre>TaskGeneratorXor$new()
+mlr_task_generators$get("xor")
+tgen("xor")
 </pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -180,28 +180,17 @@ tgen("friedman1")
 <p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) <a href='TaskGenerator.html'>TaskGenerator</a> implementations.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"friedman1"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;            y important1 important2 important3 important4  important5
-#&gt;  1: 16.88227 0.39171829 0.82793881  0.6900640  0.5058626 0.408123377
-#&gt;  2: 20.62184 0.57541133 0.42498899  0.9833387  0.4192681 0.939092736
-#&gt;  3: 14.07844 0.58028206 0.38898204  0.4204770  0.6379103 0.003840035
-#&gt;  4: 19.02906 0.47526373 0.96989545  0.8815107  0.5011038 0.224380666
-#&gt;  5: 18.11094 0.61291566 0.45067802  0.8354057  0.6035983 0.622683418
-#&gt;  6: 12.58947 0.61929213 0.06125598  0.7923736  0.6094066 0.499003443
-#&gt;  7: 21.50294 0.77662436 0.41602212  0.3179790  0.7418190 0.801949723
-#&gt;  8: 10.21965 0.28566220 0.21813340  0.9242151  0.5674669 0.040721616
-#&gt;  9: 13.01065 0.09859692 0.32692656  0.5524111  0.7416280 0.845156312
-#&gt; 10: 13.74431 0.74361344 0.73093708  0.4682370  0.1506372 0.541517424
-#&gt;     unimportant1 unimportant2 unimportant3 unimportant4 unimportant5
-#&gt;  1:  0.645806298   0.09272447    0.5476307    0.6277948   0.36741474
-#&gt;  2:  0.344968864   0.42543431    0.1941349    0.1053015   0.38289952
-#&gt;  3:  0.477095736   0.66782291    0.3108463    0.6394444   0.82648889
-#&gt;  4:  0.131842147   0.32275573    0.2062907    0.7811817   0.61067511
-#&gt;  5:  0.517387035   0.53192348    0.1042286    0.8987871   0.27236765
-#&gt;  6:  0.847776928   0.13320938    0.7016101    0.2827870   0.06917767
-#&gt;  7:  0.291413360   0.80280793    0.9732092    0.3476955   0.19221619
-#&gt;  8:  0.005960531   0.59767198    0.3987731    0.2659544   0.42026373
-#&gt;  9:  0.043979959   0.36553986    0.3415519    0.4116073   0.35656713
-#&gt; 10:  0.190171169   0.34319353    0.4231899    0.6606364   0.31910899</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"xor"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes        x.1         x.2
+#&gt;  1:       2 -0.3020289 -0.44031665
+#&gt;  2:       1 -0.8598218  0.09129521
+#&gt;  3:       1 -0.9340779  0.28140117
+#&gt;  4:       2  0.8857400  0.81729339
+#&gt;  5:       1  0.1304532 -0.76843717
+#&gt;  6:       2  0.6828661  0.62186371
+#&gt;  7:       2  0.4640217  0.24702907
+#&gt;  8:       2  0.9621385  0.33583014
+#&gt;  9:       1 -0.1854759  0.68864714
+#&gt; 10:       1  0.6165699 -0.85651162</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

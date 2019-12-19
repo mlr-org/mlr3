@@ -20,12 +20,13 @@
 <script src="pkgdown.js"></script><!-- docsearch --><script src="docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Machine Learning in R - Next Generation">
-<meta property="og:description" content="Efficient, object-oriented programming on the building blocks of
-    machine learning. Provides R6 objects for tasks, learners, resamplings,
-    and measures. The package is geared towards scalability and larger datasets
-    by supporting parallelization and out-of-memory data-backends like
-    databases. While mlr3 focuses on the core computational operations,
-    add-on packages provide additional functionality.">
+<meta property="og:description" content="Efficient, object-oriented programming on the
+    building blocks of machine learning. Provides R6 objects for tasks,
+    learners, resamplings, and measures. The package is geared towards
+    scalability and larger datasets by supporting parallelization and
+    out-of-memory data-backends like databases. While mlr3 focuses on
+    the core computational operations, add-on packages provide additional
+    functionality.">
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -46,7 +47,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
       </span>
     </div>
 
@@ -120,7 +121,7 @@
 <p>Package website: <a href="https://mlr3.mlr-org.com/">release</a> | <a href="https://mlr3.mlr-org.com/dev">dev</a></p>
 <p>Efficient, object-oriented programming on the building blocks of machine learning. Successor of <a href="https://github.com/mlr-org/mlr">mlr</a>.</p>
 <p><a href="https://travis-ci.org/mlr-org/mlr3"><img src="https://img.shields.io/travis/mlr-org/mlr3/master?label=Linux&amp;logo=travis&amp;style=flat-square" alt="Build Status"></a> <a href="https://circleci.com/gh/mlr-org/mlr3"><img src="https://img.shields.io/circleci/build/gh/mlr-org/mlr3/master?label=Linux&amp;logo=circle&amp;logoColor=green&amp;style=flat-square" alt="CircleCI"></a> <a href="https://cran.r-project.org/web/checks/check_results_mlr3.html"><img src="https://cranchecks.info/badges/worst/mlr3" alt="cran checks"></a></p>
-<p><a href="https://cran.r-project.org/package=mlr3"><img src="https://www.r-pkg.org/badges/version-ago/mlr3" alt="CRAN Status Badge"></a> <a href="https://codecov.io/gh/mlr-org/mlr3"><img src="https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg" alt="codecov"></a> <a href="https://stackoverflow.com/questions/tagged/mlr3"><img src="https://img.shields.io/badge/stackoverflow-mlr3-orange.svg" alt="StackOverflow"></a> <a href="https://cran.r-project.org/package=mlr3"><img src="https://tinyverse.netlify.com/badge/mlr3" alt="Dependencies"></a></p>
+<p><a href="https://doi.org/10.21105/joss.01903"><img src="https://joss.theoj.org/papers/10.21105/joss.01903/status.svg" alt="DOI"></a> <a href="https://cran.r-project.org/package=mlr3"><img src="https://www.r-pkg.org/badges/version-ago/mlr3" alt="CRAN Status Badge"></a> <a href="https://codecov.io/gh/mlr-org/mlr3"><img src="https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg" alt="codecov"></a> <a href="https://stackoverflow.com/questions/tagged/mlr3"><img src="https://img.shields.io/badge/stackoverflow-mlr3-orange.svg" alt="StackOverflow"></a> <a href="https://cran.r-project.org/package=mlr3"><img src="https://tinyverse.netlify.com/badge/mlr3" alt="Dependencies"></a></p>
 <div id="resources" class="section level2">
 <h2 class="hasAnchor">
 <a href="#resources" class="anchor"></a>Resources</h2>
@@ -151,11 +152,10 @@
 <h3 class="hasAnchor">
 <a href="#constructing-learners-and-tasks" class="anchor"></a>Constructing Learners and Tasks</h3>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(mlr3)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># create learning task</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">task_iris =<span class="st"> </span>TaskClassif<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">"iris"</span>, <span class="dt">backend =</span> iris, <span class="dt">target =</span> <span class="st">"Species"</span>)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">task_iris</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># create learning task</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">task_iris =<span class="st"> </span>TaskClassif<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">"iris"</span>, <span class="dt">backend =</span> iris, <span class="dt">target =</span> <span class="st">"Species"</span>)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">task_iris</a></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">## &lt;TaskClassif:iris&gt; (150 x 5)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">## * Target: Species</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">## * Properties: multiclass</a>
@@ -194,22 +194,19 @@
 <a href="#resample" class="anchor"></a>Resample</h3>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># automatic resampling</span></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">resampling =<span class="st"> </span><span class="kw"><a href="reference/mlr_sugar.html">rsmp</a></span>(<span class="st">"cv"</span>, <span class="dt">folds =</span> 3L)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">rr =<span class="st"> </span><span class="kw"><a href="reference/resample.html">resample</a></span>(task_iris, learner, resampling)</a></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">## INFO  [17:40:07.709] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) </a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">## INFO  [17:40:07.744] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) </a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">## INFO  [17:40:07.762] Applying learner 'classif.rpart' on task 'iris' (iter 3/3)</a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">rr<span class="op">$</span><span class="kw">score</span>(measure)</a></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">##             task task_id               learner    learner_id     resampling</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">## 1: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">## 2: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">## 3: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">##    resampling_id iteration prediction classif.acc</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">## 1:            cv         1     &lt;list&gt;        0.92</a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">## 2:            cv         2     &lt;list&gt;        0.92</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">## 3:            cv         3     &lt;list&gt;        0.94</a></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">rr<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span>(measure)</a></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">## classif.acc </a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">##   0.9266667</a></code></pre></div>
+<a class="sourceLine" id="cb10-3" data-line-number="3">rr =<span class="st"> </span><span class="kw"><a href="reference/resample.html">resample</a></span>(task_iris, learner, resampling)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">rr<span class="op">$</span><span class="kw">score</span>(measure)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">##             task task_id               learner    learner_id     resampling</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">## 1: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">## 2: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">## 3: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">##    resampling_id iteration prediction classif.acc</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">## 1:            cv         1     &lt;list&gt;        0.92</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">## 2:            cv         2     &lt;list&gt;        0.92</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">## 3:            cv         3     &lt;list&gt;        0.94</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">rr<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span>(measure)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">## classif.acc </a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">##   0.9266667</a></code></pre></div>
 </div>
 </div>
 <div id="why-a-rewrite" class="section level2">
@@ -276,6 +273,20 @@
 <p>This R package is licensed under the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html">LGPL-3</a>. If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behaviour, bugs, …) or just want to suggest features, please open an issue in the <a href="https://github.com/mlr-org/mlr3/issues">issue tracker</a>. Pull requests are welcome and will be included at the discretion of the maintainers.</p>
 <p>Please consult the <a href="https://github.com/mlr-org/mlr3/wiki/">wiki</a> for a <a href="https://github.com/mlr-org/mlr3/wiki/Style-Guide">style guide</a>, a <a href="https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide">roxygen guide</a> and a <a href="https://github.com/mlr-org/mlr3/wiki/PR-Guidelines">pull request guide</a>.</p>
 </div>
+<div id="citing-mlr3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#citing-mlr3" class="anchor"></a>Citing mlr3</h2>
+<p>If you use mlr3, please cite our <a href="https://doi.org/10.21105/joss.01903">JOSS article</a>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="op">@</span>Article{mlr3,</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  title =<span class="st"> </span>{{mlr3}<span class="op">:</span><span class="st"> </span>A modern object<span class="op">-</span>oriented machine learning framework <span class="cf">in</span> {R}},</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  author =<span class="st"> </span>{Michel Lang and Martin Binder and Jakob Richter and Patrick Schratz and Florian Pfisterer and Stefan Coors and Quay Au and Giuseppe Casalicchio and Lars Kotthoff and Bernd Bischl},</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  journal =<span class="st"> </span>{Journal of Open Source Software},</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">  year =<span class="st"> </span>{<span class="dv">2019</span>},</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">  month =<span class="st"> </span>{dec},</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">  doi =<span class="st"> </span>{<span class="fl">10.21105</span><span class="op">/</span>joss<span class="fl">.01903</span>},</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">  url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>joss.theoj.org<span class="op">/</span>papers<span class="op">/</span><span class="fl">10.21105</span><span class="op">/</span>joss<span class="fl">.01903</span>},</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">}</a></code></pre></div>
+</div>
 </div>
   </div>
 
@@ -295,6 +306,12 @@
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.r-project.org/Licenses/LGPL-3">LGPL-3</a></li>
+</ul>
+</div>
+<div class="citation">
+<h2>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html">Citing mlr3</a></li>
 </ul>
 </div>
 <div class="developers">

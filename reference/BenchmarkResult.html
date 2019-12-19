@@ -88,7 +88,7 @@ Do not modify any object without cloning it first." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
       </span>
     </div>
 
@@ -212,7 +212,9 @@ Table of used tasks with three columns:
 <code>"task_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"task_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"task"</code> (<a href='Task.html'>Task</a>).</p></li>
 <li><p><code>learners</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Table of used learners with three columns:
-<code>"learner_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"learner_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"learner"</code> (<a href='Learner.html'>Learner</a>).</p></li>
+<code>"learner_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"learner_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"learner"</code> (<a href='Learner.html'>Learner</a>).
+Note that it is not feasible to access learnt models via this getter, as the training task would be ambiguous.
+Instead, select a row from the table returned by <code>$score()</code>.</p></li>
 <li><p><code>resamplings</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Table of used resamplings with three columns:
 <code>"resampling_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"resampling_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"resampling"</code> (<a href='Resampling.html'>Resampling</a>).</p></li>
@@ -258,6 +260,11 @@ Retrieve the i-th <a href='ResampleResult.html'>ResampleResult</a>, by position 
 (BenchmarkResult | <code>NULL</code>) -&gt; <code>self</code><br />
 Fuses a second BenchmarkResult into itself, mutating the BenchmarkResult in-place.
 If <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.</p></li>
+<li><p><code><a href='https://rdrr.io/r/stats/filter.html'>filter(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL)</a></code><br />
+(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) -&gt; <code>self</code><br />
+Subsets the benchmark result.
+If <code>task_ids</code> is not <code>NULL</code>, keeps all tasks with provided task ids while discards all others.
+Same procedure for <code>learner_ids</code> and <code>resampling_ids</code>.</p></li>
 <li><p><code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code><br />
 () -&gt; <code>NULL</code><br />
 Opens the help page for this object.</p></li>
@@ -305,11 +312,11 @@ Returns a copy of the internal data.</p></li>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: f4d137a3-3127-4a80-8950-03c092da7574 &lt;TaskClassif&gt;
-#&gt; 2: f4d137a3-3127-4a80-8950-03c092da7574 &lt;TaskClassif&gt;
-#&gt; 3: f4d137a3-3127-4a80-8950-03c092da7574 &lt;TaskClassif&gt;
-#&gt; 4: 20643269-dca6-486d-8ef7-b5121c49b731 &lt;TaskClassif&gt;
-#&gt; 5: 20643269-dca6-486d-8ef7-b5121c49b731 &lt;TaskClassif&gt;
+#&gt; 1: 6345bd59-e485-4a04-8f8c-c4ca540a71c3 &lt;TaskClassif&gt;
+#&gt; 2: 6345bd59-e485-4a04-8f8c-c4ca540a71c3 &lt;TaskClassif&gt;
+#&gt; 3: 6345bd59-e485-4a04-8f8c-c4ca540a71c3 &lt;TaskClassif&gt;
+#&gt; 4: 3957a766-7326-4c46-a257-0652584f7aef &lt;TaskClassif&gt;
+#&gt; 5: 3957a766-7326-4c46-a257-0652584f7aef &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
