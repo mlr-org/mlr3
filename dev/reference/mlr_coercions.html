@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Object Coercion — as_task.character • mlr3</title>
+<title>Object Coercion — mlr_coercions • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,7 +49,7 @@
 
 
 
-<meta property="og:title" content="Object Coercion — as_task.character" />
+<meta property="og:title" content="Object Coercion — mlr_coercions" />
 <meta property="og:description" content="S3 generics and methods to coerce to (lists of) Task, Learner, Resampling, and Measure." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -153,7 +153,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Object Coercion</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/deprecated.R'><code>R/deprecated.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_coercions.R'><code>R/mlr_coercions.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_coercions.R'><code>R/mlr_coercions.R</code></a></small>
     <div class="hidden name"><code>mlr_coercions.Rd</code></div>
     </div>
 
@@ -161,31 +161,7 @@
     <p>S3 generics and methods to coerce to (lists of) <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a>, and <a href='Measure.html'>Measure</a>.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for character</span>
-<span class='fu'>as_task</span>(<span class='no'>x</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for character</span>
-<span class='fu'>as_tasks</span>(<span class='no'>x</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for character</span>
-<span class='fu'>as_learner</span>(<span class='no'>x</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for character</span>
-<span class='fu'>as_learners</span>(<span class='no'>x</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for character</span>
-<span class='fu'>as_resampling</span>(<span class='no'>x</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for character</span>
-<span class='fu'>as_resamplings</span>(<span class='no'>x</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for character</span>
-<span class='fu'>as_measure</span>(<span class='no'>x</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># S3 method for character</span>
-<span class='fu'>as_measures</span>(<span class='no'>x</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='fu'>as_task</span>(<span class='no'>x</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>as_task</span>(<span class='no'>x</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for Task</span>
 <span class='fu'>as_task</span>(<span class='no'>x</span>, <span class='kw'>clone</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
@@ -255,7 +231,7 @@ Object to coerce.</p></td>
       <th>clone</th>
       <td><p>:: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
 If <code>TRUE</code>, ensures that the returned object is not the same as the input <code>x</code>, e.g.
-by cloning it or constructing it from a <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a>.</p></td>
+by cloning it or constructing it from a <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>mlr3misc::Dictionary</a>.</p></td>
     </tr>
     <tr>
       <th>task_type</th>
