@@ -1,11 +1,11 @@
 # All available hooks: https://pre-commit.com/hooks.html
 repos:
 -   repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.0.0.9024
+    rev: v0.0.0.9027
     hooks:
     # any R project
     -   id: style-files
-        args: [--style_pkg=styler, --style_fun=tidyverse_style]
+        args: [--style_pkg=styler, --style_fun=mlr_style]
     -   id: lintr
     -   id: parsable-R
     -   id: no-browser-statement
