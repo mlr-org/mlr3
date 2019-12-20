@@ -21,3 +21,8 @@ test_that("as.data.table(mlr_task_generators)", {
   expect_data_table(tab, min.cols = 2L)
   expect_character(tab$key, unique = TRUE, any.missing = FALSE)
 })
+
+test_that("sugar functions", {
+  expect_task_generator(tgen("xor"))
+  expect_list(tgens(c("xor", "smiley")), "TaskGenerator")
+})
