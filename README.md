@@ -7,18 +7,20 @@ Package website: [release](https://mlr3.mlr-org.com/) |
 Efficient, object-oriented programming on the building blocks of machine
 learning. Successor of [mlr](https://github.com/mlr-org/mlr).
 
+<!-- badges: start -->
+
 [![Build
 Status](https://img.shields.io/travis/mlr-org/mlr3/master?label=Linux&logo=travis&style=flat-square)](https://travis-ci.org/mlr-org/mlr3)
 [![CircleCI](https://img.shields.io/circleci/build/gh/mlr-org/mlr3/master?label=Linux&logo=circle&logoColor=green&style=flat-square)](https://circleci.com/gh/mlr-org/mlr3)
 [![cran
 checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
-
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01903/status.svg)](https://doi.org/10.21105/joss.01903)
 [![CRAN Status
 Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Dependencies](https://tinyverse.netlify.com/badge/mlr3)](https://cran.r-project.org/package=mlr3)
+<!-- badges: end -->
 
 ## Resources
 
@@ -65,7 +67,7 @@ task_iris
     ##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
 
 ``` r
-# load learner and set hyperparamter
+# load learner and set hyperparameter
 learner = lrn("classif.rpart", cp = 0.01)
 ```
 

@@ -16,15 +16,16 @@ Package website: [release](https://mlr3.mlr-org.com/) | [dev](https://mlr3.mlr-o
 Efficient, object-oriented programming on the building blocks of machine learning.
 Successor of [mlr](https://github.com/mlr-org/mlr).
 
+<!-- badges: start -->
 [![Build Status](https://img.shields.io/travis/mlr-org/mlr3/master?label=Linux&logo=travis&style=flat-square)](https://travis-ci.org/mlr-org/mlr3)
 [![CircleCI](https://img.shields.io/circleci/build/gh/mlr-org/mlr3/master?label=Linux&logo=circle&logoColor=green&style=flat-square)](https://circleci.com/gh/mlr-org/mlr3)
 [![cran checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/web/checks/check_results_mlr3.html)
-
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01903/status.svg)](https://doi.org/10.21105/joss.01903)
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.org/package=mlr3)
 [![codecov](https://codecov.io/gh/mlr-org/mlr3/branch/master/graph/badge.svg)](https://codecov.io/gh/mlr-org/mlr3)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Dependencies](https://tinyverse.netlify.com/badge/mlr3)](https://cran.r-project.org/package=mlr3)
+<!-- badges: end -->
 
 ## Resources
 
@@ -38,11 +39,13 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 ## Installation
 
 Install the last release from CRAN:
+
 ```{r, eval = FALSE}
 install.packages("mlr3")
 ```
 
 Install the development version from GitHub:
+
 ```{r, eval = FALSE}
 remotes::install_github("mlr-org/mlr3")
 ```
@@ -58,7 +61,7 @@ library(mlr3)
 task_iris = TaskClassif$new(id = "iris", backend = iris, target = "Species")
 task_iris
 
-# load learner and set hyperparamter
+# load learner and set hyperparameter
 learner = lrn("classif.rpart", cp = 0.01)
 ```
 
@@ -98,7 +101,6 @@ Its core design and architecture date back even further.
 The addition of many features has led to a [feature creep](https://en.wikipedia.org/wiki/Feature_creep) which makes [mlr](https://github.com/mlr-org/mlr) hard to maintain and hard to extend.
 We also think that while mlr was nicely extensible in some parts (learners, measures, etc.), other parts were less easy to extend from the outside.
 Also, many helpful R libraries did not exist at the time [mlr](https://github.com/mlr-org/mlr) was created, and their inclusion would result in non-trivial API changes.
-
 
 ## Design principles
 
@@ -151,16 +153,14 @@ Also, many helpful R libraries did not exist at the time [mlr](https://github.co
     - For parallelization, `mlr3` utilizes the [`future`](https://cran.r-project.org/package=future) and [`future.apply`](https://cran.r-project.org/package=future.apply) packages.
     - To capture output, warnings and exceptions, [`evaluate`](https://cran.r-project.org/package=evaluate) and [`callr`](https://cran.r-project.org/package=callr) can be used.
 
-
 ## Extension Packages
-
 
 <a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
 Consult the [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for short descriptions and links to the respective repositories.
 
-
 ## Contributing to mlr3
+
 This R package is licensed under the [LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html).
 If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behaviour, bugs, ...) or just want to suggest features, please open an issue in the [issue tracker](https://github.com/mlr-org/mlr3/issues).
 Pull requests are welcome and will be included at the discretion of the maintainers.
