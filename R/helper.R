@@ -1,7 +1,3 @@
-task_types = function(x) {
-  unique(map_chr(unname(x), "task_type"))
-}
-
 hashes = function(x) {
   map_chr(unname(x), "hash")
 }
