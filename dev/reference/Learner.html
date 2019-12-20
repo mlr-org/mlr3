@@ -176,7 +176,7 @@ A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
 <li><p>Meta-information about the requirements and capabilities of the learner.</p></li>
 </ul>
 
-<p>Predefined learners are stored in the <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_learners.html'>mlr_learners</a>,
+<p>Predefined learners are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_learners.html'>mlr_learners</a>,
 e.g. <code><a href='mlr_learners_classif.rpart.html'>classif.rpart</a></code> or <code><a href='mlr_learners_regr.rpart.html'>regr.rpart</a></code>.
 A guide on how to extend <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> with custom learners can be found in the <a href='https://mlr3book.mlr-org.com'>mlr3book</a>.</p>
     </div>
@@ -262,7 +262,7 @@ It is not recommended to access elements from <code>state</code> directly, this 
 How to call the code in <code>train_internal()</code> and <code>predict_internal()</code>.
 Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
 Possible values are <code>"none"</code>, <code>"evaluate"</code> and <code>"callr"</code>.
-See <code><a href='https://rdrr.io/pkg/mlr3misc/man/encapsulate.html'>mlr3misc::encapsulate()</a></code> for more details.</p></li>
+See <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code> for more details.</p></li>
 <li><p><code>fallback</code> (Learner)<br />
 Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
 Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.</p></li>
@@ -272,7 +272,7 @@ Hash (unique identifier) for this object.</p></li>
 The fitted model. Only available after <code>$train()</code> has been called.</p></li>
 <li><p><code>timings</code> :: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code><br />
 Elapsed time in seconds for the steps <code>"train"</code> and <code>"predict"</code>.
-Measured via <code><a href='https://rdrr.io/pkg/mlr3misc/man/encapsulate.html'>mlr3misc::encapsulate()</a></code>.</p></li>
+Measured via <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code>.</p></li>
 <li><p><code>log</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns the output (including warning and errors) as table with columns
 <code>"stage"</code> (train or predict), <code>"class"</code> (output, warning, error) and
@@ -344,7 +344,7 @@ lrn$param_set$values = list(minsplit = 3, cp = 0.01)
 </pre>
 
 <p>Note that this operation replaces all previously set hyperparameter values.
-If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href='https://rdrr.io/pkg/mlr3misc/man/insert_named.html'>mlr3misc::insert_named()</a></code>:</p><pre>lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
+If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href='https://mlr3misc.mlr-org.com/reference/insert_named.html'>mlr3misc::insert_named()</a></code>:</p><pre>lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
 </pre>
 
 <p>If the learner has additional hyperparameters which are not encoded in the <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>ParamSet</a>, you can easily extend the learner.
