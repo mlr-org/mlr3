@@ -17,7 +17,7 @@
 #' Parameter `xval` is set to 0 in order to save some computation time.
 #'
 #' @references
-#' \cite{mlr3}{breiman_2017}
+#' \cite{mlr3}{breiman_1984}
 #'
 #' @template seealso_learner
 #' @export
