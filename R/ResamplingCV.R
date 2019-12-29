@@ -26,7 +26,7 @@
 #'   Number of folds.
 #'
 #' @references
-#' \cite{bischl_2012}
+#' \cite{mlr3}{bischl_2012}
 #'
 #' @template seealso_resampling
 #' @export

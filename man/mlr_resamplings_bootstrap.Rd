@@ -55,7 +55,7 @@ intersect(rb$train_set(1), rb$test_set(1))
 rb$instance$M # Matrix of counts
 }
 \references{
-\cite{bischl_2012}
+\cite{mlr3}{bischl_2012}
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}

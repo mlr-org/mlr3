@@ -69,7 +69,7 @@ intersect(rrcv$train_set(1), rrcv$test_set(1))
 rrcv$instance # table
 }
 \references{
-\cite{bischl_2012}
+\cite{mlr3}{bischl_2012}
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
