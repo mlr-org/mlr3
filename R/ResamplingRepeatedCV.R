@@ -40,6 +40,9 @@
 #' * `folds` :: `integer(1)`\cr
 #'   Number of folds.
 #'
+#' @references
+#' \cite{bischl_2012}
+#'
 #' @template seealso_resampling
 #' @export
 #' @examples

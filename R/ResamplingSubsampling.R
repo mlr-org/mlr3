@@ -28,6 +28,9 @@
 #' * `ratio` :: `numeric(1)`\cr
 #'   Ratio of observations to put into the training set.
 #'
+#' @references
+#' \cite{bischl_2012}
+#'
 #' @template seealso_resampling
 #' @export
 #' @examples

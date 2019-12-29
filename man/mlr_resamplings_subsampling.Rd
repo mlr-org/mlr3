@@ -53,6 +53,9 @@ intersect(rss$train_set(1), rss$test_set(1))
 # Internal storage:
 rss$instance$train # list of index vectors
 }
+\references{
+\cite{bischl_2012}
+}
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
 
