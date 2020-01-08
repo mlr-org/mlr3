@@ -593,6 +593,11 @@ task_print = function(self) {
   if ("weights" %in% self$properties) {
     catf(str_indent("* Weights:", roles$weight))
   }
+  if (!is.null(self$coordinate_names)) {
+    coords = self$coordinates()
+    cat("* Coordinates:\n")
+    print(coords)
+  }
 }
 
 # collect column information of a backend.
