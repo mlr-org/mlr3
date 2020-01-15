@@ -351,8 +351,23 @@ expect_resampling = function(r, task = NULL) {
       }
     }
   }
+
   checkmate::expect_list(r$param_set$values, names = "unique")
   testthat::expect_true(checkmate::qtestr(r$param_set$values, "V1"))
+
+  # check re-instantiation with provided task
+  if (!is.null(task) && !inherits(r, "ResamplingCustom")) {
+    r = r$clone()$instantiate(task)
+    expect_subset(r$train_set(1), task$row_ids)
+    expect_subset(r$test_set(1), task$row_ids)
+
+    # again with strata
+    task = task$clone()
+    task$col_roles$stratum = task$target_names
+    r$instantiate(task)
+    expect_subset(r$train_set(1), task$row_ids)
+    expect_subset(r$test_set(1), task$row_ids)
+  }
 }
 
 expect_measure = function(m) {
