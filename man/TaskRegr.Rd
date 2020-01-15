@@ -7,7 +7,7 @@
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for regression problems.
 The target column is assumed to be numeric.
-The \code{task_type} is set to \code{"classif"}.
+The \code{task_type} is set to \code{"regr"}.
 
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_tasks}.
 }
