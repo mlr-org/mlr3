@@ -7,7 +7,7 @@
 #' @description
 #' This task specializes [Task] and [TaskSupervised] for regression problems.
 #' The target column is assumed to be numeric.
-#' The `task_type` is set to `"classif"`.
+#' The `task_type` is set to `"regr"`.
 #'
 #' Predefined tasks are stored in the [mlr3misc::Dictionary] [mlr_tasks].
 #'
