@@ -50,3 +50,9 @@ open_help = function(man) {
   # pkgload overloads help
   match.fun("help")(parts[2L], parts[1L])
 }
+
+replace_with = function(x, needle, replacement) {
+  ii = (x == needle)
+  x = rep(x, 1L + (length(replacement) - 1L) * ii)
+  replace(x, ii, replacement)
+}
