@@ -272,6 +272,8 @@ Learner = R6Class("Learner",
     },
 
     predict_newdata = function(newdata, task = NULL) {
+      newdata = assert_data_frame(newdata, min.rows = 1L)
+
       if (is.null(task)) {
         if (is.null(self$state$train_task))
           stopf("No task stored, and no task provided")
@@ -282,11 +284,11 @@ Learner = R6Class("Learner",
         task = task_rm_data(task)
       }
 
-      newdata = assert_data_frame(newdata, min.rows = 1L)
-      tn = task$target_names
-      if (any(tn %nin% colnames(newdata))) {
-        newdata[, tn] = NA
-      }
+      # the following columns are automatically set to NA if missing
+      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group")])
+      impute = setdiff(impute, c(task$feature_names, colnames(data)))
+      newdata[, impute] = NA
+
       self$predict(task$rbind(newdata))
     },
 
