@@ -22,7 +22,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
     data = function(rows, cols, data_format = self$data_formats[1L]) {
 
       pk = self$primary_key
-      qrows = unique(assert_atomic_vector(rows))
+      qrows = unique(assert_numeric(rows))
       qcols = union(assert_names(cols, type = "unique"), pk)
       assert_choice(data_format, self$data_formats)
 

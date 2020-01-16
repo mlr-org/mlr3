@@ -16,8 +16,7 @@
 #' * `data` :: [Matrix::Matrix()].
 #'
 #' * `primary_key` :: `character(1)`\cr
-#'   Not supported by this backend. Rows are addresses by their [rownames()].
-#'   If the matrix does not have row names, integer row indices are used.
+#'   Not supported by this backend. Rows are addresses by their row index.
 #'
 #' @section Fields:
 #' See [DataBackend].
@@ -31,11 +30,10 @@
 #' requireNamespace("Matrix")
 #' data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)
 #' colnames(data) = c("x1", "x2")
-#' rownames(data) = paste0("row_", 1:10)
 #'
 #' b = as_data_backend(data)
 #' b$head()
-#' b$data(b$rownames[1:3], b$colnames, data_format = "Matrix")
+#' b$data(1:3, b$colnames, data_format = "Matrix")
 DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneable = FALSE,
   public = list(
     initialize = function(data, primary_key = NULL) {
@@ -43,7 +41,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       assert_class(data, "Matrix")
       assert_names(colnames(data), type = "unique")
       if (!is.null(rownames(data))) {
-        assert_names(rownames(data), type = "unique")
+        rownames(data) = NULL
       }
       if (any(dim(data) == 0L)) {
         stopf("No data in Matrix")
@@ -51,12 +49,13 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       if (!is.null(primary_key)) {
         stopf("Primary key column not supported by DataBackendMatrix")
       }
+
       super$initialize(data, "..row_id", c("data.table", "Matrix"))
     },
 
     data = function(rows, cols, data_format = "data.table") {
       assert_choice(data_format, self$data_formats)
-      assert_atomic_vector(rows)
+      assert_numeric(rows)
       assert_names(cols, type = "unique")
 
       query_rows = private$.translate_rows(rows)
@@ -64,21 +63,21 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       data = private$.data[query_rows, query_cols, drop = FALSE]
 
       switch(data_format,
+        "Matrix" = {
+          attr(data, "..row_id") = query_rows
+          data
+        },
         "data.table" = {
           data = as.data.table(as.matrix(data))
           if (self$primary_key %in% cols) {
             data = insert_named(data, set_names(list(query_rows), self$primary_key))
           }
           data
-        },
-        "Matrix" = {
-          attr(data, "..row_id") = query_rows
-          data
-      })
+        })
     },
 
     head = function(n = 6L) {
-      self$data(head(self$rownames, n), self$colnames)
+      self$data(seq_len(n), self$colnames)
     },
 
     distinct = function(rows, cols, na_rm = TRUE) {
@@ -109,7 +108,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
   active = list(
     rownames = function() {
-      rownames(private$.data) %??% seq_row(private$.data)
+      seq_row(private$.data)
     },
 
     colnames = function() {
@@ -131,12 +130,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     },
 
     .translate_rows = function(rows) {
-      rn = rownames(private$.data)
-      if (is.null(rn)) {
-        return(keep_in_bounds(rows, 1L, self$nrow))
-      }
-      assert_character(rows)
-      intersect(rows, rn)
+      keep_in_bounds(rows, 1L, self$nrow)
     })
 )
 

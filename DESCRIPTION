@@ -150,6 +150,7 @@ Collate:
     'benchmark.R'
     'benchmark_grid.R'
     'default_measures.R'
+    'deprecated.R'
     'helper.R'
     'mlr_coercions.R'
     'mlr_sugar.R'

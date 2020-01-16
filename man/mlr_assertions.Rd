@@ -84,7 +84,7 @@ assert_resample_result(rr, .var.name = vname(rr))
 
 assert_benchmark_result(bmr, .var.name = vname(bmr))
 
-assert_row_ids(row_ids, type = NULL, .var.name = vname(row_ids))
+assert_row_ids(row_ids, null.ok = FALSE, .var.name = vname(row_ids))
 }
 \arguments{
 \item{b}{:: \link{DataBackend}.}

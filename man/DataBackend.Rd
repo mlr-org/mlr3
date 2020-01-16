@@ -7,14 +7,18 @@
 \description{
 This is the abstract base class for data backends.
 
-Data Backends provide a layer of abstraction for various data storage systems.
+Data backends provide a layer of abstraction for various data storage systems.
 It is not recommended to work directly with the DataBackend.
 Instead, all data access is handled transparently via the \link{Task}.
 
-To connect to out-of-memory database management systems such as SQL servers, see \CRANpkg{mlr3db}.
+This package comes with two implementations for backends:
+\itemize{
+\item \link{DataBackendDataTable} which stores the data as \code{\link[data.table:data.table]{data.table::data.table()}}.
+\item \link{DataBackendMatrix} which stores the data as sparse \code{\link[Matrix:sparseMatrix]{Matrix::sparseMatrix()}}.
+To connect to out-of-memory database management systems such as SQL servers, see the extension package \CRANpkg{mlr3db}.
+}
 
-The required set of fields and methods to implement a custom DataBackend is listed in the respective sections.
-See \link{DataBackendDataTable} or \link{DataBackendMatrix} for exemplary implementations of the interface.
+The required set of fields and methods to implement a custom \code{DataBackend} is listed in the respective sections (see \link{DataBackendDataTable} or \link{DataBackendMatrix} for exemplary implementations of the interface).
 }
 \section{Construction}{
 
@@ -27,7 +31,7 @@ The format of the input data depends on the specialization.
 E.g., \link{DataBackendDataTable} expects a \code{\link[data.table:data.table]{data.table::data.table()}} and \link{DataBackendMatrix} expects a \code{\link[Matrix:Matrix]{Matrix::Matrix()}}
 constructed with the \CRANpkg{Matrix} package.
 \item \code{primary_key} :: \code{character(1)}\cr
-Each DataBackend needs a way to address rows, which is done via a column of unique values, referenced here by \code{primary_key}.
+Each DataBackend needs a way to address rows, which is done via a column of unique integer values, referenced here by \code{primary_key}.
 The use of this variable may differ between backends.
 \item data_formats (\code{character()})\cr
 Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.

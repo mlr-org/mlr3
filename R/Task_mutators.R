@@ -1,65 +1,4 @@
 #' @include mlr_reflections.R
-
-# old, deprecated, will be removed soon
-task_set_row_role = function(self, private, rows, new_roles, exclusive = TRUE) {
-  rows = assert_row_ids(rows, type = typeof(self$row_roles$use))
-  assert_subset(rows, self$backend$rownames)
-  assert_subset(new_roles, mlr_reflections$task_row_roles)
-  assert_flag(exclusive)
-
-  for (role in new_roles) {
-    private$.row_roles[[role]] = union(private$.row_roles[[role]], rows)
-  }
-
-  if (exclusive) {
-    for (role in setdiff(names(self$row_roles), new_roles)) {
-      private$.row_roles[[role]] = setdiff(private$.row_roles[[role]], rows)
-    }
-  }
-}
-
-# old, deprecated, will be removed soon
-task_set_col_role = function(self, private, cols, new_roles, exclusive = TRUE) {
-  assert_character(cols, any.missing = FALSE)
-  assert_subset(cols, self$col_info$id)
-  assert_subset(new_roles, mlr_reflections$task_col_roles[[self$task_type]])
-  assert_flag(exclusive)
-
-  col_roles = self$col_roles
-
-  for (role in new_roles) {
-    col_roles[[role]] = union(col_roles[[role]], cols)
-  }
-
-  if (exclusive) {
-    for (role in setdiff(names(col_roles), new_roles)) {
-      col_roles[[role]] = setdiff(col_roles[[role]], cols)
-    }
-  }
-
-  if (inherits(self, "TaskSupervised") && length(col_roles[["target"]]) == 0L) {
-    stopf("Supervised tasks need a target column")
-  }
-
-  for (role in c("group", "weight")) {
-    if (length(col_roles[[role]]) > 1L)
-      stopf("Multiple columns with role '%s' not supported", role)
-  }
-
-  role = c("stratum", "group", "weight")
-  property = c("strata", "groups", "weights")
-  for (i in seq_along(role)) {
-    n = length(col_roles[[role[i]]])
-    if (n == 0L) {
-      private$.properties = setdiff(private$.properties, property[i])
-    } else if (n == 1L) {
-      private$.properties = union(private$.properties, property[i])
-    }
-  }
-
-  self$col_roles = col_roles
-}
-
 task_set_col_roles = function(self, private, roles) {
     if (length(roles$group) > 1L) {
       stopf("There may only be up to one group column")
@@ -78,11 +17,7 @@ check_new_row_ids = function(task, data, type) {
   pk = task$backend$primary_key
   row_ids = data[[pk]]
   task_row_ids = task$row_roles$use
-
-  assert_atomic_vector(row_ids, any.missing = FALSE, unique = TRUE)
-  if (typeof(task_row_ids) != typeof(row_ids)) {
-    stopf("Cannot mutate task: Key column '%s' has wrong type", pk)
-  }
+  assert_integer(row_ids, any.missing = FALSE, unique = TRUE)
 
   switch(type,
     "disjunct" = {
@@ -94,12 +29,8 @@ check_new_row_ids = function(task, data, type) {
       if (!setequal(row_ids, task_row_ids)) {
         stopf("Cannot mutate task: row_ids do not match")
       }
-    },
-    "subset" = {
-      if (!all(row_ids %in% task_row_ids)) {
-        stopf("Cannot mutate task: Extra row ids")
-      }
-  })
+    }
+  )
 }
 
 convert_matching_types = function(col_info, data) {
@@ -128,7 +59,6 @@ convert_matching_types = function(col_info, data) {
 # 3. Update row_roles
 # 4. Update col_info
 task_rbind = function(self, data) {
-
   assert_data_frame(data)
 
   if (all(dim(data) == 0L)) {
@@ -144,11 +74,7 @@ task_rbind = function(self, data) {
     check_new_row_ids(self, data, "disjunct")
   } else {
     rids = self$row_ids
-    if (is.integer(rids)) {
-      data[[pk]] = (if (length(rids)) max(rids) else 0L) + seq_row(data)
-    } else {
-      data[[pk]] = sprintf("%s_%i", basename(tempfile("rbind_")), seq_row(data))
-    }
+    data[[pk]] = (if (length(rids)) max(rids) else 0L) + seq_row(data)
   }
 
   # nothing to rbind

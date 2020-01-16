@@ -37,7 +37,6 @@ learner_train = function(learner, task, row_ids = NULL) {
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
-    row_ids = assert_row_ids(row_ids)
     prev_use = task$row_roles$use
     on.exit({
       task$row_roles$use = prev_use
@@ -83,7 +82,6 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {
-    row_ids = assert_row_ids(row_ids)
     prev_use = task$row_roles$use
     on.exit({
       task$row_roles$use = prev_use

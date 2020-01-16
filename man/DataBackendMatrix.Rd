@@ -14,8 +14,7 @@ as_data_backend(data, primary_key = NULL, ...)
 \itemize{
 \item \code{data} :: \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.
 \item \code{primary_key} :: \code{character(1)}\cr
-Not supported by this backend. Rows are addresses by their \code{\link[=rownames]{rownames()}}.
-If the matrix does not have row names, integer row indices are used.
+Not supported by this backend. Rows are addresses by their row index.
 }
 }
 
@@ -33,11 +32,10 @@ See \link{DataBackend}.
 requireNamespace("Matrix")
 data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)
 colnames(data) = c("x1", "x2")
-rownames(data) = paste0("row_", 1:10)
 
 b = as_data_backend(data)
 b$head()
-b$data(b$rownames[1:3], b$colnames, data_format = "Matrix")
+b$data(1:3, b$colnames, data_format = "Matrix")
 }
 \seealso{
 Other DataBackend: 

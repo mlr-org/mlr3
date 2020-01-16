@@ -6,6 +6,7 @@
 \format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
 \description{
 A classification task for the \link[mlbench:Zoo]{mlbench::Zoo} data set.
+Rownames are stored as variable \verb{"..rownames} with column role \code{"name"}.
 }
 \section{Construction}{
 \preformatted{mlr_tasks$get("zoo")

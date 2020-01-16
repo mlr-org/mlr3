@@ -249,10 +249,8 @@ Learner = R6Class("Learner",
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
+      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
-      if (!is.null(row_ids)) {
-        row_ids = assert_row_ids(row_ids)
-      }
       learner_train(self, task, row_ids)
 
       # store the task w/o the data
@@ -264,10 +262,7 @@ Learner = R6Class("Learner",
     predict = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
-
-      if (!is.null(row_ids)) {
-        row_ids = assert_row_ids(row_ids)
-      }
+      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
       if (is.null(self$model) && is.null(self$state$fallback_state$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
