@@ -64,6 +64,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       assert_names(names(dense), type = "unique")
       assert_choice(primary_key, names(dense))
 
+      assert_disjunct(colnames(data), colnames(dense))
+
       super$initialize(data = list(sparse = data, dense = as.data.table(dense)), primary_key, data_formats = c("Matrix", "data.table"))
     },
 
@@ -148,7 +150,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     },
 
     colnames = function() {
-      c(colnames(private$.data$sparse), colnames(private$.data$dense))
+      c(colnames(private$.data$dense), colnames(private$.data$sparse))
     },
 
     nrow = function() {
@@ -167,10 +169,28 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
     .translate_rows = function(rows) {
       private$.data$dense[list(rows), nomatch = 0L, on = self$primary_key, which = TRUE]
-    })
+    }
+  )
 )
 
 #' @export
-as_data_backend.Matrix = function(data, ...) {
-  DataBackendMatrix$new(data)
+as_data_backend.Matrix = function(data, dense = NULL, primary_key = NULL, ...) {
+  require_namespaces("Matrix")
+  assert_data_frame(dense, null.ok = TRUE)
+  assert_string(primary_key, null.ok = TRUE)
+
+  if (is.null(dense)) {
+    if (!is.null(primary_key)) {
+      stopf("Primary key '%s' must be provided in 'dense'", primary_key)
+    }
+    primary_key = "..row_id"
+    dense = setnames(data.table(seq_row(data)), primary_key)
+  } else {
+    if (is.null(primary_key)) {
+      stopf("Primary key '%s' must be specified as column name of 'dense'")
+    }
+    assert_choice(primary_key, colnames(dense))
+  }
+
+  DataBackendMatrix$new(data, dense, primary_key)
 }
