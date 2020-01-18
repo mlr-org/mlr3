@@ -28,7 +28,6 @@ test_that("Learners are called with invoke / small footprint of call", {
   expect_lt(sum(nchar(call)), 1000)
 })
 
-
 test_that("Extra data slots of learners are kept / reset", {
   task = tsk("boston_housing")
   learner = lrn("regr.rpart")
@@ -66,7 +65,6 @@ test_that("learner timings", {
   expect_number(t[["predict"]])
 })
 
-
 test_that("predict on newdata works / classif", {
   task = tsk("iris")$filter(1:120)
   learner = lrn("classif.featureless")
@@ -95,7 +93,6 @@ test_that("predict on newdata works / classif", {
   expect_factor(p$truth, levels = task$class_names)
   expect_true(allMissing(p$truth))
 })
-
 
 test_that("train task is properly cloned (#383)", {
   lr = lrn("classif.rpart")$train(tsk("iris"))

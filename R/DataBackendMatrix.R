@@ -48,7 +48,7 @@
 #' cols = self$colnames
 #' self$data(rows, cols, data_format = "Matrix")
 #'
-#' b = as_data_backend(data, dense)
+#' b = as_data_backend(data, dense, "..row_id")
 #' b$head()
 #' b$data(1:3, b$colnames, data_format = "Matrix")
 DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneable = FALSE,
@@ -60,7 +60,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       assert_names(colnames(data), type = "unique")
       rownames(data) = NULL
 
-      assert_data_frame(dense, nrow = nrow(data))
+      assert_data_frame(dense, nrows = nrow(data))
       assert_names(names(dense), type = "unique")
       assert_choice(primary_key, names(dense))
 
@@ -187,7 +187,7 @@ as_data_backend.Matrix = function(data, dense = NULL, primary_key = NULL, ...) {
     dense = setnames(data.table(seq_row(data)), primary_key)
   } else {
     if (is.null(primary_key)) {
-      stopf("Primary key '%s' must be specified as column name of 'dense'")
+      stopf("Primary key '%s' must be specified as column name of 'dense'", primary_key)
     }
     assert_choice(primary_key, colnames(dense))
   }
