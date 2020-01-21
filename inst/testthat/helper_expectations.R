@@ -423,15 +423,17 @@ expect_prediction_classif = function(p, task = NULL) {
   }
 }
 
-expect_resample_result = function(rr) {
+expect_resample_result = function(rr, allow_incomplete = FALSE) {
   checkmate::expect_r6(rr, "ResampleResult")
   testthat::expect_output(print(rr), "ResampleResult")
   expect_task(rr$task)
   lapply(rr$learners, expect_learner, task = rr$task)
   expect_resampling(rr$resampling, task = rr$task)
 
+  expected_iters = if (allow_incomplete) nrow(rr$data) else rr$resampling$iters
+
   data = data.table::as.data.table(rr)
-  checkmate::expect_data_table(rr$score(), nrows  = rr$resampling$iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
+  checkmate::expect_data_table(rr$score(), nrows = expected_iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
   checkmate::expect_names(names(rr$score()), must.include = mlr3::mlr_reflections$rr_names)
   expect_uhash(rr$uhash, 1L)
 

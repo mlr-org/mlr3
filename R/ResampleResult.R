@@ -76,6 +76,10 @@
 #'   Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in [Measure].
 #'   If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
 #'
+#' * `filter(iters)`\cr
+#'   `integer()` -> `self`\cr
+#'   Subsets the ResampleResult, reducing it to only keep the iterations specified in `iters`.
+#'
 #' * `help()`\cr
 #'   () -> `NULL`\cr
 #'   Opens the help page for this object.
@@ -165,6 +169,14 @@ ResampleResult = R6Class("ResampleResult",
       measures = as_measures(measures, task_type = self$task$task_type)
       assert_measures(measures, task = self$task, learner = self$learners[[1L]])
       set_names(map_dbl(measures, function(m) m$aggregate(self)), ids(measures))
+    },
+
+    filter = function(iters) {
+      resampling = self$resampling
+      iters = assert_integerish(iters, min.len = 1L, lower = 1L, upper = resampling$iters, any.missing = FALSE, coerce = TRUE)
+
+      self$data = self$data[list(iters), on = "iteration"]
+      invisible(self)
     }
   ),
 
