@@ -1,6 +1,8 @@
 # mlr3 0.1.7
 
 * Removed deprecated `character()` -> object converters.
+* Added new method `$filter()` to filter `ResampleResult`s to a subset of
+  iterations.
 
 # mlr3 0.1.6
 

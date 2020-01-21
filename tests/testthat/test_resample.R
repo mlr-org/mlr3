@@ -17,6 +17,10 @@ test_that("resample", {
   expect_equal(uniqueN(hashes(rr$data$learner)), 1L)
   expect_equal(uniqueN(hashes(rr$data$task)), 1L)
   expect_equal(uniqueN(hashes(rr$data$resampling)), 1L)
+
+  rr$filter(2:3)
+  expect_data_table(rr$data, nrows = 2L)
+  expect_resample_result(rr, allow_incomplete = TRUE)
 })
 
 test_that("resample with no or multiple measures", {
