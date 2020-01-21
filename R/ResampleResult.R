@@ -175,7 +175,7 @@ ResampleResult = R6Class("ResampleResult",
       resampling = self$resampling
       iters = assert_integerish(iters, min.len = 1L, lower = 1L, upper = resampling$iters, any.missing = FALSE, coerce = TRUE)
 
-      self$data = self$data[list(iters), on = "iteration"]
+      self$data = self$data[list(unique(iters)), on = "iteration"]
       invisible(self)
     }
   ),
