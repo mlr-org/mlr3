@@ -73,6 +73,9 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 list of \link{Measure} -> named \code{numeric()}\cr
 Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in \link{Measure}.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
+\item \code{filter(iters)}\cr
+\code{integer()} -> \code{self}\cr
+Subsets the ResampleResult, reducing it to only keep the iterations specified in \code{iters}.
 \item \code{help()}\cr
 () -> \code{NULL}\cr
 Opens the help page for this object.
