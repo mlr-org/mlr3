@@ -115,7 +115,7 @@ Set of required task properties.}
 
 \item{bmr}{:: \link{BenchmarkResult}.}
 
-\item{row_ids}{:: \code{vector()}.}
+\item{row_ids}{:: \code{numeric()}.}
 
 \item{resample_result}{:: \link{ResampleResult}.}
 }

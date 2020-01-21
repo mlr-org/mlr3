@@ -86,7 +86,7 @@
 #' * `nrow` :: `integer(1)`\cr
 #'   Return the total number of rows with role "use".
 #'
-#' * `row_ids` :: (`integer()` | `character()`)\cr
+#' * `row_ids` :: `integer()`\cr
 #'   Returns the row ids of the [DataBackend] for observations with with role "use".
 #'
 #' * `target_names` :: `character()`\cr

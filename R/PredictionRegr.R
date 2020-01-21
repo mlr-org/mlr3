@@ -16,8 +16,8 @@
 #' * `task` :: [TaskRegr]\cr
 #'   Task, used to extract defaults for `row_ids` and `truth`.
 #'
-#' * `row_ids` :: (`integer()` | `character()`)\cr
-#'   Row ids of the observations in the test set.
+#' * `row_ids` :: `integer()`\cr
+#'   Row ids of the predicted observations, i.e. the row ids of the test set.
 #'
 #' * `truth` :: `numeric()`\cr
 #'   True (observed) response.
