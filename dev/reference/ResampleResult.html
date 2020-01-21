@@ -84,14 +84,14 @@ Do not modify any object without cloning it first." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6.9000</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
+        <a class="navbar-brand" href="../index.html"><i>mlr3 <small>v0.1.6.9000</small></i></a>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
     <span class="fa fa fa fa-file-alt"></span>
@@ -109,8 +109,6 @@ Do not modify any object without cloning it first." />
     mlr3book
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -137,7 +135,7 @@ Do not modify any object without cloning it first." />
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+      <form class="navbar-form navbar-right docsearch" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -236,6 +234,9 @@ If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to
 list of <a href='Measure.html'>Measure</a> -&gt; named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code><br />
 Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in <a href='Measure.html'>Measure</a>.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href='default_measures.html'>default_measures()</a></code>.</p></li>
+<li><p><code><a href='https://rdrr.io/r/stats/filter.html'>filter(iters)</a></code><br />
+<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> -&gt; <code>self</code><br />
+Subsets the ResampleResult, reducing it to only keep the iterations specified in <code>iters</code>.</p></li>
 <li><p><code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code><br />
 () -&gt; <code>NULL</code><br />
 Opens the help page for this object.</p></li>
