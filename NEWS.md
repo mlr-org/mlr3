@@ -3,6 +3,8 @@
 * Removed deprecated `character()` -> object converters.
 * Added new method `$filter()` to filter `ResampleResult`s to a subset of
   iterations.
+* Empty test sets are now handled separately by learners (#421). An empty
+  prediction object is returned for all learners.
 
 # mlr3 0.1.6
 
