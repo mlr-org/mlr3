@@ -218,3 +218,13 @@ test_that("reset()", {
   expect_learner(lrn$reset())
   expect_null(lrn$state)
 })
+
+test_that("empty predict set (#421)", {
+  task = tsk("iris")
+  learner = lrn("classif.featureless")
+  resampling = rsmp("holdout", ratio = 1)
+  hout = resampling$instantiate(task)
+  model = learner$train(task, hout$train_set(1))
+  pred = learner$predict(task, hout$test_set(1))
+  expect_true(any(grepl("No data to predict on", learner$log$msg)))
+})

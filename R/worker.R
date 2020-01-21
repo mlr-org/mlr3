@@ -91,6 +91,14 @@ learner_predict = function(learner, task, row_ids = NULL) {
     task$row_roles$use = row_ids
   }
 
+  if (task$nrow == 0L) {
+    # return an empty prediction object, #421
+    learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on")
+    tt = task$task_type
+    f = mlr_reflections$task_types[list(tt), "prediction", with = FALSE][[1L]]
+    return(get(f)$new(task = task))
+  }
+
   if (is.null(learner$model)) {
     prediction = NULL
     learner$state$predict_time = NA_real_
