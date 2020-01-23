@@ -89,7 +89,7 @@ Do not modify any object without cloning it first." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html"><i>mlr3 <small>v0.1.6.9000</small></i></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.6.9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -310,11 +310,11 @@ Returns a copy of the internal data.</p></li>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 4a0e46ac-1fc4-487f-aaa0-76c00f534ade &lt;TaskClassif&gt;
-#&gt; 2: 4a0e46ac-1fc4-487f-aaa0-76c00f534ade &lt;TaskClassif&gt;
-#&gt; 3: 4a0e46ac-1fc4-487f-aaa0-76c00f534ade &lt;TaskClassif&gt;
-#&gt; 4: f4896943-5718-477f-ac10-cb17a3896ba8 &lt;TaskClassif&gt;
-#&gt; 5: f4896943-5718-477f-ac10-cb17a3896ba8 &lt;TaskClassif&gt;
+#&gt; 1: ff827b9f-1802-4618-8b50-422032ad5ad4 &lt;TaskClassif&gt;
+#&gt; 2: ff827b9f-1802-4618-8b50-422032ad5ad4 &lt;TaskClassif&gt;
+#&gt; 3: ff827b9f-1802-4618-8b50-422032ad5ad4 &lt;TaskClassif&gt;
+#&gt; 4: b07c6cd1-7989-41a6-9149-128d3d5e7821 &lt;TaskClassif&gt;
+#&gt; 5: b07c6cd1-7989-41a6-9149-128d3d5e7821 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
