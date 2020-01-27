@@ -1,5 +1,9 @@
 # mlr3 0.1.7
 
+* Row ids now must be numeric. It was previously allowed to have character row
+  ids, but this lead to confusion and unnecessary code bloat. Row identifiers
+  (e.g., to be used in plots) can still be part of the task, with row role
+  `"name"`.
 * Removed deprecated `character()` -> object converters.
 * Added new method `$filter()` to filter `ResampleResult`s to a subset of
   iterations.
