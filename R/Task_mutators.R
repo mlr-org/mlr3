@@ -1,16 +1,16 @@
 #' @include mlr_reflections.R
 task_set_col_roles = function(self, private, roles) {
-    if (length(roles$group) > 1L) {
-      stopf("There may only be up to one group column")
+  for (role in c("group", "weight", "name")) {
+    if (length(roles[[role]]) > 1L) {
+      stopf("There may only be up to one column with role '%s'", role)
     }
-    if (length(roles$weight) > 1L) {
-      stopf("There may only be up to one weight column")
-    }
-    if (inherits(self, "TaskSupervised") && length(roles$target) == 0L) {
-      stopf("Supervised tasks need at least one target column")
-    }
+  }
 
-    private$.col_roles = roles
+  if (inherits(self, "TaskSupervised") && length(roles$target) == 0L) {
+    stopf("Supervised tasks need at least one target column")
+  }
+
+  private$.col_roles = roles
 }
 
 check_new_row_ids = function(task, data, type) {

@@ -47,7 +47,7 @@
 #'   Each column (feature) can have an arbitrary number of the following roles:
 #'     - `"feature"`: Regular feature used in the model fitting process.
 #'     - `"target"`: Target variable.
-#'     - `"name"`: Row names / observation labels. To be used in plots.
+#'     - `"name"`: Row names / observation labels. To be used in plots. Can be queried with `$row_names`.
 #'     - `"order"`: Data returned by `$data()` is ordered by this column (or these columns).
 #'     - `"group"`: During resampling, observations with the same value of the variable with role "group"
 #'          are marked as "belonging together". They will be exclusively assigned to be either in the training set
@@ -88,6 +88,9 @@
 #'
 #' * `row_ids` :: `integer()`\cr
 #'   Returns the row ids of the [DataBackend] for observations with with role "use".
+#'
+#' * `row_names` :: `character()`\cr
+#'   Returns the row names, i.e. the column identified as names by its column role '"name"'.
 #'
 #' * `target_names` :: `character()`\cr
 #'   Returns all column names with role "target".
@@ -399,6 +402,13 @@ Task = R6Class("Task",
 
     row_ids = function() {
       private$.row_roles$use
+    },
+
+    row_names = function() {
+      nn = self$col_roles$name
+      if (length(nn) == 0L)
+        return(NULL)
+      self$backend$data(rows = self$row_ids, cols = nn)[[1L]]
     },
 
     feature_names = function() {

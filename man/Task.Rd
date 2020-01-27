@@ -49,7 +49,7 @@ Each column (feature) can have an arbitrary number of the following roles:
 \itemize{
 \item \code{"feature"}: Regular feature used in the model fitting process.
 \item \code{"target"}: Target variable.
-\item \code{"name"}: Row names / observation labels. To be used in plots.
+\item \code{"name"}: Row names / observation labels. To be used in plots. Can be queried with \verb{$row_names}.
 \item \code{"order"}: Data returned by \verb{$data()} is ordered by this column (or these columns).
 \item \code{"group"}: During resampling, observations with the same value of the variable with role "group"
 are marked as "belonging together". They will be exclusively assigned to be either in the training set
@@ -85,6 +85,8 @@ Returns the total number of cols with role "target" or "feature".
 Return the total number of rows with role "use".
 \item \code{row_ids} :: \code{integer()}\cr
 Returns the row ids of the \link{DataBackend} for observations with with role "use".
+\item \code{row_names} :: \code{character()}\cr
+Returns the row names, i.e. the column identified as names by its column role '"name"'.
 \item \code{target_names} :: \code{character()}\cr
 Returns all column names with role "target".
 \item \code{task_type} :: \code{character(1)}\cr

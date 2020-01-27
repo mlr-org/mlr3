@@ -4,6 +4,7 @@
   ids, but this lead to confusion and unnecessary code bloat. Row identifiers
   (e.g., to be used in plots) can still be part of the task, with row role
   `"name"`.
+* Row names can now be queried with `Task$row_names`.
 * `DataBackendMatrix` now supports to store an optional (numeric) dense part.
 * Added new method `$filter()` to filter `ResampleResult`s to a subset of
   iterations.
