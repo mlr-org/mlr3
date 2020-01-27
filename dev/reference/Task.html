@@ -213,7 +213,7 @@ Table with with 3 columns:</p><ul>
 Each column (feature) can have an arbitrary number of the following roles:</p><ul>
 <li><p><code>"feature"</code>: Regular feature used in the model fitting process.</p></li>
 <li><p><code>"target"</code>: Target variable.</p></li>
-<li><p><code>"name"</code>: Row names / observation labels. To be used in plots.</p></li>
+<li><p><code>"name"</code>: Row names / observation labels. To be used in plots. Can be queried with <code>$row_names</code>.</p></li>
 <li><p><code>"order"</code>: Data returned by <code>$data()</code> is ordered by this column (or these columns).</p></li>
 <li><p><code>"group"</code>: During resampling, observations with the same value of the variable with role "group"
 are marked as "belonging together". They will be exclusively assigned to be either in the training set
@@ -248,6 +248,8 @@ Returns the total number of cols with role "target" or "feature".</p></li>
 Return the total number of rows with role "use".</p></li>
 <li><p><code>row_ids</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Returns the row ids of the <a href='DataBackend.html'>DataBackend</a> for observations with with role "use".</p></li>
+<li><p><code>row_names</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Returns the row names, i.e. the column identified as names by its column role '"name"'.</p></li>
 <li><p><code>target_names</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Returns all column names with role "target".</p></li>
 <li><p><code>task_type</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />

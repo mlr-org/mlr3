@@ -159,6 +159,7 @@
 </h1>
 <ul>
 <li>Row ids now must be numeric. It was previously allowed to have character row ids, but this lead to confusion and unnecessary code bloat. Row identifiers (e.g., to be used in plots) can still be part of the task, with row role <code>"name"</code>.</li>
+<li>Row names can now be queried with <code>Task$row_names</code>.</li>
 <li>
 <code>DataBackendMatrix</code> now supports to store an optional (numeric) dense part.</li>
 <li>Added new method <code>$filter()</code> to filter <code>ResampleResult</code>s to a subset of iterations.</li>
