@@ -158,6 +158,7 @@
 <a href="#mlr3-0-1-7" class="anchor"></a>mlr3 0.1.7<small> Unreleased </small>
 </h1>
 <ul>
+<li>Row ids now must be numeric. It was previously allowed to have character row ids, but this lead to confusion and unnecessary code bloat. Row identifiers (e.g., to be used in plots) can still be part of the task, with row role <code>"name"</code>.</li>
 <li>Removed deprecated <code><a href="https://rdrr.io/r/base/character.html">character()</a></code> -&gt; object converters.</li>
 <li>Added new method <code>$filter()</code> to filter <code>ResampleResult</code>s to a subset of iterations.</li>
 <li>Empty test sets are now handled separately by learners (<a href='https://github.com/mlr-org/mlr3/issues/421'>#421</a>). An empty prediction object is returned for all learners.</li>
