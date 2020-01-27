@@ -168,13 +168,19 @@
 
     
 <pre>DataBackendDataTable$new(data, primary_key = NULL)
-as_data_backend(data, primary_key = NULL, ...)
+as_data_backend(data, primary_key = NULL, keep_rownames = FALSE, ...)
 </pre>
 <ul>
-<li><p><code>data</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-The input <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p></li>
+<li><p><code>data</code> :: <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code><br />
+The input <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>.
+Converted to a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> automatically.</p></li>
 <li><p><code>primary_key</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
 Name of the primary key column.</p></li>
+<li><p><code>keep_rownames</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
+If <code>TRUE</code> or a single string, keeps the row names of <code>data</code> as a new column.
+The column is named like the provided string, defaulting to <code>"..rownames"</code> for <code>keep_rownames == TRUE</code>.
+Note that the created column will be used as a regular feature by the task unless you manually change the column role.
+See also <code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>data.table::as.data.table()</a></code>.</p></li>
 </ul>
 
 <p><code>DataBackendDataTable</code> does not copy the input data, while <code>as_data_backend</code> calls <code><a href='https://Rdatatable.gitlab.io/data.table/reference/copy.html'>data.table::copy()</a></code>.

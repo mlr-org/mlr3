@@ -51,12 +51,16 @@
 
 <meta property="og:title" content="DataBackend — DataBackend" />
 <meta property="og:description" content="This is the abstract base class for data backends.
-Data Backends provide a layer of abstraction for various data storage systems.
+Data backends provide a layer of abstraction for various data storage systems.
 It is not recommended to work directly with the DataBackend.
 Instead, all data access is handled transparently via the Task.
-To connect to out-of-memory database management systems such as SQL servers, see mlr3db.
-The required set of fields and methods to implement a custom DataBackend is listed in the respective sections.
-See DataBackendDataTable or DataBackendMatrix for exemplary implementations of the interface." />
+This package comes with two implementations for backends:
+DataBackendDataTable which stores the data as data.table::data.table().
+DataBackendMatrix which stores the data as sparse Matrix::sparseMatrix().
+To connect to out-of-memory database management systems such as SQL servers, see the extension package mlr3db.
+
+
+The required set of fields and methods to implement a custom DataBackend is listed in the respective sections (see DataBackendDataTable or DataBackendMatrix for exemplary implementations of the interface)." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -163,12 +167,16 @@ See DataBackendDataTable or DataBackendMatrix for exemplary implementations of t
 
     <div class="ref-description">
     <p>This is the abstract base class for data backends.</p>
-<p>Data Backends provide a layer of abstraction for various data storage systems.
+<p>Data backends provide a layer of abstraction for various data storage systems.
 It is not recommended to work directly with the DataBackend.
 Instead, all data access is handled transparently via the <a href='Task.html'>Task</a>.</p>
-<p>To connect to out-of-memory database management systems such as SQL servers, see <a href='https://CRAN.R-project.org/package=mlr3db'><span class="pkg">mlr3db</span></a>.</p>
-<p>The required set of fields and methods to implement a custom DataBackend is listed in the respective sections.
-See <a href='DataBackendDataTable.html'>DataBackendDataTable</a> or <a href='DataBackendMatrix.html'>DataBackendMatrix</a> for exemplary implementations of the interface.</p>
+<p>This package comes with two implementations for backends:</p><ul>
+<li><p><a href='DataBackendDataTable.html'>DataBackendDataTable</a> which stores the data as <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p></li>
+<li><p><a href='DataBackendMatrix.html'>DataBackendMatrix</a> which stores the data as sparse <code><a href='https://rdrr.io/pkg/Matrix/man/sparseMatrix.html'>Matrix::sparseMatrix()</a></code>.
+To connect to out-of-memory database management systems such as SQL servers, see the extension package <a href='https://CRAN.R-project.org/package=mlr3db'><span class="pkg">mlr3db</span></a>.</p></li>
+</ul>
+
+<p>The required set of fields and methods to implement a custom <code>DataBackend</code> is listed in the respective sections (see <a href='DataBackendDataTable.html'>DataBackendDataTable</a> or <a href='DataBackendMatrix.html'>DataBackendMatrix</a> for exemplary implementations of the interface).</p>
     </div>
 
 
@@ -189,7 +197,7 @@ The format of the input data depends on the specialization.
 E.g., <a href='DataBackendDataTable.html'>DataBackendDataTable</a> expects a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> and <a href='DataBackendMatrix.html'>DataBackendMatrix</a> expects a <code><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix::Matrix()</a></code>
 constructed with the <a href='https://CRAN.R-project.org/package=Matrix'><span class="pkg">Matrix</span></a> package.</p></li>
 <li><p><code>primary_key</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Each DataBackend needs a way to address rows, which is done via a column of unique values, referenced here by <code>primary_key</code>.
+Each DataBackend needs a way to address rows, which is done via a column of unique integer values, referenced here by <code>primary_key</code>.
 The use of this variable may differ between backends.</p></li>
 <li><p>data_formats (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Set of supported formats, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></li>
@@ -206,7 +214,7 @@ Number of rows (observations).</p></li>
 Number of columns (variables), including the primary key column.</p></li>
 <li><p><code>colnames</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Returns vector of all column names, including the primary key column.</p></li>
-<li><p><code>rownames</code> :: (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+<li><p><code>rownames</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Returns vector of all distinct row identifiers, i.e. the primary key column.</p></li>
 <li><p><code>hash</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
 Returns a unique hash for this backend. This hash is cached.</p></li>

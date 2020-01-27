@@ -245,7 +245,7 @@ Otherwise, the input object is returned invisibly.</p>
 
 <span class='fu'>assert_benchmark_result</span>(<span class='no'>bmr</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>bmr</span>))
 
-<span class='fu'>assert_row_ids</span>(<span class='no'>row_ids</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>row_ids</span>))</pre>
+<span class='fu'>assert_row_ids</span>(<span class='no'>row_ids</span>, <span class='kw'>null.ok</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>row_ids</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -306,7 +306,7 @@ Set of required task properties.</p></td>
     </tr>
     <tr>
       <th>row_ids</th>
-      <td><p>:: <code><a href='https://rdrr.io/r/base/vector.html'>vector()</a></code>.</p></td>
+      <td><p>:: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>.</p></td>
     </tr>
     <tr>
       <th>resample_result</th>
