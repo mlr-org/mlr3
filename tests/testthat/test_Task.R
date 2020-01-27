@@ -275,4 +275,4 @@ test_that("col roles getters/setters", {
 test_that("Task$row_names", {
   expect_character(tsk("mtcars")$row_names, any.missing = FALSE, unique = TRUE)
   expect_character(tsk("mtcars")$filter(1:10)$row_names, any.missing = FALSE, unique = TRUE, len = 10)
-, len = 10})
+})
