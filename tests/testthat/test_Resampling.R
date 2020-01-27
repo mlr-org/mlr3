@@ -25,7 +25,7 @@ test_that("param_vals", {
   r$instantiate(task)
   expect_true(r$is_instantiated)
   expect_identical(r$iters, 100L)
-  expect_atomic_vector(r$train_set(100), len = task$nrow)
+  expect_integerish(r$train_set(100), len = task$nrow)
 
   expect_resampling(r)
 

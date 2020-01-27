@@ -5,17 +5,22 @@
 \title{DataBackend for Matrix}
 \format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{DataBackend}.}
 \description{
-\link{DataBackend} for \CRANpkg{Matrix}. Data is stored as (sparse) matrix.
+\link{DataBackend} for \CRANpkg{Matrix}.
+Data is split into a (numerical) sparse part and a dense part.
+These parts are automatically merged to a sparse format during \verb{$data()}.
+Note that merging the data parts may cause data loss during the conversion.
 }
 \section{Construction}{
 \preformatted{DataBackendMatrix$new(data, primary_key = NULL)
 as_data_backend(data, primary_key = NULL, ...)
 }
 \itemize{
-\item \code{data} :: \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.
+\item \code{data} :: \code{\link[Matrix:Matrix]{Matrix::Matrix()}}\cr
+Sparse (numeric) data stored as \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.
+\item \code{dense} :: \code{\link[=data.frame]{data.frame()}}.
+Dense data, converted to \code{\link[data.table:data.table]{data.table::data.table()}}.
 \item \code{primary_key} :: \code{character(1)}\cr
-Not supported by this backend. Rows are addresses by their \code{\link[=rownames]{rownames()}}.
-If the matrix does not have row names, integer row indices are used.
+Name of the primary key column in \code{dense}
 }
 }
 
@@ -33,11 +38,12 @@ See \link{DataBackend}.
 requireNamespace("Matrix")
 data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)
 colnames(data) = c("x1", "x2")
-rownames(data) = paste0("row_", 1:10)
+dense = data.frame(..row_id = 1:10, num = runif(10), fact = sample(c("a", "b"), 10, replace = TRUE))
 
-b = as_data_backend(data)
+b = as_data_backend(data, dense, "..row_id")
 b$head()
-b$data(b$rownames[1:3], b$colnames, data_format = "Matrix")
+b$data(1:3, b$colnames, data_format = "Matrix")
+b$data(1:3, b$colnames, data_format = "data.table")
 }
 \seealso{
 Other DataBackend: 

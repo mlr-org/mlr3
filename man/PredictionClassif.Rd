@@ -23,8 +23,8 @@ In case of binary classification tasks, the positive class label must be the fir
 \itemize{
 \item \code{task} :: \link{TaskClassif}\cr
 Task, used to extract defaults for \code{row_ids} and \code{truth}.
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Row ids of the observations in the test set.
+\item \code{row_ids} :: \code{integer()}\cr
+Row ids of the predicted observations, i.e. the row ids of the test set.
 \item \code{truth} :: \code{factor()}\cr
 True (observed) labels. See the note on manual construction.
 \item \code{response} :: (\code{character()} | \code{factor()})\cr

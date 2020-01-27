@@ -55,15 +55,15 @@ expect_backend = function(b) {
 
   n = checkmate::expect_count(b$nrow)
   p = checkmate::expect_count(b$ncol)
-  cn = checkmate::expect_atomic_vector(b$colnames, any.missing = FALSE, len = p, unique = TRUE)
-  rn = checkmate::expect_atomic_vector(b$rownames, any.missing = FALSE, len = n, unique = TRUE)
+  cn = checkmate::expect_character(b$colnames, any.missing = FALSE, len = p, unique = TRUE)
+  rn = checkmate::expect_integerish(b$rownames, any.missing = FALSE, len = n, unique = TRUE)
   rn1 = head(rn, 1L)
   pk = b$primary_key
 
   x = b$data(rows = rn, cols = pk, data_format = "data.table")
   checkmate::expect_data_table(x, ncols = 1L, nrows = n, col.names = "unique")
   x = x[[1L]]
-  checkmate::expect_atomic_vector(x, len = n, unique = TRUE)
+  checkmate::expect_integerish(x, len = n, unique = TRUE)
 
   x = b$data(rows = rn, cols = setdiff(cn, pk)[1L], data_format = "data.table")
   checkmate::expect_data_table(x, ncols = 1L, nrows = n, col.names = "unique")
@@ -107,7 +107,7 @@ expect_backend = function(b) {
 
   # $distinct()
   d = b$distinct(rn, b$primary_key)[[1L]]
-  checkmate::expect_atomic_vector(d, any.missing = FALSE, len = n, unique = TRUE)
+  checkmate::expect_integerish(d, any.missing = FALSE, len = n, unique = TRUE)
   checkmate::expect_list(b$distinct(rn, "_not_existing_"), len = 0L, names = "named")
   d = b$distinct(rn, c("_not_existing_", rev(cn), "_also_not_existing_"))
   checkmate::expect_list(d, names = "unique")
@@ -209,7 +209,7 @@ expect_task = function(task) {
 
   checkmate::expect_list(task$row_roles, names = "unique", types = c("integer", "character"), any.missing = FALSE)
   checkmate::expect_names(names(task$row_roles), permutation.of = mlr3::mlr_reflections$task_row_roles)
-  lapply(task$row_roles, checkmate::expect_atomic_vector, any.missing = FALSE, unique = TRUE)
+  lapply(task$row_roles, checkmate::expect_integerish, any.missing = FALSE, unique = TRUE)
 
   types = task$feature_types
   checkmate::expect_data_table(types, ncols  = 2, nrows  = length(task$feature_names), key = "id")
@@ -340,8 +340,8 @@ expect_resampling = function(r, task = NULL) {
     for (i in seq_len(r$iters)) {
       train = r$train_set(1L)
       test = r$test_set(1L)
-      checkmate::expect_atomic_vector(train, any.missing = FALSE)
-      checkmate::expect_atomic_vector(test, any.missing = FALSE)
+      checkmate::expect_integerish(train, any.missing = FALSE)
+      checkmate::expect_integerish(test, any.missing = FALSE)
       if (!inherits(r, "ResamplingCustom")) {
         testthat::expect_length(intersect(train, test), 0L)
       }
@@ -390,7 +390,7 @@ expect_prediction = function(p) {
   checkmate::expect_r6(p, "Prediction", public = c("row_ids", "truth", "predict_types"))
   testthat::expect_output(print(p), "^<Prediction")
   checkmate::expect_data_table(data.table::as.data.table(p), nrows  = length(p$row_ids))
-  checkmate::expect_atomic_vector(p$missing)
+  checkmate::expect_integerish(p$missing)
 }
 
 expect_prediction_regr = function(p) {

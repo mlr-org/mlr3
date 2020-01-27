@@ -86,7 +86,7 @@
 #' * `nrow` :: `integer(1)`\cr
 #'   Return the total number of rows with role "use".
 #'
-#' * `row_ids` :: (`integer()` | `character()`)\cr
+#' * `row_ids` :: `integer()`\cr
 #'   Returns the row ids of the [DataBackend] for observations with with role "use".
 #'
 #' * `target_names` :: `character()`\cr
@@ -347,7 +347,7 @@ Task = R6Class("Task",
     },
 
     filter = function(rows) {
-      rows = assert_row_ids(rows, type = typeof(private$.row_roles$use))
+      assert_row_ids(rows)
       private$.row_roles$use = intersect(private$.row_roles$use, rows)
       invisible(self)
     },
@@ -430,7 +430,7 @@ Task = R6Class("Task",
 
       assert_list(rhs, .var.name = "row_roles")
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_row_roles, .var.name = "names of row_roles")
-      rhs = map(rhs, assert_row_ids, type = typeof(self$row_roles$use), .var.name = "elements of row_roles")
+      rhs = map(rhs, assert_row_ids, .var.name = "elements of row_roles")
 
       private$.row_roles = rhs
     },

@@ -17,7 +17,6 @@ DataBackendRename = R6Class("DataBackendRename", inherit = DataBackend, cloneabl
     },
 
     data = function(rows, cols, data_format = self$data_formats[1L]) {
-      assert_atomic_vector(rows)
       assert_names(cols, type = "unique")
       b = private$.data
       cols = map_values(intersect(cols, self$colnames), self$new, self$old)

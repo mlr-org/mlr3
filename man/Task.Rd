@@ -83,7 +83,7 @@ Identifier of the Task.
 Returns the total number of cols with role "target" or "feature".
 \item \code{nrow} :: \code{integer(1)}\cr
 Return the total number of rows with role "use".
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
+\item \code{row_ids} :: \code{integer()}\cr
 Returns the row ids of the \link{DataBackend} for observations with with role "use".
 \item \code{target_names} :: \code{character()}\cr
 Returns all column names with role "target".

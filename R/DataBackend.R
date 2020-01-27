@@ -7,14 +7,16 @@
 #' @description
 #' This is the abstract base class for data backends.
 #'
-#' Data Backends provide a layer of abstraction for various data storage systems.
+#' Data backends provide a layer of abstraction for various data storage systems.
 #' It is not recommended to work directly with the DataBackend.
 #' Instead, all data access is handled transparently via the [Task].
 #'
-#' To connect to out-of-memory database management systems such as SQL servers, see \CRANpkg{mlr3db}.
+#' This package comes with two implementations for backends:
+#' * [DataBackendDataTable] which stores the data as [data.table::data.table()].
+#' * [DataBackendMatrix] which stores the data as sparse [Matrix::sparseMatrix()].
+#' To connect to out-of-memory database management systems such as SQL servers, see the extension package \CRANpkg{mlr3db}.
 #'
-#' The required set of fields and methods to implement a custom DataBackend is listed in the respective sections.
-#' See [DataBackendDataTable] or [DataBackendMatrix] for exemplary implementations of the interface.
+#' The required set of fields and methods to implement a custom `DataBackend` is listed in the respective sections (see [DataBackendDataTable] or [DataBackendMatrix] for exemplary implementations of the interface).
 #'
 #' @section Construction:
 #' Note: This object is typically constructed via a derived classes, e.g. [DataBackendDataTable] or [DataBackendMatrix],
@@ -30,7 +32,7 @@
 #'   constructed with the \CRANpkg{Matrix} package.
 #'
 #' * `primary_key` :: `character(1)`\cr
-#'   Each DataBackend needs a way to address rows, which is done via a column of unique values, referenced here by `primary_key`.
+#'   Each DataBackend needs a way to address rows, which is done via a column of unique integer values, referenced here by `primary_key`.
 #'   The use of this variable may differ between backends.
 #'
 #' * data_formats (`character()`)\cr
@@ -46,7 +48,7 @@
 #' * `colnames` :: `character()`\cr
 #'   Returns vector of all column names, including the primary key column.
 #'
-#' * `rownames` :: (`integer()` | `character()`)\cr
+#' * `rownames` :: `integer()`\cr
 #'   Returns vector of all distinct row identifiers, i.e. the primary key column.
 #'
 #' * `hash` :: `character(1)`\cr

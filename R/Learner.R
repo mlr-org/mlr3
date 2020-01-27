@@ -249,10 +249,8 @@ Learner = R6Class("Learner",
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
+      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
-      if (!is.null(row_ids)) {
-        row_ids = assert_row_ids(row_ids)
-      }
       learner_train(self, task, row_ids)
 
       # store the task w/o the data
@@ -264,10 +262,7 @@ Learner = R6Class("Learner",
     predict = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
-
-      if (!is.null(row_ids)) {
-        row_ids = assert_row_ids(row_ids)
-      }
+      row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
       if (is.null(self$model) && is.null(self$state$fallback_state$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
@@ -277,6 +272,8 @@ Learner = R6Class("Learner",
     },
 
     predict_newdata = function(newdata, task = NULL) {
+      newdata = as.data.table(assert_data_frame(newdata, min.rows = 1L))
+
       if (is.null(task)) {
         if (is.null(self$state$train_task))
           stopf("No task stored, and no task provided")
@@ -287,11 +284,11 @@ Learner = R6Class("Learner",
         task = task_rm_data(task)
       }
 
-      newdata = assert_data_frame(newdata, min.rows = 1L)
-      tn = task$target_names
-      if (any(tn %nin% colnames(newdata))) {
-        newdata[, tn] = NA
-      }
+      # the following columns are automatically set to NA if missing
+      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group")])
+      impute = setdiff(impute, c(task$feature_names, colnames(newdata)))
+      newdata = insert_named(newdata, named_list(nn = impute, init = NA))
+
       self$predict(task$rbind(newdata))
     },
 

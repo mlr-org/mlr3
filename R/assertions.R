@@ -228,18 +228,8 @@ assert_range = function(range, .var.name = vname(range)) {
 
 
 #' @export
-#' @param row_ids :: `vector()`.
+#' @param row_ids :: `numeric()`.
 #' @rdname mlr_assertions
-assert_row_ids = function(row_ids, type = NULL, .var.name = vname(row_ids)) {
-  # TODO: make this a proper check function
-  # TODO: coercion in checkmate does not work here
-  qassert(row_ids, c("X", "S[1,]"), .var.name = .var.name)
-  if (is.double(row_ids)) {
-    row_ids = as.integer(row_ids)
-  }
-  if (!is.null(type) && typeof(row_ids) != type) {
-    stopf("Assertion on '%s' failed: Must be of type '%s', not '%s'", .var.name, type, typeof(row_ids))
-  }
-
-  invisible(row_ids)
+assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) {
+  assert_integerish(row_ids, null.ok = null.ok)
 }

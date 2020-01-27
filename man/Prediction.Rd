@@ -24,7 +24,7 @@ This object is constructed via a derived classes, e.g. \link{PredictionClassif} 
 \section{Fields}{
 
 \itemize{
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
+\item \code{row_ids} :: \code{integer()}\cr
 Vector of row ids for which predictions are stored.
 \item \code{truth} :: \code{any}\cr
 True (observed) outcome.

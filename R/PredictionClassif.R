@@ -25,8 +25,8 @@
 #' * `task` :: [TaskClassif]\cr
 #'   Task, used to extract defaults for `row_ids` and `truth`.
 #'
-#' * `row_ids` :: (`integer()` | `character()`)\cr
-#'   Row ids of the observations in the test set.
+#' * `row_ids` :: `integer()`\cr
+#'   Row ids of the predicted observations, i.e. the row ids of the test set.
 #'
 #' * `truth` :: `factor()`\cr
 #'   True (observed) labels. See the note on manual construction.
@@ -108,7 +108,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL) {
-      row_ids = assert_row_ids(row_ids)
+      assert_row_ids(row_ids)
       n = length(row_ids)
 
       truth = assert_factor(truth, len = n, null.ok = TRUE)

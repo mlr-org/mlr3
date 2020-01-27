@@ -17,7 +17,7 @@
 #' This object is constructed via a derived classes, e.g. [PredictionClassif] or [PredictionRegr].
 #'
 #' @section Fields:
-#' * `row_ids` :: (`integer()` | `character()`)\cr
+#' * `row_ids` :: `integer()`\cr
 #'   Vector of row ids for which predictions are stored.
 #'
 #' * `truth` :: `any`\cr

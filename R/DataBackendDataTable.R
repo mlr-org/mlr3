@@ -10,14 +10,21 @@
 #' @section Construction:
 #' ```
 #' DataBackendDataTable$new(data, primary_key = NULL)
-#' as_data_backend(data, primary_key = NULL, ...)
+#' as_data_backend(data, primary_key = NULL, keep_rownames = FALSE, ...)
 #' ```
 #'
-#' * `data` :: [data.table::data.table()]\cr
-#'   The input [data.table::data.table()].
+#' * `data` :: [data.frame()]\cr
+#'   The input [data.frame()].
+#'   Converted to a [data.table::data.table()] automatically.
 #'
 #' * `primary_key` :: `character(1)`\cr
 #'   Name of the primary key column.
+#'
+#' * `keep_rownames` :: `logical(1)` | `character(1)`\cr
+#'   If `TRUE` or a single string, keeps the row names of `data` as a new column.
+#'   The column is named like the provided string, defaulting to `"..rownames"` for `keep_rownames == TRUE`.
+#'   Note that the created column will be used as a regular feature by the task unless you manually change the column role.
+#'   See also [data.table::as.data.table()].
 #'
 #' `DataBackendDataTable` does not copy the input data, while `as_data_backend` calls [data.table::copy()].
 #' `as_data_backend` creates a primary key column as integer column if `primary_key` is `NULL.`
@@ -59,7 +66,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     data = function(rows, cols, data_format = "data.table") {
       assert_choice(data_format, self$data_formats)
-      assert_atomic_vector(rows)
+      assert_numeric(rows)
       assert_names(cols, type = "unique")
       cols = intersect(cols, colnames(private$.data))
 
@@ -68,7 +75,6 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
         rows = keep_in_bounds(rows, 1L, nrow(private$.data))
         data = private$.data[rows, cols, with = FALSE]
       } else {
-        assert_atomic_vector(rows)
         data = private$.data[list(rows), cols, with = FALSE, nomatch = 0L, on = self$primary_key]
       }
       return(data)
@@ -119,27 +125,29 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 )
 
 #' @export
-as_data_backend.data.frame = function(data, primary_key = NULL, ...) {
-  assert_data_frame(data, min.cols = 1L)
+as_data_backend.data.frame = function(data, primary_key = NULL, keep_rownames = FALSE, ...) {
+  assert_data_frame(data, min.cols = 1L, col.names = "unique")
+
+  if (!isFALSE(keep_rownames)) {
+    if (isTRUE(keep_rownames)) {
+      keep_rownames = "..rownames"
+    } else {
+      assert_string(keep_rownames)
+    }
+  }
+
+  data = as.data.table(data, keep.rownames = keep_rownames)
 
   if (!is.null(primary_key)) {
-    assert_atomic_vector(data[[primary_key]], any.missing = FALSE, unique = TRUE)
     assert_string(primary_key)
-    assert_names(colnames(data), must.include = primary_key)
-    return(DataBackendDataTable$new(as.data.table(data), primary_key))
+    assert_choice(primary_key, colnames(data))
+    assert_integer(data[[primary_key]], any.missing = FALSE, unique = TRUE)
+    b = DataBackendDataTable$new(data, primary_key)
+  } else {
+    data = insert_named(as.data.table(data), list("..row_id" = seq_row(data)))
+    b = DataBackendDataTable$new(data, primary_key = "..row_id")
+    b$compact_seq = TRUE
   }
 
-  rn = attr(data, "row.names")
-  if (is.character(rn)) {
-    if (all(grepl("^[0-9]+$", rn))) {
-      warningf("Using character row ids although the rownames of 'data' looks like integers")
-    }
-    data = insert_named(as.data.table(data), list("..row_id" = make.unique(rn)))
-    return(DataBackendDataTable$new(data, primary_key = "..row_id"))
-  }
-
-  data = insert_named(as.data.table(data), list("..row_id" = seq_row(data)))
-  b = DataBackendDataTable$new(data, primary_key = "..row_id")
-  b$compact_seq = TRUE
-  b
+  return(b)
 }

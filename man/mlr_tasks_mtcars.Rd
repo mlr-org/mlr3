@@ -7,6 +7,7 @@
 \description{
 A regression task for the \link[datasets:mtcars]{datasets::mtcars} data set.
 Target variable is \code{mpg} (Miles/(US) gallon).
+Rownames are stored as variable \verb{"..rownames} with column role \code{"model"}.
 }
 \section{Construction}{
 \preformatted{mlr_tasks$get("mtcars")

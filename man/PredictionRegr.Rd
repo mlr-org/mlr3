@@ -14,8 +14,8 @@ the predicted response and standard error.
 \itemize{
 \item \code{task} :: \link{TaskRegr}\cr
 Task, used to extract defaults for \code{row_ids} and \code{truth}.
-\item \code{row_ids} :: (\code{integer()} | \code{character()})\cr
-Row ids of the observations in the test set.
+\item \code{row_ids} :: \code{integer()}\cr
+Row ids of the predicted observations, i.e. the row ids of the test set.
 \item \code{truth} :: \code{numeric()}\cr
 True (observed) response.
 \item \code{response} :: \code{numeric()}\cr

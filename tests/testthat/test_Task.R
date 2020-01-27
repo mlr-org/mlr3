@@ -110,11 +110,12 @@ test_that("cbind/rbind works", {
   expect_set_equal(task$row_ids, c(1:150, 201:210))
   expect_data_table(task$data(), ncols = 6, nrows = 160, any.missing = FALSE)
 
-  # auto generate char ids
+  # auto generated ids
   task = tsk("zoo")
-  newdata = task$data("wasp")
+  newdata = task$data(1)
+  newdata$animal = "boy"
   task$rbind(newdata)
-  expect_equal(sum(grepl("^rbind_[0-9a-z]+_1", task$row_ids)), 1L)
+  expect_set_equal(task$row_ids, 1:102)
 })
 
 test_that("filter works", {
