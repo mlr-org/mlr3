@@ -4,9 +4,10 @@
   ids, but this lead to confusion and unnecessary code bloat. Row identifiers
   (e.g., to be used in plots) can still be part of the task, with row role
   `"name"`.
-* Removed deprecated `character()` -> object converters.
+* `DataBackendMatrix` now supports to store an optional (numeric) dense part.
 * Added new method `$filter()` to filter `ResampleResult`s to a subset of
   iterations.
+* Removed deprecated `character()` -> object converters.
 * Empty test sets are now handled separately by learners (#421). An empty
   prediction object is returned for all learners.
 
