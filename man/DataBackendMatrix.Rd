@@ -40,18 +40,10 @@ data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)
 colnames(data) = c("x1", "x2")
 dense = data.frame(..row_id = 1:10, num = runif(10), fact = sample(c("a", "b"), 10, replace = TRUE))
 
-self = DataBackendMatrix$new(data, dense, "..row_id")
-private = private(self)
-self$data(1:3, "x1", data_format = "data.table")
-self$data(1:3, c("x1", "x2"), data_format = "Matrix")
-self$distinct(1:3, c("x1", "noop", "..row_id"))
-rows = 1:7
-cols = self$colnames
-self$data(rows, cols, data_format = "Matrix")
-
 b = as_data_backend(data, dense, "..row_id")
 b$head()
 b$data(1:3, b$colnames, data_format = "Matrix")
+b$data(1:3, b$colnames, data_format = "data.table")
 }
 \seealso{
 Other DataBackend: 
