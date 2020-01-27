@@ -17,7 +17,7 @@ check_new_row_ids = function(task, data, type) {
   pk = task$backend$primary_key
   row_ids = data[[pk]]
   task_row_ids = task$row_roles$use
-  assert_integer(row_ids, any.missing = FALSE, unique = TRUE)
+  assert_integerish(row_ids, any.missing = FALSE, unique = TRUE)
 
   switch(type,
     "disjunct" = {
