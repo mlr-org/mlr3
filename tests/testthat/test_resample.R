@@ -5,9 +5,7 @@ test_that("resample", {
   learner = lrn("classif.featureless")
   resampling = rsmp("cv", folds = 3L)
 
-  progressr::with_progress({
-    rr = resample(task, learner, resampling)
-  })
+  rr = resample(task, learner, resampling)
 
   expect_resample_result(rr)
   expect_numeric(rr$score(msr("classif.ce"))$classif.ce, any.missing = FALSE)
