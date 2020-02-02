@@ -40,6 +40,14 @@ use_future = function() {
   return(TRUE)
 }
 
+get_progressor = function(n, label = NA_character_) {
+  if (!isNamespaceLoaded("progressr")) {
+    return(NULL)
+  }
+
+  progressr::progressor(steps = n, label = label)
+}
+
 open_help = function(man) {
   if (!test_string(man)) {
     message("No help available")

@@ -141,10 +141,11 @@ learner_predict = function(learner, task, row_ids = NULL) {
 }
 
 
-workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE, progressor = NULL) {
-  if (!is.null(progressor)) {
-    progressor(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
+workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE, pb = NULL) {
+  if (!is.null(pb)) {
+    pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
+
   if (!is.null(lgr_threshold)) {
     lg$set_threshold(lgr_threshold)
   }

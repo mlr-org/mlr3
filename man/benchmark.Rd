@@ -67,10 +67,10 @@ print(design)
 set.seed(123)
 bmr = benchmark(design)
 
-## data of all resamplings
+## Data of all resamplings
 head(as.data.table(bmr))
 
-## aggregated performance values
+## Aggregated performance values
 aggr = bmr$aggregate()
 print(aggr)
 
@@ -78,7 +78,7 @@ print(aggr)
 rr = aggr$resample_result[[1]]
 as.data.table(rr$prediction())
 
-# benchmarking with a custom design:
+# Benchmarking with a custom design:
 # - fit classif.featureless on iris with a 3-fold CV
 # - fit classif.rpart on sonar using a holdout
 tasks = list(tsk("iris"), tsk("sonar"))
@@ -91,17 +91,17 @@ design = data.table::data.table(
   resampling = resamplings
 )
 
-## instantiate resamplings
+## Instantiate resamplings
 design$resampling = Map(
   function(task, resampling) resampling$clone()$instantiate(task),
   task = design$task, resampling = design$resampling
 )
 
-## run benchmark
+## Run benchmark
 bmr = benchmark(design)
 print(bmr)
 
-## get the training set of the 2nd iteration of the featureless learner on iris
+## Get the training set of the 2nd iteration of the featureless learner on iris
 rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 rr$resampling$train_set(2)
 }
