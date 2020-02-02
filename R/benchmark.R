@@ -20,6 +20,7 @@
 #' If you need access to the models for later analysis, set `store_models` to `TRUE`.
 #'
 #' @template section_parallelization
+#' @template section_progress_bars
 #' @template section_logging
 #'
 #' @export
@@ -35,10 +36,10 @@
 #' set.seed(123)
 #' bmr = benchmark(design)
 #'
-#' ## data of all resamplings
+#' ## Data of all resamplings
 #' head(as.data.table(bmr))
 #'
-#' ## aggregated performance values
+#' ## Aggregated performance values
 #' aggr = bmr$aggregate()
 #' print(aggr)
 #'
@@ -46,7 +47,7 @@
 #' rr = aggr$resample_result[[1]]
 #' as.data.table(rr$prediction())
 #'
-#' # benchmarking with a custom design:
+#' # Benchmarking with a custom design:
 #' # - fit classif.featureless on iris with a 3-fold CV
 #' # - fit classif.rpart on sonar using a holdout
 #' tasks = list(tsk("iris"), tsk("sonar"))
@@ -59,17 +60,17 @@
 #'   resampling = resamplings
 #' )
 #'
-#' ## instantiate resamplings
+#' ## Instantiate resamplings
 #' design$resampling = Map(
 #'   function(task, resampling) resampling$clone()$instantiate(task),
 #'   task = design$task, resampling = design$resampling
 #' )
 #'
-#' ## run benchmark
+#' ## Run benchmark
 #' bmr = benchmark(design)
 #' print(bmr)
 #'
-#' ## get the training set of the 2nd iteration of the featureless learner on iris
+#' ## Get the training set of the 2nd iteration of the featureless learner on iris
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
 benchmark = function(design, store_models = FALSE) {
@@ -104,13 +105,15 @@ benchmark = function(design, store_models = FALSE) {
   })
 
   lg$info("Benchmark with %i resampling iterations", nrow(grid))
+  pb = get_progressor(nrow(grid))
 
   if (use_future()) {
     lg$debug("Running benchmark() via future")
 
     res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold),
+      iteration = grid$iteration,
+      MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
       SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3"
@@ -120,7 +123,9 @@ benchmark = function(design, store_models = FALSE) {
 
     res = mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, MoreArgs = list(store_models = store_models), SIMPLIFY = FALSE, USE.NAMES = FALSE
+      iteration = grid$iteration,
+      MoreArgs = list(store_models = store_models, pb = pb),
+      SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   }
 

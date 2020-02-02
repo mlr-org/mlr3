@@ -14,6 +14,7 @@
 #'
 #'
 #' @template section_parallelization
+#' @template section_progress_bars
 #' @template section_logging
 #'
 #' @note
@@ -26,14 +27,14 @@
 #' learner = lrn("classif.rpart")
 #' resampling = rsmp("cv")
 #'
-#' # explicitly instantiate the resampling for this task for reproduciblity
+#' # Explicitly instantiate the resampling for this task for reproduciblity
 #' set.seed(123)
 #' resampling$instantiate(task)
 #'
 #' rr = resample(task, learner, resampling)
 #' print(rr)
 #'
-#' # retrieve performance
+#' # Retrieve performance
 #' rr$score(msr("classif.ce"))
 #' rr$aggregate(msr("classif.ce"))
 #'
@@ -60,17 +61,20 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     instance = instance$instantiate(task)
   }
   n = instance$iters
+  pb = get_progressor(n)
 
   if (use_future()) {
     lg$debug("Running resample() via future with %i iterations", n)
     res = future.apply::future_lapply(seq_len(n), workhorse,
-      task = task, learner = learner, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold,
+      task = task, learner = learner, resampling = instance,
+      store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3")
   } else {
     lg$debug("Running resample() sequentially with %i iterations", n)
     res = lapply(seq_len(n), workhorse,
-      task = task, learner = learner, resampling = instance, store_models = store_models)
+      task = task, learner = learner, resampling = instance,
+      store_models = store_models, pb = pb)
   }
 
   res = map_dtr(res, reassemble, learner = learner)

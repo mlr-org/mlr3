@@ -37,6 +37,14 @@ from \CRANpkg{future.apply} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
 }
 
+\section{Progress Bars}{
+
+This function supports progress bars via the package \CRANpkg{progressr}.
+Simply wrap the function in \code{\link[progressr:with_progress]{progressr::with_progress()}} to enable them.
+We recommend to use package \CRANpkg{progress} as backend; enable with
+\code{progressr::handlers("progress")}.
+}
+
 \section{Logging}{
 
 
@@ -60,14 +68,14 @@ task = tsk("iris")
 learner = lrn("classif.rpart")
 resampling = rsmp("cv")
 
-# explicitly instantiate the resampling for this task for reproduciblity
+# Explicitly instantiate the resampling for this task for reproduciblity
 set.seed(123)
 resampling$instantiate(task)
 
 rr = resample(task, learner, resampling)
 print(rr)
 
-# retrieve performance
+# Retrieve performance
 rr$score(msr("classif.ce"))
 rr$aggregate(msr("classif.ce"))
 

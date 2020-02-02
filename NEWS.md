@@ -1,5 +1,7 @@
 # mlr3 0.1.7
 
+* `resample()` and `benchmark()` now support progress bars via the package
+  `progressr`.
 * Row ids now must be numeric. It was previously allowed to have character row
   ids, but this lead to confusion and unnecessary code bloat. Row identifiers
   (e.g., to be used in plots) can still be part of the task, with row role

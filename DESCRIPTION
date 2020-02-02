@@ -54,6 +54,7 @@ BugReports: https://github.com/mlr-org/mlr3/issues
 Depends:
     R (>= 3.1.0)
 Imports:
+    R6,
     backports,
     checkmate (>= 1.9.3),
     data.table,
@@ -63,9 +64,9 @@ Imports:
     mlr3measures (>= 0.1.1),
     mlr3misc (>= 0.1.6),
     paradox,
-    R6,
     uuid
 Suggests:
+    Matrix,
     bibtex,
     callr,
     datasets,
@@ -73,7 +74,7 @@ Suggests:
     future (>= 1.9.0),
     future.apply (>= 1.1.0),
     future.callr,
-    Matrix,
+    progressr,
     rpart,
     testthat,
     titanic
