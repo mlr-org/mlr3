@@ -63,6 +63,7 @@ Imports:
     mlr3measures (>= 0.1.1),
     mlr3misc (>= 0.1.6),
     paradox,
+    progressr,
     R6,
     uuid
 Suggests:

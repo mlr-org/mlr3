@@ -104,13 +104,15 @@ benchmark = function(design, store_models = FALSE) {
   })
 
   lg$info("Benchmark with %i resampling iterations", nrow(grid))
+  pb = progressr::progressor(nrow(grid))
 
   if (use_future()) {
     lg$debug("Running benchmark() via future")
 
     res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold),
+      iteration = grid$iteration,
+      MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, progressor = pb),
       SIMPLIFY = FALSE, USE.NAMES = FALSE,
       future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
       future.packages = "mlr3"
@@ -120,7 +122,9 @@ benchmark = function(design, store_models = FALSE) {
 
     res = mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration, MoreArgs = list(store_models = store_models), SIMPLIFY = FALSE, USE.NAMES = FALSE
+      iteration = grid$iteration,
+      MoreArgs = list(store_models = store_models, progressor = pb),
+      SIMPLIFY = FALSE, USE.NAMES = FALSE
     )
   }
 

@@ -6,6 +6,7 @@
 #' @importFrom utils data head tail
 #' @importFrom stats reformulate
 #' @importFrom uuid UUIDgenerate
+#' @importFrom progressr progressor
 #' @references
 #' \cite{mlr3}{pkg::citation}
 "_PACKAGE"
