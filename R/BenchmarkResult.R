@@ -300,30 +300,36 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   active = list(
-    task_type = function() {
+    task_type = function(rhs) {
+      assert_ro_binding(rhs)
       if (nrow(self$data) == 0L)
         return(NULL)
       self$data$task[[1L]]$task_type
     },
 
-    tasks = function() {
+    tasks = function(rhs) {
+      assert_ro_binding(rhs)
       unique(self$data[, list(task_hash = hashes(task), task_id = ids(task), task = task)], by = "task_hash")
     },
 
-    learners = function() {
+    learners = function(rhs) {
+      assert_ro_binding(rhs)
       tab = unique(self$data[, list(learner_hash = hashes(learner), learner_id = ids(learner), learner = learner)], by = "learner_hash")
       tab[, learner := lapply(learner, function(x) x$clone(deep = TRUE)$reset())][]
     },
 
-    resamplings = function() {
+    resamplings = function(rhs) {
+      assert_ro_binding(rhs)
       unique(self$data[, list(resampling_hash = hashes(resampling), resampling_id = ids(resampling), resampling = resampling)], by = "resampling_hash")
     },
 
-    n_resample_results = function() {
+    n_resample_results = function(rhs) {
+      assert_ro_binding(rhs)
       nrow(self$rr_data)
     },
 
-    uhashes = function() {
+    uhashes = function(rhs) {
+      assert_ro_binding(rhs)
       self$rr_data$uhash
     }
   ),

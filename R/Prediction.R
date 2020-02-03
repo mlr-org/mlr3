@@ -92,9 +92,20 @@ Prediction = R6Class("Prediction",
   ),
 
   active = list(
-    row_ids = function() self$data$tab$row_id,
-    truth = function() self$data$tab$truth,
-    missing = function() self$data$tab$row_id[0L] # empty vector
+    row_ids = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$tab$row_id
+    },
+
+    truth = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$tab$truth
+    },
+
+    missing = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$tab$row_id[0L] # empty vector
+    }
   )
 )
 

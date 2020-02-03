@@ -198,11 +198,13 @@ Resampling = R6Class("Resampling",
   ),
 
   active = list(
-    is_instantiated = function() {
+    is_instantiated = function(rhs) {
+      assert_ro_binding(rhs)
       !is.null(self$instance)
     },
 
-    hash = function() {
+    hash = function(rhs) {
+      assert_ro_binding(rhs)
       hash(list(class(self), self$id, self$param_set$values, self$instance))
     }
   ),

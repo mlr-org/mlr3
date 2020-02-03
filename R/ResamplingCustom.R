@@ -53,11 +53,13 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   ),
 
   active = list(
-    iters = function() {
+    iters = function(rhs) {
+      assert_ro_binding(rhs)
       length(self$instance$train)
     },
 
-    hash = function() {
+    hash = function(rhs) {
+      assert_ro_binding(rhs)
       if (is.null(self$instance$test)) {
         return(NA_character_)
       }

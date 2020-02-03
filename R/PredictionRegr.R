@@ -78,15 +78,18 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   ),
 
   active = list(
-    response = function() {
+    response = function(rhs) {
+      assert_ro_binding(rhs)
       self$data$tab$response %??% rep(NA_real_, length(self$data$row_ids))
     },
 
-    se = function() {
+    se = function(rhs) {
+      assert_ro_binding(rhs)
       self$data$tab$se %??% rep(NA_real_, length(self$data$row_ids))
     },
 
-    missing = function() {
+    missing = function(rhs) {
+      assert_ro_binding(rhs)
       miss = logical(nrow(self$data$tab))
       if ("response" %in% self$predict_types) {
         miss = is.na(self$response)

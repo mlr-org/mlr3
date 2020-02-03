@@ -64,7 +64,8 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   ),
 
   active = list(
-    iters = function() {
+    iters = function(rhs) {
+      assert_ro_binding(rhs)
       as.integer(self$param_set$values$repeats)
     }
   ),

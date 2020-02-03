@@ -87,7 +87,8 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
   ),
 
   active = list(
-    iters = function() {
+    iters = function(rhs) {
+      assert_ro_binding(rhs)
       pv = self$param_set$values
       as.integer(pv$repeats) * as.integer(pv$folds)
     }

@@ -299,19 +299,23 @@ Learner = R6Class("Learner",
   ),
 
   active = list(
-    model = function() {
+    model = function(rhs) {
+      assert_ro_binding(rhs)
       self$state$model
     },
 
-    timings = function() {
+    timings = function(rhs) {
+      assert_ro_binding(rhs)
       set_names(c(self$state$train_time %??% NA_real_, self$state$predict_time %??% NA_real_), c("train", "predict"))
     },
 
-    log = function() {
+    log = function(rhs) {
+      assert_ro_binding(rhs)
       self$state$log
     },
 
-    warnings = function() {
+    warnings = function(rhs) {
+      assert_ro_binding(rhs)
       if (is.null(self$state$log)) {
         character()
       } else {
@@ -319,7 +323,8 @@ Learner = R6Class("Learner",
       }
     },
 
-    errors = function() {
+    errors = function(rhs) {
+      assert_ro_binding(rhs)
       if (is.null(self$state$log)) {
         character()
       } else {
@@ -327,7 +332,8 @@ Learner = R6Class("Learner",
       }
     },
 
-    hash = function() {
+    hash = function(rhs) {
+      assert_ro_binding(rhs)
       hash(class(self), self$id, self$param_set$values, private$.predict_type, self$fallback$hash)
     },
 

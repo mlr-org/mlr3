@@ -180,19 +180,23 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
 
   active = list(
-    response = function() {
+    response = function(rhs) {
+      assert_ro_binding(rhs)
       self$data$tab$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth))
     },
 
-    prob = function() {
+    prob = function(rhs) {
+      assert_ro_binding(rhs)
       self$data$prob
     },
 
-    confusion = function() {
+    confusion = function(rhs) {
+      assert_ro_binding(rhs)
       self$data$tab[, table(response, truth, useNA = "ifany")]
     },
 
-    missing = function() {
+    missing = function(rhs) {
+      assert_ro_binding(rhs)
       miss = logical(nrow(self$data$tab))
       if ("response" %in% self$predict_types) {
         miss = is.na(self$data$tab$response)

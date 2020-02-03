@@ -393,29 +393,34 @@ Task = R6Class("Task",
   ),
 
   active = list(
-    hash = function() {
+    hash = function(rhs) {
+      assert_ro_binding(rhs)
       hash(
         class(self), self$id, self$backend$hash, private$.row_roles, private$.col_roles,
         self$col_info$type, self$col_info$levels, self$properties
       )
     },
 
-    row_ids = function() {
+    row_ids = function(rhs) {
+      assert_ro_binding(rhs)
       private$.row_roles$use
     },
 
-    row_names = function() {
+    row_names = function(rhs) {
+      assert_ro_binding(rhs)
       nn = self$col_roles$name
       if (length(nn) == 0L)
         return(NULL)
       self$backend$data(rows = self$row_ids, cols = nn)[[1L]]
     },
 
-    feature_names = function() {
+    feature_names = function(rhs) {
+      assert_ro_binding(rhs)
       private$.col_roles$feature
     },
 
-    target_names = function() {
+    target_names = function(rhs) {
+      assert_ro_binding(rhs)
       private$.col_roles$target
     },
 
@@ -457,23 +462,28 @@ Task = R6Class("Task",
       task_set_col_roles(self, private, rhs)
     },
 
-    nrow = function() {
+    nrow = function(rhs) {
+      assert_ro_binding(rhs)
       length(private$.row_roles$use)
     },
 
-    ncol = function() {
+    ncol = function(rhs) {
+      assert_ro_binding(rhs)
       length(private$.col_roles$feature) + length(private$.col_roles$target)
     },
 
-    feature_types = function() {
+    feature_types = function(rhs) {
+      assert_ro_binding(rhs)
       setkeyv(self$col_info[list(private$.col_roles$feature), c("id", "type"), on = "id"], "id")
     },
 
-    data_formats = function() {
+    data_formats = function(rhs) {
+      assert_ro_binding(rhs)
       self$backend$data_formats
     },
 
-    strata = function() {
+    strata = function(rhs) {
+      assert_ro_binding(rhs)
       cols = private$.col_roles$stratum
       if (length(cols) == 0L) {
         return(NULL)
@@ -486,7 +496,8 @@ Task = R6Class("Task",
       setnames(tab, c("..N", "..row_id"), c("N", "row_id"))[]
     },
 
-    groups = function() {
+    groups = function(rhs) {
+      assert_ro_binding(rhs)
       groups = private$.col_roles$group
       if (length(groups) == 0L) {
         return(NULL)
@@ -495,7 +506,8 @@ Task = R6Class("Task",
       setnames(data, c("row_id", "group"))[]
     },
 
-    weights = function() {
+    weights = function(rhs) {
+      assert_ro_binding(rhs)
       weights = private$.col_roles$weight
       if (length(weights) == 0L) {
         return(NULL)

@@ -98,7 +98,8 @@ TaskClassif = R6Class("TaskClassif",
   ),
 
   active = list(
-    class_names = function() {
+    class_names = function(rhs) {
+      assert_ro_binding(rhs)
       self$col_info[list(self$target_names), "levels", on = "id", with = FALSE][[1L]][[1L]]
     },
 
@@ -119,7 +120,8 @@ TaskClassif = R6Class("TaskClassif",
       self$col_info[list(self$target_names), levels := list(list(c(positive, negative))), on = "id"][]
     },
 
-    negative = function() {
+    negative = function(rhs) {
+      assert_ro_binding(rhs)
       lvls = self$class_names
       if (length(lvls) != 2L) {
         return(NA_character_)

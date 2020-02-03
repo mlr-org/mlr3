@@ -202,7 +202,8 @@ Measure = R6Class("Measure",
   ),
 
   active = list(
-    hash = function() {
+    hash = function(rhs) {
+      assert_ro_binding(rhs)
       hash(class(self), self$id, self$predict_sets, as.character(body(self$score_internal)))
     }
   )

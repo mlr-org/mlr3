@@ -137,19 +137,23 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
   ),
 
   active = list(
-    rownames = function() {
+    rownames = function(rhs) {
+      assert_ro_binding(rhs)
       private$.data$dense[[self$primary_key]]
     },
 
-    colnames = function() {
+    colnames = function(rhs) {
+      assert_ro_binding(rhs)
       c(colnames(private$.data$dense), colnames(private$.data$sparse))
     },
 
-    nrow = function() {
+    nrow = function(rhs) {
+      assert_ro_binding(rhs)
       nrow(private$.data$dense)
     },
 
-    ncol = function() {
+    ncol = function(rhs) {
+      assert_ro_binding(rhs)
       ncol(private$.data$sparse) + ncol(private$.data$dense)
     }
   ),

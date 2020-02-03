@@ -181,15 +181,18 @@ ResampleResult = R6Class("ResampleResult",
   ),
 
   active = list(
-    task = function() {
+    task = function(rhs) {
+      assert_ro_binding(rhs)
       self$data$task[[1L]]
     },
 
-    learners = function() {
+    learners = function(rhs) {
+      assert_ro_binding(rhs)
       self$data$learner
     },
 
-    resampling = function() {
+    resampling = function(rhs) {
+      assert_ro_binding(rhs)
       self$data$resampling[[1L]]
     },
 
@@ -200,12 +203,14 @@ ResampleResult = R6Class("ResampleResult",
       private$.uhash = assert_string(rhs)
     },
 
-    warnings = function() {
+    warnings = function(rhs) {
+      assert_ro_binding(rhs)
       extract = function(learner) list(msg = learner$warnings)
       rbindlist(map(self$data$learner, extract), idcol = "iteration", use.names = TRUE)
     },
 
-    errors = function() {
+    errors = function(rhs) {
+      assert_ro_binding(rhs)
       extract = function(learner) list(msg = learner$errors)
       rbindlist(map(self$data$learner, extract), idcol = "iteration", use.names = TRUE)
     }
