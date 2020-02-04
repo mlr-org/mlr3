@@ -26,11 +26,15 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
     initialize = function() {
       ps = ParamSet$new(list(
         ParamInt$new(id = "minsplit", default = 20L, lower = 1L, tags = "train"),
+        ParamInt$new(id = "minbucket", lower = 1L, tags = "train"),
         ParamDbl$new(id = "cp", default = 0.01, lower = 0, upper = 1, tags = "train"),
         ParamInt$new(id = "maxcompete", default = 4L, lower = 0L, tags = "train"),
         ParamInt$new(id = "maxsurrogate", default = 5L, lower = 0L, tags = "train"),
         ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
-        ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
+        ParamInt$new(id = "usesurrogate", default = 2L, lower = 0L, upper = 2L, tags = "train"),
+        ParamInt$new(id = "surrogatestyle", default = 0L, lower = 0L, upper = 1L, tags = "train"),
+        ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train"),
+        ParamUty$new("cost", tags = "train")
       ))
       ps$values = list(xval = 0L)
 
