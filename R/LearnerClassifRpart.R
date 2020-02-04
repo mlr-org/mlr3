@@ -33,7 +33,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
         ParamInt$new(id = "usesurrogate", default = 2L, lower = 0L, upper = 2L, tags = "train"),
         ParamInt$new(id = "surrogatestyle", default = 0L, lower = 0L, upper = 1L, tags = "train"),
-        ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train"),
+        ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
       ))
       ps$values = list(xval = 0L)
 
