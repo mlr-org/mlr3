@@ -29,11 +29,16 @@ See \link{Measure}.
 }
 
 \seealso{
-Example regression measures: \code{\link[=mlr_measures_regr.mse]{regr.mse}}
+Default regression measures: \code{\link[=mlr_measures_regr.mse]{regr.mse}}
 
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{Measure}},
+\code{\link{mlr_measures_classif.costs}},
+\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_elapsed_time}},
+\code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_selected_features}},
 \code{\link{mlr_measures}}
 }
 \concept{Measure}

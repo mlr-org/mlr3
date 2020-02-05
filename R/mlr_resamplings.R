@@ -22,8 +22,6 @@
 #' @family Dictionary
 #' @family Resampling
 #' @seealso
-#' Example resamplings: [`cv`][mlr_resamplings_cv], [`bootstrap`][mlr_resamplings_bootstrap]
-#'
 #' Sugar function: [rsmp()]
 #' @export
 #' @examples

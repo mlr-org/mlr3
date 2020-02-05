@@ -25,7 +25,7 @@
 #'
 #' @family Measure
 #' @seealso
-#' Example classification measures: [`classif.ce`][mlr_measures_classif.ce]
+#' Default classification measures: [`classif.ce`][mlr_measures_classif.ce]
 #' @export
 MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
   public = list(

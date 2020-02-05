@@ -51,6 +51,10 @@ Opens the corresponding help page referenced by \verb{$man}.
 
 \seealso{
 Other TaskGenerator: 
+\code{\link{mlr_task_generators_2dnormals}},
+\code{\link{mlr_task_generators_friedman1}},
+\code{\link{mlr_task_generators_smiley}},
+\code{\link{mlr_task_generators_xor}},
 \code{\link{mlr_task_generators}}
 }
 \concept{TaskGenerator}

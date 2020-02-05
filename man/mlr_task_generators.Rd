@@ -32,8 +32,6 @@ mlr_task_generators$get("smiley")
 tgen("2dnormals")
 }
 \seealso{
-Example generators: \code{\link[=mlr_task_generators_xor]{xor}}
-
 Sugar function: \code{\link[=tgen]{tgen()}}
 
 Other Dictionary: 
@@ -43,7 +41,11 @@ Other Dictionary:
 \code{\link{mlr_tasks}}
 
 Other TaskGenerator: 
-\code{\link{TaskGenerator}}
+\code{\link{TaskGenerator}},
+\code{\link{mlr_task_generators_2dnormals}},
+\code{\link{mlr_task_generators_friedman1}},
+\code{\link{mlr_task_generators_smiley}},
+\code{\link{mlr_task_generators_xor}}
 }
 \concept{Dictionary}
 \concept{TaskGenerator}

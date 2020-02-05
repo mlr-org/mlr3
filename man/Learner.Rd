@@ -186,6 +186,11 @@ Here, we add a hyperparameter with id \code{"foo"} possible levels \code{"a"} an
 Other Learner: 
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},
+\code{\link{mlr_learners_classif.debug}},
+\code{\link{mlr_learners_classif.featureless}},
+\code{\link{mlr_learners_classif.rpart}},
+\code{\link{mlr_learners_regr.featureless}},
+\code{\link{mlr_learners_regr.rpart}},
 \code{\link{mlr_learners}}
 }
 \concept{Learner}

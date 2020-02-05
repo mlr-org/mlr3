@@ -22,4 +22,12 @@ tgen("2dnormals")$generate(10)$data()
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=TaskGenerator]{TaskGenerators}: \link{mlr_task_generators}
 
 \code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{TaskGenerator} implementations.
+
+Other TaskGenerator: 
+\code{\link{TaskGenerator}},
+\code{\link{mlr_task_generators_friedman1}},
+\code{\link{mlr_task_generators_smiley}},
+\code{\link{mlr_task_generators_xor}},
+\code{\link{mlr_task_generators}}
 }
+\concept{TaskGenerator}

@@ -57,11 +57,14 @@ lrn$train(task, 1:120)
 lrn$predict(task, 121:150)$confusion
 }
 \seealso{
-Example classification learners: \code{\link[=mlr_learners_classif.rpart]{classif.rpart}}
-
 Other Learner: 
 \code{\link{LearnerRegr}},
 \code{\link{Learner}},
+\code{\link{mlr_learners_classif.debug}},
+\code{\link{mlr_learners_classif.featureless}},
+\code{\link{mlr_learners_classif.rpart}},
+\code{\link{mlr_learners_regr.featureless}},
+\code{\link{mlr_learners_regr.rpart}},
 \code{\link{mlr_learners}}
 }
 \concept{Learner}

@@ -25,4 +25,15 @@ lrn("classif.featureless")
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
 
 \code{as.data.table(mlr_learners)} for a complete table of all (also dynamically created) \link{Learner} implementations.
+
+Other Learner: 
+\code{\link{LearnerClassif}},
+\code{\link{LearnerRegr}},
+\code{\link{Learner}},
+\code{\link{mlr_learners_classif.debug}},
+\code{\link{mlr_learners_classif.rpart}},
+\code{\link{mlr_learners_regr.featureless}},
+\code{\link{mlr_learners_regr.rpart}},
+\code{\link{mlr_learners}}
 }
+\concept{Learner}

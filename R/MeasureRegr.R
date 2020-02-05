@@ -25,7 +25,7 @@
 #'
 #' @family Measure
 #' @seealso
-#' Example regression measures: [`regr.mse`][mlr_measures_regr.mse]
+#' Default regression measures: [`regr.mse`][mlr_measures_regr.mse]
 #' @export
 MeasureRegr = R6Class("MeasureRegr", inherit = Measure, cloneable = FALSE,
   public = list(

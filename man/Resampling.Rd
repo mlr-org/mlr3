@@ -139,6 +139,21 @@ prop.table(table(task$truth(r$train_set(1)))) # roughly same proportion
 \code{as.data.table(mlr_resamplings)} for a complete table of all (also dynamically created) \link{Resampling} implementations.
 
 Other Resampling: 
+\code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom}},
+\code{\link{mlr_resamplings_cv}},
+\code{\link{mlr_resamplings_holdout}},
+\code{\link{mlr_resamplings_repeated_cv}},
+\code{\link{mlr_resamplings_subsampling}},
+\code{\link{mlr_resamplings}}
+
+Other Resampling: 
+\code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom}},
+\code{\link{mlr_resamplings_cv}},
+\code{\link{mlr_resamplings_holdout}},
+\code{\link{mlr_resamplings_repeated_cv}},
+\code{\link{mlr_resamplings_subsampling}},
 \code{\link{mlr_resamplings}}
 }
 \concept{Resampling}

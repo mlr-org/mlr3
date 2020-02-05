@@ -40,4 +40,20 @@ print(measure)
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
 
 \code{as.data.table(mlr_tasks)} for a complete table of all (also dynamically created) \link[=Task]{Tasks}.
+
+Other Task: 
+\code{\link{TaskClassif}},
+\code{\link{TaskRegr}},
+\code{\link{TaskSupervised}},
+\code{\link{Task}},
+\code{\link{mlr_tasks_boston_housing}},
+\code{\link{mlr_tasks_iris}},
+\code{\link{mlr_tasks_mtcars}},
+\code{\link{mlr_tasks_pima}},
+\code{\link{mlr_tasks_sonar}},
+\code{\link{mlr_tasks_spam}},
+\code{\link{mlr_tasks_wine}},
+\code{\link{mlr_tasks_zoo}},
+\code{\link{mlr_tasks}}
 }
+\concept{Task}

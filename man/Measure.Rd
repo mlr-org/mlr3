@@ -107,6 +107,11 @@ Opens the corresponding help page referenced by \verb{$man}.
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
+\code{\link{mlr_measures_classif.costs}},
+\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_elapsed_time}},
+\code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_selected_features}},
 \code{\link{mlr_measures}}
 }
 \concept{Measure}

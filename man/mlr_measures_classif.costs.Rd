@@ -64,6 +64,16 @@ rr$aggregate(m)
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
 
+Other Measure: 
+\code{\link{MeasureClassif}},
+\code{\link{MeasureRegr}},
+\code{\link{Measure}},
+\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_elapsed_time}},
+\code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_selected_features}},
+\code{\link{mlr_measures}}
+
 Other classification measures: 
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.auc}},
@@ -96,5 +106,6 @@ Other multiclass classification measures:
 \code{\link{mlr_measures_classif.ce}},
 \code{\link{mlr_measures_classif.logloss}}
 }
+\concept{Measure}
 \concept{classification measures}
 \concept{multiclass classification measures}

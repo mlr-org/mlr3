@@ -35,9 +35,6 @@ mlr_learners$get("classif.featureless")
 lrn("classif.rpart")
 }
 \seealso{
-Example learners: \code{\link[=mlr_learners_classif.rpart]{classif.rpart}}, \code{\link[=mlr_learners_regr.rpart]{regr.rpart}},
-\code{\link[=mlr_learners_classif.featureless]{classif.featureless}}, \code{\link[=mlr_learners_regr.featureless]{regr.featureless}}, \code{\link[=mlr_learners_classif.debug]{classif.debug}}
-
 Sugar function: \code{\link[=lrn]{lrn()}}
 
 Extension Packages: \CRANpkg{mlr3learners}
@@ -51,7 +48,12 @@ Other Dictionary:
 Other Learner: 
 \code{\link{LearnerClassif}},
 \code{\link{LearnerRegr}},
-\code{\link{Learner}}
+\code{\link{Learner}},
+\code{\link{mlr_learners_classif.debug}},
+\code{\link{mlr_learners_classif.featureless}},
+\code{\link{mlr_learners_classif.rpart}},
+\code{\link{mlr_learners_regr.featureless}},
+\code{\link{mlr_learners_regr.rpart}}
 }
 \concept{Dictionary}
 \concept{Learner}

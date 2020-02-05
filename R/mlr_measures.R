@@ -23,7 +23,6 @@
 #' @family Dictionary
 #' @family Measure
 #' @seealso
-#' Example measures: [`classif.auc`][mlr_measures_classif.auc], [`time_train`][mlr_measures_time_train]
 #' Sugar function: [msr()]
 #' @export
 #' @examples

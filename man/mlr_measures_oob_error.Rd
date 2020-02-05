@@ -31,4 +31,15 @@ msr("oob_error")
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Measure]{Measures}: \link{mlr_measures}
 
 \code{as.data.table(mlr_measures)} for a complete table of all (also dynamically created) \link{Measure} implementations.
+
+Other Measure: 
+\code{\link{MeasureClassif}},
+\code{\link{MeasureRegr}},
+\code{\link{Measure}},
+\code{\link{mlr_measures_classif.costs}},
+\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_elapsed_time}},
+\code{\link{mlr_measures_selected_features}},
+\code{\link{mlr_measures}}
 }
+\concept{Measure}

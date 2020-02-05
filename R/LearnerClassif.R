@@ -33,8 +33,6 @@
 #' See [Learner].
 #'
 #' @family Learner
-#' @seealso
-#' Example classification learners: [`classif.rpart`][mlr_learners_classif.rpart]
 #' @export
 #' @examples
 #' # get all classification learners from mlr_learners:

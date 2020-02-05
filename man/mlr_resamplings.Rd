@@ -33,8 +33,6 @@ mlr_resamplings$get("cv")
 rsmp("subsampling")
 }
 \seealso{
-Example resamplings: \code{\link[=mlr_resamplings_cv]{cv}}, \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}
-
 Sugar function: \code{\link[=rsmp]{rsmp()}}
 
 Other Dictionary: 
@@ -44,7 +42,13 @@ Other Dictionary:
 \code{\link{mlr_tasks}}
 
 Other Resampling: 
-\code{\link{Resampling}}
+\code{\link{Resampling}},
+\code{\link{mlr_resamplings_bootstrap}},
+\code{\link{mlr_resamplings_custom}},
+\code{\link{mlr_resamplings_cv}},
+\code{\link{mlr_resamplings_holdout}},
+\code{\link{mlr_resamplings_repeated_cv}},
+\code{\link{mlr_resamplings_subsampling}}
 }
 \concept{Dictionary}
 \concept{Resampling}

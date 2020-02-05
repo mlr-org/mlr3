@@ -22,8 +22,6 @@
 #' @family Dictionary
 #' @family TaskGenerator
 #' @seealso
-#' Example generators: [`xor`][mlr_task_generators_xor]
-#'
 #' Sugar function: [tgen()]
 #' @export
 #' @examples

@@ -48,6 +48,15 @@ Other Task:
 \code{\link{TaskClassif}},
 \code{\link{TaskRegr}},
 \code{\link{Task}},
+\code{\link{mlr_tasks_boston_housing}},
+\code{\link{mlr_tasks_german_credit}},
+\code{\link{mlr_tasks_iris}},
+\code{\link{mlr_tasks_mtcars}},
+\code{\link{mlr_tasks_pima}},
+\code{\link{mlr_tasks_sonar}},
+\code{\link{mlr_tasks_spam}},
+\code{\link{mlr_tasks_wine}},
+\code{\link{mlr_tasks_zoo}},
 \code{\link{mlr_tasks}}
 }
 \concept{Task}

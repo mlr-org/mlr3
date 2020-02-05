@@ -34,7 +34,6 @@ mlr_measures$get("classif.ce")
 msr("regr.mse")
 }
 \seealso{
-Example measures: \code{\link[=mlr_measures_classif.auc]{classif.auc}}, \code{\link[=mlr_measures_time_train]{time_train}}
 Sugar function: \code{\link[=msr]{msr()}}
 
 Other Dictionary: 
@@ -46,7 +45,12 @@ Other Dictionary:
 Other Measure: 
 \code{\link{MeasureClassif}},
 \code{\link{MeasureRegr}},
-\code{\link{Measure}}
+\code{\link{Measure}},
+\code{\link{mlr_measures_classif.costs}},
+\code{\link{mlr_measures_debug}},
+\code{\link{mlr_measures_elapsed_time}},
+\code{\link{mlr_measures_oob_error}},
+\code{\link{mlr_measures_selected_features}}
 }
 \concept{Dictionary}
 \concept{Measure}
