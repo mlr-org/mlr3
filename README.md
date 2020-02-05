@@ -24,8 +24,10 @@ Badge](https://www.r-pkg.org/badges/version-ago/mlr3)](https://cran.r-project.or
 
 ## Resources
 
-  - We *started* writing a [book](https://mlr3book.mlr-org.com/), but it
-    is still in early stages.
+  - We *started* writing a [book](https://mlr3book.mlr-org.com/).
+  - The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case
+    studies and demonstrates how frequently occurring problems can be
+    solved.
   - [Reference Manual](https://mlr3.mlr-org.com/reference/)
   - [Extension
     packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
@@ -68,7 +70,7 @@ task_iris
 
 ``` r
 # load learner and set hyperparameter
-learner = lrn("classif.rpart", cp = 0.01)
+learner = lrn("classif.rpart", cp = .01)
 ```
 
 ### Basic train + predict
