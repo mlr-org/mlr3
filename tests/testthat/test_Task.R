@@ -127,6 +127,10 @@ test_that("filter works", {
   expect_equal(task$nrow, 10L)
 
   expect_equal(task$row_ids, 91:100)
+
+  task$filter(91)
+  expect_equal(task$nrow, 1L)
+  expect_data_table(task$data(), nrows = 1L, any.missing = FALSE)
 })
 
 test_that("select works", {

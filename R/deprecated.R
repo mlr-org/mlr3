@@ -1,6 +1,6 @@
 # old, deprecated, will be removed soon
 task_set_row_role = function(self, private, rows, new_roles, exclusive = TRUE) {
-  assert_row_ids(rows)
+  rows = assert_row_ids(rows)
   assert_subset(rows, self$backend$rownames)
   assert_subset(new_roles, mlr_reflections$task_row_roles)
   assert_flag(exclusive)

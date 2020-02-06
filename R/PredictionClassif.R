@@ -108,7 +108,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL) {
-      assert_row_ids(row_ids)
+      row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
 
       truth = assert_factor(truth, len = n, null.ok = TRUE)

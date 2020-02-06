@@ -53,7 +53,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL) {
-      assert_row_ids(row_ids)
+      row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
 
       self$task_type = "regr"

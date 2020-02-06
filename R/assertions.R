@@ -231,7 +231,7 @@ assert_range = function(range, .var.name = vname(range)) {
 #' @param row_ids :: `numeric()`.
 #' @rdname mlr_assertions
 assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) {
-  assert_integerish(row_ids, null.ok = null.ok)
+  assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
 }
 
 assert_ro_binding = function(rhs) {

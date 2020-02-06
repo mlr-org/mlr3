@@ -350,7 +350,7 @@ Task = R6Class("Task",
     },
 
     filter = function(rows) {
-      assert_row_ids(rows)
+      rows = assert_row_ids(rows)
       private$.row_roles$use = intersect(private$.row_roles$use, rows)
       invisible(self)
     },
