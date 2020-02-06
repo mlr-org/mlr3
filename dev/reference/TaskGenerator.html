@@ -180,7 +180,8 @@ Identifier for the learner.</p></li>
 Type of the task the learner can operator on. E.g., <code>"classif"</code> or <code>"regr"</code>.</p></li>
 <li><p><code>packages</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Set of required packages.
-Note that these packages will be loaded via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code>, and are not attached.</p></li>
+A warning is signaled by the constructor if at least one of the packages is not installed.
+The packages will be loaded (not attached) via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code> for <code>$train()</code>/<code>$predict()</code>.</p></li>
 <li><p><code>param_set</code> :: <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a><br />
 Set of hyperparameters.</p></li>
 <li><p><code>man</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />

@@ -235,7 +235,8 @@ Default is <code>"test"</code>.</p></li>
 Required task properties, see <a href='Task.html'>Task</a>.</p></li>
 <li><p><code>packages</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Set of required packages.
-Note that these packages will be loaded via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code>, and are not attached.</p></li>
+A warning is signaled by the constructor if at least one of the packages is not installed.
+The packages will be loaded (not attached) via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code> for <code>$train()</code>/<code>$predict()</code>.</p></li>
 <li><p><code>man</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.</p></li>
 </ul>
