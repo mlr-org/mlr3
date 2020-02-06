@@ -53,17 +53,17 @@
 <meta property="og:description" content="A simple LearnerClassif used primarily in the unit tests and for debugging purposes.
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 The following hyperparameters trigger the following actions:
-message_train:Outputs a message during train if the parameter value exceeds runif(1).
-message_predict:Outputs a message during predict if the parameter value exceeds runif(1).
-warning_train:Signals a warning during train if the parameter value exceeds runif(1).
-warning_predict:Signals a warning during predict if the parameter value exceeds runif(1).
-error_train:Raises an exception during train if the parameter value exceeds runif(1).
-error_predict:Raises an exception during predict if the parameter value exceeds runif(1).
-segfault_train:Provokes a segfault during train if the parameter value exceeds runif(1).
-segfault_predict:Provokes a segfault during predict if the parameter value exceeds runif(1).
+message_train:Probability to output a message during train.
+message_predict:Probability to output a message during predict.
+warning_train:Probability to signal a warning during train.
+warning_predict:Probability to signal a warning during predict.
+error_train:Probability to raises an exception during train.
+error_predict:Probability to raise an exception during predict.
+segfault_train:Probability to provokes a segfault during train.
+segfault_predict:Probability to provokes a segfault during predict.
 predict_missingRatio of predictions which will be NA.
 save_tasks:Saves input task in model slot during training and prediction.
-x:Numeric parameter. Has no effect.
+x:Numeric tuning parameter. Has no effect.
 
 Note that segfaults may not work on your operating system.
 Also note that if they work, they will tear down your R session immediately!" />
@@ -175,17 +175,17 @@ Also note that if they work, they will tear down your R session immediately!" />
     <p>A simple <a href='LearnerClassif.html'>LearnerClassif</a> used primarily in the unit tests and for debugging purposes.
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 The following hyperparameters trigger the following actions:</p><dl class='dl-horizontal'>
-<dt>message_train:</dt><dd><p>Outputs a message during train if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
-<dt>message_predict:</dt><dd><p>Outputs a message during predict if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
-<dt>warning_train:</dt><dd><p>Signals a warning during train if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
-<dt>warning_predict:</dt><dd><p>Signals a warning during predict if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
-<dt>error_train:</dt><dd><p>Raises an exception during train if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
-<dt>error_predict:</dt><dd><p>Raises an exception during predict if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
-<dt>segfault_train:</dt><dd><p>Provokes a segfault during train if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
-<dt>segfault_predict:</dt><dd><p>Provokes a segfault during predict if the parameter value exceeds <code><a href='https://rdrr.io/r/stats/Uniform.html'>runif(1)</a></code>.</p></dd>
+<dt>message_train:</dt><dd><p>Probability to output a message during train.</p></dd>
+<dt>message_predict:</dt><dd><p>Probability to output a message during predict.</p></dd>
+<dt>warning_train:</dt><dd><p>Probability to signal a warning during train.</p></dd>
+<dt>warning_predict:</dt><dd><p>Probability to signal a warning during predict.</p></dd>
+<dt>error_train:</dt><dd><p>Probability to raises an exception during train.</p></dd>
+<dt>error_predict:</dt><dd><p>Probability to raise an exception during predict.</p></dd>
+<dt>segfault_train:</dt><dd><p>Probability to provokes a segfault during train.</p></dd>
+<dt>segfault_predict:</dt><dd><p>Probability to provokes a segfault during predict.</p></dd>
 <dt>predict_missing</dt><dd><p>Ratio of predictions which will be NA.</p></dd>
 <dt>save_tasks:</dt><dd><p>Saves input task in <code>model</code> slot during training and prediction.</p></dd>
-<dt>x:</dt><dd><p>Numeric parameter. Has no effect.</p></dd>
+<dt>x:</dt><dd><p>Numeric tuning parameter. Has no effect.</p></dd>
 
 </dl><p>Note that segfaults may not work on your operating system.
 Also note that if they work, they will tear down your R session immediately!</p>
