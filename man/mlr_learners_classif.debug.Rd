@@ -10,17 +10,17 @@ A simple \link{LearnerClassif} used primarily in the unit tests and for debuggin
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.
 The following hyperparameters trigger the following actions:
 \describe{
-\item{message_train:}{Outputs a message during train if the parameter value exceeds \code{runif(1)}.}
-\item{message_predict:}{Outputs a message during predict if the parameter value exceeds \code{runif(1)}.}
-\item{warning_train:}{Signals a warning during train if the parameter value exceeds \code{runif(1)}.}
-\item{warning_predict:}{Signals a warning during predict if the parameter value exceeds \code{runif(1)}.}
-\item{error_train:}{Raises an exception during train if the parameter value exceeds \code{runif(1)}.}
-\item{error_predict:}{Raises an exception during predict if the parameter value exceeds \code{runif(1)}.}
-\item{segfault_train:}{Provokes a segfault during train if the parameter value exceeds \code{runif(1)}.}
-\item{segfault_predict:}{Provokes a segfault during predict if the parameter value exceeds \code{runif(1)}.}
+\item{message_train:}{Probability to output a message during train.}
+\item{message_predict:}{Probability to output a message during predict.}
+\item{warning_train:}{Probability to signal a warning during train.}
+\item{warning_predict:}{Probability to signal a warning during predict.}
+\item{error_train:}{Probability to raises an exception during train.}
+\item{error_predict:}{Probability to raise an exception during predict.}
+\item{segfault_train:}{Probability to provokes a segfault during train.}
+\item{segfault_predict:}{Probability to provokes a segfault during predict.}
 \item{predict_missing}{Ratio of predictions which will be NA.}
 \item{save_tasks:}{Saves input task in \code{model} slot during training and prediction.}
-\item{x:}{Numeric parameter. Has no effect.}
+\item{x:}{Numeric tuning parameter. Has no effect.}
 }
 Note that segfaults may not work on your operating system.
 Also note that if they work, they will tear down your R session immediately!
