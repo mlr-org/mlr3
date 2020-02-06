@@ -48,16 +48,6 @@ get_progressor = function(n, label = NA_character_) {
   progressr::progressor(steps = n, label = label)
 }
 
-open_help = function(man) {
-  if (!test_string(man)) {
-    message("No help available")
-    return(invisible())
-  }
-
-  parts = strsplit(man, split = "::", fixed = TRUE)[[1L]]
-  # pkgload overloads help
-  match.fun("help")(parts[2L], parts[1L])
-}
 
 replace_with = function(x, needle, replacement) {
   ii = (x == needle)
@@ -69,7 +59,7 @@ replace_with = function(x, needle, replacement) {
 check_packages_installed = function(pkgs, warn = TRUE, msg = "The following packages are required but not installed: %s") {
   pkgs = unique(assert_character(pkgs, any.missing = FALSE))
   assert_flag(warn)
-  found = setNames(map_lgl(pkgs, function(pkg) length(find.package(pkg, quiet = TRUE)) > 0L), pkgs)
+  found = stats::setNames(map_lgl(pkgs, function(pkg) length(find.package(pkg, quiet = TRUE)) > 0L), pkgs)
 
   if (warn && !all(found)) {
     assert_string(msg)
@@ -78,4 +68,16 @@ check_packages_installed = function(pkgs, warn = TRUE, msg = "The following pack
   }
 
   found
+}
+
+# remove here as soon as mlr3misc 0.1.8 hits cran
+open_help = function(man) {
+  if (!test_string(man)) {
+    message("No help available")
+    return(invisible())
+  }
+
+  parts = strsplit(man, split = "::", fixed = TRUE)[[1L]]
+  # pkgload overloads help
+  match.fun("help")(parts[2L], parts[1L])
 }
