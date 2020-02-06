@@ -85,8 +85,8 @@ Returns the total number of cols with role "target" or "feature".
 Return the total number of rows with role "use".
 \item \code{row_ids} :: \code{integer()}\cr
 Returns the row ids of the \link{DataBackend} for observations with with role "use".
-\item \code{row_names} :: \code{character()}\cr
-Returns the row names, i.e. the column identified as names by its column role '"name"'.
+\item \code{row_names} :: \code{data.table()}\cr
+Returns a table with two columns: row ids (\code{"row_id"}, \code{integer()}) and row names (\code{"row_name"}, \code{character()}).
 \item \code{target_names} :: \code{character()}\cr
 Returns all column names with role "target".
 \item \code{task_type} :: \code{character(1)}\cr

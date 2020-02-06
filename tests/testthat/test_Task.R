@@ -273,6 +273,14 @@ test_that("col roles getters/setters", {
 })
 
 test_that("Task$row_names", {
-  expect_character(tsk("mtcars")$row_names, any.missing = FALSE, unique = TRUE)
-  expect_character(tsk("mtcars")$filter(1:10)$row_names, any.missing = FALSE, unique = TRUE, len = 10)
+  task = tsk("mtcars")
+  tab = task$row_names
+  expect_data_table(tab, any.missing = FALSE, ncols = 2, nrows = task$nrow)
+  expect_integer(tab$row_id, unique = TRUE)
+  expect_character(tab$row_name)
+
+  tab = task$filter(1:10)$row_names
+  expect_data_table(tab, any.missing = FALSE, ncols = 2, nrows = task$nrow)
+  expect_integer(tab$row_id, unique = TRUE)
+  expect_character(tab$row_name)
 })

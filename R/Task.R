@@ -89,8 +89,8 @@
 #' * `row_ids` :: `integer()`\cr
 #'   Returns the row ids of the [DataBackend] for observations with with role "use".
 #'
-#' * `row_names` :: `character()`\cr
-#'   Returns the row names, i.e. the column identified as names by its column role '"name"'.
+#' * `row_names` :: `data.table()`\cr
+#'   Returns a table with two columns: row ids (`"row_id"`, `integer()`) and row names (`"row_name"`, `character()`).
 #'
 #' * `target_names` :: `character()`\cr
 #'   Returns all column names with role "target".
@@ -409,9 +409,11 @@ Task = R6Class("Task",
     row_names = function(rhs) {
       assert_ro_binding(rhs)
       nn = self$col_roles$name
-      if (length(nn) == 0L)
+      if (length(nn) == 0L) {
         return(NULL)
-      self$backend$data(rows = self$row_ids, cols = nn)[[1L]]
+      }
+      setnames(self$backend$data(rows = self$row_ids, cols = c(self$backend$primary_key, nn)),
+        c("row_id", "row_name"))
     },
 
     feature_names = function(rhs) {
