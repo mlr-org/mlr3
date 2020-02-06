@@ -22,7 +22,8 @@
 #'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
-#'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
+#'   A warning is signaled by the constructor if at least one of the packages is not installed.
+#'   The packages will be loaded (not attached) via [requireNamespace()] for `$train()`/`$predict()`.
 #'
 #' * `param_set` :: [paradox::ParamSet]\cr
 #'   Set of hyperparameters.
@@ -62,6 +63,8 @@ TaskGenerator = R6Class("TaskGenerator",
       self$packages = assert_set(packages)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       self$man = assert_string(man, na.ok = TRUE)
+
+      check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for TaskGenerator '%s'", id))
     },
 
     generate = function(n) {

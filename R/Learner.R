@@ -64,7 +64,8 @@
 #'
 #' * `packages` :: `character()`\cr
 #'   Set of required packages.
-#'   Note that these packages will be loaded via [requireNamespace()], and are not attached.
+#'   A warning is signaled by the constructor if at least one of the packages is not installed.
+#'   The packages will be loaded (not attached) via [requireNamespace()] for `$train()`/`$predict()`.
 #'
 #' * `man` :: `character(1)`\cr
 #'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
@@ -232,6 +233,8 @@ Learner = R6Class("Learner",
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats)
       self$packages = assert_set(packages)
       self$man = assert_string(man, na.ok = TRUE)
+
+      check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Learner '%s'", id))
     },
 
     help = function() {

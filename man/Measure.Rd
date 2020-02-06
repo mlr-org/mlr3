@@ -72,7 +72,8 @@ Default is \code{"test"}.
 Required task properties, see \link{Task}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
-Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
+A warning is signaled by the constructor if at least one of the packages is not installed.
+The packages will be loaded (not attached) via \code{\link[=requireNamespace]{requireNamespace()}} for \verb{$train()}/\verb{$predict()}.
 \item \code{man} :: \code{character(1)}\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 }

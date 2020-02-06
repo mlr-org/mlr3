@@ -64,3 +64,18 @@ replace_with = function(x, needle, replacement) {
   x = rep(x, 1L + (length(replacement) - 1L) * ii)
   replace(x, ii, replacement)
 }
+
+# remove here as soon as mlr3misc 0.1.8 hits cran
+check_packages_installed = function(pkgs, warn = TRUE, msg = "The following packages are required but not installed: %s") {
+  pkgs = unique(assert_character(pkgs, any.missing = FALSE))
+  assert_flag(warn)
+  found = setNames(map_lgl(pkgs, function(pkg) length(find.package(pkg, quiet = TRUE)) > 0L), pkgs)
+
+  if (warn && !all(found)) {
+    assert_string(msg)
+    miss = pkgs[!found]
+    warning(warningCondition(sprintf(msg, paste0(miss, collapse = ",")), packages = miss, class = "packageNotFoundWarning"))
+  }
+
+  found
+}

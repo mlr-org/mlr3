@@ -19,7 +19,8 @@ Identifier for the learner.
 Type of the task the learner can operator on. E.g., \code{"classif"} or \code{"regr"}.
 \item \code{packages} :: \code{character()}\cr
 Set of required packages.
-Note that these packages will be loaded via \code{\link[=requireNamespace]{requireNamespace()}}, and are not attached.
+A warning is signaled by the constructor if at least one of the packages is not installed.
+The packages will be loaded (not attached) via \code{\link[=requireNamespace]{requireNamespace()}} for \verb{$train()}/\verb{$predict()}.
 \item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
 Set of hyperparameters.
 \item \code{man} :: \code{character(1)}\cr
