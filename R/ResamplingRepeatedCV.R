@@ -110,7 +110,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       rep = i %/% folds + 1L
       fold = i %% folds + 1L
       ii = data.table(rep = rep, fold = seq_len(folds)[-fold])
-      self$instance[ii, "row_id", on = names(ii), nomatch = 0L][[1L]]
+      self$instance[ii, "row_id", on = names(ii), nomatch = NULL][[1L]]
     },
 
     .get_test = function(i) {
@@ -119,7 +119,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       rep = i %/% folds + 1L
       fold = i %% folds + 1L
       ii = data.table(rep = rep, fold = fold)
-      self$instance[ii, "row_id", on = names(ii), nomatch = 0L][[1L]]
+      self$instance[ii, "row_id", on = names(ii), nomatch = NULL][[1L]]
     },
 
     .combine = function(instances) {
