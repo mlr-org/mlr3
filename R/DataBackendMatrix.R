@@ -99,7 +99,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
         dense = if (nrow(dense)) as.matrix(dense) else NULL
         data = do.call(cbind, c(list(sparse, dense), dummies))
-        data[, match(cols, colnames(data), nomatch = NULL), drop = FALSE]
+        data[, match(cols, colnames(data), nomatch = 0L), drop = FALSE]
       }
 
       data
@@ -119,7 +119,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         lapply(private$.data$dense[rows, cols_dense, with = FALSE], distinct_values, na_rm = na_rm)
       )
 
-      res[match(cols, names(res), nomatch = NULL)]
+      res[match(cols, names(res), nomatch = 0L)]
     },
 
     missings = function(rows, cols) {
@@ -132,7 +132,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
         private$.data$dense[, map_int(.SD, function(x) sum(is.na(x))), .SDcols = cols_dense]
       )
 
-      res[match(cols, names(res), nomatch = NULL)]
+      res[match(cols, names(res), nomatch = 0L)]
     }
   ),
 
@@ -164,7 +164,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     },
 
     .translate_rows = function(rows) {
-      private$.data$dense[list(rows), nomatch = NULL, on = self$primary_key, which = TRUE]
+      private$.data$dense[list(rows), nomatch = 0L, on = self$primary_key, which = TRUE]
     }
   )
 )

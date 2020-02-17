@@ -75,7 +75,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
         rows = keep_in_bounds(rows, 1L, nrow(private$.data))
         data = private$.data[rows, cols, with = FALSE]
       } else {
-        data = private$.data[list(rows), cols, with = FALSE, nomatch = NULL, on = self$primary_key]
+        data = private$.data[list(rows), cols, with = FALSE, nomatch = 0L, on = self$primary_key]
       }
       return(data)
     },

@@ -32,7 +32,7 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       }
 
       # duplicate rows / reorder columns
-      data[list(rows), intersect(cols, names(data)), nomatch = NULL, on = pk, with = FALSE]
+      data[list(rows), intersect(cols, names(data)), nomatch = 0L, on = pk, with = FALSE]
     },
 
     head = function(n = 6L) {

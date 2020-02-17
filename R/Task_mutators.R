@@ -93,7 +93,7 @@ task_rbind = function(self, data) {
   }
 
   ## 1.4 Check that types are matching
-  col_info = self$col_info[.(names(data)), on = "id", nomatch = NULL]
+  col_info = self$col_info[.(names(data)), on = "id", nomatch = 0L]
   convert_matching_types(col_info, data)
   ci = col_info(data, primary_key = pk)
 

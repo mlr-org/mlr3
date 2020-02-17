@@ -34,7 +34,7 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       }
 
       # duplicate rows / reorder columns
-      data[list(rows), intersect(cols, names(data)), on = pk, with = FALSE, nomatch = NULL]
+      data[list(rows), intersect(cols, names(data)), on = pk, with = FALSE, nomatch = 0L]
     },
 
     head = function(n = 6L) {
@@ -46,14 +46,14 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       d2 = private$.data$b2$distinct(rows, cols, na_rm = na_rm)
       d1 = private$.data$b1$distinct(rows, setdiff(cols, names(d2)), na_rm = na_rm)
       res = c(d1, d2)
-      res[match(cols, names(res), nomatch = NULL)]
+      res[match(cols, names(res), nomatch = 0L)]
     },
 
     missings = function(rows, cols) {
       m2 = private$.data$b2$missings(rows, cols)
       m1 = private$.data$b1$missings(rows, setdiff(cols, names(m2)))
       res = c(m1, m2)
-      res[match(cols, names(res), nomatch = NULL)]
+      res[match(cols, names(res), nomatch = 0L)]
     }
   ),
 
