@@ -55,7 +55,7 @@ test_that("Task rbind", {
   task$rbind(iris[integer(), ])
   expect_equal(task$nrow, 160)
 
-  # 185
+  # #185
   task = tsk("iris")
   task$select("Petal.Length")
   task$rbind(task$data())
@@ -63,6 +63,16 @@ test_that("Task rbind", {
 
   task$rbind(data.table())
   expect_equal(task$nrow, 300L)
+
+  # #437
+  task = tsk("zoo")
+  data = task$data()
+  data$foo = 101:1
+  nt = task$clone()$rbind(data)
+  expect_task(nt)
+  expect_set_equal(nt$row_ids, 1:202)
+  expect_equal(nt$row_names$row_name, c(task$row_names$row_name, rep(NA, 101)))
+  expect_equal(nt$col_info[.("foo"), .N, nomatch = NULL], 0L)
 })
 
 test_that("Task cbind", {
