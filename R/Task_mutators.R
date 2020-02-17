@@ -36,20 +36,18 @@ check_new_row_ids = function(task, data, type) {
 convert_matching_types = function(col_info, data) {
   pmap(col_info, function(id, type, levels) {
     cur_col = data[[id]]
-    if (!is.null(cur_col)) {
-      cur_type = class(cur_col)[1L]
+    cur_type = class(cur_col)[1L]
 
-      if (type != cur_type && any(c(type, cur_type) %nin% c("factor", "ordered"))) {
-        if (allMissing(cur_col)) {
-          if (type %in% c("factor", "ordered")) {
-            cur_col = as_factor(cur_col, levels = levels, ordered = (type == "ordered"))
-          } else {
-            storage.mode(cur_col) = type
-          }
-          data[, (id) := cur_col]
+    if (type != cur_type && any(c(type, cur_type) %nin% c("factor", "ordered"))) {
+      if (allMissing(cur_col)) {
+        if (type %in% c("factor", "ordered")) {
+          cur_col = as_factor(cur_col, levels = levels, ordered = (type == "ordered"))
         } else {
-          stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", id, type, cur_type)
+          storage.mode(cur_col) = type
         }
+        data[, (id) := cur_col]
+      } else {
+        stopf("Cannot rbind task: Types do not match for column: %s (%s != %s)", id, type, cur_type)
       }
     }
   })
