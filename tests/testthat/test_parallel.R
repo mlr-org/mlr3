@@ -37,3 +37,22 @@ test_that("parallel benchmark", {
     expect_equal(bmr$aggregate(conditions = TRUE)$errors, 0L)
   })
 })
+
+test_that("real parallel resample", {
+  skip_if_not_installed("future")
+  skip_if_not_installed("future.callr")
+  skip_if_not_installed("progressr")
+
+  with_future(future::multiprocess, {
+    expect_true(use_future())
+
+    task = tsk("iris")
+    learner = lrn("classif.rpart")
+
+    progressr::with_progress({
+      rr = resample(task, learner, rsmp("cv", folds = 3))
+    })
+    expect_resample_result(rr)
+    expect_data_table(rr$errors, nrows = 0L)
+  })
+})
