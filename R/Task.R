@@ -479,6 +479,9 @@ Task = R6Class("Task",
       setkeyv(self$col_info[list(private$.col_roles$feature), c("id", "type"), on = "id"], "id")
     },
 
+    #' @field data_formats `character()`\cr
+    #'   Vector of supported data formats.
+    #'   A specific format can be chosen in the `$data()` method.
     data_formats = function(rhs) {
       assert_ro_binding(rhs)
       self$backend$data_formats
