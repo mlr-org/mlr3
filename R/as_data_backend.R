@@ -3,7 +3,7 @@
 #' @description
 #' Wraps a [DataBackend] around data.
 #'
-#' @param data :: `any`\cr
+#' @param data `any`\cr
 #'   Data to create a [DataBackend] for.
 #'   For a `data.frame()` (this includes `tibble()` from \CRANpkg{tibble} and [data.table::data.table()])
 #'   this function creates a [DataBackendDataTable].
@@ -14,6 +14,7 @@
 #'
 #' @return [DataBackend].
 #' @family DataBackend
+#' @name as_data_backend
 #' @export
 #' @examples
 #' # create a new backend using the iris data:
