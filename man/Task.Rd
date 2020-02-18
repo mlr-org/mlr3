@@ -201,6 +201,8 @@ If this column is missing, new row ids are constructed automatically.
 In case of name clashes of row ids, rows in \code{data} have higher precedence
 and virtually overwrite the rows in the \link{DataBackend}.
 
+All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, "stratum"\verb{, and }"order"\verb{must be present in}data\verb{. Columns only present in }newdata` but not in the task will be stored in the new backend, but ignored by the task.
+
 This operation mutates the task in-place.
 See the section on task mutators for more information.
 \item \code{rename(from, to)}\cr

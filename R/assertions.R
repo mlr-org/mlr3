@@ -231,6 +231,10 @@ assert_range = function(range, .var.name = vname(range)) {
 #' @param row_ids :: `numeric()`.
 #' @rdname mlr_assertions
 assert_row_ids = function(row_ids, null.ok = FALSE, .var.name = vname(row_ids)) {
+  # TODO: remove workaround for mlr3filters after 0.1.7 has been released
+  if (is.character(row_ids) && length(row_ids) == 0L) {
+    return(integer())
+  }
   assert_integerish(row_ids, coerce = TRUE, null.ok = null.ok)
 }
 
