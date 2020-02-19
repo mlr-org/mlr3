@@ -4,27 +4,14 @@
 \alias{mlr_measures_debug}
 \alias{MeasureDebug}
 \title{Debug Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 This measure returns the number of observations in the \link{Prediction} object.
 Its main purpose is debugging.
 }
-\section{Construction}{
-\preformatted{MeasureDebug$new(na_ratio = 0)
-mlr_measures$get("debug")
+\section{Dictionary}{
+
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("debug")
 msr("debug")
-}
-\itemize{
-\item \code{na_ratio} :: \code{numeric(1)}\cr
-Ratio of scores which should be \code{NA}.
-Default is 0.
-}
-}
-
-\section{Fields}{
-
-\itemize{
-\item \code{na_ratio} :: \code{numeric(1)}.
 }
 }
 
@@ -64,11 +51,18 @@ Other Measure:
 \section{Super class}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureDebug}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{na_ratio}}{(\code{numeric(1)})\cr
+Ratio of scores which should be \code{NA}.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MeasureDebug$new()}}
-\item \href{#method-score_internal}{\code{MeasureDebug$score_internal()}}
 \item \href{#method-clone}{\code{MeasureDebug$clone()}}
 }
 }
@@ -86,18 +80,19 @@ Other Measure:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureDebug$new(na_ratio = 0)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{na_ratio}}{(\code{numeric(1)})\cr
+Matrix of costs (truth in columns, predicted response in rows).}
 }
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score_internal"></a>}}
-\subsection{Method \code{score_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureDebug$score_internal(prediction, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{</div>}}
 }
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

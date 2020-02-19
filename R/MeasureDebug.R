@@ -1,27 +1,14 @@
 #' @title Debug Measure
 #'
-#' @usage NULL
 #' @name mlr_measures_debug
-#' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'
 #' @description
 #' This measure returns the number of observations in the [Prediction] object.
 #' Its main purpose is debugging.
 #'
-#' @section Construction:
-#' ```
-#' MeasureDebug$new(na_ratio = 0)
-#' mlr_measures$get("debug")
-#' msr("debug")
-#' ```
-#'
-#' * `na_ratio` :: `numeric(1)`\cr
-#'   Ratio of scores which should be `NA`.
-#'   Default is 0.
-#'
-#' @section Fields:
-#' * `na_ratio` :: `numeric(1)`.
+#' @templateVar id debug
+#' @template section_dictionary_measure
 #'
 #' @section Meta Information:
 #' * Type: `NA`
@@ -40,7 +27,15 @@
 MeasureDebug = R6Class("MeasureDebug",
   inherit = Measure,
   public = list(
+    #' @field na_ratio (`numeric(1)`)\cr
+    #' Ratio of scores which should be `NA`.
     na_ratio = 0,
+
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #'
+    #' @param na_ratio (`numeric(1)`)\cr
+    #'   Matrix of costs (truth in columns, predicted response in rows).
     initialize = function(na_ratio = 0) {
       super$initialize(
         id = "debug",
@@ -50,9 +45,11 @@ MeasureDebug = R6Class("MeasureDebug",
         man = "mlr3::mlr_measures_debug"
       )
       self$na_ratio = assert_number(na_ratio, lower = 0, upper = 1)
-    },
+    }
+  ),
 
-    score_internal = function(prediction, ...) {
+  private = list(
+    .score = function(prediction, ...) {
       if (self$na_ratio > runif(1L))
         return(NA_integer_)
       length(prediction$row_ids)

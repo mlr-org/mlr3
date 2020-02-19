@@ -127,7 +127,7 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Printer for [Task].
+    #' Printer.
     #' @param ... (ignored).
     print = function(...) {
       task_print(self)

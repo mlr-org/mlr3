@@ -165,7 +165,7 @@ Helper for print outputs.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \subsection{Method \code{print()}}{
-Printer for \link{BenchmarkResult}
+Printer.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$print()}\if{html}{\out{</div>}}
 }

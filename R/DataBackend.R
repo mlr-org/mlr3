@@ -77,7 +77,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     },
 
     #' @description
-    #' Printer for [DataBackend]
+    #' Printer.
     print = function() {
       nr = self$nrow
       catf("%s (%ix%i)", format(self), nr, self$ncol)

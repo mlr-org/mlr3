@@ -4,7 +4,6 @@
 \alias{mlr_measures_classif.costs}
 \alias{MeasureClassifCosts}
 \title{Cost-sensitive Classification Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{MeasureClassif}.}
 \description{
 Uses a cost matrix to create a classification measure.
 True labels must be arranged in columns, predicted labels must be arranged  in rows.
@@ -15,16 +14,10 @@ The costs are then summed up (and potentially divided by the number of observati
 
 This measure requires the \link{Task} during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.
 }
-\section{Construction}{
-\preformatted{MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
-mlr_measures$get("classif.costs")
+\section{Dictionary}{
+
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("classif.costs")
 msr("classif.costs")
-}
-\itemize{
-\item \code{costs} :: \code{matrix()}\cr
-Numeric matrix of costs (truth in columns, predicted response in rows).
-\item \code{normalize} :: \code{logical(1)}\cr
-If \code{TRUE}, calculate the mean cost per observation instead of the total costs.
 }
 }
 
@@ -112,11 +105,26 @@ Other multiclass classification measures:
 \section{Super classes}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureClassif]{mlr3::MeasureClassif}} -> \code{MeasureClassifCosts}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{normalize}}{(\code{logical(1)})\cr
+Normalize the costs?}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{costs}}{(numeric \code{matrix()})\cr
+Matrix of costs (truth in columns, predicted response in rows).}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MeasureClassifCosts$new()}}
-\item \href{#method-score_internal}{\code{MeasureClassifCosts$score_internal()}}
 \item \href{#method-clone}{\code{MeasureClassifCosts$clone()}}
 }
 }
@@ -134,18 +142,22 @@ Other multiclass classification measures:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureClassifCosts$new(costs = NULL, normalize = TRUE)}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score_internal"></a>}}
-\subsection{Method \code{score_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureClassifCosts$score_internal(prediction, task, ...)}\if{html}{\out{</div>}}
-}
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{costs}}{(numeric \code{matrix()})\cr
+Matrix of costs (truth in columns, predicted response in rows).}
 
+\item{\code{normalize}}{(\code{logical(1)})\cr
+If \code{TRUE}, calculate the mean cost per observation instead of the total costs.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

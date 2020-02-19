@@ -61,7 +61,7 @@ ResampleResult = R6Class("ResampleResult",
     },
 
     #' @description
-    #' Printer for [Task].
+    #' Printer.
     #' @param ... (ignored).
     print = function() {
       catf("%s of %i iterations", format(self), nrow(self$data))

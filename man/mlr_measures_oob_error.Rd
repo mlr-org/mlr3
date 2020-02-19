@@ -4,15 +4,14 @@
 \alias{mlr_measures_oob_error}
 \alias{MeasureOOBError}
 \title{Out-of-bag Error Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Returns the out-of-bag error of the \link{Learner} for learners that support it
 (learners with property \code{"oob_error"}).
 Returns \code{NA} for unsupported learners.
 }
-\section{Construction}{
-\preformatted{MeasureOOBError$new()
-mlr_measures$get("oob_error")
+\section{Dictionary}{
+
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("oob_error")
 msr("oob_error")
 }
 }
@@ -50,7 +49,6 @@ Other Measure:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MeasureOOBError$new()}}
-\item \href{#method-score_internal}{\code{MeasureOOBError$score_internal()}}
 \item \href{#method-clone}{\code{MeasureOOBError$clone()}}
 }
 }
@@ -68,16 +66,9 @@ Other Measure:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureOOBError$new()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score_internal"></a>}}
-\subsection{Method \code{score_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureOOBError$score_internal(prediction, learner, ...)}\if{html}{\out{</div>}}
 }
 
 }

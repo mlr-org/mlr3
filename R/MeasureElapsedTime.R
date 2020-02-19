@@ -1,35 +1,18 @@
 #' @title Elapsed Time Measure
 #'
-#' @usage NULL
 #' @name mlr_measures_elapsed_time
 #' @aliases
 #'   mlr_measures_time_train
 #'   mlr_measures_time_predict
 #'   mlr_measures_time_both
-#' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'
 #' @description
 #' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
 #'
-#' @section Construction:
-#' ```
-#' MeasureElapsedTime$new(id, stages)
+#' @templateVar id time_train
+#' @template section_dictionary_measure
 #'
-#' mlr_measures$get("time_train")
-#' mlr_measures$get("time_predict")
-#' mlr_measures$get("time_both")
-#'
-#' msr$get("time_train")
-#' msr$get("time_predict")
-#' msr$get("time_both")
-#' ```
-#'
-#' * `id` :: `character(1)`\cr
-#'   Id for the created measure.
-#' * `stages` :: `character()`\cr
-#'   Subset of `("train", "predict")`.
-#'   The runtime of all stages will be summed.
 #'
 #' @section Meta Information:
 #' * Type: `NA`
@@ -42,8 +25,19 @@
 MeasureElapsedTime = R6Class("MeasureElapsedTime",
   inherit = Measure,
   public = list(
+
+    #' @field stages (`character()`)\cr
+    #' Which stages of the learner to measure?
     stages = NULL,
 
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #'
+    #' @param id (`character(1)`)\cr
+    #'   Id for the created measure.
+    #' @param stages (`character()`)\cr
+    #'   Subset of `("train", "predict")`.
+    #'   The runtime of provided stages will be summed.
     initialize = function(id = "elapsed_time", stages) {
       super$initialize(
         id = id,
@@ -54,9 +48,11 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
         man = "mlr3::mlr_measures_elapsed_time"
       )
       self$stages = assert_subset(stages, c("train", "predict"), empty.ok = FALSE)
-    },
+    }
+  ),
 
-    score_internal = function(prediction, learner, ...) {
+  private = list(
+    .score = function(prediction, learner, ...) {
       sum(unlist(learner$state[sprintf("%s_time", self$stages)]))
     }
   )

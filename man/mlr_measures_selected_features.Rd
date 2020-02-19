@@ -4,21 +4,16 @@
 \alias{mlr_measures_selected_features}
 \alias{MeasureSelectedFeatures}
 \title{Selected Features Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Measures the number of selected features by extracting it from learners with property \code{"selected_features"}.
 If the learner does not support this, \code{NA} is returned.
 
 This measure requires the \link{Task} and the \link{Learner} for scoring.
 }
-\section{Construction}{
-\preformatted{MeasureSelectedFeatures$new(normalize = FALSE)
-mlr_measures$get("selected_features")
+\section{Dictionary}{
+
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("selected_features")
 msr("selected_features")
-}
-\itemize{
-\item \code{normalize} :: \code{logical(1)}\cr
-If \code{normalize} is set to \code{TRUE}, divides the number of features by the total number of features.
 }
 }
 
@@ -51,11 +46,18 @@ Other Measure:
 \section{Super class}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureSelectedFeatures}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{normalize}}{(\code{logical(1)})\cr
+If set to \code{TRUE}, divides the number of features by the total number of features.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MeasureSelectedFeatures$new()}}
-\item \href{#method-score_internal}{\code{MeasureSelectedFeatures$score_internal()}}
 \item \href{#method-clone}{\code{MeasureSelectedFeatures$clone()}}
 }
 }
@@ -73,18 +75,19 @@ Other Measure:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureSelectedFeatures$new(normalize = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{normalize}}{(\code{logical(1)})\cr
+If set to \code{TRUE}, divides the number of features by the total number of features.}
 }
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score_internal"></a>}}
-\subsection{Method \code{score_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureSelectedFeatures$score_internal(prediction, task, learner, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{</div>}}
 }
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

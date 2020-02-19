@@ -113,7 +113,7 @@ Helper for print outputs.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \subsection{Method \code{print()}}{
-Printer for \link{DataBackend}
+Printer.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataBackend$print()}\if{html}{\out{</div>}}
 }

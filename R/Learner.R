@@ -183,7 +183,7 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Printer for [Task].
+    #' Printer.
     #' @param ... (ignored).
     print = function() {
       learner_print(self)

@@ -7,27 +7,13 @@
 \alias{mlr_measures_time_predict}
 \alias{mlr_measures_time_both}
 \title{Elapsed Time Measure}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
 }
-\section{Construction}{
-\preformatted{MeasureElapsedTime$new(id, stages)
+\section{Dictionary}{
 
-mlr_measures$get("time_train")
-mlr_measures$get("time_predict")
-mlr_measures$get("time_both")
-
-msr$get("time_train")
-msr$get("time_predict")
-msr$get("time_both")
-}
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Id for the created measure.
-\item \code{stages} :: \code{character()}\cr
-Subset of \verb{("train", "predict")}.
-The runtime of all stages will be summed.
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("time_train")
+msr("time_train")
 }
 }
 
@@ -60,11 +46,18 @@ Other Measure:
 \section{Super class}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureElapsedTime}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{stages}}{(\code{character()})\cr
+Which stages of the learner to measure?}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{MeasureElapsedTime$new()}}
-\item \href{#method-score_internal}{\code{MeasureElapsedTime$score_internal()}}
 \item \href{#method-clone}{\code{MeasureElapsedTime$clone()}}
 }
 }
@@ -82,18 +75,23 @@ Other Measure:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureElapsedTime$new(id = "elapsed_time", stages)}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-score_internal"></a>}}
-\subsection{Method \code{score_internal()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureElapsedTime$score_internal(prediction, learner, ...)}\if{html}{\out{</div>}}
-}
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Id for the created measure.}
 
+\item{\code{stages}}{(\code{character()})\cr
+Subset of \verb{("train", "predict")}.
+The runtime of provided stages will be summed.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

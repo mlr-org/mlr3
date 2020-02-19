@@ -3,31 +3,15 @@
 \name{MeasureRegr}
 \alias{MeasureRegr}
 \title{Regression Measure}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Measure}.}
 \description{
-This measure specializes \link{Measure} for regression problems.
+This measure specializes \link{Measure} for regression problems:
+\itemize{
+\item \code{task_type} is set to \code{"regr"}.
+\item Possible values for \code{predict_type} are \code{"response"} and \code{"se"}.
+}
+
 Predefined measures can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_measures}.
 }
-\section{Construction}{
-\preformatted{m = MeasureRegr$new(id, range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
-    predict_sets = "test", task_properties = character(), packages = character())
-}
-
-For a description of the arguments, see \link{Measure}.
-The \code{task_type} is set to \code{"regr"}.
-Possible values for \code{predict_type} are \code{"response"} and \code{"se"}.
-}
-
-\section{Fields}{
-
-See \link{Measure}.
-}
-
-\section{Methods}{
-
-See \link{Measure}.
-}
-
 \seealso{
 Default regression measures: \code{\link[=mlr_measures_regr.mse]{regr.mse}}
 
@@ -65,6 +49,7 @@ Other Measure:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{MeasureRegr$new(
   id,
@@ -81,5 +66,68 @@ Other Measure:
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the measure.}
+
+\item{\code{range}}{(\code{numeric(2)})\cr
+Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
+Both bounds may be infinite.}
+
+\item{\code{minimize}}{(\code{logical(1)})\cr
+Set to \code{TRUE} if good predictions correspond to small values,
+and to \code{FALSE} if good predictions correspond to large values.
+If set to \code{NA} (default), tuning this measure is not possible.}
+
+\item{\code{average}}{(\code{character(1)})\cr
+How to average multiple \link{Prediction}s from a \link{ResampleResult}.
+
+The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
+function defined in \code{aggregator} to average them to a single number.
+
+If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
+The function \code{aggregator} is not used in this case.}
+
+\item{\code{aggregator}}{(\verb{function(x)})\cr
+Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
+If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Properties of the measure.
+Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
+Supported by \code{mlr3}:
+\itemize{
+\item \code{"requires_task"} (requires the complete \link{Task}),
+\item \code{"requires_learner"} (requires the trained \link{Learner}),
+\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA}).
+}}
+
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Required predict type of the \link{Learner}.
+Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
+Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Must be a non-empty subset of \code{c("train", "test")}.
+If multiple sets are provided, these are first combined to a single prediction object.
+Default is \code{"test"}.}
+
+\item{\code{task_properties}}{(\code{character()})\cr
+Required task properties, see \link{Task}.}
+
+\item{\code{packages}}{(\code{character()})\cr
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed.
+The packages will be loaded (not attached) via \code{\link[=requireNamespace]{requireNamespace()}} for \verb{$train()}/\verb{$predict()}.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.}
+}
+\if{html}{\out{</div>}}
+}
 }
 }

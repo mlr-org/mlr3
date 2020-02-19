@@ -105,7 +105,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #' Printer for [BenchmarkResult]
+    #' Printer.
     print = function() {
       tab = remove_named(self$aggregate(measures = list(), conditions = TRUE), c("uhash", "resample_result"))
       catf("%s of %i rows with %i resampling runs",

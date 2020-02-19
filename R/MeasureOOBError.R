@@ -1,8 +1,6 @@
 #' @title Out-of-bag Error Measure
 #'
-#' @usage NULL
 #' @name mlr_measures_oob_error
-#' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'
 #' @description
@@ -10,13 +8,8 @@
 #' (learners with property `"oob_error"`).
 #' Returns `NA` for unsupported learners.
 #'
-#'
-#' @section Construction:
-#' ```
-#' MeasureOOBError$new()
-#' mlr_measures$get("oob_error")
-#' msr("oob_error")
-#' ```
+#' @templateVar id oob_error
+#' @template section_dictionary_measure
 #'
 #' @section Meta Information:
 #' * Type: `NA`
@@ -31,6 +24,8 @@ MeasureOOBError = R6Class("MeasureOOBError",
   public = list(
     parts = NULL,
 
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
     initialize = function() {
       super$initialize(
         id = "oob_error",
@@ -41,9 +36,11 @@ MeasureOOBError = R6Class("MeasureOOBError",
         minimize = NA,
         man = "mlr3::mlr_measures_oob_error"
       )
-    },
+    }
+  ),
 
-    score_internal = function(prediction, learner, ...) {
+  private = list(
+    .score = function(prediction, learner, ...) {
       if ("oob_error" %nin% learner$properties) {
         return(NA_real_)
       }

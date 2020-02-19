@@ -134,7 +134,7 @@ Resampling = R6Class("Resampling",
     },
 
     #' @description
-    #' Printer for [Task].
+    #' Printer.
     #' @param ... (ignored).
     print = function(...) {
       pv = self$param_set$values

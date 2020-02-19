@@ -197,7 +197,7 @@ Helper for print outputs.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \subsection{Method \code{print()}}{
-Printer for \link{Task}.
+Printer.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Resampling$print(...)}\if{html}{\out{</div>}}
 }

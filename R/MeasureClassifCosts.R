@@ -1,8 +1,6 @@
 #' @title Cost-sensitive Classification Measure
 #'
-#' @usage NULL
 #' @name mlr_measures_classif.costs
-#' @format [R6::R6Class()] inheriting from [MeasureClassif].
 #' @include MeasureClassif.R
 #'
 #' @description
@@ -15,18 +13,8 @@
 #'
 #' This measure requires the [Task] during scoring to ensure that the rows and columns of the cost matrix are in the same order as in the confusion matrix.
 #'
-#' @section Construction:
-#' ```
-#' MeasureClassifCosts$new(costs = NULL, normalize = TRUE)
-#' mlr_measures$get("classif.costs")
-#' msr("classif.costs")
-#' ```
-#'
-#' * `costs` :: `matrix()`\cr
-#'   Numeric matrix of costs (truth in columns, predicted response in rows).
-#'
-#' * `normalize` :: `logical(1)`\cr
-#'   If `TRUE`, calculate the mean cost per observation instead of the total costs.
+#' @templateVar id classif.costs
+#' @template section_dictionary_measure
 #'
 #' @section Meta Information:
 #' * Type: `"classif"`
@@ -61,8 +49,18 @@
 MeasureClassifCosts = R6Class("MeasureClassifCosts",
   inherit = MeasureClassif,
   public = list(
+    #' @field normalize (`logical(1)`)\cr
+    #'   Normalize the costs?
     normalize = NULL,
 
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #'
+    #' @param costs (numeric `matrix()`)\cr
+    #'   Matrix of costs (truth in columns, predicted response in rows).
+    #'
+    #' @param normalize (`logical(1)`)\cr
+    #'   If `TRUE`, calculate the mean cost per observation instead of the total costs.
     initialize = function(costs = NULL, normalize = TRUE) {
       super$initialize(
         id = "classif.costs",
@@ -76,29 +74,12 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         self$costs = costs
       }
       self$normalize = assert_flag(normalize)
-    },
-
-    score_internal = function(prediction, task, ...) {
-
-      costs = assert_cost_matrix(private$.costs, task)
-      confusion = prediction$confusion
-
-      # reorder rows / cols if necessary
-      ii = match(rownames(confusion), rownames(costs))
-      jj = match(colnames(confusion), colnames(costs))
-      if (is.unsorted(ii) || is.unsorted(jj)) {
-        confusion = confusion[ii, jj]
-      }
-
-      perf = sum(confusion * costs)
-      if (self$normalize) {
-        perf = perf / sum(confusion)
-      }
-      perf
     }
   ),
 
   active = list(
+    #' @field costs (numeric `matrix()`)\cr
+    #' Matrix of costs (truth in columns, predicted response in rows).
     costs = function(rhs) {
       if (missing(rhs)) {
         return(private$.costs)
@@ -115,7 +96,25 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
   ),
 
   private = list(
-    .costs = NULL
+    .costs = NULL,
+
+    .score = function(prediction, task, ...) {
+      costs = assert_cost_matrix(private$.costs, task)
+      confusion = prediction$confusion
+
+      # reorder rows / cols if necessary
+      ii = match(rownames(confusion), rownames(costs))
+      jj = match(colnames(confusion), colnames(costs))
+      if (is.unsorted(ii) || is.unsorted(jj)) {
+        confusion = confusion[ii, jj]
+      }
+
+      perf = sum(confusion * costs)
+      if (self$normalize) {
+        perf = perf / sum(confusion)
+      }
+      perf
+    }
   )
 )
 
