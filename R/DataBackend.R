@@ -19,6 +19,8 @@
 #' listed in the respective sections (see [DataBackendDataTable] or
 #' [DataBackendMatrix] for exemplary implementations of the interface).
 #'
+#' @template field_hash
+#'
 #' @family DataBackend
 #' @seealso
 #' Extension Packages: \CRANpkg{mlr3db}
