@@ -37,6 +37,7 @@ TaskClassif = R6Class("TaskClassif",
     #'
     #' @param id (`character(1)`)\cr
     #'   Identifier for the task.
+    #'
     #' @param backend ([DataBackend])\cr
     #'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
     #'   E.g., a `data.frame()` will be converted to a [DataBackendDataTable].
@@ -71,6 +72,7 @@ TaskClassif = R6Class("TaskClassif",
     #' @description
     #' True response for specified `row_ids`. Format depends on the task type.
     #' Defaults to all rows with role "use".
+    #' @return `factor()`.
     truth = function(rows = NULL) {
       truth = super$truth(rows)[[1L]]
       as_factor(truth, levels = self$class_names)
