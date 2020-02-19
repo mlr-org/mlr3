@@ -1,5 +1,4 @@
 #' @title DataBackendCbind
-#' @export
 DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
 
