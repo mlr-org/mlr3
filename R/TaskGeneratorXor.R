@@ -1,19 +1,13 @@
 #' @title XOR Classification Task Generator
 #'
-#' @usage NULL
 #' @name mlr_task_generators_xor
-#' @format [R6::R6Class] inheriting from [TaskGenerator].
 #' @include TaskGenerator.R
-#'
-#' @section Construction:
-#' ```
-#' TaskGeneratorXor$new()
-#' mlr_task_generators$get("xor")
-#' tgen("xor")
-#' ```
 #'
 #' @description
 #' A [TaskGenerator] for the xor task in [mlbench::mlbench.xor()].
+#'
+#' @templateVar id xor
+#' @template section_dictionary_task_generator
 #'
 #' @template seealso_task_generator
 #' @export
@@ -22,6 +16,8 @@
 TaskGeneratorXor = R6Class("TaskGeneratorXor",
   inherit = TaskGenerator,
   public = list(
+    #' @description
+    #' Creates a new instance.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamInt$new("d", lower = 1L)

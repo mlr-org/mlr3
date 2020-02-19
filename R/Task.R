@@ -60,8 +60,7 @@ Task = R6Class("Task",
     #' @template field_id
     id = NULL,
 
-    #' @field task_type (`character(1)`)\cr
-    #' Task type, e.g. `"classif"` or `"regr"`.
+    #' @template field_task_type
     task_type = NULL,
 
     #' @field backend ([DataBackend]).
@@ -74,9 +73,7 @@ Task = R6Class("Task",
     #' - `"levels"` stores a vector of distinct values (levels) for factor variables.
     col_info = NULL,
 
-    #' @field man (`character(1)`)\cr
-    #' String in the format `[pkg]::[topic]` pointing to a manual page for this object.
-    #' Defaults to `NA`.
+    #' @template field_man
     man = NA_character_,
 
     #' @description
