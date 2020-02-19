@@ -22,8 +22,6 @@
 MeasureOOBError = R6Class("MeasureOOBError",
   inherit = Measure,
   public = list(
-    parts = NULL,
-
     #' @description
     #' Creates a new instance of the [R6][R6::R6Class] object.
     initialize = function() {
