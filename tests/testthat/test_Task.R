@@ -72,7 +72,7 @@ test_that("Task rbind", {
   expect_task(nt)
   expect_set_equal(nt$row_ids, 1:202)
   expect_equal(nt$row_names$row_name, c(task$row_names$row_name, rep(NA, 101)))
-  expect_equal(nt$col_info[.("foo"), .N, nomatch = NULL], 0L)
+  expect_equal(nt$col_info[list("foo"), .N, nomatch = NULL], 0L)
 })
 
 test_that("Task cbind", {
