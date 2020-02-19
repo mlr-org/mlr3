@@ -1,16 +1,7 @@
 #' @title Featureless Regression Learner
 #'
-#' @usage NULL
 #' @name mlr_learners_regr.featureless
-#' @format [R6::R6Class] inheriting from [LearnerRegr].
 #' @include LearnerRegr.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerRegrFeatureless$new()
-#' mlr_learners$get("regr.featureless")
-#' lrn("regr.featureless")
-#' ```
 #'
 #' @description
 #' A simple [LearnerRegr] which only analyses the response during train, ignoring all features.
@@ -19,10 +10,15 @@
 #' If `robust` is `TRUE`, `median()` and `madn()` are used instead of `mean()` and `sd()`,
 #' respectively.
 #'
+#' @templateVar id regr.featureless
+#' @template section_dictionary_learner
+#'
 #' @template seealso_learner
 #' @export
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamLgl$new("robust", default = TRUE, tags = "train")
@@ -40,7 +36,28 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       )
     },
 
-    train_internal = function(task) {
+
+    #' @description
+    #' All features have a score of `0` for this learner.
+    #' @return Named `numeric()`.
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      fn = self$model$features
+      named_vector(fn, 0)
+    },
+
+    #' @description
+    #' Selected features are always the empty set for this learner.
+    #' @return `character(0)`.
+    selected_features = function() {
+      character()
+    }
+  ),
+
+  private = list(
+    .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       x = task$data(cols = task$target_names)[[1L]]
       if (isFALSE(pv$robust)) {
@@ -53,23 +70,11 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "regr.featureless_model")
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       n = task$nrow
       response = rep(self$model$location, n)
       se = if (self$predict_type == "se") rep(self$model$dispersion, n) else NULL
       PredictionRegr$new(task = task, response = response, se = se)
-    },
-
-    importance = function() {
-      if (is.null(self$model)) {
-        stopf("No model stored")
-      }
-      fn = self$model$features
-      named_vector(fn, 0)
-    },
-
-    selected_features = function() {
-      character()
     }
   )
 )

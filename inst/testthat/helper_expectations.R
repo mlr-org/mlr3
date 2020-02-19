@@ -295,8 +295,16 @@ expect_learner = function(lrn, task = NULL) {
   checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   checkmate::expect_class(lrn$param_set, "ParamSet")
   checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
-  checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
-  checkmate::expect_function(lrn$predict_internal, args = "task", nargs = 1L)
+  if (is.null(private(lrn)$.train)) {
+    checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
+  } else {
+    checkmate::expect_function(private(lrn)$.train, args = "task", nargs = 1L)
+  }
+  if (is.null(private(lrn)$.predict)) {
+    checkmate::expect_function(lrn$predict_internal, args = "task", nargs = 1L)
+  } else {
+    checkmate::expect_function(private(lrn)$.predict, args = "task", nargs = 1L)
+  }
   expect_hash(lrn$hash, 1L)
 
   tags = lrn$param_set$tags

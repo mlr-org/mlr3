@@ -3,7 +3,6 @@
 \name{Resampling}
 \alias{Resampling}
 \title{Resampling Class}
-\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for resampling objects like \link{ResamplingCV} and \link{ResamplingBootstrap}.
 
@@ -15,64 +14,9 @@ fixed partition of \code{row_ids} of the \link{Task}.
 
 Predefined resamplings are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_resamplings},
 e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}.
-}
-\section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.\preformatted{r = Resampling$new(id, param_set, duplicated_ids = FALSE, man = NA_character_)
+Note that this object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.
 }
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Identifier for the resampling strategy.
-\item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
-Set of hyperparameters.
-\item \code{duplicated_ids} :: \code{logical(1)}\cr
-Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.
-\item \code{man} :: \code{character(1)}\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-}
-}
-
-\section{Fields}{
-
-All variables passed to the constructor, and additionally:
-\itemize{
-\item \code{iters} :: \code{integer(1)}\cr
-Return the number of resampling iterations, depending on the values stored in the \code{param_set}.
-\item \code{instance} :: \code{any}\cr
-During \code{instantiate()}, the instance is stored in this slot.
-The instance can be in any arbitrary format.
-\item \code{is_instantiated} :: \code{logical(1)}\cr
-Is \code{TRUE}, if the resampling has been instantiated.
-\item \code{task_hash} :: \code{character(1)}\cr
-The hash of the \link{Task} which was passed to \code{r$instantiate()}.
-\item \code{task_nrow} :: \code{integer(1)}\cr
-The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.
-\item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) for this object.
-
-E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross validation.
-Only used internally.
-}
-}
-
-\section{Methods}{
-
-\itemize{
-\item \code{instantiate(task)}\cr
-\link{Task} -> \code{self}\cr
-Materializes fixed training and test splits for a given task and stores them in \code{r$instance}.
-\item \code{train_set(i)}\cr
-\code{integer(1)} -> (\code{integer()} | \code{character()})\cr
-Returns the row ids of the i-th training set.
-\item \code{test_set(i)}\cr
-\code{integer(1)} -> (\code{integer()} | \code{character()})\cr
-Returns the row ids of the i-th test set.
-\item \code{help()}\cr
-() -> \code{NULL}\cr
-Opens the corresponding help page referenced by \verb{$man}.
-}
-}
-
 \section{Stratification}{
 
 All derived classes support stratified sampling.
@@ -157,3 +101,199 @@ Other Resampling:
 \code{\link{mlr_resamplings}}
 }
 \concept{Resampling}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{id}}{\code{character()}\cr
+Name of the object.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{instance}}{(any)\cr
+During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.}
+
+\item{\code{task_hash}}{(\code{character(1)})\cr
+The hash of the \link{Task} which was passed to \code{r$instantiate()}.}
+
+\item{\code{task_nrow}}{(\code{integer(1)})\cr
+The number of observations of the \link{Task} which was passed to \code{r$instantiate()}.}
+
+\item{\code{duplicated_ids}}{(\code{logical(1)})\cr
+If \code{TRUE}, duplicated rows can occur within a single training set or within a single test set.
+E.g., this is \code{TRUE} for Bootstrap, and \code{FALSE} for cross validation.
+Only used internally.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{is_instantiated}}{(\code{logical(1)})\cr
+Is \code{TRUE} if the resampling has been instantiated.}
+
+\item{\code{hash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this object.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{Resampling$new()}}
+\item \href{#method-format}{\code{Resampling$format()}}
+\item \href{#method-print}{\code{Resampling$print()}}
+\item \href{#method-help}{\code{Resampling$help()}}
+\item \href{#method-instantiate}{\code{Resampling$instantiate()}}
+\item \href{#method-train_set}{\code{Resampling$train_set()}}
+\item \href{#method-test_set}{\code{Resampling$test_set()}}
+\item \href{#method-clone}{\code{Resampling$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$new(
+  id,
+  param_set = ParamSet$new(),
+  duplicated_ids = FALSE,
+  man = NA_character_
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the resampling strategy.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{duplicated_ids}}{(\code{logical(1)})\cr
+Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-format"></a>}}
+\subsection{Method \code{format()}}{
+Helper for print outputs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$format()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+Printer for \link{Task}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-help"></a>}}
+\subsection{Method \code{help()}}{
+Opens the corresponding help page referenced by field \verb{$man}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$help()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-instantiate"></a>}}
+\subsection{Method \code{instantiate()}}{
+Materializes fixed training and test splits for a given task and stores them in \code{r$instance}
+in an arbitrary format.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$instantiate(task)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task})\cr
+Task used for instantiation. Typically only the number of rows is required.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified self.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-train_set"></a>}}
+\subsection{Method \code{train_set()}}{
+Returns the row ids of the i-th training set.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$train_set(i)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{i}}{(\code{integer(1)})\cr
+Iteration.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+(\code{integer()}) of row ids.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-test_set"></a>}}
+\subsection{Method \code{test_set()}}{
+Returns the row ids of the i-th test set.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$test_set(i)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{i}}{(\code{integer(1)})\cr
+Iteration.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+(\code{integer()}) of row ids.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Resampling$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

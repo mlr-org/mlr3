@@ -73,3 +73,67 @@ Other Prediction:
 \code{\link{PredictionRegr}}
 }
 \concept{Prediction}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-help}{\code{Prediction$help()}}
+\item \href{#method-format}{\code{Prediction$format()}}
+\item \href{#method-print}{\code{Prediction$print()}}
+\item \href{#method-score}{\code{Prediction$score()}}
+\item \href{#method-clone}{\code{Prediction$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-help"></a>}}
+\subsection{Method \code{help()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$help()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-format"></a>}}
+\subsection{Method \code{format()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$format()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$print(...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-score"></a>}}
+\subsection{Method \code{score()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$score(
+  measures = NULL,
+  task = NULL,
+  learner = NULL,
+  train_set = NULL
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

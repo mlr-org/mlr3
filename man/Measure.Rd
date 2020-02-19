@@ -116,3 +116,76 @@ Other Measure:
 \code{\link{mlr_measures}}
 }
 \concept{Measure}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{Measure$new()}}
+\item \href{#method-help}{\code{Measure$help()}}
+\item \href{#method-format}{\code{Measure$format()}}
+\item \href{#method-print}{\code{Measure$print()}}
+\item \href{#method-score}{\code{Measure$score()}}
+\item \href{#method-aggregate}{\code{Measure$aggregate()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$new(
+  id,
+  task_type = NA,
+  range = c(-Inf, Inf),
+  minimize = NA,
+  average = "macro",
+  aggregator = NULL,
+  properties = character(),
+  predict_type = "response",
+  predict_sets = "test",
+  task_properties = character(),
+  packages = character(),
+  man = NA_character_
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-help"></a>}}
+\subsection{Method \code{help()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$help()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-format"></a>}}
+\subsection{Method \code{format()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$format()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-score"></a>}}
+\subsection{Method \code{score()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$score(prediction, task = NULL, learner = NULL, train_set = NULL)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-aggregate"></a>}}
+\subsection{Method \code{aggregate()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$aggregate(rr)}\if{html}{\out{</div>}}
+}
+
+}
+}

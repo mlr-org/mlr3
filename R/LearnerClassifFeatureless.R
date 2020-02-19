@@ -1,16 +1,7 @@
 #' @title Featureless Classification Learner
 #'
-#' @usage NULL
 #' @name mlr_learners_classif.featureless
-#' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @include LearnerClassif.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerClassifFeatureless$new()
-#' mlr_learners$get("classif.featureless")
-#' lrn("classif.featureless")
-#' ```
 #'
 #' @description
 #' A simple [LearnerClassif] which only analyses the labels during train, ignoring all features.
@@ -20,10 +11,16 @@
 #'   \item{sample:}{Randomly predict a label uniformly.}
 #'   \item{weighed.sample:}{Randomly predict a label, with probability estimated from the training distribution.}
 #' }
+#'
+#' @templateVar id classif.featureless
+#' @template section_dictionary_learner
+#'
 #' @template seealso_learner
 #' @export
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
   public = list(
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
     initialize = function() {
       ps = ParamSet$new(list(ParamFct$new("method", levels = c("mode", "sample", "weighted.sample"), default = "mode", tags = "predict")))
       ps$values = list(method = "mode")
@@ -37,12 +34,32 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       )
     },
 
-    train_internal = function(task) {
+    #' @description
+    #' All features have a score of `0` for this learner.
+    #' @return Named `numeric()`.
+    importance = function() {
+      if (is.null(self$model)) {
+        stopf("No model stored")
+      }
+      fn = self$model$features
+      named_vector(fn, 0)
+    },
+
+    #' @description
+    #' Selected features are always the empty set for this learner.
+    #' @return `character(0)`.
+    selected_features = function() {
+      character()
+    }
+  ),
+
+  private = list(
+    .train = function(task) {
       tn = task$target_names
       set_class(list(tab = table(task$data(cols = tn)[[1L]]), features = task$feature_names), "classif.featureless_model")
     },
 
-    predict_internal = function(task) {
+    .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       tab = self$model$tab
       n = task$nrow
@@ -68,18 +85,6 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
         colnames(prob) = names(tab)
         PredictionClassif$new(task = task, prob = prob)
       }
-    },
-
-    importance = function() {
-      if (is.null(self$model)) {
-        stopf("No model stored")
-      }
-      fn = self$model$features
-      named_vector(fn, 0)
-    },
-
-    selected_features = function() {
-      character()
     }
   )
 )

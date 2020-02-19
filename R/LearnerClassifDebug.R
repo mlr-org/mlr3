@@ -1,16 +1,7 @@
 #' @title Classification Learner for Debugging
 #'
-#' @usage NULL
 #' @name mlr_learners_classif.debug
-#' @format [R6::R6Class] inheriting from [LearnerClassif].
 #' @include LearnerClassif.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerClassifDebug$new()
-#' mlr_learners$get("classif.debug")
-#' lrn("classif.debug")
-#' ```
 #'
 #' @description
 #' A simple [LearnerClassif] used primarily in the unit tests and for debugging purposes.
@@ -29,8 +20,11 @@
 #'    \item{save_tasks:}{Saves input task in `model` slot during training and prediction.}
 #'    \item{x:}{Numeric tuning parameter. Has no effect.}
 #' }
-#' Note that segfaults may not work on your operating system.
+#' Note that segfaults may not be triggered on your operating system.
 #' Also note that if they work, they will tear down your R session immediately!
+#'
+#' @templateVar id classif.featureless
+#' @template section_dictionary_learner
 #'
 #' @template seealso_learner
 #' @export
@@ -47,6 +41,8 @@
 #' names(learner$model)
 LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
   public = list(
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
     initialize = function() {
       super$initialize(
         id = "classif.debug",
@@ -70,10 +66,11 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         properties = c("twoclass", "multiclass", "missings"),
         man = "mlr3::mlr_learners_classif.debug"
       )
-    },
+    }
+  ),
 
-    train_internal = function(task) {
-
+  private = list(
+    .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       roll = function(name) {
         name %in% names(pv) && pv[[name]] > runif(1L)
@@ -99,8 +96,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       set_class(model, "classif.debug_model")
     },
 
-    predict_internal = function(task) {
-
+    .predict = function(task) {
       n = task$nrow
       pv = self$param_set$get_values(tags = "predict")
       lookup = function(name) {

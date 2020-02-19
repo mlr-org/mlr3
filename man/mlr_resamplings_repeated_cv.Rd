@@ -4,37 +4,19 @@
 \alias{mlr_resamplings_repeated_cv}
 \alias{ResamplingRepeatedCV}
 \title{Repeated Cross Validation Resampling}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Resampling}.}
 \description{
 Splits data \code{repeats} (default: 10) times using a \code{folds}-fold (default: 10) cross-validation.
 
 The iteration counter translates to \code{repeats} blocks of \code{folds}
 cross-validations, i.e., the first \code{folds} iterations belong to
 a single cross-validation.
-}
-\section{Construction}{
-\preformatted{ResamplingRepeatedCV$new()
-mlr_resamplings$get("repeated_cv")
-rsmp("repeated_cv")
-}
-}
 
-\section{Fields}{
-
-See \link{Resampling}.
+Iteration numbers can be translated into folds or repeats with provided methods.
 }
+\section{Dictionary}{
 
-\section{Methods}{
-
-See \link{Resampling}.
-Additionally, the class provides two helper function to translate iteration numbers to folds / repeats:
-\itemize{
-\item \code{folds(iters)}\cr
-\code{integer()} -> \code{integer()}\cr
-Translates iteration numbers to fold number.
-\item \code{repeats(iters)}\cr
-\code{integer()} -> \code{integer()}\cr
-Translates iteration numbers to repetition number.
+This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:\preformatted{mlr_resamplings$get("holdout")
+rsmp("holdout")
 }
 }
 
@@ -86,3 +68,101 @@ Other Resampling:
 \code{\link{mlr_resamplings}}
 }
 \concept{Resampling}
+\section{Super class}{
+\code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingRepeatedCV}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{iters}}{(\code{integer(1)})\cr
+Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{ResamplingRepeatedCV$new()}}
+\item \href{#method-folds}{\code{ResamplingRepeatedCV$folds()}}
+\item \href{#method-repeats}{\code{ResamplingRepeatedCV$repeats()}}
+\item \href{#method-clone}{\code{ResamplingRepeatedCV$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format">}\href{../../mlr3/html/Resampling.html#method-format}{\code{mlr3::Resampling$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help">}\href{../../mlr3/html/Resampling.html#method-help}{\code{mlr3::Resampling$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate">}\href{../../mlr3/html/Resampling.html#method-instantiate}{\code{mlr3::Resampling$instantiate()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print">}\href{../../mlr3/html/Resampling.html#method-print}{\code{mlr3::Resampling$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set">}\href{../../mlr3/html/Resampling.html#method-test_set}{\code{mlr3::Resampling$test_set()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set">}\href{../../mlr3/html/Resampling.html#method-train_set}{\code{mlr3::Resampling$train_set()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingRepeatedCV$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-folds"></a>}}
+\subsection{Method \code{folds()}}{
+Translates iteration numbers to fold numbers.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingRepeatedCV$folds(iters)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{iters}}{(\code{integer()})\cr
+Iteration number.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{integer()} of fold numbers.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-repeats"></a>}}
+\subsection{Method \code{repeats()}}{
+Translates iteration numbers to repetition numbers.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingRepeatedCV$repeats(iters)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{iters}}{(\code{integer()})\cr
+Iteration number.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{integer()} of repetition numbers.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingRepeatedCV$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}
