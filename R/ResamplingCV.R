@@ -1,25 +1,14 @@
 #' @title Cross Validation Resampling
 #'
-#' @usage NULL
 #' @name mlr_resamplings_cv
-#' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
 #'
-#' @section Construction:
-#' ```
-#' ResamplingCV$new()
-#' mlr_resamplings$get("cv")
-#' rsmp("cv")
-#' ```
 #'
 #' @description
 #' Splits data using a `folds`-folds (default: 10 folds) cross-validation.
 #'
-#' @section Fields:
-#' See [Resampling].
-#'
-#' @section Methods:
-#' See [Resampling].
+#' @templateVar id bootstrap
+#' @template section_dictionary_resampling
 #'
 #' @section Parameters:
 #' * `folds` :: `integer(1)`\cr
@@ -48,6 +37,8 @@
 #' rcv$instance # table
 ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   public = list(
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamInt$new("folds", lower = 1L, tags = "required")
@@ -59,6 +50,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   ),
 
   active = list(
+    #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
       as.integer(self$param_set$values$folds)

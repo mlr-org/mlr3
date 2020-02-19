@@ -1,25 +1,13 @@
 #' @title Custom Resampling
 #'
-#' @usage NULL
 #' @name mlr_resamplings_custom
-#' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
-#'
-#' @section Construction:
-#' ```
-#' ResamplingCustom$new()
-#' mlr_resamplings$get("custom")
-#' rsmp("custom")
-#' ```
 #'
 #' @description
 #' Splits data into training and test sets using manually provided indices.
 #'
-#' @section Fields:
-#' See [Resampling].
-#'
-#' @section Methods:
-#' See [Resampling].
+#' @templateVar id custom
+#' @template section_dictionary_resampling
 #'
 #' @template seealso_resampling
 #' @export
@@ -38,10 +26,25 @@
 #' rc$test_set(1)
 ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   public = list(
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
     initialize = function() {
       super$initialize(id = "custom", duplicated_ids = TRUE, man = "mlr3::mlr_resamplings_custom")
     },
 
+    #' @description
+    #' Instantiate this [Resampling] with custom splits into training and test set.
+    #'
+    #' @param task [Task]\cr
+    #'   Mainly used to check if `train_sets` and `test_sets` are feasible.
+    #'
+    #' @param train_sets (list of `integer()`)\cr
+    #'   List with row ids for training, one list element per iteration.
+    #'   Must have the same length as `test_sets`.
+    #'
+    #' @param test_sets (list of `integer()`)\cr
+    #'   List with row ids for testing, one list element per iteration.
+    #'   Must have the same length as `train_sets`.
     instantiate = function(task, train_sets, test_sets) {
       task = assert_task(as_task(task))
       assert_list(train_sets, types = "atomicvector", any.missing = FALSE)
@@ -53,11 +56,13 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
   ),
 
   active = list(
+    #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
       length(self$instance$train)
     },
 
+    #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
       if (is.null(self$instance$test)) {
