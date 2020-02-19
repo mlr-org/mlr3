@@ -70,7 +70,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   These columns are preserved in all mutators.
     rr_data = NULL,
 
-    #' @description Create a [BenchmarkResult] object.
+    #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #'
     #' @param data [data.table::data.table()]\cr
     #'   Table with data for one resampling iteration per row: [Task],
     #'   [Learner], [Resampling], iteration (`integer(1)`), [Prediction], and

@@ -144,6 +144,12 @@ Resampling = R6Class("Resampling",
     },
 
     #' @description
+    #' Opens the corresponding help page referenced by field `$man`.
+    help = function() {
+      open_help(self$man)
+    },
+
+    #' @description
     #' Materializes fixed training and test splits for a given task and stores them in `r$instance`
     #' in an arbitrary format.
     #'
@@ -193,12 +199,6 @@ Resampling = R6Class("Resampling",
     #' @return (`integer()`) of row ids.
     test_set = function(i) {
       private$.get_set(private$.get_test, i)
-    },
-
-    #' @description
-    #' Opens the corresponding help page referenced by field `$man`.
-    help = function() {
-      open_help(self$man)
     }
   ),
 
