@@ -170,25 +170,32 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #'  Returns a result table where resampling iterations are combined into
-    #'  [ResampleResult]s. A column with the aggregated performance score is
-    #'  added for each [Measure], named with the id of the respective measure.
+    #' Returns a result table where resampling iterations are combined into
+    #' [ResampleResult]s. A column with the aggregated performance score is
+    #' added for each [Measure], named with the id of the respective measure.
     #'
-    #'  For convenience, the following parameters can be set to extract more
+    #' For convenience, different flags can be set to extract more
+    #' information from the returned [ResampleResult]:
+    #'
+    #' @param measures ([Measure] | list of [Measure])\cr
+    #'   List of performance measures to calculate.
+    #'
     #' @param uhashes `logical(1)`\cr
     #'   Adds the uhash values of the [ResampleResult] as extra character
     #'   column `"uhash"`.
+    #'
     #' @param ids `logical(1)`\cr
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
     #'   extra character columns.
+    #'
     #' @param params `logical(1)`\cr
     #'   Adds the hyperparameter values as extra list column `"params"`. You
     #'   can unnest them with [mlr3misc::unnest()].
+    #'
     #' @param conditions `logical(1)`\cr
     #'   Adds the number of resampling iterations with at least one warning as
     #'   extra integer column `"warnings"`, and the number of resampling
     #'   iterations with errors as extra integer column `"errors"`.
-    #'
     aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE,
       params = FALSE, conditions = FALSE) {
 
@@ -237,10 +244,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Subsets the benchmark result. If `task_ids` is not `NULL`, keeps all
     #'   tasks with provided task ids while discards all others. Same procedure
     #'   for `learner_ids` and `resampling_ids`.
-    #' @param task_ids
-    #' @param learner_ids
-    #' @param resampling_ids
-    #'
+    #' @param task_ids (`character()`)\cr
+    #'   Ids of [Task]s to keep.
+    #' @param learner_ids (`character()`)\cr
+    #'   Ids of [Learner]s to keep.
+    #' @param resampling_ids (`character()`)\cr
+    #'   Ids of [Resampling]s to keep.
     filter = function(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL) {
       if (!is.null(task_ids)) {
         assert_character(task_ids, any.missing = FALSE)
