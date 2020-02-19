@@ -82,11 +82,18 @@ task_rbind = function(self, data) {
     return(invisible(self))
   }
 
-  ## 1.2 Check for set equality of column names
-  assert_set_equal(names(data), c(unlist(self$col_roles, use.names = FALSE), pk))
+  # columns with these roles must be present in data
+  mandatory_roles = c("target", "feature", "group", "stratum", "order", "weight")
+  mandatory_cols = unique(unlist(self$col_roles[mandatory_roles], use.names = FALSE))
+
+  ## 1.2 Check for feasible column names
+  missing_cols = setdiff(mandatory_cols, names(data))
+  if (length(missing_cols)) {
+    stopf("Cannot rbind data to task '%s', missing the following mandatory columns: %s", self$id, str_collapse(missing_cols))
+  }
 
   ## 1.4 Check that types are matching
-  col_info = self$col_info[unique(unlist(self$col_roles, use.names = FALSE)), on = "id"]
+  col_info = self$col_info[list(names(data)), on = "id", nomatch = NULL]
   convert_matching_types(col_info, data)
   ci = col_info(data, primary_key = pk)
 
@@ -98,10 +105,10 @@ task_rbind = function(self, data) {
 
   # 4. Update col_info
   vunion = function(x, y) Map(union, x, y)
-  i.levels = NULL
-  self$col_info = self$col_info[ci[, c("id", "levels"), with = FALSE], on = "id", nomatch = 0L]
-  self$col_info[get("type") %in% c("factor", "ordered"), "levels" := list(vunion(levels, i.levels))]
-  self$col_info[, "i.levels" := NULL]
+  levels.x = levels.y = NULL
+  self$col_info = merge(self$col_info, ci[, c("id", "levels"), with = FALSE], all.x = TRUE)
+  self$col_info[get("type") %in% c("factor", "ordered"), "levels" := list(vunion(levels.x, levels.y))]
+  self$col_info = remove_named(self$col_info, c("levels.x", "levels.y"))
 
   invisible(self)
 }

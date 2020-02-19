@@ -3,8 +3,7 @@
 #' @import paradox
 #' @import mlr3misc
 #' @importFrom R6 R6Class is.R6
-#' @importFrom utils data head tail
-#' @importFrom stats reformulate
+#' @importFrom utils data head
 #' @importFrom uuid UUIDgenerate
 #' @section Additional resources:
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}

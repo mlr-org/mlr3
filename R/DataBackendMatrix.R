@@ -176,7 +176,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     },
 
     .translate_rows = function(rows) {
-      private$.data$dense[list(rows), nomatch = 0L, on = self$primary_key, which = TRUE]
+      private$.data$dense[list(rows), nomatch = NULL, on = self$primary_key, which = TRUE]
     }
   )
 )

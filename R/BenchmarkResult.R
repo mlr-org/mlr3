@@ -374,3 +374,12 @@ as.data.table.BenchmarkResult = function(x, ...) {
 as_benchmark_result = function(x, ...) {
   UseMethod("as_benchmark_result")
 }
+
+#' @importFrom stats friedman.test
+#' @export
+friedman.test.BenchmarkResult = function(y, measure = NULL, ...) {
+  # FIXME: this must be documented somewhere
+  measure = assert_measure(as_measure(measure, task_type = y$task_type))
+  aggr = y$aggregate(measure)
+  friedman.test(aggr[[measure$id]], aggr$learner_id, aggr$task_id)
+}

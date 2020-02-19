@@ -217,6 +217,9 @@
 #'   In case of name clashes of row ids, rows in `data` have higher precedence
 #'   and virtually overwrite the rows in the [DataBackend].
 #'
+#'   All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, "stratum"`, and `"order"` must be present in `data`.
+#'   Columns only present in `newdata` but not in the task will be stored in the new backend, but ignored by the task.
+#'
 #'   This operation mutates the task in-place.
 #'   See the section on task mutators for more information.
 #'
