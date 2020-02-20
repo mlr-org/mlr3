@@ -209,7 +209,12 @@ test_that("groups/weights work", {
 })
 
 test_that("ordered factors (#95)", {
-  df = data.frame(x = c(1, 2, 3), y = factor(letters[1:3], ordered = TRUE), z = c("M", "R", "R"))
+  df = data.frame(
+    x = c(1, 2, 3),
+    y = factor(letters[1:3], ordered = TRUE),
+    z = factor(c("M", "R", "R")),
+    stringsAsFactors = FALSE
+  )
   b = as_data_backend(df)
   task = TaskClassif$new(id = "id", backend = b, target = "z")
   expect_subset(c("numeric", "ordered", "factor"), task$col_info$type)
