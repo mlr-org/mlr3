@@ -79,8 +79,9 @@ Other Learner:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{\code{character(1)}\cr
-Identifier of the object.}
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the object.
+Used in tables, plot and text output.}
 
 \item{\code{state}}{(\code{NULL} | named \code{list()})\cr
 Current (internal) state of the learner.

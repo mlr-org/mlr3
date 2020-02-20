@@ -15,8 +15,6 @@ For example, for a classification task a single column must be marked as target 
 
 Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_tasks},
 e.g. \code{\link[=mlr_tasks_iris]{iris}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
-
-Note that this object is typically constructed via a derived classes, e.g. \link{TaskClassif} or \link{TaskRegr}.
 }
 \section{S3 methods}{
 
@@ -31,14 +29,14 @@ Returns the complete data as \code{\link[data.table:data.table]{data.table::data
 
 The following methods change the task in-place:
 \itemize{
-\item Any modification to \verb{$col_roles} and \code{row_roles}.
+\item Any modification to \verb{$col_roles} and \verb{$row_roles}.
 This provides a different "view" on the data without altering the data itself.
-\item \code{filter()} and \code{select()} subset the set of active rows or features in \code{row_roles} or \code{col_roles}, respectively.
+\item \verb{$filter()} and \verb{$select()} subset the set of active rows or features in \verb{$row_roles} or \verb{$col_roles}, respectively.
 This provides a different "view" on the data without altering the data itself.
 \item \code{rbind()} and \code{cbind()} change the task in-place by binding rows or columns to the data, but without modifying the original \link{DataBackend}.
 Instead, the methods first create a new \link{DataBackendDataTable} from the provided new data, and then
-merge both backends into an abstract \link{DataBackend} which combines the results on-demand.
-\item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \code{col_roles} and \code{col_info}.
+merge both backends into an abstract \link{DataBackend} which merges the results on-demand.
+\item \code{rename()} wraps the \link{DataBackend} of the Task in an additional \link{DataBackend} which deals with the renaming. Also updates \verb{$col_roles} and \verb{$col_info}.
 }
 }
 
@@ -81,8 +79,9 @@ Other Task:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{\code{character(1)}\cr
-Identifier of the object.}
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier of the object.
+Used in tables, plot and text output.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
@@ -90,14 +89,16 @@ Task type, e.g. \code{"classif"} or \code{"regr"}.
 For a complete list of possible task types (depending on the loaded packages),
 see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 
-\item{\code{backend}}{(\link{DataBackend}).}
+\item{\code{backend}}{(\link{DataBackend})\cr
+Abstract interface to the data of the task.}
 
 \item{\code{col_info}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Table with with 3 columns:
 \itemize{
-\item \code{"id"} stores the name of the column.
-\item \code{"type"} holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
-\item \code{"levels"} stores a vector of distinct values (levels) for factor variables.
+\item \code{"id"} (\code{character()}) stores the name of the column.
+\item \code{"type"} (\code{character()}) holds the storage type of the variable, e.g. \code{integer}, \code{numeric} or \code{character}.
+See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete list of allowed types.
+\item \code{"levels"} stores a vector of distinct values (levels) for ordered and unordered factor variables.
 }}
 
 \item{\code{man}}{(\code{character(1)})\cr
@@ -116,7 +117,11 @@ Hash (unique identifier) for this object.}
 Returns the row ids of the \link{DataBackend} for observations with role "use".}
 
 \item{\code{row_names}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Returns a table with row ids (\code{"row_id"}, \code{integer()}) and row names (\code{"row_name"}, \code{character()}).}
+Returns a table with two columns:
+\itemize{
+\item \code{"row_id"} (\code{integer()}), and
+\item \code{"row_name"} (\code{character()}).
+}}
 
 \item{\code{feature_names}}{(\code{character()})\cr
 Returns all column names with \code{role == "feature"}.}
@@ -144,7 +149,7 @@ Each row (observation) can have an arbitrary number of roles in the learning tas
 Validation sets are not yet completely integrated into the package.
 }
 
-\code{row_roles} keeps track of the roles with a named list, elements are named by row role and each element is a \code{integer()} or \code{character()} vector of row ids.
+\code{row_roles} keeps track of the roles with a named list, elements are named by row role and each element is a \code{integer()} vector of row ids.
 To alter the roles, just modify the list, e.g. with  \R's set functions (\code{\link[=intersect]{intersect()}}, \code{\link[=setdiff]{setdiff()}}, \code{\link[=union]{union()}}, \ldots).}
 
 \item{\code{col_roles}}{(named \code{list()})\cr
@@ -175,7 +180,7 @@ Returns a table with columns \code{id} and \code{type} where \code{id} are the c
 features of the task and \code{type} is the storage type.}
 
 \item{\code{data_formats}}{\code{character()}\cr
-Vector of supported data formats.
+Vector of supported data output formats.
 A specific format can be chosen in the \verb{$data()} method.}
 
 \item{\code{strata}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
@@ -188,7 +193,7 @@ See \link{Resampling} for more information on stratification.
 }}
 
 \item{\code{groups}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role "group", table with two columns:
+If the task has a column with designated role \code{"group"}, table with two columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
 \item grouping variable \code{group} (\code{vector()}).
@@ -198,7 +203,7 @@ Returns \code{NULL} if there are is no grouping column.
 See \link{Resampling} for more information on grouping.}
 
 \item{\code{weights}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role "weight", table with two columns:
+If the task has a column with designated role \code{"weight"}, table with two columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
 \item observation weights \code{weight} (\code{numeric()}).
@@ -235,6 +240,8 @@ Returns \code{NULL} if there are is no weight column.}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
+
+Note that this object is typically constructed via a derived classes, e.g. \link{TaskClassif} or \link{TaskRegr}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$new(id, task_type, backend)}\if{html}{\out{</div>}}
 }
@@ -294,8 +301,8 @@ Printer.
 \if{html}{\out{<a id="method-data"></a>}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
-Rows are additionally subsetted to only contain observations with role "use", and
-columns are filtered to only contain features with roles "target" and "feature".
+Rows are additionally subsetted to only contain observations with role \code{"use"}, and
+columns are filtered to only contain features with roles \code{"target"} and \code{"feature"}.
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format = "data.table")}\if{html}{\out{</div>}}
@@ -343,7 +350,7 @@ Right hand side of the formula. Defaults to \code{"."} (all features of the task
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-head"></a>}}
 \subsection{Method \code{head()}}{
-Get the first \code{n} observations with role \code{"use"}.
+Get the first \code{n} observations with role \code{"use"} of all columns with role \code{"target"} or \code{"feature"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$head(n = 6L)}\if{html}{\out{</div>}}
 }
@@ -356,7 +363,7 @@ Get the first \code{n} observations with role \code{"use"}.
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-\code{\link[data.table:data.table]{data.table::data.table()}}.
+\code{\link[data.table:data.table]{data.table::data.table()}} with \code{n} rows.
 }
 }
 \if{html}{\out{<hr>}}
@@ -366,7 +373,7 @@ Returns the distinct values for columns referenced in \code{cols} with storage t
 Argument \code{cols} defaults to all such columns with role \code{"target"} or \code{"feature"}.
 
 Note that this function ignores the row roles, it returns all levels available in the \link{DataBackend}.
-To update the stored level information, e.g. after filtering a task, call \verb{$droplevels()}.
+To update the stored level information, e.g. after subsetting a task with \verb{$filter()}, call \verb{$droplevels()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$levels(cols = NULL)}\if{html}{\out{</div>}}
 }
@@ -408,7 +415,7 @@ Named \code{integer()}.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-filter"></a>}}
 \subsection{Method \code{filter()}}{
-Subsets the task, reducing it to only keep the rows specified via row ids \code{rows}.
+Subsets the task, keeping only the rows specified via row ids \code{rows}.
 
 This operation mutates the task in-place.
 See the section on task mutators for more information.
@@ -431,7 +438,7 @@ Modified self.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-select"></a>}}
 \subsection{Method \code{select()}}{
-Subsets the task, reducing it to only keep the features specified via column names \code{cols}.
+Subsets the task, keeping only the features specified via column names \code{cols}.
 Note that you cannot deselect the target column, for obvious reasons.
 
 This operation mutates the task in-place.
@@ -461,7 +468,8 @@ the primary key of the \link{DataBackend} (\code{task$backend$primary_key}).
 In case of name clashes of row ids, rows in \code{data} have higher precedence
 and virtually overwrite the rows in the \link{DataBackend}.
 
-All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, "stratum"\verb{, and }"order"\verb{must be present in}data\verb{. Columns only present in }newdata` but not in the task will be stored in the new backend, but are ignored and unaccessible by the task.
+All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, \code{"stratum"}, and \code{"order"} must be present in \code{data}.
+Columns only present in \code{newdata} but not in the task will be stored in the new backend, but are ignored and unaccessible by the task.
 
 This operation mutates the task in-place.
 See the section on task mutators for more information.
@@ -486,7 +494,7 @@ Modified self.
 Adds additional columns to the \link{DataBackend} stored in \verb{$backend}.
 
 The row ids must be provided as column in \code{data} (with column name matching the primary key name of the \link{DataBackend}).
-If this column is missing, it is assumed that the rows are exactly in the order of \code{t$ow_ids}.
+If this column is missing, it is assumed that the rows are exactly in the order of \verb{$row_ids}.
 In case of name clashes of column names in \code{data} and \link{DataBackend}, columns in \code{data} have higher precedence
 and virtually overwrite the columns in the \link{DataBackend}.
 
@@ -507,7 +515,7 @@ See the section on task mutators for more information.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-rename"></a>}}
 \subsection{Method \code{rename()}}{
-Renames columns by mapping column names in \code{old} to new column names in \code{new}.
+Renames columns by mapping column names in \code{old} to new column names in \code{new} (element-wise).
 
 This operation mutates the task in-place.
 See the section on task mutators for more information.

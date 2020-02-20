@@ -14,8 +14,6 @@
 #' Predefined (toy) tasks are stored in the [mlr3misc::Dictionary] [mlr_tasks],
 #' e.g. [`iris`][mlr_tasks_iris] or [`boston_housing`][mlr_tasks_boston_housing].
 #'
-#' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
-#'
 #' @template param_id
 #' @template param_backend
 #' @template param_task_type
@@ -30,14 +28,14 @@
 #'
 #' @section Task mutators:
 #' The following methods change the task in-place:
-#' * Any modification to `$col_roles` and `row_roles`.
+#' * Any modification to `$col_roles` and `$row_roles`.
 #'   This provides a different "view" on the data without altering the data itself.
-#' * `filter()` and `select()` subset the set of active rows or features in `row_roles` or `col_roles`, respectively.
+#' * `$filter()` and `$select()` subset the set of active rows or features in `$row_roles` or `$col_roles`, respectively.
 #'   This provides a different "view" on the data without altering the data itself.
 #' * `rbind()` and `cbind()` change the task in-place by binding rows or columns to the data, but without modifying the original [DataBackend].
 #'   Instead, the methods first create a new [DataBackendDataTable] from the provided new data, and then
-#'   merge both backends into an abstract [DataBackend] which combines the results on-demand.
-#' * `rename()` wraps the [DataBackend] of the Task in an additional [DataBackend] which deals with the renaming. Also updates `col_roles` and `col_info`.
+#'   merge both backends into an abstract [DataBackend] which merges the results on-demand.
+#' * `rename()` wraps the [DataBackend] of the Task in an additional [DataBackend] which deals with the renaming. Also updates `$col_roles` and `$col_info`.
 #'
 #' @family Task
 #' @export
@@ -67,14 +65,16 @@ Task = R6Class("Task",
     #' @template field_task_type
     task_type = NULL,
 
-    #' @field backend ([DataBackend]).
+    #' @field backend ([DataBackend])\cr
+    #' Abstract interface to the data of the task.
     backend = NULL,
 
     #' @field col_info ([data.table::data.table()])\cr
     #' Table with with 3 columns:
-    #' - `"id"` stores the name of the column.
-    #' - `"type"` holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
-    #' - `"levels"` stores a vector of distinct values (levels) for factor variables.
+    #' - `"id"` (`character()`) stores the name of the column.
+    #' - `"type"` (`character()`) holds the storage type of the variable, e.g. `integer`, `numeric` or `character`.
+    #'   See [mlr_reflections$task_feature_types][mlr_reflections] for a complete list of allowed types.
+    #' - `"levels"` stores a vector of distinct values (levels) for ordered and unordered factor variables.
     col_info = NULL,
 
     #' @template field_man
@@ -82,6 +82,8 @@ Task = R6Class("Task",
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
     initialize = function(id, task_type, backend) {
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
@@ -128,8 +130,8 @@ Task = R6Class("Task",
 
     #' @description
     #' Returns a slice of the data from the [DataBackend] in the data format specified by `data_format`.
-    #' Rows are additionally subsetted to only contain observations with role "use", and
-    #' columns are filtered to only contain features with roles "target" and "feature".
+    #' Rows are additionally subsetted to only contain observations with role `"use"`, and
+    #' columns are filtered to only contain features with roles `"target"` and `"feature"`.
     #' If invalid `rows` or `cols` are specified, an exception is raised.
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
@@ -148,10 +150,10 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Get the first `n` observations with role `"use"`.
+    #' Get the first `n` observations with role `"use"` of all columns with role `"target"` or `"feature"`.
     #'
     #' @param n (`integer(1)`).
-    #' @return [data.table::data.table()].
+    #' @return [data.table::data.table()] with `n` rows.
     head = function(n = 6L) {
       assert_count(n)
       ids = head(private$.row_roles$use, n)
@@ -164,7 +166,7 @@ Task = R6Class("Task",
     #' Argument `cols` defaults to all such columns with role `"target"` or `"feature"`.
     #'
     #' Note that this function ignores the row roles, it returns all levels available in the [DataBackend].
-    #' To update the stored level information, e.g. after filtering a task, call `$droplevels()`.
+    #' To update the stored level information, e.g. after subsetting a task with `$filter()`, call `$droplevels()`.
     #'
     #' @return named `list()`.
     levels = function(cols = NULL) {
@@ -195,7 +197,7 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Subsets the task, reducing it to only keep the rows specified via row ids `rows`.
+    #' Subsets the task, keeping only the rows specified via row ids `rows`.
     #'
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.
@@ -208,7 +210,7 @@ Task = R6Class("Task",
     },
 
     #' @description
-    #' Subsets the task, reducing it to only keep the features specified via column names `cols`.
+    #' Subsets the task, keeping only the features specified via column names `cols`.
     #' Note that you cannot deselect the target column, for obvious reasons.
     #'
     #' This operation mutates the task in-place.
@@ -228,7 +230,7 @@ Task = R6Class("Task",
     #' In case of name clashes of row ids, rows in `data` have higher precedence
     #' and virtually overwrite the rows in the [DataBackend].
     #'
-    #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, "stratum"`, and `"order"` must be present in `data`.
+    #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, `"stratum"`, and `"order"` must be present in `data`.
     #' Columns only present in `newdata` but not in the task will be stored in the new backend, but are ignored and unaccessible by the task.
     #'
     #' This operation mutates the task in-place.
@@ -245,7 +247,7 @@ Task = R6Class("Task",
     #' Adds additional columns to the [DataBackend] stored in `$backend`.
     #'
     #' The row ids must be provided as column in `data` (with column name matching the primary key name of the [DataBackend]).
-    #' If this column is missing, it is assumed that the rows are exactly in the order of `t$ow_ids`.
+    #' If this column is missing, it is assumed that the rows are exactly in the order of `$row_ids`.
     #' In case of name clashes of column names in `data` and [DataBackend], columns in `data` have higher precedence
     #' and virtually overwrite the columns in the [DataBackend].
     #'
@@ -258,7 +260,7 @@ Task = R6Class("Task",
 
 
     #' @description
-    #' Renames columns by mapping column names in `old` to new column names in `new`.
+    #' Renames columns by mapping column names in `old` to new column names in `new` (element-wise).
     #'
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.
@@ -331,7 +333,10 @@ Task = R6Class("Task",
     },
 
     #' @field row_names ([data.table::data.table()])\cr
-    #' Returns a table with row ids (`"row_id"`, `integer()`) and row names (`"row_name"`, `character()`).
+    #' Returns a table with two columns:
+    #'
+    #' * `"row_id"` (`integer()`), and
+    #' * `"row_name"` (`character()`).
     row_names = function(rhs) {
       assert_ro_binding(rhs)
       nn = self$col_roles$name
@@ -387,7 +392,7 @@ Task = R6Class("Task",
     #' - `"validation"`: Hold the observations back unless explicitly requested.
     #'   Validation sets are not yet completely integrated into the package.
     #'
-    #' `row_roles` keeps track of the roles with a named list, elements are named by row role and each element is a `integer()` or `character()` vector of row ids.
+    #' `row_roles` keeps track of the roles with a named list, elements are named by row role and each element is a `integer()` vector of row ids.
     #' To alter the roles, just modify the list, e.g. with  \R's set functions ([intersect()], [setdiff()], [union()], \ldots).
     row_roles = function(rhs) {
       if (missing(rhs)) {
@@ -451,7 +456,7 @@ Task = R6Class("Task",
     },
 
     #' @field data_formats `character()`\cr
-    #'   Vector of supported data formats.
+    #'   Vector of supported data output formats.
     #'   A specific format can be chosen in the `$data()` method.
     data_formats = function(rhs) {
       assert_ro_binding(rhs)
@@ -482,7 +487,7 @@ Task = R6Class("Task",
 
 
     #' @field groups ([data.table::data.table()])\cr
-    #' If the task has a column with designated role "group", table with two columns:
+    #' If the task has a column with designated role `"group"`, table with two columns:
     #'
     #' * `row_id` (`integer()`), and
     #' * grouping variable `group` (`vector()`).
@@ -500,7 +505,7 @@ Task = R6Class("Task",
     },
 
     #' @field weights ([data.table::data.table()])\cr
-    #' If the task has a column with designated role "weight", table with two columns:
+    #' If the task has a column with designated role `"weight"`, table with two columns:
     #'
     #' * `row_id` (`integer()`), and
     #' * observation weights `weight` (`numeric()`).
