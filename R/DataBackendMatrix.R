@@ -1,5 +1,16 @@
 #' @title DataBackend for Matrix
 #'
+#' @description
+#' [DataBackend] for \CRANpkg{Matrix}.
+#' Data is split into a (numerical) sparse part and a dense part.
+#' These parts are automatically merged to a sparse format during `$data()`.
+#'
+#' @template rows
+#' @template cols
+#' @template data_format
+#' @template primary_key
+#' @template na_rm
+#'
 #' @family DataBackend
 #' @export
 #' @examples
@@ -16,10 +27,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
   public = list(
 
     #' @description
-    #'   [DataBackend] for \CRANpkg{Matrix}. Data is split into a (numerical)
-    #'   sparse part and a dense part. These parts are automatically merged to a
-    #'   sparse format during `$data()`. Note that merging the data parts may
-    #'   cause data loss during the conversion.
+    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #'
     #' @param data [data.frame()]\cr
     #'   The input [data.frame()].
     #'   Converted to a [data.table::data.table()] automatically.
@@ -42,17 +51,14 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     },
 
     #' @description
-    #'   Returns a slice of the data in the specified format. Currently, the
-    #'   only supported formats are `"data.table"` and `"Matrix"`. The rows must
-    #'   be addressed as vector of primary key values, columns must be referred
-    #'   to via column names. Queries for rows with no matching row id and
-    #'   queries for columns with no matching column name are silently ignored.
-    #'   Rows are guaranteed to be returned in the same order as `rows`, columns
-    #'   may be returned in an arbitrary order. Duplicated row ids result in
-    #'   duplicated rows, duplicated column names lead to an exception.
-    #' @template rows
-    #' @template cols
-    #' @template data_format
+    #' Returns a slice of the data in the specified format. Currently, the
+    #' only supported formats are `"data.table"` and `"Matrix"`. The rows must
+    #' be addressed as vector of primary key values, columns must be referred
+    #' to via column names. Queries for rows with no matching row id and
+    #' queries for columns with no matching column name are silently ignored.
+    #' Rows are guaranteed to be returned in the same order as `rows`, columns
+    #' may be returned in an arbitrary order. Duplicated row ids result in
+    #' duplicated rows, duplicated column names lead to an exception.
     data = function(rows, cols, data_format = "data.table") {
       assert_numeric(rows)
       assert_names(cols, type = "unique")
@@ -99,16 +105,18 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
     #' @description
     #' Print the first `n` rows of a [DataBackend].
+    #'
     #' @param n `integer(1)`\cr
     #'   Number of rows.
     head = function(n = 6L) {
       self$data(head(self$rownames, n), self$colnames)
     },
 
-    #' @template distinct
-    #' @template rows
-    #' @template cols
-    #' @template na_rm
+    #' @description
+    #' Returns a named list of vectors of distinct values for each column
+    #' specified. If `na_rm` is `TRUE`, missing values are removed from the
+    #' returned vectors of distinct values. Non-existing rows and columns are
+    #' silently ignored.
     distinct = function(rows, cols, na_rm = TRUE) {
       rows = if (is.null(rows)) self$rownames else private$.translate_rows(rows)
       cols_sparse = intersect(cols, colnames(private$.data$sparse))
@@ -122,9 +130,9 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       res[match(cols, names(res), nomatch = 0L)]
     },
 
-    #' @template missings
-    #' @template rows
-    #' @template cols
+    #' @description
+    #' Returns the number of missing values per column in the specified slice
+    #' of data. Non-existing rows and columns are silently ignored.
     missings = function(rows, cols) {
       rows = private$.translate_rows(rows)
       cols_sparse = intersect(cols, colnames(private$.data$sparse))
@@ -141,29 +149,28 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
   active = list(
     #' @field rownames `integer()`\cr
-    #'   Returns vector of all distinct row identifiers, i.e. the primary key
-    #'   column.
+    #' Returns vector of all distinct row identifiers, i.e. the primary key column.
     rownames = function(rhs) {
       assert_ro_binding(rhs)
       private$.data$dense[[self$primary_key]]
     },
 
     #' @field colnames `character()`\cr
-    #'   Returns vector of all column names, including the primary key column.
+    #' Returns vector of all column names, including the primary key column.
     colnames = function(rhs) {
       assert_ro_binding(rhs)
       c(colnames(private$.data$dense), colnames(private$.data$sparse))
     },
 
     #' @field nrow `integer(1)`\cr
-    #'   Number of rows (observations).
+    #' Number of rows (observations).
     nrow = function(rhs) {
       assert_ro_binding(rhs)
       nrow(private$.data$dense)
     },
 
     #' @field ncol `integer(1)`\cr
-    #'   Number of columns (variables), including the primary key column.
+    #' Number of columns (variables), including the primary key column.
     ncol = function(rhs) {
       assert_ro_binding(rhs)
       ncol(private$.data$sparse) + ncol(private$.data$dense)

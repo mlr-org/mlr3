@@ -3,6 +3,12 @@
 #' @description
 #' [DataBackend] for \CRANpkg{data.table} as an in-memory data base.
 #'
+#' @template rows
+#' @template cols
+#' @template data_format
+#' @template primary_key
+#' @template na_rm
+#'
 #' @family DataBackend
 #' @export
 #' @examples
@@ -24,16 +30,21 @@
 DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
   cloneable = FALSE,
   public = list(
+    #' @field compact_seq `logical(1)`\cr
+    #' If `TRUE`, row ids are a natural sequence from 1 to `nrow(data`) (determined internally).
+    #' In this case, row lookup uses positional indices instead of joins.
     compact_seq = FALSE,
 
     #' @description
+    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #'
     #' `DataBackendDataTable` does not copy the input data, while
     #' `as_data_backend` calls [data.table::copy()]. `as_data_backend` creates a
     #' primary key column as integer column if `primary_key` is `NULL.`
+    #'
     #' @param data [data.frame()]\cr
     #'   The input [data.frame()].
     #'   Converted to a [data.table::data.table()] automatically.
-    #' @template primary_key
     initialize = function(data, primary_key) {
       assert_data_table(data, col.names = "unique")
       super$initialize(setkeyv(data, primary_key), primary_key, data_formats = "data.table")
@@ -41,17 +52,14 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     },
 
     #' @description
-    #'   Returns a slice of the data in the specified format. Currently, the
-    #'   only supported formats are `"data.table"` and `"Matrix"`. The rows must
-    #'   be addressed as vector of primary key values, columns must be referred
-    #'   to via column names. Queries for rows with no matching row id and
-    #'   queries for columns with no matching column name are silently ignored.
-    #'   Rows are guaranteed to be returned in the same order as `rows`, columns
-    #'   may be returned in an arbitrary order. Duplicated row ids result in
-    #'   duplicated rows, duplicated column names lead to an exception.
-    #' @template rows
-    #' @template cols
-    #' @template data_format
+    #' Returns a slice of the data in the specified format. Currently, the
+    #' only supported formats are `"data.table"` and `"Matrix"`. The rows must
+    #' be addressed as vector of primary key values, columns must be referred
+    #' to via column names. Queries for rows with no matching row id and
+    #' queries for columns with no matching column name are silently ignored.
+    #' Rows are guaranteed to be returned in the same order as `rows`, columns
+    #' may be returned in an arbitrary order. Duplicated row ids result in
+    #' duplicated rows, duplicated column names lead to an exception.
     data = function(rows, cols, data_format = "data.table") {
       assert_choice(data_format, self$data_formats)
       assert_numeric(rows)
@@ -70,16 +78,18 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
     #' @description
     #' Print the first `n` rows of a [DataBackend].
+    #'
     #' @param n `integer(1)`\cr
     #'   Number of rows.
     head = function(n = 6L) {
       head(private$.data, n)
     },
 
-    #' @template distinct
-    #' @template rows
-    #' @template cols
-    #' @template na_rm
+    #' @description
+    #' Returns a named list of vectors of distinct values for each column
+    #' specified. If `na_rm` is `TRUE`, missing values are removed from the
+    #' returned vectors of distinct values. Non-existing rows and columns are
+    #' silently ignored.
     distinct = function(rows, cols, na_rm = TRUE) {
       cols = intersect(cols, colnames(private$.data))
       if (is.null(rows)) {
@@ -89,9 +99,9 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
       }
     },
 
-    #' @template missings
-    #' @template rows
-    #' @template cols
+    #' @description
+    #' Returns the number of missing values per column in the specified slice
+    #' of data. Non-existing rows and columns are silently ignored.
     missings = function(rows, cols) {
       data = self$data(rows, cols)
       map_int(data, function(x) sum(is.na(x)))
@@ -100,26 +110,25 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 
   active = list(
     #' @field rownames `integer()`\cr
-    #'   Returns vector of all distinct row identifiers, i.e. the primary key
-    #'   column.
+    #' Returns vector of all distinct row identifiers, i.e. the primary key column.
     rownames = function() {
       private$.data[[self$primary_key]]
     },
 
     #' @field colnames `character()`\cr
-    #'   Returns vector of all column names, including the primary key column.
+    #' Returns vector of all column names, including the primary key column.
     colnames = function() {
       colnames(private$.data)
     },
 
     #' @field nrow `integer(1)`\cr
-    #'   Number of rows (observations).
+    #' Number of rows (observations).
     nrow = function() {
       nrow(private$.data)
     },
 
     #' @field ncol `integer(1)`\cr
-    #'   Number of columns (variables), including the primary key column.
+    #' Number of columns (variables), including the primary key column.
     ncol = function() {
       ncol(private$.data)
     }
