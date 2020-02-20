@@ -8,16 +8,17 @@ This is the abstract base class for learner objects like \link{LearnerClassif} a
 
 Learners are build around the three following key parts:
 \itemize{
-\item Methods \code{train()} and \code{predict()} which call internal methods (either public method \code{train_internal()}/\code{predict_internal()} (soft deprecated)  or private methods \code{.train()}/\code{.predict()}).
+\item Methods \verb{$train()} and \verb{$predict()} which call internal methods (either public method \verb{$train_internal()}/\verb{$predict_internal()} (soft deprecated)
+or private methods \verb{$.train()}/\verb{$.predict()}).
 \item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 \item Meta-information about the requirements and capabilities of the learner.
-\item The fitted model stored in field \verb{$model}, available after calling \code{train()}.
+\item The fitted model stored in field \verb{$model}, available after calling \verb{$train()}.
 }
 
 Predefined learners are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_learners},
 e.g. \code{\link[=mlr_learners_classif.rpart]{classif.rpart}} or \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}.
 
-More classification and regression learners are implemented in \CRANpkg{mlr3learners}.
+More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
 The dictionary \link{mlr_learners} gets automatically populated with the new learners as soon as the respective packages are loaded.
 
@@ -37,7 +38,7 @@ The higher the score, the more important the variable.
 The returned vector is named with feature names and sorted in decreasing order.
 Note that the model might omit features it has not used at all.
 The learner must be tagged with property \code{"importance"}.
-To filter variables using the importance scores, use package \CRANpkg{mlr3filters}.
+To filter variables using the importance scores, see package \CRANpkg{mlr3filters}.
 \item \code{selected_features(...)}: Returns a subset of selected features as \code{character()}.
 The learner must be tagged with property \code{"selected_features"}.
 \item \code{oob_error(...)}: Returns the out-of-bag error of the model as \code{numeric(1)}.
@@ -60,7 +61,7 @@ If you only intend to change one specific hyperparameter value and leave the oth
 }
 
 If the learner has additional hyperparameters which are not encoded in the \link[paradox:ParamSet]{ParamSet}, you can easily extend the learner.
-Here, we add a hyperparameter with id \code{"foo"} possible levels \code{"a"} and \code{"b"}:\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
+Here, we add a factor hyperparameter with id \code{"foo"} and possible levels \code{"a"} and \code{"b"}:\preformatted{lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 }
 }
 
@@ -128,7 +129,7 @@ Requires you to enable encapsulation, otherwise errors are not caught and the ex
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}.}
+Defaults to \code{NA}, but can be set by child classes.}
 }
 \if{html}{\out{</div>}}
 }
@@ -160,8 +161,8 @@ Logged errors as vector.}
 Hash (unique identifier) for this object.}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr
-Stores the currently selected predict type.
-Must be an element of \code{l$predict_types}.}
+Stores the currently active predict type, e.g. \code{"response"}.
+Must be an element of \verb{$predict_types}.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
@@ -169,7 +170,7 @@ Set of hyperparameters.}
 \item{\code{encapsulate}}{(named \code{character()})\cr
 Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names \code{"train"} and \code{"predict"}.
-Possible values are \code{"none"}, \code{"evaluate"} and \code{"callr"}.
+Possible values are \code{"none"}, \code{"evaluate"} (requires package \CRANpkg{evaluate}) and \code{"callr"} (requires package \CRANpkg{callr}).
 See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
 }
 \if{html}{\out{</div>}}
@@ -240,8 +241,8 @@ The following properties are currently standardized and understood by learners i
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}.
-Defaults to \code{"data.table"}.}
+Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
+e.g. \code{"data.table"}.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.
@@ -292,8 +293,8 @@ Opens the corresponding help page referenced by field \verb{$man}.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-train"></a>}}
 \subsection{Method \code{train()}}{
-Train the learner on the row ids of the provided \link{Task}.
-Mutates the learner by reference, i.e. stores the model alongside other objects in field \verb{$state}.
+Train the learner on a set of observations of the provided \code{task}.
+Mutates the learner by reference, i.e. stores the model alongside other information in field \verb{$state}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$train(task, row_ids = NULL)}\if{html}{\out{</div>}}
 }
@@ -303,7 +304,8 @@ Mutates the learner by reference, i.e. stores the model alongside other objects 
 \describe{
 \item{\code{task}}{(\link{Task}).}
 
-\item{\code{row_ids}}{(\code{integer()}).}
+\item{\code{row_ids}}{(\code{integer()})\cr
+Vector of training indices.}
 }
 \if{html}{\out{</div>}}
 }
@@ -315,7 +317,7 @@ Modified self.
 \if{html}{\out{<a id="method-predict"></a>}}
 \subsection{Method \code{predict()}}{
 Uses the information stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction}
-based for the provided \code{row_ids} of the \code{task}.
+for a set of observations of the provided \code{task}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$predict(task, row_ids = NULL)}\if{html}{\out{</div>}}
 }
@@ -325,7 +327,8 @@ based for the provided \code{row_ids} of the \code{task}.
 \describe{
 \item{\code{task}}{(\link{Task}).}
 
-\item{\code{row_ids}}{(\code{integer()}).}
+\item{\code{row_ids}}{(\code{integer()})\cr
+Vector of test indices.}
 }
 \if{html}{\out{</div>}}
 }
@@ -336,8 +339,8 @@ based for the provided \code{row_ids} of the \code{task}.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-predict_newdata"></a>}}
 \subsection{Method \code{predict_newdata()}}{
-Uses the model fitted during \verb{$train()} in to create a new \link{Prediction} based on the new data in \code{newdata}.
-Object \code{task} is the task used during \verb{$train()} and required for conversions of \code{newdata}.
+Uses the model fitted during \verb{$train()} to create a new \link{Prediction} based on the new data in \code{newdata}.
+Object \code{task} is the task used during \verb{$train()} and required for conversion of \code{newdata}.
 If the learner's \verb{$train()} method has been called, there is a (size reduced) version of the training task stored in the learner.
 If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
 in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
@@ -368,6 +371,9 @@ Reset the learner, i.e. un-train by resetting the \code{state}.
 \if{html}{\out{<div class="r">}}\preformatted{Learner$reset()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+Modified self.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

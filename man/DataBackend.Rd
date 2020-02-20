@@ -96,8 +96,8 @@ column of unique integer values, referenced here by \code{primary_key}. The
 use of this variable may differ between backends.}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}.
-Defaults to \code{"data.table"}.}
+Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
+e.g. \code{"data.table"}.}
 }
 \if{html}{\out{</div>}}
 }

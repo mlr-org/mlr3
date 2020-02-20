@@ -119,8 +119,8 @@ The following properties are currently standardized and understood by learners i
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}.
-Defaults to \code{"data.table"}.}
+Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
+e.g. \code{"data.table"}.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

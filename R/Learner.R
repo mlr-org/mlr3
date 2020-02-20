@@ -7,15 +7,16 @@
 #'
 #' Learners are build around the three following key parts:
 #'
-#' * Methods `train()` and `predict()` which call internal methods (either public method `train_internal()`/`predict_internal()` (soft deprecated)  or private methods `.train()`/`.predict()`).
+#' * Methods `$train()` and `$predict()` which call internal methods (either public method `$train_internal()`/`$predict_internal()` (soft deprecated)
+#'   or private methods `$.train()`/`$.predict()`).
 #' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 #' * Meta-information about the requirements and capabilities of the learner.
-#' * The fitted model stored in field `$model`, available after calling `train()`.
+#' * The fitted model stored in field `$model`, available after calling `$train()`.
 #'
 #' Predefined learners are stored in the [mlr3misc::Dictionary] [mlr_learners],
 #' e.g. [`classif.rpart`][mlr_learners_classif.rpart] or [`regr.rpart`][mlr_learners_regr.rpart].
 #'
-#' More classification and regression learners are implemented in \CRANpkg{mlr3learners}.
+#' More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
 #' Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
 #' The dictionary [mlr_learners] gets automatically populated with the new learners as soon as the respective packages are loaded.
 #'
@@ -45,7 +46,7 @@
 #'   The returned vector is named with feature names and sorted in decreasing order.
 #'   Note that the model might omit features it has not used at all.
 #'   The learner must be tagged with property `"importance"`.
-#'   To filter variables using the importance scores, use package \CRANpkg{mlr3filters}.
+#'   To filter variables using the importance scores, see package \CRANpkg{mlr3filters}.
 #'
 #' * `selected_features(...)`: Returns a subset of selected features as `character()`.
 #'   The learner must be tagged with property `"selected_features"`.
@@ -70,7 +71,7 @@
 #' lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
 #' ```
 #' If the learner has additional hyperparameters which are not encoded in the [ParamSet][paradox::ParamSet], you can easily extend the learner.
-#' Here, we add a hyperparameter with id `"foo"` possible levels `"a"` and `"b"`:
+#' Here, we add a factor hyperparameter with id `"foo"` and possible levels `"a"` and `"b"`:
 #' ```
 #' lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 #' ```
@@ -182,12 +183,13 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Train the learner on the row ids of the provided [Task].
-    #' Mutates the learner by reference, i.e. stores the model alongside other objects in field `$state`.
+    #' Train the learner on a set of observations of the provided `task`.
+    #' Mutates the learner by reference, i.e. stores the model alongside other information in field `$state`.
     #'
     #' @param task ([Task]).
     #'
-    #' @param row_ids (`integer()`).
+    #' @param row_ids (`integer()`)\cr
+    #'   Vector of training indices.
     #'
     #' @return Modified self.
     train = function(task, row_ids = NULL) {
@@ -205,11 +207,12 @@ Learner = R6Class("Learner",
 
     #' @description
     #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
-    #' based for the provided `row_ids` of the `task`.
+    #' for a set of observations of the provided `task`.
     #'
     #' @param task ([Task]).
     #'
-    #' @param row_ids (`integer()`).
+    #' @param row_ids (`integer()`)\cr
+    #'   Vector of test indices.
     #'
     #' @return [Prediction].
     predict = function(task, row_ids = NULL) {
@@ -225,8 +228,8 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Uses the model fitted during `$train()` in to create a new [Prediction] based on the new data in `newdata`.
-    #' Object `task` is the task used during `$train()` and required for conversions of `newdata`.
+    #' Uses the model fitted during `$train()` to create a new [Prediction] based on the new data in `newdata`.
+    #' Object `task` is the task used during `$train()` and required for conversion of `newdata`.
     #' If the learner's `$train()` method has been called, there is a (size reduced) version of the training task stored in the learner.
     #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
     #' in the [ResampleResult] or [BenchmarkResult], respectively.
@@ -261,6 +264,8 @@ Learner = R6Class("Learner",
 
     #' @description
     #' Reset the learner, i.e. un-train by resetting the `state`.
+    #'
+    #' @return Modified self.
     reset = function() {
       self$state = NULL
       invisible(self)
@@ -325,8 +330,8 @@ Learner = R6Class("Learner",
     },
 
     #' @field predict_type (`character(1)`)\cr
-    #' Stores the currently selected predict type.
-    #' Must be an element of `l$predict_types`.
+    #' Stores the currently active predict type, e.g. `"response"`.
+    #' Must be an element of `$predict_types`.
     predict_type = function(rhs) {
       if (missing(rhs)) {
         return(private$.predict_type)
@@ -348,7 +353,7 @@ Learner = R6Class("Learner",
     #' @field encapsulate (named `character()`)\cr
     #' Controls how to execute the code in internal train and predict methods.
     #' Must be a named character vector with names `"train"` and `"predict"`.
-    #' Possible values are `"none"`, `"evaluate"` and `"callr"`.
+    #' Possible values are `"none"`, `"evaluate"` (requires package \CRANpkg{evaluate}) and `"callr"` (requires package \CRANpkg{callr}).
     #' See [mlr3misc::encapsulate()] for more details.
     encapsulate = function(rhs) {
       if (missing(rhs)) {
