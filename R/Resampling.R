@@ -110,7 +110,7 @@ Resampling = R6Class("Resampling",
     man = NULL,
 
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param duplicated_ids (`logical(1)`)\cr
     #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.

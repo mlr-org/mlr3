@@ -6,19 +6,23 @@
 \description{
 This is the abstract base class for learner objects like \link{LearnerClassif} and \link{LearnerRegr}.
 
-Learners consist of the following parts:
+Learners are build around the three following key parts:
 \itemize{
 \item Methods \code{train()} and \code{predict()} which call internal methods (either public method \code{train_internal()}/\code{predict_internal()} (soft deprecated)  or private methods \code{.train()}/\code{.predict()}).
-\item The fitted model, after calling \code{train()}.
 \item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 \item Meta-information about the requirements and capabilities of the learner.
+\item The fitted model stored in field \verb{$model}, available after calling \code{train()}.
 }
 
 Predefined learners are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_learners},
 e.g. \code{\link[=mlr_learners_classif.rpart]{classif.rpart}} or \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}.
-A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 
-Note that this object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.
+More classification and regression learners are implemented in \CRANpkg{mlr3learners}.
+Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
+The dictionary \link{mlr_learners} gets automatically populated with the new learners as soon as the respective packages are loaded.
+
+More (experimental) learners can be found on GitHub: \url{https://github.com/mlr3learners/}.
+A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
 \section{Optional Extractors}{
 
@@ -80,7 +84,7 @@ Identifier of the object.}
 
 \item{\code{state}}{(\code{NULL} | named \code{list()})\cr
 Current (internal) state of the learner.
-Contains all information learnt during \code{train()} and \code{predict()}.
+Contains all information gathered during \code{train()} and \code{predict()}.
 It is not recommended to access elements from \code{state} directly.
 This is an internal data structure which may change in the future.}
 
@@ -139,8 +143,11 @@ Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.}
 
 \item{\code{log}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Returns the output (including warning and errors) as table with columns
-\code{"stage"} (train or predict), \code{"class"} (output, warning, error) and
-\code{"msg"} (\code{character()}).}
+\itemize{
+\item \code{"stage"} ("train" or "predict"),
+\item \code{"class"} ("output", "warning", or "error"), and
+\item \code{"msg"} (\code{character()}).
+}}
 
 \item{\code{warnings}}{(\code{character()})\cr
 Logged warnings as vector.}
@@ -183,7 +190,9 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
-Creates a new instance of the \link[R6:R6Class]{R6} object.
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+
+Note that this object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$new(
   id,
@@ -304,8 +313,8 @@ Modified self.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-predict"></a>}}
 \subsection{Method \code{predict()}}{
-Uses the data stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction}
-based on the provided \code{row_ids} of the \code{task}.
+Uses the information stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction}
+based for the provided \code{row_ids} of the \code{task}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Learner$predict(task, row_ids = NULL)}\if{html}{\out{</div>}}
 }

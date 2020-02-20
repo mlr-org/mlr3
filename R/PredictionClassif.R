@@ -57,7 +57,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
   cloneable = FALSE,
   public = list(
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param task ([TaskClassif])\cr
     #'   Task, used to extract defaults for `row_ids` and `truth`.

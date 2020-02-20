@@ -13,6 +13,7 @@
 #'   Keep the fitted model after the test set has been predicted?
 #'   Set to `TRUE` if you want to further analyse the models or want to
 #'   extract information like variable importance.
+#'
 #' @return [BenchmarkResult].
 #'
 #' @note

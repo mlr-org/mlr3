@@ -20,7 +20,7 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
   public = list(
 
     #' @description
-    #' Create a new instance.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param target (`character(1)`)\cr
     #'   Name of the target column.

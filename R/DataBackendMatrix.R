@@ -2,8 +2,10 @@
 #'
 #' @description
 #' [DataBackend] for \CRANpkg{Matrix}.
-#' Data is split into a (numerical) sparse part and a dense part.
+#' Data is split into a (numerical) sparse part and an optional dense part.
 #' These parts are automatically merged to a sparse format during `$data()`.
+#' Note that merging both parts potentially comes with a data loss, as all
+#' dense columns are converted to numeric columns.
 #'
 #' @template param_rows
 #' @template param_cols
@@ -27,11 +29,10 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
   public = list(
 
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param data [data.frame()]\cr
-    #'   The input [data.frame()].
-    #'   Converted to a [data.table::data.table()] automatically.
+    #' @param data [Matrix::Matrix()]\cr
+    #'   The input [Matrix::Matrix()].
     #' @param dense [data.frame()].
     #'   Dense data, converted to [data.table::data.table()].
     initialize = function(data, dense = NULL, primary_key = NULL) {
@@ -50,14 +51,12 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     },
 
     #' @description
-    #' Returns a slice of the data in the specified format. Currently, the
-    #' only supported formats are `"data.table"` and `"Matrix"`. The rows must
-    #' be addressed as vector of primary key values, columns must be referred
-    #' to via column names. Queries for rows with no matching row id and
-    #' queries for columns with no matching column name are silently ignored.
-    #' Rows are guaranteed to be returned in the same order as `rows`, columns
-    #' may be returned in an arbitrary order. Duplicated row ids result in
-    #' duplicated rows, duplicated column names lead to an exception.
+    #' Returns a slice of the data in the specified format.
+    #' Currently, the only supported formats are `"data.table"` and `"Matrix"`.
+    #' The rows must be addressed as vector of primary key values, columns must be referred to via column names.
+    #' Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
+    #' Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
+    #' Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
     data = function(rows, cols, data_format = "data.table") {
       assert_numeric(rows)
       assert_names(cols, type = "unique")
@@ -103,9 +102,9 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     },
 
     #' @description
-    #' Print the first `n` rows of a [DataBackend].
+    #' Retrieve the first `n` rows.
     #'
-    #' @param n `integer(1)`\cr
+    #' @param n (`integer(1)`)\cr
     #'   Number of rows.
     head = function(n = 6L) {
       self$data(head(self$rownames, n), self$colnames)
@@ -147,28 +146,28 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
   ),
 
   active = list(
-    #' @field rownames `integer()`\cr
-    #' Returns vector of all distinct row identifiers, i.e. the primary key column.
+    #' @field rownames (`integer()`)\cr
+    #' Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.
     rownames = function(rhs) {
       assert_ro_binding(rhs)
       private$.data$dense[[self$primary_key]]
     },
 
-    #' @field colnames `character()`\cr
+    #' @field colnames (`character()`)\cr
     #' Returns vector of all column names, including the primary key column.
     colnames = function(rhs) {
       assert_ro_binding(rhs)
       c(colnames(private$.data$dense), colnames(private$.data$sparse))
     },
 
-    #' @field nrow `integer(1)`\cr
+    #' @field nrow (`integer(1)`)\cr
     #' Number of rows (observations).
     nrow = function(rhs) {
       assert_ro_binding(rhs)
       nrow(private$.data$dense)
     },
 
-    #' @field ncol `integer(1)`\cr
+    #' @field ncol (`integer(1)`)\cr
     #' Number of columns (variables), including the primary key column.
     ncol = function(rhs) {
       assert_ro_binding(rhs)
@@ -187,10 +186,9 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
   )
 )
 
-#' @param data [data.frame()]\cr
-#'   The input [data.frame()].
-#'   Converted to a [data.table::data.table()] automatically.
-#' @param dense [data.frame()].
+#' @param data ([Matrix::Matrix()])\cr
+#'   The input [Matrix::Matrix()].
+#' @param dense ([data.frame()]).
 #'   Dense data, converted to [data.table::data.table()].
 #' @template param_primary_key
 #' @rdname as_data_backend

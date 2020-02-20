@@ -121,7 +121,7 @@ Set of required task properties.}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
-Most functions assert on the respective class, and optionally additional properties.
+Most assertion functions ensure the right class attrbiture, and optionally additional properties.
 Additionally, the following compound assertions are implemented:
 \itemize{
 \item assert_learnable(task, learner)\cr

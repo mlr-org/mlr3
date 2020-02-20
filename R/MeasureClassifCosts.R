@@ -54,7 +54,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
     normalize = NULL,
 
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param costs (numeric `matrix()`)\cr
     #'   Matrix of costs (truth in columns, predicted response in rows).

@@ -5,19 +5,22 @@
 #' @description
 #' This is the abstract base class for learner objects like [LearnerClassif] and [LearnerRegr].
 #'
-#' Learners consist of the following parts:
+#' Learners are build around the three following key parts:
 #'
-#' - Methods `train()` and `predict()` which call internal methods (either public method `train_internal()`/`predict_internal()` (soft deprecated)  or private methods `.train()`/`.predict()`).
-#' - The fitted model, after calling `train()`.
-#' - A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
-#' - Meta-information about the requirements and capabilities of the learner.
+#' * Methods `train()` and `predict()` which call internal methods (either public method `train_internal()`/`predict_internal()` (soft deprecated)  or private methods `.train()`/`.predict()`).
+#' * A [paradox::ParamSet] which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
+#' * Meta-information about the requirements and capabilities of the learner.
+#' * The fitted model stored in field `$model`, available after calling `train()`.
 #'
 #' Predefined learners are stored in the [mlr3misc::Dictionary] [mlr_learners],
 #' e.g. [`classif.rpart`][mlr_learners_classif.rpart] or [`regr.rpart`][mlr_learners_regr.rpart].
+#'
+#' More classification and regression learners are implemented in \CRANpkg{mlr3learners}.
+#' Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
+#' The dictionary [mlr_learners] gets automatically populated with the new learners as soon as the respective packages are loaded.
+#'
+#' More (experimental) learners can be found on GitHub: \url{https://github.com/mlr3learners/}.
 #' A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the [mlr3book](https://mlr3book.mlr-org.com).
-#'
-#'
-#' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
 #'
 #' @template param_id
 #' @template param_task_type
@@ -28,6 +31,7 @@
 #' @template param_data_formats
 #' @template param_packages
 #' @template param_man
+#'
 #'
 #' @section Optional Extractors:
 #'
@@ -48,6 +52,7 @@
 #'
 #' * `oob_error(...)`: Returns the out-of-bag error of the model as `numeric(1)`.
 #'   The learner must be tagged with property `"oob_error"`.
+#'
 #'
 #' @section Setting Hyperparameters:
 #'
@@ -79,7 +84,7 @@ Learner = R6Class("Learner",
 
     #' @field state (`NULL` | named `list()`)\cr
     #' Current (internal) state of the learner.
-    #' Contains all information learnt during `train()` and `predict()`.
+    #' Contains all information gathered during `train()` and `predict()`.
     #' It is not recommended to access elements from `state` directly.
     #' This is an internal data structure which may change in the future.
     state = NULL,
@@ -122,7 +127,9 @@ Learner = R6Class("Learner",
     man = NULL,
 
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
     initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
       properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
 
@@ -151,7 +158,21 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function() {
-      learner_print(self)
+      catf(format(self))
+      catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
+      catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      catf(str_indent("* Packages:", self$packages))
+      catf(str_indent("* Predict Type:", self$predict_type))
+      catf(str_indent("* Feature types:", self$feature_types))
+      catf(str_indent("* Properties:", self$properties))
+      w = self$warnings
+      e = self$errors
+      if (length(w)) {
+        catf(str_indent("* Warnings:", w))
+      }
+      if (length(e)) {
+        catf(str_indent("* Errors:", e))
+      }
     },
 
     #' @description
@@ -183,8 +204,8 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #' Uses the data stored during `$train()` in `$state` to create a new [Prediction]
-    #' based on the provided `row_ids` of the `task`.
+    #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
+    #' based for the provided `row_ids` of the `task`.
     #'
     #' @param task ([Task]).
     #'
@@ -239,7 +260,7 @@ Learner = R6Class("Learner",
     },
 
     #' @description
-    #'   Reset the learner, i.e. un-train by resetting the `state`.
+    #' Reset the learner, i.e. un-train by resetting the `state`.
     reset = function() {
       self$state = NULL
       invisible(self)
@@ -265,8 +286,10 @@ Learner = R6Class("Learner",
 
     #' @field log ([data.table::data.table()])\cr
     #' Returns the output (including warning and errors) as table with columns
-    #' `"stage"` (train or predict), `"class"` (output, warning, error) and
-    #' `"msg"` (`character()`).
+    #'
+    #' * `"stage"` ("train" or "predict"),
+    #' * `"class"` ("output", "warning", or "error"), and
+    #' * `"msg"` (`character()`).
     log = function(rhs) {
       assert_ro_binding(rhs)
       self$state$log
@@ -351,22 +374,3 @@ Learner = R6Class("Learner",
     }
   )
 )
-
-
-learner_print = function(self) {
-  catf(format(self))
-  catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
-  catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
-  catf(str_indent("* Packages:", self$packages))
-  catf(str_indent("* Predict Type:", self$predict_type))
-  catf(str_indent("* Feature types:", self$feature_types))
-  catf(str_indent("* Properties:", self$properties))
-  w = self$warnings
-  e = self$errors
-  if (length(w)) {
-    catf(str_indent("* Warnings:", w))
-  }
-  if (length(e)) {
-    catf(str_indent("* Errors:", e))
-  }
-}

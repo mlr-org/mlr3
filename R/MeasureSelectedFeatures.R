@@ -29,7 +29,7 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
     normalize = NULL,
 
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param normalize (`logical(1)`)\cr
     #'   If set to `TRUE`, divides the number of features by the total number of features.

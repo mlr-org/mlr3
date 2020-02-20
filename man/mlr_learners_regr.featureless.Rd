@@ -8,7 +8,7 @@
 A simple \link{LearnerRegr} which only analyses the response during train, ignoring all features.
 If hyperparameter \code{robust} is \code{FALSE} (default), constantly predicts \code{mean(y)} as response
 and \code{sd(y)} as standard error.
-If \code{robust} is \code{TRUE}, \code{median()} and \code{madn()} are used instead of \code{mean()} and \code{sd()},
+If \code{robust} is \code{TRUE}, \code{\link[=median]{median()}} and \code{\link[=mad]{mad()}} are used instead of \code{\link[=mean]{mean()}} and \code{\link[=sd]{sd()}},
 respectively.
 }
 \section{Dictionary}{
@@ -62,7 +62,7 @@ Other Learner:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
-Creates a new instance of the \link[R6:R6Class]{R6} object.
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LearnerRegrFeatureless$new()}\if{html}{\out{</div>}}
 }

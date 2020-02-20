@@ -8,6 +8,16 @@
 #' @section Additional resources:
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}
 #' * Use cases and examples: \url{https://mlr3gallery.mlr-org.com}
+#' * More classification and regression learners: \CRANpkg{mlr3learners}
+#' * Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
+#' * Tuning of hyperparameters: \CRANpkg{mlr3tuning}
+#' * Visualizations for many \pkg{mlr3} objects: \CRANpkg{mlr3viz}
+#' * Survival analysis and probabilistic regression: \CRANpkg{mlr3proba}
+#' * Feature selection filters: \CRANpkg{mlr3filters}
+#' * Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
+#' * Performance measures as plain functions: \CRANpkg{mlr3measures}
+#' * Parallelization framework: \CRANpkg{future}
+#' * Progress bars: \CRANpkg{progressr}
 #' @references
 #' \cite{mlr3}{pkg::citation}
 "_PACKAGE"

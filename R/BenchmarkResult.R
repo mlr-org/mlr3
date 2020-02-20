@@ -1,4 +1,4 @@
-#' @title Container for Results of `benchmark()`
+#' @title Container for Benchmarking Results
 #'
 #' @include mlr_reflections.R
 #'
@@ -14,6 +14,10 @@
 #' * `as.data.table(bmr)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a copy of the internal data.
+#' * `friedman.test(y, ...)`\cr
+#'   [BenchmarkResult] -> `"htest"`\cr
+#'   Applies [friedman.test()] on the benchmark result, returning an
+#'   object of class `"htest"`.
 #'
 #' @export
 #' @examples
@@ -62,22 +66,32 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
 
     #' @field rr_data [data.table::data.table()]\cr
-    #'   Internal data storage with one row per [ResampleResult].
-    #'   Can be joined with `$data` by joining on column `"hash"`.
-    #'   Not used in `mlr3` directly, but can be exploited by add-on packages.
+    #'   Internal data storage with one row per [ResampleResult]
+    #'   (instead of one row per resampling iteration as in `$data`).
     #'
     #'   Package develops may opt to add additional columns here.
     #'   These columns are preserved in all mutators.
+    #'
+    #'   Can be combined with `$data` by (left) joining on the key column `"hash"`.
+    #'   E.g., \CRANpkg{mlr3tuning} stores additional information for the optimization path
+    #'   in this table.
     rr_data = NULL,
 
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param data [data.table::data.table()]\cr
-    #'   Table with data for one resampling iteration per row: [Task],
-    #'   [Learner], [Resampling], iteration (`integer(1)`), [Prediction], and
-    #'   the unique hash `uhash` (`character(1)`) of the corresponding
-    #'   [ResampleResult]. Additional columns are kept in the resulting object.
+    #'   Table with data for one resampling iteration per row, with at least the following columns:
+    #'
+    #'   * `"task"` ([Task]),
+    #'   * `"learner"` ([Learner]),
+    #'   * `"resampling"` ([Resampling]),
+    #'   * `"iteration"` (`integer(1)`),
+    #'   * `"prediction"` ([Prediction]), and
+    #'   * `"uhash"` (`character(1)`).
+    #'
+    #'   Column `"uhash"` is the unique hash of the corresponding [ResampleResult].
+    #'   Additional columns are kept in the resulting object, but otherwise ignored by [BenchmarkResult].
     initialize = function(data = data.table()) {
       assert_data_table(data)
       slots = c("uhash", mlr_reflections$rr_names)
@@ -93,7 +107,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #'   Opens the help page for this object.
+    #' Opens the help page for this object.
     help = function() {
       open_help("mlr3::BenchmarkResult")
     },
@@ -116,10 +130,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #'  Fuses a second [BenchmarkResult] into itself, mutating the
-    #'  [BenchmarkResult] in-place. If `bmr` is `NULL`, simply returns `self`.
+    #' Fuses a second [BenchmarkResult] into itself, mutating the [BenchmarkResult] in-place.
+    #' If the second [BenchmarkResult] `bmr` is `NULL`, simply returns `self`.
+    #'
     #' @param bmr [BenchmarkResult]\cr
-    #'  A [BenchmarkResult] object.
+    #'   A [BenchmarkResult] object.
+    #' @return Modified self.
     combine = function(bmr) {
       if (!is.null(bmr)) {
         assert_benchmark_result(bmr)
@@ -135,21 +151,23 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
 
     #' @description
-    #'   Returns a table with one row for each resampling iteration, including
-    #'   all involved objects: [Task], [Learner], [Resampling], iteration number
-    #'   (`integer(1)`), and [Prediction]. If `ids` is set to `TRUE`, character
-    #'   column of extracted ids are added to the table for convenient
-    #'   filtering: `"task_id"`, `"learner_id"`, and `"resampling_id"`.
-    #'   Additionally calculates the provided performance measures and binds the
-    #'   performance as extra columns. These columns are named using the id of
-    #'   the respective [Measure].
+    #' Returns a table with one row for each resampling iteration, including
+    #' all involved objects: [Task], [Learner], [Resampling], iteration number
+    #' (`integer(1)`), and [Prediction]. If `ids` is set to `TRUE`, character
+    #' column of extracted ids are added to the table for convenient
+    #' filtering: `"task_id"`, `"learner_id"`, and `"resampling_id"`.
+    #'
+    #' Additionally calculates the provided performance measures and binds the
+    #' performance scores as extra columns. These columns are named using the id of
+    #' the respective [Measure].
+    #'
     #' @param measures [Measure]\cr
     #'   [Measure](s) to calculate the score for.
     #' @param ids `logical(1)`\cr
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
     #'   extra character columns.
+    #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE) {
-
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
       tab = copy(self$data)
@@ -198,6 +216,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Adds the number of resampling iterations with at least one warning as
     #'   extra integer column `"warnings"`, and the number of resampling
     #'   iterations with errors as extra integer column `"errors"`.
+    #'
+    #' @return [data.table::data.table()].
     aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE,
       params = FALSE, conditions = FALSE) {
 
@@ -243,15 +263,20 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #'   Subsets the benchmark result. If `task_ids` is not `NULL`, keeps all
-    #'   tasks with provided task ids while discards all others. Same procedure
-    #'   for `learner_ids` and `resampling_ids`.
+    #' Subsets the benchmark result. If `task_ids` is not `NULL`, keeps all
+    #' tasks with provided task ids while discards all others. Same procedure
+    #' for `learner_ids` and `resampling_ids`.
+    #'
     #' @param task_ids (`character()`)\cr
     #'   Ids of [Task]s to keep.
+    #'
     #' @param learner_ids (`character()`)\cr
     #'   Ids of [Learner]s to keep.
+    #'
     #' @param resampling_ids (`character()`)\cr
     #'   Ids of [Resampling]s to keep.
+    #'
+    #' @return Modified self.
     filter = function(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL) {
       if (!is.null(task_ids)) {
         assert_character(task_ids, any.missing = FALSE)
@@ -272,12 +297,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #'   Retrieve the i-th [ResampleResult], by position or by unique hash
-    #'   `uhash`. `i` and `uhash` are mutually exclusive.
-    #' @param i `integer()`\cr
+    #' Retrieve the i-th [ResampleResult], by position or by unique hash
+    #' `uhash`. `i` and `uhash` are mutually exclusive.
+    #'
+    #' @param i `integer(1)`\cr
     #'   The desired iteration value.
+    #'
     #' @param uhash `logical(1)`\cr
     #'   The desired `ushash` value.
+    #'
+    #' @return [ResampleResult].
     resample_result = function(i = NULL, uhash = NULL) {
       if (!xor(is.null(i), is.null(uhash))) {
         stopf("Either `i` or `uhash` must be provided")
@@ -290,17 +319,16 @@ BenchmarkResult = R6Class("BenchmarkResult",
         i = assert_int(i, lower = 1L, upper = length(uhashes), coerce = TRUE)
         needle = uhashes[i]
       }
-      ResampleResult$new(self$data[uhash == needle])
+      ResampleResult$new(self$data[list(needle), on = "uhash"])
     }
   ),
 
   active = list(
-
-    #' @field task_type `character(1)`\cr
-    #'   Task type of objects in the `BenchmarkResult`. All stored objects
-    #'   ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are
-    #'   required to have the same task type, e.g., `"classif"` or `"regr"`.
-    #'
+    #' @field task_type (`character(1)`)\cr
+    #' Task type of objects in the `BenchmarkResult`.
+    #' All stored objects ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are
+    #' required to have the same task type, e.g., `"classif"` or `"regr"`.
+    #' This is `NULL` for empty [BenchmarkResult]s.
     task_type = function(rhs) {
       assert_ro_binding(rhs)
       if (nrow(self$data) == 0L) {
@@ -310,24 +338,26 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @field tasks [data.table::data.table()]\cr
-    #'   Table of used tasks with three columns:
-    #'   `"task_hash"` (`character(1)`), `"task_id"` (`character(1)`) and
-    #'   `"task"` ([Task]).
-    #
+    #' Table of included [Task]s with three columns:
+    #'
+    #' * `"task_hash"` (`character(1)`),
+    #' * `"task_id"` (`character(1)`), and
+    #' * `"task"` ([Task]).
     tasks = function(rhs) {
       assert_ro_binding(rhs)
       unique(self$data[, list(task_hash = hashes(task), task_id = ids(task), task = task)], by = "task_hash")
     },
 
     #' @field learners [data.table::data.table()]\cr
-    #'   Table of used learners with three columns:
-    #'   `"learner_hash"` (`character(1)`), `"learner_id"` (`character(1)`) and
-    #'   `"learner"` ([Learner]).
+    #' Table of included [Learner]s with three columns:
     #'
-    #'   Note that it is not feasible to access learned models via this getter,
-    #'   as the training task would be ambiguous. Instead, select a row from the
-    #'   table returned by `$score()`.
-    #
+    #' * `"learner_hash"` (`character(1)`),
+    #' * `"learner_id"` (`character(1)`), and
+    #' * `"learner"` ([Learner]).
+    #'
+    #' Note that it is not feasible to access learned models via this getter, as the training task would be ambiguous.
+    #' For this reason the returned learner are reseted before they are returned.
+    #' Instead, select a row from the table returned by `$score()`.
     learners = function(rhs) {
       assert_ro_binding(rhs)
       tab = unique(self$data[, list(learner_hash = hashes(learner), learner_id = ids(learner), learner = learner)], by = "learner_hash")
@@ -335,23 +365,25 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @field resamplings [data.table::data.table()]\cr
-    #'   Table of used resamplings with three columns: `"resampling_hash"`
-    #'   (`character(1)`), `"resampling_id"` (`character(1)`) and `"resampling"`
-    #'   ([Resampling]).
+    #' Table of included [Resampling]s with three columns:
+    #'
+    #' * `"resampling_hash"` (`character(1)`),
+    #' * `"resampling_id"` (`character(1)`), and
+    #' * `"resampling"` ([Resampling]).
     resamplings = function(rhs) {
       assert_ro_binding(rhs)
       unique(self$data[, list(resampling_hash = hashes(resampling), resampling_id = ids(resampling), resampling = resampling)], by = "resampling_hash")
     },
 
-    #' @field n_resample_results `integer(1)`\cr
-    #'   Returns the number of stored [ResampleResult]s.
+    #' @field n_resample_results (`integer(1)`)\cr
+    #' Returns the total number of stored [ResampleResult]s.
     n_resample_results = function(rhs) {
       assert_ro_binding(rhs)
       nrow(self$rr_data)
     },
 
-    #' @field uhashes `character()`\cr
-    #'   Vector of unique hashes of all included [ResampleResult]s.
+    #' @field uhashes (`character()`)\cr
+    #' Set of (unique) hashes of all included [ResampleResult]s.
     uhashes = function(rhs) {
       assert_ro_binding(rhs)
       self$rr_data$uhash
@@ -370,6 +402,15 @@ as.data.table.BenchmarkResult = function(x, ...) {
   copy(x$data)
 }
 
+#' @importFrom stats friedman.test
+#' @export
+friedman.test.BenchmarkResult = function(y, measure = NULL, ...) {
+  # FIXME: this must be documented somewhere else
+  measure = assert_measure(as_measure(measure, task_type = y$task_type))
+  aggr = y$aggregate(measure)
+  friedman.test(aggr[[measure$id]], aggr$learner_id, aggr$task_id)
+}
+
 #' @title Convert to BenchmarkResult
 #'
 #' @description
@@ -384,13 +425,4 @@ as.data.table.BenchmarkResult = function(x, ...) {
 #' @export
 as_benchmark_result = function(x, ...) {
   UseMethod("as_benchmark_result")
-}
-
-#' @importFrom stats friedman.test
-#' @export
-friedman.test.BenchmarkResult = function(y, measure = NULL, ...) {
-  # FIXME: this must be documented somewhere
-  measure = assert_measure(as_measure(measure, task_type = y$task_type))
-  aggr = y$aggregate(measure)
-  friedman.test(aggr[[measure$id]], aggr$learner_id, aggr$task_id)
 }

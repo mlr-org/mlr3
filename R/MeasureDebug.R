@@ -32,7 +32,7 @@ MeasureDebug = R6Class("MeasureDebug",
     na_ratio = 0,
 
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param na_ratio (`numeric(1)`)\cr
     #'   Matrix of costs (truth in columns, predicted response in rows).

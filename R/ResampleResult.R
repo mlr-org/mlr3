@@ -33,7 +33,7 @@ ResampleResult = R6Class("ResampleResult",
     data = NULL,
 
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param data ([data.table::data.table()])\cr
     #'   Table with data for one resampling iteration per row:

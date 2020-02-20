@@ -10,8 +10,10 @@
 #' Instead, all data access is handled transparently via the [Task].
 #'
 #' This package comes with two implementations for backends:
+#'
 #' * [DataBackendDataTable] which stores the data as [data.table::data.table()].
 #' * [DataBackendMatrix] which stores the data as sparse [Matrix::sparseMatrix()].
+#'
 #' To connect to out-of-memory database management systems such as SQL servers,
 #' see the extension package \CRANpkg{mlr3db}.
 #'
@@ -19,7 +21,7 @@
 #' listed in the respective sections (see [DataBackendDataTable] or
 #' [DataBackendMatrix] for exemplary implementations of the interface).
 #'
-#' @template field_hash
+#' @template param_data_formats
 #'
 #' @family DataBackend
 #' @seealso
@@ -37,33 +39,30 @@
 #' b$missings(rows = b$rownames, cols = names(data))
 DataBackend = R6Class("DataBackend", cloneable = FALSE,
   public = list(
-    #' @field primary_key
-    #'   Each DataBackend needs a way to address rows, which is done via a
-    #'   column of unique integer values, referenced here by `primary_key`. The
-    #'   use of this variable may differ between backends.
+    #' @field primary_key (`character(1)`)\cr
+    #' Column name of the primary key column of unique integer row ids.
     primary_key = NULL,
 
-    #' @field data_formats
-    #'   Set of supported formats, e.g. `"data.table"` or `"Matrix"`.
+    #' @field data_formats (`character()`)\cr
+    #' Set of supported formats, e.g. `"data.table"` or `"Matrix"`.
     data_formats = NULL,
 
-    #' @description Create a DataBackend object
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' Note: This object is typically constructed via a derived classes, e.g.
     #' [DataBackendDataTable] or [DataBackendMatrix], or via the S3 method
     #' [as_data_backend()].
     #'
-    #' @param data `any`\cr
+    #' @param data (`any`)\cr
     #'   The format of the input data depends on the specialization. E.g.,
     #'   [DataBackendDataTable] expects a [data.table::data.table()] and
-    #'   [DataBackendMatrix] expects a [Matrix::Matrix()] constructed with the
-    #'   \CRANpkg{Matrix} package.
-    #' @param primary_key `character(1)`\cr
+    #'   [DataBackendMatrix] expects a [Matrix::Matrix()] from \CRANpkg{Matrix}.
+    #'
+    #' @param primary_key (`character(1)`)\cr
     #'   Each DataBackend needs a way to address rows, which is done via a
     #'   column of unique integer values, referenced here by `primary_key`. The
     #'   use of this variable may differ between backends.
-    #' @param data_formats `character()`\cr
-    #'   Set of supported formats, e.g. `"data.table"` or `"Matrix"`.
     initialize = function(data, primary_key, data_formats = "data.table") {
       private$.data = data
       self$primary_key = assert_string(primary_key)
@@ -89,6 +88,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
   ),
 
   active = list(
+    #' @template field_hash
     hash = function(rhs) {
       if (missing(rhs)) {
         if (is.na(private$.hash)) {

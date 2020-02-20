@@ -81,7 +81,7 @@ Task = R6Class("Task",
     man = NA_character_,
 
     #' @description
-    #' Create a new instance.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, task_type, backend) {
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)

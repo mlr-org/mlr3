@@ -5,8 +5,10 @@
 \title{DataBackend for Matrix}
 \description{
 \link{DataBackend} for \CRANpkg{Matrix}.
-Data is split into a (numerical) sparse part and a dense part.
+Data is split into a (numerical) sparse part and an optional dense part.
 These parts are automatically merged to a sparse format during \verb{$data()}.
+Note that merging both parts potentially comes with a data loss, as all
+dense columns are converted to numeric columns.
 }
 \examples{
 requireNamespace("Matrix")
@@ -32,16 +34,16 @@ Other DataBackend:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{rownames}}{\code{integer()}\cr
-Returns vector of all distinct row identifiers, i.e. the primary key column.}
+\item{\code{rownames}}{(\code{integer()})\cr
+Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.}
 
-\item{\code{colnames}}{\code{character()}\cr
+\item{\code{colnames}}{(\code{character()})\cr
 Returns vector of all column names, including the primary key column.}
 
-\item{\code{nrow}}{\code{integer(1)}\cr
+\item{\code{nrow}}{(\code{integer(1)})\cr
 Number of rows (observations).}
 
-\item{\code{ncol}}{\code{integer(1)}\cr
+\item{\code{ncol}}{(\code{integer(1)})\cr
 Number of columns (variables), including the primary key column.}
 }
 \if{html}{\out{</div>}}
@@ -67,7 +69,7 @@ Number of columns (variables), including the primary key column.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
-Creates a new instance of the \link[R6:R6Class]{R6} object.
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$new(data, dense = NULL, primary_key = NULL)}\if{html}{\out{</div>}}
 }
@@ -75,9 +77,8 @@ Creates a new instance of the \link[R6:R6Class]{R6} object.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{\code{\link[=data.frame]{data.frame()}}\cr
-The input \code{\link[=data.frame]{data.frame()}}.
-Converted to a \code{\link[data.table:data.table]{data.table::data.table()}} automatically.}
+\item{\code{data}}{\code{\link[Matrix:Matrix]{Matrix::Matrix()}}\cr
+The input \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.}
 
 \item{\code{dense}}{\code{\link[=data.frame]{data.frame()}}.
 Dense data, converted to \code{\link[data.table:data.table]{data.table::data.table()}}.}
@@ -91,14 +92,12 @@ Name of the primary key column.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-data"></a>}}
 \subsection{Method \code{data()}}{
-Returns a slice of the data in the specified format. Currently, the
-only supported formats are \code{"data.table"} and \code{"Matrix"}. The rows must
-be addressed as vector of primary key values, columns must be referred
-to via column names. Queries for rows with no matching row id and
-queries for columns with no matching column name are silently ignored.
-Rows are guaranteed to be returned in the same order as \code{rows}, columns
-may be returned in an arbitrary order. Duplicated row ids result in
-duplicated rows, duplicated column names lead to an exception.
+Returns a slice of the data in the specified format.
+Currently, the only supported formats are \code{"data.table"} and \code{"Matrix"}.
+The rows must be addressed as vector of primary key values, columns must be referred to via column names.
+Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
+Rows are guaranteed to be returned in the same order as \code{rows}, columns may be returned in an arbitrary order.
+Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$data(rows, cols, data_format = "data.table")}\if{html}{\out{</div>}}
 }
@@ -121,7 +120,7 @@ Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-head"></a>}}
 \subsection{Method \code{head()}}{
-Print the first \code{n} rows of a \link{DataBackend}.
+Retrieve the first \code{n} rows.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$head(n = 6L)}\if{html}{\out{</div>}}
 }
@@ -129,7 +128,7 @@ Print the first \code{n} rows of a \link{DataBackend}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{n}}{\code{integer(1)}\cr
+\item{\code{n}}{(\code{integer(1)})\cr
 Number of rows.}
 }
 \if{html}{\out{</div>}}

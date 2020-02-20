@@ -14,9 +14,10 @@ This package comes with two implementations for backends:
 \itemize{
 \item \link{DataBackendDataTable} which stores the data as \code{\link[data.table:data.table]{data.table::data.table()}}.
 \item \link{DataBackendMatrix} which stores the data as sparse \code{\link[Matrix:sparseMatrix]{Matrix::sparseMatrix()}}.
+}
+
 To connect to out-of-memory database management systems such as SQL servers,
 see the extension package \CRANpkg{mlr3db}.
-}
 
 The required set of fields and methods to implement a custom \code{DataBackend} is
 listed in the respective sections (see \link{DataBackendDataTable} or
@@ -45,11 +46,11 @@ Other DataBackend:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{primary_key}}{Each DataBackend needs a way to address rows, which is done via a
-column of unique integer values, referenced here by \code{primary_key}. The
-use of this variable may differ between backends.}
+\item{\code{primary_key}}{(\code{character(1)})\cr
+Column name of the primary key column of unique integer row ids.}
 
-\item{\code{data_formats}}{Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.}
+\item{\code{data_formats}}{(\code{character()})\cr
+Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -72,7 +73,7 @@ Hash (unique identifier) for this object.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
-Create a DataBackend object
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 Note: This object is typically constructed via a derived classes, e.g.
 \link{DataBackendDataTable} or \link{DataBackendMatrix}, or via the S3 method
@@ -84,19 +85,19 @@ Note: This object is typically constructed via a derived classes, e.g.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{\code{any}\cr
+\item{\code{data}}{(\code{any})\cr
 The format of the input data depends on the specialization. E.g.,
 \link{DataBackendDataTable} expects a \code{\link[data.table:data.table]{data.table::data.table()}} and
-\link{DataBackendMatrix} expects a \code{\link[Matrix:Matrix]{Matrix::Matrix()}} constructed with the
-\CRANpkg{Matrix} package.}
+\link{DataBackendMatrix} expects a \code{\link[Matrix:Matrix]{Matrix::Matrix()}} from \CRANpkg{Matrix}.}
 
-\item{\code{primary_key}}{\code{character(1)}\cr
+\item{\code{primary_key}}{(\code{character(1)})\cr
 Each DataBackend needs a way to address rows, which is done via a
 column of unique integer values, referenced here by \code{primary_key}. The
 use of this variable may differ between backends.}
 
-\item{\code{data_formats}}{\code{character()}\cr
-Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.}
+\item{\code{data_formats}}{(\code{character()})\cr
+Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}.
+Defaults to \code{"data.table"}.}
 }
 \if{html}{\out{</div>}}
 }

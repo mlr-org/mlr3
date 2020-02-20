@@ -23,7 +23,7 @@ MeasureOOBError = R6Class("MeasureOOBError",
   inherit = Measure,
   public = list(
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "oob_error",

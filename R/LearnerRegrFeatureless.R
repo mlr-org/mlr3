@@ -7,7 +7,7 @@
 #' A simple [LearnerRegr] which only analyses the response during train, ignoring all features.
 #' If hyperparameter `robust` is `FALSE` (default), constantly predicts `mean(y)` as response
 #' and `sd(y)` as standard error.
-#' If `robust` is `TRUE`, `median()` and `madn()` are used instead of `mean()` and `sd()`,
+#' If `robust` is `TRUE`, [median()] and [mad()] are used instead of [mean()] and [sd()],
 #' respectively.
 #'
 #' @templateVar id regr.featureless
@@ -18,7 +18,7 @@
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
   public = list(
     #' @description
-    #' Creates a new instance of the [R6][R6::R6Class] object.
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamLgl$new("robust", default = TRUE, tags = "train")
