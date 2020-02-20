@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Container for Results of <code>benchmark()</code> — BenchmarkResult • mlr3</title>
+<title>Container for Benchmarking Results — BenchmarkResult • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,10 +49,10 @@
 
 
 
-<meta property="og:title" content="Container for Results of <code>benchmark()</code> — BenchmarkResult" />
+<meta property="og:title" content="Container for Benchmarking Results — BenchmarkResult" />
 <meta property="og:description" content="This is the result container object returned by benchmark().
-A BenchmarkResult consists of the data row-binded data of multiple ResampleResults,
-which can easily be re-constructed.
+A BenchmarkResult consists of the data row-binded data of multiple
+ResampleResults, which can easily be re-constructed.
 Note that all stored objects are accessed by reference.
 Do not modify any object without cloning it first." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
@@ -154,119 +154,20 @@ Do not modify any object without cloning it first." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Container for Results of <code>benchmark()</code></h1>
+    <h1>Container for Benchmarking Results</h1>
     <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/BenchmarkResult.R'><code>R/BenchmarkResult.R</code></a></small>
     <div class="hidden name"><code>BenchmarkResult.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>This is the result container object returned by <code><a href='benchmark.html'>benchmark()</a></code>.
-A BenchmarkResult consists of the data row-binded data of multiple <a href='ResampleResult.html'>ResampleResult</a>s,
-which can easily be re-constructed.</p>
+A BenchmarkResult consists of the data row-binded data of multiple
+<a href='ResampleResult.html'>ResampleResult</a>s, which can easily be re-constructed.</p>
 <p>Note that all stored objects are accessed by reference.
 Do not modify any object without cloning it first.</p>
     </div>
 
 
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> object.</p>
-    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
-
-    
-<pre>bmr = BenchmarkResult$new(data = data.table())
-</pre>
-<ul>
-<li><p><code>data</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Table with data for one resampling iteration per row:
-<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a>, iteration (<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>), <a href='Prediction.html'>Prediction</a>, and the unique
-hash <code>uhash</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) of the corresponding <a href='ResampleResult.html'>ResampleResult</a>.
-Additional columns are kept in the resulting object.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
-
-    
-
-<ul>
-<li><p><code>data</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Internal data storage with one row per resampling iteration.
-Can be joined with <code>$rr_data</code> by joining on column <code>"hash"</code>.
-We discourage users to directly work with this table.</p>
-<p>Package develops on the other hand may opt to add additional columns here.
-These columns are preserved in all mutators.</p></li>
-<li><p><code>rr_data</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Internal data storage with one row per <a href='ResampleResult.html'>ResampleResult</a>.
-Can be joined with <code>$data</code> by joining on column <code>"hash"</code>.
-Not used in <code>mlr3</code> directly, but can be exploited by add-on packages.</p>
-<p>Package develops may opt to add additional columns here.
-These columns are preserved in all mutators.</p></li>
-<li><p><code>task_type</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Task type of objects in the <code>BenchmarkResult</code>.
-All stored objects (<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Prediction.html'>Prediction</a>) in a single <code>BenchmarkResult</code> are required to have the same task type, e.g., <code>"classif"</code> or <code>"regr"</code>.</p></li>
-<li><p><code>tasks</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Table of used tasks with three columns:
-<code>"task_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"task_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"task"</code> (<a href='Task.html'>Task</a>).</p></li>
-<li><p><code>learners</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Table of used learners with three columns:
-<code>"learner_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"learner_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"learner"</code> (<a href='Learner.html'>Learner</a>).
-Note that it is not feasible to access learnt models via this getter, as the training task would be ambiguous.
-Instead, select a row from the table returned by <code>$score()</code>.</p></li>
-<li><p><code>resamplings</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Table of used resamplings with three columns:
-<code>"resampling_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), <code>"resampling_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) and <code>"resampling"</code> (<a href='Resampling.html'>Resampling</a>).</p></li>
-<li><p><code>n_resample_results</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
-Returns the number of stored <a href='ResampleResult.html'>ResampleResult</a>s.</p></li>
-<li><p><code>uhashes</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Vector of unique hashes of all included <a href='ResampleResult.html'>ResampleResult</a>s.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<ul>
-<li><p><code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE)</a></code><br />
-(list of <a href='Measure.html'>Measure</a>, <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>, <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>, <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>, <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>) -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Returns a result table where resampling iterations are combined into <a href='ResampleResult.html'>ResampleResult</a>s.
-A column with the aggregated performance score is added for each <a href='Measure.html'>Measure</a>, named with the id of the respective measure.</p>
-<p>For convenience, the following parameters can be set to extract more information from the returned <a href='ResampleResult.html'>ResampleResult</a>:</p><ul>
-<li><p><code>uhashes</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-Adds the uhash values of the <a href='ResampleResult.html'>ResampleResult</a> as extra character column <code>"uhash"</code>.</p></li>
-<li><p><code>ids</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-Adds object ids (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) as extra character columns.</p></li>
-<li><p><code>params</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-Adds the hyperparameter values as extra list column <code>"params"</code>.
-You can unnest them with <code><a href='https://mlr3misc.mlr-org.com/reference/unnest.html'>mlr3misc::unnest()</a></code>.</p></li>
-<li><p><code>conditions</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-Adds the number of resampling iterations with at least one warning as extra integer column <code>"warnings"</code>, and
-the number of resampling iterations with errors as extra integer column <code>"errors"</code>.</p></li>
-</ul></li>
-<li><p><code>score(measures = NULL, ids = TRUE)</code><br />
-(list of <a href='Measure.html'>Measure</a>, <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>) -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Returns a table with one row for each resampling iteration, including all involved objects:
-<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a>, iteration number (<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>), and <a href='Prediction.html'>Prediction</a>.
-If <code>ids</code> is set to <code>TRUE</code>, character column of extracted ids are added to the table for convenient filtering: <code>"task_id"</code>, <code>"learner_id"</code>, and <code>"resampling_id"</code>.
-Additionally calculates the provided performance measures and binds the performance as extra columns.
-These columns are named using the id of the respective <a href='Measure.html'>Measure</a>.</p></li>
-<li><p><code>resample_result(i = NULL, uhash = NULL)</code><br />
-(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) -&gt; <a href='ResampleResult.html'>ResampleResult</a><br />
-Retrieve the i-th <a href='ResampleResult.html'>ResampleResult</a>, by position or by unique hash <code>uhash</code>.
-<code>i</code> and <code>uhash</code> are mutually exclusive.</p></li>
-<li><p><code>combine(bmr)</code><br />
-(BenchmarkResult | <code>NULL</code>) -&gt; <code>self</code><br />
-Fuses a second BenchmarkResult into itself, mutating the BenchmarkResult in-place.
-If <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.</p></li>
-<li><p><code><a href='https://rdrr.io/r/stats/filter.html'>filter(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL)</a></code><br />
-(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) -&gt; <code>self</code><br />
-Subsets the benchmark result.
-If <code>task_ids</code> is not <code>NULL</code>, keeps all tasks with provided task ids while discards all others.
-Same procedure for <code>learner_ids</code> and <code>resampling_ids</code>.</p></li>
-<li><p><code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code><br />
-() -&gt; <code>NULL</code><br />
-Opens the help page for this object.</p></li>
-</ul>
 
     <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 Methods</h2>
 
@@ -276,7 +177,253 @@ Opens the help page for this object.</p></li>
 <li><p><code><a href='as.data.table.html'>as.data.table(bmr)</a></code><br />
 BenchmarkResult -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns a copy of the internal data.</p></li>
+<li><p><code><a href='https://rdrr.io/r/stats/friedman.test.html'>friedman.test(y, ...)</a></code><br />
+BenchmarkResult -&gt; <code>"htest"</code><br />
+Applies <code><a href='https://rdrr.io/r/stats/friedman.test.html'>friedman.test()</a></code> on the benchmark result, returning an
+object of class <code>"htest"</code>.</p></li>
 </ul>
+
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl class='dl-horizontal'>
+<dt><code>data</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+Internal data storage with one row per resampling iteration.
+Can be joined with <code>$rr_data</code> by joining on column <code>"hash"</code>.
+We discourage users to directly work with this table.</p></dd>
+
+<dt><code>rr_data</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+Internal data storage with one row per <a href='ResampleResult.html'>ResampleResult</a>
+(instead of one row per resampling iteration as in <code>$data</code>).Package develops may opt to add additional columns here.
+These columns are preserved in all mutators.Can be combined with <code>$data</code> by (left) joining on the key column <code>"hash"</code>.
+E.g., <a href='https://CRAN.R-project.org/package=mlr3tuning'><span class="pkg">mlr3tuning</span></a> stores additional information for the optimization path
+in this table.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
+
+    <p><div class="r6-active-bindings"></p><dl class='dl-horizontal'>
+<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Task type of objects in the <code>BenchmarkResult</code>.
+All stored objects (<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Prediction.html'>Prediction</a>) in a single <code>BenchmarkResult</code> are
+required to have the same task type, e.g., <code>"classif"</code> or <code>"regr"</code>.
+This is <code>NULL</code> for empty BenchmarkResults.</p></dd>
+
+<dt><code>tasks</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+Table of included <a href='Task.html'>Task</a>s with three columns:
+<ul>
+<li><p><code>"task_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>),</p></li>
+<li><p><code>"task_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), and</p></li>
+<li><p><code>"task"</code> (<a href='Task.html'>Task</a>).</p></li>
+</ul></p></dd>
+
+<dt><code>learners</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+Table of included <a href='Learner.html'>Learner</a>s with three columns:
+<ul>
+<li><p><code>"learner_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>),</p></li>
+<li><p><code>"learner_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), and</p></li>
+<li><p><code>"learner"</code> (<a href='Learner.html'>Learner</a>).</p></li>
+</ul>Note that it is not feasible to access learned models via this getter, as the training task would be ambiguous.
+For this reason the returned learner are reseted before they are returned.
+Instead, select a row from the table returned by <code>$score()</code>.</p></dd>
+
+<dt><code>resamplings</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+Table of included <a href='Resampling.html'>Resampling</a>s with three columns:
+<ul>
+<li><p><code>"resampling_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>),</p></li>
+<li><p><code>"resampling_id"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>), and</p></li>
+<li><p><code>"resampling"</code> (<a href='Resampling.html'>Resampling</a>).</p></li>
+</ul></p></dd>
+
+<dt><code>n_resample_results</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Returns the total number of stored <a href='ResampleResult.html'>ResampleResult</a>s.</p></dd>
+
+<dt><code>uhashes</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Set of (unique) hashes of all included <a href='ResampleResult.html'>ResampleResult</a>s.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>BenchmarkResult$new()</code></a></p></li>
+<li><p><a href='#method-help'><code>BenchmarkResult$help()</code></a></p></li>
+<li><p><a href='#method-format'><code>BenchmarkResult$format()</code></a></p></li>
+<li><p><a href='#method-print'><code>BenchmarkResult$print()</code></a></p></li>
+<li><p><a href='#method-combine'><code>BenchmarkResult$combine()</code></a></p></li>
+<li><p><a href='#method-score'><code>BenchmarkResult$score()</code></a></p></li>
+<li><p><a href='#method-aggregate'><code>BenchmarkResult$aggregate()</code></a></p></li>
+<li><p><a href='#method-filter'><code>BenchmarkResult$filter()</code></a></p></li>
+<li><p><a href='#method-resample_result'><code>BenchmarkResult$resample_result()</code></a></p></li>
+<li><p><a href='#method-clone'><code>BenchmarkResult$clone()</code></a></p></li>
+</ul>
+<p><hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$new(data = data.table())</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>data</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+Table with data for one resampling iteration per row, with at least the following columns:
+<ul>
+<li><p><code>"task"</code> (<a href='Task.html'>Task</a>),</p></li>
+<li><p><code>"learner"</code> (<a href='Learner.html'>Learner</a>),</p></li>
+<li><p><code>"resampling"</code> (<a href='Resampling.html'>Resampling</a>),</p></li>
+<li><p><code>"iteration"</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>),</p></li>
+<li><p><code>"prediction"</code> (<a href='Prediction.html'>Prediction</a>), and</p></li>
+<li><p><code>"uhash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>).</p></li>
+</ul>Column <code>"uhash"</code> is the unique hash of the corresponding <a href='ResampleResult.html'>ResampleResult</a>.
+Additional columns are kept in the resulting object, but otherwise ignored by BenchmarkResult.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-help"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code></h3>
+<p>Opens the help page for this object.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$help()</pre><p></div></p>
+
+<p><hr>
+<a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
+<p>Helper for print outputs.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$format()</pre><p></div></p>
+
+<p><hr>
+<a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+<p>Printer.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$print()</pre><p></div></p>
+
+<p><hr>
+<a id="method-combine"></a></p><h3>Method <code>combine()</code></h3>
+<p>Fuses a second BenchmarkResult into itself, mutating the BenchmarkResult in-place.
+If the second BenchmarkResult <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$combine(bmr)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>bmr</code></dt><dd><p>BenchmarkResult<br />
+A BenchmarkResult object.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified self.</p>
+<p><hr>
+<a id="method-score"></a></p><h3>Method <code>score()</code></h3>
+<p>Returns a table with one row for each resampling iteration, including
+all involved objects: <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a>, iteration number
+(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>), and <a href='Prediction.html'>Prediction</a>. If <code>ids</code> is set to <code>TRUE</code>, character
+column of extracted ids are added to the table for convenient
+filtering: <code>"task_id"</code>, <code>"learner_id"</code>, and <code>"resampling_id"</code>.</p>
+<p>Additionally calculates the provided performance measures and binds the
+performance scores as extra columns. These columns are named using the id of
+the respective <a href='Measure.html'>Measure</a>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$score(measures = NULL, ids = TRUE)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>measures</code></dt><dd><p><a href='Measure.html'>Measure</a><br />
+<a href='s'>Measure</a> to calculate the score for.</p></dd>
+
+<dt><code>ids</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+Adds object ids (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) as
+extra character columns.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p>
+<p><hr>
+<a id="method-aggregate"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code></h3>
+<p>Returns a result table where resampling iterations are combined into
+<a href='ResampleResult.html'>ResampleResult</a>s. A column with the aggregated performance score is
+added for each <a href='Measure.html'>Measure</a>, named with the id of the respective measure.</p>
+<p>For convenience, different flags can be set to extract more
+information from the returned <a href='ResampleResult.html'>ResampleResult</a>:</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$aggregate(
+  measures = NULL,
+  ids = TRUE,
+  uhashes = FALSE,
+  params = FALSE,
+  conditions = FALSE
+)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>measures</code></dt><dd><p>(<a href='Measure.html'>Measure</a> | list of <a href='Measure.html'>Measure</a>)<br />
+List of performance measures to calculate.</p></dd>
+
+<dt><code>ids</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+Adds object ids (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) as
+extra character columns.</p></dd>
+
+<dt><code>uhashes</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+Adds the uhash values of the <a href='ResampleResult.html'>ResampleResult</a> as extra character
+column <code>"uhash"</code>.</p></dd>
+
+<dt><code>params</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+Adds the hyperparameter values as extra list column <code>"params"</code>. You
+can unnest them with <code><a href='https://mlr3misc.mlr-org.com/reference/unnest.html'>mlr3misc::unnest()</a></code>.</p></dd>
+
+<dt><code>conditions</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+Adds the number of resampling iterations with at least one warning as
+extra integer column <code>"warnings"</code>, and the number of resampling
+iterations with errors as extra integer column <code>"errors"</code>.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p>
+<p><hr>
+<a id="method-filter"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/filter.html'>filter()</a></code></h3>
+<p>Subsets the benchmark result. If <code>task_ids</code> is not <code>NULL</code>, keeps all
+tasks with provided task ids while discards all others. Same procedure
+for <code>learner_ids</code> and <code>resampling_ids</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$filter(
+  task_ids = NULL,
+  learner_ids = NULL,
+  resampling_ids = NULL
+)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>task_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Ids of <a href='Task.html'>Task</a>s to keep.</p></dd>
+
+<dt><code>learner_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Ids of <a href='Learner.html'>Learner</a>s to keep.</p></dd>
+
+<dt><code>resampling_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Ids of <a href='Resampling.html'>Resampling</a>s to keep.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified self.</p>
+<p><hr>
+<a id="method-resample_result"></a></p><h3>Method <code>resample_result()</code></h3>
+<p>Retrieve the i-th <a href='ResampleResult.html'>ResampleResult</a>, by position or by unique hash
+<code>uhash</code>. <code>i</code> and <code>uhash</code> are mutually exclusive.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$resample_result(i = NULL, uhash = NULL)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>i</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
+The desired iteration value.</p></dd>
+
+<dt><code>uhash</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+The desired <code>ushash</code> value.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p><a href='ResampleResult.html'>ResampleResult</a>.</p>
+<p><hr>
+<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>BenchmarkResult$clone(deep = FALSE)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
+
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -310,11 +457,11 @@ Returns a copy of the internal data.</p></li>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: c2b9d4f6-141a-45a0-85b1-1a6c4e927d45 &lt;TaskClassif&gt;
-#&gt; 2: c2b9d4f6-141a-45a0-85b1-1a6c4e927d45 &lt;TaskClassif&gt;
-#&gt; 3: c2b9d4f6-141a-45a0-85b1-1a6c4e927d45 &lt;TaskClassif&gt;
-#&gt; 4: 37cd30e2-6280-4d41-bf23-9e972bb3e11c &lt;TaskClassif&gt;
-#&gt; 5: 37cd30e2-6280-4d41-bf23-9e972bb3e11c &lt;TaskClassif&gt;
+#&gt; 1: bfc0d201-8c50-4240-9ea6-b42baaeb55cc &lt;TaskClassif&gt;
+#&gt; 2: bfc0d201-8c50-4240-9ea6-b42baaeb55cc &lt;TaskClassif&gt;
+#&gt; 3: bfc0d201-8c50-4240-9ea6-b42baaeb55cc &lt;TaskClassif&gt;
+#&gt; 4: d1d8121b-83ce-4e30-91e9-6509b60e1937 &lt;TaskClassif&gt;
+#&gt; 5: d1d8121b-83ce-4e30-91e9-6509b60e1937 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
@@ -359,11 +506,10 @@ Returns a copy of the internal data.</p></li>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#construction">Construction</a></li>
-      <li><a href="#fields">Fields</a></li>
-      <li><a href="#methods">Methods</a></li>
       <li><a href="#s-methods">S3 Methods</a></li>
+      <li><a href="#public-fields">Public fields</a></li>
+      <li><a href="#active-bindings">Active bindings</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -58,7 +58,8 @@ For example, for a classification task a single column must be marked as target 
 
 
 Predefined (toy) tasks are stored in the mlr3misc::Dictionary mlr_tasks,
-e.g. iris or boston_housing." />
+e.g. iris or boston_housing.
+Note that this object is typically constructed via a derived classes, e.g. TaskClassif or TaskRegr." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -173,198 +174,10 @@ For example, for a classification task a single column must be marked as target 
 
 <p>Predefined (toy) tasks are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_tasks.html'>mlr_tasks</a>,
 e.g. <code><a href='mlr_tasks_iris.html'>iris</a></code> or <code><a href='mlr_tasks_boston_housing.html'>boston_housing</a></code>.</p>
+<p>Note that this object is typically constructed via a derived classes, e.g. <a href='TaskClassif.html'>TaskClassif</a> or <a href='TaskRegr.html'>TaskRegr</a>.</p>
     </div>
 
 
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> object.</p>
-    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
-
-    
-
-<p>Note: This object is typically constructed via a derived classes, e.g. <a href='TaskClassif.html'>TaskClassif</a> or <a href='TaskRegr.html'>TaskRegr</a>.</p><pre>t = Task$new(id, task_type, backend)
-</pre>
-<ul>
-<li><p><code>id</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Identifier for the task.</p></li>
-<li><p><code>task_type</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Set in the classes which inherit from this class.
-Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types$type</a>.</p></li>
-<li><p><code>backend</code> :: <a href='DataBackend.html'>DataBackend</a><br />
-Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a DataBackend with <code><a href='as_data_backend.html'>as_data_backend()</a></code>.
-E.g., a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> will be converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
-
-    
-
-<ul>
-<li><p><code>backend</code> :: <a href='DataBackend.html'>DataBackend</a>.</p></li>
-<li><p><code>col_info</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Table with with 3 columns:</p><ul>
-<li><p><code>"id"</code> stores the name of the column.</p></li>
-<li><p><code>"type"</code> holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.</p></li>
-<li><p><code>"levels"</code> stores a vector of distinct values (levels) for factor variables.</p></li>
-</ul></li>
-<li><p><code>col_roles</code> :: named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code><br />
-Each column (feature) can have an arbitrary number of the following roles:</p><ul>
-<li><p><code>"feature"</code>: Regular feature used in the model fitting process.</p></li>
-<li><p><code>"target"</code>: Target variable.</p></li>
-<li><p><code>"name"</code>: Row names / observation labels. To be used in plots. Can be queried with <code>$row_names</code>.</p></li>
-<li><p><code>"order"</code>: Data returned by <code>$data()</code> is ordered by this column (or these columns).</p></li>
-<li><p><code>"group"</code>: During resampling, observations with the same value of the variable with role "group"
-are marked as "belonging together". They will be exclusively assigned to be either in the training set
-or in the test set for each resampling iteration. Only up to one column may have this role.</p></li>
-<li><p><code>"stratum"</code>: Stratification variables. Multiple discrete columns may have this role.</p></li>
-<li><p><code>"weight"</code>: Observation weights. Only up to one column (assumed to be discrete) may have this role.</p></li>
-</ul>
-
-<p><code>col_roles</code> keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
-To alter the roles, just modify the list, e.g. with  <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).</p></li>
-<li><p><code>row_roles</code> :: named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code><br />
-Each row (observation) can have an arbitrary number of roles in the learning task:</p><ul>
-<li><p><code>"use"</code>: Use in train / predict / resampling.</p></li>
-<li><p><code>"validation"</code>: Hold the observations back unless explicitly requested.
-Validation sets are not yet completely integrated into the package.</p></li>
-</ul>
-
-<p><code>row_roles</code> keeps track of the roles with a named list, elements are named by row role and each element is a <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> or <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> vector of row ids.
-To alter the roles, just modify the list, e.g. with  <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).</p></li>
-<li><p><code>feature_names</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Return all column names with <code>role == "feature"</code>.</p></li>
-<li><p><code>feature_types</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active" features of the task
-and <code>type</code> is the storage type.</p></li>
-<li><p><code>hash</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Hash (unique identifier) for this object.</p></li>
-<li><p><code>id</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Identifier of the Task.</p></li>
-<li><p><code>ncol</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
-Returns the total number of cols with role "target" or "feature".</p></li>
-<li><p><code>nrow</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
-Return the total number of rows with role "use".</p></li>
-<li><p><code>row_ids</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
-Returns the row ids of the <a href='DataBackend.html'>DataBackend</a> for observations with with role "use".</p></li>
-<li><p><code>row_names</code> :: <code>data.table()</code><br />
-Returns a table with two columns: row ids (<code>"row_id"</code>, <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>) and row names (<code>"row_name"</code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>).</p></li>
-<li><p><code>target_names</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Returns all column names with role "target".</p></li>
-<li><p><code>task_type</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Stores the type of the Task.</p></li>
-<li><p><code>properties</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Set of task properties. Possible properties are are stored in
-<a href='mlr_reflections.html'>mlr_reflections$task_properties</a>.
-The following properties are currently standardized and understood by tasks in <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a>:</p><ul>
-<li><p><code>"strata"</code>: The task is resampled using one or more stratification variables (role <code>"stratum"</code>).</p></li>
-<li><p><code>"groups"</code>: The task comes with grouping/blocking information (role <code>"group"</code>).</p></li>
-<li><p><code>"weights"</code>: The task comes with observation weights (role <code>"weight"</code>).
-Note that above listed properties are calculated from the <code>$col_roles</code> and must not be set explicitly.</p></li>
-</ul></li>
-<li><p><code>strata</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-If the task has columns designated with role <code>"stratum"</code>, returns a table with one subpopulation per row and two columns:
-<code>N</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>) with the number of observations in the subpopulation and <code>row_id</code> (list of <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> | list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) as list
-column with the row ids in the respective subpopulation.
-Returns <code>NULL</code> if there are is no stratification variable.</p>
-<p>See <a href='Resampling.html'>Resampling</a> for more information on stratification.</p></li>
-<li><p><code>groups</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-If the task has a column with designated role "group", table with two columns:
-<code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) and the grouping variable <code>group</code> (<code><a href='https://rdrr.io/r/base/vector.html'>vector()</a></code>).
-Returns <code>NULL</code> if there are is no grouping column.</p>
-<p>See <a href='Resampling.html'>Resampling</a> for more information on grouping.</p></li>
-<li><p><code>weights</code> :: <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-If the task has a column with designated role "weight", table with two columns:
-<code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) and the observation weights <code>weight</code> (<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).
-Returns <code>NULL</code> if there are is no weight column.</p></li>
-<li><p><code>man</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<ul>
-<li><p><code><a href='https://rdrr.io/r/utils/data.html'>data(rows = NULL, cols = NULL, data_format = NULL)</a></code><br />
-(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>) -&gt; <code>any</code><br />
-Returns a slice of the data from the <a href='DataBackend.html'>DataBackend</a> in the data format specified by <code>data_format</code>
-(depending on the <a href='DataBackend.html'>DataBackend</a>, but usually a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>).</p>
-<p>Rows are additionally subsetted to only contain observations with role "use", and
-columns are filtered to only contain features with roles "target" and "feature".
-If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p></li>
-<li><p><code><a href='https://rdrr.io/r/stats/formula.html'>formula(rhs = ".")</a></code><br />
-<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> -&gt; <code><a href='https://rdrr.io/r/stats/formula.html'>stats::formula()</a></code><br />
-Constructs a <code><a href='https://rdrr.io/r/stats/formula.html'>stats::formula()</a></code>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>, using
-the features provided in argument <code>rhs</code> (defaults to all columns with role <code>"feature"</code>, symbolized by <code>"."</code>).</p></li>
-<li><p><code><a href='https://rdrr.io/r/base/levels.html'>levels(cols = NULL)</a></code><br />
-<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> -&gt; named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code><br />
-Returns the distinct values for columns referenced in <code>cols</code> with storage type "factor" or "ordered".
-Argument <code>cols</code> defaults to all such columns with role <code>"target"</code> or <code>"feature"</code>.</p>
-<p>Note that this function ignores the row roles, it returns all levels available in the <a href='DataBackend.html'>DataBackend</a>.
-To update the stored level information, e.g. after filtering a task, call <code>$droplevels()</code>.</p></li>
-<li><p><code><a href='https://rdrr.io/r/base/droplevels.html'>droplevels(cols = NULL)</a></code><br />
-<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> -&gt; <code>self</code><br />
-Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
-<code>cols</code> defaults to all columns with storage type "factor" or "ordered".</p></li>
-<li><p><code>missings(cols = NULL)</code><br />
-<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> -&gt; named <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
-Returns the number of missing observations for columns referenced in <code>cols</code>.
-Considers only active rows with row role <code>"use"</code>.
-Argument <code>cols</code> defaults to all columns with role "target" or "feature".</p></li>
-<li><p><code><a href='https://rdrr.io/r/utils/head.html'>head(n = 6)</a></code><br />
-<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Get the first <code>n</code> observations with role <code>"use"</code>.</p></li>
-<li><p><code>set_row_role(rows, new_roles, exclusive = TRUE)</code><br />
-(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>) -&gt; <code>self</code><br />
-Adds the roles <code>new_roles</code> to rows referred to by <code>rows</code>.
-If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p>
-<p>This function is deprecated and will be removed in the next version in favor of directly modifying <code>$row_roles</code>.</p></li>
-<li><p><code>set_col_role(cols, new_roles, exclusive = TRUE)</code><br /></p>
-<p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>) -&gt; <code>self</code><br />
-Adds the roles <code>new_roles</code> to columns referred to by <code>cols</code>.
-If <code>exclusive</code> is <code>TRUE</code>, the referenced columns will be removed from all other roles.</p>
-<p>This function is deprecated and will be removed in the next version in favor of directly modifying <code>$col_roles</code>.</p></li>
-<li><p><code><a href='https://rdrr.io/r/stats/filter.html'>filter(rows)</a></code><br />
-(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) -&gt; <code>self</code><br />
-Subsets the task, reducing it to only keep the rows specified in <code>rows</code>.</p>
-<p>This operation mutates the task in-place.
-See the section on task mutators for more information.</p></li>
-<li><p><code>select(cols)</code><br />
-<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> -&gt; <code>self</code><br />
-Subsets the task, reducing it to only keep the features specified in <code>cols</code>.
-Note that you cannot deselect the target column, for obvious reasons.</p>
-<p>This operation mutates the task in-place.
-See the section on task mutators for more information.</p></li>
-<li><p><code><a href='https://rdrr.io/r/base/cbind.html'>cbind(data)</a></code><br />
-<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> -&gt; <code>self</code><br />
-Adds additional columns to the <a href='DataBackend.html'>DataBackend</a>.
-The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).
-If this column is missing, it is assumed that the rows are exactly in the order of <code>t$ow_ids</code>.
-In case of name clashes of column names in <code>data</code> and <a href='DataBackend.html'>DataBackend</a>, columns in <code>data</code> have higher precedence
-and virtually overwrite the columns in the <a href='DataBackend.html'>DataBackend</a>.</p>
-<p>This operation mutates the task in-place.
-See the section on task mutators for more information.</p></li>
-<li><p><code><a href='https://rdrr.io/r/base/cbind.html'>rbind(data)</a></code><br />
-<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> -&gt; <code>self</code><br />
-Adds additional rows to the <a href='DataBackend.html'>DataBackend</a>.
-The new row ids must be provided as column in <code>data</code>.
-If this column is missing, new row ids are constructed automatically.
-In case of name clashes of row ids, rows in <code>data</code> have higher precedence
-and virtually overwrite the rows in the <a href='DataBackend.html'>DataBackend</a>.</p>
-<p>All columns with the roles <code>"target"</code>, <code>"feature"</code>, <code>"weight"</code>, <code>"group"</code>, "stratum"<code>, and </code>"order"<code>must be present in</code>data<code>. Columns only present in </code>newdata` but not in the task will be stored in the new backend, but ignored by the task.</p>
-<p>This operation mutates the task in-place.
-See the section on task mutators for more information.</p></li>
-<li><p><code>rename(from, to)</code><br />
-(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) -&gt; <code>self</code><br />
-Renames columns by mapping column names in <code>old</code> to new column names in <code>new</code>.</p>
-<p>This operation mutates the task in-place.
-See the section on task mutators for more information.</p></li>
-<li><p><code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code><br />
-() -&gt; <code>NULL</code><br />
-Opens the corresponding help page referenced by <code>$man</code>.</p></li>
-</ul>
 
     <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 methods</h2>
 
@@ -407,6 +220,413 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
 <code><a href='mlr_tasks_wine.html'>mlr_tasks_wine</a></code>,
 <code><a href='mlr_tasks_zoo.html'>mlr_tasks_zoo</a></code>,
 <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl class='dl-horizontal'>
+<dt><code>id</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
+Identifier of the object.</p></dd>
+
+<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.For a complete list of possible task types (depending on the loaded packages),
+see <code><a href='mlr_reflections.html'>mlr_reflections$task_types$type</a></code>.</p></dd>
+
+<dt><code>backend</code></dt><dd><p>(<a href='DataBackend.html'>DataBackend</a>).</p></dd>
+
+<dt><code>col_info</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
+Table with with 3 columns:
+<ul>
+<li><p><code>"id"</code> stores the name of the column.</p></li>
+<li><p><code>"type"</code> holds the storage type of the variable, e.g. <code>integer</code>, <code>numeric</code> or <code>character</code>.</p></li>
+<li><p><code>"levels"</code> stores a vector of distinct values (levels) for factor variables.</p></li>
+</ul></p></dd>
+
+<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+Defaults to <code>NA</code>.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
+
+    <p><div class="r6-active-bindings"></p><dl class='dl-horizontal'>
+<dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Hash (unique identifier) for this object.</p></dd>
+
+<dt><code>row_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
+Returns the row ids of the <a href='DataBackend.html'>DataBackend</a> for observations with role "use".</p></dd>
+
+<dt><code>row_names</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
+Returns a table with row ids (<code>"row_id"</code>, <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>) and row names (<code>"row_name"</code>, <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>).</p></dd>
+
+<dt><code>feature_names</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Returns all column names with <code>role == "feature"</code>.</p></dd>
+
+<dt><code>target_names</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Returns all column names with role "target".</p></dd>
+
+<dt><code>properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Set of task properties.
+Possible properties are are stored in <a href='mlr_reflections.html'>mlr_reflections$task_properties</a>.
+The following properties are currently standardized and understood by tasks in <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a>:
+<ul>
+<li><p><code>"strata"</code>: The task is resampled using one or more stratification variables (role <code>"stratum"</code>).</p></li>
+<li><p><code>"groups"</code>: The task comes with grouping/blocking information (role <code>"group"</code>).</p></li>
+<li><p><code>"weights"</code>: The task comes with observation weights (role <code>"weight"</code>).</p></li>
+</ul>Note that above listed properties are calculated from the <code>$col_roles</code> and may not be set explicitly.</p></dd>
+
+<dt><code>row_roles</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
+Each row (observation) can have an arbitrary number of roles in the learning task:
+<ul>
+<li><p><code>"use"</code>: Use in train / predict / resampling.</p></li>
+<li><p><code>"validation"</code>: Hold the observations back unless explicitly requested.
+Validation sets are not yet completely integrated into the package.</p></li>
+</ul><code>row_roles</code> keeps track of the roles with a named list, elements are named by row role and each element is a <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> or <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> vector of row ids.
+To alter the roles, just modify the list, e.g. with  <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).</p></dd>
+
+<dt><code>col_roles</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
+Each column (feature) can have an arbitrary number of the following roles:
+<ul>
+<li><p><code>"feature"</code>: Regular feature used in the model fitting process.</p></li>
+<li><p><code>"target"</code>: Target variable.</p></li>
+<li><p><code>"name"</code>: Row names / observation labels. To be used in plots. Can be queried with <code>$row_names</code>.</p></li>
+<li><p><code>"order"</code>: Data returned by <code>$data()</code> is ordered by this column (or these columns).</p></li>
+<li><p><code>"group"</code>: During resampling, observations with the same value of the variable with role "group" are marked as "belonging together".
+They will be exclusively assigned to be either in the training set or in the test set for each resampling iteration.
+Only up to one column may have this role.</p></li>
+<li><p><code>"stratum"</code>: Stratification variables. Multiple discrete columns may have this role.</p></li>
+<li><p><code>"weight"</code>: Observation weights. Only up to one column (assumed to be discrete) may have this role.</p></li>
+</ul><code>col_roles</code> keeps track of the roles with a named list, the elements are named by column role and each element is a character vector of column names.
+To alter the roles, just modify the list, e.g. with <span style="R">R</span>'s set functions (<code><a href='https://rdrr.io/r/base/sets.html'>intersect()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>setdiff()</a></code>, <code><a href='https://rdrr.io/r/base/sets.html'>union()</a></code>, ...).</p></dd>
+
+<dt><code>nrow</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Returns the total number of rows with role "use".</p></dd>
+
+<dt><code>ncol</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Returns the total number of columns with role "target" or "feature".</p></dd>
+
+<dt><code>feature_types</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
+Returns a table with columns <code>id</code> and <code>type</code> where <code>id</code> are the column names of "active"
+features of the task and <code>type</code> is the storage type.</p></dd>
+
+<dt><code>data_formats</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Vector of supported data formats.
+A specific format can be chosen in the <code>$data()</code> method.</p></dd>
+
+<dt><code>strata</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
+If the task has columns designated with role <code>"stratum"</code>, returns a table with one subpopulation per row and two columns:
+<ul>
+<li><p><code>N</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>) with the number of observations in the subpopulation, and</p></li>
+<li><p><code>row_id</code> (list of <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>) as list column with the row ids in the respective subpopulation.
+Returns <code>NULL</code> if there are is no stratification variable.
+See <a href='Resampling.html'>Resampling</a> for more information on stratification.</p></li>
+</ul></p></dd>
+
+<dt><code>groups</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
+If the task has a column with designated role "group", table with two columns:
+<ul>
+<li><p><code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>), and</p></li>
+<li><p>grouping variable <code>group</code> (<code><a href='https://rdrr.io/r/base/vector.html'>vector()</a></code>).</p></li>
+</ul>Returns <code>NULL</code> if there are is no grouping column.
+See <a href='Resampling.html'>Resampling</a> for more information on grouping.</p></dd>
+
+<dt><code>weights</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
+If the task has a column with designated role "weight", table with two columns:
+<ul>
+<li><p><code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>), and</p></li>
+<li><p>observation weights <code>weight</code> (<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p></li>
+</ul>Returns <code>NULL</code> if there are is no weight column.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>Task$new()</code></a></p></li>
+<li><p><a href='#method-help'><code>Task$help()</code></a></p></li>
+<li><p><a href='#method-format'><code>Task$format()</code></a></p></li>
+<li><p><a href='#method-print'><code>Task$print()</code></a></p></li>
+<li><p><a href='#method-data'><code>Task$data()</code></a></p></li>
+<li><p><a href='#method-formula'><code>Task$formula()</code></a></p></li>
+<li><p><a href='#method-head'><code>Task$head()</code></a></p></li>
+<li><p><a href='#method-levels'><code>Task$levels()</code></a></p></li>
+<li><p><a href='#method-missings'><code>Task$missings()</code></a></p></li>
+<li><p><a href='#method-filter'><code>Task$filter()</code></a></p></li>
+<li><p><a href='#method-select'><code>Task$select()</code></a></p></li>
+<li><p><a href='#method-rbind'><code>Task$rbind()</code></a></p></li>
+<li><p><a href='#method-cbind'><code>Task$cbind()</code></a></p></li>
+<li><p><a href='#method-rename'><code>Task$rename()</code></a></p></li>
+<li><p><a href='#method-set_row_role'><code>Task$set_row_role()</code></a></p></li>
+<li><p><a href='#method-set_col_role'><code>Task$set_col_role()</code></a></p></li>
+<li><p><a href='#method-droplevels'><code>Task$droplevels()</code></a></p></li>
+<li><p><a href='#method-clone'><code>Task$clone()</code></a></p></li>
+</ul>
+<p><hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$new(id, task_type, backend)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Identifier for the new instance.</p></dd>
+
+<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
+Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types$type</a>.</p></dd>
+
+<dt><code>backend</code></dt><dd><p>(<a href='DataBackend.html'>DataBackend</a>)<br />
+Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a <a href='DataBackend.html'>DataBackend</a> with <code><a href='as_data_backend.html'>as_data_backend()</a></code>.
+E.g., a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> will be converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-help"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code></h3>
+<p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$help()</pre><p></div></p>
+
+<p><hr>
+<a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
+<p>Helper for print outputs.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$format()</pre><p></div></p>
+
+<p><hr>
+<a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+<p>Printer.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$print(...)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>...</code></dt><dd><p>(ignored).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-data"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
+<p>Returns a slice of the data from the <a href='DataBackend.html'>DataBackend</a> in the data format specified by <code>data_format</code>.
+Rows are additionally subsetted to only contain observations with role "use", and
+columns are filtered to only contain features with roles "target" and "feature".
+If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$data(rows = NULL, cols = NULL, data_format = "data.table")</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
+Row indices.</p></dd>
+
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+<dt><code>data_format</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Depending on the <a href='DataBackend.html'>DataBackend</a>, but usually a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p>
+<p><hr>
+<a id="method-formula"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/formula.html'>formula()</a></code></h3>
+<p>Constructs a <code><a href='https://rdrr.io/r/stats/formula.html'>formula()</a></code>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>,
+using the features provided in argument <code>rhs</code> (defaults to all columns with role <code>"feature"</code>, symbolized by <code>"."</code>).</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$formula(rhs = ".")</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>rhs</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Right hand side of the formula. Defaults to <code>"."</code> (all features of the task).</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p><code><a href='https://rdrr.io/r/stats/formula.html'>formula()</a></code>.</p>
+<p><hr>
+<a id="method-head"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/head.html'>head()</a></code></h3>
+<p>Get the first <code>n</code> observations with role <code>"use"</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$head(n = 6L)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>).</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p>
+<p><hr>
+<a id="method-levels"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/levels.html'>levels()</a></code></h3>
+<p>Returns the distinct values for columns referenced in <code>cols</code> with storage type "factor" or "ordered".
+Argument <code>cols</code> defaults to all such columns with role <code>"target"</code> or <code>"feature"</code>.</p>
+<p>Note that this function ignores the row roles, it returns all levels available in the <a href='DataBackend.html'>DataBackend</a>.
+To update the stored level information, e.g. after filtering a task, call <code>$droplevels()</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$levels(cols = NULL)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>.</p>
+<p><hr>
+<a id="method-missings"></a></p><h3>Method <code>missings()</code></h3>
+<p>Returns the number of missing observations for columns referenced in <code>cols</code>.
+Considers only active rows with row role <code>"use"</code>.
+Argument <code>cols</code> defaults to all columns with role "target" or "feature".</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$missings(cols = NULL)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Named <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>.</p>
+<p><hr>
+<a id="method-filter"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/filter.html'>filter()</a></code></h3>
+<p>Subsets the task, reducing it to only keep the rows specified via row ids <code>rows</code>.</p>
+<p>This operation mutates the task in-place.
+See the section on task mutators for more information.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$filter(rows)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
+Row indices.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified self.</p>
+<p><hr>
+<a id="method-select"></a></p><h3>Method <code>select()</code></h3>
+<p>Subsets the task, reducing it to only keep the features specified via column names <code>cols</code>.
+Note that you cannot deselect the target column, for obvious reasons.</p>
+<p>This operation mutates the task in-place.
+See the section on task mutators for more information.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$select(cols)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified self.</p>
+<p><hr>
+<a id="method-rbind"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/cbind.html'>rbind()</a></code></h3>
+<p>Adds additional rows to the <a href='DataBackend.html'>DataBackend</a> stored in <code>$backend</code>.
+New row ids are automatically created, unless <code>data</code> has a column whose name matches
+the primary key of the <a href='DataBackend.html'>DataBackend</a> (<code>task$backend$primary_key</code>).
+In case of name clashes of row ids, rows in <code>data</code> have higher precedence
+and virtually overwrite the rows in the <a href='DataBackend.html'>DataBackend</a>.</p>
+<p>All columns with the roles <code>"target"</code>, <code>"feature"</code>, <code>"weight"</code>, <code>"group"</code>, "stratum"<code>, and </code>"order"<code>must be present in</code>data<code>. Columns only present in </code>newdata` but not in the task will be stored in the new backend, but are ignored and unaccessible by the task.</p>
+<p>This operation mutates the task in-place.
+See the section on task mutators for more information.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$rbind(data)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>data</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>).</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified self.</p>
+<p><hr>
+<a id="method-cbind"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/cbind.html'>cbind()</a></code></h3>
+<p>Adds additional columns to the <a href='DataBackend.html'>DataBackend</a> stored in <code>$backend</code>.</p>
+<p>The row ids must be provided as column in <code>data</code> (with column name matching the primary key name of the <a href='DataBackend.html'>DataBackend</a>).
+If this column is missing, it is assumed that the rows are exactly in the order of <code>t$ow_ids</code>.
+In case of name clashes of column names in <code>data</code> and <a href='DataBackend.html'>DataBackend</a>, columns in <code>data</code> have higher precedence
+and virtually overwrite the columns in the <a href='DataBackend.html'>DataBackend</a>.</p>
+<p>This operation mutates the task in-place.
+See the section on task mutators for more information.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$cbind(data)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>data</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-rename"></a></p><h3>Method <code>rename()</code></h3>
+<p>Renames columns by mapping column names in <code>old</code> to new column names in <code>new</code>.</p>
+<p>This operation mutates the task in-place.
+See the section on task mutators for more information.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$rename(old, new)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>old</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Old names.</p></dd>
+
+<dt><code>new</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+New names.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified self.</p>
+<p><hr>
+<a id="method-set_row_role"></a></p><h3>Method <code>set_row_role()</code></h3>
+<p>Adds the roles <code>new_roles</code> to rows referred to by row ids <code>rows</code>.
+If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p>
+<p>This function is deprecated and will be removed in the next version in favor of directly modifying <code>$row_roles</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$set_row_role(rows, new_roles, exclusive = TRUE)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
+Row indices.</p></dd>
+
+<dt><code>new_roles</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>).</p></dd>
+
+<dt><code>exclusive</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>).</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified <code>self</code>.</p>
+<p><hr>
+<a id="method-set_col_role"></a></p><h3>Method <code>set_col_role()</code></h3>
+<p>Adds the roles <code>new_roles</code> to columns referred to by column names <code>cols</code>.
+If <code>exclusive</code> is <code>TRUE</code>, the referenced columns will be removed from all other roles.</p>
+<p>This function is deprecated and will be removed in the next version in favor of directly modifying <code>$col_roles</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$set_col_role(cols, new_roles, exclusive = TRUE)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+<dt><code>new_roles</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>).</p></dd>
+
+<dt><code>exclusive</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>).</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified <code>self</code>.</p>
+<p><hr>
+<a id="method-droplevels"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/droplevels.html'>droplevels()</a></code></h3>
+<p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
+<code>cols</code> defaults to all columns with storage type "factor" or "ordered".</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$droplevels(cols = NULL)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified <code>self</code>.</p>
+<p><hr>
+<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Task$clone(deep = FALSE)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># we use the inherited class TaskClassif here,</span>
@@ -432,13 +652,12 @@ merge both backends into an abstract <a href='DataBackend.html'>DataBackend</a> 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#construction">Construction</a></li>
-      <li><a href="#fields">Fields</a></li>
-      <li><a href="#methods">Methods</a></li>
       <li><a href="#s-methods">S3 methods</a></li>
       <li><a href="#task-mutators">Task mutators</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#public-fields">Public fields</a></li>
+      <li><a href="#active-bindings">Active bindings</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

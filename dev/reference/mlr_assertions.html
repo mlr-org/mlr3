@@ -51,7 +51,7 @@
 
 <meta property="og:title" content="Assertion for mlr3 Objects — mlr_assertions" />
 <meta property="og:description" content="Functions intended to be used in packages extending mlr3.
-Most functions assert on the respective class, and optionally additional properties.
+Most assertion functions ensure the right class attrbiture, and optionally additional properties.
 Additionally, the following compound assertions are implemented:
 assert_learnable(task, learner)
 (Task, Learner) -&amp;gt; NULL
@@ -167,7 +167,7 @@ Otherwise, the input object is returned invisibly." />
 
     <div class="ref-description">
     <p>Functions intended to be used in packages extending <span class="pkg">mlr3</span>.
-Most functions assert on the respective class, and optionally additional properties.
+Most assertion functions ensure the right class attrbiture, and optionally additional properties.
 Additionally, the following compound assertions are implemented:</p><ul>
 <li><p>assert_learnable(task, learner)<br />
 (<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>) -&gt; NULL<br />
@@ -252,65 +252,65 @@ Otherwise, the input object is returned invisibly.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>b</th>
-      <td><p>:: <a href='DataBackend.html'>DataBackend</a>.</p></td>
+      <td><p>(<a href='DataBackend.html'>DataBackend</a>).</p></td>
     </tr>
     <tr>
       <th>task</th>
-      <td><p>:: <a href='Task.html'>Task</a>.</p></td>
+      <td><p>(<a href='Task.html'>Task</a>).</p></td>
     </tr>
     <tr>
       <th>feature_types</th>
-      <td><p>:: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Set of allowed feature types.</p></td>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Feature types the learner operates on. Must be a subset of <code><a href='mlr_reflections.html'>mlr_reflections$task_feature_types</a></code>.</p></td>
     </tr>
     <tr>
       <th>task_properties</th>
-      <td><p>:: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Set of required task properties.</p></td>
     </tr>
     <tr>
       <th>tasks</th>
-      <td><p>:: list of <a href='Task.html'>Task</a>.</p></td>
+      <td><p>(list of <a href='Task.html'>Task</a>).</p></td>
     </tr>
     <tr>
       <th>learner</th>
-      <td><p>:: <a href='Learner.html'>Learner</a>.</p></td>
+      <td><p>(<a href='Learner.html'>Learner</a>).</p></td>
     </tr>
     <tr>
       <th>learners</th>
-      <td><p>:: list of <a href='Learner.html'>Learner</a>.</p></td>
+      <td><p>(list of <a href='Learner.html'>Learner</a>).</p></td>
     </tr>
     <tr>
       <th>measure</th>
-      <td><p>:: <a href='Measure.html'>Measure</a>.</p></td>
+      <td><p>(<a href='Measure.html'>Measure</a>).</p></td>
     </tr>
     <tr>
       <th>measures</th>
-      <td><p>:: list of <a href='Measure.html'>Measure</a>.</p></td>
+      <td><p>(list of <a href='Measure.html'>Measure</a>).</p></td>
     </tr>
     <tr>
       <th>resampling</th>
-      <td><p>:: <a href='Resampling.html'>Resampling</a>.</p></td>
+      <td><p>(<a href='Resampling.html'>Resampling</a>).</p></td>
     </tr>
     <tr>
       <th>resamplings</th>
-      <td><p>:: list of <a href='Resampling.html'>Resampling</a>.</p></td>
+      <td><p>(list of <a href='Resampling.html'>Resampling</a>).</p></td>
     </tr>
     <tr>
       <th>prediction</th>
-      <td><p>:: <a href='Prediction.html'>Prediction</a>.</p></td>
+      <td><p>(<a href='Prediction.html'>Prediction</a>).</p></td>
     </tr>
     <tr>
       <th>bmr</th>
-      <td><p>:: <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></td>
+      <td><p>(<a href='BenchmarkResult.html'>BenchmarkResult</a>).</p></td>
     </tr>
     <tr>
       <th>row_ids</th>
-      <td><p>:: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>.</p></td>
+      <td><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p></td>
     </tr>
     <tr>
       <th>resample_result</th>
-      <td><p>:: <a href='ResampleResult.html'>ResampleResult</a>.</p></td>
+      <td><p>(<a href='ResampleResult.html'>ResampleResult</a>).</p></td>
     </tr>
     </table>
 

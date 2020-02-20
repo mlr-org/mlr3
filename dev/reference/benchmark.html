@@ -166,7 +166,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>design</th>
-      <td><p>:: <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code><br />
+      <td><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>)<br />
 Data frame (or <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>) with three columns: "task", "learner", and "resampling".
 Each row defines a resampling by providing a <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a> and an instantiated <a href='Resampling.html'>Resampling</a> strategy.
 The helper function <code><a href='benchmark_grid.html'>benchmark_grid()</a></code> can assist in generating an exhaustive design (see examples) and
@@ -174,7 +174,7 @@ instantiate the <a href='Resampling.html'>Resampling</a>s per <a href='Task.html
     </tr>
     <tr>
       <th>store_models</th>
-      <td><p>:: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Keep the fitted model after the test set has been predicted?
 Set to <code>TRUE</code> if you want to further analyse the models or want to
 extract information like variable importance.</p></td>
@@ -240,12 +240,12 @@ or <code>"trace"</code>:</p><pre>lgr::get_logger("mlr3")$set_threshold("debug")
 
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 5e617fac-ad9b-4547-8925-1d4f43907209 &lt;TaskClassif&gt;
-#&gt; 2: 5e617fac-ad9b-4547-8925-1d4f43907209 &lt;TaskClassif&gt;
-#&gt; 3: 5e617fac-ad9b-4547-8925-1d4f43907209 &lt;TaskClassif&gt;
-#&gt; 4: 97b2cbe4-7323-4bb0-8c7e-69be0a600ccf &lt;TaskClassif&gt;
-#&gt; 5: 97b2cbe4-7323-4bb0-8c7e-69be0a600ccf &lt;TaskClassif&gt;
-#&gt; 6: 97b2cbe4-7323-4bb0-8c7e-69be0a600ccf &lt;TaskClassif&gt;
+#&gt; 1: ef5adb03-5b9d-4529-bab7-f4b96e48ec9d &lt;TaskClassif&gt;
+#&gt; 2: ef5adb03-5b9d-4529-bab7-f4b96e48ec9d &lt;TaskClassif&gt;
+#&gt; 3: ef5adb03-5b9d-4529-bab7-f4b96e48ec9d &lt;TaskClassif&gt;
+#&gt; 4: eb8452bd-fa08-4646-b481-44511d413c81 &lt;TaskClassif&gt;
+#&gt; 5: eb8452bd-fa08-4646-b481-44511d413c81 &lt;TaskClassif&gt;
+#&gt; 6: eb8452bd-fa08-4646-b481-44511d413c81 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
