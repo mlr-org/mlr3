@@ -17,6 +17,11 @@
 #' Predefined learners can be found in the [mlr3misc::Dictionary] [mlr_learners].
 #' Essential classification learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
 #'
+#' @template param_id
+#' @template param_param_set
+#' @template param_packages
+#' @template param_man
+#'
 #' @family Learner
 #' @export
 #' @examples
@@ -38,12 +43,6 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of the [R6][R6::R6Class] object.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier for the learner.
-    #'
-    #' @param param_set ([paradox::ParamSet])\cr
-    #'   Set of hyperparameters.
     #'
     #' @param predict_types (`character()`)\cr
     #'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
@@ -70,14 +69,6 @@ LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
     #' @param data_formats (`character()`)\cr
     #'   Vector of supported data formats which can be processed during `$train()` and `$predict()`.
     #'   Defaults to `"data.table"`.
-    #'
-    #' @param packages (`character()`)\cr
-    #'   Set of required packages.
-    #'   A warning is signaled by the constructor if at least one of the packages is not installed.
-    #'   The packages will be loaded (not attached) via [requireNamespace()] for `$train()`/`$predict()`.
-    #'
-    #' @param man (`character(1)`)\cr
-    #'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
     initialize = function(id, param_set = ParamSet$new(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
         feature_types = feature_types, properties = properties, data_formats = data_formats, packages = packages, man = man)

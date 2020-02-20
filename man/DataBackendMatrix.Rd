@@ -84,9 +84,6 @@ Dense data, converted to \code{\link[data.table:data.table]{data.table::data.tab
 
 \item{\code{primary_key}}{\code{character(1)}\cr
 Name of the primary key column.}
-
-\item{\code{primary_key}}{\code{character(1)}\cr
-Name of the primary key column.}
 }
 \if{html}{\out{</div>}}
 }
@@ -115,7 +112,7 @@ Row indices.}
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
 
-\item{\code{data_format}}{\cr
+\item{\code{data_format}}{(\code{character(1)})\cr
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 }
 \if{html}{\out{</div>}}

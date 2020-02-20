@@ -3,11 +3,11 @@
 #' @description
 #' [DataBackend] for \CRANpkg{data.table} as an in-memory data base.
 #'
-#' @template rows
-#' @template cols
-#' @template data_format
-#' @template primary_key
-#' @template na_rm
+#' @template param_rows
+#' @template param_cols
+#' @template param_data_format
+#' @template param_primary_key
+#' @template param_na_rm
 #'
 #' @family DataBackend
 #' @export
@@ -144,7 +144,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
 #' @param data [data.frame()]\cr
 #'   The input [data.frame()].
 #'   Converted to a [data.table::data.table()] automatically.
-#' @template primary_key
+#' @template param_primary_key
 #' @param keep_rownames `logical(1)` | `character(1)`\cr
 #'   If `TRUE` or a single string, keeps the row names of `data` as a new
 #'   column. The column is named like the provided string, defaulting to

@@ -19,6 +19,10 @@
 #'
 #' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
 #'
+#' @template param_id
+#' @template param_task_type
+#' @template param_packages
+#' @template param_man
 #'
 #' @family Measure
 #' @export
@@ -74,12 +78,6 @@ Measure = R6Class("Measure",
     #' @description
     #' Creates a new instance of the [R6][R6::R6Class] object.
     #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier for the measure.
-    #'
-    #' @param task_type (`character(1)`)\cr
-    #'   Type of the task the measure can operator on. E.g., `"classif"` or `"regr"`.
-    #'
     #' @param range (`numeric(2)`)\cr
     #'   Feasible range for this measure as `c(lower_bound, upper_bound)`.
     #'   Both bounds may be infinite.
@@ -124,14 +122,6 @@ Measure = R6Class("Measure",
     #'
     #' @param task_properties (`character()`)\cr
     #'   Required task properties, see [Task].
-    #'
-    #' @param packages (`character()`)\cr
-    #'   Set of required packages.
-    #'   A warning is signaled by the constructor if at least one of the packages is not installed.
-    #'   The packages will be loaded (not attached) via [requireNamespace()] for `$train()`/`$predict()`.
-    #'
-    #' @param man (`character(1)`)\cr
-    #'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
     initialize = function(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
 

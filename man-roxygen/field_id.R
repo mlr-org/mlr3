@@ -1,2 +1,2 @@
-#' @field id `character()`\cr
-#' Name of the object.
+#' @field id `character(1)`\cr
+#' Identifier of the object.

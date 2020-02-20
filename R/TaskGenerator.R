@@ -7,6 +7,12 @@
 #' Predefined task generators are stored in the [mlr3misc::Dictionary] [mlr_task_generators],
 #' e.g. [`xor`][mlr_task_generators_xor].
 #'
+#' @template param_id
+#' @template param_param_set
+#' @template param_task_type
+#' @template param_packages
+#' @template param_man
+#'
 #' @family TaskGenerator
 #' @export
 TaskGenerator = R6Class("TaskGenerator",
@@ -28,23 +34,6 @@ TaskGenerator = R6Class("TaskGenerator",
 
     #' @description
     #' Create a new instance.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier for the learner.
-    #'
-    #' @param task_type (`character(1)`)\cr
-    #'   Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
-    #'
-    #' @param packages (`character()`)\cr
-    #'   Set of required packages.
-    #'   A warning is signaled by the constructor if at least one of the packages is not installed.
-    #'   The packages will be loaded (not attached) via [requireNamespace()] for `$train()`/`$predict()`.
-    #'
-    #' @param param_set ([paradox::ParamSet])\cr
-    #'   Set of hyperparameters.
-    #'
-    #' @param man (`character(1)`)\cr
-    #'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
     initialize = function(id, task_type, packages = character(), param_set = ParamSet$new(), man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)

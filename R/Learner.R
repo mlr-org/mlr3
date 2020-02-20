@@ -19,6 +19,12 @@
 #'
 #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
 #'
+#' @template param_id
+#' @template param_param_set
+#' @template param_task_type
+#' @template param_packages
+#' @template param_man
+#'
 #' @section Optional Extractors:
 #'
 #' Specific learner implementations are free to implement additional getters to ease the access of certain parts
@@ -116,15 +122,6 @@ Learner = R6Class("Learner",
     #' @description
     #' Creates a new instance of the [R6][R6::R6Class] object.
     #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier for the learner.
-    #'
-    #' @param task_type (`character(1)`)\cr
-    #'   Type of the task the learner can operator on. E.g., `"classif"` or `"regr"`.
-    #'
-    #' @param param_set ([paradox::ParamSet])\cr
-    #'   Set of hyperparameters.
-    #'
     #' @param predict_types (`character()`)\cr
     #'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
     #'
@@ -150,14 +147,6 @@ Learner = R6Class("Learner",
     #' @param data_formats (`character()`)\cr
     #'   Vector of supported data formats which can be processed during `$train()` and `$predict()`.
     #'   Defaults to `"data.table"`.
-    #'
-    #' @param packages (`character()`)\cr
-    #'   Set of required packages.
-    #'   A warning is signaled by the constructor if at least one of the packages is not installed.
-    #'   The packages will be loaded (not attached) via [requireNamespace()] for `$train()`/`$predict()`.
-    #'
-    #' @param man (`character(1)`)\cr
-    #'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
     initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
       properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
 

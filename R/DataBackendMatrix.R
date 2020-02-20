@@ -5,11 +5,11 @@
 #' Data is split into a (numerical) sparse part and a dense part.
 #' These parts are automatically merged to a sparse format during `$data()`.
 #'
-#' @template rows
-#' @template cols
-#' @template data_format
-#' @template primary_key
-#' @template na_rm
+#' @template param_rows
+#' @template param_cols
+#' @template param_data_format
+#' @template param_primary_key
+#' @template param_na_rm
 #'
 #' @family DataBackend
 #' @export
@@ -34,7 +34,6 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     #'   Converted to a [data.table::data.table()] automatically.
     #' @param dense [data.frame()].
     #'   Dense data, converted to [data.table::data.table()].
-    #' @template primary_key
     initialize = function(data, dense = NULL, primary_key = NULL) {
       require_namespaces("Matrix")
       assert_class(data, "Matrix")
@@ -193,7 +192,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 #'   Converted to a [data.table::data.table()] automatically.
 #' @param dense [data.frame()].
 #'   Dense data, converted to [data.table::data.table()].
-#' @template primary_key
+#' @template param_primary_key
 #' @rdname as_data_backend
 #' @export
 as_data_backend.Matrix = function(data, dense = NULL, primary_key = NULL, ...) {

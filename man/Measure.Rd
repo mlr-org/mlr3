@@ -36,8 +36,8 @@ Other Measure:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{\code{character()}\cr
-Name of the object.}
+\item{\code{id}}{\code{character(1)}\cr
+Identifier of the object.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
@@ -125,10 +125,11 @@ Creates a new instance of the \link[R6:R6Class]{R6} object.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{(\code{character(1)})\cr
-Identifier for the measure.}
+Identifier for the new instance.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
-Type of the task the measure can operator on. E.g., \code{"classif"} or \code{"regr"}.}
+Type of task, e.g. \code{"regr"} or \code{"classif"}.
+Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
 
 \item{\code{range}}{(\code{numeric(2)})\cr
 Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
@@ -179,11 +180,12 @@ Required task properties, see \link{Task}.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.
-A warning is signaled by the constructor if at least one of the packages is not installed.
-The packages will be loaded (not attached) via \code{\link[=requireNamespace]{requireNamespace()}} for \verb{$train()}/\verb{$predict()}.}
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
 
 \item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.}
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{</div>}}
 }

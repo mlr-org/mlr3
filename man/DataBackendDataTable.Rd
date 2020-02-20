@@ -126,7 +126,7 @@ Row indices.}
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
 
-\item{\code{data_format}}{\cr
+\item{\code{data_format}}{(\code{character(1)})\cr
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 }
 \if{html}{\out{</div>}}

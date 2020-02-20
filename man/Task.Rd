@@ -81,8 +81,8 @@ Other Task:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{\code{character()}\cr
-Name of the object.}
+\item{\code{id}}{\code{character(1)}\cr
+Identifier of the object.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type, e.g. \code{"classif"} or \code{"regr"}.
@@ -243,14 +243,14 @@ Create a new instance.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{(\code{character(1)})\cr
-Identifier for the task.}
+Identifier for the new instance.}
 
 \item{\code{task_type}}{(\code{character(1)})\cr
-Set in the classes which inherit from this class.
+Type of task, e.g. \code{"regr"} or \code{"classif"}.
 Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
 
 \item{\code{backend}}{(\link{DataBackend})\cr
-Either a \link{DataBackend}, or any object which is convertible to a DataBackend with \code{as_data_backend()}.
+Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
 E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
 }
 \if{html}{\out{</div>}}
@@ -310,7 +310,7 @@ Row indices.}
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
 
-\item{\code{data_format}}{\cr
+\item{\code{data_format}}{(\code{character(1)})\cr
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 }
 \if{html}{\out{</div>}}

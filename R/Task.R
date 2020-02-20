@@ -16,8 +16,11 @@
 #'
 #' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
 #'
-#' @template rows
-#' @template cols
+#' @template param_id
+#' @template param_backend
+#' @template param_task_type
+#' @template param_rows
+#' @template param_cols
 #'
 #' @section S3 methods:
 #' * `as.data.table(t)`\cr
@@ -78,17 +81,6 @@ Task = R6Class("Task",
 
     #' @description
     #' Create a new instance.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier for the task.
-    #'
-    #' @param task_type (`character(1)`)\cr
-    #'   Set in the classes which inherit from this class.
-    #'   Must be an element of [mlr_reflections$task_types$type][mlr_reflections].
-    #'
-    #' @param backend ([DataBackend])\cr
-    #'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
-    #'   E.g., a `data.frame()` will be converted to a [DataBackendDataTable].
     initialize = function(id, task_type, backend) {
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
@@ -139,7 +131,7 @@ Task = R6Class("Task",
     #' columns are filtered to only contain features with roles "target" and "feature".
     #' If invalid `rows` or `cols` are specified, an exception is raised.
     #'
-    #' @template data_format
+    #' @template param_data_format
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, data_format = "data.table") {
       task_data(self, private, rows, cols, data_format)

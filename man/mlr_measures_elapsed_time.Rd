@@ -84,7 +84,7 @@ Creates a new instance of the \link[R6:R6Class]{R6} object.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{(\code{character(1)})\cr
-Id for the created measure.}
+Identifier for the new instance.}
 
 \item{\code{stages}}{(\code{character()})\cr
 Subset of \verb{("train", "predict")}.

@@ -104,8 +104,8 @@ Other Resampling:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{id}}{\code{character()}\cr
-Name of the object.}
+\item{\code{id}}{\code{character(1)}\cr
+Identifier of the object.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
@@ -171,7 +171,7 @@ Creates a new instance of the \link[R6:R6Class]{R6} object.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{(\code{character(1)})\cr
-Identifier for the resampling strategy.}
+Identifier for the new instance.}
 
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
@@ -180,7 +180,8 @@ Set of hyperparameters.}
 Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.}
 
 \item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.}
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{</div>}}
 }

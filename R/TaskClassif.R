@@ -13,7 +13,9 @@
 #'
 #' Predefined tasks are stored in the [mlr3misc::Dictionary] [mlr_tasks].
 #'
-#' @template rows
+#' @template param_rows
+#' @template param_id
+#' @template param_backend
 #'
 #' @family Task
 #' @export
@@ -34,13 +36,6 @@ TaskClassif = R6Class("TaskClassif",
   public = list(
     #' @description
     #' Create a new instance.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier for the task.
-    #'
-    #' @param backend ([DataBackend])\cr
-    #'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
-    #'   E.g., a `data.frame()` will be converted to a [DataBackendDataTable].
     #'
     #' @param target (`character(1)`)\cr
     #'   Name of the target column.

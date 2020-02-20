@@ -14,6 +14,9 @@
 #'
 #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
 #'
+#' @template param_id
+#' @template param_param_set
+#' @template param_man
 #'
 #' @section Stratification:
 #' All derived classes support stratified sampling.
@@ -109,17 +112,8 @@ Resampling = R6Class("Resampling",
     #' @description
     #' Creates a new instance of the [R6][R6::R6Class] object.
     #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier for the resampling strategy.
-    #'
-    #' @param param_set ([paradox::ParamSet])\cr
-    #'   Set of hyperparameters.
-    #'
     #' @param duplicated_ids (`logical(1)`)\cr
     #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
-    #'
-    #' @param man (`character(1)`)\cr
-    #'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
     initialize = function(id, param_set = ParamSet$new(), duplicated_ids = FALSE, man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)

@@ -7,7 +7,7 @@
 default_measures(task_type)
 }
 \arguments{
-\item{task_type}{:: \code{character(1)}\cr
+\item{task_type}{(\code{character(1)})\cr
 Get the default measure for the task type \code{task_type}, e.g., \code{"classif"} or \code{"regr"}.
 If \code{task_type} is \code{NULL}, an empty list is returned.}
 }

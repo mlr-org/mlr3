@@ -10,6 +10,7 @@
 #' @description
 #' Measures the elapsed time during train ("time_train"), predict ("time_predict"), or both ("time_both").
 #'
+#' @template param_id
 #' @templateVar id time_train
 #' @template section_dictionary_measure
 #'
@@ -33,8 +34,6 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
     #' @description
     #' Creates a new instance of the [R6][R6::R6Class] object.
     #'
-    #' @param id (`character(1)`)\cr
-    #'   Id for the created measure.
     #' @param stages (`character()`)\cr
     #'   Subset of `("train", "predict")`.
     #'   The runtime of provided stages will be summed.

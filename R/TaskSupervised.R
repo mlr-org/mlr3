@@ -6,7 +6,10 @@
 #' This is the abstract base class for task objects like [TaskClassif] and [TaskRegr].
 #' It extends [Task] with methods to handle a target columns.
 #'
-#' @template rows
+#' @template param_id
+#' @template param_task_type
+#' @template param_backend
+#' @template param_rows
 #'
 #' @family Task
 #' @keywords internal
@@ -18,17 +21,6 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
 
     #' @description
     #' Create a new instance.
-    #'
-    #' @param id (`character(1)`)\cr
-    #'   Identifier for the task.
-    #'
-    #' @param task_type (`character(1)`)\cr
-    #'   Set in the classes which inherit from this class.
-    #'   Must be an element of [mlr_reflections$task_types$type][mlr_reflections].
-    #'
-    #' @param backend ([DataBackend])\cr
-    #'   Either a [DataBackend], or any object which is convertible to a DataBackend with `as_data_backend()`.
-    #'   E.g., a `data.frame()` will be converted to a [DataBackendDataTable].
     #'
     #' @param target (`character(1)`)\cr
     #'   Name of the target column.
