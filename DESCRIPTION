@@ -62,7 +62,7 @@ Imports:
     lgr (>= 0.3.0),
     mlbench,
     mlr3measures (>= 0.1.1),
-    mlr3misc (>= 0.1.6),
+    mlr3misc (>= 0.1.8),
     paradox,
     uuid
 Suggests:
