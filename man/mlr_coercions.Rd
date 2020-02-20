@@ -76,7 +76,7 @@ Object to coerce.}
 
 \item{clone}{(\code{logical(1)})\cr
 If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}, e.g.
-by cloning it or constructing it from a \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.}
+by cloning it or constructing it from a \link[mlr3misc:Dictionary]{dictionary} such as \link{mlr_learners}.}
 
 \item{task_type}{(\code{character(1)})\cr
 Used if \code{x} is \code{NULL} to construct a default measure for the respective task type.

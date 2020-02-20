@@ -9,7 +9,7 @@
 #'
 #' This dictionary can get populated with additional task generators by add-on packages.
 #'
-#' For a more convenient way to retrieve and construct task generators, see [tgen()].
+#' For a more convenient way to retrieve and construct task generators, see [tgen()]/[tgens()].
 #'
 #' @section Methods:
 #' See [mlr3misc::Dictionary].
@@ -22,7 +22,7 @@
 #' @family Dictionary
 #' @family TaskGenerator
 #' @seealso
-#' Sugar function: [tgen()]
+#' Sugar functions: [tgen()], [tgens()]
 #' @export
 #' @examples
 #' mlr_task_generators$get("smiley")

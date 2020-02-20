@@ -118,7 +118,8 @@ ResampleResult = R6Class("ResampleResult",
     #'   Performance measures to calculate.
     #'
     #' @param ids (`logical(1)`)\cr
-    #'   If `ids` is `TRUE`, extra columns with the ids of objects (`"task_id"`, `"learner_id"`, `"resampling_id"`) are binded to the table to allow a more convenient subsetting.
+    #'   If `ids` is `TRUE`, extra columns with the ids of objects (`"task_id"`, `"learner_id"`, `"resampling_id"`) are added to the returned table.
+    #'   These allow to subset more conveniently.
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE) {
@@ -159,7 +160,10 @@ ResampleResult = R6Class("ResampleResult",
     #' @param iters (`integer()`)\cr
     #'   Resampling iterations to keep.
     #'
-    #' @return Modified self.
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     filter = function(iters) {
       resampling = self$resampling
       iters = assert_integerish(iters, min.len = 1L, lower = 1L, upper = resampling$iters, any.missing = FALSE, coerce = TRUE)

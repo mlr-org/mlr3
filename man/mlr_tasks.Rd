@@ -9,9 +9,10 @@
 A simple \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} storing objects of class \link{Task}.
 Each task has an associated help page, see \code{mlr_tasks_[id]}.
 
-This dictionary can get populated with additional tasks by add-on packages.
+This dictionary can get populated with additional tasks by add-on packages,
+e.g. \CRANpkg{mlr3data}.
 
-For a more convenient way to retrieve and construct tasks, see \code{\link[=tsk]{tsk()}}.
+For a more convenient way to retrieve and construct tasks, see \code{\link[=tsk]{tsk()}}/\code{\link[=tsks]{tsks()}}.
 }
 \section{Methods}{
 
@@ -51,7 +52,9 @@ mlr_tasks$get("iris.binary")
 mlr_tasks$remove("iris.binary")
 }
 \seealso{
-Sugar function: \code{\link[=tsk]{tsk()}}
+Sugar functions: \code{\link[=tsk]{tsk()}}, \code{\link[=tsks]{tsks()}}
+
+Extension Packages: \CRANpkg{mlr3data}
 
 Other Dictionary: 
 \code{\link{mlr_learners}},

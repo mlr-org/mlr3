@@ -8,7 +8,7 @@
 #' * `task_type` is set to `"classif"`.
 #' * Possible values for `predict_type` are `"response"` and `"prob"`.
 #'
-#' Predefined measures can be found in the [mlr3misc::Dictionary] [mlr_measures].
+#' Predefined measures can be found in the [dictionary][mlr3misc::Dictionary] [mlr_measures].
 #'
 #' @template param_id
 #' @template param_range

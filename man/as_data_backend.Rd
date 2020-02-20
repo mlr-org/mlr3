@@ -16,12 +16,12 @@ as_data_backend(data, ...)
 \arguments{
 \item{data}{\code{any}\cr
 Data to create a \link{DataBackend} from.
-For a \code{data.frame()} (this includes \code{tibble()} from \CRANpkg{tibble} and \code{\link[data.table:data.table]{data.table::data.table()}})
-this function creates a \link{DataBackendDataTable}.
+For a \code{data.frame()} (this includes \code{tibble()} from \CRANpkg{tibble} and \code{\link[data.table:data.table]{data.table::data.table()}}),
+a \link{DataBackendDataTable} is created.
 See \code{methods("as_data_backend")} for possible input formats.
 
 Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects implemented in \CRANpkg{dbplyr}.
-This allows to interface many different (SQL complicant) data base systems.}
+This allows to interface many different data base systems such as SQL servers.}
 
 \item{primary_key}{\code{character(1)}\cr
 Name of the primary key column.}

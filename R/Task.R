@@ -11,7 +11,7 @@
 #' 2. Tasks store meta-information, such as the role of the individual columns in the [DataBackend].
 #'    For example, for a classification task a single column must be marked as target column, and others as features.
 #'
-#' Predefined (toy) tasks are stored in the [mlr3misc::Dictionary] [mlr_tasks],
+#' Predefined (toy) tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks],
 #' e.g. [`iris`][mlr_tasks_iris] or [`boston_housing`][mlr_tasks_boston_housing].
 #'
 #' @template param_id
@@ -202,7 +202,10 @@ Task = R6Class("Task",
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.
     #'
-    #' @return Modified self.
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     filter = function(rows) {
       rows = assert_row_ids(rows)
       private$.row_roles$use = intersect(private$.row_roles$use, rows)
@@ -216,7 +219,10 @@ Task = R6Class("Task",
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.
     #'
-    #' @return Modified self.
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     select = function(cols) {
       assert_subset(cols, private$.col_roles$feature)
       private$.col_roles$feature = intersect(private$.col_roles$feature, cols)
@@ -237,7 +243,11 @@ Task = R6Class("Task",
     #' See the section on task mutators for more information.
     #'
     #' @param data (`data.frame()`).
-    #' @return Modified self.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     rbind = function(data) {
       task_rbind(self, data)
     },
@@ -267,9 +277,14 @@ Task = R6Class("Task",
     #'
     #' @param old (`character()`)\cr
     #'   Old names.
+    #'
     #' @param new (`character()`)\cr
     #'   New names.
-    #' @return Modified self.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     rename = function(old, new) {
       task_rename(self, old, new)
     },
@@ -281,8 +296,13 @@ Task = R6Class("Task",
     #' This function is deprecated and will be removed in the next version in favor of directly modifying `$row_roles`.
     #'
     #' @param new_roles (`character()`).
+    #'
     #' @param exclusive (`logical(1)`).
-    #' @return Modified `self`.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     set_row_role = function(rows, new_roles, exclusive = TRUE) {
       task_set_row_role(self, private, rows, new_roles, exclusive)
       invisible(self)
@@ -295,8 +315,13 @@ Task = R6Class("Task",
     #' This function is deprecated and will be removed in the next version in favor of directly modifying `$col_roles`.
     #'
     #' @param new_roles (`character()`).
+    #'
     #' @param exclusive (`logical(1)`).
-    #' @return Modified `self`.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     set_col_role = function(cols, new_roles, exclusive = TRUE) {
       task_set_col_role(self, private, cols, new_roles, exclusive)
       invisible(self)

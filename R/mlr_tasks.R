@@ -6,9 +6,10 @@
 #' A simple [mlr3misc::Dictionary] storing objects of class [Task].
 #' Each task has an associated help page, see `mlr_tasks_[id]`.
 #'
-#' This dictionary can get populated with additional tasks by add-on packages.
+#' This dictionary can get populated with additional tasks by add-on packages,
+#' e.g. \CRANpkg{mlr3data}.
 #'
-#' For a more convenient way to retrieve and construct tasks, see [tsk()].
+#' For a more convenient way to retrieve and construct tasks, see [tsk()]/[tsks()].
 #'
 #' @section Methods:
 #' See [mlr3misc::Dictionary].
@@ -22,7 +23,9 @@
 #' @family Dictionary
 #' @family Task
 #' @seealso
-#' Sugar function: [tsk()]
+#' Sugar functions: [tsk()], [tsks()]
+#'
+#' Extension Packages: \CRANpkg{mlr3data}
 #' @export
 #' @examples
 #' as.data.table(mlr_tasks)

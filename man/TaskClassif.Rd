@@ -14,7 +14,7 @@ Additional task properties include:
 \item \code{"multiclass"}: The task is a multiclass classification problem.
 }
 
-Predefined tasks are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_tasks}.
+Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
 }
 \examples{
 data("Sonar", package = "mlbench")
@@ -127,7 +127,7 @@ positive class, and the second element is the negative class.}
 \if{html}{\out{<a id="method-truth"></a>}}
 \subsection{Method \code{truth()}}{
 True response for specified \code{row_ids}. Format depends on the task type.
-Defaults to all rows with role "use".
+Defaults to all rows with role \code{"use"}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{TaskClassif$truth(rows = NULL)}\if{html}{\out{</div>}}
 }

@@ -9,10 +9,9 @@
 #' Resampling objects can be instantiated on a [Task], which applies the strategy on the task and manifests in a
 #' fixed partition of `row_ids` of the [Task].
 #'
-#' Predefined resamplings are stored in the [mlr3misc::Dictionary] [mlr_resamplings],
+#' Predefined resamplings are stored in the [dictionary][mlr3misc::Dictionary] [mlr_resamplings],
 #' e.g. [`cv`][mlr_resamplings_cv] or [`bootstrap`][mlr_resamplings_bootstrap].
 #'
-#' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
 #'
 #' @template param_id
 #' @template param_param_set
@@ -87,7 +86,7 @@ Resampling = R6Class("Resampling",
     #' @template field_param_set
     param_set = NULL,
 
-    #' @field instance (any)\cr
+    #' @field instance (`any`)\cr
     #'   During `instantiate()`, the instance is stored in this slot in an arbitrary format.
     instance = NULL,
 
@@ -114,6 +113,8 @@ Resampling = R6Class("Resampling",
     #'
     #' @param duplicated_ids (`logical(1)`)\cr
     #'   Set to `TRUE` if this resampling strategy may have duplicated row ids in a single training set or test set.
+    #'
+    #' Note that this object is typically constructed via a derived classes, e.g. [ResamplingCV] or [ResamplingHoldout].
     initialize = function(id, param_set = ParamSet$new(), duplicated_ids = FALSE, man = NA_character_) {
       self$id = assert_string(id, min.chars = 1L)
       self$param_set = assert_param_set(param_set)
@@ -148,8 +149,12 @@ Resampling = R6Class("Resampling",
     #' in an arbitrary format.
     #'
     #' @param task ([Task])\cr
-    #'   Task used for instantiation. Typically only the number of rows is required.
-    #' @return Modified self.
+    #'   Task used for instantiation.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     instantiate = function(task) {
       task = assert_task(as_task(task))
       strata = task$strata

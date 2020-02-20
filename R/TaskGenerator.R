@@ -4,7 +4,7 @@
 #'
 #' @description
 #' Creates a [Task] of arbitrary size.
-#' Predefined task generators are stored in the [mlr3misc::Dictionary] [mlr_task_generators],
+#' Predefined task generators are stored in the [dictionary][mlr3misc::Dictionary] [mlr_task_generators],
 #' e.g. [`xor`][mlr_task_generators_xor].
 #'
 #' @template param_id

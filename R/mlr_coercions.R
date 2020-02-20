@@ -8,7 +8,7 @@
 #'   Object to coerce.
 #' @param clone (`logical(1)`)\cr
 #'   If `TRUE`, ensures that the returned object is not the same as the input `x`, e.g.
-#'   by cloning it or constructing it from a [mlr3misc::Dictionary].
+#'   by cloning it or constructing it from a [dictionary][mlr3misc::Dictionary] such as [mlr_learners].
 #'
 #' @return Coerced object. The default method will return the object as-is.
 #'   Failed coercions have to be handled by on of the assertions in [mlr_assertions].

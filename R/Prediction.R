@@ -12,7 +12,6 @@
 #'
 #' Note that this object is usually constructed via a derived classes, e.g. [PredictionClassif] or [PredictionRegr].
 #'
-#'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [Prediction] -> [data.table::data.table()]\cr

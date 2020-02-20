@@ -22,10 +22,13 @@ extract information like variable importance.}
 \link{ResampleResult}.
 }
 \description{
-Runs a resampling (possibly in parallel).
+Runs a resampling (possibly in parallel):
+Repeatedly apply \link{Learner} \code{learner} on a training set of \link{Task} \code{task} to train a model,
+then use the trained model to predict observations of a test set.
+Training and test sets are defined by the \link{Resampling} \code{resampling}.
 }
 \note{
-The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
+The fitted models are discarded after the predictions have been computed in order to reduce memory consumption.
 If you need access to the models for later analysis, set \code{store_models} to \code{TRUE}.
 }
 \section{Parallelization}{

@@ -68,7 +68,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' @param truth (`factor()`)\cr
     #'   True (observed) labels. See the note on manual construction.
     #'
-    #' @param response ((`character()` | `factor()`))\cr
+    #' @param response (`character()` | `factor()`)\cr
     #'   Vector of predicted class labels.
     #'   One element for each observation in the test set.
     #'   Character vectors are automatically converted to factors.
@@ -125,7 +125,11 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' See the section on thresholding for more information.
     #'
     #' @param threshold (`numeric()`).
-    #' @return Modified self.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     set_threshold = function(threshold) {
       if (!is.matrix(self$data$prob)) {
         stopf("Cannot set threshold, no probabilities available")

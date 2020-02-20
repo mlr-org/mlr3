@@ -13,7 +13,7 @@
 #' * Meta-information about the requirements and capabilities of the learner.
 #' * The fitted model stored in field `$model`, available after calling `$train()`.
 #'
-#' Predefined learners are stored in the [mlr3misc::Dictionary] [mlr_learners],
+#' Predefined learners are stored in the [dictionary][mlr3misc::Dictionary] [mlr_learners],
 #' e.g. [`classif.rpart`][mlr_learners_classif.rpart] or [`regr.rpart`][mlr_learners_regr.rpart].
 #'
 #' More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
@@ -191,7 +191,10 @@ Learner = R6Class("Learner",
     #' @param row_ids (`integer()`)\cr
     #'   Vector of training indices.
     #'
-    #' @return Modified self.
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     train = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
@@ -265,7 +268,10 @@ Learner = R6Class("Learner",
     #' @description
     #' Reset the learner, i.e. un-train by resetting the `state`.
     #'
-    #' @return Modified self.
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     reset = function() {
       self$state = NULL
       invisible(self)

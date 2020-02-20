@@ -5,12 +5,12 @@
 #'
 #' @param data `any`\cr
 #'   Data to create a [DataBackend] from.
-#'   For a `data.frame()` (this includes `tibble()` from \CRANpkg{tibble} and [data.table::data.table()])
-#'   this function creates a [DataBackendDataTable].
+#'   For a `data.frame()` (this includes `tibble()` from \CRANpkg{tibble} and [data.table::data.table()]),
+#'   a [DataBackendDataTable] is created.
 #'   See `methods("as_data_backend")` for possible input formats.
 #'
 #'   Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects implemented in \CRANpkg{dbplyr}.
-#'   This allows to interface many different (SQL complicant) data base systems.
+#'   This allows to interface many different data base systems such as SQL servers.
 #' @param ... (`any`)\cr
 #'   Additional arguments passed to the respective [DataBackend] method.
 #'

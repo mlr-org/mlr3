@@ -14,7 +14,7 @@
 #'   - `"twoclass"`: The learner works on binary classification problems.
 #'   - `"multiclass"`: The learner works on multiclass classification problems.
 #'
-#' Predefined learners can be found in the [mlr3misc::Dictionary] [mlr_learners].
+#' Predefined learners can be found in the [dictionary][mlr3misc::Dictionary] [mlr_learners].
 #' Essential classification learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
 #'
 #' @template param_id

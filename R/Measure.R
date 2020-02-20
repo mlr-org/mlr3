@@ -13,7 +13,7 @@
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
 #'
-#' Predefined measures are stored in the [mlr3misc::Dictionary] [mlr_measures],
+#' Predefined measures are stored in the [dictionary][mlr3misc::Dictionary] [mlr_measures],
 #' e.g. [`classif.auc`][mlr_measures_classif.auc] or [`time_train`][mlr_measures_time_train].
 #' Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 #'

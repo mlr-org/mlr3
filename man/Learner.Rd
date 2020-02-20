@@ -15,7 +15,7 @@ or private methods \verb{$.train()}/\verb{$.predict()}).
 \item The fitted model stored in field \verb{$model}, available after calling \verb{$train()}.
 }
 
-Predefined learners are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_learners},
+Predefined learners are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_learners},
 e.g. \code{\link[=mlr_learners_classif.rpart]{classif.rpart}} or \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}.
 
 More classification and regression learners are implemented in the add-on package \CRANpkg{mlr3learners}.
@@ -235,9 +235,9 @@ The following properties are currently standardized and understood by learners i
 \itemize{
 \item \code{"missings"}: The learner can handle missing values in the data.
 \item \code{"weights"}: The learner supports observation weights.
-\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with a \code{importance()} extractor function (see section on optional extractors).
-\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \code{selected_features()} extractor function (see section on optional extractors).
-\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors).
+\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
@@ -310,7 +310,9 @@ Vector of training indices.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
@@ -372,7 +374,9 @@ Reset the learner, i.e. un-train by resetting the \code{state}.
 }
 
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}

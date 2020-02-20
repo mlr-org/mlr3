@@ -12,10 +12,8 @@ using a set of hyperparameters such as the number of folds in cross-validation.
 Resampling objects can be instantiated on a \link{Task}, which applies the strategy on the task and manifests in a
 fixed partition of \code{row_ids} of the \link{Task}.
 
-Predefined resamplings are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_resamplings},
+Predefined resamplings are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings},
 e.g. \code{\link[=mlr_resamplings_cv]{cv}} or \code{\link[=mlr_resamplings_bootstrap]{bootstrap}}.
-
-Note that this object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.
 }
 \section{Stratification}{
 
@@ -111,7 +109,7 @@ Used in tables, plot and text output.}
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
-\item{\code{instance}}{(any)\cr
+\item{\code{instance}}{(\code{any})\cr
 During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.}
 
 \item{\code{task_hash}}{(\code{character(1)})\cr
@@ -178,7 +176,9 @@ Identifier for the new instance.}
 Set of hyperparameters.}
 
 \item{\code{duplicated_ids}}{(\code{logical(1)})\cr
-Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.}
+Set to \code{TRUE} if this resampling strategy may have duplicated row ids in a single training set or test set.
+
+Note that this object is typically constructed via a derived classes, e.g. \link{ResamplingCV} or \link{ResamplingHoldout}.}
 
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
@@ -234,12 +234,14 @@ in an arbitrary format.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{task}}{(\link{Task})\cr
-Task used for instantiation. Typically only the number of rows is required.}
+Task used for instantiation.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}

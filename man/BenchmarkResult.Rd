@@ -214,7 +214,9 @@ A \link{BenchmarkResult} object.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
@@ -241,7 +243,7 @@ the respective \link{Measure}.
 
 \item{\code{ids}}{\code{logical(1)}\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as
-extra character columns.}
+extra character columns for convenient subsetting.}
 }
 \if{html}{\out{</div>}}
 }
@@ -276,7 +278,7 @@ List of performance measures to calculate.}
 
 \item{\code{ids}}{\code{logical(1)}\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as
-extra character columns.}
+extra character columns for convenient subsetting.}
 
 \item{\code{uhashes}}{\code{logical(1)}\cr
 Adds the uhash values of the \link{ResampleResult} as extra character
@@ -326,7 +328,9 @@ Ids of \link{Resampling}s to keep.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}

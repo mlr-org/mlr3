@@ -135,7 +135,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @param bmr [BenchmarkResult]\cr
     #'   A [BenchmarkResult] object.
-    #' @return Modified self.
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     combine = function(bmr) {
       if (!is.null(bmr)) {
         assert_benchmark_result(bmr)
@@ -165,7 +169,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   [Measure](s) to calculate the score for.
     #' @param ids `logical(1)`\cr
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
-    #'   extra character columns.
+    #'   extra character columns for convenient subsetting.
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
@@ -206,7 +210,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @param ids `logical(1)`\cr
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
-    #'   extra character columns.
+    #'   extra character columns for convenient subsetting.
     #'
     #' @param params `logical(1)`\cr
     #'   Adds the hyperparameter values as extra list column `"params"`. You
@@ -276,7 +280,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @param resampling_ids (`character()`)\cr
     #'   Ids of [Resampling]s to keep.
     #'
-    #' @return Modified self.
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
     filter = function(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL) {
       if (!is.null(task_ids)) {
         assert_character(task_ids, any.missing = FALSE)

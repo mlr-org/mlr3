@@ -13,7 +13,7 @@ Tasks serve two purposes:
 For example, for a classification task a single column must be marked as target column, and others as features.
 }
 
-Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_tasks},
+Predefined (toy) tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks},
 e.g. \code{\link[=mlr_tasks_iris]{iris}} or \code{\link[=mlr_tasks_boston_housing]{boston_housing}}.
 }
 \section{S3 methods}{
@@ -432,7 +432,9 @@ Row indices.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
@@ -456,7 +458,9 @@ Column names.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
@@ -485,7 +489,9 @@ See the section on task mutators for more information.
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
@@ -535,7 +541,9 @@ New names.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
@@ -562,7 +570,9 @@ Row indices.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified \code{self}.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}
@@ -589,7 +599,9 @@ Column names.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified \code{self}.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}

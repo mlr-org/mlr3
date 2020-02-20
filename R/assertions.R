@@ -5,8 +5,8 @@
 #' Most assertion functions ensure the right class attrbiture, and optionally additional properties.
 #' Additionally, the following compound assertions are implemented:
 #'
-#' * assert_learnable(task, learner)\cr
-#'   ([Task], [Learner]) -> NULL\cr
+#' * `assert_learnable(task, learner)`\cr
+#'   ([Task], [Learner]) -> `NULL`\cr
 #'   Checks if the learner is applicable to the task.
 #'   This includes type checks on the type, the feature types, and properties.
 #'

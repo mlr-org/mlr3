@@ -11,7 +11,7 @@ Each resampling has an associated help page, see \code{mlr_resamplings_[id]}.
 
 This dictionary can get populated with additional resampling strategies by add-on packages.
 
-For a more convenient way to retrieve and construct resampling strategies, see \code{\link[=rsmp]{rsmp()}}.
+For a more convenient way to retrieve and construct resampling strategies, see \code{\link[=rsmp]{rsmp()}}/\code{\link[=rsmps]{rsmps()}}.
 }
 \section{Methods}{
 
@@ -33,7 +33,7 @@ mlr_resamplings$get("cv")
 rsmp("subsampling")
 }
 \seealso{
-Sugar function: \code{\link[=rsmp]{rsmp()}}
+Sugar functions: \code{\link[=rsmp]{rsmp()}}, \code{\link[=rsmps]{rsmps()}}
 
 Other Dictionary: 
 \code{\link{mlr_learners}},

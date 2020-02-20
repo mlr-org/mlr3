@@ -8,9 +8,10 @@
 #' Each learner has an associated help page, see `mlr_learners_[id]`.
 #'
 #' This dictionary can get populated with additional learners by add-on packages.
-#' For more classification and regression learners, load the \CRANpkg{mlr3learners} package.
+#' For more classification and regression learners, load the \CRANpkg{mlr3learners} package
+#' and \url{https://github.com/mlr3learners}.
 #'
-#' For a more convenient way to retrieve and construct learners, see [lrn()].
+#' For a more convenient way to retrieve and construct learners, see [lrn()]/[lrns()].
 #'
 #' @section Methods:
 #' See [mlr3misc::Dictionary].
@@ -24,7 +25,7 @@
 #' @family Dictionary
 #' @family Learner
 #' @seealso
-#' Sugar function: [lrn()]
+#' Sugar functions: [lrn()], [lrns()]
 #'
 #' Extension Packages: \CRANpkg{mlr3learners}
 #' @export

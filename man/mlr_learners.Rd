@@ -10,9 +10,10 @@ A simple \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} storing objects of cla
 Each learner has an associated help page, see \code{mlr_learners_[id]}.
 
 This dictionary can get populated with additional learners by add-on packages.
-For more classification and regression learners, load the \CRANpkg{mlr3learners} package.
+For more classification and regression learners, load the \CRANpkg{mlr3learners} package
+and \url{https://github.com/mlr3learners}.
 
-For a more convenient way to retrieve and construct learners, see \code{\link[=lrn]{lrn()}}.
+For a more convenient way to retrieve and construct learners, see \code{\link[=lrn]{lrn()}}/\code{\link[=lrns]{lrns()}}.
 }
 \section{Methods}{
 
@@ -35,7 +36,7 @@ mlr_learners$get("classif.featureless")
 lrn("classif.rpart")
 }
 \seealso{
-Sugar function: \code{\link[=lrn]{lrn()}}
+Sugar functions: \code{\link[=lrn]{lrn()}}, \code{\link[=lrns]{lrns()}}
 
 Extension Packages: \CRANpkg{mlr3learners}
 

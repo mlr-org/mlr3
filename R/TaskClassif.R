@@ -11,7 +11,7 @@
 #' * `"twoclass"`: The task is a binary classification problem.
 #' * `"multiclass"`: The task is a multiclass classification problem.
 #'
-#' Predefined tasks are stored in the [mlr3misc::Dictionary] [mlr_tasks].
+#' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
 #'
 #' @template param_rows
 #' @template param_id
@@ -66,7 +66,7 @@ TaskClassif = R6Class("TaskClassif",
 
     #' @description
     #' True response for specified `row_ids`. Format depends on the task type.
-    #' Defaults to all rows with role "use".
+    #' Defaults to all rows with role `"use"`.
     #' @return `factor()`.
     truth = function(rows = NULL) {
       truth = super$truth(rows)[[1L]]

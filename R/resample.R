@@ -1,7 +1,10 @@
 #' @title Resample a Learner on a Task
 #'
 #' @description
-#' Runs a resampling (possibly in parallel).
+#' Runs a resampling (possibly in parallel):
+#' Repeatedly apply [Learner] `learner` on a training set of [Task] `task` to train a model,
+#' then use the trained model to predict observations of a test set.
+#' Training and test sets are defined by the [Resampling] `resampling`.
 #'
 #' @param task ([Task]).
 #' @param learner ([Learner]).
@@ -18,7 +21,7 @@
 #' @template section_logging
 #'
 #' @note
-#' The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
+#' The fitted models are discarded after the predictions have been computed in order to reduce memory consumption.
 #' If you need access to the models for later analysis, set `store_models` to `TRUE`.
 #'
 #' @export

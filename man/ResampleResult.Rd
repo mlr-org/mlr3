@@ -201,7 +201,8 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 Performance measures to calculate.}
 
 \item{\code{ids}}{(\code{logical(1)})\cr
-If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) are binded to the table to allow a more convenient subsetting.}
+If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) are added to the returned table.
+These allow to subset more conveniently.}
 }
 \if{html}{\out{</div>}}
 }
@@ -247,7 +248,9 @@ Resampling iterations to keep.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 \if{html}{\out{<hr>}}

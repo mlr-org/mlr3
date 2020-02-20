@@ -124,8 +124,8 @@ Functions intended to be used in packages extending \pkg{mlr3}.
 Most assertion functions ensure the right class attrbiture, and optionally additional properties.
 Additionally, the following compound assertions are implemented:
 \itemize{
-\item assert_learnable(task, learner)\cr
-(\link{Task}, \link{Learner}) -> NULL\cr
+\item \code{assert_learnable(task, learner)}\cr
+(\link{Task}, \link{Learner}) -> \code{NULL}\cr
 Checks if the learner is applicable to the task.
 This includes type checks on the type, the feature types, and properties.
 }

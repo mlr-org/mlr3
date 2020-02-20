@@ -15,7 +15,7 @@ Measures are classes around tailored around two functions:
 
 In addition to these two functions, meta-information about the performance measure is stored.
 
-Predefined measures are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_measures},
+Predefined measures are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures},
 e.g. \code{\link[=mlr_measures_classif.auc]{classif.auc}} or \code{\link[=mlr_measures_time_train]{time_train}}.
 Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 
@@ -151,10 +151,10 @@ If set to \code{NA} (default), tuning this measure is not possible.}
 How to average multiple \link{Prediction}s from a \link{ResampleResult}.
 
 The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
-function defined in \code{aggregator} to average them to a single number.
+function defined in \verb{$aggregator} to average them to a single number.
 
 If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
-The function \code{aggregator} is not used in this case.}
+The function in \verb{$aggregator} is not used in this case.}
 
 \item{\code{aggregator}}{(\verb{function(x)})\cr
 Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.

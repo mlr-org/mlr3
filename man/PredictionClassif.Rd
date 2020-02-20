@@ -126,7 +126,7 @@ Row ids of the predicted observations, i.e. the row ids of the test set.}
 \item{\code{truth}}{(\code{factor()})\cr
 True (observed) labels. See the note on manual construction.}
 
-\item{\code{response}}{((\code{character()} | \code{factor()}))\cr
+\item{\code{response}}{(\code{character()} | \code{factor()})\cr
 Vector of predicted class labels.
 One element for each observation in the test set.
 Character vectors are automatically converted to factors.
@@ -159,7 +159,9 @@ See the section on thresholding for more information.
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Modified self.
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
 }
 }
 }
