@@ -7,17 +7,17 @@
 #'
 #' Measures are classes around tailored around two functions:
 #'
-#' 1. A function `score` which quantifies the performance by comparing true and predicted response.
-#' 2. A function `aggregator` which combines multiple performance scores returned by
+#' 1. A function `$score()` which quantifies the performance by comparing true and predicted response.
+#' 2. A function `$aggregator()` which combines multiple performance scores returned by
 #'    `calculate` to a single numeric value.
 #'
 #' In addition to these two functions, meta-information about the performance measure is stored.
 #'
 #' Predefined measures are stored in the [mlr3misc::Dictionary] [mlr_measures],
 #' e.g. [`classif.auc`][mlr_measures_classif.auc] or [`time_train`][mlr_measures_time_train].
-#' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the [mlr3book](https://mlr3book.mlr-org.com).
+#' Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 #'
-#' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
+#' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the [mlr3book](https://mlr3book.mlr-org.com).
 #'
 #' @template param_id
 #' @template param_range
@@ -83,6 +83,8 @@ Measure = R6Class("Measure",
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
     initialize = function(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
 

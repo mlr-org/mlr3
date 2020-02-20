@@ -8,8 +8,8 @@ This is the abstract base class for measures like \link{MeasureClassif} and \lin
 
 Measures are classes around tailored around two functions:
 \enumerate{
-\item A function \code{score} which quantifies the performance by comparing true and predicted response.
-\item A function \code{aggregator} which combines multiple performance scores returned by
+\item A function \verb{$score()} which quantifies the performance by comparing true and predicted response.
+\item A function \verb{$aggregator()} which combines multiple performance scores returned by
 \code{calculate} to a single numeric value.
 }
 
@@ -17,9 +17,9 @@ In addition to these two functions, meta-information about the performance measu
 
 Predefined measures are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_measures},
 e.g. \code{\link[=mlr_measures_classif.auc]{classif.auc}} or \code{\link[=mlr_measures_time_train]{time_train}}.
-A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
+Many of the measures in \pkg{mlr3} are implemented in \CRANpkg{mlr3measures} as ordinary functions.
 
-Note that this object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.
+A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
 \seealso{
 Other Measure: 
@@ -109,6 +109,8 @@ Hash (unique identifier) for this object.}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
+
+Note that this object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Measure$new(
   id,
@@ -166,7 +168,7 @@ Supported by \code{mlr3}:
 \item \code{"requires_task"} (requires the complete \link{Task}),
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
-\item \code{"na_score"} (the measure is expected to occasionally return \code{NA}).
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr

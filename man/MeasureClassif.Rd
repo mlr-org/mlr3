@@ -102,7 +102,7 @@ Supported by \code{mlr3}:
 \item \code{"requires_task"} (requires the complete \link{Task}),
 \item \code{"requires_learner"} (requires the trained \link{Learner}),
 \item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
-\item \code{"na_score"} (the measure is expected to occasionally return \code{NA}).
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA} or \code{NaN}).
 }}
 
 \item{\code{predict_type}}{(\code{character(1)})\cr

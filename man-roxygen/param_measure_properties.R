@@ -5,4 +5,4 @@
 #'   * `"requires_task"` (requires the complete [Task]),
 #'   * `"requires_learner"` (requires the trained [Learner]),
 #'   * `"requires_train_set"` (requires the training indices from the [Resampling]), and
-#'   * `"na_score"` (the measure is expected to occasionally return `NA`).
+#'   * `"na_score"` (the measure is expected to occasionally return `NA` or `NaN`).
