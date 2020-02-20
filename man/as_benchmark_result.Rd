@@ -10,10 +10,10 @@ as_benchmark_result(x, ...)
 \method{as_benchmark_result}{ResampleResult}(x, ...)
 }
 \arguments{
-\item{x}{:: \code{any}\cr
+\item{x}{(\code{any})\cr
 Object to dispatch on, e.g. a \link{ResampleResult}.}
 
-\item{...}{:: \code{any}\cr
+\item{...}{(\code{any})\cr
 Currently not used.}
 }
 \value{

@@ -3,13 +3,13 @@
 #' @description
 #' Runs a benchmark on arbitrary combinations of tasks ([Task]), learners ([Learner]), and resampling strategies ([Resampling]), possibly in parallel.
 #'
-#' @param design :: [data.frame()]\cr
+#' @param design ([data.frame()])\cr
 #'   Data frame (or [data.table::data.table()]) with three columns: "task", "learner", and "resampling".
 #'   Each row defines a resampling by providing a [Task], [Learner] and an instantiated [Resampling] strategy.
 #'   The helper function [benchmark_grid()] can assist in generating an exhaustive design (see examples) and
 #'   instantiate the [Resampling]s per [Task].
 #'
-#' @param store_models :: `logical(1)`\cr
+#' @param store_models (`logical(1)`)\cr
 #'   Keep the fitted model after the test set has been predicted?
 #'   Set to `TRUE` if you want to further analyse the models or want to
 #'   extract information like variable importance.

@@ -4,9 +4,9 @@
 #' @description
 #' S3 generics and methods to coerce to (lists of) [Task], [Learner], [Resampling], and [Measure].
 #'
-#' @param x :: `any`\cr
+#' @param x (`any`)\cr
 #'   Object to coerce.
-#' @param clone :: `logical(1)`\cr
+#' @param clone (`logical(1)`)\cr
 #'   If `TRUE`, ensures that the returned object is not the same as the input `x`, e.g.
 #'   by cloning it or constructing it from a [mlr3misc::Dictionary].
 #'
@@ -109,7 +109,7 @@ as_resamplings.Resampling = function(x, clone = FALSE) {
 }
 
 #' @export
-#' @param task_type :: `character(1)`\cr
+#' @param task_type (`character(1)`)\cr
 #'   Used if `x` is `NULL` to construct a default measure for the respective task type.
 #'   The default measures are stored in [`mlr_reflections$default_measures`][mlr_reflections].
 #' @rdname mlr_coercions

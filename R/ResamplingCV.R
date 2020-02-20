@@ -11,7 +11,7 @@
 #' @template section_dictionary_resampling
 #'
 #' @section Parameters:
-#' * `folds` :: `integer(1)`\cr
+#' * `folds` (`integer(1)`)\cr
 #'   Number of folds.
 #'
 #' @references

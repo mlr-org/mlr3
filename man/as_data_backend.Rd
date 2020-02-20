@@ -31,7 +31,7 @@ column. The column is named like the provided string, defaulting to
 will be used as a regular feature by the task unless you manually change
 the column role. See also \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.}
 
-\item{...}{:: \code{any}\cr
+\item{...}{(\code{any})\cr
 Additional arguments passed to the respective \link{DataBackend} method.}
 
 \item{dense}{\code{\link[=data.frame]{data.frame()}}.

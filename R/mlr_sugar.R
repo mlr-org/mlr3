@@ -16,11 +16,11 @@
 #' * `msr()` for a [Measure] from [mlr_measures].
 #' * `msrs()` for a list of [Measure]s from [mlr_measures].
 #'
-#' @param .key :: `character(1)`\cr
+#' @param .key (`character(1)`)\cr
 #'   Key passed to the respective [mlr3misc::Dictionary] to retrieve the object.
-#' @param .keys :: `character()`\cr
+#' @param .keys (`character()`)\cr
 #'   Keys passed to the respective [mlr3misc::Dictionary] to retrieve multiple objects.
-#' @param ... :: named `list()`\cr
+#' @param ... (named `list()`)\cr
 #'   Named arguments passed to the constructor, to be set as parameters in the [paradox::ParamSet], or to be set as public field.
 #'   See [mlr3misc::dictionary_sugar_get()] for more details.
 #'

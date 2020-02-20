@@ -17,7 +17,7 @@ rsmp("bootstrap")
 \section{Parameters}{
 
 \itemize{
-\item \code{folds} :: \code{integer(1)}\cr
+\item \code{folds} (\code{integer(1)})\cr
 Number of folds.
 }
 }

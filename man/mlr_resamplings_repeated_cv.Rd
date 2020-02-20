@@ -23,9 +23,9 @@ rsmp("holdout")
 \section{Parameters}{
 
 \itemize{
-\item \code{repeats} :: \code{integer(1)}\cr
+\item \code{repeats} (\code{integer(1)})\cr
 Number of repetitions.
-\item \code{folds} :: \code{integer(1)}\cr
+\item \code{folds} (\code{integer(1)})\cr
 Number of folds.
 }
 }

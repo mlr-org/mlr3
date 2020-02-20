@@ -375,9 +375,9 @@ as.data.table.BenchmarkResult = function(x, ...) {
 #' @description
 #' Simple S3 method to convert objects to a [BenchmarkResult].
 #'
-#' @param x :: `any`\cr
+#' @param x (`any`)\cr
 #'  Object to dispatch on, e.g. a [ResampleResult].
-#' @param ... :: `any`\cr
+#' @param ... (`any`)\cr
 #'  Currently not used.
 #'
 #' @return ([BenchmarkResult]).

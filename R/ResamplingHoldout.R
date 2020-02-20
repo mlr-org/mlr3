@@ -11,7 +11,7 @@
 #' @template section_dictionary_resampling
 #'
 #' @section Parameters:
-#' * `ratio` :: `numeric(1)`\cr
+#' * `ratio` (`numeric(1)`)\cr
 #'   Ratio of observations to put into the training set.
 #'
 #' @references

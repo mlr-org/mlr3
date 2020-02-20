@@ -10,47 +10,47 @@
 #'
 #' The following objects are set by \CRANpkg{mlr3}:
 #'
-#' * `data_formats` :: `character()`\cr
+#' * `data_formats` (`character()`)\cr
 #'   Vectors of supported data formats, e.g. `"data.table"` or `"Matrix"`.
 #'
-#' * `task_types` :: `data.table()`\cr
+#' * `task_types` (`data.table()`)\cr
 #'   Table with task type (`"type"`), the implementing package (`"pkg"`), and the names of the generators
 #'   of the corresponding [Task] (`"task"`), [Learner] (`"learner"`),
 #'   [Prediction] (`"prediction"`) and [Measure] (`"measure"`).
 #'
-#' * `task_feature_types` :: named `character()`\cr
+#' * `task_feature_types` (named `character()`)\cr
 #'   Vector of base R types supported as [Task] features, named with a 3 letter abbreviation.
 #'
-#' * `task_row_roles` :: `character()`\cr
+#' * `task_row_roles` (`character()`)\cr
 #'   Vector of supported row roles for a [Task].
 #'
-#' * `task_col_roles` :: list of `character()`\cr
+#' * `task_col_roles` (list of `character()`)\cr
 #'   List of vectors of supported column roles for a [Task], named by their task type.
 #'
-#' * `task_properties` :: list of `character()`\cr
+#' * `task_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Task] properties, named by their task type.
 #'
-#' * `learner_properties` :: list of `character()`\cr
+#' * `learner_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Learner] properties, named by their task type.
 #'
-#' * `learner_predict_types` :: list of list of `character()`\cr
+#' * `learner_predict_types` (list of list of `character()`)\cr
 #'   List of lists of supported [Learner] predict_types, named by their task type.
 #'   The inner list translates the `"predict_type"` to all predict types returned, e.g.
 #'   predict type `"prob"` for a [LearnerClassif] provides the probabilities as well as the predicted labels, therefore `"prob"` maps to `c("response", "prob")`.
 #'
-#' * `learner_predict_types` :: list of list of `character()`\cr
+#' * `learner_predict_types` (list of list of `character()`)\cr
 #'   List of lists of supported [Learner] predict_types, named by their task type.
 #'
-#' * `predict_sets` :: `character()`\cr
+#' * `predict_sets` (`character()`)\cr
 #'   Vector of possible predict sets. Currently supported are `"train"` and `"test"`.
 #'
-#' * `measure_properties` :: list of `character()`\cr
+#' * `measure_properties` (list of `character()`)\cr
 #'   List of vectors of supported [Measure] properties, named by their task type.
 #'
-#' * `default_measures` :: list of `character()`\cr
+#' * `default_measures` (list of `character()`)\cr
 #'   List of keys for the default [Measure]s, named by their task type.
 #'
-#' * `rr_names` :: `character()`\cr
+#' * `rr_names` (`character()`)\cr
 #'   Names of the objects stored in a [ResampleResult].
 #'
 #' @keywords internal

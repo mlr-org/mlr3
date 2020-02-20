@@ -12,9 +12,9 @@
 #' @template section_dictionary_resampling
 #'
 #' @section Parameters:
-#' * `repeats` :: `integer(1)`\cr
+#' * `repeats` (`integer(1)`)\cr
 #'   Number of repetitions.
-#' * `ratio` :: `numeric(1)`\cr
+#' * `ratio` (`numeric(1)`)\cr
 #'   Ratio of observations to put into the training set.
 #'
 #' @references

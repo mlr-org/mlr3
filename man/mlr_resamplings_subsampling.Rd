@@ -18,9 +18,9 @@ rsmp("holdout")
 \section{Parameters}{
 
 \itemize{
-\item \code{repeats} :: \code{integer(1)}\cr
+\item \code{repeats} (\code{integer(1)})\cr
 Number of repetitions.
-\item \code{ratio} :: \code{numeric(1)}\cr
+\item \code{ratio} (\code{numeric(1)})\cr
 Ratio of observations to put into the training set.
 }
 }

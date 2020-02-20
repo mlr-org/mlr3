@@ -3,10 +3,10 @@
 #' @description
 #' Runs a resampling (possibly in parallel).
 #'
-#' @param task :: [Task].
-#' @param learner :: [Learner].
-#' @param resampling :: [Resampling].
-#' @param store_models :: `logical(1)`\cr
+#' @param task ([Task]).
+#' @param learner ([Learner]).
+#' @param resampling ([Resampling]).
+#' @param store_models (`logical(1)`)\cr
 #'   Keep the fitted model after the test set has been predicted?
 #'   Set to `TRUE` if you want to further analyse the models or want to
 #'   extract information like variable importance.
