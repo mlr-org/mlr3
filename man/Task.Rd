@@ -499,7 +499,7 @@ See the section on task mutators for more information.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{\code{data.frame()}.}
+\item{\code{data}}{(\code{data.frame()}).}
 }
 \if{html}{\out{</div>}}
 }

@@ -49,8 +49,12 @@ see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
 Required predict type of the \link{Learner}.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
-Predict sets to operate on.
-Must be a subset of \verb{\{"train", "predict"\}}.}
+During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
+Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
+To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test"\}}.
+Each set yields a separate \link{Prediction} object.
+Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
+to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{average}}{(\code{character(1)})\cr
 Method for aggregation.

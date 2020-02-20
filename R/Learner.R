@@ -20,8 +20,12 @@
 #' Note that this object is typically constructed via a derived classes, e.g. [LearnerClassif] or [LearnerRegr].
 #'
 #' @template param_id
-#' @template param_param_set
 #' @template param_task_type
+#' @template param_param_set
+#' @template param_predict_types
+#' @template param_feature_types
+#' @template param_learner_properties
+#' @template param_data_formats
 #' @template param_packages
 #' @template param_man
 #'
@@ -106,9 +110,7 @@ Learner = R6Class("Learner",
     #' @template field_packages
     packages = NULL,
 
-    #' @field predict_sets (`character()`)\cr
-    #' Sets to predict on during [resample()]/[benchmark()].
-    #' Must be a non-empty subset of `{"train", "test"}`.
+    #' @template field_predict_sets
     predict_sets = "test",
 
     #' @field fallback ([Learner])\cr
@@ -121,32 +123,6 @@ Learner = R6Class("Learner",
 
     #' @description
     #' Creates a new instance of the [R6][R6::R6Class] object.
-    #'
-    #' @param predict_types (`character()`)\cr
-    #'   Supported predict types. Must be a subset of [`mlr_reflections$learner_predict_types`][mlr_reflections].
-    #'
-    #' @param predict_sets (`character()`)\cr
-    #'   Sets to predict on during [resample()]/[benchmark()].
-    #'   Creates and stores a separate [Prediction] object for each set.
-    #'   The individual sets can be combined via getters in [ResampleResult]/[BenchmarkResult], or [Measure]s can be set to operate on subsets of the calculated prediction sets.
-    #'   Must be a non-empty subset of `("train", "test")`.
-    #'   Default is `"test"`.
-    #'
-    #' @param feature_types (`character()`)\cr
-    #'   Feature types the learner operates on. Must be a subset of [`mlr_reflections$task_feature_types`][mlr_reflections].
-    #'
-    #' @param properties (`character()`)\cr
-    #'   Set of properties of the learner. Must be a subset of [`mlr_reflections$learner_properties`][mlr_reflections].
-    #'   The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
-    #'   * `"missings"`: The learner can handle missing values in the data.
-    #'   * `"weights"`: The learner supports observation weights.
-    #'   * `"importance"`: The learner supports extraction of importance scores, i.e. comes with a `importance()` extractor function (see section on optional extractors).
-    #'   * `"selected_features"`: The learner supports extraction of the set of selected features, i.e. comes with a `selected_features()` extractor function (see section on optional extractors).
-    #'   * `"oob_error"`: The learner supports extraction of estimated out of bag error, i.e. comes with a `oob_error()` extractor function (see section on optional extractors).
-    #'
-    #' @param data_formats (`character()`)\cr
-    #'   Vector of supported data formats which can be processed during `$train()` and `$predict()`.
-    #'   Defaults to `"data.table"`.
     initialize = function(id, task_type, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
       properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
 

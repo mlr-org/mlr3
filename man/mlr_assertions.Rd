@@ -91,8 +91,8 @@ assert_row_ids(row_ids, null.ok = FALSE, .var.name = vname(row_ids))
 
 \item{task}{:: \link{Task}.}
 
-\item{feature_types}{:: \code{character()}\cr
-Set of allowed feature types.}
+\item{feature_types}{(\code{character()})\cr
+Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
 \item{task_properties}{:: \code{character()}\cr
 Set of required task properties.}

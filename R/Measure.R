@@ -21,6 +21,8 @@
 #'
 #' @template param_id
 #' @template param_task_type
+#' @template param_predict_type
+#' @template param_measure_properties
 #' @template param_packages
 #' @template param_man
 #'
@@ -39,9 +41,7 @@ Measure = R6Class("Measure",
     #' Required predict type of the [Learner].
     predict_type = NULL,
 
-    #' @field predict_sets (`character()`)\cr
-    #' Predict sets to operate on.
-    #' Must be a subset of `{"train", "predict"}`.
+    #' @template field_predict_sets
     predict_sets = NULL,
 
     #' @field average (`character(1)`)\cr
@@ -99,19 +99,6 @@ Measure = R6Class("Measure",
     #' @param aggregator (`function(x)`)\cr
     #'   Function to aggregate individual performance scores `x` where `x` is a numeric vector.
     #'   If `NULL`, defaults to [mean()].
-    #'
-    #' @param properties (`character()`)\cr
-    #'   Properties of the measure.
-    #'   Must be a subset of [mlr_reflections$measure_properties][mlr_reflections].
-    #'   Supported by `mlr3`:
-    #'   * `"requires_task"` (requires the complete [Task]),
-    #'   * `"requires_learner"` (requires the trained [Learner]),
-    #'   * `"requires_train_set"` (requires the training indices from the [Resampling]), and
-    #'   * `"na_score"` (the measure is expected to occasionally return `NA`).
-    #'
-    #' @param predict_type (`character(1)`)\cr
-    #'   Required predict type of the [Learner].
-    #'   Possible values are stored in [mlr_reflections$learner_predict_types][mlr_reflections].
     #'
     #' @param predict_sets (`character()`)\cr
     #'   Prediction sets to operate on, used in `aggregate()` to extract the matching `predict_sets` from the [ResampleResult].

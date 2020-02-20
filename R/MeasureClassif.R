@@ -11,6 +11,8 @@
 #' Predefined measures can be found in the [mlr3misc::Dictionary] [mlr_measures].
 #'
 #' @template param_id
+#' @template param_predict_type
+#' @template param_measure_properties
 #' @template param_packages
 #' @template param_man
 #'
@@ -44,19 +46,6 @@ MeasureClassif = R6Class("MeasureClassif", inherit = Measure, cloneable = FALSE,
     #' @param aggregator (`function(x)`)\cr
     #'   Function to aggregate individual performance scores `x` where `x` is a numeric vector.
     #'   If `NULL`, defaults to [mean()].
-    #'
-    #' @param properties (`character()`)\cr
-    #'   Properties of the measure.
-    #'   Must be a subset of [mlr_reflections$measure_properties][mlr_reflections].
-    #'   Supported by `mlr3`:
-    #'   * `"requires_task"` (requires the complete [Task]),
-    #'   * `"requires_learner"` (requires the trained [Learner]),
-    #'   * `"requires_train_set"` (requires the training indices from the [Resampling]), and
-    #'   * `"na_score"` (the measure is expected to occasionally return `NA`).
-    #'
-    #' @param predict_type (`character(1)`)\cr
-    #'   Required predict type of the [Learner].
-    #'   Possible values are stored in [mlr_reflections$learner_predict_types][mlr_reflections].
     #'
     #' @param predict_sets (`character()`)\cr
     #'   Prediction sets to operate on, used in `aggregate()` to extract the matching `predict_sets` from the [ResampleResult].

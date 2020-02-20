@@ -21,6 +21,7 @@
 #' @template param_task_type
 #' @template param_rows
 #' @template param_cols
+#' @template param_data_format
 #'
 #' @section S3 methods:
 #' * `as.data.table(t)`\cr
@@ -131,7 +132,6 @@ Task = R6Class("Task",
     #' columns are filtered to only contain features with roles "target" and "feature".
     #' If invalid `rows` or `cols` are specified, an exception is raised.
     #'
-    #' @template param_data_format
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, data_format = "data.table") {
       task_data(self, private, rows, cols, data_format)
@@ -251,7 +251,7 @@ Task = R6Class("Task",
     #'
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.
-    #' @param data `data.frame()`.
+    #' @param data (`data.frame()`).
     cbind = function(data) {
       task_cbind(self, data)
     },

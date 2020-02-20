@@ -95,7 +95,8 @@ Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_r
 Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
 \item{\code{properties}}{(\code{character()})\cr
-Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+Set of properties of the \link{Learner}.
+Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
 The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
 \itemize{
 \item \code{"missings"}: The learner can handle missing values in the data.
@@ -106,7 +107,7 @@ The following properties are currently standardized and understood by learners i
 }}
 
 \item{\code{data_formats}}{(\code{character()})\cr
-Vector of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}.
+Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}.
 Defaults to \code{"data.table"}.}
 
 \item{\code{packages}}{(\code{character()})\cr
@@ -117,13 +118,6 @@ but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{req
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
-
-\item{\code{predict_sets}}{(\code{character()})\cr
-Sets to predict on during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Creates and stores a separate \link{Prediction} object for each set.
-The individual sets can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be set to operate on subsets of the calculated prediction sets.
-Must be a non-empty subset of \verb{("train", "test")}.
-Default is \code{"test"}.}
 }
 \if{html}{\out{</div>}}
 }

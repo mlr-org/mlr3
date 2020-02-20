@@ -27,8 +27,7 @@ assert_backend = function(b, .var.name = vname(b)) {
 
 
 #' @param task :: [Task].
-#' @param feature_types :: `character()`\cr
-#'   Set of allowed feature types.
+#' @template param_feature_types
 #' @param task_properties :: `character()`\cr
 #'   Set of required task properties.
 #' @rdname mlr_assertions
