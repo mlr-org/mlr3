@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.srho}
 \alias{mlr_measures_regr.srho}
 \title{Spearman's rho}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measures defined as Spearman's rank correlation coefficient between truth and response.
 Calls \code{\link[stats:cor]{stats::cor()}} with \code{method} set to \code{"spearman"}.

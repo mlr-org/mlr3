@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.fbeta}
 \alias{mlr_measures_classif.fbeta}
 \title{F-beta Score}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure defined with \eqn{P} as \code{\link[mlr3measures:precision]{precision()}} and \eqn{R} as
 \code{\link[mlr3measures:recall]{recall()}} as \deqn{

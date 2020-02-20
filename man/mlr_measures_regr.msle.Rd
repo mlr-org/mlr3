@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.msle}
 \alias{mlr_measures_regr.msle}
 \title{Mean Squared Log Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \frac{1}{n} \sum_{i=1}^n \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2.

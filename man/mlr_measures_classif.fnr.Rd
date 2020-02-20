@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.fnr}
 \alias{mlr_measures_classif.fnr}
 \title{False Negative Rate}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure defined as \deqn{
    \frac{\mathrm{FN}}{\mathrm{TP} + \mathrm{FN}}.

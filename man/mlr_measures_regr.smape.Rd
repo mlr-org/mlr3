@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.smape}
 \alias{mlr_measures_regr.smape}
 \title{Symmetric Mean Absolute Percent Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \frac{2}{n} \sum_{i=1}^n \frac{\left| t_i - r_i \right|}{\left| t_i \right| + \left| r_i \right|}.

@@ -1,7 +1,5 @@
-#' @usage NULL
 #' @name mlr_measures_regr.<%= id %>
 #' @include mlr_measures.R
-#' @format [R6::R6Class()] inheriting from [Measure].
 #'
 #' @inherit mlr3measures::<%= id %> title description
 #' @inheritSection mlr3measures::<%= id %> Meta Information

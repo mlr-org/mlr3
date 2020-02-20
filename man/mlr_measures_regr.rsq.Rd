@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.rsq}
 \alias{mlr_measures_regr.rsq}
 \title{R Squared}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   1 - \frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}.

@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.sse}
 \alias{mlr_measures_regr.sse}
 \title{Sum of Squared Errors}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \sum_{i=1}^n \left( t_i - r_i \right)^2.

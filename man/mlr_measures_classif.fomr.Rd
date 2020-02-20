@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.fomr}
 \alias{mlr_measures_classif.fomr}
 \title{False Omission Rate}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure defined as \deqn{
    \frac{\mathrm{FN}}{\mathrm{FN} + \mathrm{TN}}.

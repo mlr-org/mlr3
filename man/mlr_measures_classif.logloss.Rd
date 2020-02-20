@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.logloss}
 \alias{mlr_measures_classif.logloss}
 \title{Log Loss}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Classification measure defined as \deqn{
   -\frac{1}{n} \sum_{i=1}^n \log \left(  p_i \right )

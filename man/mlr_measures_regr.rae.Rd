@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.rae}
 \alias{mlr_measures_regr.rae}
 \title{Relative Absolute Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \frac{\sum_{i=1}^n \left| t_i - r_i \right|}{\sum_{i=1}^n \left| t_i - \bar{t} \right|}.

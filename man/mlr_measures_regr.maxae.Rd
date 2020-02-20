@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.maxae}
 \alias{mlr_measures_regr.maxae}
 \title{Max Absolute Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \max \left( \left| t_i - r_i \right| \right).

@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.ce}
 \alias{mlr_measures_classif.ce}
 \title{Classification Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Classification measure defined as \deqn{
   \frac{1}{n} \sum_{i=1}^n \left( t_i \neq r_i \right).

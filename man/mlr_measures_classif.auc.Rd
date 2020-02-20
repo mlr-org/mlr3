@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.auc}
 \alias{mlr_measures_classif.auc}
 \title{Area Under the ROC Curve}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Computes the area under the Receiver Operator Characteristic (ROC) curve.
 The AUC can be interpreted as the probability that a randomly chosen positive observation

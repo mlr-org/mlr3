@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.npv}
 \alias{mlr_measures_classif.npv}
 \title{Negative Predictive Value}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure defined as \deqn{
    \frac{\mathrm{TN}}{\mathrm{FN} + \mathrm{TN}}.

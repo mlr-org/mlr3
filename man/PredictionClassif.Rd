@@ -3,7 +3,6 @@
 \name{PredictionClassif}
 \alias{PredictionClassif}
 \title{Prediction Object for Classification}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object wraps the predictions returned by a learner of class \link{LearnerClassif}, i.e.
 the predicted response and class probabilities.
@@ -17,56 +16,6 @@ If this object is constructed manually, make sure that the factor levels for \co
 have the same levels as the task, in the same order.
 In case of binary classification tasks, the positive class label must be the first level.
 }
-\section{Construction}{
-\preformatted{p = PredictionClassif$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL)
-}
-\itemize{
-\item \code{task} :: \link{TaskClassif}\cr
-Task, used to extract defaults for \code{row_ids} and \code{truth}.
-\item \code{row_ids} :: \code{integer()}\cr
-Row ids of the predicted observations, i.e. the row ids of the test set.
-\item \code{truth} :: \code{factor()}\cr
-True (observed) labels. See the note on manual construction.
-\item \code{response} :: (\code{character()} | \code{factor()})\cr
-Vector of predicted class labels.
-One element for each observation in the test set.
-Character vectors are automatically converted to factors.
-See the note on manual construction.
-\item \code{prob} :: \code{matrix()}\cr
-Numeric matrix of posterior class probabilities with one column for each class
-and one row for each observation in the test set.
-Columns must be named with class labels, row names are automatically removed.
-If \code{prob} is provided, but \code{response} is not, the class labels are calculated from
-the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method} set to \code{"random"}.
-}
-}
-
-\section{Fields}{
-
-All fields from \link{Prediction}, and additionally:
-\itemize{
-\item \code{response} :: \code{factor()}\cr
-Access to the stored predicted class labels.
-\item \code{prob} :: \code{matrix()}\cr
-Access to the stored probabilities.
-\item \code{confusion} :: \code{matrix()}\cr
-Confusion matrix resulting from the comparison of truth and response.
-Truth is in columns, predicted response is in rows.
-}
-
-The field \code{task_type} is set to \code{"classif"}.
-}
-
-\section{Methods}{
-
-\itemize{
-\item \code{set_threshold(th)}\cr
-\code{numeric()} -> \code{self}\cr
-Sets the prediction response based on the provided threshold.
-See the section on thresholding for more information.
-}
-}
-
 \section{Thresholding}{
 
 If probabilities are stored, it is possible to change the threshold which determines the predicted class label.
@@ -116,11 +65,28 @@ Other Prediction:
 \section{Super class}{
 \code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionClassif}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{response}}{(\code{factor()})\cr
+Access to the stored predicted class labels.}
+
+\item{\code{prob}}{(\code{matrix()})\cr
+Access to the stored probabilities.}
+
+\item{\code{confusion}}{(\code{matrix()})\cr
+Confusion matrix, as resulting from the comparison of truth and response.
+Truth is in columns, predicted response is in rows.}
+
+\item{\code{missing}}{(\code{integer()})\cr
+Returns \code{row_ids} for which the predictions are missing or incomplete.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{PredictionClassif$new()}}
-\item \href{#method-help}{\code{PredictionClassif$help()}}
 \item \href{#method-set_threshold}{\code{PredictionClassif$set_threshold()}}
 }
 }
@@ -128,6 +94,7 @@ Other Prediction:
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format">}\href{../../mlr3/html/Prediction.html#method-format}{\code{mlr3::Prediction$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help">}\href{../../mlr3/html/Prediction.html#method-help}{\code{mlr3::Prediction$help()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print">}\href{../../mlr3/html/Prediction.html#method-print}{\code{mlr3::Prediction$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score">}\href{../../mlr3/html/Prediction.html#method-score}{\code{mlr3::Prediction$score()}}\out{</span>}
 }
@@ -136,6 +103,7 @@ Other Prediction:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PredictionClassif$new(
   task = NULL,
@@ -146,21 +114,52 @@ Other Prediction:
 )}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\subsection{Method \code{help()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PredictionClassif$help()}\if{html}{\out{</div>}}
-}
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{TaskClassif})\cr
+Task, used to extract defaults for \code{row_ids} and \code{truth}.}
 
+\item{\code{row_ids}}{(\code{integer()})\cr
+Row ids of the predicted observations, i.e. the row ids of the test set.}
+
+\item{\code{truth}}{(\code{factor()})\cr
+True (observed) labels. See the note on manual construction.}
+
+\item{\code{response}}{((\code{character()} | \code{factor()}))\cr
+Vector of predicted class labels.
+One element for each observation in the test set.
+Character vectors are automatically converted to factors.
+See the note on manual construction.}
+
+\item{\code{prob}}{(\code{matrix()})\cr
+Numeric matrix of posterior class probabilities with one column for each class
+and one row for each observation in the test set.
+Columns must be named with class labels, row names are automatically removed.
+If \code{prob} is provided, but \code{response} is not, the class labels are calculated from
+the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method} set to \code{"random"}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_threshold"></a>}}
 \subsection{Method \code{set_threshold()}}{
+Sets the prediction response based on the provided threshold.
+See the section on thresholding for more information.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PredictionClassif$set_threshold(threshold)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{threshold}}{(\code{numeric()}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified self.
+}
 }
 }

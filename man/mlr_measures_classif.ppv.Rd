@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.ppv}
 \alias{mlr_measures_classif.ppv}
 \title{Positive Predictive Value}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure defined as \deqn{
    \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FP}}.

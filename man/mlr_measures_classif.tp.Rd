@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.tp}
 \alias{mlr_measures_classif.tp}
 \title{True Positives}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure counting the true positives, i.e. the number of
 predictions correctly indicating a positive class label.

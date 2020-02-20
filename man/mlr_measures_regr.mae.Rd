@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.mae}
 \alias{mlr_measures_regr.mae}
 \title{Mean Absolute Errors}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \frac{1}{n} \sum_{i=1}^n \left| t_i - r_i \right|.

@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.ktau}
 \alias{mlr_measures_regr.ktau}
 \title{Kendall's tau}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as Kendall's rank correlation coefficient between truth and response.
 Calls \code{\link[stats:cor]{stats::cor()}} with \code{method} set to \code{"kendall"}.

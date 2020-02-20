@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.rrse}
 \alias{mlr_measures_regr.rrse}
 \title{Root Relative Squared Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \sqrt{\frac{\sum_{i=1}^n \left( t_i - r_i \right)^2}{\sum_{i=1}^n \left( t_i - \bar{t} \right)^2}}.

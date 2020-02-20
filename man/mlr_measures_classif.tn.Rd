@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.tn}
 \alias{mlr_measures_classif.tn}
 \title{True Negatives}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Classification measure counting the true negatives, i.e. the number of
 predictions correctly indicating a negative class label.

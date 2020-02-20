@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.fdr}
 \alias{mlr_measures_classif.fdr}
 \title{False Discovery Rate}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure defined as \deqn{
    \frac{\mathrm{FP}}{\mathrm{TP} + \mathrm{FP}}.

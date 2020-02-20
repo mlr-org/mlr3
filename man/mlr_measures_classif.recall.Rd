@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.recall}
 \alias{mlr_measures_classif.recall}
 \title{True Positive Rate}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure defined as \deqn{
   \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}.

@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.fp}
 \alias{mlr_measures_classif.fp}
 \title{False Positives}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Classification measure counting the false positives (type 1 error), i.e. the number of
 predictions indicating a positive class label while in fact it is negative.

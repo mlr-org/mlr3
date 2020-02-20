@@ -3,7 +3,6 @@
 \name{Prediction}
 \alias{Prediction}
 \title{Abstract Prediction Object}
-\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for task objects like \link{PredictionClassif} or \link{PredictionRegr}.
 
@@ -15,44 +14,9 @@ Prediction objects store the following information:
 \item Additional predictions based on the class and \code{predict_type}.
 E.g., the class probabilities for classification or the estimated standard error for regression.
 }
-}
-\section{Construction}{
 
-This object is constructed via a derived classes, e.g. \link{PredictionClassif} or \link{PredictionRegr}.
+Note that this object is usually constructed via a derived classes, e.g. \link{PredictionClassif} or \link{PredictionRegr}.
 }
-
-\section{Fields}{
-
-\itemize{
-\item \code{row_ids} :: \code{integer()}\cr
-Vector of row ids for which predictions are stored.
-\item \code{truth} :: \code{any}\cr
-True (observed) outcome.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the type of the \link{Task}.
-\item \code{task_properties} :: \code{character()}\cr
-Stores properties of the \link{Task}.
-\item \code{predict_types} :: \code{character()}\cr
-Vector of predict types this object stores.
-\item \code{missing} :: \code{logical()}\cr
-Returns \code{row_ids} for which the predictions are missing or incomplete.
-}
-}
-
-\section{Methods}{
-
-\itemize{
-\item \code{score(measures = NULL, task = NULL, learner = NULL)}\cr
-(list of \link{Measure}, \link{Task}, \link{Learner}) -> \link{Prediction}\cr
-Calculates the performance for all provided measures
-\link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
-from these objects.
-\item \code{help()}\cr
-() -> \code{NULL}\cr
-Opens the help page for this object.
-}
-}
-
 \section{S3 Methods}{
 
 \itemize{
@@ -73,27 +37,55 @@ Other Prediction:
 \code{\link{PredictionRegr}}
 }
 \concept{Prediction}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{data}}{(named \code{list()})\cr
+Internal data structure.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Required type of the \link{Task}.}
+
+\item{\code{task_properties}}{(\code{character()})\cr
+Required properties of the \link{Task}.}
+
+\item{\code{predict_types}}{(\code{character()})\cr
+Set of predict types this object stores.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{row_ids}}{(\code{integer()})\cr
+Vector of row ids for which predictions are stored.}
+
+\item{\code{truth}}{(\code{any})\cr
+True (observed) outcome.}
+
+\item{\code{missing}}{(\code{integer()})\cr
+Returns \code{row_ids} for which the predictions are missing or incomplete.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-help}{\code{Prediction$help()}}
 \item \href{#method-format}{\code{Prediction$format()}}
 \item \href{#method-print}{\code{Prediction$print()}}
+\item \href{#method-help}{\code{Prediction$help()}}
 \item \href{#method-score}{\code{Prediction$score()}}
 \item \href{#method-clone}{\code{Prediction$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-help"></a>}}
-\subsection{Method \code{help()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Prediction$help()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-format"></a>}}
 \subsection{Method \code{format()}}{
+Helper for print outputs.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Prediction$format()}\if{html}{\out{</div>}}
 }
@@ -102,14 +94,34 @@ Other Prediction:
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \subsection{Method \code{print()}}{
+Printer.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Prediction$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-help"></a>}}
+\subsection{Method \code{help()}}{
+Opens the corresponding help page referenced by field \verb{$man}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Prediction$help()}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-score"></a>}}
 \subsection{Method \code{score()}}{
+Calculates the performance for all provided measures
+\link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
+from these objects.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Prediction$score(
   measures = NULL,
@@ -119,6 +131,23 @@ Other Prediction:
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Performance measures to calculate.}
+
+\item{\code{task}}{(\link{Task}).}
+
+\item{\code{learner}}{(\link{Learner}).}
+
+\item{\code{train_set}}{(\code{integer()}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\link{Prediction}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

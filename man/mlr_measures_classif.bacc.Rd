@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.bacc}
 \alias{mlr_measures_classif.bacc}
 \title{Balanced Accuracy}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Computes the weighted balanced accuracy, suitable for imbalanced data sets.
 It is defined analogously to the definition in \href{https://scikit-learn.org/}{sklearn}.
