@@ -4,13 +4,9 @@
 \alias{DataBackendMatrix}
 \title{DataBackend for Matrix}
 \description{
-Returns a named list of vectors of distinct values for each column
-specified. If \code{na_rm} is \code{TRUE}, missing values are removed from the
-returned vectors of distinct values. Non-existing rows and columns are
-silently ignored.
-
-Returns the number of missing values per column in the specified slice
-of data. Non-existing rows and columns are silently ignored.
+\link{DataBackend} for \CRANpkg{Matrix}.
+Data is split into a (numerical) sparse part and a dense part.
+These parts are automatically merged to a sparse format during \verb{$data()}.
 }
 \examples{
 requireNamespace("Matrix")
@@ -37,8 +33,7 @@ Other DataBackend:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{rownames}}{\code{integer()}\cr
-Returns vector of all distinct row identifiers, i.e. the primary key
-column.}
+Returns vector of all distinct row identifiers, i.e. the primary key column.}
 
 \item{\code{colnames}}{\code{character()}\cr
 Returns vector of all column names, including the primary key column.}
@@ -72,10 +67,7 @@ Number of columns (variables), including the primary key column.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
-\link{DataBackend} for \CRANpkg{Matrix}. Data is split into a (numerical)
-sparse part and a dense part. These parts are automatically merged to a
-sparse format during \verb{$data()}. Note that merging the data parts may
-cause data loss during the conversion.
+Creates a new instance of the \link[R6:R6Class]{R6} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$new(data, dense = NULL, primary_key = NULL)}\if{html}{\out{</div>}}
 }
@@ -89,6 +81,9 @@ Converted to a \code{\link[data.table:data.table]{data.table::data.table()}} aut
 
 \item{\code{dense}}{\code{\link[=data.frame]{data.frame()}}.
 Dense data, converted to \code{\link[data.table:data.table]{data.table::data.table()}}.}
+
+\item{\code{primary_key}}{\code{character(1)}\cr
+Name of the primary key column.}
 
 \item{\code{primary_key}}{\code{character(1)}\cr
 Name of the primary key column.}
@@ -116,18 +111,6 @@ duplicated rows, duplicated column names lead to an exception.
 \describe{
 \item{\code{rows}}{\code{integer()}\cr
 Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
 
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
@@ -158,6 +141,10 @@ Number of rows.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-distinct"></a>}}
 \subsection{Method \code{distinct()}}{
+Returns a named list of vectors of distinct values for each column
+specified. If \code{na_rm} is \code{TRUE}, missing values are removed from the
+returned vectors of distinct values. Non-existing rows and columns are
+silently ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$distinct(rows, cols, na_rm = TRUE)}\if{html}{\out{</div>}}
 }
@@ -167,18 +154,6 @@ Number of rows.}
 \describe{
 \item{\code{rows}}{\code{integer()}\cr
 Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
 
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
@@ -192,6 +167,8 @@ Whether to remove NAs or not.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-missings"></a>}}
 \subsection{Method \code{missings()}}{
+Returns the number of missing values per column in the specified slice
+of data. Non-existing rows and columns are silently ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$missings(rows, cols)}\if{html}{\out{</div>}}
 }
@@ -201,18 +178,6 @@ Whether to remove NAs or not.}
 \describe{
 \item{\code{rows}}{\code{integer()}\cr
 Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
 
 \item{\code{cols}}{\code{character()}\cr
 Column names.}

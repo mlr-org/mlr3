@@ -5,14 +5,6 @@
 \title{DataBackend for data.table}
 \description{
 \link{DataBackend} for \CRANpkg{data.table} as an in-memory data base.
-
-Returns a named list of vectors of distinct values for each column
-specified. If \code{na_rm} is \code{TRUE}, missing values are removed from the
-returned vectors of distinct values. Non-existing rows and columns are
-silently ignored.
-
-Returns the number of missing values per column in the specified slice
-of data. Non-existing rows and columns are silently ignored.
 }
 \examples{
 data = as.data.table(iris)
@@ -41,12 +33,20 @@ Other DataBackend:
 \section{Super class}{
 \code{\link[mlr3:DataBackend]{mlr3::DataBackend}} -> \code{DataBackendDataTable}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{compact_seq}}{\code{logical(1)}\cr
+If \code{TRUE}, row ids are a natural sequence from 1 to \verb{nrow(data}) (determined internally).
+In this case, row lookup uses positional indices instead of joins.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{rownames}}{\code{integer()}\cr
-Returns vector of all distinct row identifiers, i.e. the primary key
-column.}
+Returns vector of all distinct row identifiers, i.e. the primary key column.}
 
 \item{\code{colnames}}{\code{character()}\cr
 Returns vector of all column names, including the primary key column.}
@@ -80,6 +80,8 @@ Number of columns (variables), including the primary key column.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \subsection{Method \code{new()}}{
+Creates a new instance of the \link[R6:R6Class]{R6} object.
+
 \code{DataBackendDataTable} does not copy the input data, while
 \code{as_data_backend} calls \code{\link[data.table:copy]{data.table::copy()}}. \code{as_data_backend} creates a
 primary key column as integer column if \code{primary_key} is \code{NULL.}
@@ -121,18 +123,6 @@ duplicated rows, duplicated column names lead to an exception.
 \item{\code{rows}}{\code{integer()}\cr
 Row indices.}
 
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
-
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
 
@@ -162,6 +152,10 @@ Number of rows.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-distinct"></a>}}
 \subsection{Method \code{distinct()}}{
+Returns a named list of vectors of distinct values for each column
+specified. If \code{na_rm} is \code{TRUE}, missing values are removed from the
+returned vectors of distinct values. Non-existing rows and columns are
+silently ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$distinct(rows, cols, na_rm = TRUE)}\if{html}{\out{</div>}}
 }
@@ -171,18 +165,6 @@ Number of rows.}
 \describe{
 \item{\code{rows}}{\code{integer()}\cr
 Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
 
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
@@ -196,6 +178,8 @@ Whether to remove NAs or not.}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-missings"></a>}}
 \subsection{Method \code{missings()}}{
+Returns the number of missing values per column in the specified slice
+of data. Non-existing rows and columns are silently ignored.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DataBackendDataTable$missings(rows, cols)}\if{html}{\out{</div>}}
 }
@@ -205,18 +189,6 @@ Whether to remove NAs or not.}
 \describe{
 \item{\code{rows}}{\code{integer()}\cr
 Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{rows}}{\code{integer()}\cr
-Row indices.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
-
-\item{\code{cols}}{\code{character()}\cr
-Column names.}
 
 \item{\code{cols}}{\code{character()}\cr
 Column names.}
