@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.bacc}
 \alias{mlr_measures_classif.bacc}
 \title{Balanced Accuracy}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Computes the weighted balanced accuracy, suitable for imbalanced data sets.
 It is defined analogously to the definition in \href{https://scikit-learn.org/}{sklearn}.
@@ -27,10 +26,10 @@ The score function calls \code{\link[mlr3measures:bacc]{mlr3measures::bacc()}} f
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
 }
-\section{Construction}{
+\section{Dictionary}{
 
-This measures can be retrieved from the dictionary \link{mlr_measures}:\preformatted{mlr_measures$get("classif.bacc")
-msr("classif.bacc")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("bacc")
+msr("bacc")
 }
 }
 

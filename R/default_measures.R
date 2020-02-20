@@ -6,10 +6,12 @@
 #' * [`"regr.mse"`][mlr_measures_regr.mse] for regression (`"regr"`).
 #' * Add-on package may register additional default measures for their own task types.
 #'
-#' @param task_type :: `character(1)`\cr
+#' @param task_type (`character(1)`)\cr
 #'   Get the default measure for the task type `task_type`, e.g., `"classif"` or `"regr"`.
 #'   If `task_type` is `NULL`, an empty list is returned.
+#'
 #' @return list of [Measure].
+#'
 #' @export
 #' @examples
 #' default_measures("classif")

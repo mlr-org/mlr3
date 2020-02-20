@@ -3,7 +3,6 @@
 \name{Measure}
 \alias{Measure}
 \title{Measure Class}
-\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for measures like \link{MeasureClassif} and \link{MeasureRegr}.
 
@@ -19,91 +18,9 @@ In addition to these two functions, meta-information about the performance measu
 Predefined measures are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_measures},
 e.g. \code{\link[=mlr_measures_classif.auc]{classif.auc}} or \code{\link[=mlr_measures_time_train]{time_train}}.
 A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
-}
-\section{Construction}{
 
-Note: This object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.\preformatted{m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro",
-    aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
-    task_properties = character(), packages = character(), man = NA_character_)
+Note that this object is typically constructed via a derived classes, e.g. \link{MeasureClassif} or \link{MeasureRegr}.
 }
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Identifier for the measure.
-\item \code{task_type} :: \code{character(1)}\cr
-Type of the task the measure can operator on. E.g., \code{"classif"} or \code{"regr"}.
-\item \code{range} :: \code{numeric(2)}\cr
-Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
-Both bounds may be infinite.
-\item \code{minimize} :: \code{logical(1)}\cr
-Set to \code{TRUE} if good predictions correspond to small values,
-and to \code{FALSE} if good predictions correspond to large values.
-If set to \code{NA} (default), tuning this measure is not possible.
-\item \code{average} :: \code{character(1)}\cr
-How to average multiple \link{Prediction}s from a \link{ResampleResult}.
-
-The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
-function defined in \code{aggregator} to average them to a single number.
-
-If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
-The function \code{aggregator} is not used in this case.
-\item \code{aggregator} :: \verb{function(x)}\cr
-Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
-If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.
-\item \code{properties} :: \code{character()}\cr
-Properties of the measure.
-Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
-Supported by \code{mlr3}:
-\itemize{
-\item \code{"requires_task"} (requires the complete \link{Task}),
-\item \code{"requires_learner"} (requires the trained \link{Learner}),
-\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
-\item \code{"na_score"} (the measure is expected to occasionally return \code{NA}).
-}
-\item \code{predict_type} :: \code{character(1)}\cr
-Required predict type of the \link{Learner}.
-Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.
-\item \code{predict_sets} :: \code{character()}\cr
-Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
-Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Must be a non-empty subset of \code{c("train", "test")}.
-If multiple sets are provided, these are first combined to a single prediction object.
-Default is \code{"test"}.
-\item \code{task_properties} :: \code{character()}\cr
-Required task properties, see \link{Task}.
-\item \code{packages} :: \code{character()}\cr
-Set of required packages.
-A warning is signaled by the constructor if at least one of the packages is not installed.
-The packages will be loaded (not attached) via \code{\link[=requireNamespace]{requireNamespace()}} for \verb{$train()}/\verb{$predict()}.
-\item \code{man} :: \code{character(1)}\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-}
-}
-
-\section{Fields}{
-
-All variables passed to the constructor.
-}
-
-\section{Methods}{
-
-\itemize{
-\item \code{aggregate(rr)}\cr
-\link{ResampleResult} -> \code{numeric(1)}\cr
-Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
-Operates on the \link{Prediction}s of \link{ResampleResult} with matching \code{predict_sets}.
-\item \code{score(prediction, task = NULL, learner = NULL, train_set = NULL)}\cr
-((named list of) \link{Prediction}, \link{Task}, \link{Learner}, \code{integer()} | \code{character()}) -> \code{numeric(1)}\cr
-Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
-and calculates a numeric score.
-If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"} or \code{"requires_train_set"}, you must additionally
-pass the respective \link{Task}, the trained \link{Learner} or the training set indices.
-This is handled internally during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-\item \code{help()}\cr
-() -> \code{NULL}\cr
-Opens the corresponding help page referenced by \verb{$man}.
-}
-}
-
 \seealso{
 Other Measure: 
 \code{\link{MeasureClassif}},
@@ -116,3 +33,248 @@ Other Measure:
 \code{\link{mlr_measures}}
 }
 \concept{Measure}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{id}}{\code{character(1)}\cr
+Identifier of the object.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Task type, e.g. \code{"classif"} or \code{"regr"}.
+
+For a complete list of possible task types (depending on the loaded packages),
+see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Required predict type of the \link{Learner}.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
+Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
+To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test"\}}.
+Each set yields a separate \link{Prediction} object.
+Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
+to operate on specific subsets of the calculated prediction sets.}
+
+\item{\code{average}}{(\code{character(1)})\cr
+Method for aggregation.
+Either \code{"micro"} or \code{"macro"}.}
+
+\item{\code{aggregator}}{(\verb{function()})\cr
+Function to aggregate individual scores.}
+
+\item{\code{task_properties}}{(\code{character()})\cr
+Required properties of the \link{Task}.}
+
+\item{\code{range}}{(\code{numeric(2)})\cr
+Lower and upper bound of possible performance scores.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Properties of this measure.}
+
+\item{\code{minimize}}{(\code{logical(1)})\cr
+If \code{TRUE}, good predictions correspond to small values of performance scores.}
+
+\item{\code{packages}}{(\code{character(1)})\cr
+Set of required packages.
+These packages are loaded, but not attached.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{hash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this object.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{Measure$new()}}
+\item \href{#method-format}{\code{Measure$format()}}
+\item \href{#method-print}{\code{Measure$print()}}
+\item \href{#method-help}{\code{Measure$help()}}
+\item \href{#method-score}{\code{Measure$score()}}
+\item \href{#method-aggregate}{\code{Measure$aggregate()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$new(
+  id,
+  task_type = NA,
+  range = c(-Inf, Inf),
+  minimize = NA,
+  average = "macro",
+  aggregator = NULL,
+  properties = character(),
+  predict_type = "response",
+  predict_sets = "test",
+  task_properties = character(),
+  packages = character(),
+  man = NA_character_
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Type of task, e.g. \code{"regr"} or \code{"classif"}.
+Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
+
+\item{\code{range}}{(\code{numeric(2)})\cr
+Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
+Both bounds may be infinite.}
+
+\item{\code{minimize}}{(\code{logical(1)})\cr
+Set to \code{TRUE} if good predictions correspond to small values,
+and to \code{FALSE} if good predictions correspond to large values.
+If set to \code{NA} (default), tuning this measure is not possible.}
+
+\item{\code{average}}{(\code{character(1)})\cr
+How to average multiple \link{Prediction}s from a \link{ResampleResult}.
+
+The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
+function defined in \code{aggregator} to average them to a single number.
+
+If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
+The function \code{aggregator} is not used in this case.}
+
+\item{\code{aggregator}}{(\verb{function(x)})\cr
+Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
+If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Properties of the measure.
+Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
+Supported by \code{mlr3}:
+\itemize{
+\item \code{"requires_task"} (requires the complete \link{Task}),
+\item \code{"requires_learner"} (requires the trained \link{Learner}),
+\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA}).
+}}
+
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Required predict type of the \link{Learner}.
+Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
+Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Must be a non-empty subset of \verb{\{"train", "test"\}}.
+If multiple sets are provided, these are first combined to a single prediction object.
+Default is \code{"test"}.}
+
+\item{\code{task_properties}}{(\code{character()})\cr
+Required task properties, see \link{Task}.}
+
+\item{\code{packages}}{(\code{character()})\cr
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+The referenced help package can be opened via method \verb{$help()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-format"></a>}}
+\subsection{Method \code{format()}}{
+Helper for print outputs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$format()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+Printer.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$print()}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-help"></a>}}
+\subsection{Method \code{help()}}{
+Opens the corresponding help page referenced by field \verb{$man}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$help()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-score"></a>}}
+\subsection{Method \code{score()}}{
+Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
+and calculates a numeric score.
+If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"} or \code{"requires_train_set"}, you must additionally
+pass the respective \link{Task}, the trained \link{Learner} or the training set indices.
+This is handled internally during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$score(prediction, task = NULL, learner = NULL, train_set = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{prediction}}{(\link{Prediction} | named list of \link{Prediction}).}
+
+\item{\code{task}}{(\link{Task}).}
+
+\item{\code{learner}}{(\link{Learner}).}
+
+\item{\code{train_set}}{(\code{integer()}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric(1)}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-aggregate"></a>}}
+\subsection{Method \code{aggregate()}}{
+Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
+Operates on the \link{Prediction}s of \link{ResampleResult} with matching \code{predict_sets}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Measure$aggregate(rr)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rr}}{\link{ResampleResult}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric(1)}.
+}
+}
+}

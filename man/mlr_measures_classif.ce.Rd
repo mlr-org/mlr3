@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.ce}
 \alias{mlr_measures_classif.ce}
 \title{Classification Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Classification measure defined as \deqn{
   \frac{1}{n} \sum_{i=1}^n \left( t_i \neq r_i \right).
@@ -17,10 +16,10 @@ The score function calls \code{\link[mlr3measures:ce]{mlr3measures::ce()}} from 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
 }
-\section{Construction}{
+\section{Dictionary}{
 
-This measures can be retrieved from the dictionary \link{mlr_measures}:\preformatted{mlr_measures$get("classif.ce")
-msr("classif.ce")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("ce")
+msr("ce")
 }
 }
 

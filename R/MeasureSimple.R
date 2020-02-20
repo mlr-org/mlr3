@@ -16,14 +16,11 @@ MeasureBinarySimple = R6Class("MeasureBinaryimple",
         man = paste0("mlr3::mlr_measures_classif.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
-    },
+    }
+  ),
 
-    score = function(prediction, ...) {
-      assert_prediction(prediction)
-      measure_score(self, prediction)
-    },
-
-    score_internal = function(prediction, ...) {
+  private = list(
+    .score = function(prediction, ...) {
       truth = prediction$truth
       positive = levels(truth)[1L]
       self$fun(truth = truth, response = prediction$response, prob = prediction$prob[, positive], positive = positive, na_value = self$na_value)
@@ -48,14 +45,11 @@ MeasureClassifSimple = R6Class("MeasureClassifSimple",
         man = paste0("mlr3::mlr_measures_classif.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
-    },
+    }
+  ),
 
-    score = function(prediction, ...) {
-      assert_prediction(prediction)
-      measure_score(self, prediction)
-    },
-
-    score_internal = function(prediction, ...) {
+  private = list(
+    .score = function(prediction, ...) {
       self$fun(truth = prediction$truth, response = prediction$response, prob = prediction$prob, na_value = self$na_value)
     }
   )
@@ -78,14 +72,11 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
         man = paste0("mlr3::mlr_measures_regr.", name)
       )
       self$fun = get(name, envir = asNamespace("mlr3measures"), mode = "function")
-    },
+    }
+  ),
 
-    score = function(prediction, ...) {
-      assert_prediction(prediction)
-      measure_score(self, prediction)
-    },
-
-    score_internal = function(prediction, ...) {
+  private = list(
+    .score = function(prediction, ...) {
       self$fun(truth = prediction$truth, response = prediction$response, se = prediction$se, na_value = self$na_value)
     }
   )

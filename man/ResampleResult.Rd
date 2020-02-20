@@ -3,85 +3,12 @@
 \name{ResampleResult}
 \alias{ResampleResult}
 \title{Container for Results of \code{resample()}}
-\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the result container object returned by \code{\link[=resample]{resample()}}.
 
 Note that all stored objects are accessed by reference.
 Do not modify any object without cloning it first.
 }
-\section{Construction}{
-\preformatted{rr = ResampleResult$new(data, uhash = NULL)
-}
-\itemize{
-\item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Table with data for one resampling iteration per row:
-\link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), and \link{Prediction}.
-\item \code{uhash} :: \code{character(1)}\cr
-Unique hash for this \code{ResampleResult}. If \code{NULL}, a new unique hash is generated.
-This unique hash is primarily needed to group information in \link{BenchmarkResult}s.
-}
-}
-
-\section{Fields}{
-
-\itemize{
-\item \code{data} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Internal data storage.
-We discourage users to directly work with this field.
-\item \code{task} :: \link{Task}\cr
-
-The task \code{\link[=resample]{resample()}} operated on.
-\item \code{learners} :: list of \link{Learner}\cr
-List of trained learners, sorted by resampling iteration.
-\item \code{resampling} :: \link{Resampling}\cr
-Instantiated \link{Resampling} object which stores the splits into training and test.
-\item \code{warnings} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a table with all warning messages.
-Column names are \code{"iteration"} and \code{"msg"}.
-Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.
-\item \code{errors} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a table with all error messages.
-Column names are \code{"iteration"} and \code{"msg"}.
-Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
-\item \code{uhash} :: \code{character(1)}\cr
-Unique hash for this object.
-}
-}
-
-\section{Methods}{
-
-\itemize{
-\item \code{predictions(predict_sets = "test")}\cr
-\code{character()} -> list of \link{Prediction}\cr
-List of prediction objects, sorted by resampling iteration.
-If multiple sets are given, these are combined to a single one for each iteration.
-\item \code{prediction(predict_sets = "test")}\cr
-\code{character()} -> \link{Prediction}\cr
-Combined \link{Prediction} of all individual resampling iterations, and all provided predict sets.
-Note that performance measures do not operate on this object,
-but instead on each prediction object separately and then combine the performance scores
-with the aggregate function of the respective \link{Measure}.
-\item \code{score(measures = NULL, ids = TRUE)}\cr
-(list of \link{Measure}, \code{logical(1)}) -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a table with one row for each resampling iteration, including all involved objects:
-\link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
-A column with the individual (per resampling iteration) performance is added for each \link{Measure}, named with the id of the respective measure.
-If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) are binded to the table to allow a more convenient subsetting.
-If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
-\item \code{aggregate(measures = NULL)}\cr
-list of \link{Measure} -> named \code{numeric()}\cr
-Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in \link{Measure}.
-If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
-\item \code{filter(iters)}\cr
-\code{integer()} -> \code{self}\cr
-Subsets the ResampleResult, reducing it to only keep the iterations specified in \code{iters}.
-\item \code{help()}\cr
-() -> \code{NULL}\cr
-Opens the help page for this object.
-}
-}
-
 \section{S3 Methods}{
 
 \itemize{
@@ -103,4 +30,240 @@ rr$prediction()
 rr$prediction()$confusion
 rr$warnings
 rr$errors
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Internal data storage.
+We discourage users to directly work with this field.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{task}}{(\link{Task})\cr
+The task \code{\link[=resample]{resample()}} operated on.}
+
+\item{\code{learners}}{(list of \link{Learner})\cr
+List of trained learners, sorted by resampling iteration.}
+
+\item{\code{resampling}}{(\link{Resampling})\cr
+Instantiated \link{Resampling} object which stores the splits into training and test.}
+
+\item{\code{uhash}}{(\code{character(1)})\cr
+Unique hash for this object.}
+
+\item{\code{warnings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+A table with all warning messages.
+Column names are \code{"iteration"} and \code{"msg"}.
+Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.}
+
+\item{\code{errors}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+A table with all error messages.
+Column names are \code{"iteration"} and \code{"msg"}.
+Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{ResampleResult$new()}}
+\item \href{#method-format}{\code{ResampleResult$format()}}
+\item \href{#method-print}{\code{ResampleResult$print()}}
+\item \href{#method-help}{\code{ResampleResult$help()}}
+\item \href{#method-prediction}{\code{ResampleResult$prediction()}}
+\item \href{#method-predictions}{\code{ResampleResult$predictions()}}
+\item \href{#method-score}{\code{ResampleResult$score()}}
+\item \href{#method-aggregate}{\code{ResampleResult$aggregate()}}
+\item \href{#method-filter}{\code{ResampleResult$filter()}}
+\item \href{#method-clone}{\code{ResampleResult$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$new(data, uhash = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Table with data for one resampling iteration per row:
+\link{Task}, \link{Learner}, \link{Resampling}, iteration (\code{integer(1)}), and \link{Prediction}.}
+
+\item{\code{uhash}}{(\code{character(1)})\cr
+Unique hash for this \code{ResampleResult}. If \code{NULL}, a new unique hash is generated.
+This unique hash is primarily needed to group information in \link{BenchmarkResult}s.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-format"></a>}}
+\subsection{Method \code{format()}}{
+Helper for print outputs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$format()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+Printer.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$print()}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-help"></a>}}
+\subsection{Method \code{help()}}{
+Opens the corresponding help page referenced by field \verb{$man}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$help()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-prediction"></a>}}
+\subsection{Method \code{prediction()}}{
+Combined \link{Prediction} of all individual resampling iterations, and all provided predict sets.
+Note that performance measures do not operate on this object,
+but instead on each prediction object separately and then combine the performance scores
+with the aggregate function of the respective \link{Measure}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$prediction(predict_sets = "test")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{predict_sets}}{(\code{character()})\cr
+Subset of \verb{\{"train", "test"\}}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\link{Prediction}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predictions"></a>}}
+\subsection{Method \code{predictions()}}{
+List of prediction objects, sorted by resampling iteration.
+If multiple sets are given, these are combined to a single one for each iteration.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$predictions(predict_sets = "test")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{predict_sets}}{(\code{character()})\cr
+Subset of \verb{\{"train", "test"\}}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+List of \link{Prediction} objects, one per element in \code{predict_sets}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-score"></a>}}
+\subsection{Method \code{score()}}{
+Returns a table with one row for each resampling iteration, including all involved objects:
+\link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
+Additionally, a column with the individual (per resampling iteration) performance is added for each \link{Measure} in \code{measures},
+named with the id of the respective measure id.
+If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$score(measures = NULL, ids = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Performance measures to calculate.}
+
+\item{\code{ids}}{(\code{logical(1)})\cr
+If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) are binded to the table to allow a more convenient subsetting.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{\link[data.table:data.table]{data.table::data.table()}}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-aggregate"></a>}}
+\subsection{Method \code{aggregate()}}{
+Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in \link{Measure}.
+If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$aggregate(measures = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Performance measures to calculate.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Named \code{numeric()}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-filter"></a>}}
+\subsection{Method \code{filter()}}{
+Subsets the \link{ResampleResult}, reducing it to only keep the iterations specified in \code{iters}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$filter(iters)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{iters}}{(\code{integer()})\cr
+Resampling iterations to keep.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified self.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
 }

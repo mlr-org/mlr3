@@ -1,45 +1,10 @@
 #' @title Prediction Object for Regression
 #'
-#' @usage NULL
-#' @format [R6::R6Class] object inheriting from [Prediction].
 #' @include Prediction.R
 #'
 #' @description
 #' This object wraps the predictions returned by a learner of class [LearnerRegr], i.e.
 #' the predicted response and standard error.
-#'
-#' @section Construction:
-#' ```
-#' p = PredictionRegr$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL)
-#' ```
-#'
-#' * `task` :: [TaskRegr]\cr
-#'   Task, used to extract defaults for `row_ids` and `truth`.
-#'
-#' * `row_ids` :: `integer()`\cr
-#'   Row ids of the predicted observations, i.e. the row ids of the test set.
-#'
-#' * `truth` :: `numeric()`\cr
-#'   True (observed) response.
-#'
-#' * `response` :: `numeric()`\cr
-#'   Vector of numeric response values.
-#'   One element for each observation in the test set.
-#'
-#' * `se` :: `numeric()`\cr
-#'   Numeric vector of predicted standard errors.
-#'   One element for each observation in the test set.
-#'
-#' @section Fields:
-#' All fields from [Prediction], and additionally:
-#'
-#' * `response` :: `numeric()`\cr
-#'   Access to the stored predicted response.
-#'
-#' * `se` :: `numeric()`\cr
-#'   Access to the stored standard error.
-#'
-#' The field `task_type` is set to `"regr"`.
 #'
 #' @family Prediction
 #' @export
@@ -52,6 +17,25 @@
 PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
   cloneable = FALSE,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param task ([TaskRegr])\cr
+    #'   Task, used to extract defaults for `row_ids` and `truth`.
+    #'
+    #' @param row_ids (`integer()`)\cr
+    #'   Row ids of the predicted observations, i.e. the row ids of the test set.
+    #'
+    #' @param truth (`numeric()`)\cr
+    #'   True (observed) response.
+    #'
+    #' @param response (`numeric()`)\cr
+    #'   Vector of numeric response values.
+    #'   One element for each observation in the test set.
+    #'
+    #' @param se (`numeric()`)\cr
+    #'   Numeric vector of predicted standard errors.
+    #'   One element for each observation in the test set.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL) {
       row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
@@ -70,24 +54,28 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       if (!is.null(se)) {
         self$data$tab$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE)
       }
-    },
 
-    help = function() {
-      open_help("mlr3::PredictionRegr")
+      self$man = "mlr3::PredictionRegr"
     }
   ),
 
   active = list(
+    #' @field response (`numeric()`)\cr
+    #' Access the stored predicted response.
     response = function(rhs) {
       assert_ro_binding(rhs)
       self$data$tab$response %??% rep(NA_real_, length(self$data$row_ids))
     },
 
+    #' @field se (`numeric()`)\cr
+    #' Access the stored standard error.
     se = function(rhs) {
       assert_ro_binding(rhs)
       self$data$tab$se %??% rep(NA_real_, length(self$data$row_ids))
     },
 
+    #' @field missing (`integer()`)\cr
+    #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
       miss = logical(nrow(self$data$tab))

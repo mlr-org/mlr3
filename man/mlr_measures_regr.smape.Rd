@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.smape}
 \alias{mlr_measures_regr.smape}
 \title{Symmetric Mean Absolute Percent Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \frac{2}{n} \sum_{i=1}^n \frac{\left| t_i - r_i \right|}{\left| t_i \right| + \left| r_i \right|}.
@@ -17,10 +16,10 @@ The score function calls \code{\link[mlr3measures:smape]{mlr3measures::smape()}}
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
 }
-\section{Construction}{
+\section{Dictionary}{
 
-This measures can be retrieved from the dictionary \link{mlr_measures}:\preformatted{mlr_measures$get("classif.smape")
-msr("classif.smape")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("smape")
+msr("smape")
 }
 }
 

@@ -3,146 +3,27 @@
 \name{Learner}
 \alias{Learner}
 \title{Learner Class}
-\format{\link[R6:R6Class]{R6::R6Class} object.}
 \description{
 This is the abstract base class for learner objects like \link{LearnerClassif} and \link{LearnerRegr}.
 
-Learners consist of the following parts:
+Learners are build around the three following key parts:
 \itemize{
-\item Methods \code{train()} and \code{predict()} which call \code{train_internal()} and \code{predict_internal()}.
-\item The fitted model, after calling \code{train()}.
+\item Methods \code{train()} and \code{predict()} which call internal methods (either public method \code{train_internal()}/\code{predict_internal()} (soft deprecated)  or private methods \code{.train()}/\code{.predict()}).
 \item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 \item Meta-information about the requirements and capabilities of the learner.
+\item The fitted model stored in field \verb{$model}, available after calling \code{train()}.
 }
 
 Predefined learners are stored in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_learners},
 e.g. \code{\link[=mlr_learners_classif.rpart]{classif.rpart}} or \code{\link[=mlr_learners_regr.rpart]{regr.rpart}}.
+
+More classification and regression learners are implemented in \CRANpkg{mlr3learners}.
+Learners for survival analysis (or more general, for probabilistic regression) can be found in \CRANpkg{mlr3proba}.
+The dictionary \link{mlr_learners} gets automatically populated with the new learners as soon as the respective packages are loaded.
+
+More (experimental) learners can be found on GitHub: \url{https://github.com/mlr3learners/}.
 A guide on how to extend \CRANpkg{mlr3} with custom learners can be found in the \href{https://mlr3book.mlr-org.com}{mlr3book}.
 }
-\section{Construction}{
-
-Note: This object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.\preformatted{l = Learner$new(id, task_type, param_set = ParamSet$new(), predict_types = character(),
-     feature_types = character(), properties = character(), packages = character())
-}
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Identifier for the learner.
-\item \code{task_type} :: \code{character(1)}\cr
-Type of the task the learner can operator on. E.g., \code{"classif"} or \code{"regr"}.
-\item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
-Set of hyperparameters.
-\item \code{predict_types} :: \code{character()}\cr
-Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
-\item \code{predict_sets} :: \code{character()}\cr
-Sets to predict on during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
-Creates and stores a separate \link{Prediction} object for each set.
-The individual sets can be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be set to operate on subsets of the calculated prediction sets.
-Must be a non-empty subset of \verb{("train", "test")}.
-Default is \code{"test"}.
-\item \code{feature_types} :: \code{character()}\cr
-Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
-\item \code{properties} :: \code{character()}\cr
-Set of properties of the learner. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
-The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
-\itemize{
-\item \code{"missings"}: The learner can handle missing values in the data.
-\item \code{"weights"}: The learner supports observation weights.
-\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with a \code{importance()} extractor function (see section on optional extractors).
-\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \code{selected_features()} extractor function (see section on optional extractors).
-\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors).
-}
-\item \code{data_formats} :: \code{character()}\cr
-Vector of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}.
-Defaults to \code{"data.table"}.
-\item \code{packages} :: \code{character()}\cr
-Set of required packages.
-A warning is signaled by the constructor if at least one of the packages is not installed.
-The packages will be loaded (not attached) via \code{\link[=requireNamespace]{requireNamespace()}} for \verb{$train()}/\verb{$predict()}.
-\item \code{man} :: \code{character(1)}\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-}
-}
-
-\section{Fields}{
-
-\itemize{
-\item \code{id} :: \code{character(1)}\cr
-Identifier of the learner.
-\item \code{task_type} :: \code{character(1)}\cr
-Stores the type of class this learner can operate on, e.g. \code{"classif"} or \code{"regr"}.
-A complete list of task types is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_types}}.
-\item \code{param_set} :: \link[paradox:ParamSet]{paradox::ParamSet}\cr
-Description of available hyperparameters and hyperparameter settings.
-\item \code{predict_types} :: \code{character()}\cr
-Stores the possible predict types the learner is capable of.
-A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.
-\item \code{predict_type} :: \code{character(1)}\cr
-Stores the currently selected predict type. Must be an element of \code{l$predict_types}.
-\item \code{feature_types} :: \code{character()}\cr
-Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
-A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.
-\item \code{properties} :: \code{character()}\cr
-Stores a set of properties/capabilities the learner has.
-A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
-\item \code{packages} :: \code{character()}\cr
-Stores the names of required packages.
-\item \code{state} :: \code{NULL} | named \code{list()}\cr
-Current (internal) state of the learner.
-Contains all information learnt during \code{train()} and \code{predict()}.
-It is not recommended to access elements from \code{state} directly, this is an internal data structure which may change in the future.
-\item \code{encapsulate} (named \code{character()})\cr
-How to call the code in \code{train_internal()} and \code{predict_internal()}.
-Must be a named character vector with names \code{"train"} and \code{"predict"}.
-Possible values are \code{"none"}, \code{"evaluate"} and \code{"callr"}.
-See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.
-\item \code{fallback} (\link{Learner})\cr
-Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
-Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.
-\item \code{hash} :: \code{character(1)}\cr
-Hash (unique identifier) for this object.
-\item \code{model} :: \code{any}\cr
-The fitted model. Only available after \verb{$train()} has been called.
-\item \code{timings} :: \code{numeric(2)}\cr
-Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
-Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.
-\item \code{log} :: \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns the output (including warning and errors) as table with columns
-\code{"stage"} (train or predict), \code{"class"} (output, warning, error) and
-\code{"msg"} (\code{character()}).
-\item \code{warnings} :: \code{character()}\cr
-Returns the logged warnings as vector.
-\item \code{errors} :: \code{character()}\cr
-Returns the logged errors as vector.
-}
-}
-
-\section{Methods}{
-
-\itemize{
-\item \verb{train(task, row_ids = NULL))}\cr
-(\link{Task}, \code{integer()} | \code{character()}) -> \code{self}\cr
-Train the learner on the row ids of the provided \link{Task}.
-Mutates the learner by reference, i.e. stores the model alongside other objects in field \verb{$state}.
-\item \code{predict(task, row_ids = NULL)}\cr
-(\link{Task}, \code{integer()} | \code{character()}) -> \link{Prediction}\cr
-Uses the data stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction} based on the provided \code{row_ids}
-of the \code{task}.
-\item \code{predict_newdata(newdata, task = NULL)}\cr
-(\code{data.frame()}, \link{Task}) -> \link{Prediction}\cr
-Uses the model fitted during \verb{$train()} in to create a new \link{Prediction} based on the new data in \code{newdata}.
-Object \code{task} is the task used during \verb{$train()} and required for conversions of \code{newdata}.
-If the learner's \verb{$train()} method has been called, there is a (size reduced) version of the training task stored in the learner.
-If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
-in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
-\item \code{reset()}\cr
-() -> \code{self}\cr
-Reset the learner, i.e. un-train by resetting the \code{state}.
-\item \code{help()}\cr
-() -> \code{NULL}\cr
-Opens the corresponding help page referenced by \verb{$man}.
-}
-}
-
 \section{Optional Extractors}{
 
 
@@ -195,3 +76,312 @@ Other Learner:
 \code{\link{mlr_learners}}
 }
 \concept{Learner}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{id}}{\code{character(1)}\cr
+Identifier of the object.}
+
+\item{\code{state}}{(\code{NULL} | named \code{list()})\cr
+Current (internal) state of the learner.
+Contains all information gathered during \code{train()} and \code{predict()}.
+It is not recommended to access elements from \code{state} directly.
+This is an internal data structure which may change in the future.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Task type, e.g. \code{"classif"} or \code{"regr"}.
+
+For a complete list of possible task types (depending on the loaded packages),
+see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+
+\item{\code{predict_types}}{(\code{character()})\cr
+Stores the possible predict types the learner is capable of.
+A complete list of candidate predict types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
+
+\item{\code{feature_types}}{(\code{character()})\cr
+Stores the feature types the learner can handle, e.g. \code{"logical"}, \code{"numeric"}, or \code{"factor"}.
+A complete list of candidate feature types, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Stores a set of properties/capabilities the learner has.
+A complete list of candidate properties, grouped by task type, is stored in \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.}
+
+\item{\code{data_formats}}{(\code{character()})\cr
+Supported data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
+
+\item{\code{packages}}{(\code{character(1)})\cr
+Set of required packages.
+These packages are loaded, but not attached.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+During \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}, a \link{Learner} can predict on multiple sets.
+Per default, a learner only predicts observations in the test set (\code{predict_sets == "test"}).
+To change this behaviour, set \code{predict_sets} to a non-empty subset of \verb{\{"train", "test"\}}.
+Each set yields a separate \link{Prediction} object.
+Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, or \link{Measure}s can be altered
+to operate on specific subsets of the calculated prediction sets.}
+
+\item{\code{fallback}}{(\link{Learner})\cr
+Learner which is fitted to impute predictions in case that either the model fitting or the prediction of the top learner is not successful.
+Requires you to enable encapsulation, otherwise errors are not caught and the execution is terminated before the fallback learner kicks in.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{model}}{(\code{any})\cr
+The fitted model. Only available after \verb{$train()} has been called.}
+
+\item{\code{timings}}{(named \code{numeric(2)})\cr
+Elapsed time in seconds for the steps \code{"train"} and \code{"predict"}.
+Measured via \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}}.}
+
+\item{\code{log}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns the output (including warning and errors) as table with columns
+\itemize{
+\item \code{"stage"} ("train" or "predict"),
+\item \code{"class"} ("output", "warning", or "error"), and
+\item \code{"msg"} (\code{character()}).
+}}
+
+\item{\code{warnings}}{(\code{character()})\cr
+Logged warnings as vector.}
+
+\item{\code{errors}}{(\code{character()})\cr
+Logged errors as vector.}
+
+\item{\code{hash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this object.}
+
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Stores the currently selected predict type.
+Must be an element of \code{l$predict_types}.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{encapsulate}}{(named \code{character()})\cr
+Controls how to execute the code in internal train and predict methods.
+Must be a named character vector with names \code{"train"} and \code{"predict"}.
+Possible values are \code{"none"}, \code{"evaluate"} and \code{"callr"}.
+See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{Learner$new()}}
+\item \href{#method-format}{\code{Learner$format()}}
+\item \href{#method-print}{\code{Learner$print()}}
+\item \href{#method-help}{\code{Learner$help()}}
+\item \href{#method-train}{\code{Learner$train()}}
+\item \href{#method-predict}{\code{Learner$predict()}}
+\item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
+\item \href{#method-reset}{\code{Learner$reset()}}
+\item \href{#method-clone}{\code{Learner$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+
+Note that this object is typically constructed via a derived classes, e.g. \link{LearnerClassif} or \link{LearnerRegr}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$new(
+  id,
+  task_type,
+  param_set = ParamSet$new(),
+  predict_types = character(),
+  feature_types = character(),
+  properties = character(),
+  data_formats = "data.table",
+  packages = character(),
+  man = NA_character_
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+
+\item{\code{task_type}}{(\code{character(1)})\cr
+Type of task, e.g. \code{"regr"} or \code{"classif"}.
+Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{predict_types}}{(\code{character()})\cr
+Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
+
+\item{\code{feature_types}}{(\code{character()})\cr
+Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Set of properties of the \link{Learner}.
+Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
+\itemize{
+\item \code{"missings"}: The learner can handle missing values in the data.
+\item \code{"weights"}: The learner supports observation weights.
+\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with a \code{importance()} extractor function (see section on optional extractors).
+\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \code{selected_features()} extractor function (see section on optional extractors).
+\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors).
+}}
+
+\item{\code{data_formats}}{(\code{character()})\cr
+Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()}.
+Defaults to \code{"data.table"}.}
+
+\item{\code{packages}}{(\code{character()})\cr
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+The referenced help package can be opened via method \verb{$help()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-format"></a>}}
+\subsection{Method \code{format()}}{
+Helper for print outputs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$format()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+Printer.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$print()}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-help"></a>}}
+\subsection{Method \code{help()}}{
+Opens the corresponding help page referenced by field \verb{$man}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$help()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-train"></a>}}
+\subsection{Method \code{train()}}{
+Train the learner on the row ids of the provided \link{Task}.
+Mutates the learner by reference, i.e. stores the model alongside other objects in field \verb{$state}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$train(task, row_ids = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task}).}
+
+\item{\code{row_ids}}{(\code{integer()}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified self.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict"></a>}}
+\subsection{Method \code{predict()}}{
+Uses the information stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction}
+based for the provided \code{row_ids} of the \code{task}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$predict(task, row_ids = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task}).}
+
+\item{\code{row_ids}}{(\code{integer()}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\link{Prediction}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict_newdata"></a>}}
+\subsection{Method \code{predict_newdata()}}{
+Uses the model fitted during \verb{$train()} in to create a new \link{Prediction} based on the new data in \code{newdata}.
+Object \code{task} is the task used during \verb{$train()} and required for conversions of \code{newdata}.
+If the learner's \verb{$train()} method has been called, there is a (size reduced) version of the training task stored in the learner.
+If the learner has been fitted via \code{\link[=resample]{resample()}} or \code{\link[=benchmark]{benchmark()}}, you need to pass the corresponding task stored
+in the \link{ResampleResult} or \link{BenchmarkResult}, respectively.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$predict_newdata(newdata, task = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{newdata}}{(\code{data.frame()})\cr
+New data to predict on.
+Row ids are automatically created via auto-incrementing.}
+
+\item{\code{task}}{(\link{Task}).}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\link{Prediction}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-reset"></a>}}
+\subsection{Method \code{reset()}}{
+Reset the learner, i.e. un-train by resetting the \code{state}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$reset()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

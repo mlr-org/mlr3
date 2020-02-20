@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.tn}
 \alias{mlr_measures_classif.tn}
 \title{True Negatives}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Classification measure counting the true negatives, i.e. the number of
 predictions correctly indicating a negative class label.
@@ -14,10 +13,10 @@ The score function calls \code{\link[mlr3measures:tn]{mlr3measures::tn()}} from 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
 }
-\section{Construction}{
+\section{Dictionary}{
 
-This measures can be retrieved from the dictionary \link{mlr_measures}:\preformatted{mlr_measures$get("classif.tn")
-msr("classif.tn")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("tn")
+msr("tn")
 }
 }
 

@@ -3,10 +3,15 @@
 # Exceptions here are possibly encapsulated, so that they get captured
 # and turned into log messages.
 train_wrapper = function(learner, task) {
-  model = learner$train_internal(task = task)
+  if (exists("train_internal", envir = learner, inherits = FALSE)) {
+    # TODO: deprecate this in the future
+    model = learner$train_internal(task)
+  } else {
+    model = learner$.__enclos_env__$private$.train(task)
+  }
 
   if (is.null(model)) {
-    stopf("Learner '%s' on task '%s' returned NULL during train_internal()", learner$id, task$id)
+    stopf("Learner '%s' on task '%s' returned NULL during internal train()", learner$id, task$id)
   }
 
   model
@@ -21,7 +26,12 @@ predict_wrapper = function(task, learner) {
     stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
   }
 
-  result = learner$predict_internal(task = task)
+  if (exists("predict_internal", envir = learner, inherits = FALSE)) {
+    # TODO: deprecate this in the future
+    result = learner$predict_internal(task)
+  } else {
+    result = learner$.__enclos_env__$private$.predict(task)
+  }
 
   if (!inherits(result, "Prediction")) {
     stopf("Learner '%s' on task '%s' did not return a Prediction object, but instead: %s",

@@ -4,25 +4,14 @@
 \alias{mlr_resamplings_custom}
 \alias{ResamplingCustom}
 \title{Custom Resampling}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \description{
 Splits data into training and test sets using manually provided indices.
 }
-\section{Construction}{
-\preformatted{ResamplingCustom$new()
-mlr_resamplings$get("custom")
+\section{Dictionary}{
+
+This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:\preformatted{mlr_resamplings$get("custom")
 rsmp("custom")
 }
-}
-
-\section{Fields}{
-
-See \link{Resampling}.
-}
-
-\section{Methods}{
-
-See \link{Resampling}.
 }
 
 \examples{
@@ -54,3 +43,87 @@ Other Resampling:
 \code{\link{mlr_resamplings}}
 }
 \concept{Resampling}
+\section{Super class}{
+\code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingCustom}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{iters}}{(\code{integer(1)})\cr
+Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}
+
+\item{\code{hash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this object.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{ResamplingCustom$new()}}
+\item \href{#method-instantiate}{\code{ResamplingCustom$instantiate()}}
+\item \href{#method-clone}{\code{ResamplingCustom$clone()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format">}\href{../../mlr3/html/Resampling.html#method-format}{\code{mlr3::Resampling$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help">}\href{../../mlr3/html/Resampling.html#method-help}{\code{mlr3::Resampling$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print">}\href{../../mlr3/html/Resampling.html#method-print}{\code{mlr3::Resampling$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set">}\href{../../mlr3/html/Resampling.html#method-test_set}{\code{mlr3::Resampling$test_set()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set">}\href{../../mlr3/html/Resampling.html#method-train_set}{\code{mlr3::Resampling$train_set()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustom$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-instantiate"></a>}}
+\subsection{Method \code{instantiate()}}{
+Instantiate this \link{Resampling} with custom splits into training and test set.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustom$instantiate(task, train_sets, test_sets)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{\link{Task}\cr
+Mainly used to check if \code{train_sets} and \code{test_sets} are feasible.}
+
+\item{\code{train_sets}}{(list of \code{integer()})\cr
+List with row ids for training, one list element per iteration.
+Must have the same length as \code{test_sets}.}
+
+\item{\code{test_sets}}{(list of \code{integer()})\cr
+List with row ids for testing, one list element per iteration.
+Must have the same length as \code{train_sets}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCustom$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

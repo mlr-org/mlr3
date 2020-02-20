@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.fn}
 \alias{mlr_measures_classif.fn}
 \title{False Negatives}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Classification measure counting the false negatives (type 2 error), i.e. the number of
 predictions indicating a negative class label while in fact it is positive.
@@ -15,10 +14,10 @@ The score function calls \code{\link[mlr3measures:fn]{mlr3measures::fn()}} from 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
 }
-\section{Construction}{
+\section{Dictionary}{
 
-This measures can be retrieved from the dictionary \link{mlr_measures}:\preformatted{mlr_measures$get("classif.fn")
-msr("classif.fn")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("fn")
+msr("fn")
 }
 }
 

@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.mcc}
 \alias{mlr_measures_classif.mcc}
 \title{Matthews Correlation Coefficient}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure defined as \deqn{
    \frac{\mathrm{TP} \cdot \mathrm{TN} - \mathrm{FP} \cdot \mathrm{FN}}{\sqrt{(\mathrm{TP} + \mathrm{FP}) (\mathrm{TP} + \mathrm{FN}) (\mathrm{TN} + \mathrm{FP}) (\mathrm{TN} + \mathrm{FN})}}.
@@ -17,10 +16,10 @@ The score function calls \code{\link[mlr3measures:mcc]{mlr3measures::mcc()}} fro
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
 }
-\section{Construction}{
+\section{Dictionary}{
 
-This measures can be retrieved from the dictionary \link{mlr_measures}:\preformatted{mlr_measures$get("classif.mcc")
-msr("classif.mcc")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("mcc")
+msr("mcc")
 }
 }
 

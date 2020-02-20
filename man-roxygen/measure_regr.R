@@ -1,16 +1,14 @@
-#' @usage NULL
 #' @name mlr_measures_regr.<%= id %>
 #' @include mlr_measures.R
-#' @format [R6::R6Class()] inheriting from [Measure].
 #'
 #' @inherit mlr3measures::<%= id %> title description
 #' @inheritSection mlr3measures::<%= id %> Meta Information
 #'
-#' @section Construction:
-#' This measures can be retrieved from the dictionary [mlr_measures]:
+#' @section Dictionary:
+#' This [Measure] can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr_measures] or with the associated sugar function [msr()]:
 #' ```
-#' mlr_measures$get("classif.<%= id %>")
-#' msr("classif.<%= id %>")
+#' mlr_measures$get("<%= id %>")
+#' msr("<%= id %>")
 #' ```
 #'
 #' @note

@@ -1,7 +1,5 @@
 #' @title Measure Class
 #'
-#' @usage NULL
-#' @format [R6::R6Class] object.
 #' @include mlr_reflections.R
 #'
 #' @description
@@ -19,113 +17,72 @@
 #' e.g. [`classif.auc`][mlr_measures_classif.auc] or [`time_train`][mlr_measures_time_train].
 #' A guide on how to extend \CRANpkg{mlr3} with custom measures can be found in the [mlr3book](https://mlr3book.mlr-org.com).
 #'
-#' @section Construction:
-#' Note: This object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
+#' Note that this object is typically constructed via a derived classes, e.g. [MeasureClassif] or [MeasureRegr].
 #'
-#' ```
-#' m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro",
-#'     aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
-#'     task_properties = character(), packages = character(), man = NA_character_)
-#' ```
-#'
-#' * `id` :: `character(1)`\cr
-#'   Identifier for the measure.
-#'
-#' * `task_type` :: `character(1)`\cr
-#'   Type of the task the measure can operator on. E.g., `"classif"` or `"regr"`.
-#'
-#' * `range` :: `numeric(2)`\cr
-#'   Feasible range for this measure as `c(lower_bound, upper_bound)`.
-#'   Both bounds may be infinite.
-#'
-#' * `minimize` :: `logical(1)`\cr
-#'   Set to `TRUE` if good predictions correspond to small values,
-#'   and to `FALSE` if good predictions correspond to large values.
-#'   If set to `NA` (default), tuning this measure is not possible.
-#'
-#' * `average` :: `character(1)`\cr
-#'   How to average multiple [Prediction]s from a [ResampleResult].
-#'
-#'   The default, `"macro"`, calculates the individual performances scores for each [Prediction] and then uses the
-#'   function defined in `aggregator` to average them to a single number.
-#'
-#'   If set to `"micro"`, the individual [Prediction] objects are first combined into a single new [Prediction] object which is then used to assess the performance.
-#'   The function `aggregator` is not used in this case.
-#'
-#' * `aggregator` :: `function(x)`\cr
-#'   Function to aggregate individual performance scores `x` where `x` is a numeric vector.
-#'   If `NULL`, defaults to [mean()].
-#'
-#' * `properties` :: `character()`\cr
-#'   Properties of the measure.
-#'   Must be a subset of [mlr_reflections$measure_properties][mlr_reflections].
-#'   Supported by `mlr3`:
-#'   * `"requires_task"` (requires the complete [Task]),
-#'   * `"requires_learner"` (requires the trained [Learner]),
-#'   * `"requires_train_set"` (requires the training indices from the [Resampling]), and
-#'   * `"na_score"` (the measure is expected to occasionally return `NA`).
-#'
-#' * `predict_type` :: `character(1)`\cr
-#'   Required predict type of the [Learner].
-#'   Possible values are stored in [mlr_reflections$learner_predict_types][mlr_reflections].
-#'
-#' * `predict_sets` :: `character()`\cr
-#'   Prediction sets to operate on, used in `aggregate()` to extract the matching `predict_sets` from the [ResampleResult].
-#'   Multiple predict sets are calculated by the respective [Learner] during [resample()]/[benchmark()].
-#'   Must be a non-empty subset of `c("train", "test")`.
-#'   If multiple sets are provided, these are first combined to a single prediction object.
-#'   Default is `"test"`.
-#'
-#' * `task_properties` :: `character()`\cr
-#'   Required task properties, see [Task].
-#'
-#' * `packages` :: `character()`\cr
-#'   Set of required packages.
-#'   A warning is signaled by the constructor if at least one of the packages is not installed.
-#'   The packages will be loaded (not attached) via [requireNamespace()] for `$train()`/`$predict()`.
-#'
-#' * `man` :: `character(1)`\cr
-#'   String in the format `[pkg]::[topic]` pointing to a manual page for this object.
-#'
-#' @section Fields:
-#' All variables passed to the constructor.
-#'
-#' @section Methods:
-#' * `aggregate(rr)`\cr
-#'   [ResampleResult] -> `numeric(1)`\cr
-#'   Aggregates multiple performance scores into a single score using the `aggregator` function of the measure.
-#'   Operates on the [Prediction]s of [ResampleResult] with matching `predict_sets`.
-#'
-#' * `score(prediction, task = NULL, learner = NULL, train_set = NULL)`\cr
-#'   ((named list of) [Prediction], [Task], [Learner], `integer()` | `character()`) -> `numeric(1)`\cr
-#'   Takes a [Prediction] (or a list of [Prediction] objects named with valid `predict_sets`)
-#'   and calculates a numeric score.
-#'   If the measure if flagged with the properties `"requires_task"`, `"requires_learner"` or `"requires_train_set"`, you must additionally
-#'   pass the respective [Task], the trained [Learner] or the training set indices.
-#'   This is handled internally during [resample()]/[benchmark()].
-#'
-#' * `help()`\cr
-#'   () -> `NULL`\cr
-#'   Opens the corresponding help page referenced by `$man`.
+#' @template param_id
+#' @template param_range
+#' @template param_minimize
+#' @template param_average
+#' @template param_aggregator
+#' @template param_task_type
+#' @template param_predict_type
+#' @template param_measure_properties
+#' @template param_predict_sets
+#' @template param_task_properties
+#' @template param_packages
+#' @template param_man
 #'
 #' @family Measure
 #' @export
 Measure = R6Class("Measure",
   cloneable = FALSE,
   public = list(
+    #' @template field_id
     id = NULL,
+
+    #' @template field_task_type
     task_type = NULL,
+
+    #' @field predict_type (`character(1)`)\cr
+    #' Required predict type of the [Learner].
     predict_type = NULL,
+
+    #' @template field_predict_sets
     predict_sets = NULL,
+
+    #' @field average (`character(1)`)\cr
+    #' Method for aggregation.
+    #' Either `"micro"` or `"macro"`.
     average = NULL,
+
+    #' @field aggregator (`function()`)\cr
+    #' Function to aggregate individual scores.
     aggregator = NULL,
+
+    #' @field task_properties (`character()`)\cr
+    #' Required properties of the [Task].
     task_properties = NULL,
+
+    #' @field range (`numeric(2)`)\cr
+    #' Lower and upper bound of possible performance scores.
     range = NULL,
+
+    #' @field properties (`character()`)\cr
+    #' Properties of this measure.
     properties = NULL,
+
+    #' @field minimize (`logical(1)`)\cr
+    #' If `TRUE`, good predictions correspond to small values of performance scores.
     minimize = NULL,
+
+    #' @template field_packages
     packages = NULL,
+
+    #' @template field_man
     man = NULL,
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
       predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_) {
 
@@ -151,14 +108,15 @@ Measure = R6Class("Measure",
       check_packages_installed(packages, msg = sprintf("Package '%%s' required but not installed for Measure '%s'", id))
     },
 
-    help = function() {
-      open_help(self$man)
-    },
-
+    #' @description
+    #' Helper for print outputs.
     format = function() {
       sprintf("<%s:%s>", class(self)[1L], self$id)
     },
 
+    #' @description
+    #' Printer.
+    #' @param ... (ignored).
     print = function() {
       catf(format(self))
       catf(str_indent("* Packages:", self$packages))
@@ -168,6 +126,28 @@ Measure = R6Class("Measure",
       catf(str_indent("* Predict type:", self$predict_type))
     },
 
+    #' @description
+    #' Opens the corresponding help page referenced by field `$man`.
+    help = function() {
+      open_help(self$man)
+    },
+
+    #' @description
+    #' Takes a [Prediction] (or a list of [Prediction] objects named with valid `predict_sets`)
+    #' and calculates a numeric score.
+    #' If the measure if flagged with the properties `"requires_task"`, `"requires_learner"` or `"requires_train_set"`, you must additionally
+    #' pass the respective [Task], the trained [Learner] or the training set indices.
+    #' This is handled internally during [resample()]/[benchmark()].
+    #'
+    #' @param prediction ([Prediction] | named list of [Prediction]).
+    #'
+    #' @param task ([Task]).
+    #'
+    #' @param learner ([Learner]).
+    #'
+    #' @param train_set (`integer()`).
+    #'
+    #' @return `numeric(1)`.
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
       assert_prediction(prediction)
 
@@ -194,6 +174,13 @@ Measure = R6Class("Measure",
       measure_score(self, prediction, task, learner, train_set)
     },
 
+    #' @description
+    #' Aggregates multiple performance scores into a single score using the `aggregator` function of the measure.
+    #' Operates on the [Prediction]s of [ResampleResult] with matching `predict_sets`.
+    #'
+    #' @param rr [ResampleResult].
+    #'
+    #' @return `numeric(1)`.
     aggregate = function(rr) {
       if (self$average == "macro") {
         aggregator = self$aggregator %??% mean
@@ -205,9 +192,11 @@ Measure = R6Class("Measure",
   ),
 
   active = list(
+    #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      hash(class(self), self$id, self$predict_sets, as.character(body(self$score_internal)))
+      fun = if (exists("score_internal", envir = self, inherits = FALSE)) self$score_internal else private$.score
+      hash(class(self), self$id, self$predict_sets, as.character(body(fun)))
     }
   )
 )
@@ -228,7 +217,12 @@ measure_score = function(measure, prediction, task = NULL, learner = NULL, train
     assert_prediction(prediction)
   }
 
-  measure$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
+  if (exists("score_internal", envir = measure, inherits = FALSE)) {
+    # TODO: deprecate this in the future
+    measure$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
+  } else {
+    measure$.__enclos_env__$private$.score(prediction = prediction, task = task, learner = learner, train_set = train_set)
+  }
 }
 
 measure_score_data = function(measure, data) {

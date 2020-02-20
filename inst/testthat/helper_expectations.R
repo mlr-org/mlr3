@@ -295,8 +295,16 @@ expect_learner = function(lrn, task = NULL) {
   checkmate::expect_character(lrn$packages, any.missing = FALSE, min.chars = 1L, unique = TRUE)
   checkmate::expect_class(lrn$param_set, "ParamSet")
   checkmate::expect_character(lrn$properties, any.missing = FALSE, min.chars = 1L, unique = TRUE)
-  checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
-  checkmate::expect_function(lrn$predict_internal, args = "task", nargs = 1L)
+  if (is.null(private(lrn)$.train)) {
+    checkmate::expect_function(lrn$train_internal, args = "task", nargs = 1L)
+  } else {
+    checkmate::expect_function(private(lrn)$.train, args = "task", nargs = 1L)
+  }
+  if (is.null(private(lrn)$.predict)) {
+    checkmate::expect_function(lrn$predict_internal, args = "task", nargs = 1L)
+  } else {
+    checkmate::expect_function(private(lrn)$.predict, args = "task", nargs = 1L)
+  }
   expect_hash(lrn$hash, 1L)
 
   tags = lrn$param_set$tags
@@ -371,7 +379,7 @@ expect_resampling = function(r, task = NULL) {
 }
 
 expect_measure = function(m) {
-  checkmate::expect_r6(m, "Measure", public = c("aggregate", "score", "score_internal", "id", "minimize", "packages", "range", "task_type", "task_properties"))
+  checkmate::expect_r6(m, "Measure", public = c("aggregate", "score", "id", "minimize", "packages", "range", "task_type", "task_properties"))
   expect_id(m$id)
   expect_man_exists(m$man)
   testthat::expect_output(print(m), "Measure")
@@ -382,7 +390,11 @@ expect_measure = function(m) {
   testthat::expect_lt(m$range[1], m$range[2])
   checkmate::expect_flag(m$minimize, na.ok = TRUE)
   checkmate::expect_character(m$packages, min.chars = 1L, any.missing = FALSE, unique = TRUE)
-  checkmate::expect_function(m$score_internal, args = c("prediction", "..."))
+  if (is.null(private(m)$.score)) {
+    checkmate::expect_function(m$score_internal, args = c("prediction", "..."))
+  } else {
+    checkmate::expect_function(private(m)$.score, args = c("prediction", "..."))
+  }
   checkmate::expect_function(m$aggregate, args = "rr")
 }
 

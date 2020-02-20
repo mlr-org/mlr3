@@ -3,43 +3,10 @@
 \name{PredictionRegr}
 \alias{PredictionRegr}
 \title{Prediction Object for Regression}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Prediction}.}
 \description{
 This object wraps the predictions returned by a learner of class \link{LearnerRegr}, i.e.
 the predicted response and standard error.
 }
-\section{Construction}{
-\preformatted{p = PredictionRegr$new(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL)
-}
-\itemize{
-\item \code{task} :: \link{TaskRegr}\cr
-Task, used to extract defaults for \code{row_ids} and \code{truth}.
-\item \code{row_ids} :: \code{integer()}\cr
-Row ids of the predicted observations, i.e. the row ids of the test set.
-\item \code{truth} :: \code{numeric()}\cr
-True (observed) response.
-\item \code{response} :: \code{numeric()}\cr
-Vector of numeric response values.
-One element for each observation in the test set.
-\item \code{se} :: \code{numeric()}\cr
-Numeric vector of predicted standard errors.
-One element for each observation in the test set.
-}
-}
-
-\section{Fields}{
-
-All fields from \link{Prediction}, and additionally:
-\itemize{
-\item \code{response} :: \code{numeric()}\cr
-Access to the stored predicted response.
-\item \code{se} :: \code{numeric()}\cr
-Access to the stored standard error.
-}
-
-The field \code{task_type} is set to \code{"regr"}.
-}
-
 \examples{
 task = tsk("boston_housing")
 learner = lrn("regr.featureless", predict_type = "se")
@@ -53,3 +20,74 @@ Other Prediction:
 \code{\link{Prediction}}
 }
 \concept{Prediction}
+\section{Super class}{
+\code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionRegr}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{response}}{(\code{numeric()})\cr
+Access the stored predicted response.}
+
+\item{\code{se}}{(\code{numeric()})\cr
+Access the stored standard error.}
+
+\item{\code{missing}}{(\code{integer()})\cr
+Returns \code{row_ids} for which the predictions are missing or incomplete.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{PredictionRegr$new()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="format">}\href{../../mlr3/html/Prediction.html#method-format}{\code{mlr3::Prediction$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="help">}\href{../../mlr3/html/Prediction.html#method-help}{\code{mlr3::Prediction$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="print">}\href{../../mlr3/html/Prediction.html#method-print}{\code{mlr3::Prediction$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Prediction" data-id="score">}\href{../../mlr3/html/Prediction.html#method-score}{\code{mlr3::Prediction$score()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PredictionRegr$new(
+  task = NULL,
+  row_ids = task$row_ids,
+  truth = task$truth(),
+  response = NULL,
+  se = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{TaskRegr})\cr
+Task, used to extract defaults for \code{row_ids} and \code{truth}.}
+
+\item{\code{row_ids}}{(\code{integer()})\cr
+Row ids of the predicted observations, i.e. the row ids of the test set.}
+
+\item{\code{truth}}{(\code{numeric()})\cr
+True (observed) response.}
+
+\item{\code{response}}{(\code{numeric()})\cr
+Vector of numeric response values.
+One element for each observation in the test set.}
+
+\item{\code{se}}{(\code{numeric()})\cr
+Numeric vector of predicted standard errors.
+One element for each observation in the test set.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

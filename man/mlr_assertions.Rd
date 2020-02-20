@@ -87,41 +87,41 @@ assert_benchmark_result(bmr, .var.name = vname(bmr))
 assert_row_ids(row_ids, null.ok = FALSE, .var.name = vname(row_ids))
 }
 \arguments{
-\item{b}{:: \link{DataBackend}.}
+\item{b}{(\link{DataBackend}).}
 
-\item{task}{:: \link{Task}.}
+\item{task}{(\link{Task}).}
 
-\item{feature_types}{:: \code{character()}\cr
-Set of allowed feature types.}
+\item{feature_types}{(\code{character()})\cr
+Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
-\item{task_properties}{:: \code{character()}\cr
+\item{task_properties}{(\code{character()})\cr
 Set of required task properties.}
 
-\item{tasks}{:: list of \link{Task}.}
+\item{tasks}{(list of \link{Task}).}
 
-\item{learner}{:: \link{Learner}.}
+\item{learner}{(\link{Learner}).}
 
-\item{learners}{:: list of \link{Learner}.}
+\item{learners}{(list of \link{Learner}).}
 
-\item{measure}{:: \link{Measure}.}
+\item{measure}{(\link{Measure}).}
 
-\item{measures}{:: list of \link{Measure}.}
+\item{measures}{(list of \link{Measure}).}
 
-\item{resampling}{:: \link{Resampling}.}
+\item{resampling}{(\link{Resampling}).}
 
-\item{resamplings}{:: list of \link{Resampling}.}
+\item{resamplings}{(list of \link{Resampling}).}
 
-\item{prediction}{:: \link{Prediction}.}
+\item{prediction}{(\link{Prediction}).}
 
-\item{bmr}{:: \link{BenchmarkResult}.}
+\item{bmr}{(\link{BenchmarkResult}).}
 
-\item{row_ids}{:: \code{numeric()}.}
+\item{row_ids}{(\code{numeric()}).}
 
-\item{resample_result}{:: \link{ResampleResult}.}
+\item{resample_result}{(\link{ResampleResult}).}
 }
 \description{
 Functions intended to be used in packages extending \pkg{mlr3}.
-Most functions assert on the respective class, and optionally additional properties.
+Most assertion functions ensure the right class attrbiture, and optionally additional properties.
 Additionally, the following compound assertions are implemented:
 \itemize{
 \item assert_learnable(task, learner)\cr

@@ -1,4 +1,3 @@
-#' @include DataBackend.R
 DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable = FALSE,
   public = list(
     initialize = function(b1, b2) {
@@ -18,7 +17,6 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
 
       super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
     },
-
     data = function(rows, cols, data_format = self$data_formats[1L]) {
 
       pk = self$primary_key

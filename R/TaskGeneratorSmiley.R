@@ -1,19 +1,13 @@
 #' @title Smiley Classification Task Generator
 #'
-#' @usage NULL
 #' @name mlr_task_generators_smiley
-#' @format [R6::R6Class] inheriting from [TaskGenerator].
 #' @include TaskGenerator.R
-#'
-#' @section Construction:
-#' ```
-#' TaskGeneratorSmiley$new()
-#' mlr_task_generators$get("smiley")
-#' tgen("smiley")
-#' ```
 #'
 #' @description
 #' A [TaskGenerator] for the smiley task in [mlbench::mlbench.smiley()].
+#'
+#' @templateVar id smiley
+#' @template section_dictionary_task_generator
 #'
 #' @template seealso_task_generator
 #' @export
@@ -22,6 +16,8 @@
 TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
   inherit = TaskGenerator,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamDbl$new("sd1", lower = 0L),

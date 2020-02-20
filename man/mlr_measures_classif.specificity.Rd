@@ -3,7 +3,6 @@
 \name{mlr_measures_classif.specificity}
 \alias{mlr_measures_classif.specificity}
 \title{True Negative Rate}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Binary classification measure defined as \deqn{
    \frac{\mathrm{TN}}{\mathrm{FP} + \mathrm{TN}}.
@@ -18,10 +17,10 @@ The score function calls \code{\link[mlr3measures:specificity]{mlr3measures::spe
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
 }
-\section{Construction}{
+\section{Dictionary}{
 
-This measures can be retrieved from the dictionary \link{mlr_measures}:\preformatted{mlr_measures$get("classif.specificity")
-msr("classif.specificity")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("specificity")
+msr("specificity")
 }
 }
 

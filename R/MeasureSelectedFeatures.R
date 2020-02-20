@@ -1,8 +1,6 @@
 #' @title Selected Features Measure
 #'
-#' @usage NULL
 #' @name mlr_measures_selected_features
-#' @format [R6::R6Class()] inheriting from [Measure].
 #' @include Measure.R
 #'
 #' @description
@@ -11,15 +9,9 @@
 #'
 #' This measure requires the [Task] and the [Learner] for scoring.
 #'
-#' @section Construction:
-#' ```
-#' MeasureSelectedFeatures$new(normalize = FALSE)
-#' mlr_measures$get("selected_features")
-#' msr("selected_features")
-#' ```
+#' @templateVar id selected_features
+#' @template section_dictionary_measure
 #'
-#' * `normalize` :: `logical(1)`\cr
-#' If `normalize` is set to `TRUE`, divides the number of features by the total number of features.
 #'
 #' @section Meta Information:
 #' * Type: `NA`
@@ -32,8 +24,15 @@
 MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
   inherit = Measure,
   public = list(
+    #' @field normalize (`logical(1)`)\cr
+    #' If set to `TRUE`, divides the number of features by the total number of features.
     normalize = NULL,
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param normalize (`logical(1)`)\cr
+    #'   If set to `TRUE`, divides the number of features by the total number of features.
     initialize = function(normalize = FALSE) {
       super$initialize(
         id = "selected_features",
@@ -45,9 +44,11 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
         man = "mlr3::mlr_measures_selected_features"
       )
       self$normalize = assert_flag(normalize)
-    },
+    }
+  ),
 
-    score_internal = function(prediction, task, learner, ...) {
+  private = list(
+    .score = function(prediction, task, learner, ...) {
       if ("selected_features" %nin% learner$properties) {
         return(NA_integer_)
       }

@@ -3,37 +3,13 @@
 \name{DataBackendMatrix}
 \alias{DataBackendMatrix}
 \title{DataBackend for Matrix}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{DataBackend}.}
 \description{
 \link{DataBackend} for \CRANpkg{Matrix}.
-Data is split into a (numerical) sparse part and a dense part.
+Data is split into a (numerical) sparse part and an optional dense part.
 These parts are automatically merged to a sparse format during \verb{$data()}.
-Note that merging the data parts may cause data loss during the conversion.
+Note that merging both parts potentially comes with a data loss, as all
+dense columns are converted to numeric columns.
 }
-\section{Construction}{
-\preformatted{DataBackendMatrix$new(data, primary_key = NULL)
-as_data_backend(data, primary_key = NULL, ...)
-}
-\itemize{
-\item \code{data} :: \code{\link[Matrix:Matrix]{Matrix::Matrix()}}\cr
-Sparse (numeric) data stored as \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.
-\item \code{dense} :: \code{\link[=data.frame]{data.frame()}}.
-Dense data, converted to \code{\link[data.table:data.table]{data.table::data.table()}}.
-\item \code{primary_key} :: \code{character(1)}\cr
-Name of the primary key column in \code{dense}
-}
-}
-
-\section{Fields}{
-
-See \link{DataBackend}.
-}
-
-\section{Methods}{
-
-See \link{DataBackend}.
-}
-
 \examples{
 requireNamespace("Matrix")
 data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)
@@ -49,6 +25,160 @@ b$data(1:3, b$colnames, data_format = "data.table")
 Other DataBackend: 
 \code{\link{DataBackendDataTable}},
 \code{\link{DataBackend}},
-\code{\link{as_data_backend}()}
+\code{\link{as_data_backend.data.frame}()}
 }
 \concept{DataBackend}
+\section{Super class}{
+\code{\link[mlr3:DataBackend]{mlr3::DataBackend}} -> \code{DataBackendMatrix}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{rownames}}{(\code{integer()})\cr
+Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.}
+
+\item{\code{colnames}}{(\code{character()})\cr
+Returns vector of all column names, including the primary key column.}
+
+\item{\code{nrow}}{(\code{integer(1)})\cr
+Number of rows (observations).}
+
+\item{\code{ncol}}{(\code{integer(1)})\cr
+Number of columns (variables), including the primary key column.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{DataBackendMatrix$new()}}
+\item \href{#method-data}{\code{DataBackendMatrix$data()}}
+\item \href{#method-head}{\code{DataBackendMatrix$head()}}
+\item \href{#method-distinct}{\code{DataBackendMatrix$distinct()}}
+\item \href{#method-missings}{\code{DataBackendMatrix$missings()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="format">}\href{../../mlr3/html/DataBackend.html#method-format}{\code{mlr3::DataBackend$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="DataBackend" data-id="print">}\href{../../mlr3/html/DataBackend.html#method-print}{\code{mlr3::DataBackend$print()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$new(data, dense = NULL, primary_key = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{\code{\link[Matrix:Matrix]{Matrix::Matrix()}}\cr
+The input \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.}
+
+\item{\code{dense}}{\code{\link[=data.frame]{data.frame()}}.
+Dense data, converted to \code{\link[data.table:data.table]{data.table::data.table()}}.}
+
+\item{\code{primary_key}}{\code{character(1)}\cr
+Name of the primary key column.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-data"></a>}}
+\subsection{Method \code{data()}}{
+Returns a slice of the data in the specified format.
+Currently, the only supported formats are \code{"data.table"} and \code{"Matrix"}.
+The rows must be addressed as vector of primary key values, columns must be referred to via column names.
+Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
+Rows are guaranteed to be returned in the same order as \code{rows}, columns may be returned in an arbitrary order.
+Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$data(rows, cols, data_format = "data.table")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+
+\item{\code{cols}}{\code{character()}\cr
+Column names.}
+
+\item{\code{data_format}}{(\code{character(1)})\cr
+Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-head"></a>}}
+\subsection{Method \code{head()}}{
+Retrieve the first \code{n} rows.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$head(n = 6L)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{n}}{(\code{integer(1)})\cr
+Number of rows.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-distinct"></a>}}
+\subsection{Method \code{distinct()}}{
+Returns a named list of vectors of distinct values for each column
+specified. If \code{na_rm} is \code{TRUE}, missing values are removed from the
+returned vectors of distinct values. Non-existing rows and columns are
+silently ignored.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$distinct(rows, cols, na_rm = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+
+\item{\code{cols}}{\code{character()}\cr
+Column names.}
+
+\item{\code{na_rm}}{\code{logical(1)}\cr
+Whether to remove NAs or not.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-missings"></a>}}
+\subsection{Method \code{missings()}}{
+Returns the number of missing values per column in the specified slice
+of data. Non-existing rows and columns are silently ignored.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{DataBackendMatrix$missings(rows, cols)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{rows}}{\code{integer()}\cr
+Row indices.}
+
+\item{\code{cols}}{\code{character()}\cr
+Column names.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

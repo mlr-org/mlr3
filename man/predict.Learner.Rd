@@ -7,19 +7,19 @@
 \method{predict}{Learner}(object, newdata, predict_type = NULL, ...)
 }
 \arguments{
-\item{object}{:: \link{Learner}\cr
+\item{object}{(\link{Learner})\cr
 Any \link{Learner}.}
 
-\item{newdata}{:: \code{\link[=data.frame]{data.frame()}}\cr
+\item{newdata}{(\code{\link[=data.frame]{data.frame()}})\cr
 New data to predict on.}
 
-\item{predict_type}{:: \code{character(1)}\cr
+\item{predict_type}{(\code{character(1)})\cr
 The predict type to return.
 Set to \verb{<Prediction>} to retrieve the complete \link{Prediction} object.
 If set to \code{NULL} (default), the first predict type for the respective class of the \link{Learner}
 as stored in \link{mlr_reflections} is used.}
 
-\item{...}{:: \code{any}\cr
+\item{...}{(\code{any})\cr
 Hyperparameters to pass down to the \link{Learner}.}
 }
 \description{

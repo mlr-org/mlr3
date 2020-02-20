@@ -1,36 +1,30 @@
 #' @title Classification Learner
 #'
-#' @usage NULL
-#' @format [R6::R6Class] object inheriting from [Learner].
 #' @include Learner.R
 #'
 #' @description
-#' This Learner specializes [Learner] for classification problems.
+#' This Learner specializes [Learner] for classification problems:
 #'
-#' Many predefined learners can be found in the [mlr3misc::Dictionary] [mlr_learners] after loading the \CRANpkg{mlr3learners} package.
+#' * `task_type` is set to `"classif"`.
+#' * Creates [Prediction]s of class [PredictionClassif].
+#' * Possible values for `predict_types` are:
+#'   - `"response"`: Predicts a class label for each observation in the test set.
+#'   - `"prob"`: Predicts the posterior probability for each class for each observation in the test set.
+#' * Additional learner properties include:
+#'   - `"twoclass"`: The learner works on binary classification problems.
+#'   - `"multiclass"`: The learner works on multiclass classification problems.
 #'
-#' @section Construction:
-#' ```
-#' l = LearnerClassif$new(id, param_set = ParamSet$new(), predict_types = character(), feature_types = character(),
-#'     properties = character(), data_formats = "data.table", packages = character(), man = NA_character_)
-#' ```
-#' For a description of the arguments, see [Learner].
-#' `task_type` is set to `"classif"`.
+#' Predefined learners can be found in the [mlr3misc::Dictionary] [mlr_learners].
+#' Essential classification learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
 #'
-#' Possible values for `predict_types` are passed to and converted by [PredictionClassif]:
-#'
-#' * `"response"`: Predicts a class label for each observation in the test set.
-#' * `"prob"`: Predicts the posterior probability for each class for each observation in the test set.
-#'
-#' Additional learner properties include:
-#' * `"twoclass"`: The learner works on binary classification problems.
-#' * `"multiclass"`: The learner works on multiclass classification problems.
-#'
-#' @section Fields:
-#' See [Learner].
-#'
-#' @section Methods:
-#' See [Learner].
+#' @template param_id
+#' @template param_param_set
+#' @template param_predict_types
+#' @template param_feature_types
+#' @template param_learner_properties
+#' @template param_data_formats
+#' @template param_packages
+#' @template param_man
 #'
 #' @family Learner
 #' @export
@@ -51,6 +45,8 @@
 #' lrn$predict(task, 121:150)$confusion
 LearnerClassif = R6Class("LearnerClassif", inherit = Learner,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ParamSet$new(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
       super$initialize(id = id, task_type = "classif", param_set = param_set, predict_types = predict_types,
         feature_types = feature_types, properties = properties, data_formats = data_formats, packages = packages, man = man)

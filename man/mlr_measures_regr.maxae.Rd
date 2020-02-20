@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.maxae}
 \alias{mlr_measures_regr.maxae}
 \title{Max Absolute Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \max \left( \left| t_i - r_i \right| \right).
@@ -17,10 +16,10 @@ The score function calls \code{\link[mlr3measures:maxae]{mlr3measures::maxae()}}
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
 }
-\section{Construction}{
+\section{Dictionary}{
 
-This measures can be retrieved from the dictionary \link{mlr_measures}:\preformatted{mlr_measures$get("classif.maxae")
-msr("classif.maxae")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("maxae")
+msr("maxae")
 }
 }
 

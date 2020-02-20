@@ -7,11 +7,11 @@
 benchmark_grid(tasks, learners, resamplings)
 }
 \arguments{
-\item{tasks}{:: list of \link{Task}.}
+\item{tasks}{(list of \link{Task}).}
 
-\item{learners}{:: list of \link{Learner}.}
+\item{learners}{(list of \link{Learner}).}
 
-\item{resamplings}{:: list of \link{Resampling}.}
+\item{resamplings}{(list of \link{Resampling}).}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with the cross product of the input vectors.

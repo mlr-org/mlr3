@@ -1,31 +1,19 @@
 #' @title Subsampling Resampling
 #'
-#' @usage NULL
 #' @name mlr_resamplings_subsampling
-#' @format [R6::R6Class] inheriting from [Resampling].
 #' @include Resampling.R
-#'
-#' @section Construction:
-#' ```
-#' ResamplingSubsampling$new()
-#' mlr_resamplings$get("subsampling")
-#' rsmp("subsampling")
-#' ```
 #'
 #' @description
 #' Splits data `repeats` (default: 30) times into training and test set
 #' with a ratio of `ratio` (default: 2/3) observations going into the training set.
 #'
-#' @section Fields:
-#' See [Resampling].
-#'
-#' @section Methods:
-#' See [Resampling].
+#' @templateVar id holdout
+#' @template section_dictionary_resampling
 #'
 #' @section Parameters:
-#' * `repeats` :: `integer(1)`\cr
+#' * `repeats` (`integer(1)`)\cr
 #'   Number of repetitions.
-#' * `ratio` :: `numeric(1)`\cr
+#' * `ratio` (`numeric(1)`)\cr
 #'   Ratio of observations to put into the training set.
 #'
 #' @references
@@ -51,6 +39,8 @@
 #' rss$instance$train # list of index vectors
 ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamInt$new("repeats", lower = 1, tags = "required"),
@@ -63,6 +53,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   ),
 
   active = list(
+    #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
       as.integer(self$param_set$values$repeats)

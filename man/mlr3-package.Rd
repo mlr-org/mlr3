@@ -21,6 +21,16 @@ Efficient, object-oriented programming on the
 \itemize{
 \item Book on mlr3: \url{https://mlr3book.mlr-org.com}
 \item Use cases and examples: \url{https://mlr3gallery.mlr-org.com}
+\item More classification and regression learners: \CRANpkg{mlr3learners}
+\item Preprocessing and machine learning pipelines: \CRANpkg{mlr3pipelines}
+\item Tuning of hyperparameters: \CRANpkg{mlr3tuning}
+\item Visualizations for many \pkg{mlr3} objects: \CRANpkg{mlr3viz}
+\item Survival analysis and probabilistic regression: \CRANpkg{mlr3proba}
+\item Feature selection filters: \CRANpkg{mlr3filters}
+\item Interface to real (out-of-memory) data bases: \CRANpkg{mlr3db}
+\item Performance measures as plain functions: \CRANpkg{mlr3measures}
+\item Parallelization framework: \CRANpkg{future}
+\item Progress bars: \CRANpkg{progressr}
 }
 }
 

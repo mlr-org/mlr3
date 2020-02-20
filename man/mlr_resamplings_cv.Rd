@@ -4,31 +4,20 @@
 \alias{mlr_resamplings_cv}
 \alias{ResamplingCV}
 \title{Cross Validation Resampling}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{Resampling}.}
 \description{
 Splits data using a \code{folds}-folds (default: 10 folds) cross-validation.
 }
-\section{Construction}{
-\preformatted{ResamplingCV$new()
-mlr_resamplings$get("cv")
-rsmp("cv")
+\section{Dictionary}{
+
+This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:\preformatted{mlr_resamplings$get("bootstrap")
+rsmp("bootstrap")
 }
-}
-
-\section{Fields}{
-
-See \link{Resampling}.
-}
-
-\section{Methods}{
-
-See \link{Resampling}.
 }
 
 \section{Parameters}{
 
 \itemize{
-\item \code{folds} :: \code{integer(1)}\cr
+\item \code{folds} (\code{integer(1)})\cr
 Number of folds.
 }
 }
@@ -68,3 +57,59 @@ Other Resampling:
 \code{\link{mlr_resamplings}}
 }
 \concept{Resampling}
+\section{Super class}{
+\code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingCV}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{iters}}{(\code{integer(1)})\cr
+Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{ResamplingCV$new()}}
+\item \href{#method-clone}{\code{ResamplingCV$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format">}\href{../../mlr3/html/Resampling.html#method-format}{\code{mlr3::Resampling$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help">}\href{../../mlr3/html/Resampling.html#method-help}{\code{mlr3::Resampling$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate">}\href{../../mlr3/html/Resampling.html#method-instantiate}{\code{mlr3::Resampling$instantiate()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print">}\href{../../mlr3/html/Resampling.html#method-print}{\code{mlr3::Resampling$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set">}\href{../../mlr3/html/Resampling.html#method-test_set}{\code{mlr3::Resampling$test_set()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set">}\href{../../mlr3/html/Resampling.html#method-train_set}{\code{mlr3::Resampling$train_set()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCV$new()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ResamplingCV$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

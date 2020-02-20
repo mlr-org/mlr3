@@ -1,20 +1,14 @@
 #' @title Regression Tree Learner
 #'
-#' @usage NULL
 #' @name mlr_learners_regr.rpart
-#' @format [R6::R6Class] inheriting from [LearnerRegr].
 #' @include LearnerRegr.R
-#'
-#' @section Construction:
-#' ```
-#' LearnerRegrRpart$new()
-#' mlr_learners$get("regr.rpart")
-#' lrn("regr.rpart")
-#' ```
 #'
 #' @description
 #' A [LearnerRegr] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
 #' Parameter `xval` is set to 0 in order to save some computation time.
+#'
+#' @templateVar id regr.rpart
+#' @template section_dictionary_learner
 #'
 #' @references
 #' \cite{mlr3}{breiman_1984}
@@ -23,6 +17,8 @@
 #' @export
 LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
         ParamInt$new(id = "minsplit", default = 20L, lower = 1L, tags = "train"),
@@ -48,20 +44,9 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       )
     },
 
-    train_internal = function(task) {
-      pv = self$param_set$get_values(tags = "train")
-      if ("weights" %in% task$properties) {
-        pv = insert_named(pv, list(weights = task$weights$weight))
-      }
-      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
-    },
-
-    predict_internal = function(task) {
-      newdata = task$data(cols = task$feature_names)
-      response = invoke(predict, self$model, newdata = newdata, .opts = allow_partial_matching)
-      PredictionRegr$new(task = task, response = response)
-    },
-
+    #' @description
+    #' The importance scores are extracted from the model slot `variable.importance`.
+    #' @return Named `numeric()`.
     importance = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
@@ -70,11 +55,30 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
       sort(self$model$variable.importance %??% set_names(numeric()), decreasing = TRUE)
     },
 
+    #' @description
+    #' Selected features are extracted from the model slot `frame$var`.
+    #' @return `character()`.
     selected_features = function() {
       if (is.null(self$model)) {
         stopf("No model stored")
       }
-      unique(setdiff(self$model$frame$var, "<leaf>"))
+      setdiff(self$model$frame$var, "<leaf>")
+    }
+  ),
+
+  private = list(
+    .train = function(task) {
+      pv = self$param_set$get_values(tags = "train")
+      if ("weights" %in% task$properties) {
+        pv = insert_named(pv, list(weights = task$weights$weight))
+      }
+      invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
+    },
+
+    .predict = function(task) {
+      newdata = task$data(cols = task$feature_names)
+      response = invoke(predict, self$model, newdata = newdata, .opts = allow_partial_matching)
+      PredictionRegr$new(task = task, response = response)
     }
   )
 )

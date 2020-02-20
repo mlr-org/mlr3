@@ -3,7 +3,6 @@
 \name{mlr_measures_regr.msle}
 \alias{mlr_measures_regr.msle}
 \title{Mean Squared Log Error}
-\format{\code{\link[R6:R6Class]{R6::R6Class()}} inheriting from \link{Measure}.}
 \description{
 Regression measure defined as \deqn{
   \frac{1}{n} \sum_{i=1}^n \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2.
@@ -17,10 +16,10 @@ The score function calls \code{\link[mlr3measures:msle]{mlr3measures::msle()}} f
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.
 }
-\section{Construction}{
+\section{Dictionary}{
 
-This measures can be retrieved from the dictionary \link{mlr_measures}:\preformatted{mlr_measures$get("classif.msle")
-msr("classif.msle")
+This \link{Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_measures} or with the associated sugar function \code{\link[=msr]{msr()}}:\preformatted{mlr_measures$get("msle")
+msr("msle")
 }
 }
 

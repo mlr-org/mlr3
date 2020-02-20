@@ -3,31 +3,15 @@
 \name{MeasureClassif}
 \alias{MeasureClassif}
 \title{Classification Measure}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link{Measure}.}
 \description{
-This measure specializes \link{Measure} for classification problems.
+This measure specializes \link{Measure} for classification problems:
+\itemize{
+\item \code{task_type} is set to \code{"classif"}.
+\item Possible values for \code{predict_type} are \code{"response"} and \code{"prob"}.
+}
+
 Predefined measures can be found in the \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} \link{mlr_measures}.
 }
-\section{Construction}{
-\preformatted{m = MeasureClassif$new(id, range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
-    predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_)
-}
-
-For a description of the arguments, see \link{Measure}.
-The \code{task_type} is set to \code{"classif"}.
-Possible values for \code{predict_type} are \code{"response"} and \code{"prob"}.
-}
-
-\section{Fields}{
-
-See \link{Measure}.
-}
-
-\section{Methods}{
-
-See \link{Measure}.
-}
-
 \seealso{
 Default classification measures: \code{\link[=mlr_measures_classif.ce]{classif.ce}}
 
@@ -42,3 +26,109 @@ Other Measure:
 \code{\link{mlr_measures}}
 }
 \concept{Measure}
+\section{Super class}{
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureClassif}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{MeasureClassif$new()}}
+}
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate">}\href{../../mlr3/html/Measure.html#method-aggregate}{\code{mlr3::Measure$aggregate()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format">}\href{../../mlr3/html/Measure.html#method-format}{\code{mlr3::Measure$format()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help">}\href{../../mlr3/html/Measure.html#method-help}{\code{mlr3::Measure$help()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print">}\href{../../mlr3/html/Measure.html#method-print}{\code{mlr3::Measure$print()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score">}\href{../../mlr3/html/Measure.html#method-score}{\code{mlr3::Measure$score()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MeasureClassif$new(
+  id,
+  range,
+  minimize = NA,
+  average = "macro",
+  aggregator = NULL,
+  properties = character(),
+  predict_type = "response",
+  predict_sets = "test",
+  task_properties = character(),
+  packages = character(),
+  man = NA_character_
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+
+\item{\code{range}}{(\code{numeric(2)})\cr
+Feasible range for this measure as \code{c(lower_bound, upper_bound)}.
+Both bounds may be infinite.}
+
+\item{\code{minimize}}{(\code{logical(1)})\cr
+Set to \code{TRUE} if good predictions correspond to small values,
+and to \code{FALSE} if good predictions correspond to large values.
+If set to \code{NA} (default), tuning this measure is not possible.}
+
+\item{\code{average}}{(\code{character(1)})\cr
+How to average multiple \link{Prediction}s from a \link{ResampleResult}.
+
+The default, \code{"macro"}, calculates the individual performances scores for each \link{Prediction} and then uses the
+function defined in \code{aggregator} to average them to a single number.
+
+If set to \code{"micro"}, the individual \link{Prediction} objects are first combined into a single new \link{Prediction} object which is then used to assess the performance.
+The function \code{aggregator} is not used in this case.}
+
+\item{\code{aggregator}}{(\verb{function(x)})\cr
+Function to aggregate individual performance scores \code{x} where \code{x} is a numeric vector.
+If \code{NULL}, defaults to \code{\link[=mean]{mean()}}.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Properties of the measure.
+Must be a subset of \link[=mlr_reflections]{mlr_reflections$measure_properties}.
+Supported by \code{mlr3}:
+\itemize{
+\item \code{"requires_task"} (requires the complete \link{Task}),
+\item \code{"requires_learner"} (requires the trained \link{Learner}),
+\item \code{"requires_train_set"} (requires the training indices from the \link{Resampling}), and
+\item \code{"na_score"} (the measure is expected to occasionally return \code{NA}).
+}}
+
+\item{\code{predict_type}}{(\code{character(1)})\cr
+Required predict type of the \link{Learner}.
+Possible values are stored in \link[=mlr_reflections]{mlr_reflections$learner_predict_types}.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+Prediction sets to operate on, used in \code{aggregate()} to extract the matching \code{predict_sets} from the \link{ResampleResult}.
+Multiple predict sets are calculated by the respective \link{Learner} during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
+Must be a non-empty subset of \verb{\{"train", "test"\}}.
+If multiple sets are provided, these are first combined to a single prediction object.
+Default is \code{"test"}.}
+
+\item{\code{task_properties}}{(\code{character()})\cr
+Required task properties, see \link{Task}.}
+
+\item{\code{packages}}{(\code{character()})\cr
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+The referenced help package can be opened via method \verb{$help()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}
