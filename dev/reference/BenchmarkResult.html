@@ -306,7 +306,9 @@ A BenchmarkResult object.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
-<p>Modified self.</p>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
 <p><hr>
 <a id="method-score"></a></p><h3>Method <code>score()</code></h3>
 <p>Returns a table with one row for each resampling iteration, including
@@ -326,7 +328,7 @@ the respective <a href='Measure.html'>Measure</a>.</p><h3>Usage</h3>
 
 <dt><code>ids</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
 Adds object ids (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) as
-extra character columns.</p></dd>
+extra character columns for convenient subsetting.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
@@ -353,7 +355,7 @@ List of performance measures to calculate.</p></dd>
 
 <dt><code>ids</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
 Adds object ids (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) as
-extra character columns.</p></dd>
+extra character columns for convenient subsetting.</p></dd>
 
 <dt><code>uhashes</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
 Adds the uhash values of the <a href='ResampleResult.html'>ResampleResult</a> as extra character
@@ -395,7 +397,9 @@ Ids of <a href='Resampling.html'>Resampling</a>s to keep.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
-<p>Modified self.</p>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
 <p><hr>
 <a id="method-resample_result"></a></p><h3>Method <code>resample_result()</code></h3>
 <p>Retrieve the i-th <a href='ResampleResult.html'>ResampleResult</a>, by position or by unique hash
@@ -457,11 +461,11 @@ The desired <code>ushash</code> value.</p></dd>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 712d7b68-b10b-40bc-be3c-b227c282f6c4 &lt;TaskClassif&gt;
-#&gt; 2: 712d7b68-b10b-40bc-be3c-b227c282f6c4 &lt;TaskClassif&gt;
-#&gt; 3: 712d7b68-b10b-40bc-be3c-b227c282f6c4 &lt;TaskClassif&gt;
-#&gt; 4: 6abf4a54-13da-4cf9-98ec-827d6e240441 &lt;TaskClassif&gt;
-#&gt; 5: 6abf4a54-13da-4cf9-98ec-827d6e240441 &lt;TaskClassif&gt;
+#&gt; 1: aafdf6c8-3500-46a1-8297-ff0dab5ad3e3 &lt;TaskClassif&gt;
+#&gt; 2: aafdf6c8-3500-46a1-8297-ff0dab5ad3e3 &lt;TaskClassif&gt;
+#&gt; 3: aafdf6c8-3500-46a1-8297-ff0dab5ad3e3 &lt;TaskClassif&gt;
+#&gt; 4: 7e28b476-2383-4a6e-aa26-49c0ae2dc569 &lt;TaskClassif&gt;
+#&gt; 5: 7e28b476-2383-4a6e-aa26-49c0ae2dc569 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;

@@ -63,7 +63,7 @@ Additional learner properties include:
 
 
 
-Predefined learners can be found in the mlr3misc::Dictionary mlr_learners.
+Predefined learners can be found in the dictionary mlr_learners.
 Essential classification learners can be found in this dictionary after loading mlr3learners." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -183,7 +183,7 @@ Essential classification learners can be found in this dictionary after loading 
 </ul></li>
 </ul>
 
-<p>Predefined learners can be found in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_learners.html'>mlr_learners</a>.
+<p>Predefined learners can be found in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a>.
 Essential classification learners can be found in this dictionary after loading <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a>.</p>
     </div>
 
@@ -259,14 +259,14 @@ The following properties are currently standardized and understood by learners i
 <ul>
 <li><p><code>"missings"</code>: The learner can handle missing values in the data.</p></li>
 <li><p><code>"weights"</code>: The learner supports observation weights.</p></li>
-<li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with a <code>importance()</code> extractor function (see section on optional extractors).</p></li>
-<li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>selected_features()</code> extractor function (see section on optional extractors).</p></li>
-<li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors).</p></li>
+<li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in <a href='Learner.html'>Learner</a>).</p></li>
+<li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in <a href='Learner.html'>Learner</a>).</p></li>
+<li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in <a href='Learner.html'>Learner</a>).</p></li>
 </ul></p></dd>
 
 <dt><code>data_formats</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Set of supported data formats which can be processed during <code>$train()</code> and <code>$predict()</code>.
-Defaults to <code>"data.table"</code>.</p></dd>
+Set of supported data formats which can be processed during <code>$train()</code> and <code>$predict()</code>,
+e.g. <code>"data.table"</code>.</p></dd>
 
 <dt><code>packages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Set of required packages.

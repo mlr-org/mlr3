@@ -50,7 +50,10 @@
 
 
 <meta property="og:title" content="Resample a Learner on a Task — resample" />
-<meta property="og:description" content="Runs a resampling (possibly in parallel)." />
+<meta property="og:description" content="Runs a resampling (possibly in parallel):
+Repeatedly apply Learner learner on a training set of Task task to train a model,
+then use the trained model to predict observations of a test set.
+Training and test sets are defined by the Resampling resampling." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -156,7 +159,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Runs a resampling (possibly in parallel).</p>
+    <p>Runs a resampling (possibly in parallel):
+Repeatedly apply <a href='Learner.html'>Learner</a> <code>learner</code> on a training set of <a href='Task.html'>Task</a> <code>task</code> to train a model,
+then use the trained model to predict observations of a test set.
+Training and test sets are defined by the <a href='Resampling.html'>Resampling</a> <code>resampling</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>, <span class='kw'>store_models</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
@@ -190,7 +196,7 @@ extract information like variable importance.</p></td>
     <p><a href='ResampleResult.html'>ResampleResult</a>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The fitted models are discarded after the predictions have been scored in order to reduce memory consumption.
+    <p>The fitted models are discarded after the predictions have been computed in order to reduce memory consumption.
 If you need access to the models for later analysis, set <code>store_models</code> to <code>TRUE</code>.</p>
     <h2 class="hasAnchor" id="parallelization"><a class="anchor" href="#parallelization"></a>Parallelization</h2>
 

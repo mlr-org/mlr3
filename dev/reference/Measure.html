@@ -52,16 +52,16 @@
 <meta property="og:title" content="Measure Class — Measure" />
 <meta property="og:description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
 Measures are classes around tailored around two functions:
-A function score which quantifies the performance by comparing true and predicted response.
-A function aggregator which combines multiple performance scores returned by
+A function $score() which quantifies the performance by comparing true and predicted response.
+A function $aggregator() which combines multiple performance scores returned by
 calculate to a single numeric value.
 
 
 In addition to these two functions, meta-information about the performance measure is stored.
-Predefined measures are stored in the mlr3misc::Dictionary mlr_measures,
+Predefined measures are stored in the dictionary mlr_measures,
 e.g. classif.auc or time_train.
-A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
-Note that this object is typically constructed via a derived classes, e.g. MeasureClassif or MeasureRegr." />
+Many of the measures in mlr3 are implemented in mlr3measures as ordinary functions.
+A guide on how to extend mlr3 with custom measures can be found in the mlr3book." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -169,16 +169,16 @@ Note that this object is typically constructed via a derived classes, e.g. Measu
     <div class="ref-description">
     <p>This is the abstract base class for measures like <a href='MeasureClassif.html'>MeasureClassif</a> and <a href='MeasureRegr.html'>MeasureRegr</a>.</p>
 <p>Measures are classes around tailored around two functions:</p><ol>
-<li><p>A function <code>score</code> which quantifies the performance by comparing true and predicted response.</p></li>
-<li><p>A function <code>aggregator</code> which combines multiple performance scores returned by
+<li><p>A function <code>$score()</code> which quantifies the performance by comparing true and predicted response.</p></li>
+<li><p>A function <code>$aggregator()</code> which combines multiple performance scores returned by
 <code>calculate</code> to a single numeric value.</p></li>
 </ol>
 
 <p>In addition to these two functions, meta-information about the performance measure is stored.</p>
-<p>Predefined measures are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>,
+<p>Predefined measures are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>,
 e.g. <code><a href='mlr_measures_classif.auc.html'>classif.auc</a></code> or <code><a href='mlr_measures_elapsed_time.html'>time_train</a></code>.
-A guide on how to extend <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> with custom measures can be found in the <a href='https://mlr3book.mlr-org.com'>mlr3book</a>.</p>
-<p>Note that this object is typically constructed via a derived classes, e.g. <a href='MeasureClassif.html'>MeasureClassif</a> or <a href='MeasureRegr.html'>MeasureRegr</a>.</p>
+Many of the measures in <span class="pkg">mlr3</span> are implemented in <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a> as ordinary functions.</p>
+<p>A guide on how to extend <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> with custom measures can be found in the <a href='https://mlr3book.mlr-org.com'>mlr3book</a>.</p>
     </div>
 
 
@@ -197,8 +197,9 @@ A guide on how to extend <a href='https://CRAN.R-project.org/package=mlr3'><span
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
     <p><div class="r6-fields"></p><dl class='dl-horizontal'>
-<dt><code>id</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Identifier of the object.</p></dd>
+<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Identifier of the object.
+Used in tables, plot and text output.</p></dd>
 
 <dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.For a complete list of possible task types (depending on the loaded packages),
@@ -240,7 +241,7 @@ These packages are loaded, but not attached.</p></dd>
 
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
-Defaults to <code>NA</code>.</p></dd>
+Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
@@ -265,7 +266,8 @@ Hash (unique identifier) for this object.</p></dd>
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p>
+<p>Note that this object is typically constructed via a derived classes, e.g. <a href='MeasureClassif.html'>MeasureClassif</a> or <a href='MeasureRegr.html'>MeasureRegr</a>.</p><h3>Usage</h3>
 <p><div class="r"></p><pre>Measure$new(
   id,
   task_type = NA,
@@ -301,8 +303,8 @@ If set to <code>NA</code> (default), tuning this measure is not possible.</p></d
 
 <dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 How to average multiple <a href='Prediction.html'>Prediction</a>s from a <a href='ResampleResult.html'>ResampleResult</a>.The default, <code>"macro"</code>, calculates the individual performances scores for each <a href='Prediction.html'>Prediction</a> and then uses the
-function defined in <code>aggregator</code> to average them to a single number.If set to <code>"micro"</code>, the individual <a href='Prediction.html'>Prediction</a> objects are first combined into a single new <a href='Prediction.html'>Prediction</a> object which is then used to assess the performance.
-The function <code>aggregator</code> is not used in this case.</p></dd>
+function defined in <code>$aggregator</code> to average them to a single number.If set to <code>"micro"</code>, the individual <a href='Prediction.html'>Prediction</a> objects are first combined into a single new <a href='Prediction.html'>Prediction</a> object which is then used to assess the performance.
+The function in <code>$aggregator</code> is not used in this case.</p></dd>
 
 <dt><code>aggregator</code></dt><dd><p>(<code>function(x)</code>)<br />
 Function to aggregate individual performance scores <code>x</code> where <code>x</code> is a numeric vector.
@@ -316,7 +318,7 @@ Supported by <code>mlr3</code>:
 <li><p><code>"requires_task"</code> (requires the complete <a href='Task.html'>Task</a>),</p></li>
 <li><p><code>"requires_learner"</code> (requires the trained <a href='Learner.html'>Learner</a>),</p></li>
 <li><p><code>"requires_train_set"</code> (requires the training indices from the <a href='Resampling.html'>Resampling</a>), and</p></li>
-<li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code>).</p></li>
+<li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
 </ul></p></dd>
 
 <dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />

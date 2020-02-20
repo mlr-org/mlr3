@@ -260,7 +260,7 @@ Row ids of the predicted observations, i.e. the row ids of the test set.</p></dd
 <dt><code>truth</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code>)<br />
 True (observed) labels. See the note on manual construction.</p></dd>
 
-<dt><code>response</code></dt><dd><p>((<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> | <code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code>))<br />
+<dt><code>response</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> | <code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code>)<br />
 Vector of predicted class labels.
 One element for each observation in the test set.
 Character vectors are automatically converted to factors.
@@ -286,7 +286,9 @@ See the section on thresholding for more information.</p><h3>Usage</h3>
 
 </dl><p></div></p>
 <h3>Returns</h3>
-<p>Modified self.</p>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
 
 
 

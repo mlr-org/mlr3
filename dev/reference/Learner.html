@@ -52,15 +52,16 @@
 <meta property="og:title" content="Learner Class — Learner" />
 <meta property="og:description" content="This is the abstract base class for learner objects like LearnerClassif and LearnerRegr.
 Learners are build around the three following key parts:
-Methods train() and predict() which call internal methods (either public method train_internal()/predict_internal() (soft deprecated)  or private methods .train()/.predict()).
+Methods $train() and $predict() which call internal methods (either public method $train_internal()/$predict_internal() (soft deprecated)
+or private methods $.train()/$.predict()).
 A paradox::ParamSet which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 Meta-information about the requirements and capabilities of the learner.
-The fitted model stored in field $model, available after calling train().
+The fitted model stored in field $model, available after calling $train().
 
 
-Predefined learners are stored in the mlr3misc::Dictionary mlr_learners,
+Predefined learners are stored in the dictionary mlr_learners,
 e.g. classif.rpart or regr.rpart.
-More classification and regression learners are implemented in mlr3learners.
+More classification and regression learners are implemented in the add-on package mlr3learners.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in mlr3proba.
 The dictionary mlr_learners gets automatically populated with the new learners as soon as the respective packages are loaded.
 More (experimental) learners can be found on GitHub: https://github.com/mlr3learners/.
@@ -172,15 +173,16 @@ A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
     <div class="ref-description">
     <p>This is the abstract base class for learner objects like <a href='LearnerClassif.html'>LearnerClassif</a> and <a href='LearnerRegr.html'>LearnerRegr</a>.</p>
 <p>Learners are build around the three following key parts:</p><ul>
-<li><p>Methods <code>train()</code> and <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code> which call internal methods (either public method <code>train_internal()</code>/<code>predict_internal()</code> (soft deprecated)  or private methods <code>.train()</code>/<code>.predict()</code>).</p></li>
+<li><p>Methods <code>$train()</code> and <code>$predict()</code> which call internal methods (either public method <code>$train_internal()</code>/<code>$predict_internal()</code> (soft deprecated)
+or private methods <code>$.train()</code>/<code>$.predict()</code>).</p></li>
 <li><p>A <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a> which stores meta-information about available hyperparameters, and also stores hyperparameter settings.</p></li>
 <li><p>Meta-information about the requirements and capabilities of the learner.</p></li>
-<li><p>The fitted model stored in field <code>$model</code>, available after calling <code>train()</code>.</p></li>
+<li><p>The fitted model stored in field <code>$model</code>, available after calling <code>$train()</code>.</p></li>
 </ul>
 
-<p>Predefined learners are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_learners.html'>mlr_learners</a>,
+<p>Predefined learners are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a>,
 e.g. <code><a href='mlr_learners_classif.rpart.html'>classif.rpart</a></code> or <code><a href='mlr_learners_regr.rpart.html'>regr.rpart</a></code>.</p>
-<p>More classification and regression learners are implemented in <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a>.
+<p>More classification and regression learners are implemented in the add-on package <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a>.
 Learners for survival analysis (or more general, for probabilistic regression) can be found in <a href='https://CRAN.R-project.org/package=mlr3proba'><span class="pkg">mlr3proba</span></a>.
 The dictionary <a href='mlr_learners.html'>mlr_learners</a> gets automatically populated with the new learners as soon as the respective packages are loaded.</p>
 <p>More (experimental) learners can be found on GitHub: <a href='https://github.com/mlr3learners/'>https://github.com/mlr3learners/</a>.
@@ -202,7 +204,7 @@ The higher the score, the more important the variable.
 The returned vector is named with feature names and sorted in decreasing order.
 Note that the model might omit features it has not used at all.
 The learner must be tagged with property <code>"importance"</code>.
-To filter variables using the importance scores, use package <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a>.</p></li>
+To filter variables using the importance scores, see package <a href='https://CRAN.R-project.org/package=mlr3filters'><span class="pkg">mlr3filters</span></a>.</p></li>
 <li><p><code>selected_features(...)</code>: Returns a subset of selected features as <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>.
 The learner must be tagged with property <code>"selected_features"</code>.</p></li>
 <li><p><code>oob_error(...)</code>: Returns the out-of-bag error of the model as <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>.
@@ -226,7 +228,7 @@ If you only intend to change one specific hyperparameter value and leave the oth
 </pre>
 
 <p>If the learner has additional hyperparameters which are not encoded in the <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>ParamSet</a>, you can easily extend the learner.
-Here, we add a hyperparameter with id <code>"foo"</code> possible levels <code>"a"</code> and <code>"b"</code>:</p><pre>lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
+Here, we add a factor hyperparameter with id <code>"foo"</code> and possible levels <code>"a"</code> and <code>"b"</code>:</p><pre>lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
 </pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -243,8 +245,9 @@ Here, we add a hyperparameter with id <code>"foo"</code> possible levels <code>"
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
     <p><div class="r6-fields"></p><dl class='dl-horizontal'>
-<dt><code>id</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Identifier of the object.</p></dd>
+<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Identifier of the object.
+Used in tables, plot and text output.</p></dd>
 
 <dt><code>state</code></dt><dd><p>(<code>NULL</code> | named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
 Current (internal) state of the learner.
@@ -289,7 +292,7 @@ Requires you to enable encapsulation, otherwise errors are not caught and the ex
 
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
-Defaults to <code>NA</code>.</p></dd>
+Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
@@ -320,8 +323,8 @@ Logged errors as vector.</p></dd>
 Hash (unique identifier) for this object.</p></dd>
 
 <dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Stores the currently selected predict type.
-Must be an element of <code>l$predict_types</code>.</p></dd>
+Stores the currently active predict type, e.g. <code>"response"</code>.
+Must be an element of <code>$predict_types</code>.</p></dd>
 
 <dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
 Set of hyperparameters.</p></dd>
@@ -329,7 +332,7 @@ Set of hyperparameters.</p></dd>
 <dt><code>encapsulate</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Controls how to execute the code in internal train and predict methods.
 Must be a named character vector with names <code>"train"</code> and <code>"predict"</code>.
-Possible values are <code>"none"</code>, <code>"evaluate"</code> and <code>"callr"</code>.
+Possible values are <code>"none"</code>, <code>"evaluate"</code> (requires package <a href='https://CRAN.R-project.org/package=evaluate'><span class="pkg">evaluate</span></a>) and <code>"callr"</code> (requires package <a href='https://CRAN.R-project.org/package=callr'><span class="pkg">callr</span></a>).
 See <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3misc::encapsulate()</a></code> for more details.</p></dd>
 
 </dl><p></div></p>
@@ -390,14 +393,14 @@ The following properties are currently standardized and understood by learners i
 <ul>
 <li><p><code>"missings"</code>: The learner can handle missing values in the data.</p></li>
 <li><p><code>"weights"</code>: The learner supports observation weights.</p></li>
-<li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with a <code>importance()</code> extractor function (see section on optional extractors).</p></li>
-<li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>selected_features()</code> extractor function (see section on optional extractors).</p></li>
-<li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors).</p></li>
+<li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in Learner).</p></li>
+<li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in Learner).</p></li>
+<li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in Learner).</p></li>
 </ul></p></dd>
 
 <dt><code>data_formats</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Set of supported data formats which can be processed during <code>$train()</code> and <code>$predict()</code>.
-Defaults to <code>"data.table"</code>.</p></dd>
+Set of supported data formats which can be processed during <code>$train()</code> and <code>$predict()</code>,
+e.g. <code>"data.table"</code>.</p></dd>
 
 <dt><code>packages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Set of required packages.
@@ -431,38 +434,42 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
 <p><hr>
 <a id="method-train"></a></p><h3>Method <code>train()</code></h3>
-<p>Train the learner on the row ids of the provided <a href='Task.html'>Task</a>.
-Mutates the learner by reference, i.e. stores the model alongside other objects in field <code>$state</code>.</p><h3>Usage</h3>
+<p>Train the learner on a set of observations of the provided <code>task</code>.
+Mutates the learner by reference, i.e. stores the model alongside other information in field <code>$state</code>.</p><h3>Usage</h3>
 <p><div class="r"></p><pre>Learner$train(task, row_ids = NULL)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
 
-<dt><code>row_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>).</p></dd>
+<dt><code>row_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
+Vector of training indices.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
-<p>Modified self.</p>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
 <p><hr>
 <a id="method-predict"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
 <p>Uses the information stored during <code>$train()</code> in <code>$state</code> to create a new <a href='Prediction.html'>Prediction</a>
-based for the provided <code>row_ids</code> of the <code>task</code>.</p><h3>Usage</h3>
+for a set of observations of the provided <code>task</code>.</p><h3>Usage</h3>
 <p><div class="r"></p><pre>Learner$predict(task, row_ids = NULL)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
 
-<dt><code>row_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>).</p></dd>
+<dt><code>row_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
+Vector of test indices.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
 <p><a href='Prediction.html'>Prediction</a>.</p>
 <p><hr>
 <a id="method-predict_newdata"></a></p><h3>Method <code>predict_newdata()</code></h3>
-<p>Uses the model fitted during <code>$train()</code> in to create a new <a href='Prediction.html'>Prediction</a> based on the new data in <code>newdata</code>.
-Object <code>task</code> is the task used during <code>$train()</code> and required for conversions of <code>newdata</code>.
+<p>Uses the model fitted during <code>$train()</code> to create a new <a href='Prediction.html'>Prediction</a> based on the new data in <code>newdata</code>.
+Object <code>task</code> is the task used during <code>$train()</code> and required for conversion of <code>newdata</code>.
 If the learner's <code>$train()</code> method has been called, there is a (size reduced) version of the training task stored in the learner.
 If the learner has been fitted via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>, you need to pass the corresponding task stored
 in the <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkResult.html'>BenchmarkResult</a>, respectively.</p><h3>Usage</h3>
@@ -484,6 +491,10 @@ Row ids are automatically created via auto-incrementing.</p></dd>
 <p>Reset the learner, i.e. un-train by resetting the <code>state</code>.</p><h3>Usage</h3>
 <p><div class="r"></p><pre>Learner$reset()</pre><p></div></p>
 
+<h3>Returns</h3>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>

@@ -174,11 +174,11 @@
       <th>data</th>
       <td><p><code>any</code><br />
 Data to create a <a href='DataBackend.html'>DataBackend</a> from.
-For a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> (this includes <code>tibble()</code> from <a href='https://CRAN.R-project.org/package=tibble'><span class="pkg">tibble</span></a> and <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)
-this function creates a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.
+For a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> (this includes <code>tibble()</code> from <a href='https://CRAN.R-project.org/package=tibble'><span class="pkg">tibble</span></a> and <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>),
+a <a href='DataBackendDataTable.html'>DataBackendDataTable</a> is created.
 See <code><a href='https://rdrr.io/r/utils/methods.html'>methods("as_data_backend")</a></code> for possible input formats.</p>
 <p>Package <a href='https://CRAN.R-project.org/package=mlr3db'><span class="pkg">mlr3db</span></a> extends this function with a method for lazy table objects implemented in <a href='https://CRAN.R-project.org/package=dbplyr'><span class="pkg">dbplyr</span></a>.
-This allows to interface many different (SQL complicant) data base systems.</p></td>
+This allows to interface many different data base systems such as SQL servers.</p></td>
     </tr>
     <tr>
       <th>primary_key</th>

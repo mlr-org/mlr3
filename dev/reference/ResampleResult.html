@@ -307,7 +307,8 @@ If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to
 Performance measures to calculate.</p></dd>
 
 <dt><code>ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-If <code>ids</code> is <code>TRUE</code>, extra columns with the ids of objects (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) are binded to the table to allow a more convenient subsetting.</p></dd>
+If <code>ids</code> is <code>TRUE</code>, extra columns with the ids of objects (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) are added to the returned table.
+These allow to subset more conveniently.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
@@ -338,7 +339,9 @@ Resampling iterations to keep.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
-<p>Modified self.</p>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
