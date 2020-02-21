@@ -8,10 +8,13 @@
 #' Note that all stored objects are accessed by reference.
 #' Do not modify any object without cloning it first.
 #'
+#' @template param_measures
+#'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
 #'   Returns a copy of the internal data.
+#'
 #' @export
 #' @examples
 #' task = tsk("iris")
@@ -114,9 +117,6 @@ ResampleResult = R6Class("ResampleResult",
     #' named with the id of the respective measure id.
     #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
     #'
-    #' @param measures ([Measure] | list of [Measure])\cr
-    #'   Performance measures to calculate.
-    #'
     #' @param ids (`logical(1)`)\cr
     #'   If `ids` is `TRUE`, extra columns with the ids of objects (`"task_id"`, `"learner_id"`, `"resampling_id"`) are added to the returned table.
     #'   These allow to subset more conveniently.
@@ -143,9 +143,6 @@ ResampleResult = R6Class("ResampleResult",
     #' @description
     #' Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in [Measure].
     #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
-    #'
-    #' @param measures ([Measure] | list of [Measure])\cr
-    #'   Performance measures to calculate.
     #'
     #' @return Named `numeric()`.
     aggregate = function(measures = NULL) {

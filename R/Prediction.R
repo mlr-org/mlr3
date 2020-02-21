@@ -12,6 +12,8 @@
 #'
 #' Note that this object is usually constructed via a derived classes, e.g. [PredictionClassif] or [PredictionRegr].
 #'
+#' @template param_measures
+#'
 #' @section S3 Methods:
 #' * `as.data.table(rr)`\cr
 #'   [Prediction] -> [data.table::data.table()]\cr
@@ -75,9 +77,6 @@ Prediction = R6Class("Prediction",
     #' Calculates the performance for all provided measures
     #' [Task] and [Learner] may be `NULL` for most measures, but some measures need to extract information
     #' from these objects.
-    #'
-    #' @param measures ([Measure] | list of [Measure])\cr
-    #'   Performance measures to calculate.
     #'
     #' @param task ([Task]).
     #'
