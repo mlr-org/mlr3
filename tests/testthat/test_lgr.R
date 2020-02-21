@@ -1,4 +1,6 @@
-context("logger", {
+context("logger")
+
+test_that("log to text file", {
   f = tempfile("mlr3test_", fileext = "log")
   th1 = lg$threshold
   th2 = lg$inherited_appenders$appenders.console$threshold
