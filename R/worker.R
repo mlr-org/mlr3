@@ -47,14 +47,22 @@ learner_train = function(learner, task, row_ids = NULL) {
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
+    lg$debug("Subsetting task '%s' to %i rows",
+      task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
+
     prev_use = task$row_roles$use
     on.exit({
       task$row_roles$use = prev_use
     }, add = TRUE)
     task$row_roles$use = row_ids
+  } else {
+    lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
   learner$state = list()
+
+  lg$debug("Calling train method of Learner '%s' on task '%s' with %i observations",
+    learner$id, task$id, task$nrow, learner = learner$clone())
 
   # call train_wrapper with encapsulation
   result = encapsulate(learner$encapsulate["train"],
@@ -64,23 +72,33 @@ learner_train = function(learner, task, row_ids = NULL) {
     .seed = NA_integer_
   )
 
-  if (is.null(result$result)) {
-    lg$debug("Learner '%s' on task '%s' did not fit a model", learner$id, task$id, learner = learner$clone(), task = task$clone())
-  }
-
   learner$state = insert_named(learner$state, list(
     model = result$result,
     log = append_log(NULL, "train", result$log$class, result$log$msg),
     train_time = result$elapsed
   ))
 
+  if (is.null(result$result)) {
+    lg$debug("Learner '%s' on task '%s' failed to fit a model",
+      learner$id, task$id, learner = learner$clone(), messages = result$log$msg)
+  } else {
+    lg$debug("Learner '%s' on task '%s' succeeded to fit a model",
+      learner$id, task$id, learner = learner$clone(), result = result$result, messages = result$log$msg)
+  }
+
   # fit fallback learner
   fb = learner$fallback
   if (!is.null(fb)) {
+    lg$debug("Calling train method of fallback '%s' on task '%s' with %i observations",
+      fb$id, task$id, task$nrow, learner = fb$clone())
+
     fb = assert_learner(as_learner(fb))
     require_namespaces(fb$packages)
     fb$train(task)
     learner$state$fallback_state = fb$state
+
+    lg$debug("Fitted fallback learner '%s'",
+      fb$id, learner = fb$clone())
   }
 
   learner
@@ -92,15 +110,23 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {
+    lg$debug("Subsetting task '%s' to %i rows",
+      task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
+
     prev_use = task$row_roles$use
     on.exit({
       task$row_roles$use = prev_use
     }, add = TRUE)
     task$row_roles$use = row_ids
+  } else {
+    lg$debug("Skip subsetting of task '%s'", task$id)
   }
 
   if (task$nrow == 0L) {
     # return an empty prediction object, #421
+    lg$debug("No observations in task '%s', returning empty prediction",
+      task$id)
+
     learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on")
     tt = task$task_type
     f = mlr_reflections$task_types[list(tt), "prediction", with = FALSE][[1L]]
@@ -108,10 +134,16 @@ learner_predict = function(learner, task, row_ids = NULL) {
   }
 
   if (is.null(learner$model)) {
+    lg$debug("Learner '%s' has no model stored",
+      learner$id, learner = learner$clone())
+
     prediction = NULL
     learner$state$predict_time = NA_real_
   } else {
     # call predict with encapsulation
+    lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
+      learner$id, task$id, task$nrow, learner = learner$clone())
+
     result = encapsulate(
       learner$encapsulate["predict"],
       .f = predict_wrapper,
@@ -123,6 +155,9 @@ learner_predict = function(learner, task, row_ids = NULL) {
     prediction = result$result
     learner$state$log = append_log(learner$state$log, "predict", result$log$class, result$log$msg)
     learner$state$predict_time = result$elapsed
+
+    lg$debug("Learner '%s' returned an object of class '%s'",
+      learner$id, class(prediction)[1L], learner = learner$clone(), prediction = prediction, messages = result$log$msg)
   }
 
 
@@ -135,11 +170,19 @@ learner_predict = function(learner, task, row_ids = NULL) {
       fb$predict(task, row_ids)
     }
 
+
     if (is.null(prediction)) {
+      lg$debug("Creating new Prediction using fallback '%s'",
+        fb$id, learner = fb$clone())
+
       learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner for predictions")
       prediction = predict_fb(task$row_ids)
     } else {
       miss_ids = prediction$missing
+
+      lg$debug("Imputing %i%i predictions using fallback '%s'",
+        length(miss_ids), length(prediction$row_ids), fb$id,  learner = fb$clone())
+
       if (length(miss_ids)) {
         learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner to impute predictions")
         prediction = c(prediction, predict_fb(miss_ids), keep_duplicates = FALSE)
@@ -159,18 +202,28 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
   if (!is.null(lgr_threshold)) {
     lg$set_threshold(lgr_threshold)
   }
-  lg$info("Applying learner '%s' on task '%s' (iter %i/%i)", learner$id, task$id, iteration, resampling$iters)
 
-  sets = list(train = resampling$train_set(iteration), test = resampling$test_set(iteration))
+  lg$info("Applying learner '%s' on task '%s' (iter %i/%i)",
+    learner$id, task$id, iteration, resampling$iters)
+
+  sets = list(
+    train = resampling$train_set(iteration),
+    test = resampling$test_set(iteration)
+  )
+
+  # train model
   learner = learner_train(learner$clone(), task, sets[["train"]])
 
-  prediction = lapply(sets[learner$predict_sets], function(set) {
-    learner_predict(learner, task, set)
-  })
-  names(prediction) = learner$predict_sets
+  # predict for each set
+  sets = sets[learner$predict_sets]
+  prediction = Map(function(set, row_ids) {
+    lg$debug("Creating Prediction for predict set '%s'", set)
+    learner_predict(learner, task, row_ids)
+  }, set = names(sets), row_ids = sets)
   prediction = prediction[!vapply(prediction, is.null, NA)]
 
   if (!store_models) {
+    lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
   }
 
