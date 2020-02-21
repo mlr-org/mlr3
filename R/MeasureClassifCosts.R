@@ -51,17 +51,11 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
   public = list(
     #' @field normalize (`logical(1)`)\cr
     #'   Normalize the costs?
-    normalize = NULL,
+    normalize = TRUE,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param costs (numeric `matrix()`)\cr
-    #'   Matrix of costs (truth in columns, predicted response in rows).
-    #'
-    #' @param normalize (`logical(1)`)\cr
-    #'   If `TRUE`, calculate the mean cost per observation instead of the total costs.
-    initialize = function(costs = NULL, normalize = TRUE) {
+    initialize = function() {
       super$initialize(
         id = "classif.costs",
         properties = "requires_task",
@@ -69,11 +63,6 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         minimize = TRUE,
         man = "mlr3::mlr_measures_classif.costs"
       )
-
-      if (!is.null(costs)) {
-        self$costs = costs
-      }
-      self$normalize = assert_flag(normalize)
     }
   ),
 

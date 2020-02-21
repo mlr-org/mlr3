@@ -55,7 +55,8 @@ Other Measure:
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{na_ratio}}{(\code{numeric(1)})\cr
-Ratio of scores which should be \code{NA}.}
+Ratio of scores which randomly should be \code{NA}, between 0 (default) and 1.
+Default is 0.}
 }
 \if{html}{\out{</div>}}
 }
@@ -82,17 +83,9 @@ Ratio of scores which should be \code{NA}.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureDebug$new(na_ratio = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureDebug$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{na_ratio}}{(\code{numeric(1)})\cr
-Matrix of costs (truth in columns, predicted response in rows).}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

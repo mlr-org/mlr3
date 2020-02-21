@@ -5,12 +5,13 @@ test_that("binary task", {
   costs = matrix(c(0, 5, 10, 0), nrow = 2)
   rownames(costs) = colnames(costs) = task$class_names
 
-  m1 = mlr_measures$get("classif.costs", costs = costs)
+  m1 = mlr_measures$get("classif.costs")
+  m1$costs = costs
   m1$id = "m1"
-  m2 = mlr_measures$get("classif.costs", costs = -1 * costs)
+  m2 = msr("classif.costs", costs = -1 * costs)
   m2$id = "m2"
   costs[] = 0
-  m3 = mlr_measures$get("classif.costs", costs = costs)
+  m3 = msr("classif.costs", costs = costs)
   m3$id = "m3"
   measures = list(m1, m2, m3)
 
@@ -25,7 +26,7 @@ test_that("multiclass", {
   costs = 1 - diag(3)
   rownames(costs) = colnames(costs) = task$class_names
 
-  m = mlr_measures$get("classif.costs", costs = costs, normalize = FALSE)
+  m = msr("classif.costs", costs = costs, normalize = FALSE)
   measures = list(m, mlr_measures$get("classif.ce"))
 
   lrn = lrn("classif.featureless")

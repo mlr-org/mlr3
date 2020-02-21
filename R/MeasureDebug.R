@@ -28,15 +28,13 @@ MeasureDebug = R6Class("MeasureDebug",
   inherit = Measure,
   public = list(
     #' @field na_ratio (`numeric(1)`)\cr
-    #' Ratio of scores which should be `NA`.
+    #' Ratio of scores which randomly should be `NA`, between 0 (default) and 1.
+    #' Default is 0.
     na_ratio = 0,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #'
-    #' @param na_ratio (`numeric(1)`)\cr
-    #'   Matrix of costs (truth in columns, predicted response in rows).
-    initialize = function(na_ratio = 0) {
+    initialize = function() {
       super$initialize(
         id = "debug",
         predict_type = "response",
@@ -44,12 +42,12 @@ MeasureDebug = R6Class("MeasureDebug",
         properties = "na_score",
         man = "mlr3::mlr_measures_debug"
       )
-      self$na_ratio = assert_number(na_ratio, lower = 0, upper = 1)
     }
   ),
 
   private = list(
     .score = function(prediction, ...) {
+      na_ratio = assert_number(self$na_ratio, lower = 0, upper = 1)
       if (self$na_ratio > runif(1L))
         return(NA_integer_)
       length(prediction$row_ids)

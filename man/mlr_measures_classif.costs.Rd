@@ -144,20 +144,9 @@ Matrix of costs (truth in columns, predicted response in rows).}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureClassifCosts$new(costs = NULL, normalize = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MeasureClassifCosts$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{costs}}{(numeric \code{matrix()})\cr
-Matrix of costs (truth in columns, predicted response in rows).}
-
-\item{\code{normalize}}{(\code{logical(1)})\cr
-If \code{TRUE}, calculate the mean cost per observation instead of the total costs.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
