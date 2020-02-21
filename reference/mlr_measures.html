@@ -53,7 +53,7 @@
 <meta property="og:description" content="A simple mlr3misc::Dictionary storing objects of class Measure.
 Each measure has an associated help page, see mlr_measures_[id].
 This dictionary can get populated with additional measures by add-on packages.
-For a more convenient way to retrieve and construct measures, see msr()." />
+For a more convenient way to retrieve and construct measures, see msr()/msrs()." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -85,14 +85,14 @@ For a more convenient way to retrieve and construct measures, see msr()." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7</small></a>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
     <span class="fa fa fa fa-file-alt"></span>
@@ -110,8 +110,6 @@ For a more convenient way to retrieve and construct measures, see msr()." />
     mlr3book
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -138,7 +136,7 @@ For a more convenient way to retrieve and construct measures, see msr()." />
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+      <form class="navbar-form navbar-right docsearch" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -164,7 +162,7 @@ For a more convenient way to retrieve and construct measures, see msr()." />
     <p>A simple <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> storing objects of class <a href='Measure.html'>Measure</a>.
 Each measure has an associated help page, see <code>mlr_measures_[id]</code>.</p>
 <p>This dictionary can get populated with additional measures by add-on packages.</p>
-<p>For a more convenient way to retrieve and construct measures, see <code><a href='mlr_sugar.html'>msr()</a></code>.</p>
+<p>For a more convenient way to retrieve and construct measures, see <code><a href='mlr_sugar.html'>msr()</a></code>/<code><a href='mlr_sugar.html'>msrs()</a></code>.</p>
     </div>
 
 
@@ -190,8 +188,8 @@ and "packages" as columns.</p></li>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Example measures: <code><a href='mlr_measures_classif.auc.html'>classif.auc</a></code>, <code><a href='mlr_measures_elapsed_time.html'>time_train</a></code>
-Sugar function: <code><a href='mlr_sugar.html'>msr()</a></code></p>
+    <div class='dont-index'><p>Sugar functions: <code><a href='mlr_sugar.html'>msr()</a></code>, <code><a href='mlr_sugar.html'>msrs()</a></code></p>
+<p>Implementation of most measures: <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a></p>
 <p>Other Dictionary: 
 <code><a href='mlr_learners.html'>mlr_learners</a></code>,
 <code><a href='mlr_resamplings.html'>mlr_resamplings</a></code>,
@@ -200,7 +198,12 @@ Sugar function: <code><a href='mlr_sugar.html'>msr()</a></code></p>
 <p>Other Measure: 
 <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
-<code><a href='Measure.html'>Measure</a></code></p></div>
+<code><a href='Measure.html'>Measure</a></code>,
+<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
+<code><a href='mlr_measures_debug.html'>mlr_measures_debug</a></code>,
+<code><a href='mlr_measures_elapsed_time.html'>mlr_measures_elapsed_time</a></code>,
+<code><a href='mlr_measures_oob_error.html'>mlr_measures_oob_error</a></code>,
+<code><a href='mlr_measures_selected_features.html'>mlr_measures_selected_features</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_measures</span>)</div><div class='output co'>#&gt;                     key task_type     packages predict_type task_properties

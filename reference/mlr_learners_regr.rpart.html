@@ -83,14 +83,14 @@ Parameter xval is set to 0 in order to save some computation time." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7</small></a>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
     <span class="fa fa fa fa-file-alt"></span>
@@ -108,8 +108,6 @@ Parameter xval is set to 0 in order to save some computation time." />
     mlr3book
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -136,7 +134,7 @@ Parameter xval is set to 0 in order to save some computation time." />
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+      <form class="navbar-form navbar-right docsearch" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -165,20 +163,17 @@ Parameter <code>xval</code> is set to 0 in order to save some computation time.<
 
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='LearnerRegr.html'>LearnerRegr</a>.</p>
-    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
+    <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
 
     
-<pre>LearnerRegrRpart$new()
-mlr_learners$get("regr.rpart")
+
+<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre>mlr_learners$get("regr.rpart")
 lrn("regr.rpart")
 </pre>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Breiman L, Friedman JH, Olshen RA, Stone CJ (2017).
+    <p>Breiman L, Friedman JH, Olshen RA, Stone CJ (1984).
 <em>Classification And Regression Trees</em>.
 Routledge.
 doi: <a href='https://doi.org/10.1201/9781315139470'>10.1201/9781315139470</a>
@@ -186,16 +181,83 @@ doi: <a href='https://doi.org/10.1201/9781315139470'>10.1201/9781315139470</a>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Learner.html'>Learners</a>: <a href='mlr_learners.html'>mlr_learners</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_learners)</a></code> for a complete table of all (also dynamically created) <a href='Learner.html'>Learner</a> implementations.</p></div>
+<p><code><a href='as.data.table.html'>as.data.table(mlr_learners)</a></code> for a complete table of all (also dynamically created) <a href='Learner.html'>Learner</a> implementations.</p>
+<p>Other Learner: 
+<code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
+<code><a href='LearnerRegr.html'>LearnerRegr</a></code>,
+<code><a href='Learner.html'>Learner</a></code>,
+<code><a href='mlr_learners_classif.debug.html'>mlr_learners_classif.debug</a></code>,
+<code><a href='mlr_learners_classif.featureless.html'>mlr_learners_classif.featureless</a></code>,
+<code><a href='mlr_learners_classif.rpart.html'>mlr_learners_classif.rpart</a></code>,
+<code><a href='mlr_learners_regr.featureless.html'>mlr_learners_regr.featureless</a></code>,
+<code><a href='mlr_learners.html'>mlr_learners</a></code></p></div>
+    <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
+
+    <p><code><a href='Learner.html'>mlr3::Learner</a></code> -&gt; <code><a href='LearnerRegr.html'>mlr3::LearnerRegr</a></code> -&gt; <code>LearnerRegrRpart</code></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>LearnerRegrRpart$new()</code></a></p></li>
+<li><p><a href='#method-importance'><code>LearnerRegrRpart$importance()</code></a></p></li>
+<li><p><a href='#method-selected_features'><code>LearnerRegrRpart$selected_features()</code></a></p></li>
+<li><p><a href='#method-clone'><code>LearnerRegrRpart$clone()</code></a></p></li>
+</ul>
+<p><details ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-format'><code>mlr3::Learner$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href='../../mlr3/html/Learner.html#method-help'><code>mlr3::Learner$help()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-predict'><code>mlr3::Learner$predict()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="print"><a href='../../mlr3/html/Learner.html#method-print'><code>mlr3::Learner$print()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-reset'><code>mlr3::Learner$reset()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-train'><code>mlr3::Learner$train()</code></a></span></p></li>
+</ul>
+</details>
+
+<hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>LearnerRegrRpart$new()</pre><p></div></p>
+
+<p><hr>
+<a id="method-importance"></a></p><h3>Method <code>importance()</code></h3>
+<p>The importance scores are extracted from the model slot <code>variable.importance</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>LearnerRegrRpart$importance()</pre><p></div></p>
+
+<h3>Returns</h3>
+<p>Named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>.</p>
+<p><hr>
+<a id="method-selected_features"></a></p><h3>Method <code>selected_features()</code></h3>
+<p>Selected features are extracted from the model slot <code>frame$var</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>LearnerRegrRpart$selected_features()</pre><p></div></p>
+
+<h3>Returns</h3>
+<p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>.</p>
+<p><hr>
+<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>LearnerRegrRpart$clone(deep = FALSE)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#construction">Construction</a></li>
+      <li><a href="#dictionary">Dictionary</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#super-classes">Super classes</a></li>
+      <li><a href="#methods">Methods</a></li>
     </ul>
 
   </div>

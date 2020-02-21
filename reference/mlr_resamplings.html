@@ -53,7 +53,7 @@
 <meta property="og:description" content="A simple mlr3misc::Dictionary storing objects of class Resampling.
 Each resampling has an associated help page, see mlr_resamplings_[id].
 This dictionary can get populated with additional resampling strategies by add-on packages.
-For a more convenient way to retrieve and construct resampling strategies, see rsmp()." />
+For a more convenient way to retrieve and construct resampling strategies, see rsmp()/rsmps()." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -85,14 +85,14 @@ For a more convenient way to retrieve and construct resampling strategies, see r
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7</small></a>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
     <span class="fa fa fa fa-file-alt"></span>
@@ -110,8 +110,6 @@ For a more convenient way to retrieve and construct resampling strategies, see r
     mlr3book
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -138,7 +136,7 @@ For a more convenient way to retrieve and construct resampling strategies, see r
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+      <form class="navbar-form navbar-right docsearch" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -164,7 +162,7 @@ For a more convenient way to retrieve and construct resampling strategies, see r
     <p>A simple <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> storing objects of class <a href='Resampling.html'>Resampling</a>.
 Each resampling has an associated help page, see <code>mlr_resamplings_[id]</code>.</p>
 <p>This dictionary can get populated with additional resampling strategies by add-on packages.</p>
-<p>For a more convenient way to retrieve and construct resampling strategies, see <code><a href='mlr_sugar.html'>rsmp()</a></code>.</p>
+<p>For a more convenient way to retrieve and construct resampling strategies, see <code><a href='mlr_sugar.html'>rsmp()</a></code>/<code><a href='mlr_sugar.html'>rsmps()</a></code>.</p>
     </div>
 
 
@@ -189,15 +187,20 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Example resamplings: <code><a href='mlr_resamplings_cv.html'>cv</a></code>, <code><a href='mlr_resamplings_bootstrap.html'>bootstrap</a></code></p>
-<p>Sugar function: <code><a href='mlr_sugar.html'>rsmp()</a></code></p>
+    <div class='dont-index'><p>Sugar functions: <code><a href='mlr_sugar.html'>rsmp()</a></code>, <code><a href='mlr_sugar.html'>rsmps()</a></code></p>
 <p>Other Dictionary: 
 <code><a href='mlr_learners.html'>mlr_learners</a></code>,
 <code><a href='mlr_measures.html'>mlr_measures</a></code>,
 <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code>,
 <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p>
 <p>Other Resampling: 
-<code><a href='Resampling.html'>Resampling</a></code></p></div>
+<code><a href='Resampling.html'>Resampling</a></code>,
+<code><a href='mlr_resamplings_bootstrap.html'>mlr_resamplings_bootstrap</a></code>,
+<code><a href='mlr_resamplings_custom.html'>mlr_resamplings_custom</a></code>,
+<code><a href='mlr_resamplings_cv.html'>mlr_resamplings_cv</a></code>,
+<code><a href='mlr_resamplings_holdout.html'>mlr_resamplings_holdout</a></code>,
+<code><a href='mlr_resamplings_repeated_cv.html'>mlr_resamplings_repeated_cv</a></code>,
+<code><a href='mlr_resamplings_subsampling.html'>mlr_resamplings_subsampling</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_resamplings</span>)</div><div class='output co'>#&gt;            key        params iters

@@ -52,14 +52,15 @@
 <meta property="og:title" content="Measure Class — Measure" />
 <meta property="og:description" content="This is the abstract base class for measures like MeasureClassif and MeasureRegr.
 Measures are classes around tailored around two functions:
-A function score which quantifies the performance by comparing true and predicted response.
-A function aggregator which combines multiple performance scores returned by
+A function $score() which quantifies the performance by comparing true and predicted response.
+A function $aggregator() which combines multiple performance scores returned by
 calculate to a single numeric value.
 
 
 In addition to these two functions, meta-information about the performance measure is stored.
-Predefined measures are stored in the mlr3misc::Dictionary mlr_measures,
+Predefined measures are stored in the dictionary mlr_measures,
 e.g. classif.auc or time_train.
+Many of the measures in mlr3 are implemented in mlr3measures as ordinary functions.
 A guide on how to extend mlr3 with custom measures can be found in the mlr3book." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -92,14 +93,14 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7</small></a>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
     <span class="fa fa fa fa-file-alt"></span>
@@ -117,8 +118,6 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
     mlr3book
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -145,7 +144,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+      <form class="navbar-form navbar-right docsearch" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -170,120 +169,248 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
     <div class="ref-description">
     <p>This is the abstract base class for measures like <a href='MeasureClassif.html'>MeasureClassif</a> and <a href='MeasureRegr.html'>MeasureRegr</a>.</p>
 <p>Measures are classes around tailored around two functions:</p><ol>
-<li><p>A function <code>score</code> which quantifies the performance by comparing true and predicted response.</p></li>
-<li><p>A function <code>aggregator</code> which combines multiple performance scores returned by
+<li><p>A function <code>$score()</code> which quantifies the performance by comparing true and predicted response.</p></li>
+<li><p>A function <code>$aggregator()</code> which combines multiple performance scores returned by
 <code>calculate</code> to a single numeric value.</p></li>
 </ol>
 
 <p>In addition to these two functions, meta-information about the performance measure is stored.</p>
-<p>Predefined measures are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>,
+<p>Predefined measures are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>,
 e.g. <code><a href='mlr_measures_classif.auc.html'>classif.auc</a></code> or <code><a href='mlr_measures_elapsed_time.html'>time_train</a></code>.
-A guide on how to extend <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> with custom measures can be found in the <a href='https://mlr3book.mlr-org.com'>mlr3book</a>.</p>
+Many of the measures in <span class="pkg">mlr3</span> are implemented in <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a> as ordinary functions.</p>
+<p>A guide on how to extend <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a> with custom measures can be found in the <a href='https://mlr3book.mlr-org.com'>mlr3book</a>.</p>
     </div>
 
 
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> object.</p>
-    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
-
-    
-
-<p>Note: This object is typically constructed via a derived classes, e.g. <a href='MeasureClassif.html'>MeasureClassif</a> or <a href='MeasureRegr.html'>MeasureRegr</a>.</p><pre>m = Measure$new(id, task_type = NA, range = c(-Inf, Inf), minimize = NA, average = "macro",
-    aggregator = NULL, properties = character(), predict_type = "response", predict_sets = "test",
-    task_properties = character(), packages = character(), man = NA_character_)
-</pre>
-<ul>
-<li><p><code>id</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Identifier for the measure.</p></li>
-<li><p><code>task_type</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Type of the task the measure can operator on. E.g., <code>"classif"</code> or <code>"regr"</code>.</p></li>
-<li><p><code>range</code> :: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code><br />
-Feasible range for this measure as <code><a href='https://rdrr.io/r/base/c.html'>c(lower_bound, upper_bound)</a></code>.
-Both bounds may be infinite.</p></li>
-<li><p><code>minimize</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-Set to <code>TRUE</code> if good predictions correspond to small values,
-and to <code>FALSE</code> if good predictions correspond to large values.
-If set to <code>NA</code> (default), tuning this measure is not possible.</p></li>
-<li><p><code>average</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-How to average multiple <a href='Prediction.html'>Prediction</a>s from a <a href='ResampleResult.html'>ResampleResult</a>.</p>
-<p>The default, <code>"macro"</code>, calculates the individual performances scores for each <a href='Prediction.html'>Prediction</a> and then uses the
-function defined in <code>aggregator</code> to average them to a single number.</p>
-<p>If set to <code>"micro"</code>, the individual <a href='Prediction.html'>Prediction</a> objects are first combined into a single new <a href='Prediction.html'>Prediction</a> object which is then used to assess the performance.
-The function <code>aggregator</code> is not used in this case.</p></li>
-<li><p><code>aggregator</code> :: <code>function(x)</code><br />
-Function to aggregate individual performance scores <code>x</code> where <code>x</code> is a numeric vector.
-If <code>NULL</code>, defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code>.</p></li>
-<li><p><code>properties</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Properties of the measure.
-Must be a subset of <a href='mlr_reflections.html'>mlr_reflections$measure_properties</a>.
-Supported by <code>mlr3</code>:</p><ul>
-<li><p><code>"requires_task"</code> (requires the complete <a href='Task.html'>Task</a>),</p></li>
-<li><p><code>"requires_learner"</code> (requires the trained <a href='Learner.html'>Learner</a>),</p></li>
-<li><p><code>"requires_train_set"</code> (requires the training indices from the <a href='Resampling.html'>Resampling</a>), and</p></li>
-<li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code>).</p></li>
-</ul></li>
-<li><p><code>predict_type</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Required predict type of the <a href='Learner.html'>Learner</a>.
-Possible values are stored in <a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a>.</p></li>
-<li><p><code>predict_sets</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Prediction sets to operate on, used in <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href='ResampleResult.html'>ResampleResult</a>.
-Multiple predict sets are calculated by the respective <a href='Learner.html'>Learner</a> during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.
-Must be a non-empty subset of <code><a href='https://rdrr.io/r/base/c.html'>c("train", "test")</a></code>.
-If multiple sets are provided, these are first combined to a single prediction object.
-Default is <code>"test"</code>.</p></li>
-<li><p><code>task_properties</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Required task properties, see <a href='Task.html'>Task</a>.</p></li>
-<li><p><code>packages</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
-Set of required packages.
-Note that these packages will be loaded via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code>, and are not attached.</p></li>
-<li><p><code>man</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
-
-    
-
-<p>All variables passed to the constructor.</p>
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<ul>
-<li><p><code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate(rr)</a></code><br />
-<a href='ResampleResult.html'>ResampleResult</a> -&gt; <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code><br />
-Aggregates multiple performance scores into a single score using the <code>aggregator</code> function of the measure.
-Operates on the <a href='Prediction.html'>Prediction</a>s of <a href='ResampleResult.html'>ResampleResult</a> with matching <code>predict_sets</code>.</p></li>
-<li><p><code>score(prediction, task = NULL, learner = NULL, train_set = NULL)</code><br />
-((named list of) <a href='Prediction.html'>Prediction</a>, <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>) -&gt; <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code><br />
-Takes a <a href='Prediction.html'>Prediction</a> (or a list of <a href='Prediction.html'>Prediction</a> objects named with valid <code>predict_sets</code>)
-and calculates a numeric score.
-If the measure if flagged with the properties <code>"requires_task"</code>, <code>"requires_learner"</code> or <code>"requires_train_set"</code>, you must additionally
-pass the respective <a href='Task.html'>Task</a>, the trained <a href='Learner.html'>Learner</a> or the training set indices.
-This is handled internally during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.</p></li>
-<li><p><code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code><br />
-() -&gt; <code>NULL</code><br />
-Opens the corresponding help page referenced by <code>$man</code>.</p></li>
-</ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other Measure: 
 <code><a href='MeasureClassif.html'>MeasureClassif</a></code>,
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
+<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
+<code><a href='mlr_measures_debug.html'>mlr_measures_debug</a></code>,
+<code><a href='mlr_measures_elapsed_time.html'>mlr_measures_elapsed_time</a></code>,
+<code><a href='mlr_measures_oob_error.html'>mlr_measures_oob_error</a></code>,
+<code><a href='mlr_measures_selected_features.html'>mlr_measures_selected_features</a></code>,
 <code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl class='dl-horizontal'>
+<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Identifier of the object.
+Used in tables, plot and text output.</p></dd>
+
+<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Task type, e.g. <code>"classif"</code> or <code>"regr"</code>.For a complete list of possible task types (depending on the loaded packages),
+see <code><a href='mlr_reflections.html'>mlr_reflections$task_types$type</a></code>.</p></dd>
+
+<dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Required predict type of the <a href='Learner.html'>Learner</a>.</p></dd>
+
+<dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+During <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>, a <a href='Learner.html'>Learner</a> can predict on multiple sets.
+Per default, a learner only predicts observations in the test set (<code>predict_sets == "test"</code>).
+To change this behaviour, set <code>predict_sets</code> to a non-empty subset of <code>{"train", "test"}</code>.
+Each set yields a separate <a href='Prediction.html'>Prediction</a> object.
+Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a>/<a href='BenchmarkResult.html'>BenchmarkResult</a>, or Measures can be altered
+to operate on specific subsets of the calculated prediction sets.</p></dd>
+
+<dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Method for aggregation.
+Either <code>"micro"</code> or <code>"macro"</code>.</p></dd>
+
+<dt><code>aggregator</code></dt><dd><p>(<code>function()</code>)<br />
+Function to aggregate individual scores.</p></dd>
+
+<dt><code>task_properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Required properties of the <a href='Task.html'>Task</a>.</p></dd>
+
+<dt><code>range</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
+Lower and upper bound of possible performance scores.</p></dd>
+
+<dt><code>properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Properties of this measure.</p></dd>
+
+<dt><code>minimize</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, good predictions correspond to small values of performance scores.</p></dd>
+
+<dt><code>packages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Set of required packages.
+These packages are loaded, but not attached.</p></dd>
+
+<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
+
+    <p><div class="r6-active-bindings"></p><dl class='dl-horizontal'>
+<dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Hash (unique identifier) for this object.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>Measure$new()</code></a></p></li>
+<li><p><a href='#method-format'><code>Measure$format()</code></a></p></li>
+<li><p><a href='#method-print'><code>Measure$print()</code></a></p></li>
+<li><p><a href='#method-help'><code>Measure$help()</code></a></p></li>
+<li><p><a href='#method-score'><code>Measure$score()</code></a></p></li>
+<li><p><a href='#method-aggregate'><code>Measure$aggregate()</code></a></p></li>
+</ul>
+<p><hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p>
+<p>Note that this object is typically constructed via a derived classes, e.g. <a href='MeasureClassif.html'>MeasureClassif</a> or <a href='MeasureRegr.html'>MeasureRegr</a>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Measure$new(
+  id,
+  task_type = NA,
+  range = c(-Inf, Inf),
+  minimize = NA,
+  average = "macro",
+  aggregator = NULL,
+  properties = character(),
+  predict_type = "response",
+  predict_sets = "test",
+  task_properties = character(),
+  packages = character(),
+  man = NA_character_
+)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Identifier for the new instance.</p></dd>
+
+<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Type of task, e.g. <code>"regr"</code> or <code>"classif"</code>.
+Must be an element of <a href='mlr_reflections.html'>mlr_reflections$task_types$type</a>.</p></dd>
+
+<dt><code>range</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
+Feasible range for this measure as <code><a href='https://rdrr.io/r/base/c.html'>c(lower_bound, upper_bound)</a></code>.
+Both bounds may be infinite.</p></dd>
+
+<dt><code>minimize</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Set to <code>TRUE</code> if good predictions correspond to small values,
+and to <code>FALSE</code> if good predictions correspond to large values.
+If set to <code>NA</code> (default), tuning this measure is not possible.</p></dd>
+
+<dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+How to average multiple <a href='Prediction.html'>Prediction</a>s from a <a href='ResampleResult.html'>ResampleResult</a>.The default, <code>"macro"</code>, calculates the individual performances scores for each <a href='Prediction.html'>Prediction</a> and then uses the
+function defined in <code>$aggregator</code> to average them to a single number.If set to <code>"micro"</code>, the individual <a href='Prediction.html'>Prediction</a> objects are first combined into a single new <a href='Prediction.html'>Prediction</a> object which is then used to assess the performance.
+The function in <code>$aggregator</code> is not used in this case.</p></dd>
+
+<dt><code>aggregator</code></dt><dd><p>(<code>function(x)</code>)<br />
+Function to aggregate individual performance scores <code>x</code> where <code>x</code> is a numeric vector.
+If <code>NULL</code>, defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code>.</p></dd>
+
+<dt><code>properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Properties of the measure.
+Must be a subset of <a href='mlr_reflections.html'>mlr_reflections$measure_properties</a>.
+Supported by <code>mlr3</code>:
+<ul>
+<li><p><code>"requires_task"</code> (requires the complete <a href='Task.html'>Task</a>),</p></li>
+<li><p><code>"requires_learner"</code> (requires the trained <a href='Learner.html'>Learner</a>),</p></li>
+<li><p><code>"requires_train_set"</code> (requires the training indices from the <a href='Resampling.html'>Resampling</a>), and</p></li>
+<li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
+</ul></p></dd>
+
+<dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Required predict type of the <a href='Learner.html'>Learner</a>.
+Possible values are stored in <a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a>.</p></dd>
+
+<dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Prediction sets to operate on, used in <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href='ResampleResult.html'>ResampleResult</a>.
+Multiple predict sets are calculated by the respective <a href='Learner.html'>Learner</a> during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.
+Must be a non-empty subset of <code>{"train", "test"}</code>.
+If multiple sets are provided, these are first combined to a single prediction object.
+Default is <code>"test"</code>.</p></dd>
+
+<dt><code>task_properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Required task properties, see <a href='Task.html'>Task</a>.</p></dd>
+
+<dt><code>packages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code>.</p></dd>
+
+<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+The referenced help package can be opened via method <code>$help()</code>.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
+<p>Helper for print outputs.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Measure$format()</pre><p></div></p>
+
+<p><hr>
+<a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+<p>Printer.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Measure$print()</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>...</code></dt><dd><p>(ignored).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-help"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code></h3>
+<p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Measure$help()</pre><p></div></p>
+
+<p><hr>
+<a id="method-score"></a></p><h3>Method <code>score()</code></h3>
+<p>Takes a <a href='Prediction.html'>Prediction</a> (or a list of <a href='Prediction.html'>Prediction</a> objects named with valid <code>predict_sets</code>)
+and calculates a numeric score.
+If the measure if flagged with the properties <code>"requires_task"</code>, <code>"requires_learner"</code> or <code>"requires_train_set"</code>, you must additionally
+pass the respective <a href='Task.html'>Task</a>, the trained <a href='Learner.html'>Learner</a> or the training set indices.
+This is handled internally during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Measure$score(prediction, task = NULL, learner = NULL, train_set = NULL)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>prediction</code></dt><dd><p>(<a href='Prediction.html'>Prediction</a> | named list of <a href='Prediction.html'>Prediction</a>).</p></dd>
+
+<dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
+
+<dt><code>learner</code></dt><dd><p>(<a href='Learner.html'>Learner</a>).</p></dd>
+
+<dt><code>train_set</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>).</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>.</p>
+<p><hr>
+<a id="method-aggregate"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code></h3>
+<p>Aggregates multiple performance scores into a single score using the <code>aggregator</code> function of the measure.
+Operates on the <a href='Prediction.html'>Prediction</a>s of <a href='ResampleResult.html'>ResampleResult</a> with matching <code>predict_sets</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Measure$aggregate(rr)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>rr</code></dt><dd><p><a href='ResampleResult.html'>ResampleResult</a>.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>.</p>
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#construction">Construction</a></li>
-      <li><a href="#fields">Fields</a></li>
-      <li><a href="#methods">Methods</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#public-fields">Public fields</a></li>
+      <li><a href="#active-bindings">Active bindings</a></li>
+      <li><a href="#methods">Methods</a></li>
     </ul>
 
   </div>

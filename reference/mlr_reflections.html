@@ -55,35 +55,35 @@
 This environment be modified by third-party packages, e.g. by adding information about new task types
 or by extending the set of allowed feature types.
 The following objects are set by mlr3:
-data_formats :: character()
+data_formats (character())
 Vectors of supported data formats, e.g. &quot;data.table&quot; or &quot;Matrix&quot;.
-task_types :: data.table()
+task_types (data.table())
 Table with task type (&quot;type&quot;), the implementing package (&quot;pkg&quot;), and the names of the generators
 of the corresponding Task (&quot;task&quot;), Learner (&quot;learner&quot;),
 Prediction (&quot;prediction&quot;) and Measure (&quot;measure&quot;).
-task_feature_types :: named character()
+task_feature_types (named character())
 Vector of base R types supported as Task features, named with a 3 letter abbreviation.
-task_row_roles :: character()
+task_row_roles (character())
 Vector of supported row roles for a Task.
-task_col_roles :: list of character()
+task_col_roles (list of character())
 List of vectors of supported column roles for a Task, named by their task type.
-task_properties :: list of character()
+task_properties (list of character())
 List of vectors of supported Task properties, named by their task type.
-learner_properties :: list of character()
+learner_properties (list of character())
 List of vectors of supported Learner properties, named by their task type.
-learner_predict_types :: list of list of character()
+learner_predict_types (list of list of character())
 List of lists of supported Learner predict_types, named by their task type.
 The inner list translates the &quot;predict_type&quot; to all predict types returned, e.g.
 predict type &quot;prob&quot; for a LearnerClassif provides the probabilities as well as the predicted labels, therefore &quot;prob&quot; maps to c(&quot;response&quot;, &quot;prob&quot;).
-learner_predict_types :: list of list of character()
+learner_predict_types (list of list of character())
 List of lists of supported Learner predict_types, named by their task type.
-predict_sets :: character()
+predict_sets (character())
 Vector of possible predict sets. Currently supported are &quot;train&quot; and &quot;test&quot;.
-measure_properties :: list of character()
+measure_properties (list of character())
 List of vectors of supported Measure properties, named by their task type.
-default_measures :: list of character()
+default_measures (list of character())
 List of keys for the default Measures, named by their task type.
-rr_names :: character()
+rr_names (character())
 Names of the objects stored in a ResampleResult.
 
 " />
@@ -118,14 +118,14 @@ Names of the objects stored in a ResampleResult.
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7</small></a>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
     <span class="fa fa fa fa-file-alt"></span>
@@ -143,8 +143,6 @@ Names of the objects stored in a ResampleResult.
     mlr3book
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -171,7 +169,7 @@ Names of the objects stored in a ResampleResult.
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+      <form class="navbar-form navbar-right docsearch" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -199,35 +197,35 @@ Names of the objects stored in a ResampleResult.
 <p>This environment be modified by third-party packages, e.g. by adding information about new task types
 or by extending the set of allowed feature types.</p>
 <p>The following objects are set by <a href='https://CRAN.R-project.org/package=mlr3'><span class="pkg">mlr3</span></a>:</p><ul>
-<li><p><code>data_formats</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>data_formats</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Vectors of supported data formats, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></li>
-<li><p><code>task_types</code> :: <code>data.table()</code><br />
+<li><p><code>task_types</code> (<code>data.table()</code>)<br />
 Table with task type (<code>"type"</code>), the implementing package (<code>"pkg"</code>), and the names of the generators
 of the corresponding <a href='Task.html'>Task</a> (<code>"task"</code>), <a href='Learner.html'>Learner</a> (<code>"learner"</code>),
 <a href='Prediction.html'>Prediction</a> (<code>"prediction"</code>) and <a href='Measure.html'>Measure</a> (<code>"measure"</code>).</p></li>
-<li><p><code>task_feature_types</code> :: named <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>task_feature_types</code> (named <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Vector of base R types supported as <a href='Task.html'>Task</a> features, named with a 3 letter abbreviation.</p></li>
-<li><p><code>task_row_roles</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>task_row_roles</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Vector of supported row roles for a <a href='Task.html'>Task</a>.</p></li>
-<li><p><code>task_col_roles</code> :: list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>task_col_roles</code> (list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 List of vectors of supported column roles for a <a href='Task.html'>Task</a>, named by their task type.</p></li>
-<li><p><code>task_properties</code> :: list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>task_properties</code> (list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 List of vectors of supported <a href='Task.html'>Task</a> properties, named by their task type.</p></li>
-<li><p><code>learner_properties</code> :: list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>learner_properties</code> (list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 List of vectors of supported <a href='Learner.html'>Learner</a> properties, named by their task type.</p></li>
-<li><p><code>learner_predict_types</code> :: list of list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>learner_predict_types</code> (list of list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 List of lists of supported <a href='Learner.html'>Learner</a> predict_types, named by their task type.
 The inner list translates the <code>"predict_type"</code> to all predict types returned, e.g.
 predict type <code>"prob"</code> for a <a href='LearnerClassif.html'>LearnerClassif</a> provides the probabilities as well as the predicted labels, therefore <code>"prob"</code> maps to <code><a href='https://rdrr.io/r/base/c.html'>c("response", "prob")</a></code>.</p></li>
-<li><p><code>learner_predict_types</code> :: list of list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>learner_predict_types</code> (list of list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 List of lists of supported <a href='Learner.html'>Learner</a> predict_types, named by their task type.</p></li>
-<li><p><code>predict_sets</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>predict_sets</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Vector of possible predict sets. Currently supported are <code>"train"</code> and <code>"test"</code>.</p></li>
-<li><p><code>measure_properties</code> :: list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>measure_properties</code> (list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 List of vectors of supported <a href='Measure.html'>Measure</a> properties, named by their task type.</p></li>
-<li><p><code>default_measures</code> :: list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>default_measures</code> (list of <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 List of keys for the default <a href='Measure.html'>Measure</a>s, named by their task type.</p></li>
-<li><p><code>rr_names</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+<li><p><code>rr_names</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Names of the objects stored in a <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
 </ul>
 

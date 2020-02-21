@@ -50,8 +50,12 @@
 
 
 <meta property="og:title" content="Classification Measure — MeasureClassif" />
-<meta property="og:description" content="This measure specializes Measure for classification problems.
-Predefined measures can be found in the mlr3misc::Dictionary mlr_measures." />
+<meta property="og:description" content="This measure specializes Measure for classification problems:
+task_type is set to &quot;classif&quot;.
+Possible values for predict_type are &quot;response&quot; and &quot;prob&quot;.
+
+
+Predefined measures can be found in the dictionary mlr_measures." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -83,14 +87,14 @@ Predefined measures can be found in the mlr3misc::Dictionary mlr_measures." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7</small></a>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
     <span class="fa fa fa fa-file-alt"></span>
@@ -108,8 +112,6 @@ Predefined measures can be found in the mlr3misc::Dictionary mlr_measures." />
     mlr3book
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -136,7 +138,7 @@ Predefined measures can be found in the mlr3misc::Dictionary mlr_measures." />
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+      <form class="navbar-form navbar-right docsearch" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -159,52 +161,134 @@ Predefined measures can be found in the mlr3misc::Dictionary mlr_measures." />
     </div>
 
     <div class="ref-description">
-    <p>This measure specializes <a href='Measure.html'>Measure</a> for classification problems.
-Predefined measures can be found in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>.</p>
+    <p>This measure specializes <a href='Measure.html'>Measure</a> for classification problems:</p><ul>
+<li><p><code>task_type</code> is set to <code>"classif"</code>.</p></li>
+<li><p>Possible values for <code>predict_type</code> are <code>"response"</code> and <code>"prob"</code>.</p></li>
+</ul>
+
+<p>Predefined measures can be found in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a>.</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> object inheriting from <a href='Measure.html'>Measure</a>.</p>
-    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
-
-    
-<pre>m = MeasureClassif$new(id, range, minimize = NA, average = "macro", aggregator = NULL, properties = character(), predict_type = "response",
-    predict_sets = "test", task_properties = character(), packages = character(), man = NA_character_)
-</pre>
-
-<p>For a description of the arguments, see <a href='Measure.html'>Measure</a>.
-The <code>task_type</code> is set to <code>"classif"</code>.
-Possible values for <code>predict_type</code> are <code>"response"</code> and <code>"prob"</code>.</p>
-    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
-
-    
-
-<p>See <a href='Measure.html'>Measure</a>.</p>
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<p>See <a href='Measure.html'>Measure</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Example classification measures: <code><a href='mlr_measures_classif.ce.html'>classif.ce</a></code></p>
+    <div class='dont-index'><p>Default classification measures: <code><a href='mlr_measures_classif.ce.html'>classif.ce</a></code></p>
 <p>Other Measure: 
 <code><a href='MeasureRegr.html'>MeasureRegr</a></code>,
 <code><a href='Measure.html'>Measure</a></code>,
+<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
+<code><a href='mlr_measures_debug.html'>mlr_measures_debug</a></code>,
+<code><a href='mlr_measures_elapsed_time.html'>mlr_measures_elapsed_time</a></code>,
+<code><a href='mlr_measures_oob_error.html'>mlr_measures_oob_error</a></code>,
+<code><a href='mlr_measures_selected_features.html'>mlr_measures_selected_features</a></code>,
 <code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+
+    <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureClassif</code></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>MeasureClassif$new()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-format'><code>mlr3::Measure$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-help'><code>mlr3::Measure$help()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-print'><code>mlr3::Measure$print()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-score'><code>mlr3::Measure$score()</code></a></span></p></li>
+</ul>
+</details>
+
+<hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>MeasureClassif$new(
+  id,
+  range,
+  minimize = NA,
+  average = "macro",
+  aggregator = NULL,
+  properties = character(),
+  predict_type = "response",
+  predict_sets = "test",
+  task_properties = character(),
+  packages = character(),
+  man = NA_character_
+)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Identifier for the new instance.</p></dd>
+
+<dt><code>range</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code>)<br />
+Feasible range for this measure as <code><a href='https://rdrr.io/r/base/c.html'>c(lower_bound, upper_bound)</a></code>.
+Both bounds may be infinite.</p></dd>
+
+<dt><code>minimize</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Set to <code>TRUE</code> if good predictions correspond to small values,
+and to <code>FALSE</code> if good predictions correspond to large values.
+If set to <code>NA</code> (default), tuning this measure is not possible.</p></dd>
+
+<dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+How to average multiple <a href='Prediction.html'>Prediction</a>s from a <a href='ResampleResult.html'>ResampleResult</a>.The default, <code>"macro"</code>, calculates the individual performances scores for each <a href='Prediction.html'>Prediction</a> and then uses the
+function defined in <code>$aggregator</code> to average them to a single number.If set to <code>"micro"</code>, the individual <a href='Prediction.html'>Prediction</a> objects are first combined into a single new <a href='Prediction.html'>Prediction</a> object which is then used to assess the performance.
+The function in <code>$aggregator</code> is not used in this case.</p></dd>
+
+<dt><code>aggregator</code></dt><dd><p>(<code>function(x)</code>)<br />
+Function to aggregate individual performance scores <code>x</code> where <code>x</code> is a numeric vector.
+If <code>NULL</code>, defaults to <code><a href='https://rdrr.io/r/base/mean.html'>mean()</a></code>.</p></dd>
+
+<dt><code>properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Properties of the measure.
+Must be a subset of <a href='mlr_reflections.html'>mlr_reflections$measure_properties</a>.
+Supported by <code>mlr3</code>:
+<ul>
+<li><p><code>"requires_task"</code> (requires the complete <a href='Task.html'>Task</a>),</p></li>
+<li><p><code>"requires_learner"</code> (requires the trained <a href='Learner.html'>Learner</a>),</p></li>
+<li><p><code>"requires_train_set"</code> (requires the training indices from the <a href='Resampling.html'>Resampling</a>), and</p></li>
+<li><p><code>"na_score"</code> (the measure is expected to occasionally return <code>NA</code> or <code>NaN</code>).</p></li>
+</ul></p></dd>
+
+<dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Required predict type of the <a href='Learner.html'>Learner</a>.
+Possible values are stored in <a href='mlr_reflections.html'>mlr_reflections$learner_predict_types</a>.</p></dd>
+
+<dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Prediction sets to operate on, used in <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code> to extract the matching <code>predict_sets</code> from the <a href='ResampleResult.html'>ResampleResult</a>.
+Multiple predict sets are calculated by the respective <a href='Learner.html'>Learner</a> during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.
+Must be a non-empty subset of <code>{"train", "test"}</code>.
+If multiple sets are provided, these are first combined to a single prediction object.
+Default is <code>"test"</code>.</p></dd>
+
+<dt><code>task_properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Required task properties, see <a href='Task.html'>Task</a>.</p></dd>
+
+<dt><code>packages</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via <code><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace()</a></code>.</p></dd>
+
+<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+The referenced help package can be opened via method <code>$help()</code>.</p></dd>
+
+</dl><p></div></p>
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#construction">Construction</a></li>
-      <li><a href="#fields">Fields</a></li>
-      <li><a href="#methods">Methods</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#super-class">Super class</a></li>
+      <li><a href="#methods">Methods</a></li>
     </ul>
 
   </div>

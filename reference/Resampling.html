@@ -55,7 +55,7 @@ The objects of this class define how a task is partitioned for resampling (e.g.,
 using a set of hyperparameters such as the number of folds in cross-validation.
 Resampling objects can be instantiated on a Task, which applies the strategy on the task and manifests in a
 fixed partition of row_ids of the Task.
-Predefined resamplings are stored in the mlr3misc::Dictionary mlr_resamplings,
+Predefined resamplings are stored in the dictionary mlr_resamplings,
 e.g. cv or bootstrap." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -88,14 +88,14 @@ e.g. cv or bootstrap." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7</small></a>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
     <span class="fa fa fa fa-file-alt"></span>
@@ -113,8 +113,6 @@ e.g. cv or bootstrap." />
     mlr3book
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -141,7 +139,7 @@ e.g. cv or bootstrap." />
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+      <form class="navbar-form navbar-right docsearch" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -169,72 +167,11 @@ e.g. cv or bootstrap." />
 using a set of hyperparameters such as the number of folds in cross-validation.</p>
 <p>Resampling objects can be instantiated on a <a href='Task.html'>Task</a>, which applies the strategy on the task and manifests in a
 fixed partition of <code>row_ids</code> of the <a href='Task.html'>Task</a>.</p>
-<p>Predefined resamplings are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a>,
+<p>Predefined resamplings are stored in the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a>,
 e.g. <code><a href='mlr_resamplings_cv.html'>cv</a></code> or <code><a href='mlr_resamplings_bootstrap.html'>bootstrap</a></code>.</p>
     </div>
 
 
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> object.</p>
-    <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
-
-    
-
-<p>Note: This object is typically constructed via a derived classes, e.g. <a href='mlr_resamplings_cv.html'>ResamplingCV</a> or <a href='mlr_resamplings_holdout.html'>ResamplingHoldout</a>.</p><pre>r = Resampling$new(id, param_set, duplicated_ids = FALSE, man = NA_character_)
-</pre>
-<ul>
-<li><p><code>id</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Identifier for the resampling strategy.</p></li>
-<li><p><code>param_set</code> :: <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a><br />
-Set of hyperparameters.</p></li>
-<li><p><code>duplicated_ids</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-Set to <code>TRUE</code> if this resampling strategy may have duplicated row ids in a single training set or test set.</p></li>
-<li><p><code>man</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
-
-    
-
-<p>All variables passed to the constructor, and additionally:</p><ul>
-<li><p><code>iters</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
-Return the number of resampling iterations, depending on the values stored in the <code>param_set</code>.</p></li>
-<li><p><code>instance</code> :: <code>any</code><br />
-During <code>instantiate()</code>, the instance is stored in this slot.
-The instance can be in any arbitrary format.</p></li>
-<li><p><code>is_instantiated</code> :: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-Is <code>TRUE</code>, if the resampling has been instantiated.</p></li>
-<li><p><code>task_hash</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-The hash of the <a href='Task.html'>Task</a> which was passed to <code>r$instantiate()</code>.</p></li>
-<li><p><code>task_nrow</code> :: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
-The number of observations of the <a href='Task.html'>Task</a> which was passed to <code>r$instantiate()</code>.</p></li>
-<li><p><code>hash</code> :: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Hash (unique identifier) for this object.</p>
-<p>E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross validation.
-Only used internally.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<ul>
-<li><p><code>instantiate(task)</code><br />
-<a href='Task.html'>Task</a> -&gt; <code>self</code><br />
-Materializes fixed training and test splits for a given task and stores them in <code>r$instance</code>.</p></li>
-<li><p><code>train_set(i)</code><br />
-<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code> -&gt; (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Returns the row ids of the i-th training set.</p></li>
-<li><p><code>test_set(i)</code><br />
-<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code> -&gt; (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Returns the row ids of the i-th test set.</p></li>
-<li><p><code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code><br />
-() -&gt; <code>NULL</code><br />
-Opens the corresponding help page referenced by <code>$man</code>.</p></li>
-</ul>
 
     <h2 class="hasAnchor" id="stratification"><a class="anchor" href="#stratification"></a>Stratification</h2>
 
@@ -265,7 +202,175 @@ The sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</
     <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of Resamplings: <a href='mlr_resamplings.html'>mlr_resamplings</a></p>
 <p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) Resampling implementations.</p>
 <p>Other Resampling: 
+<code><a href='mlr_resamplings_bootstrap.html'>mlr_resamplings_bootstrap</a></code>,
+<code><a href='mlr_resamplings_custom.html'>mlr_resamplings_custom</a></code>,
+<code><a href='mlr_resamplings_cv.html'>mlr_resamplings_cv</a></code>,
+<code><a href='mlr_resamplings_holdout.html'>mlr_resamplings_holdout</a></code>,
+<code><a href='mlr_resamplings_repeated_cv.html'>mlr_resamplings_repeated_cv</a></code>,
+<code><a href='mlr_resamplings_subsampling.html'>mlr_resamplings_subsampling</a></code>,
+<code><a href='mlr_resamplings.html'>mlr_resamplings</a></code></p>
+<p>Other Resampling: 
+<code><a href='mlr_resamplings_bootstrap.html'>mlr_resamplings_bootstrap</a></code>,
+<code><a href='mlr_resamplings_custom.html'>mlr_resamplings_custom</a></code>,
+<code><a href='mlr_resamplings_cv.html'>mlr_resamplings_cv</a></code>,
+<code><a href='mlr_resamplings_holdout.html'>mlr_resamplings_holdout</a></code>,
+<code><a href='mlr_resamplings_repeated_cv.html'>mlr_resamplings_repeated_cv</a></code>,
+<code><a href='mlr_resamplings_subsampling.html'>mlr_resamplings_subsampling</a></code>,
 <code><a href='mlr_resamplings.html'>mlr_resamplings</a></code></p></div>
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl class='dl-horizontal'>
+<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Identifier of the object.
+Used in tables, plot and text output.</p></dd>
+
+<dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
+Set of hyperparameters.</p></dd>
+
+<dt><code>instance</code></dt><dd><p>(<code>any</code>)<br />
+During <code>instantiate()</code>, the instance is stored in this slot in an arbitrary format.</p></dd>
+
+<dt><code>task_hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+The hash of the <a href='Task.html'>Task</a> which was passed to <code>r$instantiate()</code>.</p></dd>
+
+<dt><code>task_nrow</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+The number of observations of the <a href='Task.html'>Task</a> which was passed to <code>r$instantiate()</code>.</p></dd>
+
+<dt><code>duplicated_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, duplicated rows can occur within a single training set or within a single test set.
+E.g., this is <code>TRUE</code> for Bootstrap, and <code>FALSE</code> for cross validation.
+Only used internally.</p></dd>
+
+<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
+
+    <p><div class="r6-active-bindings"></p><dl class='dl-horizontal'>
+<dt><code>is_instantiated</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Is <code>TRUE</code> if the resampling has been instantiated.</p></dd>
+
+<dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Hash (unique identifier) for this object.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>Resampling$new()</code></a></p></li>
+<li><p><a href='#method-format'><code>Resampling$format()</code></a></p></li>
+<li><p><a href='#method-print'><code>Resampling$print()</code></a></p></li>
+<li><p><a href='#method-help'><code>Resampling$help()</code></a></p></li>
+<li><p><a href='#method-instantiate'><code>Resampling$instantiate()</code></a></p></li>
+<li><p><a href='#method-train_set'><code>Resampling$train_set()</code></a></p></li>
+<li><p><a href='#method-test_set'><code>Resampling$test_set()</code></a></p></li>
+<li><p><a href='#method-clone'><code>Resampling$clone()</code></a></p></li>
+</ul>
+<p><hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Resampling$new(
+  id,
+  param_set = ParamSet$new(),
+  duplicated_ids = FALSE,
+  man = NA_character_
+)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Identifier for the new instance.</p></dd>
+
+<dt><code>param_set</code></dt><dd><p>(<a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>)<br />
+Set of hyperparameters.</p></dd>
+
+<dt><code>duplicated_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+Set to <code>TRUE</code> if this resampling strategy may have duplicated row ids in a single training set or test set.Note that this object is typically constructed via a derived classes, e.g. <a href='mlr_resamplings_cv.html'>ResamplingCV</a> or <a href='mlr_resamplings_holdout.html'>ResamplingHoldout</a>.</p></dd>
+
+<dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
+The referenced help package can be opened via method <code>$help()</code>.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
+<p>Helper for print outputs.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Resampling$format()</pre><p></div></p>
+
+<p><hr>
+<a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+<p>Printer.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Resampling$print(...)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>...</code></dt><dd><p>(ignored).</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-help"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code></h3>
+<p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Resampling$help()</pre><p></div></p>
+
+<p><hr>
+<a id="method-instantiate"></a></p><h3>Method <code>instantiate()</code></h3>
+<p>Materializes fixed training and test splits for a given task and stores them in <code>r$instance</code>
+in an arbitrary format.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Resampling$instantiate(task)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>)<br />
+Task used for instantiation.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Returns the object itself, but modified <strong>by reference</strong>.
+You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
+the object in its previous state.</p>
+<p><hr>
+<a id="method-train_set"></a></p><h3>Method <code>train_set()</code></h3>
+<p>Returns the row ids of the i-th training set.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Resampling$train_set(i)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>i</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Iteration.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>) of row ids.</p>
+<p><hr>
+<a id="method-test_set"></a></p><h3>Method <code>test_set()</code></h3>
+<p>Returns the row ids of the i-th test set.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Resampling$test_set(i)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>i</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Iteration.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>) of row ids.</p>
+<p><hr>
+<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>Resampling$clone(deep = FALSE)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>r</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>)
@@ -291,17 +396,17 @@ The sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</
 
 <span class='co'># Extract train/test sets</span>
 <span class='no'>train_set</span> <span class='kw'>=</span> <span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1] 126  97 100 142  81 125  25  88 143 122  40 133  89 118 112</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>train_set</span>)</div><div class='output co'>#&gt;  [1]  25  88 149 122  40 133  89 118 112 119  13  94  83 103  77</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>train_set</span>, <span class='no'>r</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Another example: 10-fold CV</span>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>)$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]   3  34  38  48  49  80  83  97 110 112 116 122 128 133 141  24  26  28
-#&gt;  [19]  62  68  71  75  76  78  85  94 101 126 127 132  12  15  16  18  42  63
-#&gt;  [37]  66  79  82  95 105 119 123 138 143   5  30  33  55  73  74  92 102 104
-#&gt;  [55] 113 125 129 131 134 137   2   4  14  23  53  69  70  72  87  88 107 111
-#&gt;  [73] 135 145 148   9  10  21  32  35  36  40  52  58  64  65  90 106 121 136
-#&gt;  [91]  17  25  45  46  50  59  84  86  93  99 109 114 118 130 146   1   7  20
-#&gt; [109]  22  27  39  47  60  61  91  96 103 139 142 150  13  19  31  37  43  44
-#&gt; [127]  51  54  57  77  81 140 144 147 149</div><div class='input'>
+<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]  11  24  40  41  61  62  73  75  76  82  91 109 119 131 142  18  19  64
+#&gt;  [19]  71  79  84  95 105 116 124 126 127 130 146 148   6   9  10  12  33  38
+#&gt;  [37]  55  59  87  89 115 123 134 136 144  23  47  52  56  66  80  86  96 100
+#&gt;  [55] 106 112 122 129 133 150   3   8  17  34  44  45  63  65  70 102 110 135
+#&gt;  [73] 138 139 145   4  15  25  26  31  50  57  58  85  94 101 111 114 125 128
+#&gt;  [91]  28  37  42  51  72  77  81  92 104 107 117 118 120 137 143   1  14  16
+#&gt; [109]  30  36  39  43  53  54  67  69  90  97 141 147   7  13  21  27  35  46
+#&gt; [127]  49  74  83 108 113 121 132 140 149</div><div class='input'>
 <span class='co'># Stratification</span>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"pima"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/prop.table.html'>prop.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>())) <span class='co'># moderately unbalanced</span></div><div class='output co'>#&gt; 
@@ -317,13 +422,12 @@ The sets can be accessed via <code>$train_set(i)</code> and <code>$test_set(i)</
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#construction">Construction</a></li>
-      <li><a href="#fields">Fields</a></li>
-      <li><a href="#methods">Methods</a></li>
       <li><a href="#stratification">Stratification</a></li>
       <li><a href="#grouping-blocking">Grouping / Blocking</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#public-fields">Public fields</a></li>
+      <li><a href="#active-bindings">Active bindings</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

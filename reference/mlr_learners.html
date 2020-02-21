@@ -53,8 +53,9 @@
 <meta property="og:description" content="A simple mlr3misc::Dictionary storing objects of class Learner.
 Each learner has an associated help page, see mlr_learners_[id].
 This dictionary can get populated with additional learners by add-on packages.
-For more classification and regression learners, load the mlr3learners package.
-For a more convenient way to retrieve and construct learners, see lrn()." />
+For more classification and regression learners, load the mlr3learners package
+and https://github.com/mlr3learners.
+For a more convenient way to retrieve and construct learners, see lrn()/lrns()." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -86,14 +87,14 @@ For a more convenient way to retrieve and construct learners, see lrn()." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">mlr3</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Version">0.1.6</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7</small></a>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../reference/index.html">
     <span class="fa fa fa fa-file-alt"></span>
@@ -111,8 +112,6 @@ For a more convenient way to retrieve and construct learners, see lrn()." />
     mlr3book
   </a>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mlr-org/mlr3">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -139,7 +138,7 @@ For a more convenient way to retrieve and construct learners, see lrn()." />
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+      <form class="navbar-form navbar-right docsearch" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -165,8 +164,9 @@ For a more convenient way to retrieve and construct learners, see lrn()." />
     <p>A simple <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> storing objects of class <a href='Learner.html'>Learner</a>.
 Each learner has an associated help page, see <code>mlr_learners_[id]</code>.</p>
 <p>This dictionary can get populated with additional learners by add-on packages.
-For more classification and regression learners, load the <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> package.</p>
-<p>For a more convenient way to retrieve and construct learners, see <code><a href='mlr_sugar.html'>lrn()</a></code>.</p>
+For more classification and regression learners, load the <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a> package
+and <a href='https://github.com/mlr3learners'>https://github.com/mlr3learners</a>.</p>
+<p>For a more convenient way to retrieve and construct learners, see <code><a href='mlr_sugar.html'>lrn()</a></code>/<code><a href='mlr_sugar.html'>lrns()</a></code>.</p>
     </div>
 
 
@@ -192,9 +192,7 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Example learners: <code><a href='mlr_learners_classif.rpart.html'>classif.rpart</a></code>, <code><a href='mlr_learners_regr.rpart.html'>regr.rpart</a></code>,
-<code><a href='mlr_learners_classif.featureless.html'>classif.featureless</a></code>, <code><a href='mlr_learners_regr.featureless.html'>regr.featureless</a></code>, <code><a href='mlr_learners_classif.debug.html'>classif.debug</a></code></p>
-<p>Sugar function: <code><a href='mlr_sugar.html'>lrn()</a></code></p>
+    <div class='dont-index'><p>Sugar functions: <code><a href='mlr_sugar.html'>lrn()</a></code>, <code><a href='mlr_sugar.html'>lrns()</a></code></p>
 <p>Extension Packages: <a href='https://CRAN.R-project.org/package=mlr3learners'><span class="pkg">mlr3learners</span></a></p>
 <p>Other Dictionary: 
 <code><a href='mlr_measures.html'>mlr_measures</a></code>,
@@ -204,7 +202,12 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 <p>Other Learner: 
 <code><a href='LearnerClassif.html'>LearnerClassif</a></code>,
 <code><a href='LearnerRegr.html'>LearnerRegr</a></code>,
-<code><a href='Learner.html'>Learner</a></code></p></div>
+<code><a href='Learner.html'>Learner</a></code>,
+<code><a href='mlr_learners_classif.debug.html'>mlr_learners_classif.debug</a></code>,
+<code><a href='mlr_learners_classif.featureless.html'>mlr_learners_classif.featureless</a></code>,
+<code><a href='mlr_learners_classif.rpart.html'>mlr_learners_classif.rpart</a></code>,
+<code><a href='mlr_learners_regr.featureless.html'>mlr_learners_regr.featureless</a></code>,
+<code><a href='mlr_learners_regr.rpart.html'>mlr_learners_regr.rpart</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_learners</span>)</div><div class='output co'>#&gt;                    key                                    feature_types
