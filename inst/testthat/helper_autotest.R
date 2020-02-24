@@ -180,16 +180,29 @@ sanity_check.PredictionRegr = function(prediction) {
 }
 registerS3method("sanity_check", "LearnerRegr", sanity_check.PredictionRegr)
 
-run_experiment = function(task, learner) {
+run_experiment = function(task, learner, seed = NULL) {
   err = function(info, ...) {
     info = sprintf(info, ...)
     list(
-      ok = FALSE,
+      ok = FALSE, seed = seed,
       task = task, learner = learner, prediction = prediction, score = score,
       error = sprintf("[%s] learner '%s' on task '%s' failed: %s",
         stage, learner$id, task$id, info)
     )
   }
+
+  if (is.null(seed)) {
+    seed = sample.int(floor(.Machine$integer.max / 2L), 1L)
+  }
+
+  old_seed = get0(".Random.seed", globalenv(), mode = "integer", inherits = FALSE)
+  if (is.null(old_seed)) {
+    runif(1L)
+    old_seed = get0(".Random.seed", globalenv(), mode = "integer", inherits = FALSE)
+  }
+  on.exit(assign(".Random.seed", old_seed, globalenv()), add = TRUE)
+
+  set.seed(seed)
 
   task = mlr3::assert_task(mlr3::as_task(task))
   learner = mlr3::assert_learner(mlr3::as_learner(learner, clone = TRUE))
@@ -250,37 +263,39 @@ run_experiment = function(task, learner) {
     return(err(msg))
 
   # run sanity check on sanity task
-  if (grepl("^sanity", task$id) && !sanity_check(prediction)) {
+  if (startsWith(task$id, "sanity") && !sanity_check(prediction)) {
     return(err("sanity check failed"))
   }
 
-  if (grepl("^feat_all", task$id) && "importance" %in% learner$properties) {
-    importance = learner$importance()
-    msg = checkmate::check_numeric(rev(importance), any.missing = FALSE, min.len = 1L, sorted = TRUE)
-    if (!isTRUE(msg))
-      return(err(msg))
-    msg = checkmate::check_names(names(importance), subset.of = task$feature_names)
-    if (!isTRUE(msg))
-      return(err("Names of returned importance scores do not match task names: %s", str_collapse(names(importance))))
-    if ("unimportant" %in% head(names(importance), 1L))
-      return(err("unimportant feature is important"))
+  if (startsWith(task$id, "feat_all")) {
+    if ("importance" %in% learner$properties) {
+      importance = learner$importance()
+      msg = checkmate::check_numeric(rev(importance), any.missing = FALSE, min.len = 1L, sorted = TRUE)
+      if (!isTRUE(msg))
+        return(err(msg))
+      msg = checkmate::check_names(names(importance), subset.of = task$feature_names)
+      if (!isTRUE(msg))
+        return(err("Names of returned importance scores do not match task names: %s", str_collapse(names(importance))))
+      if ("unimportant" %in% head(names(importance), 1L))
+        return(err("unimportant feature is important"))
+    }
+
+    if ("selected_features" %in% learner$properties) {
+      selected = learner$selected_features()
+      msg = checkmate::check_subset(selected, task$feature_names)
+      if (!isTRUE(msg))
+        return(err(msg))
+    }
+
+    if ("oob_error" %in% learner$properties) {
+      err = learner$oob_error()
+      msg = checkmate::check_number(err)
+      if (!isTRUE(msg))
+        return(err(msg))
+    }
   }
 
-  if (grepl("^feat_all", task$id) && "selected_features" %in% learner$properties) {
-    selected = learner$selected_features()
-    msg = checkmate::check_subset(selected, task$feature_names)
-    if (!isTRUE(msg))
-      return(err(msg))
-  }
-
-  if (grepl("^feat_all", task$id) && "oob_error" %in% learner$properties) {
-    err = learner$oob_error()
-    msg = checkmate::check_number(err)
-    if (!isTRUE(msg))
-      return(err(msg))
-  }
-
-  return(list(ok = TRUE, learner = learner, prediction = prediction, error = character()))
+  return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
 }
 
 run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types) {
@@ -294,9 +309,26 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
     for (predict_type in predict_types) {
       learner$id = sprintf("%s:%s", id, predict_type)
       learner$predict_type = predict_type
+
       run = run_experiment(task, learner)
-      if (!run$ok)
+      if (!run$ok) {
         return(run)
+      }
+
+      # re-run task with same seed for feat_all
+      if (startsWith(task$id, "feat_all")) {
+        repeated_run = run_experiment(task, learner, seed = run$seed)
+
+        if (!repeated_run$ok) {
+          return(repeated_run)
+        }
+
+        if (!all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction))) {
+          run$ok = FALSE
+          run$error = sprintf("Different results for replicated runs using fixed seed %i", seed)
+          return(run)
+        }
+      }
     }
   }
 
