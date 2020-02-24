@@ -135,7 +135,7 @@ from these objects.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
-Performance measures to calculate.}
+Measure(s) to calculate.}
 
 \item{\code{task}}{(\link{Task}).}
 

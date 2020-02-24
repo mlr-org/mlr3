@@ -198,7 +198,7 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
-Performance measures to calculate.}
+Measure(s) to calculate.}
 
 \item{\code{ids}}{(\code{logical(1)})\cr
 If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) are added to the returned table.
@@ -223,7 +223,7 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
-Performance measures to calculate.}
+Measure(s) to calculate.}
 }
 \if{html}{\out{</div>}}
 }

@@ -63,12 +63,12 @@ rr$predictions()[[1]]$confusion
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{data}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Internal data storage with one row per resampling iteration.
 Can be joined with \verb{$rr_data} by joining on column \code{"hash"}.
 We discourage users to directly work with this table.}
 
-\item{\code{rr_data}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+\item{\code{rr_data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Internal data storage with one row per \link{ResampleResult}
 (instead of one row per resampling iteration as in \verb{$data}).
 
@@ -90,7 +90,7 @@ All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single 
 required to have the same task type, e.g., \code{"classif"} or \code{"regr"}.
 This is \code{NULL} for empty \link{BenchmarkResult}s.}
 
-\item{\code{tasks}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+\item{\code{tasks}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Table of included \link{Task}s with three columns:
 \itemize{
 \item \code{"task_hash"} (\code{character(1)}),
@@ -98,7 +98,7 @@ Table of included \link{Task}s with three columns:
 \item \code{"task"} (\link{Task}).
 }}
 
-\item{\code{learners}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+\item{\code{learners}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Table of included \link{Learner}s with three columns:
 \itemize{
 \item \code{"learner_hash"} (\code{character(1)}),
@@ -110,7 +110,7 @@ Note that it is not feasible to access learned models via this getter, as the tr
 For this reason the returned learner are reseted before they are returned.
 Instead, select a row from the table returned by \verb{$score()}.}
 
-\item{\code{resamplings}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+\item{\code{resamplings}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Table of included \link{Resampling}s with three columns:
 \itemize{
 \item \code{"resampling_hash"} (\code{character(1)}),
@@ -152,7 +152,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{\code{\link[data.table:data.table]{data.table::data.table()}}\cr
+\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Table with data for one resampling iteration per row, with at least the following columns:
 \itemize{
 \item \code{"task"} (\link{Task}),
@@ -208,8 +208,8 @@ If the second \link{BenchmarkResult} \code{bmr} is \code{NULL}, simply returns \
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{bmr}}{\link{BenchmarkResult}\cr
-A \link{BenchmarkResult} object.}
+\item{\code{bmr}}{(\link{BenchmarkResult})\cr
+A second \link{BenchmarkResult} object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -238,10 +238,10 @@ the respective \link{Measure}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{measures}}{\link{Measure}\cr
-\href{s}{Measure} to calculate the score for.}
+\item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
+Measure(s) to calculate.}
 
-\item{\code{ids}}{\code{logical(1)}\cr
+\item{\code{ids}}{(\code{logical(1)})\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as
 extra character columns for convenient subsetting.}
 }
@@ -274,21 +274,21 @@ information from the returned \link{ResampleResult}:
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{measures}}{(\link{Measure} | list of \link{Measure})\cr
-List of performance measures to calculate.}
+Measure(s) to calculate.}
 
-\item{\code{ids}}{\code{logical(1)}\cr
+\item{\code{ids}}{(\code{logical(1)})\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as
 extra character columns for convenient subsetting.}
 
-\item{\code{uhashes}}{\code{logical(1)}\cr
+\item{\code{uhashes}}{(\code{logical(1)})\cr
 Adds the uhash values of the \link{ResampleResult} as extra character
 column \code{"uhash"}.}
 
-\item{\code{params}}{\code{logical(1)}\cr
+\item{\code{params}}{(\code{logical(1)})\cr
 Adds the hyperparameter values as extra list column \code{"params"}. You
 can unnest them with \code{\link[mlr3misc:unnest]{mlr3misc::unnest()}}.}
 
-\item{\code{conditions}}{\code{logical(1)}\cr
+\item{\code{conditions}}{(\code{logical(1)})\cr
 Adds the number of resampling iterations with at least one warning as
 extra integer column \code{"warnings"}, and the number of resampling
 iterations with errors as extra integer column \code{"errors"}.}
@@ -336,8 +336,8 @@ the object in its previous state.
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-resample_result"></a>}}
 \subsection{Method \code{resample_result()}}{
-Retrieve the i-th \link{ResampleResult}, by position or by unique hash
-\code{uhash}. \code{i} and \code{uhash} are mutually exclusive.
+Retrieve the i-th \link{ResampleResult}, by position or by unique hash \code{uhash}.
+\code{i} and \code{uhash} are mutually exclusive.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$resample_result(i = NULL, uhash = NULL)}\if{html}{\out{</div>}}
 }
@@ -345,11 +345,11 @@ Retrieve the i-th \link{ResampleResult}, by position or by unique hash
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{i}}{\code{integer(1)}\cr
-The desired iteration value.}
+\item{\code{i}}{(\code{integer(1)})\cr
+The iteration value to filter for.}
 
-\item{\code{uhash}}{\code{logical(1)}\cr
-The desired \code{ushash} value.}
+\item{\code{uhash}}{(\code{logical(1)})\cr
+The \code{ushash} value to filter for.}
 }
 \if{html}{\out{</div>}}
 }

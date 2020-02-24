@@ -10,6 +10,8 @@
 #' Note that all stored objects are accessed by reference.
 #' Do not modify any object without cloning it first.
 #'
+#' @template param_measures
+#'
 #' @section S3 Methods:
 #' * `as.data.table(bmr)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
@@ -58,14 +60,14 @@
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
 
-    #' @field data [data.table::data.table()]\cr
+    #' @field data ([data.table::data.table()])\cr
     #'   Internal data storage with one row per resampling iteration.
     #'   Can be joined with `$rr_data` by joining on column `"hash"`.
     #'   We discourage users to directly work with this table.
     data = NULL,
 
 
-    #' @field rr_data [data.table::data.table()]\cr
+    #' @field rr_data ([data.table::data.table()])\cr
     #'   Internal data storage with one row per [ResampleResult]
     #'   (instead of one row per resampling iteration as in `$data`).
     #'
@@ -80,7 +82,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param data [data.table::data.table()]\cr
+    #' @param data ([data.table::data.table()])\cr
     #'   Table with data for one resampling iteration per row, with at least the following columns:
     #'
     #'   * `"task"` ([Task]),
@@ -133,8 +135,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Fuses a second [BenchmarkResult] into itself, mutating the [BenchmarkResult] in-place.
     #' If the second [BenchmarkResult] `bmr` is `NULL`, simply returns `self`.
     #'
-    #' @param bmr [BenchmarkResult]\cr
-    #'   A [BenchmarkResult] object.
+    #' @param bmr ([BenchmarkResult])\cr
+    #'   A second [BenchmarkResult] object.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
@@ -165,11 +167,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' performance scores as extra columns. These columns are named using the id of
     #' the respective [Measure].
     #'
-    #' @param measures [Measure]\cr
-    #'   [Measure](s) to calculate the score for.
-    #' @param ids `logical(1)`\cr
+    #' @param ids (`logical(1)`)\cr
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
     #'   extra character columns for convenient subsetting.
+    #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
@@ -201,22 +202,19 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' For convenience, different flags can be set to extract more
     #' information from the returned [ResampleResult]:
     #'
-    #' @param measures ([Measure] | list of [Measure])\cr
-    #'   List of performance measures to calculate.
-    #'
-    #' @param uhashes `logical(1)`\cr
+    #' @param uhashes (`logical(1)`)\cr
     #'   Adds the uhash values of the [ResampleResult] as extra character
     #'   column `"uhash"`.
     #'
-    #' @param ids `logical(1)`\cr
+    #' @param ids (`logical(1)`)\cr
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
     #'   extra character columns for convenient subsetting.
     #'
-    #' @param params `logical(1)`\cr
+    #' @param params (`logical(1)`)\cr
     #'   Adds the hyperparameter values as extra list column `"params"`. You
     #'   can unnest them with [mlr3misc::unnest()].
     #'
-    #' @param conditions `logical(1)`\cr
+    #' @param conditions (`logical(1)`)\cr
     #'   Adds the number of resampling iterations with at least one warning as
     #'   extra integer column `"warnings"`, and the number of resampling
     #'   iterations with errors as extra integer column `"errors"`.
@@ -304,14 +302,14 @@ BenchmarkResult = R6Class("BenchmarkResult",
     },
 
     #' @description
-    #' Retrieve the i-th [ResampleResult], by position or by unique hash
-    #' `uhash`. `i` and `uhash` are mutually exclusive.
+    #' Retrieve the i-th [ResampleResult], by position or by unique hash `uhash`.
+    #' `i` and `uhash` are mutually exclusive.
     #'
-    #' @param i `integer(1)`\cr
-    #'   The desired iteration value.
+    #' @param i (`integer(1)`)\cr
+    #'   The iteration value to filter for.
     #'
-    #' @param uhash `logical(1)`\cr
-    #'   The desired `ushash` value.
+    #' @param uhash (`logical(1)`)\cr
+    #'   The `ushash` value to filter for.
     #'
     #' @return [ResampleResult].
     resample_result = function(i = NULL, uhash = NULL) {
@@ -344,7 +342,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       self$data$task[[1L]]$task_type
     },
 
-    #' @field tasks [data.table::data.table()]\cr
+    #' @field tasks ([data.table::data.table()])\cr
     #' Table of included [Task]s with three columns:
     #'
     #' * `"task_hash"` (`character(1)`),
@@ -355,7 +353,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       unique(self$data[, list(task_hash = hashes(task), task_id = ids(task), task = task)], by = "task_hash")
     },
 
-    #' @field learners [data.table::data.table()]\cr
+    #' @field learners ([data.table::data.table()])\cr
     #' Table of included [Learner]s with three columns:
     #'
     #' * `"learner_hash"` (`character(1)`),
@@ -371,7 +369,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       tab[, learner := lapply(learner, function(x) x$clone(deep = TRUE)$reset())][]
     },
 
-    #' @field resamplings [data.table::data.table()]\cr
+    #' @field resamplings ([data.table::data.table()])\cr
     #' Table of included [Resampling]s with three columns:
     #'
     #' * `"resampling_hash"` (`character(1)`),
