@@ -133,6 +133,9 @@ Number of rows.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+\code{\link[data.table:data.table]{data.table::data.table()}} of the first \code{n} rows.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-distinct"></a>}}
@@ -159,6 +162,9 @@ Whether to remove NAs or not.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+Named \code{list()} of distinct values.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-missings"></a>}}
@@ -179,6 +185,9 @@ Row indices.}
 Column names.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Total of missing values per column (named \code{numeric()}).
 }
 }
 }

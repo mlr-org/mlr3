@@ -106,6 +106,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     #'
     #' @param n (`integer(1)`)\cr
     #'   Number of rows.
+    #'
+    #' @return [data.table::data.table()] of the first `n` rows.
     head = function(n = 6L) {
       self$data(head(self$rownames, n), self$colnames)
     },
@@ -115,6 +117,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     #' specified. If `na_rm` is `TRUE`, missing values are removed from the
     #' returned vectors of distinct values. Non-existing rows and columns are
     #' silently ignored.
+    #'
+    #' @return Named `list()` of distinct values.
     distinct = function(rows, cols, na_rm = TRUE) {
       rows = if (is.null(rows)) self$rownames else private$.translate_rows(rows)
       cols_sparse = intersect(cols, colnames(private$.data$sparse))
@@ -131,6 +135,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     #' @description
     #' Returns the number of missing values per column in the specified slice
     #' of data. Non-existing rows and columns are silently ignored.
+    #'
+    #' @return Total of missing values per column (named `numeric()`).
     missings = function(rows, cols) {
       rows = private$.translate_rows(rows)
       cols_sparse = intersect(cols, colnames(private$.data$sparse))

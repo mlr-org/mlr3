@@ -77,6 +77,8 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #'
     #' @param n (`integer(1)`)\cr
     #'   Number of rows.
+    #'
+    #' @return [data.table::data.table()] of the first `n` rows.
     head = function(n = 6L) {
       head(private$.data, n)
     },
@@ -86,6 +88,8 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #' specified. If `na_rm` is `TRUE`, missing values are removed from the
     #' returned vectors of distinct values. Non-existing rows and columns are
     #' silently ignored.
+    #'
+    #' @return Named `list()` of distinct values.
     distinct = function(rows, cols, na_rm = TRUE) {
       cols = intersect(cols, colnames(private$.data))
       if (is.null(rows)) {
@@ -98,6 +102,8 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #' @description
     #' Returns the number of missing values per column in the specified slice
     #' of data. Non-existing rows and columns are silently ignored.
+    #'
+    #' @return Total of missing values per column (named `numeric()`).
     missings = function(rows, cols) {
       data = self$data(rows, cols)
       map_int(data, function(x) sum(is.na(x)))
