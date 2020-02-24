@@ -13,26 +13,6 @@ task_set_col_roles = function(self, private, roles) {
   private$.col_roles = roles
 }
 
-check_new_row_ids = function(task, data, type) {
-  pk = task$backend$primary_key
-  row_ids = data[[pk]]
-  task_row_ids = task$row_roles$use
-  assert_integerish(row_ids, any.missing = FALSE, unique = TRUE)
-
-  switch(type,
-    "disjunct" = {
-      if (any(row_ids %in% task_row_ids)) {
-        stopf("Cannot mutate task: Duplicated row_ids")
-      }
-    },
-    "setequal" = {
-      if (!setequal(row_ids, task_row_ids)) {
-        stopf("Cannot mutate task: row_ids do not match")
-      }
-    }
-  )
-}
-
 convert_matching_types = function(col_info, data) {
   pmap(col_info, function(id, type, levels) {
     cur_col = data[[id]]
@@ -68,13 +48,17 @@ task_rbind = function(self, data) {
   # 1. Check that an rbind is feasible
   data = as.data.table(data)
   pk = self$backend$primary_key
+  rn = self$backend$rownames
 
   ## 1.1 Check for primary key column and auto-increment
   if (pk %in% names(data)) {
-    check_new_row_ids(self, data, "disjunct")
+    assert_integerish(data[[pk]], any.missing = FALSE, unique = TRUE)
+    dups = intersect(data[[pk]], rn)
+    if (length(dups)) {
+      stopf("Cannot mutate task: %i duplicated row_ids: %s", length(dups), str_collapse(dups, n = 3))
+    }
   } else {
-    rids = self$row_ids
-    data[[pk]] = (if (length(rids)) max(rids) else 0L) + seq_row(data)
+    data[[pk]] = (if (length(rn)) max(rn) else 0L) + seq_row(data)
   }
 
   # nothing to rbind
@@ -128,10 +112,14 @@ task_cbind = function(self, data) {
   # 1. Check that an cbind is feasible
   data = as.data.table(data)
   pk = self$backend$primary_key
+  rn = self$backend$rownames
 
   ## 1.1 Check primary key column
   if (pk %in% names(data)) {
-    check_new_row_ids(self, data, "setequal")
+    assert_integerish(data[[pk]], any.missing = FALSE, unique = TRUE)
+    if (!setequal(data[[pk]], rn)) {
+      stopf("Cannot mutate task: row ids not set-equal to existing row ids")
+    }
   } else {
     data[[pk]] = self$row_ids
   }

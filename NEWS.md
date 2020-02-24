@@ -1,5 +1,8 @@
 # mlr3 0.1.8
 
+* Fixed a bug where automatic generation of row ids could lead to duplicated ids
+  via `Task$predict_newdata()`/`Task$rbind()` (#423).
+
 # mlr3 0.1.7
 
 * Switched to new `roxygen2` documentation format for R6 classes.

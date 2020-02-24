@@ -73,6 +73,14 @@ test_that("Task rbind", {
   expect_set_equal(nt$row_ids, 1:202)
   expect_equal(nt$row_names$row_name, c(task$row_names$row_name, rep(NA, 101)))
   expect_equal(nt$col_info[list("foo"), .N, nomatch = NULL], 0L)
+
+  # #423
+  task = tsk("iris")
+  task$row_roles$use = 1:10
+  task$row_roles$validation = 11:150
+
+  task$rbind(iris[sample(nrow(iris), 5), ])
+  expect_set_equal(task$row_ids, c(1:10, 151:155))
 })
 
 test_that("Task cbind", {
