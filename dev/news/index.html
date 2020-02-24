@@ -84,7 +84,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.6.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7.9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -153,20 +153,36 @@
       <small>Source: <a href='https://github.com/mlr-org/mlr3/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="mlr3-0-1-8" class="section level1">
+<h1 class="page-header">
+<a href="#mlr3-0-1-8" class="anchor"></a>mlr3 0.1.8<small> Unreleased </small>
+</h1>
+</div>
     <div id="mlr3-0-1-7" class="section level1">
 <h1 class="page-header">
-<a href="#mlr3-0-1-7" class="anchor"></a>mlr3 0.1.7<small> Unreleased </small>
+<a href="#mlr3-0-1-7" class="anchor"></a>mlr3 0.1.7<small> 2020-02-23 </small>
 </h1>
 <ul>
+<li><p>Switched to new <code>roxygen2</code> documentation format for R6 classes.</p></li>
+<li><p><code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> now support progress bars via the package <code>progressr</code>.</p></li>
+<li><p>Row ids now must be numeric. It was previously allowed to have character row ids, but this lead to confusion and unnecessary code bloat. Row identifiers (e.g., to be used in plots) can still be part of the task, with row role <code>"name"</code>.</p></li>
+<li><p>Row names can now be queried with <code>Task$row_names</code>.</p></li>
+<li><p><code>DataBackendMatrix</code> now supports to store an optional (numeric) dense part.</p></li>
+<li><p>Added new method <code>$filter()</code> to filter <code>ResampleResult</code>s to a subset of iterations.</p></li>
+<li><p>Removed deprecated <code><a href="https://rdrr.io/r/base/character.html">character()</a></code> -&gt; object converters.</p></li>
+<li><p>Empty test sets are now handled separately by learners (<a href='https://github.com/mlr-org/mlr3/issues/421'>#421</a>). An empty prediction object is returned for all learners.</p></li>
+<li><p>The internal train and predict function of <code>Learner</code> now should be implemented as private method: instead of public methods <code>train_internal</code> and <code>predict_internal</code>, private methods <code>.train</code> and <code>.predict</code> are now encouraged.</p></li>
+<li>It is now encouraged to move some internal methods from public to private:
+<ul>
 <li>
-<code><a href="../reference/resample.html">resample()</a></code> and <code><a href="../reference/benchmark.html">benchmark()</a></code> now support progress bars via the package <code>progressr</code>.</li>
-<li>Row ids now must be numeric. It was previously allowed to have character row ids, but this lead to confusion and unnecessary code bloat. Row identifiers (e.g., to be used in plots) can still be part of the task, with row role <code>"name"</code>.</li>
-<li>Row names can now be queried with <code>Task$row_names</code>.</li>
+<code>Learner$train_internal</code> should now be private method <code>$.train</code>.</li>
 <li>
-<code>DataBackendMatrix</code> now supports to store an optional (numeric) dense part.</li>
-<li>Added new method <code>$filter()</code> to filter <code>ResampleResult</code>s to a subset of iterations.</li>
-<li>Removed deprecated <code><a href="https://rdrr.io/r/base/character.html">character()</a></code> -&gt; object converters.</li>
-<li>Empty test sets are now handled separately by learners (<a href='https://github.com/mlr-org/mlr3/issues/421'>#421</a>). An empty prediction object is returned for all learners.</li>
+<code>Learner$predict_internal</code> should now be private method <code>$.predict</code>.</li>
+<li>
+<code>Measure$score_internal</code> should now be private method <code>$.score</code>. The public methods will be deprecated in a future release.</li>
+</ul>
+</li>
+<li><p>Removed arguments from the constructor of measures <code>classif.debug</code> and <code>classif.costs</code>. These can be set directly by <code><a href="../reference/mlr_sugar.html">msr()</a></code>.</p></li>
 </ul>
 </div>
     <div id="mlr3-0-1-6" class="section level1">
@@ -174,11 +190,11 @@
 <a href="#mlr3-0-1-6" class="anchor"></a>mlr3 0.1.6<small> 2019-12-19 </small>
 </h1>
 <ul>
-<li>We have published an article about mlr3 in the Journal of Open Source Software: <a href="https://joss.theoj.org/papers/10.21105/joss.01903" class="uri">https://joss.theoj.org/papers/10.21105/joss.01903</a>. See <code><a href="https://rdrr.io/r/utils/citation.html">citation("mlr3")</a></code> for the citation info.</li>
-<li>New method <code>Learner$reset()</code>.</li>
-<li>New method <code>BenchmarkResult$filter()</code>.</li>
-<li>Learners returned by <code>BenchmarkResult$learners</code> are reset to encourage the safer alternative <code>BenchmarkResult$score()</code> to access trained models.</li>
-<li>Fix ordering of levels in <code>PredictionClassif$set_threshold()</code> (triggered an assertion).</li>
+<li><p>We have published an article about mlr3 in the Journal of Open Source Software: <a href="https://joss.theoj.org/papers/10.21105/joss.01903" class="uri">https://joss.theoj.org/papers/10.21105/joss.01903</a>. See <code><a href="https://rdrr.io/r/utils/citation.html">citation("mlr3")</a></code> for the citation info.</p></li>
+<li><p>New method <code>Learner$reset()</code>.</p></li>
+<li><p>New method <code>BenchmarkResult$filter()</code>.</p></li>
+<li><p>Learners returned by <code>BenchmarkResult$learners</code> are reset to encourage the safer alternative <code>BenchmarkResult$score()</code> to access trained models.</p></li>
+<li><p>Fix ordering of levels in <code>PredictionClassif$set_threshold()</code> (triggered an assertion).</p></li>
 </ul>
 </div>
     <div id="mlr3-0-1-5" class="section level1">
@@ -186,13 +202,12 @@
 <a href="#mlr3-0-1-5" class="anchor"></a>mlr3 0.1.5<small> 2019-12-10 </small>
 </h1>
 <ul>
-<li>Switched from package <code>Metrics</code> to package <code>mlr3measures</code>.</li>
-<li>Measures can now calculate all scores using micro or macro averaging (<a href='https://github.com/mlr-org/mlr3/issues/400'>#400</a>).</li>
-<li>Measures can now be configured to return a customizable performance score (instead of <code>NA</code>) in case the score cannot be calculated.</li>
-<li>Character columns are now treated differently from factor columns. In the long term, <code><a href="https://rdrr.io/r/base/character.html">character()</a></code> columns are supposed to store text.</li>
-<li>Fixed a bug triggered by integer grouping variables in <code>Task</code> (<a href='https://github.com/mlr-org/mlr3/issues/396'>#396</a>).</li>
-<li>
-<code><a href="../reference/benchmark_grid.html">benchmark_grid()</a></code> now accepts instantiated resamplings under certain conditions.</li>
+<li><p>Switched from package <code>Metrics</code> to package <code>mlr3measures</code>.</p></li>
+<li><p>Measures can now calculate all scores using micro or macro averaging (<a href='https://github.com/mlr-org/mlr3/issues/400'>#400</a>).</p></li>
+<li><p>Measures can now be configured to return a customizable performance score (instead of <code>NA</code>) in case the score cannot be calculated.</p></li>
+<li><p>Character columns are now treated differently from factor columns. In the long term, <code><a href="https://rdrr.io/r/base/character.html">character()</a></code> columns are supposed to store text.</p></li>
+<li><p>Fixed a bug triggered by integer grouping variables in <code>Task</code> (<a href='https://github.com/mlr-org/mlr3/issues/396'>#396</a>).</p></li>
+<li><p><code><a href="../reference/benchmark_grid.html">benchmark_grid()</a></code> now accepts instantiated resamplings under certain conditions.</p></li>
 </ul>
 </div>
     <div id="mlr3-0-1-4" class="section level1">
@@ -200,15 +215,13 @@
 <a href="#mlr3-0-1-4" class="anchor"></a>mlr3 0.1.4<small> 2019-10-28 </small>
 </h1>
 <ul>
-<li>
-<code>Task$set_col_roles()</code> and <code>Task$set_row_roles()</code> are now deprecated. Instead it is recommended for now to work with the lists <code>Task$col_roles</code> and <code>Task$row_roles</code> directly.</li>
-<li>
-<code>Learner$predict_newdata()</code> now works without argument <code>task</code> if the learner has been fitted with <code>Learner$train()</code> (<a href='https://github.com/mlr-org/mlr3/issues/375'>#375</a>).</li>
-<li>Names of column roles have been unified (<code>"weights"</code>, <code>"label"</code>, <code>"stratify"</code> and <code>"groups"</code> have been renamed).</li>
-<li>Replaced <code>MeasureClassifF1</code> with <code>MeasureClassifFScore</code> and fixed a bug in the F1 performance calculation (<a href='https://github.com/mlr-org/mlr3/issues/353'>#353</a>). Thanks to <a href='https://github.com/001ben'>@001ben</a> for reporting.</li>
-<li>Stratification is now controlled via a task column role (was a parameter of class <code>Resampling</code> before).</li>
-<li>Added a S3 <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method for class <code>Learner</code> to increase interoperability with other packages.</li>
-<li>Many objects now come with a <code>$help()</code> which opens the respective manual page.</li>
+<li><p><code>Task$set_col_roles()</code> and <code>Task$set_row_roles()</code> are now deprecated. Instead it is recommended for now to work with the lists <code>Task$col_roles</code> and <code>Task$row_roles</code> directly.</p></li>
+<li><p><code>Learner$predict_newdata()</code> now works without argument <code>task</code> if the learner has been fitted with <code>Learner$train()</code> (<a href='https://github.com/mlr-org/mlr3/issues/375'>#375</a>).</p></li>
+<li><p>Names of column roles have been unified (<code>"weights"</code>, <code>"label"</code>, <code>"stratify"</code> and <code>"groups"</code> have been renamed).</p></li>
+<li><p>Replaced <code>MeasureClassifF1</code> with <code>MeasureClassifFScore</code> and fixed a bug in the F1 performance calculation (<a href='https://github.com/mlr-org/mlr3/issues/353'>#353</a>). Thanks to <a href='https://github.com/001ben'>@001ben</a> for reporting.</p></li>
+<li><p>Stratification is now controlled via a task column role (was a parameter of class <code>Resampling</code> before).</p></li>
+<li><p>Added a S3 <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method for class <code>Learner</code> to increase interoperability with other packages.</p></li>
+<li><p>Many objects now come with a <code>$help()</code> which opens the respective manual page.</p></li>
 </ul>
 </div>
     <div id="mlr3-0-1-3" class="section level1">
@@ -254,6 +267,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#mlr3-0-1-8">0.1.8</a></li>
         <li><a href="#mlr3-0-1-7">0.1.7</a></li>
         <li><a href="#mlr3-0-1-6">0.1.6</a></li>
         <li><a href="#mlr3-0-1-5">0.1.5</a></li>

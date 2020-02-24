@@ -89,7 +89,7 @@ Do not modify any object without cloning it first." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.6.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7.9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -186,12 +186,12 @@ object of class <code>"htest"</code>.</p></li>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
     <p><div class="r6-fields"></p><dl class='dl-horizontal'>
-<dt><code>data</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+<dt><code>data</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 Internal data storage with one row per resampling iteration.
 Can be joined with <code>$rr_data</code> by joining on column <code>"hash"</code>.
 We discourage users to directly work with this table.</p></dd>
 
-<dt><code>rr_data</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+<dt><code>rr_data</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 Internal data storage with one row per <a href='ResampleResult.html'>ResampleResult</a>
 (instead of one row per resampling iteration as in <code>$data</code>).Package develops may opt to add additional columns here.
 These columns are preserved in all mutators.Can be combined with <code>$data</code> by (left) joining on the key column <code>"hash"</code>.
@@ -208,7 +208,7 @@ All stored objects (<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner
 required to have the same task type, e.g., <code>"classif"</code> or <code>"regr"</code>.
 This is <code>NULL</code> for empty BenchmarkResults.</p></dd>
 
-<dt><code>tasks</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+<dt><code>tasks</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 Table of included <a href='Task.html'>Task</a>s with three columns:
 <ul>
 <li><p><code>"task_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>),</p></li>
@@ -216,7 +216,7 @@ Table of included <a href='Task.html'>Task</a>s with three columns:
 <li><p><code>"task"</code> (<a href='Task.html'>Task</a>).</p></li>
 </ul></p></dd>
 
-<dt><code>learners</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+<dt><code>learners</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 Table of included <a href='Learner.html'>Learner</a>s with three columns:
 <ul>
 <li><p><code>"learner_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>),</p></li>
@@ -226,7 +226,7 @@ Table of included <a href='Learner.html'>Learner</a>s with three columns:
 For this reason the returned learner are reseted before they are returned.
 Instead, select a row from the table returned by <code>$score()</code>.</p></dd>
 
-<dt><code>resamplings</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+<dt><code>resamplings</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 Table of included <a href='Resampling.html'>Resampling</a>s with three columns:
 <ul>
 <li><p><code>"resampling_hash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>),</p></li>
@@ -265,7 +265,7 @@ Set of (unique) hashes of all included <a href='ResampleResult.html'>ResampleRes
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
-<dt><code>data</code></dt><dd><p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
+<dt><code>data</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 Table with data for one resampling iteration per row, with at least the following columns:
 <ul>
 <li><p><code>"task"</code> (<a href='Task.html'>Task</a>),</p></li>
@@ -301,8 +301,8 @@ If the second BenchmarkResult <code>bmr</code> is <code>NULL</code>, simply retu
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
-<dt><code>bmr</code></dt><dd><p>BenchmarkResult<br />
-A BenchmarkResult object.</p></dd>
+<dt><code>bmr</code></dt><dd><p>(BenchmarkResult)<br />
+A second BenchmarkResult object.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
@@ -323,10 +323,10 @@ the respective <a href='Measure.html'>Measure</a>.</p><h3>Usage</h3>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
-<dt><code>measures</code></dt><dd><p><a href='Measure.html'>Measure</a><br />
-<a href='s'>Measure</a> to calculate the score for.</p></dd>
+<dt><code>measures</code></dt><dd><p>(<a href='Measure.html'>Measure</a> | list of <a href='Measure.html'>Measure</a>)<br />
+Measure(s) to calculate.</p></dd>
 
-<dt><code>ids</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+<dt><code>ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Adds object ids (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) as
 extra character columns for convenient subsetting.</p></dd>
 
@@ -351,21 +351,21 @@ information from the returned <a href='ResampleResult.html'>ResampleResult</a>:<
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
 <dt><code>measures</code></dt><dd><p>(<a href='Measure.html'>Measure</a> | list of <a href='Measure.html'>Measure</a>)<br />
-List of performance measures to calculate.</p></dd>
+Measure(s) to calculate.</p></dd>
 
-<dt><code>ids</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+<dt><code>ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Adds object ids (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) as
 extra character columns for convenient subsetting.</p></dd>
 
-<dt><code>uhashes</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+<dt><code>uhashes</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Adds the uhash values of the <a href='ResampleResult.html'>ResampleResult</a> as extra character
 column <code>"uhash"</code>.</p></dd>
 
-<dt><code>params</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+<dt><code>params</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Adds the hyperparameter values as extra list column <code>"params"</code>. You
 can unnest them with <code><a href='https://mlr3misc.mlr-org.com/reference/unnest.html'>mlr3misc::unnest()</a></code>.</p></dd>
 
-<dt><code>conditions</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
+<dt><code>conditions</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Adds the number of resampling iterations with at least one warning as
 extra integer column <code>"warnings"</code>, and the number of resampling
 iterations with errors as extra integer column <code>"errors"</code>.</p></dd>
@@ -402,17 +402,17 @@ You need to explicitly <code>$clone()</code> the object beforehand if you want t
 the object in its previous state.</p>
 <p><hr>
 <a id="method-resample_result"></a></p><h3>Method <code>resample_result()</code></h3>
-<p>Retrieve the i-th <a href='ResampleResult.html'>ResampleResult</a>, by position or by unique hash
-<code>uhash</code>. <code>i</code> and <code>uhash</code> are mutually exclusive.</p><h3>Usage</h3>
+<p>Retrieve the i-th <a href='ResampleResult.html'>ResampleResult</a>, by position or by unique hash <code>uhash</code>.
+<code>i</code> and <code>uhash</code> are mutually exclusive.</p><h3>Usage</h3>
 <p><div class="r"></p><pre>BenchmarkResult$resample_result(i = NULL, uhash = NULL)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
-<dt><code>i</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code><br />
-The desired iteration value.</p></dd>
+<dt><code>i</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+The iteration value to filter for.</p></dd>
 
-<dt><code>uhash</code></dt><dd><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code><br />
-The desired <code>ushash</code> value.</p></dd>
+<dt><code>uhash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+The <code>ushash</code> value to filter for.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
@@ -461,11 +461,11 @@ The desired <code>ushash</code> value.</p></dd>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 78eb8fcd-57fc-4a22-af94-89119447b0d6 &lt;TaskClassif&gt;
-#&gt; 2: 78eb8fcd-57fc-4a22-af94-89119447b0d6 &lt;TaskClassif&gt;
-#&gt; 3: 78eb8fcd-57fc-4a22-af94-89119447b0d6 &lt;TaskClassif&gt;
-#&gt; 4: 74aefde2-af56-4157-9b33-ce8903cf39ba &lt;TaskClassif&gt;
-#&gt; 5: 74aefde2-af56-4157-9b33-ce8903cf39ba &lt;TaskClassif&gt;
+#&gt; 1: 61134b67-6e5e-4a5b-aae8-a4be472abe7c &lt;TaskClassif&gt;
+#&gt; 2: 61134b67-6e5e-4a5b-aae8-a4be472abe7c &lt;TaskClassif&gt;
+#&gt; 3: 61134b67-6e5e-4a5b-aae8-a4be472abe7c &lt;TaskClassif&gt;
+#&gt; 4: 8876dac1-f8c8-4266-87fb-a6e3617a25a3 &lt;TaskClassif&gt;
+#&gt; 5: 8876dac1-f8c8-4266-87fb-a6e3617a25a3 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
