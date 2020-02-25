@@ -28,7 +28,7 @@ navbar:
       text: Reference
       href: reference/index.html
     mattermost:
-      icon: fab fa-comments
+      icon: fa fa-comments
       href: https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/
     book:
       text: mlr3book
