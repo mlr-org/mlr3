@@ -20,16 +20,16 @@ toc:
 navbar:
   structure:
     left:  [reference, news, book]
-    right: [github, slack, stackoverflow, rss]
+    right: [github, mattermost, stackoverflow, rss]
   components:
     home: ~
     reference:
       icon: fa fa-file-alt
       text: Reference
       href: reference/index.html
-    slack:
-      icon: fab fa-slack
-      href: https://mlr-org.slack.com
+    mattermost:
+      icon: fab fa-comments
+      href: https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/
     book:
       text: mlr3book
       icon: fa fa-link
