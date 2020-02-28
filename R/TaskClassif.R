@@ -14,6 +14,7 @@
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
 #'
 #' @template param_rows
+#' @template param_cols
 #' @template param_id
 #' @template param_backend
 #'
@@ -48,17 +49,8 @@ TaskClassif = R6Class("TaskClassif",
       assert_string(target)
       super$initialize(id = id, task_type = "classif", backend = backend, target = target)
 
-      info = self$col_info[id == target]
-      levels = info$levels[[1L]]
+      private$.update_class_property()
 
-      if (info$type != "factor") {
-        stopf("Target column '%s' must be a factor", target)
-      }
-      if (length(levels) < 2L) {
-        stopf("Target column '%s' must have at least two levels", target)
-      }
-
-      self$properties = union(self$properties, if (length(levels) == 2L) "twoclass" else "multiclass")
       if (!is.null(positive)) {
         self$positive = positive
       }
@@ -71,6 +63,18 @@ TaskClassif = R6Class("TaskClassif",
     truth = function(rows = NULL) {
       truth = super$truth(rows)[[1L]]
       as_factor(truth, levels = self$class_names)
+    },
+
+    #' @description
+    #' Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
+    #' `cols` defaults to all columns with storage type "factor" or "ordered".
+    #' Also updates the task property `"twoclass"`/`"multiclass"`.
+    #'
+    #' @return Modified `self`.
+    droplevels = function(cols = NULL) {
+      super$droplevels()
+      private$.update_class_property()
+      invisible(self)
     }
   ),
 
@@ -111,6 +115,18 @@ TaskClassif = R6Class("TaskClassif",
         return(NA_character_)
       }
       return(lvls[2L])
+    }
+  ),
+
+  private = list(
+    .update_class_property = function() {
+      nlvls = length(self$class_names)
+      if (nlvls < 2L) {
+        stopf("Target column '%s' must have at least two levels", self$target_names)
+      }
+
+      private$.properties = setdiff(private$.properties, c("twoclass", "multiclass"))
+      private$.properties = union(private$.properties, if (nlvls == 2L) "twoclass" else "multiclass")
     }
   )
 )

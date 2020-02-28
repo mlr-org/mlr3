@@ -77,3 +77,31 @@ test_that("Positive class always comes first", {
     expect_set_equal(colnames(preds$prob), lvls)
   }
 })
+
+test_that("class property is updated", {
+  task = tsk("iris")
+
+  task$filter(1:100)
+  expect_subset("multiclass", task$properties)
+  task$droplevels()
+  expect_subset("twoclass", task$properties)
+  task$filter(1:50)
+  expect_subset("twoclass", task$properties)
+  expect_error(task$droplevels())
+
+  task$rbind(iris)
+  task$droplevels()
+  expect_subset("multiclass", task$properties)
+})
+
+
+test_that("droplevels keeps level order", {
+  task = tsk("iris")
+  my_order = c("virginica", "setosa", "versicolor")
+  task$col_info[id == "Species", levels := list(my_order)]
+  lvls = task$class_names
+  expect_equal(lvls, my_order)
+  task$filter(c(101:150, 1:50)) # remove versicolor
+  task$droplevels()
+  expect_equal(task$class_names, c("virginica", "setosa"))
+})

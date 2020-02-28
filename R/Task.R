@@ -332,10 +332,21 @@ Task = R6Class("Task",
     #' `cols` defaults to all columns with storage type "factor" or "ordered".
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
-      ids = self$col_info[type %in% c("factor", "ordered"), "id", with = FALSE][[1L]]
-      cols = if (is.null(cols)) ids else intersect(cols, ids)
-      lvls = self$backend$distinct(rows = self$row_ids, cols = cols)
-      self$col_info = ujoin(self$col_info, enframe(lvls, "id", "levels"), key = "id")
+      tab = self$col_info[type %in% c("factor", "ordered"), c("id", "levels"), with = FALSE]
+      if (!is.null(cols)) {
+        tab = tab[list(cols), on = "id", nomatch = NULL]
+      }
+
+      # query new levels
+      new_levels = self$backend$distinct(rows = self$row_ids, cols = tab$id)
+
+      # update levels column with new levels:
+      # * first "known" levels in the original order of levels,
+      # * then new levels order of occurrence in new_levels
+      tab$levels = Map(function(x, y) c(intersect(x, y), setdiff(y, x)),
+        x = tab$levels, y = new_levels)
+
+      self$col_info = ujoin(self$col_info, tab, key = "id")
       invisible(self)
     }
   ),

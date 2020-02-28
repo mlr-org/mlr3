@@ -69,6 +69,7 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 \itemize{
 \item \href{#method-new}{\code{TaskClassif$new()}}
 \item \href{#method-truth}{\code{TaskClassif$truth()}}
+\item \href{#method-droplevels}{\code{TaskClassif$droplevels()}}
 \item \href{#method-clone}{\code{TaskClassif$clone()}}
 }
 }
@@ -77,7 +78,6 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind">}\href{../../mlr3/html/Task.html#method-cbind}{\code{mlr3::Task$cbind()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data">}\href{../../mlr3/html/Task.html#method-data}{\code{mlr3::Task$data()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels">}\href{../../mlr3/html/Task.html#method-droplevels}{\code{mlr3::Task$droplevels()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter">}\href{../../mlr3/html/Task.html#method-filter}{\code{mlr3::Task$filter()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format">}\href{../../mlr3/html/Task.html#method-format}{\code{mlr3::Task$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula">}\href{../../mlr3/html/Task.html#method-formula}{\code{mlr3::Task$formula()}}\out{</span>}
@@ -142,6 +142,28 @@ Row indices.}
 }
 \subsection{Returns}{
 \code{factor()}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-droplevels"></a>}}
+\subsection{Method \code{droplevels()}}{
+Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
+\code{cols} defaults to all columns with storage type "factor" or "ordered".
+Also updates the task property \code{"twoclass"}/\code{"multiclass"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskClassif$droplevels(cols = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{cols}}{\code{character()}\cr
+Column names.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Modified \code{self}.
 }
 }
 \if{html}{\out{<hr>}}
