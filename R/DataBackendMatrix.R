@@ -19,7 +19,11 @@
 #' requireNamespace("Matrix")
 #' data = Matrix::Matrix(sample(0:1, 20, replace = TRUE), ncol = 2)
 #' colnames(data) = c("x1", "x2")
-#' dense = data.frame(..row_id = 1:10, num = runif(10), fact = sample(c("a", "b"), 10, replace = TRUE))
+#' dense = data.frame(
+#'   ..row_id = 1:10,
+#'   num = runif(10),
+#'   fact = factor(sample(c("a", "b"), 10, replace = TRUE))
+#' )
 #'
 #' b = as_data_backend(data, dense, "..row_id")
 #' b$head()
