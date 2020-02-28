@@ -218,13 +218,13 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 <ul>
 <li><p><a href='#method-new'><code>TaskClassif$new()</code></a></p></li>
 <li><p><a href='#method-truth'><code>TaskClassif$truth()</code></a></p></li>
+<li><p><a href='#method-droplevels'><code>TaskClassif$droplevels()</code></a></p></li>
 <li><p><a href='#method-clone'><code>TaskClassif$clone()</code></a></p></li>
 </ul>
 <p><details ><summary>Inherited methods</summary>
 <ul>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-cbind'><code>mlr3::Task$cbind()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-data'><code>mlr3::Task$data()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href='../../mlr3/html/Task.html#method-droplevels'><code>mlr3::Task$droplevels()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-filter'><code>mlr3::Task$filter()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-format'><code>mlr3::Task$format()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href='../../mlr3/html/Task.html#method-formula'><code>mlr3::Task$formula()</code></a></span></p></li>
@@ -278,6 +278,21 @@ Row indices.</p></dd>
 </dl><p></div></p>
 <h3>Returns</h3>
 <p><code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code>.</p>
+<p><hr>
+<a id="method-droplevels"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/droplevels.html'>droplevels()</a></code></h3>
+<p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
+<code>cols</code> defaults to all columns with storage type "factor" or "ordered".
+Also updates the task property <code>"twoclass"</code>/<code>"multiclass"</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>TaskClassif$droplevels(cols = NULL)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified <code>self</code>.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
