@@ -85,7 +85,7 @@ test_that("Task rbind", {
 
 test_that("Task cbind", {
   task = tsk("iris")
-  expect_error(task$cbind(task), "data.frame")
+  # expect_error(task$cbind(task), "data.frame")
   data = cbind(data.frame(foo = 150:1), data.frame(..row_id = task$row_ids))
   task$cbind(data)
   expect_task(task)

@@ -265,7 +265,7 @@ Task = R6Class("Task",
     #' See the section on task mutators for more information.
     #' @param data (`data.frame()`).
     cbind = function(data) {
-      task_cbind(self, data)
+      task_cbind(data, self)
     },
 
 
