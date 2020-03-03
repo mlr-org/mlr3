@@ -87,8 +87,8 @@ The input \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.}
 \item{\code{dense}}{\code{\link[=data.frame]{data.frame()}}.
 Dense data, converted to \code{\link[data.table:data.table]{data.table::data.table()}}.}
 
-\item{\code{primary_key}}{\code{character(1)}\cr
-Name of the primary key column.}
+\item{\code{primary_key}}{(\code{character(1)} | \code{integer()})\cr
+Name of the primary key column, or integer vector of row ids.}
 }
 \if{html}{\out{</div>}}
 }

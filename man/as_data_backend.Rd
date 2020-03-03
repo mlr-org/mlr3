@@ -11,7 +11,7 @@
 
 \method{as_data_backend}{Matrix}(data, dense = NULL, primary_key = NULL, ...)
 
-as_data_backend(data, ...)
+as_data_backend(data, primary_key = NULL, ...)
 }
 \arguments{
 \item{data}{\code{any}\cr
@@ -23,8 +23,8 @@ See \code{methods("as_data_backend")} for possible input formats.
 Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects implemented in \CRANpkg{dbplyr}.
 This allows to interface many different data base systems such as SQL servers.}
 
-\item{primary_key}{\code{character(1)}\cr
-Name of the primary key column.}
+\item{primary_key}{(\code{character(1)} | \code{integer()})\cr
+Name of the primary key column, or integer vector of row ids.}
 
 \item{keep_rownames}{(\code{logical(1)} | \code{character(1)})\cr
 If \code{TRUE} or a single string, keeps the row names of \code{data} as a new column.

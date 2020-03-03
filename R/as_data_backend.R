@@ -11,6 +11,9 @@
 #'
 #'   Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects implemented in \CRANpkg{dbplyr}.
 #'   This allows to interface many different data base systems such as SQL servers.
+#'
+#' @template param_primary_key
+#'
 #' @param ... (`any`)\cr
 #'   Additional arguments passed to the respective [DataBackend] method.
 #'
@@ -20,6 +23,6 @@
 #' @examples
 #' # create a new backend using the iris data:
 #' as_data_backend(iris)
-as_data_backend = function(data, ...) {
+as_data_backend = function(data, primary_key = NULL, ...) {
   UseMethod("as_data_backend")
 }

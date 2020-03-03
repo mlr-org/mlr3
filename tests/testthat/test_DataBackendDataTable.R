@@ -2,7 +2,6 @@ context("DataBackendDataTable")
 
 test_that("DataBackendDataTable construction", {
   b = as_data_backend(iris)
-
   expect_backend(b)
   expect_iris_backend(b)
 
@@ -23,6 +22,9 @@ test_that("DataBackendDataTable construction", {
   b = as_data_backend(data)
   x = b$missings(b$rownames, c("Petal.Width", "Petal.Length"))
   expect_equal(x, set_names(c(0L, 10L), c("Petal.Width", "Petal.Length")))
+
+  b = as_data_backend(iris, primary_key = 151:300)
+  expect_equal(b$rownames, 151:300)
 })
 
 test_that("DataBackendDataTable with 0 rows", {

@@ -46,7 +46,7 @@ test_that("Rows return ordered with multiple order cols", {
 
 test_that("Task rbind", {
   task = tsk("iris")
-  expect_error(task$rbind(task), "data.frame")
+  # expect_error(task$rbind(task), "data.frame")
   data = iris[1:10, ]
   task$rbind(iris[1:10, ])
   expect_task(task)

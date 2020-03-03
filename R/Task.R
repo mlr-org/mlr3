@@ -249,7 +249,7 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     rbind = function(data) {
-      task_rbind(self, data)
+      task_rbind(data, self)
     },
 
     #' @description

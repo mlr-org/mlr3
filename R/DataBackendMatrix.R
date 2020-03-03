@@ -198,27 +198,32 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
 #' @param data ([Matrix::Matrix()])\cr
 #'   The input [Matrix::Matrix()].
+#'
 #' @param dense ([data.frame()]).
 #'   Dense data, converted to [data.table::data.table()].
-#' @template param_primary_key
+#'
 #' @rdname as_data_backend
 #' @export
 as_data_backend.Matrix = function(data, dense = NULL, primary_key = NULL, ...) {
   require_namespaces("Matrix")
-  assert_data_frame(dense, null.ok = TRUE)
-  assert_string(primary_key, null.ok = TRUE)
+  assert_data_frame(dense, nrows = nrow(data), null.ok = TRUE)
+  assert_disjunct(colnames(data), colnames(dense))
 
-  if (is.null(dense)) {
-    if (!is.null(primary_key)) {
-      stopf("Primary key '%s' must be provided in 'dense'", primary_key)
-    }
-    primary_key = "..row_id"
-    dense = setnames(data.table(seq_row(data)), primary_key)
+  if (is.character(primary_key)) {
+    assert_string(primary_key)
+    assert_choice(primary_key, colnames(dense))
+    assert_integer(dense[[primary_key]], any.missing = FALSE, unique = TRUE)
   } else {
     if (is.null(primary_key)) {
-      stopf("Primary key '%s' must be specified as column name of 'dense'", primary_key)
+      row_ids = seq_row(data)
+    } else if (is.integer(primary_key)) {
+      row_ids = assert_integer(primary_key, len = nrow(data), any.missing = FALSE, unique = TRUE)
+    } else {
+      stopf("Argument 'primary_key' must be NULL, a column name or a vector of ids")
     }
-    assert_choice(primary_key, colnames(dense))
+
+    primary_key = "..row_id"
+    dense = insert_named(dense %??% data.table(), list("..row_id" = row_ids))
   }
 
   DataBackendMatrix$new(data, dense, primary_key)
