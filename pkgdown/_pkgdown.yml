@@ -36,7 +36,7 @@ navbar:
       href: https://mlr3book.mlr-org.com
     stackoverflow:
       icon: fab fa-stack-overflow
-      href: https://stackoverflow.com/questions/tagged/mlr
+      href: https://stackoverflow.com/questions/tagged/mlr3
     rss:
       icon: fa-rss
       href: https://mlr-org.com/
