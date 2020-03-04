@@ -13,10 +13,11 @@
 #'
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
 #'
-#' @template param_rows
-#' @template param_cols
 #' @template param_id
 #' @template param_backend
+#' @template param_rows
+#' @template param_cols
+#' @template param_data_format
 #'
 #' @family Task
 #' @export
@@ -54,6 +55,16 @@ TaskClassif = R6Class("TaskClassif",
       if (!is.null(positive)) {
         self$positive = positive
       }
+    },
+
+    #' @description
+    #' Calls `$data` from parent class [Task] and ensures that levels of the target column
+    #' are in the right order.
+    #'
+    #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
+    data = function(rows = NULL, cols = NULL, data_format = "data.table") {
+      data = task_data(self, private, rows, cols, data_format)
+      fix_factor_levels(data, set_names(list(self$class_names), self$target_names))
     },
 
     #' @description
