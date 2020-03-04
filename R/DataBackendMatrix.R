@@ -25,7 +25,7 @@
 #'   fact = factor(sample(c("a", "b"), 10, replace = TRUE))
 #' )
 #'
-#' b = as_data_backend(data, dense, "..row_id")
+#' b = as_data_backend(data, dense = dense, primary_key = "..row_id")
 #' b$head()
 #' b$data(1:3, b$colnames, data_format = "Matrix")
 #' b$data(1:3, b$colnames, data_format = "data.table")
@@ -200,11 +200,11 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 #'   The input [Matrix::Matrix()].
 #'
 #' @param dense ([data.frame()]).
-#'   Dense data, converted to [data.table::data.table()].
+#'   Dense data.
 #'
 #' @rdname as_data_backend
 #' @export
-as_data_backend.Matrix = function(data, dense = NULL, primary_key = NULL, ...) {
+as_data_backend.Matrix = function(data, primary_key = NULL, dense = NULL, ...) {
   require_namespaces("Matrix")
   assert_data_frame(dense, nrows = nrow(data), null.ok = TRUE)
   assert_disjunct(colnames(data), colnames(dense))

@@ -20,7 +20,7 @@ dense = data.frame(
   fact = factor(sample(c("a", "b"), 10, replace = TRUE))
 )
 
-b = as_data_backend(data, dense, "..row_id")
+b = as_data_backend(data, dense = dense, primary_key = "..row_id")
 b$head()
 b$data(1:3, b$colnames, data_format = "Matrix")
 b$data(1:3, b$colnames, data_format = "data.table")

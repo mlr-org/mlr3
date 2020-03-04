@@ -1,7 +1,13 @@
 auto_convert = function(value, id, type, levels) {
-  UseMethod("auto_convert")
+  UseMethod("auto_convert", value)
 }
 
+#' @export
+auto_convert.default  = function(value, id, type, levels) {
+  print(str(value))
+}
+
+#' @export
 auto_convert.logical = function(value, id, type, levels) {
   switch(type,
     logical = {
@@ -29,6 +35,7 @@ auto_convert.logical = function(value, id, type, levels) {
   stopf("Cannot convert column '%s' to '%s' Incompatible type '%s'.", id, type, class(value)[1L])
 }
 
+#' @export
 auto_convert.integer = function(value, id, type, levels) {
   switch(type,
     logical = {
@@ -58,6 +65,7 @@ auto_convert.integer = function(value, id, type, levels) {
 }
 
 
+#' @export
 auto_convert.numeric = function(value, id, type, levels) {
   switch(type,
     logical = {
@@ -89,6 +97,7 @@ auto_convert.numeric = function(value, id, type, levels) {
 }
 
 
+#' @export
 auto_convert.character = function(value, id, type, levels) {
   switch(type,
     logical = {
@@ -118,6 +127,7 @@ auto_convert.character = function(value, id, type, levels) {
   stopf("Cannot convert column '%s' to '%s' Incompatible type '%s'.", id, type, class(value)[1L])
 }
 
+#' @export
 auto_convert.factor = function(value, id, type, levels) {
   switch(type,
     logical = {
@@ -147,6 +157,7 @@ auto_convert.factor = function(value, id, type, levels) {
   stopf("Cannot convert column '%s' to '%s' Incompatible type '%s'.", id, type, class(value)[1L])
 }
 
+#' @export
 auto_convert.ordered = function(value, id, type, levels) {
   switch(type,
     logical = {

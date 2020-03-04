@@ -9,7 +9,7 @@
 \usage{
 \method{as_data_backend}{data.frame}(data, primary_key = NULL, keep_rownames = FALSE, ...)
 
-\method{as_data_backend}{Matrix}(data, dense = NULL, primary_key = NULL, ...)
+\method{as_data_backend}{Matrix}(data, primary_key = NULL, dense = NULL, ...)
 
 as_data_backend(data, primary_key = NULL, ...)
 }
@@ -36,7 +36,7 @@ Also see \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.}
 Additional arguments passed to the respective \link{DataBackend} method.}
 
 \item{dense}{(\code{\link[=data.frame]{data.frame()}}).
-Dense data, converted to \code{\link[data.table:data.table]{data.table::data.table()}}.}
+Dense data.}
 }
 \value{
 \link{DataBackend}.

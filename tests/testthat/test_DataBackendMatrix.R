@@ -18,7 +18,7 @@ test_that("DataBackendMatrix construction", {
   b = as_data_backend(data, primary_key = 11:20)
   expect_equal(b$rownames, 11:20)
 
-  b = as_data_backend(data, dense = data.table(rid = 11:20), primary_key = "rid")
+  b = as_data_backend(data, primary_key = "rid", dense = data.table(rid = 11:20))
   expect_equal(b$rownames, 11:20)
 })
 

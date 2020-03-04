@@ -40,14 +40,17 @@ task_rbind.DataBackend = function(backend, task) {
     stopf("Cannot rbind data to task '%s', missing the following mandatory columns: %s", task$id, str_collapse(missing_cols))
   }
 
-  vunion = function(x, y) Map(union, x, y)
-  tab = merge(task$col_info, col_info(backend), by = "id", all.x = TRUE, all.y = FALSE, suffixes = c("", ".y"))
+  tab = merge(task$col_info, col_info(backend), by = "id",
+    all.x = TRUE, all.y = FALSE, suffixes = c("", ".y"))
+  levels = levels.y = type = type.y = NULL
+
   ii = head(tab[type != type.y, which = TRUE], 1L)
   if (length(ii)) {
     stopf("Cannot rbind to task: Types do not match for column: %s (%s != %s)", tab$id[ii], tab$type[ii], tab$type.y[ii])
   }
 
-  tab[get("type") %in% c("factor", "ordered"), "levels" := list(vunion(levels, levels.y))]
+  vunion = function(x, y) Map(union, x, y)
+  tab[type %in% c("factor", "ordered"), levels := list(vunion(levels, levels.y))]
   tab[, c("type.y", "levels.y") := list(NULL, NULL)]
 
   task$backend = DataBackendRbind$new(task$backend, backend)
