@@ -3,11 +3,6 @@ auto_convert = function(value, id, type, levels) {
 }
 
 #' @export
-auto_convert.default  = function(value, id, type, levels) {
-  print(str(value))
-}
-
-#' @export
 auto_convert.logical = function(value, id, type, levels) {
   switch(type,
     logical = {
