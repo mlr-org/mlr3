@@ -13,6 +13,13 @@ expect_Matrix = function(x, ...) {
 test_that("DataBackendMatrix construction", {
   b = as_data_backend(data)
   expect_backend(b)
+  expect_equal(b$rownames, 1:10)
+
+  b = as_data_backend(data, primary_key = 11:20)
+  expect_equal(b$rownames, 11:20)
+
+  b = as_data_backend(data, primary_key = "rid", dense = data.table(rid = 11:20))
+  expect_equal(b$rownames, 11:20)
 })
 
 test_that("DataBackendMatrix sparse output", {

@@ -20,7 +20,7 @@ dense = data.frame(
   fact = factor(sample(c("a", "b"), 10, replace = TRUE))
 )
 
-b = as_data_backend(data, dense, "..row_id")
+b = as_data_backend(data, dense = dense, primary_key = "..row_id")
 b$head()
 b$data(1:3, b$colnames, data_format = "Matrix")
 b$data(1:3, b$colnames, data_format = "data.table")
@@ -87,8 +87,8 @@ The input \code{\link[Matrix:Matrix]{Matrix::Matrix()}}.}
 \item{\code{dense}}{\code{\link[=data.frame]{data.frame()}}.
 Dense data, converted to \code{\link[data.table:data.table]{data.table::data.table()}}.}
 
-\item{\code{primary_key}}{\code{character(1)}\cr
-Name of the primary key column.}
+\item{\code{primary_key}}{(\code{character(1)} | \code{integer()})\cr
+Name of the primary key column, or integer vector of row ids.}
 }
 \if{html}{\out{</div>}}
 }

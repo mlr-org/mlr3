@@ -9,9 +9,9 @@
 \usage{
 \method{as_data_backend}{data.frame}(data, primary_key = NULL, keep_rownames = FALSE, ...)
 
-\method{as_data_backend}{Matrix}(data, dense = NULL, primary_key = NULL, ...)
+\method{as_data_backend}{Matrix}(data, primary_key = NULL, dense = NULL, ...)
 
-as_data_backend(data, ...)
+as_data_backend(data, primary_key = NULL, ...)
 }
 \arguments{
 \item{data}{\code{any}\cr
@@ -23,8 +23,8 @@ See \code{methods("as_data_backend")} for possible input formats.
 Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects implemented in \CRANpkg{dbplyr}.
 This allows to interface many different data base systems such as SQL servers.}
 
-\item{primary_key}{\code{character(1)}\cr
-Name of the primary key column.}
+\item{primary_key}{(\code{character(1)} | \code{integer()})\cr
+Name of the primary key column, or integer vector of row ids.}
 
 \item{keep_rownames}{(\code{logical(1)} | \code{character(1)})\cr
 If \code{TRUE} or a single string, keeps the row names of \code{data} as a new column.
@@ -36,7 +36,7 @@ Also see \code{\link[data.table:as.data.table]{data.table::as.data.table()}}.}
 Additional arguments passed to the respective \link{DataBackend} method.}
 
 \item{dense}{(\code{\link[=data.frame]{data.frame()}}).
-Dense data, converted to \code{\link[data.table:data.table]{data.table::data.table()}}.}
+Dense data.}
 }
 \value{
 \link{DataBackend}.

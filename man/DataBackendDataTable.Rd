@@ -94,8 +94,8 @@ Note that \code{DataBackendDataTable} does not copy the input data, while \code{
 \item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 The input \code{\link[=data.table]{data.table()}}.}
 
-\item{\code{primary_key}}{\code{character(1)}\cr
-Name of the primary key column.}
+\item{\code{primary_key}}{(\code{character(1)} | \code{integer()})\cr
+Name of the primary key column, or integer vector of row ids.}
 }
 \if{html}{\out{</div>}}
 }
