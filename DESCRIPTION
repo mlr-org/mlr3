@@ -61,7 +61,7 @@ Imports:
     digest,
     lgr (>= 0.3.0),
     mlbench,
-    mlr3measures (>= 0.1.1),
+    mlr3measures (>= 0.1.2),
     mlr3misc (>= 0.1.8),
     paradox,
     uuid

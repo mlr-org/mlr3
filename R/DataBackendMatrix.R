@@ -22,7 +22,7 @@
 #' dense = data.frame(
 #'   ..row_id = 1:10,
 #'   num = runif(10),
-#'   fact = factor(sample(c("a", "b"), 10, replace = TRUE))
+#'   fact = factor(sample(c("a", "b"), 10, replace = TRUE), levels = c("a", "b"))
 #' )
 #'
 #' b = as_data_backend(data, dense = dense, primary_key = "..row_id")
