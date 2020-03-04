@@ -226,8 +226,8 @@ The input <code><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix::Mat
 <dt><code>dense</code></dt><dd><p><code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>.
 Dense data, converted to <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p></dd>
 
-<dt><code>primary_key</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code><br />
-Name of the primary key column.</p></dd>
+<dt><code>primary_key</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> | <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
+Name of the primary key column, or integer vector of row ids.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -316,7 +316,7 @@ Column names.</p></dd>
   <span class='kw'>fact</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>), <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
 )
 
-<span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>data</span>, <span class='no'>dense</span>, <span class='st'>"..row_id"</span>)
+<span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>data</span>, <span class='kw'>dense</span> <span class='kw'>=</span> <span class='no'>dense</span>, <span class='kw'>primary_key</span> <span class='kw'>=</span> <span class='st'>"..row_id"</span>)
 <span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
 #&gt; 1:        1 0.12282178    b  0  0
 #&gt; 2:        2 0.03092667    a  0  1
