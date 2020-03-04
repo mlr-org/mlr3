@@ -7,7 +7,6 @@ task_rbind.data.frame = function(backend, task) {
     return(invisible(task))
   }
 
-  backend = as.data.table(backend)
   pk = task$backend$primary_key
   rn = task$backend$rownames
 
@@ -17,23 +16,9 @@ task_rbind.data.frame = function(backend, task) {
   }
 
   ci = task$col_info[list(names(backend)), on = "id", nomatch = NULL]
-  pmap(ci, function(id, type, levels) {
-    value = backend[[id]]
-    cl = class(value)[1L]
-
-    if (type %in% c("factor", "ordered")) {
-      newlevels = union(levels, if (is.factor(value)) levels(value) else unique(value))
-      value = as_factor(value, levels = newlevels, ordered = (type == "ordered"))
-      set(backend, j = id, value = value)
-    } else if (type != cl) {
-      if (allMissing(value)) {
-        storage.mode(value) = type
-        set(backend, j = id, value = value)
-      } else {
-        stopf("Cannot rbind to task: Types do not match for column: %s (%s != %s)", id, type, cur_type)
-      }
-    }
-  })
+  backend = do.call(data.table, Map(auto_convert,
+    value = as.list(backend)[ci$id],
+    id = ci$id, type = ci$type, levels = ci$levels))
 
   task_rbind(as_data_backend(backend, primary_key = pk), task)
 }

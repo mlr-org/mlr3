@@ -150,6 +150,7 @@ Collate:
     'Task_rbind.R'
     'as_data_backend.R'
     'assertions.R'
+    'auto_convert.R'
     'benchmark.R'
     'benchmark_grid.R'
     'default_measures.R'
