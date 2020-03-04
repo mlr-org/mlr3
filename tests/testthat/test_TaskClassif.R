@@ -71,6 +71,7 @@ test_that("Positive class always comes first", {
     expect_equal(task$negative, lvls[2])
     expect_equal(task$class_names, lvls)
     expect_equal(levels(task$truth()), lvls)
+    expect_equal(levels(task$data(cols = task$target_names)[[1L]]), lvls)
     preds = lrn$train(task)$predict(task)
     expect_equal(levels(preds$truth), lvls)
     expect_equal(levels(preds$response), lvls)
