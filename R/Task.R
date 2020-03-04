@@ -286,7 +286,10 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     rename = function(old, new) {
-      task_rename(self, old, new)
+      self$backend = DataBackendRename$new(self$backend, old, new)
+      setkeyv(self$col_info[old, ("id") := new, on = "id"], "id")
+      self$col_roles = map(self$col_roles, map_values, old = old, new = new)
+      invisible(self)
     },
 
     #' @description
@@ -466,7 +469,17 @@ Task = R6Class("Task",
       assert_names(names(rhs), "unique", permutation.of = mlr_reflections$task_col_roles[[self$task_type]], .var.name = "names of col_roles")
       assert_subset(unlist(rhs, use.names = FALSE), setdiff(self$col_info$id, self$backend$primary_key), .var.name = "elements of col_roles")
 
-      task_set_col_roles(self, private, rhs)
+      for (role in c("group", "weight", "name")) {
+        if (length(rhs[[role]]) > 1L) {
+          stopf("There may only be up to one column with role '%s'", role)
+        }
+      }
+
+      if (inherits(self, "TaskSupervised") && length(rhs$target) == 0L) {
+        stopf("Supervised tasks need at least one target column")
+      }
+
+      private$.col_roles = rhs
     },
 
     #' @field nrow (`integer(1)`)\cr
