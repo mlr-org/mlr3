@@ -237,7 +237,7 @@ Task = R6Class("Task",
     #' and virtually overwrite the rows in the [DataBackend].
     #'
     #' All columns with the roles `"target"`, `"feature"`, `"weight"`, `"group"`, `"stratum"`, and `"order"` must be present in `data`.
-    #' Columns only present in `newdata` but not in the task will be stored in the new backend, but are ignored and unaccessible by the task.
+    #' Columns only present in `data` but not in the [DataBackend] of `task` will be discarded.
     #'
     #' This operation mutates the task in-place.
     #' See the section on task mutators for more information.

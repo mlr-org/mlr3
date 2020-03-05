@@ -112,6 +112,11 @@ test_that("Task cbind", {
   task$cbind(y)
   expect_equal(task$ncol, 7L)
   expect_disjunct(task$feature_names, task$target_names)
+
+  # cbind to subsetted task
+  task = tsk("iris")$filter(1:120)
+  backend = data.table(x = runif(120))
+  task$cbind(backend)
 })
 
 test_that("cbind/rbind works", {

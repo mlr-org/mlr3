@@ -8,7 +8,8 @@ task_rbind = function(backend, task) {
     pk_in_backend = pk %in% names(backend)
     type_check = FALSE # done by auto-converter
 
-    if (ncol(backend) == pk_in_backend || nrow(backend) == 0L) {
+    keep_cols = intersect(names(backend), task$backend$colnames)
+    if (length(keep_cols) ==  pk_in_backend || nrow(backend) == 0L) {
       return(invisible(task))
     }
 
@@ -17,7 +18,7 @@ task_rbind = function(backend, task) {
       pk = seq(from = start, to = start + nrow(backend) - 1L)
     }
 
-    ci = task$col_info[list(names(backend)), on = "id", nomatch = NULL]
+    ci = task$col_info[list(keep_cols), on = "id"]
     backend = do.call(data.table, Map(auto_convert,
       value = as.list(backend)[ci$id],
       id = ci$id, type = ci$type, levels = ci$levels))

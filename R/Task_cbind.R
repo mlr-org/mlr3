@@ -6,7 +6,7 @@ task_cbind = function(backend, task) {
       return(invisible(task))
     }
 
-    row_ids = if (pk %in% names(backend)) pk else task$backend$rownames
+    row_ids = if (pk %in% names(backend)) pk else task$row_ids
     backend = as_data_backend(backend, primary_key = row_ids)
   } else {
     assert_backend(backend)
@@ -15,7 +15,7 @@ task_cbind = function(backend, task) {
     }
   }
 
-  assert_set_equal(backend$rownames, task$backend$rownames)
+  assert_set_equal(backend$rownames, task$row_ids)
   ci = col_info(backend)
 
   # update col info
