@@ -2,9 +2,11 @@ task_rbind = function(backend, task) {
   pk = task$backend$primary_key
   rn = task$backend$rownames
   pk_in_backend = TRUE
+  type_check = TRUE
 
   if (is.data.frame(backend)) {
     pk_in_backend = pk %in% names(backend)
+    type_check = FALSE # done by auto-converter
 
     if (ncol(backend) == pk_in_backend || nrow(backend) == 0L) {
       return(invisible(task))
@@ -46,9 +48,11 @@ task_rbind = function(backend, task) {
   levels = levels.y = type = type.y = NULL
 
   # type check
-  ii = head(tab[type != type.y, which = TRUE], 1L)
-  if (length(ii)) {
-    stopf("Cannot rbind to task: Types do not match for column: %s (%s != %s)", tab$id[ii], tab$type[ii], tab$type.y[ii])
+  if (type_check) {
+    ii = head(tab[type != type.y, which = TRUE], 1L)
+    if (length(ii)) {
+      stopf("Cannot rbind to task: Types do not match for column: %s (%s != %s)", tab$id[ii], tab$type[ii], tab$type.y[ii])
+    }
   }
 
   # merge factor levels

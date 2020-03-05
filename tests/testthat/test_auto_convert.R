@@ -192,6 +192,7 @@ test_that("ordered", {
     auto_convert(x, "x", "numeric", character()),
     "[Ii]ncompatible type"
   )
+
   expect_identical(
     auto_convert(x, "x", "character", character()),
     c("1", NA, "0")
