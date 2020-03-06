@@ -51,6 +51,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
       assert_list(test_sets, types = "atomicvector", len = length(train_sets), any.missing = FALSE, null.ok = TRUE)
       self$instance = list(train = train_sets, test = test_sets)
       self$task_hash = task$hash
+      self$task_nrow = task$nrow
       invisible(self)
     }
   ),

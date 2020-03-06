@@ -162,6 +162,10 @@ test_that("custom resampling (#245)", {
   design = data.table(task = list(task_boston), learner = list(lrn), resampling = list(rdesc))
   bmr = benchmark(design)
   expect_benchmark_result(bmr)
+
+  # Issue #451
+  design = benchmark_grid(task = task_boston, learner = lrn, resampling = rdesc)
+  expect_data_table(design, nrows = 1)
 })
 
 test_that("extract params", {
