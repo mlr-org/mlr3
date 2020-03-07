@@ -177,6 +177,9 @@ Do not modify any object without cloning it first.</p>
 <li><p><code><a href='as.data.table.html'>as.data.table(bmr)</a></code><br />
 BenchmarkResult -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns a copy of the internal data.</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/c.html'>c(...)</a></code><br />
+(BenchmarkResult, ...) -&gt; BenchmarkResult<br />
+Combines multiple objects convertible to BenchmarkResult into a new BenchmarkResult.</p></li>
 <li><p><code><a href='https://rdrr.io/r/stats/friedman.test.html'>friedman.test(y, ...)</a></code><br />
 BenchmarkResult -&gt; <code>"htest"</code><br />
 Applies <code><a href='https://rdrr.io/r/stats/friedman.test.html'>friedman.test()</a></code> on the benchmark result, returning an
@@ -296,7 +299,8 @@ Additional columns are kept in the resulting object, but otherwise ignored by Be
 <p><hr>
 <a id="method-combine"></a></p><h3>Method <code>combine()</code></h3>
 <p>Fuses a second BenchmarkResult into itself, mutating the BenchmarkResult in-place.
-If the second BenchmarkResult <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.</p><h3>Usage</h3>
+If the second BenchmarkResult <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.
+Note that you can alternatively use the combine function <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> which calls this method internally.</p><h3>Usage</h3>
 <p><div class="r"></p><pre>BenchmarkResult$combine(bmr)</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -461,11 +465,11 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 7ed508b9-8adb-4e95-bbb8-76cd5a0e9a54 &lt;TaskClassif&gt;
-#&gt; 2: 7ed508b9-8adb-4e95-bbb8-76cd5a0e9a54 &lt;TaskClassif&gt;
-#&gt; 3: 7ed508b9-8adb-4e95-bbb8-76cd5a0e9a54 &lt;TaskClassif&gt;
-#&gt; 4: 36435b53-96e6-49fc-9752-4ccac19f9ed4 &lt;TaskClassif&gt;
-#&gt; 5: 36435b53-96e6-49fc-9752-4ccac19f9ed4 &lt;TaskClassif&gt;
+#&gt; 1: 0e1faafc-0cce-40fb-859d-f6e3777fca37 &lt;TaskClassif&gt;
+#&gt; 2: 0e1faafc-0cce-40fb-859d-f6e3777fca37 &lt;TaskClassif&gt;
+#&gt; 3: 0e1faafc-0cce-40fb-859d-f6e3777fca37 &lt;TaskClassif&gt;
+#&gt; 4: 0e2669dd-b32f-457b-88ff-fdb298d22af3 &lt;TaskClassif&gt;
+#&gt; 5: 0e2669dd-b32f-457b-88ff-fdb298d22af3 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;

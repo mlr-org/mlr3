@@ -528,7 +528,7 @@ the primary key of the <a href='DataBackend.html'>DataBackend</a> (<code>task$ba
 In case of name clashes of row ids, rows in <code>data</code> have higher precedence
 and virtually overwrite the rows in the <a href='DataBackend.html'>DataBackend</a>.</p>
 <p>All columns with the roles <code>"target"</code>, <code>"feature"</code>, <code>"weight"</code>, <code>"group"</code>, <code>"stratum"</code>, and <code>"order"</code> must be present in <code>data</code>.
-Columns only present in <code>newdata</code> but not in the task will be stored in the new backend, but are ignored and unaccessible by the task.</p>
+Columns only present in <code>data</code> but not in the <a href='DataBackend.html'>DataBackend</a> of <code>task</code> will be discarded.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><h3>Usage</h3>
 <p><div class="r"></p><pre>Task$rbind(data)</pre><p></div></p>
