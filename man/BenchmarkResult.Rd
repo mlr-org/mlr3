@@ -17,6 +17,9 @@ Do not modify any object without cloning it first.
 \item \code{as.data.table(bmr)}\cr
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a copy of the internal data.
+\item \code{c(...)}\cr
+(\link{BenchmarkResult}, ...) -> \link{BenchmarkResult}\cr
+Combines multiple objects convertible to \link{BenchmarkResult} into a new \link{BenchmarkResult}.
 \item \code{friedman.test(y, ...)}\cr
 \link{BenchmarkResult} -> \code{"htest"}\cr
 Applies \code{\link[=friedman.test]{friedman.test()}} on the benchmark result, returning an
@@ -201,6 +204,7 @@ Printer.
 \subsection{Method \code{combine()}}{
 Fuses a second \link{BenchmarkResult} into itself, mutating the \link{BenchmarkResult} in-place.
 If the second \link{BenchmarkResult} \code{bmr} is \code{NULL}, simply returns \code{self}.
+Note that you can alternatively use the combine function \code{\link[=c]{c()}} which calls this method internally.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$combine(bmr)}\if{html}{\out{</div>}}
 }

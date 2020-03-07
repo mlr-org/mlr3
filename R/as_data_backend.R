@@ -26,3 +26,8 @@
 as_data_backend = function(data, primary_key = NULL, ...) {
   UseMethod("as_data_backend")
 }
+
+#' @export
+as_data_backend.DataBackend = function(data, primary_key = NULL, ...) {
+  data
+}

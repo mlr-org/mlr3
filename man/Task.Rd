@@ -473,7 +473,7 @@ In case of name clashes of row ids, rows in \code{data} have higher precedence
 and virtually overwrite the rows in the \link{DataBackend}.
 
 All columns with the roles \code{"target"}, \code{"feature"}, \code{"weight"}, \code{"group"}, \code{"stratum"}, and \code{"order"} must be present in \code{data}.
-Columns only present in \code{newdata} but not in the task will be stored in the new backend, but are ignored and unaccessible by the task.
+Columns only present in \code{data} but not in the \link{DataBackend} of \code{task} will be discarded.
 
 This operation mutates the task in-place.
 See the section on task mutators for more information.

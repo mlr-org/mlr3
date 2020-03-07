@@ -1,5 +1,7 @@
 # mlr3 0.1.8
 
+* Added S3 methods to combine `ResampleResult`s and `BenchmarkResult`s with
+  `c()`.
 * Fixed a bug where automatic generation of row ids could lead to duplicated ids
   via `Task$predict_newdata()`/`Task$rbind()` (#423).
 

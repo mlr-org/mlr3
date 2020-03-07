@@ -16,6 +16,9 @@
 #' * `as.data.table(bmr)`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
 #'   Returns a copy of the internal data.
+#' * `c(...)`\cr
+#'   ([BenchmarkResult], ...) -> [BenchmarkResult]\cr
+#'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
 #' * `friedman.test(y, ...)`\cr
 #'   [BenchmarkResult] -> `"htest"`\cr
 #'   Applies [friedman.test()] on the benchmark result, returning an
@@ -134,6 +137,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @description
     #' Fuses a second [BenchmarkResult] into itself, mutating the [BenchmarkResult] in-place.
     #' If the second [BenchmarkResult] `bmr` is `NULL`, simply returns `self`.
+    #' Note that you can alternatively use the combine function [c()] which calls this method internally.
     #'
     #' @param bmr ([BenchmarkResult])\cr
     #'   A second [BenchmarkResult] object.
@@ -407,6 +411,12 @@ as.data.table.BenchmarkResult = function(x, ...) {
   copy(x$data)
 }
 
+#' @export
+c.BenchmarkResult = function(...) {
+  bmrs = lapply(list(...), as_benchmark_result)
+  Reduce(function(lhs, rhs) lhs$combine(rhs), tail(bmrs, -1L), init = bmrs[[1L]]$clone())
+}
+
 #' @importFrom stats friedman.test
 #' @export
 friedman.test.BenchmarkResult = function(y, measure = NULL, ...) {
@@ -430,4 +440,9 @@ friedman.test.BenchmarkResult = function(y, measure = NULL, ...) {
 #' @export
 as_benchmark_result = function(x, ...) {
   UseMethod("as_benchmark_result")
+}
+
+#' @export
+as_benchmark_result.BenchmarkResult = function(x, ...) {
+  x
 }

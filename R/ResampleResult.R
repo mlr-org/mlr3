@@ -14,6 +14,9 @@
 #' * `as.data.table(rr)`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
 #'   Returns a copy of the internal data.
+#' * `c(...)`\cr
+#'   ([ResampleResult], ...) -> [BenchmarkResult]\cr
+#'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
 #'
 #' @export
 #' @examples
@@ -234,6 +237,11 @@ ResampleResult = R6Class("ResampleResult",
 #' @export
 as.data.table.ResampleResult = function(x, ...) {
   copy(x$data)
+}
+
+#' @export
+c.ResampleResult = function(...) {
+  do.call(c, lapply(list(...), as_benchmark_result))
 }
 
 #' @rdname as_benchmark_result

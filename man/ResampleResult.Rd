@@ -15,6 +15,9 @@ Do not modify any object without cloning it first.
 \item \code{as.data.table(rr)}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
 Returns a copy of the internal data.
+\item \code{c(...)}\cr
+(\link{ResampleResult}, ...) -> \link{BenchmarkResult}\cr
+Combines multiple objects convertible to \link{BenchmarkResult} into a new \link{BenchmarkResult}.
 }
 }
 

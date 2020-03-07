@@ -64,25 +64,34 @@ test_that("discarding model", {
 
 test_that("bmr$combine()", {
   bmr_new = benchmark(benchmark_grid(mlr_tasks$mget("pima"), learners, resamplings))
-  bmr_combined = bmr$clone(deep = TRUE)$combine(bmr_new)
+  combined = list(
+    bmr$clone(deep = TRUE)$combine(bmr_new),
+    c(bmr, bmr_new)
+  )
 
+  for(bmr_combined in combined) {
+    # new bmr gets pasted at the end of data so hashes do net get mixed up?
+    pos_old = match(bmr$uhashes, bmr_combined$uhashes)
+    pos_new = match(bmr_new$uhashes, bmr_combined$uhashes)
+    expect_true(all(pos_old < min(pos_new)))
 
-  # new bmr gets pasted at the end of data so hashes do net get mixed up?
-  pos_old = match(bmr$uhashes, bmr_combined$uhashes)
-  pos_new = match(bmr_new$uhashes, bmr_combined$uhashes)
-  expect_true(all(pos_old < min(pos_new)))
+    expect_benchmark_result(bmr)
+    expect_benchmark_result(bmr_new)
+    expect_benchmark_result(bmr_combined)
 
-  expect_benchmark_result(bmr)
-  expect_benchmark_result(bmr_new)
-  expect_benchmark_result(bmr_combined)
+    expect_data_table(bmr$data, nrows = 12)
+    expect_data_table(bmr_new$data, nrows = 6)
+    expect_data_table(bmr_combined$data, nrows = 18)
 
-  expect_data_table(bmr$data, nrows = 12)
-  expect_data_table(bmr_new$data, nrows = 6)
-  expect_data_table(bmr_combined$data, nrows = 18)
+    expect_false("pima" %in% bmr$tasks$task_id)
+    expect_true("pima" %in% bmr_new$tasks$task_id)
+    expect_true("pima" %in% bmr_combined$tasks$task_id)
+  }
 
-  expect_false("pima" %in% bmr$tasks$task_id)
-  expect_true("pima" %in% bmr_new$tasks$task_id)
-  expect_true("pima" %in% bmr_combined$tasks$task_id)
+  rr = resample(tsk("zoo"), lrn("classif.rpart"), rsmp("holdout"))
+  bmr2 = c(combined[[1]], rr)
+  expect_benchmark_result(bmr2)
+  expect_data_table(bmr2$data, nrows = 19)
 })
 
 test_that("empty bmr", {
@@ -164,7 +173,7 @@ test_that("custom resampling (#245)", {
   expect_benchmark_result(bmr)
 
   # Issue #451
-  design = benchmark_grid(task = task_boston, learner = lrn, resampling = rdesc)
+  design = benchmark_grid(tasks = task_boston, learners = lrn, resamplings = rdesc)
   expect_data_table(design, nrows = 1)
 })
 
