@@ -33,6 +33,12 @@
 #'   Anyway, the class label with maximum ratio is selected.
 #'   In case of ties in the ratio, one of the tied class labels is selected randomly.
 #'
+#'   Note that there are the following edge cases for threshold equal to `0` which are handled specially:
+#'   1. With threshold 0 the resulting ratio gets `Inf` and thus gets always selected.
+#'      If there are multiple ratios with value `Inf`, one is selected according to `ties_method` (randomly per default).
+#'   2. If additionally the predicted probability is also 0, the ratio `0/0` results in `NaN` values.
+#'      These are simply replaced by `0` and thus will never get selected.
+#'
 #' @family Prediction
 #' @export
 #' @examples
@@ -125,12 +131,15 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' See the section on thresholding for more information.
     #'
     #' @param threshold (`numeric()`).
+    #' @param ties_method (`character(1)`)\cr
+    #'   One of `"random"`, `"first"` or `"last"` (c.f. [max.col()]) to determine how to deal with
+    #'   tied probabilities.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    set_threshold = function(threshold) {
+    set_threshold = function(threshold, ties_method = "random") {
       if (!is.matrix(self$data$prob)) {
         stopf("Cannot set threshold, no probabilities available")
       }
@@ -148,11 +157,11 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         threshold = threshold[lvls] # reorder thresh so it is in the same order as levels
 
         # multiply all rows by threshold, then get index of max element per row
-        w = ifelse(threshold > 0, 1 / threshold, Inf)
-        prob = self$data$prob %*% diag(w)
+        prob = self$data$prob %*% diag(1 / threshold) # can generate Inf for threshold 0
+        prob[is.na(prob)] = 0 # NaN results from 0 * Inf, replace with 0, c.f. #452
       }
 
-      ind = max.col(prob, ties.method = "random")
+      ind = max.col(prob, ties.method = ties_method)
       self$data$tab$response = factor(lvls[ind], levels = lvls)
       invisible(self)
     }

@@ -72,6 +72,32 @@ test_that("setting threshold multiclass", {
   expect_equal(as.character(unique(x$response)), task$class_names[1L])
 })
 
+test_that("setting threshold edge cases (#452)", {
+  learner = lrn("classif.rpart", predict_type = "prob")
+  t = tsk("iris")
+  prd = learner$train(t)$predict(t$clone()$filter(c(1, 51, 101)))
+
+  prd$set_threshold(c(setosa = 0, versicolor = 0, virginica = 0), ties_method = "first")
+  expect_equal(as.character(prd$response), c("setosa", "versicolor", "versicolor"))
+  prd$set_threshold(c(setosa = 0, versicolor = 0, virginica = 0), ties_method = "last")
+  expect_equal(as.character(prd$response), c("setosa", "virginica", "virginica"))
+
+  prd$set_threshold(c(setosa = 1, versicolor = 0, virginica = 0), ties_method = "first")
+  expect_equal(as.character(prd$response), c("setosa", "versicolor", "versicolor"))
+  prd$set_threshold(c(setosa = 1, versicolor = 0, virginica = 0), ties_method = "last")
+  expect_equal(as.character(prd$response), c("setosa", "virginica", "virginica"))
+
+  prd$set_threshold(c(setosa = 0, versicolor = 1, virginica = 0), ties_method = "first")
+  expect_equal(as.character(prd$response), c("setosa", "virginica", "virginica"))
+  prd$set_threshold(c(setosa = 0, versicolor = 1, virginica = 0), ties_method = "last")
+  expect_equal(as.character(prd$response), c("setosa", "virginica", "virginica"))
+
+  prd$set_threshold(c(setosa = 0, versicolor = 0, virginica = 1), ties_method = "first")
+  expect_equal(as.character(prd$response), c("setosa", "versicolor", "versicolor"))
+  prd$set_threshold(c(setosa = 0, versicolor = 0, virginica = 1), ties_method = "last")
+  expect_equal(as.character(prd$response), c("setosa", "versicolor", "versicolor"))
+})
+
 test_that("confusion", {
   task = tsk("iris")
   lrn = lrn("classif.featureless")

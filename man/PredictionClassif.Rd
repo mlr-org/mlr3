@@ -34,6 +34,14 @@ This results in a ratio > 1 if the probability exceeds the threshold, and a rati
 Note that it is possible that either none or multiple ratios are greater than 1 at the same time.
 Anyway, the class label with maximum ratio is selected.
 In case of ties in the ratio, one of the tied class labels is selected randomly.
+
+Note that there are the following edge cases for threshold equal to \code{0} which are handled specially:
+\enumerate{
+\item With threshold 0 the resulting ratio gets \code{Inf} and thus gets always selected.
+If there are multiple ratios with value \code{Inf}, one is selected according to \code{ties_method} (randomly per default).
+\item If additionally the predicted probability is also 0, the ratio \code{0/0} results in \code{NaN} values.
+These are simply replaced by \code{0} and thus will never get selected.
+}
 }
 }
 
@@ -148,13 +156,17 @@ the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method
 Sets the prediction response based on the provided threshold.
 See the section on thresholding for more information.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PredictionClassif$set_threshold(threshold)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PredictionClassif$set_threshold(threshold, ties_method = "random")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{threshold}}{(\code{numeric()}).}
+
+\item{\code{ties_method}}{(\code{character(1)})\cr
+One of \code{"random"}, \code{"first"} or \code{"last"} (c.f. \code{\link[=max.col]{max.col()}}) to determine how to deal with
+tied probabilities.}
 }
 \if{html}{\out{</div>}}
 }
