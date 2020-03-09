@@ -1,10 +1,7 @@
 ^LICENSE$
-^tic\.R$
-^appveyor\.yml$
 ^.ignore$
 ^.editorconfig$
 ^.gitignore$
-^\.travis\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^man-roxygen$
@@ -13,8 +10,6 @@
 ^inst/extdata/.+\.R$
 ^README\.Rmd$
 ^revdep$
-mlr-ci
-.circleci
 ^paper$
 ^README.html$
 ^\.pre-commit-config\.yaml$
