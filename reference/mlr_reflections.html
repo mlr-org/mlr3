@@ -85,9 +85,13 @@ default_measures (list of character())
 List of keys for the default Measures, named by their task type.
 rr_names (character())
 Names of the objects stored in a ResampleResult.
+mlr_reflections (environment())
+Environment of converter functions used for rbind-ing new data to tasks.
+Functions are named using the pattern &quot;[from_type]___[to_type]&quot;.
+Can be extended by third-party with additional converters.
 
 " />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
+<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -150,13 +154,13 @@ Names of the objects stored in a ResampleResult.
   </a>
 </li>
 <li>
-  <a href="https://mlr-org.slack.com">
-    <span class="fab fa fab fa-slack"></span>
+  <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
+    <span class="fa fa fa fa-comments"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr">
+  <a href="https://stackoverflow.com/questions/tagged/mlr3">
     <span class="fab fa fab fa-stack-overflow"></span>
      
   </a>
@@ -227,6 +231,10 @@ List of vectors of supported <a href='Measure.html'>Measure</a> properties, name
 List of keys for the default <a href='Measure.html'>Measure</a>s, named by their task type.</p></li>
 <li><p><code>rr_names</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Names of the objects stored in a <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
+<li><p><code>mlr_reflections</code> (<code><a href='https://rdrr.io/r/base/environment.html'>environment()</a></code>)<br />
+Environment of converter functions used for <code>rbind</code>-ing new data to tasks.
+Functions are named using the pattern <code>"[from_type]___[to_type]"</code>.
+Can be extended by third-party with additional converters.</p></li>
 </ul>
 
     </div>
@@ -239,7 +247,8 @@ Names of the objects stored in a <a href='ResampleResult.html'>ResampleResult</a
     <p><a href='https://rdrr.io/r/base/environment.html'>environment</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/ls_str.html'>ls.str</a></span>(<span class='no'>mlr_reflections</span>)</div><div class='output co'>#&gt; data_formats :  chr [1:2] "data.table" "Matrix"
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/ls_str.html'>ls.str</a></span>(<span class='no'>mlr_reflections</span>)</div><div class='output co'>#&gt; auto_converters : &lt;environment: 0x7fef2ea4d080&gt; 
+#&gt; data_formats :  chr [1:2] "data.table" "Matrix"
 #&gt; default_measures : List of 2
 #&gt;  $ classif: chr "classif.ce"
 #&gt;  $ regr   : chr "regr.mse"
@@ -270,7 +279,7 @@ Names of the objects stored in a <a href='ResampleResult.html'>ResampleResult</a
 #&gt;  $ prediction: chr  "PredictionClassif" "PredictionRegr"
 #&gt;  $ measure   : chr  "MeasureClassif" "MeasureRegr"</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
@@ -287,7 +296,7 @@ Names of the objects stored in a <a href='ResampleResult.html'>ResampleResult</a
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

@@ -59,7 +59,7 @@ Additional task properties include:
 
 
 Predefined tasks are stored in the dictionary mlr_tasks." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
+<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -122,13 +122,13 @@ Predefined tasks are stored in the dictionary mlr_tasks." />
   </a>
 </li>
 <li>
-  <a href="https://mlr-org.slack.com">
-    <span class="fab fa fab fa-slack"></span>
+  <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
+    <span class="fa fa fa fa-comments"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr">
+  <a href="https://stackoverflow.com/questions/tagged/mlr3">
     <span class="fab fa fab fa-stack-overflow"></span>
      
   </a>
@@ -217,14 +217,14 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 
 <ul>
 <li><p><a href='#method-new'><code>TaskClassif$new()</code></a></p></li>
+<li><p><a href='#method-data'><code>TaskClassif$data()</code></a></p></li>
 <li><p><a href='#method-truth'><code>TaskClassif$truth()</code></a></p></li>
+<li><p><a href='#method-droplevels'><code>TaskClassif$droplevels()</code></a></p></li>
 <li><p><a href='#method-clone'><code>TaskClassif$clone()</code></a></p></li>
 </ul>
 <p><details ><summary>Inherited methods</summary>
 <ul>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-cbind'><code>mlr3::Task$cbind()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-data'><code>mlr3::Task$data()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href='../../mlr3/html/Task.html#method-droplevels'><code>mlr3::Task$droplevels()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-filter'><code>mlr3::Task$filter()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-format'><code>mlr3::Task$format()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href='../../mlr3/html/Task.html#method-formula'><code>mlr3::Task$formula()</code></a></span></p></li>
@@ -265,6 +265,26 @@ positive class, and the second element is the negative class.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
+<a id="method-data"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
+<p>Calls <code>$data</code> from parent class <a href='Task.html'>Task</a> and ensures that levels of the target column
+are in the right order.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>TaskClassif$data(rows = NULL, cols = NULL, data_format = "data.table")</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
+Row indices.</p></dd>
+
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+<dt><code>data_format</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Depending on the <a href='DataBackend.html'>DataBackend</a>, but usually a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p>
+<p><hr>
 <a id="method-truth"></a></p><h3>Method <code>truth()</code></h3>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
 Defaults to all rows with role <code>"use"</code>.</p><h3>Usage</h3>
@@ -278,6 +298,21 @@ Row indices.</p></dd>
 </dl><p></div></p>
 <h3>Returns</h3>
 <p><code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code>.</p>
+<p><hr>
+<a id="method-droplevels"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/droplevels.html'>droplevels()</a></code></h3>
+<p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
+<code>cols</code> defaults to all columns with storage type "factor" or "ordered".
+Also updates the task property <code>"twoclass"</code>/<code>"multiclass"</code>.</p><h3>Usage</h3>
+<p><div class="r"></p><pre>TaskClassif$droplevels(cols = NULL)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl class='dl-horizontal'>
+<dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
+Column names.</p></dd>
+
+</dl><p></div></p>
+<h3>Returns</h3>
+<p>Modified <code>self</code>.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
@@ -306,7 +341,7 @@ Row indices.</p></dd>
 <span class='co'># possible properties:</span>
 <span class='no'>mlr_reflections</span>$<span class='no'>task_properties</span>$<span class='no'>classif</span></div><div class='output co'>#&gt; [1] "strata"     "groups"     "weights"    "twoclass"   "multiclass"</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#see-also">See also</a></li>
@@ -326,7 +361,7 @@ Row indices.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

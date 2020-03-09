@@ -55,7 +55,7 @@ A BenchmarkResult consists of the data row-binded data of multiple
 ResampleResults, which can easily be re-constructed.
 Note that all stored objects are accessed by reference.
 Do not modify any object without cloning it first." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
+<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,13 +118,13 @@ Do not modify any object without cloning it first." />
   </a>
 </li>
 <li>
-  <a href="https://mlr-org.slack.com">
-    <span class="fab fa fab fa-slack"></span>
+  <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
+    <span class="fa fa fa fa-comments"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr">
+  <a href="https://stackoverflow.com/questions/tagged/mlr3">
     <span class="fab fa fab fa-stack-overflow"></span>
      
   </a>
@@ -177,6 +177,9 @@ Do not modify any object without cloning it first.</p>
 <li><p><code><a href='as.data.table.html'>as.data.table(bmr)</a></code><br />
 BenchmarkResult -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
 Returns a copy of the internal data.</p></li>
+<li><p><code><a href='https://rdrr.io/r/base/c.html'>c(...)</a></code><br />
+(BenchmarkResult, ...) -&gt; BenchmarkResult<br />
+Combines multiple objects convertible to BenchmarkResult into a new BenchmarkResult.</p></li>
 <li><p><code><a href='https://rdrr.io/r/stats/friedman.test.html'>friedman.test(y, ...)</a></code><br />
 BenchmarkResult -&gt; <code>"htest"</code><br />
 Applies <code><a href='https://rdrr.io/r/stats/friedman.test.html'>friedman.test()</a></code> on the benchmark result, returning an
@@ -296,7 +299,8 @@ Additional columns are kept in the resulting object, but otherwise ignored by Be
 <p><hr>
 <a id="method-combine"></a></p><h3>Method <code>combine()</code></h3>
 <p>Fuses a second BenchmarkResult into itself, mutating the BenchmarkResult in-place.
-If the second BenchmarkResult <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.</p><h3>Usage</h3>
+If the second BenchmarkResult <code>bmr</code> is <code>NULL</code>, simply returns <code>self</code>.
+Note that you can alternatively use the combine function <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> which calls this method internally.</p><h3>Usage</h3>
 <p><div class="r"></p><pre>BenchmarkResult$combine(bmr)</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -447,8 +451,20 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 2: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;
 #&gt; 3: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;
 #&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</div><div class='input'>
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'><a href='benchmark.html'>benchmark</a></span>(<span class='no'>design</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 12 rows with 4 resampling runs
+<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'><a href='benchmark.html'>benchmark</a></span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [14:52:02.720] Benchmark with 12 resampling iterations 
+#&gt; INFO  [14:52:02.749] Applying learner 'classif.featureless' on task 'sonar' (iter 1/3) 
+#&gt; INFO  [14:52:02.781] Applying learner 'classif.featureless' on task 'sonar' (iter 2/3) 
+#&gt; INFO  [14:52:02.793] Applying learner 'classif.featureless' on task 'sonar' (iter 3/3) 
+#&gt; INFO  [14:52:02.805] Applying learner 'classif.rpart' on task 'sonar' (iter 1/3) 
+#&gt; INFO  [14:52:02.869] Applying learner 'classif.rpart' on task 'sonar' (iter 2/3) 
+#&gt; INFO  [14:52:02.906] Applying learner 'classif.rpart' on task 'sonar' (iter 3/3) 
+#&gt; INFO  [14:52:02.934] Applying learner 'classif.featureless' on task 'spam' (iter 1/3) 
+#&gt; INFO  [14:52:02.946] Applying learner 'classif.featureless' on task 'spam' (iter 2/3) 
+#&gt; INFO  [14:52:02.958] Applying learner 'classif.featureless' on task 'spam' (iter 3/3) 
+#&gt; INFO  [14:52:02.974] Applying learner 'classif.rpart' on task 'spam' (iter 1/3) 
+#&gt; INFO  [14:52:03.041] Applying learner 'classif.rpart' on task 'spam' (iter 2/3) 
+#&gt; INFO  [14:52:03.109] Applying learner 'classif.rpart' on task 'spam' (iter 3/3) 
+#&gt; INFO  [14:52:03.186] Finished benchmark </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 12 rows with 4 resampling runs
 #&gt;  nr task_id          learner_id resampling_id iters warnings errors
 #&gt;   1   sonar classif.featureless            cv     3        0      0
 #&gt;   2   sonar       classif.rpart            cv     3        0      0
@@ -461,11 +477,11 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 1091821a-f94a-4f38-b138-a23ffea519c0 &lt;TaskClassif&gt;
-#&gt; 2: 1091821a-f94a-4f38-b138-a23ffea519c0 &lt;TaskClassif&gt;
-#&gt; 3: 1091821a-f94a-4f38-b138-a23ffea519c0 &lt;TaskClassif&gt;
-#&gt; 4: a667891f-ae4a-483f-9150-eb4f6018e7e2 &lt;TaskClassif&gt;
-#&gt; 5: a667891f-ae4a-483f-9150-eb4f6018e7e2 &lt;TaskClassif&gt;
+#&gt; 1: e1fe8d00-e8cc-478a-bae0-29a4672bcbd1 &lt;TaskClassif&gt;
+#&gt; 2: e1fe8d00-e8cc-478a-bae0-29a4672bcbd1 &lt;TaskClassif&gt;
+#&gt; 3: e1fe8d00-e8cc-478a-bae0-29a4672bcbd1 &lt;TaskClassif&gt;
+#&gt; 4: b2260fe6-9357-4ab0-8828-3e5527a9a090 &lt;TaskClassif&gt;
+#&gt; 5: b2260fe6-9357-4ab0-8828-3e5527a9a090 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
@@ -507,7 +523,7 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt;        M 30 18
 #&gt;        R  3 19</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#s-methods">S3 Methods</a></li>
@@ -527,7 +543,7 @@ The <code>ushash</code> value to filter for.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

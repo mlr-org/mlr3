@@ -59,7 +59,7 @@ For example, for a classification task a single column must be marked as target 
 
 Predefined (toy) tasks are stored in the dictionary mlr_tasks,
 e.g. iris or boston_housing." />
-<meta property="og:image" content="https://mlr3.mlr-org.com/logo.png" />
+<meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -122,13 +122,13 @@ e.g. iris or boston_housing." />
   </a>
 </li>
 <li>
-  <a href="https://mlr-org.slack.com">
-    <span class="fab fa fab fa-slack"></span>
+  <a href="https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/">
+    <span class="fa fa fa fa-comments"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://stackoverflow.com/questions/tagged/mlr">
+  <a href="https://stackoverflow.com/questions/tagged/mlr3">
     <span class="fab fa fab fa-stack-overflow"></span>
      
   </a>
@@ -528,7 +528,7 @@ the primary key of the <a href='DataBackend.html'>DataBackend</a> (<code>task$ba
 In case of name clashes of row ids, rows in <code>data</code> have higher precedence
 and virtually overwrite the rows in the <a href='DataBackend.html'>DataBackend</a>.</p>
 <p>All columns with the roles <code>"target"</code>, <code>"feature"</code>, <code>"weight"</code>, <code>"group"</code>, <code>"stratum"</code>, and <code>"order"</code> must be present in <code>data</code>.
-Columns only present in <code>newdata</code> but not in the task will be stored in the new backend, but are ignored and unaccessible by the task.</p>
+Columns only present in <code>data</code> but not in the <a href='DataBackend.html'>DataBackend</a> of <code>task</code> will be discarded.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><h3>Usage</h3>
 <p><div class="r"></p><pre>Task$rbind(data)</pre><p></div></p>
@@ -668,7 +668,7 @@ Column names.</p></dd>
 #&gt; 5:  setosa          1.4          5.0         3.6   5
 #&gt; 6:  setosa          1.7          5.4         3.9   6</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#s-methods">S3 methods</a></li>
@@ -690,7 +690,7 @@ Column names.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>
