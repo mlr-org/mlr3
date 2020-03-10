@@ -90,7 +90,7 @@ This measure requires the Task during scoring to ensure that the rows and column
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -307,9 +307,9 @@ Matrix of costs (truth in columns, predicted response in rows).</p></dd>
 
 <span class='co'># fit models and calculate costs</span>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [14:20:24.878] Applying learner 'classif.rpart' on task 'german_credit' (iter 1/3) 
-#&gt; INFO  [14:20:24.907] Applying learner 'classif.rpart' on task 'german_credit' (iter 2/3) 
-#&gt; INFO  [14:20:24.936] Applying learner 'classif.rpart' on task 'german_credit' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>m</span>)</div><div class='output co'>#&gt; german_credit_costs 
+<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [09:13:17.558] Applying learner 'classif.rpart' on task 'german_credit' (iter 1/3) 
+#&gt; INFO  [09:13:17.593] Applying learner 'classif.rpart' on task 'german_credit' (iter 2/3) 
+#&gt; INFO  [09:13:17.619] Applying learner 'classif.rpart' on task 'german_credit' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>m</span>)</div><div class='output co'>#&gt; german_credit_costs 
 #&gt;            296.6667 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

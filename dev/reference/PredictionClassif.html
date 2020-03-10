@@ -89,7 +89,7 @@ probability is chosen. In case of ties, a label is selected randomly." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.7.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -192,7 +192,13 @@ To determine the class label, the probabilities are divided by the threshold.
 This results in a ratio &gt; 1 if the probability exceeds the threshold, and a ratio &lt; 1 otherwise.
 Note that it is possible that either none or multiple ratios are greater than 1 at the same time.
 Anyway, the class label with maximum ratio is selected.
-In case of ties in the ratio, one of the tied class labels is selected randomly.</p></li>
+In case of ties in the ratio, one of the tied class labels is selected randomly.</p>
+<p>Note that there are the following edge cases for threshold equal to <code>0</code> which are handled specially:</p><ol>
+<li><p>With threshold 0 the resulting ratio gets <code>Inf</code> and thus gets always selected.
+If there are multiple ratios with value <code>Inf</code>, one is selected according to <code>ties_method</code> (randomly per default).</p></li>
+<li><p>If additionally the predicted probability is also 0, the ratio <code>0/0</code> results in <code>NaN</code> values.
+These are simply replaced by <code>0</code> and thus will never get selected.</p></li>
+</ol></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -278,11 +284,15 @@ the probabilities using <code><a href='https://rdrr.io/r/base/maxCol.html'>max.c
 <a id="method-set_threshold"></a></p><h3>Method <code>set_threshold()</code></h3>
 <p>Sets the prediction response based on the provided threshold.
 See the section on thresholding for more information.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>PredictionClassif$set_threshold(threshold)</pre><p></div></p>
+<p><div class="r"></p><pre>PredictionClassif$set_threshold(threshold, ties_method = "random")</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
 <dt><code>threshold</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p></dd>
+
+<dt><code>ties_method</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+One of <code>"random"</code>, <code>"first"</code> or <code>"last"</code> (c.f. <code><a href='https://rdrr.io/r/base/maxCol.html'>max.col()</a></code>) to determine how to deal with
+tied probabilities.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
