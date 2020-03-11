@@ -121,20 +121,21 @@
 <p>Efficient, object-oriented programming on the building blocks of machine learning. Successor of <a href="https://github.com/mlr-org/mlr">mlr</a>.</p>
 <!-- badges: start -->
 
-<div id="resources" class="section level2">
+<div id="resources-for-users-and-for-developers" class="section level2">
 <h2 class="hasAnchor">
-<a href="#resources" class="anchor"></a>Resources</h2>
+<a href="#resources-for-users-and-for-developers" class="anchor"></a>Resources (for users and for developers)</h2>
 <ul>
-<li>We <em>started</em> writing a <a href="https://mlr3book.mlr-org.com/">book</a>.</li>
-<li>The <a href="https://mlr3gallery.mlr-org.com">mlr3gallery</a> has some case studies and demonstrates how frequently occurring problems can be solved.</li>
+<li>We <em>started</em> writing a <a href="https://mlr3book.mlr-org.com/">book</a>. This should be your central entry point to teach yourself the package.</li>
+<li>The <a href="https://mlr3gallery.mlr-org.com">mlr3gallery</a> has some case studies and demonstrates how frequently occurring problems can be solved. You can either use this as a quick entry point, by reading some usecases, if you do not have too much time to read parts of the complete book. Or check if your specfic problem / question is already addressed as a gallery post.</li>
+<li>Videos: Currently 2 shorter videos exist, from the User2019. One on <a href="https://www.youtube.com/watch?v=wsP2hiFnDQs">mlr3</a>, one on <a href="https://www.youtube.com/watch?v=gEW5RxkbQuQ">mlr3pipelines and mlr3tuning</a>. If you want a rough, quick overview, watch these. But please note that the codebase has slightly evolved since 2019. For a reliable reference w.r.t. syntax, use book, gallery and ref manuals and cheatsheets.</li>
 <li><a href="https://mlr3.mlr-org.com/reference/">Reference Manual</a></li>
 <li><a href="https://github.com/mlr-org/mlr3/wiki/Extension-Packages">Extension packages</a></li>
 <li>
-<a href="https://github.com/mlr-org/mlr-outreach">mlr-outreach</a> contains talks and slides</li>
+<a href="https://github.com/mlr-org/mlr-outreach">mlr-outreach</a> contains talks and slides, when we present the package during conferences and events.</li>
 <li>
-<a href="https://mlr-org.com/">Blog</a> about <em>mlr</em> and <em>mlr3</em>
-</li>
-<li><a href="https://github.com/mlr-org/mlr3/wiki">Wiki</a></li>
+<a href="https://mlr-org.com/">Blog</a> about <em>mlr</em> and <em>mlr3</em>. It does currently not contain too much containt and mainly informs about some new developments and events.</li>
+<li>
+<a href="https://github.com/mlr-org/mlr3/wiki">Wiki</a>. This contains mainly information for developers.</li>
 </ul>
 </div>
 <div id="installation" class="section level2">
@@ -160,7 +161,8 @@
 <span id="cb4-2"><a href="#cb4-2"></a><span class="co">## * Target: Species</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="co">## * Properties: multiclass</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="co">## * Features (4):</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</span></span></code></pre></div>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length,</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">##     Sepal.Width</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># load learner and set hyperparameter</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>learner =<span class="st"> </span><span class="kw"><a href="reference/mlr_sugar.html">lrn</a></span>(<span class="st">"classif.rpart"</span>, <span class="dt">cp =</span> <span class="fl">.01</span>)</span></code></pre></div>
 </div>
@@ -187,7 +189,7 @@
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>measure =<span class="st"> </span><span class="kw"><a href="reference/mlr_sugar.html">msr</a></span>(<span class="st">"classif.acc"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a>prediction<span class="op">$</span><span class="kw">score</span>(measure)</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">## classif.acc </span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">##   0.9666667</span></span></code></pre></div>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">##      0.9667</span></span></code></pre></div>
 </div>
 <div id="resample" class="section level3">
 <h3 class="hasAnchor">
@@ -196,17 +198,17 @@
 <span id="cb10-2"><a href="#cb10-2"></a>resampling =<span class="st"> </span><span class="kw"><a href="reference/mlr_sugar.html">rsmp</a></span>(<span class="st">"cv"</span>, <span class="dt">folds =</span> 3L)</span>
 <span id="cb10-3"><a href="#cb10-3"></a>rr =<span class="st"> </span><span class="kw"><a href="reference/resample.html">resample</a></span>(task_iris, learner, resampling)</span>
 <span id="cb10-4"><a href="#cb10-4"></a>rr<span class="op">$</span><span class="kw">score</span>(measure)</span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">##             task task_id               learner    learner_id     resampling</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">## 1: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">## 2: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">## 3: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co">##    resampling_id iteration prediction classif.acc</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="co">## 1:            cv         1     &lt;list&gt;        0.92</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="co">## 2:            cv         2     &lt;list&gt;        0.92</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="co">## 3:            cv         3     &lt;list&gt;        0.94</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">##             task task_id               learner    learner_id</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co">## 1: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co">## 2: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co">## 3: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">##        resampling resampling_id iteration prediction classif.acc</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co">## 1: &lt;ResamplingCV&gt;            cv         1     &lt;list&gt;        0.92</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co">## 2: &lt;ResamplingCV&gt;            cv         2     &lt;list&gt;        0.92</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="co">## 3: &lt;ResamplingCV&gt;            cv         3     &lt;list&gt;        0.94</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>rr<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span>(measure)</span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">## classif.acc </span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="co">##   0.9266667</span></span></code></pre></div>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co">##      0.9267</span></span></code></pre></div>
 </div>
 </div>
 <div id="why-a-rewrite" class="section level2">
