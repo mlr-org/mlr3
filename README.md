@@ -13,9 +13,13 @@ Resources (for users and for developers)
 ----------------------------------------
 
 -   We *started* writing a [book](https://mlr3book.mlr-org.com/). This should be your central entry point to teach yourself the package.
--   The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case studies and demonstrates how frequently occurring problems can be solved. You can either use this as a quick entry point, by reading some usecases, if you do not have too much time to read parts of the complete book. Or check if your specfic problem / question is already addressed as a gallery post.
--   Videos: Currently 2 shorter videos exist, from the User2019. One on [mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs), one on [mlr3pipelines and mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ). If you want a rough, quick overview, watch these. But please note that the codebase has slightly evolved since 2019. For a reliable reference w.r.t. syntax, use book, gallery and ref manuals and cheatsheets.
+-   The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case studies and demonstrates how frequently occurring problems can be solved. You can either use this as a quick entry point, by reading some use cases, if you do not have too much time to read parts of the complete book. Or check if your specfic problem / question is already addressed as a gallery post.
+-   Videos: Currently 2 shorter videos exist, from the User2019. One on [mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs), one on [mlr3pipelines and mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ). If you want a rough, quick overview, watch these. But please note that the codebase has slightly evolved since 2019. For a reliable reference w.r.t. syntax, use book, gallery, reference manuals and cheatsheets.
 -   [Reference Manual](https://mlr3.mlr-org.com/reference/)
+-   Cheatsheets
+-   [mlr3](LINK)
+-   [mlr3tuning](LINK)
+-   [mlr3pipelines](LINK)
 -   [Extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
 -   [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains talks and slides, when we present the package during conferences and events.
 -   [Blog](https://mlr-org.com/) about *mlr* and *mlr3*. It does currently not contain too much containt and mainly informs about some new developments and events.
