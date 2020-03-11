@@ -37,7 +37,7 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 * Cheatsheets: [mlr3](LINK), [mlr3tuning](LINK), [mlr3pipelines](LINK)
 * [Extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
 * [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains talks and slides, when we present the package during conferences and events.
-* [Blog](https://mlr-org.com/) about _mlr_ and _mlr3_. It does currently not contain too much containt and mainly informs about some new developments and events.
+* [Blog](https://mlr-org.com/) about _mlr_ and _mlr3_. It does currently not contain too much content and mainly informs about some new developments and events.
 * [Wiki](https://github.com/mlr-org/mlr3/wiki). This contains mainly information for developers.
 
 ## Installation
