@@ -94,7 +94,7 @@ Note that this object is usually constructed via a derived classes, e.g. Predict
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -247,12 +247,12 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 <p><hr>
 <a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
 <p>Helper for print outputs.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Prediction$format()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Prediction</span>$<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
 <p>Printer.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Prediction$print(...)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Prediction</span>$<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>...</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -260,20 +260,20 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-help"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code></h3>
+<a id="method-help"></a></p><h3>Method <code>help()</code></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Prediction$help()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Prediction</span>$<span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-score"></a></p><h3>Method <code>score()</code></h3>
 <p>Calculates the performance for all provided measures
 <a href='Task.html'>Task</a> and <a href='Learner.html'>Learner</a> may be <code>NULL</code> for most measures, but some measures need to extract information
 from these objects.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Prediction$score(
-  measures = NULL,
-  task = NULL,
-  learner = NULL,
-  train_set = NULL
+<p><div class="r"></p><pre><span class='no'>Prediction</span>$<span class='fu'>score</span>(
+  <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>train_set</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -293,7 +293,7 @@ Measure(s) to calculate.</p></dd>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Prediction$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Prediction</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>

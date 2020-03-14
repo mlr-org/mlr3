@@ -93,7 +93,7 @@ Predefined tasks are stored in the dictionary mlr_tasks." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -244,7 +244,7 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$new(id, backend, target, positive = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>new</span>(<span class='no'>id</span>, <span class='no'>backend</span>, <span class='no'>target</span>, <span class='kw'>positive</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -268,7 +268,7 @@ positive class, and the second element is the negative class.</p></dd>
 <a id="method-data"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
 <p>Calls <code>$data</code> from parent class <a href='Task.html'>Task</a> and ensures that levels of the target column
 are in the right order.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$data(rows = NULL, cols = NULL, data_format = "data.table")</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -288,7 +288,7 @@ Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p
 <a id="method-truth"></a></p><h3>Method <code>truth()</code></h3>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
 Defaults to all rows with role <code>"use"</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$truth(rows = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>truth</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -303,7 +303,7 @@ Row indices.</p></dd>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 <code>cols</code> defaults to all columns with storage type "factor" or "ordered".
 Also updates the task property <code>"twoclass"</code>/<code>"multiclass"</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$droplevels(cols = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/base/droplevels.html'>droplevels</a></span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -316,7 +316,7 @@ Column names.</p></dd>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>

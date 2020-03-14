@@ -92,7 +92,7 @@ weighed.sample:Randomly predict a label, with probability estimated from the tra
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -179,9 +179,8 @@ Hyperparameter <code>method</code> determines the mode of operation during predi
 
     
 
-<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre>mlr_learners$get("classif.featureless")
-lrn("classif.featureless")
-</pre>
+<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"classif.featureless"</span>)
+<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)</pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -225,26 +224,26 @@ lrn("classif.featureless")
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>LearnerClassifFeatureless$new()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>LearnerClassifFeatureless</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-importance"></a></p><h3>Method <code>importance()</code></h3>
 <p>All features have a score of <code>0</code> for this learner.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>LearnerClassifFeatureless$importance()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>LearnerClassifFeatureless</span>$<span class='fu'>importance</span>()</pre><p></div></p>
 
 <h3>Returns</h3>
 <p>Named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>.</p>
 <p><hr>
 <a id="method-selected_features"></a></p><h3>Method <code>selected_features()</code></h3>
 <p>Selected features are always the empty set for this learner.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>LearnerClassifFeatureless$selected_features()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>LearnerClassifFeatureless</span>$<span class='fu'>selected_features</span>()</pre><p></div></p>
 
 <h3>Returns</h3>
 <p><code><a href='https://rdrr.io/r/base/character.html'>character(0)</a></code>.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>LearnerClassifFeatureless$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>LearnerClassifFeatureless</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>

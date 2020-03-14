@@ -89,7 +89,7 @@ Iteration numbers can be translated into folds or repeats with provided methods.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -173,9 +173,8 @@ a single cross-validation.</p>
 
     
 
-<p>This <a href='Resampling.html'>Resampling</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a> or with the associated sugar function <code><a href='mlr_sugar.html'>rsmp()</a></code>:</p><pre>mlr_resamplings$get("holdout")
-rsmp("holdout")
-</pre>
+<p>This <a href='Resampling.html'>Resampling</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a> or with the associated sugar function <code><a href='mlr_sugar.html'>rsmp()</a></code>:</p><pre><span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"holdout"</span>)
+<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"holdout"</span>)</pre>
 
     <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
 
@@ -242,12 +241,12 @@ Returns the number of resampling iterations, depending on the values stored in t
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResamplingRepeatedCV$new()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResamplingRepeatedCV</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-folds"></a></p><h3>Method <code>folds()</code></h3>
 <p>Translates iteration numbers to fold numbers.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResamplingRepeatedCV$folds(iters)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResamplingRepeatedCV</span>$<span class='fu'>folds</span>(<span class='no'>iters</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -260,7 +259,7 @@ Iteration number.</p></dd>
 <p><hr>
 <a id="method-repeats"></a></p><h3>Method <code>repeats()</code></h3>
 <p>Translates iteration numbers to repetition numbers.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResamplingRepeatedCV$repeats(iters)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResamplingRepeatedCV</span>$<span class='fu'>repeats</span>(<span class='no'>iters</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -273,7 +272,7 @@ Iteration number.</p></dd>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResamplingRepeatedCV$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResamplingRepeatedCV</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>

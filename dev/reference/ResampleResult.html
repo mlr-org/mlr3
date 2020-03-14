@@ -87,7 +87,7 @@ Do not modify any object without cloning it first." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -232,7 +232,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 <p><hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$new(data, uhash = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'>new</span>(<span class='no'>data</span>, <span class='kw'>uhash</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -248,12 +248,12 @@ This unique hash is primarily needed to group information in <a href='BenchmarkR
 <p><hr>
 <a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
 <p>Helper for print outputs.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$format()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
 <p>Printer.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$print()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -261,9 +261,9 @@ This unique hash is primarily needed to group information in <a href='BenchmarkR
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-help"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code></h3>
+<a id="method-help"></a></p><h3>Method <code>help()</code></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$help()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-prediction"></a></p><h3>Method <code>prediction()</code></h3>
@@ -271,7 +271,7 @@ This unique hash is primarily needed to group information in <a href='BenchmarkR
 Note that performance measures do not operate on this object,
 but instead on each prediction object separately and then combine the performance scores
 with the aggregate function of the respective <a href='Measure.html'>Measure</a>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$prediction(predict_sets = "test")</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'>prediction</span>(<span class='kw'>predict_sets</span> <span class='kw'>=</span> <span class='st'>"test"</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -285,7 +285,7 @@ Subset of <code>{"train", "test"}</code>.</p></dd>
 <a id="method-predictions"></a></p><h3>Method <code>predictions()</code></h3>
 <p>List of prediction objects, sorted by resampling iteration.
 If multiple sets are given, these are combined to a single one for each iteration.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$predictions(predict_sets = "test")</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'>predictions</span>(<span class='kw'>predict_sets</span> <span class='kw'>=</span> <span class='st'>"test"</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -302,7 +302,7 @@ Subset of <code>{"train", "test"}</code>.</p></dd>
 Additionally, a column with the individual (per resampling iteration) performance is added for each <a href='Measure.html'>Measure</a> in <code>measures</code>,
 named with the id of the respective measure id.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href='default_measures.html'>default_measures()</a></code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$score(measures = NULL, ids = TRUE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'>score</span>(<span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -320,7 +320,7 @@ These allow to subset more conveniently.</p></dd>
 <a id="method-aggregate"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code></h3>
 <p>Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in <a href='Measure.html'>Measure</a>.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href='default_measures.html'>default_measures()</a></code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$aggregate(measures = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -333,7 +333,7 @@ Measure(s) to calculate.</p></dd>
 <p><hr>
 <a id="method-filter"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/filter.html'>filter()</a></code></h3>
 <p>Subsets the ResampleResult, reducing it to only keep the iterations specified in <code>iters</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$filter(iters)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='no'>iters</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -348,7 +348,7 @@ the object in its previous state.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResampleResult$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResampleResult</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -362,9 +362,9 @@ the object in its previous state.</p>
     <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
 <span class='no'>resampling</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; INFO  [18:56:27.729] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-#&gt; INFO  [18:56:27.747] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-#&gt; INFO  [18:56:27.763] Applying learner 'classif.rpart' on task 'iris' (iter 3/3) </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 3 iterations
+<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; INFO  [08:58:15.067] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+#&gt; INFO  [08:58:15.083] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+#&gt; INFO  [08:58:15.107] Applying learner 'classif.rpart' on task 'iris' (iter 3/3) </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 3 iterations
 #&gt; * Task: iris
 #&gt; * Learner: classif.rpart
 #&gt; * Warnings: 0 in 0 iterations

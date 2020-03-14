@@ -96,7 +96,7 @@ A guide on how to extend mlr3 with custom measures can be found in the mlr3book.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -268,19 +268,19 @@ Hash (unique identifier) for this object.</p></dd>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href='MeasureClassif.html'>MeasureClassif</a> or <a href='MeasureRegr.html'>MeasureRegr</a>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Measure$new(
-  id,
-  task_type = NA,
-  range = c(-Inf, Inf),
-  minimize = NA,
-  average = "macro",
-  aggregator = NULL,
-  properties = character(),
-  predict_type = "response",
-  predict_sets = "test",
-  task_properties = character(),
-  packages = character(),
-  man = NA_character_
+<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'>new</span>(
+  <span class='no'>id</span>,
+  <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>Inf</span>, <span class='fl'>Inf</span>),
+  <span class='kw'>minimize</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>average</span> <span class='kw'>=</span> <span class='st'>"macro"</span>,
+  <span class='kw'>aggregator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>properties</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"response"</span>,
+  <span class='kw'>predict_sets</span> <span class='kw'>=</span> <span class='st'>"test"</span>,
+  <span class='kw'>task_properties</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>packages</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>man</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -348,12 +348,12 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <p><hr>
 <a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
 <p>Helper for print outputs.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Measure$format()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
 <p>Printer.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Measure$print()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -361,9 +361,9 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-help"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code></h3>
+<a id="method-help"></a></p><h3>Method <code>help()</code></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Measure$help()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-score"></a></p><h3>Method <code>score()</code></h3>
@@ -372,7 +372,7 @@ and calculates a numeric score.
 If the measure if flagged with the properties <code>"requires_task"</code>, <code>"requires_learner"</code> or <code>"requires_train_set"</code>, you must additionally
 pass the respective <a href='Task.html'>Task</a>, the trained <a href='Learner.html'>Learner</a> or the training set indices.
 This is handled internally during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Measure$score(prediction, task = NULL, learner = NULL, train_set = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'>score</span>(<span class='no'>prediction</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>train_set</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -391,7 +391,7 @@ This is handled internally during <code><a href='resample.html'>resample()</a></
 <a id="method-aggregate"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code></h3>
 <p>Aggregates multiple performance scores into a single score using the <code>aggregator</code> function of the measure.
 Operates on the <a href='Prediction.html'>Prediction</a>s of <a href='ResampleResult.html'>ResampleResult</a> with matching <code>predict_sets</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Measure$aggregate(rr)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>rr</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>

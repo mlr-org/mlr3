@@ -87,7 +87,7 @@ e.g. xor." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -209,12 +209,12 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 <p><hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskGenerator$new(
-  id,
-  task_type,
-  packages = character(),
-  param_set = ParamSet$new(),
-  man = NA_character_
+<p><div class="r"></p><pre><span class='no'>TaskGenerator</span>$<span class='fu'>new</span>(
+  <span class='no'>id</span>,
+  <span class='no'>task_type</span>,
+  <span class='kw'>packages</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>param_set</span> <span class='kw'>=</span> <span class='no'>ParamSet</span>$<span class='fu'>new</span>(),
+  <span class='kw'>man</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -242,7 +242,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <p><hr>
 <a id="method-generate"></a></p><h3>Method <code>generate()</code></h3>
 <p>Creates a task of type <code>task_type</code> with <code>n</code> observations, possibly using additional settings stored in <code>param_set</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskGenerator$generate(n)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskGenerator</span>$<span class='fu'>generate</span>(<span class='no'>n</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -255,7 +255,7 @@ Number of rows to generate.</p></dd>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskGenerator$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskGenerator</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>

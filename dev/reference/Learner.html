@@ -100,7 +100,7 @@ A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -219,17 +219,14 @@ The learner must be tagged with property <code>"oob_error"</code>.</p></li>
 <p>All information about hyperparameters is stored in the slot <code>param_set</code> which is a <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a>.
 The printer gives an overview about the ids of available hyperparameters, their storage type, lower and upper bounds,
 possible levels (for factors), default values and assigned values.
-To set hyperparameters, assign a named list to the subslot <code>values</code>:</p><pre>lrn = lrn("classif.rpart")
-lrn$param_set$values = list(minsplit = 3, cp = 0.01)
-</pre>
+To set hyperparameters, assign a named list to the subslot <code>values</code>:</p><pre><span class='no'>lrn</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
+<span class='no'>lrn</span>$<span class='no'>param_set</span>$<span class='no'>values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>minsplit</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>cp</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)</pre>
 
 <p>Note that this operation replaces all previously set hyperparameter values.
-If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href='https://mlr3misc.mlr-org.com/reference/insert_named.html'>mlr3misc::insert_named()</a></code>:</p><pre>lrn$param_set$values = mlr3misc::insert_named(lrn$param_set$values, list(cp = 0.001))
-</pre>
+If you only intend to change one specific hyperparameter value and leave the others as-is, you can use the helper function <code><a href='https://mlr3misc.mlr-org.com/reference/insert_named.html'>mlr3misc::insert_named()</a></code>:</p><pre><span class='no'>lrn</span>$<span class='no'>param_set</span>$<span class='no'>values</span> <span class='kw'>=</span> <span class='kw pkg'>mlr3misc</span><span class='kw ns'>::</span><span class='fu'><a href='https://mlr3misc.mlr-org.com/reference/insert_named.html'>insert_named</a></span>(<span class='no'>lrn</span>$<span class='no'>param_set</span>$<span class='no'>values</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>cp</span> <span class='kw'>=</span> <span class='fl'>0.001</span>))</pre>
 
 <p>If the learner has additional hyperparameters which are not encoded in the <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>ParamSet</a>, you can easily extend the learner.
-Here, we add a factor hyperparameter with id <code>"foo"</code> and possible levels <code>"a"</code> and <code>"b"</code>:</p><pre>lrn$param_set$add(paradox::ParamFct$new("foo", levels = c("a", "b")))
-</pre>
+Here, we add a factor hyperparameter with id <code>"foo"</code> and possible levels <code>"a"</code> and <code>"b"</code>:</p><pre><span class='no'>lrn</span>$<span class='no'>param_set</span>$<span class='fu'>add</span>(<span class='kw pkg'>paradox</span><span class='kw ns'>::</span><span class='no'><a href='https://paradox.mlr-org.com/reference/ParamFct.html'>ParamFct</a></span>$<span class='fu'>new</span>(<span class='st'>"foo"</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>)))</pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -356,16 +353,16 @@ See <code><a href='https://mlr3misc.mlr-org.com/reference/encapsulate.html'>mlr3
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href='LearnerClassif.html'>LearnerClassif</a> or <a href='LearnerRegr.html'>LearnerRegr</a>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Learner$new(
-  id,
-  task_type,
-  param_set = ParamSet$new(),
-  predict_types = character(),
-  feature_types = character(),
-  properties = character(),
-  data_formats = "data.table",
-  packages = character(),
-  man = NA_character_
+<p><div class="r"></p><pre><span class='no'>Learner</span>$<span class='fu'>new</span>(
+  <span class='no'>id</span>,
+  <span class='no'>task_type</span>,
+  <span class='kw'>param_set</span> <span class='kw'>=</span> <span class='no'>ParamSet</span>$<span class='fu'>new</span>(),
+  <span class='kw'>predict_types</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>feature_types</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>properties</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>data_formats</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>,
+  <span class='kw'>packages</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>man</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -415,12 +412,12 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <p><hr>
 <a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
 <p>Helper for print outputs.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Learner$format()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Learner</span>$<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
 <p>Printer.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Learner$print()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Learner</span>$<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -428,15 +425,15 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-help"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/help.html'>help()</a></code></h3>
+<a id="method-help"></a></p><h3>Method <code>help()</code></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Learner$help()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Learner</span>$<span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-train"></a></p><h3>Method <code>train()</code></h3>
 <p>Train the learner on a set of observations of the provided <code>task</code>.
 Mutates the learner by reference, i.e. stores the model alongside other information in field <code>$state</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Learner$train(task, row_ids = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Learner</span>$<span class='fu'>train</span>(<span class='no'>task</span>, <span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -454,7 +451,7 @@ the object in its previous state.</p>
 <a id="method-predict"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/predict.html'>predict()</a></code></h3>
 <p>Uses the information stored during <code>$train()</code> in <code>$state</code> to create a new <a href='Prediction.html'>Prediction</a>
 for a set of observations of the provided <code>task</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Learner$predict(task, row_ids = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Learner</span>$<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>task</span>, <span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -473,7 +470,7 @@ Object <code>task</code> is the task used during <code>$train()</code> and requi
 If the learner's <code>$train()</code> method has been called, there is a (size reduced) version of the training task stored in the learner.
 If the learner has been fitted via <code><a href='resample.html'>resample()</a></code> or <code><a href='benchmark.html'>benchmark()</a></code>, you need to pass the corresponding task stored
 in the <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkResult.html'>BenchmarkResult</a>, respectively.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Learner$predict_newdata(newdata, task = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Learner</span>$<span class='fu'>predict_newdata</span>(<span class='no'>newdata</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -489,7 +486,7 @@ Row ids are automatically created via auto-incrementing.</p></dd>
 <p><hr>
 <a id="method-reset"></a></p><h3>Method <code>reset()</code></h3>
 <p>Reset the learner, i.e. un-train by resetting the <code>state</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Learner$reset()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Learner</span>$<span class='fu'>reset</span>()</pre><p></div></p>
 
 <h3>Returns</h3>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
@@ -498,7 +495,7 @@ the object in its previous state.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>Learner$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Learner</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>

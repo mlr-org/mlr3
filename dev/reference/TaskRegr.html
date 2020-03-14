@@ -88,7 +88,7 @@ Predefined tasks are stored in the dictionary mlr_tasks." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -220,7 +220,7 @@ The <code>task_type</code> is set to <code>"regr"</code>.</p>
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskRegr$new(id, backend, target)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskRegr</span>$<span class='fu'>new</span>(<span class='no'>id</span>, <span class='no'>backend</span>, <span class='no'>target</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -239,7 +239,7 @@ Name of the target column.</p></dd>
 <a id="method-truth"></a></p><h3>Method <code>truth()</code></h3>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
 Defaults to all rows with role "use".</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskRegr$truth(rows = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskRegr</span>$<span class='fu'>truth</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>
@@ -252,7 +252,7 @@ Row indices.</p></dd>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskRegr$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskRegr</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl class='dl-horizontal'>

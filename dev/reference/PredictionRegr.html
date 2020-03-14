@@ -86,7 +86,7 @@ the predicted response and standard error." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8.9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -204,12 +204,12 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>PredictionRegr$new(
-  task = NULL,
-  row_ids = task$row_ids,
-  truth = task$truth(),
-  response = NULL,
-  se = NULL
+<p><div class="r"></p><pre><span class='no'>PredictionRegr</span>$<span class='fu'>new</span>(
+  <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>row_ids</span>,
+  <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='fu'>truth</span>(),
+  <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
