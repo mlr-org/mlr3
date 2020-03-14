@@ -117,6 +117,11 @@ test_that("Task cbind", {
   task = tsk("iris")$filter(1:120)
   backend = data.table(x = runif(120))
   task$cbind(backend)
+
+  # cbind 0-row data (#461)
+  task = tsk("iris")$filter(integer())
+  task$cbind(data.frame(x = integer()))
+  expect_set_equal(c(task$target_names, task$feature_names), c(names(iris), "x"))
 })
 
 test_that("cbind/rbind works", {

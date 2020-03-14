@@ -2,7 +2,8 @@ task_cbind = function(backend, task) {
   pk = task$backend$primary_key
 
   if (is.data.frame(backend)) {
-    if (any(dim(backend) == 0L)) {
+    # binding data with 0 rows is explicitly allowed
+    if (ncol(backend) == 0L) {
       return(invisible(task))
     }
 
