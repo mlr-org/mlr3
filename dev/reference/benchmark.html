@@ -234,28 +234,28 @@ or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw 
 #&gt; 3: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;
 #&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [08:58:17.894] Benchmark with 12 resampling iterations 
-#&gt; INFO  [08:58:17.896] Applying learner 'classif.featureless' on task 'iris' (iter 1/3) 
-#&gt; INFO  [08:58:17.908] Applying learner 'classif.featureless' on task 'iris' (iter 2/3) 
-#&gt; INFO  [08:58:17.919] Applying learner 'classif.featureless' on task 'iris' (iter 3/3) 
-#&gt; INFO  [08:58:17.929] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-#&gt; INFO  [08:58:17.946] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-#&gt; INFO  [08:58:17.971] Applying learner 'classif.rpart' on task 'iris' (iter 3/3) 
-#&gt; INFO  [08:58:17.986] Applying learner 'classif.featureless' on task 'sonar' (iter 1/3) 
-#&gt; INFO  [08:58:17.997] Applying learner 'classif.featureless' on task 'sonar' (iter 2/3) 
-#&gt; INFO  [08:58:18.008] Applying learner 'classif.featureless' on task 'sonar' (iter 3/3) 
-#&gt; INFO  [08:58:18.018] Applying learner 'classif.rpart' on task 'sonar' (iter 1/3) 
-#&gt; INFO  [08:58:18.045] Applying learner 'classif.rpart' on task 'sonar' (iter 2/3) 
-#&gt; INFO  [08:58:18.072] Applying learner 'classif.rpart' on task 'sonar' (iter 3/3) 
-#&gt; INFO  [08:58:18.122] Finished benchmark </div><div class='input'>
+<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [12:25:55.672] Benchmark with 12 resampling iterations 
+#&gt; INFO  [12:25:55.675] Applying learner 'classif.featureless' on task 'iris' (iter 1/3) 
+#&gt; INFO  [12:25:55.703] Applying learner 'classif.featureless' on task 'iris' (iter 2/3) 
+#&gt; INFO  [12:25:55.729] Applying learner 'classif.featureless' on task 'iris' (iter 3/3) 
+#&gt; INFO  [12:25:55.743] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+#&gt; INFO  [12:25:55.772] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+#&gt; INFO  [12:25:55.792] Applying learner 'classif.rpart' on task 'iris' (iter 3/3) 
+#&gt; INFO  [12:25:55.814] Applying learner 'classif.featureless' on task 'sonar' (iter 1/3) 
+#&gt; INFO  [12:25:55.828] Applying learner 'classif.featureless' on task 'sonar' (iter 2/3) 
+#&gt; INFO  [12:25:55.842] Applying learner 'classif.featureless' on task 'sonar' (iter 3/3) 
+#&gt; INFO  [12:25:55.855] Applying learner 'classif.rpart' on task 'sonar' (iter 1/3) 
+#&gt; INFO  [12:25:55.887] Applying learner 'classif.rpart' on task 'sonar' (iter 2/3) 
+#&gt; INFO  [12:25:55.923] Applying learner 'classif.rpart' on task 'sonar' (iter 3/3) 
+#&gt; INFO  [12:25:55.974] Finished benchmark </div><div class='input'>
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: b1e4b48c-8ede-4854-b97e-9ec056e4c551 &lt;TaskClassif&gt;
-#&gt; 2: b1e4b48c-8ede-4854-b97e-9ec056e4c551 &lt;TaskClassif&gt;
-#&gt; 3: b1e4b48c-8ede-4854-b97e-9ec056e4c551 &lt;TaskClassif&gt;
-#&gt; 4: 553c817d-6f9e-4919-a3b8-ebaee3746a71 &lt;TaskClassif&gt;
-#&gt; 5: 553c817d-6f9e-4919-a3b8-ebaee3746a71 &lt;TaskClassif&gt;
-#&gt; 6: 553c817d-6f9e-4919-a3b8-ebaee3746a71 &lt;TaskClassif&gt;
+#&gt; 1: da157d59-7c66-4482-9cb6-bbbadff8e45f &lt;TaskClassif&gt;
+#&gt; 2: da157d59-7c66-4482-9cb6-bbbadff8e45f &lt;TaskClassif&gt;
+#&gt; 3: da157d59-7c66-4482-9cb6-bbbadff8e45f &lt;TaskClassif&gt;
+#&gt; 4: 5df92d70-521c-430a-81e7-7b4a95550ecc &lt;TaskClassif&gt;
+#&gt; 5: 5df92d70-521c-430a-81e7-7b4a95550ecc &lt;TaskClassif&gt;
+#&gt; 6: 5df92d70-521c-430a-81e7-7b4a95550ecc &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
@@ -309,12 +309,12 @@ or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw 
 )
 
 <span class='co'>## Run benchmark</span>
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [08:58:18.207] Benchmark with 4 resampling iterations 
-#&gt; INFO  [08:58:18.209] Applying learner 'classif.featureless' on task 'iris' (iter 1/3) 
-#&gt; INFO  [08:58:18.221] Applying learner 'classif.featureless' on task 'iris' (iter 2/3) 
-#&gt; INFO  [08:58:18.232] Applying learner 'classif.featureless' on task 'iris' (iter 3/3) 
-#&gt; INFO  [08:58:18.243] Applying learner 'classif.rpart' on task 'sonar' (iter 1/1) 
-#&gt; INFO  [08:58:18.274] Finished benchmark </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs
+<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [12:25:56.154] Benchmark with 4 resampling iterations 
+#&gt; INFO  [12:25:56.157] Applying learner 'classif.featureless' on task 'iris' (iter 1/3) 
+#&gt; INFO  [12:25:56.200] Applying learner 'classif.featureless' on task 'iris' (iter 2/3) 
+#&gt; INFO  [12:25:56.216] Applying learner 'classif.featureless' on task 'iris' (iter 3/3) 
+#&gt; INFO  [12:25:56.234] Applying learner 'classif.rpart' on task 'sonar' (iter 1/1) 
+#&gt; INFO  [12:25:56.282] Finished benchmark </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs
 #&gt;  nr task_id          learner_id resampling_id iters warnings errors
 #&gt;   1    iris classif.featureless            cv     3        0      0
 #&gt;   2   sonar       classif.rpart       holdout     1        0      0</div><div class='input'>
