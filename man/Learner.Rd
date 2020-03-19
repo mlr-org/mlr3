@@ -191,6 +191,7 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
@@ -258,6 +259,7 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -267,6 +269,7 @@ Helper for print outputs.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -283,6 +286,7 @@ Printer.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-help"></a>}}
+\if{latex}{\out{\hypertarget{method-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -292,6 +296,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-train"></a>}}
+\if{latex}{\out{\hypertarget{method-train}{}}}
 \subsection{Method \code{train()}}{
 Train the learner on a set of observations of the provided \code{task}.
 Mutates the learner by reference, i.e. stores the model alongside other information in field \verb{$state}.
@@ -317,6 +322,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-predict}{}}}
 \subsection{Method \code{predict()}}{
 Uses the information stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction}
 for a set of observations of the provided \code{task}.
@@ -340,6 +346,7 @@ Vector of test indices.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-predict_newdata"></a>}}
+\if{latex}{\out{\hypertarget{method-predict_newdata}{}}}
 \subsection{Method \code{predict_newdata()}}{
 Uses the model fitted during \verb{$train()} to create a new \link{Prediction} based on the new data in \code{newdata}.
 Object \code{task} is the task used during \verb{$train()} and required for conversion of \code{newdata}.
@@ -367,6 +374,7 @@ Row ids are automatically created via auto-incrementing.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-reset"></a>}}
+\if{latex}{\out{\hypertarget{method-reset}{}}}
 \subsection{Method \code{reset()}}{
 Reset the learner, i.e. un-train by resetting the \code{state}.
 \subsection{Usage}{
@@ -381,6 +389,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

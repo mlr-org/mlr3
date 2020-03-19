@@ -155,6 +155,7 @@ Hash (unique identifier) for this object.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -189,6 +190,7 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -198,6 +200,7 @@ Helper for print outputs.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -214,6 +217,7 @@ Printer.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-help"></a>}}
+\if{latex}{\out{\hypertarget{method-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -223,6 +227,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-instantiate"></a>}}
+\if{latex}{\out{\hypertarget{method-instantiate}{}}}
 \subsection{Method \code{instantiate()}}{
 Materializes fixed training and test splits for a given task and stores them in \code{r$instance}
 in an arbitrary format.
@@ -246,6 +251,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-train_set"></a>}}
+\if{latex}{\out{\hypertarget{method-train_set}{}}}
 \subsection{Method \code{train_set()}}{
 Returns the row ids of the i-th training set.
 \subsection{Usage}{
@@ -266,6 +272,7 @@ Iteration.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-test_set"></a>}}
+\if{latex}{\out{\hypertarget{method-test_set}{}}}
 \subsection{Method \code{test_set()}}{
 Returns the row ids of the i-th test set.
 \subsection{Usage}{
@@ -286,6 +293,7 @@ Iteration.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

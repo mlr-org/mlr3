@@ -41,7 +41,8 @@ mlr_learners = R6Class("DictionaryLearner",
 #' @export
 as.data.table.DictionaryLearner = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
-    l = x$get(key)
+    l = withCallingHandlers(x$get(key),
+      packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     list(
       key = key,
       feature_types = list(l$feature_types),

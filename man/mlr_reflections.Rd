@@ -4,7 +4,9 @@
 \name{mlr_reflections}
 \alias{mlr_reflections}
 \title{Reflections for mlr3}
-\format{\link{environment}.}
+\format{
+\link{environment}.
+}
 \usage{
 mlr_reflections
 }

@@ -3,7 +3,9 @@
 \name{mlr_tasks_german_credit}
 \alias{mlr_tasks_german_credit}
 \title{German Credit Classification Task}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
+\format{
+\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.
+}
 \source{
 Data set originally published on \href{https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)}{UCI}.
 This is the preprocessed version taken from package \CRANpkg{evtree}.

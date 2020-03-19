@@ -238,6 +238,7 @@ Returns \code{NULL} if there are is no weight column.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
@@ -265,6 +266,7 @@ E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-help"></a>}}
+\if{latex}{\out{\hypertarget{method-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -274,6 +276,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -283,6 +286,7 @@ Helper for print outputs.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -299,6 +303,7 @@ Printer.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-data"></a>}}
+\if{latex}{\out{\hypertarget{method-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data from the \link{DataBackend} in the data format specified by \code{data_format}.
 Rows are additionally subsetted to only contain observations with role \code{"use"}, and
@@ -328,6 +333,7 @@ Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.t
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-formula"></a>}}
+\if{latex}{\out{\hypertarget{method-formula}{}}}
 \subsection{Method \code{formula()}}{
 Constructs a \code{\link[=formula]{formula()}}, e.g. \verb{[target] ~ [feature_1] + [feature_2] + ... + [feature_k]},
 using the features provided in argument \code{rhs} (defaults to all columns with role \code{"feature"}, symbolized by \code{"."}).
@@ -349,6 +355,7 @@ Right hand side of the formula. Defaults to \code{"."} (all features of the task
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-head"></a>}}
+\if{latex}{\out{\hypertarget{method-head}{}}}
 \subsection{Method \code{head()}}{
 Get the first \code{n} observations with role \code{"use"} of all columns with role \code{"target"} or \code{"feature"}.
 \subsection{Usage}{
@@ -368,6 +375,7 @@ Get the first \code{n} observations with role \code{"use"} of all columns with r
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-levels"></a>}}
+\if{latex}{\out{\hypertarget{method-levels}{}}}
 \subsection{Method \code{levels()}}{
 Returns the distinct values for columns referenced in \code{cols} with storage type "factor" or "ordered".
 Argument \code{cols} defaults to all such columns with role \code{"target"} or \code{"feature"}.
@@ -392,6 +400,7 @@ named \code{list()}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-missings"></a>}}
+\if{latex}{\out{\hypertarget{method-missings}{}}}
 \subsection{Method \code{missings()}}{
 Returns the number of missing observations for columns referenced in \code{cols}.
 Considers only active rows with row role \code{"use"}.
@@ -414,6 +423,7 @@ Named \code{integer()}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the task, keeping only the rows specified via row ids \code{rows}.
 
@@ -439,6 +449,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-select"></a>}}
+\if{latex}{\out{\hypertarget{method-select}{}}}
 \subsection{Method \code{select()}}{
 Subsets the task, keeping only the features specified via column names \code{cols}.
 Note that you cannot deselect the target column, for obvious reasons.
@@ -465,6 +476,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-rbind"></a>}}
+\if{latex}{\out{\hypertarget{method-rbind}{}}}
 \subsection{Method \code{rbind()}}{
 Adds additional rows to the \link{DataBackend} stored in \verb{$backend}.
 New row ids are automatically created, unless \code{data} has a column whose name matches
@@ -496,6 +508,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-cbind"></a>}}
+\if{latex}{\out{\hypertarget{method-cbind}{}}}
 \subsection{Method \code{cbind()}}{
 Adds additional columns to the \link{DataBackend} stored in \verb{$backend}.
 
@@ -520,6 +533,7 @@ See the section on task mutators for more information.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-rename"></a>}}
+\if{latex}{\out{\hypertarget{method-rename}{}}}
 \subsection{Method \code{rename()}}{
 Renames columns by mapping column names in \code{old} to new column names in \code{new} (element-wise).
 
@@ -548,6 +562,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_row_role"></a>}}
+\if{latex}{\out{\hypertarget{method-set_row_role}{}}}
 \subsection{Method \code{set_row_role()}}{
 Adds the roles \code{new_roles} to rows referred to by row ids \code{rows}.
 If \code{exclusive} is \code{TRUE}, the referenced rows will be removed from all other roles.
@@ -577,6 +592,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_col_role"></a>}}
+\if{latex}{\out{\hypertarget{method-set_col_role}{}}}
 \subsection{Method \code{set_col_role()}}{
 Adds the roles \code{new_roles} to columns referred to by column names \code{cols}.
 If \code{exclusive} is \code{TRUE}, the referenced columns will be removed from all other roles.
@@ -606,6 +622,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-droplevels"></a>}}
+\if{latex}{\out{\hypertarget{method-droplevels}{}}}
 \subsection{Method \code{droplevels()}}{
 Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 \code{cols} defaults to all columns with storage type "factor" or "ordered".
@@ -627,6 +644,7 @@ Modified \code{self}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

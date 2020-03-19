@@ -110,6 +110,7 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -152,6 +153,7 @@ the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_threshold"></a>}}
+\if{latex}{\out{\hypertarget{method-set_threshold}{}}}
 \subsection{Method \code{set_threshold()}}{
 Sets the prediction response based on the provided threshold.
 See the section on thresholding for more information.

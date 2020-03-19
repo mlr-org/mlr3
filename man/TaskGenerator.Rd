@@ -53,6 +53,7 @@ Defaults to \code{NA}, but can be set by child classes.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -92,6 +93,7 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-generate"></a>}}
+\if{latex}{\out{\hypertarget{method-generate}{}}}
 \subsection{Method \code{generate()}}{
 Creates a task of type \code{task_type} with \code{n} observations, possibly using additional settings stored in \code{param_set}.
 \subsection{Usage}{
@@ -112,6 +114,7 @@ Number of rows to generate.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

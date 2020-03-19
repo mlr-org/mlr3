@@ -3,7 +3,9 @@
 \name{mlr_tasks_wine}
 \alias{mlr_tasks_wine}
 \title{Wine Classification Task}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
+\format{
+\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.
+}
 \source{
 Original owners:
 Forina, M. et al, PARVUS - An Extendible Package for Data Exploration, Classification and Correlation.

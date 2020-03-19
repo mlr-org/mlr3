@@ -72,6 +72,7 @@ Number of columns (variables), including the primary key column.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -95,6 +96,7 @@ Name of the primary key column, or integer vector of row ids.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-data"></a>}}
+\if{latex}{\out{\hypertarget{method-data}{}}}
 \subsection{Method \code{data()}}{
 Returns a slice of the data in the specified format.
 Currently, the only supported formats are \code{"data.table"} and \code{"Matrix"}.
@@ -123,6 +125,7 @@ Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-head"></a>}}
+\if{latex}{\out{\hypertarget{method-head}{}}}
 \subsection{Method \code{head()}}{
 Retrieve the first \code{n} rows.
 \subsection{Usage}{
@@ -143,6 +146,7 @@ Number of rows.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-distinct"></a>}}
+\if{latex}{\out{\hypertarget{method-distinct}{}}}
 \subsection{Method \code{distinct()}}{
 Returns a named list of vectors of distinct values for each column
 specified. If \code{na_rm} is \code{TRUE}, missing values are removed from the
@@ -172,6 +176,7 @@ Named \code{list()} of distinct values.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-missings"></a>}}
+\if{latex}{\out{\hypertarget{method-missings}{}}}
 \subsection{Method \code{missings()}}{
 Returns the number of missing values per column in the specified slice
 of data. Non-existing rows and columns are silently ignored.
