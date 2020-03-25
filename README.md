@@ -33,12 +33,13 @@ Checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/w
     overview about the package ecosystem and design ideas.
       - [mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
       - [mlr3pipelines and
-        mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ).  
+        mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
   - [mlr3 reference manual](https://mlr3.mlr-org.com/reference/)
   - **Cheatsheets**
-      - mlr3 (WIP)
-      - mlr3tuning (WIP)
-      - mlr3pipelines (WIP)
+      - [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
+      - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
+      - [mlr3tuning](https://cheatsheets.mlr-org.com/mlr3tuning.pdf)
+      - [mlr3pipelines](https://cheatsheets.mlr-org.com/mlr3pipelines.pdf)
   - **Templates/Tutorials**
       - [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake):
         Shows how to use mlr3 with
@@ -75,7 +76,7 @@ remotes::install_github("mlr-org/mlr3")
 library(mlr3)
 
 # create learning task
-task_iris = TaskClassif$new(id = "iris", backend = iris, target = "Species")
+task_iris <- TaskClassif$new(id = "iris", backend = iris, target = "Species")
 task_iris
 ```
 
@@ -87,21 +88,21 @@ task_iris
 
 ``` r
 # load learner and set hyperparameter
-learner = lrn("classif.rpart", cp = .01)
+learner <- lrn("classif.rpart", cp = .01)
 ```
 
 ### Basic train + predict
 
 ``` r
 # train/test split
-train_set = sample(task_iris$nrow, 0.8 * task_iris$nrow)
-test_set = setdiff(seq_len(task_iris$nrow), train_set)
+train_set <- sample(task_iris$nrow, 0.8 * task_iris$nrow)
+test_set <- setdiff(seq_len(task_iris$nrow), train_set)
 
 # train the model
 learner$train(task_iris, row_ids = train_set)
 
 # predict data
-prediction = learner$predict(task_iris, row_ids = test_set)
+prediction <- learner$predict(task_iris, row_ids = test_set)
 
 # calculate performance
 prediction$confusion
@@ -114,7 +115,7 @@ prediction$confusion
     ##   virginica       0          0         6
 
 ``` r
-measure = msr("classif.acc")
+measure <- msr("classif.acc")
 prediction$score(measure)
 ```
 
@@ -125,8 +126,8 @@ prediction$score(measure)
 
 ``` r
 # automatic resampling
-resampling = rsmp("cv", folds = 3L)
-rr = resample(task_iris, learner, resampling)
+resampling <- rsmp("cv", folds = 3L)
+rr <- resample(task_iris, learner, resampling)
 rr$score(measure)
 ```
 

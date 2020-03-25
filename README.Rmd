@@ -8,7 +8,6 @@ set.seed(1)
 options(datatable.print.class = FALSE, datatable.print.keys = FALSE)
 ```
 
-
 # mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
 Package website: [release](https://mlr3.mlr-org.com/) | [dev](https://mlr3.mlr-org.com/dev)
@@ -33,15 +32,16 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 * The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case studies and demonstrates how frequently occurring problems can be solved.
   It is still in early days so stay tuned for more to come.
 * **Videos**:
-  Currently 2 recorded talks exist from useR!2019. 
+  Currently 2 recorded talks exist from useR!2019.
   Both are somewhat outdated already but can be useful to get a first overview about the package ecosystem and design ideas.
   - [mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
   - [mlr3pipelines and mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
 * [mlr3 reference manual](https://mlr3.mlr-org.com/reference/)
 * **Cheatsheets**
-  - mlr3 (WIP)
-  - mlr3tuning (WIP)
-  - mlr3pipelines (WIP)
+  - [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
+  - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
+  - [mlr3tuning](https://cheatsheets.mlr-org.com/mlr3tuning.pdf)
+  - [mlr3pipelines](https://cheatsheets.mlr-org.com/mlr3pipelines.pdf)
 * **Templates/Tutorials**
   - [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake): Shows how to use mlr3 with [drake](https://docs.ropensci.org/drake/) for reproducible ML workflow automation.
 * [List of extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
@@ -73,29 +73,29 @@ remotes::install_github("mlr-org/mlr3")
 library(mlr3)
 
 # create learning task
-task_iris = TaskClassif$new(id = "iris", backend = iris, target = "Species")
+task_iris <- TaskClassif$new(id = "iris", backend = iris, target = "Species")
 task_iris
 
 # load learner and set hyperparameter
-learner = lrn("classif.rpart", cp = .01)
+learner <- lrn("classif.rpart", cp = .01)
 ```
 
 ### Basic train + predict
 
 ```{r}
 # train/test split
-train_set = sample(task_iris$nrow, 0.8 * task_iris$nrow)
-test_set = setdiff(seq_len(task_iris$nrow), train_set)
+train_set <- sample(task_iris$nrow, 0.8 * task_iris$nrow)
+test_set <- setdiff(seq_len(task_iris$nrow), train_set)
 
 # train the model
 learner$train(task_iris, row_ids = train_set)
 
 # predict data
-prediction = learner$predict(task_iris, row_ids = test_set)
+prediction <- learner$predict(task_iris, row_ids = test_set)
 
 # calculate performance
 prediction$confusion
-measure = msr("classif.acc")
+measure <- msr("classif.acc")
 prediction$score(measure)
 ```
 
@@ -103,8 +103,8 @@ prediction$score(measure)
 
 ```{r}
 # automatic resampling
-resampling = rsmp("cv", folds = 3L)
-rr = resample(task_iris, learner, resampling)
+resampling <- rsmp("cv", folds = 3L)
+rr <- resample(task_iris, learner, resampling)
 rr$score(measure)
 rr$aggregate(measure)
 ```
