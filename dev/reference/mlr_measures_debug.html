@@ -199,7 +199,7 @@ Its main purpose is debugging.</p>
     <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureDebug</code></p>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
-    <p><div class="r6-fields"></p><dl class='dl-horizontal'>
+    <p><div class="r6-fields"></p><dl'>
 <dt><code>na_ratio</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>)<br />
 Ratio of scores which randomly should be <code>NA</code>, between 0 (default) and 1.
 Default is 0.</p></dd>
@@ -235,7 +235,7 @@ Default is 0.</p></dd>
 <p><div class="r"></p><pre><span class='no'>MeasureDebug</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -246,9 +246,9 @@ Default is 0.</p></dd>
     <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"wine"</span>)
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)
 <span class='no'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"debug"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [19:26:03.060] Applying learner 'classif.featureless' on task 'wine' (iter 1/3) 
-#&gt; INFO  [19:26:03.071] Applying learner 'classif.featureless' on task 'wine' (iter 2/3) 
-#&gt; INFO  [19:26:03.082] Applying learner 'classif.featureless' on task 'wine' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'>score</span>(<span class='no'>measure</span>)</div><div class='output co'>#&gt;             task task_id                     learner          learner_id
+<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [11:01:31.192] Applying learner 'classif.featureless' on task 'wine' (iter 1/3) 
+#&gt; INFO  [11:01:31.203] Applying learner 'classif.featureless' on task 'wine' (iter 2/3) 
+#&gt; INFO  [11:01:31.214] Applying learner 'classif.featureless' on task 'wine' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'>score</span>(<span class='no'>measure</span>)</div><div class='output co'>#&gt;             task task_id                     learner          learner_id
 #&gt; 1: &lt;TaskClassif&gt;    wine &lt;LearnerClassifFeatureless&gt; classif.featureless
 #&gt; 2: &lt;TaskClassif&gt;    wine &lt;LearnerClassifFeatureless&gt; classif.featureless
 #&gt; 3: &lt;TaskClassif&gt;    wine &lt;LearnerClassifFeatureless&gt; classif.featureless

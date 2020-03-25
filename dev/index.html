@@ -131,18 +131,17 @@
 <strong>Videos</strong>: Currently 2 recorded talks exist from useR!2019. Both are somewhat outdated already but can be useful to get a first overview about the package ecosystem and design ideas.
 <ul>
 <li><a href="https://www.youtube.com/watch?v=wsP2hiFnDQs">mlr3</a></li>
-<li>
-<a href="https://www.youtube.com/watch?v=gEW5RxkbQuQ">mlr3pipelines and mlr3tuning</a>.<br>
-</li>
+<li><a href="https://www.youtube.com/watch?v=gEW5RxkbQuQ">mlr3pipelines and mlr3tuning</a></li>
 </ul>
 </li>
 <li><a href="https://mlr3.mlr-org.com/reference/">mlr3 reference manual</a></li>
 <li>
 <strong>Cheatsheets</strong>
 <ul>
-<li>mlr3 (WIP)</li>
-<li>mlr3tuning (WIP)</li>
-<li>mlr3pipelines (WIP)</li>
+<li><a href="https://cheatsheets.mlr-org.com">Overview of cheatsheets</a></li>
+<li><a href="https://cheatsheets.mlr-org.com/mlr3.pdf">mlr3</a></li>
+<li><a href="https://cheatsheets.mlr-org.com/mlr3tuning.pdf">mlr3tuning</a></li>
+<li><a href="https://cheatsheets.mlr-org.com/mlr3pipelines.pdf">mlr3pipelines</a></li>
 </ul>
 </li>
 <li>
@@ -164,9 +163,9 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the last release from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"mlr3"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"mlr3"</span>)</pre></div>
 <p>Install the development version from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"mlr-org/mlr3"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"mlr-org/mlr3"</span>)</pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
@@ -174,51 +173,51 @@
 <div id="constructing-learners-and-tasks" class="section level3">
 <h3 class="hasAnchor">
 <a href="#constructing-learners-and-tasks" class="anchor"></a>Constructing Learners and Tasks</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(mlr3)</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># create learning task</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>task_iris =<span class="st"> </span>TaskClassif<span class="op">$</span><span class="kw">new</span>(<span class="dt">id =</span> <span class="st">"iris"</span>, <span class="dt">backend =</span> iris, <span class="dt">target =</span> <span class="st">"Species"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5"></a>task_iris</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">mlr3</span>)
+
+<span class="co"># create learning task</span>
+<span class="no">task_iris</span> <span class="kw">&lt;-</span> <span class="no">TaskClassif</span>$<span class="fu">new</span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"iris"</span>, <span class="kw">backend</span> <span class="kw">=</span> <span class="no">iris</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="st">"Species"</span>)
+<span class="no">task_iris</span></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">## &lt;TaskClassif:iris&gt; (150 x 5)</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="co">## * Target: Species</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="co">## * Properties: multiclass</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="co">## * Features (4):</span></span>
 <span id="cb4-5"><a href="#cb4-5"></a><span class="co">##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># load learner and set hyperparameter</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>learner =<span class="st"> </span><span class="kw"><a href="reference/mlr_sugar.html">lrn</a></span>(<span class="st">"classif.rpart"</span>, <span class="dt">cp =</span> <span class="fl">.01</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="co"># load learner and set hyperparameter</span>
+<span class="no">learner</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">lrn</a></span>(<span class="st">"classif.rpart"</span>, <span class="kw">cp</span> <span class="kw">=</span> <span class="fl">.01</span>)</pre></div>
 </div>
 <div id="basic-train--predict" class="section level3">
 <h3 class="hasAnchor">
 <a href="#basic-train--predict" class="anchor"></a>Basic train + predict</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># train/test split</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>train_set =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(task_iris<span class="op">$</span>nrow, <span class="fl">0.8</span> <span class="op">*</span><span class="st"> </span>task_iris<span class="op">$</span>nrow)</span>
-<span id="cb6-3"><a href="#cb6-3"></a>test_set =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span>(task_iris<span class="op">$</span>nrow), train_set)</span>
-<span id="cb6-4"><a href="#cb6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co"># train the model</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>learner<span class="op">$</span><span class="kw">train</span>(task_iris, <span class="dt">row_ids =</span> train_set)</span>
-<span id="cb6-7"><a href="#cb6-7"></a></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co"># predict data</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a>prediction =<span class="st"> </span>learner<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(task_iris, <span class="dt">row_ids =</span> test_set)</span>
-<span id="cb6-10"><a href="#cb6-10"></a></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co"># calculate performance</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a>prediction<span class="op">$</span>confusion</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="co"># train/test split</span>
+<span class="no">train_set</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="no">task_iris</span>$<span class="no">nrow</span>, <span class="fl">0.8</span> * <span class="no">task_iris</span>$<span class="no">nrow</span>)
+<span class="no">test_set</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span>(<span class="no">task_iris</span>$<span class="no">nrow</span>), <span class="no">train_set</span>)
+
+<span class="co"># train the model</span>
+<span class="no">learner</span>$<span class="fu">train</span>(<span class="no">task_iris</span>, <span class="kw">row_ids</span> <span class="kw">=</span> <span class="no">train_set</span>)
+
+<span class="co"># predict data</span>
+<span class="no">prediction</span> <span class="kw">&lt;-</span> <span class="no">learner</span>$<span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">task_iris</span>, <span class="kw">row_ids</span> <span class="kw">=</span> <span class="no">test_set</span>)
+
+<span class="co"># calculate performance</span>
+<span class="no">prediction</span>$<span class="no">confusion</span></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">##             truth</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="co">## response     setosa versicolor virginica</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co">##   setosa         11          0         0</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="co">##   versicolor      0         12         1</span></span>
 <span id="cb7-5"><a href="#cb7-5"></a><span class="co">##   virginica       0          0         6</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>measure =<span class="st"> </span><span class="kw"><a href="reference/mlr_sugar.html">msr</a></span>(<span class="st">"classif.acc"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>prediction<span class="op">$</span><span class="kw">score</span>(measure)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">measure</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">msr</a></span>(<span class="st">"classif.acc"</span>)
+<span class="no">prediction</span>$<span class="fu">score</span>(<span class="no">measure</span>)</pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">## classif.acc </span></span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="co">##   0.9666667</span></span></code></pre></div>
 </div>
 <div id="resample" class="section level3">
 <h3 class="hasAnchor">
 <a href="#resample" class="anchor"></a>Resample</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># automatic resampling</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>resampling =<span class="st"> </span><span class="kw"><a href="reference/mlr_sugar.html">rsmp</a></span>(<span class="st">"cv"</span>, <span class="dt">folds =</span> 3L)</span>
-<span id="cb10-3"><a href="#cb10-3"></a>rr =<span class="st"> </span><span class="kw"><a href="reference/resample.html">resample</a></span>(task_iris, learner, resampling)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>rr<span class="op">$</span><span class="kw">score</span>(measure)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="r"><span class="co"># automatic resampling</span>
+<span class="no">resampling</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">rsmp</a></span>(<span class="st">"cv"</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="fl">3L</span>)
+<span class="no">rr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/resample.html">resample</a></span>(<span class="no">task_iris</span>, <span class="no">learner</span>, <span class="no">resampling</span>)
+<span class="no">rr</span>$<span class="fu">score</span>(<span class="no">measure</span>)</pre></div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">##             task task_id               learner    learner_id     resampling</span></span>
 <span id="cb11-2"><a href="#cb11-2"></a><span class="co">## 1: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</span></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="co">## 2: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;</span></span>
@@ -227,7 +226,7 @@
 <span id="cb11-6"><a href="#cb11-6"></a><span class="co">## 1:            cv         1     &lt;list&gt;        0.92</span></span>
 <span id="cb11-7"><a href="#cb11-7"></a><span class="co">## 2:            cv         2     &lt;list&gt;        0.92</span></span>
 <span id="cb11-8"><a href="#cb11-8"></a><span class="co">## 3:            cv         3     &lt;list&gt;        0.94</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>rr<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span>(measure)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="r"><span class="no">rr</span>$<span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span>(<span class="no">measure</span>)</pre></div>
 <div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">## classif.acc </span></span>
 <span id="cb13-2"><a href="#cb13-2"></a><span class="co">##   0.9266667</span></span></code></pre></div>
 </div>
