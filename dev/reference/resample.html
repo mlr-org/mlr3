@@ -240,16 +240,16 @@ or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
 <span class='no'>resampling</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
 
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; INFO  [11:01:38.366] Applying learner 'classif.rpart' on task 'iris' (iter 1/10) 
-#&gt; INFO  [11:01:38.383] Applying learner 'classif.rpart' on task 'iris' (iter 2/10) 
-#&gt; INFO  [11:01:38.400] Applying learner 'classif.rpart' on task 'iris' (iter 3/10) 
-#&gt; INFO  [11:01:38.416] Applying learner 'classif.rpart' on task 'iris' (iter 4/10) 
-#&gt; INFO  [11:01:38.433] Applying learner 'classif.rpart' on task 'iris' (iter 5/10) 
-#&gt; INFO  [11:01:38.450] Applying learner 'classif.rpart' on task 'iris' (iter 6/10) 
-#&gt; INFO  [11:01:38.467] Applying learner 'classif.rpart' on task 'iris' (iter 7/10) 
-#&gt; INFO  [11:01:38.484] Applying learner 'classif.rpart' on task 'iris' (iter 8/10) 
-#&gt; INFO  [11:01:38.501] Applying learner 'classif.rpart' on task 'iris' (iter 9/10) 
-#&gt; INFO  [11:01:38.518] Applying learner 'classif.rpart' on task 'iris' (iter 10/10) </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 10 iterations
+<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='no'>resampling</span>)</div><div class='output co'>#&gt; INFO  [19:47:15.486] Applying learner 'classif.rpart' on task 'iris' (iter 1/10) 
+#&gt; INFO  [19:47:15.502] Applying learner 'classif.rpart' on task 'iris' (iter 2/10) 
+#&gt; INFO  [19:47:15.518] Applying learner 'classif.rpart' on task 'iris' (iter 3/10) 
+#&gt; INFO  [19:47:15.534] Applying learner 'classif.rpart' on task 'iris' (iter 4/10) 
+#&gt; INFO  [19:47:15.551] Applying learner 'classif.rpart' on task 'iris' (iter 5/10) 
+#&gt; INFO  [19:47:15.567] Applying learner 'classif.rpart' on task 'iris' (iter 6/10) 
+#&gt; INFO  [19:47:15.582] Applying learner 'classif.rpart' on task 'iris' (iter 7/10) 
+#&gt; INFO  [19:47:15.598] Applying learner 'classif.rpart' on task 'iris' (iter 8/10) 
+#&gt; INFO  [19:47:15.613] Applying learner 'classif.rpart' on task 'iris' (iter 9/10) 
+#&gt; INFO  [19:47:15.629] Applying learner 'classif.rpart' on task 'iris' (iter 10/10) </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>rr</span>)</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 10 iterations
 #&gt; * Task: iris
 #&gt; * Learner: classif.rpart
 #&gt; * Warnings: 0 in 0 iterations
@@ -286,16 +286,16 @@ or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw 
 #&gt;   versicolor      0         46         5
 #&gt;   virginica       0          4        45</div><div class='input'>
 <span class='co'># Repeat resampling with featureless learner</span>
-<span class='no'>rr_featureless</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='no'>resampling</span>)</div><div class='output co'>#&gt; INFO  [11:01:38.581] Applying learner 'classif.featureless' on task 'iris' (iter 1/10) 
-#&gt; INFO  [11:01:38.592] Applying learner 'classif.featureless' on task 'iris' (iter 2/10) 
-#&gt; INFO  [11:01:38.604] Applying learner 'classif.featureless' on task 'iris' (iter 3/10) 
-#&gt; INFO  [11:01:38.614] Applying learner 'classif.featureless' on task 'iris' (iter 4/10) 
-#&gt; INFO  [11:01:38.626] Applying learner 'classif.featureless' on task 'iris' (iter 5/10) 
-#&gt; INFO  [11:01:38.636] Applying learner 'classif.featureless' on task 'iris' (iter 6/10) 
-#&gt; INFO  [11:01:38.648] Applying learner 'classif.featureless' on task 'iris' (iter 7/10) 
-#&gt; INFO  [11:01:38.659] Applying learner 'classif.featureless' on task 'iris' (iter 8/10) 
-#&gt; INFO  [11:01:38.670] Applying learner 'classif.featureless' on task 'iris' (iter 9/10) 
-#&gt; INFO  [11:01:38.681] Applying learner 'classif.featureless' on task 'iris' (iter 10/10) </div><div class='input'>
+<span class='no'>rr_featureless</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>task</span>, <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='no'>resampling</span>)</div><div class='output co'>#&gt; INFO  [19:47:15.690] Applying learner 'classif.featureless' on task 'iris' (iter 1/10) 
+#&gt; INFO  [19:47:15.700] Applying learner 'classif.featureless' on task 'iris' (iter 2/10) 
+#&gt; INFO  [19:47:15.710] Applying learner 'classif.featureless' on task 'iris' (iter 3/10) 
+#&gt; INFO  [19:47:15.720] Applying learner 'classif.featureless' on task 'iris' (iter 4/10) 
+#&gt; INFO  [19:47:15.730] Applying learner 'classif.featureless' on task 'iris' (iter 5/10) 
+#&gt; INFO  [19:47:15.740] Applying learner 'classif.featureless' on task 'iris' (iter 6/10) 
+#&gt; INFO  [19:47:15.750] Applying learner 'classif.featureless' on task 'iris' (iter 7/10) 
+#&gt; INFO  [19:47:15.760] Applying learner 'classif.featureless' on task 'iris' (iter 8/10) 
+#&gt; INFO  [19:47:15.771] Applying learner 'classif.featureless' on task 'iris' (iter 9/10) 
+#&gt; INFO  [19:47:15.787] Applying learner 'classif.featureless' on task 'iris' (iter 10/10) </div><div class='input'>
 <span class='co'># Convert results to BenchmarkResult, then combine them</span>
 <span class='no'>bmr1</span> <span class='kw'>=</span> <span class='fu'><a href='as_benchmark_result.html'>as_benchmark_result</a></span>(<span class='no'>rr</span>)
 <span class='no'>bmr2</span> <span class='kw'>=</span> <span class='fu'><a href='as_benchmark_result.html'>as_benchmark_result</a></span>(<span class='no'>rr_featureless</span>)
@@ -318,7 +318,7 @@ or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
 </div>
 
       </footer>
