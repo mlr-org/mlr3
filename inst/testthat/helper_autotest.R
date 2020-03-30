@@ -334,3 +334,54 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
 
   return(TRUE)
 }
+
+#' @title Check Parameters of mlr3 Learners
+#' @description Checks parameters of mlr3learners against parameters defined in
+#'   the upstream functions of the respective learners.
+#'
+#' @details
+#' Some learners do not have all of their parameters stored within the learner
+#' function that is called within `.train()`. Sometimes learners come with a
+#' "control" function, e.g. [glmnet::glmnet.control()]. Such need to be checked
+#' as well since their make up the full ParamSet of the respective learner.
+#'
+#' To work nicely with the defined ParamSet, certain parameters need to be
+#' excluded because these are only present in either the "control" object or the
+#' actual top-level function call. Such exclusions should go into argument
+#' `exclude` with a comment for the reason of the exclusion. See examples for
+#' more information.
+#'
+#' @param learner The name of the mlr3 learner, e.g. `"classif.gamboost"`.
+#' @param fun The function of the upstream package for which parameters should
+#'   be checked. E.g. `mboost::boost_control`.
+#' @exclude Parameters which should be excluded for this particular check. See
+#'   details.
+#' @examples
+#' test_that("classif.gamboost", {
+#'   learner = lrn("classif.gamboost")
+#'   fun = mboost::gamboost
+#'   exclude = c(
+#'     "formula", # .train
+#'     "data", # .train
+#'     "na.action", # Only na.omit and na.fail available
+#'     "weights", # .train
+#'     "control", # mboost::boost_control
+#'     "..."
+#'   )
+#'
+#'   result = run_paramtest(learner, fun, exclude)
+#'   expect_true(result, info = paste0("Missing parameters:\n",
+#'     paste0(result$missing, collapse = "\n")))
+#' })
+run_paramtest = function(learner, fun, exclude = "...") {
+  par_learner = c(learner$param_set$ids(), exclude)
+  par_package = formalArgs(fun)
+
+  missing = par_package[!par_package %in% par_learner]
+
+  if (length(missing) > 0) {
+    run = list(ok = FALSE, missing = missing)
+    return(run)
+  }
+  return(TRUE)
+}
