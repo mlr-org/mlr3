@@ -257,3 +257,14 @@ test_that("filter", {
   bmr$filter(resampling_ids = "cv")
   expect_data_table(bmr$data, nrows = 3)
 })
+
+test_that("parallelization works", {
+  skip_if_not_installed("future")
+  library("future")
+  grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), replicate(2, lrn("classif.debug")), rsmp("cv", folds = 2))
+  njobs = nrow(grid) * 2
+  plan(multiprocess, workers = njobs)
+  bmr = benchmark(grid, store_models = TRUE)
+  pids = map_int(bmr$data$learner, function(x) x$model$pid)
+  expect_equal(length(unique(pids)), njobs)
+})
