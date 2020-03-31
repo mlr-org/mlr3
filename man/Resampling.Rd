@@ -110,7 +110,12 @@ Used in tables, plot and text output.}
 Set of hyperparameters.}
 
 \item{\code{instance}}{(\code{any})\cr
-During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.}
+During \code{instantiate()}, the instance is stored in this slot in an arbitrary format.
+Note that if a grouping variable is present in the \link{Task}, a \link{Resampling} may operate on the
+group ids internally instead of the row ids (which may lead to confusion).
+
+It is advised to not work directly with the \code{instance}, but instead only use the getters
+\verb{$train_set()} and \verb{$test_set()}.}
 
 \item{\code{task_hash}}{(\code{character(1)})\cr
 The hash of the \link{Task} which was passed to \code{r$instantiate()}.}

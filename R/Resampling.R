@@ -88,6 +88,11 @@ Resampling = R6Class("Resampling",
 
     #' @field instance (`any`)\cr
     #'   During `instantiate()`, the instance is stored in this slot in an arbitrary format.
+    #'   Note that if a grouping variable is present in the [Task], a [Resampling] may operate on the
+    #'   group ids internally instead of the row ids (which may lead to confusion).
+    #'
+    #'   It is advised to not work directly with the `instance`, but instead only use the getters
+    #'   `$train_set()` and `$test_set()`.
     instance = NULL,
 
     #' @field task_hash (`character(1)`)\cr
