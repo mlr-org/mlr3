@@ -455,20 +455,20 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 2: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;
 #&gt; 3: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;
 #&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</div><div class='input'>
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'><a href='benchmark.html'>benchmark</a></span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [12:18:29.192] Benchmark with 12 resampling iterations 
-#&gt; INFO  [12:18:29.228] Applying learner 'classif.featureless' on task 'sonar' (iter 1/3) 
-#&gt; INFO  [12:18:29.255] Applying learner 'classif.featureless' on task 'sonar' (iter 2/3) 
-#&gt; INFO  [12:18:29.266] Applying learner 'classif.featureless' on task 'sonar' (iter 3/3) 
-#&gt; INFO  [12:18:29.278] Applying learner 'classif.rpart' on task 'sonar' (iter 1/3) 
-#&gt; INFO  [12:18:29.441] Applying learner 'classif.rpart' on task 'sonar' (iter 2/3) 
-#&gt; INFO  [12:18:29.468] Applying learner 'classif.rpart' on task 'sonar' (iter 3/3) 
-#&gt; INFO  [12:18:29.495] Applying learner 'classif.featureless' on task 'spam' (iter 1/3) 
-#&gt; INFO  [12:18:29.511] Applying learner 'classif.featureless' on task 'spam' (iter 2/3) 
-#&gt; INFO  [12:18:29.522] Applying learner 'classif.featureless' on task 'spam' (iter 3/3) 
-#&gt; INFO  [12:18:29.534] Applying learner 'classif.rpart' on task 'spam' (iter 1/3) 
-#&gt; INFO  [12:18:29.599] Applying learner 'classif.rpart' on task 'spam' (iter 2/3) 
-#&gt; INFO  [12:18:29.670] Applying learner 'classif.rpart' on task 'spam' (iter 3/3) 
-#&gt; INFO  [12:18:29.738] Finished benchmark </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 12 rows with 4 resampling runs
+<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'><a href='benchmark.html'>benchmark</a></span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [13:00:08.316] Benchmark with 12 resampling iterations 
+#&gt; INFO  [13:00:08.351] Applying learner 'classif.featureless' on task 'sonar' (iter 1/3) 
+#&gt; INFO  [13:00:08.380] Applying learner 'classif.featureless' on task 'sonar' (iter 2/3) 
+#&gt; INFO  [13:00:08.393] Applying learner 'classif.featureless' on task 'sonar' (iter 3/3) 
+#&gt; INFO  [13:00:08.412] Applying learner 'classif.rpart' on task 'sonar' (iter 1/3) 
+#&gt; INFO  [13:00:08.571] Applying learner 'classif.rpart' on task 'sonar' (iter 2/3) 
+#&gt; INFO  [13:00:08.600] Applying learner 'classif.rpart' on task 'sonar' (iter 3/3) 
+#&gt; INFO  [13:00:08.628] Applying learner 'classif.featureless' on task 'spam' (iter 1/3) 
+#&gt; INFO  [13:00:08.645] Applying learner 'classif.featureless' on task 'spam' (iter 2/3) 
+#&gt; INFO  [13:00:08.656] Applying learner 'classif.featureless' on task 'spam' (iter 3/3) 
+#&gt; INFO  [13:00:08.670] Applying learner 'classif.rpart' on task 'spam' (iter 1/3) 
+#&gt; INFO  [13:00:08.738] Applying learner 'classif.rpart' on task 'spam' (iter 2/3) 
+#&gt; INFO  [13:00:08.811] Applying learner 'classif.rpart' on task 'spam' (iter 3/3) 
+#&gt; INFO  [13:00:08.880] Finished benchmark </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 12 rows with 4 resampling runs
 #&gt;  nr task_id          learner_id resampling_id iters warnings errors
 #&gt;   1   sonar classif.featureless            cv     3        0      0
 #&gt;   2   sonar       classif.rpart            cv     3        0      0
@@ -481,11 +481,11 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: d1e19797-8040-420d-b444-de5a87d68910 &lt;TaskClassif&gt;
-#&gt; 2: d1e19797-8040-420d-b444-de5a87d68910 &lt;TaskClassif&gt;
-#&gt; 3: d1e19797-8040-420d-b444-de5a87d68910 &lt;TaskClassif&gt;
-#&gt; 4: 716cf11e-9e55-4858-8152-af4899e78efc &lt;TaskClassif&gt;
-#&gt; 5: 716cf11e-9e55-4858-8152-af4899e78efc &lt;TaskClassif&gt;
+#&gt; 1: de2e8f65-d564-4a47-9d34-877630d48915 &lt;TaskClassif&gt;
+#&gt; 2: de2e8f65-d564-4a47-9d34-877630d48915 &lt;TaskClassif&gt;
+#&gt; 3: de2e8f65-d564-4a47-9d34-877630d48915 &lt;TaskClassif&gt;
+#&gt; 4: c7f53565-1ff6-46fa-a1db-75f2677697e9 &lt;TaskClassif&gt;
+#&gt; 5: c7f53565-1ff6-46fa-a1db-75f2677697e9 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
