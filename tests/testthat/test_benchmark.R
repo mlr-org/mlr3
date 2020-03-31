@@ -263,9 +263,10 @@ test_that("parallelization works", {
   skip_if_not_installed("future.apply")
 
   grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), replicate(2, lrn("classif.debug")), rsmp("cv", folds = 2))
-  njobs = nrow(grid) * 2
-  future::plan(future::multisession, workers = njobs)
-  bmr = benchmark(grid, store_models = TRUE)
+  njobs = 3L
+  bmr = with_future(future::multisession,  {
+    benchmark(grid, store_models = TRUE)
+  }, workers = njobs)
 
   expect_benchmark_result(bmr)
   pids = map_int(bmr$data$learner, function(x) x$model$pid)
