@@ -260,11 +260,14 @@ test_that("filter", {
 
 test_that("parallelization works", {
   skip_if_not_installed("future")
-  library("future")
-  grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), replicate(2, lrn("classif.debug")), rsmp("cv", folds = 2))
+  skip_if_not_installed("future.apply")
+
   njobs = nrow(grid) * 2
-  plan(multiprocess, workers = njobs)
+  future::plan(future::multisession, workers = njobs)
+  grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), replicate(2, lrn("classif.debug")), rsmp("cv", folds = 2))
   bmr = benchmark(grid, store_models = TRUE)
+
+  expect_benchmark_result(bmr)
   pids = map_int(bmr$data$learner, function(x) x$model$pid)
   expect_equal(length(unique(pids)), njobs)
 })
