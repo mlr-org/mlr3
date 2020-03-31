@@ -1,3 +1,9 @@
+# mlr3 0.1.9
+
+* Some handy cheat sheets can now be downloaded from the project homepage.
+* Added new measures `classif.bbrier` (binary Brier score) and `classif.mbrier`
+  (multi-class Brier score).
+
 # mlr3 0.1.8
 
 * Added S3 methods to combine `ResampleResult`s and `BenchmarkResult`s with

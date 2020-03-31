@@ -48,6 +48,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.acc}},
 \code{\link{mlr_measures_classif.auc}},
 \code{\link{mlr_measures_classif.bacc}},
+\code{\link{mlr_measures_classif.bbrier}},
 \code{\link{mlr_measures_classif.ce}},
 \code{\link{mlr_measures_classif.costs}},
 \code{\link{mlr_measures_classif.dor}},
@@ -58,6 +59,7 @@ Other classification measures:
 \code{\link{mlr_measures_classif.fpr}},
 \code{\link{mlr_measures_classif.fp}},
 \code{\link{mlr_measures_classif.logloss}},
+\code{\link{mlr_measures_classif.mbrier}},
 \code{\link{mlr_measures_classif.mcc}},
 \code{\link{mlr_measures_classif.npv}},
 \code{\link{mlr_measures_classif.ppv}},
@@ -72,6 +74,7 @@ Other classification measures:
 
 Other binary classification measures: 
 \code{\link{mlr_measures_classif.auc}},
+\code{\link{mlr_measures_classif.bbrier}},
 \code{\link{mlr_measures_classif.dor}},
 \code{\link{mlr_measures_classif.fdr}},
 \code{\link{mlr_measures_classif.fnr}},

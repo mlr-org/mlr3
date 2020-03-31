@@ -87,6 +87,10 @@ MeasureRegrSimple = R6Class("MeasureRegrSimple",
 #' @templateVar id auc
 #' @template measure_binary
 mlr_measures$add("classif.auc", MeasureBinarySimple, name = "auc")
+#'
+#' @templateVar id bbrier
+#' @template measure_binary
+mlr_measures$add("classif.bbrier", MeasureBinarySimple, name = "bbrier")
 
 #' @templateVar id dor
 #' @template measure_binary
@@ -173,6 +177,10 @@ mlr_measures$add("classif.acc", MeasureClassifSimple, name = "acc")
 #' @templateVar id bacc
 #' @template measure_classif
 mlr_measures$add("classif.bacc", MeasureClassifSimple, name = "bacc")
+
+#' @templateVar id mbrier
+#' @template measure_classif
+mlr_measures$add("classif.mbrier", MeasureBinarySimple, name = "mbrier")
 
 #' @templateVar id ce
 #' @template measure_classif
