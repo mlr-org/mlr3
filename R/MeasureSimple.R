@@ -180,7 +180,7 @@ mlr_measures$add("classif.bacc", MeasureClassifSimple, name = "bacc")
 
 #' @templateVar id mbrier
 #' @template measure_classif
-mlr_measures$add("classif.mbrier", MeasureBinarySimple, name = "mbrier")
+mlr_measures$add("classif.mbrier", MeasureClassifSimple, name = "mbrier")
 
 #' @templateVar id ce
 #' @template measure_classif
