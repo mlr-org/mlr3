@@ -121,6 +121,9 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.bacc.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.bbrier.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.ce.html</loc>
   </url>
   <url>
@@ -152,6 +155,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.logloss.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mbrier.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mcc.html</loc>

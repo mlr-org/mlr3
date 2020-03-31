@@ -210,7 +210,7 @@ The costs are then summed up (and potentially divided by the number of observati
 <code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
 <code><a href='mlr_measures_classif.auc.html'>mlr_measures_classif.auc</a></code>,
 <code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
-<code>mlr_measures_classif.bbrier</code>,
+<code><a href='mlr_measures_classif.bbrier.html'>mlr_measures_classif.bbrier</a></code>,
 <code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
 <code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
 <code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
@@ -221,7 +221,7 @@ The costs are then summed up (and potentially divided by the number of observati
 <code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
 <code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
 <code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code>,
-<code>mlr_measures_classif.mbrier</code>,
+<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code>,
 <code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
 <code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
 <code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
@@ -238,7 +238,7 @@ The costs are then summed up (and potentially divided by the number of observati
 <code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
 <code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
 <code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code>,
-<code>mlr_measures_classif.mbrier</code></p></div>
+<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code></p></div>
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
     <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code><a href='MeasureClassif.html'>mlr3::MeasureClassif</a></code> -&gt; <code>MeasureClassifCosts</code></p>
@@ -313,9 +313,9 @@ Matrix of costs (truth in columns, predicted response in rows).</p></dd>
 
 <span class='co'># fit models and calculate costs</span>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [20:24:49.227] Applying learner 'classif.rpart' on task 'german_credit' (iter 1/3) 
-#&gt; INFO  [20:24:49.260] Applying learner 'classif.rpart' on task 'german_credit' (iter 2/3) 
-#&gt; INFO  [20:24:49.294] Applying learner 'classif.rpart' on task 'german_credit' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>m</span>)</div><div class='output co'>#&gt; german_credit_costs 
+<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [20:32:19.932] Applying learner 'classif.rpart' on task 'german_credit' (iter 1/3) 
+#&gt; INFO  [20:32:19.960] Applying learner 'classif.rpart' on task 'german_credit' (iter 2/3) 
+#&gt; INFO  [20:32:19.993] Applying learner 'classif.rpart' on task 'german_credit' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>m</span>)</div><div class='output co'>#&gt; german_credit_costs 
 #&gt;            296.6667 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
