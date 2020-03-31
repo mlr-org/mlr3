@@ -87,6 +87,7 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -109,6 +110,7 @@ This unique hash is primarily needed to group information in \link{BenchmarkResu
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -118,6 +120,7 @@ Helper for print outputs.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -134,6 +137,7 @@ Printer.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-help"></a>}}
+\if{latex}{\out{\hypertarget{method-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -143,6 +147,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-prediction"></a>}}
+\if{latex}{\out{\hypertarget{method-prediction}{}}}
 \subsection{Method \code{prediction()}}{
 Combined \link{Prediction} of all individual resampling iterations, and all provided predict sets.
 Note that performance measures do not operate on this object,
@@ -166,6 +171,7 @@ Subset of \verb{\{"train", "test"\}}.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-predictions"></a>}}
+\if{latex}{\out{\hypertarget{method-predictions}{}}}
 \subsection{Method \code{predictions()}}{
 List of prediction objects, sorted by resampling iteration.
 If multiple sets are given, these are combined to a single one for each iteration.
@@ -187,6 +193,7 @@ List of \link{Prediction} objects, one per element in \code{predict_sets}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-score"></a>}}
+\if{latex}{\out{\hypertarget{method-score}{}}}
 \subsection{Method \code{score()}}{
 Returns a table with one row for each resampling iteration, including all involved objects:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
@@ -215,6 +222,7 @@ These allow to subset more conveniently.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-aggregate"></a>}}
+\if{latex}{\out{\hypertarget{method-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
 Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in \link{Measure}.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
@@ -236,6 +244,7 @@ Named \code{numeric()}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the \link{ResampleResult}, reducing it to only keep the iterations specified in \code{iters}.
 \subsection{Usage}{
@@ -258,6 +267,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

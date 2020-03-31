@@ -39,7 +39,8 @@ mlr_measures = R6Class("DictionaryMeasure",
 #' @export
 as.data.table.DictionaryMeasure = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
-    m = x$get(key)
+    m = withCallingHandlers(x$get(key),
+      packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     list(
       key = key,
       task_type = m$task_type,

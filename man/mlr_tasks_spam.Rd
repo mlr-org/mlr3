@@ -3,7 +3,9 @@
 \name{mlr_tasks_spam}
 \alias{mlr_tasks_spam}
 \title{Spam Classification Task}
-\format{\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.}
+\format{
+\link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.
+}
 \source{
 Creators:
 Mark Hopkins, Erik Reeber, George Forman, Jaap Suermondt.

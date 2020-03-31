@@ -4,7 +4,9 @@
 \name{mlr_learners}
 \alias{mlr_learners}
 \title{Dictionary of Learners}
-\format{\link[R6:R6Class]{R6::R6Class} object inheriting from \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.}
+\format{
+\link[R6:R6Class]{R6::R6Class} object inheriting from \link[mlr3misc:Dictionary]{mlr3misc::Dictionary}.
+}
 \description{
 A simple \link[mlr3misc:Dictionary]{mlr3misc::Dictionary} storing objects of class \link{Learner}.
 Each learner has an associated help page, see \code{mlr_learners_[id]}.

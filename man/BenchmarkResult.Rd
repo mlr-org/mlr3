@@ -146,6 +146,7 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -174,6 +175,7 @@ Additional columns are kept in the resulting object, but otherwise ignored by \l
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-help"></a>}}
+\if{latex}{\out{\hypertarget{method-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the help page for this object.
 \subsection{Usage}{
@@ -183,6 +185,7 @@ Opens the help page for this object.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -192,6 +195,7 @@ Helper for print outputs.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -201,6 +205,7 @@ Printer.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-combine"></a>}}
+\if{latex}{\out{\hypertarget{method-combine}{}}}
 \subsection{Method \code{combine()}}{
 Fuses a second \link{BenchmarkResult} into itself, mutating the \link{BenchmarkResult} in-place.
 If the second \link{BenchmarkResult} \code{bmr} is \code{NULL}, simply returns \code{self}.
@@ -225,6 +230,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-score"></a>}}
+\if{latex}{\out{\hypertarget{method-score}{}}}
 \subsection{Method \code{score()}}{
 Returns a table with one row for each resampling iteration, including
 all involved objects: \link{Task}, \link{Learner}, \link{Resampling}, iteration number
@@ -257,6 +263,7 @@ extra character columns for convenient subsetting.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-aggregate"></a>}}
+\if{latex}{\out{\hypertarget{method-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
 Returns a result table where resampling iterations are combined into
 \link{ResampleResult}s. A column with the aggregated performance score is
@@ -305,6 +312,7 @@ iterations with errors as extra integer column \code{"errors"}.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-filter"></a>}}
+\if{latex}{\out{\hypertarget{method-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the benchmark result. If \code{task_ids} is not \code{NULL}, keeps all
 tasks with provided task ids while discards all others. Same procedure
@@ -339,6 +347,7 @@ the object in its previous state.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-resample_result"></a>}}
+\if{latex}{\out{\hypertarget{method-resample_result}{}}}
 \subsection{Method \code{resample_result()}}{
 Retrieve the i-th \link{ResampleResult}, by position or by unique hash \code{uhash}.
 \code{i} and \code{uhash} are mutually exclusive.
@@ -363,6 +372,7 @@ The \code{ushash} value to filter for.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

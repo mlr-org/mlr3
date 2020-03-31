@@ -89,7 +89,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         get("attach")(structure(list(), class = "UserDefinedDatabase"))
       }
 
-      model = list(response = as.character(sample(task$truth(), 1L)))
+      model = list(response = as.character(sample(task$truth(), 1L)), pid = Sys.getpid())
       if (isTRUE(pv$save_tasks)) {
         model$task_train = task$clone(deep = TRUE)
       }

@@ -107,6 +107,7 @@ Hash (unique identifier) for this object.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 
@@ -199,6 +200,7 @@ The referenced help package can be opened via method \verb{$help()}.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -208,6 +210,7 @@ Helper for print outputs.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -224,6 +227,7 @@ Printer.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-help"></a>}}
+\if{latex}{\out{\hypertarget{method-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -233,6 +237,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-score"></a>}}
+\if{latex}{\out{\hypertarget{method-score}{}}}
 \subsection{Method \code{score()}}{
 Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
 and calculates a numeric score.
@@ -262,6 +267,7 @@ This is handled internally during \code{\link[=resample]{resample()}}/\code{\lin
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-aggregate"></a>}}
+\if{latex}{\out{\hypertarget{method-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
 Aggregates multiple performance scores into a single score using the \code{aggregator} function of the measure.
 Operates on the \link{Prediction}s of \link{ResampleResult} with matching \code{predict_sets}.

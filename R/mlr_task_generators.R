@@ -35,7 +35,8 @@ mlr_task_generators = R6Class("DictionaryTaskGenerator",
 #' @export
 as.data.table.DictionaryTaskGenerator = function(x, ...) {
   setkeyv(map_dtr(x$keys(), function(key) {
-    g = x$get(key)
+    g = withCallingHandlers(x$get(key),
+      packageNotFoundWarning = function(w) invokeRestart("muffleWarning"))
     list(
       key = key,
       packages = list(g$packages))

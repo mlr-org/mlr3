@@ -84,6 +84,7 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
 \subsection{Method \code{format()}}{
 Helper for print outputs.
 \subsection{Usage}{
@@ -93,6 +94,7 @@ Helper for print outputs.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Printer.
 \subsection{Usage}{
@@ -109,6 +111,7 @@ Printer.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-help"></a>}}
+\if{latex}{\out{\hypertarget{method-help}{}}}
 \subsection{Method \code{help()}}{
 Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Usage}{
@@ -118,6 +121,7 @@ Opens the corresponding help page referenced by field \verb{$man}.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-score"></a>}}
+\if{latex}{\out{\hypertarget{method-score}{}}}
 \subsection{Method \code{score()}}{
 Calculates the performance for all provided measures
 \link{Task} and \link{Learner} may be \code{NULL} for most measures, but some measures need to extract information
@@ -151,6 +155,7 @@ Measure(s) to calculate.}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
