@@ -44,6 +44,7 @@ predict_wrapper = function(task, learner) {
 
 learner_train = function(learner, task, row_ids = NULL) {
   assert_task(task)
+  assert_learnable(task, learner)
 
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
