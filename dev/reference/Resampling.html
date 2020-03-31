@@ -232,7 +232,10 @@ Used in tables, plot and text output.</p></dd>
 Set of hyperparameters.</p></dd>
 
 <dt><code>instance</code></dt><dd><p>(<code>any</code>)<br />
-During <code>instantiate()</code>, the instance is stored in this slot in an arbitrary format.</p></dd>
+During <code>instantiate()</code>, the instance is stored in this slot in an arbitrary format.
+Note that if a grouping variable is present in the <a href='Task.html'>Task</a>, a Resampling may operate on the
+group ids internally instead of the row ids (which may lead to confusion).It is advised to not work directly with the <code>instance</code>, but instead only use the getters
+<code>$train_set()</code> and <code>$test_set()</code>.</p></dd>
 
 <dt><code>task_hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 The hash of the <a href='Task.html'>Task</a> which was passed to <code>r$instantiate()</code>.</p></dd>
