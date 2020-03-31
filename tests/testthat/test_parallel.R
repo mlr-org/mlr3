@@ -42,6 +42,7 @@ test_that("real parallel resample", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.callr")
   skip_if_not_installed("progressr")
+  skip_on_os("windows") # currently buggy
 
   with_future(future::multiprocess, {
     expect_true(use_future())
