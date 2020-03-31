@@ -10,10 +10,9 @@ with_seed = function(seed, expr) {
   force(expr)
 }
 
-with_future = function(backend, expr) {
+with_future = function(backend, expr, ...) {
   requireNamespace("future")
-  plan = future::plan()
-  on.exit(future::plan(plan))
-  future::plan(backend)
+  oplan = future::plan(backend, ...)
+  on.exit(future::plan(oplan))
   force(expr)
 }

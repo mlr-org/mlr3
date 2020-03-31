@@ -71,7 +71,7 @@ Suggests:
     callr,
     datasets,
     evaluate,
-    future (>= 1.9.0),
+    future (>= 1.16.0),
     future.apply (>= 1.1.0),
     future.callr,
     progressr,
