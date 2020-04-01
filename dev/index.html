@@ -243,11 +243,11 @@
 <ul>
 <li>Only the basic building blocks for machine learning are implemented in this package.</li>
 <li>Focus on computation here. No visualization or other stuff. That can go in extra packages.</li>
-<li>Overcome the limitations of R’s <a href="https://adv-r.hadley.nz/s3.html">S3 classes</a> with the help of <a href="https://cran.r-project.org/package=R6">R6</a>.</li>
-<li>Embrace <a href="https://cran.r-project.org/package=R6">R6</a> for a clean OO-design, object state-changes and reference semantics. This might be less “traditional R”, but seems to fit <code>mlr</code> nicely.</li>
+<li>Overcome the limitations of Râs <a href="https://adv-r.hadley.nz/s3.html">S3 classes</a> with the help of <a href="https://cran.r-project.org/package=R6">R6</a>.</li>
+<li>Embrace <a href="https://cran.r-project.org/package=R6">R6</a> for a clean OO-design, object state-changes and reference semantics. This might be less âtraditional Râ, but seems to fit <code>mlr</code> nicely.</li>
 <li>Embrace <a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a> for fast and convenient data frame computations.</li>
 <li>Combine <code>data.table</code> and <code>R6</code>, for this we will make heavy use of list columns in data.tables.</li>
-<li>Defensive programming and type safety. All user input is checked with <a href="https://cran.r-project.org/package=checkmate"><code>checkmate</code></a>. Return types are documented, and mechanisms popular in base R which “simplify” the result unpredictably (e.g., <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> or <code>drop</code> argument in <code>[.data.frame</code>) are avoided.</li>
+<li>Defensive programming and type safety. All user input is checked with <a href="https://cran.r-project.org/package=checkmate"><code>checkmate</code></a>. Return types are documented, and mechanisms popular in base R which âsimplifyâ the result unpredictably (e.g., <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> or <code>drop</code> argument in <code>[.data.frame</code>) are avoided.</li>
 <li>Be light on dependencies. <code>mlr3</code> requires the following packages at runtime:
 <ul>
 <li>
@@ -261,7 +261,7 @@
 <li>
 <a href="https://cran.r-project.org/package=R6"><code>R6</code></a>: Reference class objects. No recursive dependencies.</li>
 <li>
-<a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a>: Extension of R’s <code>data.frame</code>. No recursive dependencies.</li>
+<a href="https://cran.r-project.org/package=data.table"><code>data.table</code></a>: Extension of Râs <code>data.frame</code>. No recursive dependencies.</li>
 <li>
 <a href="https://cran.r-project.org/package=digest"><code>digest</code></a>: Hash digests. No recursive dependencies.</li>
 <li>
@@ -293,7 +293,7 @@
 <div id="contributing-to-mlr3" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing-to-mlr3" class="anchor"></a>Contributing to mlr3</h2>
-<p>This R package is licensed under the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html">LGPL-3</a>. If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behaviour, bugs, …) or just want to suggest features, please open an issue in the <a href="https://github.com/mlr-org/mlr3/issues">issue tracker</a>. Pull requests are welcome and will be included at the discretion of the maintainers.</p>
+<p>This R package is licensed under the <a href="https://www.gnu.org/licenses/lgpl-3.0.en.html">LGPL-3</a>. If you encounter problems using this software (lack of documentation, misleading or wrong documentation, unexpected behaviour, bugs, â¦) or just want to suggest features, please open an issue in the <a href="https://github.com/mlr-org/mlr3/issues">issue tracker</a>. Pull requests are welcome and will be included at the discretion of the maintainers.</p>
 <p>Please consult the <a href="https://github.com/mlr-org/mlr3/wiki/">wiki</a> for a <a href="https://github.com/mlr-org/mlr3/wiki/Style-Guide">style guide</a>, a <a href="https://github.com/mlr-org/mlr3/wiki/Roxygen-Guide">roxygen guide</a> and a <a href="https://github.com/mlr-org/mlr3/wiki/PR-Guidelines">pull request guide</a>.</p>
 </div>
 <div id="citing-mlr3" class="section level2">
