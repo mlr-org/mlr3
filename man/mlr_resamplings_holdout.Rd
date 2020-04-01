@@ -53,6 +53,7 @@ Other Resampling:
 \code{\link{mlr_resamplings_bootstrap}},
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_cv}},
+\code{\link{mlr_resamplings_insample}},
 \code{\link{mlr_resamplings_repeated_cv}},
 \code{\link{mlr_resamplings_subsampling}},
 \code{\link{mlr_resamplings}}

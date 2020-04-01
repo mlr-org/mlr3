@@ -350,7 +350,7 @@ expect_resampling = function(r, task = NULL) {
       test = r$test_set(1L)
       checkmate::expect_integerish(train, any.missing = FALSE)
       checkmate::expect_integerish(test, any.missing = FALSE)
-      if (!inherits(r, "ResamplingCustom")) {
+      if (!inherits(r, "ResamplingCustom") && !inherits(r, "ResamplingInsample")) {
         testthat::expect_length(intersect(train, test), 0L)
       }
       if (!is.null(task)) {

@@ -52,8 +52,10 @@ test_that("hashing", {
     with_seed(123L, r$instantiate(task))
     expect_identical(r$hash, hash)
 
-    with_seed(124L, r$instantiate(task))
-    expect_false(identical(r$hash, hash))
+    if (key != "insample") {
+      with_seed(124L, r$instantiate(task))
+      expect_false(identical(r$hash, hash))
+    }
   }
 })
 

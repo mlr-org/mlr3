@@ -3,6 +3,7 @@
 * Some handy cheat sheets can now be downloaded from the project homepage.
 * Added new measures `classif.bbrier` (binary Brier score) and `classif.mbrier`
   (multi-class Brier score).
+* Added new Resampling: `ResamplingInsample`.
 
 # mlr3 0.1.8
 
