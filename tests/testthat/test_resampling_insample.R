@@ -14,6 +14,7 @@ test_that("stratification", {
   r = rsmp("insample")
   r$instantiate(task)
 
+  i = 1L
   expect_set_equal(r$train_set(i), task$row_ids)
   expect_set_equal(r$test_set(i), task$row_ids)
 })
