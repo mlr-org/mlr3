@@ -17,7 +17,7 @@ AC[["integer___ordered"]] = AC[["logical___ordered"]]
 
 ## from: numeric
 AC[["numeric___logical"]] = AC[["integer___logical"]]
-AC[["numeric___integer"]] = function(value, id, type, levels) { if (test_integerish(value)) as.integer(value) else vale }
+AC[["numeric___integer"]] = function(value, id, type, levels) { if (test_integerish(value)) as.integer(value) else value }
 AC[["numeric___character"]] = AC[["logical___character"]]
 AC[["numeric___factor"]] = AC[["logical___factor"]]
 AC[["numeric___ordered"]] = AC[["logical___ordered"]]
