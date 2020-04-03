@@ -14,6 +14,7 @@ test_that("stratification", {
   r = rsmp("holdout", ratio = .5)
   r$instantiate(task)
 
+  i = 1L
   expect_equal(task$data(r$train_set(i))[y == "a", .N], 45)
   expect_equal(task$data(r$train_set(i))[y == "b", .N], 5)
   expect_equal(task$data(r$test_set(i))[y == "a", .N], 45)
