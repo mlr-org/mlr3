@@ -59,7 +59,7 @@ Imports:
     checkmate (>= 2.0.0),
     data.table (>= 1.12.8),
     digest,
-    lgr (>= 0.3.0),
+    lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 0.1.3),
     mlr3misc (>= 0.1.8),
