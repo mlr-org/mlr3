@@ -49,8 +49,8 @@ List of vectors of supported \link{Measure} properties, named by their task type
 List of keys for the default \link{Measure}s, named by their task type.
 \item \code{rr_names} (\code{character()})\cr
 Names of the objects stored in a \link{ResampleResult}.
-\item \code{mlr_reflections} (\code{environment()})\cr
-Environment of converter functions used for \code{rbind}-ing new data to tasks.
+\item \code{auto_converters} (\code{environment()})\cr
+Environment of converter functions used for \code{rbind}-ing data to tasks.
 Functions are named using the pattern \code{"[from_type]___[to_type]"}.
 Can be extended by third-party with additional converters.
 }

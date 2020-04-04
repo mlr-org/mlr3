@@ -53,8 +53,8 @@
 #' * `rr_names` (`character()`)\cr
 #'   Names of the objects stored in a [ResampleResult].
 #'
-#' * `mlr_reflections` (`environment()`)\cr
-#'   Environment of converter functions used for `rbind`-ing new data to tasks.
+#' * `auto_converters` (`environment()`)\cr
+#'   Environment of converter functions used for `rbind`-ing data to tasks.
 #'   Functions are named using the pattern `"[from_type]___[to_type]"`.
 #'   Can be extended by third-party with additional converters.
 #'
