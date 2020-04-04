@@ -80,7 +80,6 @@ Suggests:
     titanic
 RdMacros:
     mlr3misc
-Remotes: mlr-org/mlr3measures
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
