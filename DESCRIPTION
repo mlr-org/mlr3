@@ -54,10 +54,10 @@ BugReports: https://github.com/mlr-org/mlr3/issues
 Depends:
     R (>= 3.1.0)
 Imports:
-    R6,
+    R6 (>= 2.4.1),
     backports,
-    checkmate (>= 1.9.3),
-    data.table,
+    checkmate (>= 2.0.0),
+    data.table (>= 1.12.8),
     digest,
     lgr (>= 0.3.0),
     mlbench,
@@ -72,7 +72,7 @@ Suggests:
     datasets,
     evaluate,
     future (>= 1.16.0),
-    future.apply (>= 1.1.0),
+    future.apply (>= 1.4.0),
     future.callr,
     progressr,
     rpart,
