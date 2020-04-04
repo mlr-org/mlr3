@@ -89,8 +89,8 @@ default_measures (list of character())
 List of keys for the default Measures, named by their task type.
 rr_names (character())
 Names of the objects stored in a ResampleResult.
-mlr_reflections (environment())
-Environment of converter functions used for rbind-ing new data to tasks.
+auto_converters (environment())
+Environment of converter functions used for rbind-ing data to tasks.
 Functions are named using the pattern &quot;[from_type]___[to_type]&quot;.
 Can be extended by third-party with additional converters.
 
@@ -235,8 +235,8 @@ List of vectors of supported <a href='Measure.html'>Measure</a> properties, name
 List of keys for the default <a href='Measure.html'>Measure</a>s, named by their task type.</p></li>
 <li><p><code>rr_names</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Names of the objects stored in a <a href='ResampleResult.html'>ResampleResult</a>.</p></li>
-<li><p><code>mlr_reflections</code> (<code><a href='https://rdrr.io/r/base/environment.html'>environment()</a></code>)<br />
-Environment of converter functions used for <code>rbind</code>-ing new data to tasks.
+<li><p><code>auto_converters</code> (<code><a href='https://rdrr.io/r/base/environment.html'>environment()</a></code>)<br />
+Environment of converter functions used for <code>rbind</code>-ing data to tasks.
 Functions are named using the pattern <code>"[from_type]___[to_type]"</code>.
 Can be extended by third-party with additional converters.</p></li>
 </ul>
@@ -251,7 +251,7 @@ Can be extended by third-party with additional converters.</p></li>
     <p><a href='https://rdrr.io/r/base/environment.html'>environment</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/ls_str.html'>ls.str</a></span>(<span class='no'>mlr_reflections</span>)</div><div class='output co'>#&gt; auto_converters : &lt;environment: 0x7f98e836d518&gt; 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/ls_str.html'>ls.str</a></span>(<span class='no'>mlr_reflections</span>)</div><div class='output co'>#&gt; auto_converters : &lt;environment: 0x7f85c011ac48&gt; 
 #&gt; data_formats :  chr [1:2] "data.table" "Matrix"
 #&gt; default_measures : List of 2
 #&gt;  $ classif: chr "classif.ce"

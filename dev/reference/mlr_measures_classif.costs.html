@@ -313,9 +313,9 @@ Matrix of costs (truth in columns, predicted response in rows).</p></dd>
 
 <span class='co'># fit models and calculate costs</span>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [14:08:57.270] Applying learner 'classif.rpart' on task 'german_credit' (iter 1/3) 
-#&gt; INFO  [14:08:57.304] Applying learner 'classif.rpart' on task 'german_credit' (iter 2/3) 
-#&gt; INFO  [14:08:57.340] Applying learner 'classif.rpart' on task 'german_credit' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>m</span>)</div><div class='output co'>#&gt; german_credit_costs 
+<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [14:50:10.334] Applying learner 'classif.rpart' on task 'german_credit' (iter 1/3) 
+#&gt; INFO  [14:50:10.365] Applying learner 'classif.rpart' on task 'german_credit' (iter 2/3) 
+#&gt; INFO  [14:50:10.397] Applying learner 'classif.rpart' on task 'german_credit' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>m</span>)</div><div class='output co'>#&gt; german_credit_costs 
 #&gt;            296.6667 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
