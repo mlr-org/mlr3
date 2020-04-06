@@ -8,7 +8,7 @@ auto_convert(value, id, type, levels)
 }
 \arguments{
 \item{value}{(\code{any})\cr
-Values of the column to convert.}
+New values to convert in order to match \code{type}.}
 
 \item{id}{(\code{character(1)})\cr
 Name of the column, used in error messages.}

@@ -223,7 +223,7 @@ Learner = R6Class("Learner",
       assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
 
-      if (is.null(self$model) && is.null(self$state$fallback_state$model)) {
+      if (is.null(self$state$model) && is.null(self$state$fallback_state$model)) {
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
