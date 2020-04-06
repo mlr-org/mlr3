@@ -250,9 +250,9 @@ Default is 0.</p></dd>
     <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"wine"</span>)
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)
 <span class='no'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"debug"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [08:51:30.230] Applying learner 'classif.featureless' on task 'wine' (iter 1/3) 
-#&gt; INFO  [08:51:30.242] Applying learner 'classif.featureless' on task 'wine' (iter 2/3) 
-#&gt; INFO  [08:51:30.254] Applying learner 'classif.featureless' on task 'wine' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'>score</span>(<span class='no'>measure</span>)</div><div class='output co'>#&gt;             task task_id                     learner          learner_id
+<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [09:07:44.993] Applying learner 'classif.featureless' on task 'wine' (iter 1/3) 
+#&gt; INFO  [09:07:45.005] Applying learner 'classif.featureless' on task 'wine' (iter 2/3) 
+#&gt; INFO  [09:07:45.018] Applying learner 'classif.featureless' on task 'wine' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'>score</span>(<span class='no'>measure</span>)</div><div class='output co'>#&gt;             task task_id                     learner          learner_id
 #&gt; 1: &lt;TaskClassif&gt;    wine &lt;LearnerClassifFeatureless&gt; classif.featureless
 #&gt; 2: &lt;TaskClassif&gt;    wine &lt;LearnerClassifFeatureless&gt; classif.featureless
 #&gt; 3: &lt;TaskClassif&gt;    wine &lt;LearnerClassifFeatureless&gt; classif.featureless
