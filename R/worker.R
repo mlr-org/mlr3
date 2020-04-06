@@ -134,7 +134,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
     return(get(f)$new(task = task))
   }
 
-  if (is.null(learner$model)) {
+  if (is.null(learner$state$model)) {
     lg$debug("Learner '%s' has no model stored",
       learner$id, learner = learner$clone())
 
