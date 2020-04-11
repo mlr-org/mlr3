@@ -146,6 +146,7 @@ Collate:
     'TaskRegr.R'
     'TaskRegr_boston_housing.R'
     'TaskRegr_mtcars.R'
+    'TaskUnsupervised.R'
     'Task_cbind.R'
     'Task_rbind.R'
     'as_data_backend.R'
