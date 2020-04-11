@@ -172,6 +172,7 @@ It extends <a href='Task.html'>Task</a> with methods to handle a target columns.
     <div class='dont-index'><p>Other Task: 
 <code><a href='TaskClassif.html'>TaskClassif</a></code>,
 <code><a href='TaskRegr.html'>TaskRegr</a></code>,
+<code><a href='TaskUnsupervised.html'>TaskUnsupervised</a></code>,
 <code><a href='Task.html'>Task</a></code>,
 <code><a href='mlr_tasks_boston_housing.html'>mlr_tasks_boston_housing</a></code>,
 <code><a href='mlr_tasks_german_credit.html'>mlr_tasks_german_credit</a></code>,
@@ -265,7 +266,11 @@ Row indices.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskSupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>TaskSupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"classif"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)</div><div class='output co'>#&gt; &lt;TaskSupervised:iris&gt; (150 x 5)
+#&gt; * Target: Species
+#&gt; * Properties: -
+#&gt; * Features (4):
+#&gt;   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -281,7 +286,7 @@ Row indices.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
