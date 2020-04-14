@@ -12,7 +12,6 @@
 #
 # NB: Extension packages need to specialize the S3 methods in the file.
 
-
 generate_generic_tasks = function(learner, proto) {
   tasks = list()
 
@@ -388,4 +387,16 @@ run_paramtest = function(learner, fun, exclude = character()) {
   error = sprintf("Missing parameters for learner '%s': %s",
     learner$id, paste0(missing, collapse = ", "))
   list(ok = FALSE, error = error, missing = missing)
+}
+
+# Helper function to convert a vector of probabilities to a matrix
+#
+# sometimes useful in tests, e.g., mlr3learners.partykit::LearnerClassifMob
+# uses this in its tests to set up its custom prediction function for a mob
+# version of a logit model
+prob_vector_to_matrix = function(p, levs) {
+  stopifnot(is.numeric(p))
+  y = matrix(c(1 - p, p), ncol = 2L, nrow = length(p))
+  colnames(y) = levs
+  y
 }
