@@ -135,36 +135,14 @@ test_that("predict on newdata works / no target column", {
 
 
 test_that("predict on newdata works / titanic use case", {
-  skip_if_not_installed("titanic")
-  train = load_dataset("titanic_train", package = "titanic")
-  test = load_dataset("titanic_test", package = "titanic")
-  drop = c("Cabin", "Name", "Ticket", "PassengerId")
+  skip_if_not_installed("mlr3data")
+  data("titanic", package = "mlr3data")
+  drop = c("cabin", "name", "ticket", "passenger_id")
+  data = setDT(remove_named(titanic, drop))
+  task = TaskClassif$new(id = "titanic", data[!is.na(survived), ], target = "survived", positive = "1")
 
-  train = remove_named(train, drop)
-  test = remove_named(test, drop)
-
-  train$Embarked = factor(train$Embarked)
-  test$Embarked = factor(test$Embarked, levels = levels(train$Embarked))
-  train$Sex = factor(train$Sex)
-  test$Sex = factor(test$Sex, levels = levels(train$Sex))
-
-  median_age = median(train$Age, na.rm = TRUE)
-  train$Age[is.na(train$Age)] = median_age
-  test$Age[is.na(test$Age)] = median_age
-
-  train$Survived = factor(train$Survived)
-
-  train$Embarked[train$Embarked == ""] = NA
-  train$Embarked = droplevels(train$Embarked)
-  test$Embarked[test$Embarked == ""] = NA
-  test$Embarked = droplevels(test$Embarked)
-
-  task = TaskClassif$new(id = "titanic", train, target = "Survived", positive = "1")
-
-  lrn = lrn("classif.rpart")
-
-  lrn$train(task)
-  p = lrn$predict_newdata(newdata = test)
+  learner = lrn("classif.rpart")$train(task)
+  p = learner$predict_newdata(newdata = data[is.na(survived)])
   expect_prediction_classif(p)
   expect_factor(p$response, levels = task$class_names, any.missing = FALSE)
   expect_factor(p$truth, levels = task$class_names)

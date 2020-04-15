@@ -1,4 +1,4 @@
-# mlr3 0.1.9
+# mlr3 0.2.0
 
 * Some handy cheat sheets can now be downloaded from the project homepage.
 * Added new measures `classif.bbrier` (binary Brier score) and `classif.mbrier`
