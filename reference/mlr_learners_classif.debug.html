@@ -19,6 +19,10 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
+
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
@@ -86,7 +90,7 @@ Also note that if they work, they will tear down your R session immediately!" />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -101,7 +105,7 @@ Also note that if they work, they will tear down your R session immediately!" />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -124,7 +128,7 @@ Also note that if they work, they will tear down your R session immediately!" />
   </a>
 </li>
         <li>
-  <a href="https://github.com/mlr-org/mlr3">
+  <a href="https://github.com/mlr-org/mlr3/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -174,7 +178,7 @@ Also note that if they work, they will tear down your R session immediately!" />
     <div class="ref-description">
     <p>A simple <a href='LearnerClassif.html'>LearnerClassif</a> used primarily in the unit tests and for debugging purposes.
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.
-The following hyperparameters trigger the following actions:</p><dl class='dl-horizontal'>
+The following hyperparameters trigger the following actions:</p><dl'>
 <dt>message_train:</dt><dd><p>Probability to output a message during train.</p></dd>
 <dt>message_predict:</dt><dd><p>Probability to output a message during predict.</p></dd>
 <dt>warning_train:</dt><dd><p>Probability to signal a warning during train.</p></dd>
@@ -197,9 +201,8 @@ Also note that if they work, they will tear down your R session immediately!</p>
 
     
 
-<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre>mlr_learners$get("classif.featureless")
-lrn("classif.featureless")
-</pre>
+<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"classif.featureless"</span>)
+<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)</pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -241,15 +244,15 @@ lrn("classif.featureless")
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>LearnerClassifDebug$new()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>LearnerClassifDebug</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>LearnerClassifDebug$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>LearnerClassifDebug</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -272,18 +275,12 @@ lrn("classif.featureless")
 #&gt;        149 virginica versicolor
 #&gt;        150 virginica versicolor</div><div class='input'>
 <span class='co'># task_train and task_predict are the input tasks for train() and predict()</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>learner</span>$<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] "response"     "task_train"   "task_predict"</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>learner</span>$<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] "response"     "pid"          "task_train"   "task_predict"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#dictionary">Dictionary</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#super-classes">Super classes</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -294,7 +291,7 @@ lrn("classif.featureless")
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

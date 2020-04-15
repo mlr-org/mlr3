@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Log Loss — mlr_measures_classif.logloss • mlr3</title>
+<title>Insample Resampling — mlr_resamplings_insample • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,11 +53,8 @@
 
 
 
-<meta property="og:title" content="Log Loss — mlr_measures_classif.logloss" />
-<meta property="og:description" content="Classification measure defined as $$
-  -\frac{1}{n} \sum_{i=1}^n \log \left(  p_i \right )
-$$
-where \(p_i\) is the probability for the true class of observation \(i\)." />
+<meta property="og:title" content="Insample Resampling — mlr_resamplings_insample" />
+<meta property="og:description" content="Uses all observations as training and as test set." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -157,83 +154,97 @@ where \(p_i\) is the probability for the true class of observation \(i\)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Log Loss</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
-    <div class="hidden name"><code>mlr_measures_classif.logloss.Rd</code></div>
+    <h1>Insample Resampling</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/ResamplingInsample.R'><code>R/ResamplingInsample.R</code></a></small>
+    <div class="hidden name"><code>mlr_resamplings_insample.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Classification measure defined as $$
-  -\frac{1}{n} \sum_{i=1}^n \log \left(  p_i \right )
-$$
-where \(p_i\) is the probability for the true class of observation \(i\).</p>
+    <p>Uses all observations as training and as test set.</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/logloss.html'>mlr3measures::logloss()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
-<p>If the measure is undefined for the input, <code>NaN</code> is returned.
-This can be customized by setting the field <code>na_value</code>.</p>
     <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
 
     
 
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"logloss"</span>)
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"logloss"</span>)</pre>
-
-    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
-
-    
-
-
-<ul>
-<li><p>Type: <code>"classif"</code></p></li>
-<li><p>Range: \([0, \infty)\)</p></li>
-<li><p>Minimize: <code>TRUE</code></p></li>
-<li><p>Required prediction: <code>prob</code></p></li>
-</ul>
-
+<p>This <a href='Resampling.html'>Resampling</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a> or with the associated sugar function <code><a href='mlr_sugar.html'>rsmp()</a></code>:</p><pre><span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"insample"</span>)
+<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"insample"</span>)</pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
-<p>Other classification measures: 
-<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
-<code><a href='mlr_measures_classif.auc.html'>mlr_measures_classif.auc</a></code>,
-<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
-<code><a href='mlr_measures_classif.bbrier.html'>mlr_measures_classif.bbrier</a></code>,
-<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
-<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
-<code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
-<code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
-<code><a href='mlr_measures_classif.fdr.html'>mlr_measures_classif.fdr</a></code>,
-<code><a href='mlr_measures_classif.fnr.html'>mlr_measures_classif.fnr</a></code>,
-<code><a href='mlr_measures_classif.fn.html'>mlr_measures_classif.fn</a></code>,
-<code><a href='mlr_measures_classif.fomr.html'>mlr_measures_classif.fomr</a></code>,
-<code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
-<code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
-<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code>,
-<code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
-<code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
-<code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
-<code><a href='mlr_measures_classif.precision.html'>mlr_measures_classif.precision</a></code>,
-<code><a href='mlr_measures_classif.recall.html'>mlr_measures_classif.recall</a></code>,
-<code><a href='mlr_measures_classif.sensitivity.html'>mlr_measures_classif.sensitivity</a></code>,
-<code><a href='mlr_measures_classif.specificity.html'>mlr_measures_classif.specificity</a></code>,
-<code><a href='mlr_measures_classif.tnr.html'>mlr_measures_classif.tnr</a></code>,
-<code><a href='mlr_measures_classif.tn.html'>mlr_measures_classif.tn</a></code>,
-<code><a href='mlr_measures_classif.tpr.html'>mlr_measures_classif.tpr</a></code>,
-<code><a href='mlr_measures_classif.tp.html'>mlr_measures_classif.tp</a></code></p>
-<p>Other multiclass classification measures: 
-<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
-<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
-<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
-<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
-<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code></p></div>
+    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Resampling.html'>Resamplings</a>: <a href='mlr_resamplings.html'>mlr_resamplings</a></p>
+<p><code><a href='as.data.table.html'>as.data.table(mlr_resamplings)</a></code> for a complete table of all (also dynamically created) <a href='Resampling.html'>Resampling</a> implementations.</p>
+<p>Other Resampling: 
+<code><a href='Resampling.html'>Resampling</a></code>,
+<code><a href='mlr_resamplings_bootstrap.html'>mlr_resamplings_bootstrap</a></code>,
+<code><a href='mlr_resamplings_custom.html'>mlr_resamplings_custom</a></code>,
+<code><a href='mlr_resamplings_cv.html'>mlr_resamplings_cv</a></code>,
+<code><a href='mlr_resamplings_holdout.html'>mlr_resamplings_holdout</a></code>,
+<code><a href='mlr_resamplings_repeated_cv.html'>mlr_resamplings_repeated_cv</a></code>,
+<code><a href='mlr_resamplings_subsampling.html'>mlr_resamplings_subsampling</a></code>,
+<code><a href='mlr_resamplings.html'>mlr_resamplings</a></code></p></div>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
+    <p><code><a href='Resampling.html'>mlr3::Resampling</a></code> -&gt; <code>ResamplingInsample</code></p>
+    <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
+
+    <p><div class="r6-fields"></p><dl'>
+<dt><code>iters</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Returns the number of resampling iterations, depending on the values stored in the <code>param_set</code>.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>ResamplingInsample$new()</code></a></p></li>
+<li><p><a href='#method-clone'><code>ResamplingInsample$clone()</code></a></p></li>
+</ul>
+<p><details ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-format'><code>mlr3::Resampling$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-help'><code>mlr3::Resampling$help()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate"><a href='../../mlr3/html/Resampling.html#method-instantiate'><code>mlr3::Resampling$instantiate()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-print'><code>mlr3::Resampling$print()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-test_set'><code>mlr3::Resampling$test_set()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-train_set'><code>mlr3::Resampling$train_set()</code></a></span></p></li>
+</ul>
+</details>
+
+<hr>
+<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>ResamplingInsample</span>$<span class='fu'>new</span>()</pre><p></div></p>
+
+<p><hr>
+<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>ResamplingInsample</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl'>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
+
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
+<span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
+<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
+
+<span class='co'># Instantiate Resampling</span>
+<span class='no'>rins</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"insample"</span>)
+<span class='no'>rins</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
+
+<span class='no'>rins</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</div><div class='input'><span class='no'>rins</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</div><div class='input'>
+<span class='co'># Internal storage:</span>
+<span class='no'>rins</span>$<span class='no'>instance</span> <span class='co'># just row ids</span></div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

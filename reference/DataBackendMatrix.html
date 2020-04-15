@@ -19,6 +19,10 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
+
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
@@ -74,7 +78,7 @@ dense columns are converted to numeric columns." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -89,7 +93,7 @@ dense columns are converted to numeric columns." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -112,7 +116,7 @@ dense columns are converted to numeric columns." />
   </a>
 </li>
         <li>
-  <a href="https://github.com/mlr-org/mlr3">
+  <a href="https://github.com/mlr-org/mlr3/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -180,7 +184,7 @@ dense columns are converted to numeric columns.</p>
     <p><code><a href='DataBackend.html'>mlr3::DataBackend</a></code> -&gt; <code>DataBackendMatrix</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl class='dl-horizontal'>
+    <p><div class="r6-active-bindings"></p><dl'>
 <dt><code>rownames</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
 Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.</p></dd>
 
@@ -216,10 +220,10 @@ Number of columns (variables), including the primary key column.</p></dd>
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>DataBackendMatrix$new(data, dense = NULL, primary_key = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'>new</span>(<span class='no'>data</span>, <span class='kw'>dense</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>primary_key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>data</code></dt><dd><p><code><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix::Matrix()</a></code><br />
 The input <code><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix::Matrix()</a></code>.</p></dd>
 
@@ -238,10 +242,10 @@ The rows must be addressed as vector of primary key values, columns must be refe
 Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
 Rows are guaranteed to be returned in the same order as <code>rows</code>, columns may be returned in an arbitrary order.
 Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>DataBackendMatrix$data(rows, cols, data_format = "data.table")</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>rows</span>, <span class='no'>cols</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -255,10 +259,10 @@ Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p
 <p><hr>
 <a id="method-head"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/head.html'>head()</a></code></h3>
 <p>Retrieve the first <code>n</code> rows.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>DataBackendMatrix$head(n = 6L)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>6L</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
 Number of rows.</p></dd>
 
@@ -271,10 +275,10 @@ Number of rows.</p></dd>
 specified. If <code>na_rm</code> is <code>TRUE</code>, missing values are removed from the
 returned vectors of distinct values. Non-existing rows and columns are
 silently ignored.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>DataBackendMatrix$distinct(rows, cols, na_rm = TRUE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'>distinct</span>(<span class='no'>rows</span>, <span class='no'>cols</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -291,10 +295,10 @@ Whether to remove NAs or not.</p></dd>
 <a id="method-missings"></a></p><h3>Method <code>missings()</code></h3>
 <p>Returns the number of missing values per column in the specified slice
 of data. Non-existing rows and columns are silently ignored.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>DataBackendMatrix$missings(rows, cols)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'>missings</span>(<span class='no'>rows</span>, <span class='no'>cols</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -333,15 +337,9 @@ Column names.</p></dd>
 #&gt; 3:        3 0.49381410    b  1  0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#super-class">Super class</a></li>
-      <li><a href="#active-bindings">Active bindings</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -352,7 +350,7 @@ Column names.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

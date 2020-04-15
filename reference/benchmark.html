@@ -19,6 +19,10 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
+
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
@@ -70,7 +74,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -85,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -108,7 +112,7 @@
   </a>
 </li>
         <li>
-  <a href="https://github.com/mlr-org/mlr3">
+  <a href="https://github.com/mlr-org/mlr3/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -214,12 +218,10 @@ We recommend to use package <a href='https://CRAN.R-project.org/package=progress
 <a href='https://CRAN.R-project.org/package=lgr'><span class="pkg">lgr</span></a> supports multiple log levels which can be queried with
 <code><a href='https://rdrr.io/r/base/options.html'>getOption("lgr.log_levels")</a></code>.</p>
 <p>To suppress output and reduce verbosity, you can lower the log from the
-default level <code>"info"</code> to <code>"warn"</code>:</p><pre>lgr::get_logger("mlr3")$set_threshold("warn")
-</pre>
+default level <code>"info"</code> to <code>"warn"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lgr/man/get_logger.html'>get_logger</a></span>(<span class='st'>"mlr3"</span>)$<span class='fu'>set_threshold</span>(<span class='st'>"warn"</span>)</pre>
 
 <p>To get additional log output for debugging, increase the log level to <code>"debug"</code>
-or <code>"trace"</code>:</p><pre>lgr::get_logger("mlr3")$set_threshold("debug")
-</pre>
+or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lgr/man/get_logger.html'>get_logger</a></span>(<span class='st'>"mlr3"</span>)$<span class='fu'>set_threshold</span>(<span class='st'>"debug"</span>)</pre>
 
 <p>To log to a file or a data base, see the documentation of <a href='https://rdrr.io/pkg/lgr/man/lgr-package.html'>lgr::lgr-package</a>.</p>
 
@@ -236,28 +238,28 @@ or <code>"trace"</code>:</p><pre>lgr::get_logger("mlr3")$set_threshold("debug")
 #&gt; 3: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;
 #&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingCV&gt;</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [20:53:23.616] Benchmark with 12 resampling iterations 
-#&gt; INFO  [20:53:23.618] Applying learner 'classif.featureless' on task 'iris' (iter 1/3) 
-#&gt; INFO  [20:53:23.629] Applying learner 'classif.featureless' on task 'iris' (iter 2/3) 
-#&gt; INFO  [20:53:23.640] Applying learner 'classif.featureless' on task 'iris' (iter 3/3) 
-#&gt; INFO  [20:53:23.651] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
-#&gt; INFO  [20:53:23.669] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
-#&gt; INFO  [20:53:23.686] Applying learner 'classif.rpart' on task 'iris' (iter 3/3) 
-#&gt; INFO  [20:53:23.702] Applying learner 'classif.featureless' on task 'sonar' (iter 1/3) 
-#&gt; INFO  [20:53:23.714] Applying learner 'classif.featureless' on task 'sonar' (iter 2/3) 
-#&gt; INFO  [20:53:23.725] Applying learner 'classif.featureless' on task 'sonar' (iter 3/3) 
-#&gt; INFO  [20:53:23.736] Applying learner 'classif.rpart' on task 'sonar' (iter 1/3) 
-#&gt; INFO  [20:53:23.769] Applying learner 'classif.rpart' on task 'sonar' (iter 2/3) 
-#&gt; INFO  [20:53:23.796] Applying learner 'classif.rpart' on task 'sonar' (iter 3/3) 
-#&gt; INFO  [20:53:23.846] Finished benchmark </div><div class='input'>
+<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [18:21:49.134] Benchmark with 12 resampling iterations 
+#&gt; INFO  [18:21:49.135] Applying learner 'classif.featureless' on task 'iris' (iter 1/3) 
+#&gt; INFO  [18:21:49.148] Applying learner 'classif.featureless' on task 'iris' (iter 2/3) 
+#&gt; INFO  [18:21:49.159] Applying learner 'classif.featureless' on task 'iris' (iter 3/3) 
+#&gt; INFO  [18:21:49.171] Applying learner 'classif.rpart' on task 'iris' (iter 1/3) 
+#&gt; INFO  [18:21:49.189] Applying learner 'classif.rpart' on task 'iris' (iter 2/3) 
+#&gt; INFO  [18:21:49.207] Applying learner 'classif.rpart' on task 'iris' (iter 3/3) 
+#&gt; INFO  [18:21:49.225] Applying learner 'classif.featureless' on task 'sonar' (iter 1/3) 
+#&gt; INFO  [18:21:49.243] Applying learner 'classif.featureless' on task 'sonar' (iter 2/3) 
+#&gt; INFO  [18:21:49.254] Applying learner 'classif.featureless' on task 'sonar' (iter 3/3) 
+#&gt; INFO  [18:21:49.265] Applying learner 'classif.rpart' on task 'sonar' (iter 1/3) 
+#&gt; INFO  [18:21:49.292] Applying learner 'classif.rpart' on task 'sonar' (iter 2/3) 
+#&gt; INFO  [18:21:49.319] Applying learner 'classif.rpart' on task 'sonar' (iter 3/3) 
+#&gt; INFO  [18:21:49.355] Finished benchmark </div><div class='input'>
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 07ca8bd3-0929-4fae-b567-3a18e045845f &lt;TaskClassif&gt;
-#&gt; 2: 07ca8bd3-0929-4fae-b567-3a18e045845f &lt;TaskClassif&gt;
-#&gt; 3: 07ca8bd3-0929-4fae-b567-3a18e045845f &lt;TaskClassif&gt;
-#&gt; 4: 5afb8689-5d31-4dfc-837a-a78b720a0539 &lt;TaskClassif&gt;
-#&gt; 5: 5afb8689-5d31-4dfc-837a-a78b720a0539 &lt;TaskClassif&gt;
-#&gt; 6: 5afb8689-5d31-4dfc-837a-a78b720a0539 &lt;TaskClassif&gt;
+#&gt; 1: 5411e061-4ddd-495a-8e7c-8b76e261e59f &lt;TaskClassif&gt;
+#&gt; 2: 5411e061-4ddd-495a-8e7c-8b76e261e59f &lt;TaskClassif&gt;
+#&gt; 3: 5411e061-4ddd-495a-8e7c-8b76e261e59f &lt;TaskClassif&gt;
+#&gt; 4: 9649abf2-0502-49c8-9173-31068d374f78 &lt;TaskClassif&gt;
+#&gt; 5: 9649abf2-0502-49c8-9173-31068d374f78 &lt;TaskClassif&gt;
+#&gt; 6: 9649abf2-0502-49c8-9173-31068d374f78 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
@@ -311,12 +313,12 @@ or <code>"trace"</code>:</p><pre>lgr::get_logger("mlr3")$set_threshold("debug")
 )
 
 <span class='co'>## Run benchmark</span>
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [20:53:23.932] Benchmark with 4 resampling iterations 
-#&gt; INFO  [20:53:23.933] Applying learner 'classif.featureless' on task 'iris' (iter 1/3) 
-#&gt; INFO  [20:53:23.945] Applying learner 'classif.featureless' on task 'iris' (iter 2/3) 
-#&gt; INFO  [20:53:23.956] Applying learner 'classif.featureless' on task 'iris' (iter 3/3) 
-#&gt; INFO  [20:53:23.967] Applying learner 'classif.rpart' on task 'sonar' (iter 1/1) 
-#&gt; INFO  [20:53:23.997] Finished benchmark </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs
+<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)</div><div class='output co'>#&gt; INFO  [18:21:49.438] Benchmark with 4 resampling iterations 
+#&gt; INFO  [18:21:49.439] Applying learner 'classif.featureless' on task 'iris' (iter 1/3) 
+#&gt; INFO  [18:21:49.451] Applying learner 'classif.featureless' on task 'iris' (iter 2/3) 
+#&gt; INFO  [18:21:49.463] Applying learner 'classif.featureless' on task 'iris' (iter 3/3) 
+#&gt; INFO  [18:21:49.474] Applying learner 'classif.rpart' on task 'sonar' (iter 1/1) 
+#&gt; INFO  [18:21:49.504] Finished benchmark </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs
 #&gt;  nr task_id          learner_id resampling_id iters warnings errors
 #&gt;   1    iris classif.featureless            cv     3        0      0
 #&gt;   2   sonar       classif.rpart       holdout     1        0      0</div><div class='input'>
@@ -330,17 +332,9 @@ or <code>"trace"</code>:</p><pre>lgr::get_logger("mlr3")$set_threshold("debug")
 #&gt;  [91] 119 121 124 128 129 133 135 144 145 146</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#note">Note</a></li>
-      <li><a href="#parallelization">Parallelization</a></li>
-      <li><a href="#progress-bars">Progress Bars</a></li>
-      <li><a href="#logging">Logging</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -351,7 +345,7 @@ or <code>"trace"</code>:</p><pre>lgr::get_logger("mlr3")$set_threshold("debug")
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

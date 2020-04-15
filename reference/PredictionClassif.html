@@ -19,6 +19,10 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
+
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
@@ -74,7 +78,7 @@ probability is chosen. In case of ties, a label is selected randomly." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -89,7 +93,7 @@ probability is chosen. In case of ties, a label is selected randomly." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -112,7 +116,7 @@ probability is chosen. In case of ties, a label is selected randomly." />
   </a>
 </li>
         <li>
-  <a href="https://github.com/mlr-org/mlr3">
+  <a href="https://github.com/mlr-org/mlr3/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -211,7 +215,7 @@ These are simply replaced by <code>0</code> and thus will never get selected.</p
     <p><code><a href='Prediction.html'>mlr3::Prediction</a></code> -&gt; <code>PredictionClassif</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl class='dl-horizontal'>
+    <p><div class="r6-active-bindings"></p><dl'>
 <dt><code>response</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code>)<br />
 Access to the stored predicted class labels.</p></dd>
 
@@ -247,16 +251,16 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>PredictionClassif$new(
-  task = NULL,
-  row_ids = task$row_ids,
-  truth = task$truth(),
-  response = NULL,
-  prob = NULL
+<p><div class="r"></p><pre><span class='no'>PredictionClassif</span>$<span class='fu'>new</span>(
+  <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>row_ids</span>,
+  <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='fu'>truth</span>(),
+  <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>task</code></dt><dd><p>(<a href='TaskClassif.html'>TaskClassif</a>)<br />
 Task, used to extract defaults for <code>row_ids</code> and <code>truth</code>.</p></dd>
 
@@ -284,10 +288,10 @@ the probabilities using <code><a href='https://rdrr.io/r/base/maxCol.html'>max.c
 <a id="method-set_threshold"></a></p><h3>Method <code>set_threshold()</code></h3>
 <p>Sets the prediction response based on the provided threshold.
 See the section on thresholding for more information.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>PredictionClassif$set_threshold(threshold, ties_method = "random")</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>PredictionClassif</span>$<span class='fu'>set_threshold</span>(<span class='no'>threshold</span>, <span class='kw'>ties_method</span> <span class='kw'>=</span> <span class='st'>"random"</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>threshold</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p></dd>
 
 <dt><code>ties_method</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
@@ -351,17 +355,9 @@ the object in its previous state.</p>
 #&gt;  0.3333333 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#note">Note</a></li>
-      <li><a href="#thresholding">Thresholding</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#super-class">Super class</a></li>
-      <li><a href="#active-bindings">Active bindings</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -372,7 +368,7 @@ the object in its previous state.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

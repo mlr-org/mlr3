@@ -19,6 +19,10 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
+
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
@@ -71,7 +75,7 @@ Results of a chemical analysis of three types of wines grown in the same region 
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -86,7 +90,7 @@ Results of a chemical analysis of three types of wines grown in the same region 
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -109,7 +113,7 @@ Results of a chemical analysis of three types of wines grown in the same region 
   </a>
 </li>
         <li>
-  <a href="https://github.com/mlr-org/mlr3">
+  <a href="https://github.com/mlr-org/mlr3/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -176,9 +180,8 @@ Stefan Aeberhard, email: stefan@coral.cs.jcu.edu.au</p>
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre>mlr_tasks$get("wine")
-tsk("wine")
-</pre>
+<pre><span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"wine"</span>)
+<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"wine"</span>)</pre>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -193,6 +196,7 @@ tsk("wine")
 <code><a href='TaskClassif.html'>TaskClassif</a></code>,
 <code><a href='TaskRegr.html'>TaskRegr</a></code>,
 <code><a href='TaskSupervised.html'>TaskSupervised</a></code>,
+<code><a href='TaskUnsupervised.html'>TaskUnsupervised</a></code>,
 <code><a href='Task.html'>Task</a></code>,
 <code><a href='mlr_tasks_boston_housing.html'>mlr_tasks_boston_housing</a></code>,
 <code><a href='mlr_tasks_german_credit.html'>mlr_tasks_german_credit</a></code>,
@@ -206,15 +210,9 @@ tsk("wine")
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#source">Source</a></li>
-      <li><a href="#construction">Construction</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -225,7 +223,7 @@ tsk("wine")
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

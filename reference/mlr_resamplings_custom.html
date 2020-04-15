@@ -19,6 +19,10 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
+
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
@@ -70,7 +74,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -85,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -108,7 +112,7 @@
   </a>
 </li>
         <li>
-  <a href="https://github.com/mlr-org/mlr3">
+  <a href="https://github.com/mlr-org/mlr3/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -165,9 +169,8 @@
 
     
 
-<p>This <a href='Resampling.html'>Resampling</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a> or with the associated sugar function <code><a href='mlr_sugar.html'>rsmp()</a></code>:</p><pre>mlr_resamplings$get("custom")
-rsmp("custom")
-</pre>
+<p>This <a href='Resampling.html'>Resampling</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a> or with the associated sugar function <code><a href='mlr_sugar.html'>rsmp()</a></code>:</p><pre><span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"custom"</span>)
+<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"custom"</span>)</pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -178,6 +181,7 @@ rsmp("custom")
 <code><a href='mlr_resamplings_bootstrap.html'>mlr_resamplings_bootstrap</a></code>,
 <code><a href='mlr_resamplings_cv.html'>mlr_resamplings_cv</a></code>,
 <code><a href='mlr_resamplings_holdout.html'>mlr_resamplings_holdout</a></code>,
+<code><a href='mlr_resamplings_insample.html'>mlr_resamplings_insample</a></code>,
 <code><a href='mlr_resamplings_repeated_cv.html'>mlr_resamplings_repeated_cv</a></code>,
 <code><a href='mlr_resamplings_subsampling.html'>mlr_resamplings_subsampling</a></code>,
 <code><a href='mlr_resamplings.html'>mlr_resamplings</a></code></p></div>
@@ -186,7 +190,7 @@ rsmp("custom")
     <p><code><a href='Resampling.html'>mlr3::Resampling</a></code> -&gt; <code>ResamplingCustom</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl class='dl-horizontal'>
+    <p><div class="r6-active-bindings"></p><dl'>
 <dt><code>iters</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
 Returns the number of resampling iterations, depending on the values stored in the <code>param_set</code>.</p></dd>
 
@@ -217,15 +221,15 @@ Hash (unique identifier) for this object.</p></dd>
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResamplingCustom$new()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResamplingCustom</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-instantiate"></a></p><h3>Method <code>instantiate()</code></h3>
 <p>Instantiate this <a href='Resampling.html'>Resampling</a> with custom splits into training and test set.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResamplingCustom$instantiate(task, train_sets, test_sets)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResamplingCustom</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>, <span class='no'>train_sets</span>, <span class='no'>test_sets</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>task</code></dt><dd><p><a href='Task.html'>Task</a><br />
 Mainly used to check if <code>train_sets</code> and <code>test_sets</code> are feasible.</p></dd>
 
@@ -241,10 +245,10 @@ Must have the same length as <code>train_sets</code>.</p></dd>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>ResamplingCustom$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>ResamplingCustom</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -265,16 +269,9 @@ Must have the same length as <code>train_sets</code>.</p></dd>
 <span class='no'>rc</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 2 3 4 5</div><div class='input'><span class='no'>rc</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  5  6  7  8  9 10</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#dictionary">Dictionary</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#super-class">Super class</a></li>
-      <li><a href="#active-bindings">Active bindings</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -285,7 +282,7 @@ Must have the same length as <code>train_sets</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

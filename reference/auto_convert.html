@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Log Loss — mlr_measures_classif.logloss • mlr3</title>
+<title>Column Auto-Converter — auto_convert • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,11 +53,11 @@
 
 
 
-<meta property="og:title" content="Log Loss — mlr_measures_classif.logloss" />
-<meta property="og:description" content="Classification measure defined as $$
-  -\frac{1}{n} \sum_{i=1}^n \log \left(  p_i \right )
-$$
-where \(p_i\) is the probability for the true class of observation \(i\)." />
+<meta property="og:title" content="Column Auto-Converter — auto_convert" />
+<meta property="og:description" content="Set of rules to automatically convert column types.
+This is used during rbind-ing of Tasks, but also in some pipe operators in
+mlr3pipelines.
+All rules are stored as functions in mlr_reflections$auto_converters." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -157,82 +157,48 @@ where \(p_i\) is the probability for the true class of observation \(i\)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Log Loss</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
-    <div class="hidden name"><code>mlr_measures_classif.logloss.Rd</code></div>
+    <h1>Column Auto-Converter</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/auto_convert.R'><code>R/auto_convert.R</code></a></small>
+    <div class="hidden name"><code>auto_convert.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Classification measure defined as $$
-  -\frac{1}{n} \sum_{i=1}^n \log \left(  p_i \right )
-$$
-where \(p_i\) is the probability for the true class of observation \(i\).</p>
+    <p>Set of rules to automatically convert column types.
+This is used during <code>rbind</code>-ing of <a href='Task.html'>Task</a>s, but also in some pipe operators in
+<a href='https://CRAN.R-project.org/package=mlr3pipelines'><span class="pkg">mlr3pipelines</span></a>.</p>
+<p>All rules are stored as functions in <a href='mlr_reflections.html'>mlr_reflections$auto_converters</a>.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>auto_convert</span>(<span class='no'>value</span>, <span class='no'>id</span>, <span class='no'>type</span>, <span class='no'>levels</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>value</th>
+      <td><p>(<code>any</code>)<br />
+New values to convert in order to match <code>type</code>.</p></td>
+    </tr>
+    <tr>
+      <th>id</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Name of the column, used in error messages.</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Type to convert <code>values</code> to.</p></td>
+    </tr>
+    <tr>
+      <th>levels</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> | <code>NULL</code>)<br />
+Levels to use for conversion to <code>factor</code> or <code>ordered</code>.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/logloss.html'>mlr3measures::logloss()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
-<p>If the measure is undefined for the input, <code>NaN</code> is returned.
-This can be customized by setting the field <code>na_value</code>.</p>
-    <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
-
-    
-
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"logloss"</span>)
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"logloss"</span>)</pre>
-
-    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
-
-    
-
-
-<ul>
-<li><p>Type: <code>"classif"</code></p></li>
-<li><p>Range: \([0, \infty)\)</p></li>
-<li><p>Minimize: <code>TRUE</code></p></li>
-<li><p>Required prediction: <code>prob</code></p></li>
-</ul>
-
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
-<p>Other classification measures: 
-<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
-<code><a href='mlr_measures_classif.auc.html'>mlr_measures_classif.auc</a></code>,
-<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
-<code><a href='mlr_measures_classif.bbrier.html'>mlr_measures_classif.bbrier</a></code>,
-<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
-<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
-<code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
-<code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
-<code><a href='mlr_measures_classif.fdr.html'>mlr_measures_classif.fdr</a></code>,
-<code><a href='mlr_measures_classif.fnr.html'>mlr_measures_classif.fnr</a></code>,
-<code><a href='mlr_measures_classif.fn.html'>mlr_measures_classif.fn</a></code>,
-<code><a href='mlr_measures_classif.fomr.html'>mlr_measures_classif.fomr</a></code>,
-<code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
-<code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
-<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code>,
-<code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
-<code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
-<code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
-<code><a href='mlr_measures_classif.precision.html'>mlr_measures_classif.precision</a></code>,
-<code><a href='mlr_measures_classif.recall.html'>mlr_measures_classif.recall</a></code>,
-<code><a href='mlr_measures_classif.sensitivity.html'>mlr_measures_classif.sensitivity</a></code>,
-<code><a href='mlr_measures_classif.specificity.html'>mlr_measures_classif.specificity</a></code>,
-<code><a href='mlr_measures_classif.tnr.html'>mlr_measures_classif.tnr</a></code>,
-<code><a href='mlr_measures_classif.tn.html'>mlr_measures_classif.tn</a></code>,
-<code><a href='mlr_measures_classif.tpr.html'>mlr_measures_classif.tpr</a></code>,
-<code><a href='mlr_measures_classif.tp.html'>mlr_measures_classif.tp</a></code></p>
-<p>Other multiclass classification measures: 
-<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
-<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
-<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
-<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
-<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code></p></div>
+    <p>Vector <code>value</code> converted to type <code>type</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

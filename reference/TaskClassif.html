@@ -19,6 +19,10 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
+
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
@@ -78,7 +82,7 @@ Predefined tasks are stored in the dictionary mlr_tasks." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -93,7 +97,7 @@ Predefined tasks are stored in the dictionary mlr_tasks." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -116,7 +120,7 @@ Predefined tasks are stored in the dictionary mlr_tasks." />
   </a>
 </li>
         <li>
-  <a href="https://github.com/mlr-org/mlr3">
+  <a href="https://github.com/mlr-org/mlr3/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -182,6 +186,7 @@ The <code>task_type</code> is set to <code>"classif"</code>.</p>
     <div class='dont-index'><p>Other Task: 
 <code><a href='TaskRegr.html'>TaskRegr</a></code>,
 <code><a href='TaskSupervised.html'>TaskSupervised</a></code>,
+<code><a href='TaskUnsupervised.html'>TaskUnsupervised</a></code>,
 <code><a href='Task.html'>Task</a></code>,
 <code><a href='mlr_tasks_boston_housing.html'>mlr_tasks_boston_housing</a></code>,
 <code><a href='mlr_tasks_german_credit.html'>mlr_tasks_german_credit</a></code>,
@@ -198,7 +203,7 @@ The <code>task_type</code> is set to <code>"classif"</code>.</p>
     <p><code><a href='Task.html'>mlr3::Task</a></code> -&gt; <code><a href='TaskSupervised.html'>mlr3::TaskSupervised</a></code> -&gt; <code>TaskClassif</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl class='dl-horizontal'>
+    <p><div class="r6-active-bindings"></p><dl'>
 <dt><code>class_names</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Returns all class labels of the target column.</p></dd>
 
@@ -244,10 +249,10 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$new(id, backend, target, positive = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>new</span>(<span class='no'>id</span>, <span class='no'>backend</span>, <span class='no'>target</span>, <span class='kw'>positive</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Identifier for the new instance.</p></dd>
 
@@ -268,10 +273,10 @@ positive class, and the second element is the negative class.</p></dd>
 <a id="method-data"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
 <p>Calls <code>$data</code> from parent class <a href='Task.html'>Task</a> and ensures that levels of the target column
 are in the right order.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$data(rows = NULL, cols = NULL, data_format = "data.table")</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -288,10 +293,10 @@ Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p
 <a id="method-truth"></a></p><h3>Method <code>truth()</code></h3>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
 Defaults to all rows with role <code>"use"</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$truth(rows = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>truth</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -303,10 +308,10 @@ Row indices.</p></dd>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 <code>cols</code> defaults to all columns with storage type "factor" or "ordered".
 Also updates the task property <code>"twoclass"</code>/<code>"multiclass"</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$droplevels(cols = NULL)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/base/droplevels.html'>droplevels</a></span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Column names.</p></dd>
 
@@ -316,10 +321,10 @@ Column names.</p></dd>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>TaskClassif$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -342,15 +347,9 @@ Column names.</p></dd>
 <span class='no'>mlr_reflections</span>$<span class='no'>task_properties</span>$<span class='no'>classif</span></div><div class='output co'>#&gt; [1] "strata"     "groups"     "weights"    "twoclass"   "multiclass"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#super-classes">Super classes</a></li>
-      <li><a href="#active-bindings">Active bindings</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -361,7 +360,7 @@ Column names.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

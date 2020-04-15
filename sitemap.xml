@@ -64,6 +64,9 @@
     <loc>https://mlr3.mlr-org.com/reference/TaskSupervised.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/TaskUnsupervised.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/as.data.table.html</loc>
   </url>
   <url>
@@ -71,6 +74,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/as_data_backend.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/auto_convert.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/benchmark.html</loc>
@@ -121,6 +127,9 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.bacc.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.bbrier.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.ce.html</loc>
   </url>
   <url>
@@ -152,6 +161,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.logloss.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mbrier.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_measures_classif.mcc.html</loc>
@@ -275,6 +287,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_holdout.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_insample.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_repeated_cv.html</loc>

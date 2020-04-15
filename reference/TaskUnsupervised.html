@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Log Loss — mlr_measures_classif.logloss • mlr3</title>
+<title>Unsupervised Task — TaskUnsupervised • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,11 +53,8 @@
 
 
 
-<meta property="og:title" content="Log Loss — mlr_measures_classif.logloss" />
-<meta property="og:description" content="Classification measure defined as $$
-  -\frac{1}{n} \sum_{i=1}^n \log \left(  p_i \right )
-$$
-where \(p_i\) is the probability for the true class of observation \(i\)." />
+<meta property="og:title" content="Unsupervised Task — TaskUnsupervised" />
+<meta property="og:description" content="This is the abstract base class for unsupervised tasks such as cluster tasks (not yet implemented)." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -157,83 +154,87 @@ where \(p_i\) is the probability for the true class of observation \(i\)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Log Loss</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
-    <div class="hidden name"><code>mlr_measures_classif.logloss.Rd</code></div>
+    <h1>Unsupervised Task</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskUnsupervised.R'><code>R/TaskUnsupervised.R</code></a></small>
+    <div class="hidden name"><code>TaskUnsupervised.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Classification measure defined as $$
-  -\frac{1}{n} \sum_{i=1}^n \log \left(  p_i \right )
-$$
-where \(p_i\) is the probability for the true class of observation \(i\).</p>
+    <p>This is the abstract base class for unsupervised tasks such as cluster tasks (not yet implemented).</p>
     </div>
 
-
-
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/logloss.html'>mlr3measures::logloss()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
-<p>If the measure is undefined for the input, <code>NaN</code> is returned.
-This can be customized by setting the field <code>na_value</code>.</p>
-    <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
-
-    
-
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"logloss"</span>)
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"logloss"</span>)</pre>
-
-    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
-
-    
-
-
-<ul>
-<li><p>Type: <code>"classif"</code></p></li>
-<li><p>Range: \([0, \infty)\)</p></li>
-<li><p>Minimize: <code>TRUE</code></p></li>
-<li><p>Required prediction: <code>prob</code></p></li>
-</ul>
 
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
-<p>Other classification measures: 
-<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
-<code><a href='mlr_measures_classif.auc.html'>mlr_measures_classif.auc</a></code>,
-<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
-<code><a href='mlr_measures_classif.bbrier.html'>mlr_measures_classif.bbrier</a></code>,
-<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
-<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
-<code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
-<code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
-<code><a href='mlr_measures_classif.fdr.html'>mlr_measures_classif.fdr</a></code>,
-<code><a href='mlr_measures_classif.fnr.html'>mlr_measures_classif.fnr</a></code>,
-<code><a href='mlr_measures_classif.fn.html'>mlr_measures_classif.fn</a></code>,
-<code><a href='mlr_measures_classif.fomr.html'>mlr_measures_classif.fomr</a></code>,
-<code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
-<code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
-<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code>,
-<code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
-<code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
-<code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
-<code><a href='mlr_measures_classif.precision.html'>mlr_measures_classif.precision</a></code>,
-<code><a href='mlr_measures_classif.recall.html'>mlr_measures_classif.recall</a></code>,
-<code><a href='mlr_measures_classif.sensitivity.html'>mlr_measures_classif.sensitivity</a></code>,
-<code><a href='mlr_measures_classif.specificity.html'>mlr_measures_classif.specificity</a></code>,
-<code><a href='mlr_measures_classif.tnr.html'>mlr_measures_classif.tnr</a></code>,
-<code><a href='mlr_measures_classif.tn.html'>mlr_measures_classif.tn</a></code>,
-<code><a href='mlr_measures_classif.tpr.html'>mlr_measures_classif.tpr</a></code>,
-<code><a href='mlr_measures_classif.tp.html'>mlr_measures_classif.tp</a></code></p>
-<p>Other multiclass classification measures: 
-<code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
-<code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
-<code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
-<code><a href='mlr_measures_classif.costs.html'>mlr_measures_classif.costs</a></code>,
-<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code></p></div>
+    <div class='dont-index'><p>Other Task: 
+<code><a href='TaskClassif.html'>TaskClassif</a></code>,
+<code><a href='TaskRegr.html'>TaskRegr</a></code>,
+<code><a href='TaskSupervised.html'>TaskSupervised</a></code>,
+<code><a href='Task.html'>Task</a></code>,
+<code><a href='mlr_tasks_boston_housing.html'>mlr_tasks_boston_housing</a></code>,
+<code><a href='mlr_tasks_german_credit.html'>mlr_tasks_german_credit</a></code>,
+<code><a href='mlr_tasks_iris.html'>mlr_tasks_iris</a></code>,
+<code><a href='mlr_tasks_mtcars.html'>mlr_tasks_mtcars</a></code>,
+<code><a href='mlr_tasks_pima.html'>mlr_tasks_pima</a></code>,
+<code><a href='mlr_tasks_sonar.html'>mlr_tasks_sonar</a></code>,
+<code><a href='mlr_tasks_spam.html'>mlr_tasks_spam</a></code>,
+<code><a href='mlr_tasks_wine.html'>mlr_tasks_wine</a></code>,
+<code><a href='mlr_tasks_zoo.html'>mlr_tasks_zoo</a></code>,
+<code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
+    <p><code><a href='Task.html'>mlr3::Task</a></code> -&gt; <code>TaskUnsupervised</code></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-clone'><code>TaskUnsupervised$clone()</code></a></p></li>
+</ul>
+<p><details ><summary>Inherited methods</summary>
+<ul>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-cbind'><code>mlr3::Task$cbind()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-data'><code>mlr3::Task$data()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href='../../mlr3/html/Task.html#method-droplevels'><code>mlr3::Task$droplevels()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-filter'><code>mlr3::Task$filter()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-format'><code>mlr3::Task$format()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href='../../mlr3/html/Task.html#method-formula'><code>mlr3::Task$formula()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href='../../mlr3/html/Task.html#method-head'><code>mlr3::Task$head()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href='../../mlr3/html/Task.html#method-help'><code>mlr3::Task$help()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="initialize"><a href='../../mlr3/html/Task.html#method-initialize'><code>mlr3::Task$initialize()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href='../../mlr3/html/Task.html#method-levels'><code>mlr3::Task$levels()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href='../../mlr3/html/Task.html#method-missings'><code>mlr3::Task$missings()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href='../../mlr3/html/Task.html#method-print'><code>mlr3::Task$print()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href='../../mlr3/html/Task.html#method-rbind'><code>mlr3::Task$rbind()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href='../../mlr3/html/Task.html#method-rename'><code>mlr3::Task$rename()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href='../../mlr3/html/Task.html#method-select'><code>mlr3::Task$select()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_role"><a href='../../mlr3/html/Task.html#method-set_col_role'><code>mlr3::Task$set_col_role()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_role"><a href='../../mlr3/html/Task.html#method-set_row_role'><code>mlr3::Task$set_row_role()</code></a></span></p></li>
+</ul>
+</details>
+
+<hr>
+<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>TaskUnsupervised</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl'>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
+
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>TaskUnsupervised</span>$<span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='st'>"regr"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>iris</span>)</div><div class='output co'>#&gt; &lt;TaskUnsupervised:iris&gt; (150 x 5)
+#&gt; * Target: -
+#&gt; * Properties: -
+#&gt; * Features (5):
+#&gt;   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
+#&gt;   - fct (1): Species</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

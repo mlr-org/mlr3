@@ -19,6 +19,10 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
+
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
@@ -75,7 +79,7 @@ This measure requires the Task during scoring to ensure that the rows and column
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -90,7 +94,7 @@ This measure requires the Task during scoring to ensure that the rows and column
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.1.8</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -113,7 +117,7 @@ This measure requires the Task during scoring to ensure that the rows and column
   </a>
 </li>
         <li>
-  <a href="https://github.com/mlr-org/mlr3">
+  <a href="https://github.com/mlr-org/mlr3/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -175,9 +179,8 @@ The costs are then summed up (and potentially divided by the number of observati
 
     
 
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre>mlr_measures$get("classif.costs")
-msr("classif.costs")
-</pre>
+<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"classif.costs"</span>)
+<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.costs"</span>)</pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
@@ -207,6 +210,7 @@ msr("classif.costs")
 <code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
 <code><a href='mlr_measures_classif.auc.html'>mlr_measures_classif.auc</a></code>,
 <code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
+<code><a href='mlr_measures_classif.bbrier.html'>mlr_measures_classif.bbrier</a></code>,
 <code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
 <code><a href='mlr_measures_classif.dor.html'>mlr_measures_classif.dor</a></code>,
 <code><a href='mlr_measures_classif.fbeta.html'>mlr_measures_classif.fbeta</a></code>,
@@ -217,6 +221,7 @@ msr("classif.costs")
 <code><a href='mlr_measures_classif.fpr.html'>mlr_measures_classif.fpr</a></code>,
 <code><a href='mlr_measures_classif.fp.html'>mlr_measures_classif.fp</a></code>,
 <code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code>,
+<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code>,
 <code><a href='mlr_measures_classif.mcc.html'>mlr_measures_classif.mcc</a></code>,
 <code><a href='mlr_measures_classif.npv.html'>mlr_measures_classif.npv</a></code>,
 <code><a href='mlr_measures_classif.ppv.html'>mlr_measures_classif.ppv</a></code>,
@@ -232,20 +237,21 @@ msr("classif.costs")
 <code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,
 <code><a href='mlr_measures_classif.bacc.html'>mlr_measures_classif.bacc</a></code>,
 <code><a href='mlr_measures_classif.ce.html'>mlr_measures_classif.ce</a></code>,
-<code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code></p></div>
+<code><a href='mlr_measures_classif.logloss.html'>mlr_measures_classif.logloss</a></code>,
+<code><a href='mlr_measures_classif.mbrier.html'>mlr_measures_classif.mbrier</a></code></p></div>
     <h2 class="hasAnchor" id="super-classes"><a class="anchor" href="#super-classes"></a>Super classes</h2>
 
     <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code><a href='MeasureClassif.html'>mlr3::MeasureClassif</a></code> -&gt; <code>MeasureClassifCosts</code></p>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
-    <p><div class="r6-fields"></p><dl class='dl-horizontal'>
+    <p><div class="r6-fields"></p><dl'>
 <dt><code>normalize</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Normalize the costs?</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl class='dl-horizontal'>
+    <p><div class="r6-active-bindings"></p><dl'>
 <dt><code>costs</code></dt><dd><p>(numeric <code><a href='https://rdrr.io/r/base/matrix.html'>matrix()</a></code>)<br />
 Matrix of costs (truth in columns, predicted response in rows).</p></dd>
 
@@ -272,15 +278,15 @@ Matrix of costs (truth in columns, predicted response in rows).</p></dd>
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>MeasureClassifCosts$new()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>MeasureClassifCosts</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre>MeasureClassifCosts$clone(deep = FALSE)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>MeasureClassifCosts</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl class='dl-horizontal'>
+<p><div class="arguments"></p><dl'>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -307,24 +313,15 @@ Matrix of costs (truth in columns, predicted response in rows).</p></dd>
 
 <span class='co'># fit models and calculate costs</span>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [20:53:27.657] Applying learner 'classif.rpart' on task 'german_credit' (iter 1/3) 
-#&gt; INFO  [20:53:27.685] Applying learner 'classif.rpart' on task 'german_credit' (iter 2/3) 
-#&gt; INFO  [20:53:27.714] Applying learner 'classif.rpart' on task 'german_credit' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>m</span>)</div><div class='output co'>#&gt; german_credit_costs 
+<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))</div><div class='output co'>#&gt; INFO  [18:21:53.368] Applying learner 'classif.rpart' on task 'german_credit' (iter 1/3) 
+#&gt; INFO  [18:21:53.394] Applying learner 'classif.rpart' on task 'german_credit' (iter 2/3) 
+#&gt; INFO  [18:21:53.422] Applying learner 'classif.rpart' on task 'german_credit' (iter 3/3) </div><div class='input'><span class='no'>rr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>m</span>)</div><div class='output co'>#&gt; german_credit_costs 
 #&gt;            296.6667 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#dictionary">Dictionary</a></li>
-      <li><a href="#meta-information">Meta Information</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#super-classes">Super classes</a></li>
-      <li><a href="#public-fields">Public fields</a></li>
-      <li><a href="#active-bindings">Active bindings</a></li>
-      <li><a href="#methods">Methods</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -335,7 +332,7 @@ Matrix of costs (truth in columns, predicted response in rows).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
