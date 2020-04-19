@@ -65,21 +65,14 @@ resample = function(task, learner, resampling, store_models = FALSE) {
   }
   n = instance$iters
   pb = get_progressor(n)
+  lg$debug("Running resample() via future with %i iterations", n)
 
-  if (use_future()) {
-    lg$debug("Running resample() via future with %i iterations", n)
-    res = future.apply::future_lapply(seq_len(n), workhorse,
-      task = task, learner = learner, resampling = instance,
-      store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
-      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-      future.packages = "mlr3")
-  } else {
-    lg$debug("Running resample() sequentially with %i iterations", n)
-    res = lapply(seq_len(n), workhorse,
-      task = task, learner = learner, resampling = instance,
-      store_models = store_models, pb = pb)
-  }
-
+  res = future.apply::future_lapply(seq_len(n), workhorse,
+    task = task, learner = learner, resampling = instance,
+    store_models = store_models, lgr_threshold = lg$threshold, pb = pb,
+    future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+    future.packages = "mlr3", future.seed = TRUE
+  )
   res = map_dtr(res, reassemble, learner = learner)
   res[, c("task", "resampling", "iteration") := list(list(task), list(instance), seq_len(n))]
 

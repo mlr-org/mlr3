@@ -185,6 +185,10 @@ would result in non-trivial API changes.
     argument in `[.data.frame`) are avoided.
   - Be light on dependencies. `mlr3` requires the following packages at
     runtime:
+      - [`future.apply`](https://cran.r-project.org/package=future.apply):
+        Resampling and benchmarking is parallelized with the
+        [`future`](https://cran.r-project.org/package=future)
+        abstraction interfacing many parallel backends.
       - [`backports`](https://cran.r-project.org/package=backports):
         Ensures backward compatibility with older R releases. Developed
         by members of the `mlr` team. No recursive dependencies.
@@ -216,10 +220,6 @@ would result in non-trivial API changes.
     Objects are queryable for properties and capabilities, allowing you
     to program on them.
   - Additional functionality that comes with extra dependencies:
-      - For parallelization, `mlr3` utilizes the
-        [`future`](https://cran.r-project.org/package=future) and
-        [`future.apply`](https://cran.r-project.org/package=future.apply)
-        packages.
       - To capture output, warnings and exceptions,
         [`evaluate`](https://cran.r-project.org/package=evaluate) and
         [`callr`](https://cran.r-project.org/package=callr) can be used.
