@@ -107,29 +107,16 @@ benchmark = function(design, store_models = FALSE) {
 
   lg$info("Benchmark with %i resampling iterations", nrow(grid))
   pb = get_progressor(nrow(grid))
+  lg$debug("Running benchmark() via future")
 
-  if (use_future()) {
-    lg$debug("Running benchmark() via future")
-
-    res = future.apply::future_mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration,
-      MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE,
-      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-      future.packages = "mlr3"
-    )
-  } else {
-    lg$debug("Running benchmark() sequentially")
-
-    res = mapply(workhorse,
-      task = grid$task, learner = grid$learner, resampling = grid$resampling,
-      iteration = grid$iteration,
-      MoreArgs = list(store_models = store_models, pb = pb),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE
-    )
-  }
-
+  res = future.apply::future_mapply(workhorse,
+    task = grid$task, learner = grid$learner, resampling = grid$resampling,
+    iteration = grid$iteration,
+    MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
+    SIMPLIFY = FALSE, USE.NAMES = FALSE,
+    future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+    future.packages = "mlr3", future.seed = TRUE
+  )
   res = rbindlist(Map(reassemble, result = res, learner = grid$learner), use.names = TRUE)
   res = insert_named(grid, res)
 
