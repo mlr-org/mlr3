@@ -251,6 +251,8 @@
 <li>Be light on dependencies. <code>mlr3</code> requires the following packages at runtime:
 <ul>
 <li>
+<a href="https://cran.r-project.org/package=future.apply"><code>future.apply</code></a>: Resampling and benchmarking is parallelized with the <a href="https://cran.r-project.org/package=future"><code>future</code></a> abstraction interfacing many parallel backends.</li>
+<li>
 <a href="https://cran.r-project.org/package=backports"><code>backports</code></a>: Ensures backward compatibility with older R releases. Developed by members of the <code>mlr</code> team. No recursive dependencies.</li>
 <li>
 <a href="https://cran.r-project.org/package=checkmate"><code>checkmate</code></a>: Fast argument checks. Developed by members of the <code>mlr</code> team. No extra recursive dependencies.</li>
@@ -278,7 +280,6 @@
 <a href="https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29">Reflections</a>: Objects are queryable for properties and capabilities, allowing you to program on them.</li>
 <li>Additional functionality that comes with extra dependencies:
 <ul>
-<li>For parallelization, <code>mlr3</code> utilizes the <a href="https://cran.r-project.org/package=future"><code>future</code></a> and <a href="https://cran.r-project.org/package=future.apply"><code>future.apply</code></a> packages.</li>
 <li>To capture output, warnings and exceptions, <a href="https://cran.r-project.org/package=evaluate"><code>evaluate</code></a> and <a href="https://cran.r-project.org/package=callr"><code>callr</code></a> can be used.</li>
 </ul>
 </li>

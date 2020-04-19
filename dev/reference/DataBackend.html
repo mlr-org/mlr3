@@ -269,16 +269,16 @@ e.g. <code>"data.table"</code>.</p></dd>
 
 <span class='no'>b</span> <span class='kw'>=</span> <span class='no'>DataBackendDataTable</span>$<span class='fu'>new</span>(<span class='no'>data</span>, <span class='kw'>primary_key</span> <span class='kw'>=</span> <span class='st'>"id"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>b</span>)</div><div class='output co'>#&gt; &lt;DataBackendDataTable&gt; (5x3)
-#&gt;  id          x y
-#&gt;   1 0.70066184 a
-#&gt;   2 0.04373037 a
-#&gt;   3 0.91952597 b
-#&gt;   4 0.98109477 a
-#&gt;   5 0.81599705 a</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt;    id          x y
-#&gt; 1:  1 0.70066184 a
-#&gt; 2:  2 0.04373037 a</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='st'>"x"</span>)</div><div class='output co'>#&gt;             x
-#&gt; 1: 0.70066184
-#&gt; 2: 0.04373037</div><div class='input'><span class='no'>b</span>$<span class='fu'>distinct</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='no'>b</span>$<span class='no'>rownames</span>, <span class='st'>"y"</span>)</div><div class='output co'>#&gt; $y
+#&gt;  id         x y
+#&gt;   1 0.9195260 a
+#&gt;   2 0.9810948 b
+#&gt;   3 0.8159971 a
+#&gt;   4 0.2838847 a
+#&gt;   5 0.4509142 a</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt;    id         x y
+#&gt; 1:  1 0.9195260 a
+#&gt; 2:  2 0.9810948 b</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='st'>"x"</span>)</div><div class='output co'>#&gt;            x
+#&gt; 1: 0.9195260
+#&gt; 2: 0.9810948</div><div class='input'><span class='no'>b</span>$<span class='fu'>distinct</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='no'>b</span>$<span class='no'>rownames</span>, <span class='st'>"y"</span>)</div><div class='output co'>#&gt; $y
 #&gt; [1] "a" "b"
 #&gt; </div><div class='input'><span class='no'>b</span>$<span class='fu'>missings</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='no'>b</span>$<span class='no'>rownames</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>data</span>))</div><div class='output co'>#&gt; id  x  y 
 #&gt;  0  0  0 </div></pre>
