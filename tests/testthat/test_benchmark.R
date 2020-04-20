@@ -259,8 +259,6 @@ test_that("filter", {
 })
 
 test_that("parallelization works", {
-  skip_if_not_installed("future")
-  skip_if_not_installed("future.apply")
   skip_on_os("windows") # currently buggy
 
   grid = benchmark_grid(list(tsk("wine"), tsk("sonar")), replicate(2, lrn("classif.debug")), rsmp("cv", folds = 2))

@@ -289,8 +289,8 @@ run_experiment = function(task, learner, seed = NULL) {
     }
 
     if ("oob_error" %in% learner$properties) {
-      err = learner$oob_error()
-      msg = checkmate::check_number(err)
+      oob = learner$oob_error()
+      msg = checkmate::check_number(oob)
       if (!isTRUE(msg))
         return(err(msg))
     }
