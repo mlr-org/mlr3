@@ -299,7 +299,7 @@ run_experiment = function(task, learner, seed = NULL) {
   return(list(ok = TRUE, learner = learner, prediction = prediction, error = character(), seed = seed))
 }
 
-run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types) {
+run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learner$predict_types, check_replicable = TRUE) {
   learner = learner$clone(deep = TRUE)
   id = learner$id
   tasks = generate_tasks(learner, N = N)
@@ -324,7 +324,7 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
           return(repeated_run)
         }
 
-        if (!isTRUE(all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction)))) {
+        if (!isTRUE(all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction))) && check_replicable) {
           run$ok = FALSE
           run$error = sprintf("Different results for replicated runs using fixed seed %i", run$seed)
           return(run)
