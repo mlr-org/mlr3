@@ -324,7 +324,7 @@ run_autotest = function(learner, N = 30L, exclude = NULL, predict_types = learne
           return(repeated_run)
         }
 
-        if (!isTRUE(all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction))) && check_replicable) {
+        if (check_replicable && !isTRUE(all.equal(as.data.table(run$prediction), as.data.table(repeated_run$prediction)))) {
           run$ok = FALSE
           run$error = sprintf("Different results for replicated runs using fixed seed %i", run$seed)
           return(run)
