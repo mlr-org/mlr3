@@ -62,6 +62,7 @@ Other contributors:
   \item Giuseppe Casalicchio \email{giuseppe.casalicchio@stat.uni-muenchen.de} (\href{https://orcid.org/0000-0001-5324-5966}{ORCID}) [contributor]
   \item Stefan Coors \email{mail@stefancoors.de} (\href{https://orcid.org/0000-0002-7465-2146}{ORCID}) [contributor]
   \item Quay Au \email{quayau@gmail.com} (\href{https://orcid.org/0000-0002-5252-8902}{ORCID}) [contributor]
+  \item Toby Dylan Hocking \email{toby.hocking@r-project.org} (\href{https://orcid.org/0000-0002-3146-0865}{ORCID}) [contributor]
 }
 
 }
