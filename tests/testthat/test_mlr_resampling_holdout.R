@@ -25,3 +25,17 @@ test_that("grouping", {
   r = rsmp("holdout")
   expect_grouping_works(r)
 })
+
+test_that("set size is optimal with respect to binomial likelihood", {
+  N <- 2
+  prop.train <- 0.7
+  task <- tsk("iris")$filter(1:N)
+  rho <- rsmp("holdout", ratio=prop.train)
+  set.seed(1)
+  rho$instantiate(task)
+  indices <- rho$train_set(1)
+  expect_equal(length(indices), 2)
+  ## for N=2 items total and p=0.7 probability of being in train set,
+  ## the most likely number of items in the train set is 2.
+  dbinom(0:N, N, prop.train)
+})
