@@ -54,7 +54,10 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
 
   private = list(
     .sample = function(ids) {
-      nr = round(length(ids) * self$param_set$values$ratio)
+      ## https://en.wikipedia.org/wiki/Binomial_distribution#Mode
+      p = self$param_set$values$ratio
+      N = length(ids)
+      nr = if(p==1)N else floor((N+1) * p)
       ii = shuffle(ids, nr)
       list(train = ii, test = setdiff(ids, ii))
     },
