@@ -51,12 +51,19 @@ Measure = R6Class("Measure",
     predict_sets = NULL,
 
     #' @field average (`character(1)`)\cr
-    #' Method for aggregation.
-    #' Either `"micro"` or `"macro"`.
+    #' Method for aggregation:
+    #'
+    #' * `"micro"`:
+    #'   All predictions from multiple resampling iterations are first combined into a single [Prediction] object.
+    #'   Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
+    #'
+    #' * `"macro"`:
+    #'   The scoring function is applied on the [Prediction] object of each resampling iterations, each yielding a single numeric score.
+    #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
     average = NULL,
 
     #' @field aggregator (`function()`)\cr
-    #' Function to aggregate individual scores.
+    #' Function to aggregate scores computed on different resampling iterations.
     aggregator = NULL,
 
     #' @field task_properties (`character()`)\cr

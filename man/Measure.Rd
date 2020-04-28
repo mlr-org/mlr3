@@ -58,11 +58,18 @@ Those be combined via getters in \link{ResampleResult}/\link{BenchmarkResult}, o
 to operate on specific subsets of the calculated prediction sets.}
 
 \item{\code{average}}{(\code{character(1)})\cr
-Method for aggregation.
-Either \code{"micro"} or \code{"macro"}.}
+Method for aggregation:
+\itemize{
+\item \code{"micro"}:
+All predictions from multiple resampling iterations are first combined into a single \link{Prediction} object.
+Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
+\item \code{"macro"}:
+The scoring function is applied on the \link{Prediction} object of each resampling iterations, each yielding a single numeric score.
+Next, the scores are combined with the \code{aggregator} function to a single numerical score.
+}}
 
 \item{\code{aggregator}}{(\verb{function()})\cr
-Function to aggregate individual scores.}
+Function to aggregate scores computed on different resampling iterations.}
 
 \item{\code{task_properties}}{(\code{character()})\cr
 Required properties of the \link{Task}.}
