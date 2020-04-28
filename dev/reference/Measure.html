@@ -200,7 +200,7 @@ Many of the measures in <span class="pkg">mlr3</span> are implemented in <a href
 <code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
-    <p><div class="r6-fields"></p><dl'>
+    <p><div class="r6-fields"></p><dl>
 <dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Identifier of the object.
 Used in tables, plot and text output.</p></dd>
@@ -221,11 +221,18 @@ Those be combined via getters in <a href='ResampleResult.html'>ResampleResult</a
 to operate on specific subsets of the calculated prediction sets.</p></dd>
 
 <dt><code>average</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Method for aggregation.
-Either <code>"micro"</code> or <code>"macro"</code>.</p></dd>
+Method for aggregation:
+<ul>
+<li><p><code>"micro"</code>:
+All predictions from multiple resampling iterations are first combined into a single <a href='Prediction.html'>Prediction</a> object.
+Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.</p></li>
+<li><p><code>"macro"</code>:
+The scoring function is applied on the <a href='Prediction.html'>Prediction</a> object of each resampling iterations, each yielding a single numeric score.
+Next, the scores are combined with the <code>aggregator</code> function to a single numerical score.</p></li>
+</ul></p></dd>
 
 <dt><code>aggregator</code></dt><dd><p>(<code>function()</code>)<br />
-Function to aggregate individual scores.</p></dd>
+Function to aggregate scores computed on different resampling iterations.</p></dd>
 
 <dt><code>task_properties</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Required properties of the <a href='Task.html'>Task</a>.</p></dd>
@@ -250,7 +257,7 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 </dl><p></div></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl'>
+    <p><div class="r6-active-bindings"></p><dl>
 <dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Hash (unique identifier) for this object.</p></dd>
 
@@ -288,7 +295,7 @@ Hash (unique identifier) for this object.</p></dd>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<p><div class="arguments"></p><dl>
 <dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Identifier for the new instance.</p></dd>
 
@@ -360,7 +367,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<p><div class="arguments"></p><dl>
 <dt><code>...</code></dt><dd><p>(ignored).</p></dd>
 
 </dl><p></div></p>
@@ -379,7 +386,7 @@ This is handled internally during <code><a href='resample.html'>resample()</a></
 <p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'>score</span>(<span class='no'>prediction</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>train_set</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<p><div class="arguments"></p><dl>
 <dt><code>prediction</code></dt><dd><p>(<a href='Prediction.html'>Prediction</a> | named list of <a href='Prediction.html'>Prediction</a>).</p></dd>
 
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
@@ -398,7 +405,7 @@ Operates on the <a href='Prediction.html'>Prediction</a>s of <a href='ResampleRe
 <p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>rr</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<p><div class="arguments"></p><dl>
 <dt><code>rr</code></dt><dd><p><a href='ResampleResult.html'>ResampleResult</a>.</p></dd>
 
 </dl><p></div></p>
