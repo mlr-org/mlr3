@@ -418,13 +418,13 @@ Iteration.</p></dd>
 #&gt; [127]  49  74  83 108 113 121 132 140 149</div><div class='input'>
 <span class='co'># Stratification</span>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"pima"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/prop.table.html'>prop.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>())) <span class='co'># moderately unbalanced</span></div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/proportions.html'>prop.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>())) <span class='co'># moderately unbalanced</span></div><div class='output co'>#&gt; 
 #&gt;       pos       neg 
 #&gt; 0.3489583 0.6510417 </div><div class='input'><span class='no'>task</span>$<span class='no'>col_roles</span>$<span class='no'>stratum</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>target_names</span>
 
 <span class='no'>r</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>)
 <span class='no'>r</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/prop.table.html'>prop.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/proportions.html'>prop.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>task</span>$<span class='fu'>truth</span>(<span class='no'>r</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)))) <span class='co'># roughly same proportion</span></div><div class='output co'>#&gt; 
 #&gt;       pos       neg 
 #&gt; 0.3496094 0.6503906 </div></pre>
   </div>
