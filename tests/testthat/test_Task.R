@@ -81,6 +81,16 @@ test_that("Task rbind", {
 
   task$rbind(iris[sample(nrow(iris), 5), ])
   expect_set_equal(task$row_ids, c(1:10, 151:155))
+
+  # 496
+  data = iris
+  data$blocks = sample(letters[1:2], nrow(iris), replace = TRUE)
+  task = TaskClassif$new("iris", data, target = "Species")
+  task$col_roles$feature = setdiff(task$col_roles$feature, "blocks")
+  task$col_roles$group = "blocks"
+  learner = lrn("classif.rpart")
+  learner$train(task)
+  expect_prediction(predict(learner, iris, predict_type = "<Prediction>"))
 })
 
 test_that("Task cbind", {

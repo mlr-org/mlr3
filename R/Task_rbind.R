@@ -9,7 +9,7 @@ task_rbind = function(backend, task) {
     type_check = FALSE # done by auto-converter
 
     keep_cols = intersect(names(backend), task$backend$colnames)
-    if (length(keep_cols) ==  pk_in_backend || nrow(backend) == 0L) {
+    if (length(keep_cols) == pk_in_backend || nrow(backend) == 0L) {
       return(invisible(task))
     }
 
@@ -36,7 +36,7 @@ task_rbind = function(backend, task) {
   }
 
   # columns with these roles must be present in data
-  mandatory_roles = c("target", "feature", "group", "stratum", "order", "weight")
+  mandatory_roles = c("target", "feature", "weight")
   mandatory_cols = unlist(task$col_roles[mandatory_roles], use.names = FALSE)
   missing_cols = setdiff(mandatory_cols, backend$colnames)
   if (length(missing_cols)) {
