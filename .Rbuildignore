@@ -15,3 +15,6 @@
 ^paper$
 ^README.html$
 ^\.pre-commit-config\.yaml$
+^\.ccache$
+^\.github$
+^tic\.R$
