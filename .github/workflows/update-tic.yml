@@ -35,7 +35,7 @@ jobs:
         run: |
             brew install curl libsodium
             Rscript -e "if (!requireNamespace('remotes')) install.packages('remotes', type = 'source')"
-            Rscript -e "remotes::install_github('ropensci/tic@update-yaml', dependencies = TRUE)" -e "print(tic::dsl_load())" -e "tic::prepare_all_stages()" -e "tic::before_install()" -e "tic::install()"
+            Rscript -e "remotes::install_github('ropensci/tic', dependencies = TRUE)" -e "print(tic::dsl_load())" -e "tic::prepare_all_stages()" -e "tic::before_install()" -e "tic::install()"
 
       - name: "[Stage] Update YAMLs"
         run: |
