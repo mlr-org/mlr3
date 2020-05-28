@@ -194,7 +194,7 @@ See \link{Resampling} for more information on stratification.
 }}
 
 \item{\code{groups}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role \code{"group"}, table with two columns:
+If the task has a column with designated role \code{"group"}, a table with two columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
 \item grouping variable \code{group} (\code{vector()}).
@@ -203,8 +203,17 @@ If the task has a column with designated role \code{"group"}, table with two col
 Returns \code{NULL} if there are is no grouping column.
 See \link{Resampling} for more information on grouping.}
 
+\item{\code{order}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+If the task has at least one column with designated role \code{"order"}, a table with two columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item ordering vector \code{order} (\code{integer()}).
+}
+
+Returns \code{NULL} if there are is no order column.}
+
 \item{\code{weights}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role \code{"weight"}, table with two columns:
+If the task has a column with designated role \code{"weight"}, a table with two columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
 \item observation weights \code{weight} (\code{numeric()}).

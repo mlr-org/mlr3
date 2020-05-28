@@ -522,7 +522,6 @@ Task = R6Class("Task",
     #' * `row_id` (list of `integer()`) as list column with the row ids in the respective subpopulation.
     #' Returns `NULL` if there are is no stratification variable.
     #' See [Resampling] for more information on stratification.
-
     strata = function(rhs) {
       assert_ro_binding(rhs)
       cols = private$.col_roles$stratum
@@ -539,7 +538,7 @@ Task = R6Class("Task",
 
 
     #' @field groups ([data.table::data.table()])\cr
-    #' If the task has a column with designated role `"group"`, table with two columns:
+    #' If the task has a column with designated role `"group"`, a table with two columns:
     #'
     #' * `row_id` (`integer()`), and
     #' * grouping variable `group` (`vector()`).
@@ -548,16 +547,35 @@ Task = R6Class("Task",
     #' See [Resampling] for more information on grouping.
     groups = function(rhs) {
       assert_ro_binding(rhs)
-      groups = private$.col_roles$group
-      if (length(groups) == 0L) {
+      group_cols = private$.col_roles$group
+      if (length(group_cols) == 0L) {
         return(NULL)
       }
-      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, groups))
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, group_cols))
       setnames(data, c("row_id", "group"))[]
     },
 
+    #' @field order ([data.table::data.table()])\cr
+    #' If the task has at least one column with designated role `"order"`, a table with two columns:
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * ordering vector `order` (`integer()`).
+    #'
+    #' Returns `NULL` if there are is no order column.
+    order = function(rhs) {
+      assert_ro_binding(rhs)
+
+      order_cols = private$.col_roles$order
+      if (length(order_cols) == 0L) {
+        return(NULL)
+      }
+
+      data = self$backend$data(private$.row_roles$use, order_cols)
+      data.table(row_id = private$.row_roles$use, order = do.call(order, data))
+    },
+
     #' @field weights ([data.table::data.table()])\cr
-    #' If the task has a column with designated role `"weight"`, table with two columns:
+    #' If the task has a column with designated role `"weight"`, a table with two columns:
     #'
     #' * `row_id` (`integer()`), and
     #' * observation weights `weight` (`numeric()`).
@@ -565,11 +583,11 @@ Task = R6Class("Task",
     #' Returns `NULL` if there are is no weight column.
     weights = function(rhs) {
       assert_ro_binding(rhs)
-      weights = private$.col_roles$weight
-      if (length(weights) == 0L) {
+      weight_cols = private$.col_roles$weight
+      if (length(weight_cols) == 0L) {
         return(NULL)
       }
-      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weights))
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, weight_cols))
       setnames(data, c("row_id", "weight"))[]
     }
   ),

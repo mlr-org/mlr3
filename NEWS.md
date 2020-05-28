@@ -5,6 +5,7 @@
   is calculated, independent of the parallel backend.
 * Fixed a bug where prediction on new data for a task with blocking information
   raised an exception (#496).
+* New binding: `Task$order`.
 
 # mlr3 0.2.0
 
