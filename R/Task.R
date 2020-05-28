@@ -136,7 +136,7 @@ Task = R6Class("Task",
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, data_format = "data.table") {
-      task_data(self, private, rows, cols, data_format)
+      task_data(self, rows, cols, data_format)
     },
 
     #' @description
@@ -584,11 +584,10 @@ Task = R6Class("Task",
   )
 )
 
-task_data = function(self, private, rows = NULL, cols = NULL, data_format = "data.table", subset_active = c("rows", "cols")) {
-
+task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", subset_active = c("rows", "cols")) {
   assert_choice(data_format, self$backend$data_formats)
-  row_roles = private$.row_roles
-  col_roles = private$.col_roles
+  row_roles = self$row_roles
+  col_roles = self$col_roles
 
   if (is.null(rows)) {
     selected_rows = row_roles$use

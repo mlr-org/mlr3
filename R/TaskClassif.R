@@ -63,7 +63,7 @@ TaskClassif = R6Class("TaskClassif",
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, data_format = "data.table") {
-      data = task_data(self, private, rows, cols, data_format)
+      data = task_data(self, rows, cols, data_format)
       fix_factor_levels(data, set_names(list(self$class_names), self$target_names))
     },
 
