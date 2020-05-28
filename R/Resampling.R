@@ -167,7 +167,7 @@ Resampling = R6Class("Resampling",
 
       if (is.null(strata)) {
         if (is.null(groups)) {
-          instance = private$.sample(task$row_ids, order = task$order$order)
+          instance = private$.sample(task$row_ids, task)
         } else {
           private$.groups = groups
           instance = private$.sample(unique(groups$group))
@@ -176,7 +176,7 @@ Resampling = R6Class("Resampling",
         if (!is.null(groups)) {
           stopf("Cannot combine stratification with grouping")
         }
-        instance = private$.combine(lapply(strata$row_id, private$.sample, order = task$order$order))
+        instance = private$.combine(lapply(strata$row_id, private$.sample, task = task))
       }
 
       self$instance = instance
