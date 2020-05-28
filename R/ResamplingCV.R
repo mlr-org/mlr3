@@ -58,7 +58,7 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
   ),
 
   private = list(
-    .sample = function(ids) {
+    .sample = function(ids, ...) {
       data.table(
         row_id = ids,
         fold = shuffle(seq_along0(ids) %% as.integer(self$param_set$values$folds) + 1L),

@@ -62,7 +62,7 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
   ),
 
   private = list(
-    .sample = function(ids) {
+    .sample = function(ids, ...) {
       pv = self$param_set$values
       nr = round(length(ids) * pv$ratio)
       x = factor(seq_along(ids))

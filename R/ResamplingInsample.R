@@ -38,7 +38,7 @@ ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
   ),
 
   private = list(
-    .sample = function(ids) {
+    .sample = function(ids, ...) {
       ids
     },
 
