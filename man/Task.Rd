@@ -311,7 +311,7 @@ Rows are additionally subsetted to only contain observations with role \code{"us
 columns are filtered to only contain features with roles \code{"target"} and \code{"feature"}.
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format = "data.table")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -325,6 +325,9 @@ Column names.}
 
 \item{\code{data_format}}{(\code{character(1)})\cr
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
+
+\item{\code{ordered}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), data is ordered according to the columns with column role \code{"order"}.}
 }
 \if{html}{\out{</div>}}
 }

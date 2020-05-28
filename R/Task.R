@@ -134,9 +134,12 @@ Task = R6Class("Task",
     #' columns are filtered to only contain features with roles `"target"` and `"feature"`.
     #' If invalid `rows` or `cols` are specified, an exception is raised.
     #'
+    #' @param ordered (`logical(1)`)\cr
+    #'   If `TRUE` (default), data is ordered according to the columns with column role `"order"`.
+    #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
-    data = function(rows = NULL, cols = NULL, data_format = "data.table") {
-      task_data(self, rows, cols, data_format)
+    data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
+      task_data(self, rows, cols, data_format, ordered)
     },
 
     #' @description
@@ -584,13 +587,13 @@ Task = R6Class("Task",
   )
 )
 
-task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", subset_active = c("rows", "cols")) {
+task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE, subset_active = c("rows", "cols")) {
   assert_choice(data_format, self$backend$data_formats)
   row_roles = self$row_roles
   col_roles = self$col_roles
 
   if (is.null(rows)) {
-    selected_rows = row_roles$use
+    rows = row_roles$use
   } else {
     if ("rows" %in% subset_active) {
       assert_subset(rows, row_roles$use)
@@ -598,44 +601,38 @@ task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table",
     if (is.double(rows)) {
       rows = as.integer(rows)
     }
-    selected_rows = rows
   }
 
   if (is.null(cols)) {
-    selected_cols = c(col_roles$target, col_roles$feature)
+    query_cols = cols = c(col_roles$target, col_roles$feature)
   } else {
     if ("cols" %in% subset_active) {
       assert_subset(cols, c(col_roles$target, col_roles$feature))
     }
-    selected_cols = cols
+    query_cols = cols
   }
 
-  order = col_roles$order
-  if (length(order)) {
+  reorder_rows = length(col_roles$order) > 0L && isTRUE(ordered)
+  if (reorder_rows) {
     if (data_format != "data.table") {
       stopf("Ordering only supported for data_format 'data.table'")
     }
-    order_cols = setdiff(order, selected_cols)
-    selected_cols = union(selected_cols, order_cols)
-  } else {
-    order_cols = character()
+    query_cols = union(query_cols, col_roles$order)
   }
 
-  data = self$backend$data(rows = selected_rows, cols = selected_cols, data_format = data_format)
+  data = self$backend$data(rows = rows, cols = query_cols, data_format = data_format)
 
-  if (length(selected_cols) && nrow(data) != length(selected_rows)) {
-    stopf("DataBackend did not return the rows correctly: %i requested, %i received", length(selected_rows), nrow(data))
+  if (length(query_cols) && nrow(data) != length(rows)) {
+    stopf("DataBackend did not return the queried rows correctly: %i requested, %i received", length(rows), nrow(data))
   }
 
-  if (length(selected_rows) && ncol(data) != length(selected_cols)) {
-    stopf("DataBackend did not return the cols correctly: %i requested, %i received", length(selected_cols), ncol(data))
+  if (length(rows) && ncol(data) != length(query_cols)) {
+    stopf("DataBackend did not return the queried cols correctly: %i requested, %i received", length(cols), ncol(data))
   }
 
-  if (length(order)) {
-    setorderv(data, order)[]
-    if (length(order_cols)) {
-      data[, (order_cols) := NULL][]
-    }
+  if (reorder_rows) {
+    setorderv(data, col_roles$order)[]
+    data = remove_named(data, setdiff(col_roles$order, cols))
   }
 
   return(data)

@@ -132,7 +132,12 @@ positive class, and the second element is the negative class.}
 Calls \verb{$data} from parent class \link{Task} and ensures that levels of the target column
 are in the right order.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskClassif$data(rows = NULL, cols = NULL, data_format = "data.table")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskClassif$data(
+  rows = NULL,
+  cols = NULL,
+  data_format = "data.table",
+  ordered = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -146,6 +151,9 @@ Column names.}
 
 \item{\code{data_format}}{(\code{character(1)})\cr
 Desired data format, e.g. \code{"data.table"} or \code{"Matrix"}.}
+
+\item{\code{ordered}}{(\code{logical(1)})\cr
+If \code{TRUE} (default), data is ordered according to the columns with column role \code{"order"}.}
 }
 \if{html}{\out{</div>}}
 }

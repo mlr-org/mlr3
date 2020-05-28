@@ -23,6 +23,9 @@ test_that("Rows return ordered", {
   x = task$data()
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 
+  x = task$data(ordered = FALSE)
+  expect_true(is.unsorted(x$t))
+
   x = task$data(rows = sample(nrow(data), 50))
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 })
