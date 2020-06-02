@@ -89,7 +89,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
   ),
 
   private = list(
-    .sample = function(ids) {
+    .sample = function(ids, ...) {
       pv = self$param_set$values
       n = length(ids)
       folds = as.integer(pv$folds)

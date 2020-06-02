@@ -23,8 +23,16 @@ test_that("Rows return ordered", {
   x = task$data()
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
 
+  x = task$data(ordered = FALSE)
+  expect_true(is.unsorted(x$t))
+
   x = task$data(rows = sample(nrow(data), 50))
   expect_integer(x$t, sorted = TRUE, any.missing = FALSE)
+
+  tab = task$order
+  expect_data_table(tab, ncols = 2, nrows = task$nrow)
+  expect_set_equal(names(tab), c("row_id", "order"))
+  expect_integer(rev(tab$order), sorted = TRUE)
 })
 
 test_that("Rows return ordered with multiple order cols", {

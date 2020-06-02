@@ -61,9 +61,12 @@ TaskClassif = R6Class("TaskClassif",
     #' Calls `$data` from parent class [Task] and ensures that levels of the target column
     #' are in the right order.
     #'
+    #' @param ordered (`logical(1)`)\cr
+    #'   If `TRUE` (default), data is ordered according to the columns with column role `"order"`.
+    #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
-    data = function(rows = NULL, cols = NULL, data_format = "data.table") {
-      data = task_data(self, private, rows, cols, data_format)
+    data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
+      data = task_data(self, rows, cols, data_format, ordered)
       fix_factor_levels(data, set_names(list(self$class_names), self$target_names))
     },
 

@@ -1,10 +1,11 @@
-# mlr3 0.2.0-9000
+# mlr3 0.3.0
 
 * Package `future.apply` is now imported (instead of suggested).
   This is necessary to ensure reproducibility: This way exactly the same result
   is calculated, independent of the parallel backend.
 * Fixed a bug where prediction on new data for a task with blocking information
   raised an exception (#496).
+* New binding: `Task$order`.
 
 # mlr3 0.2.0
 

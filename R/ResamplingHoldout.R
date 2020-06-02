@@ -53,7 +53,7 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
   ),
 
   private = list(
-    .sample = function(ids) {
+    .sample = function(ids, ...) {
       nr = round(length(ids) * self$param_set$values$ratio)
       ii = shuffle(ids, nr)
       list(train = ii, test = setdiff(ids, ii))

@@ -61,7 +61,7 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
   ),
 
   private = list(
-    .sample = function(ids) {
+    .sample = function(ids, ...) {
       pv = self$param_set$values
       n = length(ids)
       nr = round(n * pv$ratio)
