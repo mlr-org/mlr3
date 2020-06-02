@@ -21,13 +21,13 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
 
       pk = self$primary_key
       qrows = unique(assert_numeric(rows))
-      qcols = union(assert_names(cols, type = "unique"), self$primary_key)
+      qcols = union(assert_names(cols, type = "unique"), pk)
       assert_choice(data_format, self$data_formats)
 
       data = private$.data$b2$data(qrows, qcols, data_format = data_format)
       if (ncol(data) < length(qcols)) {
-        qcols = setdiff(cols, names(data))
-        tmp = private$.data$b1$data(qrows, union(qcols, pk), data_format = data_format)
+        qcols = c(setdiff(cols, names(data)), pk)
+        tmp = private$.data$b1$data(qrows, qcols, data_format = data_format)
         data = merge(data, tmp, by = pk, all = TRUE, sort = TRUE)
       }
 
