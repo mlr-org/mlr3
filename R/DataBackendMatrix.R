@@ -62,7 +62,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     #' Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
     #' Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
     data = function(rows, cols, data_format = "data.table") {
-      assert_numeric(rows)
+      assert_integerish(rows, coerce = TRUE)
       assert_names(cols, type = "unique")
       assert_choice(data_format, self$data_formats)
 
@@ -191,6 +191,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     },
 
     .translate_rows = function(rows) {
+      rows = assert_integerish(rows, coerce = TRUE)
       private$.data$dense[list(rows), nomatch = NULL, on = self$primary_key, which = TRUE]
     }
   )
