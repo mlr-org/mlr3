@@ -97,7 +97,7 @@ Predefined tasks are stored in the dictionary mlr_tasks." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0-9000</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0-9000</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -203,7 +203,7 @@ The <code>task_type</code> is set to <code>"classif"</code>.</p>
     <p><code><a href='Task.html'>mlr3::Task</a></code> -&gt; <code><a href='TaskSupervised.html'>mlr3::TaskSupervised</a></code> -&gt; <code>TaskClassif</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl>
+    <p><div class="r6-active-bindings"></p><dl'>
 <dt><code>class_names</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Returns all class labels of the target column.</p></dd>
 
@@ -252,7 +252,7 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 <p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>new</span>(<span class='no'>id</span>, <span class='no'>backend</span>, <span class='no'>target</span>, <span class='kw'>positive</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl>
+<p><div class="arguments"></p><dl'>
 <dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Identifier for the new instance.</p></dd>
 
@@ -273,10 +273,15 @@ positive class, and the second element is the negative class.</p></dd>
 <a id="method-data"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
 <p>Calls <code>$data</code> from parent class <a href='Task.html'>Task</a> and ensures that levels of the target column
 are in the right order.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(
+  <span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>,
+  <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl>
+<p><div class="arguments"></p><dl'>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -285,6 +290,9 @@ Column names.</p></dd>
 
 <dt><code>data_format</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
+
+<dt><code>ordered</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code> (default), data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
@@ -296,7 +304,7 @@ Defaults to all rows with role <code>"use"</code>.</p><h3>Usage</h3>
 <p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>truth</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl>
+<p><div class="arguments"></p><dl'>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -311,7 +319,7 @@ Also updates the task property <code>"twoclass"</code>/<code>"multiclass"</code>
 <p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/base/droplevels.html'>droplevels</a></span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl>
+<p><div class="arguments"></p><dl'>
 <dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Column names.</p></dd>
 
@@ -324,7 +332,7 @@ Column names.</p></dd>
 <p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
-<p><div class="arguments"></p><dl>
+<p><div class="arguments"></p><dl'>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -360,7 +368,7 @@ Column names.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
