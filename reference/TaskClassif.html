@@ -97,7 +97,7 @@ Predefined tasks are stored in the dictionary mlr_tasks." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -273,7 +273,12 @@ positive class, and the second element is the negative class.</p></dd>
 <a id="method-data"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
 <p>Calls <code>$data</code> from parent class <a href='Task.html'>Task</a> and ensures that levels of the target column
 are in the right order.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(
+  <span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>,
+  <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl'>
@@ -285,6 +290,9 @@ Column names.</p></dd>
 
 <dt><code>data_format</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
+
+<dt><code>ordered</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code> (default), data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
@@ -360,7 +368,7 @@ Column names.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

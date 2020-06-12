@@ -97,7 +97,7 @@ e.g. iris or boston_housing." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.2.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -331,15 +331,22 @@ See <a href='Resampling.html'>Resampling</a> for more information on stratificat
 </ul></p></dd>
 
 <dt><code>groups</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-If the task has a column with designated role <code>"group"</code>, table with two columns:
+If the task has a column with designated role <code>"group"</code>, a table with two columns:
 <ul>
 <li><p><code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>), and</p></li>
 <li><p>grouping variable <code>group</code> (<code><a href='https://rdrr.io/r/base/vector.html'>vector()</a></code>).</p></li>
 </ul>Returns <code>NULL</code> if there are is no grouping column.
 See <a href='Resampling.html'>Resampling</a> for more information on grouping.</p></dd>
 
+<dt><code>order</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
+If the task has at least one column with designated role <code>"order"</code>, a table with two columns:
+<ul>
+<li><p><code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>), and</p></li>
+<li><p>ordering vector <code>order</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>).</p></li>
+</ul>Returns <code>NULL</code> if there are is no order column.</p></dd>
+
 <dt><code>weights</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-If the task has a column with designated role <code>"weight"</code>, table with two columns:
+If the task has a column with designated role <code>"weight"</code>, a table with two columns:
 <ul>
 <li><p><code>row_id</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>), and</p></li>
 <li><p>observation weights <code>weight</code> (<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p></li>
@@ -417,7 +424,7 @@ E.g., a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a><
 Rows are additionally subsetted to only contain observations with role <code>"use"</code>, and
 columns are filtered to only contain features with roles <code>"target"</code> and <code>"feature"</code>.
 If invalid <code>rows</code> or <code>cols</code> are specified, an exception is raised.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>Task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>, <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl'>
@@ -429,6 +436,9 @@ Column names.</p></dd>
 
 <dt><code>data_format</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p></dd>
+
+<dt><code>ordered</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code> (default), data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
 
 </dl><p></div></p>
 <h3>Returns</h3>
@@ -687,7 +697,7 @@ Column names.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
