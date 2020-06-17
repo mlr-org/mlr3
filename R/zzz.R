@@ -40,3 +40,34 @@ dummy_import = function() {
     lg$set_threshold("warn")
   }
 } # nocov end
+
+
+leanificate_method <- function(cls, assignwhich, name, env = parent.frame()) {
+  assert_choice(assignwhich, c("public_methods", "private_methods", "active"))
+  which <- switch(assignwhich, public_methods = "public", private_methods = "private", active = "active")
+  cname <- cls$classname
+  exportfname <- sprintf(".__%s__%s", cname, name)
+  fn <- cls[[assignwhich]][[name]]
+  origformals <- formals(fn)
+  formals(fn) <- c(pairlist(self = substitute(), private = substitute(), super = substitute()), formals(fn))
+  assign(exportfname, fn, env)
+  replacingfn <- eval(call("function", origformals,
+    as.call(c(list(as.symbol(exportfname)), sapply(names(formals(fn)), as.symbol, simplify = FALSE)))))
+  environment(replacingfn) <- environment(fn)
+  cls$set(which, name, replacingfn, overwrite = TRUE)
+}
+
+leanify_r6 <- function(cls, env = parent.frame()) {
+  for (assignwhich in c("public_methods", "private_methods", "active")) {
+    for (fname in names(cls[[assignwhich]])) {
+      leanificate_method(cls, assignwhich, fname, env = env)
+    }
+  }
+}
+
+for (varname in ls()) {
+  content <- get(varname)
+  if (R6::is.R6Class(content)) {
+    leanify_r6(content)
+  }
+}
