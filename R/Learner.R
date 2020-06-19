@@ -379,6 +379,7 @@ Learner = R6Class("Learner",
     deep_clone = function(name, value) {
       switch(name,
         .param_set = value$clone(deep = TRUE),
+        fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
         state = { value$log = copy(value$log); value },
         value
       )
