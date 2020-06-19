@@ -104,19 +104,39 @@ benchmark = function(design, store_models = FALSE) {
       iteration = seq_len(resampling$iters), uhash = UUIDgenerate()
     )
   })
+  n = nrow(grid)
 
-  lg$info("Benchmark with %i resampling iterations", nrow(grid))
-  pb = get_progressor(nrow(grid))
-  lg$debug("Running benchmark() via future")
+  lg$info("Benchmark with %i resampling iterations", n)
+  pb = get_progressor(n)
 
-  res = future.apply::future_mapply(workhorse,
-    task = grid$task, learner = grid$learner, resampling = grid$resampling,
-    iteration = grid$iteration,
-    MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
-    SIMPLIFY = FALSE, USE.NAMES = FALSE,
-    future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
-    future.packages = "mlr3", future.seed = TRUE
-  )
+  if (use_future()) {
+    lg$debug("Running benchmark() asynchronously with %i iterations", n)
+
+    res = future.apply::future_mapply(workhorse,
+      task = grid$task, learner = grid$learner, resampling = grid$resampling,
+      iteration = grid$iteration,
+      MoreArgs = list(store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
+      SIMPLIFY = FALSE, USE.NAMES = FALSE,
+      future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+      future.packages = "mlr3", future.seed = TRUE
+    )
+  } else {
+    lg$debug("Running benchmark() sequentially with %i iterations", n)
+
+    prev = get_rng_state()
+    on.exit(restore_rng_state(prev))
+    seeds = init_future_seeding(n)
+
+    res = vector("list", n)
+    for (i in seq_len(n)) {
+      assign(".Random.seed", value = seeds[[i]], envir = .GlobalEnv)
+
+      row = unlist(grid[i], recursive = TRUE)
+      res[[i]] = workhorse(row$iteration, task = row$task, learner = row$learner,
+        resampling = row$resampling, lgr_threshold = lg$threshold,
+        store_models = store_models, pb = pb)
+    }
+  }
   res = rbindlist(Map(reassemble, result = res, learner = grid$learner), use.names = TRUE)
   res = insert_named(grid, res)
 
