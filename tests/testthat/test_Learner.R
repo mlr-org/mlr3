@@ -203,3 +203,9 @@ test_that("empty predict set (#421)", {
   pred = learner$predict(task, hout$test_set(1))
   expect_true(any(grepl("No data to predict on", learner$log$msg)))
 })
+
+test_that("fallback learner is deep cloned (#511)", {
+  l = lrn("classif.rpart")
+  l$fallback = lrn("classif.featureless")
+  expect_different_address(l$fallback, l$clone(deep = TRUE)$fallback)
+})
