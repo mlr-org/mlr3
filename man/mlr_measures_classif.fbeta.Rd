@@ -4,8 +4,8 @@
 \alias{mlr_measures_classif.fbeta}
 \title{F-beta Score}
 \description{
-Binary classification measure defined with \eqn{P} as \code{\link[mlr3measures:precision]{precision()}} and \eqn{R} as
-\code{\link[mlr3measures:recall]{recall()}} as \deqn{
+Binary classification measure defined with \eqn{P} as \code{\link[mlr3measures:ppv]{precision()}} and \eqn{R} as
+\code{\link[mlr3measures:tpr]{recall()}} as \deqn{
    (1 + \beta^2) \frac{P \cdot R}{(\beta^2 P) + R}.
 }{
    (1 + beta^2) * (P*R) / ((beta^2 * P) + R).
