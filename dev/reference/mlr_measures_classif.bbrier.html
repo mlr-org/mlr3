@@ -170,21 +170,21 @@ original definition of the multi-class Brier score (see mbrier()) divided by 2."
 $$
 \(I_{i}\) is 1 if observation \(i\) belongs to the positive class, and 0 otherwise.</p>
 <p>Note that this (more common) definition of the Brier score is equivalent to the
-original definition of the multi-class Brier score (see <code><a href='https://mlr3measures.mlr-org.com/reference/mbrier.html'>mbrier()</a></code>) divided by 2.</p>
+original definition of the multi-class Brier score (see <code><a href='https://rdrr.io/pkg/mlr3measures/man/mbrier.html'>mbrier()</a></code>) divided by 2.</p>
     </div>
 
 
 
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/bbrier.html'>mlr3measures::bbrier()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
+    <p>The score function calls <code><a href='https://rdrr.io/pkg/mlr3measures/man/bbrier.html'>mlr3measures::bbrier()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
 <p>If the measure is undefined for the input, <code>NaN</code> is returned.
 This can be customized by setting the field <code>na_value</code>.</p>
     <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
 
     
 
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"bbrier"</span>)
+<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"bbrier"</span>)
 <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"bbrier"</span>)</pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
@@ -202,7 +202,7 @@ This can be customized by setting the field <code>na_value</code>.</p>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
+    <div class='dont-index'><p><a href='https://rdrr.io/pkg/mlr3misc/man/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
 <p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
 <p>Other classification measures: 
 <code><a href='mlr_measures_classif.acc.html'>mlr_measures_classif.acc</a></code>,

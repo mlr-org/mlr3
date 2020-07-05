@@ -371,7 +371,7 @@ column <code>"uhash"</code>.</p></dd>
 
 <dt><code>params</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Adds the hyperparameter values as extra list column <code>"params"</code>. You
-can unnest them with <code><a href='https://mlr3misc.mlr-org.com/reference/unnest.html'>mlr3misc::unnest()</a></code>.</p></dd>
+can unnest them with <code><a href='https://rdrr.io/pkg/mlr3misc/man/unnest.html'>mlr3misc::unnest()</a></code>.</p></dd>
 
 <dt><code>conditions</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
 Adds the number of resampling iterations with at least one warning as
@@ -469,11 +469,11 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 21e66c9a-8dab-441a-8eb6-484e5b7a59d3 &lt;TaskClassif&gt;
-#&gt; 2: 21e66c9a-8dab-441a-8eb6-484e5b7a59d3 &lt;TaskClassif&gt;
-#&gt; 3: 21e66c9a-8dab-441a-8eb6-484e5b7a59d3 &lt;TaskClassif&gt;
-#&gt; 4: 2711a344-7567-475d-9ebf-721251690161 &lt;TaskClassif&gt;
-#&gt; 5: 2711a344-7567-475d-9ebf-721251690161 &lt;TaskClassif&gt;
+#&gt; 1: 093e79a4-8630-4f46-8af3-b131d8df740f &lt;TaskClassif&gt;
+#&gt; 2: 093e79a4-8630-4f46-8af3-b131d8df740f &lt;TaskClassif&gt;
+#&gt; 3: 093e79a4-8630-4f46-8af3-b131d8df740f &lt;TaskClassif&gt;
+#&gt; 4: 9915c19a-0157-4d4a-8d5b-24e3f102f1d0 &lt;TaskClassif&gt;
+#&gt; 5: 9915c19a-0157-4d4a-8d5b-24e3f102f1d0 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
@@ -492,7 +492,7 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 3:  0.3940399
 #&gt; 4:  0.1086721</div><div class='input'>
 <span class='co'># aggregate results with hyperparameters as separate columns</span>
-<span class='kw pkg'>mlr3misc</span><span class='kw ns'>::</span><span class='fu'><a href='https://mlr3misc.mlr-org.com/reference/unnest.html'>unnest</a></span>(<span class='no'>bmr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='kw'>params</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='st'>"params"</span>)</div><div class='output co'>#&gt;    nr  resample_result task_id          learner_id resampling_id iters
+<span class='kw pkg'>mlr3misc</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mlr3misc/man/unnest.html'>unnest</a></span>(<span class='no'>bmr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='kw'>params</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='st'>"params"</span>)</div><div class='output co'>#&gt;    nr  resample_result task_id          learner_id resampling_id iters
 #&gt; 1:  1 &lt;ResampleResult&gt;   sonar classif.featureless            cv     3
 #&gt; 2:  2 &lt;ResampleResult&gt;   sonar       classif.rpart            cv     3
 #&gt; 3:  3 &lt;ResampleResult&gt;    spam classif.featureless            cv     3
