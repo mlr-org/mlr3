@@ -12,7 +12,11 @@
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' tgen("2dnormals")$generate(10)$data()
+#' generator = tgen("2dnormals")
+#' plot(generator, n = 200)
+#'
+#' task = generator$generate(200)
+#' str(task$data())
 TaskGenerator2DNormals = R6Class("TaskGenerator2DNormals",
   inherit = TaskGenerator,
   public = list(
@@ -26,13 +30,29 @@ TaskGenerator2DNormals = R6Class("TaskGenerator2DNormals",
       ))
 
       super$initialize(id = "2dnormals", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_2dnormals")
+    },
+
+    #' @description
+    #' Creates a simple plot of generated data.
+    #' @param n (`integer(1)`)\cr
+    #'   Number of samples to draw for the plot. Default is 200.
+    #' @param pch (`integer(1)`)\cr
+    #'   Point char. Passed to [plot()].
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [plot()].
+    plot = function(n = 200, pch = 19L, ...) {
+      plot(private$.generate_obj(n), pch = pch, ...)
     }
   ),
 
   private = list(
+    .generate_obj = function(n) {
+      invoke(mlbench::mlbench.2dnormals, n = n, .args = self$param_set$values)
+    },
+
     .generate = function(n) {
-      data = invoke(mlbench::mlbench.2dnormals, n = n, .args = self$param_set$values)
-      TaskClassif$new(sprintf("%s_%i", self$id, n), as.data.frame(data), target = "classes")
+      obj = private$.generate_obj(n)
+      TaskClassif$new(sprintf("%s_%i", self$id, n), convert_mlbench(obj), target = "y")
     }
   )
 )

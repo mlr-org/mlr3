@@ -15,7 +15,11 @@ tgen("spirals")
 }
 
 \examples{
-tgen("spirals")$generate(10)$data()
+generator = tgen("spirals")
+plot(generator, n = 200)
+
+task = generator$generate(200)
+str(task$data())
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=TaskGenerator]{TaskGenerators}: \link{mlr_task_generators}
@@ -26,9 +30,10 @@ Other TaskGenerator:
 \code{\link{TaskGenerator}},
 \code{\link{mlr_task_generators_2dnormals}},
 \code{\link{mlr_task_generators_cassini}},
-\code{\link{mlr_task_generators_circles}},
+\code{\link{mlr_task_generators_circle}},
 \code{\link{mlr_task_generators_friedman1}},
 \code{\link{mlr_task_generators_moons}},
+\code{\link{mlr_task_generators_simplex}},
 \code{\link{mlr_task_generators_smiley}},
 \code{\link{mlr_task_generators_xor}},
 \code{\link{mlr_task_generators}}
@@ -41,6 +46,7 @@ Other TaskGenerator:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{TaskGeneratorSpirals$new()}}
+\item \href{#method-plot}{\code{TaskGeneratorSpirals$plot()}}
 \item \href{#method-clone}{\code{TaskGeneratorSpirals$clone()}}
 }
 }
@@ -60,6 +66,30 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSpirals$new()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
+\subsection{Method \code{plot()}}{
+Creates a simple plot of generated data.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskGeneratorSpirals$plot(n = 200, pch = 19L, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{n}}{(\code{integer(1)})\cr
+Number of samples to draw for the plot. Default is 200.}
+
+\item{\code{pch}}{(\code{integer(1)})\cr
+Point char. Passed to \code{\link[=plot]{plot()}}.}
+
+\item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[=plot]{plot()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

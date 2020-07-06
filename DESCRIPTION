@@ -141,7 +141,7 @@ Collate:
     'mlr_task_generators.R'
     'TaskGenerator2DNormals.R'
     'TaskGeneratorCassini.R'
-    'TaskGeneratorCircles.R'
+    'TaskGeneratorCircle.R'
     'TaskGeneratorFriedman1.R'
     'TaskGeneratorMoons.R'
     'TaskGeneratorSimplex.R'

@@ -12,7 +12,11 @@
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' tgen("spirals")$generate(10)$data()
+#' generator = tgen("spirals")
+#' plot(generator, n = 200)
+#'
+#' task = generator$generate(200)
+#' str(task$data())
 TaskGeneratorSpirals = R6Class("TaskGeneratorSpirals",
   inherit = TaskGenerator,
   public = list(
@@ -25,13 +29,29 @@ TaskGeneratorSpirals = R6Class("TaskGeneratorSpirals",
       ))
 
       super$initialize(id = "spirals", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_spirals")
+    },
+
+    #' @description
+    #' Creates a simple plot of generated data.
+    #' @param n (`integer(1)`)\cr
+    #'   Number of samples to draw for the plot. Default is 200.
+    #' @param pch (`integer(1)`)\cr
+    #'   Point char. Passed to [plot()].
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [plot()].
+    plot = function(n = 200, pch = 19L, ...) {
+      plot(private$.generate_obj(n), pch = pch, ...)
     }
   ),
 
   private = list(
+    .generate_obj = function(n) {
+      invoke(mlbench::mlbench.spirals, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
+    },
+
     .generate = function(n) {
-      data = invoke(mlbench::mlbench.spirals, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
-      TaskClassif$new(sprintf("%s_%i", self$id, n), as.data.frame(data), target = "classes")
+      obj = private$.generate_obj(n)
+      TaskClassif$new(sprintf("%s_%i", self$id, n), convert_mlbench(obj), target = "y")
     }
   )
 )

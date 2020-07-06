@@ -12,9 +12,10 @@ e.g. \code{\link[=mlr_task_generators_xor]{xor}}.
 Other TaskGenerator: 
 \code{\link{mlr_task_generators_2dnormals}},
 \code{\link{mlr_task_generators_cassini}},
-\code{\link{mlr_task_generators_circles}},
+\code{\link{mlr_task_generators_circle}},
 \code{\link{mlr_task_generators_friedman1}},
 \code{\link{mlr_task_generators_moons}},
+\code{\link{mlr_task_generators_simplex}},
 \code{\link{mlr_task_generators_smiley}},
 \code{\link{mlr_task_generators_spirals}},
 \code{\link{mlr_task_generators_xor}},

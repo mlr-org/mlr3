@@ -12,7 +12,11 @@
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' tgen("smiley")$generate(10)$data()
+#' generator = tgen("smiley")
+#' plot(generator, n = 200)
+#'
+#' task = generator$generate(200)
+#' str(task$data())
 TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
   inherit = TaskGenerator,
   public = list(
@@ -25,15 +29,31 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
       ))
 
       super$initialize(id = "smiley", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_smiley")
+    },
+
+    #' @description
+    #' Creates a simple plot of generated data.
+    #' @param n (`integer(1)`)\cr
+    #'   Number of samples to draw for the plot. Default is 200.
+    #' @param pch (`integer(1)`)\cr
+    #'   Point char. Passed to [plot()].
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [plot()].
+    plot = function(n = 200, pch = 19L, ...) {
+      plot(private$.generate_obj(n), pch = pch, ...)
     }
   ),
 
   private = list(
+    .generate_obj = function(n) {
+      obj = invoke(mlbench::mlbench.smiley, n = n, .args = self$param_set$values)
+      colnames(obj$x) = sprintf("x.%i", seq_col(obj$x))
+      obj
+    },
+
     .generate = function(n) {
-      data = invoke(mlbench::mlbench.smiley, n = n, .args = self$param_set$values)
-      colnames(data$x) = sprintf("x.%i", seq_col(data$x))
-      data = insert_named(as.data.table(data$x), list(classes = data$classes))
-      TaskClassif$new(sprintf("%s_%i", self$id, n), data, target = "classes")
+      obj = private$.generate_obj(n)
+      TaskClassif$new(sprintf("%s_%i", self$id, n), convert_mlbench(obj), target = "y")
     }
   )
 )

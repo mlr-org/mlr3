@@ -12,7 +12,9 @@
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' tgen("friedman1")$generate(10)$data()
+#' generator = tgen("friedman1")
+#' task = generator$generate(200)
+#' str(task$data())
 TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
   inherit = TaskGenerator,
   public = list(
@@ -29,10 +31,10 @@ TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
 
   private = list(
     .generate = function(n) {
-      data = invoke(mlbench::mlbench.friedman1, n = n, .args = self$param_set$values)
-      colnames(data$x) = c(sprintf("important%i", 1:5), sprintf("unimportant%i", 1:5))
-      data = insert_named(as.data.table(data$x), list(y = data$y))
-      TaskRegr$new(sprintf("%s_%i", self$id, n), as.data.frame(data), target = "y")
+      obj = invoke(mlbench::mlbench.friedman1, n = n, .args = self$param_set$values)
+      colnames(obj$x) = c(sprintf("important%i", 1:5), sprintf("unimportant%i", 1:5))
+      data = insert_named(as.data.table(obj$x), list(y = obj$y))
+      TaskRegr$new(sprintf("%s_%i", self$id, n), data, target = "y")
     }
   )
 )

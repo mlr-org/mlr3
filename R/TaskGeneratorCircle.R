@@ -1,39 +1,34 @@
-#' @title Simplex Classification Task Generator
+#' @title Circle Classification Task Generator
 #'
-#' @name mlr_task_generators_simplex
+#' @name mlr_task_generators_circle
 #' @include TaskGenerator.R
 #'
 #' @description
-#' A [TaskGenerator] for the simplex task in [mlbench::mlbench.simplex()].
+#' A [TaskGenerator] for the circle binary classification task in [mlbench::mlbench.circle()].
+#' Creates a large circle containing a smaller circle.
 #'
-#' Note that the generator implemented in \CRANpkg{mlbench} returns
-#' fewer samples than requested.
-#'
-#' @templateVar id simplex
+#' @templateVar id circle
 #' @template section_dictionary_task_generator
 #'
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' generator = tgen("simplex")
+#' generator = tgen("circle")
 #' plot(generator, n = 200)
 #'
 #' task = generator$generate(200)
 #' str(task$data())
-TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
+TaskGeneratorCircle = R6Class("TaskGeneratorCircle",
   inherit = TaskGenerator,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
-        ParamInt$new("d", lower = 1L, default = 3L),
-        ParamInt$new("sides", lower = 1L, default = 1L),
-        ParamDbl$new("sd", lower = 0, default = 0.1),
-        ParamLgl$new("center", default = TRUE)
+        ParamInt$new("d", lower = 2L, default = 2L)
       ))
 
-      super$initialize(id = "simplex", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_simplex")
+      super$initialize(id = "circle", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_circle")
     },
 
     #' @description
@@ -51,7 +46,7 @@ TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
 
   private = list(
     .generate_obj = function(n) {
-      invoke(mlbench::mlbench.simplex, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
+      invoke(mlbench::mlbench.circle, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
     },
 
     .generate = function(n) {
@@ -62,4 +57,5 @@ TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("simplex", TaskGeneratorSimplex)
+mlr_task_generators$add("circle", TaskGeneratorCircle)
+

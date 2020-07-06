@@ -12,7 +12,11 @@
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' tgen("cassini")$generate(10)$data()
+#' generator = tgen("cassini")
+#' plot(generator, n = 200)
+#'
+#' task = generator$generate(200)
+#' str(task$data())
 TaskGeneratorCassini = R6Class("TaskGeneratorCassini",
   inherit = TaskGenerator,
   public = list(
@@ -26,15 +30,31 @@ TaskGeneratorCassini = R6Class("TaskGeneratorCassini",
       ))
 
       super$initialize(id = "cassini", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_cassini")
+    },
+
+    #' @description
+    #' Creates a simple plot of generated data.
+    #' @param n (`integer(1)`)\cr
+    #'   Number of samples to draw for the plot. Default is 200.
+    #' @param pch (`integer(1)`)\cr
+    #'   Point char. Passed to [plot()].
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [plot()].
+    plot = function(n = 200, pch = 19L, ...) {
+      plot(private$.generate_obj(n), pch = pch, ...)
     }
   ),
 
   private = list(
-    .generate = function(n) {
+    .generate_obj = function(n) {
       pv = self$param_set$values
       relsize = c(pv$relsize1 %??% 2L, pv$relsize2 %??% 2L, pv$relsize3 %??% 1L)
-      data = invoke(mlbench::mlbench.cassini, n = n, .args = list(relsize = relsize), .opts = allow_partial_matching)
-      TaskClassif$new(sprintf("%s_%i", self$id, n), as.data.frame(data), target = "classes")
+      invoke(mlbench::mlbench.cassini, n = n, .args = list(relsize = relsize), .opts = allow_partial_matching)
+    },
+
+    .generate = function(n) {
+      obj = private$.generate_obj(n)
+      TaskClassif$new(sprintf("%s_%i", self$id, n), convert_mlbench(obj), target = "y")
     }
   )
 )

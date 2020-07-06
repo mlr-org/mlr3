@@ -13,9 +13,11 @@
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' task = tgen("moons")$generate(200)
-#' tab = task$data()
-#' plot(tab$x1, tab$x2, col = tab$y)
+#' generator = tgen("moons")
+#' plot(generator, n = 200)
+#'
+#' task = generator$generate(200)
+#' str(task$data())
 TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
   inherit = TaskGenerator,
   public = list(
@@ -29,11 +31,23 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
 
       super$initialize(id = "moons", task_type = "classif", param_set = ps,
         man = "mlr3::mlr_task_generators_moons")
+    },
+
+    #' @description
+    #' Creates a simple plot of generated data.
+    #' @param n (`integer(1)`)\cr
+    #'   Number of samples to draw for the plot. Default is 200.
+    #' @param pch (`integer(1)`)\cr
+    #'   Point char. Passed to [plot()].
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [plot()].
+    plot = function(n = 200, pch = 19L, ...) {
+      plot(private$.generate_obj(n), pch = pch, ...)
     }
   ),
 
   private = list(
-    .generate = function(n) {
+    .generate_obj = function(n) {
       sigma = self$param_set$values$sigma
 
       n1 = n %/% 2L
@@ -41,12 +55,15 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
       mu = c(rep(-2.5, n1), rep(2.5, n2))
       x = c(runif(n1, 0, pi), runif(n2, pi, 2 * pi))
 
-      tab = data.table(
-        y = factor(c(rep("+", n1), rep("-", n2))),
+      data.table(
+        y = factor(rep(c("A", "B"), c(n1, n2)), levels = c("A", "B")),
         x1 = 5  * cos(x) + rnorm(n, mean = mu, sd = sigma),
         x2 = 10 * sin(x) + rnorm(n, mean = mu, sd = sigma)
       )
+    },
 
+    .generate = function(n) {
+      tab = private$.generate_obj(n)
       TaskClassif$new(sprintf("%s_%i", self$id, n), tab, target = "y")
     }
   )
