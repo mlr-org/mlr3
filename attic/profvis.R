@@ -5,7 +5,7 @@ lgr::get_logger("mlr3")$set_threshold("warn")
 
 
 tasks = mlr_tasks$mget(c("iris", "sonar"))
-learners = mlr_learners$mget(c("classif.featureless"))
+learners = mlr_learners$mget("classif.featureless")
 resamplings = mlr_resamplings$mget("subsampling")
 measures = mlr_measures$mget(c("classif.acc", "time_train"))
 

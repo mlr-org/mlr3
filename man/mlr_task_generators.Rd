@@ -45,8 +45,13 @@ Other Dictionary:
 Other TaskGenerator: 
 \code{\link{TaskGenerator}},
 \code{\link{mlr_task_generators_2dnormals}},
+\code{\link{mlr_task_generators_cassini}},
+\code{\link{mlr_task_generators_circle}},
 \code{\link{mlr_task_generators_friedman1}},
+\code{\link{mlr_task_generators_moons}},
+\code{\link{mlr_task_generators_simplex}},
 \code{\link{mlr_task_generators_smiley}},
+\code{\link{mlr_task_generators_spirals}},
 \code{\link{mlr_task_generators_xor}}
 }
 \concept{Dictionary}

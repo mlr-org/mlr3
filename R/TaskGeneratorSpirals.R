@@ -1,34 +1,34 @@
-#' @title Smiley Classification Task Generator
+#' @title Spiral Classification Task Generator
 #'
-#' @name mlr_task_generators_smiley
+#' @name mlr_task_generators_spirals
 #' @include TaskGenerator.R
 #'
 #' @description
-#' A [TaskGenerator] for the smiley task in [mlbench::mlbench.smiley()].
+#' A [TaskGenerator] for the spirals task in [mlbench::mlbench.spirals()].
 #'
-#' @templateVar id smiley
+#' @templateVar id spirals
 #' @template section_dictionary_task_generator
 #'
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' generator = tgen("smiley")
+#' generator = tgen("spirals")
 #' plot(generator, n = 200)
 #'
 #' task = generator$generate(200)
 #' str(task$data())
-TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
+TaskGeneratorSpirals = R6Class("TaskGeneratorSpirals",
   inherit = TaskGenerator,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
-        ParamDbl$new("sd1", lower = 0L),
-        ParamDbl$new("sd2", lower = 0L)
+        ParamInt$new("cycles", lower = 1L, default = 1L),
+        ParamDbl$new("sd", lower = 0, default = 0)
       ))
 
-      super$initialize(id = "smiley", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_smiley")
+      super$initialize(id = "spirals", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_spirals")
     },
 
     #' @description
@@ -46,9 +46,7 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
 
   private = list(
     .generate_obj = function(n) {
-      obj = invoke(mlbench::mlbench.smiley, n = n, .args = self$param_set$values)
-      colnames(obj$x) = sprintf("x.%i", seq_col(obj$x))
-      obj
+      invoke(mlbench::mlbench.spirals, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
     },
 
     .generate = function(n) {
@@ -59,4 +57,4 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("smiley", TaskGeneratorSmiley)
+mlr_task_generators$add("spirals", TaskGeneratorSpirals)

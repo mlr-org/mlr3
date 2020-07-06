@@ -189,13 +189,13 @@ test_that("extract params", {
   expect_list(aggr$params[[3]], names = "unique", len = 1L)
 
   # only one params
-  lrns = mlr_learners$mget(c("classif.featureless"))
+  lrns = mlr_learners$mget("classif.featureless")
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 1L)
 
   # no params
-  lrns = mlr_learners$mget(c("classif.debug"))
+  lrns = mlr_learners$mget("classif.debug")
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)

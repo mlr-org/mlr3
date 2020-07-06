@@ -1,34 +1,35 @@
-#' @title Smiley Classification Task Generator
+#' @title Cassini Classification Task Generator
 #'
-#' @name mlr_task_generators_smiley
+#' @name mlr_task_generators_cassini
 #' @include TaskGenerator.R
 #'
 #' @description
-#' A [TaskGenerator] for the smiley task in [mlbench::mlbench.smiley()].
+#' A [TaskGenerator] for the cassini task in [mlbench::mlbench.cassini()].
 #'
-#' @templateVar id smiley
+#' @templateVar id cassini
 #' @template section_dictionary_task_generator
 #'
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' generator = tgen("smiley")
+#' generator = tgen("cassini")
 #' plot(generator, n = 200)
 #'
 #' task = generator$generate(200)
 #' str(task$data())
-TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
+TaskGeneratorCassini = R6Class("TaskGeneratorCassini",
   inherit = TaskGenerator,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
-        ParamDbl$new("sd1", lower = 0L),
-        ParamDbl$new("sd2", lower = 0L)
+        ParamInt$new("relsize1", lower = 1L, default = 2L),
+        ParamInt$new("relsize2", lower = 1L, default = 2L),
+        ParamInt$new("relsize3", lower = 1L, default = 1L)
       ))
 
-      super$initialize(id = "smiley", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_smiley")
+      super$initialize(id = "cassini", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_cassini")
     },
 
     #' @description
@@ -46,9 +47,9 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
 
   private = list(
     .generate_obj = function(n) {
-      obj = invoke(mlbench::mlbench.smiley, n = n, .args = self$param_set$values)
-      colnames(obj$x) = sprintf("x.%i", seq_col(obj$x))
-      obj
+      pv = self$param_set$values
+      relsize = c(pv$relsize1 %??% 2L, pv$relsize2 %??% 2L, pv$relsize3 %??% 1L)
+      invoke(mlbench::mlbench.cassini, n = n, .args = list(relsize = relsize), .opts = allow_partial_matching)
     },
 
     .generate = function(n) {
@@ -59,4 +60,4 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("smiley", TaskGeneratorSmiley)
+mlr_task_generators$add("cassini", TaskGeneratorCassini)

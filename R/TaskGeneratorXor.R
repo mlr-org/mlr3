@@ -12,7 +12,11 @@
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' tgen("xor")$generate(10)$data()
+#' generator = tgen("xor")
+#' plot(generator, n = 200)
+#'
+#' task = generator$generate(200)
+#' str(task$data())
 TaskGeneratorXor = R6Class("TaskGeneratorXor",
   inherit = TaskGenerator,
   public = list(
@@ -20,17 +24,33 @@ TaskGeneratorXor = R6Class("TaskGeneratorXor",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
-        ParamInt$new("d", lower = 1L)
+        ParamInt$new("d", lower = 1L, default = 1L)
       ))
 
       super$initialize(id = "xor", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_xor")
+    },
+
+    #' @description
+    #' Creates a simple plot of generated data.
+    #' @param n (`integer(1)`)\cr
+    #'   Number of samples to draw for the plot. Default is 200.
+    #' @param pch (`integer(1)`)\cr
+    #'   Point char. Passed to [plot()].
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [plot()].
+    plot = function(n = 200, pch = 19L, ...) {
+      plot(private$.generate_obj(n), pch = pch, ...)
     }
   ),
 
   private = list(
+    .generate_obj = function(n) {
+      invoke(mlbench::mlbench.xor, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
+    },
+
     .generate = function(n) {
-      data = invoke(mlbench::mlbench.xor, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
-      TaskClassif$new(sprintf("%s_%i", self$id, n), as.data.frame(data), target = "classes")
+      obj = private$.generate_obj(n)
+      TaskClassif$new(sprintf("%s_%i", self$id, n), convert_mlbench(obj), target = "y")
     }
   )
 )

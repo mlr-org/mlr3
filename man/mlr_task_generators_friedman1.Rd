@@ -15,7 +15,9 @@ tgen("friedman1")
 }
 
 \examples{
-tgen("friedman1")$generate(10)$data()
+generator = tgen("friedman1")
+task = generator$generate(200)
+str(task$data())
 }
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=TaskGenerator]{TaskGenerators}: \link{mlr_task_generators}
@@ -25,7 +27,12 @@ tgen("friedman1")$generate(10)$data()
 Other TaskGenerator: 
 \code{\link{TaskGenerator}},
 \code{\link{mlr_task_generators_2dnormals}},
+\code{\link{mlr_task_generators_cassini}},
+\code{\link{mlr_task_generators_circle}},
+\code{\link{mlr_task_generators_moons}},
+\code{\link{mlr_task_generators_simplex}},
 \code{\link{mlr_task_generators_smiley}},
+\code{\link{mlr_task_generators_spirals}},
 \code{\link{mlr_task_generators_xor}},
 \code{\link{mlr_task_generators}}
 }

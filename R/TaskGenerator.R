@@ -57,3 +57,9 @@ TaskGenerator = R6Class("TaskGenerator",
     }
   )
 )
+
+convert_mlbench = function(obj) {
+  y = factor(LETTERS[as.integer(obj$classes)], levels = LETTERS[seq_len(uniqueN(obj$classes))])
+  X = set_col_names(obj$x, sprintf("x%i", seq_col(obj$x)))
+  insert_named(as.data.table(X), list(y = y))
+}

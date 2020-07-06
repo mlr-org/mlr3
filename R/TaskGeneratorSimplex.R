@@ -1,34 +1,39 @@
-#' @title Smiley Classification Task Generator
+#' @title Simplex Classification Task Generator
 #'
-#' @name mlr_task_generators_smiley
+#' @name mlr_task_generators_simplex
 #' @include TaskGenerator.R
 #'
 #' @description
-#' A [TaskGenerator] for the smiley task in [mlbench::mlbench.smiley()].
+#' A [TaskGenerator] for the simplex task in [mlbench::mlbench.simplex()].
 #'
-#' @templateVar id smiley
+#' Note that the generator implemented in \CRANpkg{mlbench} returns
+#' fewer samples than requested.
+#'
+#' @templateVar id simplex
 #' @template section_dictionary_task_generator
 #'
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' generator = tgen("smiley")
+#' generator = tgen("simplex")
 #' plot(generator, n = 200)
 #'
 #' task = generator$generate(200)
 #' str(task$data())
-TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
+TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
   inherit = TaskGenerator,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
-        ParamDbl$new("sd1", lower = 0L),
-        ParamDbl$new("sd2", lower = 0L)
+        ParamInt$new("d", lower = 1L, default = 3L),
+        ParamInt$new("sides", lower = 1L, default = 1L),
+        ParamDbl$new("sd", lower = 0, default = 0.1),
+        ParamLgl$new("center", default = TRUE)
       ))
 
-      super$initialize(id = "smiley", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_smiley")
+      super$initialize(id = "simplex", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_simplex")
     },
 
     #' @description
@@ -46,9 +51,7 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
 
   private = list(
     .generate_obj = function(n) {
-      obj = invoke(mlbench::mlbench.smiley, n = n, .args = self$param_set$values)
-      colnames(obj$x) = sprintf("x.%i", seq_col(obj$x))
-      obj
+      invoke(mlbench::mlbench.simplex, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
     },
 
     .generate = function(n) {
@@ -59,4 +62,4 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("smiley", TaskGeneratorSmiley)
+mlr_task_generators$add("simplex", TaskGeneratorSimplex)
