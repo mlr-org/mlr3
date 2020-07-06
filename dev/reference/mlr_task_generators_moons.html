@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Friedman1 Regression Task Generator — mlr_task_generators_friedman1 • mlr3</title>
+<title>Moons Classification Task Generator — mlr_task_generators_moons • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,8 +53,9 @@
 
 
 
-<meta property="og:title" content="Friedman1 Regression Task Generator — mlr_task_generators_friedman1" />
-<meta property="og:description" content="A TaskGenerator for the friedman1 task in mlbench::mlbench.friedman1()." />
+<meta property="og:title" content="Moons Classification Task Generator — mlr_task_generators_moons" />
+<meta property="og:description" content="A TaskGenerator creating two two interleaving half circles (&quot;moons&quot;) as
+binary classification problem." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -154,13 +155,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Friedman1 Regression Task Generator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorFriedman1.R'><code>R/TaskGeneratorFriedman1.R</code></a></small>
-    <div class="hidden name"><code>mlr_task_generators_friedman1.Rd</code></div>
+    <h1>Moons Classification Task Generator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorMoons.R'><code>R/TaskGeneratorMoons.R</code></a></small>
+    <div class="hidden name"><code>mlr_task_generators_moons.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the friedman1 task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.friedman1.html'>mlbench::mlbench.friedman1()</a></code>.</p>
+    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> creating two two interleaving half circles ("moons") as
+binary classification problem.</p>
     </div>
 
 
@@ -169,8 +171,8 @@
 
     
 
-<p>This <a href='TaskGenerator.html'>TaskGenerator</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_task_generators.html'>mlr_task_generators</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tgen()</a></code>:</p><pre><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"friedman1"</span>)
-<span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"friedman1"</span>)</pre>
+<p>This <a href='TaskGenerator.html'>TaskGenerator</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_task_generators.html'>mlr_task_generators</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tgen()</a></code>:</p><pre><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"moons"</span>)
+<span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"moons"</span>)</pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -180,21 +182,21 @@
 <code><a href='TaskGenerator.html'>TaskGenerator</a></code>,
 <code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
 <code><a href='mlr_task_generators_circles.html'>mlr_task_generators_circles</a></code>,
-<code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
+<code><a href='mlr_task_generators_friedman1.html'>mlr_task_generators_friedman1</a></code>,
 <code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
 <code><a href='mlr_task_generators_xor.html'>mlr_task_generators_xor</a></code>,
 <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TaskGenerator.html'>mlr3::TaskGenerator</a></code> -&gt; <code>TaskGeneratorFriedman1</code></p>
+    <p><code><a href='TaskGenerator.html'>mlr3::TaskGenerator</a></code> -&gt; <code>TaskGeneratorMoons</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 <h3>Public methods</h3>
 
 <ul>
-<li><p><a href='#method-new'><code>TaskGeneratorFriedman1$new()</code></a></p></li>
-<li><p><a href='#method-clone'><code>TaskGeneratorFriedman1$clone()</code></a></p></li>
+<li><p><a href='#method-new'><code>TaskGeneratorMoons$new()</code></a></p></li>
+<li><p><a href='#method-clone'><code>TaskGeneratorMoons$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
@@ -205,12 +207,12 @@
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskGeneratorFriedman1</span>$<span class='fu'>new</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskGeneratorMoons</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskGeneratorFriedman1</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskGeneratorMoons</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl'>
@@ -221,28 +223,9 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"friedman1"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;            y important1 important2 important3 important4 important5
-#&gt;  1: 16.84536  0.7110222  0.1879916  0.4031160 0.90674514  0.6299900
-#&gt;  2: 13.08008  0.3600283  0.3164464  0.2865138 0.86937212  0.1744078
-#&gt;  3: 10.35395  0.1245518  0.4309087  0.8672962 0.45848995  0.3974171
-#&gt;  4: 16.10523  0.8016087  0.6442489  0.1453436 0.02534216  0.7695083
-#&gt;  5: 11.79397  0.7658110  0.1389937  0.2679227 0.52601399  0.5397561
-#&gt;  6: 10.51721  0.5481055  0.0935091  0.1760928 0.23853918  0.9423638
-#&gt;  7: 18.09575  0.4978300  0.4904305  0.4473637 0.86414528  0.5028886
-#&gt;  8: 11.10508  0.3004999  0.6650128  0.7268815 0.14294954  0.7134387
-#&gt;  9: 14.87577  0.4053861  0.4471942  0.8061643 0.62545351  0.7176965
-#&gt; 10: 22.58068  0.4271916  0.8308704  0.1508970 0.49562674  0.8379953
-#&gt;     unimportant1 unimportant2 unimportant3 unimportant4 unimportant5
-#&gt;  1:   0.44222862 0.1446169016    0.8761557    0.8470165    0.9086823
-#&gt;  2:   0.44805073 0.0007360573    0.8916445    0.7299627    0.1935505
-#&gt;  3:   0.37934982 0.8873595039    0.0980194    0.4186931    0.8414440
-#&gt;  4:   0.03246628 0.1499343407    0.6408948    0.4046943    0.8701579
-#&gt;  5:   0.47011544 0.4958328137    0.5527113    0.8307160    0.6519079
-#&gt;  6:   0.55705869 0.0445529586    0.9182962    0.5724273    0.9988110
-#&gt;  7:   0.32303813 0.0216628171    0.1097287    0.7669853    0.5248333
-#&gt;  8:   0.91847416 0.3498590766    0.5664817    0.1052325    0.3609654
-#&gt;  9:   0.93920163 0.2929193743    0.5322978    0.8867539    0.5547371
-#&gt; 10:   0.77851112 0.0322928987    0.2506135    0.1110687    0.8579180</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"moons"</span>)$<span class='fu'>generate</span>(<span class='fl'>200</span>)
+<span class='no'>tab</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>tab</span>$<span class='no'>x1</span>, <span class='no'>tab</span>$<span class='no'>x2</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>tab</span>$<span class='no'>y</span>)</div><div class='img'><img src='mlr_task_generators_moons-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

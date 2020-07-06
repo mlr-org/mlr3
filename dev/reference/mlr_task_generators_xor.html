@@ -179,7 +179,9 @@
 <p>Other TaskGenerator: 
 <code><a href='TaskGenerator.html'>TaskGenerator</a></code>,
 <code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
+<code><a href='mlr_task_generators_circles.html'>mlr_task_generators_circles</a></code>,
 <code><a href='mlr_task_generators_friedman1.html'>mlr_task_generators_friedman1</a></code>,
+<code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
 <code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
 <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
@@ -219,17 +221,17 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"xor"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes          x.1        x.2
-#&gt;  1:       2 -0.935536751 -0.3020289
-#&gt;  2:       2 -0.587976567 -0.8598218
-#&gt;  3:       1  0.187868536 -0.9340779
-#&gt;  4:       1 -0.032089982  0.8857400
-#&gt;  5:       1 -0.118690502  0.1304532
-#&gt;  6:       1 -0.095119212  0.6828661
-#&gt;  7:       2  0.834660242  0.4640217
-#&gt;  8:       1 -0.004609645  0.9621385
-#&gt;  9:       2 -0.259598122 -0.1854759
-#&gt; 10:       2  0.621476686  0.6165699</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"xor"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes         x.1         x.2
+#&gt;  1:       2 -0.04820202 -0.04572900
+#&gt;  2:       2 -0.94248724 -0.83512247
+#&gt;  3:       1  0.39685797 -0.61539054
+#&gt;  4:       1 -0.23324241  0.74137470
+#&gt;  5:       1  0.16670173 -0.07084669
+#&gt;  6:       2 -0.75289614 -0.06956728
+#&gt;  7:       1 -0.02938715  0.77638339
+#&gt;  8:       2  0.27845309  0.87445130
+#&gt;  9:       2  0.34577900  0.43127700
+#&gt; 10:       2 -0.72545796 -0.09771725</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
