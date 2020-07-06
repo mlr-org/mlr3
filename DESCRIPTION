@@ -140,6 +140,7 @@ Collate:
     'TaskGenerator.R'
     'mlr_task_generators.R'
     'TaskGenerator2DNormals.R'
+    'TaskGeneratorCircles.R'
     'TaskGeneratorFriedman1.R'
     'TaskGeneratorMoons.R'
     'TaskGeneratorSmiley.R'

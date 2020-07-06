@@ -4,7 +4,8 @@
 #' @include TaskGenerator.R
 #'
 #' @description
-#' A [TaskGenerator] creating two two interleaving half circles ("moons").
+#' A [TaskGenerator] creating two two interleaving half circles ("moons") as
+#' binary classification problem.
 #'
 #' @templateVar id moons
 #' @template section_dictionary_task_generator

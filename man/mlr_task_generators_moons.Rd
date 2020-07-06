@@ -5,7 +5,8 @@
 \alias{TaskGeneratorMoons}
 \title{Moons Classification Task Generator}
 \description{
-A \link{TaskGenerator} creating two two interleaving half circles ("moons").
+A \link{TaskGenerator} creating two two interleaving half circles ("moons") as
+binary classification problem.
 }
 \section{Dictionary}{
 
@@ -27,6 +28,7 @@ plot(tab$x1, tab$x2, col = tab$y)
 Other TaskGenerator: 
 \code{\link{TaskGenerator}},
 \code{\link{mlr_task_generators_2dnormals}},
+\code{\link{mlr_task_generators_circles}},
 \code{\link{mlr_task_generators_friedman1}},
 \code{\link{mlr_task_generators_smiley}},
 \code{\link{mlr_task_generators_xor}},
