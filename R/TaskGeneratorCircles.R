@@ -1,29 +1,31 @@
-#' @title XOR Classification Task Generator
+#' @title Circles Classification Task Generator
 #'
-#' @name mlr_task_generators_xor
+#' @name mlr_task_generators_circles
 #' @include TaskGenerator.R
 #'
 #' @description
-#' A [TaskGenerator] for the xor task in [mlbench::mlbench.xor()].
+#' A [TaskGenerator] for the circle binary classification task in [mlbench::mlbench.circle()].
+#' Creates a large circle containing a smaller circle.
 #'
-#' @templateVar id xor
+#' @templateVar id circles
 #' @template section_dictionary_task_generator
 #'
 #' @template seealso_task_generator
 #' @export
 #' @examples
-#' tgen("xor")$generate(10)$data()
-TaskGeneratorXor = R6Class("TaskGeneratorXor",
+#' tgen("circles")$generate(10)$data()
+TaskGeneratorCircles = R6Class("TaskGeneratorCircles",
   inherit = TaskGenerator,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ParamSet$new(list(
-        ParamInt$new("d", lower = 1L, default = 1L)
+        ParamInt$new("d", lower = 2L, default = 2L)
       ))
 
-      super$initialize(id = "xor", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_xor")
+      super$initialize(id = "circles", task_type = "classif", param_set = ps,
+        man = "mlr3::mlr_task_generators_circles")
     }
   ),
 
@@ -36,4 +38,5 @@ TaskGeneratorXor = R6Class("TaskGeneratorXor",
 )
 
 #' @include mlr_task_generators.R
-mlr_task_generators$add("xor", TaskGeneratorXor)
+mlr_task_generators$add("circles", TaskGeneratorCircles)
+
