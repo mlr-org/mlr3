@@ -179,9 +179,10 @@
 <p>Other TaskGenerator: 
 <code><a href='TaskGenerator.html'>TaskGenerator</a></code>,
 <code><a href='mlr_task_generators_cassini.html'>mlr_task_generators_cassini</a></code>,
-<code><a href='mlr_task_generators_circles.html'>mlr_task_generators_circles</a></code>,
+<code><a href='mlr_task_generators_circle.html'>mlr_task_generators_circle</a></code>,
 <code><a href='mlr_task_generators_friedman1.html'>mlr_task_generators_friedman1</a></code>,
 <code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
+<code><a href='mlr_task_generators_simplex.html'>mlr_task_generators_simplex</a></code>,
 <code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
 <code><a href='mlr_task_generators_spirals.html'>mlr_task_generators_spirals</a></code>,
 <code><a href='mlr_task_generators_xor.html'>mlr_task_generators_xor</a></code>,
@@ -196,6 +197,7 @@
 
 <ul>
 <li><p><a href='#method-new'><code>TaskGenerator2DNormals$new()</code></a></p></li>
+<li><p><a href='#method-plot'><code>TaskGenerator2DNormals$plot()</code></a></p></li>
 <li><p><a href='#method-clone'><code>TaskGenerator2DNormals$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
@@ -210,6 +212,23 @@
 <p><div class="r"></p><pre><span class='no'>TaskGenerator2DNormals</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
+<a id="method-plot"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code></h3>
+<p>Creates a simple plot of generated data.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>TaskGenerator2DNormals</span>$<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>19L</span>, <span class='no'>...</span>)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl'>
+<dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Number of samples to draw for the plot. Default is 200.</p></dd>
+
+<dt><code>pch</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Point char. Passed to <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code>.</p></dd>
+
+<dt><code>...</code></dt><dd><p>(any)<br />
+Additional arguments passed to <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code>.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
 <p><div class="r"></p><pre><span class='no'>TaskGenerator2DNormals</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
@@ -223,17 +242,14 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"2dnormals"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes        x.1        x.2
-#&gt;  1:       1  1.6261831  0.4622430
-#&gt;  2:       2 -0.1078756 -0.7367348
-#&gt;  3:       1 -0.0126151  1.5635871
-#&gt;  4:       2  0.8641181  1.9289007
-#&gt;  5:       2 -1.5936632 -2.3000267
-#&gt;  6:       2 -1.3605586  0.1167487
-#&gt;  7:       1  1.5115708  1.8895793
-#&gt;  8:       2 -0.8968582  0.1027339
-#&gt;  9:       1  2.6830841 -0.2690462
-#&gt; 10:       2 -1.7348667 -0.6361068</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>generator</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"2dnormals"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>generator</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)</div><div class='img'><img src='mlr_task_generators_2dnormals-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>generator</span>$<span class='fu'>generate</span>(<span class='fl'>200</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>())</div><div class='output co'>#&gt; Classes ‘data.table’ and 'data.frame':	200 obs. of  3 variables:
+#&gt;  $ y : Factor w/ 2 levels "A","B": 2 1 2 2 2 2 1 2 2 2 ...
+#&gt;  $ x1: num  -0.76 2.03 -1.76 -1.11 -1.09 ...
+#&gt;  $ x2: num  -2.33 1.26 1.19 -1.22 -1.56 ...
+#&gt;  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

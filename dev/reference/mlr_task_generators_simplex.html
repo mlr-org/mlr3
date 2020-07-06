@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Circles Classification Task Generator — mlr_task_generators_circles • mlr3</title>
+<title>Simplex Classification Task Generator — mlr_task_generators_simplex • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,9 +53,10 @@
 
 
 
-<meta property="og:title" content="Circles Classification Task Generator — mlr_task_generators_circles" />
-<meta property="og:description" content="A TaskGenerator for the circle binary classification task in mlbench::mlbench.circle().
-Creates a large circle containing a smaller circle." />
+<meta property="og:title" content="Simplex Classification Task Generator — mlr_task_generators_simplex" />
+<meta property="og:description" content="A TaskGenerator for the simplex task in mlbench::mlbench.simplex().
+Note that the generator implemented in mlbench returns
+fewer samples than requested." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -155,14 +156,15 @@ Creates a large circle containing a smaller circle." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Circles Classification Task Generator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorCircles.R'><code>R/TaskGeneratorCircles.R</code></a></small>
-    <div class="hidden name"><code>mlr_task_generators_circles.Rd</code></div>
+    <h1>Simplex Classification Task Generator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorSimplex.R'><code>R/TaskGeneratorSimplex.R</code></a></small>
+    <div class="hidden name"><code>mlr_task_generators_simplex.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the circle binary classification task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.circle.html'>mlbench::mlbench.circle()</a></code>.
-Creates a large circle containing a smaller circle.</p>
+    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the simplex task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.simplex.html'>mlbench::mlbench.simplex()</a></code>.</p>
+<p>Note that the generator implemented in <a href='https://CRAN.R-project.org/package=mlbench'><span class="pkg">mlbench</span></a> returns
+fewer samples than requested.</p>
     </div>
 
 
@@ -171,8 +173,8 @@ Creates a large circle containing a smaller circle.</p>
 
     
 
-<p>This <a href='TaskGenerator.html'>TaskGenerator</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_task_generators.html'>mlr_task_generators</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tgen()</a></code>:</p><pre><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"circles"</span>)
-<span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"circles"</span>)</pre>
+<p>This <a href='TaskGenerator.html'>TaskGenerator</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_task_generators.html'>mlr_task_generators</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tgen()</a></code>:</p><pre><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"simplex"</span>)
+<span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"simplex"</span>)</pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -182,6 +184,7 @@ Creates a large circle containing a smaller circle.</p>
 <code><a href='TaskGenerator.html'>TaskGenerator</a></code>,
 <code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
 <code><a href='mlr_task_generators_cassini.html'>mlr_task_generators_cassini</a></code>,
+<code><a href='mlr_task_generators_circle.html'>mlr_task_generators_circle</a></code>,
 <code><a href='mlr_task_generators_friedman1.html'>mlr_task_generators_friedman1</a></code>,
 <code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
 <code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
@@ -190,15 +193,16 @@ Creates a large circle containing a smaller circle.</p>
 <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TaskGenerator.html'>mlr3::TaskGenerator</a></code> -&gt; <code>TaskGeneratorCircles</code></p>
+    <p><code><a href='TaskGenerator.html'>mlr3::TaskGenerator</a></code> -&gt; <code>TaskGeneratorSimplex</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 <h3>Public methods</h3>
 
 <ul>
-<li><p><a href='#method-new'><code>TaskGeneratorCircles$new()</code></a></p></li>
-<li><p><a href='#method-clone'><code>TaskGeneratorCircles$clone()</code></a></p></li>
+<li><p><a href='#method-new'><code>TaskGeneratorSimplex$new()</code></a></p></li>
+<li><p><a href='#method-plot'><code>TaskGeneratorSimplex$plot()</code></a></p></li>
+<li><p><a href='#method-clone'><code>TaskGeneratorSimplex$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
@@ -209,12 +213,29 @@ Creates a large circle containing a smaller circle.</p>
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskGeneratorCircles</span>$<span class='fu'>new</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskGeneratorSimplex</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
+<p><hr>
+<a id="method-plot"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code></h3>
+<p>Creates a simple plot of generated data.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>TaskGeneratorSimplex</span>$<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>19L</span>, <span class='no'>...</span>)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl'>
+<dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Number of samples to draw for the plot. Default is 200.</p></dd>
+
+<dt><code>pch</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Point char. Passed to <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code>.</p></dd>
+
+<dt><code>...</code></dt><dd><p>(any)<br />
+Additional arguments passed to <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code>.</p></dd>
+
+</dl><p></div></p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskGeneratorCircles</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskGeneratorSimplex</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl'>
@@ -225,17 +246,15 @@ Creates a large circle containing a smaller circle.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"circles"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes          x.1        x.2
-#&gt;  1:       1  0.531621987 -0.7220126
-#&gt;  2:       1  0.096211053 -0.8129818
-#&gt;  3:       2 -0.004340071 -0.0191390
-#&gt;  4:       1 -0.399000174  0.3300256
-#&gt;  5:       2 -0.189227785 -0.1056116
-#&gt;  6:       1 -0.145616737  0.6617409
-#&gt;  7:       2 -0.624016758 -0.1937681
-#&gt;  8:       2 -0.367107261 -0.4269724
-#&gt;  9:       1 -0.138182521  0.7345924
-#&gt; 10:       1  0.288497784 -0.7093127</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>generator</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"simplex"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>generator</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)</div><div class='img'><img src='mlr_task_generators_simplex-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>generator</span>$<span class='fu'>generate</span>(<span class='fl'>200</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>())</div><div class='output co'>#&gt; Classes ‘data.table’ and 'data.frame':	100 obs. of  4 variables:
+#&gt;  $ y : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 1 1 1 1 1 ...
+#&gt;  $ x1: num  -0.546 -0.557 -0.415 -0.654 -0.532 ...
+#&gt;  $ x2: num  -0.412 -0.213 -0.26 -0.221 -0.366 ...
+#&gt;  $ x3: num  -0.144 -0.287 -0.264 -0.231 -0.277 ...
+#&gt;  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
