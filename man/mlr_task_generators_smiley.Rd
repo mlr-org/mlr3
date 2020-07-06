@@ -26,6 +26,7 @@ Other TaskGenerator:
 \code{\link{TaskGenerator}},
 \code{\link{mlr_task_generators_2dnormals}},
 \code{\link{mlr_task_generators_friedman1}},
+\code{\link{mlr_task_generators_moons}},
 \code{\link{mlr_task_generators_xor}},
 \code{\link{mlr_task_generators}}
 }

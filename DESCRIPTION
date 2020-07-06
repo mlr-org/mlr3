@@ -84,7 +84,7 @@ Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.0.9000
+RoxygenNote: 7.1.1
 Collate:
     'mlr_reflections.R'
     'BenchmarkResult.R'
@@ -141,6 +141,7 @@ Collate:
     'mlr_task_generators.R'
     'TaskGenerator2DNormals.R'
     'TaskGeneratorFriedman1.R'
+    'TaskGeneratorMoons.R'
     'TaskGeneratorSmiley.R'
     'TaskGeneratorXor.R'
     'TaskRegr.R'
