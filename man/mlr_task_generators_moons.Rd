@@ -28,6 +28,7 @@ plot(tab$x1, tab$x2, col = tab$y)
 Other TaskGenerator: 
 \code{\link{TaskGenerator}},
 \code{\link{mlr_task_generators_2dnormals}},
+\code{\link{mlr_task_generators_cassini}},
 \code{\link{mlr_task_generators_circles}},
 \code{\link{mlr_task_generators_friedman1}},
 \code{\link{mlr_task_generators_smiley}},

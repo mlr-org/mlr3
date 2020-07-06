@@ -24,8 +24,7 @@ TaskGeneratorCircles = R6Class("TaskGeneratorCircles",
         ParamInt$new("d", lower = 2L, default = 2L)
       ))
 
-      super$initialize(id = "circles", task_type = "classif", param_set = ps,
-        man = "mlr3::mlr_task_generators_circles")
+      super$initialize(id = "circles", "classif", "mlbench", ps, man = "mlr3::mlr_task_generators_circles")
     }
   ),
 

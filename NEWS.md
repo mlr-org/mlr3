@@ -1,6 +1,6 @@
 # mlr3 0.4.0
 
-* Added new task generators (`"circles"` and `"moons"`).
+* Added new task generators (`"cassini"`, `"circles"` and `"moons"`).
 
 # mlr3 0.3.0
 
