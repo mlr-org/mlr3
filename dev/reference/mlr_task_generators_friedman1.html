@@ -179,9 +179,11 @@
 <p>Other TaskGenerator: 
 <code><a href='TaskGenerator.html'>TaskGenerator</a></code>,
 <code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
+<code><a href='mlr_task_generators_cassini.html'>mlr_task_generators_cassini</a></code>,
 <code><a href='mlr_task_generators_circles.html'>mlr_task_generators_circles</a></code>,
 <code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
 <code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
+<code><a href='mlr_task_generators_spirals.html'>mlr_task_generators_spirals</a></code>,
 <code><a href='mlr_task_generators_xor.html'>mlr_task_generators_xor</a></code>,
 <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
@@ -221,28 +223,28 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"friedman1"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;            y important1 important2 important3 important4 important5
-#&gt;  1: 16.84536  0.7110222  0.1879916  0.4031160 0.90674514  0.6299900
-#&gt;  2: 13.08008  0.3600283  0.3164464  0.2865138 0.86937212  0.1744078
-#&gt;  3: 10.35395  0.1245518  0.4309087  0.8672962 0.45848995  0.3974171
-#&gt;  4: 16.10523  0.8016087  0.6442489  0.1453436 0.02534216  0.7695083
-#&gt;  5: 11.79397  0.7658110  0.1389937  0.2679227 0.52601399  0.5397561
-#&gt;  6: 10.51721  0.5481055  0.0935091  0.1760928 0.23853918  0.9423638
-#&gt;  7: 18.09575  0.4978300  0.4904305  0.4473637 0.86414528  0.5028886
-#&gt;  8: 11.10508  0.3004999  0.6650128  0.7268815 0.14294954  0.7134387
-#&gt;  9: 14.87577  0.4053861  0.4471942  0.8061643 0.62545351  0.7176965
-#&gt; 10: 22.58068  0.4271916  0.8308704  0.1508970 0.49562674  0.8379953
+    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"friedman1"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;             y important1 important2 important3   important4 important5
+#&gt;  1: 10.878523 0.26792268  0.5260140 0.53975609 0.4701154435 0.49583281
+#&gt;  2: 11.522583 0.17609278  0.2385392 0.94236385 0.5570586866 0.04455296
+#&gt;  3: 12.573964 0.44736369  0.8641453 0.50288860 0.3230381303 0.02166282
+#&gt;  4: 15.653213 0.72688146  0.1429495 0.71343872 0.9184741578 0.34985908
+#&gt;  5: 19.954608 0.80616430  0.6254535 0.71769650 0.9392016279 0.29291937
+#&gt;  6: 12.797064 0.15089699  0.4956267 0.83799532 0.7785111163 0.03229290
+#&gt;  7: 15.494981 0.90674514  0.6299900 0.44222862 0.1446169016 0.87615567
+#&gt;  8: 10.492233 0.86937212  0.1744078 0.44805073 0.0007360573 0.89164450
+#&gt;  9: 14.740306 0.45848995  0.3974171 0.37934982 0.8873595039 0.09801940
+#&gt; 10:  9.299771 0.02534216  0.7695083 0.03246628 0.1499343407 0.64089480
 #&gt;     unimportant1 unimportant2 unimportant3 unimportant4 unimportant5
-#&gt;  1:   0.44222862 0.1446169016    0.8761557    0.8470165    0.9086823
-#&gt;  2:   0.44805073 0.0007360573    0.8916445    0.7299627    0.1935505
-#&gt;  3:   0.37934982 0.8873595039    0.0980194    0.4186931    0.8414440
-#&gt;  4:   0.03246628 0.1499343407    0.6408948    0.4046943    0.8701579
-#&gt;  5:   0.47011544 0.4958328137    0.5527113    0.8307160    0.6519079
-#&gt;  6:   0.55705869 0.0445529586    0.9182962    0.5724273    0.9988110
-#&gt;  7:   0.32303813 0.0216628171    0.1097287    0.7669853    0.5248333
-#&gt;  8:   0.91847416 0.3498590766    0.5664817    0.1052325    0.3609654
-#&gt;  9:   0.93920163 0.2929193743    0.5322978    0.8867539    0.5547371
-#&gt; 10:   0.77851112 0.0322928987    0.2506135    0.1110687    0.8579180</div></pre>
+#&gt;  1:    0.5527113    0.8307160  0.651907891   0.27615652   0.21336530
+#&gt;  2:    0.9182962    0.5724273  0.998810981   0.34766093   0.83654728
+#&gt;  3:    0.1097287    0.7669853  0.524833334   0.30923080   0.01273085
+#&gt;  4:    0.5664817    0.1052325  0.360965360   0.42228611   0.53882716
+#&gt;  5:    0.5322978    0.8867539  0.554737058   0.30007709   0.97817954
+#&gt;  6:    0.2506135    0.1110687  0.857918039   0.67142128   0.07222527
+#&gt;  7:    0.8470165    0.9086823  0.641815058   0.38915204   0.20711471
+#&gt;  8:    0.7299627    0.1935505  0.001610455   0.22898685   0.47770035
+#&gt;  9:    0.4186931    0.8414440  0.183933446   0.47786905   0.84662403
+#&gt; 10:    0.4046943    0.8701579  0.267063300   0.07416773   0.16917608</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

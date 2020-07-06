@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Smiley Classification Task Generator — mlr_task_generators_smiley • mlr3</title>
+<title>Spiral Classification Task Generator — mlr_task_generators_spirals • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,8 +53,8 @@
 
 
 
-<meta property="og:title" content="Smiley Classification Task Generator — mlr_task_generators_smiley" />
-<meta property="og:description" content="A TaskGenerator for the smiley task in mlbench::mlbench.smiley()." />
+<meta property="og:title" content="Spiral Classification Task Generator — mlr_task_generators_spirals" />
+<meta property="og:description" content="A TaskGenerator for the spirals task in mlbench::mlbench.spirals()." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -154,13 +154,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Smiley Classification Task Generator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorSmiley.R'><code>R/TaskGeneratorSmiley.R</code></a></small>
-    <div class="hidden name"><code>mlr_task_generators_smiley.Rd</code></div>
+    <h1>Spiral Classification Task Generator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/TaskGeneratorSpirals.R'><code>R/TaskGeneratorSpirals.R</code></a></small>
+    <div class="hidden name"><code>mlr_task_generators_spirals.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the smiley task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.smiley.html'>mlbench::mlbench.smiley()</a></code>.</p>
+    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> for the spirals task in <code><a href='https://rdrr.io/pkg/mlbench/man/mlbench.spirals.html'>mlbench::mlbench.spirals()</a></code>.</p>
     </div>
 
 
@@ -169,8 +169,8 @@
 
     
 
-<p>This <a href='TaskGenerator.html'>TaskGenerator</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_task_generators.html'>mlr_task_generators</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tgen()</a></code>:</p><pre><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"smiley"</span>)
-<span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"smiley"</span>)</pre>
+<p>This <a href='TaskGenerator.html'>TaskGenerator</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_task_generators.html'>mlr_task_generators</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tgen()</a></code>:</p><pre><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"spirals"</span>)
+<span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"spirals"</span>)</pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -183,20 +183,20 @@
 <code><a href='mlr_task_generators_circles.html'>mlr_task_generators_circles</a></code>,
 <code><a href='mlr_task_generators_friedman1.html'>mlr_task_generators_friedman1</a></code>,
 <code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
-<code><a href='mlr_task_generators_spirals.html'>mlr_task_generators_spirals</a></code>,
+<code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
 <code><a href='mlr_task_generators_xor.html'>mlr_task_generators_xor</a></code>,
 <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
-    <p><code><a href='TaskGenerator.html'>mlr3::TaskGenerator</a></code> -&gt; <code>TaskGeneratorSmiley</code></p>
+    <p><code><a href='TaskGenerator.html'>mlr3::TaskGenerator</a></code> -&gt; <code>TaskGeneratorSpirals</code></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 <h3>Public methods</h3>
 
 <ul>
-<li><p><a href='#method-new'><code>TaskGeneratorSmiley$new()</code></a></p></li>
-<li><p><a href='#method-clone'><code>TaskGeneratorSmiley$clone()</code></a></p></li>
+<li><p><a href='#method-new'><code>TaskGeneratorSpirals$new()</code></a></p></li>
+<li><p><a href='#method-clone'><code>TaskGeneratorSpirals$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
@@ -207,12 +207,12 @@
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskGeneratorSmiley</span>$<span class='fu'>new</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskGeneratorSpirals</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskGeneratorSmiley</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskGeneratorSpirals</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl'>
@@ -223,17 +223,17 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"smiley"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes         x.1         x.2
-#&gt;  1:       1 -0.77041536  1.07702840
-#&gt;  2:       1 -0.87924100  1.17952032
-#&gt;  3:       2  0.79395509  1.02104733
-#&gt;  4:       2  0.85198874  0.99631603
-#&gt;  5:       3  0.04440828  0.35785163
-#&gt;  6:       3 -0.13612071  0.06182907
-#&gt;  7:       4 -0.61539054 -0.56044611
-#&gt;  8:       4  0.74137470 -0.42186689
-#&gt;  9:       4 -0.07084669 -0.97521175
-#&gt; 10:       4 -0.06956728 -1.00085257</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"spirals"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes        x.1        x.2
+#&gt;  1:       1  0.3333333  0.0000000
+#&gt;  2:       2  0.5932791  0.4310425
+#&gt;  3:       1  0.1442079  0.4438264
+#&gt;  4:       1 -0.4854102  0.3526712
+#&gt;  5:       1 -0.5932791 -0.4310425
+#&gt;  6:       2  0.4854102 -0.3526712
+#&gt;  7:       1  0.2678147 -0.8242490
+#&gt;  8:       2 -0.3333333  0.0000000
+#&gt;  9:       2 -0.2678147  0.8242490
+#&gt; 10:       2 -0.1442079 -0.4438264</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

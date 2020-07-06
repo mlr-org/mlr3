@@ -307,6 +307,9 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_2dnormals.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_cassini.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_circles.html</loc>
   </url>
   <url>
@@ -317,6 +320,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_smiley.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_spirals.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_task_generators_xor.html</loc>
