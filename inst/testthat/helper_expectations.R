@@ -123,7 +123,7 @@ expect_backend = function(b) {
 
   d = b$distinct(rn, cn, na_rm = FALSE)
   m = b$missings(rn, cn)
-  expect_equal(sapply(d, checkmate::anyMissing), m > 0L)
+  expect_equal(vapply(d, checkmate::anyMissing, FUN.VALUE = logical(1)), m > 0L)
 
   # $missings()
   x = b$missings(b$rownames, b$colnames)
@@ -461,7 +461,7 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
 }
 
 expect_benchmark_result = function(bmr) {
-  checkmate::expect_r6(bmr, "BenchmarkResult", public = c("data"))
+  checkmate::expect_r6(bmr, "BenchmarkResult", public = "data")
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
   checkmate::expect_data_table(bmr$data, min.cols = length(mlr3::mlr_reflections$rr_names) + 1L)
