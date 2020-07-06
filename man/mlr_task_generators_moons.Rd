@@ -32,6 +32,7 @@ Other TaskGenerator:
 \code{\link{mlr_task_generators_circles}},
 \code{\link{mlr_task_generators_friedman1}},
 \code{\link{mlr_task_generators_smiley}},
+\code{\link{mlr_task_generators_spirals}},
 \code{\link{mlr_task_generators_xor}},
 \code{\link{mlr_task_generators}}
 }
