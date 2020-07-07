@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskRegr}.
 }
 \description{
-A regression task for the \link[mlbench:BostonHousing]{mlbench::BostonHousing2} data set.
+A regression task for the \link[mlbench:BostonHousing2]{mlbench::BostonHousing2} data set.
 }
 \section{Construction}{
 \preformatted{mlr_tasks$get("boston_housing")

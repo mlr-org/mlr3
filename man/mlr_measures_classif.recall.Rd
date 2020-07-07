@@ -12,7 +12,7 @@ Binary classification measure defined as \deqn{
 Also know as "recall" or "sensitivity".
 }
 \note{
-The score function calls \code{\link[mlr3measures:tpr]{mlr3measures::recall()}} from package \CRANpkg{mlr3measures}.
+The score function calls \code{\link[mlr3measures:recall]{mlr3measures::recall()}} from package \CRANpkg{mlr3measures}.
 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.

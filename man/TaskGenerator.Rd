@@ -52,6 +52,8 @@ Defaults to \code{NA}, but can be set by child classes.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{TaskGenerator$new()}}
+\item \href{#method-format}{\code{TaskGenerator$format()}}
+\item \href{#method-print}{\code{TaskGenerator$print()}}
 \item \href{#method-generate}{\code{TaskGenerator$generate()}}
 \item \href{#method-clone}{\code{TaskGenerator$clone()}}
 }
@@ -92,6 +94,33 @@ Set of hyperparameters.}
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-format"></a>}}
+\if{latex}{\out{\hypertarget{method-format}{}}}
+\subsection{Method \code{format()}}{
+Helper for print outputs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$format()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+Printer.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
 }
 \if{html}{\out{</div>}}
 }

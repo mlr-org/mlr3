@@ -12,7 +12,7 @@ Binary classification measure defined as \deqn{
 Also know as "specificity".
 }
 \note{
-The score function calls \code{\link[mlr3measures:tnr]{mlr3measures::specificity()}} from package \CRANpkg{mlr3measures}.
+The score function calls \code{\link[mlr3measures:specificity]{mlr3measures::specificity()}} from package \CRANpkg{mlr3measures}.
 
 If the measure is undefined for the input, \code{NaN} is returned.
 This can be customized by setting the field \code{na_value}.

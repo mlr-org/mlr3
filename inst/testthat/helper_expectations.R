@@ -283,6 +283,7 @@ expect_task_generator = function(gen) {
   checkmate::expect_function(gen$generate, args = "n")
   checkmate::expect_class(gen$param_set, "ParamSet")
   checkmate::expect_list(gen$param_set$values, names = "unique")
+  expect_output(print(gen))
 }
 
 expect_learner = function(lrn, task = NULL) {
