@@ -210,35 +210,15 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 <code><a href='mlr_task_generators_xor.html'>mlr_task_generators_xor</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"smiley"</span>)</div><div class='output co'>#&gt; &lt;TaskGeneratorSmiley&gt;
-#&gt;   Inherits from: &lt;TaskGenerator&gt;
-#&gt;   Public:
-#&gt;     clone: function (deep = FALSE) 
-#&gt;     generate: function (n) 
-#&gt;     id: smiley
-#&gt;     initialize: function () 
-#&gt;     man: mlr3::mlr_task_generators_smiley
-#&gt;     packages: mlbench
-#&gt;     param_set: ParamSet, R6
-#&gt;     plot: function (n = 200, pch = 19L, ...) 
-#&gt;     task_type: classif
-#&gt;   Private:
-#&gt;     .generate: function (n) 
-#&gt;     .generate_obj: function (n) </div><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"2dnormals"</span>)</div><div class='output co'>#&gt; &lt;TaskGenerator2DNormals&gt;
-#&gt;   Inherits from: &lt;TaskGenerator&gt;
-#&gt;   Public:
-#&gt;     clone: function (deep = FALSE) 
-#&gt;     generate: function (n) 
-#&gt;     id: 2dnormals
-#&gt;     initialize: function () 
-#&gt;     man: mlr3::mlr_task_generators_2dnormals
-#&gt;     packages: mlbench
-#&gt;     param_set: ParamSet, R6
-#&gt;     plot: function (n = 200, pch = 19L, ...) 
-#&gt;     task_type: classif
-#&gt;   Private:
-#&gt;     .generate: function (n) 
-#&gt;     .generate_obj: function (n) </div></pre>
+    <pre class="examples"><div class='input'><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"smiley"</span>)</div><div class='output co'>#&gt; &lt;TaskGeneratorSmiley:smiley&gt;
+#&gt; * Task type: classif
+#&gt; * Packages: mlbench
+#&gt; * Parameters: list()
+#&gt; * Manual: ?mlr3::mlr_task_generators_smiley</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"2dnormals"</span>)</div><div class='output co'>#&gt; &lt;TaskGenerator2DNormals:2dnormals&gt;
+#&gt; * Task type: classif
+#&gt; * Packages: mlbench
+#&gt; * Parameters: list()
+#&gt; * Manual: ?mlr3::mlr_task_generators_2dnormals</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
