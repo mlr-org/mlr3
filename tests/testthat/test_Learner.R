@@ -139,7 +139,7 @@ test_that("predict on newdata works / titanic use case", {
   data("titanic", package = "mlr3data")
   drop = c("cabin", "name", "ticket", "passenger_id")
   data = setDT(remove_named(titanic, drop))
-  task = TaskClassif$new(id = "titanic", data[!is.na(survived), ], target = "survived", positive = "1")
+  task = TaskClassif$new(id = "titanic", data[!is.na(survived), ], target = "survived")
 
   learner = lrn("classif.rpart")$train(task)
   p = learner$predict_newdata(newdata = data[is.na(survived)])
