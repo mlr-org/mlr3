@@ -209,3 +209,16 @@ test_that("fallback learner is deep cloned (#511)", {
   l$fallback = lrn("classif.featureless")
   expect_different_address(l$fallback, l$clone(deep = TRUE)$fallback)
 })
+
+test_that("predict on newdata with weights", {
+  wiris = insert_named(iris, list(w = 1:150))
+  task = TaskClassif$new("wiris", wiris, target = "Species")
+  task$col_roles$weight = "w"
+  task$col_roles$feature = setdiff(task$feature_names, "w")
+
+  l = lrn("classif.rpart")
+  l$train(task)
+
+  l$predict_newdata(wiris[1:4, ])
+
+})

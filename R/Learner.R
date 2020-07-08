@@ -258,7 +258,7 @@ Learner = R6Class("Learner",
       }
 
       # the following columns are automatically set to NA if missing
-      impute = unlist(task$col_roles[c("target", "name", "order", "stratum", "group")])
+      impute = unlist(task$col_roles[c("target", "weight", "name", "order", "stratum", "group")])
       impute = setdiff(impute, c(task$feature_names, colnames(newdata)))
       newdata = insert_named(newdata, named_list(nn = impute, init = NA))
 
