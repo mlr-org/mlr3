@@ -37,6 +37,8 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
   - [mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
   - [mlr3pipelines and mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
 * [mlr3 reference manual](https://mlr3.mlr-org.com/reference/)
+* **Courses/Lectures**
+  - The course [Introduction to Machine learning (I2ML)](https://compstat-lmu.github.io/lecture_i2ml/) is a free and open flipped classroom course on the basics of machine learning. `mlr3` is used in the [demos](https://github.com/compstat-lmu/lecture_i2ml/tree/master/code-demos-pdf) and [exercises](https://github.com/compstat-lmu/lecture_i2ml/tree/master/exercises).
 * **Cheatsheets**
   - [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
   - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
