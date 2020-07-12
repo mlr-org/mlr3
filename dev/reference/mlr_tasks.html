@@ -228,13 +228,13 @@ the number of features of type <code>"lgl"</code>, <code>"int"</code>, <code>"db
 #&gt; 7:           spam   classif 4601   58   0   0  57   0   0   0   0
 #&gt; 8:           wine   classif  178   14   0   2  11   0   0   0   0
 #&gt; 9:            zoo   classif  101   17  15   1   0   0   0   0   0</div><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"iris"</span>) <span class='co'># same as tsk("iris")</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>())</div><div class='output co'>#&gt;    Species Petal.Length Petal.Width Sepal.Length Sepal.Width
-#&gt; 1:  setosa          1.4         0.2          5.1         3.5
-#&gt; 2:  setosa          1.4         0.2          4.9         3.0
-#&gt; 3:  setosa          1.3         0.2          4.7         3.2
-#&gt; 4:  setosa          1.5         0.2          4.6         3.1
-#&gt; 5:  setosa          1.4         0.2          5.0         3.6
-#&gt; 6:  setosa          1.7         0.4          5.4         3.9</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>())</div><div class='output co'>#&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width
+#&gt; 1:  setosa          5.1         3.5          1.4         0.2
+#&gt; 2:  setosa          4.9         3.0          1.4         0.2
+#&gt; 3:  setosa          4.7         3.2          1.3         0.2
+#&gt; 4:  setosa          4.6         3.1          1.5         0.2
+#&gt; 5:  setosa          5.0         3.6          1.4         0.2
+#&gt; 6:  setosa          5.4         3.9          1.7         0.4</div><div class='input'>
 <span class='co'># Add a new task, based on a subset of iris:</span>
 <span class='no'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>
 <span class='no'>data</span>$<span class='no'>Species</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>data</span>$<span class='no'>Species</span> <span class='kw'>==</span> <span class='st'>"setosa"</span>, <span class='st'>"1"</span>, <span class='st'>"0"</span>))
