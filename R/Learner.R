@@ -394,6 +394,6 @@ rd_info.Learner = function(obj) {
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Predict Types: %s", rd_format_string(obj$predict_types)),
     sprintf("* Feature Types: %s", rd_format_string(obj$feature_types)),
-    sprintf("* Required Packages: %s", rd_format_string(obj$packages, quote = c("\\CRANpkg{", "}")))
+    sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
 }

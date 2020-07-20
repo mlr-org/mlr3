@@ -60,3 +60,19 @@ init_future_seeding = function(n) {
   RNGkind("L'Ecuyer-CMRG")
   getFromNamespace("make_rng_seeds", asNamespace("future.apply"))(n, TRUE)
 }
+
+# TODO: remove after mlr3misc update
+rd_format_packages = function(pkgs) {
+  if (length(pkgs) == 0L)
+
+    return("-")
+  base_pkgs = c("base", "compiler", "datasets", "graphics", "grDevices", "grid", "methods",
+    "parallel", "splines", "stats", "stats4", "tcltk", "tools", "translations", "utils"
+  )
+  link = pkgs %nin% base_pkgs
+  str_collapse(sprintf("%s%s%s",
+    ifelse(link, "\\CRANpkg{", "'"),
+    pkgs,
+    ifelse(link, "}", "'")
+  ))
+}
