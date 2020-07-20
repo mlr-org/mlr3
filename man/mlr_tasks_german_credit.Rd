@@ -33,6 +33,18 @@ tsk("german_credit")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 1000x21
+\item Properties: \dQuote{twoclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{credit_risk}
+\item Features: \dQuote{status}, \dQuote{duration}, \dQuote{credit_history}, \dQuote{purpose}, \dQuote{amount}, \dQuote{savings}, \dQuote{employment_duration}, \dQuote{installment_rate}, \dQuote{personal_status_sex}, \dQuote{other_debtors}, \dQuote{present_residence}, \dQuote{property}, \dQuote{age}, \dQuote{other_installment_plans}, \dQuote{housing}, \dQuote{number_credits}, \dQuote{job}, \dQuote{people_liable}, \dQuote{telephone}, \dQuote{foreign_worker}
+}
+}
+
 \examples{
 task = tsk("german_credit")
 costs = matrix(c(0, 1, 5, 0), nrow = 2)

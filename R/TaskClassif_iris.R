@@ -4,14 +4,22 @@
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
 #'
+#' @description
+#' A classification task for the popular [datasets::iris] data set.
+#'
 #' @section Construction:
 #' ```
 #' mlr_tasks$get("iris")
 #' tsk("iris")
 #' ```
 #'
-#' @description
-#' A classification task for the popular [datasets::iris] data set.
+#' @section Meta Information:
+#' `r rd_info(tsk("iris"))`
+#'
+#' @source
+#' \url{https://en.wikipedia.org/wiki/Iris_flower_data_set}
+#'
+#' \cite{mlr3}{fisher_1936}
 #'
 #' @template seealso_task
 NULL

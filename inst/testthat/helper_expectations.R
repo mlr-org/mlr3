@@ -92,6 +92,11 @@ expect_backend = function(b) {
   x = b$data(rows = rep(rn1, 2L), cols = b$colnames, data_format = "data.table")
   checkmate::expect_data_table(x, nrows = 2L*length(rn1), ncols = p)
 
+  # cols are returned in the right order
+  j = rev(cn)
+  x = b$data(rows = rn1, cols = j, data_format = "data.table")
+  testthat::expect_equal(j, colnames(x))
+
   # rows are returned in the right order
   i = sample(rn, min(n, 10L))
   x = b$data(rows = i, cols = b$primary_key, data_format = "data.table")
@@ -283,6 +288,7 @@ expect_task_generator = function(gen) {
   checkmate::expect_function(gen$generate, args = "n")
   checkmate::expect_class(gen$param_set, "ParamSet")
   checkmate::expect_list(gen$param_set$values, names = "unique")
+  expect_output(print(gen))
 }
 
 expect_learner = function(lrn, task = NULL) {

@@ -15,6 +15,16 @@ lrn("regr.rpart")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{regr}
+\item Predict Types: \dQuote{response}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{factor}, \dQuote{ordered}
+\item Required Packages: \CRANpkg{rpart}
+}
+}
+
 \references{
 \cite{mlr3}{breiman_1984}
 }

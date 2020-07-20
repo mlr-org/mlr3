@@ -4,15 +4,18 @@
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
 #'
+#' @description
+#' A classification task for the [mlbench::PimaIndiansDiabetes2] data set.
+#' Positive class is set to `"pos"`.
+#'
 #' @section Construction:
 #' ```
 #' mlr_tasks$get("pima")
 #' tsk("pima")
 #' ```
 #'
-#' @description
-#' A classification task for the [mlbench::PimaIndiansDiabetes2] data set.
-#' Positive class is set to `"pos"`.
+#' @section Meta Information:
+#' `r rd_info(tsk("pima"))`
 #'
 #' @template seealso_task
 NULL

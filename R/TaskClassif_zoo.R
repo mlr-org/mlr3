@@ -4,15 +4,18 @@
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
 #'
+#' @description
+#' A classification task for the [mlbench::Zoo] data set.
+#' Rownames are stored as variable `"..rownames"` with column role `"name"`.
+#'
 #' @section Construction:
 #' ```
 #' mlr_tasks$get("zoo")
 #' tsk("zoo")
 #' ```
 #'
-#' @description
-#' A classification task for the [mlbench::Zoo] data set.
-#' Rownames are stored as variable `"..rownames` with column role `"name"`.
+#' @section Meta Information:
+#' `r rd_info(tsk("zoo"))`
 #'
 #' @template seealso_task
 NULL

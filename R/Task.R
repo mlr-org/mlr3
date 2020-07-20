@@ -103,10 +103,11 @@ Task = R6Class("Task",
         }
       )
 
+      cn = self$backend$colnames
       rn = self$backend$rownames
-      private$.row_roles = list(use = rn, validation = rn[0L])
+      private$.row_roles = list(use = rn, validation = integer())
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
-      private$.col_roles$feature = setdiff(self$col_info$id, self$backend$primary_key)
+      private$.col_roles$feature = setdiff(cn, self$backend$primary_key)
     },
 
     #' @description
@@ -717,4 +718,17 @@ task_rm_data = function(task) {
   task$backend = as_data_backend(task$head(0L))
   task$row_roles = list(use = no_row, validation = no_row)
   task
+}
+
+
+#' @export
+rd_info.Task = function(obj, section) {
+  c("",
+    sprintf("* Task type: %s", rd_format_string(obj$task_type)),
+    sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
+    sprintf("* Properties: %s", rd_format_string(obj$properties)),
+    sprintf("* Has Missings: `%s`", any(obj$missings() > 0L)),
+    sprintf("* Target: %s", rd_format_string(obj$target_names)),
+    sprintf("* Features: %s", rd_format_string(obj$feature_names))
+  )
 }

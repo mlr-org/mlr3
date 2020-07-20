@@ -45,6 +45,23 @@ TaskGenerator = R6Class("TaskGenerator",
     },
 
     #' @description
+    #' Helper for print outputs.
+    format = function() {
+      sprintf("<%s:%s>", class(self)[1L], self$id)
+    },
+
+    #' @description
+    #' Printer.
+    #' @param ... (ignored).
+    print = function(...) {
+      catf(format(self))
+      catf(str_indent("* Task type:", self$task_type))
+      catf(str_indent("* Packages:", self$packages))
+      catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
+      catf(str_indent("* Manual:", sprintf("?%s", self$man)))
+    },
+
+    #' @description
     #' Creates a task of type `task_type` with `n` observations, possibly using additional settings stored in `param_set`.
     #'
     #' @param n (`integer(1)`)\cr

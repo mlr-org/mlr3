@@ -53,7 +53,9 @@ Other TaskGenerator:
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format">}\href{../../mlr3/html/TaskGenerator.html#method-format}{\code{mlr3::TaskGenerator$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate">}\href{../../mlr3/html/TaskGenerator.html#method-generate}{\code{mlr3::TaskGenerator$generate()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print">}\href{../../mlr3/html/TaskGenerator.html#method-print}{\code{mlr3::TaskGenerator$print()}}\out{</span>}
 }
 \out{</details>}
 }

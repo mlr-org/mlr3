@@ -13,6 +13,9 @@
 #' @templateVar id regr.featureless
 #' @template section_dictionary_learner
 #'
+#' @section Meta Information:
+#' `r rd_info(lrn("regr.featureless"))`
+#'
 #' @template seealso_learner
 #' @export
 LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,

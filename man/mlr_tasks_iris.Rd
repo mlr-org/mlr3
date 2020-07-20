@@ -6,12 +6,29 @@
 \format{
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskClassif}.
 }
+\source{
+\url{https://en.wikipedia.org/wiki/Iris_flower_data_set}
+
+\cite{mlr3}{fisher_1936}
+}
 \description{
 A classification task for the popular \link[datasets:iris]{datasets::iris} data set.
 }
 \section{Construction}{
 \preformatted{mlr_tasks$get("iris")
 tsk("iris")
+}
+}
+
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 150x5
+\item Properties: \dQuote{multiclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{Species}
+\item Features: \dQuote{Sepal.Length}, \dQuote{Sepal.Width}, \dQuote{Petal.Length}, \dQuote{Petal.Width}
 }
 }
 

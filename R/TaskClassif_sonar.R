@@ -4,15 +4,18 @@
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
 #'
+#' @description
+#' A classification task for the [mlbench::Sonar] data set.
+#' Positive class is set to "M" (Mine).
+#'
 #' @section Construction:
 #' ```
 #' mlr_tasks$get("sonar")
 #' tsk("sonar")
 #' ```
 #'
-#' @description
-#' A classification task for the [mlbench::Sonar] data set.
-#' Positive class is set to "M" (Mine).
+#' @section Meta Information:
+#' `r rd_info(tsk("sonar"))`
 #'
 #' @template seealso_task
 NULL

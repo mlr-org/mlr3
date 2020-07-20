@@ -31,17 +31,19 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
   This should be the central entry point to the package.
 * The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case studies and demonstrates how frequently occurring problems can be solved.
   It is still in early days so stay tuned for more to come.
-* **Videos**:
-  Currently 2 recorded talks exist from useR!2019.
-  Both are somewhat outdated already but can be useful to get a first overview about the package ecosystem and design ideas.
-  - [mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
-  - [mlr3pipelines and mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
-* [mlr3 reference manual](https://mlr3.mlr-org.com/reference/)
+* [Reference manual](https://mlr3.mlr-org.com/reference/)
 * **Cheatsheets**
   - [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
   - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
   - [mlr3tuning](https://cheatsheets.mlr-org.com/mlr3tuning.pdf)
   - [mlr3pipelines](https://cheatsheets.mlr-org.com/mlr3pipelines.pdf)
+* **Videos**:
+  Currently 2 recorded talks exist from useR!2019.
+  Both are somewhat outdated already but can be useful to get a first overview about the package ecosystem and design ideas.
+  - [mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
+  - [mlr3pipelines and mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
+* **Courses/Lectures**
+  - The course [Introduction to Machine learning (I2ML)](https://compstat-lmu.github.io/lecture_i2ml/) is a free and open flipped classroom course on the basics of machine learning. `mlr3` is used in the [demos](https://github.com/compstat-lmu/lecture_i2ml/tree/master/code-demos-pdf) and [exercises](https://github.com/compstat-lmu/lecture_i2ml/tree/master/exercises).
 * **Templates/Tutorials**
   - [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake): Shows how to use mlr3 with [drake](https://docs.ropensci.org/drake/) for reproducible ML workflow automation.
 * [List of extension packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
