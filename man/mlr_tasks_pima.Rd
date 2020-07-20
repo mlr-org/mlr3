@@ -16,6 +16,18 @@ tsk("pima")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 768x9
+\item Properties: \dQuote{twoclass}
+\item Has Missings: \code{TRUE}
+\item Target: \dQuote{diabetes}
+\item Features: \dQuote{pregnant}, \dQuote{glucose}, \dQuote{pressure}, \dQuote{triceps}, \dQuote{insulin}, \dQuote{mass}, \dQuote{pedigree}, \dQuote{age}
+}
+}
+
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
 

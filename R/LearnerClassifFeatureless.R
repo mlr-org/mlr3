@@ -15,6 +15,9 @@
 #' @templateVar id classif.featureless
 #' @template section_dictionary_learner
 #'
+#' @section Meta Information:
+#' `r rd_info(lrn("classif.featureless"))`
+#'
 #' @template seealso_learner
 #' @export
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,

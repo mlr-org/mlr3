@@ -26,6 +26,9 @@
 #' @templateVar id classif.featureless
 #' @template section_dictionary_learner
 #'
+#' @section Meta Information:
+#' `r rd_info(lrn("classif.debug"))`
+#'
 #' @template seealso_learner
 #' @export
 #' @examples

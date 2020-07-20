@@ -4,18 +4,21 @@
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
 #'
-#' @section Construction:
-#' ```
-#' mlr_tasks$get("german_credit")
-#' tsk("german_credit")
-#' ```
-#'
 #' @description
 #' A classification task for the German credit data set.
 #' The aim is to predict creditworthiness, labeled as "good" and "bad".
 #' Positive class is set to label "good".
 #'
 #' See example for the creation of a [MeasureClassifCosts] as described misclassification costs.
+#'
+#' @section Construction:
+#' ```
+#' mlr_tasks$get("german_credit")
+#' tsk("german_credit")
+#' ```
+#'
+#' @section Meta Information:
+#' `r rd_info(tsk("german_credit"))`
 #'
 #' @source
 #' Data set originally published on [UCI](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)).

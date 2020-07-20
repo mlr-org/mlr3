@@ -719,3 +719,16 @@ task_rm_data = function(task) {
   task$row_roles = list(use = no_row, validation = no_row)
   task
 }
+
+
+#' @export
+rd_info.Task = function(obj, section) {
+  c("",
+    sprintf("* Task type: %s", rd_format_string(obj$task_type)),
+    sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
+    sprintf("* Properties: %s", rd_format_string(obj$properties)),
+    sprintf("* Has Missings: `%s`", any(obj$missings() > 0L)),
+    sprintf("* Target: %s", rd_format_string(obj$target_names)),
+    sprintf("* Features: %s", rd_format_string(obj$feature_names))
+  )
+}

@@ -4,15 +4,18 @@
 #' @format [R6::R6Class] inheriting from [TaskClassif].
 #' @include mlr_tasks.R
 #'
+#' @description
+#' Wine data set from the UCI machine learning repository (\url{https://archive.ics.uci.edu/ml/datasets/wine}).
+#' Results of a chemical analysis of three types of wines grown in the same region in Italy but derived from three different cultivars.
+#'
 #' @section Construction:
 #' ```
 #' mlr_tasks$get("wine")
 #' tsk("wine")
 #' ```
 #'
-#' @description
-#' Wine data set from the UCI machine learning repository (\url{https://archive.ics.uci.edu/ml/datasets/wine}).
-#' Results of a chemical analysis of three types of wines grown in the same region in Italy but derived from three different cultivars.
+#' @section Meta Information:
+#' `r rd_info(tsk("wine"))`
 #'
 #' @source
 #' Original owners:

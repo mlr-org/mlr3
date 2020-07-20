@@ -24,6 +24,18 @@ tsk("wine")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 178x14
+\item Properties: \dQuote{multiclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{type}
+\item Features: \dQuote{alcohol}, \dQuote{malic}, \dQuote{ash}, \dQuote{alcalinity}, \dQuote{magnesium}, \dQuote{phenols}, \dQuote{flavanoids}, \dQuote{nonflavanoids}, \dQuote{proanthocyanins}, \dQuote{color}, \dQuote{hue}, \dQuote{dilution}, \dQuote{proline}
+}
+}
+
 \references{
 \cite{mlr3}{dua_2017}
 }

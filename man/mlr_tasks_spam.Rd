@@ -29,6 +29,18 @@ tsk("spam")
 }
 }
 
+\section{Meta Information}{
+
+\itemize{
+\item Task type: \dQuote{classif}
+\item Dimensions: 4601x58
+\item Properties: \dQuote{twoclass}
+\item Has Missings: \code{FALSE}
+\item Target: \dQuote{type}
+\item Features: \dQuote{make}, \dQuote{address}, \dQuote{all}, \dQuote{num3d}, \dQuote{our}, \dQuote{over}, \dQuote{remove}, \dQuote{internet}, \dQuote{order}, \dQuote{mail}, \dQuote{receive}, \dQuote{will}, \dQuote{people}, \dQuote{report}, \dQuote{addresses}, \dQuote{free}, \dQuote{business}, \dQuote{email}, \dQuote{you}, \dQuote{credit}, \dQuote{your}, \dQuote{font}, \dQuote{num000}, \dQuote{money}, \dQuote{hp}, \dQuote{hpl}, \dQuote{george}, \dQuote{num650}, \dQuote{lab}, \dQuote{labs}, \dQuote{telnet}, \dQuote{num857}, \dQuote{data}, \dQuote{num415}, \dQuote{num85}, \dQuote{technology}, \dQuote{num1999}, \dQuote{parts}, \dQuote{pm}, \dQuote{direct}, \dQuote{cs}, \dQuote{meeting}, \dQuote{original}, \dQuote{project}, \dQuote{re}, \dQuote{edu}, \dQuote{table}, \dQuote{conference}, \dQuote{charSemicolon}, \dQuote{charRoundbracket}, \dQuote{charSquarebracket}, \dQuote{charExclamation}, \dQuote{charDollar}, \dQuote{charHash}, \dQuote{capitalAve}, \dQuote{capitalLong}, \dQuote{capitalTotal}
+}
+}
+
 \references{
 \cite{mlr3}{dua_2017}
 }
