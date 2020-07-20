@@ -89,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.4.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -179,8 +179,13 @@
 <p>Other TaskGenerator: 
 <code><a href='TaskGenerator.html'>TaskGenerator</a></code>,
 <code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
+<code><a href='mlr_task_generators_cassini.html'>mlr_task_generators_cassini</a></code>,
+<code><a href='mlr_task_generators_circle.html'>mlr_task_generators_circle</a></code>,
 <code><a href='mlr_task_generators_friedman1.html'>mlr_task_generators_friedman1</a></code>,
+<code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
+<code><a href='mlr_task_generators_simplex.html'>mlr_task_generators_simplex</a></code>,
 <code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
+<code><a href='mlr_task_generators_spirals.html'>mlr_task_generators_spirals</a></code>,
 <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
@@ -192,11 +197,14 @@
 
 <ul>
 <li><p><a href='#method-new'><code>TaskGeneratorXor$new()</code></a></p></li>
+<li><p><a href='#method-plot'><code>TaskGeneratorXor$plot()</code></a></p></li>
 <li><p><a href='#method-clone'><code>TaskGeneratorXor$clone()</code></a></p></li>
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-format'><code>mlr3::TaskGenerator$format()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-generate'><code>mlr3::TaskGenerator$generate()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-print'><code>mlr3::TaskGenerator$print()</code></a></span></p></li>
 </ul>
 </details>
 
@@ -205,6 +213,23 @@
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
 <p><div class="r"></p><pre><span class='no'>TaskGeneratorXor</span>$<span class='fu'>new</span>()</pre><p></div></p>
 
+<p><hr>
+<a id="method-plot"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code></h3>
+<p>Creates a simple plot of generated data.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>TaskGeneratorXor</span>$<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>19L</span>, <span class='no'>...</span>)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl'>
+<dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Number of samples to draw for the plot. Default is 200.</p></dd>
+
+<dt><code>pch</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
+Point char. Passed to <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code>.</p></dd>
+
+<dt><code>...</code></dt><dd><p>(any)<br />
+Additional arguments passed to <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code>.</p></dd>
+
+</dl><p></div></p>
 <p><hr>
 <a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
@@ -219,17 +244,14 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"xor"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;     classes          x.1        x.2
-#&gt;  1:       2 -0.935536751 -0.3020289
-#&gt;  2:       2 -0.587976567 -0.8598218
-#&gt;  3:       1  0.187868536 -0.9340779
-#&gt;  4:       1 -0.032089982  0.8857400
-#&gt;  5:       1 -0.118690502  0.1304532
-#&gt;  6:       1 -0.095119212  0.6828661
-#&gt;  7:       2  0.834660242  0.4640217
-#&gt;  8:       1 -0.004609645  0.9621385
-#&gt;  9:       2 -0.259598122 -0.1854759
-#&gt; 10:       2  0.621476686  0.6165699</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>generator</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"xor"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>generator</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)</div><div class='img'><img src='mlr_task_generators_xor-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>generator</span>$<span class='fu'>generate</span>(<span class='fl'>200</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>())</div><div class='output co'>#&gt; Classes ‘data.table’ and 'data.frame':	200 obs. of  3 variables:
+#&gt;  $ y : Factor w/ 2 levels "A","B": 2 1 1 2 2 2 1 1 1 2 ...
+#&gt;  $ x1: num  -0.474 0.827 0.231 0.506 -0.856 ...
+#&gt;  $ x2: num  -0.228 -0.399 -0.986 0.748 -0.93 ...
+#&gt;  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

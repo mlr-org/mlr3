@@ -89,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.4.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -242,12 +242,12 @@ or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw 
 
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: 8a11a9bb-21d4-4ee2-8475-77f2eeb5bcc3 &lt;TaskClassif&gt;
-#&gt; 2: 8a11a9bb-21d4-4ee2-8475-77f2eeb5bcc3 &lt;TaskClassif&gt;
-#&gt; 3: 8a11a9bb-21d4-4ee2-8475-77f2eeb5bcc3 &lt;TaskClassif&gt;
-#&gt; 4: a65ac239-0cce-466f-b7d5-797d0ae7c153 &lt;TaskClassif&gt;
-#&gt; 5: a65ac239-0cce-466f-b7d5-797d0ae7c153 &lt;TaskClassif&gt;
-#&gt; 6: a65ac239-0cce-466f-b7d5-797d0ae7c153 &lt;TaskClassif&gt;
+#&gt; 1: 88c6d223-2429-409e-9108-229276be4b01 &lt;TaskClassif&gt;
+#&gt; 2: 88c6d223-2429-409e-9108-229276be4b01 &lt;TaskClassif&gt;
+#&gt; 3: 88c6d223-2429-409e-9108-229276be4b01 &lt;TaskClassif&gt;
+#&gt; 4: bc2c9d96-5200-4aa9-9102-b56f310b393d &lt;TaskClassif&gt;
+#&gt; 5: bc2c9d96-5200-4aa9-9102-b56f310b393d &lt;TaskClassif&gt;
+#&gt; 6: bc2c9d96-5200-4aa9-9102-b56f310b393d &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
@@ -266,7 +266,7 @@ or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw 
 #&gt; 1: 0.70666667
 #&gt; 2: 0.06666667
 #&gt; 3: 0.46645963
-#&gt; 4: 0.37964113</div><div class='input'>
+#&gt; 4: 0.36514838</div><div class='input'>
 <span class='co'>## Extract predictions of first resampling result</span>
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>aggr</span>$<span class='no'>resample_result</span><span class='kw'>[[</span><span class='fl'>1</span>]]
 <span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>rr</span>$<span class='fu'>prediction</span>())</div><div class='output co'>#&gt;      row_id     truth response

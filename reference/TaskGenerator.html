@@ -91,7 +91,7 @@ e.g. xor." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.4.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -173,8 +173,13 @@ e.g. <code><a href='mlr_task_generators_xor.html'>xor</a></code>.</p>
 
     <div class='dont-index'><p>Other TaskGenerator: 
 <code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
+<code><a href='mlr_task_generators_cassini.html'>mlr_task_generators_cassini</a></code>,
+<code><a href='mlr_task_generators_circle.html'>mlr_task_generators_circle</a></code>,
 <code><a href='mlr_task_generators_friedman1.html'>mlr_task_generators_friedman1</a></code>,
+<code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
+<code><a href='mlr_task_generators_simplex.html'>mlr_task_generators_simplex</a></code>,
 <code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
+<code><a href='mlr_task_generators_spirals.html'>mlr_task_generators_spirals</a></code>,
 <code><a href='mlr_task_generators_xor.html'>mlr_task_generators_xor</a></code>,
 <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code></p></div>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
@@ -207,6 +212,8 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 
 <ul>
 <li><p><a href='#method-new'><code>TaskGenerator$new()</code></a></p></li>
+<li><p><a href='#method-format'><code>TaskGenerator$format()</code></a></p></li>
+<li><p><a href='#method-print'><code>TaskGenerator$print()</code></a></p></li>
 <li><p><a href='#method-generate'><code>TaskGenerator$generate()</code></a></p></li>
 <li><p><a href='#method-clone'><code>TaskGenerator$clone()</code></a></p></li>
 </ul>
@@ -241,6 +248,21 @@ Set of hyperparameters.</p></dd>
 <dt><code>man</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 String in the format <code>[pkg]::[topic]</code> pointing to a manual page for this object.
 The referenced help package can be opened via method <code>$help()</code>.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
+<p>Helper for print outputs.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>TaskGenerator</span>$<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
+
+<p><hr>
+<a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+<p>Printer.</p><h3>Usage</h3>
+<p><div class="r"></p><pre><span class='no'>TaskGenerator</span>$<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>...</span>)</pre><p></div></p>
+
+<h3>Arguments</h3>
+<p><div class="arguments"></p><dl'>
+<dt><code>...</code></dt><dd><p>(ignored).</p></dd>
 
 </dl><p></div></p>
 <p><hr>

@@ -90,7 +90,7 @@ Parameter ratio determines the ratio of observation going into the training set 
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.4.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -261,13 +261,13 @@ Returns the number of resampling iterations, depending on the values stored in t
 <span class='no'>rho</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
 
 <span class='co'># Individual sets:</span>
-<span class='no'>rho</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1]  7  9  8 10  4</div><div class='input'><span class='no'>rho</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 1 2 3 5 6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>rho</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rho</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='no'>rho</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 10  9  7  1  4</div><div class='input'><span class='no'>rho</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 2 3 5 6 8</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>rho</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rho</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
 <span class='no'>rho</span>$<span class='no'>instance</span> <span class='co'># simple list</span></div><div class='output co'>#&gt; $train
-#&gt; [1]  7  9  8 10  4
+#&gt; [1] 10  9  7  1  4
 #&gt; 
 #&gt; $test
-#&gt; [1] 1 2 3 5 6
+#&gt; [1] 2 3 5 6 8
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

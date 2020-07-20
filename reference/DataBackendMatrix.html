@@ -93,7 +93,7 @@ dense columns are converted to numeric columns." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.4.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -322,19 +322,19 @@ Column names.</p></dd>
 
 <span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>data</span>, <span class='kw'>dense</span> <span class='kw'>=</span> <span class='no'>dense</span>, <span class='kw'>primary_key</span> <span class='kw'>=</span> <span class='st'>"..row_id"</span>)
 <span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
-#&gt; 1:        1 0.03092667    a  0  1
-#&gt; 2:        2 0.49381410    b  1  0
-#&gt; 3:        3 0.21081463    b  0  0
-#&gt; 4:        4 0.42955521    a  1  1
-#&gt; 5:        5 0.11537900    b  1  1
-#&gt; 6:        6 0.28180840    b  1  1</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='no'>b</span>$<span class='no'>colnames</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"Matrix"</span>)</div><div class='output co'>#&gt; 3 x 5 Matrix of class "dgeMatrix"
+#&gt; 1:        1 0.12282178    b  0  0
+#&gt; 2:        2 0.03092667    a  0  1
+#&gt; 3:        3 0.49381410    b  1  0
+#&gt; 4:        4 0.21081463    b  0  0
+#&gt; 5:        5 0.42955521    a  1  1
+#&gt; 6:        6 0.11537900    b  1  1</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='no'>b</span>$<span class='no'>colnames</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"Matrix"</span>)</div><div class='output co'>#&gt; 3 x 5 Matrix of class "dgeMatrix"
 #&gt;   x1 x2 ..row_id        num fact_b
-#&gt; a  0  1        1 0.03092667      0
-#&gt; b  1  0        2 0.49381410      1
-#&gt; b  0  0        3 0.21081463      1</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='no'>b</span>$<span class='no'>colnames</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
-#&gt; 1:        1 0.03092667    a  0  1
-#&gt; 2:        2 0.49381410    b  1  0
-#&gt; 3:        3 0.21081463    b  0  0</div></pre>
+#&gt; b  0  0        1 0.12282178      1
+#&gt; a  0  1        2 0.03092667      0
+#&gt; b  1  0        3 0.49381410      1</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='no'>b</span>$<span class='no'>colnames</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
+#&gt; 1:        1 0.12282178    b  0  0
+#&gt; 2:        2 0.03092667    a  0  1
+#&gt; 3:        3 0.49381410    b  1  0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

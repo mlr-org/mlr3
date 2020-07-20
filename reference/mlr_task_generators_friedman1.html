@@ -89,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.4.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -179,7 +179,12 @@
 <p>Other TaskGenerator: 
 <code><a href='TaskGenerator.html'>TaskGenerator</a></code>,
 <code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
+<code><a href='mlr_task_generators_cassini.html'>mlr_task_generators_cassini</a></code>,
+<code><a href='mlr_task_generators_circle.html'>mlr_task_generators_circle</a></code>,
+<code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
+<code><a href='mlr_task_generators_simplex.html'>mlr_task_generators_simplex</a></code>,
 <code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
+<code><a href='mlr_task_generators_spirals.html'>mlr_task_generators_spirals</a></code>,
 <code><a href='mlr_task_generators_xor.html'>mlr_task_generators_xor</a></code>,
 <code><a href='mlr_task_generators.html'>mlr_task_generators</a></code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
@@ -196,7 +201,9 @@
 </ul>
 <p><details open ><summary>Inherited methods</summary>
 <ul>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="format"><a href='../../mlr3/html/TaskGenerator.html#method-format'><code>mlr3::TaskGenerator$format()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="generate"><a href='../../mlr3/html/TaskGenerator.html#method-generate'><code>mlr3::TaskGenerator$generate()</code></a></span></p></li>
+<li><p><span class="pkg-link" data-pkg="mlr3" data-topic="TaskGenerator" data-id="print"><a href='../../mlr3/html/TaskGenerator.html#method-print'><code>mlr3::TaskGenerator$print()</code></a></span></p></li>
 </ul>
 </details>
 
@@ -219,28 +226,21 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"friedman1"</span>)$<span class='fu'>generate</span>(<span class='fl'>10</span>)$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>()</div><div class='output co'>#&gt;             y important1 important2 important3 important4 important5
-#&gt;  1:  8.121878 0.31002119 0.23955434  0.7110222  0.1879916  0.4031160
-#&gt;  2: 12.263183 0.29524976 0.91097103  0.3600283  0.3164464  0.2865138
-#&gt;  3: 13.439273 0.03978843 0.81540078  0.1245518  0.4309087  0.8672962
-#&gt;  4: 12.949206 0.14572238 0.71881999  0.8016087  0.6442489  0.1453436
-#&gt;  5:  9.424692 0.18347122 0.72771778  0.7658110  0.1389937  0.2679227
-#&gt;  6:  4.417297 0.48202978 0.08094889  0.5481055  0.0935091  0.1760928
-#&gt;  7:  9.133812 0.14824668 0.21338926  0.4978300  0.4904305  0.4473637
-#&gt;  8: 21.243778 0.81567249 0.69634329  0.3004999  0.6650128  0.7268815
-#&gt;  9: 17.367293 0.94925940 0.70477084  0.4053861  0.4471942  0.8061643
-#&gt; 10: 18.782572 0.86016553 0.46092413  0.4271916  0.8308704  0.1508970
-#&gt;     unimportant1 unimportant2 unimportant3 unimportant4 unimportant5
-#&gt;  1:   0.90674514    0.6299900   0.44222862 0.1446169016    0.8761557
-#&gt;  2:   0.86937212    0.1744078   0.44805073 0.0007360573    0.8916445
-#&gt;  3:   0.45848995    0.3974171   0.37934982 0.8873595039    0.0980194
-#&gt;  4:   0.02534216    0.7695083   0.03246628 0.1499343407    0.6408948
-#&gt;  5:   0.52601399    0.5397561   0.47011544 0.4958328137    0.5527113
-#&gt;  6:   0.23853918    0.9423638   0.55705869 0.0445529586    0.9182962
-#&gt;  7:   0.86414528    0.5028886   0.32303813 0.0216628171    0.1097287
-#&gt;  8:   0.14294954    0.7134387   0.91847416 0.3498590766    0.5664817
-#&gt;  9:   0.62545351    0.7176965   0.93920163 0.2929193743    0.5322978
-#&gt; 10:   0.49562674    0.8379953   0.77851112 0.0322928987    0.2506135</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>generator</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"friedman1"</span>)
+<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>generator</span>$<span class='fu'>generate</span>(<span class='fl'>200</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>())</div><div class='output co'>#&gt; Classes ‘data.table’ and 'data.frame':	200 obs. of  11 variables:
+#&gt;  $ y           : num  22.5 17.2 17.4 20.1 14.1 ...
+#&gt;  $ important1  : num  0.349 0.894 0.818 0.808 0.508 ...
+#&gt;  $ important2  : num  0.994 0.106 0.862 0.43 0.328 ...
+#&gt;  $ important3  : num  0.4521 0.0906 0.9507 0.7022 0.3587 ...
+#&gt;  $ important4  : num  0.854 0.739 0.449 0.577 0.887 ...
+#&gt;  $ important5  : num  0.9616 0.6543 0.3119 0.9446 0.0585 ...
+#&gt;  $ unimportant1: num  0.414 0.69 0.181 0.823 0.276 ...
+#&gt;  $ unimportant2: num  0.362 0.188 0.441 0.711 0.563 ...
+#&gt;  $ unimportant3: num  0.333 0.524 0.234 0.992 0.586 ...
+#&gt;  $ unimportant4: num  0.0194 0.5993 0.2535 0.4953 0.0743 ...
+#&gt;  $ unimportant5: num  0.571 0.837 0.473 0.614 0.814 ...
+#&gt;  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

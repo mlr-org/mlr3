@@ -92,7 +92,7 @@ For a more convenient way to retrieve and construct task generators, see tgen()/
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.3.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.4.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -200,36 +200,25 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 <p>Other TaskGenerator: 
 <code><a href='TaskGenerator.html'>TaskGenerator</a></code>,
 <code><a href='mlr_task_generators_2dnormals.html'>mlr_task_generators_2dnormals</a></code>,
+<code><a href='mlr_task_generators_cassini.html'>mlr_task_generators_cassini</a></code>,
+<code><a href='mlr_task_generators_circle.html'>mlr_task_generators_circle</a></code>,
 <code><a href='mlr_task_generators_friedman1.html'>mlr_task_generators_friedman1</a></code>,
+<code><a href='mlr_task_generators_moons.html'>mlr_task_generators_moons</a></code>,
+<code><a href='mlr_task_generators_simplex.html'>mlr_task_generators_simplex</a></code>,
 <code><a href='mlr_task_generators_smiley.html'>mlr_task_generators_smiley</a></code>,
+<code><a href='mlr_task_generators_spirals.html'>mlr_task_generators_spirals</a></code>,
 <code><a href='mlr_task_generators_xor.html'>mlr_task_generators_xor</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"smiley"</span>)</div><div class='output co'>#&gt; &lt;TaskGeneratorSmiley&gt;
-#&gt;   Inherits from: &lt;TaskGenerator&gt;
-#&gt;   Public:
-#&gt;     clone: function (deep = FALSE) 
-#&gt;     generate: function (n) 
-#&gt;     id: smiley
-#&gt;     initialize: function () 
-#&gt;     man: mlr3::mlr_task_generators_smiley
-#&gt;     packages: mlbench
-#&gt;     param_set: ParamSet, R6
-#&gt;     task_type: classif
-#&gt;   Private:
-#&gt;     .generate: function (n) </div><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"2dnormals"</span>)</div><div class='output co'>#&gt; &lt;TaskGenerator2DNormals&gt;
-#&gt;   Inherits from: &lt;TaskGenerator&gt;
-#&gt;   Public:
-#&gt;     clone: function (deep = FALSE) 
-#&gt;     generate: function (n) 
-#&gt;     id: 2dnormals
-#&gt;     initialize: function () 
-#&gt;     man: mlr3::mlr_task_generators_2dnormals
-#&gt;     packages: mlbench
-#&gt;     param_set: ParamSet, R6
-#&gt;     task_type: classif
-#&gt;   Private:
-#&gt;     .generate: function (n) </div></pre>
+    <pre class="examples"><div class='input'><span class='no'>mlr_task_generators</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"smiley"</span>)</div><div class='output co'>#&gt; &lt;TaskGeneratorSmiley:smiley&gt;
+#&gt; * Task type: classif
+#&gt; * Packages: mlbench
+#&gt; * Parameters: list()
+#&gt; * Manual: ?mlr3::mlr_task_generators_smiley</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"2dnormals"</span>)</div><div class='output co'>#&gt; &lt;TaskGenerator2DNormals:2dnormals&gt;
+#&gt; * Task type: classif
+#&gt; * Packages: mlbench
+#&gt; * Parameters: list()
+#&gt; * Manual: ?mlr3::mlr_task_generators_2dnormals</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
