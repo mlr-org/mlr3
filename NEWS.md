@@ -6,6 +6,7 @@
   consistent.
 * Added a `plot()` method for most task generators.
 * The order of features is now preserved during task construction (#524, #525).
+* Corrected data in task `german_credit` (#514).
 
 # mlr3 0.3.0
 
