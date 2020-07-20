@@ -166,17 +166,17 @@ generate_tasks.LearnerRegr = function(learner, N = 30L) {
 }
 registerS3method("generate_tasks", "LearnerRegr", generate_tasks.LearnerRegr)
 
-sanity_check = function(prediction) {
+sanity_check = function(prediction, ...) {
   UseMethod("sanity_check")
 }
 
-sanity_check.PredictionClassif = function(prediction) {
+sanity_check.PredictionClassif = function(prediction, ...) {
   prediction$score(mlr3::msr("classif.ce")) <= 0.3
 }
 registerS3method("sanity_check", "LearnerClassif", sanity_check.PredictionClassif)
 
 
-sanity_check.PredictionRegr = function(prediction) {
+sanity_check.PredictionRegr = function(prediction, ...) {
   prediction$score(mlr3::msr("regr.mse")) <= 2
 }
 registerS3method("sanity_check", "LearnerRegr", sanity_check.PredictionRegr)
@@ -259,7 +259,12 @@ run_experiment = function(task, learner, seed = NULL) {
   }
 
   stage = "score()"
-  score = try(prediction$score(mlr3::default_measures(learner$task_type)), silent = TRUE)
+  score = try(
+    prediction$score(mlr3::default_measures(learner$task_type),
+      task = task,
+      learner = learner,
+      train_set = task$row_ids
+  ), silent = TRUE)
   if (inherits(score, "try-error"))
     return(err(as.character(score)))
   msg = checkmate::check_numeric(score, any.missing = FALSE)
@@ -267,7 +272,8 @@ run_experiment = function(task, learner, seed = NULL) {
     return(err(msg))
 
   # run sanity check on sanity task
-  if (startsWith(task$id, "sanity") && !sanity_check(prediction)) {
+  if (startsWith(task$id, "sanity") && !
+    sanity_check(prediction, task = task, learner = learner, train_set = task$row_ids)) {
     return(err("sanity check failed"))
   }
 
