@@ -463,17 +463,17 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt;   3    spam classif.featureless            cv     3        0      0
 #&gt;   4    spam       classif.rpart            cv     3        0      0</div><div class='input'>
 <span class='no'>bmr</span>$<span class='no'>tasks</span></div><div class='output co'>#&gt;           task_hash task_id          task
-#&gt; 1: 461ab29002eac5ff   sonar &lt;TaskClassif&gt;
-#&gt; 2: 84eb46a6ba033f63    spam &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash          learner_id                     learner
+#&gt; 1: dea3e1fd99a2120d   sonar &lt;TaskClassif&gt;
+#&gt; 2: 7cf4341432d6352e    spam &lt;TaskClassif&gt;</div><div class='input'><span class='no'>bmr</span>$<span class='no'>learners</span></div><div class='output co'>#&gt;        learner_hash          learner_id                     learner
 #&gt; 1: 3bbabd1058707305 classif.featureless &lt;LearnerClassifFeatureless&gt;
 #&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart&gt;</div><div class='input'>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)</div><div class='output co'>#&gt;                                   uhash          task
-#&gt; 1: bf78c73c-65c4-4a2b-8f42-fee52f2684db &lt;TaskClassif&gt;
-#&gt; 2: bf78c73c-65c4-4a2b-8f42-fee52f2684db &lt;TaskClassif&gt;
-#&gt; 3: bf78c73c-65c4-4a2b-8f42-fee52f2684db &lt;TaskClassif&gt;
-#&gt; 4: 183fddb5-4f6d-4499-a8a3-1bdb011dfcba &lt;TaskClassif&gt;
-#&gt; 5: 183fddb5-4f6d-4499-a8a3-1bdb011dfcba &lt;TaskClassif&gt;
+#&gt; 1: 114e12df-31b8-4869-a881-f005d5c59d13 &lt;TaskClassif&gt;
+#&gt; 2: 114e12df-31b8-4869-a881-f005d5c59d13 &lt;TaskClassif&gt;
+#&gt; 3: 114e12df-31b8-4869-a881-f005d5c59d13 &lt;TaskClassif&gt;
+#&gt; 4: 05f99965-8524-40f9-98b3-c4d69138edd4 &lt;TaskClassif&gt;
+#&gt; 5: 05f99965-8524-40f9-98b3-c4d69138edd4 &lt;TaskClassif&gt;
 #&gt;                        learner     resampling iteration prediction
 #&gt; 1: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         1     &lt;list&gt;
 #&gt; 2: &lt;LearnerClassifFeatureless&gt; &lt;ResamplingCV&gt;         2     &lt;list&gt;
@@ -488,7 +488,7 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 4:  4 &lt;ResampleResult&gt;    spam       classif.rpart            cv     3
 #&gt;    classif.ce
 #&gt; 1:  0.4660455
-#&gt; 2:  0.2690821
+#&gt; 2:  0.2739130
 #&gt; 3:  0.3940399
 #&gt; 4:  0.1086721</div><div class='input'>
 <span class='co'># aggregate results with hyperparameters as separate columns</span>
@@ -499,7 +499,7 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 4:  4 &lt;ResampleResult&gt;    spam       classif.rpart            cv     3
 #&gt;    classif.ce method xval
 #&gt; 1:  0.4660455   mode   NA
-#&gt; 2:  0.2690821   &lt;NA&gt;    0
+#&gt; 2:  0.2739130   &lt;NA&gt;    0
 #&gt; 3:  0.3940399   mode   NA
 #&gt; 4:  0.1086721   &lt;NA&gt;    0</div><div class='input'>
 <span class='co'># extract resample result for classif.rpart</span>
