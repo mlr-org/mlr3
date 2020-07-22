@@ -1,8 +1,9 @@
 context("Task")
 
-test_that("Feature columns are not reordered", {
+test_that("Feature columns can be reordered", {
   bh = load_dataset("BostonHousing", "mlbench")
-  task = TaskRegr$new("bh", bh, "medv")
+  task = tsk("boston_housing")
+  task$col_roles$feature = setdiff(names(bh), "medv")
 
   expect_equal(task$feature_names, setdiff(names(bh), "medv"))
   expect_equal(names(task$data(rows = 1)), c("medv", setdiff(names(bh), "medv")))
