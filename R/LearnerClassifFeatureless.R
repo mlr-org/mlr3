@@ -18,6 +18,9 @@
 #' @section Meta Information:
 #' `r rd_info(lrn("classif.featureless"))`
 #'
+#' @section Parameters:
+#' `r rd_info(lrn("classif.featureless")$param_set)`
+#'
 #' @template seealso_learner
 #' @export
 LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,

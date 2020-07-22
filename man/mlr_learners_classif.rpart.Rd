@@ -25,6 +25,21 @@ lrn("classif.rpart")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   minsplit \tab integer \tab 20 \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+   minbucket \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \tab - \cr
+   cp \tab numeric \tab 0.01 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   maxcompete \tab integer \tab 4 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+   maxsurrogate \tab integer \tab 5 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+   maxdepth \tab integer \tab 30 \tab \eqn{[1, 30]}{[1, 30]} \tab - \cr
+   usesurrogate \tab integer \tab 2 \tab \eqn{[0, 2]}{[0, 2]} \tab - \cr
+   surrogatestyle \tab integer \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   xval \tab integer \tab 10 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+}
+}
+
 \references{
 \cite{mlr3}{breiman_1984}
 }

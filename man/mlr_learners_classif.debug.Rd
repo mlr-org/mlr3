@@ -41,6 +41,23 @@ lrn("classif.featureless")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   message_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   message_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   warning_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   warning_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   error_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   error_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   segfault_train \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   segfault_predict \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   predict_missing \tab numeric \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+   save_tasks \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+   x \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
+}
+}
+
 \examples{
 learner = lrn("classif.debug")
 learner$param_set$values = list(message_train = 1, save_tasks = TRUE)

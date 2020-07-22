@@ -30,6 +30,13 @@ lrn("classif.featureless")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   method \tab character \tab mode \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab mode           , sample         , weighted.sample \cr
+}
+}
+
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
 

@@ -13,6 +13,9 @@
 #' @section Meta Information:
 #' `r rd_info(lrn("regr.rpart"))`
 #'
+#' @section Parameters:
+#' `r rd_info(lrn("regr.rpart")$param_set)`
+#'
 #' @references
 #' \cite{mlr3}{breiman_1984}
 #'

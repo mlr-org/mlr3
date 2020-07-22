@@ -28,6 +28,13 @@ lrn("regr.featureless")
 }
 }
 
+\section{Parameters}{
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Range \tab Levels \cr
+   robust \tab logical \tab TRUE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
+}
+}
+
 \seealso{
 \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
 
