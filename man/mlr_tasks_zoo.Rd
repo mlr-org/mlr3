@@ -24,7 +24,7 @@ tsk("zoo")
 \item Properties: \dQuote{multiclass}
 \item Has Missings: \code{FALSE}
 \item Target: \dQuote{type}
-\item Features: \dQuote{hair}, \dQuote{feathers}, \dQuote{eggs}, \dQuote{milk}, \dQuote{airborne}, \dQuote{aquatic}, \dQuote{predator}, \dQuote{toothed}, \dQuote{backbone}, \dQuote{breathes}, \dQuote{venomous}, \dQuote{fins}, \dQuote{legs}, \dQuote{tail}, \dQuote{domestic}, \dQuote{catsize}
+\item Features: \dQuote{airborne}, \dQuote{aquatic}, \dQuote{backbone}, \dQuote{breathes}, \dQuote{catsize}, \dQuote{domestic}, \dQuote{eggs}, \dQuote{feathers}, \dQuote{fins}, \dQuote{hair}, \dQuote{legs}, \dQuote{milk}, \dQuote{predator}, \dQuote{tail}, \dQuote{toothed}, \dQuote{venomous}
 }
 }
 

@@ -32,7 +32,7 @@ tsk("wine")
 \item Properties: \dQuote{multiclass}
 \item Has Missings: \code{FALSE}
 \item Target: \dQuote{type}
-\item Features: \dQuote{alcohol}, \dQuote{malic}, \dQuote{ash}, \dQuote{alcalinity}, \dQuote{magnesium}, \dQuote{phenols}, \dQuote{flavanoids}, \dQuote{nonflavanoids}, \dQuote{proanthocyanins}, \dQuote{color}, \dQuote{hue}, \dQuote{dilution}, \dQuote{proline}
+\item Features: \dQuote{alcalinity}, \dQuote{alcohol}, \dQuote{ash}, \dQuote{color}, \dQuote{dilution}, \dQuote{flavanoids}, \dQuote{hue}, \dQuote{magnesium}, \dQuote{malic}, \dQuote{nonflavanoids}, \dQuote{phenols}, \dQuote{proanthocyanins}, \dQuote{proline}
 }
 }
 

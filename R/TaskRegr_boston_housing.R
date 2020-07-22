@@ -4,14 +4,18 @@
 #' @format [R6::R6Class] inheriting from [TaskRegr].
 #' @include mlr_tasks.R
 #'
+#'
+#' @description
+#' A regression task for the [mlbench::BostonHousing2] data set.
+#'
 #' @section Construction:
 #' ```
 #' mlr_tasks$get("boston_housing")
 #' tsk("boston_housing")
 #' ```
 #'
-#' @description
-#' A regression task for the [mlbench::BostonHousing2] data set.
+#' @section Meta Information:
+#' `r rd_info(tsk("boston_housing"))`
 #'
 #' @template seealso_task
 NULL

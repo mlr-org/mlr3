@@ -4,16 +4,19 @@
 #' @format [R6::R6Class] inheriting from [TaskRegr].
 #' @include mlr_tasks.R
 #'
+#' @description
+#' A regression task for the [datasets::mtcars] data set.
+#' Target variable is `mpg` (Miles/(US) gallon).
+#' Rownames are stored as variable `"..rownames` with column role `"model"`.
+#'
 #' @section Construction:
 #' ```
 #' mlr_tasks$get("mtcars")
 #' tsk("mtcars")
 #' ```
 #'
-#' @description
-#' A regression task for the [datasets::mtcars] data set.
-#' Target variable is `mpg` (Miles/(US) gallon).
-#' Rownames are stored as variable `"..rownames` with column role `"model"`.
+#' @section Meta Information:
+#' `r rd_info(tsk("mtcars"))`
 #'
 #' @template seealso_task
 NULL

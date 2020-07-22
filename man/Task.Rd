@@ -125,7 +125,12 @@ Returns a table with two columns:
 }}
 
 \item{\code{feature_names}}{(\code{character()})\cr
-Returns all column names with \code{role == "feature"}.}
+Returns all column names with \code{role == "feature"}.
+
+Note that this vector determines the default order of columns for \code{task$data(cols = NULL, ...)}.
+However, it is recommended to \strong{not} rely on the order of columns, but instead always
+address columns by their name. The default order is not well defined after some
+operations, e.g. after \code{task$cbind()} or after processing via \CRANpkg{mlr3pipelines}.}
 
 \item{\code{target_names}}{(\code{character()})\cr
 Returns all column names with role "target".}
@@ -319,6 +324,13 @@ Returns a slice of the data from the \link{DataBackend} in the data format speci
 Rows are additionally subsetted to only contain observations with role \code{"use"}, and
 columns are filtered to only contain features with roles \code{"target"} and \code{"feature"}.
 If invalid \code{rows} or \code{cols} are specified, an exception is raised.
+
+Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
+If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.
+If \code{cols} is \code{NULL}, the column order defaults to
+\code{c(task$target_names, task$feature_names)}.
+Note that it is recommended to \strong{not} rely on the order of columns, and instead always
+address columns with their respective column name.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Task$data(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE)}\if{html}{\out{</div>}}
 }

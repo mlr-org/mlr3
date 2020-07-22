@@ -103,7 +103,7 @@ Task = R6Class("Task",
         }
       )
 
-      cn = self$backend$colnames
+      cn = self$col_info$id # note: this sorts the columns!
       rn = self$backend$rownames
       private$.row_roles = list(use = rn, validation = integer())
       private$.col_roles = named_list(mlr_reflections$task_col_roles[[task_type]], character())
@@ -134,6 +134,13 @@ Task = R6Class("Task",
     #' Rows are additionally subsetted to only contain observations with role `"use"`, and
     #' columns are filtered to only contain features with roles `"target"` and `"feature"`.
     #' If invalid `rows` or `cols` are specified, an exception is raised.
+    #'
+    #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
+    #' If `rows` is `NULL`, rows are returned in the order of `task$row_ids`.
+    #' If `cols` is `NULL`, the column order defaults to
+    #' `c(task$target_names, task$feature_names)`.
+    #' Note that it is recommended to **not** rely on the order of columns, and instead always
+    #' address columns with their respective column name.
     #'
     #' @param ordered (`logical(1)`)\cr
     #'   If `TRUE` (default), data is ordered according to the columns with column role `"order"`.
@@ -392,6 +399,11 @@ Task = R6Class("Task",
 
     #' @field feature_names (`character()`)\cr
     #' Returns all column names with `role == "feature"`.
+    #'
+    #' Note that this vector determines the default order of columns for `task$data(cols = NULL, ...)`.
+    #' However, it is recommended to **not** rely on the order of columns, but instead always
+    #' address columns by their name. The default order is not well defined after some
+    #' operations, e.g. after `task$cbind()` or after processing via \CRANpkg{mlr3pipelines}.
     feature_names = function(rhs) {
       assert_ro_binding(rhs)
       private$.col_roles$feature

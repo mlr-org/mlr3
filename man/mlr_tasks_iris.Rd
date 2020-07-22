@@ -28,7 +28,7 @@ tsk("iris")
 \item Properties: \dQuote{multiclass}
 \item Has Missings: \code{FALSE}
 \item Target: \dQuote{Species}
-\item Features: \dQuote{Sepal.Length}, \dQuote{Sepal.Width}, \dQuote{Petal.Length}, \dQuote{Petal.Width}
+\item Features: \dQuote{Petal.Length}, \dQuote{Petal.Width}, \dQuote{Sepal.Length}, \dQuote{Sepal.Width}
 }
 }
 

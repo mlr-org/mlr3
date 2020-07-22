@@ -24,7 +24,7 @@ tsk("pima")
 \item Properties: \dQuote{twoclass}
 \item Has Missings: \code{TRUE}
 \item Target: \dQuote{diabetes}
-\item Features: \dQuote{pregnant}, \dQuote{glucose}, \dQuote{pressure}, \dQuote{triceps}, \dQuote{insulin}, \dQuote{mass}, \dQuote{pedigree}, \dQuote{age}
+\item Features: \dQuote{age}, \dQuote{glucose}, \dQuote{insulin}, \dQuote{mass}, \dQuote{pedigree}, \dQuote{pregnant}, \dQuote{pressure}, \dQuote{triceps}
 }
 }
 
