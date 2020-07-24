@@ -3,11 +3,10 @@
 #' @name mlr_resamplings_cv
 #' @include Resampling.R
 #'
-#'
 #' @description
 #' Splits data using a `folds`-folds (default: 10 folds) cross-validation.
 #'
-#' @templateVar id bootstrap
+#' @templateVar id cv
 #' @template section_dictionary_resampling
 #'
 #' @section Parameters:

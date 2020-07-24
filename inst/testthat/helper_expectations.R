@@ -338,7 +338,7 @@ expect_resampling = function(r, task = NULL) {
     testthat::expect_error(r$train_set(1L), "instantiated")
     testthat::expect_error(r$test_set(1L), "instantiated")
     # testthat::expect_identical(r$hash, NA_character_)
-    if (r$id != "custom")
+    if (!(r$id %in% c("custom", "loo")))
       checkmate::expect_count(r$iters, positive = TRUE)
     testthat::expect_identical(r$task_hash, NA_character_)
   } else {

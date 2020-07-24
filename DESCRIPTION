@@ -124,6 +124,7 @@ Collate:
     'ResamplingCustom.R'
     'ResamplingHoldout.R'
     'ResamplingInsample.R'
+    'ResamplingLOO.R'
     'ResamplingRepeatedCV.R'
     'ResamplingSubsampling.R'
     'Task.R'

@@ -1,3 +1,7 @@
+# mlr3 0.5.0
+
+* Added `ResamplingLOO` for leave-one-out resampling.
+
 # mlr3 0.4.0
 
 * Added new task generators (`"cassini"`, `"circle"`, `"simplex"`, `"spirals"`,

@@ -9,8 +9,8 @@ Splits data using a \code{folds}-folds (default: 10 folds) cross-validation.
 }
 \section{Dictionary}{
 
-This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:\preformatted{mlr_resamplings$get("bootstrap")
-rsmp("bootstrap")
+This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:\preformatted{mlr_resamplings$get("cv")
+rsmp("cv")
 }
 }
 
@@ -53,6 +53,7 @@ Other Resampling:
 \code{\link{mlr_resamplings_custom}},
 \code{\link{mlr_resamplings_holdout}},
 \code{\link{mlr_resamplings_insample}},
+\code{\link{mlr_resamplings_loo}},
 \code{\link{mlr_resamplings_repeated_cv}},
 \code{\link{mlr_resamplings_subsampling}},
 \code{\link{mlr_resamplings}}
