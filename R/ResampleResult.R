@@ -84,7 +84,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @description
     #' Opens the corresponding help page referenced by field `$man`.
     help = function() {
-      open_help("mlr3::BenchmarkResult")
+      open_help("mlr3::ResampleResult")
     },
 
     #' @description
