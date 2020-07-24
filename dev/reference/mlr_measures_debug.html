@@ -251,14 +251,18 @@ Default is 0.</p></dd>
 <span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)
 <span class='no'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"debug"</span>)
 <span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))
-<span class='no'>rr</span>$<span class='fu'>score</span>(<span class='no'>measure</span>)</div><div class='output co'>#&gt;             task task_id                     learner          learner_id
-#&gt; 1: &lt;TaskClassif&gt;    wine &lt;LearnerClassifFeatureless&gt; classif.featureless
-#&gt; 2: &lt;TaskClassif&gt;    wine &lt;LearnerClassifFeatureless&gt; classif.featureless
-#&gt; 3: &lt;TaskClassif&gt;    wine &lt;LearnerClassifFeatureless&gt; classif.featureless
-#&gt;        resampling resampling_id iteration prediction debug
-#&gt; 1: &lt;ResamplingCV&gt;            cv         1     &lt;list&gt;    60
-#&gt; 2: &lt;ResamplingCV&gt;            cv         2     &lt;list&gt;    59
-#&gt; 3: &lt;ResamplingCV&gt;            cv         3     &lt;list&gt;    59</div></pre>
+<span class='no'>rr</span>$<span class='fu'>score</span>(<span class='no'>measure</span>)</div><div class='output co'>#&gt;                 task task_id                         learner
+#&gt; 1: &lt;TaskClassif[44]&gt;    wine &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 2: &lt;TaskClassif[44]&gt;    wine &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 3: &lt;TaskClassif[44]&gt;    wine &lt;LearnerClassifFeatureless[32]&gt;
+#&gt;             learner_id         resampling resampling_id iteration prediction
+#&gt; 1: classif.featureless &lt;ResamplingCV[19]&gt;            cv         1  &lt;list[1]&gt;
+#&gt; 2: classif.featureless &lt;ResamplingCV[19]&gt;            cv         2  &lt;list[1]&gt;
+#&gt; 3: classif.featureless &lt;ResamplingCV[19]&gt;            cv         3  &lt;list[1]&gt;
+#&gt;    debug
+#&gt; 1:    60
+#&gt; 2:    59
+#&gt; 3:    59</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
