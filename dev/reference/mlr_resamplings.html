@@ -204,6 +204,7 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 <code><a href='mlr_resamplings_cv.html'>mlr_resamplings_cv</a></code>,
 <code><a href='mlr_resamplings_holdout.html'>mlr_resamplings_holdout</a></code>,
 <code><a href='mlr_resamplings_insample.html'>mlr_resamplings_insample</a></code>,
+<code><a href='mlr_resamplings_loo.html'>mlr_resamplings_loo</a></code>,
 <code><a href='mlr_resamplings_repeated_cv.html'>mlr_resamplings_repeated_cv</a></code>,
 <code><a href='mlr_resamplings_subsampling.html'>mlr_resamplings_subsampling</a></code></p></div>
 
@@ -214,8 +215,9 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 #&gt; 3:          cv         folds    10
 #&gt; 4:     holdout         ratio     1
 #&gt; 5:    insample                   1
-#&gt; 6: repeated_cv repeats,folds   100
-#&gt; 7: subsampling repeats,ratio    30</div><div class='input'><span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cv"</span>)</div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 10 iterations
+#&gt; 6:         loo                  NA
+#&gt; 7: repeated_cv repeats,folds   100
+#&gt; 8: subsampling repeats,ratio    30</div><div class='input'><span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cv"</span>)</div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 10 iterations
 #&gt; * Instantiated: FALSE
 #&gt; * Parameters: folds=10</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>)</div><div class='output co'>#&gt; &lt;ResamplingSubsampling&gt; with 30 iterations
 #&gt; * Instantiated: FALSE

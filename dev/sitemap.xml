@@ -292,6 +292,9 @@
     <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_insample.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_loo.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/mlr_resamplings_repeated_cv.html</loc>
   </url>
   <url>
