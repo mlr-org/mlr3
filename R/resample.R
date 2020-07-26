@@ -90,8 +90,19 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     }
   }
 
-  res = map_dtr(res, reassemble, learner = learner)
-  res[, c("task", "resampling", "iteration") := list(list(task), list(instance), seq_len(n))]
+  # res = map_dtr(res, reassemble, learner = learner)
+  # res[, c("task", "resampling", "iteration") := list(list(task), list(instance), seq_len(n))]
 
-  ResampleResult$new(res)
+  rr = ResampleResult$new(
+    task = task,
+    learner = learner,
+    states = map(res, "learner_state"),
+    resampling = instance,
+    iteration = seq_len(n),
+    predictions = map(res, "prediction"),
+    uhash = NULL
+  )
+  # self = rr
+  # private = private(self)
+  rr
 }

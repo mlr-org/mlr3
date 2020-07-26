@@ -62,14 +62,6 @@
 #' rr$predictions()[[1]]$confusion
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
-
-    #' @field data ([data.table::data.table()])\cr
-    #'   Internal data storage with one row per resampling iteration.
-    #'   Can be joined with `$rr_data` by joining on column `"hash"`.
-    #'   We discourage users to directly work with this table.
-    data = NULL,
-
-
     #' @field rr_data ([data.table::data.table()])\cr
     #'   Internal data storage with one row per [ResampleResult]
     #'   (instead of one row per resampling iteration as in `$data`).
@@ -90,6 +82,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #'   * `"task"` ([Task]),
     #'   * `"learner"` ([Learner]),
+    #'   * `"state"` (`list()`),
     #'   * `"resampling"` ([Resampling]),
     #'   * `"iteration"` (`integer(1)`),
     #'   * `"prediction"` ([Prediction]), and
@@ -99,15 +92,18 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Additional columns are kept in the resulting object, but otherwise ignored by [BenchmarkResult].
     initialize = function(data = data.table()) {
       assert_data_table(data)
-      slots = c("uhash", mlr_reflections$rr_names)
+      slots = c("uhash", mlr_reflections$rr_names, "state")
       if (any(dim(data) == 0L)) {
-        data = data.table(uhash = character(), task = list(), learner = list(), resampling = list(),
-          iteration = integer(), prediction = list())
+        data = data.table(uhash = character(), task = list(), learner = list(), state = list(),
+          resampling = list(), iteration = integer(), prediction = list())
       } else {
         assert_names(names(data), must.include = slots)
       }
 
-      self$data = setcolorder(data, slots)
+      private$.tasks = replace_with_hash(data, "task")
+      private$.learners = replace_with_hash(data, "learner")
+      private$.resamplings = replace_with_hash(data, "resampling")
+      private$.data = setcolorder(data, slots)[]
       self$rr_data = data[, list(uhash = unique(uhash))]
     },
 
@@ -333,6 +329,20 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   active = list(
+    #' @field data ([data.table::data.table()])\cr
+    #'   Internal data storage with one row per resampling iteration.
+    #'   Can be joined with `$rr_data` by joining on column `"hash"`.
+    #'   We discourage users to directly work with this table.
+    data = function(rhs) {
+      assert_ro_binding(rhs)
+      tab = copy(private$.data)
+      replace_with_object(tab, "task", private$.tasks)
+      replace_with_object(tab, "learner", private$.learners)
+      replace_with_object(tab, "resampling", private$.resamplings)
+      tab[, learner := reassemble_learner(learner, state)]
+      remove_named(tab, "state")
+    },
+
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `BenchmarkResult`.
     #' All stored objects ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are
@@ -343,7 +353,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       if (nrow(self$data) == 0L) {
         return(NULL)
       }
-      self$data$task[[1L]]$task_type
+      private$.tasks[[1L]]$task_type
     },
 
     #' @field tasks ([data.table::data.table()])\cr
@@ -354,7 +364,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `"task"` ([Task]).
     tasks = function(rhs) {
       assert_ro_binding(rhs)
-      unique(self$data[, list(task_hash = hashes(task), task_id = ids(task), task = task)], by = "task_hash")
+      tasks = private$.tasks
+      data.table(
+        task_hash = names(tasks),
+        task_id = ids(tasks),
+        task = tasks
+      )
     },
 
     #' @field learners ([data.table::data.table()])\cr
@@ -369,8 +384,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Instead, select a row from the table returned by `$score()`.
     learners = function(rhs) {
       assert_ro_binding(rhs)
-      tab = unique(self$data[, list(learner_hash = hashes(learner), learner_id = ids(learner), learner = learner)], by = "learner_hash")
-      tab[, learner := lapply(learner, function(x) x$clone(deep = TRUE)$reset())][]
+      learners = private$.learners
+      data.table(
+        learner_hash = names(learners),
+        learner_id = ids(learners),
+        learner = learners
+      )
     },
 
     #' @field resamplings ([data.table::data.table()])\cr
@@ -381,7 +400,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `"resampling"` ([Resampling]).
     resamplings = function(rhs) {
       assert_ro_binding(rhs)
-      unique(self$data[, list(resampling_hash = hashes(resampling), resampling_id = ids(resampling), resampling = resampling)], by = "resampling_hash")
+      resamplings = private$.resamplings
+      data.table(
+        resampling_hash = names(resamplings),
+        resampling_id = ids(resamplings),
+        resampling = resamplings
+      )
     },
 
     #' @field n_resample_results (`integer(1)`)\cr
@@ -400,6 +424,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   private = list(
+    .data = NULL,
+    .tasks = NULL,
+    .learners = NULL,
+    .resamplings = NULL,
+
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
     }

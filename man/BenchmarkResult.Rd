@@ -66,11 +66,6 @@ rr$predictions()[[1]]$confusion
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal data storage with one row per resampling iteration.
-Can be joined with \verb{$rr_data} by joining on column \code{"hash"}.
-We discourage users to directly work with this table.}
-
 \item{\code{rr_data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Internal data storage with one row per \link{ResampleResult}
 (instead of one row per resampling iteration as in \verb{$data}).
@@ -87,6 +82,11 @@ in this table.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Internal data storage with one row per resampling iteration.
+Can be joined with \verb{$rr_data} by joining on column \code{"hash"}.
+We discourage users to directly work with this table.}
+
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{BenchmarkResult}.
 All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are
@@ -161,6 +161,7 @@ Table with data for one resampling iteration per row, with at least the followin
 \itemize{
 \item \code{"task"} (\link{Task}),
 \item \code{"learner"} (\link{Learner}),
+\item \code{"state"} (\code{list()}),
 \item \code{"resampling"} (\link{Resampling}),
 \item \code{"iteration"} (\code{integer(1)}),
 \item \code{"prediction"} (\link{Prediction}), and

@@ -6,6 +6,10 @@ resamplings = rsmp("cv", folds = 3)
 design = benchmark_grid(tasks, learners, resamplings)
 bmr = benchmark(design)
 
+self = bmr
+private = private(self)
+self$data
+
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
   expect_names(names(bmr$data), permutation.of = c(mlr_reflections$rr_names, "uhash"))

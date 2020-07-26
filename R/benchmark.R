@@ -137,9 +137,13 @@ benchmark = function(design, store_models = FALSE) {
         store_models = store_models, pb = pb)
     }
   }
-  res = rbindlist(Map(reassemble, result = res, learner = grid$learner), use.names = TRUE)
-  res = insert_named(grid, res)
+
+  grid = insert_named(grid, list(
+      state = map(res, "learner_state"),
+      prediction = map(res, "prediction")
+  ))
 
   lg$info("Finished benchmark")
-  BenchmarkResult$new(res)
+
+  BenchmarkResult$new(grid)
 }
