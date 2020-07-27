@@ -134,3 +134,15 @@ test_that("extra args survive the roundtrip", {
   expect_equal(mytask$extra_args, list(positive = "R"))
   expect_equal(mytask$positive, "R")
 })
+
+test_that("data.frame converters", {
+  data("mtcars", package = "datasets")
+  task = as_task_regr(mtcars, "mpg")
+  expect_task_regr(task)
+  expect_equal(task$id, "mtcars")
+
+  data("iris", package = "datasets")
+  task = as_task_classif(iris, "Species")
+  expect_task_classif(task)
+  expect_equal(task$id, "iris")
+})
