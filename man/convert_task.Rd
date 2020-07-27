@@ -76,6 +76,9 @@ If \code{TRUE} (default), unused levels of the new target variable are dropped.}
 \item{x}{(\code{any})\cr
 Object to convert.}
 
+\item{...}{(\code{any})\cr
+Additional arguments, currently ignored.}
+
 \item{id}{(\code{character(1)})\cr
 Id for the new task.}
 

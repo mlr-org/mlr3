@@ -56,6 +56,8 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
 #' @rdname convert_task
 #' @param x (`any`)\cr
 #'   Object to convert.
+#' @param ... (`any`)\cr
+#'   Additional arguments, currently ignored.
 #' @export
 as_task_classif = function(x, target = NULL, ...) {
   UseMethod("as_task_classif")
@@ -78,8 +80,6 @@ as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(
 }
 
 #' @rdname convert_task
-#' @param x (`any`)\cr
-#'   Object to convert.
 #' @export
 as_task_regr = function(x, target = NULL, ...) {
   UseMethod("as_task_regr")
