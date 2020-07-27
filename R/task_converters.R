@@ -1,4 +1,4 @@
-#' Convert a Task from its type to another.
+#' Convert a Task from One Type to Another
 #'
 #' @description
 #' The task's target is replaced by a different column from the data.

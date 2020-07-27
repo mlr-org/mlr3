@@ -8,7 +8,7 @@
 \alias{as_task_regr}
 \alias{as_task_regr.TaskClassif}
 \alias{as_task_regr.data.frame}
-\title{Convert a Task from its type to another.}
+\title{Convert a Task from One Type to Another}
 \usage{
 convert_task(
   intask,
@@ -42,7 +42,8 @@ as_task_regr(x, target = NULL, ...)
   x,
   target = NULL,
   drop_original_target = FALSE,
-  drop_levels = TRUE
+  drop_levels = TRUE,
+  ...
 )
 
 \method{as_task_regr}{data.frame}(
