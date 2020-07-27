@@ -5,6 +5,10 @@ learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = rsmp("cv", folds = 3)
 design = benchmark_grid(tasks, learners, resamplings)
 bmr = benchmark(design)
+bmr$data
+profvis::profvis(
+bmr$aggregate()
+)
 
 self = bmr
 private = private(self)

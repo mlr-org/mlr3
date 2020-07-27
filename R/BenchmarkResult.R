@@ -62,6 +62,39 @@
 #' rr$predictions()[[1]]$confusion
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
+    #' @field tasks ([data.table::data.table()])\cr
+    #' Table of included [Task]s with three columns:
+    #'
+    #' * `"task_hash"` (`character(1)`),
+    #' * `"task_id"` (`character(1)`), and
+    #' * `"task"` ([Task]).
+    tasks = NULL,
+
+    #' @field learners ([data.table::data.table()])\cr
+    #' Table of included [Learner]s with three columns:
+    #'
+    #' * `"learner_hash"` (`character(1)`),
+    #' * `"learner_id"` (`character(1)`), and
+    #' * `"learner"` ([Learner]).
+    #'
+    #' Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
+    #' For this reason the returned learner are reseted before they are returned.
+    #' Instead, select a row from the table returned by `$score()`.
+    learners = NULL,
+
+    #' @field resamplings ([data.table::data.table()])\cr
+    #' Table of included [Resampling]s with three columns:
+    #'
+    #' * `"resampling_hash"` (`character(1)`),
+    #' * `"resampling_id"` (`character(1)`), and
+    #' * `"resampling"` ([Resampling]).
+    resamplings = NULL,
+
+    #' @field data ([data.table::data.table()])\cr
+    #' Tabular representation of the data. Tasks, learners and resamplings are represented by their hash,
+    #' the objects themselves are stored in the fields `tasks`, `learners` and `resamplings`, respectively.
+    data = NULL,
+
     #' @field rr_data ([data.table::data.table()])\cr
     #'   Internal data storage with one row per [ResampleResult]
     #'   (instead of one row per resampling iteration as in `$data`).
@@ -100,10 +133,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
         assert_names(names(data), must.include = slots)
       }
 
-      private$.tasks = replace_with_hash(data, "task")
-      private$.learners = replace_with_hash(data, "learner")
-      private$.resamplings = replace_with_hash(data, "resampling")
-      private$.data = setcolorder(data, slots)[]
+      self[["tasks"]] = extract_objs(data, "task")
+      self[["learners"]] = extract_objs(data, "learner")
+      self[["resamplings"]] = extract_objs(data, "resampling")
+
+      setcolorder(data, slots)[]
+      setnames(data, c("task", "learner", "resampling"), c("task_hash", "learner_hash", "resampling_hash"))
+      self$data = data
       self$rr_data = data[, list(uhash = unique(uhash))]
     },
 
@@ -228,31 +264,23 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE) {
-      create_rr = function(slice, uhash) {
-        if (nrow(slice) == 0L)
-          return(NULL)
 
-        ResampleResult$new(
-          task = private$.tasks[[slice$task[1L]]],
-          learner = private$.learners[[slice$learner[1L]]],
-          resampling = private$.resamplings[[slice$resampling[1L]]],
-          states = slice$state,
-          predictions = slice$prediction,
-          iterations = slice$iteration,
-          uhash = uhash
-        )
-      }
-
-      res = private$.data[, list(
+      res = as.data.table(self)[, list(
         nr = .GRP,
         iters = .N,
-        resample_result = list(create_rr(.SD, uhash[1L]))
-      ), by = uhash]
+        task_id = task_id[1L],
+        learner_id = learner_id[1L],
+        resampling_id = resampling_id[1L],
+        resample_result = list(ResampleResult$new(
+          task = task[[1L]], learner = learner[[1L]], states = state,
+          resampling = resampling[[1]], iterations = iteration,
+          predictions = prediction, uhash = uhash[1L]
+          ))
+        ) , by = "uhash"
+      ]
 
-      if (assert_flag(ids)) {
-        res[, "task_id" := map_chr(resample_result, function(x) x$task$id)]
-        res[, "learner_id" := map_chr(resample_result, function(x) x$learner$id)]
-        res[, "resampling_id" := map_chr(resample_result, function(x) x$resampling$id)]
+      if (!assert_flag(ids)) {
+        res = remove_named(res, c("task_id", "learner_id", "resampling_id"))
       }
 
       # move iters to last column
@@ -286,8 +314,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     #' @description
     #' Subsets the benchmark result. If `task_ids` is not `NULL`, keeps all
-    #' tasks with provided task ids while discards all others. Same procedure
-    #' for `learner_ids` and `resampling_ids`.
+    #' tasks with provided task ids and discards all others tasks.
+    #' Same procedure for `learner_ids` and `resampling_ids`.
     #'
     #' @param task_ids (`character()`)\cr
     #'   Ids of [Task]s to keep.
@@ -305,17 +333,23 @@ BenchmarkResult = R6Class("BenchmarkResult",
     filter = function(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL) {
       if (!is.null(task_ids)) {
         assert_character(task_ids, any.missing = FALSE)
-        self$data = self$data[ids(task) %in% task_ids]
+        hashes = names(private$.tasks)[ids(private$.tasks) %in% task_ids]
+        private$.tasks = private$.tasks[hashes]
+        private$.data = private$.data[hashes, on = "task", nomatch = 0L]
       }
 
       if (!is.null(learner_ids)) {
         assert_character(learner_ids, any.missing = FALSE)
-        self$data = self$data[ids(learner) %in% learner_ids]
+        hashes = names(private$.learners)[ids(private$.learners) %in% learner_ids]
+        private$.learners = private$.learners[hashes]
+        private$.data = private$.data[hashes, on = "learner", nomatch = 0L]
       }
 
       if (!is.null(resampling_ids)) {
         assert_character(resampling_ids, any.missing = FALSE)
-        self$data = self$data[ids(resampling) %in% resampling_ids]
+        hashes = names(private$.resamplings)[ids(private$.resamplings) %in% resampling_ids]
+        private$.resamplings = private$.resamplings[hashes]
+        private$.data = private$.data[hashes, on = "resampling", nomatch = 0L]
       }
 
       invisible(self)
@@ -353,15 +387,15 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Internal data storage with one row per resampling iteration.
     #'   Can be joined with `$rr_data` by joining on column `"hash"`.
     #'   We discourage users to directly work with this table.
-    data = function(rhs) {
-      assert_ro_binding(rhs)
-      tab = copy(private$.data)
-      replace_with_object(tab, "task", private$.tasks)
-      replace_with_object(tab, "learner", private$.learners)
-      replace_with_object(tab, "resampling", private$.resamplings)
-      tab[, learner := reassemble_learner(learner, state)]
-      remove_named(tab, "state")
-    },
+    # data = function(rhs) {
+    #   assert_ro_binding(rhs)
+    #   tab = copy(private$.data)
+    #   replace_with_object(tab, "task", private$.tasks)
+    #   replace_with_object(tab, "learner", private$.learners)
+    #   replace_with_object(tab, "resampling", private$.resamplings)
+    #   tab[, learner := reassemble_learner(learner, state)]
+    #   remove_named(tab, "state")
+    # },
 
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `BenchmarkResult`.
@@ -373,59 +407,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       if (nrow(self$data) == 0L) {
         return(NULL)
       }
-      private$.tasks[[1L]]$task_type
-    },
-
-    #' @field tasks ([data.table::data.table()])\cr
-    #' Table of included [Task]s with three columns:
-    #'
-    #' * `"task_hash"` (`character(1)`),
-    #' * `"task_id"` (`character(1)`), and
-    #' * `"task"` ([Task]).
-    tasks = function(rhs) {
-      assert_ro_binding(rhs)
-      tasks = private$.tasks
-      data.table(
-        task_hash = names(tasks),
-        task_id = ids(tasks),
-        task = tasks
-      )
-    },
-
-    #' @field learners ([data.table::data.table()])\cr
-    #' Table of included [Learner]s with three columns:
-    #'
-    #' * `"learner_hash"` (`character(1)`),
-    #' * `"learner_id"` (`character(1)`), and
-    #' * `"learner"` ([Learner]).
-    #'
-    #' Note that it is not feasible to access learned models via this getter, as the training task would be ambiguous.
-    #' For this reason the returned learner are reseted before they are returned.
-    #' Instead, select a row from the table returned by `$score()`.
-    learners = function(rhs) {
-      assert_ro_binding(rhs)
-      learners = private$.learners
-      data.table(
-        learner_hash = names(learners),
-        learner_id = ids(learners),
-        learner = learners
-      )
-    },
-
-    #' @field resamplings ([data.table::data.table()])\cr
-    #' Table of included [Resampling]s with three columns:
-    #'
-    #' * `"resampling_hash"` (`character(1)`),
-    #' * `"resampling_id"` (`character(1)`), and
-    #' * `"resampling"` ([Resampling]).
-    resamplings = function(rhs) {
-      assert_ro_binding(rhs)
-      resamplings = private$.resamplings
-      data.table(
-        resampling_hash = names(resamplings),
-        resampling_id = ids(resamplings),
-        resampling = resamplings
-      )
+      self$tasks$task[[1L]]$task_type
     },
 
     #' @field n_resample_results (`integer(1)`)\cr
@@ -444,11 +426,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   private = list(
-    .data = NULL,
-    .tasks = NULL,
-    .learners = NULL,
-    .resamplings = NULL,
-
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
     }
@@ -457,7 +434,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
 #' @export
 as.data.table.BenchmarkResult = function(x, ...) {
-  copy(x$data)
+  x$data[
+    x$tasks, on = "task_hash", nomatch = NULL
+  ][
+    x$learners, on = "learner_hash", nomatch = 0L
+  ][
+    x$resamplings, on = "resampling_hash", nomatch = 0L
+  ]
 }
 
 #' @export

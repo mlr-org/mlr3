@@ -77,54 +77,6 @@ rd_format_packages = function(pkgs) {
   ))
 }
 
-#' Replace R6 Objects with their Hash
-#'
-#' @description
-#' Given a table `tab` with list column `col` of R6 objects, walks over values of `col`
-#' and replaces R6 objects with the string of their respective hash.
-#' The replaced objects are returned as a named list.
-#'
-#' This operation can be reversed with the [replace_with_object()] function.
-#'
-#' @param tab (`data.table()`).
-#' @param col (`character(1)`)\cr
-#'   Column of `tab`.
-#'
-#' @return (named `list()`).
-#' List of distinct extracted R6 objects, named with their hash.
-#'
-#' @noRd
-replace_with_hash = function(tab, col) {
-  values = tab[[col]]
-  hashes = hashes(values)
-  uniq = !duplicated(hashes)
-  objs = set_names(values[uniq], hashes[uniq])
-  set(tab, j = col, value = hashes)
-  objs
-}
-
-#' Replace Hashes with their R6 Objects
-#'
-#' @description
-#' Given a table `tab` with column `col` of R6 hashes and a named list `objects` of R6 objects,
-#' replaces the hashes with the corresponding R6 object.
-#'
-#' This operation reverses the [replace_with_hash()] function.
-#'
-#' @param tab (`data.table()`).
-#' @param col (`character(1)`)\cr
-#'   Column of `tab`.
-#' @param objs (named `list()`)\cr
-#'   List as returned by [replace_with_hash()].
-#'
-#' @return (`data.table()`).
-#' Hashes are replaced by the corresponding R6 objects.
-#'
-#' @noRd
-replace_with_object = function(tab, col, objs) {
-  set(tab, j = col, value = objs[tab[[col]]])
-}
-
 reassemble_learner = function(learner, state) {
   Map(function(l, s) {
         l = l$clone(deep = TRUE)
@@ -135,4 +87,30 @@ reassemble_learner = function(learner, state) {
 
 get_private = function(x) {
   x$.__enclos_env__[["private"]]
+}
+
+#' Replace R6 Objects with their Hash
+#'
+#' @description
+#' Given a table `tab` with list column `col` of R6 objects, walks over values of `col`
+#' and replaces R6 objects with the string of their respective hash.
+#' The replaced objects are returned as a data table with columns for hash, id, and object.
+#'
+#' @param tab (`data.table()`).
+#' @param col (`character(1)`)\cr
+#'   Column of `tab`.
+#'
+#' @return (named `list()`).
+#' Table of distinct extracted R6 objects alongside their hash and id.
+#'
+#' @noRd
+extract_objs = function(tab, col) {
+  values = tab[[col]]
+  hashes = hashes(values)
+  idx = which(!duplicated(hashes))
+  uvalues = values[idx]
+  obj_tab = data.table(hashes[idx], ids(uvalues), uvalues = uvalues)
+  tab[, eval(col) := hashes]
+  setnames(obj_tab, new = c(paste0(col, "_hash"), paste0(col, "_id"), col))
+  setkeyv(obj_tab, paste0(col, "_hash"))[]
 }
