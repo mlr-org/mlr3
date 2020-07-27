@@ -2,7 +2,7 @@ context("convert_task")
 
 test_that("convert_task - Regr -> Regr", {
   task = mlr_tasks$get("boston_housing")
-  result = convert_task(task, new_target = "age", drop_original_target = TRUE)
+  result = convert_task(task, target = "age", drop_original_target = TRUE)
 
   expect_class(result, "TaskRegr")
   expect_task(result)
@@ -20,7 +20,7 @@ test_that("convert_task - Regr -> Regr", {
 
 test_that("convert_task - Regr -> Classif", {
   task = mlr_tasks$get("boston_housing")
-  result = convert_task(task, new_target = "chas", new_type = "classif", drop_original_target = TRUE)
+  result = convert_task(task, target = "chas", new_type = "classif", drop_original_target = TRUE)
 
   expect_class(result, "TaskClassif")
   expect_task(result)
@@ -38,7 +38,7 @@ test_that("convert_task - Regr -> Classif", {
 
 test_that("convert_task - Classif -> Regr", {
   task = mlr_tasks$get("iris")
-  result = convert_task(task, new_target = "Sepal.Width", new_type = "regr", drop_original_target = TRUE)
+  result = convert_task(task, target = "Sepal.Width", new_type = "regr", drop_original_target = TRUE)
 
   expect_class(result, "TaskRegr")
   expect_task(result)
@@ -59,8 +59,8 @@ test_that("convert_task - same target", {
   task$col_roles$feature = setdiff(task$col_roles$feature, "lat")
 
   results = list(
-    convert_task(task, new_target = "medv", new_type = "regr", drop_original_target = TRUE),
-    convert_task(task, new_target = "medv", new_type = "regr", drop_original_target = FALSE)
+    convert_task(task, target = "medv", new_type = "regr", drop_original_target = TRUE),
+    convert_task(task, target = "medv", new_type = "regr", drop_original_target = FALSE)
   )
 
   for (result in results) {
@@ -84,11 +84,11 @@ test_that("convert task - general checks", {
   itask = mlr_tasks$get("iris")
 
   # target does not exist
-  expect_error(convert_task(btask, new_target = "medv2"))
+  expect_error(convert_task(btask, target = "medv2"))
 
   # target class does not match
-  expect_error(convert_task(btask, new_target = "medv", new_type = "classif"))
-  expect_error(convert_task(itask, new_target = "Sepal.Length", new_type = "classif"))
+  expect_error(convert_task(btask, target = "medv", new_type = "classif"))
+  expect_error(convert_task(itask, target = "Sepal.Length", new_type = "classif"))
 })
 
 test_that("convert_task reconstructs task", {
@@ -117,20 +117,20 @@ test_that("extra args survive the roundtrip", {
   mytask = tsk("sonar")
   expect_equal(mytask$extra_args, list(positive = "M"))
 
-  mytask = convert_task(mytask, new_target = "V1", new_type = "regr")
+  mytask = convert_task(mytask, target = "V1", new_type = "regr")
   expect_equal(mytask$extra_args, list(positive = "M"))
 
-  mytask = convert_task(mytask, new_target = "Class", new_type = "classif")
+  mytask = convert_task(mytask, target = "Class", new_type = "classif")
   expect_equal(mytask$extra_args, list(positive = "M"))
   expect_equal(mytask$positive, "M")
 
   mytask$positive = mytask$negative
   expect_equal(mytask$extra_args, list(positive = "R"))
 
-  mytask = convert_task(mytask, new_target = "V1", new_type = "regr")
+  mytask = convert_task(mytask, target = "V1", new_type = "regr")
   expect_equal(mytask$extra_args, list(positive = "R"))
 
-  mytask = convert_task(mytask, new_target = "Class", new_type = "classif")
+  mytask = convert_task(mytask, target = "Class", new_type = "classif")
   expect_equal(mytask$extra_args, list(positive = "R"))
   expect_equal(mytask$positive, "R")
 })
