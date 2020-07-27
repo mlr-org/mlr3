@@ -46,13 +46,9 @@ TaskClassif = R6Class("TaskClassif",
     #'   Only for binary classification: Name of the positive class.
     #'   The levels of the target columns are reordered accordingly, so that the first element of `$class_names` is the
     #'   positive class, and the second element is the negative class.
-    #' @param ... (`any`)\cr
-    #'   Additional arguments, ignored for this task but stored in `extra_args`.
-    #'   Required for task conversion via [convert_task()].
-    initialize = function(id, backend, target, positive = NULL, ...) {
+    initialize = function(id, backend, target, positive = NULL) {
       assert_string(target)
-      super$initialize(id = id, task_type = "classif", backend = backend, target = target,
-        extra_args = list(...))
+      super$initialize(id = id, task_type = "classif", backend = backend, target = target)
 
       private$.update_class_property()
 

@@ -101,7 +101,7 @@ Stores the negative class for binary classification tasks, and \code{NA} for mul
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskClassif$new(id, backend, target, positive = NULL, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskClassif$new(id, backend, target, positive = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -121,10 +121,6 @@ Name of the target column.}
 Only for binary classification: Name of the positive class.
 The levels of the target columns are reordered accordingly, so that the first element of \verb{$class_names} is the
 positive class, and the second element is the negative class.}
-
-\item{\code{...}}{(\code{any})\cr
-Additional arguments, ignored for this task but stored in \code{extra_args}.
-Required for task conversion via \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
 }

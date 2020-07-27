@@ -16,11 +16,9 @@
 #'   Otherwise the original target is dropped.
 #' @param drop_levels (`logical(1)`)\cr
 #'   If `TRUE` (default), unused levels of the new target variable are dropped.
-#' @param \dots \cr
-#'  Further arguments passed to the constructor of the task.
 #'
 #' @return [Task] of requested type.
-convert_task = function(intask, target = NULL, new_type = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) {
+convert_task = function(intask, target = NULL, new_type = NULL, drop_original_target = FALSE, drop_levels = TRUE) {
   assert_task(intask)
   target = assert_subset(target, choices = intask$col_info$id) %??% intask$target_names
   new_type = assert_choice(new_type, choices = mlr_reflections$task_types$type, null.ok = TRUE) %??% intask$task_type
@@ -28,7 +26,9 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
 
   # get task_type from mlr_reflections and call constructor
   constructor = get(mlr_reflections$task_types[list(new_type), "task", on = "type"][[1L]])
-  newtask = invoke(constructor$new, id = intask$id, backend = intask$backend, target = target, .args = intask$extra_args)
+  common_args = intersect(names(intask$extra_args), names(formals(constructor$public_methods$initialize)))
+  newtask = invoke(constructor$new, id = intask$id, backend = intask$backend, target = target, .args = intask$extra_args[common_args])
+  newtask$extra_args = intask$extra_args
 
   # copy row_roles / col_roles / properties
   newtask$row_roles = intask$row_roles
@@ -64,7 +64,7 @@ as_task_classif = function(x, target = NULL, ...) {
 #' @rdname convert_task
 #' @export
 as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) {
-  convert_task(intask = x, target = target, new_type = "classif", drop_original_target = FALSE, drop_levels = TRUE, ...)
+  convert_task(intask = x, target = target, new_type = "classif", drop_original_target = FALSE, drop_levels = TRUE)
 }
 
 #' @rdname convert_task
@@ -74,7 +74,7 @@ as_task_classif.TaskRegr = function(x, target = NULL, drop_original_target = FAL
 #'   Level of the positive class. See [TaskClassif].
 #' @export
 as_task_classif.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, ...) {
-  TaskClassif$new(id = id, backend = x, target = target, positive = positive, ...)
+  TaskClassif$new(id = id, backend = x, target = target, positive = positive)
 }
 
 #' @rdname convert_task
@@ -88,11 +88,11 @@ as_task_regr = function(x, target = NULL, ...) {
 #' @export
 #' @rdname convert_task
 as_task_regr.TaskClassif = function(x, target = NULL, drop_original_target = FALSE, drop_levels = TRUE, ...) {
-  convert_task(intask = x, target = target, new_type = "regr", drop_original_target = FALSE, drop_levels = TRUE, ...)
+  convert_task(intask = x, target = target, new_type = "regr", drop_original_target = FALSE, drop_levels = TRUE)
 }
 
 #' @export
 #' @rdname convert_task
 as_task_regr.data.frame = function(x, target = NULL, id = deparse(substitute(x)), positive = NULL, ...) {
-  TaskRegr$new(id = id, backend = x, target = target, ...)
+  TaskRegr$new(id = id, backend = x, target = target)
 }

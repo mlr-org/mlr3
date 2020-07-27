@@ -15,8 +15,7 @@ convert_task(
   target = NULL,
   new_type = NULL,
   drop_original_target = FALSE,
-  drop_levels = TRUE,
-  ...
+  drop_levels = TRUE
 )
 
 as_task_classif(x, target = NULL, ...)
@@ -43,8 +42,7 @@ as_task_regr(x, target = NULL, ...)
   x,
   target = NULL,
   drop_original_target = FALSE,
-  drop_levels = TRUE,
-  ...
+  drop_levels = TRUE
 )
 
 \method{as_task_regr}{data.frame}(
@@ -73,9 +71,6 @@ Otherwise the original target is dropped.}
 
 \item{drop_levels}{(\code{logical(1)})\cr
 If \code{TRUE} (default), unused levels of the new target variable are dropped.}
-
-\item{\dots}{\cr
-Further arguments passed to the constructor of the task.}
 
 \item{x}{(\code{any})\cr
 Object to convert.}
