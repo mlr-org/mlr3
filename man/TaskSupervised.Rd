@@ -68,7 +68,7 @@ Other Task:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskSupervised$new(id, task_type, backend, target)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskSupervised$new(id, task_type, backend, target, extra_args = list())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -87,6 +87,10 @@ E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
 
 \item{\code{target}}{(\code{character(1)})\cr
 Name of the target column.}
+
+\item{\code{extra_args}}{(named \code{list()})\cr
+Named list of constructor arguments, required for converting task types
+via \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
 }

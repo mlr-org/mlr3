@@ -76,7 +76,7 @@ Other Task:
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskRegr$new(id, backend, target)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskRegr$new(id, backend, target, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -91,6 +91,10 @@ E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
 
 \item{\code{target}}{(\code{character(1)})\cr
 Name of the target column.}
+
+\item{\code{...}}{(\code{any})\cr
+Additional arguments, ignored for this task but stored in \code{extra_args}.
+Required for task conversion via \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
 }

@@ -105,6 +105,10 @@ See \link[=mlr_reflections]{mlr_reflections$task_feature_types} for a complete l
 \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 Defaults to \code{NA}, but can be set by child classes.}
+
+\item{\code{extra_args}}{(named \code{list()})\cr
+Additional arguments set during construction.
+Required for \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -259,7 +263,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 Note that this object is typically constructed via a derived classes, e.g. \link{TaskClassif} or \link{TaskRegr}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$new(id, task_type, backend)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Task$new(id, task_type, backend, extra_args = list())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -275,6 +279,10 @@ Must be an element of \link[=mlr_reflections]{mlr_reflections$task_types$type}.}
 \item{\code{backend}}{(\link{DataBackend})\cr
 Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
 E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
+
+\item{\code{extra_args}}{(named \code{list()})\cr
+Named list of constructor arguments, required for converting task types
+via \code{\link[=convert_task]{convert_task()}}.}
 }
 \if{html}{\out{</div>}}
 }
