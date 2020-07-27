@@ -7,7 +7,7 @@ train_wrapper = function(learner, task) {
     # TODO: deprecate this in the future
     model = learner$train_internal(task)
   } else {
-    model = learner$.__enclos_env__$private$.train(task)
+    model = get_private(learner)$.train(task)
   }
 
   if (is.null(model)) {
@@ -30,7 +30,7 @@ predict_wrapper = function(task, learner) {
     # TODO: deprecate this in the future
     result = learner$predict_internal(task)
   } else {
-    result = learner$.__enclos_env__$private$.predict(task)
+    result = get_private(learner)$.predict(task)
   }
 
   if (!inherits(result, "Prediction")) {

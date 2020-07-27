@@ -220,7 +220,7 @@ ResampleResult = R6Class("ResampleResult",
     #' List of trained learners, sorted by resampling iteration.
     learners = function(rhs) {
       assert_ro_binding(rhs)
-      reassemble_learner(self$learner, private$.data$state)
+      reassemble_learner(list(self$learner), private$.data$state)
     },
 
     #' @field warnings ([data.table::data.table()])\cr
@@ -279,8 +279,25 @@ as_resample_result = function(x, ...) {
   UseMethod("as_resample_result")
 }
 
+#' @rdname as_resample_result
+#' @export
+as_resample_result.data.table = function(x, ...) {
+  assert_names(x, must.include = mlr_reflections$rr_names)
+  ResampleResult$new(
+    task = x$task[[1L]],
+    learner = x$learner[[1L]],
+    states = 1)
+  # TODO: finish this one
+}
+
+
 #' @rdname as_benchmark_result
 #' @export
 as_benchmark_result.ResampleResult = function(x, ...) {
-  BenchmarkResult$new(cbind(x$data, data.table(uhash = x$uhash)))
+  # TODO: optimize this one, we don't need to clone
+  tab = copy(x$data)
+  tab[, "state" := map(learner, "state")]
+  tab[, "learner" := list(x$learner)]
+  tab[, "uhash" := x$uhash]
+  BenchmarkResult$new(tab)
 }

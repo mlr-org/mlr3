@@ -230,7 +230,7 @@ measure_score = function(measure, prediction, task = NULL, learner = NULL, train
     # TODO: deprecate this in the future
     measure$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
   } else {
-    measure$.__enclos_env__$private$.score(prediction = prediction, task = task, learner = learner, train_set = train_set)
+    get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set)
   }
 }
 

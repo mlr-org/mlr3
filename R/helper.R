@@ -127,8 +127,12 @@ replace_with_object = function(tab, col, objs) {
 
 reassemble_learner = function(learner, state) {
   Map(function(l, s) {
-        l$clone()
+        l = l$clone(deep = TRUE)
         l$state = s
         l
   }, l = learner, s = state)
+}
+
+get_private = function(x) {
+  x$.__enclos_env__[["private"]]
 }

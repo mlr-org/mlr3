@@ -148,8 +148,14 @@ BenchmarkResult = R6Class("BenchmarkResult",
         if (nrow(self$data) && self$task_type != bmr$task_type) {
           stopf("BenchmarkResult is of task type '%s', but must be '%s'", bmr$task_type, self$task_type)
         }
-        self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
+        pbmr = private(bmr)
+
+        private$.data = rbindlist(list(private$.data, pbmr$.data), fill = TRUE, use.names = TRUE)
         self$rr_data = rbindlist(list(self$rr_data, bmr$rr_data), fill = TRUE, use.names = TRUE)
+
+        private$.tasks = insert_named(private$.tasks, pbmr$.tasks)
+        private$.learners = insert_named(private$.learners, pbmr$.learners)
+        private$.resamplings = insert_named(private$.resamplings, pbmr$.resamplings)
       }
 
       invisible(self)
@@ -177,6 +183,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_flag(ids)
       tab = copy(self$data)
 
+      # FIXME: we can optimize this call, we don't have to create the learners here
       for (m in measures) {
         set(tab, j = m$id, value = measure_score_data(m, self$data))
       }
@@ -220,18 +227,31 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   iterations with errors as extra integer column `"errors"`.
     #'
     #' @return [data.table::data.table()].
-    aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE,
-      params = FALSE, conditions = FALSE) {
+    aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE) {
+      create_rr = function(slice, uhash) {
+        if (nrow(slice) == 0L)
+          return(NULL)
 
-      res = self$data[, list(
+        ResampleResult$new(
+          task = private$.tasks[[slice$task[1L]]],
+          learner = private$.learners[[slice$learner[1L]]],
+          resampling = private$.resamplings[[slice$resampling[1L]]],
+          states = slice$state,
+          predictions = slice$prediction,
+          iterations = slice$iteration,
+          uhash = uhash
+        )
+      }
+
+      res = private$.data[, list(
         nr = .GRP,
         iters = .N,
-        resample_result = list(if (.N > 0L) ResampleResult$new(copy(.SD), uhash[1L]) else NULL)
+        resample_result = list(create_rr(.SD, uhash[1L]))
       ), by = uhash]
 
       if (assert_flag(ids)) {
         res[, "task_id" := map_chr(resample_result, function(x) x$task$id)]
-        res[, "learner_id" := map_chr(resample_result, function(x) x$learners[[1L]]$id)]
+        res[, "learner_id" := map_chr(resample_result, function(x) x$learner$id)]
         res[, "resampling_id" := map_chr(resample_result, function(x) x$resampling$id)]
       }
 
@@ -239,7 +259,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       setcolorder(res, setdiff(names(res), "iters"))
 
       if (assert_flag(params)) {
-        res[, "params" := list(map(resample_result, function(x) x$learners[[1L]]$param_set$values))]
+        res[, "params" := list(map(resample_result, function(x) x$learner$param_set$values))]
       }
 
       if (assert_flag(conditions)) {

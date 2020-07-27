@@ -2,9 +2,12 @@
 % Please edit documentation in R/ResampleResult.R
 \name{as_resample_result}
 \alias{as_resample_result}
+\alias{as_resample_result.data.table}
 \title{Convert to ResampleResult}
 \usage{
 as_resample_result(x, ...)
+
+\method{as_resample_result}{data.table}(x, ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr
