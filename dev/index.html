@@ -114,12 +114,6 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
-<hr>
-<div id="output-github_document" class="section level2">
-<h2 class="hasAnchor">
-<a href="#output-github_document" class="anchor"></a>output: github_document</h2>
-</div>
 <div id="mlr3-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#mlr3-" class="anchor"></a>mlr3 <img src="reference/figures/logo.png" align="right" width="120">
@@ -191,11 +185,11 @@
 <span class="co"># create learning task</span>
 <span class="no">task_iris</span> <span class="kw">&lt;-</span> <span class="no">TaskClassif</span>$<span class="fu">new</span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"iris"</span>, <span class="kw">backend</span> <span class="kw">=</span> <span class="no">iris</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="st">"Species"</span>)
 <span class="no">task_iris</span></pre></div>
-<pre><code>## &lt;TaskClassif:iris&gt; (150 x 5)
-## * Target: Species
-## * Properties: multiclass
-## * Features (4):
-##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">## &lt;TaskClassif:iris&gt; (150 x 5)</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">## * Target: Species</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">## * Properties: multiclass</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">## * Features (4):</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="co"># load learner and set hyperparameter</span>
 <span class="no">learner</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">lrn</a></span>(<span class="st">"classif.rpart"</span>, <span class="kw">cp</span> <span class="kw">=</span> <span class="fl">.01</span>)</pre></div>
 </div>
@@ -214,15 +208,15 @@
 
 <span class="co"># calculate performance</span>
 <span class="no">prediction</span>$<span class="no">confusion</span></pre></div>
-<pre><code>##             truth
-## response     setosa versicolor virginica
-##   setosa         11          0         0
-##   versicolor      0         12         1
-##   virginica       0          0         6</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">##             truth</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">## response     setosa versicolor virginica</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">##   setosa         11          0         0</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">##   versicolor      0         12         1</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">##   virginica       0          0         6</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="r"><span class="no">measure</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">msr</a></span>(<span class="st">"classif.acc"</span>)
 <span class="no">prediction</span>$<span class="fu">score</span>(<span class="no">measure</span>)</pre></div>
-<pre><code>## classif.acc 
-##   0.9666667</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">## classif.acc </span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">##   0.9666667</span></span></code></pre></div>
 </div>
 <div id="resample" class="section level3">
 <h3 class="hasAnchor">
@@ -231,17 +225,17 @@
 <span class="no">resampling</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/mlr_sugar.html">rsmp</a></span>(<span class="st">"cv"</span>, <span class="kw">folds</span> <span class="kw">=</span> <span class="fl">3L</span>)
 <span class="no">rr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/resample.html">resample</a></span>(<span class="no">task_iris</span>, <span class="no">learner</span>, <span class="no">resampling</span>)
 <span class="no">rr</span>$<span class="fu">score</span>(<span class="no">measure</span>)</pre></div>
-<pre><code>##             task task_id               learner    learner_id     resampling
-## 1: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;
-## 2: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;
-## 3: &lt;TaskClassif&gt;    iris &lt;LearnerClassifRpart&gt; classif.rpart &lt;ResamplingCV&gt;
-##    resampling_id iteration prediction classif.acc
-## 1:            cv         1     &lt;list&gt;        0.92
-## 2:            cv         2     &lt;list&gt;        0.92
-## 3:            cv         3     &lt;list&gt;        0.94</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">##                 task task_id                   learner    learner_id</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co">## 1: &lt;TaskClassif[44]&gt;    iris &lt;LearnerClassifRpart[32]&gt; classif.rpart</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co">## 2: &lt;TaskClassif[44]&gt;    iris &lt;LearnerClassifRpart[32]&gt; classif.rpart</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co">## 3: &lt;TaskClassif[44]&gt;    iris &lt;LearnerClassifRpart[32]&gt; classif.rpart</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">##            resampling resampling_id iteration prediction classif.acc</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co">## 1: &lt;ResamplingCV[19]&gt;            cv         1  &lt;list[1]&gt;        0.92</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co">## 2: &lt;ResamplingCV[19]&gt;            cv         2  &lt;list[1]&gt;        0.92</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="co">## 3: &lt;ResamplingCV[19]&gt;            cv         3  &lt;list[1]&gt;        0.94</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="r"><span class="no">rr</span>$<span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span>(<span class="no">measure</span>)</pre></div>
-<pre><code>## classif.acc 
-##   0.9266667</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">## classif.acc </span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co">##   0.9266667</span></span></code></pre></div>
 </div>
 </div>
 <div id="why-a-rewrite" class="section level2">
@@ -313,18 +307,17 @@
 <h2 class="hasAnchor">
 <a href="#citing-mlr3" class="anchor"></a>Citing mlr3</h2>
 <p>If you use mlr3, please cite our <a href="https://doi.org/10.21105/joss.01903">JOSS article</a>:</p>
-<pre><code>@Article{mlr3,
-  title = {{mlr3}: A modern object-oriented machine learning framework in {R}},
-  author = {Michel Lang and Martin Binder and Jakob Richter and Patrick Schratz and Florian Pfisterer and Stefan Coors and Quay Au and Giuseppe Casalicchio and Lars Kotthoff and Bernd Bischl},
-  journal = {Journal of Open Source Software},
-  year = {2019},
-  month = {dec},
-  doi = {10.21105/joss.01903},
-  url = {https://joss.theoj.org/papers/10.21105/joss.01903},
-}</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="op">@</span>Article{mlr3,</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  title =<span class="st"> </span>{{mlr3}<span class="op">:</span><span class="st"> </span>A modern object<span class="op">-</span>oriented machine learning framework <span class="cf">in</span> {R}},</span>
+<span id="cb14-3"><a href="#cb14-3"></a>  author =<span class="st"> </span>{Michel Lang and Martin Binder and Jakob Richter and Patrick Schratz and Florian Pfisterer and Stefan Coors and Quay Au and Giuseppe Casalicchio and Lars Kotthoff and Bernd Bischl},</span>
+<span id="cb14-4"><a href="#cb14-4"></a>  journal =<span class="st"> </span>{Journal of Open Source Software},</span>
+<span id="cb14-5"><a href="#cb14-5"></a>  year =<span class="st"> </span>{<span class="dv">2019</span>},</span>
+<span id="cb14-6"><a href="#cb14-6"></a>  month =<span class="st"> </span>{dec},</span>
+<span id="cb14-7"><a href="#cb14-7"></a>  doi =<span class="st"> </span>{<span class="fl">10.21105</span><span class="op">/</span>joss<span class="fl">.01903</span>},</span>
+<span id="cb14-8"><a href="#cb14-8"></a>  url =<span class="st"> </span>{https<span class="op">:</span><span class="er">//</span>joss.theoj.org<span class="op">/</span>papers<span class="op">/</span><span class="fl">10.21105</span><span class="op">/</span>joss<span class="fl">.01903</span>},</span>
+<span id="cb14-9"><a href="#cb14-9"></a>}</span></code></pre></div>
 </div>
 </div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
