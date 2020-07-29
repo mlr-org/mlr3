@@ -1,6 +1,7 @@
 # mlr3 0.5.0
 
 * Added `ResamplingLOO` for leave-one-out resampling.
+* Fixed plot method of `TaskGeneratorMoons`.
 
 # mlr3 0.4.0
 
