@@ -108,7 +108,7 @@ local({
 
   mlr_reflections$learner_predict_types = list(
     classif = list(response = "response", prob = c("response", "prob")),
-    regr = list(response = "response", se = c("response", "se", "distr"))
+    regr = list(response = "response", se = c("response", "se"), distr = c("response", "se", "distr"))
   )
 
   ### Prediction
