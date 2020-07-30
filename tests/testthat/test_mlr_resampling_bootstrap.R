@@ -39,5 +39,6 @@ test_that("#518", {
     rb$instantiate(task)
   })
 
-  expect_integer(rb$train_set(2), min.len = 3001)
+  min.len = if (getRversion() >= "3.6.0") 3001L else NULL
+  expect_integer(rb$train_set(2), min.len = min.len)
 })
