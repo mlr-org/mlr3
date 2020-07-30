@@ -36,16 +36,24 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' @param se (`numeric()`)\cr
     #'   Numeric vector of predicted standard errors.
     #'   One element for each observation in the test set.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL) {
+    #'
+    #' @param distr ([distr6::VectorDistribution])\cr
+    #'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
+    #'   Each individual distribution in the vector represents the random variable 'survival time'
+    #'   for an individual observation.
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL) {
       row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
 
       self$task_type = "regr"
-      self$predict_types = c("response", "se")[c(!is.null(response), !is.null(se))]
-      self$data$tab = data.table(
+      self$predict_types = c("response", "se", "distr")[
+        c(!is.null(response), !is.null(se), !is.null(distr))
+      ]
+
+      self$data = list(tab = data.table(
         row_id = row_ids,
         truth = assert_numeric(truth, len = n, null.ok = TRUE)
-      )
+      ))
 
       if (!is.null(response)) {
         self$data$tab$response = assert_numeric(response, len = n, any.missing = FALSE)
@@ -53,6 +61,11 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 
       if (!is.null(se)) {
         self$data$tab$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE)
+      }
+
+      if (!is.null(distr)) {
+        require_namespaces("distr6")
+        self$data$distr = assert_class(distr, "VectorDistribution")
       }
 
       self$man = "mlr3::PredictionRegr"
@@ -64,14 +77,21 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Access the stored predicted response.
     response = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab$response %??% rep(NA_real_, length(self$data$row_ids))
+      self$data$tab$response %??% rep(NA_real_, nrow(self$data$tab))
     },
 
     #' @field se (`numeric()`)\cr
     #' Access the stored standard error.
     se = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab$se %??% rep(NA_real_, length(self$data$row_ids))
+      self$data$tab$se %??% rep(NA_real_, nrow(self$data$tab))
+    },
+
+    #' @field distr ([distr6::VectorDistribution])\cr
+    #' Access the stored vector distribution.
+    #' Requires package \CRANpkg{distr6}.
+    distr = function() {
+      self$data$distr
     },
 
     #' @field missing (`integer()`)\cr
@@ -79,9 +99,11 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     missing = function(rhs) {
       assert_ro_binding(rhs)
       miss = logical(nrow(self$data$tab))
+
       if ("response" %in% self$predict_types) {
         miss = is.na(self$response)
       }
+
       if ("se" %in% self$predict_types) {
         miss = miss | is.na(self$data$tab$se)
       }
@@ -93,7 +115,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 
 #' @export
 as.data.table.PredictionRegr = function(x, ...) {
-  copy(x$data$tab)
+  copy(x$data)
 }
 
 #' @export
@@ -110,11 +132,17 @@ c.PredictionRegr = function(..., keep_duplicates = TRUE) {
     stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
   }
 
-  tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
+  tab = map_dtr(dots, function(p) p$data, .fill = FALSE)
+
+  if (any(map_lgl(predict_types, `%in%`, x = "distr"))) {
+    distr = do.call(c, map(dots, "distr"))
+  } else {
+    distr = NULL
+  }
 
   if (!keep_duplicates) {
     tab = unique(tab, by = "row_id", fromLast = TRUE)
   }
 
-  PredictionRegr$new(row_ids = tab$row_id, truth = tab$truth, response = tab$response, se = tab$se)
+  PredictionRegr$new(row_ids = tab$row_id, truth = tab$truth, response = tab$response, se = tab$se, distr = distr)
 }

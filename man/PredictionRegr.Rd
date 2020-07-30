@@ -23,6 +23,15 @@ Other Prediction:
 \section{Super class}{
 \code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionRegr}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{distr}}{(\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
+Access the stored vector distribution.
+Requires package \CRANpkg{distr6}.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -31,6 +40,10 @@ Access the stored predicted response.}
 
 \item{\code{se}}{(\code{numeric()})\cr
 Access the stored standard error.}
+
+\item{\code{distr}}{(\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
+Access the stored vector distribution.
+Requires package \CRANpkg{distr6}.}
 
 \item{\code{missing}}{(\code{integer()})\cr
 Returns \code{row_ids} for which the predictions are missing or incomplete.}
@@ -64,7 +77,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   row_ids = task$row_ids,
   truth = task$truth(),
   response = NULL,
-  se = NULL
+  se = NULL,
+  distr = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -87,6 +101,11 @@ One element for each observation in the test set.}
 \item{\code{se}}{(\code{numeric()})\cr
 Numeric vector of predicted standard errors.
 One element for each observation in the test set.}
+
+\item{\code{distr}}{(\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
+\link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
+Each individual distribution in the vector represents the random variable 'survival time'
+for an individual observation.}
 }
 \if{html}{\out{</div>}}
 }
