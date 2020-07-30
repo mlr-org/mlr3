@@ -51,3 +51,23 @@ test_that("c drops se (#250)", {
   expect_true(allMissing(pred$se))
   expect_false("se" %in% names(as.data.table(pred)))
 })
+
+test_that("distr", {
+  skip_if_not_installed("distr6")
+
+  distr = distr6::VectorDistribution$new(
+    distribution = "Binomial",
+    params = list(
+      list(prob = 0.1, size = 2),
+      list(prob = 0.6, size = 4),
+      list(prob = 0.2, size = 6)
+    )
+  )
+
+  task = tsk("mtcars")
+  p = PredictionRegr$new(task, distr = distr)
+  expect_prediction(p)
+  expect_prediction(c(p, p))
+  expect_output(print(p))
+  expect_integer(p$missing, len = 0)
+})
