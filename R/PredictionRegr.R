@@ -64,7 +64,6 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       }
 
       if (!is.null(distr)) {
-        require_namespaces("distr6")
         self$data$distr = assert_class(distr, "VectorDistribution")
       }
 
@@ -91,6 +90,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Access the stored vector distribution.
     #' Requires package \CRANpkg{distr6}.
     distr = function() {
+      require_namespaces("distr6")
       self$data$distr
     },
 
@@ -115,7 +115,12 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 
 #' @export
 as.data.table.PredictionRegr = function(x, ...) {
-  copy(x$data)
+  tab = copy(x$data$tab)
+  if (!is.null(x$distr)) {
+    require_namespaces("distr6")
+    tab$distr = list(x$distr)
+  }
+  tab
 }
 
 #' @export
@@ -132,9 +137,10 @@ c.PredictionRegr = function(..., keep_duplicates = TRUE) {
     stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
   }
 
-  tab = map_dtr(dots, function(p) p$data, .fill = FALSE)
+  tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
 
   if (any(map_lgl(predict_types, `%in%`, x = "distr"))) {
+    require_namespaces("distr6")
     distr = do.call(c, map(dots, "distr"))
   } else {
     distr = NULL
