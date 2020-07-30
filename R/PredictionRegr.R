@@ -65,6 +65,14 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 
       if (!is.null(distr)) {
         self$data$distr = assert_class(distr, "VectorDistribution")
+
+        if (is.null(response)) {
+          self$data$tab$response = unname(distr$mean())
+        }
+
+        if (is.null(se)) {
+          self$data$tab$se = sqrt(unname(distr$variance()))
+        }
       }
 
       self$man = "mlr3::PredictionRegr"
