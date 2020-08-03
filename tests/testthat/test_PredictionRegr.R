@@ -51,3 +51,28 @@ test_that("c drops se (#250)", {
   expect_true(allMissing(pred$se))
   expect_false("se" %in% names(as.data.table(pred)))
 })
+
+test_that("distr", {
+  skip_if_not_installed("distr6")
+
+  task = tsk("mtcars")
+  distr = distr6::VectorDistribution$new(
+    distribution = "Binomial",
+    params = replicate(task$nrow, list(prob = runif(1), size = 10), FALSE)
+  )
+
+  p = PredictionRegr$new(task, distr = distr)
+  expect_output(print(p))
+  expect_set_equal(p$predict_types, c("response", "se", "distr"))
+  expect_numeric(p$response, len = task$nrow, any.missing = FALSE)
+  expect_numeric(p$se, len = task$nrow, any.missing = FALSE, lower = 0)
+  expect_integer(p$missing, len = 0)
+  expect_prediction(p)
+
+  expect_prediction(c(p, p))
+  expect_output(print(p))
+  expect_set_equal(p$predict_types, c("response", "se", "distr"))
+  expect_numeric(p$response, len = task$nrow, any.missing = FALSE)
+  expect_numeric(p$se, len = task$nrow, any.missing = FALSE, lower = 0)
+  expect_integer(p$missing, len = 0)
+})

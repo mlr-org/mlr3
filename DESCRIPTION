@@ -71,6 +71,7 @@ Suggests:
     bibtex,
     callr,
     datasets,
+    distr6,
     evaluate,
     future,
     future.callr,
