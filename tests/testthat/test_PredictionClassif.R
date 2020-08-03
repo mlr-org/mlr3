@@ -14,6 +14,9 @@ test_that("Internally constructed Prediction", {
   p = lrn$train(task)$predict(task)
   expect_prediction(p)
   expect_prediction_classif(p, task = task)
+
+  p = PredictionClassif$new(task = task, prob = p$prob)
+  expect_set_equal(p$predict_types, c("response", "prob"))
 })
 
 test_that("setting threshold binaryclass", {

@@ -5,6 +5,7 @@
 #' @description
 #' This object wraps the predictions returned by a learner of class [LearnerRegr], i.e.
 #' the predicted response and standard error.
+#' Additionally, probability distributions implemented in \CRANpkg{distr6} are supported.
 #'
 #' @family Prediction
 #' @export
@@ -44,36 +45,33 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL) {
       row_ids = assert_row_ids(row_ids)
       n = length(row_ids)
+      self$data = named_list(c("tab", "distr"))
 
-      self$task_type = "regr"
-      self$predict_types = c("response", "se", "distr")[
-        c(!is.null(response), !is.null(se), !is.null(distr))
-      ]
-
-      self$data = list(tab = data.table(
-        row_id = row_ids,
-        truth = assert_numeric(truth, len = n, null.ok = TRUE)
-      ))
-
-      if (!is.null(response)) {
-        self$data$tab$response = assert_numeric(response, len = n, any.missing = FALSE)
-      }
-
-      if (!is.null(se)) {
-        self$data$tab$se = assert_numeric(se, len = n, lower = 0, any.missing = FALSE)
-      }
+      assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
+      assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
 
       if (!is.null(distr)) {
         self$data$distr = assert_class(distr, "VectorDistribution")
 
         if (is.null(response)) {
-          self$data$tab$response = unname(distr$mean())
+          response = unname(distr$mean())
         }
 
         if (is.null(se)) {
-          self$data$tab$se = sqrt(unname(distr$variance()))
+          se = unname(distr$stdev())
         }
       }
+
+      self$task_type = "regr"
+      self$predict_types = c("response", "se", "distr")[
+        c(!is.null(response), !is.null(se), !is.null(distr))
+      ]
+      self$data$tab = data.table(
+        row_id = row_ids,
+        truth = assert_numeric(truth, len = n, null.ok = TRUE),
+        response = response,
+        se = se
+      )
 
       self$man = "mlr3::PredictionRegr"
     }

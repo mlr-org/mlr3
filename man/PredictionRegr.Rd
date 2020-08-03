@@ -6,6 +6,7 @@
 \description{
 This object wraps the predictions returned by a learner of class \link{LearnerRegr}, i.e.
 the predicted response and standard error.
+Additionally, probability distributions implemented in \CRANpkg{distr6} are supported.
 }
 \examples{
 task = tsk("boston_housing")
@@ -22,15 +23,6 @@ Other Prediction:
 \concept{Prediction}
 \section{Super class}{
 \code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionRegr}
-}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{distr}}{(\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
-Access the stored vector distribution.
-Requires package \CRANpkg{distr6}.}
-}
-\if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
