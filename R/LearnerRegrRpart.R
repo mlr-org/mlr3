@@ -3,9 +3,10 @@
 #' @name mlr_learners_regr.rpart
 #' @include LearnerRegr.R
 #'
-#' @description
 #' A [LearnerRegr] for a regression tree implemented in [rpart::rpart()] in package \CRANpkg{rpart}.
+#' @description
 #' Parameter `xval` is set to 0 in order to save some computation time.
+#' Parameter `model` has been renamed to `keep_model`.
 #'
 #' @templateVar id regr.rpart
 #' @template section_dictionary_learner
@@ -35,7 +36,8 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
         ParamInt$new(id = "maxdepth", default = 30L, lower = 1L, upper = 30L, tags = "train"),
         ParamInt$new(id = "usesurrogate", default = 2L, lower = 0L, upper = 2L, tags = "train"),
         ParamInt$new(id = "surrogatestyle", default = 0L, lower = 0L, upper = 1L, tags = "train"),
-        ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train")
+        ParamInt$new(id = "xval", default = 10L, lower = 0L, tags = "train"),
+        ParamLgl$new(id = "keep_model", default = FALSE, tags = "train")
       ))
       ps$values = list(xval = 0L)
 
@@ -75,6 +77,7 @@ LearnerRegrRpart = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
+      names(pv) = replace(names(pv), names(pv) == "keep_model", "model")
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
