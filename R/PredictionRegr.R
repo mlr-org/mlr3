@@ -122,7 +122,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 #' @export
 as.data.table.PredictionRegr = function(x, ...) {
   tab = copy(x$data$tab)
-  if (!is.null(x$distr)) {
+  if ("distr" %in% x$predict_types) {
     require_namespaces("distr6")
     tab$distr = list(x$distr)
   }
