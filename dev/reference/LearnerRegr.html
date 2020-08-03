@@ -60,6 +60,7 @@ Creates Predictions of class PredictionRegr.
 Possible values for predict_types are:
 &quot;response&quot;: Predicts a numeric response for each observation in the test set.
 &quot;se&quot;: Predicts the standard error for each value of response for each observation in the test set.
+&quot;distr&quot;: Probability distribution as distr6::VectorDistribution object (requires package distr6).
 
 
 
@@ -176,6 +177,7 @@ Essential regression learners can be found in this dictionary after loading mlr3
 <li><p>Possible values for <code>predict_types</code> are:</p><ul>
 <li><p><code>"response"</code>: Predicts a numeric response for each observation in the test set.</p></li>
 <li><p><code>"se"</code>: Predicts the standard error for each value of response for each observation in the test set.</p></li>
+<li><p><code>"distr"</code>: Probability distribution as <a href='https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html'>distr6::VectorDistribution</a> object (requires package <a href='https://CRAN.R-project.org/package=distr6'><span class="pkg">distr6</span></a>).</p></li>
 </ul></li>
 </ul>
 

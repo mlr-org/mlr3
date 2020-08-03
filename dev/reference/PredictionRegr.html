@@ -55,7 +55,8 @@
 
 <meta property="og:title" content="Prediction Object for Regression — PredictionRegr" />
 <meta property="og:description" content="This object wraps the predictions returned by a learner of class LearnerRegr, i.e.
-the predicted response and standard error." />
+the predicted response and standard error.
+Additionally, probability distributions implemented in distr6 are supported." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -162,7 +163,8 @@ the predicted response and standard error." />
 
     <div class="ref-description">
     <p>This object wraps the predictions returned by a learner of class <a href='LearnerRegr.html'>LearnerRegr</a>, i.e.
-the predicted response and standard error.</p>
+the predicted response and standard error.
+Additionally, probability distributions implemented in <a href='https://CRAN.R-project.org/package=distr6'><span class="pkg">distr6</span></a> are supported.</p>
     </div>
 
 
@@ -183,6 +185,10 @@ Access the stored predicted response.</p></dd>
 
 <dt><code>se</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>)<br />
 Access the stored standard error.</p></dd>
+
+<dt><code>distr</code></dt><dd><p>(<a href='https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html'>distr6::VectorDistribution</a>)<br />
+Access the stored vector distribution.
+Requires package <a href='https://CRAN.R-project.org/package=distr6'><span class="pkg">distr6</span></a>.</p></dd>
 
 <dt><code>missing</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
 Returns <code>row_ids</code> for which the predictions are missing or incomplete.</p></dd>
@@ -213,7 +219,8 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
   <span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>row_ids</span>,
   <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='fu'>truth</span>(),
   <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>distr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre><p></div></p>
 
 <h3>Arguments</h3>
@@ -234,6 +241,11 @@ One element for each observation in the test set.</p></dd>
 <dt><code>se</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>)<br />
 Numeric vector of predicted standard errors.
 One element for each observation in the test set.</p></dd>
+
+<dt><code>distr</code></dt><dd><p>(<a href='https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html'>distr6::VectorDistribution</a>)<br />
+<a href='https://alan-turing-institute.github.io/distr6/reference/VectorDistribution.html'>VectorDistribution</a> from <a href='https://CRAN.R-project.org/package=distr6'><span class="pkg">distr6</span></a>.
+Each individual distribution in the vector represents the random variable 'survival time'
+for an individual observation.</p></dd>
 
 </dl><p></div></p>
 
