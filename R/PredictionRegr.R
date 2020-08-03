@@ -96,8 +96,10 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Access the stored vector distribution.
     #' Requires package \CRANpkg{distr6}.
     distr = function() {
-      require_namespaces("distr6")
-      self$data$distr
+      if ("distr" %in% self$predict_types) {
+        require_namespaces("distr6")
+      }
+      return(self$data$distr)
     },
 
     #' @field missing (`integer()`)\cr
