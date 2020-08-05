@@ -1,5 +1,6 @@
 # mlr3 0.5.0
 
+* Added classification task `breast_cancer`
 * Added `ResamplingLOO` for leave-one-out resampling.
 * Fixed `ResamplingBootstrap` in combination with grouping (#514).
 * Fixed plot method of `TaskGeneratorMoons`.
