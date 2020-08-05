@@ -132,6 +132,7 @@ Collate:
     'TaskSupervised.R'
     'TaskClassif.R'
     'mlr_tasks.R'
+    'TaskClassif_breast_cancer.R'
     'TaskClassif_german_credit.R'
     'TaskClassif_iris.R'
     'TaskClassif_pima.R'
