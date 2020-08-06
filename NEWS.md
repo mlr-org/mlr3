@@ -2,6 +2,7 @@
 
 * Added classification task `breast_cancer`
 * Added `ResamplingLOO` for leave-one-out resampling.
+* Regression now supports predict type `"distr"` using the `distr6` package.
 * Fixed `ResamplingBootstrap` in combination with grouping (#514).
 * Fixed plot method of `TaskGeneratorMoons`.
 * Added hyperparameter `keep_model` to learners `"classif.rpart"` and

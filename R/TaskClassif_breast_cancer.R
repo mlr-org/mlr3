@@ -28,7 +28,7 @@ NULL
 load_task_breast_cancer = function(id = "breast_cancer") {
   tab = load_dataset("BreastCancer", "mlbench")
   names(tab) = tolower(chartr(".", "_", colnames(tab)))
-  b = as_data_backend(remove_named(tab[complete.cases(tab), ], "id"))
+  b = as_data_backend(remove_named(tab[stats::complete.cases(tab), ], "id"))
 
   task = TaskClassif$new(id, b, target = "class", positive = "malignant")
   b$hash = task$man = "mlr3::mlr_tasks_breast_cancer"
