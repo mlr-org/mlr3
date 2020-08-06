@@ -54,7 +54,7 @@
 
 
 <meta property="og:title" content="Moons Classification Task Generator — mlr_task_generators_moons" />
-<meta property="og:description" content="A TaskGenerator creating two two interleaving half circles (&quot;moons&quot;) as
+<meta property="og:description" content="A TaskGenerator creating two interleaving half circles (&quot;moons&quot;) as
 binary classification problem." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
@@ -90,7 +90,7 @@ binary classification problem." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.4.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.5.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -161,7 +161,7 @@ binary classification problem." />
     </div>
 
     <div class="ref-description">
-    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> creating two two interleaving half circles ("moons") as
+    <p>A <a href='TaskGenerator.html'>TaskGenerator</a> creating two interleaving half circles ("moons") as
 binary classification problem.</p>
     </div>
 
@@ -247,12 +247,12 @@ Additional arguments passed to <code><a href='https://rdrr.io/r/base/plot.html'>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>generator</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"moons"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>generator</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)</div><div class='img'><img src='mlr_task_generators_moons-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>generator</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='img'><img src='mlr_task_generators_moons-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>generator</span>$<span class='fu'>generate</span>(<span class='fl'>200</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>())</div><div class='output co'>#&gt; Classes ‘data.table’ and 'data.frame':	200 obs. of  3 variables:
 #&gt;  $ y : Factor w/ 2 levels "A","B": 1 1 1 1 1 1 1 1 1 1 ...
-#&gt;  $ x1: num  -7.45 -4.68 -4.77 0.43 -5.54 ...
-#&gt;  $ x2: num  -1.22 6.32 5.8 5.81 5.09 ...
+#&gt;  $ x1: num  -2.22 -8.71 -5.97 -7.31 0.88 ...
+#&gt;  $ x2: num  7.381 4.309 5.342 -0.266 6.433 ...
 #&gt;  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

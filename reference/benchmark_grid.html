@@ -92,7 +92,7 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.4.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.5.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -196,15 +196,24 @@ The only exception to this rule applies if all tasks have exactly the same numbe
     <pre class="examples"><div class='input'><span class='no'>tasks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>), <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"sonar"</span>))
 <span class='no'>learners</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>))
 <span class='no'>resamplings</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>), <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>))
-<span class='fu'>benchmark_grid</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>)</div><div class='output co'>#&gt;             task                     learner              resampling
-#&gt; 1: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt;          &lt;ResamplingCV&gt;
-#&gt; 2: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingSubsampling&gt;
-#&gt; 3: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt;          &lt;ResamplingCV&gt;
-#&gt; 4: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingSubsampling&gt;
-#&gt; 5: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt;          &lt;ResamplingCV&gt;
-#&gt; 6: &lt;TaskClassif&gt; &lt;LearnerClassifFeatureless&gt; &lt;ResamplingSubsampling&gt;
-#&gt; 7: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt;          &lt;ResamplingCV&gt;
-#&gt; 8: &lt;TaskClassif&gt;       &lt;LearnerClassifRpart&gt; &lt;ResamplingSubsampling&gt;</div></pre>
+<span class='fu'>benchmark_grid</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>)</div><div class='output co'>#&gt;                 task                         learner
+#&gt; 1: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 2: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 3: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt;
+#&gt; 4: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt;
+#&gt; 5: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 6: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 7: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt;
+#&gt; 8: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt;
+#&gt;                     resampling
+#&gt; 1:          &lt;ResamplingCV[19]&gt;
+#&gt; 2: &lt;ResamplingSubsampling[19]&gt;
+#&gt; 3:          &lt;ResamplingCV[19]&gt;
+#&gt; 4: &lt;ResamplingSubsampling[19]&gt;
+#&gt; 5:          &lt;ResamplingCV[19]&gt;
+#&gt; 6: &lt;ResamplingSubsampling[19]&gt;
+#&gt; 7:          &lt;ResamplingCV[19]&gt;
+#&gt; 8: &lt;ResamplingSubsampling[19]&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
