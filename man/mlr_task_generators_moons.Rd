@@ -5,7 +5,7 @@
 \alias{TaskGeneratorMoons}
 \title{Moons Classification Task Generator}
 \description{
-A \link{TaskGenerator} creating two two interleaving half circles ("moons") as
+A \link{TaskGenerator} creating two interleaving half circles ("moons") as
 binary classification problem.
 }
 \section{Dictionary}{

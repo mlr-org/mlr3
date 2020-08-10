@@ -279,3 +279,7 @@ test_that("parallelization works", {
   pids = map_int(bmr$data$learner, function(x) x$model$pid)
   expect_equal(length(unique(pids)), njobs)
 })
+
+test_that("friedman.test", {
+  expect_is(friedman.test(bmr), "htest")
+})

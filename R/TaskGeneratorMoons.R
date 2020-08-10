@@ -4,7 +4,7 @@
 #' @include TaskGenerator.R
 #'
 #' @description
-#' A [TaskGenerator] creating two two interleaving half circles ("moons") as
+#' A [TaskGenerator] creating two interleaving half circles ("moons") as
 #' binary classification problem.
 #'
 #' @templateVar id moons
@@ -42,7 +42,8 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
     #' @param ... (any)\cr
     #'   Additional arguments passed to [plot()].
     plot = function(n = 200, pch = 19L, ...) {
-      plot(private$.generate_obj(n), pch = pch, ...)
+      tab = private$.generate_obj(n)
+      plot(tab$x1, tab$x2, data = tab, pch = pch, col = tab$y, ...)
     }
   ),
 

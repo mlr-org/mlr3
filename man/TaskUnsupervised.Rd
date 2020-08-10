@@ -16,6 +16,7 @@ Other Task:
 \code{\link{TaskSupervised}},
 \code{\link{Task}},
 \code{\link{mlr_tasks_boston_housing}},
+\code{\link{mlr_tasks_breast_cancer}},
 \code{\link{mlr_tasks_german_credit}},
 \code{\link{mlr_tasks_iris}},
 \code{\link{mlr_tasks_mtcars}},

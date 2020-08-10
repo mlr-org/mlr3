@@ -231,7 +231,10 @@ Resampling = R6Class("Resampling",
       i = assert_int(i, lower = 1L, upper = self$iters, coerce = TRUE)
       ids = getter(i)
 
-      if (is.null(private$.groups)) ids else private$.groups[list(ids), on = "group"][[1L]]
+      if (is.null(private$.groups))
+        return(ids)
+
+      private$.groups[list(ids), on = "group", allow.cartesian = TRUE][[1L]]
     }
   )
 )
