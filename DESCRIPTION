@@ -83,8 +83,7 @@ RdMacros:
     mlr3misc
 Remotes:
     mlr-org/mlr3misc@leanify,
-    mlr-org/paradox@leanify,
-    mlr-org/mlr3measures@leanify
+    mlr-org/paradox@leanify
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
