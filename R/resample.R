@@ -98,7 +98,7 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     learner = learner,
     states = map(res, "learner_state"),
     resampling = instance,
-    iteration = seq_len(n),
+    iterations = seq_len(n),
     predictions = map(res, "prediction"),
     uhash = NULL
   )

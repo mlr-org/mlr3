@@ -426,6 +426,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   private = list(
+    .data = NULL,
+
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
     }

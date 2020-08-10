@@ -193,7 +193,8 @@ Measure = R6Class("Measure",
     aggregate = function(rr) {
       if (self$average == "macro") {
         aggregator = self$aggregator %??% mean
-        aggregator(measure_score_data(self, rr$data))
+        # FIXME: optimize this call
+        aggregator(measure_score_data(self, as.data.table(rr)))
       } else { # "micro"
         self$score(rr$prediction(self$predict_sets))
       }

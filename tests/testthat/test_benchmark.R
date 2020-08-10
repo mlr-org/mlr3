@@ -5,14 +5,12 @@ learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = rsmp("cv", folds = 3)
 design = benchmark_grid(tasks, learners, resamplings)
 bmr = benchmark(design)
-bmr$data
-profvis::profvis(
-bmr$aggregate()
-)
 
-self = bmr
-private = private(self)
-self$data
+if (FALSE) {
+  self = bmr
+  private = get_private(self)
+  self$data
+}
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)

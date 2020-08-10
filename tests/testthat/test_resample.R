@@ -57,7 +57,7 @@ test_that("discarding model", {
   resampling = rsmp("cv", folds = 3)
 
   rr = resample(task, learner, resampling)
-  expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
+  expect_equal(map(as.data.table(rr)$learner, "model"), vector("list", 3L))
 })
 
 test_that("inputs are cloned", {
@@ -77,7 +77,7 @@ test_that("memory footprint", {
   learner = lrn("classif.featureless")
   resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling)
-  x = rr$data
+  x = as.data.table(rr)
 
   expect_equal(uniqueN(map_chr(x$learner, address)), nrow(x))
   expect_equal(uniqueN(map_chr(x$task, address)), 1L)

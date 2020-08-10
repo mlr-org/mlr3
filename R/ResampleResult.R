@@ -33,6 +33,13 @@
 #' rr$errors
 ResampleResult = R6Class("ResampleResult",
   public = list(
+    #' @field data ([data.table::data.table()])\cr
+    #' Internal data storage.
+    #' We discourage users to directly work with this field.
+    #' Use `as.table.table(ResampleResult)` instead.
+    data = NULL,
+
+    #'
     #' @field task ([Task])\cr
     #' The task [resample()] operated on.
     task = NULL,
@@ -74,7 +81,7 @@ ResampleResult = R6Class("ResampleResult",
       self$learner = assert_learner(learner)
       self$resampling = assert_resampling(resampling)
 
-      private$.data = data.table(
+      self$data = data.table(
         iteration = assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters),
         state = assert_list(states, len = length(iterations)),
         prediction = assert_list(predictions, len = length(iterations))
@@ -92,7 +99,7 @@ ResampleResult = R6Class("ResampleResult",
     #' Printer.
     #' @param ... (ignored).
     print = function() {
-      catf("%s of %i iterations", format(self), nrow(private$.data))
+      catf("%s of %i iterations", format(self), nrow(self$data))
       catf(str_indent("* Task:", self$task$id))
       catf(str_indent("* Learner:", self$learner$id))
 
@@ -130,7 +137,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   Subset of `{"train", "test"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     predictions = function(predict_sets = "test") {
-      map(private$.data$prediction, function(li) {
+      map(self$data$prediction, function(li) {
         do.call(c, li[predict_sets])
       })
     },
@@ -156,7 +163,7 @@ ResampleResult = R6Class("ResampleResult",
         task = list(self$task),
         learner = self$learners,
         resampling = list(self$resampling),
-        iteration = private$.data$iteration,
+        iteration = self$data$iteration,
         prediction = self$predictions()
       )
 
@@ -196,31 +203,17 @@ ResampleResult = R6Class("ResampleResult",
     filter = function(iters) {
       iters = assert_integerish(iters, min.len = 1L, lower = 1L, upper = self$resampling$iters, any.missing = FALSE, coerce = TRUE)
 
-      private$.data = private$.data[list(unique(iters)), on = "iteration", nomatch = 0L]
+      self$data = self$data[list(unique(iters)), on = "iteration", nomatch = 0L]
       invisible(self)
     }
   ),
 
   active = list(
-    #' @field data ([data.table::data.table()])\cr
-    #'   Internal data storage.
-    #'   We discourage users to directly work with this field.
-    data = function() {
-      data.table(
-        task = list(self$task),
-        learner = self$learners,
-        resampling = list(self$resampling),
-        iteration = private$.data$iteration,
-        prediction = private$.data$prediction
-      )
-    },
-
-
     #' @field learners (list of [Learner])\cr
     #' List of trained learners, sorted by resampling iteration.
     learners = function(rhs) {
       assert_ro_binding(rhs)
-      reassemble_learner(list(self$learner), private$.data$state)
+      reassemble_learner(list(self$learner), self$data$state)
     },
 
     #' @field warnings ([data.table::data.table()])\cr
@@ -229,7 +222,7 @@ ResampleResult = R6Class("ResampleResult",
     #' Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.
     warnings = function(rhs) {
       assert_ro_binding(rhs)
-      logs = map(private$.data$state, function(s) list(msg = get_log_condition(s, "warning")))
+      logs = map(self$data$state, function(s) list(msg = get_log_condition(s, "warning")))
       rbindlist(logs, idcol = "iteration", use.names = TRUE)
     },
 
@@ -239,14 +232,12 @@ ResampleResult = R6Class("ResampleResult",
     #' Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
     errors = function(rhs) {
       assert_ro_binding(rhs)
-      logs = map(private$.data$state, function(s) list(msg = get_log_condition(s, "error")))
+      logs = map(self$data$state, function(s) list(msg = get_log_condition(s, "error")))
       rbindlist(logs, idcol = "iteration", use.names = TRUE)
     }
   ),
 
   private = list(
-    .data = NULL,
-
     deep_clone = function(name, value) {
       if (name == "data") copy(value) else value
     }
@@ -255,7 +246,13 @@ ResampleResult = R6Class("ResampleResult",
 
 #' @export
 as.data.table.ResampleResult = function(x, ...) {
-  copy(x$data)
+  data.table(
+    task = list(x$task),
+    learner = x$learners,
+    resampling = list(x$resampling),
+    iteration = x$data$iteration,
+    prediction = x$data$prediction
+  )
 }
 
 #' @export
@@ -295,7 +292,7 @@ as_resample_result.data.table = function(x, ...) {
 #' @export
 as_benchmark_result.ResampleResult = function(x, ...) {
   # TODO: optimize this one, we don't need to clone
-  tab = copy(x$data)
+  tab = as.data.table(x)
   tab[, "state" := map(learner, "state")]
   tab[, "learner" := list(x$learner)]
   tab[, "uhash" := x$uhash]
