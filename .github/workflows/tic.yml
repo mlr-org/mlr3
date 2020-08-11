@@ -1,8 +1,11 @@
 ## tic GitHub Actions template: linux-macos-windows-deploy
 ## revision date: 2020-08-06
+# [Custom header]
 on:
   workflow_dispatch:
   push:
+    branches:
+      - master
   pull_request:
   # for now, CRON jobs only run on the default branch of the repo (i.e. usually on master)
   schedule:
@@ -22,10 +25,8 @@ jobs:
       matrix:
         config:
           # use a different tic template type if you do not want to build on all listed platforms
-          - { os: windows-latest, r: "release" }
-          - { os: macOS-latest, r: "release", pkgdown: "true", latex: "true" }
           - { os: ubuntu-latest, r: "devel" }
-          - { os: ubuntu-latest, r: "release" }
+          - { os: ubuntu-latest, r: "release", pkgdown: true, latex: true }
 
     env:
       # otherwise remotes::fun() errors cause the build to fail. Example: Unavailability of binaries
