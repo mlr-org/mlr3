@@ -18,6 +18,7 @@
 #'   If `TRUE` (default), unused levels of the new target variable are dropped.
 #'
 #' @return [Task] of requested type.
+#' @export
 convert_task = function(intask, target = NULL, new_type = NULL, drop_original_target = FALSE, drop_levels = TRUE) {
   assert_task(intask)
   target = assert_subset(target, choices = intask$col_info$id) %??% intask$target_names
@@ -36,8 +37,9 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
   newtask$col_roles[props] = intask$col_roles[props]
   newtask$set_col_role(target, "target")
 
+  # Add the original target(s) as features, only keeping 'new_target'.
   if (!all(intask$target_names == target)) {
-    newtask$set_col_role(intask$col_roles$target, "feature")
+    newtask$set_col_role(setdiff(intask$col_roles$target, target),  "feature")
   }
 
   # during prediction, when target is NA, we do not call droplevels
@@ -45,7 +47,7 @@ convert_task = function(intask, target = NULL, new_type = NULL, drop_original_ta
     newtask$droplevels()
   }
 
-  # if drop_original_target, remove the original target from the col_roles
+  # if drop_original_target, remove the original target from the features
   if (drop_original_target) {
     newtask$col_roles$feature = setdiff(newtask$col_roles$feature, intask$col_roles$target)
   }
