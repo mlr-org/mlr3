@@ -66,6 +66,11 @@ rr$predictions()[[1]]$confusion
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
+\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Tabular representation of the data.
+Tasks, learners and resamplings are represented by their hash,
+the objects themselves are stored in the fields \code{tasks}, \code{learners} and \code{resamplings}, respectively.}
+
 \item{\code{rr_data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Internal data storage with one row per \link{ResampleResult}
 (instead of one row per resampling iteration as in \verb{$data}).
@@ -82,11 +87,6 @@ in this table.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal data storage with one row per resampling iteration.
-Can be joined with \verb{$rr_data} by joining on column \code{"hash"}.
-We discourage users to directly work with this table.}
-
 \item{\code{task_type}}{(\code{character(1)})\cr
 Task type of objects in the \code{BenchmarkResult}.
 All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are
@@ -109,7 +109,7 @@ Table of included \link{Learner}s with three columns:
 \item \code{"learner"} (\link{Learner}).
 }
 
-Note that it is not feasible to access learned models via this getter, as the training task would be ambiguous.
+Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
 For this reason the returned learner are reseted before they are returned.
 Instead, select a row from the table returned by \verb{$score()}.}
 
@@ -119,6 +119,14 @@ Table of included \link{Resampling}s with three columns:
 \item \code{"resampling_hash"} (\code{character(1)}),
 \item \code{"resampling_id"} (\code{character(1)}), and
 \item \code{"resampling"} (\link{Resampling}).
+}}
+
+\item{\code{resample_results}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns a table with three columns:
+\itemize{
+\item \code{uhash} (\code{character()}).
+\item \code{iters} (\code{integer()}).
+\item \code{resample_result} (\link{ResampleResult}).
 }}
 
 \item{\code{n_resample_results}}{(\code{integer(1)})\cr
@@ -316,8 +324,8 @@ iterations with errors as extra integer column \code{"errors"}.}
 \if{latex}{\out{\hypertarget{method-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the benchmark result. If \code{task_ids} is not \code{NULL}, keeps all
-tasks with provided task ids while discards all others. Same procedure
-for \code{learner_ids} and \code{resampling_ids}.
+tasks with provided task ids and discards all others tasks.
+Same procedure for \code{learner_ids} and \code{resampling_ids}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$filter(
   task_ids = NULL,

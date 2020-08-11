@@ -482,6 +482,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$task_hash)
   expect_id(tab$task_id)
   checkmate::expect_list(tab$task, "Task")
+  expect_set_equal(bmr$tasks$task_hash, bmr$data$task)
 
   tab = bmr$learners
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -489,6 +490,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$learner_hash)
   expect_id(tab$learner_id)
   checkmate::expect_list(tab$learner, "Learner")
+  expect_set_equal(bmr$learners$learner_hash, bmr$data$learner)
 
   tab = bmr$resamplings
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -496,6 +498,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$resampling_hash)
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
+  expect_set_equal(bmr$learners$learner_hash, bmr$data$learner)
 
   measures = mlr3::default_measures(bmr$task_type)
   tab = bmr$aggregate(measures, ids = TRUE)
@@ -516,9 +519,15 @@ expect_benchmark_result = function(bmr) {
 
   uhashes = bmr$uhashes
   expect_uhash(uhashes, len = data.table::uniqueN(bmr$data$uhash))
-  checkmate::expect_set_equal(uhashes, bmr$data$uhash)
+  testthat::expect_equal(uhashes, unique(bmr$data$uhash))
 
-  expect_equal(bmr$n_resample_results, length(bmr$uhashes))
+  expect_equal(bmr$n_resample_results, length(uhashes))
+
+  tab = bmr$resample_results
+  expect_data_table(tab, ncols = 3L, nrows = bmr$n_resample_results, any.missing = FALSE)
+  expect_character(tab$uhash)
+  expect_integer(tab$iters)
+  expect_list(tab$resample_result, types = "ResampleResult")
 
   checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data) == 0L)
 }

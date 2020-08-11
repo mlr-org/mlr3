@@ -41,42 +41,6 @@ replace_with = function(x, needle, replacement) {
   replace(x, ii, replacement)
 }
 
-
-# determines if execution via future will be running locally or remotely
-use_future = function() {
-  isNamespaceLoaded("future") && !inherits(future::plan(), "uniprocess")
-}
-
-get_rng_state = function() {
-  list(seed = get_seed(), kind = RNGkind())
-}
-
-restore_rng_state = function(prev) {
-  do.call(RNGkind, as.list(prev$kind))
-  assign(".Random.seed", value = prev$seed, envir = .GlobalEnv)
-}
-
-init_future_seeding = function(n) {
-  RNGkind("L'Ecuyer-CMRG")
-  getFromNamespace("make_rng_seeds", asNamespace("future.apply"))(n, TRUE)
-}
-
-# TODO: remove after mlr3misc update
-rd_format_packages = function(pkgs) {
-  if (length(pkgs) == 0L)
-
-    return("-")
-  base_pkgs = c("base", "compiler", "datasets", "graphics", "grDevices", "grid", "methods",
-    "parallel", "splines", "stats", "stats4", "tcltk", "tools", "translations", "utils"
-  )
-  link = pkgs %nin% base_pkgs
-  str_collapse(sprintf("%s%s%s",
-    ifelse(link, "\\CRANpkg{", "'"),
-    pkgs,
-    ifelse(link, "}", "'")
-  ))
-}
-
 reassemble_learner = function(learner, state) {
   Map(function(l, s) {
         l = l$clone(deep = TRUE)
@@ -87,30 +51,4 @@ reassemble_learner = function(learner, state) {
 
 get_private = function(x) {
   x$.__enclos_env__[["private"]]
-}
-
-#' Replace R6 Objects with their Hash
-#'
-#' @description
-#' Given a table `tab` with list column `col` of R6 objects, walks over values of `col`
-#' and replaces R6 objects with the string of their respective hash.
-#' The replaced objects are returned as a data table with columns for hash, id, and object.
-#'
-#' @param tab (`data.table()`).
-#' @param col (`character(1)`)\cr
-#'   Column of `tab`.
-#'
-#' @return (named `list()`).
-#' Table of distinct extracted R6 objects alongside their hash and id.
-#'
-#' @noRd
-extract_objs = function(tab, col) {
-  values = tab[[col]]
-  hashes = hashes(values)
-  idx = which(!duplicated(hashes))
-  uvalues = values[idx]
-  obj_tab = data.table(hashes[idx], ids(uvalues), uvalues = uvalues)
-  tab[, eval(col) := hashes]
-  setnames(obj_tab, new = c(paste0(col, "_hash"), paste0(col, "_id"), col))
-  setkeyv(obj_tab, paste0(col, "_hash"))[]
 }

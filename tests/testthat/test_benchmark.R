@@ -6,15 +6,10 @@ resamplings = rsmp("cv", folds = 3)
 design = benchmark_grid(tasks, learners, resamplings)
 bmr = benchmark(design)
 
-if (FALSE) {
-  self = bmr
-  private = get_private(self)
-  self$data
-}
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
-  expect_names(names(bmr$data), permutation.of = c(mlr_reflections$rr_names, "uhash"))
+  expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash"))
 
   tab = as.data.table(bmr)
   expect_data_table(tab, nrows = 12L, ncols = 6L)
@@ -62,21 +57,24 @@ test_that("ResampleResult / hash", {
 
 
 test_that("discarding model", {
-  bmr = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings))
-  expect_true(every(map(bmr$data$learner, "model"), is.null))
-  bmr = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings), store_models = TRUE)
-  expect_false(every(map(bmr$data$learner, "model"), is.null))
+  bmr2 = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings))
+  expect_benchmark_result(bmr2)
+  expect_true(every(map(as.data.table(bmr2)$learner, "model"), is.null))
+  bmr2 = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings), store_models = TRUE)
+  expect_false(every(map(as.data.table(bmr2)$learner, "model"), is.null))
 })
 
 test_that("bmr$combine()", {
   bmr_new = benchmark(benchmark_grid(mlr_tasks$mget("pima"), learners, resamplings))
+  expect_benchmark_result(bmr_new)
+
   combined = list(
     bmr$clone(deep = TRUE)$combine(bmr_new),
     c(bmr, bmr_new)
   )
 
   for(bmr_combined in combined) {
-    # new bmr gets pasted at the end of data so hashes do net get mixed up?
+    # new bmr gets pasted at the end of data so hashes do not get mixed up?
     pos_old = match(bmr$uhashes, bmr_combined$uhashes)
     pos_new = match(bmr_new$uhashes, bmr_combined$uhashes)
     expect_true(all(pos_old < min(pos_new)))
@@ -141,7 +139,7 @@ test_that("memory footprint", {
   expect_equal(uniqueN(map_chr(design$learner, address)), 2L)
   expect_equal(uniqueN(map_chr(design$resampling, address)), 2L)
 
-  x = bmr$data
+  x = as.data.table(bmr)
   expect_equal(uniqueN(map_chr(x$task, address)), 2L)
   expect_equal(uniqueN(map_chr(x$resampling, address)), 2L)
 })
@@ -274,7 +272,7 @@ test_that("parallelization works", {
   }, workers = njobs)
 
   expect_benchmark_result(bmr)
-  pids = map_int(bmr$data$learner, function(x) x$model$pid)
+  pids = map_int(as.data.table(bmr)$learner, function(x) x$model$pid)
   expect_equal(length(unique(pids)), njobs)
 })
 

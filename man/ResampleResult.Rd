@@ -37,6 +37,11 @@ rr$errors
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
+\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Internal data storage.
+We discourage users to directly work with this field.
+Use \code{as.table.table(ResampleResult)} instead.}
+
 \item{\code{task}}{(\link{Task})\cr
 The task \code{\link[=resample]{resample()}} operated on.}
 
@@ -54,10 +59,6 @@ Unique hash for this object.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal data storage.
-We discourage users to directly work with this field.}
-
 \item{\code{learners}}{(list of \link{Learner})\cr
 List of trained learners, sorted by resampling iteration.}
 

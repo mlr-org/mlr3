@@ -62,36 +62,9 @@
 #' rr$predictions()[[1]]$confusion
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
-    #' @field tasks ([data.table::data.table()])\cr
-    #' Table of included [Task]s with three columns:
-    #'
-    #' * `"task_hash"` (`character(1)`),
-    #' * `"task_id"` (`character(1)`), and
-    #' * `"task"` ([Task]).
-    tasks = NULL,
-
-    #' @field learners ([data.table::data.table()])\cr
-    #' Table of included [Learner]s with three columns:
-    #'
-    #' * `"learner_hash"` (`character(1)`),
-    #' * `"learner_id"` (`character(1)`), and
-    #' * `"learner"` ([Learner]).
-    #'
-    #' Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
-    #' For this reason the returned learner are reseted before they are returned.
-    #' Instead, select a row from the table returned by `$score()`.
-    learners = NULL,
-
-    #' @field resamplings ([data.table::data.table()])\cr
-    #' Table of included [Resampling]s with three columns:
-    #'
-    #' * `"resampling_hash"` (`character(1)`),
-    #' * `"resampling_id"` (`character(1)`), and
-    #' * `"resampling"` ([Resampling]).
-    resamplings = NULL,
-
     #' @field data ([data.table::data.table()])\cr
-    #' Tabular representation of the data. Tasks, learners and resamplings are represented by their hash,
+    #' Tabular representation of the data.
+    #' Tasks, learners and resamplings are represented by their hash,
     #' the objects themselves are stored in the fields `tasks`, `learners` and `resamplings`, respectively.
     data = NULL,
 
@@ -133,12 +106,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
         assert_names(names(data), must.include = slots)
       }
 
-      self[["tasks"]] = extract_objs(data, "task")
-      self[["learners"]] = extract_objs(data, "learner")
-      self[["resamplings"]] = extract_objs(data, "resampling")
+      private$.tasks = extract_r6_dict(data, "task")
+      private$.learners = extract_r6_dict(data, "learner")
+      private$.resamplings = extract_r6_dict(data, "resampling")
 
       setcolorder(data, slots)[]
-      setnames(data, c("task", "learner", "resampling"), c("task_hash", "learner_hash", "resampling_hash"))
       self$data = data
       self$rr_data = data[, list(uhash = unique(uhash))]
     },
@@ -184,14 +156,14 @@ BenchmarkResult = R6Class("BenchmarkResult",
         if (nrow(self$data) && self$task_type != bmr$task_type) {
           stopf("BenchmarkResult is of task type '%s', but must be '%s'", bmr$task_type, self$task_type)
         }
-        pbmr = private(bmr)
 
-        private$.data = rbindlist(list(private$.data, pbmr$.data), fill = TRUE, use.names = TRUE)
-        self$rr_data = rbindlist(list(self$rr_data, bmr$rr_data), fill = TRUE, use.names = TRUE)
+        self$data = rbindlist(list(self$data, bmr$data), fill = TRUE, use.names = TRUE)
+        self$rr_data = unique(rbindlist(list(self$rr_data, bmr$rr_data), fill = TRUE, use.names = TRUE), by = "uhash")
 
-        private$.tasks = insert_named(private$.tasks, pbmr$.tasks)
-        private$.learners = insert_named(private$.learners, pbmr$.learners)
-        private$.resamplings = insert_named(private$.resamplings, pbmr$.resamplings)
+        pbmr = get_private(bmr)
+        insert_named(private$.tasks, pbmr$.tasks)
+        insert_named(private$.learners, pbmr$.learners)
+        insert_named(private$.resamplings, pbmr$.resamplings)
       }
 
       invisible(self)
@@ -217,18 +189,19 @@ BenchmarkResult = R6Class("BenchmarkResult",
     score = function(measures = NULL, ids = TRUE) {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
-      tab = copy(self$data)
 
-      # FIXME: we can optimize this call, we don't have to create the learners here
+      # reassemble_learners = any(map_lgl(measures, function(m) "requires_learner" %in% m$properties))
+      tab = bmr_obj_table(self, reassemble_learner = TRUE)
+
       for (m in measures) {
-        set(tab, j = m$id, value = measure_score_data(m, self$data))
+        set(tab, j = m$id, value = measure_score_data(m, tab))
       }
 
-      # replace hash with nr
       tab[, ("nr") := .GRP, by = "uhash"][, ("uhash") := NULL]
-
       if (ids) {
-        tab[, c("task_id", "learner_id", "resampling_id") := list(ids(task), ids(learner), ids(resampling))]
+        tab[, "task_id" := ids(task)]
+        tab[, "learner_id" := ids(learner)]
+        tab[, "resampling_id" := ids(resampling)]
         setcolorder(tab, c("nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))
       } else {
         setcolorder(tab, "nr")
@@ -264,23 +237,14 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE) {
+      res = self$resample_results
+      resample_result = res$resample_result
+      res[, "nr" := seq_row(res)]
 
-      res = as.data.table(self)[, list(
-        nr = .GRP,
-        iters = .N,
-        task_id = task_id[1L],
-        learner_id = learner_id[1L],
-        resampling_id = resampling_id[1L],
-        resample_result = list(ResampleResult$new(
-          task = task[[1L]], learner = learner[[1L]], states = state,
-          resampling = resampling[[1]], iterations = iteration,
-          predictions = prediction, uhash = uhash[1L]
-          ))
-        ) , by = "uhash"
-      ]
-
-      if (!assert_flag(ids)) {
-        res = remove_named(res, c("task_id", "learner_id", "resampling_id"))
+      if (assert_flag(ids)) {
+        res[, "task_id" := map_chr(resample_result, function(rr) rr$task$id)]
+        res[, "learner_id" := map_chr(resample_result, function(rr) rr$learner$id)]
+        res[, "resampling_id" := map_chr(resample_result, function(rr) rr$resampling$id)]
       }
 
       # move iters to last column
@@ -331,26 +295,30 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     filter = function(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL) {
+      keep_ids = function(ee, ids) {
+        delete = names(ee)[ids(ee) %nin% ids]
+        rm(list = delete, envir = ee)
+      }
+
       if (!is.null(task_ids)) {
         assert_character(task_ids, any.missing = FALSE)
-        hashes = names(private$.tasks)[ids(private$.tasks) %in% task_ids]
-        private$.tasks = private$.tasks[hashes]
-        private$.data = private$.data[hashes, on = "task", nomatch = 0L]
+        keep_ids(private$.tasks, task_ids)
+        self$data = self$data[names(private$.tasks), on = "task", nomatch = NULL]
       }
 
       if (!is.null(learner_ids)) {
         assert_character(learner_ids, any.missing = FALSE)
-        hashes = names(private$.learners)[ids(private$.learners) %in% learner_ids]
-        private$.learners = private$.learners[hashes]
-        private$.data = private$.data[hashes, on = "learner", nomatch = 0L]
+        keep_ids(private$.learners, learner_ids)
+        self$data = self$data[names(private$.learners), on = "learner", nomatch = NULL]
       }
 
       if (!is.null(resampling_ids)) {
         assert_character(resampling_ids, any.missing = FALSE)
-        hashes = names(private$.resamplings)[ids(private$.resamplings) %in% resampling_ids]
-        private$.resamplings = private$.resamplings[hashes]
-        private$.data = private$.data[hashes, on = "resampling", nomatch = 0L]
+        keep_ids(private$.resamplings, resampling_ids)
+        self$data = self$data[names(private$.resamplings), on = "resampling", nomatch = NULL]
       }
+
+      self$rr_data = self$rr_data[uhash %in% self$data$uhash]
 
       invisible(self)
     },
@@ -378,25 +346,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
         i = assert_int(i, lower = 1L, upper = length(uhashes), coerce = TRUE)
         needle = uhashes[i]
       }
-      ResampleResult$new(self$data[list(needle), on = "uhash"])
+
+      rrs = bmr_resample_results(self, self$data[list(needle), on = "uhash"])
+      rrs$resample_result[[1L]]
     }
   ),
 
   active = list(
-    #' @field data ([data.table::data.table()])\cr
-    #'   Internal data storage with one row per resampling iteration.
-    #'   Can be joined with `$rr_data` by joining on column `"hash"`.
-    #'   We discourage users to directly work with this table.
-    # data = function(rhs) {
-    #   assert_ro_binding(rhs)
-    #   tab = copy(private$.data)
-    #   replace_with_object(tab, "task", private$.tasks)
-    #   replace_with_object(tab, "learner", private$.learners)
-    #   replace_with_object(tab, "resampling", private$.resamplings)
-    #   tab[, learner := reassemble_learner(learner, state)]
-    #   remove_named(tab, "state")
-    # },
-
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `BenchmarkResult`.
     #' All stored objects ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are
@@ -408,6 +364,52 @@ BenchmarkResult = R6Class("BenchmarkResult",
         return(NULL)
       }
       self$tasks$task[[1L]]$task_type
+    },
+
+    #' @field tasks ([data.table::data.table()])\cr
+    #' Table of included [Task]s with three columns:
+    #'
+    #' * `"task_hash"` (`character(1)`),
+    #' * `"task_id"` (`character(1)`), and
+    #' * `"task"` ([Task]).
+    tasks = function(rhs) {
+      assert_ro_binding(rhs)
+      env2tab(private$.tasks, "task")
+    },
+
+    #' @field learners ([data.table::data.table()])\cr
+    #' Table of included [Learner]s with three columns:
+    #'
+    #' * `"learner_hash"` (`character(1)`),
+    #' * `"learner_id"` (`character(1)`), and
+    #' * `"learner"` ([Learner]).
+    #'
+    #' Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
+    #' For this reason the returned learner are reseted before they are returned.
+    #' Instead, select a row from the table returned by `$score()`.
+    learners = function(rhs) {
+      assert_ro_binding(rhs)
+      env2tab(private$.learners, "learner")
+    },
+
+    #' @field resamplings ([data.table::data.table()])\cr
+    #' Table of included [Resampling]s with three columns:
+    #'
+    #' * `"resampling_hash"` (`character(1)`),
+    #' * `"resampling_id"` (`character(1)`), and
+    #' * `"resampling"` ([Resampling]).
+    resamplings = function(rhs) {
+      assert_ro_binding(rhs)
+      env2tab(private$.resamplings, "resampling")
+    },
+
+    #' @field resample_results ([data.table::data.table()])\cr
+    #' Returns a table with three columns:
+    #' * `uhash` (`character()`).
+    #' * `iters` (`integer()`).
+    #' * `resample_result` ([ResampleResult]).
+    resample_results = function() {
+      bmr_resample_results(self)
     },
 
     #' @field n_resample_results (`integer(1)`)\cr
@@ -426,29 +428,31 @@ BenchmarkResult = R6Class("BenchmarkResult",
   ),
 
   private = list(
-    .data = NULL,
+    .tasks = NULL,
+    .learners = NULL,
+    .resamplings = NULL,
 
     deep_clone = function(name, value) {
-      if (name == "data") copy(value) else value
+      if (name %in% c(".tasks", ".learners", ".resamplings")) {
+        copy_r6_dict(value)
+      } else if (name %in% c("data", "rr_data")) {
+        copy(value)
+      } else {
+        value
+      }
     }
   )
 )
 
 #' @export
 as.data.table.BenchmarkResult = function(x, ...) {
-  x$data[
-    x$tasks, on = "task_hash", nomatch = NULL
-  ][
-    x$learners, on = "learner_hash", nomatch = 0L
-  ][
-    x$resamplings, on = "resampling_hash", nomatch = 0L
-  ]
+  bmr_obj_table(x, reassemble_learner = TRUE)
 }
 
 #' @export
 c.BenchmarkResult = function(...) {
   bmrs = lapply(list(...), as_benchmark_result)
-  Reduce(function(lhs, rhs) lhs$combine(rhs), tail(bmrs, -1L), init = bmrs[[1L]]$clone())
+  Reduce(function(lhs, rhs) lhs$combine(rhs), tail(bmrs, -1L), init = bmrs[[1L]]$clone(deep = TRUE))
 }
 
 #' @importFrom stats friedman.test
@@ -479,4 +483,71 @@ as_benchmark_result = function(x, ...) {
 #' @export
 as_benchmark_result.BenchmarkResult = function(x, ...) {
   x
+}
+
+bmr_obj_table = function(bmr, data = bmr$data, reassemble_learner = FALSE) {
+  tab = copy(data)
+  private = get_private(bmr)
+
+  tab$task = mget(tab$task, envir = private$.tasks, inherits = FALSE)
+  tab$learner = mget(tab$learner, envir = private$.learners, inherits = FALSE)
+  tab$resampling = mget(tab$resampling, envir = private$.resamplings, inherits = FALSE)
+
+  if (reassemble_learner) {
+    tab$learner = reassemble_learner(tab$learner, tab$state)
+  }
+
+  remove_named(tab, "state")
+}
+
+bmr_resample_results = function(bmr, data = bmr$data) {
+  private = get_private(bmr)
+
+  data[, list(
+    iters = .N,
+    resample_result = list(if (.N == 0L) NULL else ResampleResult$new(
+      task = private$.tasks[[task[1L]]],
+      learner = private$.learners[[learner[1L]]],
+      resampling = private$.resamplings[[resampling[1L]]],
+      states = state, iterations = iteration,
+      predictions = prediction, uhash = uhash[1L]
+    ))
+  ), by = "uhash"]
+}
+
+
+#' Replace R6 Objects with their Hash
+#'
+#' @description
+#' Given a table `tab` with list column `col` of R6 objects, walks over values of `col`
+#' and replaces objects with their hash.
+#' The objects are returned as as environment.
+#'
+#' @param tab (`data.table()`).
+#' @param col (`character(1)`)\cr
+#'   Column of `tab`.
+#'
+#' @return (`environment()`).
+#' Environment of distinct extracted R6 objects alongside their hash and id.
+#'
+#' @noRd
+extract_r6_dict = function(tab, col) {
+  values = tab[[col]]
+  hashes = hashes(values)
+  idx = which(!duplicated(hashes))
+  ee = list2env(setNames(values[idx], hashes[idx]), parent = emptyenv())
+  tab[, eval(col) := hashes]
+  ee
+}
+
+env2tab = function(ee, type) {
+  hash_col = sprintf("%s_hash", type)
+  id_col = sprintf("%s_id", type)
+  tab = enframe(ee, name = hash_col, value = type)
+  tab[[id_col]] = ids(tab[[type]])
+  setcolorder(tab, c(hash_col, id_col, type))[]
+}
+
+copy_r6_dict = function(env) {
+  list2env(eapply(env, function(x) x$clone()), parent = emptyenv())
 }
