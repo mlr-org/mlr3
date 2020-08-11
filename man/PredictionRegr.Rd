@@ -6,6 +6,7 @@
 \description{
 This object wraps the predictions returned by a learner of class \link{LearnerRegr}, i.e.
 the predicted response and standard error.
+Additionally, probability distributions implemented in \CRANpkg{distr6} are supported.
 }
 \examples{
 task = tsk("boston_housing")
@@ -31,6 +32,10 @@ Access the stored predicted response.}
 
 \item{\code{se}}{(\code{numeric()})\cr
 Access the stored standard error.}
+
+\item{\code{distr}}{(\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
+Access the stored vector distribution.
+Requires package \CRANpkg{distr6}.}
 
 \item{\code{missing}}{(\code{integer()})\cr
 Returns \code{row_ids} for which the predictions are missing or incomplete.}
@@ -64,7 +69,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   row_ids = task$row_ids,
   truth = task$truth(),
   response = NULL,
-  se = NULL
+  se = NULL,
+  distr = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -87,6 +93,11 @@ One element for each observation in the test set.}
 \item{\code{se}}{(\code{numeric()})\cr
 Numeric vector of predicted standard errors.
 One element for each observation in the test set.}
+
+\item{\code{distr}}{(\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
+\link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
+Each individual distribution in the vector represents the random variable 'survival time'
+for an individual observation.}
 }
 \if{html}{\out{</div>}}
 }

@@ -5,8 +5,8 @@
 \alias{LearnerRegrRpart}
 \title{Regression Tree Learner}
 \description{
-A \link{LearnerRegr} for a regression tree implemented in \code{\link[rpart:rpart]{rpart::rpart()}} in package \CRANpkg{rpart}.
 Parameter \code{xval} is set to 0 in order to save some computation time.
+Parameter \code{model} has been renamed to \code{keep_model}.
 }
 \section{Dictionary}{
 
@@ -37,6 +37,7 @@ lrn("regr.rpart")
    usesurrogate \tab integer \tab 2 \tab \eqn{[0, 2]}{[0, 2]} \tab - \cr
    surrogatestyle \tab integer \tab 0 \tab \eqn{[0, 1]}{[0, 1]} \tab - \cr
    xval \tab integer \tab 10 \tab \eqn{[0, \infty)}{[0, Inf)} \tab - \cr
+   keep_model \tab logical \tab FALSE \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab TRUE, FALSE \cr
 }
 }
 
