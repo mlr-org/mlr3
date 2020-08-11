@@ -79,6 +79,8 @@ Suggests:
     progressr,
     rpart,
     testthat
+Remotes:
+    mlr-org/mlr3misc
 RdMacros:
     mlr3misc
 Encoding: UTF-8
