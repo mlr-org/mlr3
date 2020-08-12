@@ -225,7 +225,8 @@ List of \link{Prediction} objects, one per element in \code{predict_sets}.
 \subsection{Method \code{score()}}{
 Returns a table with one row for each resampling iteration, including all involved objects:
 \link{Task}, \link{Learner}, \link{Resampling}, iteration number (\code{integer(1)}), and \link{Prediction}.
-Additionally, a column with the individual (per resampling iteration) performance is added for each \link{Measure} in \code{measures},
+Additionally, a column with the individual (per resampling iteration) performance is added
+for each \link{Measure} in \code{measures},
 named with the id of the respective measure id.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
 \subsection{Usage}{
@@ -239,7 +240,8 @@ If \code{measures} is \code{NULL}, \code{measures} defaults to the return value 
 Measure(s) to calculate.}
 
 \item{\code{ids}}{(\code{logical(1)})\cr
-If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) are added to the returned table.
+If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"})
+are added to the returned table.
 These allow to subset more conveniently.}
 }
 \if{html}{\out{</div>}}
@@ -252,7 +254,8 @@ These allow to subset more conveniently.}
 \if{html}{\out{<a id="method-aggregate"></a>}}
 \if{latex}{\out{\hypertarget{method-aggregate}{}}}
 \subsection{Method \code{aggregate()}}{
-Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in \link{Measure}.
+Calculates and aggregates performance values for all provided measures, according to the
+respective aggregation function in \link{Measure}.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ResampleResult$aggregate(measures = NULL)}\if{html}{\out{</div>}}

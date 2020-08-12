@@ -64,7 +64,8 @@ Method for aggregation:
 All predictions from multiple resampling iterations are first combined into a single \link{Prediction} object.
 Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
 \item \code{"macro"}:
-The scoring function is applied on the \link{Prediction} object of each resampling iterations, each yielding a single numeric score.
+The scoring function is applied on the \link{Prediction} object of each resampling iterations,
+each yielding a single numeric score.
 Next, the scores are combined with the \code{aggregator} function to a single numerical score.
 }}
 

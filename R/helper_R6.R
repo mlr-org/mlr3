@@ -47,6 +47,31 @@ normalize_tab = function(tab, col) {
   ee
 }
 
+#' @title Revert Normalization of a Table
+#'
+#' @param bmr ([BenchmarkResult]).
+#' @param data ([data.table()]).
+#' @param reassemble_learner (logical(1)).
+#'
+#' @return (`data.table()`) with hashes replaced by their referenced objects.
+#'
+#' @noRd
+denormalize_tab = function(bmr, data = bmr$data, reassemble_learner = FALSE) {
+  tab = copy(data)
+  private = get_private(bmr)
+
+  tab$task = mget(tab$task, envir = private$.tasks, inherits = FALSE)
+  tab$learner = mget(tab$learner, envir = private$.learners, inherits = FALSE)
+  tab$resampling = mget(tab$resampling, envir = private$.resamplings, inherits = FALSE)
+
+  if (reassemble_learner) {
+    tab$learner = reassemble_learner(tab$learner, tab$state)
+  }
+
+  remove_named(tab, "state")
+}
+
+
 #' @title Convert Environment to Table
 #'
 #' @description

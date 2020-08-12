@@ -145,12 +145,14 @@ ResampleResult = R6Class("ResampleResult",
     #' @description
     #' Returns a table with one row for each resampling iteration, including all involved objects:
     #' [Task], [Learner], [Resampling], iteration number (`integer(1)`), and [Prediction].
-    #' Additionally, a column with the individual (per resampling iteration) performance is added for each [Measure] in `measures`,
+    #' Additionally, a column with the individual (per resampling iteration) performance is added
+    #' for each [Measure] in `measures`,
     #' named with the id of the respective measure id.
     #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
     #'
     #' @param ids (`logical(1)`)\cr
-    #'   If `ids` is `TRUE`, extra columns with the ids of objects (`"task_id"`, `"learner_id"`, `"resampling_id"`) are added to the returned table.
+    #'   If `ids` is `TRUE`, extra columns with the ids of objects (`"task_id"`, `"learner_id"`, `"resampling_id"`)
+    #'   are added to the returned table.
     #'   These allow to subset more conveniently.
     #'
     #' @return [data.table::data.table()].
@@ -173,14 +175,16 @@ ResampleResult = R6Class("ResampleResult",
 
       if (ids) {
         tab[, c("task_id", "learner_id", "resampling_id") := list(ids(task), ids(learner), ids(resampling))]
-        setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))
+        setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
+            "iteration", "prediction"))
       }
 
       tab[]
     },
 
     #' @description
-    #' Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in [Measure].
+    #' Calculates and aggregates performance values for all provided measures, according to the
+    #' respective aggregation function in [Measure].
     #' If `measures` is `NULL`, `measures` defaults to the return value of [default_measures()].
     #'
     #' @return Named `numeric()`.
@@ -201,7 +205,8 @@ ResampleResult = R6Class("ResampleResult",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     filter = function(iters) {
-      iters = assert_integerish(iters, min.len = 1L, lower = 1L, upper = self$resampling$iters, any.missing = FALSE, coerce = TRUE)
+      iters = assert_integerish(iters, min.len = 1L, lower = 1L, upper = self$resampling$iters,
+        any.missing = FALSE, coerce = TRUE)
 
       self$data = self$data[list(unique(iters)), on = "iteration", nomatch = 0L]
       invisible(self)

@@ -67,9 +67,9 @@ rr$predictions()[[1]]$confusion
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Tabular representation of the data.
-Tasks, learners and resamplings are represented by their hash,
-the objects themselves are stored in the fields \code{tasks}, \code{learners} and \code{resamplings}, respectively.}
+Internal tabular representation of the data.
+Tasks, learners and resamplings are references by their hash.
+The referenced objects can be accessed via \verb{$tasks}, \verb{$learners} or \verb{$resamplings}, respectively.}
 
 \item{\code{rr_data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Internal data storage with one row per \link{ResampleResult}
@@ -78,9 +78,7 @@ Internal data storage with one row per \link{ResampleResult}
 Package develops may opt to add additional columns here.
 These columns are preserved in all mutators.
 
-Can be combined with \verb{$data} by (left) joining on the key column \code{"hash"}.
-E.g., \CRANpkg{mlr3tuning} stores additional information for the optimization path
-in this table.}
+Can be combined with \verb{$data} by (left) joining on the key column \code{"uhash"}.}
 }
 \if{html}{\out{</div>}}
 }

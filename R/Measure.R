@@ -58,7 +58,8 @@ Measure = R6Class("Measure",
     #'   Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
     #'
     #' * `"macro"`:
-    #'   The scoring function is applied on the [Prediction] object of each resampling iterations, each yielding a single numeric score.
+    #'   The scoring function is applied on the [Prediction] object of each resampling iterations,
+    #'   each yielding a single numeric score.
     #'   Next, the scores are combined with the `aggregator` function to a single numerical score.
     average = NULL,
 

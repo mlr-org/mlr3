@@ -63,9 +63,9 @@
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
     #' @field data ([data.table::data.table()])\cr
-    #' Tabular representation of the data.
-    #' Tasks, learners and resamplings are represented by their hash,
-    #' the objects themselves are stored in the fields `tasks`, `learners` and `resamplings`, respectively.
+    #' Internal tabular representation of the data.
+    #' Tasks, learners and resamplings are references by their hash.
+    #' The referenced objects can be accessed via `$tasks`, `$learners` or `$resamplings`, respectively.
     data = NULL,
 
     #' @field rr_data ([data.table::data.table()])\cr
@@ -75,9 +75,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Package develops may opt to add additional columns here.
     #'   These columns are preserved in all mutators.
     #'
-    #'   Can be combined with `$data` by (left) joining on the key column `"hash"`.
-    #'   E.g., \CRANpkg{mlr3tuning} stores additional information for the optimization path
-    #'   in this table.
+    #'   Can be combined with `$data` by (left) joining on the key column `"uhash"`.
     rr_data = NULL,
 
     #' @description
@@ -472,12 +470,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
 )
 
 #' @export
-as.data.table.BenchmarkResult = function(x, ...) {
+as.data.table.BenchmarkResult = function(x, ...) { # nolint
   denormalize_tab(x, reassemble_learner = TRUE)
 }
 
 #' @export
-c.BenchmarkResult = function(...) {
+c.BenchmarkResult = function(...) { # nolint
   bmrs = lapply(list(...), as_benchmark_result)
   Reduce(function(lhs, rhs) lhs$combine(rhs), tail(bmrs, -1L), init = bmrs[[1L]]$clone(deep = TRUE))
 }
@@ -510,21 +508,6 @@ as_benchmark_result = function(x, ...) {
 #' @export
 as_benchmark_result.BenchmarkResult = function(x, ...) { # nolint
   x
-}
-
-denormalize_tab = function(bmr, data = bmr$data, reassemble_learner = FALSE) {
-  tab = copy(data)
-  private = get_private(bmr)
-
-  tab$task = mget(tab$task, envir = private$.tasks, inherits = FALSE)
-  tab$learner = mget(tab$learner, envir = private$.learners, inherits = FALSE)
-  tab$resampling = mget(tab$resampling, envir = private$.resamplings, inherits = FALSE)
-
-  if (reassemble_learner) {
-    tab$learner = reassemble_learner(tab$learner, tab$state)
-  }
-
-  remove_named(tab, "state")
 }
 
 bmr_resample_results = function(bmr, data = bmr$data) {
