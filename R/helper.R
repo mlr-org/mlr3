@@ -26,14 +26,6 @@ allow_partial_matching = list(
   warnPartialMatchDollar = FALSE
 )
 
-get_progressor = function(n, label = NA_character_) {
-  if (!isNamespaceLoaded("progressr")) {
-    return(NULL)
-  }
-
-  progressr::progressor(steps = n, label = label)
-}
-
 
 replace_with = function(x, needle, replacement) {
   ii = (x == needle)
@@ -41,14 +33,4 @@ replace_with = function(x, needle, replacement) {
   replace(x, ii, replacement)
 }
 
-reassemble_learner = function(learner, state) {
-  Map(function(l, s) {
-        l = l$clone(deep = TRUE)
-        l$state = s
-        l
-  }, l = learner, s = state)
-}
 
-get_private = function(x) {
-  x$.__enclos_env__[["private"]]
-}
