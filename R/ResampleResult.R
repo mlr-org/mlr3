@@ -245,7 +245,7 @@ ResampleResult = R6Class("ResampleResult",
 )
 
 #' @export
-as.data.table.ResampleResult = function(x, ...) {
+as.data.table.ResampleResult = function(x, ...) { # nolint
   data.table(
     task = list(x$task),
     learner = x$learners,
@@ -276,25 +276,15 @@ as_resample_result = function(x, ...) {
   UseMethod("as_resample_result")
 }
 
-#' @rdname as_resample_result
-#' @export
-as_resample_result.data.table = function(x, ...) {
-  assert_names(x, must.include = mlr_reflections$rr_names)
-  ResampleResult$new(
-    task = x$task[[1L]],
-    learner = x$learner[[1L]],
-    states = 1)
-  # TODO: finish this one
-}
-
-
 #' @rdname as_benchmark_result
 #' @export
-as_benchmark_result.ResampleResult = function(x, ...) {
-  # TODO: optimize this one, we don't need to clone
-  tab = as.data.table(x)
-  tab[, "state" := map(x$learner, "state")]
-  tab[, "learner" := list(x$learner)]
-  tab[, "uhash" := x$uhash]
+as_benchmark_result.ResampleResult = function(x, ...) { # nolint
+  tab = cbind(x$data,
+    data.table(
+      task = list(x$task),
+      learner = list(x$learner),
+      resampling = list(x$resampling),
+      uhash = x$uhash)
+  )
   BenchmarkResult$new(tab)
 }

@@ -18,7 +18,7 @@
 ^\.ccache$
 ^\.github$
 ^tic\.R$
-^travis.yml\.R$
+^.travis.yml$
 ^.lintr$
 ^docs$
 ^\.vscode$
