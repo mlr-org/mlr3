@@ -63,7 +63,7 @@ Imports:
     lgr (>= 0.3.4),
     mlbench,
     mlr3measures (>= 0.1.3),
-    mlr3misc (>= 0.4.0),
+    mlr3misc (>= 0.4.0-9000),
     paradox (>= 0.4.0),
     uuid
 Suggests:
@@ -81,6 +81,8 @@ Suggests:
     testthat
 RdMacros:
     mlr3misc
+Remotes:
+    mlr-org/mlr3misc
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
