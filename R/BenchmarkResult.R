@@ -106,9 +106,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
         assert_names(names(data), must.include = slots)
       }
 
-      private$.tasks = extract_r6_dict(data, "task")
-      private$.learners = extract_r6_dict(data, "learner")
-      private$.resamplings = extract_r6_dict(data, "resampling")
+      private$.tasks = normalize_tab(data, "task")
+      private$.learners = normalize_tab(data, "learner")
+      private$.resamplings = normalize_tab(data, "resampling")
 
       setcolorder(data, slots)[]
       self$data = data
@@ -191,7 +191,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_flag(ids)
 
       # reassemble_learners = any(map_lgl(measures, function(m) "requires_learner" %in% m$properties))
-      tab = bmr_obj_table(self, reassemble_learner = TRUE)
+      tab = denormalize_tab(self, reassemble_learner = TRUE)
 
       for (m in measures) {
         set(tab, j = m$id, value = measure_score_data(m, tab))
@@ -446,7 +446,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
 #' @export
 as.data.table.BenchmarkResult = function(x, ...) {
-  bmr_obj_table(x, reassemble_learner = TRUE)
+  denormalize_tab(x, reassemble_learner = TRUE)
 }
 
 #' @export
@@ -457,7 +457,7 @@ c.BenchmarkResult = function(...) {
 
 #' @importFrom stats friedman.test
 #' @export
-friedman.test.BenchmarkResult = function(y, measure = NULL, ...) {
+friedman.test.BenchmarkResult = function(y, measure = NULL, ...) { # nolint
   # FIXME: this must be documented somewhere else
   measure = assert_measure(as_measure(measure, task_type = y$task_type))
   aggr = y$aggregate(measure)
@@ -481,11 +481,11 @@ as_benchmark_result = function(x, ...) {
 }
 
 #' @export
-as_benchmark_result.BenchmarkResult = function(x, ...) {
+as_benchmark_result.BenchmarkResult = function(x, ...) { # nolint
   x
 }
 
-bmr_obj_table = function(bmr, data = bmr$data, reassemble_learner = FALSE) {
+denormalize_tab = function(bmr, data = bmr$data, reassemble_learner = FALSE) {
   tab = copy(data)
   private = get_private(bmr)
 
@@ -531,7 +531,7 @@ bmr_resample_results = function(bmr, data = bmr$data) {
 #' Environment of distinct extracted R6 objects alongside their hash and id.
 #'
 #' @noRd
-extract_r6_dict = function(tab, col) {
+normalize_tab = function(tab, col) {
   values = tab[[col]]
   hashes = hashes(values)
   idx = which(!duplicated(hashes))
@@ -540,12 +540,12 @@ extract_r6_dict = function(tab, col) {
   ee
 }
 
-env2tab = function(ee, type) {
-  hash_col = sprintf("%s_hash", type)
-  id_col = sprintf("%s_id", type)
-  tab = enframe(ee, name = hash_col, value = type)
-  tab[[id_col]] = ids(tab[[type]])
-  setcolorder(tab, c(hash_col, id_col, type))[]
+env2tab = function(ee, obj_type) {
+  hash_col = sprintf("%s_hash", obj_type)
+  id_col = sprintf("%s_id", obj_type)
+  tab = enframe(ee, name = hash_col, value = obj_type)
+  tab[[id_col]] = ids(tab[[obj_type]])
+  setcolorder(tab, c(hash_col, id_col, obj_type))[]
 }
 
 copy_r6_dict = function(env) {
