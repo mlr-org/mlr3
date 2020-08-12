@@ -329,8 +329,11 @@ Same procedure for \code{learner_ids} and \code{resampling_ids}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$filter(
   task_ids = NULL,
+  task_hashes = NULL,
   learner_ids = NULL,
-  resampling_ids = NULL
+  learner_hashes = NULL,
+  resampling_ids = NULL,
+  resampling_hashes = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -340,11 +343,20 @@ Same procedure for \code{learner_ids} and \code{resampling_ids}.
 \item{\code{task_ids}}{(\code{character()})\cr
 Ids of \link{Task}s to keep.}
 
+\item{\code{task_hashes}}{(\code{character()})\cr
+Hashes of \link{Task}s to keep.}
+
 \item{\code{learner_ids}}{(\code{character()})\cr
 Ids of \link{Learner}s to keep.}
 
+\item{\code{learner_hashes}}{(\code{character()})\cr
+Hashes of \link{Learner}s to keep.}
+
 \item{\code{resampling_ids}}{(\code{character()})\cr
 Ids of \link{Resampling}s to keep.}
+
+\item{\code{resampling_hashes}}{(\code{character()})\cr
+Hashes of \link{Resampling}s to keep.}
 }
 \if{html}{\out{</div>}}
 }

@@ -202,7 +202,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
         tab[, "task_id" := ids(task)]
         tab[, "learner_id" := ids(learner)]
         tab[, "resampling_id" := ids(resampling)]
-        setcolorder(tab, c("nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration", "prediction"))
+        setcolorder(tab, c("nr", "task", "task_id", "learner", "learner_id",
+            "resampling", "resampling_id", "iteration", "prediction"))
       } else {
         setcolorder(tab, "nr")
       }
@@ -283,41 +284,67 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @param task_ids (`character()`)\cr
     #'   Ids of [Task]s to keep.
-    #'
+    #' @param task_hashes (`character()`)\cr
+    #'   Hashes of [Task]s to keep.
     #' @param learner_ids (`character()`)\cr
     #'   Ids of [Learner]s to keep.
-    #'
+    #' @param learner_hashes (`character()`)\cr
+    #'   Hashes of [Learner]s to keep.
     #' @param resampling_ids (`character()`)\cr
     #'   Ids of [Resampling]s to keep.
+    #' @param resampling_hashes (`character()`)\cr
+    #'   Hashes of [Resampling]s to keep.
     #'
     #' @return
     #' Returns the object itself, but modified **by reference**.
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
-    filter = function(task_ids = NULL, learner_ids = NULL, resampling_ids = NULL) {
+    filter = function(task_ids = NULL, task_hashes = NULL, learner_ids = NULL, learner_hashes = NULL,
+      resampling_ids = NULL, resampling_hashes = NULL) {
+
       keep_ids = function(ee, ids) {
         delete = names(ee)[ids(ee) %nin% ids]
+        rm(list = delete, envir = ee)
+      }
+
+      keep_hashes = function(ee, hashes) {
+        delete = setdiff(names(ee), hashes)
         rm(list = delete, envir = ee)
       }
 
       if (!is.null(task_ids)) {
         assert_character(task_ids, any.missing = FALSE)
         keep_ids(private$.tasks, task_ids)
-        self$data = self$data[names(private$.tasks), on = "task", nomatch = NULL]
+      }
+
+      if (!is.null(task_hashes)) {
+        assert_character(task_hashes, any.missing = FALSE)
+        keep_hashes(private$.tasks, task_hashes)
       }
 
       if (!is.null(learner_ids)) {
         assert_character(learner_ids, any.missing = FALSE)
         keep_ids(private$.learners, learner_ids)
-        self$data = self$data[names(private$.learners), on = "learner", nomatch = NULL]
+      }
+
+      if (!is.null(learner_hashes)) {
+        assert_character(learner_hashes, any.missing = FALSE)
+        keep_hashes(private$.learners, learner_hashes)
       }
 
       if (!is.null(resampling_ids)) {
         assert_character(resampling_ids, any.missing = FALSE)
         keep_ids(private$.resamplings, resampling_ids)
-        self$data = self$data[names(private$.resamplings), on = "resampling", nomatch = NULL]
       }
 
+      if (!is.null(resampling_hashes)) {
+        assert_character(resampling_hashes, any.missing = FALSE)
+        keep_hashes(private$.resamplings, resampling_hashes)
+      }
+
+      self$data = self$data[task %in% names(private$.tasks)]
+      self$data = self$data[learner %in% names(private$.learners)]
+      self$data = self$data[resampling %in% names(private$.resamplings)]
       self$rr_data = self$rr_data[uhash %in% self$data$uhash]
 
       invisible(self)
@@ -502,6 +529,7 @@ denormalize_tab = function(bmr, data = bmr$data, reassemble_learner = FALSE) {
 
 bmr_resample_results = function(bmr, data = bmr$data) {
   private = get_private(bmr)
+  task = learner = resampling = state = iteration = prediction = uhash = NULL
 
   data[, list(
     iters = .N,

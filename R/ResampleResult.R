@@ -293,7 +293,7 @@ as_resample_result.data.table = function(x, ...) {
 as_benchmark_result.ResampleResult = function(x, ...) {
   # TODO: optimize this one, we don't need to clone
   tab = as.data.table(x)
-  tab[, "state" := map(learner, "state")]
+  tab[, "state" := map(x$learner, "state")]
   tab[, "learner" := list(x$learner)]
   tab[, "uhash" := x$uhash]
   BenchmarkResult$new(tab)
