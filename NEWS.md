@@ -1,3 +1,8 @@
+# mlr3 0.5.0-9000
+
+* Compact in-memory representation of R6 objects to save space when
+  saving mlr3 objects via saveRDS(), serialize() etc.
+
 # mlr3 0.5.0
 
 * Added classification task `breast_cancer`
