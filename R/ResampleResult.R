@@ -161,13 +161,8 @@ ResampleResult = R6Class("ResampleResult",
       assert_measures(measures, task = self$task, learner = self$learner)
       assert_flag(ids)
 
-      tab = data.table(
-        task = list(self$task),
-        learner = self$learners,
-        resampling = list(self$resampling),
-        iteration = self$data$iteration,
-        prediction = self$predictions()
-      )
+      reassemble_learners = any(map_lgl(measures, function(m) "requires_model" %in% m$properties))
+      tab = as.data.table(self, reassemble_learners = reassemble_learners)
 
       for (m in measures) {
         set(tab, j = m$id, value = measure_score_data(m, tab))
@@ -250,10 +245,10 @@ ResampleResult = R6Class("ResampleResult",
 )
 
 #' @export
-as.data.table.ResampleResult = function(x, ...) { # nolint
+as.data.table.ResampleResult = function(x, ..., reassemble_learners = TRUE) { # nolint
   data.table(
     task = list(x$task),
-    learner = x$learners,
+    learner = if (reassemble_learners) x$learners else list(x$learner),
     resampling = list(x$resampling),
     iteration = x$data$iteration,
     prediction = x$data$prediction

@@ -249,8 +249,9 @@ Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Method \code{score()}}{
 Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
 and calculates a numeric score.
-If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"} or \code{"requires_train_set"}, you must additionally
-pass the respective \link{Task}, the trained \link{Learner} or the training set indices.
+If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"},
+\code{"requires_model"} or \code{"requires_train_set"}, you must additionally
+pass the respective \link{Task}, the (trained) \link{Learner} or the training set indices.
 This is handled internally during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Measure$score(prediction, task = NULL, learner = NULL, train_set = NULL)}\if{html}{\out{</div>}}

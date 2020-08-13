@@ -223,11 +223,11 @@ as.data.table.PredictionClassif = function(x, ...) {
 #' @export
 c.PredictionClassif = function(..., keep_duplicates = TRUE) {
   dots = list(...)
-  assert_list(dots, "PredictionClassif")
-  assert_flag(keep_duplicates)
   if (length(dots) == 1L) {
     return(dots[[1L]])
   }
+  assert_list(dots, "PredictionClassif")
+  assert_flag(keep_duplicates)
 
   predict_types = map(dots, "predict_types")
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {

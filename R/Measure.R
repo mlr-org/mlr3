@@ -145,8 +145,9 @@ Measure = R6Class("Measure",
     #' @description
     #' Takes a [Prediction] (or a list of [Prediction] objects named with valid `predict_sets`)
     #' and calculates a numeric score.
-    #' If the measure if flagged with the properties `"requires_task"`, `"requires_learner"` or `"requires_train_set"`, you must additionally
-    #' pass the respective [Task], the trained [Learner] or the training set indices.
+    #' If the measure if flagged with the properties `"requires_task"`, `"requires_learner"`,
+    #' `"requires_model"` or `"requires_train_set"`, you must additionally
+    #' pass the respective [Task], the (trained) [Learner] or the training set indices.
     #' This is handled internally during [resample()]/[benchmark()].
     #'
     #' @param prediction ([Prediction] | named list of [Prediction]).
@@ -167,6 +168,10 @@ Measure = R6Class("Measure",
 
       if ("requires_learner" %in% self$properties && is.null(learner)) {
         stopf("Measure '%s' requires a learner", self$id)
+      }
+
+      if ("requires_model" %in% self$properties && (is.null(learner) || is.null(learner$model))) {
+        stopf("Measure '%s' requires the trained model", self$id)
       }
 
       if ("requires_train_set" %in% self$properties && is.null(train_set)) {
@@ -195,7 +200,8 @@ Measure = R6Class("Measure",
       if (self$average == "macro") {
         aggregator = self$aggregator %??% mean
         # FIXME: optimize this call
-        aggregator(measure_score_data(self, as.data.table(rr)))
+        tab = as.data.table(rr, reassemble_learners = "requires_learner" %in% self$properties)
+        aggregator(measure_score_data(self, tab))
       } else { # "micro"
         self$score(rr$prediction(self$predict_sets))
       }

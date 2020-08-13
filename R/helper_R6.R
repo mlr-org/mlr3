@@ -56,7 +56,7 @@ normalize_tab = function(tab, col) {
 #' @return (`data.table()`) with hashes replaced by their referenced objects.
 #'
 #' @noRd
-denormalize_tab = function(bmr, data = bmr$data, reassemble_learner = FALSE) {
+denormalize_tab = function(bmr, data = bmr$data, reassemble_learners = FALSE) {
   tab = copy(data)
   private = get_private(bmr)
 
@@ -64,7 +64,7 @@ denormalize_tab = function(bmr, data = bmr$data, reassemble_learner = FALSE) {
   tab$learner = mget(tab$learner, envir = private$.learners, inherits = FALSE)
   tab$resampling = mget(tab$resampling, envir = private$.resamplings, inherits = FALSE)
 
-  if (reassemble_learner) {
+  if (reassemble_learners) {
     tab$learner = reassemble_learner(tab$learner, tab$state)
   }
 
