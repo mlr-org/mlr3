@@ -105,6 +105,14 @@ env2tab = function(ee, obj_type) {
 #'
 #' @return (`environment()`).
 #' @noRd
-copy_r6_dict = function(ee, deep = FALSE) {
-  list2env(eapply(ee, function(x) x$clone(deep = deep)), parent = emptyenv(), hash = TRUE)
+copy_r6_dict = function(ee, clone = TRUE, deep = FALSE) {
+  if (isTRUE(clone)) {
+    new_env = list2env(eapply(ee, function(x) x$clone(deep = deep)), parent = emptyenv(), hash = TRUE)
+  } else {
+    new_env = new.env(parent = emptyenv(), hash = TRUE)
+    for (name in ls(ee, all.names = TRUE)) {
+      assign(name, value = get(name, envir = ee, inherits = FALSE), envir = new_env)
+    }
+  }
+  new_env
 }

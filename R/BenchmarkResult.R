@@ -459,7 +459,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
     deep_clone = function(name, value) {
       if (name %in% c(".tasks", ".learners", ".resamplings")) {
-        copy_r6_dict(value)
+        copy_r6_dict(value, clone = FALSE)
       } else if (name %in% c("data", "rr_data")) {
         copy(value)
       } else {
