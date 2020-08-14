@@ -2,6 +2,8 @@
 
 * Compact in-memory representation of R6 objects to save space when
   saving mlr3 objects via saveRDS(), serialize() etc.
+* Fixed data set `breast_cancer`: all factor features are now
+  correctly stored as ordered factors.
 
 # mlr3 0.5.0
 
