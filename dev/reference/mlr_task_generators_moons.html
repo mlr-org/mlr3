@@ -218,7 +218,7 @@ binary classification problem.</p>
 <p><hr>
 <a id="method-plot"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/plot.html'>plot()</a></code></h3>
 <p>Creates a simple plot of generated data.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskGeneratorMoons</span>$<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>19L</span>, <span class='no'>...</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskGeneratorMoons</span>$<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200L</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>19L</span>, <span class='no'>...</span>)</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl'>
@@ -247,7 +247,7 @@ Additional arguments passed to <code><a href='https://rdrr.io/r/base/plot.html'>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>generator</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"moons"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>generator</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "data" is not a graphical parameter</span></div><div class='img'><img src='mlr_task_generators_moons-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>generator</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>200</span>)</div><div class='img'><img src='mlr_task_generators_moons-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>task</span> <span class='kw'>=</span> <span class='no'>generator</span>$<span class='fu'>generate</span>(<span class='fl'>200</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>())</div><div class='output co'>#&gt; Classes ‘data.table’ and 'data.frame':	200 obs. of  3 variables:
 #&gt;  $ y : Factor w/ 2 levels "A","B": 1 1 1 1 1 1 1 1 1 1 ...
