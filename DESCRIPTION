@@ -81,8 +81,6 @@ Suggests:
     testthat
 RdMacros:
     mlr3misc
-Remotes:
-    mlr-org/mlr3misc
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
