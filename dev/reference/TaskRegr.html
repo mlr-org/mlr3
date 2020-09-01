@@ -226,7 +226,7 @@ The <code>task_type</code> is set to <code>"regr"</code>.</p>
 <hr>
 <a id="method-new"></a></p><h3>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskRegr</span>$<span class='fu'>new</span>(<span class='no'>id</span>, <span class='no'>backend</span>, <span class='no'>target</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='no'>TaskRegr</span>$<span class='fu'>new</span>(<span class='no'>id</span>, <span class='no'>backend</span>, <span class='no'>target</span>, <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre><p></div></p>
 
 <h3>Arguments</h3>
 <p><div class="arguments"></p><dl'>
@@ -239,6 +239,10 @@ E.g., a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a><
 
 <dt><code>target</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Name of the target column.</p></dd>
+
+<dt><code>extra_args</code></dt><dd><p>(named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
+Named list of constructor arguments, required for converting task types
+via <code><a href='convert_task.html'>convert_task()</a></code>.</p></dd>
 
 </dl><p></div></p>
 <p><hr>

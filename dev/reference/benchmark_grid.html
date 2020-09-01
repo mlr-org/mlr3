@@ -197,14 +197,14 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 <span class='no'>learners</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>))
 <span class='no'>resamplings</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>), <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>))
 <span class='fu'>benchmark_grid</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>)</div><div class='output co'>#&gt;                 task                         learner
-#&gt; 1: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt;
-#&gt; 2: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt;
-#&gt; 3: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt;
-#&gt; 4: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt;
-#&gt; 5: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt;
-#&gt; 6: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt;
-#&gt; 7: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt;
-#&gt; 8: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt;
+#&gt; 1: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 2: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 3: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[32]&gt;
+#&gt; 4: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[32]&gt;
+#&gt; 5: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 6: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 7: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[32]&gt;
+#&gt; 8: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[32]&gt;
 #&gt;                     resampling
 #&gt; 1:          &lt;ResamplingCV[19]&gt;
 #&gt; 2: &lt;ResamplingSubsampling[19]&gt;
