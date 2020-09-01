@@ -31,9 +31,12 @@ TaskRegr = R6Class("TaskRegr",
     #'
     #' @param target (`character(1)`)\cr
     #'   Name of the target column.
-    initialize = function(id, backend, target) {
+    #' @template param_extra_args
+    initialize = function(id, backend, target, extra_args = list()) {
       assert_string(target)
-      super$initialize(id = id, task_type = "regr", backend = backend, target = target)
+      super$initialize(
+        id = id, task_type = "regr", backend = backend,
+        target = target, extra_args = extra_args)
 
       type = self$col_info[id == target]$type
       if (type %nin% c("integer", "numeric")) {

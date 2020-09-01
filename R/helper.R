@@ -32,5 +32,3 @@ replace_with = function(x, needle, replacement) {
   x = rep(x, 1L + (length(replacement) - 1L) * ii)
   replace(x, ii, replacement)
 }
-
-

@@ -11,6 +11,7 @@
 #' * Column names have been converted to `snake_case`.
 #' * Positive class is set to `"malignant"`.
 #' * 16 incomplete cases have been removed from the data set.
+#' * All factor features have been converted to ordered factors.
 #'
 #' @section Construction:
 #' ```
@@ -28,6 +29,9 @@ NULL
 load_task_breast_cancer = function(id = "breast_cancer") {
   tab = load_dataset("BreastCancer", "mlbench")
   names(tab) = tolower(chartr(".", "_", colnames(tab)))
+  for (cn in c("bare_nuclei", "bl_cromatin", "normal_nucleoli", "mitoses")) {
+    tab[[cn]] = ordered(tab[[cn]])
+  }
   b = as_data_backend(remove_named(tab[stats::complete.cases(tab), ], "id"))
 
   task = TaskClassif$new(id, b, target = "class", positive = "malignant")

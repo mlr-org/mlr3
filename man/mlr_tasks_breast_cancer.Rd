@@ -13,6 +13,7 @@ A classification task for the \link[mlbench:BreastCancer]{mlbench::BreastCancer}
 \item Column names have been converted to \code{snake_case}.
 \item Positive class is set to \code{"malignant"}.
 \item 16 incomplete cases have been removed from the data set.
+\item All factor features have been converted to ordered factors.
 }
 }
 \section{Construction}{
