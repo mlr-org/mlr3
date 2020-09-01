@@ -68,6 +68,8 @@ reference:
   - title: Tasks
     contents:
       - starts_with("mlr_tasks")
+      - convert_task
+      - starts_with("as_task_")
   - title: Task Generators
     contents:
       - TaskGenerator
