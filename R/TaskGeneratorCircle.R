@@ -39,7 +39,7 @@ TaskGeneratorCircle = R6Class("TaskGeneratorCircle",
     #'   Point char. Passed to [plot()].
     #' @param ... (any)\cr
     #'   Additional arguments passed to [plot()].
-    plot = function(n = 200, pch = 19L, ...) {
+    plot = function(n = 200L, pch = 19L, ...) {
       plot(private$.generate_obj(n), pch = pch, ...)
     }
   ),

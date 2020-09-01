@@ -33,12 +33,13 @@ Checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/w
       - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
       - [mlr3tuning](https://cheatsheets.mlr-org.com/mlr3tuning.pdf)
       - [mlr3pipelines](https://cheatsheets.mlr-org.com/mlr3pipelines.pdf)
-  - **Videos**: Currently 2 recorded talks exist from useR\!2019. Both
-    are somewhat outdated already but can be useful to get a first
-    overview about the package ecosystem and design ideas.
-      - [mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
-      - [mlr3pipelines and
+  - **Videos**:
+      - [useR2019 talk on
+        mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
+      - [useR2019 talk on mlr3pipelines and
         mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
+      - [useR2020 tutorial on mlr3, mlr3tuning and
+        mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
   - **Courses/Lectures**
       - The course [Introduction to Machine learning
         (I2ML)](https://compstat-lmu.github.io/lecture_i2ml/) is a free

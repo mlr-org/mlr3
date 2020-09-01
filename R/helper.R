@@ -48,7 +48,9 @@ use_future = function() {
 }
 
 get_rng_state = function() {
-  list(seed = get_seed(), kind = RNGkind())
+  state = list(seed = get_seed(), kind = RNGkind())
+  names(state$kind) = c("kind", "normal.kind", "sample.kind")
+  state
 }
 
 restore_rng_state = function(prev) {

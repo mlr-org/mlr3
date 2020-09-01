@@ -75,7 +75,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Method \code{plot()}}{
 Creates a simple plot of generated data.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator2DNormals$plot(n = 200, pch = 19L, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskGenerator2DNormals$plot(n = 200L, pch = 19L, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
