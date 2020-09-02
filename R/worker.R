@@ -231,14 +231,6 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
   list(learner_state = learner$state, prediction = prediction)
 }
 
-# called on the master, re-constructs objects from return value of
-# the workhorse function
-reassemble = function(result, learner) {
-  learner = learner$clone()
-  learner$state = result$learner_state
-  list(learner = list(learner), prediction = list(result$prediction))
-}
-
 append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {
   if (is.null(log)) {
     log = data.table(
