@@ -65,66 +65,45 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param task ([TaskClassif])\cr
-    #'   Task, used to extract defaults for `row_ids` and `truth`.
+    #' @param pdata ([PredictionData])\cr
+    #'   Named list with the following elements:
     #'
-    #' @param row_ids (`integer()`)\cr
-    #'   Row ids of the predicted observations, i.e. the row ids of the test set.
+    #'   * `row_ids` (`integer()`)\cr
+    #'     Row ids of the predicted observations, i.e. the row ids of the test set.
+    #'   * `truth` (`factor()`)\cr
+    #'     True (observed) labels. See the note on manual construction.
+    #'   * `response` (`character()` | `factor()` | `NULL`)\cr
+    #'     Vector of predicted class labels.
+    #'     One element for each observation in the test set.
+    #'     Character vectors are automatically converted to factors.
+    #'     See the note on manual construction.
+    #'   * `prob` (`matrix()` | `NULL`)\cr
+    #'     Numeric matrix of posterior class probabilities with one column for each class
+    #'     and one row for each observation in the test set.
+    #'     Columns must be named with class labels, row names are automatically removed.
+    #'     If `prob` is provided, but `response` is not, the class labels are calculated from
+    #'     the probabilities using [max.col()] with `ties.method` set to `"random"`.
     #'
-    #' @param truth (`factor()`)\cr
-    #'   True (observed) labels. See the note on manual construction.
-    #'
-    #' @param response (`character()` | `factor()`)\cr
-    #'   Vector of predicted class labels.
-    #'   One element for each observation in the test set.
-    #'   Character vectors are automatically converted to factors.
-    #'   See the note on manual construction.
-    #'
-    #' @param prob (`matrix()`)\cr
-    #'   Numeric matrix of posterior class probabilities with one column for each class
-    #'   and one row for each observation in the test set.
-    #'   Columns must be named with class labels, row names are automatically removed.
-    #'   If `prob` is provided, but `response` is not, the class labels are calculated from
-    #'   the probabilities using [max.col()] with `ties.method` set to `"random"`.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL) {
-      row_ids = assert_row_ids(row_ids)
-      n = length(row_ids)
-
-      truth = assert_factor(truth, len = n, null.ok = TRUE)
-      lvls = levels(truth)
-
-      if (!is.null(response)) {
-        response = assert_factor(as_factor(response, levels = lvls), len = n)
+    #' @param check (`logical(1)`)\cr
+    #'   If `TRUE`, performs some argument checks and predict type conversions on `pdata`.
+    initialize = function(pdata, check = TRUE) {
+      assert_flag(check)
+      if (check) {
+        pdata = check_prediction_data(pdata)
       }
 
-      if (!is.null(prob)) {
-        assert_matrix(prob, nrows = n, ncols = length(lvls))
-        assert_numeric(prob, lower = 0, upper = 1)
-        if (!identical(colnames(prob), lvls)) {
-          assert_names(colnames(prob), permutation.of = lvls)
-          prob = prob[, match(colnames(prob), lvls), drop = FALSE]
-        }
-        if (!is.null(rownames(prob))) {
-          rownames(prob) = NULL
-        }
-
-        if (is.null(response)) {
-          # calculate response from prob
-          i = max.col(prob, ties.method = "random")
-          response = factor(colnames(prob)[i], levels = lvls)
-        }
-      }
-
-      self$task_type = "classif"
-      self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(prob))]
-      self$data$tab = data.table(
-        row_id = row_ids,
-        truth = truth,
-        response = response
-      )
-      self$data$prob = prob
-      self$man = "mlr3::PredictionClassif"
+      self$data = pdata
+      self$predict_types = intersect(c("response", "prob"), names(pdata))
     },
+
+
+    #' @template field_task_type
+    task_type = "classif",
+
+
+    #' @template field_man
+    man = "mlr3::PredictionClassif",
+
 
     #' @description
     #' Sets the prediction response based on the provided threshold.
@@ -210,7 +189,8 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
 
 #' @export
 as.data.table.PredictionClassif = function(x, ...) {
-  tab = copy(x$data$tab)
+  tab = as.data.table(x$data[c("row_ids", "truth", "response")])
+
   if ("prob" %in% x$predict_types) {
     prob = as.data.table(x$data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))

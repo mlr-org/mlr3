@@ -21,60 +21,43 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
-    #' @param task ([TaskRegr])\cr
-    #'   Task, used to extract defaults for `row_ids` and `truth`.
+    #' @param pdata ([PredictionData])\cr
+    #'   Named list with the following elements:
     #'
-    #' @param row_ids (`integer()`)\cr
-    #'   Row ids of the predicted observations, i.e. the row ids of the test set.
+    #'   * `row_ids` (`integer()`)\cr
+    #'     Row ids of the predicted observations, i.e. the row ids of the test set.
+    #'   * `truth` (`numeric()`)\cr
+    #'     True (observed) response.
+    #'   * `response` (`numeric()` | `NULL`)\cr
+    #'     Vector of numeric response values.
+    #'     One element for each observation in the test set.
+    #'   * `se` (`numeric()` | `NULL`)\cr
+    #'     Numeric vector of predicted standard errors.
+    #'     One element for each observation in the test set.
+    #'   * `distr` ([distr6::VectorDistribution] | `NULL`)\cr
+    #'     [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
+    #'     Each individual distribution in the vector represents the random variable 'survival time'
+    #'     for an individual observation.
     #'
-    #' @param truth (`numeric()`)\cr
-    #'   True (observed) response.
-    #'
-    #' @param response (`numeric()`)\cr
-    #'   Vector of numeric response values.
-    #'   One element for each observation in the test set.
-    #'
-    #' @param se (`numeric()`)\cr
-    #'   Numeric vector of predicted standard errors.
-    #'   One element for each observation in the test set.
-    #'
-    #' @param distr ([distr6::VectorDistribution])\cr
-    #'   [VectorDistribution][distr6::VectorDistribution] from \CRANpkg{distr6}.
-    #'   Each individual distribution in the vector represents the random variable 'survival time'
-    #'   for an individual observation.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL) {
-      row_ids = assert_row_ids(row_ids)
-      n = length(row_ids)
-      self$data = named_list(c("tab", "distr"))
-
-      assert_numeric(response, len = n, any.missing = FALSE, null.ok = TRUE)
-      assert_numeric(se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
-
-      if (!is.null(distr)) {
-        self$data$distr = assert_class(distr, "VectorDistribution")
-
-        if (is.null(response)) {
-          response = unname(distr$mean())
-        }
-
-        if (is.null(se)) {
-          se = unname(distr$stdev())
-        }
+    #' @param check (`logical(1)`)\cr
+    #'   If `TRUE`, performs some argument checks and predict type conversions on `pdata`.
+    initialize = function(pdata, check = TRUE) {
+      assert_flag(check)
+      if (check) {
+        pdata = check_prediction_data(pdata)
       }
 
-      self$task_type = "regr"
-      self$predict_types = c("response", "se", "distr")[
-        c(!is.null(response), !is.null(se), !is.null(distr))
-      ]
-      self$data$tab = data.table(
-        row_id = row_ids,
-        truth = assert_numeric(truth, len = n, null.ok = TRUE),
-        response = response,
-        se = se
-      )
+      self$data = pdata
+      self$predict_types = intersect(c("response", "se", "distr"), names(pdata))
+    },
 
-      self$man = "mlr3::PredictionRegr"
-    }
+
+    #' @template field_task_type
+    task_type = "regr",
+
+
+    #' @template field_man
+    man = "mlr3::PredictionRegr"
   ),
 
   active = list(

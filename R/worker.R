@@ -40,9 +40,11 @@ predict_wrapper = function(task, learner) {
     predict_types = names(mlr_reflections$learner_predict_types[[learner$task_type]])
     assert_list(result, names = "unique")
     assert_names(names(result), subset.of = predict_types)
+    result = discard(result, is.null)
   }
   result$row_ids = task$row_ids
   result$truth = task$truth(result$row_ids)
+  class(result) = sprintf("PredictionData%s", c(capitalize(task$task_type), ""))
 
   return(result)
 }

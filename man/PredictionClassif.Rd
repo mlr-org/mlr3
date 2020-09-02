@@ -73,6 +73,21 @@ Other Prediction:
 \section{Super class}{
 \code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionClassif}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{task_type}}{(\code{character(1)})\cr
+Task type, e.g. \code{"classif"} or \code{"regr"}.
+
+For a complete list of possible task types (depending on the loaded packages),
+see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+Defaults to \code{NA}, but can be set by child classes.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -114,39 +129,34 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PredictionClassif$new(
-  task = NULL,
-  row_ids = task$row_ids,
-  truth = task$truth(),
-  response = NULL,
-  prob = NULL
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PredictionClassif$new(pdata, check = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{task}}{(\link{TaskClassif})\cr
-Task, used to extract defaults for \code{row_ids} and \code{truth}.}
-
-\item{\code{row_ids}}{(\code{integer()})\cr
-Row ids of the predicted observations, i.e. the row ids of the test set.}
-
-\item{\code{truth}}{(\code{factor()})\cr
-True (observed) labels. See the note on manual construction.}
-
-\item{\code{response}}{(\code{character()} | \code{factor()})\cr
+\item{\code{pdata}}{(\link{PredictionData})\cr
+Named list with the following elements:
+\itemize{
+\item \code{row_ids} (\code{integer()})\cr
+Row ids of the predicted observations, i.e. the row ids of the test set.
+\item \code{truth} (\code{factor()})\cr
+True (observed) labels. See the note on manual construction.
+\item \code{response} (\code{character()} | \code{factor()} | \code{NULL})\cr
 Vector of predicted class labels.
 One element for each observation in the test set.
 Character vectors are automatically converted to factors.
-See the note on manual construction.}
-
-\item{\code{prob}}{(\code{matrix()})\cr
+See the note on manual construction.
+\item \code{prob} (\code{matrix()} | \code{NULL})\cr
 Numeric matrix of posterior class probabilities with one column for each class
 and one row for each observation in the test set.
 Columns must be named with class labels, row names are automatically removed.
 If \code{prob} is provided, but \code{response} is not, the class labels are calculated from
-the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method} set to \code{"random"}.}
+the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method} set to \code{"random"}.
+}}
+
+\item{\code{check}}{(\code{logical(1)})\cr
+If \code{TRUE}, performs some argument checks and predict type conversions on \code{pdata}.}
 }
 \if{html}{\out{</div>}}
 }

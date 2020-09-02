@@ -58,11 +58,12 @@ Prediction = R6Class("Prediction",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      if (!nrow(self$data$tab)) {
+      n = length(self$data$row_ids)
+      if (n == 0L) {
         catf("%s for 0 observations", format(self))
       } else {
         data = as.data.table(self)
-        catf("%s for %i observations:", format(self), nrow(data))
+        catf("%s for %i observations:", format(self), n)
         print(data, nrows = 10L, topn = 3L, class = FALSE, row.names = FALSE, print.keys = FALSE)
       }
     },

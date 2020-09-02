@@ -182,7 +182,7 @@ Note that performance measures do not operate on this object,
 but instead on each prediction object separately and then combine the performance scores
 with the aggregate function of the respective \link{Measure}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$prediction(predict_sets = "test")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$prediction()}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -227,8 +227,9 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
-      pred = learner_predict(self, task, row_ids)
-      create_prediction(pred, task_type = self$task_type)
+      pdata = learner_predict(self, task, row_ids)
+      pdata = check_prediction_data(pdata)
+      as_prediction(pdata)
     },
 
     #' @description

@@ -32,3 +32,8 @@ replace_with = function(x, needle, replacement) {
   x = rep(x, 1L + (length(replacement) - 1L) * ii)
   replace(x, ii, replacement)
 }
+
+capitalize = function(str) {
+  substr(str, 1L, 1L) = toupper(substr(str, 1L, 1L))
+  str
+}

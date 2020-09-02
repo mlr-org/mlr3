@@ -24,6 +24,11 @@
 \alias{as_measures.NULL}
 \alias{as_measures.list}
 \alias{as_measures.Measure}
+\alias{as_prediction}
+\alias{as_prediction.Prediction}
+\alias{as_prediction.PredictionData}
+\alias{as_prediction.PredictionDataClassif}
+\alias{as_prediction.PredictionDataRegr}
 \title{Object Coercion}
 \usage{
 as_task(x, clone = FALSE)
@@ -69,6 +74,16 @@ as_measures(x, task_type = NULL, clone = FALSE)
 \method{as_measures}{list}(x, task_type = NULL, clone = FALSE)
 
 \method{as_measures}{Measure}(x, task_type = NULL, clone = FALSE)
+
+as_prediction(x, ...)
+
+\method{as_prediction}{Prediction}(x, ...)
+
+\method{as_prediction}{PredictionData}(x, task_type, ...)
+
+\method{as_prediction}{PredictionDataClassif}(x, ...)
+
+\method{as_prediction}{PredictionDataRegr}(x, ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr
@@ -79,15 +94,14 @@ If \code{TRUE}, ensures that the returned object is not the same as the input \c
 by cloning it or constructing it from a \link[mlr3misc:Dictionary]{dictionary} such as \link{mlr_learners}.}
 
 \item{task_type}{(\code{character(1)})\cr
-Used if \code{x} is \code{NULL} to construct a default measure for the respective task type.
-The default measures are stored in \code{\link[=mlr_reflections]{mlr_reflections$default_measures}}.}
+Type of task, e.g. \code{"classif"} or \code{"regr"}.}
 }
 \value{
 Coerced object. The default method will return the object as-is.
 Failed coercions have to be handled by on of the assertions in \link{mlr_assertions}.
 }
 \description{
-S3 generics and methods to coerce to (lists of) \link{Task}, \link{Learner}, \link{Resampling}, and \link{Measure}.
+S3 generics and methods to coerce to (lists of) \link{Task}, \link{Learner}, \link{Resampling}, \link{Measure} and \link{Prediction}.
 }
 \examples{
 # convert single measure to list of measures

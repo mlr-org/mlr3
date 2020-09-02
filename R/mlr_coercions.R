@@ -2,7 +2,7 @@
 #'
 #' @name mlr_coercions
 #' @description
-#' S3 generics and methods to coerce to (lists of) [Task], [Learner], [Resampling], and [Measure].
+#' S3 generics and methods to coerce to (lists of) [Task], [Learner], [Resampling], [Measure] and [Prediction].
 #'
 #' @param x (`any`)\cr
 #'   Object to coerce.
@@ -151,4 +151,37 @@ as_measures.list = function(x, task_type = NULL, clone = FALSE) {
 #' @rdname mlr_coercions
 as_measures.Measure = function(x, task_type = NULL, clone = FALSE) {
   list(if (clone) x$clone() else x)
+}
+
+#' @export
+#' @rdname mlr_coercions
+as_prediction = function(x, ...) {
+  UseMethod("as_prediction")
+}
+
+#' @export
+#' @rdname mlr_coercions
+as_prediction.Prediction = function(x, ...) { # nolint
+  x
+}
+
+#' @export
+#' @param task_type (`character(1)`)\cr
+#'   Type of task, e.g. `"classif"` or `"regr"`.
+#' @rdname mlr_coercions
+as_prediction.PredictionData = function(x, task_type, ...) { # nolint
+  constructor = get(mlr_reflections$task_types[list(task_type), on = "type"]$prediction)
+  invoke(constructor$new, pdata = x)
+}
+
+#' @export
+#' @rdname mlr_coercions
+as_prediction.PredictionDataClassif = function(x, ...) { # nolint
+  as_prediction.PredictionData(x, task_type = "classif")
+}
+
+#' @export
+#' @rdname mlr_coercions
+as_prediction.PredictionDataRegr = function(x, ...) { # nolint
+  as_prediction.PredictionData(x, task_type = "regr")
 }

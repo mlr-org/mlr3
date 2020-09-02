@@ -137,7 +137,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   Subset of `{"train", "test"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     predictions = function(predict_sets = "test") {
-      map(self$data$prediction, create_prediction, task_type = self$task$task_type)
+      map(self$data$prediction, as_prediction)
     },
 
     #' @description

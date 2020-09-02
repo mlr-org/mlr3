@@ -116,6 +116,7 @@ Collate:
     'MeasureSimple.R'
     'Prediction.R'
     'PredictionClassif.R'
+    'PredictionData.R'
     'PredictionRegr.R'
     'ResampleResult.R'
     'Resampling.R'
