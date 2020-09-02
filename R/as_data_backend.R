@@ -9,7 +9,8 @@
 #'   a [DataBackendDataTable] is created.
 #'   See `methods("as_data_backend")` for possible input formats.
 #'
-#'   Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects implemented in \CRANpkg{dbplyr}.
+#'   Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects
+#'   implemented in \CRANpkg{dbplyr}.
 #'   This allows to interface many different data base systems such as SQL servers.
 #'
 #' @template param_primary_key
@@ -28,6 +29,6 @@ as_data_backend = function(data, primary_key = NULL, ...) {
 }
 
 #' @export
-as_data_backend.DataBackend = function(data, primary_key = NULL, ...) {
+as_data_backend.DataBackend = function(data, primary_key = NULL, ...) { # nolint
   data
 }
