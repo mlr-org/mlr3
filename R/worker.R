@@ -30,13 +30,19 @@ predict_wrapper = function(task, learner) {
     # TODO: deprecate this in the future
     result = learner$predict_internal(task)
   } else {
-    result = get_private(learner)$.predict(task)
+    result = learner$.__enclos_env__$private$.predict(task)
   }
 
-  if (!inherits(result, "Prediction")) {
-    stopf("Learner '%s' on task '%s' did not return a Prediction object, but instead: %s",
-      learner$id, task$id, as_short_string(result))
+  if (inherits(result, "Prediction")) {
+    # TODO: deprecate this in the future
+    result = set_names(lapply(result$predict_types, function(x) result[[x]]), result$predict_types)
+  } else {
+    predict_types = names(mlr_reflections$learner_predict_types[[learner$task_type]])
+    assert_list(result, names = "unique")
+    assert_names(names(result), subset.of = predict_types)
   }
+  result$row_ids = task$row_ids
+  result$truth = task$truth(result$row_ids)
 
   return(result)
 }
@@ -228,7 +234,8 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
     learner$state$model = NULL
   }
 
-  list(learner_state = learner$state, prediction = prediction)
+  # FIXME: more predict sets
+  list(learner_state = learner$state, prediction = prediction[[1L]])
 }
 
 append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {

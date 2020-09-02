@@ -125,8 +125,8 @@ ResampleResult = R6Class("ResampleResult",
     #' @param predict_sets (`character()`)\cr
     #'   Subset of `{"train", "test"}`.
     #' @return [Prediction].
-    prediction = function(predict_sets = "test") {
-      do.call(c, self$predictions(predict_sets = predict_sets))
+    prediction = function() {
+      do.call(c, self$predictions())
     },
 
     #' @description
@@ -137,9 +137,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   Subset of `{"train", "test"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     predictions = function(predict_sets = "test") {
-      map(self$data$prediction, function(li) {
-        do.call(c, li[predict_sets])
-      })
+      map(self$data$prediction, create_prediction, task_type = self$task$task_type)
     },
 
     #' @description

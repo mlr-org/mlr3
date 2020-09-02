@@ -116,3 +116,8 @@ copy_r6_dict = function(ee, clone = TRUE, deep = FALSE) {
   }
   new_env
 }
+
+create_prediction = function(x, task_type) {
+  constructor = get(mlr_reflections$task_types[list(task_type), on = "type"]$prediction)
+  invoke(constructor$new, .args = x)
+}
