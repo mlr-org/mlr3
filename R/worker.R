@@ -42,8 +42,8 @@ predict_wrapper = function(task, learner) {
     assert_names(names(result), subset.of = predict_types)
     result = discard(result, is.null)
   }
-  result$row_id = task$row_ids
-  result$truth = task$truth(result$row_id)
+  result$row_ids = task$row_ids
+  result$truth = task$truth(result$row_ids)
   class(result) = sprintf("PredictionData%s", c(capitalize(task$task_type), ""))
 
   return(result)
@@ -225,19 +225,18 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
 
   # predict for each set
   sets = sets[learner$predict_sets]
-  prediction = Map(function(set, row_ids) {
+  pdatas = Map(function(set, row_ids) {
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
   }, set = names(sets), row_ids = sets)
-  prediction = prediction[!vapply(prediction, is.null, NA)]
+  pdatas = pdatas[!vapply(pdatas, is.null, NA)]
 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
   }
 
-  # FIXME: more predict sets
-  list(learner_state = learner$state, prediction = prediction[[1L]])
+  list(learner_state = learner$state, prediction = pdatas)
 }
 
 append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {

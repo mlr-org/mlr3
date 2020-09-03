@@ -1,0 +1,53 @@
+#' @export
+check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
+  row_ids = assert_row_ids(pdata$row_ids)
+  n = length(row_ids)
+
+  assert_numeric(pdata$response, len = n, any.missing = FALSE, null.ok = TRUE)
+  assert_numeric(pdata$se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)
+
+  if (!is.null(pdata$distr)) {
+    assert_class(pdata$distr, "VectorDistribution")
+
+    if (is.null(pdata$response)) {
+      pdata$response = unname(distr$mean())
+    }
+
+    if (is.null(pdata$se)) {
+      pdata$se = unname(distr$stdev())
+    }
+  }
+
+  pdata
+}
+
+#' @export
+c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
+  dots = list(...)
+  assert_list(dots, "PredictionDataRegr")
+  assert_flag(keep_duplicates)
+  if (length(dots) == 1L) {
+    return(dots[[1L]])
+  }
+
+  # FIXME: Do we need this check?
+  predict_types = names(mlr_reflections$learner_predict_types$regr)
+  predict_types = map(dots, function(x) intersect(names(x), predict_types))
+  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
+    stopf("Cannot combine predictions: Different predict types")
+  }
+
+  tab = map_dtr(dots, function(x) x[c("row_ids", "truth", "response", "se")], .fill = FALSE)
+
+  if ("distr" %in% predict_types[[1L]]) {
+    require_namespaces("distr6")
+    tab$distr = do.call(c, map(dots, "distr"))
+  }
+
+  if (!keep_duplicates) {
+    tab = unique(tab, by = "row_ids", fromLast = TRUE)
+  }
+
+  result = as.list(tab)
+  set_class(result, "PredictionDataRegr")
+}

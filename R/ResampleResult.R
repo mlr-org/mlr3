@@ -84,7 +84,7 @@ ResampleResult = R6Class("ResampleResult",
       self$data = data.table(
         iteration = assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters),
         state = assert_list(states, len = length(iterations)),
-        prediction = assert_list(predictions, type = "PredictionData", len = length(iterations))
+        prediction = assert_list(predictions, len = length(iterations))
       )
       self$uhash = assert_string(uhash, null.ok = TRUE) %??% UUIDgenerate()
     },
@@ -126,7 +126,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   Subset of `{"train", "test"}`.
     #' @return [Prediction].
     prediction = function(predict_sets = "test") {
-      do.call(c, self$predictions())
+      do.call(c, self$predictions(predict_sets = predict_sets))
     },
 
     #' @description
@@ -137,7 +137,9 @@ ResampleResult = R6Class("ResampleResult",
     #'   Subset of `{"train", "test"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     predictions = function(predict_sets = "test") {
-      map(self$data$prediction, as_prediction)
+      map(self$data$prediction, function(li) {
+        as_prediction(do.call(c, li[predict_sets]))
+      })
     },
 
     #' @description
@@ -243,13 +245,13 @@ ResampleResult = R6Class("ResampleResult",
 )
 
 #' @export
-as.data.table.ResampleResult = function(x, ..., reassemble_learners = TRUE) { # nolint
+as.data.table.ResampleResult = function(x, ..., predict_sets = "test", reassemble_learners = TRUE) { # nolint
   data.table(
     task = list(x$task),
     learner = if (reassemble_learners) x$learners else list(x$learner),
     resampling = list(x$resampling),
     iteration = x$data$iteration,
-    prediction = map(x$data$prediction, as_prediction)
+    prediction = x$predictions(predict_sets)
   )
 }
 

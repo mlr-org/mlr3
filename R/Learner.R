@@ -228,14 +228,14 @@ Learner = R6Class("Learner",
       }
 
       pdata = learner_predict(self, task, row_ids)
-      pdata = check_prediction_data(pdata)
-      as_prediction(pdata)
+      as_prediction(check_prediction_data(pdata))
     },
 
     #' @description
     #' Uses the model fitted during `$train()` to create a new [Prediction] based on the new data in `newdata`.
     #' Object `task` is the task used during `$train()` and required for conversion of `newdata`.
-    #' If the learner's `$train()` method has been called, there is a (size reduced) version of the training task stored in the learner.
+    #' If the learner's `$train()` method has been called, there is a (size reduced) version
+    #' of the training task stored in the learner.
     #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
     #' in the [ResampleResult] or [BenchmarkResult], respectively.
     #'

@@ -46,7 +46,8 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL, check = TRUE) {
-      pdata = discard(list(row_ids = row_ids, truth = truth, response = response, se = se, distr = distr), is.null)
+      pdata = discard(list(row_ids = row_ids, truth = truth,
+            response = response, se = se, distr = distr), is.null)
       class(pdata) = "PredictionDataRegr"
 
       if (check) {
@@ -69,14 +70,14 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Access the stored predicted response.
     response = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$response %??% rep(NA_real_, length(self$data$row_id))
+      self$data$response %??% rep(NA_real_, length(self$data$row_ids))
     },
 
     #' @field se (`numeric()`)\cr
     #' Access the stored standard error.
     se = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$se %??% rep(NA_real_, length(self$data$row_id))
+      self$data$se %??% rep(NA_real_, length(self$data$row_ids))
     },
 
     #' @field distr ([distr6::VectorDistribution])\cr
@@ -93,7 +94,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
-      miss = logical(length(self$data$row_id))
+      miss = logical(length(self$data$row_ids))
 
       if ("response" %in% self$predict_types) {
         miss = is.na(self$response)
@@ -103,7 +104,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
         miss = miss | is.na(self$se)
       }
 
-      self$data$row_id[miss]
+      self$data$row_ids[miss]
     }
   )
 )
@@ -111,7 +112,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 
 #' @export
 as.data.table.PredictionRegr = function(x, ...) { # nolint
-  tab = as.data.table(x$data[c("row_id", "truth", "response", "se")])
+  tab = as.data.table(x$data[c("row_ids", "truth", "response", "se")])
 
   if ("distr" %in% x$predict_types) {
     require_namespaces("distr6")
@@ -129,23 +130,6 @@ c.PredictionRegr = function(..., keep_duplicates = TRUE) { # nolint
     return(dots[[1L]])
   }
 
-  predict_types = map(dots, "predict_types")
-  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
-    stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
-  }
-
-
-  pdatas = map(dots, "data")
-  tab = map_dtr(pdatas, function(x) x[c("row_id", "truth", "response", "se")], .fill = FALSE)
-
-  if ("distr" %in% predict_types[[1L]]) {
-    require_namespaces("distr6")
-    tab$distr = do.call(c, map(dots, "distr"))
-  }
-
-  if (!keep_duplicates) {
-    tab = unique(tab, by = "row_id", fromLast = TRUE)
-  }
-
-  PredictionRegr$new(row_ids = tab$row_id, truth = tab$truth, response = tab$response, se = tab$se, distr = tab$distr)
+  pdata = invoke(c.PredictionDataRegr, .args = map(dots, "data"), keep_duplicates = keep_duplicates)
+  as_prediction(pdata)
 }

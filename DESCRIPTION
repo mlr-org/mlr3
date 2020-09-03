@@ -117,6 +117,8 @@ Collate:
     'Prediction.R'
     'PredictionClassif.R'
     'PredictionData.R'
+    'PredictionDataClassif.R'
+    'PredictionDataRegr.R'
     'PredictionRegr.R'
     'ResampleResult.R'
     'Resampling.R'

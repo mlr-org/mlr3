@@ -92,7 +92,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, check = TRUE) {
       # TODO: switch to new interface with pdata as single argument after all learners have been
       #       migrated
-      pdata = discard(list(row_id = row_ids, truth = truth, response = response, prob = prob), is.null)
+      pdata = discard(list(row_ids = row_ids, truth = truth, response = response, prob = prob), is.null)
       class(pdata) = "PredictionDataClassif"
 
       if (check) {
@@ -158,7 +158,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' Access to the stored predicted class labels.
     response = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$response %??% factor(rep(NA, length(self$data$row_id)), levels(self$data$truth))
+      self$data$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth))
     },
 
     #' @field prob (`matrix()`)\cr
@@ -180,7 +180,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
-      miss = logical(length(self$data$row_id))
+      miss = logical(length(self$data$row_ids))
       if ("response" %in% self$predict_types) {
         miss = is.na(self$response)
       }
@@ -188,14 +188,14 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         miss = miss | apply(self$data$prob, 1L, anyMissing)
       }
 
-      self$data$row_id[miss]
+      self$data$row_ids[miss]
     }
   )
 )
 
 #' @export
 as.data.table.PredictionClassif = function(x, ...) { # nolint
-  tab = as.data.table(x$data[c("row_id", "truth", "response")])
+  tab = as.data.table(x$data[c("row_ids", "truth", "response")])
 
   if ("prob" %in% x$predict_types) {
     prob = as.data.table(x$data$prob)
@@ -209,26 +209,12 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
 #' @export
 c.PredictionClassif = function(..., keep_duplicates = TRUE) { # nolint
   dots = list(...)
+  assert_list(dots, "PredictionClassif")
+  assert_flag(keep_duplicates)
   if (length(dots) == 1L) {
     return(dots[[1L]])
   }
-  assert_list(dots, "PredictionClassif")
-  assert_flag(keep_duplicates)
 
-  predict_types = map(dots, "predict_types")
-  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
-    stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
-  }
-
-  pdatas = map(dots, "data")
-  tab = map_dtr(pdatas, function(x) x[c("row_id", "truth", "response")], .fill = FALSE)
-  prob = do.call(rbind, map(dots, "prob"))
-
-  if (!keep_duplicates) {
-    keep = !duplicated(tab, by = "row_id", fromLast = TRUE)
-    tab = tab[keep]
-    prob = prob[keep,, drop = FALSE]
-  }
-
-  PredictionClassif$new(row_ids = tab$row_id, truth = tab$truth, response = tab$response, prob = prob)
+  pdata = invoke(c.PredictionDataClassif, .args = map(dots, "data"), keep_duplicates = keep_duplicates)
+  as_prediction(pdata)
 }
