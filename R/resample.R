@@ -90,7 +90,7 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     }
   }
 
-  rr = ResampleResult$new(
+  ResampleResult$new(
     task = task,
     learner = learner,
     states = map(res, "learner_state"),
@@ -99,7 +99,4 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     predictions = map(res, "prediction"),
     uhash = NULL
   )
-  # self = rr
-  # private = private(self)
-  rr
 }

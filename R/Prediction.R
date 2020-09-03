@@ -58,7 +58,7 @@ Prediction = R6Class("Prediction",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      n = length(self$data$row_ids)
+      n = length(self$data$row_id)
       if (n == 0L) {
         catf("%s for 0 observations", format(self))
       } else {
@@ -98,21 +98,21 @@ Prediction = R6Class("Prediction",
     #'   Vector of row ids for which predictions are stored.
     row_ids = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab$row_id
+      self$data$row_id
     },
 
     #' @field truth (`any`)\cr
     #'   True (observed) outcome.
     truth = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab$truth
+      self$data$truth
     },
 
     #' @field missing (`integer()`)\cr
     #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab$row_id[0L] # empty vector
+      self$data$row_id[0L] # empty vector
     }
   )
 )

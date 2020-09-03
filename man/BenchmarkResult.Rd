@@ -170,7 +170,7 @@ Table with data for one resampling iteration per row, with at least the followin
 \item \code{"state"} (\code{list()}),
 \item \code{"resampling"} (\link{Resampling}),
 \item \code{"iteration"} (\code{integer(1)}),
-\item \code{"prediction"} (\link{Prediction}), and
+\item \code{"prediction"} (\link{PredictionData}), and
 \item \code{"uhash"} (\code{character(1)}).
 }
 

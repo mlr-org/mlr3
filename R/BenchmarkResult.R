@@ -89,7 +89,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   * `"state"` (`list()`),
     #'   * `"resampling"` ([Resampling]),
     #'   * `"iteration"` (`integer(1)`),
-    #'   * `"prediction"` ([Prediction]), and
+    #'   * `"prediction"` ([PredictionData]), and
     #'   * `"uhash"` (`character(1)`).
     #'
     #'   Column `"uhash"` is the unique hash of the corresponding [ResampleResult].
@@ -189,7 +189,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       assert_flag(ids)
 
       reassemble_learners = any(map_lgl(measures, function(m) "requires_model" %in% m$properties))
-      tab = denormalize_tab(self, reassemble_learners = reassemble_learners)
+      tab = denormalize_tab(self, reassemble_learners = reassemble_learners, convert_predictions = TRUE)
 
       for (m in measures) {
         set(tab, j = m$id, value = measure_score_data(m, tab))
@@ -470,8 +470,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
 )
 
 #' @export
-as.data.table.BenchmarkResult = function(x, ..., reassemble_learners = TRUE) { # nolint
-  denormalize_tab(x, reassemble_learners = reassemble_learners)
+as.data.table.BenchmarkResult = function(x, ..., reassemble_learners = TRUE, convert_predictions = TRUE) { # nolint
+  denormalize_tab(x, reassemble_learners = reassemble_learners, convert_predictions = convert_predictions)
 }
 
 #' @export

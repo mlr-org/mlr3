@@ -79,33 +79,44 @@ Returns \code{row_ids} for which the predictions are missing or incomplete.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PredictionRegr$new(pdata, check = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{PredictionRegr$new(
+  task = NULL,
+  row_ids = task$row_ids,
+  truth = task$truth(),
+  response = NULL,
+  se = NULL,
+  distr = NULL,
+  check = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{pdata}}{(\link{PredictionData})\cr
-Named list with the following elements:
-\itemize{
-\item \code{row_ids} (\code{integer()})\cr
-Row ids of the predicted observations, i.e. the row ids of the test set.
-\item \code{truth} (\code{numeric()})\cr
-True (observed) response.
-\item \code{response} (\code{numeric()} | \code{NULL})\cr
+\item{\code{task}}{(\link{TaskRegr})\cr
+Task, used to extract defaults for \code{row_ids} and \code{truth}.}
+
+\item{\code{row_ids}}{(\code{integer()})\cr
+Row ids of the predicted observations, i.e. the row ids of the test set.}
+
+\item{\code{truth}}{(\code{numeric()})\cr
+True (observed) response.}
+
+\item{\code{response}}{(\code{numeric()})\cr
 Vector of numeric response values.
-One element for each observation in the test set.
-\item \code{se} (\code{numeric()} | \code{NULL})\cr
+One element for each observation in the test set.}
+
+\item{\code{se}}{(\code{numeric()})\cr
 Numeric vector of predicted standard errors.
-One element for each observation in the test set.
-\item \code{distr} (\link[distr6:VectorDistribution]{distr6::VectorDistribution} | \code{NULL})\cr
+One element for each observation in the test set.}
+
+\item{\code{distr}}{(\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
 \link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
 Each individual distribution in the vector represents the random variable 'survival time'
-for an individual observation.
-}}
+for an individual observation.}
 
 \item{\code{check}}{(\code{logical(1)})\cr
-If \code{TRUE}, performs some argument checks and predict type conversions on \code{pdata}.}
+If \code{TRUE}, performs some argument checks and predict type conversions.}
 }
 \if{html}{\out{</div>}}
 }

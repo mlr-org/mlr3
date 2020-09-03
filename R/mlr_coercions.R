@@ -170,8 +170,9 @@ as_prediction.Prediction = function(x, ...) { # nolint
 #'   Type of task, e.g. `"classif"` or `"regr"`.
 #' @rdname mlr_coercions
 as_prediction.PredictionData = function(x, task_type, ...) { # nolint
-  constructor = get(mlr_reflections$task_types[list(task_type), on = "type"]$prediction)
-  invoke(constructor$new, pdata = x)
+  fn = mlr_reflections$task_types[list(task_type), "prediction", on = "type"][[1L]]
+  constructor = get(fn)
+  invoke(constructor$new, .args = x)
 }
 
 #' @export

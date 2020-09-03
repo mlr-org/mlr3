@@ -464,9 +464,9 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
   checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
   checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
 
-  lapply(rr$data$prediction, checkmate::expect_list, types = "Prediction", names = "unique")
+  checkmate::expect_list(rr$data$prediction, types = "PredictionData", len = expected_iters)
+  checkmate::expect_list(rr$predictions(), types = "Prediction", len = expected_iters)
   expect_prediction(rr$prediction())
-  checkmate::expect_list(rr$predictions(), "Prediction")
 }
 
 expect_benchmark_result = function(bmr) {

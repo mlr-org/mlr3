@@ -30,7 +30,7 @@ predict_wrapper = function(task, learner) {
     # TODO: deprecate this in the future
     result = learner$predict_internal(task)
   } else {
-    result = learner$.__enclos_env__$private$.predict(task)
+    result = get_private(learner)$.predict(task)
   }
 
   if (inherits(result, "Prediction")) {
@@ -42,8 +42,8 @@ predict_wrapper = function(task, learner) {
     assert_names(names(result), subset.of = predict_types)
     result = discard(result, is.null)
   }
-  result$row_ids = task$row_ids
-  result$truth = task$truth(result$row_ids)
+  result$row_id = task$row_ids
+  result$truth = task$truth(result$row_id)
   class(result) = sprintf("PredictionData%s", c(capitalize(task$task_type), ""))
 
   return(result)
