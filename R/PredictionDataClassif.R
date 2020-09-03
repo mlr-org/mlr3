@@ -1,6 +1,6 @@
 #' @export
 check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
-  row_ids = assert_row_ids(pdata$row_ids)
+  row_ids = assert_row_ids(pdata$row_id)
   n = length(row_ids)
   assert_factor(pdata$truth, len = n, null.ok = TRUE)
   lvls = levels(pdata$truth)
@@ -47,11 +47,12 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
     stopf("Cannot rbind predictions: Different predict types")
   }
 
-  tab = map_dtr(dots, function(x) x[c("row_ids", "truth", "response")], .fill = FALSE)
+  elems = c("row_id", "truth", intersect(predict_types[[1L]], "response"))
+  tab = map_dtr(dots, `[`, elems, .fill = FALSE)
   prob = do.call(rbind, map(dots, "prob"))
 
   if (!keep_duplicates) {
-    keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
+    keep = !duplicated(tab, by = "row_id", fromLast = TRUE)
     tab = tab[keep]
     prob = prob[keep,, drop = FALSE]
   }

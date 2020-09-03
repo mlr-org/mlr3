@@ -2,7 +2,7 @@ context("PredictionRegr")
 
 test_that("Construction", {
   task = tsk("boston_housing")
-  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
+  p = PredictionRegr$new(row_id = task$row_ids, truth = task$truth(), response = task$truth())
   expect_prediction(p)
   expect_prediction_regr(p)
 })
@@ -23,7 +23,7 @@ test_that("c", {
   lrn$predict_type = "se"
   rr = resample(task, lrn, rsmp("cv", folds = 3))
 
-  pred = do.call(c, map(rr$data$prediction, "test"))
+  pred = do.call(c, rr$predictions())
   expect_prediction(pred)
   expect_prediction_regr(pred)
 
@@ -45,7 +45,7 @@ test_that("c drops se (#250)", {
   lrn = lrn("regr.featureless")
   rr = resample(task, lrn, rsmp("cv", folds = 3))
 
-  pred = do.call(c, map(rr$data$prediction, "test"))
+  pred = do.call(c, rr$predictions())
   expect_null(pred$data$se)
   expect_false("se" %in% pred$predict_types)
   expect_true(allMissing(pred$se))

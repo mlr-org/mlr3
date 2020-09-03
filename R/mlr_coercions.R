@@ -156,6 +156,9 @@ as_measures.Measure = function(x, task_type = NULL, clone = FALSE) {
 #' @export
 #' @rdname mlr_coercions
 as_prediction = function(x, ...) {
+  if (is.null(x)) {
+    return(NULL)
+  }
   UseMethod("as_prediction")
 }
 

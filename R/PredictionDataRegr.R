@@ -1,6 +1,6 @@
 #' @export
 check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
-  row_ids = assert_row_ids(pdata$row_ids)
+  row_ids = assert_row_ids(pdata$row_id)
   n = length(row_ids)
 
   assert_numeric(pdata$response, len = n, any.missing = FALSE, null.ok = TRUE)
@@ -37,17 +37,19 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     stopf("Cannot combine predictions: Different predict types")
   }
 
-  tab = map_dtr(dots, function(x) x[c("row_ids", "truth", "response", "se")], .fill = FALSE)
-
-  if ("distr" %in% predict_types[[1L]]) {
-    require_namespaces("distr6")
-    tab$distr = do.call(c, map(dots, "distr"))
-  }
+  elems = c("row_id", "truth", intersect(predict_types[[1L]], c("response", "se")))
+  tab = map_dtr(dots, `[`, elems, .fill = FALSE)
 
   if (!keep_duplicates) {
-    tab = unique(tab, by = "row_ids", fromLast = TRUE)
+    tab = unique(tab, by = "row_id", fromLast = TRUE)
   }
 
   result = as.list(tab)
+
+  if ("distr" %in% predict_types[[1L]]) {
+    require_namespaces("distr6")
+    result$distr = do.call(c, map(dots, "distr"))
+  }
+
   set_class(result, "PredictionDataRegr")
 }

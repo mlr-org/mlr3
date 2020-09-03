@@ -8,10 +8,10 @@ test_that("PredictionDataClassif", {
   pdata = p$data
 
   expect_is(pdata, "PredictionDataClassif")
-  expect_integer(pdata$row_ids, any.missing = FALSE)
+  expect_integer(pdata$row_id, any.missing = FALSE)
   expect_factor(pdata$truth, levels = task$class_names, any.missing = FALSE)
   expect_factor(pdata$response, levels = task$class_names, any.missing = FALSE)
-  expect_matrix(pdata$prob, nrow = task$nrow, ncol = length(task$class_names), any.missing = FALSE)
+  expect_matrix(pdata$prob, nrows = task$nrow, ncols = length(task$class_names), any.missing = FALSE)
 
   expect_is(c(pdata, pdata), "PredictionDataClassif")
   expect_prediction(as_prediction(pdata))

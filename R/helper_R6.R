@@ -56,7 +56,7 @@ normalize_tab = function(tab, col) {
 #' @return (`data.table()`) with hashes replaced by their referenced objects.
 #'
 #' @noRd
-denormalize_tab = function(bmr, data = bmr$data, reassemble_learners = FALSE, convert_predictions = FALSE) {
+denormalize_tab = function(bmr, data = bmr$data, reassemble_learners = FALSE, convert_predictions = FALSE, predict_sets = "test") {
   tab = copy(data)
   private = get_private(bmr)
 
@@ -69,7 +69,9 @@ denormalize_tab = function(bmr, data = bmr$data, reassemble_learners = FALSE, co
   }
 
   if (convert_predictions) {
-    tab$prediction = map(tab$prediction, as_prediction)
+    tab$prediction = map(data$prediction, function(li) {
+      as_prediction(do.call(c, li[predict_sets]))
+    })
   }
 
   remove_named(tab, "state")

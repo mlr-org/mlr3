@@ -200,7 +200,10 @@ Measure = R6Class("Measure",
       if (self$average == "macro") {
         aggregator = self$aggregator %??% mean
         # FIXME: optimize this call
-        tab = as.data.table(rr, reassemble_learners = "requires_learner" %in% self$properties)
+        tab = as.data.table(rr,
+          reassemble_learners = "requires_learner" %in% self$properties,
+          predict_sets = self$predict_sets
+        )
         aggregator(measure_score_data(self, tab))
       } else { # "micro"
         self$score(rr$prediction(self$predict_sets))

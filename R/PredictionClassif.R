@@ -66,9 +66,9 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param task ([TaskClassif])\cr
-    #'   Task, used to extract defaults for `row_ids` and `truth`.
+    #'   Task, used to extract defaults for `row_id` and `truth`.
     #'
-    #' @param row_ids (`integer()`)\cr
+    #' @param row_id (`integer()`)\cr
     #'   Row ids of the predicted observations, i.e. the row ids of the test set.
     #'
     #' @param truth (`factor()`)\cr
@@ -89,11 +89,13 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, check = TRUE) {
+    initialize = function(task = NULL, row_id = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, check = TRUE) {
       # TODO: switch to new interface with pdata as single argument after all learners have been
       #       migrated
-      pdata = discard(list(row_ids = row_ids, truth = truth, response = response, prob = prob), is.null)
-      class(pdata) = "PredictionDataClassif"
+      pdata = new_prediction_data(
+        list(row_id = row_id, truth = truth, response = response, prob = prob),
+        task_type = "classif"
+      )
 
       if (check) {
         pdata = check_prediction_data(pdata)
@@ -158,7 +160,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' Access to the stored predicted class labels.
     response = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth))
+      self$data$response %??% factor(rep(NA, length(self$data$row_id)), levels(self$data$truth))
     },
 
     #' @field prob (`matrix()`)\cr
@@ -173,14 +175,14 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' Truth is in columns, predicted response is in rows.
     confusion = function(rhs) {
       assert_ro_binding(rhs)
-      table(self$data$response, self$data$truth, useNA = "ifany")
+      table(response = self$data$response, truth = self$data$truth, useNA = "ifany")
     },
 
     #' @field missing (`integer()`)\cr
-    #'   Returns `row_ids` for which the predictions are missing or incomplete.
+    #'   Returns `row_id` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
-      miss = logical(length(self$data$row_ids))
+      miss = logical(length(self$data$row_id))
       if ("response" %in% self$predict_types) {
         miss = is.na(self$response)
       }
@@ -188,14 +190,14 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
         miss = miss | apply(self$data$prob, 1L, anyMissing)
       }
 
-      self$data$row_ids[miss]
+      self$data$row_id[miss]
     }
   )
 )
 
 #' @export
 as.data.table.PredictionClassif = function(x, ...) { # nolint
-  tab = as.data.table(x$data[c("row_ids", "truth", "response")])
+  tab = as.data.table(x$data[c("row_id", "truth", "response")])
 
   if ("prob" %in% x$predict_types) {
     prob = as.data.table(x$data$prob)

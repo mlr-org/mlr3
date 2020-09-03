@@ -2,7 +2,7 @@ context("PredictionClassif")
 
 test_that("Construction", {
   task = tsk("iris")
-  p = PredictionClassif$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
+  p = PredictionClassif$new(row_id = task$row_ids, truth = task$truth(), response = task$truth())
   expect_prediction(p)
   expect_prediction_classif(p)
 })
@@ -130,7 +130,7 @@ test_that("c", {
   expect_equal(sum(conf), 150L)
   expect_equal(rownames(conf), task$class_names)
   expect_equal(colnames(conf), task$class_names)
-  expect_equal(conf, Reduce("+", map(rr$data$prediction, function(x) x$test$confusion)))
+  expect_equal(conf, Reduce("+", map(rr$predictions(), "confusion")))
 
   # duplicates are detected?
   p1 = rr$data$prediction[[1]]$test

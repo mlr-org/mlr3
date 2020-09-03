@@ -228,7 +228,10 @@ Learner = R6Class("Learner",
       }
 
       pdata = learner_predict(self, task, row_ids)
-      as_prediction(check_prediction_data(pdata))
+      if (!is.null(pdata)) {
+        pdata = as_prediction(check_prediction_data(pdata))
+      }
+      pdata
     },
 
     #' @description

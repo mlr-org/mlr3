@@ -245,7 +245,7 @@ ResampleResult = R6Class("ResampleResult",
 )
 
 #' @export
-as.data.table.ResampleResult = function(x, ..., predict_sets = "test", reassemble_learners = TRUE) { # nolint
+as.data.table.ResampleResult = function(x, ..., reassemble_learners = TRUE, predict_sets = "test") { # nolint
   data.table(
     task = list(x$task),
     learner = if (reassemble_learners) x$learners else list(x$learner),

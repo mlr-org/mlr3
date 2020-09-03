@@ -33,20 +33,8 @@ predict_wrapper = function(task, learner) {
     result = get_private(learner)$.predict(task)
   }
 
-  if (inherits(result, "Prediction")) {
-    # TODO: deprecate this in the future
-    result = set_names(lapply(result$predict_types, function(x) result[[x]]), result$predict_types)
-  } else {
-    predict_types = names(mlr_reflections$learner_predict_types[[learner$task_type]])
-    assert_list(result, names = "unique")
-    assert_names(names(result), subset.of = predict_types)
-    result = discard(result, is.null)
-  }
-  result$row_ids = task$row_ids
-  result$truth = task$truth(result$row_ids)
-  class(result) = sprintf("PredictionData%s", c(capitalize(task$task_type), ""))
-
-  return(result)
+  # TODO: deprecate Prediction return values in the future
+  as_prediction_data(result, task)
 }
 
 
@@ -133,13 +121,9 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   if (task$nrow == 0L) {
     # return an empty prediction object, #421
-    lg$debug("No observations in task '%s', returning empty prediction",
-      task$id)
-
+    lg$debug("No observations in task, returning empty prediction data", task = task)
     learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on")
-    tt = task$task_type
-    f = mlr_reflections$task_types[list(tt), "prediction", with = FALSE][[1L]]
-    return(get(f)$new(task = task))
+    return(new_prediction_data(list(row_id = task$row_ids, truth = task$truth()), task_type = task$task_type))
   }
 
   if (is.null(learner$state$model)) {
@@ -176,7 +160,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       fb = assert_learner(as_learner(fb))
       fb$predict_type = learner$predict_type
       fb$state = learner$state$fallback_state
-      fb$predict(task, row_ids)
+      as_prediction_data(fb$predict(task, row_ids), task)
     }
 
 
