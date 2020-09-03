@@ -10,16 +10,33 @@ check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
     assert_class(pdata$distr, "VectorDistribution")
 
     if (is.null(pdata$response)) {
-      pdata$response = unname(distr$mean())
+      pdata$response = unname(pdata$distr$mean())
     }
 
     if (is.null(pdata$se)) {
-      pdata$se = unname(distr$stdev())
+      pdata$se = unname(pdata$distr$stdev())
     }
   }
 
   pdata
 }
+
+
+#' @export
+is_missing_prediction_data.PredictionDataRegr = function(pdata) { # nolint
+  miss = logical(length(pdata$row_id))
+
+  if (!is.null(pdata$response)) {
+    miss = is.na(pdata$response)
+  }
+
+  if (!is.null(pdata$se)) {
+    miss = miss | is.na(pdata$se)
+  }
+
+  pdata$row_id[miss]
+}
+
 
 #' @export
 c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint

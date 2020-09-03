@@ -31,6 +31,21 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   pdata
 }
 
+
+
+#' @export
+is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
+  miss = logical(length(pdata$row_id))
+  if (!is.null(pdata$response)) {
+    miss = is.na(pdata$response)
+  }
+  if (!is.null(pdata$prob)) {
+    miss = miss | apply(pdata$prob, 1L, anyMissing)
+  }
+
+  pdata$row_id[miss]
+}
+
 #' @export
 c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   dots = list(...)
@@ -48,7 +63,7 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   }
 
   elems = c("row_id", "truth", intersect(predict_types[[1L]], "response"))
-  tab = map_dtr(dots, `[`, elems, .fill = FALSE)
+  tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   prob = do.call(rbind, map(dots, "prob"))
 
   if (!keep_duplicates) {

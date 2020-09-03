@@ -42,4 +42,3 @@ dummy_import = function() {
 } # nocov end
 
 leanify_package()
-

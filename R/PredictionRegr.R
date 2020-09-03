@@ -95,17 +95,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'   Returns `row_id` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
-      miss = logical(length(self$data$row_id))
-
-      if ("response" %in% self$predict_types) {
-        miss = is.na(self$response)
-      }
-
-      if ("se" %in% self$predict_types) {
-        miss = miss | is.na(self$se)
-      }
-
-      self$data$row_id[miss]
+      is_missing_prediction_data(self$data)
     }
   )
 )

@@ -33,7 +33,7 @@ predict_wrapper = function(task, learner) {
     result = get_private(learner)$.predict(task)
   }
 
-  # TODO: deprecate Prediction return values in the future
+  # TODO: deprecate return values of type Prediction in the future
   as_prediction_data(result, task)
 }
 
@@ -160,7 +160,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       fb = assert_learner(as_learner(fb))
       fb$predict_type = learner$predict_type
       fb$state = learner$state$fallback_state
-      as_prediction_data(fb$predict(task, row_ids), task)
+      as_prediction_data(fb$predict(task, row_ids), task, row_ids)
     }
 
 
@@ -171,13 +171,14 @@ learner_predict = function(learner, task, row_ids = NULL) {
       learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner for predictions")
       prediction = predict_fb(task$row_ids)
     } else {
-      miss_ids = prediction$missing
+      miss_ids = is_missing_prediction_data(prediction)
 
       lg$debug("Imputing %i%i predictions using fallback '%s'",
         length(miss_ids), length(prediction$row_ids), fb$id,  learner = fb$clone())
 
       if (length(miss_ids)) {
         learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner to impute predictions")
+
         prediction = c(prediction, predict_fb(miss_ids), keep_duplicates = FALSE)
       }
     }

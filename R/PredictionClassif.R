@@ -182,15 +182,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'   Returns `row_id` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
-      miss = logical(length(self$data$row_id))
-      if ("response" %in% self$predict_types) {
-        miss = is.na(self$response)
-      }
-      if ("prob" %in% self$predict_types) {
-        miss = miss | apply(self$data$prob, 1L, anyMissing)
-      }
-
-      self$data$row_id[miss]
+      is_missing_prediction_data(self$data)
     }
   )
 )
