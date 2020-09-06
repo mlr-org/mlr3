@@ -26,7 +26,6 @@
 \alias{as_measures.Measure}
 \alias{as_prediction}
 \alias{as_prediction.Prediction}
-\alias{as_prediction.PredictionData}
 \alias{as_prediction.PredictionDataClassif}
 \alias{as_prediction.PredictionDataRegr}
 \title{Object Coercion}
@@ -79,8 +78,6 @@ as_prediction(x, ...)
 
 \method{as_prediction}{Prediction}(x, ...)
 
-\method{as_prediction}{PredictionData}(x, task_type, ...)
-
 \method{as_prediction}{PredictionDataClassif}(x, ...)
 
 \method{as_prediction}{PredictionDataRegr}(x, ...)
@@ -94,7 +91,8 @@ If \code{TRUE}, ensures that the returned object is not the same as the input \c
 by cloning it or constructing it from a \link[mlr3misc:Dictionary]{dictionary} such as \link{mlr_learners}.}
 
 \item{task_type}{(\code{character(1)})\cr
-Type of task, e.g. \code{"classif"} or \code{"regr"}.}
+Used if \code{x} is \code{NULL} to construct a default measure for the respective task type.
+The default measures are stored in \code{\link[=mlr_reflections]{mlr_reflections$default_measures}}.}
 }
 \value{
 Coerced object. The default method will return the object as-is.
