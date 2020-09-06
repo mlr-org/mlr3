@@ -5,12 +5,7 @@ new_prediction_data = function(li, task_type = NULL) {
   }
 
   li = discard(li, is.null)
-  class(li) = if (is.null(task_type)) {
-    "PredictionData"
-  } else {
-    sprintf("PredictionData%s", c(capitalize(task_type), ""))
-  }
-
+  class(li) = sprintf("PredictionData%s", c(capitalize(task_type), ""))
   li
 }
 
