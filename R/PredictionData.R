@@ -79,7 +79,9 @@ as_prediction_data.list = function(x, task, row_ids = task$row_ids) { # nolint
   predict_types = names(mlr_reflections$learner_predict_types[[task$task_type]])
   assert_names(names(x), subset.of = predict_types)
 
-  x = insert_named(x, list(row_ids = row_ids, truth = task$truth(row_ids)))
+  x$row_ids = row_ids
+  if (inherits(task, "TaskSupervised"))
+    x$truth = task$truth(row_ids)
   new_prediction_data(x, task_type = task$task_type)
 }
 

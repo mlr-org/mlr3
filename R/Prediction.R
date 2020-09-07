@@ -112,7 +112,7 @@ Prediction = R6Class("Prediction",
     #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$row_ids[0L] # empty vector
+      is_missing_prediction_data(self$data)
     }
   )
 )

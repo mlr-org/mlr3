@@ -51,9 +51,6 @@ Access the stored standard error.}
 \item{\code{distr}}{(\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
 Access the stored vector distribution.
 Requires package \CRANpkg{distr6}.}
-
-\item{\code{missing}}{(\code{integer()})\cr
-Returns \code{row_ids} for which the predictions are missing or incomplete.}
 }
 \if{html}{\out{</div>}}
 }

@@ -89,13 +89,6 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
         require_namespaces("distr6")
       }
       return(self$data$distr)
-    },
-
-    #' @field missing (`integer()`)\cr
-    #'   Returns `row_ids` for which the predictions are missing or incomplete.
-    missing = function(rhs) {
-      assert_ro_binding(rhs)
-      is_missing_prediction_data(self$data)
     }
   )
 )

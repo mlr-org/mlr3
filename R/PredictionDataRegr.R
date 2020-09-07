@@ -54,7 +54,7 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
   }
 
   elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")))
-  tab = map_dtr(dots, `[`, elems, .fill = FALSE)
+  tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
 
   if (!keep_duplicates) {
     tab = unique(tab, by = "row_ids", fromLast = TRUE)

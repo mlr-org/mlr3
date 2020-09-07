@@ -100,9 +100,6 @@ Access to the stored probabilities.}
 \item{\code{confusion}}{(\code{matrix()})\cr
 Confusion matrix, as resulting from the comparison of truth and response.
 Truth is in columns, predicted response is in rows.}
-
-\item{\code{missing}}{(\code{integer()})\cr
-Returns \code{row_ids} for which the predictions are missing or incomplete.}
 }
 \if{html}{\out{</div>}}
 }

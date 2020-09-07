@@ -176,13 +176,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     confusion = function(rhs) {
       assert_ro_binding(rhs)
       table(response = self$data$response, truth = self$data$truth, useNA = "ifany")
-    },
-
-    #' @field missing (`integer()`)\cr
-    #'   Returns `row_ids` for which the predictions are missing or incomplete.
-    missing = function(rhs) {
-      assert_ro_binding(rhs)
-      is_missing_prediction_data(self$data)
     }
   )
 )
