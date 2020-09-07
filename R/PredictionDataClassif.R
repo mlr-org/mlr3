@@ -1,3 +1,4 @@
+#' @rdname PredictionData
 #' @export
 check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   row_ids = assert_row_ids(pdata$row_ids)
@@ -33,6 +34,7 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
 
 
 
+#' @rdname PredictionData
 #' @export
 is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   miss = logical(length(pdata$row_ids))
@@ -46,6 +48,7 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
   pdata$row_ids[miss]
 }
 
+#' @rdname PredictionData
 #' @export
 c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   dots = list(...)
