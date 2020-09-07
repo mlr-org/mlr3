@@ -186,7 +186,7 @@ Measure = R6Class("Measure",
         stopf("Measure '%s' requires predict type '%s'", self$id, self$predict_type)
       }
 
-      measure_score(self, prediction, task, learner, train_set)
+      score_single_measure(self, task, learner, train_set, prediction)
     },
 
     #' @description
@@ -199,12 +199,8 @@ Measure = R6Class("Measure",
     aggregate = function(rr) {
       if (self$average == "macro") {
         aggregator = self$aggregator %??% mean
-        # FIXME: optimize this call
-        tab = as.data.table(rr,
-          reassemble_learners = "requires_learner" %in% self$properties,
-          predict_sets = self$predict_sets
-        )
-        aggregator(measure_score_data(self, tab))
+        tab = score_measures(rr, list(self))
+        set_names(aggregator(tab[[self$id]]), self$id)
       } else { # "micro"
         self$score(rr$prediction(self$predict_sets))
       }
@@ -221,33 +217,69 @@ Measure = R6Class("Measure",
   )
 )
 
-measure_score = function(measure, prediction, task = NULL, learner = NULL, train_set = NULL) {
+
+#' @title Workhorse function to calculate a single score
+#'
+#' @description
+#' Assumes that learner is reassembled (if required).
+#' It is usually a good idea to exploit lazy evaluation while calling this function
+#' to avoid unnecessary allocations.
+#'
+#' @param measure ([Measre]).
+#' @param task ([Measre]).
+#' @param learner ([Measre]).
+#' @param train_set (`intger()`).
+#' @param prediction ([Prediction] | [PredictionData]).
+#'
+#' @return (`numeric()`).
+#' @noRd
+score_single_measure = function(measure, task, learner, train_set, prediction) {
   if (is.null(prediction)) {
     return(NaN)
   }
 
   if (is.list(prediction)) {
-    assert_list(prediction, "Prediction", names = "unique")
     ii = match(measure$predict_sets, names(prediction))
     if (anyMissing(ii)) {
       return(NaN)
     }
     prediction = do.call(c, prediction[ii])
-  } else {
-    assert_prediction(prediction)
   }
 
   if (exists("score_internal", envir = measure, inherits = FALSE)) {
     # TODO: deprecate this in the future
     measure$score_internal(prediction = prediction, task = task, learner = learner, train_set = train_set)
   } else {
-    get_private(measure)$.score(prediction = prediction, task = task, learner = learner, train_set = train_set)
+    get_private(measure)$.score(prediction = as_prediction(prediction), task = task, learner = learner, train_set = train_set)
   }
 }
 
-measure_score_data = function(measure, data) {
-  score = function(prediction, task, learner, resampling, iteration) {
-    measure_score(measure, prediction, task, learner, resampling$train_set(iteration))
+#' @title Workhorse function to calculate a multiple scores
+#'
+#' @description
+#' Converts `obj` from [ResampleResult] or [BenchmarkResult] to a `data.table`.
+#' Automatically reassembles learners if needed.
+#' Uses lazy evaluation to avoid querying the `train_set` while calling
+#' [score_single_measure()].
+#'
+#' @param obj ([ResampleResult] | [BenchmarkResult]).
+#' @param measures (list of [Measure]).
+#'
+#' @return (`data.table()`) with added score columns.
+#'
+#' @noRd
+score_measures = function(obj, measures) {
+  reassemble_learners = any(map_lgl(measures, function(m) "requires_model" %in% m$properties))
+  tab = as.data.table(obj, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
+
+  for (measure in measures) {
+    score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
+      function(task, learner, resampling, iteration, prediction) {
+        score_single_measure(measure, task, learner, train_set = resampling$train_set(iteration), prediction)
+      }
+    )
+    set(tab, j = measure$id, value = score)
   }
-  pmap_dbl(data[, c("prediction", "task", "learner", "resampling", "iteration"), with = FALSE], score)
+
+  tab[]
 }

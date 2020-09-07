@@ -111,16 +111,3 @@ as.data.table.PredictionRegr = function(x, ...) { # nolint
   }
   tab
 }
-
-#' @export
-c.PredictionRegr = function(..., keep_duplicates = TRUE) { # nolint
-  dots = list(...)
-  assert_list(dots, "PredictionRegr")
-  assert_flag(keep_duplicates)
-  if (length(dots) == 1L) {
-    return(dots[[1L]])
-  }
-
-  pdata = invoke(c.PredictionDataRegr, .args = map(dots, "data"), keep_duplicates = keep_duplicates)
-  as_prediction(pdata)
-}

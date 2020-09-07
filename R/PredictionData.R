@@ -25,16 +25,26 @@ is_missing_prediction_data = function(pdata) {
 }
 
 
-## FIXME:
-## remove this function as soon as all learners have been migrated
+#' @export
 as_prediction_data = function(result, task, row_ids = task$row_ids) {
-  if (inherits(result, "Prediction")) {
-    result = set_names(lapply(result$predict_types, function(x) result[[x]]), result$predict_types)
-  } else {
-    predict_types = names(mlr_reflections$learner_predict_types[[task$task_type]])
-    assert_list(result, names = "unique")
-    assert_names(names(result), subset.of = predict_types)
-  }
+  UseMethod("as_prediction_data")
+}
+
+#' @export
+as_prediction_data.Prediction = function(result, task, row_ids = task$row_ids) { # nolint
+  result$data
+}
+
+#' @export
+as_prediction_data.PredictionData = function(result, task, row_ids = task$row_ids) { # nolint
+  result
+}
+
+#' @export
+as_prediction_data.list = function(result, task, row_ids = task$row_ids) { # nolint
+  assert_list(result, names = "unique")
+  predict_types = names(mlr_reflections$learner_predict_types[[task$task_type]])
+  assert_names(names(result), subset.of = predict_types)
 
   result = insert_named(result, list(row_id = row_ids, truth = task$truth(row_ids)))
   new_prediction_data(result, task_type = task$task_type)

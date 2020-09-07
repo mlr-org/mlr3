@@ -188,12 +188,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
 
-      reassemble_learners = any(map_lgl(measures, function(m) "requires_model" %in% m$properties))
-      tab = denormalize_tab(self, reassemble_learners = reassemble_learners, convert_predictions = TRUE)
-
-      for (m in measures) {
-        set(tab, j = m$id, value = measure_score_data(m, tab))
-      }
+      tab = score_measures(self, measures)
 
       tab[, ("nr") := .GRP, by = "uhash"][, ("uhash") := NULL]
       if (ids) {
@@ -470,8 +465,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
 )
 
 #' @export
-as.data.table.BenchmarkResult = function(x, ..., reassemble_learners = TRUE, convert_predictions = TRUE) { # nolint
-  denormalize_tab(x, reassemble_learners = reassemble_learners, convert_predictions = convert_predictions)
+as.data.table.BenchmarkResult = function(x, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test") { # nolint
+  assert_flag(reassemble_learners)
+  assert_flag(convert_predictions)
+
+  denormalize_tab(x, reassemble_learners = reassemble_learners,
+    convert_predictions = convert_predictions, predict_sets = predict_sets)
 }
 
 #' @export

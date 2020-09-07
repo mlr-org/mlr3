@@ -199,16 +199,3 @@ as.data.table.PredictionClassif = function(x, ...) { # nolint
 
   tab
 }
-
-#' @export
-c.PredictionClassif = function(..., keep_duplicates = TRUE) { # nolint
-  dots = list(...)
-  assert_list(dots, "PredictionClassif")
-  assert_flag(keep_duplicates)
-  if (length(dots) == 1L) {
-    return(dots[[1L]])
-  }
-
-  pdata = invoke(c.PredictionDataClassif, .args = map(dots, "data"), keep_duplicates = keep_duplicates)
-  as_prediction(pdata)
-}

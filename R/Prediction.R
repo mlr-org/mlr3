@@ -118,7 +118,18 @@ Prediction = R6Class("Prediction",
 )
 
 #' @export
-c.Prediction = function(..., keep_duplicates = TRUE) {
-  cl = class(list(...)[[1L]])[1L]
-  stopf("c.Prediction not implemented for '%s'", cl)
+c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
+  dots = list(...)
+  classes = unique(map_chr(dots, function(x) class(x)[1L]))
+  if (length(classes) > 1L) {
+    stopf("Cannot combine objects of different type: %s", str_collapse(classes))
+  }
+
+  assert_flag(keep_duplicates)
+  if (length(dots) == 1L) {
+    return(dots[[1L]])
+  }
+
+  pdata = invoke(c, .args = c(map(dots, "data", list(keep_duplicates = keep_duplicates))))
+  as_prediction(pdata)
 }
