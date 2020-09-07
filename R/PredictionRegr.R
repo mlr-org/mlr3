@@ -22,9 +22,9 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
     #' @param task ([TaskRegr])\cr
-    #'   Task, used to extract defaults for `row_id` and `truth`.
+    #'   Task, used to extract defaults for `row_ids` and `truth`.
     #'
-    #' @param row_id (`integer()`)\cr
+    #' @param row_ids (`integer()`)\cr
     #'   Row ids of the predicted observations, i.e. the row ids of the test set.
     #'
     #' @param truth (`numeric()`)\cr
@@ -45,9 +45,9 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #'
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
-    initialize = function(task = NULL, row_id = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL, check = TRUE) {
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, se = NULL, distr = NULL, check = TRUE) {
       pdata = new_prediction_data(
-        list(row_id = row_id, truth = truth, response = response, se = se, distr = distr),
+        list(row_ids = row_ids, truth = truth, response = response, se = se, distr = distr),
         task_type = "regr"
       )
 
@@ -71,14 +71,14 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     #' Access the stored predicted response.
     response = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$response %??% rep(NA_real_, length(self$data$row_id))
+      self$data$response %??% rep(NA_real_, length(self$data$row_ids))
     },
 
     #' @field se (`numeric()`)\cr
     #' Access the stored standard error.
     se = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$se %??% rep(NA_real_, length(self$data$row_id))
+      self$data$se %??% rep(NA_real_, length(self$data$row_ids))
     },
 
     #' @field distr ([distr6::VectorDistribution])\cr
@@ -92,7 +92,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
     },
 
     #' @field missing (`integer()`)\cr
-    #'   Returns `row_id` for which the predictions are missing or incomplete.
+    #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
       is_missing_prediction_data(self$data)
@@ -103,7 +103,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
 
 #' @export
 as.data.table.PredictionRegr = function(x, ...) { # nolint
-  tab = as.data.table(x$data[c("row_id", "truth", "response", "se")])
+  tab = as.data.table(x$data[c("row_ids", "truth", "response", "se")])
 
   if ("distr" %in% x$predict_types) {
     require_namespaces("distr6")

@@ -2,7 +2,7 @@ context("PredictionRegr")
 
 test_that("Construction", {
   task = tsk("boston_housing")
-  p = PredictionRegr$new(row_id = task$row_ids, truth = task$truth(), response = task$truth())
+  p = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
   expect_prediction(p)
   expect_prediction_regr(p)
 })

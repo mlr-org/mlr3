@@ -1,6 +1,6 @@
 #' @export
 check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
-  row_ids = assert_row_ids(pdata$row_id)
+  row_ids = assert_row_ids(pdata$row_ids)
   n = length(row_ids)
   assert_factor(pdata$truth, len = n, null.ok = TRUE)
   lvls = levels(pdata$truth)
@@ -35,7 +35,7 @@ check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
 
 #' @export
 is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
-  miss = logical(length(pdata$row_id))
+  miss = logical(length(pdata$row_ids))
   if (!is.null(pdata$response)) {
     miss = is.na(pdata$response)
   }
@@ -43,7 +43,7 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
     miss = miss | apply(pdata$prob, 1L, anyMissing)
   }
 
-  pdata$row_id[miss]
+  pdata$row_ids[miss]
 }
 
 #' @export
@@ -55,19 +55,18 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
     return(dots[[1L]])
   }
 
-  # FIXME: Do we need this check?
   predict_types = names(mlr_reflections$learner_predict_types$classif)
   predict_types = map(dots, function(x) intersect(names(x), predict_types))
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
     stopf("Cannot rbind predictions: Different predict types")
   }
 
-  elems = c("row_id", "truth", intersect(predict_types[[1L]], "response"))
+  elems = c("row_ids", "truth", intersect(predict_types[[1L]], "response"))
   tab = map_dtr(dots, function(x) x[elems], .fill = FALSE)
   prob = do.call(rbind, map(dots, "prob"))
 
   if (!keep_duplicates) {
-    keep = !duplicated(tab, by = "row_id", fromLast = TRUE)
+    keep = !duplicated(tab, by = "row_ids", fromLast = TRUE)
     tab = tab[keep]
     prob = prob[keep,, drop = FALSE]
   }

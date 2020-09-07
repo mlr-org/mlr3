@@ -2,7 +2,7 @@ context("PredictionClassif")
 
 test_that("Construction", {
   task = tsk("iris")
-  p = PredictionClassif$new(row_id = task$row_ids, truth = task$truth(), response = task$truth())
+  p = PredictionClassif$new(row_ids = task$row_ids, truth = task$truth(), response = task$truth())
   expect_prediction(p)
   expect_prediction_classif(p)
 })

@@ -89,7 +89,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
 
     .score = function(prediction, task, ...) {
       costs = assert_cost_matrix(private$.costs, task)
-      confusion = prediction$confusion
+      confusion = table(response = prediction$response, truth = prediction$truth, useNA = "ifany")
 
       # reorder rows / cols if necessary
       ii = match(rownames(confusion), rownames(costs))

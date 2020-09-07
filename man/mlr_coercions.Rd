@@ -24,10 +24,6 @@
 \alias{as_measures.NULL}
 \alias{as_measures.list}
 \alias{as_measures.Measure}
-\alias{as_prediction}
-\alias{as_prediction.Prediction}
-\alias{as_prediction.PredictionDataClassif}
-\alias{as_prediction.PredictionDataRegr}
 \title{Object Coercion}
 \usage{
 as_task(x, clone = FALSE)
@@ -73,14 +69,6 @@ as_measures(x, task_type = NULL, clone = FALSE)
 \method{as_measures}{list}(x, task_type = NULL, clone = FALSE)
 
 \method{as_measures}{Measure}(x, task_type = NULL, clone = FALSE)
-
-as_prediction(x, ...)
-
-\method{as_prediction}{Prediction}(x, ...)
-
-\method{as_prediction}{PredictionDataClassif}(x, ...)
-
-\method{as_prediction}{PredictionDataRegr}(x, ...)
 }
 \arguments{
 \item{x}{(\code{any})\cr

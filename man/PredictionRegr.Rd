@@ -53,7 +53,7 @@ Access the stored vector distribution.
 Requires package \CRANpkg{distr6}.}
 
 \item{\code{missing}}{(\code{integer()})\cr
-Returns \code{row_id} for which the predictions are missing or incomplete.}
+Returns \code{row_ids} for which the predictions are missing or incomplete.}
 }
 \if{html}{\out{</div>}}
 }
@@ -81,7 +81,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{PredictionRegr$new(
   task = NULL,
-  row_id = task$row_ids,
+  row_ids = task$row_ids,
   truth = task$truth(),
   response = NULL,
   se = NULL,
@@ -94,9 +94,9 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{task}}{(\link{TaskRegr})\cr
-Task, used to extract defaults for \code{row_id} and \code{truth}.}
+Task, used to extract defaults for \code{row_ids} and \code{truth}.}
 
-\item{\code{row_id}}{(\code{integer()})\cr
+\item{\code{row_ids}}{(\code{integer()})\cr
 Row ids of the predicted observations, i.e. the row ids of the test set.}
 
 \item{\code{truth}}{(\code{numeric()})\cr

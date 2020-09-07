@@ -58,7 +58,7 @@ Prediction = R6Class("Prediction",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      n = length(self$data$row_id)
+      n = length(self$data$row_ids)
       if (n == 0L) {
         catf("%s for 0 observations", format(self))
       } else {
@@ -98,7 +98,7 @@ Prediction = R6Class("Prediction",
     #'   Vector of row ids for which predictions are stored.
     row_ids = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$row_id
+      self$data$row_ids
     },
 
     #' @field truth (`any`)\cr
@@ -112,7 +112,7 @@ Prediction = R6Class("Prediction",
     #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$row_id[0L] # empty vector
+      self$data$row_ids[0L] # empty vector
     }
   )
 )
@@ -120,16 +120,16 @@ Prediction = R6Class("Prediction",
 #' @export
 c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
   dots = list(...)
-  classes = unique(map_chr(dots, function(x) class(x)[1L]))
-  if (length(classes) > 1L) {
-    stopf("Cannot combine objects of different type: %s", str_collapse(classes))
-  }
-
-  assert_flag(keep_duplicates)
   if (length(dots) == 1L) {
     return(dots[[1L]])
   }
 
-  pdata = invoke(c, .args = c(map(dots, "data", list(keep_duplicates = keep_duplicates))))
+  classes = unique(map_chr(dots, function(x) class(x)[1L]))
+  if (length(classes) > 1L) {
+    stopf("Cannot combine objects of different type: %s", str_collapse(classes))
+  }
+  assert_flag(keep_duplicates)
+
+  pdata = invoke(c, .args = c(map(dots, "data"), list(keep_duplicates = keep_duplicates)))
   as_prediction(pdata)
 }

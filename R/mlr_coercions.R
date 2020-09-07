@@ -152,30 +152,3 @@ as_measures.list = function(x, task_type = NULL, clone = FALSE) {
 as_measures.Measure = function(x, task_type = NULL, clone = FALSE) {
   list(if (clone) x$clone() else x)
 }
-
-#' @export
-#' @rdname mlr_coercions
-as_prediction = function(x, ...) {
-  if (is.null(x)) {
-    return(NULL)
-  }
-  UseMethod("as_prediction")
-}
-
-#' @export
-#' @rdname mlr_coercions
-as_prediction.Prediction = function(x, ...) { # nolint
-  x
-}
-
-#' @export
-#' @rdname mlr_coercions
-as_prediction.PredictionDataClassif = function(x, ...) { # nolint
-  invoke(PredictionClassif$new, .args = x)
-}
-
-#' @export
-#' @rdname mlr_coercions
-as_prediction.PredictionDataRegr = function(x, ...) { # nolint
-  invoke(PredictionRegr$new, .args = x)
-}

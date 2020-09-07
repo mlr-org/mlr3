@@ -1,6 +1,6 @@
 #' @export
 check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
-  row_ids = assert_row_ids(pdata$row_id)
+  row_ids = assert_row_ids(pdata$row_ids)
   n = length(row_ids)
 
   assert_numeric(pdata$response, len = n, any.missing = FALSE, null.ok = TRUE)
@@ -24,7 +24,7 @@ check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
 
 #' @export
 is_missing_prediction_data.PredictionDataRegr = function(pdata) { # nolint
-  miss = logical(length(pdata$row_id))
+  miss = logical(length(pdata$row_ids))
 
   if (!is.null(pdata$response)) {
     miss = is.na(pdata$response)
@@ -34,7 +34,7 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata) { # nolint
     miss = miss | is.na(pdata$se)
   }
 
-  pdata$row_id[miss]
+  pdata$row_ids[miss]
 }
 
 
@@ -47,18 +47,17 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     return(dots[[1L]])
   }
 
-  # FIXME: Do we need this check?
   predict_types = names(mlr_reflections$learner_predict_types$regr)
   predict_types = map(dots, function(x) intersect(names(x), predict_types))
   if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
     stopf("Cannot combine predictions: Different predict types")
   }
 
-  elems = c("row_id", "truth", intersect(predict_types[[1L]], c("response", "se")))
+  elems = c("row_ids", "truth", intersect(predict_types[[1L]], c("response", "se")))
   tab = map_dtr(dots, `[`, elems, .fill = FALSE)
 
   if (!keep_duplicates) {
-    tab = unique(tab, by = "row_id", fromLast = TRUE)
+    tab = unique(tab, by = "row_ids", fromLast = TRUE)
   }
 
   result = as.list(tab)

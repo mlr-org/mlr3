@@ -8,7 +8,7 @@ test_that("PredictionDataRegr", {
   pdata = p$data
 
   expect_is(pdata, "PredictionDataRegr")
-  expect_integer(pdata$row_id, any.missing = FALSE)
+  expect_integer(pdata$row_ids, any.missing = FALSE)
   expect_numeric(pdata$truth, any.missing = FALSE)
   expect_numeric(pdata$response, any.missing = FALSE)
   expect_numeric(pdata$se, any.missing = FALSE)
