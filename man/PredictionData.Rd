@@ -25,19 +25,19 @@ check_prediction_data(pdata)
 
 is_missing_prediction_data(pdata)
 
-as_prediction_data(x, task, row_ids = task$row_ids)
+as_prediction_data(x, task, row_ids = task$row_ids, check = TRUE)
 
-\method{as_prediction_data}{Prediction}(x, task, row_ids = task$row_ids)
+\method{as_prediction_data}{Prediction}(x, task, row_ids = task$row_ids, check = TRUE)
 
-\method{as_prediction_data}{PredictionData}(x, task, row_ids = task$row_ids)
+\method{as_prediction_data}{PredictionData}(x, task, row_ids = task$row_ids, check = TRUE)
 
-\method{as_prediction_data}{list}(x, task, row_ids = task$row_ids)
+\method{as_prediction_data}{list}(x, task, row_ids = task$row_ids, check = TRUE)
 
-as_prediction(x)
+as_prediction(x, check = TRUE)
 
-\method{as_prediction}{Prediction}(x)
+\method{as_prediction}{Prediction}(x, check = TRUE)
 
-\method{as_prediction}{PredictionDataClassif}(x)
+\method{as_prediction}{PredictionDataClassif}(x, check = TRUE)
 
 \method{check_prediction_data}{PredictionDataClassif}(pdata)
 
@@ -45,7 +45,7 @@ as_prediction(x)
 
 \method{c}{PredictionDataClassif}(..., keep_duplicates = TRUE)
 
-\method{as_prediction}{PredictionDataRegr}(x)
+\method{as_prediction}{PredictionDataRegr}(x, check = TRUE)
 
 \method{check_prediction_data}{PredictionDataRegr}(pdata)
 
@@ -63,6 +63,9 @@ Object to convert.}
 \item{task}{(\link{Task}).}
 
 \item{row_ids}{(\code{integer()}).}
+
+\item{check}{(\code{logical(1)})\cr
+Perform argument checks and conversions?}
 
 \item{...}{(one or more \link{PredictionData} objects).}
 

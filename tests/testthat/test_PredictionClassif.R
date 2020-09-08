@@ -15,7 +15,7 @@ test_that("Internally constructed Prediction", {
   expect_prediction(p)
   expect_prediction_classif(p, task = task)
 
-  p = PredictionClassif$new(task = task, prob = p$prob)
+  p = PredictionClassif$new(row_ids = task$row_ids, truth = task$truth(), prob = p$prob)
   expect_set_equal(p$predict_types, c("response", "prob"))
 })
 
