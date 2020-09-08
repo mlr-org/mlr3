@@ -55,6 +55,11 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
 }
 
 #' @rdname PredictionData
+#'
+#' @param keep_duplicates (`logical(1)`)
+#'   If `TRUE`, the combined [PredictionData] object is filtered for duplicated
+#'   row ids (starting from last).
+#' @param ... (one or more [PredictionData] objects).
 #' @export
 c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
   dots = list(...)

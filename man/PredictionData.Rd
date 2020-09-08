@@ -63,6 +63,12 @@ Object to convert.}
 \item{task}{(\link{Task}).}
 
 \item{row_ids}{(\code{integer()}).}
+
+\item{...}{(one or more \link{PredictionData} objects).}
+
+\item{keep_duplicates}{(\code{logical(1)})
+If \code{TRUE}, the combined \link{PredictionData} object is filtered for duplicated
+row ids (starting from last).}
 }
 \description{
 Objects of type \code{PredictionData} serve as a intermediate representation for objects of type \link{Prediction}.
