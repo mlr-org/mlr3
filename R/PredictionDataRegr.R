@@ -7,8 +7,8 @@ as_prediction.PredictionDataRegr = function(x) { # nolint
 #' @rdname PredictionData
 #' @export
 check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
-  row_ids = assert_row_ids(pdata$row_ids)
-  n = length(row_ids)
+  pdata$row_ids = assert_row_ids(pdata$row_ids)
+  n = length(pdata$row_ids)
 
   assert_numeric(pdata$response, len = n, any.missing = FALSE, null.ok = TRUE)
   assert_numeric(pdata$se, len = n, lower = 0, any.missing = FALSE, null.ok = TRUE)

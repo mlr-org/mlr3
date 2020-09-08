@@ -7,8 +7,8 @@ as_prediction.PredictionDataClassif = function(x) { # nolint
 #' @rdname PredictionData
 #' @export
 check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
-  row_ids = assert_row_ids(pdata$row_ids)
-  n = length(row_ids)
+  pdata$row_ids = assert_row_ids(pdata$row_ids)
+  n = length(pdata$row_ids)
   assert_factor(pdata$truth, len = n, null.ok = TRUE)
   lvls = levels(pdata$truth)
 
