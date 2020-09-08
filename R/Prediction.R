@@ -131,5 +131,5 @@ c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
   assert_flag(keep_duplicates)
 
   pdata = invoke(c, .args = c(map(dots, "data"), list(keep_duplicates = keep_duplicates)))
-  as_prediction(pdata)
+  as_prediction(pdata, check = FALSE)
 }

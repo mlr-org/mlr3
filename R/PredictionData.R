@@ -55,26 +55,28 @@ is_missing_prediction_data = function(pdata) {
 #'   Object to convert.
 #' @param task ([Task]).
 #' @param row_ids (`integer()`).
+#' @param check (`logical(1)`)\cr
+#'   Perform argument checks and conversions?
 #' @export
-as_prediction_data = function(x, task, row_ids = task$row_ids) {
+as_prediction_data = function(x, task, row_ids = task$row_ids, check = TRUE) {
   UseMethod("as_prediction_data")
 }
 
 #' @export
 #' @rdname PredictionData
-as_prediction_data.Prediction = function(x, task, row_ids = task$row_ids) { # nolint
+as_prediction_data.Prediction = function(x, task, row_ids = task$row_ids, check = TRUE) { # nolint
   x$data
 }
 
 #' @rdname PredictionData
 #' @export
-as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids) { # nolint
+as_prediction_data.PredictionData = function(x, task, row_ids = task$row_ids, check = TRUE) { # nolint
   x
 }
 
 #' @rdname PredictionData
 #' @export
-as_prediction_data.list = function(x, task, row_ids = task$row_ids) { # nolint
+as_prediction_data.list = function(x, task, row_ids = task$row_ids, check = TRUE) { # nolint
   assert_list(x, names = "unique")
   predict_types = names(mlr_reflections$learner_predict_types[[task$task_type]])
   assert_names(names(x), subset.of = predict_types)
@@ -82,13 +84,19 @@ as_prediction_data.list = function(x, task, row_ids = task$row_ids) { # nolint
   x$row_ids = row_ids
   if (inherits(task, "TaskSupervised"))
     x$truth = task$truth(row_ids)
-  new_prediction_data(x, task_type = task$task_type)
+
+  pdata = new_prediction_data(x, task_type = task$task_type)
+  if (check) {
+    pdata = check_prediction_data(pdata)
+  }
+
+  pdata
 }
 
 
 #' @export
 #' @rdname PredictionData
-as_prediction = function(x) {
+as_prediction = function(x, check = TRUE) {
   if (is.null(x)) {
     return(NULL)
   }
@@ -97,6 +105,6 @@ as_prediction = function(x) {
 
 #' @export
 #' @rdname PredictionData
-as_prediction.Prediction = function(x) { # nolint
+as_prediction.Prediction = function(x, check = TRUE) { # nolint
   x
 }

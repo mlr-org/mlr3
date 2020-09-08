@@ -70,7 +70,7 @@ denormalize_tab = function(bmr, data = bmr$data, reassemble_learners = FALSE, co
 
   if (convert_predictions) {
     tab$prediction = map(data$prediction, function(li) {
-      as_prediction(do.call(c, li[predict_sets]))
+      as_prediction(do.call(c, li[predict_sets]), check = FALSE)
     })
   }
 

@@ -1,7 +1,7 @@
 #' @rdname PredictionData
 #' @export
-as_prediction.PredictionDataRegr = function(x) { # nolint
-  invoke(PredictionRegr$new, .args = x)
+as_prediction.PredictionDataRegr = function(x, check = TRUE) { # nolint
+  invoke(PredictionRegr$new, check = check, .args = x)
 }
 
 #' @rdname PredictionData

@@ -138,7 +138,7 @@ ResampleResult = R6Class("ResampleResult",
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     predictions = function(predict_sets = "test") {
       map(self$data$prediction, function(li) {
-        as_prediction(do.call(c, li[predict_sets]))
+        as_prediction(do.call(c, li[predict_sets]), check = FALSE)
       })
     },
 

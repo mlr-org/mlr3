@@ -1,7 +1,7 @@
 #' @export
 #' @rdname PredictionData
-as_prediction.PredictionDataClassif = function(x) { # nolint
-  invoke(PredictionClassif$new, .args = x)
+as_prediction.PredictionDataClassif = function(x, check = TRUE) { # nolint
+  invoke(PredictionClassif$new, check = check, .args = x)
 }
 
 #' @rdname PredictionData
