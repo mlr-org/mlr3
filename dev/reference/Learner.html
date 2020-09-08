@@ -56,7 +56,7 @@
 <meta property="og:title" content="Learner Class — Learner" />
 <meta property="og:description" content="This is the abstract base class for learner objects like LearnerClassif and LearnerRegr.
 Learners are build around the three following key parts:
-Methods $train() and $predict() which call internal methods (either public method $train_internal()/$predict_internal() (soft deprecated)
+Methods $train() and $predict() which call internal methods (either public method $train_internal()/$predict_internal() (deprecated)
 or private methods $.train()/$.predict()).
 A paradox::ParamSet which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 Meta-information about the requirements and capabilities of the learner.
@@ -177,7 +177,7 @@ A guide on how to extend mlr3 with custom learners can be found in the mlr3book.
     <div class="ref-description">
     <p>This is the abstract base class for learner objects like <a href='LearnerClassif.html'>LearnerClassif</a> and <a href='LearnerRegr.html'>LearnerRegr</a>.</p>
 <p>Learners are build around the three following key parts:</p><ul>
-<li><p>Methods <code>$train()</code> and <code>$predict()</code> which call internal methods (either public method <code>$train_internal()</code>/<code>$predict_internal()</code> (soft deprecated)
+<li><p>Methods <code>$train()</code> and <code>$predict()</code> which call internal methods (either public method <code>$train_internal()</code>/<code>$predict_internal()</code> (deprecated)
 or private methods <code>$.train()</code>/<code>$.predict()</code>).</p></li>
 <li><p>A <a href='https://paradox.mlr-org.com/reference/ParamSet.html'>paradox::ParamSet</a> which stores meta-information about available hyperparameters, and also stores hyperparameter settings.</p></li>
 <li><p>Meta-information about the requirements and capabilities of the learner.</p></li>
