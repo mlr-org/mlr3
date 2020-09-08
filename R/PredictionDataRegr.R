@@ -76,5 +76,5 @@ c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
     result$distr = do.call(c, map(dots, "distr"))
   }
 
-  set_class(result, "PredictionDataRegr")
+  new_prediction_data(result, "regr")
 }

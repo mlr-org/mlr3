@@ -90,8 +90,6 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
     initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, check = TRUE) {
-      # TODO: switch to new interface with pdata as single argument after all learners have been
-      #       migrated
       pdata = new_prediction_data(
         list(row_ids = row_ids, truth = truth, response = response, prob = prob),
         task_type = "classif"

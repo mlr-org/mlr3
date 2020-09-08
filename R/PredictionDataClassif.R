@@ -87,5 +87,5 @@ c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
 
   result = as.list(tab)
   result$prob = prob
-  set_class(result, "PredictionDataClassif")
+  new_prediction_data(result, "classif")
 }
