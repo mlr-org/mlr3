@@ -8,7 +8,7 @@ This is the abstract base class for learner objects like \link{LearnerClassif} a
 
 Learners are build around the three following key parts:
 \itemize{
-\item Methods \verb{$train()} and \verb{$predict()} which call internal methods (either public method \verb{$train_internal()}/\verb{$predict_internal()} (soft deprecated)
+\item Methods \verb{$train()} and \verb{$predict()} which call internal methods (either public method \verb{$train_internal()}/\verb{$predict_internal()} (deprecated)
 or private methods \verb{$.train()}/\verb{$.predict()}).
 \item A \link[paradox:ParamSet]{paradox::ParamSet} which stores meta-information about available hyperparameters, and also stores hyperparameter settings.
 \item Meta-information about the requirements and capabilities of the learner.

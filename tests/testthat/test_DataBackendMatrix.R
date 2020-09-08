@@ -95,15 +95,18 @@ test_that("learners can request sparse data format", {
           properties = c("weights", "missings", "importance", "selected_features"),
           data_formats = c("Matrix", "data.table")
         )
-      },
+      }
+    ),
 
-      train_internal = function(task) {
+    private = list(
+      .train = function(task) {
         task$data(data_format = "Matrix")
       },
 
-      predict_internal = function(task) {
+      .predict = function(task) {
         list(response = rep(task$class_names[1L], task$nrow))
-      })
+      }
+    )
   )
 
   td = cbind(y = 1:10, data)

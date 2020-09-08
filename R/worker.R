@@ -4,7 +4,7 @@
 # and turned into log messages.
 train_wrapper = function(learner, task) {
   if (exists("train_internal", envir = learner, inherits = FALSE)) {
-    # TODO: deprecate this in the future
+    .Deprecated(msg = "Use private method '.train()' instead of public method 'train_internal()'")
     model = learner$train_internal(task)
   } else {
     model = learner$.__enclos_env__$private$.train(task)
@@ -27,7 +27,7 @@ predict_wrapper = function(task, learner) {
   }
 
   if (exists("predict_internal", envir = learner, inherits = FALSE)) {
-    # TODO: deprecate this in the future
+    .Deprecated(msg = "Use private method '.predict()' instead of public method 'predict_internal()'")
     result = learner$predict_internal(task)
   } else {
     result = learner$.__enclos_env__$private$.predict(task)
