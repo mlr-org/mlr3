@@ -247,7 +247,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   }
 
   if (exists("score_internal", envir = measure, inherits = FALSE)) {
-    # TODO: deprecate this in the future
+    .Deprecated(msg = "Use private method '.score()' instead of public method 'score_internal()'")
     measure$score_internal(prediction = as_prediction(prediction, check = FALSE), task = task, learner = learner, train_set = train_set)
   } else {
     get_private(measure)$.score(prediction = as_prediction(prediction, check = FALSE), task = task, learner = learner, train_set = train_set)
