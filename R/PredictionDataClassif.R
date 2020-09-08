@@ -1,3 +1,9 @@
+#' @export
+#' @rdname PredictionData
+as_prediction.PredictionDataClassif = function(x) { # nolint
+  invoke(PredictionClassif$new, .args = x)
+}
+
 #' @rdname PredictionData
 #' @export
 check_prediction_data.PredictionDataClassif = function(pdata) { # nolint

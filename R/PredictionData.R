@@ -100,15 +100,3 @@ as_prediction = function(x) {
 as_prediction.Prediction = function(x) { # nolint
   x
 }
-
-#' @export
-#' @rdname PredictionData
-as_prediction.PredictionDataClassif = function(x) { # nolint
-  invoke(PredictionClassif$new, .args = x)
-}
-
-#' @export
-#' @rdname PredictionData
-as_prediction.PredictionDataRegr = function(x) { # nolint
-  invoke(PredictionRegr$new, .args = x)
-}

@@ -100,17 +100,11 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       if (check) {
         pdata = check_prediction_data(pdata)
       }
+      self$task_type = "classif"
+      self$man = "mlr3::PredictionClassif"
       self$data = pdata
       self$predict_types = intersect(c("response", "prob"), names(pdata))
     },
-
-
-    #' @template field_task_type
-    task_type = "classif",
-
-
-    #' @template field_man
-    man = "mlr3::PredictionClassif",
 
 
     #' @description

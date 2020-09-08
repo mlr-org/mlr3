@@ -24,21 +24,6 @@ Other Prediction:
 \section{Super class}{
 \code{\link[mlr3:Prediction]{mlr3::Prediction}} -> \code{PredictionRegr}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{task_type}}{(\code{character(1)})\cr
-Task type, e.g. \code{"classif"} or \code{"regr"}.
-
-For a complete list of possible task types (depending on the loaded packages),
-see \code{\link[=mlr_reflections]{mlr_reflections$task_types$type}}.}
-
-\item{\code{man}}{(\code{character(1)})\cr
-String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
-Defaults to \code{NA}, but can be set by child classes.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{

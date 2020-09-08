@@ -54,16 +54,11 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       if (check) {
         pdata = check_prediction_data(pdata)
       }
+      self$task_type = "regr"
+      self$man = "mlr3::PredictionRegr"
       self$data = pdata
       self$predict_types = intersect(c("response", "se", "distr"), names(pdata))
-    },
-
-    #' @template field_task_type
-    task_type = "regr",
-
-
-    #' @template field_man
-    man = "mlr3::PredictionRegr"
+    }
   ),
 
   active = list(

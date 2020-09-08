@@ -1,3 +1,10 @@
+#' @rdname PredictionData
+#' @export
+as_prediction.PredictionDataRegr = function(x) { # nolint
+  invoke(PredictionRegr$new, .args = x)
+}
+
+#' @rdname PredictionData
 #' @export
 check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
   row_ids = assert_row_ids(pdata$row_ids)
@@ -22,6 +29,7 @@ check_prediction_data.PredictionDataRegr = function(pdata) { # nolint
 }
 
 
+#' @rdname PredictionData
 #' @export
 is_missing_prediction_data.PredictionDataRegr = function(pdata) { # nolint
   miss = logical(length(pdata$row_ids))
@@ -38,6 +46,7 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata) { # nolint
 }
 
 
+#' @rdname PredictionData
 #' @export
 c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
   dots = list(...)
