@@ -173,7 +173,7 @@ Add-on package may register additional default measures for their own task types
 
     </div>
 
-    <pre class="usage"><span class='fu'>default_measures</span>(<span class='no'>task_type</span>)</pre>
+    <pre class="usage"><span class='fu'>default_measures</span>(<span class='kw'>task_type</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,14 +191,16 @@ If <code>task_type</code> is <code>NULL</code>, an empty list is returned.</p></
     <p>list of <a href='Measure.html'>Measure</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>default_measures</span>(<span class='st'>"classif"</span>)</div><div class='output co'>#&gt; $classif.ce
+    <pre class="examples"><div class='input'><span class='fu'>default_measures</span>(<span class='st'>"classif"</span>)
+</div><div class='output co'>#&gt; $classif.ce
 #&gt; &lt;MeasureClassifSimple:classif.ce&gt;
 #&gt; * Packages: mlr3measures
 #&gt; * Range: [0, 1]
 #&gt; * Minimize: TRUE
 #&gt; * Properties: -
 #&gt; * Predict type: response
-#&gt; </div><div class='input'><span class='fu'>default_measures</span>(<span class='st'>"regr"</span>)</div><div class='output co'>#&gt; $regr.mse
+#&gt; </div><div class='input'><span class='fu'>default_measures</span>(<span class='st'>"regr"</span>)
+</div><div class='output co'>#&gt; $regr.mse
 #&gt; &lt;MeasureRegrSimple:regr.mse&gt;
 #&gt; * Packages: mlr3measures
 #&gt; * Range: [0, Inf]
@@ -221,7 +223,7 @@ If <code>task_type</code> is <code>NULL</code>, an empty list is returned.</p></
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

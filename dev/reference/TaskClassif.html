@@ -204,7 +204,7 @@ The <code>task_type</code> is set to <code>"classif"</code>.</p>
     <p><code><a href='Task.html'>mlr3::Task</a></code> -&gt; <code><a href='TaskSupervised.html'>mlr3::TaskSupervised</a></code> -&gt; <code>TaskClassif</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl'>
+    <p><div class="r6-active-bindings"></p><dl>
 <dt><code>class_names</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
 Returns all class labels of the target column.</p></dd>
 
@@ -219,7 +219,7 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>TaskClassif$new()</code></a></p></li>
@@ -248,17 +248,17 @@ Stores the negative class for binary classification tasks, and <code>NA</code> f
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>new</span>(<span class='no'>id</span>, <span class='no'>backend</span>, <span class='no'>target</span>, <span class='kw'>positive</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>extra_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre><p></div></p>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>TaskClassif</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>id</span>, <span class='kw'>backend</span>, <span class='kw'>target</span>, positive = <span class='kw'>NULL</span>, extra_args = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Identifier for the new instance.</p></dd>
 
 <dt><code>backend</code></dt><dd><p>(<a href='DataBackend.html'>DataBackend</a>)<br />
-Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a <a href='DataBackend.html'>DataBackend</a> with <code><a href='as_data_backend.html'>as_data_backend()</a></code>.
+Either a <a href='DataBackend.html'>DataBackend</a>, or any object which is convertible to a <a href='DataBackend.html'>DataBackend</a> with <code><a href='as_data_backend.data.frame.html'>as_data_backend()</a></code>.
 E.g., a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> will be converted to a <a href='DataBackendDataTable.html'>DataBackendDataTable</a>.</p></dd>
 
 <dt><code>target</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
@@ -275,18 +275,18 @@ via <code><a href='convert_task.html'>convert_task()</a></code>.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-data"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
+<a id="method-data"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
 <p>Calls <code>$data</code> from parent class <a href='Task.html'>Task</a> and ensures that levels of the target column
-are in the right order.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(
-  <span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>,
-  <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+are in the right order.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>TaskClassif</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(
+  rows = <span class='kw'>NULL</span>,
+  cols = <span class='kw'>NULL</span>,
+  data_format = <span class='st'>"data.table"</span>,
+  ordered = <span class='fl'>TRUE</span>
 )</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -300,44 +300,44 @@ Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p
 If <code>TRUE</code> (default), data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
 
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Depending on the <a href='DataBackend.html'>DataBackend</a>, but usually a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p>
 <p><hr>
-<a id="method-truth"></a></p><h3>Method <code>truth()</code></h3>
+<a id="method-truth"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>truth()</code></h3>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
-Defaults to all rows with role <code>"use"</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>truth</span>(<span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
+Defaults to all rows with role <code>"use"</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>TaskClassif</span><span class='op'>$</span><span class='fu'>truth</span>(rows = <span class='kw'>NULL</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p><code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code>.</p>
 <p><hr>
-<a id="method-droplevels"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/droplevels.html'>droplevels()</a></code></h3>
+<a id="method-droplevels"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/droplevels.html'>droplevels()</a></code></h3>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 <code>cols</code> defaults to all columns with storage type "factor" or "ordered".
-Also updates the task property <code>"twoclass"</code>/<code>"multiclass"</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'><a href='https://rdrr.io/r/base/droplevels.html'>droplevels</a></span>(<span class='kw'>cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
+Also updates the task property <code>"twoclass"</code>/<code>"multiclass"</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>TaskClassif</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/droplevels.html'>droplevels</a></span>(cols = <span class='kw'>NULL</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>cols</code></dt><dd><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code><br />
 Column names.</p></dd>
 
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Modified <code>self</code>.</p>
 <p><hr>
-<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>TaskClassif</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>TaskClassif</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -345,19 +345,25 @@ Column names.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Sonar"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"mlbench"</span>)
-<span class='no'>task</span> <span class='kw'>=</span> <span class='no'>TaskClassif</span>$<span class='fu'>new</span>(<span class='st'>"sonar"</span>, <span class='kw'>backend</span> <span class='kw'>=</span> <span class='no'>Sonar</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Class"</span>, <span class='kw'>positive</span> <span class='kw'>=</span> <span class='st'>"M"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Sonar"</span>, package = <span class='st'>"mlbench"</span>)
+<span class='kw'>task</span> <span class='op'>=</span> <span class='kw'>TaskClassif</span><span class='op'>$</span><span class='fu'>new</span>(<span class='st'>"sonar"</span>, backend = <span class='kw'>Sonar</span>, target = <span class='st'>"Class"</span>, positive = <span class='st'>"M"</span>)
 
-<span class='no'>task</span>$<span class='no'>task_type</span></div><div class='output co'>#&gt; [1] "classif"</div><div class='input'><span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>formula</a></span>()</div><div class='output co'>#&gt; Class ~ .
-#&gt; NULL</div><div class='input'><span class='no'>task</span>$<span class='fu'>truth</span>()</div><div class='output co'>#&gt;   [1] R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R
+<span class='kw'>task</span><span class='op'>$</span><span class='kw'>task_type</span>
+</div><div class='output co'>#&gt; [1] "classif"</div><div class='input'><span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>formula</a></span>()
+</div><div class='output co'>#&gt; Class ~ .
+#&gt; NULL</div><div class='input'><span class='kw'>task</span><span class='op'>$</span><span class='fu'>truth</span>()
+</div><div class='output co'>#&gt;   [1] R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R
 #&gt;  [38] R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R R
 #&gt;  [75] R R R R R R R R R R R R R R R R R R R R R R R M M M M M M M M M M M M M M
 #&gt; [112] M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M
 #&gt; [149] M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M M
 #&gt; [186] M M M M M M M M M M M M M M M M M M M M M M M
-#&gt; Levels: M R</div><div class='input'><span class='no'>task</span>$<span class='no'>class_names</span></div><div class='output co'>#&gt; [1] "M" "R"</div><div class='input'><span class='no'>task</span>$<span class='no'>positive</span></div><div class='output co'>#&gt; [1] "M"</div><div class='input'>
+#&gt; Levels: M R</div><div class='input'><span class='kw'>task</span><span class='op'>$</span><span class='kw'>class_names</span>
+</div><div class='output co'>#&gt; [1] "M" "R"</div><div class='input'><span class='kw'>task</span><span class='op'>$</span><span class='kw'>positive</span>
+</div><div class='output co'>#&gt; [1] "M"</div><div class='input'>
 <span class='co'># possible properties:</span>
-<span class='no'>mlr_reflections</span>$<span class='no'>task_properties</span>$<span class='no'>classif</span></div><div class='output co'>#&gt; [1] "strata"     "groups"     "weights"    "twoclass"   "multiclass"</div></pre>
+<span class='kw'>mlr_reflections</span><span class='op'>$</span><span class='kw'>task_properties</span><span class='op'>$</span><span class='kw'>classif</span>
+</div><div class='output co'>#&gt; [1] "strata"     "groups"     "weights"    "twoclass"   "multiclass"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -373,7 +379,7 @@ Column names.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

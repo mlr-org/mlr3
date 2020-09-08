@@ -178,13 +178,13 @@ dense columns are converted to numeric columns.</p>
     <div class='dont-index'><p>Other DataBackend: 
 <code><a href='DataBackendDataTable.html'>DataBackendDataTable</a></code>,
 <code><a href='DataBackend.html'>DataBackend</a></code>,
-<code><a href='as_data_backend.html'>as_data_backend.data.frame</a>()</code></p></div>
+<code><a href='as_data_backend.data.frame.html'>as_data_backend.data.frame</a>()</code></p></div>
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
     <p><code><a href='DataBackend.html'>mlr3::DataBackend</a></code> -&gt; <code>DataBackendMatrix</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl'>
+    <p><div class="r6-active-bindings"></p><dl>
 <dt><code>rownames</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
 Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.</p></dd>
 
@@ -201,7 +201,7 @@ Number of columns (variables), including the primary key column.</p></dd>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>DataBackendMatrix$new()</code></a></p></li>
@@ -218,12 +218,12 @@ Number of columns (variables), including the primary key column.</p></dd>
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'>new</span>(<span class='no'>data</span>, <span class='kw'>dense</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>primary_key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>DataBackendMatrix</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>data</span>, dense = <span class='kw'>NULL</span>, primary_key = <span class='kw'>NULL</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>data</code></dt><dd><p><code><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix::Matrix()</a></code><br />
 The input <code><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix::Matrix()</a></code>.</p></dd>
 
@@ -235,17 +235,17 @@ Name of the primary key column, or integer vector of row ids.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-data"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
+<a id="method-data"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/utils/data.html'>data()</a></code></h3>
 <p>Returns a slice of the data in the specified format.
 Currently, the only supported formats are <code>"data.table"</code> and <code>"Matrix"</code>.
 The rows must be addressed as vector of primary key values, columns must be referred to via column names.
 Queries for rows with no matching row id and queries for columns with no matching column name are silently ignored.
 Rows are guaranteed to be returned in the same order as <code>rows</code>, columns may be returned in an arbitrary order.
-Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>rows</span>, <span class='no'>cols</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</pre><p></div></p>
+Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>DataBackendMatrix</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>rows</span>, <span class='kw'>cols</span>, data_format = <span class='st'>"data.table"</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -257,28 +257,28 @@ Desired data format, e.g. <code>"data.table"</code> or <code>"Matrix"</code>.</p
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-head"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/head.html'>head()</a></code></h3>
-<p>Retrieve the first <code>n</code> rows.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>6L</span>)</pre><p></div></p>
+<a id="method-head"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/utils/head.html'>head()</a></code></h3>
+<p>Retrieve the first <code>n</code> rows.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>DataBackendMatrix</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(n = <span class='fl'>6L</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>n</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
 Number of rows.</p></dd>
 
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> of the first <code>n</code> rows.</p>
 <p><hr>
-<a id="method-distinct"></a></p><h3>Method <code>distinct()</code></h3>
+<a id="method-distinct"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>distinct()</code></h3>
 <p>Returns a named list of vectors of distinct values for each column
 specified. If <code>na_rm</code> is <code>TRUE</code>, missing values are removed from the
 returned vectors of distinct values. Non-existing rows and columns are
-silently ignored.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'>distinct</span>(<span class='no'>rows</span>, <span class='no'>cols</span>, <span class='kw'>na_rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre><p></div></p>
+silently ignored.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>DataBackendMatrix</span><span class='op'>$</span><span class='fu'>distinct</span>(<span class='kw'>rows</span>, <span class='kw'>cols</span>, na_rm = <span class='fl'>TRUE</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -289,16 +289,16 @@ Column names.</p></dd>
 Whether to remove NAs or not.</p></dd>
 
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Named <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> of distinct values.</p>
 <p><hr>
-<a id="method-missings"></a></p><h3>Method <code>missings()</code></h3>
+<a id="method-missings"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>missings()</code></h3>
 <p>Returns the number of missing values per column in the specified slice
-of data. Non-existing rows and columns are silently ignored.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>DataBackendMatrix</span>$<span class='fu'>missings</span>(<span class='no'>rows</span>, <span class='no'>cols</span>)</pre><p></div></p>
+of data. Non-existing rows and columns are silently ignored.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>DataBackendMatrix</span><span class='op'>$</span><span class='fu'>missings</span>(<span class='kw'>rows</span>, <span class='kw'>cols</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>rows</code></dt><dd><p><code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code><br />
 Row indices.</p></dd>
 
@@ -306,32 +306,36 @@ Row indices.</p></dd>
 Column names.</p></dd>
 
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Total of missing values per column (named <code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p>
 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"Matrix"</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: Matrix</span></div><div class='input'><span class='no'>data</span> <span class='kw'>=</span> <span class='kw pkg'>Matrix</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>20</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>data</span>) <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x1"</span>, <span class='st'>"x2"</span>)
-<span class='no'>dense</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='kw'>..row_id</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>,
-  <span class='kw'>num</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>10</span>),
-  <span class='kw'>fact</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>), <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>))
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"Matrix"</span>)
+</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: Matrix</span></div><div class='input'><span class='kw'>data</span> <span class='op'>=</span> <span class='kw'>Matrix</span>::<span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/Matrix.html'>Matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>0</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fl'>20</span>, replace = <span class='fl'>TRUE</span>), ncol = <span class='fl'>2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>data</span>) <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"x1"</span>, <span class='st'>"x2"</span>)
+<span class='kw'>dense</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  ..row_id = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>,
+  num = <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>10</span>),
+  fact = <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>), <span class='fl'>10</span>, replace = <span class='fl'>TRUE</span>), levels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>))
 )
 
-<span class='no'>b</span> <span class='kw'>=</span> <span class='fu'><a href='as_data_backend.html'>as_data_backend</a></span>(<span class='no'>data</span>, <span class='kw'>dense</span> <span class='kw'>=</span> <span class='no'>dense</span>, <span class='kw'>primary_key</span> <span class='kw'>=</span> <span class='st'>"..row_id"</span>)
-<span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
+<span class='kw'>b</span> <span class='op'>=</span> <span class='fu'><a href='as_data_backend.data.frame.html'>as_data_backend</a></span>(<span class='kw'>data</span>, dense = <span class='kw'>dense</span>, primary_key = <span class='st'>"..row_id"</span>)
+<span class='kw'>b</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()
+</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
 #&gt; 1:        1 0.12282178    b  0  0
 #&gt; 2:        2 0.03092667    a  0  1
 #&gt; 3:        3 0.49381410    b  1  0
 #&gt; 4:        4 0.21081463    b  0  0
 #&gt; 5:        5 0.42955521    a  1  1
-#&gt; 6:        6 0.11537900    b  1  1</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='no'>b</span>$<span class='no'>colnames</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"Matrix"</span>)</div><div class='output co'>#&gt; 3 x 5 Matrix of class "dgeMatrix"
+#&gt; 6:        6 0.11537900    b  1  1</div><div class='input'><span class='kw'>b</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='kw'>b</span><span class='op'>$</span><span class='kw'>colnames</span>, data_format = <span class='st'>"Matrix"</span>)
+</div><div class='output co'>#&gt; 3 x 5 Matrix of class "dgeMatrix"
 #&gt;   x1 x2 ..row_id        num fact_b
 #&gt; b  0  0        1 0.12282178      1
 #&gt; a  0  1        2 0.03092667      0
-#&gt; b  1  0        3 0.49381410      1</div><div class='input'><span class='no'>b</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='no'>b</span>$<span class='no'>colnames</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"data.table"</span>)</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
+#&gt; b  1  0        3 0.49381410      1</div><div class='input'><span class='kw'>b</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='kw'>b</span><span class='op'>$</span><span class='kw'>colnames</span>, data_format = <span class='st'>"data.table"</span>)
+</div><div class='output co'>#&gt;    ..row_id        num fact x1 x2
 #&gt; 1:        1 0.12282178    b  0  0
 #&gt; 2:        2 0.03092667    a  0  1
 #&gt; 3:        3 0.49381410    b  1  0</div></pre>
@@ -350,7 +354,7 @@ Column names.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -209,7 +209,8 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 <code><a href='mlr_resamplings_subsampling.html'>mlr_resamplings_subsampling</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_resamplings</span>)</div><div class='output co'>#&gt;            key        params iters
+    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>mlr_resamplings</span>)
+</div><div class='output co'>#&gt;            key        params iters
 #&gt; 1:   bootstrap repeats,ratio    30
 #&gt; 2:      custom                   0
 #&gt; 3:          cv         folds    10
@@ -217,9 +218,11 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 #&gt; 5:    insample                   1
 #&gt; 6:         loo                  NA
 #&gt; 7: repeated_cv repeats,folds   100
-#&gt; 8: subsampling repeats,ratio    30</div><div class='input'><span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cv"</span>)</div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 10 iterations
+#&gt; 8: subsampling repeats,ratio    30</div><div class='input'><span class='kw'>mlr_resamplings</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"cv"</span>)
+</div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 10 iterations
 #&gt; * Instantiated: FALSE
-#&gt; * Parameters: folds=10</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>)</div><div class='output co'>#&gt; &lt;ResamplingSubsampling&gt; with 30 iterations
+#&gt; * Parameters: folds=10</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>)
+</div><div class='output co'>#&gt; &lt;ResamplingSubsampling&gt; with 30 iterations
 #&gt; * Instantiated: FALSE
 #&gt; * Parameters: repeats=30, ratio=0.6667</div></pre>
   </div>
@@ -237,7 +240,7 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

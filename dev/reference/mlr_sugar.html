@@ -189,25 +189,25 @@ Relies on <code><a href='https://mlr3misc.mlr-org.com/reference/dictionary_sugar
 
     </div>
 
-    <pre class="usage"><span class='fu'>tsk</span>(<span class='no'>.key</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>tsk</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tsks</span>(<span class='no'>.keys</span>, <span class='no'>...</span>)
+<span class='fu'>tsks</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tgen</span>(<span class='no'>.key</span>, <span class='no'>...</span>)
+<span class='fu'>tgen</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tgens</span>(<span class='no'>.keys</span>, <span class='no'>...</span>)
+<span class='fu'>tgens</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)
 
-<span class='fu'>lrn</span>(<span class='no'>.key</span>, <span class='no'>...</span>)
+<span class='fu'>lrn</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
 
-<span class='fu'>lrns</span>(<span class='no'>.keys</span>, <span class='no'>...</span>)
+<span class='fu'>lrns</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)
 
-<span class='fu'>rsmp</span>(<span class='no'>.key</span>, <span class='no'>...</span>)
+<span class='fu'>rsmp</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
 
-<span class='fu'>rsmps</span>(<span class='no'>.keys</span>, <span class='no'>...</span>)
+<span class='fu'>rsmps</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)
 
-<span class='fu'>msr</span>(<span class='no'>.key</span>, <span class='no'>...</span>)
+<span class='fu'>msr</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
 
-<span class='fu'>msrs</span>(<span class='no'>.keys</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>msrs</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -237,14 +237,16 @@ or a list of <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> o
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># iris task with new id</span>
-<span class='fu'>tsk</span>(<span class='st'>"iris"</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"iris2"</span>)</div><div class='output co'>#&gt; &lt;TaskClassif:iris2&gt; (150 x 5)
+<span class='fu'>tsk</span>(<span class='st'>"iris"</span>, id = <span class='st'>"iris2"</span>)
+</div><div class='output co'>#&gt; &lt;TaskClassif:iris2&gt; (150 x 5)
 #&gt; * Target: Species
 #&gt; * Properties: multiclass
 #&gt; * Features (4):
 #&gt;   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</div><div class='input'>
 <span class='co'># classification tree with different hyperparameters</span>
 <span class='co'># and predict type set to predict probabilities</span>
-<span class='fu'>lrn</span>(<span class='st'>"classif.rpart"</span>, <span class='kw'>cp</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)</div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
+<span class='fu'>lrn</span>(<span class='st'>"classif.rpart"</span>, cp = <span class='fl'>0.1</span>, predict_type = <span class='st'>"prob"</span>)
+</div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
 #&gt; * Model: -
 #&gt; * Parameters: xval=0, cp=0.1
 #&gt; * Packages: rpart
@@ -253,7 +255,8 @@ or a list of <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> o
 #&gt; * Properties: importance, missings, multiclass, selected_features,
 #&gt;   twoclass, weights</div><div class='input'>
 <span class='co'># multiple learners with predict type 'prob'</span>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>), <span class='no'>lrn</span>, <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>), <span class='kw'>lrn</span>, predict_type = <span class='st'>"prob"</span>)
+</div><div class='output co'>#&gt; [[1]]
 #&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
 #&gt; * Model: -
 #&gt; * Parameters: method=mode
@@ -288,7 +291,7 @@ or a list of <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> o
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

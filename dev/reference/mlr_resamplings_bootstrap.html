@@ -173,8 +173,9 @@ and the ratio of observations to draw per iteration (<code>ratio</code>, default
 
     
 
-<p>This <a href='Resampling.html'>Resampling</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a> or with the associated sugar function <code><a href='mlr_sugar.html'>rsmp()</a></code>:</p><pre><span class='no'>mlr_resamplings</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"bootstrap"</span>)
-<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"bootstrap"</span>)</pre>
+<p>This <a href='Resampling.html'>Resampling</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a> or with the associated sugar function <code><a href='mlr_sugar.html'>rsmp()</a></code>:</p><pre><span class='kw'>mlr_resamplings</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"bootstrap"</span>)
+<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"bootstrap"</span>)
+</pre>
 
     <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
 
@@ -213,7 +214,7 @@ doi: <a href='https://doi.org/10.1162/evco_a_00069'>10.1162/evco_a_00069</a>
     <p><code><a href='Resampling.html'>mlr3::Resampling</a></code> -&gt; <code>ResamplingBootstrap</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl'>
+    <p><div class="r6-active-bindings"></p><dl>
 <dt><code>iters</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>)<br />
 Returns the number of resampling iterations, depending on the values stored in the <code>param_set</code>.</p></dd>
 
@@ -221,7 +222,7 @@ Returns the number of resampling iterations, depending on the values stored in t
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>ResamplingBootstrap$new()</code></a></p></li>
@@ -239,17 +240,17 @@ Returns the number of resampling iterations, depending on the values stored in t
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>ResamplingBootstrap</span>$<span class='fu'>new</span>()</pre><p></div></p>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>ResamplingBootstrap</span><span class='op'>$</span><span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
-<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>ResamplingBootstrap</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>ResamplingBootstrap</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -258,17 +259,21 @@ Returns the number of resampling iterations, depending on the values stored in t
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
-<span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
-<span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
+<span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
+<span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>)
 
 <span class='co'># Instantiate Resampling</span>
-<span class='no'>rb</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"bootstrap"</span>, <span class='kw'>repeats</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ratio</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='no'>rb</span>$<span class='fu'>instantiate</span>(<span class='no'>task</span>)
+<span class='kw'>rb</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"bootstrap"</span>, repeats = <span class='fl'>2</span>, ratio = <span class='fl'>1</span>)
+<span class='kw'>rb</span><span class='op'>$</span><span class='fu'>instantiate</span>(<span class='kw'>task</span>)
 
 <span class='co'># Individual sets:</span>
-<span class='no'>rb</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1]  1  2  2  3  6  7  7  8  9 10</div><div class='input'><span class='no'>rb</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 4 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='no'>rb</span>$<span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='no'>rb</span>$<span class='fu'>test_set</span>(<span class='fl'>1</span>))</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
+<span class='kw'>rb</span><span class='op'>$</span><span class='fu'>train_set</span>(<span class='fl'>1</span>)
+</div><div class='output co'>#&gt;  [1]  1  2  2  3  6  7  7  8  9 10</div><div class='input'><span class='kw'>rb</span><span class='op'>$</span><span class='fu'>test_set</span>(<span class='fl'>1</span>)
+</div><div class='output co'>#&gt; [1] 4 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='kw'>rb</span><span class='op'>$</span><span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='kw'>rb</span><span class='op'>$</span><span class='fu'>test_set</span>(<span class='fl'>1</span>))
+</div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
-<span class='no'>rb</span>$<span class='no'>instance</span>$<span class='no'>M</span> <span class='co'># Matrix of counts</span></div><div class='output co'>#&gt;        
+<span class='kw'>rb</span><span class='op'>$</span><span class='kw'>instance</span><span class='op'>$</span><span class='kw'>M</span> <span class='co'># Matrix of counts</span>
+</div><div class='output co'>#&gt;        
 #&gt;         [,1] [,2]
 #&gt;    [1,]    1    1
 #&gt;    [2,]    2    0
@@ -295,7 +300,7 @@ Returns the number of resampling iterations, depending on the values stored in t
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

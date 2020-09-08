@@ -210,7 +210,8 @@ and "packages" as columns.</p></li>
 <code><a href='mlr_measures_selected_features.html'>mlr_measures_selected_features</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>mlr_measures</span>)</div><div class='output co'>#&gt;                     key task_type     packages predict_type task_properties
+    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>mlr_measures</span>)
+</div><div class='output co'>#&gt;                     key task_type     packages predict_type task_properties
 #&gt;  1:         classif.acc   classif mlr3measures     response                
 #&gt;  2:         classif.auc   classif mlr3measures         prob        twoclass
 #&gt;  3:        classif.bacc   classif mlr3measures     response                
@@ -264,12 +265,14 @@ and "packages" as columns.</p></li>
 #&gt; 51:           time_both      &lt;NA&gt;                  response                
 #&gt; 52:        time_predict      &lt;NA&gt;                  response                
 #&gt; 53:          time_train      &lt;NA&gt;                  response                
-#&gt;                     key task_type     packages predict_type task_properties</div><div class='input'><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"classif.ce"</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifSimple:classif.ce&gt;
+#&gt;                     key task_type     packages predict_type task_properties</div><div class='input'><span class='kw'>mlr_measures</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"classif.ce"</span>)
+</div><div class='output co'>#&gt; &lt;MeasureClassifSimple:classif.ce&gt;
 #&gt; * Packages: mlr3measures
 #&gt; * Range: [0, 1]
 #&gt; * Minimize: TRUE
 #&gt; * Properties: -
-#&gt; * Predict type: response</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"regr.mse"</span>)</div><div class='output co'>#&gt; &lt;MeasureRegrSimple:regr.mse&gt;
+#&gt; * Predict type: response</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"regr.mse"</span>)
+</div><div class='output co'>#&gt; &lt;MeasureRegrSimple:regr.mse&gt;
 #&gt; * Packages: mlr3measures
 #&gt; * Range: [0, Inf]
 #&gt; * Minimize: TRUE
@@ -290,7 +293,7 @@ and "packages" as columns.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

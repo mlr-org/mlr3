@@ -200,7 +200,7 @@ Many of the measures in <span class="pkg">mlr3</span> are implemented in <a href
 <code><a href='mlr_measures.html'>mlr_measures</a></code></p></div>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
-    <p><div class="r6-fields"></p><dl'>
+    <p><div class="r6-fields"></p><dl>
 <dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Identifier of the object.
 Used in tables, plot and text output.</p></dd>
@@ -257,7 +257,7 @@ Defaults to <code>NA</code>, but can be set by child classes.</p></dd>
 </dl><p></div></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl'>
+    <p><div class="r6-active-bindings"></p><dl>
 <dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Hash (unique identifier) for this object.</p></dd>
 
@@ -265,7 +265,7 @@ Hash (unique identifier) for this object.</p></dd>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>Measure$new()</code></a></p></li>
@@ -276,26 +276,26 @@ Hash (unique identifier) for this object.</p></dd>
 <li><p><a href='#method-aggregate'><code>Measure$aggregate()</code></a></p></li>
 </ul>
 <p><hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p>
-<p>Note that this object is typically constructed via a derived classes, e.g. <a href='MeasureClassif.html'>MeasureClassif</a> or <a href='MeasureRegr.html'>MeasureRegr</a>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'>new</span>(
-  <span class='no'>id</span>,
-  <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>Inf</span>, <span class='fl'>Inf</span>),
-  <span class='kw'>minimize</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>average</span> <span class='kw'>=</span> <span class='st'>"macro"</span>,
-  <span class='kw'>aggregator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>properties</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"response"</span>,
-  <span class='kw'>predict_sets</span> <span class='kw'>=</span> <span class='st'>"test"</span>,
-  <span class='kw'>task_properties</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>packages</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>man</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>
+<p>Note that this object is typically constructed via a derived classes, e.g. <a href='MeasureClassif.html'>MeasureClassif</a> or <a href='MeasureRegr.html'>MeasureRegr</a>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Measure</span><span class='op'>$</span><span class='fu'>new</span>(
+  <span class='kw'>id</span>,
+  task_type = <span class='fl'>NA</span>,
+  range = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>Inf</span>, <span class='fl'>Inf</span>),
+  minimize = <span class='fl'>NA</span>,
+  average = <span class='st'>"macro"</span>,
+  aggregator = <span class='kw'>NULL</span>,
+  properties = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  predict_type = <span class='st'>"response"</span>,
+  predict_sets = <span class='st'>"test"</span>,
+  task_properties = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  packages = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  man = <span class='fl'>NA_character_</span>
 )</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Identifier for the new instance.</p></dd>
 
@@ -357,36 +357,36 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-format"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
-<p>Helper for print outputs.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
+<a id="method-format"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
+<p>Helper for print outputs.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Measure</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
 
 <p><hr>
-<a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
-<p>Printer.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()</pre><p></div></p>
+<a id="method-print"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+<p>Printer.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Measure</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>...</code></dt><dd><p>(ignored).</p></dd>
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-help"></a></p><h3>Method <code>help()</code></h3>
-<p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span>()</pre><p></div></p>
+<a id="method-help"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>help()</code></h3>
+<p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Measure</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span>()</pre><p></div></p>
 
 <p><hr>
-<a id="method-score"></a></p><h3>Method <code>score()</code></h3>
+<a id="method-score"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>score()</code></h3>
 <p>Takes a <a href='Prediction.html'>Prediction</a> (or a list of <a href='Prediction.html'>Prediction</a> objects named with valid <code>predict_sets</code>)
 and calculates a numeric score.
 If the measure if flagged with the properties <code>"requires_task"</code>, <code>"requires_learner"</code> or <code>"requires_train_set"</code>, you must additionally
 pass the respective <a href='Task.html'>Task</a>, the trained <a href='Learner.html'>Learner</a> or the training set indices.
-This is handled internally during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'>score</span>(<span class='no'>prediction</span>, <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>train_set</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre><p></div></p>
+This is handled internally during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Measure</span><span class='op'>$</span><span class='fu'>score</span>(<span class='kw'>prediction</span>, task = <span class='kw'>NULL</span>, learner = <span class='kw'>NULL</span>, train_set = <span class='kw'>NULL</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>prediction</code></dt><dd><p>(<a href='Prediction.html'>Prediction</a> | named list of <a href='Prediction.html'>Prediction</a>).</p></dd>
 
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>).</p></dd>
@@ -396,20 +396,20 @@ This is handled internally during <code><a href='resample.html'>resample()</a></
 <dt><code>train_set</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>).</p></dd>
 
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>.</p>
 <p><hr>
-<a id="method-aggregate"></a></p><h3>Method <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code></h3>
+<a id="method-aggregate"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code></h3>
 <p>Aggregates multiple performance scores into a single score using the <code>aggregator</code> function of the measure.
-Operates on the <a href='Prediction.html'>Prediction</a>s of <a href='ResampleResult.html'>ResampleResult</a> with matching <code>predict_sets</code>.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>Measure</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='no'>rr</span>)</pre><p></div></p>
+Operates on the <a href='Prediction.html'>Prediction</a>s of <a href='ResampleResult.html'>ResampleResult</a> with matching <code>predict_sets</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>Measure</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='kw'>rr</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>rr</code></dt><dd><p><a href='ResampleResult.html'>ResampleResult</a>.</p></dd>
 
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>.</p>
 
 
@@ -429,7 +429,7 @@ Operates on the <a href='Prediction.html'>Prediction</a>s of <a href='ResampleRe
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

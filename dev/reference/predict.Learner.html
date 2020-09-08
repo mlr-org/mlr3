@@ -182,7 +182,7 @@ or <code>learner$predict_newdata()</code> directly.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for Learner</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>newdata</span>, <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>object</span>, <span class='kw'>newdata</span>, predict_type = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,15 +214,18 @@ Hyperparameters to pass down to the <a href='Learner.html'>Learner</a>.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"spam"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"spam"</span>)
 
-<span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>, <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)
-<span class='no'>learner</span>$<span class='fu'>train</span>(<span class='no'>task</span>)
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>learner</span>, <span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>), <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"response"</span>)</div><div class='output co'>#&gt; [1] spam spam spam
-#&gt; Levels: spam nonspam</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>learner</span>, <span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>), <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)</div><div class='output co'>#&gt;           spam    nonspam
+<span class='kw'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>, predict_type = <span class='st'>"prob"</span>)
+<span class='kw'>learner</span><span class='op'>$</span><span class='fu'>train</span>(<span class='kw'>task</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>learner</span>, <span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>), predict_type = <span class='st'>"response"</span>)
+</div><div class='output co'>#&gt; [1] spam spam spam
+#&gt; Levels: spam nonspam</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>learner</span>, <span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>), predict_type = <span class='st'>"prob"</span>)
+</div><div class='output co'>#&gt;           spam    nonspam
 #&gt; [1,] 0.8513514 0.14864865
 #&gt; [2,] 0.9339623 0.06603774
-#&gt; [3,] 0.9339623 0.06603774</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>learner</span>, <span class='no'>task</span>$<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>), <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"&lt;Prediction&gt;"</span>)</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 3 observations:
+#&gt; [3,] 0.9339623 0.06603774</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>learner</span>, <span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>), predict_type = <span class='st'>"&lt;Prediction&gt;"</span>)
+</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 3 observations:
 #&gt;  row_id truth response prob.spam prob.nonspam
 #&gt;       1  spam     spam 0.8513514   0.14864865
 #&gt;       2  spam     spam 0.9339623   0.06603774
@@ -242,7 +245,7 @@ Hyperparameters to pass down to the <a href='Learner.html'>Learner</a>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

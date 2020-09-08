@@ -169,7 +169,7 @@ generate a design in an <code><a href='https://rdrr.io/r/base/expand.grid.html'>
 The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>benchmark_grid</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>)</pre>
+    <pre class="usage"><span class='fu'>benchmark_grid</span>(<span class='kw'>tasks</span>, <span class='kw'>learners</span>, <span class='kw'>resamplings</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,10 +193,11 @@ The only exception to this rule applies if all tasks have exactly the same numbe
     <p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>) with the cross product of the input vectors.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>tasks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>), <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"sonar"</span>))
-<span class='no'>learners</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>))
-<span class='no'>resamplings</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>), <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>))
-<span class='fu'>benchmark_grid</span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>)</div><div class='output co'>#&gt;                 task                         learner
+    <pre class="examples"><div class='input'><span class='kw'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>), <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"sonar"</span>))
+<span class='kw'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>))
+<span class='kw'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>), <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>))
+<span class='fu'>benchmark_grid</span>(<span class='kw'>tasks</span>, <span class='kw'>learners</span>, <span class='kw'>resamplings</span>)
+</div><div class='output co'>#&gt;                 task                         learner
 #&gt; 1: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt;
 #&gt; 2: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt;
 #&gt; 3: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[32]&gt;
@@ -229,7 +230,7 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -183,73 +183,73 @@ This includes type checks on the type, the feature types, and properties.</p></l
 Otherwise, the input object is returned invisibly.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>assert_backend</span>(<span class='no'>b</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>b</span>))
+    <pre class="usage"><span class='fu'>assert_backend</span>(<span class='kw'>b</span>, .var.name = <span class='fu'>vname</span>(<span class='kw'>b</span>))
 
 <span class='fu'>assert_task</span>(
-  <span class='no'>task</span>,
-  <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>feature_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>task_properties</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>task</span>)
+  <span class='kw'>task</span>,
+  task_type = <span class='kw'>NULL</span>,
+  feature_types = <span class='kw'>NULL</span>,
+  task_properties = <span class='kw'>NULL</span>,
+  .var.name = <span class='fu'>vname</span>(<span class='kw'>task</span>)
 )
 
 <span class='fu'>assert_tasks</span>(
-  <span class='no'>tasks</span>,
-  <span class='kw'>task_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>feature_types</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>task_properties</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>tasks</span>)
+  <span class='kw'>tasks</span>,
+  task_type = <span class='kw'>NULL</span>,
+  feature_types = <span class='kw'>NULL</span>,
+  task_properties = <span class='kw'>NULL</span>,
+  .var.name = <span class='fu'>vname</span>(<span class='kw'>tasks</span>)
 )
 
 <span class='fu'>assert_learner</span>(
-  <span class='no'>learner</span>,
-  <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>properties</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>learner</span>)
+  <span class='kw'>learner</span>,
+  task = <span class='kw'>NULL</span>,
+  properties = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  .var.name = <span class='fu'>vname</span>(<span class='kw'>learner</span>)
 )
 
 <span class='fu'>assert_learners</span>(
-  <span class='no'>learners</span>,
-  <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>properties</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>learners</span>)
+  <span class='kw'>learners</span>,
+  task = <span class='kw'>NULL</span>,
+  properties = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  .var.name = <span class='fu'>vname</span>(<span class='kw'>learners</span>)
 )
 
-<span class='fu'>assert_learnable</span>(<span class='no'>task</span>, <span class='no'>learner</span>)
+<span class='fu'>assert_learnable</span>(<span class='kw'>task</span>, <span class='kw'>learner</span>)
 
 <span class='fu'>assert_measure</span>(
-  <span class='no'>measure</span>,
-  <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>measure</span>)
+  <span class='kw'>measure</span>,
+  task = <span class='kw'>NULL</span>,
+  learner = <span class='kw'>NULL</span>,
+  .var.name = <span class='fu'>vname</span>(<span class='kw'>measure</span>)
 )
 
 <span class='fu'>assert_measures</span>(
-  <span class='no'>measures</span>,
-  <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>measures</span>)
+  <span class='kw'>measures</span>,
+  task = <span class='kw'>NULL</span>,
+  learner = <span class='kw'>NULL</span>,
+  .var.name = <span class='fu'>vname</span>(<span class='kw'>measures</span>)
 )
 
 <span class='fu'>assert_resampling</span>(
-  <span class='no'>resampling</span>,
-  <span class='kw'>instantiated</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>resampling</span>)
+  <span class='kw'>resampling</span>,
+  instantiated = <span class='kw'>NULL</span>,
+  .var.name = <span class='fu'>vname</span>(<span class='kw'>resampling</span>)
 )
 
 <span class='fu'>assert_resamplings</span>(
-  <span class='no'>resamplings</span>,
-  <span class='kw'>instantiated</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>resamplings</span>)
+  <span class='kw'>resamplings</span>,
+  instantiated = <span class='kw'>NULL</span>,
+  .var.name = <span class='fu'>vname</span>(<span class='kw'>resamplings</span>)
 )
 
-<span class='fu'>assert_prediction</span>(<span class='no'>prediction</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>prediction</span>))
+<span class='fu'>assert_prediction</span>(<span class='kw'>prediction</span>, .var.name = <span class='fu'>vname</span>(<span class='kw'>prediction</span>))
 
-<span class='fu'>assert_resample_result</span>(<span class='no'>rr</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>rr</span>))
+<span class='fu'>assert_resample_result</span>(<span class='kw'>rr</span>, .var.name = <span class='fu'>vname</span>(<span class='kw'>rr</span>))
 
-<span class='fu'>assert_benchmark_result</span>(<span class='no'>bmr</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>bmr</span>))
+<span class='fu'>assert_benchmark_result</span>(<span class='kw'>bmr</span>, .var.name = <span class='fu'>vname</span>(<span class='kw'>bmr</span>))
 
-<span class='fu'>assert_row_ids</span>(<span class='no'>row_ids</span>, <span class='kw'>null.ok</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.var.name</span> <span class='kw'>=</span> <span class='fu'>vname</span>(<span class='no'>row_ids</span>))</pre>
+<span class='fu'>assert_row_ids</span>(<span class='kw'>row_ids</span>, null.ok = <span class='fl'>FALSE</span>, .var.name = <span class='fu'>vname</span>(<span class='kw'>row_ids</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -334,7 +334,7 @@ Set of required task properties.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

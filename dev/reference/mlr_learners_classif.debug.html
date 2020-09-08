@@ -178,7 +178,7 @@ Also note that if they work, they will tear down your R session immediately!" />
     <div class="ref-description">
     <p>A simple <a href='LearnerClassif.html'>LearnerClassif</a> used primarily in the unit tests and for debugging purposes.
 If no hyperparameter is set, it simply constantly predicts a randomly selected label.
-The following hyperparameters trigger the following actions:</p><dl'>
+The following hyperparameters trigger the following actions:</p><dl>
 <dt>message_train:</dt><dd><p>Probability to output a message during train.</p></dd>
 <dt>message_predict:</dt><dd><p>Probability to output a message during predict.</p></dd>
 <dt>warning_train:</dt><dd><p>Probability to signal a warning during train.</p></dd>
@@ -201,8 +201,9 @@ Also note that if they work, they will tear down your R session immediately!</p>
 
     
 
-<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre><span class='no'>mlr_learners</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"classif.featureless"</span>)
-<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)</pre>
+<p>This <a href='Learner.html'>Learner</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_learners.html'>mlr_learners</a> or with the associated sugar function <code><a href='mlr_sugar.html'>lrn()</a></code>:</p><pre><span class='kw'>mlr_learners</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"classif.featureless"</span>)
+<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)
+</pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
@@ -253,7 +254,7 @@ Also note that if they work, they will tear down your R session immediately!</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>LearnerClassifDebug$new()</code></a></p></li>
@@ -272,17 +273,17 @@ Also note that if they work, they will tear down your R session immediately!</p>
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>LearnerClassifDebug</span>$<span class='fu'>new</span>()</pre><p></div></p>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>LearnerClassifDebug</span><span class='op'>$</span><span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
-<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>LearnerClassifDebug</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>LearnerClassifDebug</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -290,12 +291,14 @@ Also note that if they work, they will tear down your R session immediately!</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.debug"</span>)
-<span class='no'>learner</span>$<span class='no'>param_set</span>$<span class='no'>values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>message_train</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>save_tasks</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='kw'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.debug"</span>)
+<span class='kw'>learner</span><span class='op'>$</span><span class='kw'>param_set</span><span class='op'>$</span><span class='kw'>values</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(message_train = <span class='fl'>1</span>, save_tasks = <span class='fl'>TRUE</span>)
 
 <span class='co'># this should signal a message</span>
-<span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
-<span class='no'>learner</span>$<span class='fu'>train</span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; <span class='message'>Message from classif.debug-&gt;train()</span></div><div class='input'><span class='no'>learner</span>$<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>task</span>)</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 150 observations:
+<span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
+<span class='kw'>learner</span><span class='op'>$</span><span class='fu'>train</span>(<span class='kw'>task</span>)
+</div><div class='output co'>#&gt; <span class='message'>Message from classif.debug-&gt;train()</span></div><div class='input'><span class='kw'>learner</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>task</span>)
+</div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 150 observations:
 #&gt;     row_id     truth   response
 #&gt;          1    setosa versicolor
 #&gt;          2    setosa versicolor
@@ -305,7 +308,8 @@ Also note that if they work, they will tear down your R session immediately!</p>
 #&gt;        149 virginica versicolor
 #&gt;        150 virginica versicolor</div><div class='input'>
 <span class='co'># task_train and task_predict are the input tasks for train() and predict()</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>learner</span>$<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] "response"     "pid"          "task_train"   "task_predict"</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>learner</span><span class='op'>$</span><span class='kw'>model</span>)
+</div><div class='output co'>#&gt; [1] "response"     "pid"          "task_train"   "task_predict"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -321,7 +325,7 @@ Also note that if they work, they will tear down your R session immediately!</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

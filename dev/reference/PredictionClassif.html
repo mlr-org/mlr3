@@ -215,7 +215,7 @@ These are simply replaced by <code>0</code> and thus will never get selected.</p
     <p><code><a href='Prediction.html'>mlr3::Prediction</a></code> -&gt; <code>PredictionClassif</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl'>
+    <p><div class="r6-active-bindings"></p><dl>
 <dt><code>response</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/factor.html'>factor()</a></code>)<br />
 Access to the stored predicted class labels.</p></dd>
 
@@ -233,7 +233,7 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>PredictionClassif$new()</code></a></p></li>
@@ -249,18 +249,18 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>PredictionClassif</span>$<span class='fu'>new</span>(
-  <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>row_ids</span>,
-  <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='fu'>truth</span>(),
-  <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>PredictionClassif</span><span class='op'>$</span><span class='fu'>new</span>(
+  task = <span class='kw'>NULL</span>,
+  row_ids = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>row_ids</span>,
+  truth = <span class='kw'>task</span><span class='op'>$</span><span class='fu'>truth</span>(),
+  response = <span class='kw'>NULL</span>,
+  prob = <span class='kw'>NULL</span>
 )</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>task</code></dt><dd><p>(<a href='TaskClassif.html'>TaskClassif</a>)<br />
 Task, used to extract defaults for <code>row_ids</code> and <code>truth</code>.</p></dd>
 
@@ -285,13 +285,13 @@ the probabilities using <code><a href='https://rdrr.io/r/base/maxCol.html'>max.c
 
 </dl><p></div></p>
 <p><hr>
-<a id="method-set_threshold"></a></p><h3>Method <code>set_threshold()</code></h3>
+<a id="method-set_threshold"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>set_threshold()</code></h3>
 <p>Sets the prediction response based on the provided threshold.
-See the section on thresholding for more information.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>PredictionClassif</span>$<span class='fu'>set_threshold</span>(<span class='no'>threshold</span>, <span class='kw'>ties_method</span> <span class='kw'>=</span> <span class='st'>"random"</span>)</pre><p></div></p>
+See the section on thresholding for more information.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>PredictionClassif</span><span class='op'>$</span><span class='fu'>set_threshold</span>(<span class='kw'>threshold</span>, ties_method = <span class='st'>"random"</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>threshold</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>).</p></dd>
 
 <dt><code>ties_method</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
@@ -299,7 +299,7 @@ One of <code>"random"</code>, <code>"first"</code> or <code>"last"</code> (c.f. 
 tied probabilities.</p></dd>
 
 </dl><p></div></p>
-<h3>Returns</h3>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Returns the object itself, but modified <strong>by reference</strong>.
 You need to explicitly <code>$clone()</code> the object beforehand if you want to keeps
 the object in its previous state.</p>
@@ -307,11 +307,13 @@ the object in its previous state.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
-<span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>, <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)
-<span class='no'>learner</span>$<span class='fu'>train</span>(<span class='no'>task</span>)
-<span class='no'>p</span> <span class='kw'>=</span> <span class='no'>learner</span>$<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>task</span>)
-<span class='no'>p</span>$<span class='no'>predict_types</span></div><div class='output co'>#&gt; [1] "response" "prob"    </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>p</span>))</div><div class='output co'>#&gt;    row_id  truth response prob.setosa prob.versicolor prob.virginica
+    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
+<span class='kw'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>, predict_type = <span class='st'>"prob"</span>)
+<span class='kw'>learner</span><span class='op'>$</span><span class='fu'>train</span>(<span class='kw'>task</span>)
+<span class='kw'>p</span> <span class='op'>=</span> <span class='kw'>learner</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>task</span>)
+<span class='kw'>p</span><span class='op'>$</span><span class='kw'>predict_types</span>
+</div><div class='output co'>#&gt; [1] "response" "prob"    </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>p</span>))
+</div><div class='output co'>#&gt;    row_id  truth response prob.setosa prob.versicolor prob.virginica
 #&gt; 1:      1 setosa   setosa           1               0              0
 #&gt; 2:      2 setosa   setosa           1               0              0
 #&gt; 3:      3 setosa   setosa           1               0              0
@@ -319,17 +321,19 @@ the object in its previous state.</p>
 #&gt; 5:      5 setosa   setosa           1               0              0
 #&gt; 6:      6 setosa   setosa           1               0              0</div><div class='input'>
 <span class='co'># confusion matrix</span>
-<span class='no'>p</span>$<span class='no'>confusion</span></div><div class='output co'>#&gt;             truth
+<span class='kw'>p</span><span class='op'>$</span><span class='kw'>confusion</span>
+</div><div class='output co'>#&gt;             truth
 #&gt; response     setosa versicolor virginica
 #&gt;   setosa         50          0         0
 #&gt;   versicolor      0         49         5
 #&gt;   virginica       0          1        45</div><div class='input'>
 <span class='co'># change threshold</span>
-<span class='no'>th</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.9</span>, <span class='fl'>0.05</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>th</span>) <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>class_names</span>
+<span class='kw'>th</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.9</span>, <span class='fl'>0.05</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>th</span>) <span class='op'>=</span> <span class='kw'>task</span><span class='op'>$</span><span class='kw'>class_names</span>
 
 <span class='co'># new predictions</span>
-<span class='no'>p</span>$<span class='fu'>set_threshold</span>(<span class='no'>th</span>)$<span class='no'>response</span></div><div class='output co'>#&gt;   [1] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
+<span class='kw'>p</span><span class='op'>$</span><span class='fu'>set_threshold</span>(<span class='kw'>th</span>)<span class='op'>$</span><span class='kw'>response</span>
+</div><div class='output co'>#&gt;   [1] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
 #&gt;   [8] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
 #&gt;  [15] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
 #&gt;  [22] setosa    setosa    setosa    setosa    setosa    setosa    setosa   
@@ -351,7 +355,8 @@ the object in its previous state.</p>
 #&gt; [134] virginica virginica virginica virginica virginica virginica virginica
 #&gt; [141] virginica virginica virginica virginica virginica virginica virginica
 #&gt; [148] virginica virginica virginica
-#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='no'>p</span>$<span class='fu'>score</span>(<span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.ce"</span>))</div><div class='output co'>#&gt; classif.ce 
+#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='kw'>p</span><span class='op'>$</span><span class='fu'>score</span>(measures = <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.ce"</span>))
+</div><div class='output co'>#&gt; classif.ce 
 #&gt;  0.3333333 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -368,7 +373,7 @@ the object in its previous state.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
