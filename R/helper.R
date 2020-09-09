@@ -33,3 +33,17 @@ replace_with = function(x, needle, replacement) {
   replace(x, ii, replacement)
 }
 
+fget = function(tab, i, j, key = key(tab)) {
+  # TODO: this should go to mlr3misc or maybe even
+  # data.table; a C implementation might also help
+  if (nrow(tab) > 10000L) {
+    tab[list(i), j, on = key, with = FALSE][[1L]]
+  } else {
+    table = tab[[key]]
+    if (is.character(table)) {
+      tab[[j]][chmatch(i, table, nomatch = 0L)]
+    } else {
+      tab[[j]][match(i, table, nomatch = 0L)]
+    }
+  }
+}

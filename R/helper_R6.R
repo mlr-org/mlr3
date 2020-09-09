@@ -43,7 +43,7 @@ normalize_tab = function(tab, col) {
   hashes = hashes(values)
   idx = which(!duplicated(hashes))
   ee = list2env(set_names(values[idx], hashes[idx]), parent = emptyenv(), hash = TRUE)
-  tab[, eval(col) := hashes]
+  set(tab, j = col, value = hashes)
   ee
 }
 

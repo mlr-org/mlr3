@@ -192,9 +192,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       tab[, ("nr") := .GRP, by = "uhash"][, ("uhash") := NULL]
       if (ids) {
-        tab[, "task_id" := ids(task)]
-        tab[, "learner_id" := ids(learner)]
-        tab[, "resampling_id" := ids(resampling)]
+        set(tab, j = "task_id", value = ids(tab$task))
+        set(tab, j = "learner_id", value = ids(tab$learner))
+        set(tab, j = "resampling_id", value = ids(tab$resampling))
         setcolorder(tab, c("nr", "task", "task_id", "learner", "learner_id",
             "resampling", "resampling_id", "iteration", "prediction"))
       } else {
@@ -233,24 +233,30 @@ BenchmarkResult = R6Class("BenchmarkResult",
     aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE) {
       res = self$resample_results
       resample_result = res$resample_result
-      res[, "nr" := seq_row(res)]
+      set(res, j = "nr", value = seq_row(res))
 
       if (assert_flag(ids)) {
-        res[, "task_id" := map_chr(resample_result, function(rr) rr$task$id)]
-        res[, "learner_id" := map_chr(resample_result, function(rr) rr$learner$id)]
-        res[, "resampling_id" := map_chr(resample_result, function(rr) rr$resampling$id)]
+        set(res, j = "task_id",
+          value = map_chr(resample_result, function(rr) rr$task$id))
+        set(res, j = "learner_id",
+          value = map_chr(resample_result, function(rr) rr$learner$id))
+        set(res, j = "resampling_id",
+          value = map_chr(resample_result, function(rr) rr$resampling$id))
       }
 
       # move iters to last column
       setcolorder(res, setdiff(names(res), "iters"))
 
       if (assert_flag(params)) {
-        res[, "params" := list(map(resample_result, function(x) x$learner$param_set$values))]
+        set(res, j = "params",
+          value = list(map(resample_result, function(x) x$learner$param_set$values)))
       }
 
       if (assert_flag(conditions)) {
-        res[, "warnings" := map_int(resample_result, function(rr) uniqueN(rr$warnings, by = "iteration"))]
-        res[, "errors" := map_int(resample_result, function(rr) uniqueN(rr$errors, by = "iteration"))]
+        set(res, j = "warnings",
+          value = map_int(resample_result, function(rr) uniqueN(rr$warnings, by = "iteration")))
+        set(res, j = "errors",
+          value = map_int(resample_result, function(rr) uniqueN(rr$errors, by = "iteration")))
       }
 
       if (nrow(res)) {
@@ -262,7 +268,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (!assert_flag(uhashes)) {
-        res[, ("uhash") := NULL]
+        set(res, j = "uhash", value = NULL)
       } else {
         setcolorder(res, c("nr", "uhash"))
       }
