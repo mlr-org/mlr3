@@ -184,7 +184,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   extra character columns for convenient subsetting.
     #'
     #' @param predict_sets (`character()`)\cr
-    #'   Set of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
+    #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
     #'   Default is `"test"`.
     #'
     #' @return [data.table::data.table()].

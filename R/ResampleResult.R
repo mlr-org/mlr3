@@ -154,7 +154,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   These allow to subset more conveniently.
     #'
     #' @param predict_sets (`character()`)\cr
-    #'   Set of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
+    #'   Vector of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
     #'   Default is `"test"`.
     #'
     #' @return [data.table::data.table()].

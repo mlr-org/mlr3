@@ -245,7 +245,7 @@ are added to the returned table.
 These allow to subset more conveniently.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
-Set of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
+Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
 Default is \code{"test"}.}
 }
 \if{html}{\out{</div>}}

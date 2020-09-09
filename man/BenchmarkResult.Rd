@@ -263,7 +263,7 @@ Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) 
 extra character columns for convenient subsetting.}
 
 \item{\code{predict_sets}}{(\code{character()})\cr
-Set of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
+Vector of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
 Default is \code{"test"}.}
 }
 \if{html}{\out{</div>}}
