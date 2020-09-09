@@ -58,11 +58,12 @@ Prediction = R6Class("Prediction",
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {
-      if (!nrow(self$data$tab)) {
+      n = length(self$data$row_ids)
+      if (n == 0L) {
         catf("%s for 0 observations", format(self))
       } else {
         data = as.data.table(self)
-        catf("%s for %i observations:", format(self), nrow(data))
+        catf("%s for %i observations:", format(self), n)
         print(data, nrows = 10L, topn = 3L, class = FALSE, row.names = FALSE, print.keys = FALSE)
       }
     },
@@ -97,27 +98,38 @@ Prediction = R6Class("Prediction",
     #'   Vector of row ids for which predictions are stored.
     row_ids = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab$row_id
+      self$data$row_ids
     },
 
     #' @field truth (`any`)\cr
     #'   True (observed) outcome.
     truth = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab$truth
+      self$data$truth
     },
 
     #' @field missing (`integer()`)\cr
     #'   Returns `row_ids` for which the predictions are missing or incomplete.
     missing = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab$row_id[0L] # empty vector
+      is_missing_prediction_data(self$data)
     }
   )
 )
 
 #' @export
-c.Prediction = function(..., keep_duplicates = TRUE) {
-  cl = class(list(...)[[1L]])[1L]
-  stopf("c.Prediction not implemented for '%s'", cl)
+c.Prediction = function(..., keep_duplicates = TRUE) { # nolint
+  dots = list(...)
+  if (length(dots) == 1L) {
+    return(dots[[1L]])
+  }
+
+  classes = unique(map_chr(dots, function(x) class(x)[1L]))
+  if (length(classes) > 1L) {
+    stopf("Cannot combine objects of different type: %s", str_collapse(classes))
+  }
+  assert_flag(keep_duplicates)
+
+  pdata = invoke(c, .args = c(map(dots, "data"), list(keep_duplicates = keep_duplicates)))
+  as_prediction(pdata, check = FALSE)
 }

@@ -86,45 +86,24 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #'   Columns must be named with class labels, row names are automatically removed.
     #'   If `prob` is provided, but `response` is not, the class labels are calculated from
     #'   the probabilities using [max.col()] with `ties.method` set to `"random"`.
-    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL) {
-      row_ids = assert_row_ids(row_ids)
-      n = length(row_ids)
-
-      truth = assert_factor(truth, len = n, null.ok = TRUE)
-      lvls = levels(truth)
-
-      if (!is.null(response)) {
-        response = assert_factor(as_factor(response, levels = lvls), len = n)
-      }
-
-      if (!is.null(prob)) {
-        assert_matrix(prob, nrows = n, ncols = length(lvls))
-        assert_numeric(prob, lower = 0, upper = 1)
-        if (!identical(colnames(prob), lvls)) {
-          assert_names(colnames(prob), permutation.of = lvls)
-          prob = prob[, match(colnames(prob), lvls), drop = FALSE]
-        }
-        if (!is.null(rownames(prob))) {
-          rownames(prob) = NULL
-        }
-
-        if (is.null(response)) {
-          # calculate response from prob
-          i = max.col(prob, ties.method = "random")
-          response = factor(colnames(prob)[i], levels = lvls)
-        }
-      }
-
-      self$task_type = "classif"
-      self$predict_types = c("response", "prob")[c(!is.null(response), !is.null(prob))]
-      self$data$tab = data.table(
-        row_id = row_ids,
-        truth = truth,
-        response = response
+    #'
+    #' @param check (`logical(1)`)\cr
+    #'   If `TRUE`, performs some argument checks and predict type conversions.
+    initialize = function(task = NULL, row_ids = task$row_ids, truth = task$truth(), response = NULL, prob = NULL, check = TRUE) {
+      pdata = new_prediction_data(
+        list(row_ids = row_ids, truth = truth, response = response, prob = prob),
+        task_type = "classif"
       )
-      self$data$prob = prob
+
+      if (check) {
+        pdata = check_prediction_data(pdata)
+      }
+      self$task_type = "classif"
       self$man = "mlr3::PredictionClassif"
+      self$data = pdata
+      self$predict_types = intersect(c("response", "prob"), names(pdata))
     },
+
 
     #' @description
     #' Sets the prediction response based on the provided threshold.
@@ -162,7 +141,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       }
 
       ind = max.col(prob, ties.method = ties_method)
-      self$data$tab$response = factor(lvls[ind], levels = lvls)
+      self$data$response = factor(lvls[ind], levels = lvls)
       invisible(self)
     }
   ),
@@ -173,7 +152,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' Access to the stored predicted class labels.
     response = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth))
+      self$data$response %??% factor(rep(NA, length(self$data$row_ids)), levels(self$data$truth))
     },
 
     #' @field prob (`matrix()`)\cr
@@ -188,60 +167,21 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     #' Truth is in columns, predicted response is in rows.
     confusion = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$tab[, table(response, truth, useNA = "ifany")]
-    },
-
-    #' @field missing (`integer()`)\cr
-    #'   Returns `row_ids` for which the predictions are missing or incomplete.
-    missing = function(rhs) {
-      assert_ro_binding(rhs)
-      miss = logical(nrow(self$data$tab))
-      if ("response" %in% self$predict_types) {
-        miss = is.na(self$data$tab$response)
-      }
-      if ("prob" %in% self$predict_types) {
-        miss = miss | apply(self$data$prob, 1L, anyMissing)
-      }
-
-      self$data$tab$row_id[miss]
+      table(response = self$data$response, truth = self$data$truth, useNA = "ifany")
     }
   )
 )
 
 #' @export
-as.data.table.PredictionClassif = function(x, ...) {
-  tab = copy(x$data$tab)
+as.data.table.PredictionClassif = function(x, ...) { # nolint
+  tab = as.data.table(x$data[c("row_ids", "truth", "response")])
+  setnames(tab, "row_ids", "row_id")
+
   if ("prob" %in% x$predict_types) {
     prob = as.data.table(x$data$prob)
     setnames(prob, names(prob), paste0("prob.", names(prob)))
     tab = rcbind(tab, prob)
   }
 
-  tab
-}
-
-#' @export
-c.PredictionClassif = function(..., keep_duplicates = TRUE) {
-  dots = list(...)
-  assert_list(dots, "PredictionClassif")
-  assert_flag(keep_duplicates)
-  if (length(dots) == 1L) {
-    return(dots[[1L]])
-  }
-
-  predict_types = map(dots, "predict_types")
-  if (!every(predict_types[-1L], setequal, y = predict_types[[1L]])) {
-    stopf("Cannot rbind predictions: Probabilities for some predictions, not all")
-  }
-
-  tab = map_dtr(dots, function(p) p$data$tab, .fill = FALSE)
-  prob = do.call(rbind, map(dots, "prob"))
-
-  if (!keep_duplicates) {
-    keep = !duplicated(tab, by = "row_id", fromLast = TRUE)
-    tab = tab[keep]
-    prob = prob[keep,, drop = FALSE]
-  }
-
-  PredictionClassif$new(row_ids = tab$row_id, truth = tab$truth, response = tab$response, prob = prob)
+  tab[]
 }

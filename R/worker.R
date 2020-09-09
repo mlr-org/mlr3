@@ -7,7 +7,7 @@ train_wrapper = function(learner, task) {
     .Deprecated(msg = "Use private method '.train()' instead of public method 'train_internal()'")
     model = learner$train_internal(task)
   } else {
-    model = learner$.__enclos_env__$private$.train(task)
+    model = get_private(learner)$.train(task)
   }
 
   if (is.null(model)) {
@@ -30,15 +30,10 @@ predict_wrapper = function(task, learner) {
     .Deprecated(msg = "Use private method '.predict()' instead of public method 'predict_internal()'")
     result = learner$predict_internal(task)
   } else {
-    result = learner$.__enclos_env__$private$.predict(task)
+    result = get_private(learner)$.predict(task)
   }
 
-  if (!inherits(result, "Prediction")) {
-    stopf("Learner '%s' on task '%s' did not return a Prediction object, but instead: %s",
-      learner$id, task$id, as_short_string(result))
-  }
-
-  return(result)
+  as_prediction_data(result, task = task, check = TRUE)
 }
 
 
@@ -125,13 +120,9 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   if (task$nrow == 0L) {
     # return an empty prediction object, #421
-    lg$debug("No observations in task '%s', returning empty prediction",
-      task$id)
-
+    lg$debug("No observations in task, returning empty prediction data", task = task)
     learner$state$log = append_log(learner$state$log, "predict", "output", "No data to predict on")
-    tt = task$task_type
-    f = mlr_reflections$task_types[list(tt), "prediction", with = FALSE][[1L]]
-    return(get(f)$new(task = task))
+    return(as_prediction_data(named_list(), task = task, row_ids = integer(), check = TRUE))
   }
 
   if (is.null(learner$state$model)) {
@@ -168,7 +159,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
       fb = assert_learner(as_learner(fb))
       fb$predict_type = learner$predict_type
       fb$state = learner$state$fallback_state
-      fb$predict(task, row_ids)
+      as_prediction_data(fb$predict(task, row_ids), task, row_ids, check = TRUE)
     }
 
 
@@ -179,13 +170,14 @@ learner_predict = function(learner, task, row_ids = NULL) {
       learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner for predictions")
       prediction = predict_fb(task$row_ids)
     } else {
-      miss_ids = prediction$missing
+      miss_ids = is_missing_prediction_data(prediction)
 
       lg$debug("Imputing %i%i predictions using fallback '%s'",
         length(miss_ids), length(prediction$row_ids), fb$id,  learner = fb$clone())
 
       if (length(miss_ids)) {
         learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner to impute predictions")
+
         prediction = c(prediction, predict_fb(miss_ids), keep_duplicates = FALSE)
       }
     }
@@ -217,26 +209,18 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
 
   # predict for each set
   sets = sets[learner$predict_sets]
-  prediction = Map(function(set, row_ids) {
+  pdatas = Map(function(set, row_ids) {
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
   }, set = names(sets), row_ids = sets)
-  prediction = prediction[!vapply(prediction, is.null, NA)]
+  pdatas = pdatas[!vapply(pdatas, is.null, NA)]
 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)
     learner$state$model = NULL
   }
 
-  list(learner_state = learner$state, prediction = prediction)
-}
-
-# called on the master, re-constructs objects from return value of
-# the workhorse function
-reassemble = function(result, learner) {
-  learner = learner$clone()
-  learner$state = result$learner_state
-  list(learner = list(learner), prediction = list(result$prediction))
+  list(learner_state = learner$state, prediction = pdatas)
 }
 
 append_log = function(log = NULL, stage = NA_character_, class = NA_character_, msg = character()) {

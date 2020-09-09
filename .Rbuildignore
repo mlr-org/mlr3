@@ -18,6 +18,8 @@
 ^\.ccache$
 ^\.github$
 ^tic\.R$
+^.travis.yml$
+^.lintr$
 ^docs$
 ^\.vscode$
 ^codemeta\.json$

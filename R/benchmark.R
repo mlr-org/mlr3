@@ -75,7 +75,6 @@
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
 benchmark = function(design, store_models = FALSE) {
-
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
@@ -137,9 +136,13 @@ benchmark = function(design, store_models = FALSE) {
         store_models = store_models, pb = pb)
     }
   }
-  res = rbindlist(Map(reassemble, result = res, learner = grid$learner), use.names = TRUE)
-  res = insert_named(grid, res)
+
+  grid = insert_named(grid, list(
+      state = map(res, "learner_state"),
+      prediction = map(res, "prediction")
+  ))
 
   lg$info("Finished benchmark")
-  BenchmarkResult$new(res)
+
+  BenchmarkResult$new(grid)
 }

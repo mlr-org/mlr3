@@ -26,14 +26,6 @@ allow_partial_matching = list(
   warnPartialMatchDollar = FALSE
 )
 
-get_progressor = function(n, label = NA_character_) {
-  if (!isNamespaceLoaded("progressr")) {
-    return(NULL)
-  }
-
-  progressr::progressor(steps = n, label = label)
-}
-
 
 replace_with = function(x, needle, replacement) {
   ii = (x == needle)
@@ -41,40 +33,3 @@ replace_with = function(x, needle, replacement) {
   replace(x, ii, replacement)
 }
 
-
-# determines if execution via future will be running locally or remotely
-use_future = function() {
-  isNamespaceLoaded("future") && !inherits(future::plan(), "uniprocess")
-}
-
-get_rng_state = function() {
-  state = list(seed = get_seed(), kind = RNGkind())
-  names(state$kind) = c("kind", "normal.kind", "sample.kind")
-  state
-}
-
-restore_rng_state = function(prev) {
-  do.call(RNGkind, as.list(prev$kind))
-  assign(".Random.seed", value = prev$seed, envir = .GlobalEnv)
-}
-
-init_future_seeding = function(n) {
-  RNGkind("L'Ecuyer-CMRG")
-  getFromNamespace("make_rng_seeds", asNamespace("future.apply"))(n, TRUE)
-}
-
-# TODO: remove after mlr3misc update
-rd_format_packages = function(pkgs) {
-  if (length(pkgs) == 0L)
-
-    return("-")
-  base_pkgs = c("base", "compiler", "datasets", "graphics", "grDevices", "grid", "methods",
-    "parallel", "splines", "stats", "stats4", "tcltk", "tools", "translations", "utils"
-  )
-  link = pkgs %nin% base_pkgs
-  str_collapse(sprintf("%s%s%s",
-    ifelse(link, "\\CRANpkg{", "'"),
-    pkgs,
-    ifelse(link, "}", "'")
-  ))
-}

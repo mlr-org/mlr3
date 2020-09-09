@@ -4,6 +4,7 @@
 #' @import mlr3misc
 #' @importFrom R6 R6Class is.R6
 #' @importFrom utils data head tail getFromNamespace
+#' @importFrom stats predict rnorm runif sd contr.treatment
 #' @importFrom uuid UUIDgenerate
 #' @section Additional resources:
 #' * Book on mlr3: \url{https://mlr3book.mlr-org.com}
@@ -42,4 +43,3 @@ dummy_import = function() {
 } # nocov end
 
 leanify_package()
-

@@ -37,7 +37,7 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
       super$initialize(
         id = "selected_features",
         task_type = NA_character_,
-        properties = c("requires_task", "requires_learner"),
+        properties = c("requires_task", "requires_learner", "requires_model"),
         predict_type = "response",
         range = c(0, Inf),
         minimize = TRUE,

@@ -67,9 +67,9 @@ rr$predictions()[[1]]$confusion
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal data storage with one row per resampling iteration.
-Can be joined with \verb{$rr_data} by joining on column \code{"hash"}.
-We discourage users to directly work with this table.}
+Internal tabular representation of the data.
+Tasks, learners and resamplings are references by their hash.
+The referenced objects can be accessed via \verb{$tasks}, \verb{$learners} or \verb{$resamplings}, respectively.}
 
 \item{\code{rr_data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Internal data storage with one row per \link{ResampleResult}
@@ -78,9 +78,7 @@ Internal data storage with one row per \link{ResampleResult}
 Package develops may opt to add additional columns here.
 These columns are preserved in all mutators.
 
-Can be combined with \verb{$data} by (left) joining on the key column \code{"hash"}.
-E.g., \CRANpkg{mlr3tuning} stores additional information for the optimization path
-in this table.}
+Can be combined with \verb{$data} by (left) joining on the key column \code{"uhash"}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -109,7 +107,7 @@ Table of included \link{Learner}s with three columns:
 \item \code{"learner"} (\link{Learner}).
 }
 
-Note that it is not feasible to access learned models via this getter, as the training task would be ambiguous.
+Note that it is not feasible to access learned models via this field, as the training task would be ambiguous.
 For this reason the returned learner are reseted before they are returned.
 Instead, select a row from the table returned by \verb{$score()}.}
 
@@ -119,6 +117,14 @@ Table of included \link{Resampling}s with three columns:
 \item \code{"resampling_hash"} (\code{character(1)}),
 \item \code{"resampling_id"} (\code{character(1)}), and
 \item \code{"resampling"} (\link{Resampling}).
+}}
+
+\item{\code{resample_results}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+Returns a table with three columns:
+\itemize{
+\item \code{uhash} (\code{character()}).
+\item \code{iters} (\code{integer()}).
+\item \code{resample_result} (\link{ResampleResult}).
 }}
 
 \item{\code{n_resample_results}}{(\code{integer(1)})\cr
@@ -161,9 +167,10 @@ Table with data for one resampling iteration per row, with at least the followin
 \itemize{
 \item \code{"task"} (\link{Task}),
 \item \code{"learner"} (\link{Learner}),
+\item \code{"state"} (\code{list()}),
 \item \code{"resampling"} (\link{Resampling}),
 \item \code{"iteration"} (\code{integer(1)}),
-\item \code{"prediction"} (\link{Prediction}), and
+\item \code{"prediction"} (\link{PredictionData}), and
 \item \code{"uhash"} (\code{character(1)}).
 }
 
@@ -315,13 +322,16 @@ iterations with errors as extra integer column \code{"errors"}.}
 \if{latex}{\out{\hypertarget{method-filter}{}}}
 \subsection{Method \code{filter()}}{
 Subsets the benchmark result. If \code{task_ids} is not \code{NULL}, keeps all
-tasks with provided task ids while discards all others. Same procedure
-for \code{learner_ids} and \code{resampling_ids}.
+tasks with provided task ids and discards all others tasks.
+Same procedure for \code{learner_ids} and \code{resampling_ids}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$filter(
   task_ids = NULL,
+  task_hashes = NULL,
   learner_ids = NULL,
-  resampling_ids = NULL
+  learner_hashes = NULL,
+  resampling_ids = NULL,
+  resampling_hashes = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -331,11 +341,20 @@ for \code{learner_ids} and \code{resampling_ids}.
 \item{\code{task_ids}}{(\code{character()})\cr
 Ids of \link{Task}s to keep.}
 
+\item{\code{task_hashes}}{(\code{character()})\cr
+Hashes of \link{Task}s to keep.}
+
 \item{\code{learner_ids}}{(\code{character()})\cr
 Ids of \link{Learner}s to keep.}
 
+\item{\code{learner_hashes}}{(\code{character()})\cr
+Hashes of \link{Learner}s to keep.}
+
 \item{\code{resampling_ids}}{(\code{character()})\cr
 Ids of \link{Resampling}s to keep.}
+
+\item{\code{resampling_hashes}}{(\code{character()})\cr
+Hashes of \link{Resampling}s to keep.}
 }
 \if{html}{\out{</div>}}
 }

@@ -5,21 +5,18 @@ test_that("resample", {
   learner = lrn("classif.featureless")
   resampling = rsmp("cv", folds = 3L)
 
-  rr = resample(task, learner, resampling)
+  rr = resample(task, learner, resampling, store_models = TRUE)
 
   expect_resample_result(rr)
   expect_numeric(rr$score(msr("classif.ce"))$classif.ce, any.missing = FALSE)
   expect_number(rr$aggregate(msr("classif.ce")))
-  expect_different_address(rr$data$learner[[1L]], rr$data$learner[[2L]])
-  expect_same_address(rr$data$task[[1L]], rr$data$task[[2L]])
-  expect_same_address(rr$data$resampling[[1L]], rr$data$resampling[[2L]])
-
-  expect_equal(uniqueN(hashes(rr$data$learner)), 1L)
-  expect_equal(uniqueN(hashes(rr$data$task)), 1L)
-  expect_equal(uniqueN(hashes(rr$data$resampling)), 1L)
+  learners = rr$learners
+  expect_different_address(learners[[1L]], learners[[2L]])
+  expect_equal(uniqueN(hashes(learners)), 1L)
 
   rr$filter(2:3)
   expect_data_table(rr$data, nrows = 2L)
+  expect_equal(rr$data$iteration, 2:3)
   expect_resample_result(rr, allow_incomplete = TRUE)
 })
 
@@ -60,7 +57,7 @@ test_that("discarding model", {
   resampling = rsmp("cv", folds = 3)
 
   rr = resample(task, learner, resampling)
-  expect_equal(map(rr$data$learner, "model"), vector("list", 3L))
+  expect_equal(map(as.data.table(rr)$learner, "model"), vector("list", 3L))
 })
 
 test_that("inputs are cloned", {
@@ -80,7 +77,7 @@ test_that("memory footprint", {
   learner = lrn("classif.featureless")
   resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling)
-  x = rr$data
+  x = as.data.table(rr)
 
   expect_equal(uniqueN(map_chr(x$learner, address)), nrow(x))
   expect_equal(uniqueN(map_chr(x$task, address)), 1L)

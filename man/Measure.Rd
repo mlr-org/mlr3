@@ -64,7 +64,8 @@ Method for aggregation:
 All predictions from multiple resampling iterations are first combined into a single \link{Prediction} object.
 Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.
 \item \code{"macro"}:
-The scoring function is applied on the \link{Prediction} object of each resampling iterations, each yielding a single numeric score.
+The scoring function is applied on the \link{Prediction} object of each resampling iterations,
+each yielding a single numeric score.
 Next, the scores are combined with the \code{aggregator} function to a single numerical score.
 }}
 
@@ -248,8 +249,9 @@ Opens the corresponding help page referenced by field \verb{$man}.
 \subsection{Method \code{score()}}{
 Takes a \link{Prediction} (or a list of \link{Prediction} objects named with valid \code{predict_sets})
 and calculates a numeric score.
-If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"} or \code{"requires_train_set"}, you must additionally
-pass the respective \link{Task}, the trained \link{Learner} or the training set indices.
+If the measure if flagged with the properties \code{"requires_task"}, \code{"requires_learner"},
+\code{"requires_model"} or \code{"requires_train_set"}, you must additionally
+pass the respective \link{Task}, the (trained) \link{Learner} or the training set indices.
 This is handled internally during \code{\link[=resample]{resample()}}/\code{\link[=benchmark]{benchmark()}}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Measure$score(prediction, task = NULL, learner = NULL, train_set = NULL)}\if{html}{\out{</div>}}

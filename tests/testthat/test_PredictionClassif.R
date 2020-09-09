@@ -15,7 +15,7 @@ test_that("Internally constructed Prediction", {
   expect_prediction(p)
   expect_prediction_classif(p, task = task)
 
-  p = PredictionClassif$new(task = task, prob = p$prob)
+  p = PredictionClassif$new(row_ids = task$row_ids, truth = task$truth(), prob = p$prob)
   expect_set_equal(p$predict_types, c("response", "prob"))
 })
 
@@ -130,7 +130,7 @@ test_that("c", {
   expect_equal(sum(conf), 150L)
   expect_equal(rownames(conf), task$class_names)
   expect_equal(colnames(conf), task$class_names)
-  expect_equal(conf, Reduce("+", map(rr$data$prediction, function(x) x$test$confusion)))
+  expect_equal(conf, Reduce("+", map(rr$predictions(), "confusion")))
 
   # duplicates are detected?
   p1 = rr$data$prediction[[1]]$test

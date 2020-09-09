@@ -77,7 +77,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
           sample = sample(names(tab), n, replace = TRUE),
           weighted.sample = sample(names(tab), n, replace = TRUE, prob = tab)
         )
-        PredictionClassif$new(task, response = response)
+        list(response = response)
       } else {
         prob = switch(pv$method,
           mode = {
@@ -89,7 +89,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
         )
         prob = matrix(prob, nrow = n, ncol = length(tab), byrow = TRUE)
         colnames(prob) = names(tab)
-        PredictionClassif$new(task = task, prob = prob)
+        list(prob = prob)
       }
     }
   )

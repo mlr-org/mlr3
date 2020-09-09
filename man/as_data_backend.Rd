@@ -20,7 +20,8 @@ For a \code{data.frame()} (this includes \code{tibble()} from \CRANpkg{tibble} a
 a \link{DataBackendDataTable} is created.
 See \code{methods("as_data_backend")} for possible input formats.
 
-Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects implemented in \CRANpkg{dbplyr}.
+Package \CRANpkg{mlr3db} extends this function with a method for lazy table objects
+implemented in \CRANpkg{dbplyr}.
 This allows to interface many different data base systems such as SQL servers.}
 
 \item{primary_key}{(\code{character(1)} | \code{integer()})\cr

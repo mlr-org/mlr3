@@ -148,7 +148,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         }
       }
 
-      PredictionClassif$new(task = task, response = response, prob = prob)
+      list(response = response, prob = prob)
     }
   )
 )

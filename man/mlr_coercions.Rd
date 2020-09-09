@@ -87,7 +87,7 @@ Coerced object. The default method will return the object as-is.
 Failed coercions have to be handled by on of the assertions in \link{mlr_assertions}.
 }
 \description{
-S3 generics and methods to coerce to (lists of) \link{Task}, \link{Learner}, \link{Resampling}, and \link{Measure}.
+S3 generics and methods to coerce to (lists of) \link{Task}, \link{Learner}, \link{Resampling}, \link{Measure} and \link{Prediction}.
 }
 \examples{
 # convert single measure to list of measures

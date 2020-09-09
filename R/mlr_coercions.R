@@ -2,7 +2,7 @@
 #'
 #' @name mlr_coercions
 #' @description
-#' S3 generics and methods to coerce to (lists of) [Task], [Learner], [Resampling], and [Measure].
+#' S3 generics and methods to coerce to (lists of) [Task], [Learner], [Resampling], [Measure] and [Prediction].
 #'
 #' @param x (`any`)\cr
 #'   Object to coerce.

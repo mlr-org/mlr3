@@ -80,7 +80,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       n = task$nrow
       response = rep(self$model$location, n)
       se = if (self$predict_type == "se") rep(self$model$dispersion, n) else NULL
-      PredictionRegr$new(task = task, response = response, se = se)
+      list(response = response, se = se)
     }
   )
 )

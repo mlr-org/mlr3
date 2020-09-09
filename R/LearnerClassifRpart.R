@@ -88,14 +88,15 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       newdata = task$data(cols = task$feature_names)
       response = prob = NULL
 
-      if (self$predict_type == "response") {
+      if ("response" %in% self$predict_type) {
         response = invoke(predict, self$model, newdata = newdata, type = "class", .opts = allow_partial_matching)
-        # response = as.character(response)
-      } else if (self$predict_type == "prob") {
+        response = unname(response)
+      } else if ("prob" %in% self$predict_type) {
         prob = invoke(predict, self$model, newdata = newdata, type = "prob", .opts = allow_partial_matching)
+        rownames(prob) = NULL
       }
 
-      PredictionClassif$new(task = task, response = response, prob = prob)
+      list(response = response, prob = prob)
     }
   )
 )

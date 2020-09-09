@@ -36,9 +36,6 @@ Access the stored standard error.}
 \item{\code{distr}}{(\link[distr6:VectorDistribution]{distr6::VectorDistribution})\cr
 Access the stored vector distribution.
 Requires package \CRANpkg{distr6}.}
-
-\item{\code{missing}}{(\code{integer()})\cr
-Returns \code{row_ids} for which the predictions are missing or incomplete.}
 }
 \if{html}{\out{</div>}}
 }
@@ -70,7 +67,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   truth = task$truth(),
   response = NULL,
   se = NULL,
-  distr = NULL
+  distr = NULL,
+  check = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -98,6 +96,9 @@ One element for each observation in the test set.}
 \link[distr6:VectorDistribution]{VectorDistribution} from \CRANpkg{distr6}.
 Each individual distribution in the vector represents the random variable 'survival time'
 for an individual observation.}
+
+\item{\code{check}}{(\code{logical(1)})\cr
+If \code{TRUE}, performs some argument checks and predict type conversions.}
 }
 \if{html}{\out{</div>}}
 }

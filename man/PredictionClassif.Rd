@@ -85,9 +85,6 @@ Access to the stored probabilities.}
 \item{\code{confusion}}{(\code{matrix()})\cr
 Confusion matrix, as resulting from the comparison of truth and response.
 Truth is in columns, predicted response is in rows.}
-
-\item{\code{missing}}{(\code{integer()})\cr
-Returns \code{row_ids} for which the predictions are missing or incomplete.}
 }
 \if{html}{\out{</div>}}
 }
@@ -119,7 +116,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   row_ids = task$row_ids,
   truth = task$truth(),
   response = NULL,
-  prob = NULL
+  prob = NULL,
+  check = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -147,6 +145,9 @@ and one row for each observation in the test set.
 Columns must be named with class labels, row names are automatically removed.
 If \code{prob} is provided, but \code{response} is not, the class labels are calculated from
 the probabilities using \code{\link[=max.col]{max.col()}} with \code{ties.method} set to \code{"random"}.}
+
+\item{\code{check}}{(\code{logical(1)})\cr
+If \code{TRUE}, performs some argument checks and predict type conversions.}
 }
 \if{html}{\out{</div>}}
 }

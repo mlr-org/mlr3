@@ -227,13 +227,18 @@ Learner = R6Class("Learner",
         stopf("Cannot predict, Learner '%s' has not been trained yet", self$id)
       }
 
-      learner_predict(self, task, row_ids)
+      pdata = learner_predict(self, task, row_ids)
+      if (is.null(pdata))
+        return(NULL)
+
+      as_prediction(check_prediction_data(pdata))
     },
 
     #' @description
     #' Uses the model fitted during `$train()` to create a new [Prediction] based on the new data in `newdata`.
     #' Object `task` is the task used during `$train()` and required for conversion of `newdata`.
-    #' If the learner's `$train()` method has been called, there is a (size reduced) version of the training task stored in the learner.
+    #' If the learner's `$train()` method has been called, there is a (size reduced) version
+    #' of the training task stored in the learner.
     #' If the learner has been fitted via [resample()] or [benchmark()], you need to pass the corresponding task stored
     #' in the [ResampleResult] or [BenchmarkResult], respectively.
     #'
@@ -310,22 +315,14 @@ Learner = R6Class("Learner",
     #' Logged warnings as vector.
     warnings = function(rhs) {
       assert_ro_binding(rhs)
-      if (is.null(self$state$log)) {
-        character()
-      } else {
-        self$log[class == "warning", msg]
-      }
+      get_log_condition(self$state, "warning")
     },
 
     #' @field errors (`character()`)\cr
     #' Logged errors as vector.
     errors = function(rhs) {
       assert_ro_binding(rhs)
-      if (is.null(self$state$log)) {
-        character()
-      } else {
-        self$log[class == "error", msg]
-      }
+      get_log_condition(self$state, "error")
     },
 
 
@@ -396,4 +393,13 @@ rd_info.Learner = function(obj) {
     sprintf("* Feature Types: %s", rd_format_string(obj$feature_types)),
     sprintf("* Required Packages: %s", rd_format_packages(obj$packages))
   )
+}
+
+get_log_condition = function(state, condition) {
+  if (is.null(state$log)) {
+    character()
+  } else {
+    msg = NULL
+    state$log[condition, msg, on = "class", nomatch = NULL]
+  }
 }
