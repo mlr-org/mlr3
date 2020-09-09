@@ -12,9 +12,9 @@ Do not modify any object without cloning it first.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(rr)}\cr
+\item \code{as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")}\cr
 \link{ResampleResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a copy of the internal data.
+Returns a tabular view of the internal data.
 \item \code{c(...)}\cr
 (\link{ResampleResult}, ...) -> \link{BenchmarkResult}\cr
 Combines multiple objects convertible to \link{BenchmarkResult} into a new \link{BenchmarkResult}.
@@ -230,7 +230,7 @@ for each \link{Measure} in \code{measures},
 named with the id of the respective measure id.
 If \code{measures} is \code{NULL}, \code{measures} defaults to the return value of \code{\link[=default_measures]{default_measures()}}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$score(measures = NULL, ids = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$score(measures = NULL, ids = TRUE, predict_sets = "test")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -243,6 +243,10 @@ Measure(s) to calculate.}
 If \code{ids} is \code{TRUE}, extra columns with the ids of objects (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"})
 are added to the returned table.
 These allow to subset more conveniently.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+Set of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
+Default is \code{"test"}.}
 }
 \if{html}{\out{</div>}}
 }

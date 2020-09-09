@@ -11,9 +11,9 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(rr)`\cr
+#' * `as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`\cr
 #'   [ResampleResult] -> [data.table::data.table()]\cr
-#'   Returns a copy of the internal data.
+#'   Returns a tabular view of the internal data.
 #' * `c(...)`\cr
 #'   ([ResampleResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
@@ -137,9 +137,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   Subset of `{"train", "test"}`.
     #' @return List of [Prediction] objects, one per element in `predict_sets`.
     predictions = function(predict_sets = "test") {
-      map(self$data$prediction, function(li) {
-        as_prediction(do.call(c, li[predict_sets]), check = FALSE)
-      })
+      as_predictions(self$data$prediction, predict_sets)
     },
 
     #' @description
@@ -155,11 +153,16 @@ ResampleResult = R6Class("ResampleResult",
     #'   are added to the returned table.
     #'   These allow to subset more conveniently.
     #'
+    #' @param predict_sets (`character()`)\cr
+    #'   Set of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
+    #'   Default is `"test"`.
+    #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE) {
+    score = function(measures = NULL, ids = TRUE, predict_sets = "test") {
       measures = as_measures(measures, task_type = self$task$task_type)
       assert_measures(measures, task = self$task, learner = self$learner)
       assert_flag(ids)
+      assert_subset(predict_sets, mlr_reflections$predict_sets)
 
       tab = score_measures(self, measures)
 
@@ -171,6 +174,7 @@ ResampleResult = R6Class("ResampleResult",
             "iteration", "prediction"))
       }
 
+      set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
       tab[]
     },
 

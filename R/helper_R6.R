@@ -58,23 +58,21 @@ normalize_tab = function(tab, col) {
 #' @noRd
 denormalize_tab = function(bmr, data = bmr$data, reassemble_learners = FALSE, convert_predictions = FALSE, predict_sets = "test") {
   tab = copy(data)
-  private = get_private(bmr)
+  p = get_private(bmr)
 
-  tab$task = mget(tab$task, envir = private$.tasks, inherits = FALSE)
-  tab$learner = mget(tab$learner, envir = private$.learners, inherits = FALSE)
-  tab$resampling = mget(tab$resampling, envir = private$.resamplings, inherits = FALSE)
+  set(tab, j = "task", value = mget(tab$task, envir = p$.tasks, inherits = FALSE))
+  set(tab, j = "learner", value = mget(tab$learner, envir = p$.learners, inherits = FALSE))
+  set(tab, j = "resampling", value = mget(tab$resampling, envir = p$.resamplings, inherits = FALSE))
 
   if (reassemble_learners) {
-    tab$learner = reassemble_learner(tab$learner, tab$state)
+    set(tab, j = "learner", value = reassemble_learner(tab$learner, tab$state))
   }
 
   if (convert_predictions) {
-    tab$prediction = map(data$prediction, function(li) {
-      as_prediction(do.call(c, li[predict_sets]), check = FALSE)
-    })
+    set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
   }
 
-  remove_named(tab, "state")
+  set(tab, j = "state", value = NULL)[]
 }
 
 

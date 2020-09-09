@@ -108,3 +108,11 @@ as_prediction = function(x, check = TRUE) {
 as_prediction.Prediction = function(x, check = TRUE) { # nolint
   x
 }
+
+as_predictions = function(x, predict_sets = "test") { # nolint
+  assert_subset(predict_sets, mlr_reflections$predict_sets)
+  map(x, function(li) {
+    assert_list(li, "PredictionData")
+    as_prediction(do.call(c, discard(li[predict_sets], is.null)), check = FALSE)
+  })
+}

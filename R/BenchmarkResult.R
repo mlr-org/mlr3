@@ -13,9 +13,9 @@
 #' @template param_measures
 #'
 #' @section S3 Methods:
-#' * `as.data.table(bmr)`\cr
+#' * `as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")`\cr
 #'   [BenchmarkResult] -> [data.table::data.table()]\cr
-#'   Returns a copy of the internal data.
+#'   Returns a tabular view of the internal data.
 #' * `c(...)`\cr
 #'   ([BenchmarkResult], ...) -> [BenchmarkResult]\cr
 #'   Combines multiple objects convertible to [BenchmarkResult] into a new [BenchmarkResult].
@@ -183,8 +183,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   Adds object ids (`"task_id"`, `"learner_id"`, `"resampling_id"`) as
     #'   extra character columns for convenient subsetting.
     #'
+    #' @param predict_sets (`character()`)\cr
+    #'   Set of predict sets (`{"train", "test"}`) to construct the [Prediction] objects from.
+    #'   Default is `"test"`.
+    #'
     #' @return [data.table::data.table()].
-    score = function(measures = NULL, ids = TRUE) {
+    score = function(measures = NULL, ids = TRUE, predict_sets = "test") {
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
 
@@ -201,6 +205,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         setcolorder(tab, "nr")
       }
 
+      set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
       tab[]
     },
 

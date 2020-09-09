@@ -34,8 +34,9 @@ replace_with = function(x, needle, replacement) {
 }
 
 # extract values from a single column of a data table
+# tries hard to avoid the overhead of data.table for small tables
 fget = function(tab, i, j, key = key(tab)) {
-  if (nrow(tab) > 10000L) {
+  if (nrow(tab) > 1000L) {
     tab[list(i), j, on = key, with = FALSE][[1L]]
   } else {
     table = tab[[key]]

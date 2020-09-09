@@ -14,9 +14,9 @@ Do not modify any object without cloning it first.
 \section{S3 Methods}{
 
 \itemize{
-\item \code{as.data.table(bmr)}\cr
+\item \code{as.data.table(rr, ..., reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")}\cr
 \link{BenchmarkResult} -> \code{\link[data.table:data.table]{data.table::data.table()}}\cr
-Returns a copy of the internal data.
+Returns a tabular view of the internal data.
 \item \code{c(...)}\cr
 (\link{BenchmarkResult}, ...) -> \link{BenchmarkResult}\cr
 Combines multiple objects convertible to \link{BenchmarkResult} into a new \link{BenchmarkResult}.
@@ -249,7 +249,7 @@ Additionally calculates the provided performance measures and binds the
 performance scores as extra columns. These columns are named using the id of
 the respective \link{Measure}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$score(measures = NULL, ids = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$score(measures = NULL, ids = TRUE, predict_sets = "test")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -261,6 +261,10 @@ Measure(s) to calculate.}
 \item{\code{ids}}{(\code{logical(1)})\cr
 Adds object ids (\code{"task_id"}, \code{"learner_id"}, \code{"resampling_id"}) as
 extra character columns for convenient subsetting.}
+
+\item{\code{predict_sets}}{(\code{character()})\cr
+Set of predict sets (\verb{\{"train", "test"\}}) to construct the \link{Prediction} objects from.
+Default is \code{"test"}.}
 }
 \if{html}{\out{</div>}}
 }
