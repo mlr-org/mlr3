@@ -246,27 +246,34 @@ or <code>"trace"</code>:</p><pre><span class='kw'>lgr</span>::<span class='fu'><
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>bmr</span>))
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 50e0f3a5-a360-4de5-b101-722e3f129360 &lt;TaskClassif[45]&gt;
-#&gt; 2: 50e0f3a5-a360-4de5-b101-722e3f129360 &lt;TaskClassif[45]&gt;
-#&gt; 3: 50e0f3a5-a360-4de5-b101-722e3f129360 &lt;TaskClassif[45]&gt;
-#&gt; 4: 749fba38-d889-4b1b-afd7-e623c5fb5666 &lt;TaskClassif[45]&gt;
-#&gt; 5: 749fba38-d889-4b1b-afd7-e623c5fb5666 &lt;TaskClassif[45]&gt;
-#&gt; 6: 749fba38-d889-4b1b-afd7-e623c5fb5666 &lt;TaskClassif[45]&gt;
-#&gt;                            learner         resampling iteration prediction
-#&gt; 1: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         1  &lt;list[1]&gt;
-#&gt; 2: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         2  &lt;list[1]&gt;
-#&gt; 3: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         3  &lt;list[1]&gt;
-#&gt; 4:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         1  &lt;list[1]&gt;
-#&gt; 5:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         2  &lt;list[1]&gt;
-#&gt; 6:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         3  &lt;list[1]&gt;</div><div class='input'>
+#&gt; 1: 4e46dc4e-9364-4296-96a4-9698fa08b863 &lt;TaskClassif[45]&gt;
+#&gt; 2: 4e46dc4e-9364-4296-96a4-9698fa08b863 &lt;TaskClassif[45]&gt;
+#&gt; 3: 4e46dc4e-9364-4296-96a4-9698fa08b863 &lt;TaskClassif[45]&gt;
+#&gt; 4: 24ec490d-4046-4565-8419-350acc75d4df &lt;TaskClassif[45]&gt;
+#&gt; 5: 24ec490d-4046-4565-8419-350acc75d4df &lt;TaskClassif[45]&gt;
+#&gt; 6: 24ec490d-4046-4565-8419-350acc75d4df &lt;TaskClassif[45]&gt;
+#&gt;                            learner         resampling iteration
+#&gt; 1: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 2: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 3: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 4:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 5:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 6:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt;                 prediction
+#&gt; 1: &lt;PredictionClassif[19]&gt;
+#&gt; 2: &lt;PredictionClassif[19]&gt;
+#&gt; 3: &lt;PredictionClassif[19]&gt;
+#&gt; 4: &lt;PredictionClassif[19]&gt;
+#&gt; 5: &lt;PredictionClassif[19]&gt;
+#&gt; 6: &lt;PredictionClassif[19]&gt;</div><div class='input'>
 <span class='co'>## Aggregated performance values</span>
 <span class='kw'>aggr</span> <span class='op'>=</span> <span class='kw'>bmr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>()
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>aggr</span>)
-</div><div class='output co'>#&gt;    nr      resample_result task_id          learner_id resampling_id iters
-#&gt; 1:  1 &lt;ResampleResult[18]&gt;    iris classif.featureless            cv     3
-#&gt; 2:  2 &lt;ResampleResult[18]&gt;    iris       classif.rpart            cv     3
-#&gt; 3:  3 &lt;ResampleResult[18]&gt;   sonar classif.featureless            cv     3
-#&gt; 4:  4 &lt;ResampleResult[18]&gt;   sonar       classif.rpart            cv     3
+</div><div class='output co'>#&gt;         resample_result nr task_id          learner_id resampling_id iters
+#&gt; 1: &lt;ResampleResult[19]&gt;  1    iris classif.featureless            cv     3
+#&gt; 2: &lt;ResampleResult[19]&gt;  2    iris       classif.rpart            cv     3
+#&gt; 3: &lt;ResampleResult[19]&gt;  3   sonar classif.featureless            cv     3
+#&gt; 4: &lt;ResampleResult[19]&gt;  4   sonar       classif.rpart            cv     3
 #&gt;    classif.ce
 #&gt; 1: 0.70666667
 #&gt; 2: 0.06666667

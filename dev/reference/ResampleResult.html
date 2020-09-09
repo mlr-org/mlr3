@@ -187,23 +187,27 @@ Combines multiple objects convertible to <a href='BenchmarkResult.html'>Benchmar
     <p><div class="r6-fields"></p><dl>
 <dt><code>data</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 Internal data storage.
-We discourage users to directly work with this field.</p></dd>
+We discourage users to directly work with this field.
+Use <code>as.table.table(ResampleResult)</code> instead.</p></dd>
 
-</dl><p></div></p>
-    <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
-
-    <p><div class="r6-active-bindings"></p><dl>
 <dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>)<br />
 The task <code><a href='resample.html'>resample()</a></code> operated on.</p></dd>
 
-<dt><code>learners</code></dt><dd><p>(list of <a href='Learner.html'>Learner</a>)<br />
-List of trained learners, sorted by resampling iteration.</p></dd>
+<dt><code>learner</code></dt><dd><p>(<a href='Learner.html'>Learner</a>)<br />
+Untrained learner <code><a href='resample.html'>resample()</a></code> operated on.</p></dd>
 
 <dt><code>resampling</code></dt><dd><p>(<a href='Resampling.html'>Resampling</a>)<br />
 Instantiated <a href='Resampling.html'>Resampling</a> object which stores the splits into training and test.</p></dd>
 
 <dt><code>uhash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Unique hash for this object.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
+
+    <p><div class="r6-active-bindings"></p><dl>
+<dt><code>learners</code></dt><dd><p>(list of <a href='Learner.html'>Learner</a>)<br />
+List of trained learners, sorted by resampling iteration.</p></dd>
 
 <dt><code>warnings</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 A table with all warning messages.
@@ -235,14 +239,38 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>data</span>, uhash = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.
+An alternative construction method is provided by <code><a href='as_resample_result.html'>as_resample_result()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>new</span>(
+  <span class='kw'>task</span>,
+  <span class='kw'>learner</span>,
+  <span class='kw'>states</span>,
+  <span class='kw'>resampling</span>,
+  <span class='kw'>iterations</span>,
+  <span class='kw'>predictions</span>,
+  uhash = <span class='kw'>NULL</span>
+)</pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>data</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-Table with data for one resampling iteration per row:
-<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a>, iteration (<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>), and <a href='Prediction.html'>Prediction</a>.</p></dd>
+<dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>)<br />
+Single task all learners are trained on.</p></dd>
+
+<dt><code>learner</code></dt><dd><p>(<a href='Learner.html'>Learner</a>)<br />
+Learner used to fit the individual models.</p></dd>
+
+<dt><code>states</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
+List of learner states (this includes the fitted models).</p></dd>
+
+<dt><code>resampling</code></dt><dd><p>(<a href='Resampling.html'>Resampling</a>)<br />
+Instantiated resampling.
+Number of iterations (<code>resampling$iters</code>) must match the number of states.</p></dd>
+
+<dt><code>iterations</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
+Iteration numbers.</p></dd>
+
+<dt><code>predictions</code></dt><dd><p>(list of <a href='Prediction.html'>Prediction</a>)<br />
+List of prediction objects.</p></dd>
 
 <dt><code>uhash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Unique hash for this <code>ResampleResult</code>. If <code>NULL</code>, a new unique hash is generated.
@@ -303,7 +331,8 @@ Subset of <code>{"train", "test"}</code>.</p></dd>
 <a id="method-score"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>score()</code></h3>
 <p>Returns a table with one row for each resampling iteration, including all involved objects:
 <a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Resampling.html'>Resampling</a>, iteration number (<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>), and <a href='Prediction.html'>Prediction</a>.
-Additionally, a column with the individual (per resampling iteration) performance is added for each <a href='Measure.html'>Measure</a> in <code>measures</code>,
+Additionally, a column with the individual (per resampling iteration) performance is added
+for each <a href='Measure.html'>Measure</a> in <code>measures</code>,
 named with the id of the respective measure id.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href='default_measures.html'>default_measures()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>score</span>(measures = <span class='kw'>NULL</span>, ids = <span class='fl'>TRUE</span>)</pre><p></div></p>
@@ -314,7 +343,8 @@ If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to
 Measure(s) to calculate.</p></dd>
 
 <dt><code>ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
-If <code>ids</code> is <code>TRUE</code>, extra columns with the ids of objects (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>) are added to the returned table.
+If <code>ids</code> is <code>TRUE</code>, extra columns with the ids of objects (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>)
+are added to the returned table.
 These allow to subset more conveniently.</p></dd>
 
 </dl><p></div></p>
@@ -322,7 +352,8 @@ These allow to subset more conveniently.</p></dd>
 <p><code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>.</p>
 <p><hr>
 <a id="method-aggregate"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate()</a></code></h3>
-<p>Calculates and aggregates performance values for all provided measures, according to the respective aggregation function in <a href='Measure.html'>Measure</a>.
+<p>Calculates and aggregates performance values for all provided measures, according to the
+respective aggregation function in <a href='Measure.html'>Measure</a>.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href='default_measures.html'>default_measures()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(measures = <span class='kw'>NULL</span>)</pre><p></div></p>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a Data Backend — as_data_backend.data.frame • mlr3</title>
+<title>Convert to ResampleResult — as_resample_result • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,8 +53,8 @@
 
 
 
-<meta property="og:title" content="Create a Data Backend — as_data_backend.data.frame" />
-<meta property="og:description" content="Wraps a DataBackend around data." />
+<meta property="og:title" content="Convert to ResampleResult — as_resample_result" />
+<meta property="og:description" content="Simple S3 method to convert objects to a ResampleResult." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -154,84 +154,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a Data Backend</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/DataBackendDataTable.R'><code>R/DataBackendDataTable.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/DataBackendMatrix.R'><code>R/DataBackendMatrix.R</code></a>, <a href='https://github.com/mlr-org/mlr3/blob/master/R/as_data_backend.R'><code>R/as_data_backend.R</code></a></small>
-    <div class="hidden name"><code>as_data_backend.Rd</code></div>
+    <h1>Convert to ResampleResult</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/ResampleResult.R'><code>R/ResampleResult.R</code></a></small>
+    <div class="hidden name"><code>as_resample_result.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Wraps a <a href='DataBackend.html'>DataBackend</a> around data.</p>
+    <p>Simple S3 method to convert objects to a <a href='ResampleResult.html'>ResampleResult</a>.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for data.frame</span>
-<span class='fu'>as_data_backend</span>(<span class='kw'>data</span>, primary_key = <span class='kw'>NULL</span>, keep_rownames = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
-
-<span class='co'># S3 method for Matrix</span>
-<span class='fu'>as_data_backend</span>(<span class='kw'>data</span>, primary_key = <span class='kw'>NULL</span>, dense = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
-
-<span class='fu'>as_data_backend</span>(<span class='kw'>data</span>, primary_key = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>as_resample_result</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p><code>any</code><br />
-Data to create a <a href='DataBackend.html'>DataBackend</a> from.
-For a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code> (this includes <code>tibble()</code> from <a href='https://CRAN.R-project.org/package=tibble'><span class="pkg">tibble</span></a> and <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>),
-a <a href='DataBackendDataTable.html'>DataBackendDataTable</a> is created.
-See <code><a href='https://rdrr.io/r/utils/methods.html'>methods("as_data_backend")</a></code> for possible input formats.</p>
-<p>Package <a href='https://CRAN.R-project.org/package=mlr3db'><span class="pkg">mlr3db</span></a> extends this function with a method for lazy table objects
-implemented in <a href='https://CRAN.R-project.org/package=dbplyr'><span class="pkg">dbplyr</span></a>.
-This allows to interface many different data base systems such as SQL servers.</p></td>
-    </tr>
-    <tr>
-      <th>primary_key</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> | <code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
-Name of the primary key column, or integer vector of row ids.</p></td>
-    </tr>
-    <tr>
-      <th>keep_rownames</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> | <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-If <code>TRUE</code> or a single string, keeps the row names of <code>data</code> as a new column.
-The column is named like the provided string, defaulting to <code>"..rownames"</code> for <code>keep_rownames == TRUE</code>.
-Note that the created column will be used as a regular feature by the task unless you manually change the column role.
-Also see <code><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>data.table::as.data.table()</a></code>.</p></td>
+      <th>x</th>
+      <td><p>(<code>any</code>)<br />
+Object to dispatch on, e.g. a <a href='ResampleResult.html'>ResampleResult</a>.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>(<code>any</code>)<br />
-Additional arguments passed to the respective <a href='DataBackend.html'>DataBackend</a> method.</p></td>
-    </tr>
-    <tr>
-      <th>dense</th>
-      <td><p>(<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>).
-Dense data.</p></td>
+Currently not used.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><a href='DataBackend.html'>DataBackend</a>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>(<a href='ResampleResult.html'>ResampleResult</a>).</p>
 
-    <div class='dont-index'><p>Other DataBackend: 
-<code><a href='DataBackendDataTable.html'>DataBackendDataTable</a></code>,
-<code><a href='DataBackendMatrix.html'>DataBackendMatrix</a></code>,
-<code><a href='DataBackend.html'>DataBackend</a></code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># create a new backend using the iris data:</span>
-<span class='fu'>as_data_backend</span>(<span class='kw'>iris</span>)
-</div><div class='output co'>#&gt; &lt;DataBackendDataTable&gt; (150x6)
-#&gt;  Sepal.Length Sepal.Width Petal.Length Petal.Width Species ..row_id
-#&gt;           5.1         3.5          1.4         0.2  setosa        1
-#&gt;           4.9         3.0          1.4         0.2  setosa        2
-#&gt;           4.7         3.2          1.3         0.2  setosa        3
-#&gt;           4.6         3.1          1.5         0.2  setosa        4
-#&gt;           5.0         3.6          1.4         0.2  setosa        5
-#&gt;           5.4         3.9          1.7         0.4  setosa        6
-#&gt; [...] (144 rows omitted)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

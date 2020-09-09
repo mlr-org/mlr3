@@ -226,9 +226,6 @@ Access to the stored probabilities.</p></dd>
 Confusion matrix, as resulting from the comparison of truth and response.
 Truth is in columns, predicted response is in rows.</p></dd>
 
-<dt><code>missing</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
-Returns <code>row_ids</code> for which the predictions are missing or incomplete.</p></dd>
-
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
@@ -256,7 +253,8 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
   row_ids = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>row_ids</span>,
   truth = <span class='kw'>task</span><span class='op'>$</span><span class='fu'>truth</span>(),
   response = <span class='kw'>NULL</span>,
-  prob = <span class='kw'>NULL</span>
+  prob = <span class='kw'>NULL</span>,
+  check = <span class='fl'>TRUE</span>
 )</pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -282,6 +280,9 @@ and one row for each observation in the test set.
 Columns must be named with class labels, row names are automatically removed.
 If <code>prob</code> is provided, but <code>response</code> is not, the class labels are calculated from
 the probabilities using <code><a href='https://rdrr.io/r/base/maxCol.html'>max.col()</a></code> with <code>ties.method</code> set to <code>"random"</code>.</p></dd>
+
+<dt><code>check</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, performs some argument checks and predict type conversions.</p></dd>
 
 </dl><p></div></p>
 <p><hr>

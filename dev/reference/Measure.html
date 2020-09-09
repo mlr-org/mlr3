@@ -227,7 +227,8 @@ Method for aggregation:
 All predictions from multiple resampling iterations are first combined into a single <a href='Prediction.html'>Prediction</a> object.
 Next, the scoring function of the measure is applied on this combined object, yielding a single numeric score.</p></li>
 <li><p><code>"macro"</code>:
-The scoring function is applied on the <a href='Prediction.html'>Prediction</a> object of each resampling iterations, each yielding a single numeric score.
+The scoring function is applied on the <a href='Prediction.html'>Prediction</a> object of each resampling iterations,
+each yielding a single numeric score.
 Next, the scores are combined with the <code>aggregator</code> function to a single numerical score.</p></li>
 </ul></p></dd>
 
@@ -380,8 +381,9 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <a id="method-score"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>score()</code></h3>
 <p>Takes a <a href='Prediction.html'>Prediction</a> (or a list of <a href='Prediction.html'>Prediction</a> objects named with valid <code>predict_sets</code>)
 and calculates a numeric score.
-If the measure if flagged with the properties <code>"requires_task"</code>, <code>"requires_learner"</code> or <code>"requires_train_set"</code>, you must additionally
-pass the respective <a href='Task.html'>Task</a>, the trained <a href='Learner.html'>Learner</a> or the training set indices.
+If the measure if flagged with the properties <code>"requires_task"</code>, <code>"requires_learner"</code>,
+<code>"requires_model"</code> or <code>"requires_train_set"</code>, you must additionally
+pass the respective <a href='Task.html'>Task</a>, the (trained) <a href='Learner.html'>Learner</a> or the training set indices.
 This is handled internally during <code><a href='resample.html'>resample()</a></code>/<code><a href='benchmark.html'>benchmark()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='kw'>Measure</span><span class='op'>$</span><span class='fu'>score</span>(<span class='kw'>prediction</span>, task = <span class='kw'>NULL</span>, learner = <span class='kw'>NULL</span>, train_set = <span class='kw'>NULL</span>)</pre><p></div></p>
 
