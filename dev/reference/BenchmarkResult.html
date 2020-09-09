@@ -346,7 +346,7 @@ Adds object ids (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resam
 extra character columns for convenient subsetting.</p></dd>
 
 <dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Set of predict sets (<code>{"train", "test"}</code>) to construct the <a href='Prediction.html'>Prediction</a> objects from.
+Vector of predict sets (<code>{"train", "test"}</code>) to construct the <a href='Prediction.html'>Prediction</a> objects from.
 Default is <code>"test"</code>.</p></dd>
 
 </dl><p></div></p>
@@ -497,11 +497,11 @@ The <code>ushash</code> value to filter for.</p></dd>
 <span class='co'># first 5 individual resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>bmr</span>, measures = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 39383ac7-b681-4446-8b88-104a39c5d1d6 &lt;TaskClassif[45]&gt;
-#&gt; 2: 39383ac7-b681-4446-8b88-104a39c5d1d6 &lt;TaskClassif[45]&gt;
-#&gt; 3: 39383ac7-b681-4446-8b88-104a39c5d1d6 &lt;TaskClassif[45]&gt;
-#&gt; 4: dde40cc1-fa2b-453e-8e56-f16d4dd836e7 &lt;TaskClassif[45]&gt;
-#&gt; 5: dde40cc1-fa2b-453e-8e56-f16d4dd836e7 &lt;TaskClassif[45]&gt;
+#&gt; 1: 8caba235-9d5e-43fb-ad99-671a13c3d630 &lt;TaskClassif[45]&gt;
+#&gt; 2: 8caba235-9d5e-43fb-ad99-671a13c3d630 &lt;TaskClassif[45]&gt;
+#&gt; 3: 8caba235-9d5e-43fb-ad99-671a13c3d630 &lt;TaskClassif[45]&gt;
+#&gt; 4: f86f14e7-76bb-4956-ae1e-7ba7ed97003f &lt;TaskClassif[45]&gt;
+#&gt; 5: f86f14e7-76bb-4956-ae1e-7ba7ed97003f &lt;TaskClassif[45]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         2
