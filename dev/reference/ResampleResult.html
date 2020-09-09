@@ -174,9 +174,9 @@ Do not modify any object without cloning it first.</p>
     
 
 <ul>
-<li><p><code><a href='as.data.table.html'>as.data.table(rr)</a></code><br />
+<li><p><code><a href='as.data.table.html'>as.data.table(rr, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test")</a></code><br />
 ResampleResult -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Returns a copy of the internal data.</p></li>
+Returns a tabular view of the internal data.</p></li>
 <li><p><code><a href='https://rdrr.io/r/base/c.html'>c(...)</a></code><br />
 (ResampleResult, ...) -&gt; <a href='BenchmarkResult.html'>BenchmarkResult</a><br />
 Combines multiple objects convertible to <a href='BenchmarkResult.html'>BenchmarkResult</a> into a new <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p></li>
@@ -335,7 +335,7 @@ Additionally, a column with the individual (per resampling iteration) performanc
 for each <a href='Measure.html'>Measure</a> in <code>measures</code>,
 named with the id of the respective measure id.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href='default_measures.html'>default_measures()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>score</span>(measures = <span class='kw'>NULL</span>, ids = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>score</span>(measures = <span class='kw'>NULL</span>, ids = <span class='fl'>TRUE</span>, predict_sets = <span class='st'>"test"</span>)</pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -346,6 +346,10 @@ Measure(s) to calculate.</p></dd>
 If <code>ids</code> is <code>TRUE</code>, extra columns with the ids of objects (<code>"task_id"</code>, <code>"learner_id"</code>, <code>"resampling_id"</code>)
 are added to the returned table.
 These allow to subset more conveniently.</p></dd>
+
+<dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Set of predict sets (<code>{"train", "test"}</code>) to construct the <a href='Prediction.html'>Prediction</a> objects from.
+Default is <code>"test"</code>.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
