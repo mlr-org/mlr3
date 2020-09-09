@@ -1,9 +1,12 @@
-# mlr3 0.5.0-9000
+# mlr3 0.6.0
 
 * Compact in-memory representation of R6 objects to save space when
-  saving mlr3 objects via saveRDS(), serialize() etc.
+  saving objects via `saveRDS()` or `serialize()`.
+* Objects in containers like `ResampleResult` or `BenchmarkResult` are now
+  de-duplicated for an optimized serialization.
 * Fixed data set `breast_cancer`: all factor features are now
   correctly stored as ordered factors.
+* Added a new utility function `convert_task()`.
 
 # mlr3 0.5.0
 

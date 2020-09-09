@@ -88,6 +88,7 @@ reference:
     contents:
       - resample
       - ResampleResult
+      - as_resample_result
   - title: Benchmarking
     contents:
       - benchmark
@@ -101,3 +102,4 @@ reference:
       - mlr_reflections
       - mlr_sugar
       - predict.Learner
+      - PredictionData
