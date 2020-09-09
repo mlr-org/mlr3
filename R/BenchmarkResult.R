@@ -108,9 +108,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
       private$.learners = normalize_tab(data, "learner")
       private$.resamplings = normalize_tab(data, "resampling")
 
-      setcolorder(data, slots)[]
-      self$data = data
-      self$rr_data = data[, list(uhash = unique(uhash))]
+
+      self$data = setcolorder(data, slots)[]
+      self$rr_data = data.table(uhash = unique(data$uhash))
     },
 
     #' @description
@@ -341,10 +341,12 @@ BenchmarkResult = R6Class("BenchmarkResult",
         keep_hashes(private$.resamplings, resampling_hashes)
       }
 
-      self$data = self$data[task %in% names(private$.tasks)]
-      self$data = self$data[learner %in% names(private$.learners)]
-      self$data = self$data[resampling %in% names(private$.resamplings)]
-      self$rr_data = self$rr_data[uhash %in% self$data$uhash]
+      self$data = self$data[
+        get("task") %in% names(private$.tasks) &
+        get("learner") %in% names(private$.learners) &
+        get("resampling") %in% names(private$.resamplings)
+      ]
+      self$rr_data = self$rr_data[get("uhash") %in% self$data$uhash]
 
       invisible(self)
     },

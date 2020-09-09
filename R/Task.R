@@ -190,7 +190,7 @@ Task = R6Class("Task",
     levels = function(cols = NULL) {
       if (is.null(cols)) {
         cols = unlist(private$.col_roles[c("target", "feature")], use.names = FALSE)
-        cols = self$col_info[id %in% cols & type %in% c("factor", "ordered"), "id", with = FALSE][[1L]]
+        cols = self$col_info[get("id") %in% cols & get("type") %in% c("factor", "ordered"), "id", with = FALSE][[1L]]
       } else {
         assert_subset(cols, self$col_info$id)
       }
@@ -353,7 +353,7 @@ Task = R6Class("Task",
     #' `cols` defaults to all columns with storage type "factor" or "ordered".
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
-      tab = self$col_info[type %in% c("factor", "ordered"), c("id", "levels"), with = FALSE]
+      tab = self$col_info[get("type") %in% c("factor", "ordered"), c("id", "levels"), with = FALSE]
       if (!is.null(cols)) {
         tab = tab[list(cols), on = "id", nomatch = NULL]
       }

@@ -33,9 +33,8 @@ replace_with = function(x, needle, replacement) {
   replace(x, ii, replacement)
 }
 
+# extract values from a single column of a data table
 fget = function(tab, i, j, key = key(tab)) {
-  # TODO: this should go to mlr3misc or maybe even
-  # data.table; a C implementation might also help
   if (nrow(tab) > 10000L) {
     tab[list(i), j, on = key, with = FALSE][[1L]]
   } else {
