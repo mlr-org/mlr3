@@ -92,7 +92,7 @@ See example for the creation of a MeasureClassifCosts as described misclassifica
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.5.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -190,8 +190,9 @@ Von-Melle-Park 5<br />
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre><span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"german_credit"</span>)
-<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"german_credit"</span>)</pre>
+<pre><span class='kw'>mlr_tasks</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"german_credit"</span>)
+<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"german_credit"</span>)
+</pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
@@ -234,11 +235,12 @@ Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University
 <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"german_credit"</span>)
-<span class='no'>costs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>0</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>costs</span>) <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>predicted</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>class_names</span>, <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>class_names</span>)
-<span class='no'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.costs"</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"german_credit_costs"</span>, <span class='kw'>costs</span> <span class='kw'>=</span> <span class='no'>costs</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>measure</span>)</div><div class='output co'>#&gt; &lt;MeasureClassifCosts:german_credit_costs&gt;
+    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"german_credit"</span>)
+<span class='kw'>costs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>0</span>), nrow = <span class='fl'>2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='kw'>costs</span>) <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(predicted = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>class_names</span>, truth = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>class_names</span>)
+<span class='kw'>measure</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.costs"</span>, id = <span class='st'>"german_credit_costs"</span>, costs = <span class='kw'>costs</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>measure</span>)
+</div><div class='output co'>#&gt; &lt;MeasureClassifCosts:german_credit_costs&gt;
 #&gt; * Packages: -
 #&gt; * Range: [0, Inf]
 #&gt; * Minimize: TRUE
@@ -259,7 +261,7 @@ Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

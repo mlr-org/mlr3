@@ -94,7 +94,7 @@ Predefined measures can be found in the dictionary mlr_measures." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.5.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -193,7 +193,7 @@ Predefined measures can be found in the dictionary mlr_measures." />
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>MeasureRegr$new()</code></a></p></li>
@@ -209,24 +209,24 @@ Predefined measures can be found in the dictionary mlr_measures." />
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>MeasureRegr</span>$<span class='fu'>new</span>(
-  <span class='no'>id</span>,
-  <span class='no'>range</span>,
-  <span class='kw'>minimize</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>average</span> <span class='kw'>=</span> <span class='st'>"macro"</span>,
-  <span class='kw'>aggregator</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>properties</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"response"</span>,
-  <span class='kw'>predict_sets</span> <span class='kw'>=</span> <span class='st'>"test"</span>,
-  <span class='kw'>task_properties</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>packages</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>man</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>MeasureRegr</span><span class='op'>$</span><span class='fu'>new</span>(
+  <span class='kw'>id</span>,
+  <span class='kw'>range</span>,
+  minimize = <span class='fl'>NA</span>,
+  average = <span class='st'>"macro"</span>,
+  aggregator = <span class='kw'>NULL</span>,
+  properties = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  predict_type = <span class='st'>"response"</span>,
+  predict_sets = <span class='st'>"test"</span>,
+  task_properties = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  packages = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  man = <span class='fl'>NA_character_</span>
 )</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>id</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Identifier for the new instance.</p></dd>
 
@@ -301,7 +301,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

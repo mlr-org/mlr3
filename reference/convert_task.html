@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Root Mean Squared Log Error — mlr_measures_regr.rmsle • mlr3</title>
+<title>Convert a Task from One Type to Another — convert_task • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,10 +53,8 @@
 
 
 
-<meta property="og:title" content="Root Mean Squared Log Error — mlr_measures_regr.rmsle" />
-<meta property="og:description" content="Regression measure defined as $$
-  \sqrt{\frac{1}{n} \sum_{i=1}^n \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2}.
-$$" />
+<meta property="og:title" content="Convert a Task from One Type to Another — convert_task" />
+<meta property="og:description" content="The task's target is replaced by a different column from the data." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -156,69 +154,119 @@ $$" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Root Mean Squared Log Error</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/MeasureSimple.R'><code>R/MeasureSimple.R</code></a></small>
-    <div class="hidden name"><code>mlr_measures_regr.rmsle.Rd</code></div>
+    <h1>Convert a Task from One Type to Another</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/task_converters.R'><code>R/task_converters.R</code></a></small>
+    <div class="hidden name"><code>convert_task.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Regression measure defined as $$
-  \sqrt{\frac{1}{n} \sum_{i=1}^n \left( \ln (1 + t_i) - \ln (1 + r_i) \right)^2}.
-$$</p>
+    <p>The task's target is replaced by a different column from the data.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>convert_task</span>(
+  <span class='kw'>intask</span>,
+  target = <span class='kw'>NULL</span>,
+  new_type = <span class='kw'>NULL</span>,
+  drop_original_target = <span class='fl'>FALSE</span>,
+  drop_levels = <span class='fl'>TRUE</span>
+)
 
+<span class='fu'>as_task_classif</span>(<span class='kw'>x</span>, target = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
 
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+<span class='co'># S3 method for TaskRegr</span>
+<span class='fu'>as_task_classif</span>(
+  <span class='kw'>x</span>,
+  target = <span class='kw'>NULL</span>,
+  drop_original_target = <span class='fl'>FALSE</span>,
+  drop_levels = <span class='fl'>TRUE</span>,
+  <span class='kw'>...</span>
+)
 
-    <p>The score function calls <code><a href='https://mlr3measures.mlr-org.com/reference/rmsle.html'>mlr3measures::rmsle()</a></code> from package <a href='https://CRAN.R-project.org/package=mlr3measures'><span class="pkg">mlr3measures</span></a>.</p>
-<p>If the measure is undefined for the input, <code>NaN</code> is returned.
-This can be customized by setting the field <code>na_value</code>.</p>
-    <h2 class="hasAnchor" id="dictionary"><a class="anchor" href="#dictionary"></a>Dictionary</h2>
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>as_task_classif</span>(
+  <span class='kw'>x</span>,
+  target = <span class='kw'>NULL</span>,
+  id = <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='kw'>x</span>)),
+  positive = <span class='kw'>NULL</span>,
+  <span class='kw'>...</span>
+)
 
-    
+<span class='fu'>as_task_regr</span>(<span class='kw'>x</span>, target = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
 
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='kw'>mlr_measures</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"rmsle"</span>)
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"rmsle"</span>)
-</pre>
+<span class='co'># S3 method for TaskClassif</span>
+<span class='fu'>as_task_regr</span>(
+  <span class='kw'>x</span>,
+  target = <span class='kw'>NULL</span>,
+  drop_original_target = <span class='fl'>FALSE</span>,
+  drop_levels = <span class='fl'>TRUE</span>,
+  <span class='kw'>...</span>
+)
 
-    <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>as_task_regr</span>(
+  <span class='kw'>x</span>,
+  target = <span class='kw'>NULL</span>,
+  id = <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='kw'>x</span>)),
+  positive = <span class='kw'>NULL</span>,
+  <span class='kw'>...</span>
+)</pre>
 
-    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>intask</th>
+      <td><p>(<a href='Task.html'>Task</a>)<br />
+A <a href='Task.html'>Task</a> to be converted.</p></td>
+    </tr>
+    <tr>
+      <th>target</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+New target to be set, must be a column in the <code>intask</code> data.
+If <code>NULL</code>, no new target is set, and task is converted as-is.</p></td>
+    </tr>
+    <tr>
+      <th>new_type</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+The new task type. Must be in <code><a href='mlr_reflections.html'>mlr_reflections$task_types</a></code>].
+If <code>NULL</code> (default), a new task with the same task_type is created.</p></td>
+    </tr>
+    <tr>
+      <th>drop_original_target</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>FALSE</code> (default), the original target is added as a feature.
+Otherwise the original target is dropped.</p></td>
+    </tr>
+    <tr>
+      <th>drop_levels</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code> (default), unused levels of the new target variable are dropped.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>(<code>any</code>)<br />
+Object to convert.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>(<code>any</code>)<br />
+Additional arguments, currently ignored.</p></td>
+    </tr>
+    <tr>
+      <th>id</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Id for the new task.</p></td>
+    </tr>
+    <tr>
+      <th>positive</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Level of the positive class. See <a href='TaskClassif.html'>TaskClassif</a>.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-<ul>
-<li><p>Type: <code>"regr"</code></p></li>
-<li><p>Range: \([0, \infty)\)</p></li>
-<li><p>Minimize: <code>TRUE</code></p></li>
-<li><p>Required prediction: <code>response</code></p></li>
-</ul>
-
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>Dictionary</a> of <a href='Measure.html'>Measures</a>: <a href='mlr_measures.html'>mlr_measures</a></p>
-<p><code><a href='as.data.table.html'>as.data.table(mlr_measures)</a></code> for a complete table of all (also dynamically created) <a href='Measure.html'>Measure</a> implementations.</p>
-<p>Other regression measures: 
-<code><a href='mlr_measures_regr.bias.html'>mlr_measures_regr.bias</a></code>,
-<code><a href='mlr_measures_regr.ktau.html'>mlr_measures_regr.ktau</a></code>,
-<code><a href='mlr_measures_regr.mae.html'>mlr_measures_regr.mae</a></code>,
-<code><a href='mlr_measures_regr.mape.html'>mlr_measures_regr.mape</a></code>,
-<code><a href='mlr_measures_regr.maxae.html'>mlr_measures_regr.maxae</a></code>,
-<code><a href='mlr_measures_regr.medae.html'>mlr_measures_regr.medae</a></code>,
-<code><a href='mlr_measures_regr.medse.html'>mlr_measures_regr.medse</a></code>,
-<code><a href='mlr_measures_regr.mse.html'>mlr_measures_regr.mse</a></code>,
-<code><a href='mlr_measures_regr.msle.html'>mlr_measures_regr.msle</a></code>,
-<code><a href='mlr_measures_regr.pbias.html'>mlr_measures_regr.pbias</a></code>,
-<code><a href='mlr_measures_regr.rae.html'>mlr_measures_regr.rae</a></code>,
-<code><a href='mlr_measures_regr.rmse.html'>mlr_measures_regr.rmse</a></code>,
-<code><a href='mlr_measures_regr.rrse.html'>mlr_measures_regr.rrse</a></code>,
-<code><a href='mlr_measures_regr.rse.html'>mlr_measures_regr.rse</a></code>,
-<code><a href='mlr_measures_regr.rsq.html'>mlr_measures_regr.rsq</a></code>,
-<code><a href='mlr_measures_regr.sae.html'>mlr_measures_regr.sae</a></code>,
-<code><a href='mlr_measures_regr.smape.html'>mlr_measures_regr.smape</a></code>,
-<code><a href='mlr_measures_regr.srho.html'>mlr_measures_regr.srho</a></code>,
-<code><a href='mlr_measures_regr.sse.html'>mlr_measures_regr.sse</a></code></p></div>
+    <p><a href='Task.html'>Task</a> of requested type.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

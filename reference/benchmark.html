@@ -89,7 +89,7 @@
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.5.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -163,7 +163,7 @@
     <p>Runs a benchmark on arbitrary combinations of tasks (<a href='Task.html'>Task</a>), learners (<a href='Learner.html'>Learner</a>), and resampling strategies (<a href='Resampling.html'>Resampling</a>), possibly in parallel.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>benchmark</span>(<span class='no'>design</span>, <span class='kw'>store_models</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>benchmark</span>(<span class='kw'>design</span>, store_models = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -218,58 +218,71 @@ We recommend to use package <a href='https://CRAN.R-project.org/package=progress
 <a href='https://CRAN.R-project.org/package=lgr'><span class="pkg">lgr</span></a> supports multiple log levels which can be queried with
 <code><a href='https://rdrr.io/r/base/options.html'>getOption("lgr.log_levels")</a></code>.</p>
 <p>To suppress output and reduce verbosity, you can lower the log from the
-default level <code>"info"</code> to <code>"warn"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lgr/man/get_logger.html'>get_logger</a></span>(<span class='st'>"mlr3"</span>)$<span class='fu'>set_threshold</span>(<span class='st'>"warn"</span>)</pre>
+default level <code>"info"</code> to <code>"warn"</code>:</p><pre><span class='kw'>lgr</span>::<span class='fu'><a href='https://rdrr.io/pkg/lgr/man/get_logger.html'>get_logger</a></span>(<span class='st'>"mlr3"</span>)<span class='op'>$</span><span class='fu'>set_threshold</span>(<span class='st'>"warn"</span>)
+</pre>
 
 <p>To get additional log output for debugging, increase the log level to <code>"debug"</code>
-or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/lgr/man/get_logger.html'>get_logger</a></span>(<span class='st'>"mlr3"</span>)$<span class='fu'>set_threshold</span>(<span class='st'>"debug"</span>)</pre>
+or <code>"trace"</code>:</p><pre><span class='kw'>lgr</span>::<span class='fu'><a href='https://rdrr.io/pkg/lgr/man/get_logger.html'>get_logger</a></span>(<span class='st'>"mlr3"</span>)<span class='op'>$</span><span class='fu'>set_threshold</span>(<span class='st'>"debug"</span>)
+</pre>
 
 <p>To log to a file or a data base, see the documentation of <a href='https://rdrr.io/pkg/lgr/man/lgr-package.html'>lgr::lgr-package</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># benchmarking with benchmark_grid()</span>
-<span class='no'>tasks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"iris"</span>, <span class='st'>"sonar"</span>), <span class='no'>tsk</span>)
-<span class='no'>learners</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>), <span class='no'>lrn</span>)
-<span class='no'>resamplings</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='kw'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"iris"</span>, <span class='st'>"sonar"</span>), <span class='kw'>tsk</span>)
+<span class='kw'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>), <span class='kw'>lrn</span>)
+<span class='kw'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, folds = <span class='fl'>3</span>)
 
-<span class='no'>design</span> <span class='kw'>=</span> <span class='fu'><a href='benchmark_grid.html'>benchmark_grid</a></span>(<span class='no'>tasks</span>, <span class='no'>learners</span>, <span class='no'>resamplings</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>design</span>)</div><div class='output co'>#&gt;                 task                         learner         resampling
-#&gt; 1: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 3: &lt;TaskClassif[44]&gt; &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;TaskClassif[44]&gt;       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
+<span class='kw'>design</span> <span class='op'>=</span> <span class='fu'><a href='benchmark_grid.html'>benchmark_grid</a></span>(<span class='kw'>tasks</span>, <span class='kw'>learners</span>, <span class='kw'>resamplings</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>design</span>)
+</div><div class='output co'>#&gt;                 task                         learner         resampling
+#&gt; 1: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 2: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 3: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 4: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)
+<span class='kw'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span>(<span class='kw'>design</span>)
 
 <span class='co'>## Data of all resamplings</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>bmr</span>))</div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: c7a1c41d-6534-4fab-98cb-54c3549c9f84 &lt;TaskClassif[44]&gt;
-#&gt; 2: c7a1c41d-6534-4fab-98cb-54c3549c9f84 &lt;TaskClassif[44]&gt;
-#&gt; 3: c7a1c41d-6534-4fab-98cb-54c3549c9f84 &lt;TaskClassif[44]&gt;
-#&gt; 4: f7d0e15a-30cd-4f2f-bda6-e34116a9f86e &lt;TaskClassif[44]&gt;
-#&gt; 5: f7d0e15a-30cd-4f2f-bda6-e34116a9f86e &lt;TaskClassif[44]&gt;
-#&gt; 6: f7d0e15a-30cd-4f2f-bda6-e34116a9f86e &lt;TaskClassif[44]&gt;
-#&gt;                            learner         resampling iteration prediction
-#&gt; 1: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         1  &lt;list[1]&gt;
-#&gt; 2: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         2  &lt;list[1]&gt;
-#&gt; 3: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         3  &lt;list[1]&gt;
-#&gt; 4:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         1  &lt;list[1]&gt;
-#&gt; 5:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         2  &lt;list[1]&gt;
-#&gt; 6:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         3  &lt;list[1]&gt;</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>bmr</span>))
+</div><div class='output co'>#&gt;                                   uhash              task
+#&gt; 1: e03d448a-8181-4456-92cc-c2d6d152a77e &lt;TaskClassif[45]&gt;
+#&gt; 2: e03d448a-8181-4456-92cc-c2d6d152a77e &lt;TaskClassif[45]&gt;
+#&gt; 3: e03d448a-8181-4456-92cc-c2d6d152a77e &lt;TaskClassif[45]&gt;
+#&gt; 4: ee756185-c82e-4ce7-8a70-1927f576c127 &lt;TaskClassif[45]&gt;
+#&gt; 5: ee756185-c82e-4ce7-8a70-1927f576c127 &lt;TaskClassif[45]&gt;
+#&gt; 6: ee756185-c82e-4ce7-8a70-1927f576c127 &lt;TaskClassif[45]&gt;
+#&gt;                            learner         resampling iteration
+#&gt; 1: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 2: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 3: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 4:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 5:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 6:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt;                 prediction
+#&gt; 1: &lt;PredictionClassif[19]&gt;
+#&gt; 2: &lt;PredictionClassif[19]&gt;
+#&gt; 3: &lt;PredictionClassif[19]&gt;
+#&gt; 4: &lt;PredictionClassif[19]&gt;
+#&gt; 5: &lt;PredictionClassif[19]&gt;
+#&gt; 6: &lt;PredictionClassif[19]&gt;</div><div class='input'>
 <span class='co'>## Aggregated performance values</span>
-<span class='no'>aggr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>aggr</span>)</div><div class='output co'>#&gt;    nr      resample_result task_id          learner_id resampling_id iters
-#&gt; 1:  1 &lt;ResampleResult[18]&gt;    iris classif.featureless            cv     3
-#&gt; 2:  2 &lt;ResampleResult[18]&gt;    iris       classif.rpart            cv     3
-#&gt; 3:  3 &lt;ResampleResult[18]&gt;   sonar classif.featureless            cv     3
-#&gt; 4:  4 &lt;ResampleResult[18]&gt;   sonar       classif.rpart            cv     3
+<span class='kw'>aggr</span> <span class='op'>=</span> <span class='kw'>bmr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>aggr</span>)
+</div><div class='output co'>#&gt;         resample_result nr task_id          learner_id resampling_id iters
+#&gt; 1: &lt;ResampleResult[19]&gt;  1    iris classif.featureless            cv     3
+#&gt; 2: &lt;ResampleResult[19]&gt;  2    iris       classif.rpart            cv     3
+#&gt; 3: &lt;ResampleResult[19]&gt;  3   sonar classif.featureless            cv     3
+#&gt; 4: &lt;ResampleResult[19]&gt;  4   sonar       classif.rpart            cv     3
 #&gt;    classif.ce
 #&gt; 1: 0.70666667
 #&gt; 2: 0.06666667
 #&gt; 3: 0.46645963
 #&gt; 4: 0.37964113</div><div class='input'>
 <span class='co'>## Extract predictions of first resampling result</span>
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>aggr</span>$<span class='no'>resample_result</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>rr</span>$<span class='fu'>prediction</span>())</div><div class='output co'>#&gt;      row_id     truth response
+<span class='kw'>rr</span> <span class='op'>=</span> <span class='kw'>aggr</span><span class='op'>$</span><span class='kw'>resample_result</span>[[<span class='fl'>1</span>]]
+<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>rr</span><span class='op'>$</span><span class='fu'>prediction</span>())
+</div><div class='output co'>#&gt;      row_id     truth response
 #&gt;   1:      1    setosa   setosa
 #&gt;   2:      4    setosa   setosa
 #&gt;   3:      7    setosa   setosa
@@ -284,31 +297,33 @@ or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw 
 <span class='co'># Benchmarking with a custom design:</span>
 <span class='co'># - fit classif.featureless on iris with a 3-fold CV</span>
 <span class='co'># - fit classif.rpart on sonar using a holdout</span>
-<span class='no'>tasks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>), <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"sonar"</span>))
-<span class='no'>learners</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>))
-<span class='no'>resamplings</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>), <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"holdout"</span>))
+<span class='kw'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>), <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"sonar"</span>))
+<span class='kw'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>))
+<span class='kw'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, folds = <span class='fl'>3</span>), <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"holdout"</span>))
 
-<span class='no'>design</span> <span class='kw'>=</span> <span class='kw pkg'>data.table</span><span class='kw ns'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(
-  <span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>tasks</span>,
-  <span class='kw'>learner</span> <span class='kw'>=</span> <span class='no'>learners</span>,
-  <span class='kw'>resampling</span> <span class='kw'>=</span> <span class='no'>resamplings</span>
+<span class='kw'>design</span> <span class='op'>=</span> <span class='kw'>data.table</span>::<span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(
+  task = <span class='kw'>tasks</span>,
+  learner = <span class='kw'>learners</span>,
+  resampling = <span class='kw'>resamplings</span>
 )
 
 <span class='co'>## Instantiate resamplings</span>
-<span class='no'>design</span>$<span class='no'>resampling</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/funprog.html'>Map</a></span>(
-  <span class='kw'>function</span>(<span class='no'>task</span>, <span class='no'>resampling</span>) <span class='no'>resampling</span>$<span class='fu'>clone</span>()$<span class='fu'>instantiate</span>(<span class='no'>task</span>),
-  <span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>task</span>, <span class='kw'>resampling</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>resampling</span>
+<span class='kw'>design</span><span class='op'>$</span><span class='kw'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/funprog.html'>Map</a></span>(
+  <span class='fu'>function</span>(<span class='kw'>task</span>, <span class='kw'>resampling</span>) <span class='kw'>resampling</span><span class='op'>$</span><span class='fu'>clone</span>()<span class='op'>$</span><span class='fu'>instantiate</span>(<span class='kw'>task</span>),
+  task = <span class='kw'>design</span><span class='op'>$</span><span class='kw'>task</span>, resampling = <span class='kw'>design</span><span class='op'>$</span><span class='kw'>resampling</span>
 )
 
 <span class='co'>## Run benchmark</span>
-<span class='no'>bmr</span> <span class='kw'>=</span> <span class='fu'>benchmark</span>(<span class='no'>design</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>bmr</span>)</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs
+<span class='kw'>bmr</span> <span class='op'>=</span> <span class='fu'>benchmark</span>(<span class='kw'>design</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>bmr</span>)
+</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs
 #&gt;  nr task_id          learner_id resampling_id iters warnings errors
 #&gt;   1    iris classif.featureless            cv     3        0      0
 #&gt;   2   sonar       classif.rpart       holdout     1        0      0</div><div class='input'>
 <span class='co'>## Get the training set of the 2nd iteration of the featureless learner on iris</span>
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='no'>bmr</span>$<span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>()[<span class='no'>learner_id</span> <span class='kw'>==</span> <span class='st'>"classif.featureless"</span>]$<span class='no'>resample_result</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='no'>rr</span>$<span class='no'>resampling</span>$<span class='fu'>train_set</span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt;   [1]   3   4   6   8  15  19  21  23  24  25  35  39  43  45  46  47  48  49
+<span class='kw'>rr</span> <span class='op'>=</span> <span class='kw'>bmr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>()[<span class='kw'>learner_id</span> <span class='op'>==</span> <span class='st'>"classif.featureless"</span>]<span class='op'>$</span><span class='kw'>resample_result</span>[[<span class='fl'>1</span>]]
+<span class='kw'>rr</span><span class='op'>$</span><span class='kw'>resampling</span><span class='op'>$</span><span class='fu'>train_set</span>(<span class='fl'>2</span>)
+</div><div class='output co'>#&gt;   [1]   3   4   6   8  15  19  21  23  24  25  35  39  43  45  46  47  48  49
 #&gt;  [19]  52  53  57  59  63  66  67  71  72  76  79  81  83  85  88  89  92  94
 #&gt;  [37]  95  97 107 108 119 120 121 127 131 137 138 140 143 149   5   7  12  13
 #&gt;  [55]  16  17  18  20  26  30  31  33  36  40  41  42  44  50  51  55  56  58
@@ -329,7 +344,7 @@ or <code>"trace"</code>:</p><pre><span class='kw pkg'>lgr</span><span class='kw 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

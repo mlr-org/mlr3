@@ -90,7 +90,7 @@ Its main purpose is debugging." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.5.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -171,8 +171,9 @@ Its main purpose is debugging.</p>
 
     
 
-<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='no'>mlr_measures</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"debug"</span>)
-<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"debug"</span>)</pre>
+<p>This <a href='Measure.html'>Measure</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_measures.html'>mlr_measures</a> or with the associated sugar function <code><a href='mlr_sugar.html'>msr()</a></code>:</p><pre><span class='kw'>mlr_measures</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"debug"</span>)
+<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"debug"</span>)
+</pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
@@ -203,7 +204,7 @@ Its main purpose is debugging.</p>
     <p><code><a href='Measure.html'>mlr3::Measure</a></code> -&gt; <code>MeasureDebug</code></p>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
-    <p><div class="r6-fields"></p><dl'>
+    <p><div class="r6-fields"></p><dl>
 <dt><code>na_ratio</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>)<br />
 Ratio of scores which randomly should be <code>NA</code>, between 0 (default) and 1.
 Default is 0.</p></dd>
@@ -212,7 +213,7 @@ Default is 0.</p></dd>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>MeasureDebug$new()</code></a></p></li>
@@ -229,17 +230,17 @@ Default is 0.</p></dd>
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>MeasureDebug</span>$<span class='fu'>new</span>()</pre><p></div></p>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>MeasureDebug</span><span class='op'>$</span><span class='fu'>new</span>()</pre><p></div></p>
 
 <p><hr>
-<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>MeasureDebug</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>MeasureDebug</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -247,22 +248,23 @@ Default is 0.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"wine"</span>)
-<span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)
-<span class='no'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"debug"</span>)
-<span class='no'>rr</span> <span class='kw'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='no'>task</span>, <span class='no'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>3</span>))
-<span class='no'>rr</span>$<span class='fu'>score</span>(<span class='no'>measure</span>)</div><div class='output co'>#&gt;                 task task_id                         learner
-#&gt; 1: &lt;TaskClassif[44]&gt;    wine &lt;LearnerClassifFeatureless[32]&gt;
-#&gt; 2: &lt;TaskClassif[44]&gt;    wine &lt;LearnerClassifFeatureless[32]&gt;
-#&gt; 3: &lt;TaskClassif[44]&gt;    wine &lt;LearnerClassifFeatureless[32]&gt;
-#&gt;             learner_id         resampling resampling_id iteration prediction
-#&gt; 1: classif.featureless &lt;ResamplingCV[19]&gt;            cv         1  &lt;list[1]&gt;
-#&gt; 2: classif.featureless &lt;ResamplingCV[19]&gt;            cv         2  &lt;list[1]&gt;
-#&gt; 3: classif.featureless &lt;ResamplingCV[19]&gt;            cv         3  &lt;list[1]&gt;
-#&gt;    debug
-#&gt; 1:    60
-#&gt; 2:    59
-#&gt; 3:    59</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"wine"</span>)
+<span class='kw'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)
+<span class='kw'>measure</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"debug"</span>)
+<span class='kw'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='kw'>task</span>, <span class='kw'>learner</span>, <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, folds = <span class='fl'>3</span>))
+<span class='kw'>rr</span><span class='op'>$</span><span class='fu'>score</span>(<span class='kw'>measure</span>)
+</div><div class='output co'>#&gt;                 task task_id                         learner
+#&gt; 1: &lt;TaskClassif[45]&gt;    wine &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 2: &lt;TaskClassif[45]&gt;    wine &lt;LearnerClassifFeatureless[32]&gt;
+#&gt; 3: &lt;TaskClassif[45]&gt;    wine &lt;LearnerClassifFeatureless[32]&gt;
+#&gt;             learner_id         resampling resampling_id iteration
+#&gt; 1: classif.featureless &lt;ResamplingCV[19]&gt;            cv         1
+#&gt; 2: classif.featureless &lt;ResamplingCV[19]&gt;            cv         2
+#&gt; 3: classif.featureless &lt;ResamplingCV[19]&gt;            cv         3
+#&gt;                 prediction debug
+#&gt; 1: &lt;PredictionClassif[19]&gt;    60
+#&gt; 2: &lt;PredictionClassif[19]&gt;    59
+#&gt; 3: &lt;PredictionClassif[19]&gt;    59</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -278,7 +280,7 @@ Default is 0.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -59,6 +59,7 @@ Column &quot;Id&quot; has been removed.
 Column names have been converted to snake_case.
 Positive class is set to &quot;malignant&quot;.
 16 incomplete cases have been removed from the data set.
+All factor features have been converted to ordered factors.
 
 " />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
@@ -95,7 +96,7 @@ Positive class is set to &quot;malignant&quot;.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.5.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -171,6 +172,7 @@ Positive class is set to &quot;malignant&quot;.
 <li><p>Column names have been converted to <code>snake_case</code>.</p></li>
 <li><p>Positive class is set to <code>"malignant"</code>.</p></li>
 <li><p>16 incomplete cases have been removed from the data set.</p></li>
+<li><p>All factor features have been converted to ordered factors.</p></li>
 </ul>
 
     </div>
@@ -183,8 +185,9 @@ Positive class is set to &quot;malignant&quot;.
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre><span class='no'>mlr_tasks</span>$<span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"breast_cancer"</span>)
-<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"breast_cancer"</span>)</pre>
+<pre><span class='kw'>mlr_tasks</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"breast_cancer"</span>)
+<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"breast_cancer"</span>)
+</pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
 
@@ -235,7 +238,7 @@ Positive class is set to &quot;malignant&quot;.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

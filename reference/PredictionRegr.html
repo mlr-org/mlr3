@@ -91,7 +91,7 @@ Additionally, probability distributions implemented in distr6 are supported." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.5.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -179,7 +179,7 @@ Additionally, probability distributions implemented in <a href='https://CRAN.R-p
     <p><code><a href='Prediction.html'>mlr3::Prediction</a></code> -&gt; <code>PredictionRegr</code></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
-    <p><div class="r6-active-bindings"></p><dl'>
+    <p><div class="r6-active-bindings"></p><dl>
 <dt><code>response</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>)<br />
 Access the stored predicted response.</p></dd>
 
@@ -190,14 +190,11 @@ Access the stored standard error.</p></dd>
 Access the stored vector distribution.
 Requires package <a href='https://CRAN.R-project.org/package=distr6'><span class="pkg">distr6</span></a>.</p></dd>
 
-<dt><code>missing</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
-Returns <code>row_ids</code> for which the predictions are missing or incomplete.</p></dd>
-
 </dl><p></div></p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>PredictionRegr$new()</code></a></p></li>
@@ -212,19 +209,20 @@ Returns <code>row_ids</code> for which the predictions are missing or incomplete
 </details>
 
 <hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>PredictionRegr</span>$<span class='fu'>new</span>(
-  <span class='kw'>task</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>row_ids</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='no'>row_ids</span>,
-  <span class='kw'>truth</span> <span class='kw'>=</span> <span class='no'>task</span>$<span class='fu'>truth</span>(),
-  <span class='kw'>response</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>distr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>PredictionRegr</span><span class='op'>$</span><span class='fu'>new</span>(
+  task = <span class='kw'>NULL</span>,
+  row_ids = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>row_ids</span>,
+  truth = <span class='kw'>task</span><span class='op'>$</span><span class='fu'>truth</span>(),
+  response = <span class='kw'>NULL</span>,
+  se = <span class='kw'>NULL</span>,
+  distr = <span class='kw'>NULL</span>,
+  check = <span class='fl'>TRUE</span>
 )</pre><p></div></p>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>task</code></dt><dd><p>(<a href='TaskRegr.html'>TaskRegr</a>)<br />
 Task, used to extract defaults for <code>row_ids</code> and <code>truth</code>.</p></dd>
 
@@ -247,15 +245,20 @@ One element for each observation in the test set.</p></dd>
 Each individual distribution in the vector represents the random variable 'survival time'
 for an individual observation.</p></dd>
 
+<dt><code>check</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>)<br />
+If <code>TRUE</code>, performs some argument checks and predict type conversions.</p></dd>
+
 </dl><p></div></p>
 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>task</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"boston_housing"</span>)
-<span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"regr.featureless"</span>, <span class='kw'>predict_type</span> <span class='kw'>=</span> <span class='st'>"se"</span>)
-<span class='no'>p</span> <span class='kw'>=</span> <span class='no'>learner</span>$<span class='fu'>train</span>(<span class='no'>task</span>)$<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>task</span>)
-<span class='no'>p</span>$<span class='no'>predict_types</span></div><div class='output co'>#&gt; [1] "response" "se"      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='no'>p</span>))</div><div class='output co'>#&gt;    row_id truth response       se
+    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"boston_housing"</span>)
+<span class='kw'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"regr.featureless"</span>, predict_type = <span class='st'>"se"</span>)
+<span class='kw'>p</span> <span class='op'>=</span> <span class='kw'>learner</span><span class='op'>$</span><span class='fu'>train</span>(<span class='kw'>task</span>)<span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>task</span>)
+<span class='kw'>p</span><span class='op'>$</span><span class='kw'>predict_types</span>
+</div><div class='output co'>#&gt; [1] "response" "se"      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>p</span>))
+</div><div class='output co'>#&gt;    row_id truth response       se
 #&gt; 1:      1  24.0 22.53281 9.197104
 #&gt; 2:      2  21.6 22.53281 9.197104
 #&gt; 3:      3  34.7 22.53281 9.197104
@@ -277,7 +280,7 @@ for an individual observation.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
