@@ -5,7 +5,7 @@ hashes = function(x) {
 hash = function(...) {
   dots = list(...)
   is_fun = map_lgl(dots, is.function)
-  dots[is_fun] = map(dots[is_fun], function(x) {
+  dots[is_fun] = map(dots[is_fun], function(fun) {
     list(formals = formals(fun), body = as.character(body(fun)))
   })
   digest::digest(dots, algo = "xxhash64")
