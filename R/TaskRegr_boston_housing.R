@@ -22,8 +22,9 @@ NULL
 
 load_task_boston_housing = function(id = "boston_housing") {
   b = as_data_backend(load_dataset("BostonHousing2", "mlbench"))
-  b$hash = "_mlr3_tasks_boston_housing_"
-  TaskRegr$new(id, b, target = "medv")
+  task = TaskRegr$new(id, b, target = "medv")
+  b$hash = task$man = "mlr3::mlr_tasks_boston_housing"
+  task
 }
 
 #' @include mlr_tasks.R

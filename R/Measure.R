@@ -212,7 +212,7 @@ Measure = R6Class("Measure",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       fun = if (exists("score_internal", envir = self, inherits = FALSE)) self$score_internal else private$.score
-      hash(class(self), self$id, self$predict_sets, as.character(body(fun)))
+      hash(class(self), self$id, self$predict_sets, fun, self$aggregator)
     }
   )
 )

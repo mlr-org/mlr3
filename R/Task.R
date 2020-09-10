@@ -377,8 +377,8 @@ Task = R6Class("Task",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       hash(
-        class(self), self$id, self$backend$hash, private$.row_roles, private$.col_roles,
-        self$col_info$type, self$col_info$levels, self$properties
+        class(self), self$id, self$backend$hash, self$col_info,
+        private$.row_roles, private$.col_roles, private$.properties
       )
     },
 
