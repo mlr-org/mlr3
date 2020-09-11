@@ -10,7 +10,7 @@ options(datatable.print.class = FALSE, datatable.print.keys = FALSE)
 
 # mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
 
-Package website: [release](https://mlr3.mlr-org.com/) | [dev](https://mlr3.mlr-org.com/dev)
+Package website: [release](https://mlr3.mlr-org.com/) | [dev](https://mlr3.mlr-org.com/dev/)
 
 Efficient, object-oriented programming on the building blocks of machine learning.
 Successor of [mlr](https://github.com/mlr-org/mlr).

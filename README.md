@@ -1,8 +1,9 @@
 
-# mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
+mlr3 <img src="man/figures/logo.png" align="right" width = "120" />
+===================================================================
 
-Package website: [release](https://mlr3.mlr-org.com/) |
-[dev](https://mlr3.mlr-org.com/dev)
+Package website: [release](https://mlr3.mlr-org.com/) \|
+[dev](https://mlr3.mlr-org.com/dev/)
 
 Efficient, object-oriented programming on the building blocks of machine
 learning. Successor of [mlr](https://github.com/mlr-org/mlr).
@@ -20,73 +21,70 @@ Checks](https://cranchecks.info/badges/worst/mlr3)](https://cran.r-project.org/w
 [![Dependencies](https://tinyverse.netlify.com/badge/mlr3)](https://cran.r-project.org/package=mlr3)
 <!-- badges: end -->
 
-## Resources (for users and developers)
+Resources (for users and developers)
+------------------------------------
 
-  - We *started* writing a [book](https://mlr3book.mlr-org.com/). This
+-   We *started* writing a [book](https://mlr3book.mlr-org.com/). This
     should be the central entry point to the package.
-  - The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case
+-   The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case
     studies and demonstrates how frequently occurring problems can be
     solved. It is still in early days so stay tuned for more to come.
-  - [Reference manual](https://mlr3.mlr-org.com/reference/)
-  - **Cheatsheets**
-      - [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
-      - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
-      - [mlr3tuning](https://cheatsheets.mlr-org.com/mlr3tuning.pdf)
-      - [mlr3pipelines](https://cheatsheets.mlr-org.com/mlr3pipelines.pdf)
-  - **Videos**:
-      - [useR2019 talk on
+-   [Reference manual](https://mlr3.mlr-org.com/reference/)
+-   **Cheatsheets**
+    -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
+    -   [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
+    -   [mlr3tuning](https://cheatsheets.mlr-org.com/mlr3tuning.pdf)
+    -   [mlr3pipelines](https://cheatsheets.mlr-org.com/mlr3pipelines.pdf)
+-   **Videos**:
+    -   [useR2019 talk on
         mlr3](https://www.youtube.com/watch?v=wsP2hiFnDQs)
-      - [useR2019 talk on mlr3pipelines and
+    -   [useR2019 talk on mlr3pipelines and
         mlr3tuning](https://www.youtube.com/watch?v=gEW5RxkbQuQ)
-      - [useR2020 tutorial on mlr3, mlr3tuning and
+    -   [useR2020 tutorial on mlr3, mlr3tuning and
         mlr3pipelines](https://www.youtube.com/watch?v=T43hO2o_nZw)
-  - **Courses/Lectures**
-      - The course [Introduction to Machine learning
+-   **Courses/Lectures**
+    -   The course [Introduction to Machine learning
         (I2ML)](https://compstat-lmu.github.io/lecture_i2ml/) is a free
         and open flipped classroom course on the basics of machine
         learning. `mlr3` is used in the
         [demos](https://github.com/compstat-lmu/lecture_i2ml/tree/master/code-demos-pdf)
         and
         [exercises](https://github.com/compstat-lmu/lecture_i2ml/tree/master/exercises).
-  - **Templates/Tutorials**
-      - [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake):
+-   **Templates/Tutorials**
+    -   [mlr3-learndrake](https://github.com/mlr-org/mlr3-learndrake):
         Shows how to use mlr3 with
         [drake](https://docs.ropensci.org/drake/) for reproducible ML
         workflow automation.
-  - [List of extension
+-   [List of extension
     packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages)
-  - [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
+-   [mlr-outreach](https://github.com/mlr-org/mlr-outreach) contains
     public talks and slides resources.
-  - Our [blog](https://mlr-org.com/) about *mlr* and *mlr3*. (We are not
+-   Our [blog](https://mlr-org.com/) about *mlr* and *mlr3*. (We are not
     the most frequent bloggers ;) )
-  - [Wiki](https://github.com/mlr-org/mlr3/wiki): Contains mainly
+-   [Wiki](https://github.com/mlr-org/mlr3/wiki): Contains mainly
     information for developers.
 
-## Installation
+Installation
+------------
 
 Install the last release from CRAN:
 
-``` r
-install.packages("mlr3")
-```
+    install.packages("mlr3")
 
 Install the development version from GitHub:
 
-``` r
-remotes::install_github("mlr-org/mlr3")
-```
+    remotes::install_github("mlr-org/mlr3")
 
-## Example
+Example
+-------
 
 ### Constructing Learners and Tasks
 
-``` r
-library(mlr3)
+    library(mlr3)
 
-# create learning task
-task_iris <- TaskClassif$new(id = "iris", backend = iris, target = "Species")
-task_iris
-```
+    # create learning task
+    task_iris <- TaskClassif$new(id = "iris", backend = iris, target = "Species")
+    task_iris
 
     ## <TaskClassif:iris> (150 x 5)
     ## * Target: Species
@@ -94,27 +92,23 @@ task_iris
     ## * Features (4):
     ##   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width
 
-``` r
-# load learner and set hyperparameter
-learner <- lrn("classif.rpart", cp = .01)
-```
+    # load learner and set hyperparameter
+    learner <- lrn("classif.rpart", cp = .01)
 
 ### Basic train + predict
 
-``` r
-# train/test split
-train_set <- sample(task_iris$nrow, 0.8 * task_iris$nrow)
-test_set <- setdiff(seq_len(task_iris$nrow), train_set)
+    # train/test split
+    train_set <- sample(task_iris$nrow, 0.8 * task_iris$nrow)
+    test_set <- setdiff(seq_len(task_iris$nrow), train_set)
 
-# train the model
-learner$train(task_iris, row_ids = train_set)
+    # train the model
+    learner$train(task_iris, row_ids = train_set)
 
-# predict data
-prediction <- learner$predict(task_iris, row_ids = test_set)
+    # predict data
+    prediction <- learner$predict(task_iris, row_ids = test_set)
 
-# calculate performance
-prediction$confusion
-```
+    # calculate performance
+    prediction$confusion
 
     ##             truth
     ## response     setosa versicolor virginica
@@ -122,40 +116,39 @@ prediction$confusion
     ##   versicolor      0         12         1
     ##   virginica       0          0         6
 
-``` r
-measure <- msr("classif.acc")
-prediction$score(measure)
-```
+    measure <- msr("classif.acc")
+    prediction$score(measure)
 
     ## classif.acc 
     ##   0.9666667
 
 ### Resample
 
-``` r
-# automatic resampling
-resampling <- rsmp("cv", folds = 3L)
-rr <- resample(task_iris, learner, resampling)
-rr$score(measure)
-```
+    # automatic resampling
+    resampling <- rsmp("cv", folds = 3L)
+    rr <- resample(task_iris, learner, resampling)
+    rr$score(measure)
 
     ##                 task task_id                   learner    learner_id
-    ## 1: <TaskClassif[44]>    iris <LearnerClassifRpart[32]> classif.rpart
-    ## 2: <TaskClassif[44]>    iris <LearnerClassifRpart[32]> classif.rpart
-    ## 3: <TaskClassif[44]>    iris <LearnerClassifRpart[32]> classif.rpart
-    ##            resampling resampling_id iteration prediction classif.acc
-    ## 1: <ResamplingCV[19]>            cv         1  <list[1]>        0.92
-    ## 2: <ResamplingCV[19]>            cv         2  <list[1]>        0.92
-    ## 3: <ResamplingCV[19]>            cv         3  <list[1]>        0.94
+    ## 1: <TaskClassif[45]>    iris <LearnerClassifRpart[32]> classif.rpart
+    ## 2: <TaskClassif[45]>    iris <LearnerClassifRpart[32]> classif.rpart
+    ## 3: <TaskClassif[45]>    iris <LearnerClassifRpart[32]> classif.rpart
+    ##            resampling resampling_id iteration              prediction
+    ## 1: <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+    ## 2: <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+    ## 3: <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+    ##    classif.acc
+    ## 1:        0.92
+    ## 2:        0.92
+    ## 3:        0.94
 
-``` r
-rr$aggregate(measure)
-```
+    rr$aggregate(measure)
 
     ## classif.acc 
     ##   0.9266667
 
-## Why a rewrite?
+Why a rewrite?
+--------------
 
 [mlr](https://github.com/mlr-org/mlr) was first released to
 [CRAN](https://cran.r-project.org/package=mlr) in 2013. Its core design
@@ -169,70 +162,72 @@ the outside. Also, many helpful R libraries did not exist at the time
 [mlr](https://github.com/mlr-org/mlr) was created, and their inclusion
 would result in non-trivial API changes.
 
-## Design principles
+Design principles
+-----------------
 
-  - Only the basic building blocks for machine learning are implemented
+-   Only the basic building blocks for machine learning are implemented
     in this package.
-  - Focus on computation here. No visualization or other stuff. That can
+-   Focus on computation here. No visualization or other stuff. That can
     go in extra packages.
-  - Overcome the limitations of R’s [S3
+-   Overcome the limitations of R’s [S3
     classes](https://adv-r.hadley.nz/s3.html) with the help of
     [R6](https://cran.r-project.org/package=R6).
-  - Embrace [R6](https://cran.r-project.org/package=R6) for a clean
+-   Embrace [R6](https://cran.r-project.org/package=R6) for a clean
     OO-design, object state-changes and reference semantics. This might
     be less “traditional R”, but seems to fit `mlr` nicely.
-  - Embrace
+-   Embrace
     [`data.table`](https://cran.r-project.org/package=data.table) for
     fast and convenient data frame computations.
-  - Combine `data.table` and `R6`, for this we will make heavy use of
+-   Combine `data.table` and `R6`, for this we will make heavy use of
     list columns in data.tables.
-  - Defensive programming and type safety. All user input is checked
+-   Defensive programming and type safety. All user input is checked
     with [`checkmate`](https://cran.r-project.org/package=checkmate).
     Return types are documented, and mechanisms popular in base R which
     “simplify” the result unpredictably (e.g., `sapply()` or `drop`
     argument in `[.data.frame`) are avoided.
-  - Be light on dependencies. `mlr3` requires the following packages at
+-   Be light on dependencies. `mlr3` requires the following packages at
     runtime:
-      - [`future.apply`](https://cran.r-project.org/package=future.apply):
+    -   [`future.apply`](https://cran.r-project.org/package=future.apply):
         Resampling and benchmarking is parallelized with the
         [`future`](https://cran.r-project.org/package=future)
         abstraction interfacing many parallel backends.
-      - [`backports`](https://cran.r-project.org/package=backports):
+    -   [`backports`](https://cran.r-project.org/package=backports):
         Ensures backward compatibility with older R releases. Developed
         by members of the `mlr` team. No recursive dependencies.
-      - [`checkmate`](https://cran.r-project.org/package=checkmate):
+    -   [`checkmate`](https://cran.r-project.org/package=checkmate):
         Fast argument checks. Developed by members of the `mlr` team. No
         extra recursive dependencies.
-      - [`mlr3misc`](https://cran.r-project.org/package=mlr3misc):
+    -   [`mlr3misc`](https://cran.r-project.org/package=mlr3misc):
         Miscellaneous functions used in multiple mlr3 [extension
         packages](https://github.com/mlr-org/mlr3/wiki/Extension-Packages).
         Developed by the `mlr` team. No extra recursive dependencies.
-      - [`paradox`](https://cran.r-project.org/package=paradox):
+    -   [`paradox`](https://cran.r-project.org/package=paradox):
         Descriptions for parameters and parameter sets. Developed by the
         `mlr` team. No extra recursive dependencies.
-      - [`R6`](https://cran.r-project.org/package=R6): Reference class
+    -   [`R6`](https://cran.r-project.org/package=R6): Reference class
         objects. No recursive dependencies.
-      - [`data.table`](https://cran.r-project.org/package=data.table):
+    -   [`data.table`](https://cran.r-project.org/package=data.table):
         Extension of R’s `data.frame`. No recursive dependencies.
-      - [`digest`](https://cran.r-project.org/package=digest): Hash
+    -   [`digest`](https://cran.r-project.org/package=digest): Hash
         digests. No recursive dependencies.
-      - [`uuid`](https://cran.r-project.org/package=uuid): Create unique
+    -   [`uuid`](https://cran.r-project.org/package=uuid): Create unique
         string identifiers. No recursive dependencies.
-      - [`lgr`](https://cran.r-project.org/package=lgr): Logging
+    -   [`lgr`](https://cran.r-project.org/package=lgr): Logging
         facility. No extra recursive dependencies.
-      - [`mlr3measures`](https://cran.r-project.org/package=mlr3measures):
+    -   [`mlr3measures`](https://cran.r-project.org/package=mlr3measures):
         Performance measures. No extra recursive dependencies.
-      - [`mlbench`](https://cran.r-project.org/package=mlbench): A
+    -   [`mlbench`](https://cran.r-project.org/package=mlbench): A
         collection of machine learning data sets. No dependencies.
-  - [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
+-   [Reflections](https://en.wikipedia.org/wiki/Reflection_%28computer_programming%29):
     Objects are queryable for properties and capabilities, allowing you
     to program on them.
-  - Additional functionality that comes with extra dependencies:
-      - To capture output, warnings and exceptions,
+-   Additional functionality that comes with extra dependencies:
+    -   To capture output, warnings and exceptions,
         [`evaluate`](https://cran.r-project.org/package=evaluate) and
         [`callr`](https://cran.r-project.org/package=callr) can be used.
 
-## Extension Packages
+Extension Packages
+------------------
 
 <a href="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/mlr3verse.svg?sanitize=true"><img src="man/figures/mlr3verse.svg" /></a>
 
@@ -240,7 +235,8 @@ Consult the
 [wiki](https://github.com/mlr-org/mlr3/wiki/Extension-Packages) for
 short descriptions and links to the respective repositories.
 
-## Contributing to mlr3
+Contributing to mlr3
+--------------------
 
 This R package is licensed under the
 [LGPL-3](https://www.gnu.org/licenses/lgpl-3.0.en.html). If you
@@ -256,7 +252,8 @@ Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a
 a [pull request
 guide](https://github.com/mlr-org/mlr3/wiki/PR-Guidelines).
 
-## Citing mlr3
+Citing mlr3
+-----------
 
 If you use mlr3, please cite our [JOSS
 article](https://doi.org/10.21105/joss.01903):
