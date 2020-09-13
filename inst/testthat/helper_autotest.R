@@ -152,11 +152,11 @@ generate_tasks.LearnerRegr = function(learner, N = 30L) {
 
   # generate sanity task
   data = with_seed(100, {
-    x = seq(from = -10, to = 10, length.out = 100)
+    y = seq(from = -10, to = 10, length.out = 100)
     data.table::data.table(
-      y = rnorm(length(x), mean = 1),
-      x = x,
-      unimportant = runif(length(x), min = 0, max = 3)
+      y = y,
+      x = y + rnorm(length(y), mean = 1),
+      unimportant = runif(length(y), min = 0, max = 1)
     )
   })
   tasks$sanity = mlr3::TaskRegr$new("sanity", mlr3::as_data_backend(data), target = "y")
