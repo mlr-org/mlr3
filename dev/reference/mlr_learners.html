@@ -215,12 +215,12 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>mlr_learners</span>)
-</div><div class='output co'>#&gt;                    key                                    feature_types
-#&gt; 1:       classif.debug logical,integer,numeric,character,factor,ordered
-#&gt; 2: classif.featureless logical,integer,numeric,character,factor,ordered
-#&gt; 3:       classif.rpart           logical,integer,numeric,factor,ordered
-#&gt; 4:    regr.featureless logical,integer,numeric,character,factor,ordered
-#&gt; 5:          regr.rpart           logical,integer,numeric,factor,ordered
+</div><div class='output co'>#&gt;                    key                                        feature_types
+#&gt; 1:       classif.debug     logical,integer,numeric,character,factor,ordered
+#&gt; 2: classif.featureless logical,integer,numeric,character,factor,ordered,...
+#&gt; 3:       classif.rpart               logical,integer,numeric,factor,ordered
+#&gt; 4:    regr.featureless logical,integer,numeric,character,factor,ordered,...
+#&gt; 5:          regr.rpart               logical,integer,numeric,factor,ordered
 #&gt;    packages                                                        properties
 #&gt; 1:                                               missings,multiclass,twoclass
 #&gt; 2:                  importance,missings,multiclass,selected_features,twoclass
@@ -238,7 +238,8 @@ Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.
 #&gt; * Parameters: method=mode
 #&gt; * Packages: -
 #&gt; * Predict Type: response
-#&gt; * Feature types: logical, integer, numeric, character, factor, ordered
+#&gt; * Feature types: logical, integer, numeric, character, factor, ordered,
+#&gt;   POSIXct
 #&gt; * Properties: importance, missings, multiclass, selected_features,
 #&gt;   twoclass</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
 </div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
