@@ -23,7 +23,7 @@ lrn("regr.featureless")
 \itemize{
 \item Task type: \dQuote{regr}
 \item Predict Types: \dQuote{response}, \dQuote{se}
-\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}
 \item Required Packages: 'stats'
 }
 }

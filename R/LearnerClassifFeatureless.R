@@ -32,7 +32,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
       ps$values = list(method = "mode")
       super$initialize(
         id = "classif.featureless",
-        feature_types = c("logical", "integer", "numeric", "character", "factor", "ordered"),
+        feature_types = mlr_reflections$task_feature_types,
         predict_types = c("response", "prob"),
         param_set = ps,
         properties = c("twoclass", "multiclass", "missings", "importance", "selected_features"),

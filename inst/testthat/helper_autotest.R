@@ -67,7 +67,8 @@ generate_data = function(learner, N) {
       numeric = runif(N),
       character = sample(rep_len(letters[1:2], N)),
       factor = sample(factor(rep_len(c("f1", "f2"), N), levels = c("f1", "f2"))),
-      ordered = sample(ordered(rep_len(c("o1", "o2"), N), levels = c("o1", "o2")))
+      ordered = sample(ordered(rep_len(c("o1", "o2"), N), levels = c("o1", "o2"))),
+      POSIXct = Sys.time() - runif(N, min = 0, max = 10 * 365 * 24 * 60 * 60)
     )
   }
   types = unique(learner$feature_types)
