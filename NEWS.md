@@ -1,3 +1,8 @@
+# mlr3 0.7.0
+
+* Updated properties of featureless learners to apply it on all feature types
+  (did not work on POSIXct columns).
+
 # mlr3 0.6.0
 
 * Compact in-memory representation of R6 objects to save space when
