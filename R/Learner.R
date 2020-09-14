@@ -399,7 +399,6 @@ get_log_condition = function(state, condition) {
   if (is.null(state$log)) {
     character()
   } else {
-    msg = NULL
-    state$log[condition, msg, on = "class", nomatch = NULL]
+    fget(state$log, i = condition, j = "msg", key = "class")
   }
 }
