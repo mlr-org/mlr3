@@ -32,6 +32,7 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 * The [mlr3gallery](https://mlr3gallery.mlr-org.com) has some case studies and demonstrates how frequently occurring problems can be solved.
   It is still in early days so stay tuned for more to come.
 * [Reference manual](https://mlr3.mlr-org.com/reference/)
+* [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
 * **Cheatsheets**
   - [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
   - [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
@@ -56,13 +57,13 @@ Successor of [mlr](https://github.com/mlr-org/mlr).
 
 Install the last release from CRAN:
 
-```{r, eval = FALSE}
+```{r eval = FALSE}
 install.packages("mlr3")
 ```
 
 Install the development version from GitHub:
 
-```{r, eval = FALSE}
+```{r eval = FALSE}
 remotes::install_github("mlr-org/mlr3")
 ```
 
@@ -187,6 +188,6 @@ Please consult the [wiki](https://github.com/mlr-org/mlr3/wiki/) for a [style gu
 ## Citing mlr3
 
 If you use mlr3, please cite our [JOSS article](https://doi.org/10.21105/joss.01903):
-```{r, echo = FALSE, comment = ""}
+```{r echo = FALSE, comment = ""}
 toBibtex(citation("mlr3"))
 ```

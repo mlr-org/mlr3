@@ -30,6 +30,7 @@ Resources (for users and developers)
     studies and demonstrates how frequently occurring problems can be
     solved. It is still in early days so stay tuned for more to come.
 -   [Reference manual](https://mlr3.mlr-org.com/reference/)
+-   [FAQ](https://github.com/mlr-org/mlr3/wiki/FAQ)
 -   **Cheatsheets**
     -   [Overview of cheatsheets](https://cheatsheets.mlr-org.com)
     -   [mlr3](https://cheatsheets.mlr-org.com/mlr3.pdf)
