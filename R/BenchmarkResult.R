@@ -88,9 +88,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'   * `"learner"` ([Learner]),
     #'   * `"state"` (`list()`),
     #'   * `"resampling"` ([Resampling]),
-    #'   * `"iteration"` (`integer(1)`),
+    #'   * `"iteration"` (`integer()`),
     #'   * `"prediction"` ([PredictionData]), and
-    #'   * `"uhash"` (`character(1)`).
+    #'   * `"uhash"` (`character()`).
     #'
     #'   Column `"uhash"` is the unique hash of the corresponding [ResampleResult].
     #'   Additional columns are kept in the resulting object, but otherwise ignored by [BenchmarkResult].

@@ -169,9 +169,9 @@ Table with data for one resampling iteration per row, with at least the followin
 \item \code{"learner"} (\link{Learner}),
 \item \code{"state"} (\code{list()}),
 \item \code{"resampling"} (\link{Resampling}),
-\item \code{"iteration"} (\code{integer(1)}),
+\item \code{"iteration"} (\code{integer()}),
 \item \code{"prediction"} (\link{PredictionData}), and
-\item \code{"uhash"} (\code{character(1)}).
+\item \code{"uhash"} (\code{character()}).
 }
 
 Column \code{"uhash"} is the unique hash of the corresponding \link{ResampleResult}.
