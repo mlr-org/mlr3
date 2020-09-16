@@ -255,7 +255,7 @@ or a list of <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> o
 #&gt; * Properties: importance, missings, multiclass, selected_features,
 #&gt;   twoclass, weights</div><div class='input'>
 <span class='co'># multiple learners with predict type 'prob'</span>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>), <span class='kw'>lrn</span>, predict_type = <span class='st'>"prob"</span>)
+<span class='fu'>lrns</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>), predict_type = <span class='st'>"prob"</span>)
 </div><div class='output co'>#&gt; [[1]]
 #&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
 #&gt; * Model: -
