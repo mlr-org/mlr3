@@ -35,7 +35,7 @@
 #' lrn("classif.rpart", cp = 0.1, predict_type = "prob")
 #'
 #' # multiple learners with predict type 'prob'
-#' lapply(c("classif.featureless", "classif.rpart"), lrn, predict_type = "prob")
+#' lrns(c("classif.featureless", "classif.rpart"), predict_type = "prob")
 NULL
 
 #' @rdname mlr_sugar
