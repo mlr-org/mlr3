@@ -8,20 +8,40 @@ get_private = function(x) {
   x[[".__enclos_env__"]][["private"]]
 }
 
-#' @title Sets the State in a Learner
+#' @title Sets the State and/or ParamSet values in a Learner
 #'
 #' @param learner ([Learner]).
-#' @param state (named `list()`).
+#' @param states (`list()`).
+#' @param param_vals (`list()`).
 #'
-#' @return ([Learner]) with updated state.
+#' @return list of ([Learner]) with updated state and param values.
 #' @noRd
-reassemble_learner = function(learner, state) {
-  Map(function(l, s) {
-        l = l$clone(deep = TRUE)
-        l$state = s
-        l
-  }, l = learner, s = state)
+reassemble_learners = function(learners, states = NULL, param_vals = NULL) {
+  learners = lapply(learners, function(l) l$clone())
+
+  if (!is.null(states))
+     Map(function(l, s) { l$state = s }, l = learners, s = states)
+  if (!is.null(param_vals))
+    Map(function(l, pv) { p = get_private(l$param_set); p$.values = pv }, l = learners, pv = param_vals)
+  learners
 }
+
+#' @title Sets the Feature Names in a Task
+#'
+#' @param learner ([Learner]).
+#' @param feature_names (`list()`).
+#'
+#' @return list of ([Task]) with updated state.
+#' @noRd
+reassemble_tasks = function(tasks, feature_names = NULL) {
+  tasks = lapply(tasks, function(t) t$clone())
+
+  if (!is.null(feature_names))
+     Map(function(t, fn) { t$col_roles$feature = fn }, t = tasks, fn = feature_names)
+
+  tasks
+}
+
 
 #' @title Normalize List Column of R6 Objects
 #'
@@ -65,7 +85,7 @@ denormalize_tab = function(bmr, data = bmr$data, reassemble_learners = FALSE, co
   set(tab, j = "resampling", value = mget(tab$resampling, envir = p$.resamplings, inherits = FALSE))
 
   if (reassemble_learners) {
-    set(tab, j = "learner", value = reassemble_learner(tab$learner, tab$state))
+    set(tab, j = "learner", value = reassemble_learners(tab$learner, tab$state))
   }
 
   if (convert_predictions) {

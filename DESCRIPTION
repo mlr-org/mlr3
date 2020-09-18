@@ -176,6 +176,7 @@ Collate:
     'predict.R'
     'reexports.R'
     'resample.R'
+    'snowflake.R'
     'task_converters.R'
     'worker.R'
     'zzz.R'

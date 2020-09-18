@@ -68,16 +68,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' The referenced objects can be accessed via `$tasks`, `$learners` or `$resamplings`, respectively.
     data = NULL,
 
-    #' @field rr_data ([data.table::data.table()])\cr
-    #'   Internal data storage with one row per [ResampleResult]
-    #'   (instead of one row per resampling iteration as in `$data`).
-    #'
-    #'   Package develops may opt to add additional columns here.
-    #'   These columns are preserved in all mutators.
-    #'
-    #'   Can be combined with `$data` by (left) joining on the key column `"uhash"`.
-    rr_data = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -104,13 +94,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         assert_names(names(data), must.include = slots)
       }
 
-      private$.tasks = normalize_tab(data, "task")
-      private$.learners = normalize_tab(data, "learner")
-      private$.resamplings = normalize_tab(data, "resampling")
-
-
-      self$data = setcolorder(data, slots)[]
-      self$rr_data = data.table(uhash = unique(data$uhash))
+      self$data = snowflake_fill(snowflake_init(), data)
     },
 
     #' @description
@@ -130,7 +114,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     print = function() {
       tab = remove_named(self$aggregate(measures = list(), conditions = TRUE), c("uhash", "resample_result"))
       catf("%s of %i rows with %i resampling runs",
-        format(self), nrow(self$data), nrow(tab))
+        format(self), nrow(self$data$fact), nrow(tab))
       if (nrow(tab)) {
         print(tab, class = FALSE, row.names = FALSE, print.keys = FALSE, digits = 3)
       }
@@ -159,9 +143,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
         self$rr_data = unique(rbindlist(list(self$rr_data, bmr$rr_data), fill = TRUE, use.names = TRUE), by = "uhash")
 
         pbmr = get_private(bmr)
-        insert_named(private$.tasks, pbmr$.tasks)
-        insert_named(private$.learners, pbmr$.learners)
-        insert_named(private$.resamplings, pbmr$.resamplings)
       }
 
       invisible(self)
@@ -237,16 +218,17 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' @return [data.table::data.table()].
     aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE) {
       res = self$resample_results
-      resample_result = res$resample_result
+      # microbenchmark(self$resample_results)
+      rr = res$resample_result
       set(res, j = "nr", value = seq_row(res))
 
       if (assert_flag(ids)) {
         set(res, j = "task_id",
-          value = map_chr(resample_result, function(rr) rr$task$id))
+          value = map_chr(rrs, function(rr) rr$task$id))
         set(res, j = "learner_id",
-          value = map_chr(resample_result, function(rr) rr$learner$id))
+          value = map_chr(rrs, function(rr) rr$learner$id))
         set(res, j = "resampling_id",
-          value = map_chr(resample_result, function(rr) rr$resampling$id))
+          value = map_chr(rrs, function(rr) rr$resampling$id))
       }
 
       # move iters to last column
@@ -259,21 +241,18 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       if (assert_flag(conditions)) {
         set(res, j = "warnings",
-          value = map_int(resample_result, function(rr) uniqueN(rr$warnings, by = "iteration")))
+          value = map_int(rrs, function(rr) uniqueN(rr$warnings, by = "iteration")))
         set(res, j = "errors",
-          value = map_int(resample_result, function(rr) uniqueN(rr$errors, by = "iteration")))
+          value = map_int(rrs, function(rr) uniqueN(rr$errors, by = "iteration")))
       }
 
       if (nrow(res)) {
-        res = rcbind(res, map_dtr(res$resample_result, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
-      }
-
-      if (ncol(self$rr_data) >= 2L) {
-        res = merge(res, self$rr_data, on = "uhash", all.x = TRUE, all.y = FALSE, sort = FALSE)
+        res = rcbind(res, map_dtr(rrs, function(x) as.list(x$aggregate(measures)), .fill = TRUE))
       }
 
       if (!assert_flag(uhashes)) {
         set(res, j = "uhash", value = NULL)
+        setcolorder(res, "nr")
       } else {
         setcolorder(res, c("nr", "uhash"))
       }
@@ -380,8 +359,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
         needle = uhashes[i]
       }
 
-      rrs = bmr_resample_results(self, self$data[list(needle), on = "uhash"])
-      rrs$resample_result[[1L]]
+      snowflake_rr_result(self$data, needle)
     }
   ),
 
@@ -393,10 +371,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' This is `NULL` for empty [BenchmarkResult]s.
     task_type = function(rhs) {
       assert_ro_binding(rhs)
-      if (nrow(self$data) == 0L) {
+      if (nrow(self$data$fact) == 0L) {
         return(NULL)
       }
-      self$tasks$task[[1L]]$task_type
+      self$data$task_objs$task[[1L]]$task_type
     },
 
     #' @field tasks ([data.table::data.table()])\cr
@@ -407,7 +385,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `"task"` ([Task]).
     tasks = function(rhs) {
       assert_ro_binding(rhs)
-      env2tab(private$.tasks, "task")
+      tab = self$data$tasks[self$data$task_objs, on = "task_phash"]
+      set(tab, j = "task_id", value = ids(tab$task))
+      set(tab, j = "task", value = reassemble_tasks(task = tab$task, feature_names = tab$feature_names))
+      tab[, c("task_hash", "task_id", "task"), with = FALSE]
     },
 
     #' @field learners ([data.table::data.table()])\cr
@@ -422,7 +403,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Instead, select a row from the table returned by `$score()`.
     learners = function(rhs) {
       assert_ro_binding(rhs)
-      env2tab(private$.learners, "learner")
+      tab = self$data$learners[self$data$learner_objs, on = "learner_phash"]
+      set(tab, j = "learner_id", value = ids(tab$learner))
+      set(tab, j = "learner", value = reassemble_learners(learner = tab$learner, param_vals = tab$param_vals))
+      tab[, c("learner_hash", "learner_id", "learner"), with = FALSE]
     },
 
     #' @field resamplings ([data.table::data.table()])\cr
@@ -433,7 +417,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `"resampling"` ([Resampling]).
     resamplings = function(rhs) {
       assert_ro_binding(rhs)
-      env2tab(private$.resamplings, "resampling")
+      tab = copy(self$data$resamplings)
+      set(tab, j = "resampling_id", value = ids(tab$resampling))
+      setcolorder(tab, c("resampling_hash", "resampling_id", "resampling"))[]
     },
 
     #' @field resample_results ([data.table::data.table()])\cr
@@ -442,34 +428,34 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `iters` (`integer()`).
     #' * `resample_result` ([ResampleResult]).
     resample_results = function() {
-      bmr_resample_results(self)
+      uhashes = self$uhashes
+      rrs = lapply(uhashes, function(uhash) snowflake_rr_result(self$data, uhash))
+      data.table(
+        uhash = uhashes,
+        iters = map_int(rrs, function(rr) nrow(rr$data$fact)),
+        resample_result = rrs
+      )
     },
 
     #' @field n_resample_results (`integer(1)`)\cr
     #' Returns the total number of stored [ResampleResult]s.
     n_resample_results = function(rhs) {
       assert_ro_binding(rhs)
-      nrow(self$rr_data)
+      nrow(self$data$uhash)
     },
 
     #' @field uhashes (`character()`)\cr
     #' Set of (unique) hashes of all included [ResampleResult]s.
     uhashes = function(rhs) {
       assert_ro_binding(rhs)
-      self$rr_data$uhash
+      self$data$uhash$uhash
     }
   ),
 
   private = list(
-    .tasks = NULL,
-    .learners = NULL,
-    .resamplings = NULL,
-
     deep_clone = function(name, value) {
-      if (name %in% c(".tasks", ".learners", ".resamplings")) {
-        copy_r6_dict(value, clone = FALSE)
-      } else if (name %in% c("data", "rr_data")) {
-        copy(value)
+      if (name %in% "data") {
+        snowflake_copy(value)
       } else {
         value
       }
@@ -520,20 +506,4 @@ as_benchmark_result = function(x, ...) {
 #' @export
 as_benchmark_result.BenchmarkResult = function(x, ...) { # nolint
   x
-}
-
-bmr_resample_results = function(bmr, data = bmr$data) {
-  private = get_private(bmr)
-  task = learner = resampling = state = iteration = prediction = uhash = NULL
-
-  data[, list(
-    iters = .N,
-    resample_result = list(if (.N == 0L) NULL else ResampleResult$new(
-      task = private$.tasks[[task[1L]]],
-      learner = private$.learners[[learner[1L]]],
-      resampling = private$.resamplings[[resampling[1L]]],
-      states = state, iterations = iteration,
-      predictions = prediction, uhash = uhash[1L]
-    ))
-  ), by = "uhash"]
 }

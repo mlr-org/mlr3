@@ -464,9 +464,6 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
   checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
   checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
 
-  checkmate::expect_list(
-    unlist(rr$data$prediction, recursive = FALSE), types = "PredictionData", len = expected_iters
-  )
   checkmate::expect_list(rr$predictions(), types = "Prediction", len = expected_iters)
   expect_prediction(rr$prediction())
 }
@@ -475,7 +472,6 @@ expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", public = "data")
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
-  checkmate::expect_data_table(bmr$data, min.cols = length(mlr3::mlr_reflections$rr_names) + 1L)
   checkmate::expect_names(names(as.data.table(bmr)), must.include = c(mlr3::mlr_reflections$rr_names, "uhash"))
 
   tab = bmr$tasks

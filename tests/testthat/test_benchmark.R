@@ -1,11 +1,13 @@
 context("benchmark")
 
 tasks = mlr_tasks$mget(c("iris", "sonar"))
+tasks = c(tasks, list(tsk("iris")$select("Sepal.Length")))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = rsmp("cv", folds = 3)
 design = benchmark_grid(tasks, learners, resamplings)
 bmr = benchmark(design)
 
+bmr$rr_data
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)

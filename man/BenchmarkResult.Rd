@@ -70,15 +70,6 @@ rr$predictions()[[1]]$confusion
 Internal tabular representation of the data.
 Tasks, learners and resamplings are references by their hash.
 The referenced objects can be accessed via \verb{$tasks}, \verb{$learners} or \verb{$resamplings}, respectively.}
-
-\item{\code{rr_data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal data storage with one row per \link{ResampleResult}
-(instead of one row per resampling iteration as in \verb{$data}).
-
-Package develops may opt to add additional columns here.
-These columns are preserved in all mutators.
-
-Can be combined with \verb{$data} by (left) joining on the key column \code{"uhash"}.}
 }
 \if{html}{\out{</div>}}
 }

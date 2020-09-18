@@ -42,15 +42,6 @@ Internal data storage.
 We discourage users to directly work with this field.
 Use \code{as.table.table(ResampleResult)} instead.}
 
-\item{\code{task}}{(\link{Task})\cr
-The task \code{\link[=resample]{resample()}} operated on.}
-
-\item{\code{learner}}{(\link{Learner})\cr
-Untrained learner \code{\link[=resample]{resample()}} operated on.}
-
-\item{\code{resampling}}{(\link{Resampling})\cr
-Instantiated \link{Resampling} object which stores the splits into training and test.}
-
 \item{\code{uhash}}{(\code{character(1)})\cr
 Unique hash for this object.}
 }
@@ -59,6 +50,16 @@ Unique hash for this object.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{task}}{(\link{Task})\cr
+The task \code{\link[=resample]{resample()}} operated on.}
+
+\item{\code{learner}}{(\link{Learner})\cr
+Learner prototype \code{\link[=resample]{resample()}} operated on.
+For a list of \strong{trained} learners, see methods \verb{$learners()}.}
+
+\item{\code{resampling}}{(\link{Resampling})\cr
+Instantiated \link{Resampling} object which stores the splits into training and test.}
+
 \item{\code{learners}}{(list of \link{Learner})\cr
 List of trained learners, sorted by resampling iteration.}
 
@@ -103,7 +104,8 @@ An alternative construction method is provided by \code{\link[=as_resample_resul
   resampling,
   iterations,
   predictions,
-  uhash = NULL
+  uhash = NULL,
+  data = NULL
 )}\if{html}{\out{</div>}}
 }
 
