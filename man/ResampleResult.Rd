@@ -97,43 +97,14 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 An alternative construction method is provided by \code{\link[=as_resample_result]{as_resample_result()}}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$new(
-  task,
-  learner,
-  states,
-  resampling,
-  iterations,
-  predictions,
-  uhash = NULL,
-  data = NULL
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$new(data = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{task}}{(\link{Task})\cr
+\item{\code{data}}{(\link{FIXME})\cr
 Single task all learners are trained on.}
-
-\item{\code{learner}}{(\link{Learner})\cr
-Learner used to fit the individual models.}
-
-\item{\code{states}}{(\code{list()})\cr
-List of learner states (this includes the fitted models).}
-
-\item{\code{resampling}}{(\link{Resampling})\cr
-Instantiated resampling.
-Number of iterations (\code{resampling$iters}) must match the number of states.}
-
-\item{\code{iterations}}{(\code{integer()})\cr
-Iteration numbers.}
-
-\item{\code{predictions}}{(list of \link{Prediction})\cr
-List of prediction objects.}
-
-\item{\code{uhash}}{(\code{character(1)})\cr
-Unique hash for this \code{ResampleResult}. If \code{NULL}, a new unique hash is generated.
-This unique hash is primarily needed to group information in \link{BenchmarkResult}s.}
 }
 \if{html}{\out{</div>}}
 }

@@ -44,56 +44,16 @@ ResampleResult = R6Class("ResampleResult",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' An alternative construction method is provided by [as_resample_result()].
     #'
-    #' @param task ([Task])\cr
+    #' @param data ([FIXME])\cr
     #'   Single task all learners are trained on.
-    #' @param learner ([Learner])\cr
-    #'   Learner used to fit the individual models.
-    #' @param states (`list()`)\cr
-    #'   List of learner states (this includes the fitted models).
-    #' @param resampling ([Resampling])\cr
-    #'   Instantiated resampling.
-    #'   Number of iterations (`resampling$iters`) must match the number of states.
-    #' @param iterations (`integer()`)\cr
-    #'   Iteration numbers.
-    #' @param predictions (list of [Prediction])\cr
-    #'   List of prediction objects.
-    #' @param uhash (`character(1)`)\cr
-    #'   Unique hash for this `ResampleResult`. If `NULL`, a new unique hash is generated.
-    #'   This unique hash is primarily needed to group information in [BenchmarkResult]s.
-    initialize = function(task, learner, states, resampling, iterations, predictions, uhash = NULL, data = NULL) {
-      # TODO: add more assertions
-
+    initialize = function(data = NULL) {
       if (is.null(data)) {
-        #  manual construction
-        data = data.table(
-          task = list(task),
-          learner = list(learner),
-          state = states,
-          resampling = list(resampling),
-          iteration = iterations,
-          prediction = predictions,
-          uhash = uhash %??% UUIDgenerate()
-        )
-
-        self$data = as_snowflake(data)
-        # self$task = assert_task(task)
-        # self$learner = assert_learner(learner)
-        # self$resampling = assert_resampling(resampling)
-
-        # self$data = snowflake_init()
-
-        # self$data = data.table(
-        #   iteration = assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters),
-        #   state = assert_list(states, len = length(iterations)),
-        #   prediction = assert_list(predictions, len = length(iterations))
-        # )
-      } else if (inherits(data, "snowflake")) {
+        self$data = rdata_init()
+      } else if (inherits(data, "ResultData")) {
         self$data = data
       } else {
         assert_data_frame(data)
-        assert_names(names(data), must.include =
-          c("task", "learner", "resampling", "iteration", "uhash", "state", "prediction"))
-        self$data = as_snowflake(data)
+        self$data = rdata_from_table(data)
       }
     },
 
@@ -210,13 +170,11 @@ ResampleResult = R6Class("ResampleResult",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     filter = function(iters) {
-      iters = assert_integerish(iters, min.len = 1L, lower = 1L, upper = self$resampling$iters,
+      iters = assert_integerish(iters, lower = 1L, upper = self$resampling$iters,
         any.missing = FALSE, unique = TRUE, coerce = TRUE)
 
       self$data$fact = self$data$fact[list(iters), on = "iteration", nomatch = NULL]
-      if (nrow(self$data$fact) == 0L) {
-        self$data = snowflake_init()
-      }
+      self$data = rdata_sweep(self$data)
       invisible(self)
     }
   ),
@@ -226,14 +184,20 @@ ResampleResult = R6Class("ResampleResult",
     #' Unique hash for this object.
     uhash = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$uhash$uhash
+      if (nrow(self$data$fact))
+        unique(self$data$fact[, "uhash", with = FALSE], by = "uhash")[[1L]]
+      else
+        NA_character_
     },
 
     #' @field task ([Task])\cr
     #' The task [resample()] operated on.
     task = function(rhs) {
       assert_ro_binding(rhs)
-      reassemble_tasks(self$data$task_objs$task, self$data$tasks$feature_names)[[1L]]
+      tab = rdata_get_tasks(self$data, reassemble = TRUE)
+      if (nrow(tab) == 0L)
+        return(NULL)
+      tab$task[[1L]]
     },
 
     #' @field learner ([Learner])\cr
@@ -241,22 +205,27 @@ ResampleResult = R6Class("ResampleResult",
     #' For a list of **trained** learners, see methods `$learners()`.
     learner = function(rhs) {
       assert_ro_binding(rhs)
-      reassemble_learners(self$data$learner_objs$learner, param_vals = self$data$learners$param_vals)[[1L]]
+      tab = rdata_get_learners(self$data, reassemble = TRUE)
+      if (nrow(tab) == 0L)
+        return(NULL)
+      tab$learner[[1L]]
     },
 
     #' @field resampling ([Resampling])\cr
     #' Instantiated [Resampling] object which stores the splits into training and test.
     resampling = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$resamplings$resampling[[1L]]
+      tab = rdata_get_resamplings(self$data)
+      if (nrow(tab) == 0L)
+        return(NULL)
+      tab$resampling[[1L]]
     },
 
     #' @field learners (list of [Learner])\cr
     #' List of trained learners, sorted by resampling iteration.
     learners = function(rhs) {
       assert_ro_binding(rhs)
-      reassemble_learners(rep_len(self$data$learner_objs$learner, nrow(self$data$fact)),
-        states = self$data$fact$state, param_vals = self$data$learners$param_vals)
+      rdata_get_learners(self$data, reassemble = TRUE, states = TRUE)$learner
     },
 
     #' @field warnings ([data.table::data.table()])\cr
@@ -265,7 +234,7 @@ ResampleResult = R6Class("ResampleResult",
     #' Note that there can be multiple rows per resampling iteration if multiple warnings have been recorded.
     warnings = function(rhs) {
       assert_ro_binding(rhs)
-      logs = map(self$data$fact$state, function(s) list(msg = get_log_condition(s, "warning")))
+      logs = map(self$data$fact$learner_state, function(s) list(msg = get_log_condition(s, "warning")))
       rbindlist(logs, idcol = "iteration", use.names = TRUE)
     },
 
@@ -275,14 +244,14 @@ ResampleResult = R6Class("ResampleResult",
     #' Note that there can be multiple rows per resampling iteration if multiple errors have been recorded.
     errors = function(rhs) {
       assert_ro_binding(rhs)
-      logs = map(self$data$fact$state, function(s) list(msg = get_log_condition(s, "error")))
+      logs = map(self$data$fact$learner_state, function(s) list(msg = get_log_condition(s, "error")))
       rbindlist(logs, idcol = "iteration", use.names = TRUE)
     }
   ),
 
   private = list(
     deep_clone = function(name, value) {
-      if (name == "data") copy(value) else value
+      if (name == "data") rdata_copy(value) else value
     }
   )
 )
@@ -316,7 +285,5 @@ as_resample_result = function(x, ...) {
 #' @rdname as_benchmark_result
 #' @export
 as_benchmark_result.ResampleResult = function(x, ...) { # nolint
-  bmr = BenchmarkResult$new()
-  bmr$data = snowflake_copy(x$data)
-  bmr
+   BenchmarkResult$new(rdata_copy(x$data))
 }

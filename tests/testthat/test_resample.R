@@ -22,6 +22,11 @@ test_that("resample", {
   expect_resample_result(rr, allow_incomplete = TRUE)
 })
 
+test_that("empty RR", {
+  rr = ResampleResult$new()
+  expect_resample_result(rr)
+})
+
 test_that("resample with no or multiple measures", {
   task = tsk("iris")
   learner = lrn("classif.featureless")

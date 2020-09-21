@@ -90,7 +90,7 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     }
   }
 
-  sfd = data.table(
+  rdata = rdata_from_table(data.table(
     task = list(task),
     learner = list(learner),
     state = map(res, "learner_state"),
@@ -98,7 +98,7 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     iteration = seq_len(n),
     prediction = map(res, "prediction"),
     uhash = UUIDgenerate()
-  )
+  ))
 
-  ResampleResult$new(data = as_snowflake(sfd))
+  ResampleResult$new(data = rdata)
 }

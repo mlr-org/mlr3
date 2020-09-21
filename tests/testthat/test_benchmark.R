@@ -29,7 +29,7 @@ test_that("Basic benchmarking", {
   expect_data_table(tab, nrows = 2L, any.missing = FALSE)
   expect_names(names(tab), identical.to = c("learner_hash", "learner_id", "learner"))
   expect_hash(tab$learner_hash, len = 2L)
-  qexpectr(map(tab$learner, "state"), "0")
+  qexpectr(map(tab$learner, "state"), "0") # FIXME: states must be NULLed?
 
   tab = bmr$resamplings
   expect_data_table(tab, nrows = 3L, any.missing = FALSE)

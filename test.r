@@ -1,8 +1,10 @@
 devtools::load_all()
   task = tsk("iris")
   learner = lrn("classif.featureless")
-  resampling = rsmp("cv", folds = 3L)
+  resampling = rsmp("bootstrap", repeats = 100L)
   store_models = TRUE
+
+self = resample(task, learner, resampling)
 
   task = assert_task(as_task(task, clone = TRUE))
   learner = assert_learner(as_learner(learner, clone = TRUE))

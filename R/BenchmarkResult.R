@@ -45,7 +45,7 @@
 #' bmr$tasks
 #' bmr$learners
 #'
-#' # first 5 individual resamplings
+#' # first 5 resampling iterations
 #' head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 #'
 #' # aggregate results
@@ -60,6 +60,10 @@
 #'
 #' # access the confusion matrix of the first resampling iteration
 #' rr$predictions()[[1]]$confusion
+#'
+#' # reduce to subset with task id "sonar"
+#' bmr$filter(task_ids = "sonar")
+#' print(bmr)
 BenchmarkResult = R6Class("BenchmarkResult",
   public = list(
     #' @field data ([data.table::data.table()])\cr
@@ -84,17 +88,15 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #'   Column `"uhash"` is the unique hash of the corresponding [ResampleResult].
     #'   Additional columns are kept in the resulting object, but otherwise ignored by [BenchmarkResult].
-    initialize = function(data = data.table()) {
-      assert_data_table(data)
-      slots = c("uhash", mlr_reflections$rr_names, "state")
-      if (any(dim(data) == 0L)) {
-        data = data.table(uhash = character(), task = list(), learner = list(), state = list(),
-          resampling = list(), iteration = integer(), prediction = list())
+    initialize = function(data = NULL) {
+      if (is.null(data)) {
+        self$data = rdata_init()
+      } else if (inherits(data, "ResultData")) {
+        self$data = data
       } else {
-        assert_names(names(data), must.include = slots)
+        assert_data_frame(data)
+        self$data = rdata_from_table(data)
       }
-
-      self$data = as_snowflake(data)
     },
 
     #' @description
@@ -282,46 +284,36 @@ BenchmarkResult = R6Class("BenchmarkResult",
     filter = function(task_ids = NULL, task_hashes = NULL, learner_ids = NULL, learner_hashes = NULL,
       resampling_ids = NULL, resampling_hashes = NULL) {
 
-      filter_by_col = function(tab, column, values) {
-        # %in% preserves the key
-        self$data[[tab]] = self$data[[tab]][get(column) %in% values]
+      filter_if_not_null = function(column, hashes) {
+        if (is.null(hashes))
+          fact
+        else
+          fact[unique(hashes), on = column, nomatch = NULL]
       }
+
+      task_phashes = learner_phashes = NULL
 
       if (!is.null(task_ids)) {
-        assert_character(task_ids, any.missing = FALSE)
-        filter_by_col("tasks", "task_id", task_ids)
-      }
-
-      if (!is.null(task_hashes)) {
-        assert_character(task_ids, any.missing = FALSE)
-        filter_by_col("tasks", "task_hash", task_hashes)
+        task_phashes = self$data$tasks[ids(task) %in% task_ids, task_phash]
       }
 
       if (!is.null(learner_ids)) {
-        assert_character(learner_ids, any.missing = FALSE)
-        filter_by_col("learners", "learner_id", learner_ids)
-      }
-
-      if (!is.null(learner_hashes)) {
-        assert_character(learner_hashes, any.missing = FALSE)
-        filter_by_col("learners", "learner_hash", learner_hashes)
+        learner_phashes = self$data$learners[ids(learner) %in% learner_ids, learner_phash]
       }
 
       if (!is.null(resampling_ids)) {
-        assert_character(resampling_ids, any.missing = FALSE)
-        filter_by_col("resamplings", "resampling_id", resampling_ids)
+        resampling_hashes = union(resampling_hashes, self$data$resamplings[ids(resampling) %in% resampling_ids, resampling_hash])
       }
 
-      if (!is.null(resampling_hashes)) {
-        assert_character(resampling_hashes, any.missing = FALSE)
-        filter_by_col("resamplings", "resampling_hash", resamplings_hashes)
-      }
+      fact = self$data$fact
+      fact = filter_if_not_null("task_hash", task_hashes)
+      fact = filter_if_not_null("task_phash", task_phashes)
+      fact = filter_if_not_null("learner_hash", learner_hashes)
+      fact = filter_if_not_null("learner_phash", learner_phashes)
+      fact = filter_if_not_null("resampling_hash", resampling_hashes)
 
-      filter_by_col("task_objs", "task_phash", self$data$tasks$task_phash)
-      filter_by_col("learner_objs", "learner_phash", self$data$learners$learner_phash)
-      filter_by_col("uhash", "task_hash", self$data$tasks$task_hash)
-      filter_by_col("uhash", "learner_hash", self$data$learners$learner_hash)
-      filter_by_col("fact", "uhash", self$data$uhash$uhash)
+      self$data$fact = fact
+      self$data = rdata_sweep(self$data)
 
       invisible(self)
     },
@@ -350,7 +342,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
         needle = uhashes[i]
       }
 
-      snowflake_rr_result(self$data, needle)
+      rdata = rdata_subset(self$data, needle, temporary = FALSE)
+      ResampleResult$new(rdata)
     }
   ),
 
@@ -359,13 +352,13 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Task type of objects in the `BenchmarkResult`.
     #' All stored objects ([Task], [Learner], [Prediction]) in a single `BenchmarkResult` are
     #' required to have the same task type, e.g., `"classif"` or `"regr"`.
-    #' This is `NULL` for empty [BenchmarkResult]s.
+    #' This is `NA` for empty [BenchmarkResult]s.
     task_type = function(rhs) {
       assert_ro_binding(rhs)
       if (nrow(self$data$fact) == 0L) {
-        return(NULL)
+        return(NA_character_)
       }
-      self$data$task_objs$task[[1L]]$task_type
+      self$data$tasks$task[[1L]]$task_type
     },
 
     #' @field tasks ([data.table::data.table()])\cr
@@ -376,9 +369,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `"task"` ([Task]).
     tasks = function(rhs) {
       assert_ro_binding(rhs)
-      tab = self$data$tasks[self$data$task_objs, on = "task_phash"]
-      set(tab, j = "task", value = reassemble_tasks(tasks = tab$task, feature_names = tab$feature_names))
-      tab[, c("task_hash", "task_id", "task"), with = FALSE]
+
+      tab = rdata_get_tasks(self$data)
+      set(tab, j = "task_phash", value = NULL)
+      set(tab, j = "task_id", value = ids(tab$task))
+      setcolorder(tab, c("task_hash", "task_id", "task"))[]
     },
 
     #' @field learners ([data.table::data.table()])\cr
@@ -393,9 +388,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Instead, select a row from the table returned by `$score()`.
     learners = function(rhs) {
       assert_ro_binding(rhs)
-      tab = self$data$learners[self$data$learner_objs, on = "learner_phash"]
-      set(tab, j = "learner", value = reassemble_learners(learners = tab$learner, param_vals = tab$param_vals))
-      tab[, c("learner_hash", "learner_id", "learner"), with = FALSE]
+
+      tab = rdata_get_learners(self$data)
+      set(tab, j = "learner_phash", value = NULL)
+      set(tab, j = "learner_id", value = ids(tab$learner))
+      setcolorder(tab, c("learner_hash", "learner_id", "learner"))[]
     },
 
     #' @field resamplings ([data.table::data.table()])\cr
@@ -406,7 +403,9 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `"resampling"` ([Resampling]).
     resamplings = function(rhs) {
       assert_ro_binding(rhs)
-      tab = copy(self$data$resamplings)
+
+      tab = rdata_get_resamplings(self$data)
+      set(tab, j = "resampling_id", value = ids(tab$resampling))
       setcolorder(tab, c("resampling_hash", "resampling_id", "resampling"))[]
     },
 
@@ -415,9 +414,10 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' * `uhash` (`character()`).
     #' * `iters` (`integer()`).
     #' * `resample_result` ([ResampleResult]).
-    resample_results = function() {
+    resample_results = function(rhs) {
+      assert_ro_binding(rhs)
       uhashes = self$uhashes
-      rrs = lapply(uhashes, function(uhash) snowflake_rr_result(self$data, uhash))
+      rrs = lapply(uhashes, function(uhash) ResampleResult$new(rdata_subset(self$data, uhash, temporary = FALSE)))
       data.table(
         uhash = uhashes,
         iters = map_int(rrs, function(rr) nrow(rr$data$fact)),
@@ -429,21 +429,21 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Returns the total number of stored [ResampleResult]s.
     n_resample_results = function(rhs) {
       assert_ro_binding(rhs)
-      nrow(self$data$uhash)
+      uniqueN(self$data$fact, by = "uhash")
     },
 
     #' @field uhashes (`character()`)\cr
     #' Set of (unique) hashes of all included [ResampleResult]s.
     uhashes = function(rhs) {
       assert_ro_binding(rhs)
-      self$data$uhash$uhash
+      unique(self$data$fact[, "uhash", with = FALSE], by = "uhash")[[1L]]
     }
   ),
 
   private = list(
     deep_clone = function(name, value) {
       if (name %in% "data") {
-        snowflake_copy(value)
+        rdata_copy(value)
       } else {
         value
       }

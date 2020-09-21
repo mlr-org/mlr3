@@ -2,6 +2,10 @@ hashes = function(x) {
   map_chr(unname(x), "hash")
 }
 
+phashes = function(x) {
+  map_chr(unname(x), "phash")
+}
+
 hash = function(...) {
   dots = list(...)
   is_fun = map_lgl(dots, is.function)
