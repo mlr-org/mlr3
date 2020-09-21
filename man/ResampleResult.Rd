@@ -41,15 +41,15 @@ rr$errors
 Internal data storage.
 We discourage users to directly work with this field.
 Use \code{as.table.table(ResampleResult)} instead.}
-
-\item{\code{uhash}}{(\code{character(1)})\cr
-Unique hash for this object.}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{uhash}}{(\code{character(1)})\cr
+Unique hash for this object.}
+
 \item{\code{task}}{(\link{Task})\cr
 The task \code{\link[=resample]{resample()}} operated on.}
 

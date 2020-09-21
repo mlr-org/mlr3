@@ -15,8 +15,10 @@ test_that("resample", {
   expect_equal(uniqueN(hashes(learners)), 1L)
 
   rr$filter(2:3)
-  expect_data_table(rr$data, nrows = 2L)
-  expect_equal(rr$data$iteration, 2:3)
+  tab = as.data.table(rr)
+  expect_data_table(tab, nrows = 2L)
+  expect_data_table(tab, nrows = 2L)
+  expect_equal(tab$iteration, 2:3)
   expect_resample_result(rr, allow_incomplete = TRUE)
 })
 
@@ -44,7 +46,7 @@ test_that("as_benchmark_result.ResampleResult", {
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
   expect_equal(nrow(bmr$data), nrow(rr$data))
-  expect_set_equal(bmr$data$uhash, rr$uhash)
+  expect_set_equal(bmr$data$uhash$uhash, rr$uhash)
   aggr = bmr$aggregate()
   expect_data_table(aggr, nrows = 1)
   expect_set_equal(bmr$uhashes, rr$uhash)
@@ -77,11 +79,10 @@ test_that("memory footprint", {
   learner = lrn("classif.featureless")
   resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling)
-  x = as.data.table(rr)
 
-  expect_equal(uniqueN(map_chr(x$learner, address)), nrow(x))
-  expect_equal(uniqueN(map_chr(x$task, address)), 1L)
-  expect_equal(uniqueN(map_chr(x$resampling, address)), 1L)
+  expect_equal(uniqueN(map_chr(rr$data$learner_objs$learner, address)), 1L)
+  expect_equal(uniqueN(map_chr(rr$data$task_objs$task, address)), 1L)
+  expect_equal(uniqueN(map_chr(rr$data$resamplings$resampling, address)), 1L)
 })
 
 test_that("predict_type is checked", {

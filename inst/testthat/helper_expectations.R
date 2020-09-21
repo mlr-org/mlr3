@@ -446,6 +446,7 @@ expect_prediction_classif = function(p, task = NULL) {
 
 expect_resample_result = function(rr, allow_incomplete = FALSE) {
   checkmate::expect_r6(rr, "ResampleResult")
+  expect_snowflake(rr$data)
   testthat::expect_output(print(rr), "ResampleResult")
   expect_task(rr$task)
   lapply(rr$learners, expect_learner, task = rr$task)
@@ -470,9 +471,10 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
 
 expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", public = "data")
+  expect_snowflake(bmr$data)
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
-  checkmate::expect_names(names(as.data.table(bmr)), must.include = c(mlr3::mlr_reflections$rr_names, "uhash"))
+  checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "uhash"))
 
   tab = bmr$tasks
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -480,7 +482,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$task_hash)
   expect_id(tab$task_id)
   checkmate::expect_list(tab$task, "Task")
-  expect_set_equal(bmr$tasks$task_hash, bmr$data$task)
+  expect_set_equal(bmr$tasks$task_hash, bmr$data$tasks$task_hash)
 
   tab = bmr$learners
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -488,7 +490,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$learner_hash)
   expect_id(tab$learner_id)
   checkmate::expect_list(tab$learner, "Learner")
-  expect_set_equal(bmr$learners$learner_hash, bmr$data$learner)
+  expect_set_equal(bmr$learners$learner_hash, bmr$data$learners$learner_hash)
 
   tab = bmr$resamplings
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -496,7 +498,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$resampling_hash)
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
-  expect_set_equal(bmr$learners$learner_hash, bmr$data$learner)
+  expect_set_equal(bmr$resamplings$resampling_hash, bmr$data$resamplings$resampling_hash)
 
   measures = mlr3::default_measures(bmr$task_type)
   tab = bmr$aggregate(measures, ids = TRUE)
@@ -517,7 +519,7 @@ expect_benchmark_result = function(bmr) {
 
   uhashes = bmr$uhashes
   expect_uhash(uhashes, len = data.table::uniqueN(bmr$data$uhash))
-  testthat::expect_equal(uhashes, unique(bmr$data$uhash))
+  testthat::expect_equal(uhashes, unique(bmr$data$uhash$uhash))
 
   expect_equal(bmr$n_resample_results, length(uhashes))
 
@@ -527,5 +529,17 @@ expect_benchmark_result = function(bmr) {
   expect_integer(tab$iters)
   expect_list(tab$resample_result, types = "ResampleResult")
 
-  checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data) == 0L)
+  checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data$fact) == 0L)
+}
+
+expect_snowflake = function(sfd) {
+  expect_is(sfd, "snowflake")
+
+  expect_data_table(sfd$fact, key = "uhash")
+  expect_data_table(sfd$uhash, key = "uhash")
+  expect_data_table(sfd$tasks, key = "task_hash")
+  expect_data_table(sfd$learners, key = "learner_hash")
+  expect_data_table(sfd$resamplings, key = "resampling_hash")
+  expect_data_table(sfd$task_objs, key = "task_phash")
+  expect_data_table(sfd$learner_objs, key = "learner_phash")
 }

@@ -40,10 +40,6 @@ ResampleResult = R6Class("ResampleResult",
     data = NULL,
 
 
-    #' @field uhash (`character(1)`)\cr
-    #' Unique hash for this object.
-    uhash = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' An alternative construction method is provided by [as_resample_result()].
@@ -65,9 +61,7 @@ ResampleResult = R6Class("ResampleResult",
     #'   Unique hash for this `ResampleResult`. If `NULL`, a new unique hash is generated.
     #'   This unique hash is primarily needed to group information in [BenchmarkResult]s.
     initialize = function(task, learner, states, resampling, iterations, predictions, uhash = NULL, data = NULL) {
-      self$uhash = assert_string(uhash, null.ok = TRUE) %??% UUIDgenerate()
-      # TODO: handle uhash for all constructors,
-      # add more assertions
+      # TODO: add more assertions
 
       if (is.null(data)) {
         #  manual construction
@@ -78,9 +72,10 @@ ResampleResult = R6Class("ResampleResult",
           resampling = list(resampling),
           iteration = iterations,
           prediction = predictions,
-          uhash = self$uhash
+          uhash = uhash %??% UUIDgenerate()
         )
-        self$data = snowflake_fill(snowflake_init(), data)
+
+        self$data = as_snowflake(data)
         # self$task = assert_task(task)
         # self$learner = assert_learner(learner)
         # self$resampling = assert_resampling(resampling)
@@ -98,7 +93,7 @@ ResampleResult = R6Class("ResampleResult",
         assert_data_frame(data)
         assert_names(names(data), must.include =
           c("task", "learner", "resampling", "iteration", "uhash", "state", "prediction"))
-        self$data = snowflake_fill(snowflake_init(), data)
+        self$data = as_snowflake(data)
       }
     },
 
@@ -189,7 +184,7 @@ ResampleResult = R6Class("ResampleResult",
 
       # FIXME: inefficient
       # set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
-      tab[]
+      remove_named(tab, "uhash")
     },
 
     #' @description
@@ -227,6 +222,13 @@ ResampleResult = R6Class("ResampleResult",
   ),
 
   active = list(
+    #' @field uhash (`character(1)`)\cr
+    #' Unique hash for this object.
+    uhash = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$uhash$uhash
+    },
+
     #' @field task ([Task])\cr
     #' The task [resample()] operated on.
     task = function(rhs) {
@@ -286,8 +288,8 @@ ResampleResult = R6Class("ResampleResult",
 )
 
 #' @export
-as.data.table.ResampleResult = function(x, ..., predict_sets = "test") { # nolint
-  as.data.table(x$data, predict_sets = predict_sets)
+as.data.table.ResampleResult = function(x, ..., hashes = FALSE, predict_sets = "test") { # nolint
+  remove_named(as.data.table(x$data, hashes = FALSE, predict_sets = predict_sets), "uhash")
 }
 
 #' @export
@@ -315,5 +317,6 @@ as_resample_result = function(x, ...) {
 #' @export
 as_benchmark_result.ResampleResult = function(x, ...) { # nolint
   bmr = BenchmarkResult$new()
-  bmr$data = x$data
+  bmr$data = snowflake_copy(x$data)
+  bmr
 }

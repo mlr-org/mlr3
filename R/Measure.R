@@ -271,7 +271,8 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 score_measures = function(obj, measures) {
   reassemble_tasks = any(map_lgl(measures, function(m) "requires_task" %in% m$properties))
   reassemble_learners = any(map_lgl(measures, function(m) "requires_model" %in% m$properties))
-  tab = as.data.table(obj, reassemble_tasks = reassemble_tasks, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
+  tab = as.data.table(obj$data, hashes = FALSE, reassemble_tasks = reassemble_tasks,
+    reassemble_learners = reassemble_learners, convert_predictions = FALSE)
 
   for (measure in measures) {
     score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
