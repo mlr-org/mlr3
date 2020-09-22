@@ -241,6 +241,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   if (is.list(prediction)) {
     ii = match(measure$predict_sets, names(prediction))
     if (anyMissing(ii)) {
+      lg$debug("Predict sets not available for measure, returning NaN", measure = measure, predict_sets = names(prediction))
       return(NaN)
     }
     prediction = do.call(c, prediction[ii])
@@ -254,7 +255,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   }
 }
 
-#' @title Workhorse function to calculate a multiple scores
+#' @title Workhorse function to calculate multiple scores
 #'
 #' @description
 #' Converts `obj` from [ResampleResult] or [BenchmarkResult] to a `data.table`.

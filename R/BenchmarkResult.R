@@ -172,8 +172,6 @@ BenchmarkResult = R6Class("BenchmarkResult",
         setcolorder(tab, "nr")
       }
 
-      # FIXME: this already got converted
-      # set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
       tab[]
     },
 
