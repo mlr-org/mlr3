@@ -382,9 +382,9 @@ Task = R6Class("Task",
       )
     },
 
+    #' @template field_phash
     phash = function(rhs) {
       assert_ro_binding(rhs)
-      # FIXME: remove all col roles
       hash(
         class(self), self$id, self$backend$hash, self$col_info,
         private$.row_roles, private$.properties

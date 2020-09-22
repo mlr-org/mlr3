@@ -37,8 +37,8 @@ rr$errors
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal data storage.
+\item{\code{data}}{(\code{ResultData})\cr
+Internal data storage object of type \code{ResultData}.
 We discourage users to directly work with this field.
 Use \code{as.table.table(ResampleResult)} instead.}
 }
@@ -103,8 +103,9 @@ An alternative construction method is provided by \code{\link[=as_resample_resul
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{(\link{FIXME})\cr
-Single task all learners are trained on.}
+\item{\code{data}}{(\code{ResultData})\cr
+An object of type \code{ResultData}, either extracted from another \link{ResampleResult}, another
+\link{BenchmarkResult}, or manually constructed with \code{\link[=as_result_data]{as_result_data()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -161,13 +162,13 @@ with the aggregate function of the respective \link{Measure}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{predict_sets}}{(\code{character()})\cr
-Subset of \verb{\{"train", "test"\}}.}
+\item{\code{predict_sets}}{(\code{character()})\cr}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 \link{Prediction}.
+Subset of \verb{\{"train", "test"\}}.
 }
 }
 \if{html}{\out{<hr>}}

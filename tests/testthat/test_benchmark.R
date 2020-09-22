@@ -29,7 +29,7 @@ test_that("Basic benchmarking", {
   expect_data_table(tab, nrows = 2L, any.missing = FALSE)
   expect_names(names(tab), identical.to = c("learner_hash", "learner_id", "learner"))
   expect_hash(tab$learner_hash, len = 2L)
-  qexpectr(map(tab$learner, "state"), "0") # FIXME: states must be NULLed?
+  qexpectr(map(tab$learner, "state"), "0")
 
   tab = bmr$resamplings
   expect_data_table(tab, nrows = 3L, any.missing = FALSE)
@@ -96,8 +96,8 @@ test_that("bmr$combine()", {
 })
 
 test_that("empty bmr", {
-  bmr = BenchmarkResult$new()
-  expect_benchmark_result(bmr)
+  bmr_new = BenchmarkResult$new()
+  expect_benchmark_result(bmr_new)
 
   bmr_new$combine(NULL)
   expect_benchmark_result(bmr_new)
@@ -225,13 +225,13 @@ test_that("filter", {
   expect_data_table(bmr$data$fact, nrows = 16)
 
   bmr$filter(task_ids = "sonar")
-  expect_data_table(bmr$data, nrows = 8)
+  expect_data_table(bmr$data$fact, nrows = 8)
 
   bmr$filter(learner_ids = "classif.rpart")
-  expect_data_table(bmr$data, nrows = 4)
+  expect_data_table(bmr$data$fact, nrows = 4)
 
   bmr$filter(resampling_ids = "cv")
-  expect_data_table(bmr$data, nrows = 3)
+  expect_data_table(bmr$data$fact, nrows = 3)
 })
 
 test_that("parallelization works", {

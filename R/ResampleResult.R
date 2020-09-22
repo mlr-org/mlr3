@@ -33,8 +33,8 @@
 #' rr$errors
 ResampleResult = R6Class("ResampleResult",
   public = list(
-    #' @field data ([data.table::data.table()])\cr
-    #' Internal data storage.
+    #' @field data (`ResultData`)\cr
+    #' Internal data storage object of type `ResultData`.
     #' We discourage users to directly work with this field.
     #' Use `as.table.table(ResampleResult)` instead.
     data = NULL,
@@ -44,19 +44,17 @@ ResampleResult = R6Class("ResampleResult",
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' An alternative construction method is provided by [as_resample_result()].
     #'
-    #' @param data ([FIXME])\cr
-    #'   Single task all learners are trained on.
+    #' @param data (`ResultData`)\cr
+    #'   An object of type `ResultData`, either extracted from another [ResampleResult], another
+    #'   [BenchmarkResult], or manually constructed with [as_result_data()].
     initialize = function(data = NULL) {
       if (is.null(data)) {
         self$data = rdata_init()
-      } else if (inherits(data, "ResultData")) {
-        self$data = data
       } else {
-        assert_data_frame(data)
-        self$data = rdata_from_table(data)
+        self$data = assert_class(data, "ResultData")
       }
 
-      if (uniqueN(self$data$fact, by = "uhash") != 1L) {
+      if (uniqueN(self$data$fact, by = "uhash") > 1L) {
         stopf("Invalid data passed to ResampleResult$new()")
       }
     },

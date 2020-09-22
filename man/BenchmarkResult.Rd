@@ -70,10 +70,10 @@ print(bmr)
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal tabular representation of the data.
-Tasks, learners and resamplings are references by their hash.
-The referenced objects can be accessed via \verb{$tasks}, \verb{$learners} or \verb{$resamplings}, respectively.}
+\item{\code{data}}{(\code{ResultData})\cr
+Internal data storage object of type \code{ResultData}.
+We discourage users to directly work with this field.
+Use \code{as.table.table(BenchmarkResult)} instead.}
 }
 \if{html}{\out{</div>}}
 }
@@ -157,20 +157,9 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with data for one resampling iteration per row, with at least the following columns:
-\itemize{
-\item \code{"task"} (\link{Task}),
-\item \code{"learner"} (\link{Learner}),
-\item \code{"state"} (\code{list()}),
-\item \code{"resampling"} (\link{Resampling}),
-\item \code{"iteration"} (\code{integer()}),
-\item \code{"prediction"} (\link{PredictionData}), and
-\item \code{"uhash"} (\code{character()}).
-}
-
-Column \code{"uhash"} is the unique hash of the corresponding \link{ResampleResult}.
-Additional columns are kept in the resulting object, but otherwise ignored by \link{BenchmarkResult}.}
+\item{\code{data}}{(\code{ResultData})\cr
+An object of type \code{ResultData}, either extracted from another \link{ResampleResult}, another
+\link{BenchmarkResult}, or manually constructed with \code{\link[=as_result_data]{as_result_data()}}.}
 }
 \if{html}{\out{</div>}}
 }

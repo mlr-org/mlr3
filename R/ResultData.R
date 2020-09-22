@@ -1,3 +1,65 @@
+#' @title Manually construct an object of type ResultData
+#'
+#' @description
+#' This function allows to manually construct a [ResampleResult] or [BenchmarkResult] by combining
+#' the individual components to an object of class `ResultData`, mlr3's internal container object.
+#' A [ResampleResult] or [BenchmarkResult] can then be initialized with the returned object.
+#' Note that [ResampleResult]s can be converted to a [BenchmarkResult] with [as_benchmark_result()]
+#' and multiple [BenchmarkResult]s can be combined to a larger [BenchmarkResult].
+#'
+#' @param task ([Task]).
+#' @param learners (list of trained [Learner]s).
+#' @param resampling ([Resampling]).
+#' @param iterations (`integer()`).
+#' @param predictions (list of [Prediction]s).
+#' @param states (`list()`)\cr
+#'   Learner states. If not provided, the states of `learners` are automatically extracted.
+#'
+#' @return `ResultData` object which can be passed to the constructor of [ResampleResult].
+#' @export
+#' @examples
+#' task = tsk("iris")
+#' learner = lrn("classif.rpart")
+#' resampling = rsmp("cv", folds = 2)$instantiate(task)
+#' iterations = seq_len(resampling$iters)
+#'
+#' # manually train two learners.
+#' # store learners and predictions
+#' learners = list()
+#' predictions = list()
+#' for (i in iterations) {
+#'   l = learner$clone(deep = TRUE)
+#'   learners[[i]] = l$train(task, row_ids = resampling$train_set(i))
+#'   predictions[[i]] = l$predict(task, row_ids = resampling$test_set(i))
+#' }
+#'
+#' rdata = as_result_data(task, learners, resampling, iterations, predictions)
+#' ResampleResult$new(rdata)
+as_result_data = function(task, learners, resampling, iterations, predictions, states = NULL) {
+  assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters, unique = TRUE)
+  n = length(iterations)
+
+  assert_task(task)
+  assert_learners(learners, task = task)
+  assert_resampling(resampling, instantiated = TRUE)
+  predictions = lapply(predictions, as_prediction_data)
+  uhash = UUIDgenerate()
+
+  if (is.null(states)) {
+    states = map(learners, "state")
+  }
+
+  rdata_from_table(data.table(
+    task = list(task),
+    learner = learners,
+    state = states,
+    resampling = list(resampling),
+    iteration = iterations,
+    prediction = predictions,
+    uhash = uhash
+  ))
+}
+
 rdata_init = function() {
   fact = data.table(
     uhash = character(),
@@ -80,9 +142,8 @@ rdata_from_table = function(tab) {
     resampling_hash = hashes(resampling)
   )], c("uhash", "iteration"))
 
-  # reconstruct this for filtering?
   tasks = fact[, list(task = task[1L]), keyby = "task_phash"]
-  learners = fact[, list(learner = learner[1L]), keyby = "learner_phash"]
+  learners = fact[, list(learner = list(learner[[1L]]$clone(deep = TRUE)$reset())), keyby = "learner_phash"]
   resamplings = fact[, list(resampling = resampling[1L]), keyby = "resampling_hash"]
   task_components = fact[, list(task_feature_names = list(task[[1L]]$feature_names)), keyby = "task_hash"]
   learner_components = fact[, list(learner_param_vals = list(learner[[1L]]$param_set$values)), keyby = "learner_hash"]
@@ -167,7 +228,7 @@ rdata_sweep = function(rdata) {
 
 rdata_subset = function(fact, rdata) {
   assert_data_table(fact)
-  rdata$fact = fact
+  rdata$fact = copy(fact)
   rdata
 }
 
@@ -188,7 +249,7 @@ rdata_get_learners = function(rdata, reassemble = TRUE, states = FALSE) {
     tab = rdata$fact[, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
     tab = merge(tab, rdata$learners, by = "learner_phash", sort = FALSE)
     tab = merge(tab, rdata$learner_components, by = "learner_hash", sort = FALSE)
-    set(tab, j = "learner", value = reassemble_learners(tab$learner, tab$learner_param_vals, tab$learner_state))
+    set(tab, j = "learner", value = reassemble_learners(tab$learner, param_vals = tab$learner_param_vals, states = tab$learner_state))
     remove_named(tab, c("learner_state", "learner_param_vals"))
   } else {
     tab = unique(rdata$fact[, c("learner_hash", "learner_phash"), with = FALSE], by = "learner_hash")
@@ -196,7 +257,7 @@ rdata_get_learners = function(rdata, reassemble = TRUE, states = FALSE) {
 
     if (reassemble) {
       param_vals = rdata$learner_components[list(tab$learner_hash), get("learner_param_vals"), on = "learner_hash", nomatch = NULL]
-      set(tab, j = "learner", value = reassemble_learners(tab$learner, param_vals))
+      set(tab, j = "learner", value = reassemble_learners(tab$learner, param_vals = param_vals))
     }
   }
 

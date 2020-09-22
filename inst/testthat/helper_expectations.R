@@ -513,7 +513,7 @@ expect_benchmark_result = function(bmr) {
   checkmate::expect_list(tab$resampling, "Resampling")
   expect_set_equal(bmr$resamplings$resampling_hash, bmr$data$resamplings$resampling_hash)
 
-  if (nrow(bmr$data$fact)) {
+  if (nrow(bmr$data$fact) > 0L) {
     measures = mlr3::default_measures(bmr$task_type)
   } else {
     measures = mlr3::msrs("time_both")
@@ -531,7 +531,7 @@ expect_benchmark_result = function(bmr) {
     checkmate::expect_numeric(tab[[measure$id]], any.missing = FALSE)
   }
 
-  tab = bmr$aggregate(params = TRUE)
+  tab = bmr$aggregate(measures = measures, params = TRUE)
   checkmate::assert_list(tab$params)
 
   uhashes = bmr$uhashes
