@@ -8,7 +8,10 @@ test_that("resample", {
   rr = resample(task, learner, resampling, store_models = TRUE)
 
   expect_resample_result(rr)
-  expect_numeric(rr$score(msr("classif.ce"))$classif.ce, any.missing = FALSE)
+
+  scores = rr$score(msr("classif.ce"))
+  expect_list(scores$prediction, "Prediction")
+  expect_numeric(scores$classif.ce, any.missing = FALSE)
   expect_number(rr$aggregate(msr("classif.ce")))
   learners = rr$learners
   expect_different_address(learners[[1L]], learners[[2L]])

@@ -12,7 +12,7 @@
 #' @param resampling ([Resampling]).
 #' @param iterations (`integer()`).
 #' @param predictions (list of [Prediction]s).
-#' @param states (`list()`)\cr
+#' @param learner_states (`list()`)\cr
 #'   Learner states. If not provided, the states of `learners` are automatically extracted.
 #'
 #' @return `ResultData` object which can be passed to the constructor of [ResampleResult].
@@ -35,7 +35,7 @@
 #'
 #' rdata = as_result_data(task, learners, resampling, iterations, predictions)
 #' ResampleResult$new(rdata)
-as_result_data = function(task, learners, resampling, iterations, predictions, states = NULL) {
+as_result_data = function(task, learners, resampling, iterations, predictions, learner_states = NULL) {
   assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters, unique = TRUE)
   n = length(iterations)
 
@@ -45,14 +45,14 @@ as_result_data = function(task, learners, resampling, iterations, predictions, s
   predictions = lapply(predictions, as_prediction_data)
   uhash = UUIDgenerate()
 
-  if (is.null(states)) {
-    states = map(learners, "state")
+  if (is.null(learner_states)) {
+    learner_states = map(learners, "state")
   }
 
   rdata_from_table(data.table(
     task = list(task),
     learner = learners,
-    state = states,
+    learner_state = learner_states,
     resampling = list(resampling),
     iteration = iterations,
     prediction = predictions,
@@ -118,35 +118,25 @@ rdata_copy = function(rdata, exclude = character()) {
 
 rdata_from_table = function(tab) {
   assert_names(names(tab),
-    permutation.of = c("task", "learner", "state", "resampling", "iteration", "prediction", "uhash"))
+    permutation.of = c("task", "learner", "learner_state", "resampling", "iteration", "prediction", "uhash"))
 
   if (nrow(tab) == 0L) {
     return(rdata_init())
   }
 
-  # TODO: change character to factor?
-  fact = setkeyv(tab[, list(
-    uhash = uhash,
-    iteration = iteration,
-    learner_state = state,
-    prediction = prediction,
+  fact = tab[, c("uhash", "iteration", "learner_state", "prediction", "task", "learner", "resampling"), with = FALSE]
+  set(fact, j = "task_hash", value = hashes(fact$task))
+  set(fact, j = "task_phash", value = phashes(fact$task))
+  set(fact, j = "learner_hash", value = hashes(fact$learner))
+  set(fact, j = "learner_phash", value = phashes(fact$learner))
+  set(fact, j = "resampling_hash", value = hashes(fact$resampling))
+  setkeyv(fact, c("uhash", "iteration"))
 
-    task = task,
-    learner = learner,
-    resampling = resampling,
-
-    task_hash = hashes(task),
-    task_phash = phashes(task),
-    learner_hash = hashes(learner),
-    learner_phash = phashes(learner),
-    resampling_hash = hashes(resampling)
-  )], c("uhash", "iteration"))
-
-  tasks = fact[, list(task = task[1L]), keyby = "task_phash"]
-  learners = fact[, list(learner = list(learner[[1L]]$clone(deep = TRUE)$reset())), keyby = "learner_phash"]
-  resamplings = fact[, list(resampling = resampling[1L]), keyby = "resampling_hash"]
-  task_components = fact[, list(task_feature_names = list(task[[1L]]$feature_names)), keyby = "task_hash"]
-  learner_components = fact[, list(learner_param_vals = list(learner[[1L]]$param_set$values)), keyby = "learner_hash"]
+  tasks = fact[, list(task = .SD$task[1L]), keyby = "task_phash"]
+  learners = fact[, list(learner = list(.SD$learner[[1L]]$clone(deep = TRUE)$reset())), keyby = "learner_phash"]
+  resamplings = fact[, list(resampling = .SD$resampling[1L]), keyby = "resampling_hash"]
+  task_components = fact[, list(task_feature_names = list(.SD$task[[1L]]$feature_names)), keyby = "task_hash"]
+  learner_components = fact[, list(learner_param_vals = list(.SD$learner[[1L]]$param_set$values)), keyby = "learner_hash"]
 
   set(fact, j = "task", value = NULL)
   set(fact, j = "learner", value = NULL)
@@ -190,9 +180,10 @@ as.data.table.ResultData = function(x, ..., hashes = TRUE, reassemble_tasks = TR
   tab = merge(tab, x$learner_components, by = "learner_hash", sort = FALSE)
 
   if (nrow(tab)) {
-    # FIXME: do this before the merge
+    # FIXME: do this before the merge?
     if (reassemble_tasks) {
-      tab[, task := list(reassemble_tasks(task[1L], task_feature_names[1L])), by = "task_phash"]
+      tab[, "task" := list(reassemble_tasks(.SD$task[1L], .SD$task_feature_names[1L])),
+        by = "task_phash", .SDcols = c("task", "task_feature_names")]
     }
 
     if (reassemble_learners) {

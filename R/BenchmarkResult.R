@@ -172,6 +172,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
         setcolorder(tab, "nr")
       }
 
+      set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
+
       tab[]
     },
 
@@ -211,22 +213,22 @@ BenchmarkResult = R6Class("BenchmarkResult",
       tab = self$data$fact[, list(
         nr = .GRP,
         iters = .N,
-        task_hash = task_hash[1L],
-        task_phash = task_phash[1L],
-        learner_hash = learner_hash[1L],
-        learner_phash = learner_phash[1L],
-        resampling_hash = resampling_hash[1L],
+        task_hash = .SD$task_hash[1L],
+        task_phash = .SD$task_phash[1L],
+        learner_hash = .SD$learner_hash[1L],
+        learner_phash = .SD$learner_phash[1L],
+        resampling_hash = .SD$resampling_hash[1L],
         resample_result = list(ResampleResult$new(rdata_subset(.SD, self$data))),
         warnings = if (conditions) sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "warning"))) else NA_integer_,
         errors = if (conditions) sum(map_int(.SD$learner_state, function(s) sum(s$log$class == "error"))) else NA_integer_
       ), by = "uhash", .SDcols = names(self$data$fact)]
 
       if (ids) {
-        tab = merge(tab, self$data$tasks[, list(task_phash, task_id = ids(task))],
+        tab = merge(tab, self$data$tasks[, list(task_phash = .SD$task_phash, task_id = ids(.SD$task))],
           by = "task_phash", sort = FALSE)
-        tab = merge(tab, self$data$learners[, list(learner_phash, learner_id = ids(learner))],
+        tab = merge(tab, self$data$learners[, list(learner_phash = .SD$learner_phash, learner_id = ids(.SD$learner))],
           by = "learner_phash", sort = FALSE)
-        tab = merge(tab, self$data$resamplings[, list(resampling_hash, resampling_id = ids(resampling))],
+        tab = merge(tab, self$data$resamplings[, list(resampling_hash =.SD$resampling_hash, resampling_id = ids(.SD$resampling))],
           by = "resampling_hash", sort = FALSE)
       }
 
@@ -291,14 +293,17 @@ BenchmarkResult = R6Class("BenchmarkResult",
       task_phashes = learner_phashes = NULL
 
       if (!is.null(task_ids)) {
+        task = task_phash = NULL
         task_phashes = self$data$tasks[ids(task) %in% task_ids, task_phash]
       }
 
       if (!is.null(learner_ids)) {
+        learner = learner_phash = NULL
         learner_phashes = self$data$learners[ids(learner) %in% learner_ids, learner_phash]
       }
 
       if (!is.null(resampling_ids)) {
+        resampling = resampling_hash = NULL
         resampling_hashes = union(resampling_hashes, self$data$resamplings[ids(resampling) %in% resampling_ids, resampling_hash])
       }
 

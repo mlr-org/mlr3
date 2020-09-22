@@ -93,7 +93,7 @@ resample = function(task, learner, resampling, store_models = FALSE) {
   rdata = rdata_from_table(data.table(
     task = list(task),
     learner = list(learner),
-    state = map(res, "learner_state"),
+    learner_state = map(res, "learner_state"),
     resampling = list(instance),
     iteration = seq_len(n),
     prediction = map(res, "prediction"),

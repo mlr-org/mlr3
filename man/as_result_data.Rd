@@ -10,7 +10,7 @@ as_result_data(
   resampling,
   iterations,
   predictions,
-  states = NULL
+  learner_states = NULL
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ as_result_data(
 
 \item{predictions}{(list of \link{Prediction}s).}
 
-\item{states}{(\code{list()})\cr
+\item{learner_states}{(\code{list()})\cr
 Learner states. If not provided, the states of \code{learners} are automatically extracted.}
 }
 \value{

@@ -19,6 +19,7 @@ test_that("Basic benchmarking", {
   tab = bmr$score(measures, ids = FALSE)
   expect_data_table(tab, nrows = 18L, ncols = 6L + length(measures))
   expect_names(names(tab), must.include = c("nr", mlr_reflections$rr_names, ids(measures)))
+  expect_list(tab$prediction, "Prediction")
 
   tab = bmr$tasks
   expect_data_table(tab, nrows = 3L, any.missing = FALSE)

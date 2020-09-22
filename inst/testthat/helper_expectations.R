@@ -556,11 +556,11 @@ expect_benchmark_result = function(bmr) {
 expect_rdata = function(rdata) {
   expect_is(rdata, "ResultData")
 
-  proto = rdata_init()
+  proto = mlr3:::rdata_init()
   expect_set_equal(names(rdata), names(proto))
 
   for (nn in names(proto)) {
-    expect_data_table(rdata[[nn]], key = key(proto[[nn]]))
+    expect_data_table(rdata[[nn]], key = data.table::key(proto[[nn]]))
     expect_equal(names(rdata[[nn]]), names(proto[[nn]]))
   }
 }

@@ -144,8 +144,7 @@ ResampleResult = R6Class("ResampleResult",
             "iteration", "prediction"))
       }
 
-      # FIXME: inefficient
-      # set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
+      set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
       remove_named(tab, "uhash")
     },
 
