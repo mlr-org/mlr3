@@ -14,6 +14,9 @@
 #'   Set to `TRUE` if you want to further analyse the models or want to
 #'   extract information like variable importance.
 #'
+#' @param use_future (`logical(1)`)\cr
+#'  Enable parallelization via the \CRANpkg{future} package?
+#'
 #' @return [BenchmarkResult].
 #'
 #' @note
@@ -74,12 +77,13 @@
 #' ## Get the training set of the 2nd iteration of the featureless learner on iris
 #' rr = bmr$aggregate()[learner_id == "classif.featureless"]$resample_result[[1]]
 #' rr$resampling$train_set(2)
-benchmark = function(design, store_models = FALSE) {
+benchmark = function(design, store_models = FALSE, use_future = TRUE) {
   assert_data_frame(design, min.rows = 1L)
   assert_names(names(design), permutation.of = c("task", "learner", "resampling"))
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
   assert_flag(store_models)
+  assert_flag(use_future)
 
   # check for multiple task types
   task_types = unique(map_chr(design$task, "task_type"))
@@ -108,8 +112,8 @@ benchmark = function(design, store_models = FALSE) {
   lg$info("Benchmark with %i resampling iterations", n)
   pb = get_progressor(n)
 
-  if (use_future()) {
-    lg$debug("Running benchmark() asynchronously with %i iterations", n)
+  if (isNamespaceLoaded("future") && use_future) {
+    lg$debug("Running benchmark() via future with %i iterations", n)
 
     res = future.apply::future_mapply(workhorse,
       task = grid$task, learner = grid$learner, resampling = grid$resampling,

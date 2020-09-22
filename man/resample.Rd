@@ -4,7 +4,7 @@
 \alias{resample}
 \title{Resample a Learner on a Task}
 \usage{
-resample(task, learner, resampling, store_models = FALSE)
+resample(task, learner, resampling, store_models = FALSE, use_future = TRUE)
 }
 \arguments{
 \item{task}{(\link{Task}).}
@@ -17,6 +17,9 @@ resample(task, learner, resampling, store_models = FALSE)
 Keep the fitted model after the test set has been predicted?
 Set to \code{TRUE} if you want to further analyse the models or want to
 extract information like variable importance.}
+
+\item{use_future}{(\code{logical(1)})\cr
+Enable parallelization via the \CRANpkg{future} package?}
 }
 \value{
 \link{ResampleResult}.
@@ -38,6 +41,7 @@ This function can be parallelized with the \CRANpkg{future} package.
 One job is one resampling iteration, and all jobs are send to an apply function
 from \CRANpkg{future.apply} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
+The parallelization can be disabled by setting \code{use_future = FALSE}.
 }
 
 \section{Progress Bars}{

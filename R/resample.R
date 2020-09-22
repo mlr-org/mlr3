@@ -13,6 +13,9 @@
 #'   Keep the fitted model after the test set has been predicted?
 #'   Set to `TRUE` if you want to further analyse the models or want to
 #'   extract information like variable importance.
+#' @param use_future (`logical(1)`)\cr
+#'  Enable parallelization via the \CRANpkg{future} package?
+#'
 #' @return [ResampleResult].
 #'
 #'
@@ -52,12 +55,14 @@
 #' bmr1 = as_benchmark_result(rr)
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
-resample = function(task, learner, resampling, store_models = FALSE) {
+resample = function(task, learner, resampling, store_models = FALSE,
+  use_future = TRUE) {
   task = assert_task(as_task(task, clone = TRUE))
   learner = assert_learner(as_learner(learner, clone = TRUE))
   resampling = assert_resampling(as_resampling(resampling))
   assert_flag(store_models)
   assert_learnable(task, learner)
+  assert_flag(use_future)
 
   instance = resampling$clone(deep = TRUE)
   if (!instance$is_instantiated) {
@@ -66,7 +71,7 @@ resample = function(task, learner, resampling, store_models = FALSE) {
   n = instance$iters
   pb = get_progressor(n)
 
-  if (use_future()) {
+  if (isNamespaceLoaded("future") && use_future) {
     lg$debug("Running resample() via future with %i iterations", n)
 
     res = future.apply::future_lapply(seq_len(n), workhorse,

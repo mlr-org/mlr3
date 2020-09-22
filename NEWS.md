@@ -1,5 +1,7 @@
 # mlr3 0.7.0
 
+* Parallelization via the `future` package can be disabled via the `use_future`
+  flag in `resample()` and `benchmark()`.
 * Updated properties of featureless learners to apply it on all feature types
   (did not work on POSIXct columns).
 

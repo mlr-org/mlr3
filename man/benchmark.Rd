@@ -4,7 +4,7 @@
 \alias{benchmark}
 \title{Benchmark Multiple Learners on Multiple Tasks}
 \usage{
-benchmark(design, store_models = FALSE)
+benchmark(design, store_models = FALSE, use_future = TRUE)
 }
 \arguments{
 \item{design}{(\code{\link[=data.frame]{data.frame()}})\cr
@@ -17,6 +17,9 @@ instantiate the \link{Resampling}s per \link{Task}.}
 Keep the fitted model after the test set has been predicted?
 Set to \code{TRUE} if you want to further analyse the models or want to
 extract information like variable importance.}
+
+\item{use_future}{(\code{logical(1)})\cr
+Enable parallelization via the \CRANpkg{future} package?}
 }
 \value{
 \link{BenchmarkResult}.
@@ -35,6 +38,7 @@ This function can be parallelized with the \CRANpkg{future} package.
 One job is one resampling iteration, and all jobs are send to an apply function
 from \CRANpkg{future.apply} in a single batch.
 To select a parallel backend, use \code{\link[future:plan]{future::plan()}}.
+The parallelization can be disabled by setting \code{use_future = FALSE}.
 }
 
 \section{Progress Bars}{

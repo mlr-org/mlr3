@@ -1,8 +1,3 @@
-# determines if execution via future will be running locally or remotely
-use_future = function() {
-  isNamespaceLoaded("future") && !inherits(future::plan(), "uniprocess")
-}
-
 get_rng_state = function() {
   list(seed = get_seed(), kind = RNGkind())
 }

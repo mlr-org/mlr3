@@ -4,3 +4,4 @@
 #' One job is one resampling iteration, and all jobs are send to an apply function
 #' from \CRANpkg{future.apply} in a single batch.
 #' To select a parallel backend, use [future::plan()].
+#' The parallelization can be disabled by setting `use_future = FALSE`.

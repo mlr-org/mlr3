@@ -61,3 +61,33 @@ test_that("parallel seed", {
   })
   expect_equal(rr1$prediction()$prob, rr2$prediction()$prob)
 })
+
+test_that("use_future flag", {
+  skip_if_not_installed("future.callr")
+
+  with_future(future::multiprocess, {
+    task = tsk("iris")
+    learner = lrn("classif.debug")
+    resampling = rsmp("cv", folds = 3)
+
+    rr = resample(task, learner, resampling, store_models = TRUE,
+      use_future = TRUE)
+    pid = map(rr$data$state, function(x) {
+      x$model$pid
+    })
+    expect_false(any(duplicated(pid)))
+    })
+
+  with_future(future::multiprocess, {
+    task = tsk("iris")
+    learner = lrn("classif.debug")
+    resampling = rsmp("cv", folds = 3)
+
+    rr = resample(task, learner, resampling, store_models = TRUE,
+      use_future = FALSE)
+    pid = map(rr$data$state, function(x) {
+      x$model$pid
+    })
+    expect_equal(length(unique(pid)), 1)
+  })
+})
