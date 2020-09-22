@@ -183,11 +183,11 @@ as.data.table.ResultData = function(x, ..., hashes = TRUE, reassemble_tasks = TR
     # FIXME: do this before the merge?
     if (reassemble_tasks) {
       tab[, "task" := list(reassemble_tasks(.SD$task[1L], .SD$task_feature_names[1L])),
-        by = "task_phash", .SDcols = c("task", "task_feature_names")]
+        by = "task_hash", .SDcols = c("task", "task_feature_names")]
     }
 
     if (reassemble_learners) {
-      set(tab, j = "learner", value = reassemble_learners(tab$learner, tab$learner_state, tab$learner_param_vals))
+      set(tab, j = "learner", value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
     }
 
     if (convert_predictions) {
@@ -240,7 +240,7 @@ rdata_get_learners = function(rdata, reassemble = TRUE, states = FALSE) {
     tab = rdata$fact[, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
     tab = merge(tab, rdata$learners, by = "learner_phash", sort = FALSE)
     tab = merge(tab, rdata$learner_components, by = "learner_hash", sort = FALSE)
-    set(tab, j = "learner", value = reassemble_learners(tab$learner, param_vals = tab$learner_param_vals, states = tab$learner_state))
+    set(tab, j = "learner", value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
     remove_named(tab, c("learner_state", "learner_param_vals"))
   } else {
     tab = unique(rdata$fact[, c("learner_hash", "learner_phash"), with = FALSE], by = "learner_hash")

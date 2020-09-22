@@ -141,6 +141,7 @@ test_that("memory footprint", {
 
   x = as.data.table(bmr)
   expect_equal(uniqueN(map_chr(x$task, address)), 3L)
+  expect_equal(uniqueN(map_chr(x$learner, address)), 18L)
   expect_equal(uniqueN(map_chr(x$resampling, address)), 3L)
 })
 
@@ -191,6 +192,11 @@ test_that("extract params", {
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
   expect_list(aggr$params[[2]], names = "unique", len = 2L)
   expect_list(aggr$params[[3]], names = "unique", len = 1L)
+
+  scores = bmr$score()
+  pvs = map(scores$learner, function(l) l$param_set$values)
+  expect_true(all(sapply(split(lengths(pvs), scores$nr), uniqueN) == 1))
+  expect_set_equal(lengths(pvs), 0:2)
 
   # only one params
   lrns = mlr_learners$mget("classif.featureless")
