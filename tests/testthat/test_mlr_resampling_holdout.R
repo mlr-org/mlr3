@@ -25,3 +25,19 @@ test_that("grouping", {
   r = rsmp("holdout")
   expect_grouping_works(r)
 })
+
+test_that("prediction does not drop dimension (#551)", {
+  task = tsk("iris")
+  learner = lrn("classif.rpart")
+  resampling = rsmp("holdout")
+  resampling$instantiate(task)
+
+  design = data.table(
+    learner = list(learner),
+    task = list(task),
+    resampling = list(resampling)
+  )
+
+  bmr = benchmark(design)
+  expect_number(bmr$aggregate(msr("classif.ce"))[["classif.ce"]])
+})
