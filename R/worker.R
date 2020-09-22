@@ -213,7 +213,7 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
     lg$debug("Creating Prediction for predict set '%s'", set)
     learner_predict(learner, task, row_ids)
   }, set = names(sets), row_ids = sets)
-  pdatas = pdatas[!vapply(pdatas, is.null, NA)]
+  pdatas = discard(pdatas, is.null)
 
   if (!store_models) {
     lg$debug("Erasing stored model for learner '%s'", learner$id)

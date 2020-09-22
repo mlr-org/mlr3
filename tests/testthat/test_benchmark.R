@@ -40,6 +40,8 @@ test_that("Basic benchmarking", {
   expect_data_table(tab, nrows = 6L)
   expect_names(names(tab), type = "unique",
     identical.to = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters", ids(measures)))
+  m = measures[[1L]]
+  expect_numeric(tab[[m$id]], any.missing = FALSE, lower = m$range[1], upper = m$range[2])
 })
 
 test_that("ResampleResult / hash", {
