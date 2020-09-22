@@ -39,6 +39,8 @@ test_that("Basic benchmarking", {
   tab = bmr$aggregate(measures)
   expect_data_table(tab, nrows = 4L)
   expect_names(names(tab), type = "unique", must.include = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", ids(measures)))
+  m = measures[[1L]]
+  expect_numeric(tab[[m$id]], any.missing = FALSE, lower = m$range[1], upper = m$range[2])
 })
 
 test_that("ResampleResult / hash", {
