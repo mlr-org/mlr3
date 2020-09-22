@@ -55,6 +55,10 @@ ResampleResult = R6Class("ResampleResult",
         assert_data_frame(data)
         self$data = rdata_from_table(data)
       }
+
+      if (uniqueN(self$data$fact, by = "uhash") != 1L) {
+        stopf("Invalid data passed to ResampleResult$new()")
+      }
     },
 
     #' @description
@@ -91,8 +95,8 @@ ResampleResult = R6Class("ResampleResult",
     #' with the aggregate function of the respective [Measure].
     #'
     #' @param predict_sets (`character()`)\cr
-    #'   Subset of `{"train", "test"}`.
     #' @return [Prediction].
+    #'   Subset of `{"train", "test"}`.
     prediction = function(predict_sets = "test") {
       do.call(c, self$predictions(predict_sets = predict_sets))
     },

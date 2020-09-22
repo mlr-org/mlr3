@@ -58,16 +58,17 @@ test_that("ResampleResult / hash", {
 
 
 test_that("discarding model", {
-  bmr2 = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings))
+  bmr2 = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings), store_models = FALSE)
   expect_benchmark_result(bmr2)
   expect_true(every(map(as.data.table(bmr2)$learner, "model"), is.null))
+
   bmr2 = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings), store_models = TRUE)
+  expect_benchmark_result(bmr2)
   expect_false(every(map(as.data.table(bmr2)$learner, "model"), is.null))
 })
 
 test_that("bmr$combine()", {
   bmr_new = benchmark(benchmark_grid(mlr_tasks$mget("pima"), learners, resamplings))
-  expect_benchmark_result(bmr_new)
 
   combined = list(
     bmr$clone(deep = TRUE)$combine(bmr_new),
@@ -95,8 +96,8 @@ test_that("bmr$combine()", {
 })
 
 test_that("empty bmr", {
-  bmr_new = BenchmarkResult$new()
-  expect_benchmark_result(bmr_new)
+  bmr = BenchmarkResult$new()
+  expect_benchmark_result(bmr)
 
   bmr_new$combine(NULL)
   expect_benchmark_result(bmr_new)

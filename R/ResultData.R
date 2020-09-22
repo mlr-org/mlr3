@@ -59,7 +59,7 @@ rdata_from_table = function(tab) {
     permutation.of = c("task", "learner", "state", "resampling", "iteration", "prediction", "uhash"))
 
   if (nrow(tab) == 0L) {
-    return(rd_init())
+    return(rdata_init())
   }
 
   # TODO: change character to factor?
@@ -95,7 +95,7 @@ rdata_from_table = function(tab) {
     task_components = task_components, learner_components = learner_components), "ResultData")
 }
 
-rd_append = function(x, y) {
+rdata_append = function(x, y) {
   assert_class(x, "ResultData")
   assert_class(y, "ResultData")
 
@@ -135,7 +135,7 @@ as.data.table.ResultData = function(x, ..., hashes = TRUE, reassemble_tasks = TR
     }
 
     if (reassemble_learners) {
-      set(tab, j = "learner", value = reassemble_learners(tab$learner, tab$state, tab$param_vals))
+      set(tab, j = "learner", value = reassemble_learners(tab$learner, tab$learner_state, tab$learner_param_vals))
     }
 
     if (convert_predictions) {
@@ -165,19 +165,10 @@ rdata_sweep = function(rdata) {
   return(rdata)
 }
 
-
-rdata_subset = function(rdata, needle, temporary = TRUE) {
-  if (!temporary) {
-    rdata = rdata_copy(rdata, exclude = "fact")
-  }
-
-  fact = rdata$fact[list(needle), on = "uhash"]
-
-  if (!temporary) {
-    rdata = rdata_sweep(rdata)
-  }
-
-  return(rdata)
+rdata_subset = function(fact, rdata) {
+  assert_data_table(fact)
+  rdata$fact = fact
+  rdata
 }
 
 rdata_get_tasks = function(rdata, reassemble = TRUE) {
@@ -217,9 +208,3 @@ rdata_get_resamplings = function(rdata) {
   tab = merge(tab, rdata$resamplings, by = "resampling_hash", sort = FALSE)
   return(tab)
 }
-
-##' @export
-#print.snowflake = function(x, ...) {
-#  catf("List of relational data tables")
-#  catf("%i iterations, ") ...
-#}

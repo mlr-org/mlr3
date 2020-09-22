@@ -60,6 +60,4 @@ if (FALSE) {
   self$aggregate()
   expect_resample_result(self)
 
-
-  snowflake_append(self$data, self$data)
 }

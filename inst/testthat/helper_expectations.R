@@ -513,10 +513,14 @@ expect_benchmark_result = function(bmr) {
   checkmate::expect_list(tab$resampling, "Resampling")
   expect_set_equal(bmr$resamplings$resampling_hash, bmr$data$resamplings$resampling_hash)
 
-  measures = mlr3::default_measures(bmr$task_type)
+  if (nrow(bmr$data$fact)) {
+    measures = mlr3::default_measures(bmr$task_type)
+  } else {
+    measures = mlr3::msrs("time_both")
+  }
   tab = bmr$aggregate(measures, ids = TRUE)
   checkmate::expect_data_table(tab, min.cols = 5L + length(measures))
-  checkmate::expect_names(names(tab), must.include = c("nr", "resample_result", "resampling_id", "task_id", "learner_id", "resampling_id", mlr3misc::map_chr(measures, "id")))
+  checkmate::expect_names(names(tab), must.include = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters", mlr3misc::map_chr(measures, "id")))
   testthat::expect_equal(tab$nr, seq_len(nrow(tab)))
   checkmate::expect_list(tab$resample_result, "ResampleResult")
   expect_id(tab$task_id)
@@ -542,7 +546,11 @@ expect_benchmark_result = function(bmr) {
   expect_integer(tab$iters)
   expect_list(tab$resample_result, types = "ResampleResult")
 
-  checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data$fact) == 0L)
+  if (nrow(bmr$data$fact)) {
+    checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data$fact) == 0L)
+  } else {
+    testthat::expect_equal(bmr$task_type, NA_character_)
+  }
 }
 
 expect_rdata = function(rdata) {

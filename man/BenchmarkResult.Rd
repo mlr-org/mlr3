@@ -47,7 +47,7 @@ print(bmr)
 bmr$tasks
 bmr$learners
 
-# first 5 individual resamplings
+# first 5 resampling iterations
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 
 # aggregate results
@@ -62,6 +62,10 @@ print(rr)
 
 # access the confusion matrix of the first resampling iteration
 rr$predictions()[[1]]$confusion
+
+# reduce to subset with task id "sonar"
+bmr$filter(task_ids = "sonar")
+print(bmr)
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -80,7 +84,7 @@ The referenced objects can be accessed via \verb{$tasks}, \verb{$learners} or \v
 Task type of objects in the \code{BenchmarkResult}.
 All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are
 required to have the same task type, e.g., \code{"classif"} or \code{"regr"}.
-This is \code{NULL} for empty \link{BenchmarkResult}s.}
+This is \code{NA} for empty \link{BenchmarkResult}s.}
 
 \item{\code{tasks}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Table of included \link{Task}s with three columns:
@@ -147,7 +151,7 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$new(data = data.table())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$new(data = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
