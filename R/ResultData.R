@@ -211,7 +211,7 @@ rdata_sweep = function(rdata) {
     tab = rdata[[nn]]
     keycol = key(tab)
     y = unique(fact[, keycol, with = FALSE], by = keycol)
-    rdata[[nn]] = merge(tab, y, by = keycol)
+    rdata[[nn]] = merge(tab, y, by = keycol, sort = TRUE)
   }
 
   return(rdata)

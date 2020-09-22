@@ -237,7 +237,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       if (params) {
-        tab = merge(tab, self$data$learner_components, by = "learner_hash")
+        tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = FALSE)
         setnames(tab, "learner_param_vals", "params")
       }
 
