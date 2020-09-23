@@ -37,28 +37,29 @@ rr$errors
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal data storage.
+\item{\code{data}}{(\code{ResultData})\cr
+Internal data storage object of type \code{ResultData}.
 We discourage users to directly work with this field.
 Use \code{as.table.table(ResampleResult)} instead.}
-
-\item{\code{task}}{(\link{Task})\cr
-The task \code{\link[=resample]{resample()}} operated on.}
-
-\item{\code{learner}}{(\link{Learner})\cr
-Untrained learner \code{\link[=resample]{resample()}} operated on.}
-
-\item{\code{resampling}}{(\link{Resampling})\cr
-Instantiated \link{Resampling} object which stores the splits into training and test.}
-
-\item{\code{uhash}}{(\code{character(1)})\cr
-Unique hash for this object.}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{uhash}}{(\code{character(1)})\cr
+Unique hash for this object.}
+
+\item{\code{task}}{(\link{Task})\cr
+The task \code{\link[=resample]{resample()}} operated on.}
+
+\item{\code{learner}}{(\link{Learner})\cr
+Learner prototype \code{\link[=resample]{resample()}} operated on.
+For a list of \strong{trained} learners, see methods \verb{$learners()}.}
+
+\item{\code{resampling}}{(\link{Resampling})\cr
+Instantiated \link{Resampling} object which stores the splits into training and test.}
+
 \item{\code{learners}}{(list of \link{Learner})\cr
 List of trained learners, sorted by resampling iteration.}
 
@@ -96,42 +97,15 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 An alternative construction method is provided by \code{\link[=as_resample_result]{as_resample_result()}}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$new(
-  task,
-  learner,
-  states,
-  resampling,
-  iterations,
-  predictions,
-  uhash = NULL
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$new(data = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{task}}{(\link{Task})\cr
-Single task all learners are trained on.}
-
-\item{\code{learner}}{(\link{Learner})\cr
-Learner used to fit the individual models.}
-
-\item{\code{states}}{(\code{list()})\cr
-List of learner states (this includes the fitted models).}
-
-\item{\code{resampling}}{(\link{Resampling})\cr
-Instantiated resampling.
-Number of iterations (\code{resampling$iters}) must match the number of states.}
-
-\item{\code{iterations}}{(\code{integer()})\cr
-Iteration numbers.}
-
-\item{\code{predictions}}{(list of \link{Prediction})\cr
-List of prediction objects.}
-
-\item{\code{uhash}}{(\code{character(1)})\cr
-Unique hash for this \code{ResampleResult}. If \code{NULL}, a new unique hash is generated.
-This unique hash is primarily needed to group information in \link{BenchmarkResult}s.}
+\item{\code{data}}{(\code{ResultData})\cr
+An object of type \code{ResultData}, either extracted from another \link{ResampleResult}, another
+\link{BenchmarkResult}, or manually constructed with \code{\link[=as_result_data]{as_result_data()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -188,13 +162,13 @@ with the aggregate function of the respective \link{Measure}.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{predict_sets}}{(\code{character()})\cr
-Subset of \verb{\{"train", "test"\}}.}
+\item{\code{predict_sets}}{(\code{character()})\cr}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 \link{Prediction}.
+Subset of \verb{\{"train", "test"\}}.
 }
 }
 \if{html}{\out{<hr>}}

@@ -2,6 +2,10 @@ hashes = function(x) {
   map_chr(unname(x), "hash")
 }
 
+phashes = function(x) {
+  map_chr(unname(x), "phash")
+}
+
 hash = function(...) {
   dots = list(...)
   is_fun = map_lgl(dots, is.function)
@@ -51,4 +55,10 @@ fget = function(tab, i, j, key = key(tab)) {
       tab[[j]][match(i, table, nomatch = 0L)]
     }
   }
+}
+
+deframe = function(tab) {
+  values = tab[[2L]]
+  names(values) = tab[[1L]]
+  values
 }

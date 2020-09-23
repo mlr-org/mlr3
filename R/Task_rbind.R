@@ -45,7 +45,7 @@ task_rbind = function(backend, task) {
 
   # merge col infos
   tab = merge(task$col_info, col_info(backend), by = "id",
-    all.x = TRUE, all.y = FALSE, suffixes = c("", ".y"))
+    all.x = TRUE, all.y = FALSE, suffixes = c("", ".y"), sort = TRUE)
   levels = levels.y = type = type.y = NULL
 
   # type check

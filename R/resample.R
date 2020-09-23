@@ -90,13 +90,15 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     }
   }
 
-  ResampleResult$new(
-    task = task,
-    learner = learner,
-    states = map(res, "learner_state"),
-    resampling = instance,
-    iterations = seq_len(n),
-    predictions = map(res, "prediction"),
-    uhash = NULL
-  )
+  rdata = rdata_from_table(data.table(
+    task = list(task),
+    learner = list(learner),
+    learner_state = map(res, "learner_state"),
+    resampling = list(instance),
+    iteration = seq_len(n),
+    prediction = map(res, "prediction"),
+    uhash = UUIDgenerate()
+  ))
+
+  ResampleResult$new(data = rdata)
 }
