@@ -40,7 +40,12 @@ Authors@R:
       person(given = "Martin",
              family = "Binder",
              role = "aut",
-             email = "mlr.developer@mb706.com"))
+             email = "mlr.developer@mb706.com")),
+      person(given = "Marc",
+             family = "Becker",
+             role = "ctb",
+             email = "marcbecker@posteo.de",
+             comment = c(ORCID = "0000-0002-8115-0400")))
 Description: Efficient, object-oriented programming on the
     building blocks of machine learning. Provides 'R6' objects for tasks,
     learners, resamplings, and measures. The package is geared towards
@@ -171,7 +176,6 @@ Collate:
     'fix_factor_levels.R'
     'helper.R'
     'helper_R6.R'
-    'helper_future.R'
     'mlr_coercions.R'
     'mlr_sugar.R'
     'predict.R'

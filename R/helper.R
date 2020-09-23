@@ -57,8 +57,10 @@ fget = function(tab, i, j, key = key(tab)) {
   }
 }
 
-deframe = function(tab) {
-  values = tab[[2L]]
-  names(values) = tab[[1L]]
-  values
+get_progressor = function(n, label = NA_character_) {
+  if (!isNamespaceLoaded("progressr")) {
+    return(NULL)
+  }
+
+  progressr::progressor(steps = n, label = label)
 }
