@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate a Benchmark Grid Design — benchmark_grid • mlr3</title>
+<title>Manually construct an object of type ResultData — as_result_data • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,11 +53,12 @@
 
 
 
-<meta property="og:title" content="Generate a Benchmark Grid Design — benchmark_grid" />
-<meta property="og:description" content="Takes a lists of Task, a list of Learner and a list of Resampling to
-generate a design in an expand.grid() fashion (a.k.a. cross join or Cartesian product).
-Resampling strategies are not allowed to be instantiated when passing the argument, and instead will be instantiated per task internally.
-The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks." />
+<meta property="og:title" content="Manually construct an object of type ResultData — as_result_data" />
+<meta property="og:description" content="This function allows to manually construct a ResampleResult or BenchmarkResult by combining
+the individual components to an object of class ResultData, mlr3's internal container object.
+A ResampleResult or BenchmarkResult can then be initialized with the returned object.
+Note that ResampleResults can be converted to a BenchmarkResult with as_benchmark_result()
+and multiple BenchmarkResults can be combined to a larger BenchmarkResult." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -157,64 +158,85 @@ The only exception to this rule applies if all tasks have exactly the same numbe
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate a Benchmark Grid Design</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/benchmark_grid.R'><code>R/benchmark_grid.R</code></a></small>
-    <div class="hidden name"><code>benchmark_grid.Rd</code></div>
+    <h1>Manually construct an object of type ResultData</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/ResultData.R'><code>R/ResultData.R</code></a></small>
+    <div class="hidden name"><code>as_result_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Takes a lists of <a href='Task.html'>Task</a>, a list of <a href='Learner.html'>Learner</a> and a list of <a href='Resampling.html'>Resampling</a> to
-generate a design in an <code><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid()</a></code> fashion (a.k.a. cross join or Cartesian product).</p>
-<p>Resampling strategies are not allowed to be instantiated when passing the argument, and instead will be instantiated per task internally.
-The only exception to this rule applies if all tasks have exactly the same number of rows, and the resamplings are all instantiated for such tasks.</p>
+    <p>This function allows to manually construct a <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkResult.html'>BenchmarkResult</a> by combining
+the individual components to an object of class <code>ResultData</code>, mlr3's internal container object.
+A <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkResult.html'>BenchmarkResult</a> can then be initialized with the returned object.
+Note that <a href='ResampleResult.html'>ResampleResult</a>s can be converted to a <a href='BenchmarkResult.html'>BenchmarkResult</a> with <code><a href='as_benchmark_result.html'>as_benchmark_result()</a></code>
+and multiple <a href='BenchmarkResult.html'>BenchmarkResult</a>s can be combined to a larger <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>benchmark_grid</span>(<span class='kw'>tasks</span>, <span class='kw'>learners</span>, <span class='kw'>resamplings</span>)</pre>
+    <pre class="usage"><span class='fu'>as_result_data</span>(
+  <span class='kw'>task</span>,
+  <span class='kw'>learners</span>,
+  <span class='kw'>resampling</span>,
+  <span class='kw'>iterations</span>,
+  <span class='kw'>predictions</span>,
+  learner_states = <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tasks</th>
-      <td><p>(list of <a href='Task.html'>Task</a>).</p></td>
+      <th>task</th>
+      <td><p>(<a href='Task.html'>Task</a>).</p></td>
     </tr>
     <tr>
       <th>learners</th>
-      <td><p>(list of <a href='Learner.html'>Learner</a>).</p></td>
+      <td><p>(list of trained <a href='Learner.html'>Learner</a>s).</p></td>
     </tr>
     <tr>
-      <th>resamplings</th>
-      <td><p>(list of <a href='Resampling.html'>Resampling</a>).</p></td>
+      <th>resampling</th>
+      <td><p>(<a href='Resampling.html'>Resampling</a>).</p></td>
+    </tr>
+    <tr>
+      <th>iterations</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>).</p></td>
+    </tr>
+    <tr>
+      <th>predictions</th>
+      <td><p>(list of <a href='Prediction.html'>Prediction</a>s).</p></td>
+    </tr>
+    <tr>
+      <th>learner_states</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
+Learner states. If not provided, the states of <code>learners</code> are automatically extracted.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>) with the cross product of the input vectors.</p>
+    <p><code>ResultData</code> object which can be passed to the constructor of <a href='ResampleResult.html'>ResampleResult</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>tasks</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>), <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"sonar"</span>))
-<span class='kw'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>))
-<span class='kw'>resamplings</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>), <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"subsampling"</span>))
-<span class='fu'>benchmark_grid</span>(<span class='kw'>tasks</span>, <span class='kw'>learners</span>, <span class='kw'>resamplings</span>)
-</div><div class='output co'>#&gt;                 task                         learner
-#&gt; 1: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[33]&gt;
-#&gt; 2: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[33]&gt;
-#&gt; 3: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[33]&gt;
-#&gt; 4: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[33]&gt;
-#&gt; 5: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[33]&gt;
-#&gt; 6: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[33]&gt;
-#&gt; 7: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[33]&gt;
-#&gt; 8: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[33]&gt;
-#&gt;                     resampling
-#&gt; 1:          &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;ResamplingSubsampling[19]&gt;
-#&gt; 3:          &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;ResamplingSubsampling[19]&gt;
-#&gt; 5:          &lt;ResamplingCV[19]&gt;
-#&gt; 6: &lt;ResamplingSubsampling[19]&gt;
-#&gt; 7:          &lt;ResamplingCV[19]&gt;
-#&gt; 8: &lt;ResamplingSubsampling[19]&gt;</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
+<span class='kw'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
+<span class='kw'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, folds = <span class='fl'>2</span>)<span class='op'>$</span><span class='fu'>instantiate</span>(<span class='kw'>task</span>)
+<span class='kw'>iterations</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='kw'>resampling</span><span class='op'>$</span><span class='kw'>iters</span>)
+
+<span class='co'># manually train two learners.</span>
+<span class='co'># store learners and predictions</span>
+<span class='kw'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+<span class='kw'>predictions</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+<span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> <span class='kw'>iterations</span>) {
+  <span class='kw'>l</span> <span class='op'>=</span> <span class='kw'>learner</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>TRUE</span>)
+  <span class='kw'>learners</span>[[<span class='kw'>i</span>]] <span class='op'>=</span> <span class='kw'>l</span><span class='op'>$</span><span class='fu'>train</span>(<span class='kw'>task</span>, row_ids = <span class='kw'>resampling</span><span class='op'>$</span><span class='fu'>train_set</span>(<span class='kw'>i</span>))
+  <span class='kw'>predictions</span>[[<span class='kw'>i</span>]] <span class='op'>=</span> <span class='kw'>l</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>task</span>, row_ids = <span class='kw'>resampling</span><span class='op'>$</span><span class='fu'>test_set</span>(<span class='kw'>i</span>))
+}
+
+<span class='kw'>rdata</span> <span class='op'>=</span> <span class='fu'>as_result_data</span>(<span class='kw'>task</span>, <span class='kw'>learners</span>, <span class='kw'>resampling</span>, <span class='kw'>iterations</span>, <span class='kw'>predictions</span>)
+<span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>rdata</span>)
+</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 2 iterations
+#&gt; * Task: iris
+#&gt; * Learner: classif.rpart
+#&gt; * Warnings: 0 in 0 iterations
+#&gt; * Errors: 0 in 0 iterations</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

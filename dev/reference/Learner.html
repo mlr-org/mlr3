@@ -326,6 +326,11 @@ Logged errors as vector.</p></dd>
 <dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Hash (unique identifier) for this object.</p></dd>
 
+<dt><code>phash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Hash (unique identifier) for this partial object, excluding some components
+which are varied  systematically during tuning (parameter values) or feature
+selection (feature names).</p></dd>
+
 <dt><code>predict_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Stores the currently active predict type, e.g. <code>"response"</code>.
 Must be an element of <code>$predict_types</code>.</p></dd>

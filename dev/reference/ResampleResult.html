@@ -185,27 +185,28 @@ Combines multiple objects convertible to <a href='BenchmarkResult.html'>Benchmar
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
     <p><div class="r6-fields"></p><dl>
-<dt><code>data</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-Internal data storage.
+<dt><code>data</code></dt><dd><p>(<code>ResultData</code>)<br />
+Internal data storage object of type <code>ResultData</code>.
 We discourage users to directly work with this field.
 Use <code>as.table.table(ResampleResult)</code> instead.</p></dd>
-
-<dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>)<br />
-The task <code><a href='resample.html'>resample()</a></code> operated on.</p></dd>
-
-<dt><code>learner</code></dt><dd><p>(<a href='Learner.html'>Learner</a>)<br />
-Untrained learner <code><a href='resample.html'>resample()</a></code> operated on.</p></dd>
-
-<dt><code>resampling</code></dt><dd><p>(<a href='Resampling.html'>Resampling</a>)<br />
-Instantiated <a href='Resampling.html'>Resampling</a> object which stores the splits into training and test.</p></dd>
-
-<dt><code>uhash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Unique hash for this object.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
+<dt><code>uhash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Unique hash for this object.</p></dd>
+
+<dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>)<br />
+The task <code><a href='resample.html'>resample()</a></code> operated on.</p></dd>
+
+<dt><code>learner</code></dt><dd><p>(<a href='Learner.html'>Learner</a>)<br />
+Learner prototype <code><a href='resample.html'>resample()</a></code> operated on.
+For a list of <strong>trained</strong> learners, see methods <code>$learners()</code>.</p></dd>
+
+<dt><code>resampling</code></dt><dd><p>(<a href='Resampling.html'>Resampling</a>)<br />
+Instantiated <a href='Resampling.html'>Resampling</a> object which stores the splits into training and test.</p></dd>
+
 <dt><code>learners</code></dt><dd><p>(list of <a href='Learner.html'>Learner</a>)<br />
 List of trained learners, sorted by resampling iteration.</p></dd>
 
@@ -241,40 +242,13 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.
 An alternative construction method is provided by <code><a href='as_resample_result.html'>as_resample_result()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>new</span>(
-  <span class='kw'>task</span>,
-  <span class='kw'>learner</span>,
-  <span class='kw'>states</span>,
-  <span class='kw'>resampling</span>,
-  <span class='kw'>iterations</span>,
-  <span class='kw'>predictions</span>,
-  uhash = <span class='kw'>NULL</span>
-)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>new</span>(data = <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>task</code></dt><dd><p>(<a href='Task.html'>Task</a>)<br />
-Single task all learners are trained on.</p></dd>
-
-<dt><code>learner</code></dt><dd><p>(<a href='Learner.html'>Learner</a>)<br />
-Learner used to fit the individual models.</p></dd>
-
-<dt><code>states</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
-List of learner states (this includes the fitted models).</p></dd>
-
-<dt><code>resampling</code></dt><dd><p>(<a href='Resampling.html'>Resampling</a>)<br />
-Instantiated resampling.
-Number of iterations (<code>resampling$iters</code>) must match the number of states.</p></dd>
-
-<dt><code>iterations</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
-Iteration numbers.</p></dd>
-
-<dt><code>predictions</code></dt><dd><p>(list of <a href='Prediction.html'>Prediction</a>)<br />
-List of prediction objects.</p></dd>
-
-<dt><code>uhash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
-Unique hash for this <code>ResampleResult</code>. If <code>NULL</code>, a new unique hash is generated.
-This unique hash is primarily needed to group information in <a href='BenchmarkResult.html'>BenchmarkResult</a>s.</p></dd>
+<dt><code>data</code></dt><dd><p>(<code>ResultData</code>)<br />
+An object of type <code>ResultData</code>, either extracted from another ResampleResult, another
+<a href='BenchmarkResult.html'>BenchmarkResult</a>, or manually constructed with <code><a href='as_result_data.html'>as_result_data()</a></code>.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -307,12 +281,12 @@ with the aggregate function of the respective <a href='Measure.html'>Measure</a>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
-Subset of <code>{"train", "test"}</code>.</p></dd>
+<dt><code>predict_sets</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br /></p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
-<p><a href='Prediction.html'>Prediction</a>.</p>
+<p><a href='Prediction.html'>Prediction</a>.
+Subset of <code>{"train", "test"}</code>.</p>
 <p><hr>
 <a id="method-predictions"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>predictions()</code></h3>
 <p>List of prediction objects, sorted by resampling iteration.

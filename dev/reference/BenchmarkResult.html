@@ -193,15 +193,10 @@ object of class <code>"htest"</code>.</p></li>
     <h2 class="hasAnchor" id="public-fields"><a class="anchor" href="#public-fields"></a>Public fields</h2>
 
     <p><div class="r6-fields"></p><dl>
-<dt><code>data</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-Internal tabular representation of the data.
-Tasks, learners and resamplings are references by their hash.
-The referenced objects can be accessed via <code>$tasks</code>, <code>$learners</code> or <code>$resamplings</code>, respectively.</p></dd>
-
-<dt><code>rr_data</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-Internal data storage with one row per <a href='ResampleResult.html'>ResampleResult</a>
-(instead of one row per resampling iteration as in <code>$data</code>).Package develops may opt to add additional columns here.
-These columns are preserved in all mutators.Can be combined with <code>$data</code> by (left) joining on the key column <code>"uhash"</code>.</p></dd>
+<dt><code>data</code></dt><dd><p>(<code>ResultData</code>)<br />
+Internal data storage object of type <code>ResultData</code>.
+We discourage users to directly work with this field.
+Use <code>as.table.table(BenchmarkResult)</code> instead.</p></dd>
 
 </dl><p></div></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
@@ -211,7 +206,7 @@ These columns are preserved in all mutators.Can be combined with <code>$data</co
 Task type of objects in the <code>BenchmarkResult</code>.
 All stored objects (<a href='Task.html'>Task</a>, <a href='Learner.html'>Learner</a>, <a href='Prediction.html'>Prediction</a>) in a single <code>BenchmarkResult</code> are
 required to have the same task type, e.g., <code>"classif"</code> or <code>"regr"</code>.
-This is <code>NULL</code> for empty BenchmarkResults.</p></dd>
+This is <code>NA</code> for empty BenchmarkResults.</p></dd>
 
 <dt><code>tasks</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
 Table of included <a href='Task.html'>Task</a>s with three columns:
@@ -274,22 +269,13 @@ Set of (unique) hashes of all included <a href='ResampleResult.html'>ResampleRes
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>BenchmarkResult</span><span class='op'>$</span><span class='fu'>new</span>(data = <span class='fu'>data.table</span>())</pre><p></div></p>
+<p><div class="r"></p><pre><span class='kw'>BenchmarkResult</span><span class='op'>$</span><span class='fu'>new</span>(data = <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>data</code></dt><dd><p>(<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code>)<br />
-Table with data for one resampling iteration per row, with at least the following columns:
-<ul>
-<li><p><code>"task"</code> (<a href='Task.html'>Task</a>),</p></li>
-<li><p><code>"learner"</code> (<a href='Learner.html'>Learner</a>),</p></li>
-<li><p><code>"state"</code> (<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>),</p></li>
-<li><p><code>"resampling"</code> (<a href='Resampling.html'>Resampling</a>),</p></li>
-<li><p><code>"iteration"</code> (<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>),</p></li>
-<li><p><code>"prediction"</code> (<a href='PredictionData.html'>PredictionData</a>), and</p></li>
-<li><p><code>"uhash"</code> (<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>).</p></li>
-</ul>Column <code>"uhash"</code> is the unique hash of the corresponding <a href='ResampleResult.html'>ResampleResult</a>.
-Additional columns are kept in the resulting object, but otherwise ignored by BenchmarkResult.</p></dd>
+<dt><code>data</code></dt><dd><p>(<code>ResultData</code>)<br />
+An object of type <code>ResultData</code>, either extracted from another <a href='ResampleResult.html'>ResampleResult</a>, another
+BenchmarkResult, or manually constructed with <code><a href='as_result_data.html'>as_result_data()</a></code>.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -475,39 +461,39 @@ The <code>ushash</code> value to filter for.</p></dd>
 )
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>design</span>)
 </div><div class='output co'>#&gt;                 task                         learner         resampling
-#&gt; 1: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 2: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 3: &lt;TaskClassif[45]&gt; &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;
-#&gt; 4: &lt;TaskClassif[45]&gt;       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
+#&gt; 1: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 2: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 3: &lt;TaskClassif[46]&gt; &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;
+#&gt; 4: &lt;TaskClassif[46]&gt;       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;</div><div class='input'>
 <span class='kw'>bmr</span> <span class='op'>=</span> <span class='fu'><a href='benchmark.html'>benchmark</a></span>(<span class='kw'>design</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>bmr</span>)
 </div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 12 rows with 4 resampling runs
 #&gt;  nr task_id          learner_id resampling_id iters warnings errors
-#&gt;   1   sonar classif.featureless            cv     3        0      0
-#&gt;   2   sonar       classif.rpart            cv     3        0      0
+#&gt;   1    spam       classif.rpart            cv     3        0      0
+#&gt;   2   sonar classif.featureless            cv     3        0      0
 #&gt;   3    spam classif.featureless            cv     3        0      0
-#&gt;   4    spam       classif.rpart            cv     3        0      0</div><div class='input'>
+#&gt;   4   sonar       classif.rpart            cv     3        0      0</div><div class='input'>
 <span class='kw'>bmr</span><span class='op'>$</span><span class='kw'>tasks</span>
 </div><div class='output co'>#&gt;           task_hash task_id              task
-#&gt; 1: b1ff4af1334c1f9b    spam &lt;TaskClassif[45]&gt;
-#&gt; 2: 5ad02f3fd7003382   sonar &lt;TaskClassif[45]&gt;</div><div class='input'><span class='kw'>bmr</span><span class='op'>$</span><span class='kw'>learners</span>
+#&gt; 1: b1ff4af1334c1f9b    spam &lt;TaskClassif[46]&gt;
+#&gt; 2: 5ad02f3fd7003382   sonar &lt;TaskClassif[46]&gt;</div><div class='input'><span class='kw'>bmr</span><span class='op'>$</span><span class='kw'>learners</span>
 </div><div class='output co'>#&gt;        learner_hash          learner_id                         learner
-#&gt; 1: 3bbabd1058707305 classif.featureless &lt;LearnerClassifFeatureless[32]&gt;
-#&gt; 2: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart[32]&gt;</div><div class='input'>
-<span class='co'># first 5 individual resamplings</span>
+#&gt; 1: fc402e71eadd46bb       classif.rpart       &lt;LearnerClassifRpart[33]&gt;
+#&gt; 2: 3bbabd1058707305 classif.featureless &lt;LearnerClassifFeatureless[33]&gt;</div><div class='input'>
+<span class='co'># first 5 resampling iterations</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>bmr</span>, measures = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.acc"</span>, <span class='st'>"classif.auc"</span>)), <span class='fl'>5</span>)
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: a1cfdd90-fc9c-4dea-bc2d-4243878646f1 &lt;TaskClassif[45]&gt;
-#&gt; 2: a1cfdd90-fc9c-4dea-bc2d-4243878646f1 &lt;TaskClassif[45]&gt;
-#&gt; 3: a1cfdd90-fc9c-4dea-bc2d-4243878646f1 &lt;TaskClassif[45]&gt;
-#&gt; 4: 5906fe97-c09e-465c-9be4-2fee7c6632c4 &lt;TaskClassif[45]&gt;
-#&gt; 5: 5906fe97-c09e-465c-9be4-2fee7c6632c4 &lt;TaskClassif[45]&gt;
+#&gt; 1: 026dcb9d-b881-40c0-b481-6485ccd79bf9 &lt;TaskClassif[46]&gt;
+#&gt; 2: 026dcb9d-b881-40c0-b481-6485ccd79bf9 &lt;TaskClassif[46]&gt;
+#&gt; 3: 026dcb9d-b881-40c0-b481-6485ccd79bf9 &lt;TaskClassif[46]&gt;
+#&gt; 4: 8f357e44-3994-4642-aff3-f34d9bc4c96e &lt;TaskClassif[46]&gt;
+#&gt; 5: 8f357e44-3994-4642-aff3-f34d9bc4c96e &lt;TaskClassif[46]&gt;
 #&gt;                            learner         resampling iteration
-#&gt; 1: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 2: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 3: &lt;LearnerClassifFeatureless[32]&gt; &lt;ResamplingCV[19]&gt;         3
-#&gt; 4:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 5:       &lt;LearnerClassifRpart[32]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 1:       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 2:       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 3:       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 4: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 5: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         2
 #&gt;                 prediction
 #&gt; 1: &lt;PredictionClassif[19]&gt;
 #&gt; 2: &lt;PredictionClassif[19]&gt;
@@ -516,42 +502,49 @@ The <code>ushash</code> value to filter for.</p></dd>
 #&gt; 5: &lt;PredictionClassif[19]&gt;</div><div class='input'>
 <span class='co'># aggregate results</span>
 <span class='kw'>bmr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>()
-</div><div class='output co'>#&gt;         resample_result nr task_id          learner_id resampling_id iters
-#&gt; 1: &lt;ResampleResult[19]&gt;  1   sonar classif.featureless            cv     3
-#&gt; 2: &lt;ResampleResult[19]&gt;  2   sonar       classif.rpart            cv     3
-#&gt; 3: &lt;ResampleResult[19]&gt;  3    spam classif.featureless            cv     3
-#&gt; 4: &lt;ResampleResult[19]&gt;  4    spam       classif.rpart            cv     3
+</div><div class='output co'>#&gt;    nr      resample_result task_id          learner_id resampling_id iters
+#&gt; 1:  1 &lt;ResampleResult[19]&gt;    spam       classif.rpart            cv     3
+#&gt; 2:  2 &lt;ResampleResult[19]&gt;   sonar classif.featureless            cv     3
+#&gt; 3:  3 &lt;ResampleResult[19]&gt;    spam classif.featureless            cv     3
+#&gt; 4:  4 &lt;ResampleResult[19]&gt;   sonar       classif.rpart            cv     3
 #&gt;    classif.ce
-#&gt; 1:  0.4660455
-#&gt; 2:  0.2739130
+#&gt; 1:  0.1086721
+#&gt; 2:  0.4660455
 #&gt; 3:  0.3940399
-#&gt; 4:  0.1086721</div><div class='input'>
+#&gt; 4:  0.2739130</div><div class='input'>
 <span class='co'># aggregate results with hyperparameters as separate columns</span>
 <span class='kw'>mlr3misc</span>::<span class='fu'><a href='https://mlr3misc.mlr-org.com/reference/unnest.html'>unnest</a></span>(<span class='kw'>bmr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(params = <span class='fl'>TRUE</span>), <span class='st'>"params"</span>)
-</div><div class='output co'>#&gt;         resample_result nr task_id          learner_id resampling_id iters
-#&gt; 1: &lt;ResampleResult[19]&gt;  1   sonar classif.featureless            cv     3
-#&gt; 2: &lt;ResampleResult[19]&gt;  2   sonar       classif.rpart            cv     3
-#&gt; 3: &lt;ResampleResult[19]&gt;  3    spam classif.featureless            cv     3
-#&gt; 4: &lt;ResampleResult[19]&gt;  4    spam       classif.rpart            cv     3
-#&gt;    classif.ce method xval
-#&gt; 1:  0.4660455   mode   NA
-#&gt; 2:  0.2739130   &lt;NA&gt;    0
-#&gt; 3:  0.3940399   mode   NA
-#&gt; 4:  0.1086721   &lt;NA&gt;    0</div><div class='input'>
+</div><div class='output co'>#&gt;    nr      resample_result task_id          learner_id resampling_id iters
+#&gt; 1:  1 &lt;ResampleResult[19]&gt;    spam       classif.rpart            cv     3
+#&gt; 2:  2 &lt;ResampleResult[19]&gt;   sonar classif.featureless            cv     3
+#&gt; 3:  3 &lt;ResampleResult[19]&gt;    spam classif.featureless            cv     3
+#&gt; 4:  4 &lt;ResampleResult[19]&gt;   sonar       classif.rpart            cv     3
+#&gt;    classif.ce xval method
+#&gt; 1:  0.1086721    0   &lt;NA&gt;
+#&gt; 2:  0.4660455   NA   mode
+#&gt; 3:  0.3940399   NA   mode
+#&gt; 4:  0.2739130    0   &lt;NA&gt;</div><div class='input'>
 <span class='co'># extract resample result for classif.rpart</span>
 <span class='kw'>rr</span> <span class='op'>=</span> <span class='kw'>bmr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>()[<span class='kw'>learner_id</span> <span class='op'>==</span> <span class='st'>"classif.rpart"</span>, <span class='kw'>resample_result</span>][[<span class='fl'>1</span>]]
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>rr</span>)
 </div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 3 iterations
-#&gt; * Task: sonar
+#&gt; * Task: spam
 #&gt; * Learner: classif.rpart
 #&gt; * Warnings: 0 in 0 iterations
 #&gt; * Errors: 0 in 0 iterations</div><div class='input'>
 <span class='co'># access the confusion matrix of the first resampling iteration</span>
 <span class='kw'>rr</span><span class='op'>$</span><span class='fu'>predictions</span>()[[<span class='fl'>1</span>]]<span class='op'>$</span><span class='kw'>confusion</span>
-</div><div class='output co'>#&gt;         truth
-#&gt; response  M  R
-#&gt;        M 30 18
-#&gt;        R  3 19</div></pre>
+</div><div class='output co'>#&gt;          truth
+#&gt; response  spam nonspam
+#&gt;   spam     495      69
+#&gt;   nonspam  106     864</div><div class='input'>
+<span class='co'># reduce to subset with task id "sonar"</span>
+<span class='kw'>bmr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(task_ids = <span class='st'>"sonar"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>bmr</span>)
+</div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 6 rows with 2 resampling runs
+#&gt;  nr task_id          learner_id resampling_id iters warnings errors
+#&gt;   1   sonar classif.featureless            cv     3        0      0
+#&gt;   2   sonar       classif.rpart            cv     3        0      0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
