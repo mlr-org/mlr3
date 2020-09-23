@@ -164,6 +164,9 @@
 <ul>
 <li>Updated properties of featureless learners to apply it on all feature types (did not work on POSIXct columns).</li>
 <li>Fixed measures being calculated as <code>NaN</code> for <code>BenchmarkResult</code> for resamplings with a single iteration (<a href='https://github.com/mlr-org/mlr3/issues/551'>#551</a>).</li>
+<li>Fixed a bug where a broken heuristic disabled nested parallelization via package <code>future</code> (mlr3tuning<a href='https://github.com/mlr-org/mlr3/issues/270'>#270</a>).</li>
+<li>
+<code>ResampleResult</code> and <code>BenchmarkResult</code> now share a common interface to store the experiment results. The manual construction has been slightly changed.</li>
 </ul>
 </div>
     <div id="mlr3-060" class="section level1">
