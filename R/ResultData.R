@@ -1,8 +1,28 @@
+#' @title ResultData
+#'
+#' @name ResultData
+#' @rdname ResultData
+#' @keywords internal
+#' @description
+#' Internal data structure to store results in a list of data.tables, arranged in a star schema.
+#' It is advised to not directly work on this data structure as it may be changed in the future
+#' without further warnings.
+#'
+#' The main motivation of this data structure is the necessity to avoid storing duplicated [R6] objects.
+#' While this is usually no problem in a single R session, serialization via [serialize()] (which is
+#' used in [save()]/[saveRDS()] or during parallelization) leads to objects with unreasonable memory
+#' requirements.
+#'
+#' @examples
+#' # table overview
+#' print(ResampleResult$new()$data)
+NULL
+
 #' @title Manually construct an object of type ResultData
 #'
 #' @description
 #' This function allows to manually construct a [ResampleResult] or [BenchmarkResult] by combining
-#' the individual components to an object of class `ResultData`, mlr3's internal container object.
+#' the individual components to an object of class [ResultData], mlr3's internal container object.
 #' A [ResampleResult] or [BenchmarkResult] can then be initialized with the returned object.
 #' Note that [ResampleResult]s can be converted to a [BenchmarkResult] with [as_benchmark_result()]
 #' and multiple [BenchmarkResult]s can be combined to a larger [BenchmarkResult].

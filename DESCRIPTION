@@ -40,7 +40,7 @@ Authors@R:
       person(given = "Martin",
              family = "Binder",
              role = "aut",
-             email = "mlr.developer@mb706.com")),
+             email = "mlr.developer@mb706.com"),
       person(given = "Marc",
              family = "Becker",
              role = "ctb",

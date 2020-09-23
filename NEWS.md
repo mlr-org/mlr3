@@ -4,6 +4,10 @@
   (did not work on POSIXct columns).
 * Fixed measures being calculated as `NaN` for `BenchmarkResult` for resamplings
   with a single iteration (#551).
+* Fixed a bug where a broken heuristic disabled nested parallelization via
+  package `future` (mlr3tuning#270).
+* `ResampleResult` and `BenchmarkResult` now share a common interface to store
+  the experiment results. The manual construction has been slightly changed.
 
 # mlr3 0.6.0
 

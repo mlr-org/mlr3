@@ -32,7 +32,7 @@ Learner states. If not provided, the states of \code{learners} are automatically
 }
 \description{
 This function allows to manually construct a \link{ResampleResult} or \link{BenchmarkResult} by combining
-the individual components to an object of class \code{ResultData}, mlr3's internal container object.
+the individual components to an object of class \link{ResultData}, mlr3's internal container object.
 A \link{ResampleResult} or \link{BenchmarkResult} can then be initialized with the returned object.
 Note that \link{ResampleResult}s can be converted to a \link{BenchmarkResult} with \code{\link[=as_benchmark_result]{as_benchmark_result()}}
 and multiple \link{BenchmarkResult}s can be combined to a larger \link{BenchmarkResult}.
