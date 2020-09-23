@@ -4,6 +4,8 @@
   flag in `resample()` and `benchmark()`.
 * Updated properties of featureless learners to apply it on all feature types
   (did not work on POSIXct columns).
+* Fixed measures being calculated as `NaN` for `BenchmarkResult` for resamplings
+  with a single iteration (#551).
 
 # mlr3 0.6.0
 

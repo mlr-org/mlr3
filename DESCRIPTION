@@ -136,6 +136,7 @@ Collate:
     'ResamplingLOO.R'
     'ResamplingRepeatedCV.R'
     'ResamplingSubsampling.R'
+    'ResultData.R'
     'Task.R'
     'TaskSupervised.R'
     'TaskClassif.R'

@@ -241,6 +241,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   if (is.list(prediction)) {
     ii = match(measure$predict_sets, names(prediction))
     if (anyMissing(ii)) {
+      lg$debug("Predict sets not available for measure, returning NaN", measure = measure, predict_sets = names(prediction))
       return(NaN)
     }
     prediction = do.call(c, prediction[ii])
@@ -254,7 +255,7 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
   }
 }
 
-#' @title Workhorse function to calculate a multiple scores
+#' @title Workhorse function to calculate multiple scores
 #'
 #' @description
 #' Converts `obj` from [ResampleResult] or [BenchmarkResult] to a `data.table`.
@@ -269,8 +270,10 @@ score_single_measure = function(measure, task, learner, train_set, prediction) {
 #'
 #' @noRd
 score_measures = function(obj, measures) {
-  reassemble_learners = any(map_lgl(measures, function(m) "requires_model" %in% m$properties))
-  tab = as.data.table(obj, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
+  # reassemble_tasks = any(map_lgl(measures, function(m) "requires_task" %in% m$properties))
+  # reassemble_learners = any(map_lgl(measures, function(m) "requires_model" %in% m$properties))
+  tab = as.data.table(obj$data, hashes = FALSE, reassemble_tasks = TRUE,
+    reassemble_learners = TRUE, convert_predictions = FALSE)
 
   for (measure in measures) {
     score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],

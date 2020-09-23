@@ -142,11 +142,11 @@ benchmark = function(design, store_models = FALSE, use_future = TRUE) {
   }
 
   grid = insert_named(grid, list(
-      state = map(res, "learner_state"),
-      prediction = map(res, "prediction")
+    learner_state = map(res, "learner_state"),
+    prediction = map(res, "prediction")
   ))
 
   lg$info("Finished benchmark")
 
-  BenchmarkResult$new(grid)
+  BenchmarkResult$new(rdata_from_table(grid))
 }

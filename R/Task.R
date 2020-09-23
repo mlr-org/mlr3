@@ -382,6 +382,15 @@ Task = R6Class("Task",
       )
     },
 
+    #' @template field_phash
+    phash = function(rhs) {
+      assert_ro_binding(rhs)
+      hash(
+        class(self), self$id, self$backend$hash, self$col_info,
+        private$.row_roles, private$.properties
+      )
+    },
+
     #' @field row_ids (`integer()`)\cr
     #' Returns the row ids of the [DataBackend] for observations with role "use".
     row_ids = function(rhs) {

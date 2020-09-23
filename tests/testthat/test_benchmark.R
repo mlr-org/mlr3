@@ -1,51 +1,55 @@
 context("benchmark")
 
-tasks = mlr_tasks$mget(c("iris", "sonar"))
+tmp = tsk("iris", id = "iris_small")$select("Sepal.Length")
+tasks = c(mlr_tasks$mget(c("iris", "sonar")), list(tmp))
 learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
 resamplings = rsmp("cv", folds = 3)
 design = benchmark_grid(tasks, learners, resamplings)
 bmr = benchmark(design)
-
 
 test_that("Basic benchmarking", {
   expect_benchmark_result(bmr)
   expect_names(names(as.data.table(bmr)), permutation.of = c(mlr_reflections$rr_names, "uhash"))
 
   tab = as.data.table(bmr)
-  expect_data_table(tab, nrows = 12L, ncols = 6L)
-  expect_names(names(tab), must.include = c("uhash", mlr_reflections$rr_names))
+  expect_data_table(tab, nrows = 18L, ncols = 6L)
+  expect_names(names(tab), permutation.of = c("uhash", mlr_reflections$rr_names))
   measures = list(msr("classif.acc"))
 
   tab = bmr$score(measures, ids = FALSE)
-  expect_data_table(tab, nrows = 12L, ncols = 6L + length(measures))
+  expect_data_table(tab, nrows = 18L, ncols = 6L + length(measures))
   expect_names(names(tab), must.include = c("nr", mlr_reflections$rr_names, ids(measures)))
+  expect_list(tab$prediction, "Prediction")
 
   tab = bmr$tasks
-  expect_data_table(tab, nrows = 2, any.missing = FALSE)
-  expect_names(names(tab), permutation.of = c("task_hash", "task", "task_id"))
-  expect_hash(tab$task_hash, len = 2L)
+  expect_data_table(tab, nrows = 3L, any.missing = FALSE)
+  expect_names(names(tab), identical.to = c("task_hash", "task_id", "task"))
+  expect_hash(tab$task_hash, len = 3L)
 
   tab = bmr$learners
-  expect_data_table(tab, nrows = 2, any.missing = FALSE)
-  expect_names(names(tab), permutation.of = c("learner_hash", "learner", "learner_id"))
+  expect_data_table(tab, nrows = 2L, any.missing = FALSE)
+  expect_names(names(tab), identical.to = c("learner_hash", "learner_id", "learner"))
   expect_hash(tab$learner_hash, len = 2L)
   qexpectr(map(tab$learner, "state"), "0")
 
   tab = bmr$resamplings
-  expect_data_table(tab, nrows = 2, any.missing = FALSE)
+  expect_data_table(tab, nrows = 3L, any.missing = FALSE)
   expect_names(names(tab), permutation.of = c("resampling_hash", "resampling", "resampling_id"))
-  expect_hash(tab$resampling_hash, len = 2L)
+  expect_hash(tab$resampling_hash, len = 3L)
 
   tab = bmr$aggregate(measures)
-  expect_data_table(tab, nrows = 4L)
-  expect_names(names(tab), type = "unique", must.include = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", ids(measures)))
+  expect_data_table(tab, nrows = 6L)
+  expect_names(names(tab), type = "unique",
+    identical.to = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters", ids(measures)))
+  m = measures[[1L]]
+  expect_numeric(tab[[m$id]], any.missing = FALSE, lower = m$range[1], upper = m$range[2])
 })
 
 test_that("ResampleResult / hash", {
   m = msr("classif.ce")
   aggr = bmr$aggregate(m, uhashes = TRUE)
   nr = aggr$nr
-  expect_integer(nr, len = 4L, any.missing = FALSE, unique = TRUE)
+  expect_integer(nr, len = 6L, any.missing = FALSE, unique = TRUE)
 
   for (i in nr) {
     rr = aggr$resample_result[[i]]
@@ -57,35 +61,31 @@ test_that("ResampleResult / hash", {
 
 
 test_that("discarding model", {
-  bmr2 = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings))
+  bmr2 = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings), store_models = FALSE)
   expect_benchmark_result(bmr2)
   expect_true(every(map(as.data.table(bmr2)$learner, "model"), is.null))
+
   bmr2 = benchmark(benchmark_grid(tasks[1L], learners[1L], resamplings), store_models = TRUE)
+  expect_benchmark_result(bmr2)
   expect_false(every(map(as.data.table(bmr2)$learner, "model"), is.null))
 })
 
 test_that("bmr$combine()", {
   bmr_new = benchmark(benchmark_grid(mlr_tasks$mget("pima"), learners, resamplings))
-  expect_benchmark_result(bmr_new)
 
   combined = list(
     bmr$clone(deep = TRUE)$combine(bmr_new),
     c(bmr, bmr_new)
   )
 
-  for(bmr_combined in combined) {
-    # new bmr gets pasted at the end of data so hashes do not get mixed up?
-    pos_old = match(bmr$uhashes, bmr_combined$uhashes)
-    pos_new = match(bmr_new$uhashes, bmr_combined$uhashes)
-    expect_true(all(pos_old < min(pos_new)))
-
+  for (bmr_combined in combined) {
     expect_benchmark_result(bmr)
     expect_benchmark_result(bmr_new)
     expect_benchmark_result(bmr_combined)
 
-    expect_data_table(bmr$data, nrows = 12)
-    expect_data_table(bmr_new$data, nrows = 6)
-    expect_data_table(bmr_combined$data, nrows = 18)
+    expect_data_table(bmr$data$fact, nrows = 18L)
+    expect_data_table(bmr_new$data$fact, nrows = 6L)
+    expect_data_table(bmr_combined$data$fact, nrows = 24L)
 
     expect_false("pima" %in% bmr$tasks$task_id)
     expect_true("pima" %in% bmr_new$tasks$task_id)
@@ -95,7 +95,7 @@ test_that("bmr$combine()", {
   rr = resample(tsk("zoo"), lrn("classif.rpart"), rsmp("holdout"))
   bmr2 = c(combined[[1]], rr)
   expect_benchmark_result(bmr2)
-  expect_data_table(bmr2$data, nrows = 19)
+  expect_data_table(bmr2$data$fact, nrows = 25L)
 })
 
 test_that("empty bmr", {
@@ -107,7 +107,7 @@ test_that("empty bmr", {
 
   bmr_new$combine(bmr)
   expect_benchmark_result(bmr_new)
-  expect_data_table(bmr_new$data, nrows = nrow(bmr$data))
+  expect_data_table(bmr_new$data$fact, nrows = nrow(bmr$data))
 })
 
 test_that("bmr$resample_result()", {
@@ -130,18 +130,19 @@ test_that("inputs are cloned", {
   rr = bmr$aggregate()$resample_result[[1L]]
 
   expect_different_address(task, rr$task)
-  expect_different_address(learner, rr$data$learner[[1L]])
+  expect_different_address(learner, rr$data$learner_objs$learner[[1L]])
   expect_different_address(resampling, rr$resampling)
 })
 
 test_that("memory footprint", {
-  expect_equal(uniqueN(map_chr(design$task, address)), 2L)
+  expect_equal(uniqueN(map_chr(design$task, address)), 3L)
   expect_equal(uniqueN(map_chr(design$learner, address)), 2L)
-  expect_equal(uniqueN(map_chr(design$resampling, address)), 2L)
+  expect_equal(uniqueN(map_chr(design$resampling, address)), 3L)
 
   x = as.data.table(bmr)
-  expect_equal(uniqueN(map_chr(x$task, address)), 2L)
-  expect_equal(uniqueN(map_chr(x$resampling, address)), 2L)
+  expect_equal(uniqueN(map_chr(x$task, address)), 3L)
+  expect_equal(uniqueN(map_chr(x$learner, address)), 18L)
+  expect_equal(uniqueN(map_chr(x$resampling, address)), 3L)
 })
 
 test_that("multiple measures", {
@@ -183,14 +184,22 @@ test_that("custom resampling (#245)", {
 
 test_that("extract params", {
   # some params, some not
-  lrns = mlr_learners$mget(c("classif.rpart", "classif.rpart", "classif.rpart"))
-  lrns[[1]]$param_set$values = list()
-  lrns[[2]]$param_set$values = list(xval = 0, cp = 0.1)
+  lrns = list(
+    lrn("classif.rpart", id = "rp1", xval = 0),
+    lrn("classif.rpart", id = "rp2", xval = 0, cp = 0.2, minsplit = 2),
+    lrn("classif.rpart", id = "rp3", xval = 0, cp = 0.1)
+  )
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
-  expect_list(aggr$params[[1]], names = "unique", len = 0L)
-  expect_list(aggr$params[[2]], names = "unique", len = 2L)
-  expect_list(aggr$params[[3]], names = "unique", len = 1L)
+  setorder(aggr, "learner_id")
+  expect_list(aggr$params[[1]], names = "unique", len = 1L)
+  expect_list(aggr$params[[2]], names = "unique", len = 3L)
+  expect_list(aggr$params[[3]], names = "unique", len = 2L)
+
+  scores = bmr$score()
+  pvs = map(scores$learner, function(l) l$param_set$values)
+  expect_true(all(sapply(split(lengths(pvs), scores$nr), uniqueN) == 1))
+  expect_set_equal(lengths(pvs), 1:3)
 
   # only one params
   lrns = mlr_learners$mget("classif.featureless")
@@ -203,31 +212,6 @@ test_that("extract params", {
   bmr = benchmark(benchmark_grid(tsk("wine"), lrns, rsmp("cv", folds = 3)))
   aggr = bmr$aggregate(params = TRUE)
   expect_list(aggr$params[[1]], names = "unique", len = 0L)
-})
-
-test_that("rr_info", {
-  tasks = mlr_tasks$mget(c("iris", "sonar"))
-  learners = mlr_learners$mget(c("classif.featureless", "classif.rpart"))
-  resamplings = rsmp("cv", folds = 3)
-  design = benchmark_grid(tasks, learners, resamplings)
-  bmr = benchmark(design)
-
-  tasks = mlr_tasks$mget("wine")
-  learners = mlr_learners$mget("classif.featureless")
-  resamplings = rsmp("cv", folds = 3)
-  design = benchmark_grid(tasks, learners, resamplings)
-  new_bmr = benchmark(design)
-
-  bmr$rr_data = data.table(bmr$data[, list(uhash = unique(uhash))], source = "old")
-  new_bmr$rr_data = data.table(new_bmr$data[, list(uhash = unique(uhash))], source = "new")
-
-  bmr$combine(new_bmr)
-  expect_set_equal(bmr$rr_data$hash, bmr$data$hash)
-  expect_set_equal(bmr$rr_data$uhash, c(bmr$uhashes, new_bmr$uhashes))
-  expect_equal(anyDuplicated(bmr$rr_data$uhash), 0)
-
-  tab = bmr$aggregate()
-  expect_equal(tab$source, c(rep("old", 4), "new"))
 })
 
 test_that("benchmark_grid", {
@@ -250,16 +234,16 @@ test_that("filter", {
   design = benchmark_grid(tasks, learners, resamplings)
   bmr = benchmark(design)
 
-  expect_data_table(bmr$data, nrows = 16)
+  expect_data_table(bmr$data$fact, nrows = 16)
 
   bmr$filter(task_ids = "sonar")
-  expect_data_table(bmr$data, nrows = 8)
+  expect_data_table(bmr$data$fact, nrows = 8)
 
   bmr$filter(learner_ids = "classif.rpart")
-  expect_data_table(bmr$data, nrows = 4)
+  expect_data_table(bmr$data$fact, nrows = 4)
 
   bmr$filter(resampling_ids = "cv")
-  expect_data_table(bmr$data, nrows = 3)
+  expect_data_table(bmr$data$fact, nrows = 3)
 })
 
 test_that("parallelization works", {

@@ -47,7 +47,7 @@ print(bmr)
 bmr$tasks
 bmr$learners
 
-# first 5 individual resamplings
+# first 5 resampling iterations
 head(as.data.table(bmr, measures = c("classif.acc", "classif.auc")), 5)
 
 # aggregate results
@@ -62,23 +62,18 @@ print(rr)
 
 # access the confusion matrix of the first resampling iteration
 rr$predictions()[[1]]$confusion
+
+# reduce to subset with task id "sonar"
+bmr$filter(task_ids = "sonar")
+print(bmr)
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal tabular representation of the data.
-Tasks, learners and resamplings are references by their hash.
-The referenced objects can be accessed via \verb{$tasks}, \verb{$learners} or \verb{$resamplings}, respectively.}
-
-\item{\code{rr_data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Internal data storage with one row per \link{ResampleResult}
-(instead of one row per resampling iteration as in \verb{$data}).
-
-Package develops may opt to add additional columns here.
-These columns are preserved in all mutators.
-
-Can be combined with \verb{$data} by (left) joining on the key column \code{"uhash"}.}
+\item{\code{data}}{(\code{ResultData})\cr
+Internal data storage object of type \code{ResultData}.
+We discourage users to directly work with this field.
+Use \code{as.table.table(BenchmarkResult)} instead.}
 }
 \if{html}{\out{</div>}}
 }
@@ -89,7 +84,7 @@ Can be combined with \verb{$data} by (left) joining on the key column \code{"uha
 Task type of objects in the \code{BenchmarkResult}.
 All stored objects (\link{Task}, \link{Learner}, \link{Prediction}) in a single \code{BenchmarkResult} are
 required to have the same task type, e.g., \code{"classif"} or \code{"regr"}.
-This is \code{NULL} for empty \link{BenchmarkResult}s.}
+This is \code{NA} for empty \link{BenchmarkResult}s.}
 
 \item{\code{tasks}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 Table of included \link{Task}s with three columns:
@@ -156,26 +151,15 @@ Set of (unique) hashes of all included \link{ResampleResult}s.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$new(data = data.table())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{BenchmarkResult$new(data = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-Table with data for one resampling iteration per row, with at least the following columns:
-\itemize{
-\item \code{"task"} (\link{Task}),
-\item \code{"learner"} (\link{Learner}),
-\item \code{"state"} (\code{list()}),
-\item \code{"resampling"} (\link{Resampling}),
-\item \code{"iteration"} (\code{integer()}),
-\item \code{"prediction"} (\link{PredictionData}), and
-\item \code{"uhash"} (\code{character()}).
-}
-
-Column \code{"uhash"} is the unique hash of the corresponding \link{ResampleResult}.
-Additional columns are kept in the resulting object, but otherwise ignored by \link{BenchmarkResult}.}
+\item{\code{data}}{(\code{ResultData})\cr
+An object of type \code{ResultData}, either extracted from another \link{ResampleResult}, another
+\link{BenchmarkResult}, or manually constructed with \code{\link[=as_result_data]{as_result_data()}}.}
 }
 \if{html}{\out{</div>}}
 }

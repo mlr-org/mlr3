@@ -446,37 +446,48 @@ expect_prediction_classif = function(p, task = NULL) {
 
 expect_resample_result = function(rr, allow_incomplete = FALSE) {
   checkmate::expect_r6(rr, "ResampleResult")
+  expect_rdata(rr$data)
   testthat::expect_output(print(rr), "ResampleResult")
-  expect_task(rr$task)
-  lapply(rr$learners, expect_learner, task = rr$task)
-  expect_resampling(rr$resampling, task = rr$task)
+  nr = nrow(rr$data$fact)
 
-  expected_iters = if (allow_incomplete) nrow(rr$data) else rr$resampling$iters
+  if (nr > 0L) {
+    expect_task(rr$task)
+    expect_learner(rr$learner)
+    lapply(rr$learners, expect_learner, task = rr$task)
+    expect_resampling(rr$resampling, task = rr$task)
+  }
+
+  expected_iters = if (allow_incomplete) nr else rr$resampling$iters
 
   data = data.table::as.data.table(rr)
   checkmate::expect_data_table(rr$score(), nrows = expected_iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
   checkmate::expect_names(names(rr$score()), must.include = mlr3::mlr_reflections$rr_names)
-  expect_uhash(rr$uhash, 1L)
+  if (nr > 0L) {
+    expect_uhash(rr$uhash, 1L)
+  } else {
+    expect_identical(rr$uhash, NA_character_)
+  }
 
-  m = mlr3::default_measures(rr$task$task_type)[[1L]]
-  y = rr$score(m)
-  aggr = rr$aggregate(m)
-  checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
-  checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
+  if (nr > 0L) {
+    m = mlr3::default_measures(rr$task$task_type)[[1L]]
+    y = rr$score(m)
+    aggr = rr$aggregate(m)
+    checkmate::expect_numeric(y[[m$id]], lower = m$range[1], upper = m$range[2], any.missing = FALSE, label = sprintf("measure %s", m$id))
+    checkmate::expect_number(aggr[[m$id]], lower = m$range[1L], upper = m$range[2L], label = sprintf("measure %s", m$id))
+  }
 
-  checkmate::expect_list(
-    unlist(rr$data$prediction, recursive = FALSE), types = "PredictionData", len = expected_iters
-  )
   checkmate::expect_list(rr$predictions(), types = "Prediction", len = expected_iters)
-  expect_prediction(rr$prediction())
+  if (nr > 0L) {
+    expect_prediction(rr$prediction())
+  }
 }
 
 expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", public = "data")
+  expect_rdata(bmr$data)
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
-  checkmate::expect_data_table(bmr$data, min.cols = length(mlr3::mlr_reflections$rr_names) + 1L)
-  checkmate::expect_names(names(as.data.table(bmr)), must.include = c(mlr3::mlr_reflections$rr_names, "uhash"))
+  checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "uhash"))
 
   tab = bmr$tasks
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -484,7 +495,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$task_hash)
   expect_id(tab$task_id)
   checkmate::expect_list(tab$task, "Task")
-  expect_set_equal(bmr$tasks$task_hash, bmr$data$task)
+  expect_set_equal(bmr$tasks$task_hash, bmr$data$task_components$task_hash)
 
   tab = bmr$learners
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -492,7 +503,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$learner_hash)
   expect_id(tab$learner_id)
   checkmate::expect_list(tab$learner, "Learner")
-  expect_set_equal(bmr$learners$learner_hash, bmr$data$learner)
+  expect_set_equal(bmr$learners$learner_hash, bmr$data$learner_components$learner_hash)
 
   tab = bmr$resamplings
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -500,12 +511,16 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$resampling_hash)
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
-  expect_set_equal(bmr$learners$learner_hash, bmr$data$learner)
+  expect_set_equal(bmr$resamplings$resampling_hash, bmr$data$resamplings$resampling_hash)
 
-  measures = mlr3::default_measures(bmr$task_type)
+  if (nrow(bmr$data$fact) > 0L) {
+    measures = mlr3::default_measures(bmr$task_type)
+  } else {
+    measures = mlr3::msrs("time_both")
+  }
   tab = bmr$aggregate(measures, ids = TRUE)
   checkmate::expect_data_table(tab, min.cols = 5L + length(measures))
-  checkmate::expect_names(names(tab), must.include = c("nr", "resample_result", "resampling_id", "task_id", "learner_id", "resampling_id", mlr3misc::map_chr(measures, "id")))
+  checkmate::expect_names(names(tab), must.include = c("nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters", mlr3misc::map_chr(measures, "id")))
   testthat::expect_equal(tab$nr, seq_len(nrow(tab)))
   checkmate::expect_list(tab$resample_result, "ResampleResult")
   expect_id(tab$task_id)
@@ -516,12 +531,12 @@ expect_benchmark_result = function(bmr) {
     checkmate::expect_numeric(tab[[measure$id]], any.missing = FALSE)
   }
 
-  tab = bmr$aggregate(params = TRUE)
+  tab = bmr$aggregate(measures = measures, params = TRUE)
   checkmate::assert_list(tab$params)
 
   uhashes = bmr$uhashes
-  expect_uhash(uhashes, len = data.table::uniqueN(bmr$data$uhash))
-  testthat::expect_equal(uhashes, unique(bmr$data$uhash))
+  expect_uhash(uhashes, len = data.table::uniqueN(bmr$data$fact, by = "uhash"))
+  testthat::expect_equal(uhashes, unique(bmr$data$fact$uhash))
 
   expect_equal(bmr$n_resample_results, length(uhashes))
 
@@ -531,5 +546,21 @@ expect_benchmark_result = function(bmr) {
   expect_integer(tab$iters)
   expect_list(tab$resample_result, types = "ResampleResult")
 
-  checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data) == 0L)
+  if (nrow(bmr$data$fact)) {
+    checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data$fact) == 0L)
+  } else {
+    testthat::expect_equal(bmr$task_type, NA_character_)
+  }
+}
+
+expect_rdata = function(rdata) {
+  expect_is(rdata, "ResultData")
+
+  proto = mlr3:::rdata_init()
+  expect_set_equal(names(rdata), names(proto))
+
+  for (nn in names(proto)) {
+    expect_data_table(rdata[[nn]], key = data.table::key(proto[[nn]]))
+    expect_equal(names(rdata[[nn]]), names(proto[[nn]]))
+  }
 }
