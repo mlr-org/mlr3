@@ -244,6 +244,8 @@ test_that("filter", {
 
   bmr$filter(resampling_ids = "cv")
   expect_data_table(bmr$data$fact, nrows = 3)
+
+  expect_benchmark_result(bmr)
 })
 
 test_that("parallelization works", {
