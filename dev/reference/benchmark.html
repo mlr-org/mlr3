@@ -246,19 +246,19 @@ or <code>"trace"</code>:</p><pre><span class='kw'>lgr</span>::<span class='fu'><
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>bmr</span>))
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: 087b1b92-0119-4b33-8dab-d0f179a89ce8 &lt;TaskClassif[46]&gt;
-#&gt; 2: 087b1b92-0119-4b33-8dab-d0f179a89ce8 &lt;TaskClassif[46]&gt;
-#&gt; 3: 087b1b92-0119-4b33-8dab-d0f179a89ce8 &lt;TaskClassif[46]&gt;
-#&gt; 4: 53db4432-33c8-4d14-a313-86054dfc03b3 &lt;TaskClassif[46]&gt;
-#&gt; 5: 53db4432-33c8-4d14-a313-86054dfc03b3 &lt;TaskClassif[46]&gt;
-#&gt; 6: 53db4432-33c8-4d14-a313-86054dfc03b3 &lt;TaskClassif[46]&gt;
-#&gt;                      learner         resampling iteration
-#&gt; 1: &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 2: &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 3: &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         3
-#&gt; 4: &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         1
-#&gt; 5: &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         2
-#&gt; 6: &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 1: 2a61930f-fced-4ed5-af13-099f78c09c9e &lt;TaskClassif[46]&gt;
+#&gt; 2: 2a61930f-fced-4ed5-af13-099f78c09c9e &lt;TaskClassif[46]&gt;
+#&gt; 3: 2a61930f-fced-4ed5-af13-099f78c09c9e &lt;TaskClassif[46]&gt;
+#&gt; 4: 3fea2563-e890-4e2e-ba02-49fffe2e9510 &lt;TaskClassif[46]&gt;
+#&gt; 5: 3fea2563-e890-4e2e-ba02-49fffe2e9510 &lt;TaskClassif[46]&gt;
+#&gt; 6: 3fea2563-e890-4e2e-ba02-49fffe2e9510 &lt;TaskClassif[46]&gt;
+#&gt;                            learner         resampling iteration
+#&gt; 1: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 2: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 3: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         3
+#&gt; 4:       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         1
+#&gt; 5:       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         2
+#&gt; 6:       &lt;LearnerClassifRpart[33]&gt; &lt;ResamplingCV[19]&gt;         3
 #&gt;                 prediction
 #&gt; 1: &lt;PredictionClassif[19]&gt;
 #&gt; 2: &lt;PredictionClassif[19]&gt;
@@ -270,30 +270,30 @@ or <code>"trace"</code>:</p><pre><span class='kw'>lgr</span>::<span class='fu'><
 <span class='kw'>aggr</span> <span class='op'>=</span> <span class='kw'>bmr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>()
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>aggr</span>)
 </div><div class='output co'>#&gt;    nr      resample_result task_id          learner_id resampling_id iters
-#&gt; 1:  1 &lt;ResampleResult[19]&gt;   sonar       classif.rpart            cv     3
+#&gt; 1:  1 &lt;ResampleResult[19]&gt;   sonar classif.featureless            cv     3
 #&gt; 2:  2 &lt;ResampleResult[19]&gt;    iris       classif.rpart            cv     3
-#&gt; 3:  3 &lt;ResampleResult[19]&gt;    iris classif.featureless            cv     3
-#&gt; 4:  4 &lt;ResampleResult[19]&gt;   sonar classif.featureless            cv     3
+#&gt; 3:  3 &lt;ResampleResult[19]&gt;   sonar       classif.rpart            cv     3
+#&gt; 4:  4 &lt;ResampleResult[19]&gt;    iris classif.featureless            cv     3
 #&gt;    classif.ce
-#&gt; 1: 0.30296756
+#&gt; 1: 0.53878537
 #&gt; 2: 0.05333333
-#&gt; 3: 0.72000000
-#&gt; 4: 0.53878537</div><div class='input'>
+#&gt; 3: 0.30296756
+#&gt; 4: 0.72000000</div><div class='input'>
 <span class='co'>## Extract predictions of first resampling result</span>
 <span class='kw'>rr</span> <span class='op'>=</span> <span class='kw'>aggr</span><span class='op'>$</span><span class='kw'>resample_result</span>[[<span class='fl'>1</span>]]
 <span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>rr</span><span class='op'>$</span><span class='fu'>prediction</span>())
 </div><div class='output co'>#&gt;      row_id truth response
-#&gt;   1:      3     R        R
+#&gt;   1:      3     R        M
 #&gt;   2:      6     R        M
-#&gt;   3:      9     R        R
-#&gt;   4:     12     R        R
+#&gt;   3:      9     R        M
+#&gt;   4:     12     R        M
 #&gt;   5:     17     R        M
 #&gt;  ---                      
-#&gt; 204:    199     M        M
-#&gt; 205:    202     M        M
-#&gt; 206:    204     M        M
-#&gt; 207:    205     M        M
-#&gt; 208:    207     M        M</div><div class='input'>
+#&gt; 204:    199     M        R
+#&gt; 205:    202     M        R
+#&gt; 206:    204     M        R
+#&gt; 207:    205     M        R
+#&gt; 208:    207     M        R</div><div class='input'>
 <span class='co'># Benchmarking with a custom design:</span>
 <span class='co'># - fit classif.featureless on iris with a 3-fold CV</span>
 <span class='co'># - fit classif.rpart on sonar using a holdout</span>
@@ -318,8 +318,8 @@ or <code>"trace"</code>:</p><pre><span class='kw'>lgr</span>::<span class='fu'><
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>bmr</span>)
 </div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 4 rows with 2 resampling runs
 #&gt;  nr task_id          learner_id resampling_id iters warnings errors
-#&gt;   1   sonar       classif.rpart       holdout     1        0      0
-#&gt;   2    iris classif.featureless            cv     3        0      0</div><div class='input'>
+#&gt;   1    iris classif.featureless            cv     3        0      0
+#&gt;   2   sonar       classif.rpart       holdout     1        0      0</div><div class='input'>
 <span class='co'>## Get the training set of the 2nd iteration of the featureless learner on iris</span>
 <span class='kw'>rr</span> <span class='op'>=</span> <span class='kw'>bmr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>()[<span class='kw'>learner_id</span> <span class='op'>==</span> <span class='st'>"classif.featureless"</span>]<span class='op'>$</span><span class='kw'>resample_result</span>[[<span class='fl'>1</span>]]
 <span class='kw'>rr</span><span class='op'>$</span><span class='kw'>resampling</span><span class='op'>$</span><span class='fu'>train_set</span>(<span class='fl'>2</span>)
