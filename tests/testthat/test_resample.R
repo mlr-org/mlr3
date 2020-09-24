@@ -54,7 +54,7 @@ test_that("as_benchmark_result.ResampleResult", {
   bmr = as_benchmark_result(rr)
   expect_benchmark_result(bmr)
   expect_equal(nrow(bmr$data), nrow(rr$data))
-  expect_set_equal(bmr$data$fact$uhash, rr$uhash)
+  expect_set_equal(bmr$uhashes, rr$uhash)
   aggr = bmr$aggregate()
   expect_data_table(aggr, nrows = 1)
   expect_set_equal(bmr$uhashes, rr$uhash)
@@ -77,9 +77,9 @@ test_that("inputs are cloned", {
   resampling$instantiate(task)
 
   rr = resample(task, learner, resampling)
-  expect_different_address(task, rr$task)
-  expect_different_address(learner, rr$data$learner[[1L]])
-  expect_different_address(resampling, rr$resampling)
+  expect_different_address(task, rr$data$data$tasks$task[[1]])
+  expect_different_address(learner, rr$data$data$learners$learner[[1]])
+  expect_different_address(resampling, rr$data$data$resamplings$resampling[[1]])
 })
 
 test_that("memory footprint", {
@@ -88,9 +88,9 @@ test_that("memory footprint", {
   resampling = rsmp("cv", folds = 3)
   rr = resample(task, learner, resampling)
 
-  expect_equal(nrow(rr$data$learners), 1L)
-  expect_equal(nrow(rr$data$tasks), 1L)
-  expect_equal(nrow(rr$data$resamplings), 1L)
+  expect_equal(nrow(rr$data$data$learners), 1L)
+  expect_equal(nrow(rr$data$data$tasks), 1L)
+  expect_equal(nrow(rr$data$data$resamplings), 1L)
 })
 
 test_that("predict_type is checked", {

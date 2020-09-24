@@ -446,9 +446,9 @@ expect_prediction_classif = function(p, task = NULL) {
 
 expect_resample_result = function(rr, allow_incomplete = FALSE) {
   checkmate::expect_r6(rr, "ResampleResult")
-  expect_rdata(rr$data)
+  expect_resultdata(rr$data, FALSE)
   testthat::expect_output(print(rr), "ResampleResult")
-  nr = nrow(rr$data$fact)
+  nr = rr$data$iterations()
 
   if (nr > 0L) {
     expect_task(rr$task)
@@ -457,7 +457,7 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
     expect_resampling(rr$resampling, task = rr$task)
   }
 
-  expected_iters = if (allow_incomplete) nr else rr$resampling$iters
+  expected_iters = if (allow_incomplete || nr == 0L) nr else rr$resampling$iters
 
   data = data.table::as.data.table(rr)
   checkmate::expect_data_table(rr$score(), nrows = expected_iters, min.cols = length(mlr3::mlr_reflections$rr_names), any.missing = FALSE)
@@ -484,7 +484,7 @@ expect_resample_result = function(rr, allow_incomplete = FALSE) {
 
 expect_benchmark_result = function(bmr) {
   checkmate::expect_r6(bmr, "BenchmarkResult", public = "data")
-  expect_rdata(bmr$data)
+  expect_resultdata(bmr$data, TRUE)
   testthat::expect_output(print(bmr), "BenchmarkResult")
 
   checkmate::expect_names(names(as.data.table(bmr)), permutation.of = c(mlr3::mlr_reflections$rr_names, "uhash"))
@@ -495,7 +495,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$task_hash)
   expect_id(tab$task_id)
   checkmate::expect_list(tab$task, "Task")
-  expect_set_equal(bmr$tasks$task_hash, bmr$data$task_components$task_hash)
+  expect_set_equal(bmr$tasks$task_hash, bmr$data$data$task_components$task_hash)
 
   tab = bmr$learners
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -503,7 +503,7 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$learner_hash)
   expect_id(tab$learner_id)
   checkmate::expect_list(tab$learner, "Learner")
-  expect_set_equal(bmr$learners$learner_hash, bmr$data$learner_components$learner_hash)
+  expect_set_equal(bmr$learners$learner_hash, bmr$data$data$learner_components$learner_hash)
 
   tab = bmr$resamplings
   checkmate::expect_data_table(tab, ncols = 3L)
@@ -511,9 +511,9 @@ expect_benchmark_result = function(bmr) {
   expect_hash(tab$resampling_hash)
   expect_id(tab$resampling_id)
   checkmate::expect_list(tab$resampling, "Resampling")
-  expect_set_equal(bmr$resamplings$resampling_hash, bmr$data$resamplings$resampling_hash)
+  expect_set_equal(bmr$resamplings$resampling_hash, bmr$data$data$resamplings$resampling_hash)
 
-  if (nrow(bmr$data$fact) > 0L) {
+  if (nrow(bmr$data$data$fact) > 0L) {
     measures = mlr3::default_measures(bmr$task_type)
   } else {
     measures = mlr3::msrs("time_both")
@@ -535,32 +535,49 @@ expect_benchmark_result = function(bmr) {
   checkmate::assert_list(tab$params)
 
   uhashes = bmr$uhashes
-  expect_uhash(uhashes, len = data.table::uniqueN(bmr$data$fact, by = "uhash"))
-  testthat::expect_equal(uhashes, unique(bmr$data$fact$uhash))
-
-  expect_equal(bmr$n_resample_results, length(uhashes))
+  expect_uhash(uhashes, len = length(bmr$data$uhashes()))
+  checkmate::expect_set_equal(uhashes, unique(bmr$data$uhashes()))
+  testthat::expect_equal(bmr$n_resample_results, length(uhashes))
 
   tab = bmr$resample_results
   expect_data_table(tab, ncols = 3L, nrows = bmr$n_resample_results, any.missing = FALSE)
-  expect_character(tab$uhash)
-  expect_integer(tab$iters)
+  expect_character(tab$uhash, any.missing = FALSE)
+  expect_integer(tab$nr, sorted = TRUE, any.missing = FALSE, lower = 1L)
+  # expect_integer(tab$iters, any.missing = FALSE, lower = 1L)
   expect_list(tab$resample_result, types = "ResampleResult")
 
-  if (nrow(bmr$data$fact)) {
-    checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = nrow(bmr$data$fact) == 0L)
+  ni = bmr$data$iterations()
+  if (ni) {
+    checkmate::expect_choice(bmr$task_type, mlr3::mlr_reflections$task_types$type, null.ok = ni == 0L)
   } else {
-    testthat::expect_equal(bmr$task_type, NA_character_)
+    testthat::expect_null(bmr$task_type)
   }
 }
 
-expect_rdata = function(rdata) {
+expect_resultdata = function(rdata, consistency = TRUE) {
   expect_is(rdata, "ResultData")
+  data = rdata$data
 
-  proto = mlr3:::rdata_init()
-  expect_set_equal(names(rdata), names(proto))
+  proto = mlr3:::star_init()
+  expect_set_equal(names(data), names(proto))
 
   for (nn in names(proto)) {
-    expect_data_table(rdata[[nn]], key = data.table::key(proto[[nn]]))
-    expect_equal(names(rdata[[nn]]), names(proto[[nn]]))
+    expect_data_table(data[[nn]], key = data.table::key(proto[[nn]]))
+    expect_equal(names(data[[nn]]), names(proto[[nn]]))
+  }
+
+  expect_character(data$uhashes$uhash, unique = TRUE)
+
+  expect_fsetequal = function(x, y, column) {
+    expect_true(data.table::fsetequal(x[, column, with = FALSE], y[, column, with = FALSE], all = FALSE))
+  }
+
+  if (consistency) {
+    expect_fsetequal(data$fact, data$uhashes, "uhash")
+    expect_fsetequal(data$fact, data$tasks, "task_phash")
+    expect_fsetequal(data$fact, data$task_components, "task_hash")
+    expect_fsetequal(data$fact, data$learners, "learner_phash")
+    expect_fsetequal(data$fact, data$learner_components, "learner_hash")
+    expect_fsetequal(data$fact, data$resamplings, "resampling_hash")
   }
 }

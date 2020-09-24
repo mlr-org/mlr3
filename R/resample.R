@@ -75,7 +75,7 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     future.packages = "mlr3", future.seed = TRUE
   )
 
-  rdata = rdata_from_table(data.table(
+  data = data.table(
     task = list(task),
     learner = list(learner),
     learner_state = map(res, "learner_state"),
@@ -83,7 +83,7 @@ resample = function(task, learner, resampling, store_models = FALSE) {
     iteration = seq_len(n),
     prediction = map(res, "prediction"),
     uhash = UUIDgenerate()
-  ))
+  )
 
-  ResampleResult$new(data = rdata)
+  ResampleResult$new(ResultData$new(data))
 }

@@ -41,12 +41,20 @@ rr$errors
 Internal data storage object of type \code{ResultData}.
 We discourage users to directly work with this field.
 Use \code{as.table.table(ResampleResult)} instead.}
+
+\item{\code{view}}{(\code{character(1)})\cr
+Subset of uhashes in the \link{ResultData} object to operate on.
+This field is for internal optimizations, i.e. to avoid unnecessary cloning.}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{task_type}}{(\code{character(1)})\cr
+Task type of objects in the \code{ResampleResult}, e.g. \code{"classif"} or \code{"regr"}.
+This is \code{NA} for empty \link{ResampleResult}s.}
+
 \item{\code{uhash}}{(\code{character(1)})\cr
 Unique hash for this object.}
 
@@ -97,15 +105,19 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 An alternative construction method is provided by \code{\link[=as_resample_result]{as_resample_result()}}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$new(data = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResampleResult$new(data = ResultData$new(), view = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{(\code{ResultData})\cr
-An object of type \code{ResultData}, either extracted from another \link{ResampleResult}, another
+\item{\code{data}}{(\link{ResultData} | \code{\link[=data.table]{data.table()}})\cr
+An object of type \link{ResultData}, either extracted from another \link{ResampleResult}, another
 \link{BenchmarkResult}, or manually constructed with \code{\link[=as_result_data]{as_result_data()}}.}
+
+\item{\code{view}}{(\code{character()})\cr
+Single \code{uhash} of the \link{ResultData} to operate on.
+Used internally for optimizations.}
 }
 \if{html}{\out{</div>}}
 }

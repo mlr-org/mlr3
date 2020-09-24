@@ -49,8 +49,8 @@ test_that("evaluate / resample", {
   resampling = rsmp("cv", folds = 3)
 
   rr = expect_warning(resample(task, disable_encapsulation(learner), resampling))
-  expect_true(all(map(rr$data$learner, function(x) nrow(x$log)) == 0L))
+  expect_true(all(map(rr$data$data$fact$learner_state, function(x) nrow(x$log)) == 0L))
 
   rr = expect_silent(resample(task, enable_encapsulation(learner), resampling))
-  expect_true(all(map_lgl(rr$data$learner, function(x) all(table(x$log$stage) == 2))))
+  expect_true(all(map_lgl(rr$data$data$fact$learner_state, function(x) all(table(x$log$stage) == 2))))
 })

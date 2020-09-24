@@ -17,8 +17,8 @@ test_that("Basic benchmarking", {
   measures = list(msr("classif.acc"))
 
   tab = bmr$score(measures, ids = FALSE)
-  expect_data_table(tab, nrows = 18L, ncols = 6L + length(measures))
-  expect_names(names(tab), must.include = c("nr", mlr_reflections$rr_names, ids(measures)))
+  expect_data_table(tab, nrows = 18L, ncols = 7L + length(measures))
+  expect_names(names(tab), must.include = c("nr", "uhash", mlr_reflections$rr_names, ids(measures)))
   expect_list(tab$prediction, "Prediction")
 
   tab = bmr$tasks
@@ -83,9 +83,9 @@ test_that("bmr$combine()", {
     expect_benchmark_result(bmr_new)
     expect_benchmark_result(bmr_combined)
 
-    expect_data_table(bmr$data$fact, nrows = 18L)
-    expect_data_table(bmr_new$data$fact, nrows = 6L)
-    expect_data_table(bmr_combined$data$fact, nrows = 24L)
+    expect_data_table(bmr$data$data$fact, nrows = 18L)
+    expect_data_table(bmr_new$data$data$fact, nrows = 6L)
+    expect_data_table(bmr_combined$data$data$fact, nrows = 24L)
 
     expect_false("pima" %in% bmr$tasks$task_id)
     expect_true("pima" %in% bmr_new$tasks$task_id)
@@ -95,7 +95,7 @@ test_that("bmr$combine()", {
   rr = resample(tsk("zoo"), lrn("classif.rpart"), rsmp("holdout"))
   bmr2 = c(combined[[1]], rr)
   expect_benchmark_result(bmr2)
-  expect_data_table(bmr2$data$fact, nrows = 25L)
+  expect_data_table(bmr2$data$data$fact, nrows = 25L)
 })
 
 test_that("empty bmr", {
@@ -107,7 +107,7 @@ test_that("empty bmr", {
 
   bmr_new$combine(bmr)
   expect_benchmark_result(bmr_new)
-  expect_data_table(bmr_new$data$fact, nrows = nrow(bmr$data))
+  expect_data_table(bmr_new$data$data$fact, nrows = nrow(bmr$data))
 })
 
 test_that("bmr$resample_result()", {
@@ -127,10 +127,10 @@ test_that("inputs are cloned", {
 
   expect_error(benchmark(data.table(task = list(task), learner = list(learner), resampling = list(resampling))), "instantiated")
   bmr = benchmark(design = data.table(task = list(task), learner = list(learner), resampling = list(resampling$instantiate(task))))
-  rr = bmr$aggregate()$resample_result[[1L]]
+  rr = bmr$resample_result(1)
 
   expect_different_address(task, rr$task)
-  expect_different_address(learner, rr$data$learner_objs$learner[[1L]])
+  expect_different_address(learner, rr$data$data$learner_components$learner[[1L]])
   expect_different_address(resampling, rr$resampling)
 })
 
@@ -234,16 +234,19 @@ test_that("filter", {
   design = benchmark_grid(tasks, learners, resamplings)
   bmr = benchmark(design)
 
-  expect_data_table(bmr$data$fact, nrows = 16)
+  expect_data_table(bmr$data$data$fact, nrows = 16)
 
   bmr$filter(task_ids = "sonar")
-  expect_data_table(bmr$data$fact, nrows = 8)
+  expect_data_table(bmr$data$data$fact, nrows = 8)
+  expect_resultdata(bmr$data, TRUE)
 
   bmr$filter(learner_ids = "classif.rpart")
-  expect_data_table(bmr$data$fact, nrows = 4)
+  expect_data_table(bmr$data$data$fact, nrows = 4)
+  expect_resultdata(bmr$data, TRUE)
 
   bmr$filter(resampling_ids = "cv")
-  expect_data_table(bmr$data$fact, nrows = 3)
+  expect_data_table(bmr$data$data$fact, nrows = 3)
+  expect_resultdata(bmr$data, TRUE)
 
   expect_benchmark_result(bmr)
 })

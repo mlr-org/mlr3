@@ -40,5 +40,5 @@ test_that("prediction does not drop dimension (#551)", {
 
   bmr = benchmark(design)
   expect_number(bmr$aggregate(msr("classif.ce"))[["classif.ce"]])
-  expect_equal(map(bmr$data$fact$prediction, names), list("test"))
+  expect_equal(map(bmr$data$data$fact$prediction, names), list("test"))
 })

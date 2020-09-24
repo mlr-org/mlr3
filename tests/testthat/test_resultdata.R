@@ -12,13 +12,13 @@ test_that("mlr3tuning use case", {
 
   rdata = bmr$data
 
-  expect_rdata(rdata)
-  expect_data_table(rdata$fact, nrows = 3L)
-  expect_data_table(rdata$tasks, nrows = 1L)
-  expect_data_table(rdata$task_components, nrows = 1L)
-  expect_data_table(rdata$learners, nrows = 1L)
-  expect_data_table(rdata$learner_components, nrows = 3L)
-  expect_data_table(rdata$resamplings, nrows = 1L)
+  expect_resultdata(rdata)
+  expect_data_table(rdata$data$fact, nrows = 3L)
+  expect_data_table(rdata$data$tasks, nrows = 1L)
+  expect_data_table(rdata$data$task_components, nrows = 1L)
+  expect_data_table(rdata$data$learners, nrows = 1L)
+  expect_data_table(rdata$data$learner_components, nrows = 3L)
+  expect_data_table(rdata$data$resamplings, nrows = 1L)
 
   expect_set_equal(map_dbl(bmr$learners$learner, function(l) l$param_set$values$cp), 1:3 / 10)
 
@@ -50,13 +50,13 @@ test_that("mlr3fsselect use case", {
 
   rdata = bmr$data
 
-  expect_rdata(rdata)
-  expect_data_table(rdata$fact, nrows = 3L)
-  expect_data_table(rdata$tasks, nrows = 1L)
-  expect_data_table(rdata$task_components, nrows = 3L)
-  expect_data_table(rdata$learners, nrows = 1L)
-  expect_data_table(rdata$learner_components, nrows = 1L)
-  expect_data_table(rdata$resamplings, nrows = 3L)
+  expect_resultdata(rdata)
+  expect_data_table(rdata$data$fact, nrows = 3L)
+  expect_data_table(rdata$data$tasks, nrows = 1L)
+  expect_data_table(rdata$data$task_components, nrows = 3L)
+  expect_data_table(rdata$data$learners, nrows = 1L)
+  expect_data_table(rdata$data$learner_components, nrows = 1L)
+  expect_data_table(rdata$data$resamplings, nrows = 3L)
 
   expect_set_equal(map_chr(bmr$tasks$task, function(t) t$feature_names), names(iris)[1:3])
 
@@ -69,5 +69,5 @@ test_that("mlr3fsselect use case", {
   scores = bmr$score()
   expect_set_equal(map_chr(scores$task, get_feature_names), names(iris)[1:3])
 
-  map(as.data.table(rdata)$task, get_feature_names)
+  expect_set_equal(map_chr(as.data.table(bmr)$task, get_feature_names), names(iris)[1:3])
 })
