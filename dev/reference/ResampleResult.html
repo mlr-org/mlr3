@@ -190,10 +190,18 @@ Internal data storage object of type <code>ResultData</code>.
 We discourage users to directly work with this field.
 Use <code>as.table.table(ResampleResult)</code> instead.</p></dd>
 
+<dt><code>view</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Subset of uhashes in the <a href='ResultData.html'>ResultData</a> object to operate on.
+This field is for internal optimizations, i.e. to avoid unnecessary cloning.</p></dd>
+
 </dl><p></div></p>
     <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
 
     <p><div class="r6-active-bindings"></p><dl>
+<dt><code>task_type</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Task type of objects in the <code>ResampleResult</code>, e.g. <code>"classif"</code> or <code>"regr"</code>.
+This is <code>NA</code> for empty ResampleResults.</p></dd>
+
 <dt><code>uhash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Unique hash for this object.</p></dd>
 
@@ -242,13 +250,17 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.
 An alternative construction method is provided by <code><a href='as_resample_result.html'>as_resample_result()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>new</span>(data = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>new</span>(data = <span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>new</span>(), view = <span class='kw'>NULL</span>)</pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
-<dt><code>data</code></dt><dd><p>(<code>ResultData</code>)<br />
-An object of type <code>ResultData</code>, either extracted from another ResampleResult, another
+<dt><code>data</code></dt><dd><p>(<a href='ResultData.html'>ResultData</a> | <code>data.table()</code>)<br />
+An object of type <a href='ResultData.html'>ResultData</a>, either extracted from another ResampleResult, another
 <a href='BenchmarkResult.html'>BenchmarkResult</a>, or manually constructed with <code><a href='as_result_data.html'>as_result_data()</a></code>.</p></dd>
+
+<dt><code>view</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>)<br />
+Single <code>uhash</code> of the <a href='ResultData.html'>ResultData</a> to operate on.
+Used internally for optimizations.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
