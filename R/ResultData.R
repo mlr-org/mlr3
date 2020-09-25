@@ -1,6 +1,5 @@
 #' @title ResultData
 #'
-#' @keywords internal
 #' @description
 #' Internal object to store results in list of data.tables, arranged in a star schema.
 #' It is advised to not directly work on this data structure as it may be changed in the future
@@ -11,6 +10,8 @@
 #' used in [save()]/[saveRDS()] or during parallelization) leads to objects with unreasonable memory
 #' requirements.
 #'
+#' @keywords internal
+#' @export
 #' @examples
 #' # table overview
 #' print(ResultData$new()$data)

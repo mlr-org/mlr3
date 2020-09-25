@@ -180,7 +180,7 @@ ResampleResult = R6Class("ResampleResult",
       self$data = self$data$clone(deep = TRUE)
       fact = self$data$data$fact
       if (!is.null(self$view)) {
-        fact = rdata$fact[list(self$view), on = "uhash", nomatch = NULL]
+        fact = fact[list(self$view), on = "uhash", nomatch = NULL]
       }
 
       self$data$data$fact = fact[list(iters), on = "iteration", nomatch = NULL]
