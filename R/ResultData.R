@@ -233,7 +233,8 @@ ResultData = R6Class("ResultData",
     #' @return `self` (invisibly).
     sweep = function() {
       fact = self$data$fact
-      self$data$uhashes = fintersect(self$data$uhashes, fact[, "uhash", with = FALSE], all = FALSE)
+      uhashes = unique(self$data$fact[, "uhash", with = FALSE])
+      self$data$uhashes = uhashes[self$data$uhashes, on = "uhash", nomatch = NULL]
 
       for (nn in c("tasks", "task_components", "learners", "learner_components", "resamplings")) {
         tab = self$data[[nn]]
@@ -287,7 +288,7 @@ ResultData = R6Class("ResultData",
 
       cns = c("uhash", "task", "task_hash", "task_feature_names", "learner", "learner_hash", "learner_param_vals", "resampling",
         "resampling_hash", "iteration", "prediction")
-      tab[, cns, with = FALSE]
+      merge(self$data$uhashes, tab[, cns, with = FALSE], by = "uhash", sort = FALSE)
     },
 
     #' @description

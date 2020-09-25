@@ -1,5 +1,43 @@
 context("ResultData")
 
+test_that("results are ordered", {
+  grid = data.table(
+    task = tsks(c("iris", "sonar")),
+    learner = lrns(c("classif.featureless", "classif.debug")),
+    resampling = rsmps("cv", folds = 3)
+  )
+  grid$resampling = pmap(grid, function(task, resampling, ...) resampling$clone(deep = TRUE)$instantiate(task))
+
+  bmr = benchmark(grid)
+  rdata = bmr$data
+
+  tab = rdata$as_data_table()
+  expect_equal(rdata$uhashes(), rdata$data$uhashes$uhash)
+  expect_equal(unique(hashes(tab$task)), hashes(grid$task))
+  expect_equal(unique(hashes(tab$learner)), hashes(grid$learner))
+  expect_equal(unique(hashes(tab$resampling)), hashes(grid$resampling))
+
+  rdata$data$uhashes$uhash = rev(rdata$data$uhashes$uhash)
+  tab = rdata$as_data_table()
+  expect_equal(rdata$uhashes(), rdata$data$uhashes$uhash)
+  expect_equal(unique(hashes(tab$task)), rev(hashes(grid$task)))
+  expect_equal(unique(hashes(tab$learner)), rev(hashes(grid$learner)))
+  expect_equal(unique(hashes(tab$resampling)), rev(hashes(grid$resampling)))
+
+  rr = resample(tsk("pima"), lrn("classif.rpart"), rsmp("holdout"))
+  rdata$combine(rr$data)
+  expect_resultdata(rdata)
+  expect_equal(rdata$uhashes()[3], rr$uhash)
+
+  # remove rr in the middle
+  uhashes = rdata$uhashes()
+  rdata$data$fact = rdata$data$fact[!list(uhashes[2])]
+  rdata$sweep()
+  expect_resultdata(rdata, TRUE)
+
+  expect_equal(rdata$uhashes(), uhashes[c(1, 3)])
+})
+
 test_that("mlr3tuning use case", {
   task = tsk("iris")
   learners = lrns(c("classif.rpart", "classif.rpart", "classif.rpart"))
