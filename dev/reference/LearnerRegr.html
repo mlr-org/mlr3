@@ -224,17 +224,17 @@ Essential regression learners can be found in this dictionary after loading <a h
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>LearnerRegr</span><span class='op'>$</span><span class='fu'>new</span>(
-  <span class='kw'>id</span>,
-  param_set = <span class='kw'>ParamSet</span><span class='op'>$</span><span class='fu'>new</span>(),
-  predict_types = <span class='st'>"response"</span>,
-  feature_types = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  properties = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  data_formats = <span class='st'>"data.table"</span>,
-  packages = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  man = <span class='fl'>NA_character_</span>
-)</pre><p></div></p>
+<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>LearnerRegr</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
+  <span class='va'>id</span>,
+  param_set <span class='op'>=</span> <span class='va'>ParamSet</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>,
+  predict_types <span class='op'>=</span> <span class='st'>"response"</span>,
+  feature_types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  properties <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  data_formats <span class='op'>=</span> <span class='st'>"data.table"</span>,
+  packages <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  man <span class='op'>=</span> <span class='cn'>NA_character_</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -279,7 +279,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>LearnerRegr</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>LearnerRegr</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -291,18 +291,18 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get all regression learners from mlr_learners:</span>
-<span class='kw'>lrns</span> <span class='op'>=</span> <span class='kw'>mlr_learners</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>mget</a></span>(<span class='kw'>mlr_learners</span><span class='op'>$</span><span class='fu'>keys</span>(<span class='st'>"^regr"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>lrns</span>)
+<span class='va'>lrns</span> <span class='op'>=</span> <span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>mget</span><span class='op'>(</span><span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='st'>"^regr"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>lrns</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "regr.featureless" "regr.rpart"      </div><div class='input'>
 <span class='co'># get a specific learner from mlr_learners:</span>
-<span class='kw'>mlr_learners</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"regr.rpart"</span>)
+<span class='va'>mlr_learners</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"regr.rpart"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;LearnerRegrRpart:regr.rpart&gt;
 #&gt; * Model: -
 #&gt; * Parameters: xval=0
 #&gt; * Packages: rpart
 #&gt; * Predict Type: response
 #&gt; * Feature types: logical, integer, numeric, factor, ordered
-#&gt; * Properties: importance, missings, selected_features, weights</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>)
+#&gt; * Properties: importance, missings, selected_features, weights</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
 #&gt; * Model: -
 #&gt; * Parameters: method=mode

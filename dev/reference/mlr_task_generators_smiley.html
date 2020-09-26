@@ -169,8 +169,8 @@
 
     
 
-<p>This <a href='TaskGenerator.html'>TaskGenerator</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_task_generators.html'>mlr_task_generators</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tgen()</a></code>:</p><pre><span class='kw'>mlr_task_generators</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"smiley"</span>)
-<span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"smiley"</span>)
+<p>This <a href='TaskGenerator.html'>TaskGenerator</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_task_generators.html'>mlr_task_generators</a> or with the associated sugar function <code><a href='mlr_sugar.html'>tgen()</a></code>:</p><pre><span class='va'>mlr_task_generators</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"smiley"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>tgen</a></span><span class='op'>(</span><span class='st'>"smiley"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -211,13 +211,13 @@
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>TaskGeneratorSmiley</span><span class='op'>$</span><span class='fu'>new</span>()</pre><p></div></p>
+<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>TaskGeneratorSmiley</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-plot"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/graphics/plot.default.html'>plot()</a></code></h3>
 <p>Creates a simple plot of generated data.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>TaskGeneratorSmiley</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(n = <span class='fl'>200L</span>, pch = <span class='fl'>19L</span>, <span class='kw'>...</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>TaskGeneratorSmiley</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>200L</span>, pch <span class='op'>=</span> <span class='fl'>19L</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -234,7 +234,7 @@ Additional arguments passed to <code><a href='https://rdrr.io/r/graphics/plot.de
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>TaskGeneratorSmiley</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>TaskGeneratorSmiley</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -245,11 +245,11 @@ Additional arguments passed to <code><a href='https://rdrr.io/r/graphics/plot.de
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>generator</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span>(<span class='st'>"smiley"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>generator</span>, n = <span class='fl'>200</span>)
+    <pre class="examples"><div class='input'><span class='va'>generator</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tgen</a></span><span class='op'>(</span><span class='st'>"smiley"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>generator</span>, n <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
 </div><div class='img'><img src='mlr_task_generators_smiley-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>task</span> <span class='op'>=</span> <span class='kw'>generator</span><span class='op'>$</span><span class='fu'>generate</span>(<span class='fl'>200</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>())
+<span class='va'>task</span> <span class='op'>=</span> <span class='va'>generator</span><span class='op'>$</span><span class='fu'>generate</span><span class='op'>(</span><span class='fl'>200</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Classes ‘data.table’ and 'data.frame':	200 obs. of  3 variables:
 #&gt;  $ y : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 1 1 1 1 1 ...
 #&gt;  $ x1: num  -0.718 -0.768 -0.818 -0.893 -0.727 ...

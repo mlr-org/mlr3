@@ -215,9 +215,9 @@ Returns <code>NULL</code> if the ResultData is empty.</p></dd>
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.
+<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.
 An alternative construction method is provided by <code><a href='as_result_data.html'>as_result_data()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>new</span>(data = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -228,7 +228,7 @@ Do not initialize this object yourself, use <code><a href='as_result_data.html'>
 <p><hr>
 <a id="method-uhashes"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>uhashes()</code></h3>
 <p>Returns all unique hashes (<code>uhash</code> values) of all included <a href='ResampleResult.html'>ResampleResult</a>s.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>uhashes</span>(view = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>uhashes</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -265,7 +265,7 @@ Single <code>uhash</code> to restrict the results to.</p></dd>
 <p><hr>
 <a id="method-iterations"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>iterations()</code></h3>
 <p>Returns the number of recorded iterations / experiments.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>iterations</span>(view = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>iterations</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -302,7 +302,7 @@ Single <code>uhash</code> to restrict the results to.</p></dd>
 <p><hr>
 <a id="method-tasks"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>tasks()</code></h3>
 <p>Returns a table of included <a href='Task.html'>Task</a>s.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>tasks</span>(view = <span class='kw'>NULL</span>, reassemble = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>tasks</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span>, reassemble <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -343,7 +343,7 @@ returning the tasks.</p></dd>
 <p><hr>
 <a id="method-learners"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>learners()</code></h3>
 <p>Returns a table of included <a href='Learner.html'>Learner</a>s.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>learners</span>(view = <span class='kw'>NULL</span>, states = <span class='fl'>TRUE</span>, reassemble = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>learners</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span>, states <span class='op'>=</span> <span class='cn'>TRUE</span>, reassemble <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -388,7 +388,7 @@ returning the learners.</p></dd>
 <p><hr>
 <a id="method-resamplings"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>resamplings()</code></h3>
 <p>Returns a table of included <a href='Resampling.html'>Resampling</a>s.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>resamplings</span>(view = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>resamplings</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -425,7 +425,7 @@ Single <code>uhash</code> to restrict the results to.</p></dd>
 <p><hr>
 <a id="method-predictions"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>predictions()</code></h3>
 <p>Returns a list of <a href='Prediction.html'>Prediction</a> objects.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>predictions</span>(view = <span class='kw'>NULL</span>, predict_sets = <span class='st'>"test"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>predictions</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span>, predict_sets <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -483,7 +483,7 @@ Default is <code>"test"</code>.</p></dd>
 <p><hr>
 <a id="method-prediction"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>prediction()</code></h3>
 <p>Returns a combined <a href='Prediction.html'>Prediction</a> objects.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>prediction</span>(view = <span class='kw'>NULL</span>, predict_sets = <span class='st'>"test"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span>, predict_sets <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -541,7 +541,7 @@ Default is <code>"test"</code>.</p></dd>
 <p><hr>
 <a id="method-combine"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>combine()</code></h3>
 <p>Combines multiple ResultData objects, modifying <code>self</code> in-place.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>combine</span>(<span class='kw'>rdata</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>combine</span><span class='op'>(</span><span class='va'>rdata</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -555,20 +555,20 @@ Default is <code>"test"</code>.</p></dd>
 <p>Updates the ResultData object, removing rows from all tables which are not referenced
 by the fact table anymore.
 E.g., can be called after filtering/subsetting the fact table.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/sweep.html'>sweep</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>sweep</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p><code>self</code> (invisibly).</p>
 <p><hr>
 <a id="method-as_data_table"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>as_data_table()</code></h3>
 <p>Combines internal tables into a single flat <code>data.table()</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>as_data_table</span>(
-  view = <span class='kw'>NULL</span>,
-  reassemble_tasks = <span class='fl'>TRUE</span>,
-  reassemble_learners = <span class='fl'>TRUE</span>,
-  convert_predictions = <span class='fl'>TRUE</span>,
-  predict_sets = <span class='st'>"test"</span>
-)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>as_data_table</span><span class='op'>(</span>
+  view <span class='op'>=</span> <span class='cn'>NULL</span>,
+  reassemble_tasks <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  reassemble_learners <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  convert_predictions <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  predict_sets <span class='op'>=</span> <span class='st'>"test"</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -633,7 +633,7 @@ Default is <code>"test"</code>.</p></dd>
 <p><hr>
 <a id="method-logs"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>logs()</code></h3>
 <p>Get a table of recorded learner logs.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>logs</span>(view = <span class='kw'>NULL</span>, <span class='kw'>condition</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>logs</span><span class='op'>(</span>view <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>condition</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -671,7 +671,7 @@ The condition to extract. One of <code>"message"</code>, <code>"warning"</code> 
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -683,7 +683,7 @@ The condition to extract. One of <code>"message"</code>, <code>"warning"</code> 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># table overview</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>new</span>()<span class='op'>$</span><span class='kw'>data</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>ResultData</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $fact
 #&gt; Empty data.table (0 rows and 9 cols): uhash,iteration,learner_state,prediction,task_hash,task_phash...
 #&gt; 

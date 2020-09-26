@@ -183,49 +183,49 @@ The following operations must be supported to extend mlr3 for new task types:</p
 
     </div>
 
-    <pre class="usage"><span class='fu'>check_prediction_data</span>(<span class='kw'>pdata</span>)
+    <pre class="usage"><span class='fu'>check_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
 
-<span class='fu'>is_missing_prediction_data</span>(<span class='kw'>pdata</span>)
+<span class='fu'>is_missing_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
 
-<span class='fu'>as_prediction_data</span>(<span class='kw'>x</span>, <span class='kw'>task</span>, row_ids = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>row_ids</span>, check = <span class='fl'>TRUE</span>)
+<span class='fu'>as_prediction_data</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>row_ids</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for Prediction</span>
-<span class='fu'>as_prediction_data</span>(<span class='kw'>x</span>, <span class='kw'>task</span>, row_ids = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>row_ids</span>, check = <span class='fl'>TRUE</span>)
+<span class='fu'>as_prediction_data</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>row_ids</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionData</span>
-<span class='fu'>as_prediction_data</span>(<span class='kw'>x</span>, <span class='kw'>task</span>, row_ids = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>row_ids</span>, check = <span class='fl'>TRUE</span>)
+<span class='fu'>as_prediction_data</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>row_ids</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>as_prediction_data</span>(<span class='kw'>x</span>, <span class='kw'>task</span>, row_ids = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>row_ids</span>, check = <span class='fl'>TRUE</span>)
+<span class='fu'>as_prediction_data</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>row_ids</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>as_prediction</span>(<span class='kw'>x</span>, check = <span class='fl'>TRUE</span>)
+<span class='fu'>as_prediction</span><span class='op'>(</span><span class='va'>x</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for Prediction</span>
-<span class='fu'>as_prediction</span>(<span class='kw'>x</span>, check = <span class='fl'>TRUE</span>)
+<span class='fu'>as_prediction</span><span class='op'>(</span><span class='va'>x</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'>as_prediction</span>(<span class='kw'>x</span>, check = <span class='fl'>TRUE</span>)
+<span class='fu'>as_prediction</span><span class='op'>(</span><span class='va'>x</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'>check_prediction_data</span>(<span class='kw'>pdata</span>)
+<span class='fu'>check_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'>is_missing_prediction_data</span>(<span class='kw'>pdata</span>)
+<span class='fu'>is_missing_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataClassif</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>...</span>, keep_duplicates = <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>...</span>, keep_duplicates <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'>as_prediction</span>(<span class='kw'>x</span>, check = <span class='fl'>TRUE</span>)
+<span class='fu'>as_prediction</span><span class='op'>(</span><span class='va'>x</span>, check <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'>check_prediction_data</span>(<span class='kw'>pdata</span>)
+<span class='fu'>check_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'>is_missing_prediction_data</span>(<span class='kw'>pdata</span>)
+<span class='fu'>is_missing_prediction_data</span><span class='op'>(</span><span class='va'>pdata</span><span class='op'>)</span>
 
 <span class='co'># S3 method for PredictionDataRegr</span>
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>...</span>, keep_duplicates = <span class='fl'>TRUE</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>...</span>, keep_duplicates <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

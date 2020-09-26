@@ -173,7 +173,7 @@ Positive class is set to label "good".</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> inheriting from <a href='TaskClassif.html'>TaskClassif</a>.</p>
+    <p><a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> inheriting from <a href='TaskClassif.html'>TaskClassif</a>.</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p>Data set originally published on <a href='https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)'>UCI</a>.
@@ -190,8 +190,8 @@ Von-Melle-Park 5<br />
     <h2 class="hasAnchor" id="construction"><a class="anchor" href="#construction"></a>Construction</h2>
 
     
-<pre><span class='kw'>mlr_tasks</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"german_credit"</span>)
-<span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"german_credit"</span>)
+<pre><span class='va'>mlr_tasks</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"german_credit"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"german_credit"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="meta-information"><a class="anchor" href="#meta-information"></a>Meta Information</h2>
@@ -235,11 +235,11 @@ Reports in Mathematics, Physics and Chemistry 4, Department II, Beuth University
 <code><a href='mlr_tasks.html'>mlr_tasks</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"german_credit"</span>)
-<span class='kw'>costs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>0</span>), nrow = <span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='kw'>costs</span>) <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(predicted = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>class_names</span>, truth = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>class_names</span>)
-<span class='kw'>measure</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.costs"</span>, id = <span class='st'>"german_credit_costs"</span>, costs = <span class='kw'>costs</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>measure</span>)
+    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"german_credit"</span><span class='op'>)</span>
+<span class='va'>costs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>0</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span><span class='op'>(</span><span class='va'>costs</span><span class='op'>)</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>predicted <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>class_names</span>, truth <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>class_names</span><span class='op'>)</span>
+<span class='va'>measure</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.costs"</span>, id <span class='op'>=</span> <span class='st'>"german_credit_costs"</span>, costs <span class='op'>=</span> <span class='va'>costs</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>measure</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;MeasureClassifCosts:german_credit_costs&gt;
 #&gt; * Packages: -
 #&gt; * Range: [0, Inf]

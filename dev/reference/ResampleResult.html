@@ -248,9 +248,9 @@ Note that there can be multiple rows per resampling iteration if multiple errors
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.
+<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.
 An alternative construction method is provided by <code><a href='as_resample_result.html'>as_resample_result()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>new</span>(data = <span class='kw'>ResultData</span><span class='op'>$</span><span class='fu'>new</span>(), view = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'><a href='ResultData.html'>ResultData</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>, view <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -266,12 +266,12 @@ Used internally for optimizations.</p></dd>
 <p><hr>
 <a id="method-format"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
 <p>Helper for print outputs.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>format</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-print"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
 <p>Printer.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -281,7 +281,7 @@ Used internally for optimizations.</p></dd>
 <p><hr>
 <a id="method-help"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>help()</code></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>help</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-prediction"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>prediction()</code></h3>
@@ -289,7 +289,7 @@ Used internally for optimizations.</p></dd>
 Note that performance measures do not operate on this object,
 but instead on each prediction object separately and then combine the performance scores
 with the aggregate function of the respective <a href='Measure.html'>Measure</a>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>prediction</span>(predict_sets = <span class='st'>"test"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span>predict_sets <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -303,7 +303,7 @@ Subset of <code>{"train", "test"}</code>.</p>
 <a id="method-predictions"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>predictions()</code></h3>
 <p>List of prediction objects, sorted by resampling iteration.
 If multiple sets are given, these are combined to a single one for each iteration.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>predictions</span>(predict_sets = <span class='st'>"test"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>predictions</span><span class='op'>(</span>predict_sets <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -321,7 +321,7 @@ Additionally, a column with the individual (per resampling iteration) performanc
 for each <a href='Measure.html'>Measure</a> in <code>measures</code>,
 named with the id of the respective measure id.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href='default_measures.html'>default_measures()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>score</span>(measures = <span class='kw'>NULL</span>, ids = <span class='fl'>TRUE</span>, predict_sets = <span class='st'>"test"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span>measures <span class='op'>=</span> <span class='cn'>NULL</span>, ids <span class='op'>=</span> <span class='cn'>TRUE</span>, predict_sets <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -345,7 +345,7 @@ Default is <code>"test"</code>.</p></dd>
 <p>Calculates and aggregates performance values for all provided measures, according to the
 respective aggregation function in <a href='Measure.html'>Measure</a>.
 If <code>measures</code> is <code>NULL</code>, <code>measures</code> defaults to the return value of <code><a href='default_measures.html'>default_measures()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(measures = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span>measures <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -358,7 +358,7 @@ Measure(s) to calculate.</p></dd>
 <p><hr>
 <a id="method-filter"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/filter.html'>filter()</a></code></h3>
 <p>Subsets the ResampleResult, reducing it to only keep the iterations specified in <code>iters</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='kw'>iters</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>filter</span><span class='op'>(</span><span class='va'>iters</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -373,7 +373,7 @@ the object in its previous state.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResampleResult</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResampleResult</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -384,19 +384,19 @@ the object in its previous state.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
-<span class='kw'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
-<span class='kw'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>, folds = <span class='fl'>3</span>)
-<span class='kw'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span>(<span class='kw'>task</span>, <span class='kw'>learner</span>, <span class='kw'>resampling</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>rr</span>)
+    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
+<span class='va'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>rr</span> <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='va'>resampling</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 3 iterations
 #&gt; * Task: iris
 #&gt; * Learner: classif.rpart
 #&gt; * Warnings: 0 in 0 iterations
 #&gt; * Errors: 0 in 0 iterations</div><div class='input'>
-<span class='kw'>rr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.acc"</span>))
+<span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.acc"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; classif.acc 
-#&gt;   0.9466667 </div><div class='input'><span class='kw'>rr</span><span class='op'>$</span><span class='fu'>prediction</span>()
+#&gt;   0.9466667 </div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;PredictionClassif&gt; for 150 observations:
 #&gt;     row_id     truth  response
 #&gt;          6    setosa    setosa
@@ -405,13 +405,13 @@ the object in its previous state.</p>
 #&gt; ---                           
 #&gt;        146 virginica virginica
 #&gt;        147 virginica virginica
-#&gt;        149 virginica virginica</div><div class='input'><span class='kw'>rr</span><span class='op'>$</span><span class='fu'>prediction</span>()<span class='op'>$</span><span class='kw'>confusion</span>
+#&gt;        149 virginica virginica</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>confusion</span>
 </div><div class='output co'>#&gt;             truth
 #&gt; response     setosa versicolor virginica
 #&gt;   setosa         50          0         0
 #&gt;   versicolor      0         46         4
-#&gt;   virginica       0          4        46</div><div class='input'><span class='kw'>rr</span><span class='op'>$</span><span class='kw'>warnings</span>
-</div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div><div class='input'><span class='kw'>rr</span><span class='op'>$</span><span class='kw'>errors</span>
+#&gt;   virginica       0          4        46</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>warnings</span>
+</div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='va'>errors</span>
 </div><div class='output co'>#&gt; Empty data.table (0 rows and 2 cols): iteration,msg</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

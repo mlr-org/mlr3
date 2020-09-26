@@ -169,7 +169,7 @@ then use the trained model to predict observations of a test set.
 Training and test sets are defined by the <a href='Resampling.html'>Resampling</a> <code>resampling</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>resample</span>(<span class='kw'>task</span>, <span class='kw'>learner</span>, <span class='kw'>resampling</span>, store_models = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>resample</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='va'>resampling</span>, store_models <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -228,33 +228,33 @@ We recommend to use package <a href='https://CRAN.R-project.org/package=progress
 <a href='https://CRAN.R-project.org/package=lgr'><span class="pkg">lgr</span></a> supports multiple log levels which can be queried with
 <code><a href='https://rdrr.io/r/base/options.html'>getOption("lgr.log_levels")</a></code>.</p>
 <p>To suppress output and reduce verbosity, you can lower the log from the
-default level <code>"info"</code> to <code>"warn"</code>:</p><pre><span class='kw'>lgr</span>::<span class='fu'><a href='https://rdrr.io/pkg/lgr/man/get_logger.html'>get_logger</a></span>(<span class='st'>"mlr3"</span>)<span class='op'>$</span><span class='fu'>set_threshold</span>(<span class='st'>"warn"</span>)
+default level <code>"info"</code> to <code>"warn"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::</span><span class='fu'><a href='https://s-fleck.github.io/lgr/reference/get_logger.html'>get_logger</a></span><span class='op'>(</span><span class='st'>"mlr3"</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>set_threshold</span><span class='op'>(</span><span class='st'>"warn"</span><span class='op'>)</span>
 </pre>
 
 <p>To get additional log output for debugging, increase the log level to <code>"debug"</code>
-or <code>"trace"</code>:</p><pre><span class='kw'>lgr</span>::<span class='fu'><a href='https://rdrr.io/pkg/lgr/man/get_logger.html'>get_logger</a></span>(<span class='st'>"mlr3"</span>)<span class='op'>$</span><span class='fu'>set_threshold</span>(<span class='st'>"debug"</span>)
+or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::</span><span class='fu'><a href='https://s-fleck.github.io/lgr/reference/get_logger.html'>get_logger</a></span><span class='op'>(</span><span class='st'>"mlr3"</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>set_threshold</span><span class='op'>(</span><span class='st'>"debug"</span><span class='op'>)</span>
 </pre>
 
-<p>To log to a file or a data base, see the documentation of <a href='https://rdrr.io/pkg/lgr/man/lgr-package.html'>lgr::lgr-package</a>.</p>
+<p>To log to a file or a data base, see the documentation of <a href='https://s-fleck.github.io/lgr/reference/lgr-package.html'>lgr::lgr-package</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
-<span class='kw'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.rpart"</span>)
-<span class='kw'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"cv"</span>)
+    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
+<span class='va'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span><span class='op'>)</span>
 
 <span class='co'># Explicitly instantiate the resampling for this task for reproduciblity</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='kw'>resampling</span><span class='op'>$</span><span class='fu'>instantiate</span>(<span class='kw'>task</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
+<span class='va'>resampling</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 
-<span class='kw'>rr</span> <span class='op'>=</span> <span class='fu'>resample</span>(<span class='kw'>task</span>, <span class='kw'>learner</span>, <span class='kw'>resampling</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>rr</span>)
+<span class='va'>rr</span> <span class='op'>=</span> <span class='fu'>resample</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learner</span>, <span class='va'>resampling</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 10 iterations
 #&gt; * Task: iris
 #&gt; * Learner: classif.rpart
 #&gt; * Warnings: 0 in 0 iterations
 #&gt; * Errors: 0 in 0 iterations</div><div class='input'>
 <span class='co'># Retrieve performance</span>
-<span class='kw'>rr</span><span class='op'>$</span><span class='fu'>score</span>(<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.ce"</span>))
+<span class='va'>rr</span><span class='op'>$</span><span class='fu'>score</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                  task task_id                   learner    learner_id
 #&gt;  1: &lt;TaskClassif[46]&gt;    iris &lt;LearnerClassifRpart[33]&gt; classif.rpart
 #&gt;  2: &lt;TaskClassif[46]&gt;    iris &lt;LearnerClassifRpart[33]&gt; classif.rpart
@@ -287,24 +287,24 @@ or <code>"trace"</code>:</p><pre><span class='kw'>lgr</span>::<span class='fu'><
 #&gt;  7: 0.00000000
 #&gt;  8: 0.00000000
 #&gt;  9: 0.06666667
-#&gt; 10: 0.00000000</div><div class='input'><span class='kw'>rr</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span>(<span class='fu'><a href='mlr_sugar.html'>msr</a></span>(<span class='st'>"classif.ce"</span>))
+#&gt; 10: 0.00000000</div><div class='input'><span class='va'>rr</span><span class='op'>$</span><span class='fu'>aggregate</span><span class='op'>(</span><span class='fu'><a href='mlr_sugar.html'>msr</a></span><span class='op'>(</span><span class='st'>"classif.ce"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; classif.ce 
 #&gt;       0.06 </div><div class='input'>
 <span class='co'># merged prediction objects of all resampling iterations</span>
-<span class='kw'>pred</span> <span class='op'>=</span> <span class='kw'>rr</span><span class='op'>$</span><span class='fu'>prediction</span>()
-<span class='kw'>pred</span><span class='op'>$</span><span class='kw'>confusion</span>
+<span class='va'>pred</span> <span class='op'>=</span> <span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>pred</span><span class='op'>$</span><span class='va'>confusion</span>
 </div><div class='output co'>#&gt;             truth
 #&gt; response     setosa versicolor virginica
 #&gt;   setosa         50          0         0
 #&gt;   versicolor      0         46         5
 #&gt;   virginica       0          4        45</div><div class='input'>
 <span class='co'># Repeat resampling with featureless learner</span>
-<span class='kw'>rr_featureless</span> <span class='op'>=</span> <span class='fu'>resample</span>(<span class='kw'>task</span>, <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"classif.featureless"</span>), <span class='kw'>resampling</span>)
+<span class='va'>rr_featureless</span> <span class='op'>=</span> <span class='fu'>resample</span><span class='op'>(</span><span class='va'>task</span>, <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span><span class='op'>)</span>, <span class='va'>resampling</span><span class='op'>)</span>
 
 <span class='co'># Convert results to BenchmarkResult, then combine them</span>
-<span class='kw'>bmr1</span> <span class='op'>=</span> <span class='fu'><a href='as_benchmark_result.html'>as_benchmark_result</a></span>(<span class='kw'>rr</span>)
-<span class='kw'>bmr2</span> <span class='op'>=</span> <span class='fu'><a href='as_benchmark_result.html'>as_benchmark_result</a></span>(<span class='kw'>rr_featureless</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>bmr1</span><span class='op'>$</span><span class='fu'>combine</span>(<span class='kw'>bmr2</span>))
+<span class='va'>bmr1</span> <span class='op'>=</span> <span class='fu'><a href='as_benchmark_result.html'>as_benchmark_result</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>)</span>
+<span class='va'>bmr2</span> <span class='op'>=</span> <span class='fu'><a href='as_benchmark_result.html'>as_benchmark_result</a></span><span class='op'>(</span><span class='va'>rr_featureless</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>bmr1</span><span class='op'>$</span><span class='fu'>combine</span><span class='op'>(</span><span class='va'>bmr2</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;BenchmarkResult&gt; of 20 rows with 2 resampling runs
 #&gt;  nr task_id          learner_id resampling_id iters warnings errors
 #&gt;   1    iris       classif.rpart            cv    10        0      0
