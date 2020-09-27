@@ -32,43 +32,34 @@ wlearner$learner_state$model
 
 ## resample_continue
 
-learners = map(rr$learners, function(x) {x$param_set$values$nrounds = 30; x})
-learners[[1]]$model
-learners[[1]]$param_set$values
+learner$param_set$values$nrounds = 30
 
-rr2 = resample_continue(task, learners, resampling, store_models = TRUE)
+rr2 = resample_continue(task, learner, resampling, rr, store_models = TRUE)
 
 rr2$learners[[1]]$param_set$values
 rr2$learners[[1]]$model
+rr2$learners[[3]]$param_set$values
+rr2$learners[[3]]$model
 
 ## benchmark_continue
 
-grid1 = benchmark_grid(task, c(learner, learner), resampling)
+learner1 = learner$clone()
+learner2 = learner$clone()
+
+grid1 = benchmark_grid(task, c(learner1, learner2), resampling)
 bmr = benchmark(grid1, store_models = TRUE)
+bmr$resample_result(1)$learners
 
-rr1_bmr = bmr$resample_result(1)
-rr1_bmr_learners = rr1_bmr$learners
-rr1_bmr_learners  = map(rr1_bmr_learners , function(x) {x$param_set$values$nrounds = 30; x})
-
-rr1_bmr_learners[[1]]$id = paste0(rr1_bmr_learners[[1]]$id, 1)
-rr1_bmr_learners[[2]]$id = paste0(rr1_bmr_learners[[2]]$id, 2)
-rr1_bmr_learners[[3]]$id = paste0(rr1_bmr_learners[[3]]$id, 3)
-
-rr2_bmr = bmr$resample_result(2)
-rr2_bmr_learners = rr2_bmr$learners
-rr2_bmr_learners  = map(rr2_bmr_learners , function(x) {x$param_set$values$nrounds = 30; x})
-
-rr2_bmr_learners[[1]]$id = paste0(rr2_bmr_learners[[1]]$id, 4)
-rr2_bmr_learners[[2]]$id = paste0(rr2_bmr_learners[[2]]$id, 5)
-rr2_bmr_learners[[3]]$id = paste0(rr2_bmr_learners[[3]]$id, 6)
+learner1$param_set$values$nrounds = 40
+learner2$param_set$values$nrounds = 40
 
 grid2 = data.table(task = list(task),
-                   learners = list(rr1_bmr_learners, rr2_bmr_learners),
-                   resampling = list(resampling))
+                   learner = list(learner1, learner2),
+                   resampling = list(resampling),
+                   resample_results = list(bmr$resample_result(1), bmr$resample_result(2)))
 
 bmr2 = benchmark_continue(grid2, store = TRUE)
-
-bmr2$resample_result(1)$learners[[1]]
+bmr2$resample_result(1)$learners
 bmr2$resample_result(1)$learners[[1]]$model
 
 

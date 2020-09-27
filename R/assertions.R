@@ -243,11 +243,22 @@ assert_ro_binding = function(rhs) {
 #' @param train_task
 #' @param continue_task
 #' @rdname mlr_assertions
-assert_continuable = function(train_task, continue_task) {
+assert_continuable_task = function(train_task, continue_task) {
   continue_task = task_rm_data(continue_task$clone(deep = TRUE))
+  train_task = task_rm_data(train_task$clone(deep = TRUE))
   # FIXME: Could print reason why continue training is not possible
   # e.g. different number of features
   if(!isTRUE(all.equal(train_task, continue_task))) {
     stop("Supplied task does not allow to continue training.")
+  }
+}
+
+#' @export
+#' @param train_task
+#' @param continue_task
+#' @rdname mlr_assertions
+assert_continuable_resampling = function(train_resampling, continue_resampling) {
+  if(train_resampling$id != continue_resampling$id || train_resampling$iters != continue_resampling$iters) {
+    stop("Supplied resampling does not allow to continue training.")
   }
 }

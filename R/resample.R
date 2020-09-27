@@ -89,11 +89,23 @@ resample = function(task, learner, resampling, store_models = FALSE) {
 }
 
 #' @export
-resample_continue = function(task, learners, resampling, store_models = FALSE) {
+resample_continue = function(task, learner, resampling, resample_result,
+  store_models = FALSE) {
   task = assert_task(as_task(task, clone = TRUE))
   resampling = assert_resampling(as_resampling(resampling))
   assert_flag(store_models)
-  # FIXME: Assert that learners can be continuable
+  learner = assert_learner(as_learner(learner, clone = TRUE))
+
+  # Continue assertions
+  assert_continuable_task(task, resample_result$task)
+  assert_continuable_resampling(resampling, resample_result$resampling)
+  # FIXME: continuable learner assertion
+
+  # Copy new param_set to learners with stored model
+  learners = map(resample_result$learners, function(rl) {
+    rl$param_set$values = learner$param_set$values
+    rl
+  })
 
   instance = resampling$clone(deep = TRUE)
   if (!instance$is_instantiated) {

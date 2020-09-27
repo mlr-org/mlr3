@@ -221,7 +221,7 @@ Learner = R6Class("Learner",
     continue = function(task) {
       # FIXME: Assert continue property
       task = assert_task(as_task(task))
-      assert_continuable(self$state$train_task, task)
+      assert_continuable_task(self$state$train_task, task)
 
       learner_continue(self, task)
 

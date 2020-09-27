@@ -132,7 +132,7 @@ benchmark = function(design, store_models = FALSE) {
 #' @export
 benchmark_continue = function(design, store_models = FALSE) {
   assert_data_frame(design, min.rows = 1L)
-  assert_names(names(design), permutation.of = c("task", "learners", "resampling"))
+  assert_names(names(design), permutation.of = c("task", "learner", "resampling", "resample_results"))
   design$task = list(assert_tasks(as_tasks(design$task)))
   design$resampling = list(assert_resamplings(as_resamplings(design$resampling), instantiated = TRUE))
   assert_flag(store_models)
@@ -143,11 +143,19 @@ benchmark_continue = function(design, store_models = FALSE) {
     stopf("Multiple task types detected: %s", str_collapse(task_types))
   }
 
+  learners = pmap(list(design$learner, design$resample_results), function(l, rr) {
+    map(rr$learners, function(learner) {
+      learner$param_set$values = l$param_set$values
+      learner
+    })
+  })
+
   # clone inputs
   setDT(design)
   task = resampling = NULL
   design[, "task" := list(list(task[[1L]]$clone())), by = list(hashes(task))]
   design[, "resampling" := list(list(resampling[[1L]]$clone())), by = list(hashes(resampling))]
+  design$resample_results = NULL
 
   # expand the design: add rows for each resampling iteration
   grid = pmap_dtr(design, function(task, learners, resampling) {
@@ -155,18 +163,19 @@ benchmark_continue = function(design, store_models = FALSE) {
     #learner = assert_learner(as_learner(learner))
     #assert_learnable(task, learner)
     data.table(
-      task = list(task), learner = unlist(learners),  resampling = list(resampling),
+      task = list(task), learner = list(learners),  resampling = list(resampling),
       iteration = seq_len(resampling$iters), uhash = UUIDgenerate()
     )
   })
+  # Replace with learners with model
+  grid$learner = unlist(learners)
+
   n = nrow(grid)
 
   lg$info("Benchmark with %i resampling iterations", n)
   pb = get_progressor(n)
 
   lg$debug("Running benchmark() asynchronously with %i iterations", n)
-
-
 
   res = future.apply::future_mapply(workhorse_continue,
     task = grid$task, learner = grid$learner, resampling = grid$resampling,
