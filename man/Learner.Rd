@@ -188,6 +188,7 @@ See \code{\link[mlr3misc:encapsulate]{mlr3misc::encapsulate()}} for more details
 \item \href{#method-print}{\code{Learner$print()}}
 \item \href{#method-help}{\code{Learner$help()}}
 \item \href{#method-train}{\code{Learner$train()}}
+\item \href{#method-continue}{\code{Learner$continue()}}
 \item \href{#method-predict}{\code{Learner$predict()}}
 \item \href{#method-predict_newdata}{\code{Learner$predict_newdata()}}
 \item \href{#method-reset}{\code{Learner$reset()}}
@@ -316,6 +317,29 @@ Mutates the learner by reference, i.e. stores the model alongside other informat
 
 \item{\code{row_ids}}{(\code{integer()})\cr
 Vector of training indices.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns the object itself, but modified \strong{by reference}.
+You need to explicitly \verb{$clone()} the object beforehand if you want to keeps
+the object in its previous state.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-continue"></a>}}
+\if{latex}{\out{\hypertarget{method-continue}{}}}
+\subsection{Method \code{continue()}}{
+Continue training of the model on the provided \code{task}.
+Mutates the learner by reference, i.e. stores the model alongside other information in field \verb{$state}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Learner$continue(task)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task}).}
 }
 \if{html}{\out{</div>}}
 }

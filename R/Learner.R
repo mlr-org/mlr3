@@ -209,6 +209,28 @@ Learner = R6Class("Learner",
     },
 
     #' @description
+    #' Continue training of the model on the provided `task`.
+    #' Mutates the learner by reference, i.e. stores the model alongside other information in field `$state`.
+    #'
+    #' @param task ([Task]).
+    #'
+    #' @return
+    #' Returns the object itself, but modified **by reference**.
+    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
+    #' the object in its previous state.
+    continue = function(task) {
+      # FIXME: Assert continue property
+      task = assert_task(as_task(task))
+      assert_continuable(self$state$train_task, task)
+
+      learner_continue(self, task)
+
+      # FIXME: Store task? Without data it should not differ to train task
+
+      invisible(self)
+    },
+
+    #' @description
     #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
     #' for a set of observations of the provided `task`.
     #'

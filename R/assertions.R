@@ -238,3 +238,16 @@ assert_ro_binding = function(rhs) {
     stopf("Field/Binding is read-only")
   }
 }
+
+#' @export
+#' @param train_task
+#' @param continue_task
+#' @rdname mlr_assertions
+assert_continuable = function(train_task, continue_task) {
+  continue_task = task_rm_data(continue_task$clone(deep = TRUE))
+  # FIXME: Could print reason why continue training is not possible
+  # e.g. different number of features
+  if(!isTRUE(all.equal(train_task, continue_task))) {
+    stop("Supplied task does not allow to continue training.")
+  }
+}

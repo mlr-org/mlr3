@@ -87,3 +87,38 @@ resample = function(task, learner, resampling, store_models = FALSE) {
 
   ResampleResult$new(data = rdata)
 }
+
+#' @export
+resample_continue = function(task, learners, resampling, store_models = FALSE) {
+  task = assert_task(as_task(task, clone = TRUE))
+  resampling = assert_resampling(as_resampling(resampling))
+  assert_flag(store_models)
+  # FIXME: Assert that learners can be continuable
+
+  instance = resampling$clone(deep = TRUE)
+  if (!instance$is_instantiated) {
+    instance = instance$instantiate(task)
+  }
+  n = instance$iters
+  pb = get_progressor(n)
+
+  lg$debug("Running resample_continue() via future with %i iterations", n)
+
+  res = future.apply::future_mapply(workhorse_continue, iteration = seq_len(n), learner = learners,
+    MoreArgs = list(task = task, resampling = instance, store_models = store_models, lgr_threshold = lg$threshold, pb = pb),
+    future.globals = FALSE, future.scheduling = structure(TRUE, ordering = "random"),
+    future.packages = "mlr3", future.seed = TRUE
+  )
+
+  rdata = rdata_from_table(data.table(
+    task = list(task),
+    learner = list(learners[[1]]),
+    learner_state = res[1,],
+    resampling = list(instance),
+    iteration = seq_len(n),
+    prediction = res[2,],
+    uhash = UUIDgenerate()
+  ))
+
+  ResampleResult$new(data = rdata)
+}

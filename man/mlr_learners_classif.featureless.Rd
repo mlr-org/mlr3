@@ -33,7 +33,7 @@ lrn("classif.featureless")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Range \tab Levels \cr
-   method \tab character \tab mode \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab mode, sample, weighted.sample \cr
+   method \tab character \tab mode \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \tab mode           , sample         , weighted.sample \cr
 }
 }
 
@@ -68,6 +68,7 @@ Other Learner:
 \if{html}{
 \out{<details ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="continue">}\href{../../mlr3/html/Learner.html#method-continue}{\code{mlr3::Learner$continue()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format">}\href{../../mlr3/html/Learner.html#method-format}{\code{mlr3::Learner$format()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help">}\href{../../mlr3/html/Learner.html#method-help}{\code{mlr3::Learner$help()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict">}\href{../../mlr3/html/Learner.html#method-predict}{\code{mlr3::Learner$predict()}}\out{</span>}

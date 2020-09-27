@@ -17,6 +17,13 @@ train_wrapper = function(learner, task) {
   model
 }
 
+# This wrapper calls learner$.continue
+# Exceptions here are possibly encapsulated, so that they get captured
+# and turned into log messages.
+continue_wrapper = function(learner, task) {
+  model = get_private(learner)$.continue(task)
+}
+
 
 # This wrapper calls learner$predict, and additionally performs some basic
 # checks that the prediction was successful.
@@ -100,6 +107,52 @@ learner_train = function(learner, task, row_ids = NULL) {
   learner
 }
 
+learner_continue = function(learner, task, row_ids = NULL) {
+  assert_task(task)
+  # FIXME: Assert that train task and continue task are compatible
+
+  # subset to train set w/o cloning
+  if (!is.null(row_ids)) {
+    lg$debug("Subsetting task '%s' to %i rows",
+             task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
+
+    prev_use = task$row_roles$use
+    on.exit({
+      task$row_roles$use = prev_use
+    }, add = TRUE)
+    task$row_roles$use = row_ids
+  } else {
+    lg$debug("Skip subsetting of task '%s'", task$id)
+  }
+
+  lg$debug("Calling continue method of Learner '%s' on task '%s' with %i observations",
+    learner$id, task$id, task$nrow, learner = learner$clone())
+
+  # call train_wrapper with encapsulation
+  result = encapsulate("none", # FIXME: encapsulate continue
+    .f = continue_wrapper,
+    .args = list(learner = learner, task = task),
+    .pkgs = learner$packages,
+    .seed = NA_integer_
+  )
+
+  if (is.null(result$result)) {
+    lg$debug("Learner '%s' on task '%s' failed to continue the model",
+      learner$id, task$id, learner = learner$clone(), messages = result$log$msg)
+  } else {
+    lg$debug("Learner '%s' on task '%s' succeeded to continue the model",
+      learner$id, task$id, learner = learner$clone(), result = result$result, messages = result$log$msg)
+
+    # Write new model to state
+    learner$state = insert_named(learner$state, list(
+      model = result$result,
+      log = append_log(NULL, "train", result$log$class, result$log$msg),
+      train_time = result$elapsed # FIXME: Train time should be train and continue
+    ))
+  }
+
+  learner
+}
 
 learner_predict = function(learner, task, row_ids = NULL) {
   assert_task(task)
@@ -206,6 +259,35 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
 
   # train model
   learner = learner_train(learner$clone(), task, sets[["train"]])
+
+  # predict for each set
+  sets = sets[learner$predict_sets]
+  pdatas = Map(function(set, row_ids) {
+    lg$debug("Creating Prediction for predict set '%s'", set)
+    learner_predict(learner, task, row_ids)
+  }, set = names(sets), row_ids = sets)
+  pdatas = discard(pdatas, is.null)
+
+  if (!store_models) {
+    lg$debug("Erasing stored model for learner '%s'", learner$id)
+    learner$state$model = NULL
+  }
+
+  list(learner_state = learner$state, prediction = pdatas)
+}
+
+workhorse_continue = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE, pb = NULL) {
+  if (!is.null(lgr_threshold)) {
+    lg$set_threshold(lgr_threshold)
+  }
+
+  sets = list(
+    train = resampling$train_set(iteration),
+    test = resampling$test_set(iteration)
+  )
+
+  # train model
+  learner = learner_continue(learner$clone(), task, sets[["train"]])
 
   # predict for each set
   sets = sets[learner$predict_sets]
