@@ -141,7 +141,7 @@ resample_continue = function(learner, resample_result, store_models = FALSE) {
     future.packages = "mlr3", future.seed = TRUE
   )
 
-  rdata = rdata_from_table(data.table(
+  data = data.table(
     task = list(task),
     learner = list(learner),
     learner_state = res["learner_state", ],
@@ -149,7 +149,7 @@ resample_continue = function(learner, resample_result, store_models = FALSE) {
     iteration = seq_len(n),
     prediction = res["prediction", ],
     uhash = UUIDgenerate()
-  ))
+  )
 
-  ResampleResult$new(data = rdata)
+  ResampleResult$new(ResultData$new(data))
 }

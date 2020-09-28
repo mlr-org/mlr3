@@ -198,5 +198,5 @@ benchmark_continue = function(learners, benchmark_result, store_models = FALSE) 
 
   lg$info("Finished benchmark")
 
-  BenchmarkResult$new(rdata_from_table(grid))
+  BenchmarkResult$new(grid)
 }
