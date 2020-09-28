@@ -89,14 +89,17 @@ reference:
       - resample
       - ResampleResult
       - as_resample_result
+      - as_result_data
   - title: Benchmarking
     contents:
       - benchmark
       - benchmark_grid
       - BenchmarkResult
       - as_benchmark_result
+      - as_result_data
   - title: Extending mlr3
     contents:
+      - ResultData
       - mlr_assertions
       - mlr_coercions
       - mlr_reflections
