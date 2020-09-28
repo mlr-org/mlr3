@@ -184,9 +184,9 @@ expect_iris_backend = function(b, n_missing = 0L) {
 
   # no missing values
   x = b$missings(b$rownames, b$colnames)
-  checkmate::expect_integer(x, names = "unique", lower = 0L, upper = b$nrow, any.missing = FALSE)
+  checkmate::expect_integerish(x, names = "unique", lower = 0L, upper = b$nrow, any.missing = FALSE)
   checkmate::expect_names(names(x), permutation.of = b$colnames)
-  testthat::expect_identical(sum(x), as.integer(n_missing))
+  testthat::expect_equal(sum(x), n_missing)
 }
 
 expect_task = function(task) {
