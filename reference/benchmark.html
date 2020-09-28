@@ -246,12 +246,12 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 <span class='co'>## Data of all resamplings</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>bmr</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                                   uhash              task
-#&gt; 1: acc11ef3-1912-47e0-883d-78eb7a4c9388 &lt;TaskClassif[46]&gt;
-#&gt; 2: acc11ef3-1912-47e0-883d-78eb7a4c9388 &lt;TaskClassif[46]&gt;
-#&gt; 3: acc11ef3-1912-47e0-883d-78eb7a4c9388 &lt;TaskClassif[46]&gt;
-#&gt; 4: 7ba2e981-019d-46cf-95cf-8a18565b8f4d &lt;TaskClassif[46]&gt;
-#&gt; 5: 7ba2e981-019d-46cf-95cf-8a18565b8f4d &lt;TaskClassif[46]&gt;
-#&gt; 6: 7ba2e981-019d-46cf-95cf-8a18565b8f4d &lt;TaskClassif[46]&gt;
+#&gt; 1: 6fc57497-940f-4859-9368-faf918ea9a60 &lt;TaskClassif[46]&gt;
+#&gt; 2: 6fc57497-940f-4859-9368-faf918ea9a60 &lt;TaskClassif[46]&gt;
+#&gt; 3: 6fc57497-940f-4859-9368-faf918ea9a60 &lt;TaskClassif[46]&gt;
+#&gt; 4: 11a782fd-f78a-48e0-9771-782147786bcb &lt;TaskClassif[46]&gt;
+#&gt; 5: 11a782fd-f78a-48e0-9771-782147786bcb &lt;TaskClassif[46]&gt;
+#&gt; 6: 11a782fd-f78a-48e0-9771-782147786bcb &lt;TaskClassif[46]&gt;
 #&gt;                            learner         resampling iteration
 #&gt; 1: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         1
 #&gt; 2: &lt;LearnerClassifFeatureless[33]&gt; &lt;ResamplingCV[19]&gt;         2
@@ -275,10 +275,10 @@ or <code>"trace"</code>:</p><pre><span class='fu'>lgr</span><span class='fu'>::<
 #&gt; 3:  3 &lt;ResampleResult[21]&gt;   sonar classif.featureless            cv     3
 #&gt; 4:  4 &lt;ResampleResult[21]&gt;   sonar       classif.rpart            cv     3
 #&gt;    classif.ce
-#&gt; 1:  0.4037716
-#&gt; 2:  0.4037716
-#&gt; 3:  0.4037716
-#&gt; 4:  0.4037716</div><div class='input'>
+#&gt; 1: 0.72000000
+#&gt; 2: 0.05333333
+#&gt; 3: 0.53878537
+#&gt; 4: 0.30296756</div><div class='input'>
 <span class='co'>## Extract predictions of first resampling result</span>
 <span class='va'>rr</span> <span class='op'>=</span> <span class='va'>aggr</span><span class='op'>$</span><span class='va'>resample_result</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 <span class='fu'><a href='as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>rr</span><span class='op'>$</span><span class='fu'>prediction</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
