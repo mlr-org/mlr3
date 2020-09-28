@@ -175,7 +175,6 @@ Collate:
     'deprecated.R'
     'fix_factor_levels.R'
     'helper.R'
-    'helper_R6.R'
     'mlr_coercions.R'
     'mlr_sugar.R'
     'predict.R'
