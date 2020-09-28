@@ -52,6 +52,9 @@
     <loc>https://mlr3.mlr-org.com/reference/Resampling.html</loc>
   </url>
   <url>
+    <loc>https://mlr3.mlr-org.com/reference/ResultData.html</loc>
+  </url>
+  <url>
     <loc>https://mlr3.mlr-org.com/reference/Task.html</loc>
   </url>
   <url>
@@ -80,6 +83,9 @@
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/as_resample_result.html</loc>
+  </url>
+  <url>
+    <loc>https://mlr3.mlr-org.com/reference/as_result_data.html</loc>
   </url>
   <url>
     <loc>https://mlr3.mlr-org.com/reference/auto_convert.html</loc>

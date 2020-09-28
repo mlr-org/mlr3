@@ -102,7 +102,7 @@ msrs() for a list of Measures from mlr_measures.
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -189,25 +189,25 @@ Relies on <code><a href='https://mlr3misc.mlr-org.com/reference/dictionary_sugar
 
     </div>
 
-    <pre class="usage"><span class='fu'>tsk</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>tsk</span><span class='op'>(</span><span class='va'>.key</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tsks</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)
+<span class='fu'>tsks</span><span class='op'>(</span><span class='va'>.keys</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tgen</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
+<span class='fu'>tgen</span><span class='op'>(</span><span class='va'>.key</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tgens</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)
+<span class='fu'>tgens</span><span class='op'>(</span><span class='va'>.keys</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>lrn</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
+<span class='fu'>lrn</span><span class='op'>(</span><span class='va'>.key</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>lrns</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)
+<span class='fu'>lrns</span><span class='op'>(</span><span class='va'>.keys</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>rsmp</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
+<span class='fu'>rsmp</span><span class='op'>(</span><span class='va'>.key</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>rsmps</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)
+<span class='fu'>rsmps</span><span class='op'>(</span><span class='va'>.keys</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>msr</span>(<span class='kw'>.key</span>, <span class='kw'>...</span>)
+<span class='fu'>msr</span><span class='op'>(</span><span class='va'>.key</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>msrs</span>(<span class='kw'>.keys</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>msrs</span><span class='op'>(</span><span class='va'>.keys</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -232,12 +232,12 @@ Keys passed to the respective <a href='https://mlr3misc.mlr-org.com/reference/Di
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> object of the respective type,
-or a list of <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> objects for the plural versions.</p>
+    <p><a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> object of the respective type,
+or a list of <a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> objects for the plural versions.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># iris task with new id</span>
-<span class='fu'>tsk</span>(<span class='st'>"iris"</span>, id = <span class='st'>"iris2"</span>)
+<span class='fu'>tsk</span><span class='op'>(</span><span class='st'>"iris"</span>, id <span class='op'>=</span> <span class='st'>"iris2"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;TaskClassif:iris2&gt; (150 x 5)
 #&gt; * Target: Species
 #&gt; * Properties: multiclass
@@ -245,7 +245,7 @@ or a list of <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> o
 #&gt;   - dbl (4): Petal.Length, Petal.Width, Sepal.Length, Sepal.Width</div><div class='input'>
 <span class='co'># classification tree with different hyperparameters</span>
 <span class='co'># and predict type set to predict probabilities</span>
-<span class='fu'>lrn</span>(<span class='st'>"classif.rpart"</span>, cp = <span class='fl'>0.1</span>, predict_type = <span class='st'>"prob"</span>)
+<span class='fu'>lrn</span><span class='op'>(</span><span class='st'>"classif.rpart"</span>, cp <span class='op'>=</span> <span class='fl'>0.1</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;LearnerClassifRpart:classif.rpart&gt;
 #&gt; * Model: -
 #&gt; * Parameters: xval=0, cp=0.1
@@ -255,14 +255,15 @@ or a list of <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6::R6Class</a> o
 #&gt; * Properties: importance, missings, multiclass, selected_features,
 #&gt;   twoclass, weights</div><div class='input'>
 <span class='co'># multiple learners with predict type 'prob'</span>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span>), <span class='kw'>lrn</span>, predict_type = <span class='st'>"prob"</span>)
+<span class='fu'>lrns</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"classif.featureless"</span>, <span class='st'>"classif.rpart"</span><span class='op'>)</span>, predict_type <span class='op'>=</span> <span class='st'>"prob"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [[1]]
 #&gt; &lt;LearnerClassifFeatureless:classif.featureless&gt;
 #&gt; * Model: -
 #&gt; * Parameters: method=mode
 #&gt; * Packages: -
 #&gt; * Predict Type: prob
-#&gt; * Feature types: logical, integer, numeric, character, factor, ordered
+#&gt; * Feature types: logical, integer, numeric, character, factor, ordered,
+#&gt;   POSIXct
 #&gt; * Properties: importance, missings, multiclass, selected_features,
 #&gt;   twoclass
 #&gt; 

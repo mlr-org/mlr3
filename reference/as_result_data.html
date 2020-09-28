@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dictionary of Resampling Strategies — mlr_resamplings • mlr3</title>
+<title>Manually construct an object of type ResultData — as_result_data • mlr3</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -53,11 +53,12 @@
 
 
 
-<meta property="og:title" content="Dictionary of Resampling Strategies — mlr_resamplings" />
-<meta property="og:description" content="A simple mlr3misc::Dictionary storing objects of class Resampling.
-Each resampling has an associated help page, see mlr_resamplings_[id].
-This dictionary can get populated with additional resampling strategies by add-on packages.
-For a more convenient way to retrieve and construct resampling strategies, see rsmp()/rsmps()." />
+<meta property="og:title" content="Manually construct an object of type ResultData — as_result_data" />
+<meta property="og:description" content="This function allows to manually construct a ResampleResult or BenchmarkResult by combining
+the individual components to an object of class ResultData, mlr3's internal container object.
+A ResampleResult or BenchmarkResult can then be initialized with the returned object.
+Note that ResampleResults can be converted to a BenchmarkResult with as_benchmark_result()
+and multiple BenchmarkResults can be combined to a larger BenchmarkResult." />
 <meta property="og:image" content="https://mlr3.mlr-org.com/logo.svg" />
 <meta name="twitter:card" content="summary" />
 
@@ -157,74 +158,85 @@ For a more convenient way to retrieve and construct resampling strategies, see r
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Dictionary of Resampling Strategies</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/mlr_resamplings.R'><code>R/mlr_resamplings.R</code></a></small>
-    <div class="hidden name"><code>mlr_resamplings.Rd</code></div>
+    <h1>Manually construct an object of type ResultData</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mlr-org/mlr3/blob/master/R/ResultData.R'><code>R/ResultData.R</code></a></small>
+    <div class="hidden name"><code>as_result_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A simple <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> storing objects of class <a href='Resampling.html'>Resampling</a>.
-Each resampling has an associated help page, see <code>mlr_resamplings_[id]</code>.</p>
-<p>This dictionary can get populated with additional resampling strategies by add-on packages.</p>
-<p>For a more convenient way to retrieve and construct resampling strategies, see <code><a href='mlr_sugar.html'>rsmp()</a></code>/<code><a href='mlr_sugar.html'>rsmps()</a></code>.</p>
+    <p>This function allows to manually construct a <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkResult.html'>BenchmarkResult</a> by combining
+the individual components to an object of class <a href='ResultData.html'>ResultData</a>, mlr3's internal container object.
+A <a href='ResampleResult.html'>ResampleResult</a> or <a href='BenchmarkResult.html'>BenchmarkResult</a> can then be initialized with the returned object.
+Note that <a href='ResampleResult.html'>ResampleResult</a>s can be converted to a <a href='BenchmarkResult.html'>BenchmarkResult</a> with <code><a href='as_benchmark_result.html'>as_benchmark_result()</a></code>
+and multiple <a href='BenchmarkResult.html'>BenchmarkResult</a>s can be combined to a larger <a href='BenchmarkResult.html'>BenchmarkResult</a>.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>as_result_data</span><span class='op'>(</span>
+  <span class='va'>task</span>,
+  <span class='va'>learners</span>,
+  <span class='va'>resampling</span>,
+  <span class='va'>iterations</span>,
+  <span class='va'>predictions</span>,
+  learner_states <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>task</th>
+      <td><p>(<a href='Task.html'>Task</a>).</p></td>
+    </tr>
+    <tr>
+      <th>learners</th>
+      <td><p>(list of trained <a href='Learner.html'>Learner</a>s).</p></td>
+    </tr>
+    <tr>
+      <th>resampling</th>
+      <td><p>(<a href='Resampling.html'>Resampling</a>).</p></td>
+    </tr>
+    <tr>
+      <th>iterations</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>).</p></td>
+    </tr>
+    <tr>
+      <th>predictions</th>
+      <td><p>(list of <a href='Prediction.html'>Prediction</a>s).</p></td>
+    </tr>
+    <tr>
+      <th>learner_states</th>
+      <td><p>(<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>)<br />
+Learner states. If not provided, the states of <code>learners</code> are automatically extracted.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><a href='https://r6.r-lib.org/reference/R6Class.html'>R6::R6Class</a> object inheriting from <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a>.</p>
-    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
-
-    
-
-<p>See <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a>.</p>
-    <h2 class="hasAnchor" id="s-methods"><a class="anchor" href="#s-methods"></a>S3 methods</h2>
-
-    
-
-<ul>
-<li><p><code><a href='as.data.table.html'>as.data.table(dict)</a></code><br />
-<a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>mlr3misc::Dictionary</a> -&gt; <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code><br />
-Returns a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table::data.table()</a></code> with columns <code>"key"</code>, <code>"params"</code>, and <code>"iters"</code>.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Sugar functions: <code><a href='mlr_sugar.html'>rsmp()</a></code>, <code><a href='mlr_sugar.html'>rsmps()</a></code></p>
-<p>Other Dictionary: 
-<code><a href='mlr_learners.html'>mlr_learners</a></code>,
-<code><a href='mlr_measures.html'>mlr_measures</a></code>,
-<code><a href='mlr_task_generators.html'>mlr_task_generators</a></code>,
-<code><a href='mlr_tasks.html'>mlr_tasks</a></code></p>
-<p>Other Resampling: 
-<code><a href='Resampling.html'>Resampling</a></code>,
-<code><a href='mlr_resamplings_bootstrap.html'>mlr_resamplings_bootstrap</a></code>,
-<code><a href='mlr_resamplings_custom.html'>mlr_resamplings_custom</a></code>,
-<code><a href='mlr_resamplings_cv.html'>mlr_resamplings_cv</a></code>,
-<code><a href='mlr_resamplings_holdout.html'>mlr_resamplings_holdout</a></code>,
-<code><a href='mlr_resamplings_insample.html'>mlr_resamplings_insample</a></code>,
-<code><a href='mlr_resamplings_loo.html'>mlr_resamplings_loo</a></code>,
-<code><a href='mlr_resamplings_repeated_cv.html'>mlr_resamplings_repeated_cv</a></code>,
-<code><a href='mlr_resamplings_subsampling.html'>mlr_resamplings_subsampling</a></code></p></div>
+    <p><code>ResultData</code> object which can be passed to the constructor of <a href='ResampleResult.html'>ResampleResult</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>mlr_resamplings</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            key        params iters
-#&gt; 1:   bootstrap repeats,ratio    30
-#&gt; 2:      custom                   0
-#&gt; 3:          cv         folds    10
-#&gt; 4:     holdout         ratio     1
-#&gt; 5:    insample                   1
-#&gt; 6:         loo                  NA
-#&gt; 7: repeated_cv repeats,folds   100
-#&gt; 8: subsampling repeats,ratio    30</div><div class='input'><span class='va'>mlr_resamplings</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"cv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;ResamplingCV&gt; with 10 iterations
-#&gt; * Instantiated: FALSE
-#&gt; * Parameters: folds=10</div><div class='input'><span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"subsampling"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;ResamplingSubsampling&gt; with 30 iterations
-#&gt; * Instantiated: FALSE
-#&gt; * Parameters: repeats=30, ratio=0.6667</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"classif.rpart"</span><span class='op'>)</span>
+<span class='va'>resampling</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"cv"</span>, folds <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
+<span class='va'>iterations</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='va'>resampling</span><span class='op'>$</span><span class='va'>iters</span><span class='op'>)</span>
+
+<span class='co'># manually train two learners.</span>
+<span class='co'># store learners and predictions</span>
+<span class='va'>learners</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>predictions</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='va'>iterations</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>l</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='va'>learners</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>=</span> <span class='va'>l</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='va'>resampling</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>predictions</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>=</span> <span class='va'>l</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span>, row_ids <span class='op'>=</span> <span class='va'>resampling</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>rdata</span> <span class='op'>=</span> <span class='fu'>as_result_data</span><span class='op'>(</span><span class='va'>task</span>, <span class='va'>learners</span>, <span class='va'>resampling</span>, <span class='va'>iterations</span>, <span class='va'>predictions</span><span class='op'>)</span>
+<span class='va'><a href='ResampleResult.html'>ResampleResult</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>rdata</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; &lt;ResampleResult&gt; of 2 iterations
+#&gt; * Task: iris
+#&gt; * Learner: classif.rpart
+#&gt; * Warnings: 0 in 0 iterations
+#&gt; * Errors: 0 in 0 iterations</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

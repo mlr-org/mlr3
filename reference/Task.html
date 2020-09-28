@@ -97,7 +97,7 @@ e.g. iris or boston_housing." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -262,6 +262,11 @@ Required for <code><a href='convert_task.html'>convert_task()</a></code>.</p></d
 <dt><code>hash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
 Hash (unique identifier) for this object.</p></dd>
 
+<dt><code>phash</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>)<br />
+Hash (unique identifier) for this partial object, excluding some components
+which are varied  systematically during tuning (parameter values) or feature
+selection (feature names).</p></dd>
+
 <dt><code>row_ids</code></dt><dd><p>(<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>)<br />
 Returns the row ids of the <a href='DataBackend.html'>DataBackend</a> for observations with role "use".</p></dd>
 
@@ -388,9 +393,9 @@ If the task has a column with designated role <code>"weight"</code>, a table wit
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p>
+<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p>
 <p>Note that this object is typically constructed via a derived classes, e.g. <a href='TaskClassif.html'>TaskClassif</a> or <a href='TaskRegr.html'>TaskRegr</a>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>id</span>, <span class='kw'>task_type</span>, <span class='kw'>backend</span>, extra_args = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>task_type</span>, <span class='va'>backend</span>, extra_args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -413,17 +418,17 @@ via <code><a href='convert_task.html'>convert_task()</a></code>.</p></dd>
 <p><hr>
 <a id="method-help"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>help()</code></h3>
 <p>Opens the corresponding help page referenced by field <code>$man</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/help.html'>help</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>help</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-format"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
 <p>Helper for print outputs.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>format</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-print"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
 <p>Printer.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>...</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -442,7 +447,7 @@ If <code>cols</code> is <code>NULL</code>, the column order defaults to
 <code><a href='https://rdrr.io/r/base/c.html'>c(task$target_names, task$feature_names)</a></code>.
 Note that it is recommended to <strong>not</strong> rely on the order of columns, and instead always
 address columns with their respective column name.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(rows = <span class='kw'>NULL</span>, cols = <span class='kw'>NULL</span>, data_format = <span class='st'>"data.table"</span>, ordered = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='cn'>NULL</span>, cols <span class='op'>=</span> <span class='cn'>NULL</span>, data_format <span class='op'>=</span> <span class='st'>"data.table"</span>, ordered <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -465,7 +470,7 @@ If <code>TRUE</code> (default), data is ordered according to the columns with co
 <a id="method-formula"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/stats/formula.html'>formula()</a></code></h3>
 <p>Constructs a <code><a href='https://rdrr.io/r/stats/formula.html'>formula()</a></code>, e.g. <code>[target] ~ [feature_1] + [feature_2] + ... + [feature_k]</code>,
 using the features provided in argument <code>rhs</code> (defaults to all columns with role <code>"feature"</code>, symbolized by <code>"."</code>).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>formula</a></span>(rhs = <span class='st'>"."</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span>rhs <span class='op'>=</span> <span class='st'>"."</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -478,7 +483,7 @@ Right hand side of the formula. Defaults to <code>"."</code> (all features of th
 <p><hr>
 <a id="method-head"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/utils/head.html'>head()</a></code></h3>
 <p>Get the first <code>n</code> observations with role <code>"use"</code> of all columns with role <code>"target"</code> or <code>"feature"</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(n = <span class='fl'>6L</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>head</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>6L</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -493,7 +498,7 @@ Right hand side of the formula. Defaults to <code>"."</code> (all features of th
 Argument <code>cols</code> defaults to all such columns with role <code>"target"</code> or <code>"feature"</code>.</p>
 <p>Note that this function ignores the row roles, it returns all levels available in the <a href='DataBackend.html'>DataBackend</a>.
 To update the stored level information, e.g. after subsetting a task with <code>$filter()</code>, call <code>$droplevels()</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(cols = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>levels</span><span class='op'>(</span>cols <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -508,7 +513,7 @@ Column names.</p></dd>
 <p>Returns the number of missing observations for columns referenced in <code>cols</code>.
 Considers only active rows with row role <code>"use"</code>.
 Argument <code>cols</code> defaults to all columns with role "target" or "feature".</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'>missings</span>(cols = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>missings</span><span class='op'>(</span>cols <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -523,7 +528,7 @@ Column names.</p></dd>
 <p>Subsets the task, keeping only the rows specified via row ids <code>rows</code>.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='kw'>rows</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>filter</span><span class='op'>(</span><span class='va'>rows</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -541,7 +546,7 @@ the object in its previous state.</p>
 Note that you cannot deselect the target column, for obvious reasons.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'>select</span>(<span class='kw'>cols</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>select</span><span class='op'>(</span><span class='va'>cols</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -564,7 +569,7 @@ and virtually overwrite the rows in the <a href='DataBackend.html'>DataBackend</
 Columns only present in <code>data</code> but not in the <a href='DataBackend.html'>DataBackend</a> of <code>task</code> will be discarded.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='kw'>data</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>rbind</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -584,7 +589,7 @@ In case of name clashes of column names in <code>data</code> and <a href='DataBa
 and virtually overwrite the columns in the <a href='DataBackend.html'>DataBackend</a>.</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='kw'>data</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>cbind</span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -596,7 +601,7 @@ See the section on task mutators for more information.</p><h4 class='hasAnchor' 
 <p>Renames columns by mapping column names in <code>old</code> to new column names in <code>new</code> (element-wise).</p>
 <p>This operation mutates the task in-place.
 See the section on task mutators for more information.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'>rename</span>(<span class='kw'>old</span>, <span class='kw'>new</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>rename</span><span class='op'>(</span><span class='va'>old</span>, <span class='va'>new</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -616,7 +621,7 @@ the object in its previous state.</p>
 <p>Adds the roles <code>new_roles</code> to rows referred to by row ids <code>rows</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced rows will be removed from all other roles.</p>
 <p>This function is deprecated and will be removed in the next version in favor of directly modifying <code>$row_roles</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'>set_row_role</span>(<span class='kw'>rows</span>, <span class='kw'>new_roles</span>, exclusive = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>set_row_role</span><span class='op'>(</span><span class='va'>rows</span>, <span class='va'>new_roles</span>, exclusive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -637,7 +642,7 @@ the object in its previous state.</p>
 <p>Adds the roles <code>new_roles</code> to columns referred to by column names <code>cols</code>.
 If <code>exclusive</code> is <code>TRUE</code>, the referenced columns will be removed from all other roles.</p>
 <p>This function is deprecated and will be removed in the next version in favor of directly modifying <code>$col_roles</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'>set_col_role</span>(<span class='kw'>cols</span>, <span class='kw'>new_roles</span>, exclusive = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>set_col_role</span><span class='op'>(</span><span class='va'>cols</span>, <span class='va'>new_roles</span>, exclusive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -657,7 +662,7 @@ the object in its previous state.</p>
 <a id="method-droplevels"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/droplevels.html'>droplevels()</a></code></h3>
 <p>Updates the cache of stored factor levels, removing all levels not present in the current set of active rows.
 <code>cols</code> defaults to all columns with storage type "factor" or "ordered".</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/droplevels.html'>droplevels</a></span>(cols = <span class='kw'>NULL</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>droplevels</span><span class='op'>(</span>cols <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -670,7 +675,7 @@ Column names.</p></dd>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>Task</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>Task</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -683,22 +688,22 @@ Column names.</p></dd>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># we use the inherited class TaskClassif here,</span>
 <span class='co'># Class Task is not intended for direct use</span>
-<span class='kw'>task</span> <span class='op'>=</span> <span class='kw'>TaskClassif</span><span class='op'>$</span><span class='fu'>new</span>(<span class='st'>"iris"</span>, <span class='kw'>iris</span>, target = <span class='st'>"Species"</span>)
+<span class='va'>task</span> <span class='op'>=</span> <span class='va'><a href='TaskClassif.html'>TaskClassif</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"iris"</span>, <span class='va'>iris</span>, target <span class='op'>=</span> <span class='st'>"Species"</span><span class='op'>)</span>
 
-<span class='kw'>task</span><span class='op'>$</span><span class='kw'>nrow</span>
-</div><div class='output co'>#&gt; [1] 150</div><div class='input'><span class='kw'>task</span><span class='op'>$</span><span class='kw'>ncol</span>
-</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='kw'>task</span><span class='op'>$</span><span class='kw'>feature_names</span>
-</div><div class='output co'>#&gt; [1] "Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width" </div><div class='input'><span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>formula</a></span>()
+<span class='va'>task</span><span class='op'>$</span><span class='va'>nrow</span>
+</div><div class='output co'>#&gt; [1] 150</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='va'>ncol</span>
+</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span>
+</div><div class='output co'>#&gt; [1] "Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width" </div><div class='input'><span class='va'>task</span><span class='op'>$</span><span class='fu'>formula</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Species ~ .
 #&gt; NULL</div><div class='input'>
 <span class='co'># de-select "Petal.Width"</span>
-<span class='kw'>task</span><span class='op'>$</span><span class='fu'>select</span>(<span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span>(<span class='kw'>task</span><span class='op'>$</span><span class='kw'>feature_names</span>, <span class='st'>"Petal.Width"</span>))
+<span class='va'>task</span><span class='op'>$</span><span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span><span class='op'>(</span><span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span>, <span class='st'>"Petal.Width"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='kw'>task</span><span class='op'>$</span><span class='kw'>feature_names</span>
+<span class='va'>task</span><span class='op'>$</span><span class='va'>feature_names</span>
 </div><div class='output co'>#&gt; [1] "Petal.Length" "Sepal.Length" "Sepal.Width" </div><div class='input'>
 <span class='co'># Add new column "foo"</span>
-<span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(foo = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>150</span>))
-<span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()
+<span class='va'>task</span><span class='op'>$</span><span class='fu'>cbind</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>foo <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>150</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>task</span><span class='op'>$</span><span class='fu'>head</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    Species Petal.Length Sepal.Length Sepal.Width foo
 #&gt; 1:  setosa          1.4          5.1         3.5   1
 #&gt; 2:  setosa          1.4          4.9         3.0   2

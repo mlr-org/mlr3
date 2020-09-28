@@ -91,7 +91,7 @@ Additionally, probability distributions implemented in distr6 are supported." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -210,16 +210,16 @@ Requires package <a href='https://CRAN.R-project.org/package=distr6'><span class
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>PredictionRegr</span><span class='op'>$</span><span class='fu'>new</span>(
-  task = <span class='kw'>NULL</span>,
-  row_ids = <span class='kw'>task</span><span class='op'>$</span><span class='kw'>row_ids</span>,
-  truth = <span class='kw'>task</span><span class='op'>$</span><span class='fu'>truth</span>(),
-  response = <span class='kw'>NULL</span>,
-  se = <span class='kw'>NULL</span>,
-  distr = <span class='kw'>NULL</span>,
-  check = <span class='fl'>TRUE</span>
-)</pre><p></div></p>
+<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>PredictionRegr</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
+  task <span class='op'>=</span> <span class='cn'>NULL</span>,
+  row_ids <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='va'>row_ids</span>,
+  truth <span class='op'>=</span> <span class='va'>task</span><span class='op'>$</span><span class='fu'>truth</span><span class='op'>(</span><span class='op'>)</span>,
+  response <span class='op'>=</span> <span class='cn'>NULL</span>,
+  se <span class='op'>=</span> <span class='cn'>NULL</span>,
+  distr <span class='op'>=</span> <span class='cn'>NULL</span>,
+  check <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -253,11 +253,11 @@ If <code>TRUE</code>, performs some argument checks and predict type conversions
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"boston_housing"</span>)
-<span class='kw'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span>(<span class='st'>"regr.featureless"</span>, predict_type = <span class='st'>"se"</span>)
-<span class='kw'>p</span> <span class='op'>=</span> <span class='kw'>learner</span><span class='op'>$</span><span class='fu'>train</span>(<span class='kw'>task</span>)<span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='kw'>task</span>)
-<span class='kw'>p</span><span class='op'>$</span><span class='kw'>predict_types</span>
-</div><div class='output co'>#&gt; [1] "response" "se"      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='as.data.table.html'>as.data.table</a></span>(<span class='kw'>p</span>))
+    <pre class="examples"><div class='input'><span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"boston_housing"</span><span class='op'>)</span>
+<span class='va'>learner</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>lrn</a></span><span class='op'>(</span><span class='st'>"regr.featureless"</span>, predict_type <span class='op'>=</span> <span class='st'>"se"</span><span class='op'>)</span>
+<span class='va'>p</span> <span class='op'>=</span> <span class='va'>learner</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
+<span class='va'>p</span><span class='op'>$</span><span class='va'>predict_types</span>
+</div><div class='output co'>#&gt; [1] "response" "se"      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    row_id truth response       se
 #&gt; 1:      1  24.0 22.53281 9.197104
 #&gt; 2:      2  21.6 22.53281 9.197104

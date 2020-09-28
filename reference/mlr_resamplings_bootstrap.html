@@ -91,7 +91,7 @@ and the ratio of observations to draw per iteration (ratio, default: 1) for the 
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -173,8 +173,8 @@ and the ratio of observations to draw per iteration (<code>ratio</code>, default
 
     
 
-<p>This <a href='Resampling.html'>Resampling</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a> or with the associated sugar function <code><a href='mlr_sugar.html'>rsmp()</a></code>:</p><pre><span class='kw'>mlr_resamplings</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/get.html'>get</a></span>(<span class='st'>"bootstrap"</span>)
-<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"bootstrap"</span>)
+<p>This <a href='Resampling.html'>Resampling</a> can be instantiated via the <a href='https://mlr3misc.mlr-org.com/reference/Dictionary.html'>dictionary</a> <a href='mlr_resamplings.html'>mlr_resamplings</a> or with the associated sugar function <code><a href='mlr_sugar.html'>rsmp()</a></code>:</p><pre><span class='va'>mlr_resamplings</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='st'>"bootstrap"</span><span class='op'>)</span>
+<span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"bootstrap"</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
@@ -241,13 +241,13 @@ Returns the number of resampling iterations, depending on the values stored in t
 
 <hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResamplingBootstrap</span><span class='op'>$</span><span class='fu'>new</span>()</pre><p></div></p>
+<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>ResamplingBootstrap</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>ResamplingBootstrap</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>ResamplingBootstrap</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -259,20 +259,20 @@ Returns the number of resampling iterations, depending on the values stored in t
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Create a task with 10 observations</span>
-<span class='kw'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span>(<span class='st'>"iris"</span>)
-<span class='kw'>task</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>)
+<span class='va'>task</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>tsk</a></span><span class='op'>(</span><span class='st'>"iris"</span><span class='op'>)</span>
+<span class='va'>task</span><span class='op'>$</span><span class='fu'>filter</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
 
 <span class='co'># Instantiate Resampling</span>
-<span class='kw'>rb</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span>(<span class='st'>"bootstrap"</span>, repeats = <span class='fl'>2</span>, ratio = <span class='fl'>1</span>)
-<span class='kw'>rb</span><span class='op'>$</span><span class='fu'>instantiate</span>(<span class='kw'>task</span>)
+<span class='va'>rb</span> <span class='op'>=</span> <span class='fu'><a href='mlr_sugar.html'>rsmp</a></span><span class='op'>(</span><span class='st'>"bootstrap"</span>, repeats <span class='op'>=</span> <span class='fl'>2</span>, ratio <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>rb</span><span class='op'>$</span><span class='fu'>instantiate</span><span class='op'>(</span><span class='va'>task</span><span class='op'>)</span>
 
 <span class='co'># Individual sets:</span>
-<span class='kw'>rb</span><span class='op'>$</span><span class='fu'>train_set</span>(<span class='fl'>1</span>)
-</div><div class='output co'>#&gt;  [1]  1  2  2  3  6  7  7  8  9 10</div><div class='input'><span class='kw'>rb</span><span class='op'>$</span><span class='fu'>test_set</span>(<span class='fl'>1</span>)
-</div><div class='output co'>#&gt; [1] 4 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span>(<span class='kw'>rb</span><span class='op'>$</span><span class='fu'>train_set</span>(<span class='fl'>1</span>), <span class='kw'>rb</span><span class='op'>$</span><span class='fu'>test_set</span>(<span class='fl'>1</span>))
+<span class='va'>rb</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1]  1  2  2  3  6  7  8  9  9 10</div><div class='input'><span class='va'>rb</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 4 5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='va'>rb</span><span class='op'>$</span><span class='fu'>train_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='va'>rb</span><span class='op'>$</span><span class='fu'>test_set</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; integer(0)</div><div class='input'>
 <span class='co'># Internal storage:</span>
-<span class='kw'>rb</span><span class='op'>$</span><span class='kw'>instance</span><span class='op'>$</span><span class='kw'>M</span> <span class='co'># Matrix of counts</span>
+<span class='va'>rb</span><span class='op'>$</span><span class='va'>instance</span><span class='op'>$</span><span class='va'>M</span> <span class='co'># Matrix of counts</span>
 </div><div class='output co'>#&gt;        
 #&gt;         [,1] [,2]
 #&gt;    [1,]    1    1
@@ -281,9 +281,9 @@ Returns the number of resampling iterations, depending on the values stored in t
 #&gt;    [4,]    0    0
 #&gt;    [5,]    0    2
 #&gt;    [6,]    1    3
-#&gt;    [7,]    2    1
-#&gt;    [8,]    1    1
-#&gt;    [9,]    1    1
+#&gt;    [7,]    1    1
+#&gt;    [8,]    1    2
+#&gt;    [9,]    2    0
 #&gt;   [10,]    1    0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -102,7 +102,7 @@ DataBackendMatrix for exemplary implementations of the interface)." />
 
       <div class="navbar-brand-container">
         <a href="https://mlr-org.com"><img src="https://raw.githubusercontent.com/mlr-org/mlr3/master/man/figures/logo.png" id="hexlogo" alt="mlr-org" /></a>
-        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.6.0</small></a>
+        <a class="navbar-brand" href="../index.html">mlr3 <small>v0.7.0</small></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -227,11 +227,11 @@ Hash (unique identifier) for this object.</p></dd>
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
-<p>Creates a new instance of this <a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6</a> class.</p>
+<p>Creates a new instance of this <a href='https://r6.r-lib.org/reference/R6Class.html'>R6</a> class.</p>
 <p>Note: This object is typically constructed via a derived classes, e.g.
 <a href='DataBackendDataTable.html'>DataBackendDataTable</a> or <a href='DataBackendMatrix.html'>DataBackendMatrix</a>, or via the S3 method
 <code><a href='as_data_backend.data.frame.html'>as_data_backend()</a></code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>DataBackend</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>data</span>, <span class='kw'>primary_key</span>, data_formats = <span class='st'>"data.table"</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>DataBackend</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>primary_key</span>, data_formats <span class='op'>=</span> <span class='st'>"data.table"</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -253,38 +253,38 @@ e.g. <code>"data.table"</code>.</p></dd>
 <p><hr>
 <a id="method-format"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/format.html'>format()</a></code></h3>
 <p>Helper for print outputs.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>DataBackend</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>DataBackend</span><span class='op'>$</span><span class='fu'>format</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-print"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
 <p>Printer.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>DataBackend</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>DataBackend</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>data</span> <span class='op'>=</span> <span class='kw'>data.table</span>::<span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(id = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, x = <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>5</span>),
-  y = <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>], <span class='fl'>5</span>, replace = <span class='fl'>TRUE</span>))
+    <pre class="examples"><div class='input'><span class='va'>data</span> <span class='op'>=</span> <span class='fu'>data.table</span><span class='fu'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span>id <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>,
+  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span>, <span class='fl'>5</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='kw'>b</span> <span class='op'>=</span> <span class='kw'>DataBackendDataTable</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>data</span>, primary_key = <span class='st'>"id"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>b</span>)
+<span class='va'>b</span> <span class='op'>=</span> <span class='va'><a href='DataBackendDataTable.html'>DataBackendDataTable</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data</span>, primary_key <span class='op'>=</span> <span class='st'>"id"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>b</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;DataBackendDataTable&gt; (5x3)
-#&gt;  id          x y
-#&gt;   1 0.70066184 a
-#&gt;   2 0.04373037 a
-#&gt;   3 0.91952597 b
-#&gt;   4 0.98109477 a
-#&gt;   5 0.81599705 a</div><div class='input'><span class='kw'>b</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fl'>2</span>)
-</div><div class='output co'>#&gt;    id          x y
-#&gt; 1:  1 0.70066184 a
-#&gt; 2:  2 0.04373037 a</div><div class='input'><span class='kw'>b</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(rows = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, cols = <span class='st'>"x"</span>)
-</div><div class='output co'>#&gt;             x
-#&gt; 1: 0.70066184
-#&gt; 2: 0.04373037</div><div class='input'><span class='kw'>b</span><span class='op'>$</span><span class='fu'>distinct</span>(rows = <span class='kw'>b</span><span class='op'>$</span><span class='kw'>rownames</span>, <span class='st'>"y"</span>)
+#&gt;  id         x y
+#&gt;   1 0.9195260 a
+#&gt;   2 0.9810948 b
+#&gt;   3 0.8159971 a
+#&gt;   4 0.2838847 a
+#&gt;   5 0.4509142 a</div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>head</span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    id         x y
+#&gt; 1:  1 0.9195260 a
+#&gt; 2:  2 0.9810948 b</div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>data</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, cols <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            x
+#&gt; 1: 0.9195260
+#&gt; 2: 0.9810948</div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>distinct</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='va'>b</span><span class='op'>$</span><span class='va'>rownames</span>, <span class='st'>"y"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $y
 #&gt; [1] "a" "b"
-#&gt; </div><div class='input'><span class='kw'>b</span><span class='op'>$</span><span class='fu'>missings</span>(rows = <span class='kw'>b</span><span class='op'>$</span><span class='kw'>rownames</span>, cols = <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>data</span>))
+#&gt; </div><div class='input'><span class='va'>b</span><span class='op'>$</span><span class='fu'>missings</span><span class='op'>(</span>rows <span class='op'>=</span> <span class='va'>b</span><span class='op'>$</span><span class='va'>rownames</span>, cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; id  x  y 
 #&gt;  0  0  0 </div></pre>
   </div>
