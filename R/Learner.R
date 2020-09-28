@@ -210,22 +210,24 @@ Learner = R6Class("Learner",
 
     #' @description
     #' Continue training of the model on the provided `task`.
-    #' Mutates the learner by reference, i.e. stores the model alongside other information in field `$state`.
+    #' Mutates the learner by reference, i.e. stores the model alongside other
+    #' information in field `$state`.
     #'
     #' @param task ([Task]).
     #'
     #' @return
-    #' Returns the object itself, but modified **by reference**.
-    #' You need to explicitly `$clone()` the object beforehand if you want to keeps
-    #' the object in its previous state.
+    #' Returns the object itself, but modified **by reference**. You need to
+    #' explicitly `$clone()` the object beforehand if you want to keeps the
+    #' object in its previous state.
     continue = function(task) {
-      # FIXME: Assert continue property
       task = assert_task(as_task(task))
       assert_continuable_task(self$state$train_task, task)
 
-      learner_continue(self, task)
+      if(is.null(self$model)) {
+        stop("Learner does not contain a model.")
+      }
 
-      # FIXME: Store task? Without data it should not differ to train task
+      learner_continue(self, task)
 
       invisible(self)
     },
@@ -400,6 +402,10 @@ Learner = R6Class("Learner",
     .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL,
+
+    .continue = function(task) {
+      stopf("Learner '%s' does not support continue.", self$id)
+    },
 
     deep_clone = function(name, value) {
       switch(name,
